@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Color Palette - Style Guide 01 */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-teal: #14b8a6;
+  
+  /* Background & Foreground */
+  --background: var(--color-white);
+  --foreground: var(--color-black);
+  
+  /* Typography */
+  --font-primary: var(--font-poppins);
+  --font-commentary: var(--font-handwriting);
+  --font-clinical: var(--font-ibm-plex-mono);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-teal: var(--color-teal);
+  --font-sans: var(--font-primary);
+  --font-mono: var(--font-clinical);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Formula 01 Theme (Light Mode) */
+.theme-formula-01 {
+  --background: var(--color-white);
+  --foreground: var(--color-black);
+}
+
+/* Formula 02 Theme (Dark Mode) */
+.theme-formula-02 {
+  --background: var(--color-black);
+  --foreground: var(--color-white);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-primary), sans-serif;
+}
+
+/* Typography Utility Classes */
+.font-primary {
+  font-family: var(--font-poppins), sans-serif;
+}
+
+.font-commentary {
+  font-family: var(--font-handwriting), cursive;
+}
+
+.font-clinical {
+  font-family: var(--font-ibm-plex-mono), monospace;
+}
+
+/* Smooth Theme Transitions */
+.theme-transition {
+  transition: background-color 500ms ease-in-out, color 500ms ease-in-out, border-color 500ms ease-in-out;
+}
+
+.content-transition {
+  transition: opacity 300ms ease-in-out;
+}
+
+/* Neo-Brutalist Elements */
+.neo-box {
+  border: 2px solid var(--foreground);
+  background: var(--background);
+}
+
+.neo-box-inverted {
+  border: 2px solid var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Interactive States - Pill Buttons */
+.neo-button {
+  border: 2px solid var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+  border-radius: 9999px;
+  transition: opacity 150ms ease-in-out;
+}
+
+.neo-button:hover {
+  opacity: 0.85;
+}
+
+.neo-button:active {
+  opacity: 0.7;
+}
+
+.neo-button-outline {
+  border: 2px solid var(--foreground);
+  background: transparent;
+  color: var(--foreground);
+  border-radius: 9999px;
+  transition: all 150ms ease-in-out;
+}
+
+.neo-button-outline:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Placeholder styling */
+.placeholder-box {
+  border: 2px dashed var(--foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
 }
