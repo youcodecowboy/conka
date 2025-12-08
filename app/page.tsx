@@ -5,6 +5,8 @@ import KeyBenefits, { Benefit } from "./components/KeyBenefits";
 import CaseStudies from "./components/CaseStudies";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
+import ProtocolBuilder from "./components/ProtocolBuilder";
+import TrialPacks from "./components/TrialPacks";
 
 // Formula content data
 const formulaContent = {
@@ -146,15 +148,64 @@ const athletes = [
 ];
 
 const faqItems = [
-  { icon: "🧪", category: "Science", question: "How does it work?", answer: "Our nootropic blends are formulated based on peer-reviewed research and clinical trials. Each ingredient is dosed at effective levels proven in studies." },
-  { icon: "📦", category: "Shipping", question: "How fast is delivery?", answer: "UK orders ship within 24 hours. Standard delivery is 2-3 days, express is next day. International shipping available to 30+ countries." },
-  { icon: "🔄", category: "Subscription", question: "Can I cancel anytime?", answer: "Yes, subscriptions can be paused, modified, or cancelled at any time. No contracts, no commitments. We believe in the product." },
-  { icon: "🌱", category: "Ingredients", question: "Are they natural?", answer: "All ingredients are naturally derived and rigorously tested for purity. No artificial additives, no fillers, no compromises." },
-  { icon: "⏰", category: "Usage", question: "When should I take it?", answer: "Formula 01 is best taken in the morning with or without food. Formula 02 is best 30-60 minutes before you need peak performance." },
+  { 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 11l3 3L22 4"/>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+      </svg>
+    ), 
+    category: "Science", 
+    question: "How does it work?", 
+    answer: "Our nootropic blends are formulated based on peer-reviewed research and clinical trials. Each ingredient is dosed at effective levels proven in studies." 
+  },
+  { 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+        <line x1="12" y1="22.08" x2="12" y2="12"/>
+      </svg>
+    ), 
+    category: "Shipping", 
+    question: "How fast is delivery?", 
+    answer: "UK orders ship within 24 hours. Standard delivery is 2-3 days, express is next day. International shipping available to 30+ countries." 
+  },
+  { 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+      </svg>
+    ), 
+    category: "Subscription", 
+    question: "Can I cancel anytime?", 
+    answer: "Yes, subscriptions can be paused, modified, or cancelled at any time. No contracts, no commitments. We believe in the product." 
+  },
+  { 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+      </svg>
+    ), 
+    category: "Ingredients", 
+    question: "Are they natural?", 
+    answer: "All ingredients are naturally derived and rigorously tested for purity. No artificial additives, no fillers, no compromises." 
+  },
+  { 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+    ), 
+    category: "Usage", 
+    question: "When should I take it?", 
+    answer: "Formula 01 is best taken in the morning with or without food. Formula 02 is best 30-60 minutes before you need peak performance." 
+  },
 ];
 
 export default function Home() {
-  const [selectedPlan, setSelectedPlan] = useState<"starter" | "recommended" | "maximum">("recommended");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [activeFormula, setActiveFormula] = useState<"01" | "02">("01");
@@ -291,12 +342,6 @@ export default function Home() {
     }
   ];
 
-  const planDetails = {
-    starter: { shots: 4, frequency: "Once weekly", description: "Gentle introduction" },
-    recommended: { shots: 12, frequency: "3x weekly", description: "Optimal results" },
-    maximum: { shots: 28, frequency: "Daily", description: "Maximum effectiveness" },
-  };
-
   return (
     <div
       className="min-h-screen theme-formula-01"
@@ -356,7 +401,7 @@ export default function Home() {
               <div className="neo-box">
                 <div className="neo-box-inverted p-4 flex justify-between items-center">
                   <h3 className="text-2xl font-bold">{currentFormula.name}</h3>
-                  {currentFormula.patent ? (
+                  {'patent' in currentFormula && currentFormula.patent ? (
                     <span className="font-clinical text-sm">{currentFormula.patent}</span>
                   ) : (
                     <span className="font-commentary text-lg">{currentFormula.tagline}</span>
@@ -439,91 +484,11 @@ export default function Home() {
       {/* ===== SECTION 5: CASE STUDIES ===== */}
       <CaseStudies athletes={athletes} />
 
-      {/* ===== SECTION 6: PLAN BUILDER / CALENDAR ===== */}
-      <section className="px-6 md:px-16 py-24">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Build Your Protocol</h2>
-          <p className="font-commentary text-xl mb-12">find your optimal routine</p>
+      {/* ===== SECTION 6: PROTOCOL BUILDER ===== */}
+      <ProtocolBuilder />
 
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Left: Plan Selector */}
-            <div className="md:w-1/3 space-y-4">
-              {(Object.keys(planDetails) as Array<keyof typeof planDetails>).map((plan) => (
-                <button
-                  key={plan}
-                  onClick={() => setSelectedPlan(plan)}
-                  className={`w-full p-6 text-left transition-all ${
-                    selectedPlan === plan ? "neo-box-inverted" : "neo-box"
-                  }`}
-                >
-                  <p className="font-clinical text-sm uppercase opacity-70">{plan}</p>
-                  <p className="text-3xl font-bold font-clinical">{planDetails[plan].shots} shots</p>
-                  <p className="text-sm mt-2">{planDetails[plan].frequency}</p>
-                  <p className="font-commentary text-sm mt-1">{planDetails[plan].description}</p>
-                </button>
-              ))}
-            </div>
-
-            {/* Right: Calendar Visualization */}
-            <div className="md:w-2/3 neo-box p-8">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold">Your Month</h3>
-                <span className="font-clinical text-sm opacity-70">
-                  {planDetails[selectedPlan].shots} doses / {selectedPlan === "maximum" ? "28 days" : selectedPlan === "recommended" ? "12 days" : "4 days"}
-                </span>
-              </div>
-
-              {/* Calendar Grid */}
-              <div className="grid grid-cols-7 gap-2 mb-6">
-                {["M", "T", "W", "T", "F", "S", "S"].map((day, idx) => (
-                  <div key={idx} className="text-center font-clinical text-sm opacity-70 py-2">
-                    {day}
-                  </div>
-                ))}
-                {Array.from({ length: 28 }, (_, idx) => {
-                  const dayNum = idx + 1;
-                  let isActive = false;
-                  if (selectedPlan === "maximum") isActive = true;
-                  if (selectedPlan === "recommended") isActive = dayNum % 2 === 1 || dayNum % 3 === 0;
-                  if (selectedPlan === "starter") isActive = dayNum % 7 === 1;
-                  
-                  return (
-                    <div
-                      key={idx}
-                      className={`aspect-square flex items-center justify-center font-clinical text-sm border-2 border-current ${
-                        isActive ? "neo-box-inverted" : "opacity-30"
-                      }`}
-                    >
-                      {dayNum}
-                    </div>
-                  );
-                })}
-              </div>
-
-              <p className="font-commentary text-lg text-center">
-                over £500,000 in research so far!
-              </p>
-
-              {/* Bundle Option */}
-              <div className="mt-8 pt-8 border-t-2 border-current border-opacity-30">
-                <p className="font-clinical text-sm mb-4 opacity-70">BUNDLE SUGGESTION</p>
-                <div className="flex gap-4">
-                  <div className="neo-box p-4 flex-1">
-                    <p className="font-bold">Path 1</p>
-                    <p className="font-clinical text-sm mt-2">28× Formula 01 (daily)</p>
-                    <p className="font-clinical text-sm">4× Formula 02 (weekly boost)</p>
-                  </div>
-                  <div className="neo-box p-4 flex-1">
-                    <p className="font-bold">Path 2</p>
-                    <p className="font-clinical text-sm mt-2">28× Formula 01 (daily)</p>
-                    <p className="font-clinical text-sm">8× Formula 02 (2× weekly)</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
+      <TrialPacks />
 
       {/* ===== SECTION 7: FOUNDERS ===== */}
       <section className="px-6 md:px-16 py-24">
@@ -537,14 +502,10 @@ export default function Home() {
               <div className="placeholder-box w-full h-80 mb-6">
                 <span className="font-clinical text-sm">[FOUNDER 1 IMAGE]</span>
               </div>
-              <h3 className="text-2xl font-bold mb-2">Alex Thompson</h3>
-              <p className="font-clinical mb-4">Olympic Swimmer • Team GB</p>
-              <p className="mb-4">
-                After three concussions during training, Alex experienced persistent brain fog 
-                and struggled to maintain the focus that had defined his career.
-              </p>
-              <p className="font-commentary text-lg">
-                &quot;I needed something that actually worked. So we built it.&quot;
+              <h3 className="text-2xl font-bold mb-2">Humphrey Bodington</h3>
+              <p className="font-clinical mb-4">athlete</p>
+              <p className="font-clinical text-sm opacity-70">
+                bio coming soon
               </p>
             </div>
 
@@ -553,25 +514,18 @@ export default function Home() {
               <div className="placeholder-box w-full h-80 mb-6">
                 <span className="font-clinical text-sm">[FOUNDER 2 IMAGE]</span>
               </div>
-              <h3 className="text-2xl font-bold mb-2">Ryan Mitchell</h3>
-              <p className="font-clinical mb-4">Professional Rugby • Premiership</p>
-              <p className="mb-4">
-                Multiple head injuries led to early retirement and years of cognitive challenges. 
-                Traditional supplements never delivered on their promises.
-              </p>
-              <p className="font-commentary text-lg">
-                &quot;We partnered with universities because we wanted proof, not marketing.&quot;
+              <h3 className="text-2xl font-bold mb-2">Harry Glover</h3>
+              <p className="font-clinical mb-4">athlete</p>
+              <p className="font-clinical text-sm opacity-70">
+                bio coming soon
               </p>
             </div>
           </div>
 
-          <div className="neo-box p-8 mt-12 text-center">
-            <p className="text-xl mb-4">
-              Two best friends. Former elite athletes. Both affected by the mental toll of their sports.
-            </p>
-            <p className="font-commentary text-2xl">
-              They built Conka for themselves first—then realized others needed it too.
-            </p>
+          <div className="mt-12 text-center">
+            <button className="neo-button-outline px-8 py-4 font-semibold text-lg">
+              the story of CONKA
+            </button>
           </div>
         </div>
       </section>
@@ -588,45 +542,72 @@ export default function Home() {
               <button
                 key={idx}
                 onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
-                className={`px-5 py-4 rounded-full border-2 border-current transition-all ${
-                  expandedFaq === idx ? "bg-current text-[var(--background)]" : "bg-transparent hover:bg-current/10"
+                className={`px-5 py-4 rounded-full border-2 border-current transition-all flex flex-col items-center ${
+                  expandedFaq === idx ? "bg-[var(--foreground)] text-[var(--background)]" : "bg-transparent hover:bg-current/10"
                 }`}
               >
-                <span className="text-2xl">{item.icon}</span>
-                <p className="font-clinical text-xs mt-1">{item.category}</p>
+                <div className="w-6 h-6 mb-1 flex items-center justify-center">
+                  {item.icon}
+                </div>
+                <p className="font-clinical text-xs">{item.category}</p>
               </button>
             ))}
           </div>
 
-          {/* Expanded Answer */}
-          {expandedFaq !== null && (
-            <div className="neo-box p-8 content-transition">
-              <h3 className="text-xl font-bold mb-4">{faqItems[expandedFaq].question}</h3>
-              <p className="text-lg opacity-80">{faqItems[expandedFaq].answer}</p>
-            </div>
-          )}
-
-          {/* Final CTA */}
-          <div className="text-center mt-16">
-            <p className="font-commentary text-2xl mb-6">ready to unlock your potential?</p>
-            <button className="neo-button px-12 py-5 font-bold text-xl">
-              Buy Conka Now
-            </button>
-            <p className="font-clinical text-sm mt-4 opacity-70">
-              100 day money-back guarantee • Free UK shipping • Cancel anytime
-            </p>
+          {/* Persistent Answer Card */}
+          <div className="neo-box p-8 min-h-[200px] flex items-center justify-center">
+            {expandedFaq !== null ? (
+              <div className="w-full content-transition">
+                <h3 className="text-xl font-bold mb-4">{faqItems[expandedFaq].question}</h3>
+                <p className="text-lg opacity-80">{faqItems[expandedFaq].answer}</p>
+              </div>
+            ) : (
+              <div className="text-center opacity-50">
+                <p className="font-commentary text-lg">Select a category above to see the answer</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="px-6 md:px-16 py-12 border-t-2 border-current border-opacity-20">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <span className="text-xl md:text-2xl font-bold tracking-tight font-primary">conka.</span>
-          <p className="font-clinical text-sm opacity-70">
-            Patent #GB2620279 • 125 Clinical Trials • £500,000+ in Research
-          </p>
-          <p className="font-commentary">built with love ♥</p>
+      <footer className="px-6 md:px-16 py-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col lg:flex-row justify-between gap-12">
+            {/* Left Side */}
+            <div className="flex flex-col gap-6">
+              <span className="text-xl md:text-2xl font-bold tracking-tight font-primary">conka.</span>
+              
+              {/* Mini Nav */}
+              <nav className="flex flex-wrap items-center gap-2">
+                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">The Science</a>
+                <span className="font-clinical text-sm opacity-30">•</span>
+                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">Ingredients</a>
+                <span className="font-clinical text-sm opacity-30">•</span>
+                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">Results</a>
+                <span className="font-clinical text-sm opacity-30">•</span>
+                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">Our Story</a>
+                <span className="font-clinical text-sm opacity-30">•</span>
+                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">Shop</a>
+              </nav>
+              
+              <p className="font-clinical text-sm opacity-70">
+                Patent #GB2620279 • 125 Clinical Trials • £500,000+ in Research
+              </p>
+              <p className="font-commentary text-sm">built with love ♥</p>
+            </div>
+
+            {/* Right Side - CTA */}
+            <div className="flex flex-col items-start lg:items-end gap-4">
+              <p className="font-commentary text-xl lg:text-right">ready to unlock your potential?</p>
+              <button className="neo-button px-8 py-3 font-bold text-base">
+                buy CONKA
+              </button>
+              <p className="font-clinical text-sm opacity-70 lg:text-right">
+                100 day money-back guarantee
+              </p>
+            </div>
+          </div>
         </div>
       </footer>
 

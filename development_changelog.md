@@ -1,5 +1,62 @@
 # Development Changelog
 
+## December 7, 2025
+
+### 16:15 - Trial Packs Section Added
+- Created new `TrialPacks.tsx` component below Protocol Builder section
+- Section heading: "not ready for a protocol? try our trial packs"
+- Formula toggle between Formula 01 and Formula 02
+- Three pack size options: 4-pack (£14.99), 8-pack (£24.99), 12-pack (£34.99)
+- Layout: Formula image on left, selections and options on right
+- Pack selection cards with descriptions and pricing
+- "How to Try It" explanation box
+- Price display showing selected pack and total
+- Add to Cart button (primary action)
+- Learn More button (secondary action)
+- Responsive design matching site aesthetic
+
+### 15:45 - FAQ Section & Footer Redesign
+- Completely overhauled FAQ section with persistent answer card
+- FAQ buttons now toggle to populate a persistent card below (instead of expanding/collapsing)
+- Card shows "Select a category above to see the answer" when no category is selected
+- Moved CTA section (Buy Conka Now button, "ready to unlock your potential" text, guarantee info) to footer
+- Redesigned footer layout:
+  - Left side: Logo, mini navigation links, Patent info, "built with love" text
+  - Right side: CTA content (ready to unlock text, Buy Conka Now button, guarantee text)
+- Removed border line from footer for seamless integration
+- Footer now has better information hierarchy and visual balance
+
+### 15:15 - Founders Section & FAQ Updates
+- Updated founders section with new names: Humphrey Bodington and Harry Glover
+- Changed founder subtext to "athlete" for both
+- Added "bio coming soon" placeholder text for both founders
+- Replaced "Two best friends..." text section with button: "the story of CONKA"
+- Replaced emoji icons in FAQ section with SVG icons matching the rest of the page design
+- FAQ icons now use consistent SVG styling (checkmark, package, refresh, leaf, clock)
+
+### 14:30 - Protocol Builder Rework
+- Completely redesigned "Build Your Protocol" section into new "Choose Your Path" section
+- Created new `ProtocolBuilder.tsx` component with interactive two-path system
+- **Two Paths Available:**
+  - **Endurance Path**: Formula 02 daily + Formula 01 weekly (for endurance athletes, runners, cyclists, swimmers)
+  - **Performance Path**: Formula 01 daily + Formula 02 weekly (for contact sports, rugby, football, combat sports)
+- **Expandable View**: Clicking a path reveals:
+  - Formula product image on left
+  - Interactive 28-day calendar visualization on right
+  - Color-coded days: teal for daily formula, amber for weekly boost
+  - Protocol tier selector (Starter/Pro/Max)
+- **Three Protocol Tiers:**
+  - Starter: 3 primary + 1 secondary per week (gentle introduction)
+  - Pro: 5 primary + 1 secondary per week (balanced protocol)
+  - Max: 6 primary + 1 secondary per week (full coverage)
+- **Navigation Features:**
+  - "Back to Options" button to return to path selection
+  - "View the Other Path" button to quickly switch between paths
+- Benefits explanation for each path with checkmark list
+- Removed unused state variables from page.tsx (`selectedPlan`, `planDetails`)
+
+---
+
 ## December 7, 2024
 
 ### 19:45 - Initial Project Setup
