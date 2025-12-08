@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import KeyBenefits, { Benefit } from "./components/KeyBenefits";
 import CaseStudies from "./components/CaseStudies";
 import Navigation from "./components/Navigation";
@@ -230,6 +231,7 @@ export default function Home() {
       stat: "+22.1%",
       annotation: "tested across 125 clinical trials",
       description: "Enhanced concentration without stimulants",
+      image: "/bottle2.png",
       clinicalBreakdown: {
         study: "University of Exeter, 2023",
         participants: "250 participants",
@@ -391,9 +393,20 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-12 items-start">
             {/* Left: Image */}
             <div className="md:w-1/2">
-              <div className="placeholder-box w-full h-80 md:h-[450px]">
-                <span className="font-clinical text-sm">[INGREDIENT IMAGE]</span>
-              </div>
+              {activeFormula === "01" ? (
+                <div className="relative w-full h-80 md:h-[450px]">
+                  <Image
+                    src="/tumeric.jpg"
+                    alt="Turmeric ingredient"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <div className="placeholder-box w-full h-80 md:h-[450px]">
+                  <span className="font-clinical text-sm">[INGREDIENT IMAGE]</span>
+                </div>
+              )}
             </div>
 
             {/* Right: Formula Box */}

@@ -228,13 +228,13 @@ export default function KeyBenefits({ benefits }: KeyBenefitsProps) {
               {/* Right: Image/Visual */}
               <div className="flex items-center justify-center">
                 {currentBenefit.image ? (
-                  <div className="neo-box w-full h-[400px] md:h-[500px] flex items-center justify-center">
+                  <div className="w-full h-[800px] md:h-[1000px] flex items-center justify-center">
                     <Image
                       src={currentBenefit.image}
                       alt={currentBenefit.title}
-                      width={600}
-                      height={600}
-                      className="w-full h-full object-contain"
+                      width={1200}
+                      height={1200}
+                      className="w-full h-full object-contain translate-x-12 -translate-y-12"
                     />
                   </div>
                 ) : (
