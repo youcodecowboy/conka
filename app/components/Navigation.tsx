@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CiBeaker1 } from "react-icons/ci";
 
 interface NavigationProps {
@@ -10,11 +10,33 @@ interface NavigationProps {
 
 export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Only hide header when scrolling down past a threshold
+      if (currentScrollY > 100) {
+        setIsScrollingDown(currentScrollY > lastScrollY);
+      } else {
+        setIsScrollingDown(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   return (
     <>
       {/* Header - Edge to edge */}
-      <header className="w-full">
+      <header className={`w-full lg:fixed top-0 left-0 right-0 z-50 bg-[var(--background)] transition-transform duration-300 border-b-2 border-current border-opacity-10 ${
+        isScrollingDown ? "lg:-translate-y-full" : "lg:translate-y-0"
+      }`}>
         <div className="px-6 md:px-16 py-6 flex justify-between items-center">
           {/* Logo - Left (links to home) */}
           <a href="/" className="flex items-center">

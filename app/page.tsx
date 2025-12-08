@@ -344,7 +344,7 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen theme-formula-01"
+      className="min-h-screen theme-formula-01 lg:pt-20"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* ===== SECTION 1: HERO ===== */}
