@@ -1,8 +1,8 @@
 # Conka Style Guide 01
 
-**Version:** 1.0  
-**Last Updated:** December 7, 2024  
-**Status:** Active (Subject to Change)
+**Version:** 2.0  
+**Last Updated:** December 2024  
+**Status:** Active (Based on Homepage Implementation)
 
 ---
 
@@ -10,10 +10,11 @@
 
 Conka's visual identity is built on **minimalism** and **modern neo-brutalism** principles:
 
-- **White space heavy** - Generous use of negative space for clarity and focus
+- **White space heavy** - Generous use of negative space for clarity and focus (`py-24` sections, `gap-6` to `gap-12` spacing)
 - **Neo-brutalist elements** - Bold, unapologetic design with strong borders and clear hierarchy
-- **No drop shadows** - Flat design aesthetic
-- **No aggressive pop colors** - Restrained color palette
+- **Contrast in shapes** - Sharp, angular containers (`neo-box`) vs rounded, pill-shaped interactive elements (`rounded-full` buttons)
+- **No drop shadows** - Flat design aesthetic (except for hover effects using offset shadows)
+- **Restrained color palette** - Black, white, and strategic use of teal/amber for formula identification
 - **Clinical precision** - Scientific, evidence-based presentation reflecting the brand's university partnerships and clinical trials
 
 ---
@@ -24,106 +25,367 @@ Conka's visual identity is built on **minimalism** and **modern neo-brutalism** 
 - **Black:** `#000000` - Primary text, borders, strong elements
 - **White:** `#FFFFFF` - Background, negative space, contrast
 
+### CSS Variables
+The color system uses CSS variables for theming and consistency:
+
+```css
+--color-black: #000000;
+--color-white: #ffffff;
+--color-teal: #14b8a6;
+--background: var(--color-white);  /* Formula 01: white, Formula 02: black */
+--foreground: var(--color-black);  /* Formula 01: black, Formula 02: white */
+```
+
+### Formula-Specific Colors
+- **Formula 01:** Teal (`#14b8a6`, `bg-teal-500`) - Always teal for identification
+- **Formula 02:** Amber (`bg-amber-500`) - Always amber for identification
+- **Usage:** These colors are used consistently for formula visualization, calendar days, and product identification
+
 ### Accent Color
-- **Teal:** `#14B8A6` (or similar teal variant) - Used sparingly for highlights, CTAs, and emphasis
+- **Teal:** `#14B8A6` - Used sparingly for highlights, underlines, icon accents, and Formula 01 identification
 
 ### Product-Specific Modes
-- **Formula 01:** Light mode (white background, black text)
-- **Formula 02:** Dark mode (black background, white text)
+- **Formula 01 Theme:** Light mode (white background, black text)
+  - `.theme-formula-01` class sets `--background: white`, `--foreground: black`
+- **Formula 02 Theme:** Dark mode (black background, white text)
+  - `.theme-formula-02` class sets `--background: black`, `--foreground: white`
 
 ---
 
 ## Typography
 
-### 1. Primary Font: Poppins
-**Usage:** Main body text, headings, primary UI elements  
+### Typography Hierarchy
+
+#### 1. Primary Font: Poppins
+**Usage:** Main body text, headings, primary UI elements, button labels  
 **Weights:** Regular (400), Medium (500), Semi-Bold (600), Bold (700)  
-**Google Fonts:** `Poppins`
+**Google Fonts:** `Poppins`  
+**CSS Variable:** `--font-poppins`  
+**Class:** `font-primary` (default body font)
+
+**Size Patterns:**
+- **Main Headings:** `text-3xl md:text-4xl lg:text-5xl` with `font-bold`
+- **Section Headings:** `text-3xl md:text-4xl` with `font-bold`
+- **Subheadings:** `text-xl` or `text-2xl` with `font-semibold` or `font-bold`
+- **Body Text:** Default size or `text-base` with `font-medium` or regular weight
+- **Button Text:** `text-base md:text-lg` or `text-lg md:text-xl` with `font-semibold` or `font-bold`
 
 **Example Usage:**
-- Brand name: "conka."
-- Product names: "conka flow"
-- Headings and subheadings
-- Body text
-- Button text
+- Brand name: "conka." (`text-2xl md:text-3xl font-bold`)
+- Product names: "Formula 01", "Formula 02"
+- Headings: `text-3xl md:text-4xl font-bold`
+- Body text: Default Poppins
+- Button labels: `font-semibold` or `font-bold`
 
-### 2. Commentary Font: Script/Script-like
+#### 2. Commentary Font: Caveat
 **Usage:** Subtext, commentary, handwritten-style annotations  
-**Alternative:** Caveat or Kalam (Google Fonts) - Similar to Linotype Felt Pen  
-**Weights:** Regular (400), Medium (500)  
-**Style:** Italicized, casual, handwritten aesthetic
+**Weights:** Regular (400), Medium (500), Semi-Bold (600), Bold (700)  
+**Google Fonts:** `Caveat`  
+**CSS Variable:** `--font-handwriting`  
+**Class:** `font-commentary`
+
+**Size Patterns:**
+- **Subheadings:** `text-xl` or `text-2xl`
+- **Annotations:** `text-lg` or `text-xl`
+- **Small annotations:** `text-sm`
+
+**Style:** Casual, handwritten aesthetic, often italicized contextually
 
 **Example Usage:**
-- "Used Daily by Olympians and Professional Athletes"
-- "Caffeine-Free Focus"
-- "protocol: once daily for optimal results"
-- Descriptive annotations
-- Secondary commentary text
+- "what's inside"
+- "backed by real science"
+- "not ready for a protocol?"
+- "scroll to explore"
+- "built with love ♥"
+- Descriptive annotations under headings
 
-### 3. Clinical Font: IBM Plex Mono
-**Usage:** Clinical data, trial results, scientific information, numbers  
+#### 3. Clinical Font: IBM Plex Mono
+**Usage:** Clinical data, trial results, scientific information, numbers, technical details  
 **Weights:** Regular (400), Medium (500)  
-**Google Fonts:** `IBM Plex Mono`
+**Google Fonts:** `IBM Plex Mono`  
+**CSS Variable:** `--font-ibm-plex-mono`  
+**Class:** `font-clinical`
+
+**Size Patterns:**
+- **Large Stats:** `text-6xl font-bold` (e.g., "+22.1%")
+- **Labels:** `text-sm` with `opacity-70` or `opacity-80`
+- **Data Points:** `text-sm` or `text-base`
+- **Small Labels:** `text-xs`
 
 **Example Usage:**
 - Clinical trial results: "+22.1%", "+33.5%"
 - Statistical data: "P<0.01", "P = 0.42"
 - Formula percentages: "26.7%", "25.4%"
 - Patent numbers: "#GB2620279"
-- Scientific measurements
-- Any data-driven content
+- Technical labels: "FORMULA BREAKDOWN", "Clinical Study Details"
+- Navigation items
+- Button labels (when used in clinical context)
+
+---
+
+## Button Styles
+
+### Design Principle
+**All interactive buttons use pill-shaped, rounded-full styling** - This creates a clear distinction between static content containers (sharp corners) and interactive elements (rounded).
+
+### Button Classes
+
+#### 1. Filled Button (`neo-button`)
+**Usage:** Primary CTAs, main actions  
+**Styling:**
+- Background: `bg-[var(--foreground)]`
+- Text: `text-[var(--background)]`
+- Border: `border-2 border-[var(--foreground)]`
+- Shape: `rounded-full`
+- Hover: `opacity-85`
+- Active: `opacity-70`
+
+**Sizes:**
+- Small: `px-6 py-2`
+- Medium: `px-8 py-3`
+- Standard: `px-8 py-4`
+- Large: `px-8 py-4` with `text-lg`
+
+**Example:**
+```tsx
+<button className="neo-button px-8 py-4 font-bold text-lg">
+  buy CONKA
+</button>
+```
+
+#### 2. Outline Button (`neo-button-outline`)
+**Usage:** Secondary actions, alternative CTAs  
+**Styling:**
+- Background: `bg-transparent`
+- Text: `text-[var(--foreground)]`
+- Border: `border-2 border-[var(--foreground)]`
+- Shape: `rounded-full`
+- Hover: `bg-[var(--foreground)] text-[var(--background)]`
+- Transition: `transition-all duration-150`
+
+**Sizes:** Same as filled buttons
+
+**Example:**
+```tsx
+<button className="neo-button-outline px-8 py-3 font-semibold">
+  Learn More
+</button>
+```
+
+#### 3. Toggle Buttons
+**Usage:** Formula selection, tier selection, category filters  
+**Styling:**
+- Base: Same as outline button
+- Active state: `bg-[var(--foreground)] text-[var(--background)]`
+- Inactive state: `bg-transparent hover:bg-current/10`
+- Shape: `rounded-full`
+- Size: `px-6 py-2` or `px-6 py-3`
+
+**Example:**
+```tsx
+<button
+  className={`px-6 py-2 rounded-full border-2 border-current transition-all ${
+    isActive
+      ? "bg-[var(--foreground)] text-[var(--background)]"
+      : "bg-transparent hover:bg-current/10"
+  }`}
+>
+  <span className="font-clinical text-sm font-medium">Formula 01</span>
+</button>
+```
+
+---
+
+## Container Styles
+
+### Design Principle
+**Content containers use sharp, angular corners** - This creates the neo-brutalist aesthetic and contrasts with rounded interactive elements.
+
+### Container Classes
+
+#### 1. Standard Box (`neo-box`)
+**Usage:** Content sections, cards, information boxes, data displays  
+**Styling:**
+- Border: `border-2 border-[var(--foreground)]`
+- Background: `bg-[var(--background)]`
+- Padding: `p-4`, `p-6`, or `p-8` depending on content
+- **No rounded corners** - Sharp, angular edges
+- Hover (for interactive boxes): `hover:shadow-[8px_8px_0px_0px_var(--foreground)]`
+
+**Example:**
+```tsx
+<div className="neo-box p-6">
+  <h3 className="text-xl font-bold">Content Title</h3>
+  <p>Content here</p>
+</div>
+```
+
+#### 2. Inverted Box (`neo-box-inverted`)
+**Usage:** Pricing boxes, highlighted sections, emphasized content  
+**Styling:**
+- Border: `border-2 border-[var(--foreground)]`
+- Background: `bg-[var(--foreground)]`
+- Text: `text-[var(--background)]`
+- Padding: `p-4`, `p-6`, or `p-8`
+- **No rounded corners** - Sharp, angular edges
+
+**Example:**
+```tsx
+<div className="neo-box-inverted p-6">
+  <div className="text-3xl font-bold">£39.99</div>
+  <p className="font-clinical text-sm opacity-80">billed bi-weekly</p>
+</div>
+```
+
+#### 3. Placeholder Box
+**Usage:** Image placeholders, content placeholders  
+**Styling:**
+- Border: `border-2 border-dashed border-[var(--foreground)]`
+- Display: `flex items-center justify-center`
+- Opacity: `opacity-50` or `opacity-0.5`
+
+---
+
+## SVG Icons
+
+### Style Guidelines
+- **Style:** Simple line-art, minimal, functional
+- **Stroke Properties:**
+  - `strokeWidth="2"` (standard)
+  - `strokeLinecap="round"`
+  - `strokeLinejoin="round"`
+  - `fill="none"`
+- **Color:** Inherit from parent using `currentColor` or `stroke="currentColor"`
+- **ViewBox:** Standard `24x24` viewBox for consistency
+
+### Sizes
+- **Small:** `16x16` - Navigation items, inline icons
+- **Standard:** `24x24` - Buttons, feature icons
+- **Large:** `32x32` - Section headers, prominent features
+
+### Usage Patterns
+- Navigation items: `16x16` or `24x24` with text labels
+- Feature icons: `24x24` in boxes or alongside text
+- Interactive elements: Inherit color from parent, use `currentColor`
+- Decorative: Minimal, functional, always purposeful
+
+**Example:**
+```tsx
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+</svg>
+```
+
+---
+
+## Layout Patterns
+
+### Section Structure
+- **Section Padding:** `px-6 md:px-16 py-24`
+- **Max Width Containers:** `max-w-6xl mx-auto` or `max-w-7xl mx-auto`
+- **Gap Spacing:** `gap-6`, `gap-8`, `gap-12` between major elements
+
+### Grid Layouts
+- **2 Column:** `grid md:grid-cols-2 gap-8`
+- **3 Column:** `grid md:grid-cols-3 gap-6`
+- **4 Column:** `grid md:grid-cols-4 gap-8`
+- **7 Column:** `grid grid-cols-7 gap-2` (for calendar layouts)
+
+### Flex Layouts
+- **Row:** `flex flex-col md:flex-row gap-8` or `gap-12`
+- **Column:** `flex flex-col gap-6`
+- **Responsive:** Mobile stacks (`flex-col`), desktop rows (`md:flex-row`)
+
+### Text Alignment
+- **Default:** Left-aligned (`text-left`)
+- **Hero Sections:** Center-aligned (`text-center`)
+- **Right-aligned:** Used for specific sections (`text-right`)
+
+---
+
+## Interactive Elements
+
+### Hover Effects
+
+#### Boxes
+- **Shadow Effect:** `hover:shadow-[8px_8px_0px_0px_var(--foreground)]`
+- **Small Shadow:** `hover:shadow-[4px_4px_0px_0px_var(--foreground)]`
+- **Opacity:** `hover:opacity-90` or `hover:opacity-80`
+
+#### Buttons
+- **Filled:** `hover:opacity-85`
+- **Outline:** `hover:bg-[var(--foreground)] hover:text-[var(--background)]`
+- **Transparent:** `hover:bg-current/10`
+
+### Transitions
+- **Standard:** `transition-all duration-200` or `duration-300`
+- **Smooth:** `transition-all duration-150 ease-in-out`
+- **Content:** `transition: opacity 300ms ease-in-out` for content changes
+
+### Protocol Builder Patterns
+- **Calendar Visualization:** Color-coded days using formula colors
+  - Formula 01 days: `bg-teal-500 text-white`
+  - Formula 02 days: `bg-amber-500 text-white`
+  - Rest days: `border-2 border-current opacity-20`
+- **Tier Selection:** Pill-shaped buttons with active state
+- **Path Cards:** Interactive boxes with hover shadow effects
+
+### Formula Visualization
+- **Consistent Colors:** Formula 01 = Teal, Formula 02 = Amber (always)
+- **Calendar Days:** Rounded corners (`rounded-md`) for calendar cells
+- **Formula Badges:** Rounded squares (`rounded-md`) with formula number
+
+---
+
+## Responsive Design
+
+### Breakpoints
+- **Mobile:** Base styles (no prefix)
+- **Medium:** `md:` prefix (768px+)
+- **Large:** `lg:` prefix (1024px+)
+
+### Mobile-First Approach
+- Base styles target mobile devices
+- Enhanced styles for larger screens using breakpoint prefixes
+- Layout shifts: `flex-col md:flex-row`, `grid-cols-1 md:grid-cols-2`
+
+### Typography Scaling
+- Headings: `text-3xl md:text-4xl lg:text-5xl`
+- Body: `text-base md:text-lg`
+- Buttons: `text-base md:text-lg`
+
+### Layout Responsiveness
+- Navigation: Hidden on mobile (`hidden lg:flex`), mobile menu for small screens
+- Grids: Single column on mobile, multi-column on desktop
+- Images: Responsive sizing with `w-full` and `h-auto`
 
 ---
 
 ## Product Information
 
 ### Products
-- **Formula 01** - Light mode theme
-- **Formula 02** - Dark mode theme
+- **Formula 01** - Light mode theme, Teal identifier
+- **Formula 02** - Dark mode theme, Amber identifier
 
 ### Purchase Options
-- **One-time purchase**
-- **Subscription** (recurring)
+- **One-time purchase** - Trial packs, single orders
+- **Subscription** - Recurring billing (weekly, bi-weekly, monthly)
 
 ### Pack Sizes
 - 4-pack
+- 8-pack
 - 12-pack
 - 28-pack
 
 ### Bundle Paths
-1. **Path 1:** Formula 01 (daily) + Formula 02 (supplemental)
-2. **Path 2:** Formula 02 (daily) + Formula 01 (supplemental)
+1. **Path 1:** Formula 01 (daily) + Formula 02 (weekly)
+2. **Path 2:** Formula 02 (daily) + Formula 01 (weekly)
+3. **Path 3:** Formula 01 & Formula 02 (balanced/alternating)
 
-### Bundle Combinations
-- Single formula packs (4, 12, or 28)
-- Mixed formula bundles (combinations of both formulas)
-
----
-
-## Design Elements
-
-### Borders
-- **Strong, bold borders** - Black borders (`2px` or `3px` solid)
-- **No rounded corners** - Sharp, angular edges (neo-brutalist aesthetic)
-- **Boxed sections** - Information organized in clear, bordered containers
-
-### Layout Principles
-- **Modular components** - Clear, distinct sections
-- **Left-aligned text** - Primary alignment within sections
-- **Grid-based structure** - Organized, systematic layout
-- **Clear hierarchy** - Visual weight through size, weight, and spacing
-
-### Icons
-- **Simple line-art icons** - Minimalist, functional
-- **Examples:**
-  - Moon with 'zz' for sleep benefits
-  - Brain icon for cognitive performance
-  - Atom/molecular structures for scientific content
-
-### Interactive Elements
-- **Buttons:** Solid black rectangles with white text
-- **No hover shadows** - Flat design
-- **Clear CTAs:** "buy conka" style buttons
+### Protocol Tiers
+- **Starter:** 3-4 doses per week
+- **Pro:** 5-6 doses per week
+- **Max:** 6-7 doses per week
 
 ---
 
@@ -131,54 +393,65 @@ Conka's visual identity is built on **minimalism** and **modern neo-brutalism** 
 
 ### Logo
 - **File:** `/public/conka.webp`
-- **Usage:** Top-left positioning typically
+- **Usage:** Top-left positioning in navigation
 - **Format:** WebP
+- **Text Alternative:** "conka." (`text-2xl md:text-3xl font-bold tracking-tight`)
 
 ---
 
 ## Implementation Notes
 
 ### CSS Variables
-- Font families should be defined as CSS variables for easy theming
-- Color palette should use CSS variables for consistency
-- Product-specific themes (light/dark) should be toggleable
+All styling uses CSS variables for theming and consistency:
 
-### Responsive Design
-- Mobile-first approach
-- Maintain white space and clarity across breakpoints
-- Typography scales appropriately
+```css
+:root {
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-teal: #14b8a6;
+  --background: var(--color-white);
+  --foreground: var(--color-black);
+  --font-primary: var(--font-poppins);
+  --font-commentary: var(--font-handwriting);
+  --font-clinical: var(--font-ibm-plex-mono);
+}
+```
+
+### Theme Classes
+- `.theme-formula-01` - Sets light mode (white bg, black text)
+- `.theme-formula-02` - Sets dark mode (black bg, white text)
+- Theme transitions: `transition: background-color 500ms ease-in-out, color 500ms ease-in-out`
 
 ### Accessibility
 - Ensure sufficient contrast ratios (WCAG AA minimum)
 - Maintain readability with script fonts (use sparingly)
 - Clear focus states for interactive elements
+- Semantic HTML structure
+- Alt text for images and icons
 
 ---
 
-## Examples from Reference Materials
+## Key Design Principles
 
-### Product Page Elements
-- **Patent information:** Black header with white text
-- **Clinical trial results:** Structured boxes with IBM Plex Mono for numbers
-- **Formula breakdown:** Percentage-based ingredient lists
-- **Guarantees:** Highlighted boxes (e.g., "100 days guaranteed results")
-- **Benefits:** Icon + text combinations in bordered boxes
+### Shape Contrast
+- **Static Content:** Sharp corners (`neo-box`) - angular, boxy
+- **Interactive Elements:** Rounded (`rounded-full`) - pill-shaped buttons
+- **This contrast creates visual hierarchy and guides user interaction**
+
+### Color Consistency
+- **Formula 01 = Teal** - Always use teal (`#14b8a6`, `bg-teal-500`) for Formula 01
+- **Formula 02 = Amber** - Always use amber (`bg-amber-500`) for Formula 02
+- **Never swap these colors** - Consistency is critical for user understanding
+
+### White Space
+- Generous padding: `py-24` for sections
+- Spacing between elements: `gap-6` to `gap-12`
+- Breathing room around content
 
 ### Typography Hierarchy
-1. **Brand/Product name** - Poppins Bold, large
-2. **Headings** - Poppins Semi-Bold/Medium
-3. **Body text** - Poppins Regular
-4. **Commentary** - Script font, italicized, smaller
-5. **Clinical data** - IBM Plex Mono, regular weight
-
----
-
-## Future Considerations
-
-- This is Style Guide 01 - additional style guides may be created for different art directions
-- Multiple homepage examples may use different styling approaches
-- Multiple product page examples may vary in presentation
-- Flexibility is key - this is a playground for experimentation
+1. **Primary (Poppins Bold)** - Main headings, brand name
+2. **Commentary (Caveat)** - Subtexts, annotations
+3. **Clinical (IBM Plex Mono)** - Data, stats, technical info
 
 ---
 
@@ -186,7 +459,7 @@ Conka's visual identity is built on **minimalism** and **modern neo-brutalism** 
 
 - All styling decisions should prioritize clarity and scientific credibility
 - The brand identity should reflect the clinical, evidence-based approach
-- Maintain consistency within Style Guide 01, but allow for evolution
+- Maintain consistency: Formula colors, button styles, container patterns
 - Test readability of script fonts at various sizes
 - Ensure teal accent color is used purposefully, not excessively
-
+- The contrast between boxy containers and rounded buttons is intentional and should be maintained

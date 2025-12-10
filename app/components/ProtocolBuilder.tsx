@@ -8,7 +8,7 @@ type ProtocolTier = "starter" | "pro" | "max";
 
 // Formula colors - ALWAYS consistent regardless of path
 const FORMULA_COLORS = {
-  "01": "bg-teal-500", // Formula 01 is ALWAYS teal
+  "01": "bg-[#AAB9BC]", // Formula 01 is ALWAYS teal
   "02": "bg-amber-500", // Formula 02 is ALWAYS amber
 };
 
@@ -308,7 +308,7 @@ export default function ProtocolBuilder() {
             {/* Formula Legend - Always consistent colors */}
             <div className="flex justify-center gap-8 pt-4 flex-wrap">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-teal-500 rounded-sm"></div>
+                <div className="w-4 h-4 bg-[#AAB9BC] rounded-sm"></div>
                 <span className="font-clinical text-sm">Formula 01 – Caffeine-Free Focus</span>
               </div>
               <div className="flex items-center gap-2">
@@ -403,7 +403,7 @@ export default function ProtocolBuilder() {
                   {pathData[selectedPath].isBalanced ? (
                     <>
                       <div className="flex items-center gap-3">
-                        <div className="w-6 h-6 rounded-md bg-teal-500 flex items-center justify-center">
+                        <div className="w-6 h-6 rounded-md bg-[#AAB9BC] flex items-center justify-center">
                           <span className="text-white font-clinical text-xs font-bold">01</span>
                         </div>
                         <span className="font-clinical text-sm">
@@ -531,7 +531,7 @@ export default function ProtocolBuilder() {
                         key={idx}
                         className={`aspect-square flex items-center justify-center font-clinical text-sm rounded-md transition-all ${
                           day.formula === "01"
-                            ? "bg-teal-500 text-white"
+                            ? "bg-[#AAB9BC] text-white"
                             : day.formula === "02"
                             ? "bg-amber-500 text-white"
                             : "border-2 border-current opacity-20"
@@ -563,7 +563,7 @@ export default function ProtocolBuilder() {
                   <div className="space-y-2">
                     {pathData[selectedPath].benefits.map((benefit, idx) => (
                       <div key={idx} className="flex items-start gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-teal-500 flex-shrink-0 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#AAB9BC] flex-shrink-0 mt-0.5">
                           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                           <polyline points="22 4 12 14.01 9 11.01"/>
                         </svg>

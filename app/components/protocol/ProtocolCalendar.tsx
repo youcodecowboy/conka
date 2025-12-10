@@ -1,0 +1,157 @@
+"use client";
+
+import {
+  ProtocolId,
+  ProtocolTier,
+  protocolContent,
+  generateProtocolCalendarDays,
+  FORMULA_COLORS,
+} from "@/app/lib/productData";
+
+interface ProtocolCalendarProps {
+  protocolId: ProtocolId;
+  selectedTier: ProtocolTier;
+}
+
+export default function ProtocolCalendar({
+  protocolId,
+  selectedTier,
+}: ProtocolCalendarProps) {
+  const protocol = protocolContent[protocolId];
+  const tierConfig = protocol.tiers[selectedTier];
+  const calendarDays = generateProtocolCalendarDays(protocolId, selectedTier);
+
+  if (!tierConfig) return null;
+
+  // Calculate totals for the month (4 weeks)
+  const formula01Total = tierConfig.formula01Count * 4;
+  const formula02Total = tierConfig.formula02Count * 4;
+
+  return (
+    <section className="px-6 md:px-16 py-24">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+            Your Monthly Protocol
+          </h2>
+          <p className="font-commentary text-xl">visualize your journey</p>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Calendar */}
+          <div className="lg:w-2/3">
+            <div className="neo-box p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold">4-Week View</h3>
+                <span className="font-clinical text-sm opacity-70">
+                  {formula01Total}x F01 + {formula02Total}x F02
+                </span>
+              </div>
+
+              {/* Week Days Header */}
+              <div className="grid grid-cols-7 gap-2 mb-3">
+                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+                  <div
+                    key={day}
+                    className="text-center font-clinical text-xs opacity-70 py-1"
+                  >
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              {/* Calendar Grid */}
+              <div className="grid grid-cols-7 gap-2">
+                {calendarDays.map((day, idx) => (
+                  <div
+                    key={idx}
+                    className={`aspect-square flex items-center justify-center font-clinical text-sm rounded-md transition-all ${
+                      day.formula === "01"
+                        ? `${FORMULA_COLORS["01"].bg} text-white`
+                        : day.formula === "02"
+                        ? `${FORMULA_COLORS["02"].bg} text-white`
+                        : "border-2 border-current opacity-20"
+                    }`}
+                  >
+                    {day.day}
+                  </div>
+                ))}
+              </div>
+
+              {/* Legend */}
+              <div className="flex gap-6 mt-6 pt-4 border-t border-current border-opacity-20 flex-wrap justify-center">
+                <div className="flex items-center gap-2">
+                  <div className={`w-4 h-4 rounded-sm ${FORMULA_COLORS["01"].bg}`}></div>
+                  <span className="font-clinical text-xs">
+                    Formula 01 - Energy
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className={`w-4 h-4 rounded-sm ${FORMULA_COLORS["02"].bg}`}></div>
+                  <span className="font-clinical text-xs">
+                    Formula 02 - Clarity
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-sm border-2 border-current opacity-30"></div>
+                  <span className="font-clinical text-xs">Rest Day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Protocol Info Sidebar */}
+          <div className="lg:w-1/3 space-y-6">
+            {/* Tier Info */}
+            <div className="neo-box p-6">
+              <h3 className="text-lg font-bold mb-4">
+                {tierConfig.name} Plan Details
+              </h3>
+              <p className="opacity-80 mb-4">{tierConfig.description}</p>
+              
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-2 border-b border-current border-opacity-10">
+                  <span className="font-clinical text-sm">Shots per Week</span>
+                  <span className="font-bold">{tierConfig.shotsPerWeek}</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-current border-opacity-10">
+                  <span className="font-clinical text-sm">Formula 01</span>
+                  <span className="font-bold">{tierConfig.formula01Count}x weekly</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="font-clinical text-sm">Formula 02</span>
+                  <span className="font-bold">{tierConfig.formula02Count}x weekly</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Tips */}
+            <div className="neo-box p-6">
+              <h3 className="text-lg font-bold mb-4">Pro Tips</h3>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className={`w-6 h-6 rounded-full ${FORMULA_COLORS["01"].bg} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                    <span className="text-white text-xs font-bold">01</span>
+                  </div>
+                  <p className="font-clinical text-sm">
+                    Take Formula 01 in the morning for all-day energy
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className={`w-6 h-6 rounded-full ${FORMULA_COLORS["02"].bg} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                    <span className="text-white text-xs font-bold">02</span>
+                  </div>
+                  <p className="font-clinical text-sm">
+                    Take Formula 02 before demanding tasks or in the evening
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+

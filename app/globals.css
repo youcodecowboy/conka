@@ -4,7 +4,7 @@
   /* Color Palette - Style Guide 01 */
   --color-black: #000000;
   --color-white: #ffffff;
-  --color-teal: #14b8a6;
+  --color-teal: #AAB9BC;
   
   /* Background & Foreground */
   --background: var(--color-white);
@@ -30,10 +30,10 @@
   --foreground: var(--color-black);
 }
 
-/* Formula 02 Theme (Dark Mode) */
+/* Formula 02 Theme (Light Mode) */
 .theme-formula-02 {
-  --background: var(--color-black);
-  --foreground: var(--color-white);
+  --background: var(--color-white);
+  --foreground: var(--color-black);
 }
 
 body {

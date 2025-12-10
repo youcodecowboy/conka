@@ -12,7 +12,7 @@ export default function Hero() {
           Make decisions faster.
         </h1>
         <p className="font-commentary text-xl md:text-2xl mb-3 text-center">
-          clinically designed to optimize your <span className="underline decoration-[#14b8a6]">brain</span>
+          clinically designed to optimize your <span className="underline decoration-[#AAB9BC]">brain</span>
         </p>
 
         {/* Center: Product Image */}
