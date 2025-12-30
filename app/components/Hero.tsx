@@ -42,12 +42,12 @@ export default function Hero() {
         {/* CTA Buttons - Pill shaped, always side-by-side */}
         <div className="flex flex-col items-center w-full max-w-md sm:max-w-lg md:max-w-md px-4 mt-6 sm:mt-8 md:mt-0">
           <div className="flex flex-row gap-3 sm:gap-4 md:gap-3 w-full mb-4 sm:mb-5 md:mb-3">
-            <button className="flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-black text-white font-commentary text-base md:text-lg border-2 border-black hover:opacity-80 transition-all">
+            <a href="/quiz" className="flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-black text-white font-commentary text-base md:text-lg border-2 border-black hover:opacity-80 transition-all text-center">
               Find Your Stack
-            </button>
-            <button className="flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-transparent text-black font-semibold text-base md:text-lg border-2 border-black hover:bg-black hover:text-white transition-all">
+            </a>
+            <a href="#protocols" className="flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-transparent text-black font-semibold text-base md:text-lg border-2 border-black hover:bg-black hover:text-white transition-all text-center">
               buy CONKA
-            </button>
+            </a>
           </div>
           {/* Scroll indicator */}
           <div className="text-center">

@@ -2,6 +2,96 @@
 
 ## December 30, 2025
 
+### 21:00 - Find Your Protocol Quiz System
+Created a comprehensive "Find Your Protocol" quiz feature at `/quiz` with configurable questions, weighted scoring, percentage-based results, and detailed score breakdowns.
+
+#### New Data Layer:
+- **`app/lib/quizData.ts`** - Complete quiz configuration system
+  - `QuizQuestion` interface with questions, options, and weighted scoring per protocol
+  - `QuizResult` interface with percentage match, total points, and question breakdowns
+  - `ProtocolMatchInfo` interface with protocol descriptions and key benefits
+  - 3 placeholder questions (expandable to 10) demonstrating the scoring system
+  - `calculateQuizResults()` function computing percentages for all 4 protocols
+  - `getRecommendedProtocol()` helper for top match
+  - Each question includes a `measures` field explaining what it assesses
+
+#### New Components (`app/components/quiz/`):
+- **`QuizQuestion.tsx`** - Individual question display
+  - Question counter (1 of X format)
+  - Question text with optional subtitle
+  - 3 answer options (Yes/Sometimes/No) with icons
+  - Selected state with visual feedback
+  - Large touch targets for mobile
+
+- **`QuizProgress.tsx`** - Bottom progress bar and navigation
+  - Visual progress bar showing completion percentage
+  - Previous/Next buttons with disabled states
+  - Step indicator dots
+  - "See Results" button on final question
+
+- **`QuizLoader.tsx`** - Pre-results loading animation
+  - Circular progress ring with percentage
+  - 3-stage loading messages (Analyzing, Calculating, Finding)
+  - Animated brain icon transitioning to checkmark
+  - Smooth transition to results page
+
+- **`QuizResultsOverview.tsx`** - Results summary for all protocols
+  - All 4 protocols with percentage match bars
+  - "RECOMMENDED" badge on top match
+  - Expandable score breakdown per protocol
+  - Click to view detailed breakdown
+  - Scroll prompt to recommended section
+
+- **`QuizScoreBreakdown.tsx`** - Detailed scoring explanation
+  - Question-by-question breakdown
+  - Shows user's answer and points awarded
+  - Max points possible per question
+  - Total score with percentage
+  - Explains what each question measures
+
+- **`QuizRecommendedSection.tsx`** - Dynamic product section
+  - Based on selected/top-matched protocol
+  - Protocol icon and description
+  - "Why this protocol?" explanation
+  - Key benefits with checkmarks
+  - Week 1 calendar preview
+  - Tier and purchase type selectors
+  - Pricing with billing frequency
+  - "Add to Cart" and "Learn More" CTAs
+  - 100-day guarantee badge
+
+#### New Pages:
+- **`app/quiz/page.tsx`** - Main quiz flow
+  - Step-by-step question navigation
+  - Answer state management
+  - Stores answers in sessionStorage
+  - Loading transition before results
+
+- **`app/quiz/results/page.tsx`** - Results page
+  - Loads answers from sessionStorage
+  - Calculates and displays all protocol matches
+  - Expandable score breakdowns
+  - Dynamic recommended section based on selection
+  - Sticky purchase footer (appears when scrolling)
+  - Retake quiz option
+  - Full cart drawer integration
+
+#### Scoring System:
+- Each question awards points to protocols based on answers
+- Example: "Do you experience brain fog?"
+  - Yes: +3 to Protocol 2 (Clarity focused)
+  - Sometimes: +2 to Protocol 2, +2 to Protocol 3
+  - No: +2 to Protocol 1 (Flow focused)
+- Percentages calculated as: (earned points / max possible) × 100
+- Results sorted by percentage, ties favor lower protocol number
+
+#### Reused Components:
+- `StickyPurchaseFooter` / `StickyPurchaseFooterMobile` for cart integration
+- `Navigation` for consistent header
+- `useIsMobile` hook for responsive behavior
+
+---
+
 ### 18:30 - Our Story Page (Immersive Scroll Experience)
 Created a dedicated "Our Story" page at `/our-story` featuring an immersive, TikTok-style scroll-snap experience that tells the Conka founders' journey through 10 narrative sections.
 

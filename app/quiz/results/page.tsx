@@ -1,0 +1,291 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import Navigation from "@/app/components/Navigation";
+import {
+  QuizResultsOverview,
+  QuizRecommendedSection,
+} from "@/app/components/quiz";
+import { StickyPurchaseFooter, StickyPurchaseFooterMobile } from "@/app/components/product";
+import {
+  calculateQuizResults,
+  UserAnswers,
+  QuizResult,
+  ProtocolKey,
+} from "@/app/lib/quizData";
+import { ProtocolId, ProtocolTier, PurchaseType } from "@/app/lib/productData";
+import useIsMobile from "@/app/hooks/useIsMobile";
+
+export default function QuizResultsPage() {
+  const router = useRouter();
+  const isMobile = useIsMobile();
+  const recommendedSectionRef = useRef<HTMLDivElement>(null);
+
+  const [cartOpen, setCartOpen] = useState(false);
+  const [results, setResults] = useState<QuizResult[]>([]);
+  const [selectedProtocol, setSelectedProtocol] = useState<ProtocolKey | null>(null);
+  const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
+  const [purchaseType, setPurchaseType] = useState<PurchaseType>("subscription");
+  const [showStickyFooter, setShowStickyFooter] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load results from sessionStorage on mount
+  useEffect(() => {
+    const storedAnswers = sessionStorage.getItem("quizAnswers");
+    
+    if (!storedAnswers) {
+      // No answers found, redirect back to quiz
+      router.push("/quiz");
+      return;
+    }
+
+    try {
+      const answers: UserAnswers = JSON.parse(storedAnswers);
+      const calculatedResults = calculateQuizResults(answers);
+      setResults(calculatedResults);
+      
+      // Set the recommended protocol (first in sorted results)
+      if (calculatedResults.length > 0) {
+        setSelectedProtocol(calculatedResults[0].protocolId);
+        
+        // Adjust tier for Protocol 4 (no starter)
+        if (calculatedResults[0].protocolNumber === "4" && selectedTier === "starter") {
+          setSelectedTier("pro");
+        }
+      }
+      
+      setIsLoaded(true);
+    } catch {
+      router.push("/quiz");
+    }
+  }, [router, selectedTier]);
+
+  // Show sticky footer when scrolling to recommended section
+  useEffect(() => {
+    const handleScroll = () => {
+      if (recommendedSectionRef.current) {
+        const rect = recommendedSectionRef.current.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        setShowStickyFooter(isVisible);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Adjust tier when protocol changes (Protocol 4 has no starter)
+  useEffect(() => {
+    if (selectedProtocol === "protocol4" && selectedTier === "starter") {
+      setSelectedTier("pro");
+    }
+  }, [selectedProtocol, selectedTier]);
+
+  const handleProtocolSelect = (protocolId: ProtocolKey) => {
+    setSelectedProtocol(protocolId);
+    
+    // Scroll to recommended section
+    setTimeout(() => {
+      recommendedSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
+  const handleAddToCart = () => {
+    setCartOpen(true);
+    console.log("Add to cart:", {
+      protocol: selectedProtocol,
+      tier: selectedTier,
+      type: purchaseType,
+    });
+  };
+
+  const recommendedProtocol = selectedProtocol || (results[0]?.protocolId ?? null);
+  const protocolId = recommendedProtocol?.replace("protocol", "") as ProtocolId | null;
+
+  // Show loading state while checking for answers
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-current/20 border-t-current rounded-full animate-spin mx-auto mb-4" />
+          <p className="font-clinical text-sm opacity-60">Loading results...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="min-h-screen theme-conka-flow"
+      style={{ background: "var(--background)", color: "var(--foreground)" }}
+    >
+      <Navigation cartOpen={cartOpen} setCartOpen={setCartOpen} />
+
+      {/* Results Content */}
+      <main className="pt-4 lg:pt-24 pb-24">
+        {/* Results Overview */}
+        <QuizResultsOverview
+          results={results}
+          onProtocolSelect={handleProtocolSelect}
+          selectedProtocol={selectedProtocol}
+        />
+
+        {/* Dynamic Recommended Section */}
+        {recommendedProtocol && (
+          <div ref={recommendedSectionRef}>
+            <QuizRecommendedSection
+              protocolKey={recommendedProtocol}
+              selectedTier={selectedTier}
+              onTierSelect={setSelectedTier}
+              purchaseType={purchaseType}
+              onPurchaseTypeChange={setPurchaseType}
+              onAddToCart={handleAddToCart}
+            />
+          </div>
+        )}
+
+        {/* Retake Quiz CTA */}
+        <section className="px-4 md:px-8 py-12 text-center">
+          <p className="font-commentary text-base opacity-60 mb-4">
+            Not sure about your results?
+          </p>
+          <button
+            onClick={() => {
+              sessionStorage.removeItem("quizAnswers");
+              router.push("/quiz");
+            }}
+            className="neo-button-outline px-6 py-3 font-bold"
+          >
+            Retake Quiz
+          </button>
+        </section>
+
+        {/* Footer */}
+        <footer className="px-4 md:px-8 py-8 border-t-2 border-current/10">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              <div className="text-center md:text-left">
+                <a href="/" className="text-xl font-bold tracking-tight font-primary">
+                  conka.
+                </a>
+                <p className="font-commentary text-sm opacity-60 mt-1">
+                  unlock your cognitive potential
+                </p>
+              </div>
+              <nav className="flex flex-wrap items-center justify-center gap-4">
+                <a href="/" className="font-clinical text-xs hover:opacity-70 transition-all">
+                  Home
+                </a>
+                <a href="/conka-flow" className="font-clinical text-xs hover:opacity-70 transition-all">
+                  Conka Flow
+                </a>
+                <a href="/conka-clarity" className="font-clinical text-xs hover:opacity-70 transition-all">
+                  Conka Clarity
+                </a>
+                <a href="/protocol/1" className="font-clinical text-xs hover:opacity-70 transition-all">
+                  Protocols
+                </a>
+              </nav>
+            </div>
+          </div>
+        </footer>
+      </main>
+
+      {/* Sticky Purchase Footer (only when recommended section is visible) */}
+      {showStickyFooter && protocolId && (
+        isMobile ? (
+          <StickyPurchaseFooterMobile
+            protocolId={protocolId}
+            selectedTier={selectedTier}
+            purchaseType={purchaseType}
+            onAddToCart={handleAddToCart}
+          />
+        ) : (
+          <StickyPurchaseFooter
+            protocolId={protocolId}
+            selectedTier={selectedTier}
+            onTierSelect={setSelectedTier}
+            purchaseType={purchaseType}
+            onPurchaseTypeChange={setPurchaseType}
+            onAddToCart={handleAddToCart}
+          />
+        )
+      )}
+
+      {/* Cart Drawer */}
+      {cartOpen && (
+        <div className="fixed inset-0 z-50">
+          <div
+            className="absolute inset-0 bg-black/50 transition-opacity"
+            onClick={() => setCartOpen(false)}
+          />
+          <div className="absolute right-0 top-0 h-full w-full max-w-md bg-[var(--background)] border-l-2 border-current shadow-2xl">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-center p-6 border-b-2 border-current">
+                <h2 className="text-xl font-bold">Your Cart</h2>
+                <button
+                  onClick={() => setCartOpen(false)}
+                  className="p-2 hover:opacity-70 transition-all"
+                  aria-label="Close cart"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex-1 p-6 overflow-y-auto">
+                <div className="flex flex-col items-center justify-center h-full text-center opacity-50">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mb-4"
+                  >
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                  </svg>
+                  <p className="font-clinical text-sm">Your cart is empty</p>
+                  <p className="font-commentary text-sm mt-2">
+                    add some brain fuel!
+                  </p>
+                </div>
+              </div>
+              <div className="p-6 border-t-2 border-current">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="font-clinical text-sm">Subtotal</span>
+                  <span className="font-clinical text-lg font-bold">£0.00</span>
+                </div>
+                <button className="neo-button w-full px-8 py-4 font-semibold text-lg">
+                  Checkout
+                </button>
+                <p className="font-clinical text-xs text-center mt-3 opacity-70">
+                  Free UK shipping on orders over £50
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
