@@ -6,4 +6,5 @@ export { default as IngredientStats } from "./IngredientStats";
 export { default as IngredientBenefits } from "./IngredientBenefits";
 export { default as IngredientStudies } from "./IngredientStudies";
 export { default as StudyBarChart } from "./StudyBarChart";
+export { MolecularStructure } from "./MolecularStructure";
 

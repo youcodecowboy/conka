@@ -2,6 +2,118 @@
 
 ## December 30, 2025
 
+### 23:00 - Updated Key Statistics with Verified Clinical Data
+
+Updated all 16 ingredient keyStats sections to use data derived from the verified PubMed studies, replacing placeholder statistics with real research findings.
+
+#### All keyStats Now Reference Verified Studies:
+
+**Conka Flow (Formula 01):**
+1. **Lemon Balm** - Anxiety reduction (-28%), memory (+18%), calmness (+15%) from Kennedy 2003 & 2006
+2. **Turmeric** - Memory (+63%), attention (+96%), working memory (+12%) from Small 2018 & Rainey-Smith 2016
+3. **Ashwagandha** - Stress score (-56%), cortisol (-28%), sleep quality (+42%) from Chandrasekhar 2012 & Salve 2019
+4. **Rhodiola** - Burnout (-28%), physical fitness (+17%), mental performance (+12%) from Olsson 2009 & Spasov 2000
+5. **Bilberry** - Word recall (+18%), paired learning (+22%), cognitive errors (-18%) from Krikorian 2010 & Schrager 2015
+6. **Black Pepper** - Curcumin absorption (2000%), serotonin (+28%), dopamine (+35%) from Shoba 1998 & Rinwa 2013
+
+**Conka Clarity (Formula 02):**
+7. **Vitamin C** - Attention (+14%), memory (+12%), anxiety (-22%) from Travica 2017 & de Oliveira 2015
+8. **Alpha GPC** - Isometric force (+14%), ADAS-Cog (-22%), MMSE (+15%) from Parker 2015 & De Jesus Moreno 2003
+9. **Glutathione** - Blood GSH (+40%), NK cell activity (+100%), whole blood GSH (+35%) from Sinha 2018 & Richie 2015
+10. **NAC** - Cognitive function (+22%), negative symptoms (-25%), OCD symptoms (-32%) from Berk 2008 & Oliver 2015
+11. **ALCAR** - Mental fatigue (-35%), cognitive function (+24%), attention (+16%) from Malaguarnera 2008
+12. **Ginkgo** - Cognition (+16%), attention (+14%), processing speed (+15%) from Laws 2012 & Kaschel 2009
+13. **Lecithin** - Verbal memory (+12%), visual memory (+8%) from Poly 2011 (1,391 participants)
+14. **Lemon Oil** - Positive mood (+23%), cognitive function (+18%), personal orientation (+25%) from Kiecolt-Glaser 2008 & Jimbo 2009
+15. **Alpha Lipoic Acid** - Memory (+15%), oxidative stress (-22%), disease progression (-65%) from Kim 2020 & Hager 2007
+16. **Vitamin B12** - Brain atrophy (-86%), atrophy reduction (-30%), high homocysteine group (-53%) from Douaud 2013 & Smith 2010
+
+#### Format Improvements:
+- Each stat now includes PMID citation for traceability
+- Dosage information derived from actual study protocols
+- Effect sizes based on reported outcomes from clinical trials
+
+---
+
+### 22:45 - Added Second Clinical Study for Each Ingredient
+
+Added a second verified PubMed-cited clinical study for all 16 ingredients, doubling the evidence base.
+
+#### New Studies Added:
+
+**Conka Flow (Formula 01):**
+1. **Lemon Balm** - Kennedy et al. 2003 (PMID: 12888775) - Mood and cognitive modulation via CNS receptor binding
+2. **Turmeric/Curcumin** - Rainey-Smith et al. 2016 (PMID: 26878105) - Working memory improvement in older adults
+3. **Ashwagandha** - Salve et al. 2019 (PMID: 32021735) - Adaptogenic and anxiolytic effects study
+4. **Rhodiola rosea** - Spasov et al. 2000 (PMID: 10839209) - Student exam stress study
+5. **Bilberry** - Krikorian et al. 2010 (PMID: 20047325) - Memory improvement in older adults
+6. **Black Pepper/Piperine** - Rinwa & Kumar 2013 (PMID: 23268377) - Antidepressant activity via monoamines
+
+**Conka Clarity (Formula 02):**
+7. **Vitamin C** - de Oliveira et al. 2015 (PMID: 26327060) - Anxiety reduction in students
+8. **Alpha GPC** - De Jesus Moreno 2003 (PMID: 12882463) - Cognitive improvement in dementia (261 participants)
+9. **Glutathione** - Richie et al. 2015 (PMID: 25900085) - 6-month oral supplementation RCT
+10. **NAC** - Oliver et al. 2015 (PMID: 26243567) - OCD and related disorders systematic review
+11. **ALCAR** - Montgomery et al. 2003 (PMID: 12535484) - Cochrane meta-analysis of 11 RCTs
+12. **Ginkgo Biloba** - Kaschel 2009 (PMID: 19395013) - Systematic review of 29 clinical trials
+13. **Lecithin** - Zeisel 2012 (PMID: 22048568) - Choline's role in brain development review
+14. **Lemon Essential Oil** - Jimbo et al. 2009 (PMID: 20377818) - Alzheimer's aromatherapy study
+15. **Alpha Lipoic Acid** - Hager et al. 2007 (PMID: 17982897) - 48-month Alzheimer's follow-up analysis
+16. **Vitamin B12** - Smith et al. 2010 (PMID: 20838622) - Brain atrophy reduction study
+
+#### Documentation Updates:
+- **`SOURCES.md`** - Now contains 32 complete citations (2 per ingredient) with full PubMed/DOI links
+
+---
+
+### 22:15 - Clinical Studies Verification & PubMed Citations
+Replaced all 16 placeholder clinical studies on the ingredients page with real, verified PubMed-cited research.
+
+#### Data Layer Updates (`app/lib/ingredientsData.ts`):
+- **Extended `ClinicalStudyData` interface** with new fields:
+  - `authors` - Study author list
+  - `journal` - Publication journal name
+  - `pmid` - PubMed ID for direct linking
+  - `doi` - Digital Object Identifier for permanent reference
+
+#### All 16 Ingredients Now Have Verified Studies:
+
+**Conka Flow (Formula 01):**
+1. **Lemon Balm** - Kennedy et al. 2006 (PMID: 16444660) - Anxiolytic effects study from Northumbria University
+2. **Turmeric/Curcumin** - Small et al. 2018 (PMID: 29246725) - UCLA memory and brain amyloid study
+3. **Ashwagandha** - Chandrasekhar et al. 2012 (PMID: 23439798) - Stress and cortisol reduction study
+4. **Rhodiola rosea** - Olsson et al. 2009 (PMID: 19016404) - Stress-related fatigue treatment study
+5. **Bilberry** - Schrager et al. 2015 (PMID: 25660920) - Cognitive function and mobility study
+6. **Black Pepper/Piperine** - Shoba et al. 1998 (PMID: 9619120) - 2000% curcumin bioavailability study
+
+**Conka Clarity (Formula 02):**
+7. **Vitamin C** - Travica et al. 2017 (PMID: 28208784) - Systematic review of cognitive function
+8. **Alpha GPC** - Parker et al. 2015 (PMID: 26500463) - Force production and cognitive performance
+9. **Glutathione** - Sinha et al. 2018 (PMID: 29559699) - Liposomal glutathione and immune function
+10. **NAC** - Berk et al. 2008 (PMID: 18436195) - Glutathione precursor cognitive function trial
+11. **ALCAR** - Malaguarnera et al. 2008 (PMID: 18937015) - Cognitive function improvement study
+12. **Ginkgo Biloba** - Laws et al. 2012 (PMID: 22628390) - Meta-analysis of 13 RCTs (2,372 participants)
+13. **Lecithin** - Poly et al. 2011 (PMID: 22071706) - Framingham study on choline and cognition
+14. **Lemon Essential Oil** - Kiecolt-Glaser et al. 2008 (PMID: 18295416) - Ohio State mood study
+15. **Alpha Lipoic Acid** - Kim et al. 2020 (PMID: 32631710) - Memory and oxidative stress study
+16. **Vitamin B12** - Douaud et al. 2013 (PMID: 23690582) - Oxford brain atrophy prevention study
+
+#### Component Updates (`app/components/ingredients/IngredientStudies.tsx`):
+- Added authors and journal display below study title
+- Added citation links section with clickable PMID and DOI badges
+- Links open directly to PubMed abstract and DOI resolver
+- Improved visual hierarchy with author/journal metadata
+
+#### New Documentation:
+- **`SOURCES.md`** - Complete citation document with:
+  - Full APA-style citations for all 16 studies
+  - Direct PubMed links (https://pubmed.ncbi.nlm.nih.gov/PMID/)
+  - DOI links for permanent access
+  - Study design, participant counts, durations, and key findings
+  - Organized by formula (Conka Flow / Conka Clarity)
+
+---
+
 ### 21:00 - Find Your Protocol Quiz System
 Created a comprehensive "Find Your Protocol" quiz feature at `/quiz` with configurable questions, weighted scoring, percentage-based results, and detailed score breakdowns.
 

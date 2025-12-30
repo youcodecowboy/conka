@@ -56,11 +56,19 @@ export default function IngredientStudies({ studies, accentColor = "text-current
           {/* Expanded Content */}
           {expandedIndex === idx && (
             <div className="px-4 pb-4 border-t-2 border-current/10">
+              {/* Authors & Journal */}
+              <div className="py-3 border-b border-current/10">
+                <p className="font-clinical text-xs opacity-70">{study.authors}</p>
+                <p className="font-clinical text-xs opacity-50 mt-1">
+                  <span className="italic">{study.journal}</span> ({study.year})
+                </p>
+              </div>
+
               {/* Study Meta */}
               <div className="grid grid-cols-3 gap-4 py-4 border-b border-current/10">
                 <div>
                   <p className="font-clinical text-xs opacity-50 uppercase">Participants</p>
-                  <p className="font-bold text-lg">{study.participants}</p>
+                  <p className="font-bold text-lg">{study.participants.toLocaleString()}</p>
                 </div>
                 <div>
                   <p className="font-clinical text-xs opacity-50 uppercase">Duration</p>
@@ -80,13 +88,33 @@ export default function IngredientStudies({ studies, accentColor = "text-current
 
               {/* Chart */}
               {study.chartData && study.chartData.length > 0 && (
-                <div className="pt-4">
+                <div className="pt-4 border-b border-current/10">
                   <p className="font-clinical text-xs opacity-50 uppercase mb-3">Results</p>
                   <div className="h-48">
                     <StudyBarChart data={study.chartData} />
                   </div>
                 </div>
               )}
+
+              {/* Citation & Links */}
+              <div className="pt-4 flex flex-wrap items-center gap-3">
+                <a
+                  href={`https://pubmed.ncbi.nlm.nih.gov/${study.pmid}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`font-clinical text-xs px-3 py-1.5 rounded border-2 border-current/20 hover:bg-current/10 transition-colors ${accentColor}`}
+                >
+                  PMID: {study.pmid}
+                </a>
+                <a
+                  href={`https://doi.org/${study.doi}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-clinical text-xs px-3 py-1.5 rounded border-2 border-current/20 hover:bg-current/10 transition-colors opacity-70"
+                >
+                  DOI: {study.doi}
+                </a>
+              </div>
             </div>
           )}
         </div>

@@ -11,6 +11,7 @@ import IngredientSelector from "./IngredientSelector";
 import IngredientStats from "./IngredientStats";
 import IngredientBenefits from "./IngredientBenefits";
 import IngredientStudies from "./IngredientStudies";
+import { MolecularStructure } from "./MolecularStructure";
 
 interface IngredientsPageDesktopProps {
   activeFormula: FormulaId;
@@ -106,13 +107,20 @@ export default function IngredientsPageDesktop({
               </div>
             </div>
 
-            {/* Chemical Structure Placeholder */}
-            <div className="neo-box p-4">
-              <p className="font-clinical text-xs opacity-50 uppercase mb-3">Chemical Structure</p>
-              <div className="aspect-video placeholder-box">
-                <span className="font-clinical text-xs">[MOLECULAR STRUCTURE]</span>
+            {/* Chemical Structure */}
+            {activeIngredient.molecularStructure ? (
+              <MolecularStructure
+                structure={activeIngredient.molecularStructure}
+                ingredientName={activeIngredient.name}
+              />
+            ) : (
+              <div className="neo-box p-4">
+                <p className="font-clinical text-xs opacity-50 uppercase mb-3">Chemical Structure</p>
+                <div className="aspect-video placeholder-box">
+                  <span className="font-clinical text-xs">[MOLECULAR STRUCTURE]</span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Right Side - Detailed Information */}
