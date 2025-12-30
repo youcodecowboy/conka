@@ -4,9 +4,9 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="min-h-[calc(100vh-80px)] md:min-h-screen px-4 sm:px-6 md:px-16 pt-8 sm:pt-10 md:pt-8 lg:pt-4 pb-8 md:pb-12 flex flex-col">
+    <section className="min-h-[calc(100vh-80px)] md:min-h-screen px-4 sm:px-6 md:px-16 pt-8 sm:pt-10 md:pt-16 lg:pt-20 xl:pt-24 pb-8 md:pb-12 flex flex-col">
       {/* Hero Content - Product Centered */}
-      <div className="flex-1 flex flex-col items-center justify-start md:justify-center pt-6 sm:pt-8 md:pt-0">
+      <div className="flex-1 flex flex-col items-center justify-start md:justify-center pt-6 sm:pt-8 md:pt-4 lg:pt-8">
         {/* Top Section: Headlines */}
         <div className="w-full">
           <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-2 text-center">
