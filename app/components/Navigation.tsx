@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { CiBeaker1 } from "react-icons/ci";
 import { protocolContent } from "@/app/lib/productData";
 
@@ -58,7 +59,14 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
         <div className="px-6 md:px-16 py-6 flex justify-between items-center">
           {/* Logo - Left (links to home) */}
           <a href="/" className="flex items-center">
-            <span className="text-2xl md:text-3xl font-bold tracking-tight font-primary">conka.</span>
+            <Image
+              src="/conka.png"
+              alt="Conka logo"
+              width={90}
+              height={30}
+              className="h-6 md:h-8 w-auto mt-0.5"
+              priority
+            />
           </a>
           
           {/* Desktop Navigation & Cart - Right */}
@@ -286,7 +294,14 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
               <a href="/" className="flex items-center">
-                <span className="text-3xl font-bold tracking-tight font-primary">conka.</span>
+                <Image
+                  src="/conka.png"
+                  alt="Conka logo"
+                  width={90}
+                  height={30}
+                  className="h-8 w-auto"
+                  priority
+                />
               </a>
               <button 
                 onClick={() => setMobileMenuOpen(false)}
