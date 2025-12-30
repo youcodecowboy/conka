@@ -70,18 +70,18 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                 </svg>
                 The Science
               </a>
-              <a href="/#ingredients" className="font-clinical text-sm tracking-wide hover:opacity-70 transition-all flex items-center gap-2">
+              <a href="/ingredients" className="font-clinical text-sm tracking-wide hover:opacity-70 transition-all flex items-center gap-2">
                 <CiBeaker1 size={16} />
                 Ingredients
               </a>
-              <a href="/#results" className="font-clinical text-sm tracking-wide hover:opacity-70 transition-all flex items-center gap-2">
+              <a href="/case-studies" className="font-clinical text-sm tracking-wide hover:opacity-70 transition-all flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                   <polyline points="22 4 12 14.01 9 11.01"/>
                 </svg>
-                Results
+                Case Studies
               </a>
-              <a href="/#story" className="font-clinical text-sm tracking-wide hover:opacity-70 transition-all flex items-center gap-2">
+              <a href="/our-story" className="font-clinical text-sm tracking-wide hover:opacity-70 transition-all flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                   <circle cx="9" cy="7" r="4"/>
@@ -410,7 +410,7 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                   <span className="font-clinical text-sm tracking-wide">The Science</span>
                 </a>
                 <a 
-                  href="/#ingredients" 
+                  href="/ingredients" 
                   className="flex items-center gap-2 py-2 px-3 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" 
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -418,7 +418,7 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                   <span className="font-clinical text-sm tracking-wide">Ingredients</span>
                 </a>
                 <a 
-                  href="/#results" 
+                  href="/case-studies" 
                   className="flex items-center gap-2 py-2 px-3 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" 
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -426,10 +426,10 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                     <polyline points="22 4 12 14.01 9 11.01"/>
                   </svg>
-                  <span className="font-clinical text-sm tracking-wide">Results</span>
+                  <span className="font-clinical text-sm tracking-wide">Case Studies</span>
                 </a>
                 <a 
-                  href="/#story" 
+                  href="/our-story" 
                   className="flex items-center gap-2 py-2 px-3 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" 
                   onClick={() => setMobileMenuOpen(false)}
                 >

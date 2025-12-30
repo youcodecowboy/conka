@@ -2,6 +2,216 @@
 
 ## December 30, 2025
 
+### 18:30 - Our Story Page (Immersive Scroll Experience)
+Created a dedicated "Our Story" page at `/our-story` featuring an immersive, TikTok-style scroll-snap experience that tells the Conka founders' journey through 10 narrative sections.
+
+#### New Data Layer:
+- **`app/lib/storyData.ts`** - Complete story data
+  - 6 hero stats: 2 Founders, £500K+ Research, 100+ Prototypes, 25+ Clinical Trials, 1 Patented Formula, 1 Cognitive App
+  - 10 story sections with alternating light/dark themes
+  - Each section includes: headline, subtitle, body text, optional founder quote, image placeholder
+  - Teams that have tested CONKA list
+  - Research stats (cognitive improvements by gender)
+
+#### New Components (`app/components/our-story/`):
+- **`OurStoryHero.tsx`** - Landing section with key brand stats
+  - Large "Our Story" headline with subtitle
+  - 6-stat grid showing company achievements
+  - Animated scroll indicator to begin journey
+
+- **`StorySection.tsx`** - Reusable section component
+  - Section counter (01/10 format)
+  - Headlines with parallax effect
+  - Founder quotes with styled blockquotes
+  - Alternating image placement (left/right based on section)
+
+- **`StoryProgress.tsx`** - Desktop navigation dots
+  - Fixed position on right side
+  - Click to jump to any section
+  - Active state indicator
+  - Adapts color based on current section theme
+
+- **`OurStoryDesktop.tsx`** - Full desktop experience
+  - Scroll-snap container with smooth transitions
+  - Section tracking for progress indicator
+  - Final CTA section with product links
+
+- **`OurStoryMobile.tsx`** - Mobile-optimized experience
+  - Simplified hero with 4 key stats
+  - Touch-friendly scroll-snap
+  - Bottom progress dots indicator
+  - Stacked layout with full-width images
+
+#### New CSS Utilities (`globals.css`):
+- `.story-scroll-container` - Scroll-snap parent with hidden scrollbar
+- `.story-section` - Full-viewport snap sections
+- `.story-light` / `.story-dark` - Theme variants
+- `.story-progress-dot` - Navigation dot styling
+- `.animate-bounce-slow` - Gentle scroll indicator animation
+- `.animate-fade-in-up` - Content entrance animation
+- `.stagger-1/2/3/4` - Animation delay classes
+- `.story-quote` - Quote styling with decorative quote mark
+
+#### New Page:
+- **`app/our-story/page.tsx`** - Main story page
+  - Responsive desktop/mobile rendering
+  - Fixed navigation header
+  - Cart drawer integration
+
+#### Navigation Updates:
+- Updated "Our Story" links in Navigation.tsx from `/#story` to `/our-story`
+- Updated footer link in page.tsx to point to new dedicated page
+
+#### The 10 Story Sections:
+1. Where It All Began - University, teammates, shared drive
+2. The Spark - Concussion injury, 8-month PCS recovery (with founder quote)
+3. Breakthrough Discovery - Durham University research, lifespan extension
+4. Parallel Paths - Harry's 2021 Olympics with Team GB
+5. Half a Million in Research - £500K neuroscience investment
+6. Building the Technology - Cambridge partnership, ICA cognitive testing
+7. Reinventing Extraction - Alcohol-free formula, Dr. Katekhaye
+8. Pro Sport Validation - First clinical trial, 16% brain performance increase
+9. The Second Formula - Elite team testing, dual-formula development
+10. The Journey Continues - Summary and CTA
+
+---
+
+### 16:45 - Case Studies Page
+Created a comprehensive Case Studies page at `/case-studies` showcasing athlete performance improvements using the Conka App, with detailed performance metrics, sport filtering, and featured athletes section.
+
+#### New Data Layer:
+- **`app/lib/caseStudiesData.ts`** - Comprehensive athlete database
+  - 11 athletes across 10 sports: Football, Tennis, Esports, Running, Chess, Golf, Boxing, Business, Cycling, Swimming, Creative
+  - Each athlete includes: name, sport, profession, achievement, description, quote, product version, protocol used
+  - Performance data: baseline metrics, results, improvements with percentages
+  - Featured flag for highlighting key case studies
+  - Sport category types with display info
+  - Helper functions: `getAthleteById()`, `getFeaturedAthletes()`, `getAthletesBySport()`, `getAllSports()`
+
+#### New Components (`app/components/case-studies/`):
+- **`CaseStudiesPageDesktop.tsx`** - Desktop layout with sidebar and main content
+  - Featured athletes section at top with horizontal cards
+  - Sticky sidebar with sport filtering and athlete list
+  - Full athlete detail view with stats, quote, and performance charts
+  - Summary stats (total athletes, tests completed, average improvement)
+
+- **`CaseStudiesPageMobile.tsx`** - Mobile layout with horizontal filter and swipe cards
+  - Horizontal scrolling sport filter bar
+  - Featured athletes carousel
+  - Single athlete card view with navigation
+  - "View Full Case Study" expanded detail view
+  - Swipe navigation with dot indicators
+
+- **`AthleteSidebar.tsx`** - Desktop sidebar component
+  - Sport filter pills with counts
+  - Scrollable athlete list with active state
+  - Preview of top improvement stat per athlete
+
+- **`AthleteFilterBar.tsx`** - Mobile horizontal filter component
+  - Horizontally scrolling sport category pills
+  - Sport icons and counts
+
+- **`AthleteCard.tsx`** - Full athlete profile display
+  - Photo placeholder with sport icon
+  - Product version badge (Conka Flow, Clarity, or both)
+  - Protocol used indicator
+  - Quote section with styling
+  - Integrated AthleteStats component
+
+- **`AthleteStats.tsx`** - Performance metrics visualization
+  - Key improvements grid with progress bars
+  - Baseline vs Results comparison chart
+  - Tests completed and duration display
+
+- **`FeaturedAthletes.tsx`** - Featured section for homepage display
+  - 4-column grid of featured athlete cards
+  - Key stat highlight per athlete
+
+- **`SportIcon.tsx`** - SVG icons for each sport category
+  - 12 custom icons: Football, Tennis, Golf, Running, Cycling, Swimming, Boxing, Esports, Chess, Business, Creative, Other
+
+#### New Page:
+- **`app/case-studies/page.tsx`** - Main case studies page
+  - Responsive desktop/mobile rendering
+  - Full navigation and footer
+  - Cart drawer integration
+
+#### Design Patterns:
+- Follows neo-brutalist style guide matching ingredients page
+- Uses `neo-box`, `neo-box-inverted` for cards
+- Uses `font-clinical` for data, `font-commentary` for quotes
+- Sport icons in consistent SVG style
+- Emerald/green accent color for improvements
+- Mobile horizontal scroll with `scrollbar-hide` utility
+
+---
+
+### 14:30 - Ingredients Deep-Dive Page
+Created a comprehensive, interactive ingredients page at `/ingredients` showcasing all ingredient research, benefits, clinical studies, and formula composition with distinct desktop and mobile experiences.
+
+#### New Data Layer:
+- **`app/lib/ingredientsData.ts`** - Comprehensive ingredient database
+  - 6 ingredients for Conka Flow (Lemon Balm, Turmeric, Ashwagandha, Rhodiola rosea, Bilberry, Black Pepper)
+  - 10 ingredients for Conka Clarity (Vitamin C, Alpha GPC, Glutathione, NAC, ALCAR, Ginkgo Biloba, Lecithin, Lemon Oil, ALA, B12)
+  - Each ingredient includes: scientific name, category, percentage, mechanism of action, key stats, benefits, clinical studies, safety profile, synergies
+  - Helper functions: `getIngredientsByFormula()`, `getIngredientById()`, `getAllIngredients()`
+  - Category info with colors for visual identification
+
+#### New Components (`app/components/ingredients/`):
+- **`IngredientsPageDesktop.tsx`** - Desktop layout with split-view
+  - Left side: Sticky ingredient image with percentage badge, chemical structure placeholder
+  - Right side: Scrollable content with header, stats, mechanism, benefits, studies, safety
+  - Horizontal pill navigation for ingredient switching
+  
+- **`IngredientsPageMobile.tsx`** - Mobile layout with horizontal swipe carousel
+  - Top formula toggle (Conka Flow / Conka Clarity)
+  - Horizontal scrolling ingredient cards with images and percentages
+  - Long-form vertical scroll for selected ingredient details
+  - All sections adapted for mobile reading
+
+- **`IngredientCarousel.tsx`** - Horizontal swipe carousel for mobile ingredient selection
+  - Auto-scrolls to active ingredient
+  - Gradient fade edges for scroll indication
+  - "Swipe to explore" hint
+
+- **`IngredientSelector.tsx`** - Desktop pill navigation
+  - Color-coded category dots
+  - Active state with inverted colors
+  - Percentage badges on each pill
+
+- **`IngredientStats.tsx`** - 4-column grid of key statistics
+  - Large numbers with clinical font
+  - Source attribution for each stat
+
+- **`IngredientBenefits.tsx`** - Accordion-style benefits
+  - Icon mapping for 14+ benefit types
+  - Expandable descriptions
+
+- **`IngredientStudies.tsx`** - Clinical studies section
+  - Expandable study cards with metadata
+  - Participant count, duration, significance (P-value)
+  - Integrated bar charts for results visualization
+
+- **`StudyBarChart.tsx`** - Recharts bar chart component
+  - Baseline vs Result grouped bars
+  - Clinical styling matching site aesthetic
+
+#### New Page:
+- **`app/ingredients/page.tsx`** - Main ingredients page
+  - Formula toggle between Conka Flow and Conka Clarity
+  - Responsive desktop/mobile rendering
+  - Full navigation and footer
+  - Cart drawer integration
+
+#### Design Patterns:
+- Follows neo-brutalist style guide with `neo-box`, `neo-box-inverted`
+- Uses `font-clinical` for data, `font-commentary` for annotations
+- Formula colors: Teal for Flow, Amber for Clarity
+- Category colors: Adaptogen (emerald), Nootropic (purple), Vitamin (orange), Amino Acid (blue), Antioxidant (red)
+- Mobile horizontal scroll with `scrollbar-hide` utility
+
+---
+
 ### 10:46 - Product Renaming: Formula 01/02 → Conka Flow/Clarity
 Comprehensive renaming of all product references throughout the application.
 

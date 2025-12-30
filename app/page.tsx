@@ -360,7 +360,7 @@ export default function Home() {
                 <span className="font-clinical text-xs opacity-30">•</span>
                 <a href="/#results" className="font-clinical text-xs hover:opacity-70 transition-all">Results</a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/#story" className="font-clinical text-xs hover:opacity-70 transition-all">Our Story</a>
+                <a href="/our-story" className="font-clinical text-xs hover:opacity-70 transition-all">Our Story</a>
               </nav>
               
               <p className="font-commentary text-xs opacity-60">built with love ♥</p>
