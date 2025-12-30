@@ -1,129 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import KeyBenefits, { Benefit } from "./components/KeyBenefits";
 import CaseStudies from "./components/CaseStudies";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import ProtocolBuilder from "./components/ProtocolBuilder";
 import TrialPacks from "./components/TrialPacks";
-
-// Formula content data
-const formulaContent = {
-  "01": {
-    name: "Formula 01",
-    tagline: "Caffeine-Free Focus",
-    patent: "Patented: GB2629279",
-    headline: "Unlock sustained clarity without the crash",
-    subheadline: "Designed for daily cognitive enhancement",
-    annotation: "your daily foundation",
-    ingredients: [
-      { name: "Lemon Balm", part: "Leaves", percentage: "26.7%" },
-      { name: "Turmeric", part: "Root", percentage: "25.4%" },
-      { name: "Ashwagandha", part: "Plant", percentage: "26.7%" },
-      { name: "Rhodiola rosea", part: "Root", percentage: "9.4%" },
-      { name: "Bilberry", part: "Berries", percentage: "9.4%" },
-      { name: "Black Pepper", part: "Root", percentage: "0.5%" },
-    ],
-    taste: "Citrus",
-    benefits: [
-      {
-        title: "Improved Focus",
-        stat: "+22.1%",
-        annotation: "tested across 125 clinical trials",
-        description: "Enhanced concentration without stimulants",
-      },
-      {
-        title: "Better Sleep Quality",
-        stat: "+31.4%",
-        annotation: "university of exeter study",
-        description: "Deeper REM cycles and improved recovery",
-      },
-      {
-        title: "Reduced Brain Fog",
-        stat: "+18.7%",
-        annotation: "peer reviewed research",
-        description: "Clearer thinking throughout the day",
-      },
-      {
-        title: "Decrease Anxiety",
-        stat: "+24.2%",
-        annotation: "adaptogens at work",
-        description: "Better response to daily stressors",
-      },
-    ],
-    clinicalResults: [
-      { metric: "Processing Speed", value: "+22.1%", pValue: "P<0.01", gender: "men" },
-      { metric: "Processing Speed", value: "+33.5%", pValue: "P<0.01", gender: "women" },
-      { metric: "Accuracy", value: "+10.8%", pValue: "P<0.01", gender: "men" },
-      { metric: "Accuracy", value: "+13.4%", pValue: "P=0.42", gender: "women" },
-      { metric: "Cognitive Index", value: "+16.5%", pValue: "P<0.05", gender: "men" },
-      { metric: "Cognitive Index", value: "+23.4%", pValue: "P<0.05", gender: "women" },
-    ],
-  },
-  "02": {
-    name: "Formula 02",
-    tagline: "Peak Performance Boost",
-    headline: "Elevate your performance when it matters most",
-    subheadline: "Strategic enhancement for high-stakes moments",
-    annotation: "your competitive edge",
-    ingredients: [
-      { name: "Vitamin C", part: "", percentage: "50.46%" },
-      { name: "Alpha GPC", part: "Seeds", percentage: "16.11%" },
-      { name: "Glutathione", part: "Amino acid", percentage: "10.07%" },
-      { name: "N-Acetyl Cysteine", part: "Amino acid", percentage: "10.07%" },
-      { name: "Acetyl-L-Carnitine", part: "Amino acid", percentage: "5.04%" },
-      { name: "Ginkgo Biloba", part: "Leaves", percentage: "3.02%" },
-      { name: "Lecithin", part: "Seeds", percentage: "1.51%" },
-      { name: "Lemon essential oil", part: "natural flavouring", percentage: "0.60%" },
-      { name: "Alpha Lipoic Acid (ALA)", part: "Fatty acid", percentage: "0.20%" },
-      { name: "Vitamin B12", part: "(bacterial fermentation)", percentage: "0.03%" },
-    ],
-    taste: "Lemons",
-    benefits: [
-      {
-        title: "Reaction Time",
-        stat: "-47ms",
-        annotation: "measurable improvement",
-        description: "Faster cognitive response under pressure",
-      },
-      {
-        title: "Mental Endurance",
-        stat: "+38.2%",
-        annotation: "olympic athlete tested",
-        description: "Sustained peak performance longer",
-      },
-      {
-        title: "Memory Recall",
-        stat: "+27.9%",
-        annotation: "double-blind study",
-        description: "Enhanced short-term memory access",
-      },
-      {
-        title: "Neural Connectivity",
-        stat: "+19.3%",
-        annotation: "neuroimaging confirmed",
-        description: "Improved brain region communication",
-      },
-    ],
-    clinicalResults: [
-      { metric: "Reaction Time", value: "-47ms", pValue: "P<0.001", gender: "all" },
-      { metric: "Working Memory", value: "+27.9%", pValue: "P<0.01", gender: "all" },
-      { metric: "Executive Function", value: "+21.3%", pValue: "P<0.05", gender: "men" },
-      { metric: "Executive Function", value: "+19.8%", pValue: "P<0.05", gender: "women" },
-      { metric: "Mental Fatigue Onset", value: "+45min", pValue: "P<0.01", gender: "all" },
-      { metric: "Peak Performance Duration", value: "+38.2%", pValue: "P<0.01", gender: "all" },
-    ],
-  },
-};
+import Ingredients from "./components/Ingredients";
+import ProductSlideshowMobile from "./components/ProductSlideshowMobile";
 
 const athletes = [
   {
     name: "Marcus Chen",
     sport: "Olympic Swimming",
     achievement: "3x Gold Medalist",
-    protocol: "Formula 01 daily + Formula 02 on competition days",
+    protocol: "Conka Flow daily + Conka Clarity on competition days",
     duration: "18 months",
     results: ["+12% lap consistency", "-0.3s average time", "Zero crashes"],
     quote: "Finally found something that works without the jitters",
@@ -132,7 +24,7 @@ const athletes = [
     name: "Sarah Okonkwo",
     sport: "Professional Rugby",
     achievement: "England National Team",
-    protocol: "Formula 01 daily (28-day cycle)",
+    protocol: "Conka Flow daily (28-day cycle)",
     duration: "12 months",
     results: ["+18% decision accuracy", "Better post-match recovery", "Improved sleep scores"],
     quote: "The clarity during matches is unreal",
@@ -141,7 +33,7 @@ const athletes = [
     name: "James Torres",
     sport: "Esports",
     achievement: "World Championship Finalist",
-    protocol: "Formula 02 before tournaments",
+    protocol: "Conka Clarity before tournaments",
     duration: "8 months",
     results: ["+23% reaction time", "6+ hour focus sessions", "Reduced mental fatigue"],
     quote: "My edge in the final rounds",
@@ -202,19 +94,13 @@ const faqItems = [
     ), 
     category: "Usage", 
     question: "When should I take it?", 
-    answer: "Formula 01 is best taken in the morning with or without food. Formula 02 is best 30-60 minutes before you need peak performance." 
+    answer: "Conka Flow is best taken in the morning with or without food. Conka Clarity is best 30-60 minutes before you need peak performance." 
   },
 ];
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
-  const [activeFormula, setActiveFormula] = useState<"01" | "02">("01");
-
-  // Use Formula 01 content as base (unified page)
-  const formula01 = formulaContent["01"];
-  const formula02 = formulaContent["02"];
-  const currentFormula = formulaContent[activeFormula];
 
   // Key Benefits Data
   const keyBenefits: Benefit[] = [
@@ -346,162 +232,35 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen theme-formula-01 lg:pt-20"
+      className="min-h-screen theme-conka-flow lg:pt-20"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* ===== SECTION 1: HERO ===== */}
       <Navigation cartOpen={cartOpen} setCartOpen={setCartOpen} />
       <Hero />
 
+      {/* ===== SECTION 1.5: PRODUCT SLIDESHOW (MOBILE ONLY) ===== */}
+      <ProductSlideshowMobile />
+
       {/* ===== SECTION 2: KEY BENEFITS SLIDESHOW ===== */}
       <KeyBenefits benefits={keyBenefits} />
 
       {/* ===== SECTION 3: INGREDIENTS ===== */}
-      <section className="px-6 md:px-16 py-24">
-        <div className="max-w-6xl mx-auto">
-          {/* Header with Toggle */}
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Ingredients & Taste</h2>
-              <p className="font-commentary text-xl">what&apos;s inside</p>
-            </div>
-            {/* Formula Toggle */}
-            <div className="flex gap-3">
-              <button
-                onClick={() => setActiveFormula("01")}
-                className={`px-6 py-2 rounded-full border-2 border-black transition-all ${
-                  activeFormula === "01"
-                    ? "bg-black text-white"
-                    : "bg-transparent text-black hover:bg-black/10"
-                }`}
-              >
-                <span className="font-clinical text-sm font-medium">Formula 01</span>
-              </button>
-              <button
-                onClick={() => setActiveFormula("02")}
-                className={`px-6 py-2 rounded-full border-2 border-black transition-all ${
-                  activeFormula === "02"
-                    ? "bg-black text-white"
-                    : "bg-transparent text-black hover:bg-black/10"
-                }`}
-              >
-                <span className="font-clinical text-sm font-medium">Formula 02</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-12 items-start">
-            {/* Left: Image */}
-            <div className="md:w-1/2">
-              {activeFormula === "01" ? (
-                <div className="relative w-full h-80 md:h-[450px]">
-                  <Image
-                    src="/tumeric.jpg"
-                    alt="Turmeric ingredient"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              ) : (
-                <div className="placeholder-box w-full h-80 md:h-[450px]">
-                  <span className="font-clinical text-sm">[INGREDIENT IMAGE]</span>
-                </div>
-              )}
-            </div>
-
-            {/* Right: Formula Box */}
-            <div className="md:w-1/2">
-              <div className="neo-box">
-                <div className="neo-box-inverted p-4 flex justify-between items-center">
-                  <h3 className="text-2xl font-bold">{currentFormula.name}</h3>
-                  {'patent' in currentFormula && currentFormula.patent ? (
-                    <span className="font-clinical text-sm">{currentFormula.patent}</span>
-                  ) : (
-                    <span className="font-commentary text-lg">{currentFormula.tagline}</span>
-                  )}
-                </div>
-                
-                <div className="p-6">
-                  <p className="font-clinical text-sm mb-4 opacity-70">FORMULA BREAKDOWN</p>
-                  
-                  <div className="space-y-3">
-                    {currentFormula.ingredients.map((ing, idx) => (
-                      <div key={idx} className="flex justify-between items-center py-2 border-b border-current border-opacity-20 last:border-0">
-                        <div>
-                          <span className="font-medium">{ing.name}</span>
-                          {ing.part && (
-                            <span className="font-clinical text-sm opacity-70 ml-2">– {ing.part}</span>
-                          )}
-                        </div>
-                        <span className="font-clinical font-medium">{ing.percentage}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-6 pt-6 border-t-2 border-current border-opacity-20">
-                    <div className="flex justify-between items-center">
-                      <p className="font-clinical text-sm opacity-70">tastes like</p>
-                      <p className="font-commentary text-xl">{currentFormula.taste}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Benefits Grid */}
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 mb-3 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
-              </div>
-              <p className="font-clinical text-sm font-medium">Antioxidant Heavy</p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 mb-3 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M9 12l2 2 4-4"/>
-                </svg>
-              </div>
-              <p className="font-clinical text-sm font-medium">Zero Calories</p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 mb-3 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
-                  <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-                  <line x1="6" y1="1" x2="6" y2="4"/>
-                  <line x1="10" y1="1" x2="10" y2="4"/>
-                  <line x1="14" y1="1" x2="14" y2="4"/>
-                  <line x1="2" y1="8" x2="22" y2="8"/>
-                </svg>
-              </div>
-              <p className="font-clinical text-sm font-medium">No Caffeine</p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 mb-3 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
-                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-                </svg>
-              </div>
-              <p className="font-clinical text-sm font-medium">Vegan Friendly</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Ingredients />
 
       {/* ===== SECTION 5: CASE STUDIES ===== */}
       <CaseStudies athletes={athletes} />
 
       {/* ===== SECTION 6: PROTOCOL BUILDER ===== */}
-      <ProtocolBuilder />
+      <div id="protocols">
+        <ProtocolBuilder />
+      </div>
 
       {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
       <TrialPacks />
+
+      {/* ===== SECTION 6.6: PRODUCT SLIDESHOW (MOBILE ONLY) ===== */}
+      <ProductSlideshowMobile />
 
       {/* ===== SECTION 7: FOUNDERS ===== */}
       <section className="px-6 md:px-16 py-24">
@@ -536,7 +295,7 @@ export default function Home() {
           </div>
 
           <div className="mt-12 text-center">
-            <button className="neo-button-outline px-8 py-4 font-semibold text-lg">
+            <button className="neo-button-outline px-6 py-2.5 font-semibold text-base">
               the story of CONKA
             </button>
           </div>
@@ -550,16 +309,16 @@ export default function Home() {
           <p className="font-commentary text-xl mb-12 text-center">we&apos;ve got answers</p>
 
           {/* Icon Row */}
-          <div className="flex justify-center gap-4 mb-8 flex-wrap">
+          <div className="flex justify-center gap-2 mb-8 flex-wrap">
             {faqItems.map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
-                className={`px-5 py-4 rounded-full border-2 border-current transition-all flex flex-col items-center ${
-                  expandedFaq === idx ? "bg-[var(--foreground)] text-[var(--background)]" : "bg-transparent hover:bg-current/10"
+                className={`px-4 py-2 rounded-lg border-2 transition-all flex items-center gap-2 ${
+                  expandedFaq === idx ? "bg-[var(--foreground)] text-[var(--background)] border-current" : "border-current/30 hover:border-current/60"
                 }`}
               >
-                <div className="w-6 h-6 mb-1 flex items-center justify-center">
+                <div className="w-4 h-4 flex items-center justify-center">
                   {item.icon}
                 </div>
                 <p className="font-clinical text-xs">{item.category}</p>
@@ -584,40 +343,57 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="px-6 md:px-16 py-16">
+      <footer className="px-6 md:px-16 py-12 border-t-2 border-current border-opacity-10">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col lg:flex-row justify-between gap-12">
+          <div className="flex flex-col lg:flex-row justify-between gap-8">
             {/* Left Side */}
-            <div className="flex flex-col gap-6">
-              <span className="text-xl md:text-2xl font-bold tracking-tight font-primary">conka.</span>
+            <div className="flex flex-col gap-4">
+              <a href="/" className="text-xl font-bold tracking-tight font-primary hover:opacity-70 transition-all">
+                conka.
+              </a>
               
               {/* Mini Nav */}
               <nav className="flex flex-wrap items-center gap-2">
-                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">The Science</a>
-                <span className="font-clinical text-sm opacity-30">•</span>
-                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">Ingredients</a>
-                <span className="font-clinical text-sm opacity-30">•</span>
-                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">Results</a>
-                <span className="font-clinical text-sm opacity-30">•</span>
-                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">Our Story</a>
-                <span className="font-clinical text-sm opacity-30">•</span>
-                <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all">Shop</a>
+                <a href="/#science" className="font-clinical text-xs hover:opacity-70 transition-all">The Science</a>
+                <span className="font-clinical text-xs opacity-30">•</span>
+                <a href="/#ingredients" className="font-clinical text-xs hover:opacity-70 transition-all">Ingredients</a>
+                <span className="font-clinical text-xs opacity-30">•</span>
+                <a href="/#results" className="font-clinical text-xs hover:opacity-70 transition-all">Results</a>
+                <span className="font-clinical text-xs opacity-30">•</span>
+                <a href="/#story" className="font-clinical text-xs hover:opacity-70 transition-all">Our Story</a>
               </nav>
               
-              <p className="font-clinical text-sm opacity-70">
-                Patent #GB2620279 • 125 Clinical Trials • £500,000+ in Research
-              </p>
-              <p className="font-commentary text-sm">built with love ♥</p>
+              <p className="font-commentary text-xs opacity-60">built with love ♥</p>
             </div>
 
-            {/* Right Side - CTA */}
-            <div className="flex flex-col items-start lg:items-end gap-4">
-              <p className="font-commentary text-xl lg:text-right">ready to unlock your potential?</p>
-              <button className="neo-button px-8 py-3 font-bold text-base">
-                buy CONKA
-              </button>
-              <p className="font-clinical text-sm opacity-70 lg:text-right">
-                100 day money-back guarantee
+            {/* Right Side - CTAs */}
+            <div className="flex flex-col items-start lg:items-end gap-3">
+              <div className="flex gap-3">
+                <a 
+                  href="/quiz" 
+                  className="neo-button-outline px-5 py-2 font-semibold text-sm flex items-center gap-2"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                  Find Your Protocol
+                </a>
+                <a 
+                  href="#protocols" 
+                  className="neo-button px-5 py-2 font-semibold text-sm flex items-center gap-2"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="9" cy="21" r="1"/>
+                    <circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  </svg>
+                  Buy Conka
+                </a>
+              </div>
+              <p className="font-clinical text-xs opacity-50">
+                100-day money-back guarantee
               </p>
             </div>
           </div>

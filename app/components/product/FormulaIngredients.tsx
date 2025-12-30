@@ -11,7 +11,7 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
   const formula = formulaContent[formulaId];
   const accentColor = FORMULA_COLORS[formulaId];
 
-  // Image path - using turmeric for Formula 01, placeholder for 02
+  // Image path - using turmeric for Conka Flow, placeholder for 02
   const ingredientImage = formulaId === "01" ? "/tumeric.jpg" : null;
 
   return (

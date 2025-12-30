@@ -32,23 +32,23 @@ The color system uses CSS variables for theming and consistency:
 --color-black: #000000;
 --color-white: #ffffff;
 --color-teal: #14b8a6;
---background: var(--color-white);  /* Formula 01: white, Formula 02: black */
---foreground: var(--color-black);  /* Formula 01: black, Formula 02: white */
+--background: var(--color-white);  /* Conka Flow: white, Conka Clarity: black */
+--foreground: var(--color-black);  /* Conka Flow: black, Conka Clarity: white */
 ```
 
 ### Formula-Specific Colors
-- **Formula 01:** Teal (`#14b8a6`, `bg-teal-500`) - Always teal for identification
-- **Formula 02:** Amber (`bg-amber-500`) - Always amber for identification
+- **Conka Flow:** Teal (`#14b8a6`, `bg-teal-500`) - Always teal for identification
+- **Conka Clarity:** Amber (`bg-amber-500`) - Always amber for identification
 - **Usage:** These colors are used consistently for formula visualization, calendar days, and product identification
 
 ### Accent Color
-- **Teal:** `#14B8A6` - Used sparingly for highlights, underlines, icon accents, and Formula 01 identification
+- **Teal:** `#14B8A6` - Used sparingly for highlights, underlines, icon accents, and Conka Flow identification
 
 ### Product-Specific Modes
-- **Formula 01 Theme:** Light mode (white background, black text)
-  - `.theme-formula-01` class sets `--background: white`, `--foreground: black`
-- **Formula 02 Theme:** Dark mode (black background, white text)
-  - `.theme-formula-02` class sets `--background: black`, `--foreground: white`
+- **Conka Flow Theme:** Light mode (white background, black text)
+  - `.theme-conka-flow` class sets `--background: white`, `--foreground: black`
+- **Conka Clarity Theme:** Dark mode (black background, white text)
+  - `.theme-conka-clarity` class sets `--background: black`, `--foreground: white`
 
 ---
 
@@ -72,7 +72,7 @@ The color system uses CSS variables for theming and consistency:
 
 **Example Usage:**
 - Brand name: "conka." (`text-2xl md:text-3xl font-bold`)
-- Product names: "Formula 01", "Formula 02"
+- Product names: "Conka Flow", "Conka Clarity"
 - Headings: `text-3xl md:text-4xl font-bold`
 - Body text: Default Poppins
 - Button labels: `font-semibold` or `font-bold`
@@ -190,7 +190,7 @@ The color system uses CSS variables for theming and consistency:
       : "bg-transparent hover:bg-current/10"
   }`}
 >
-  <span className="font-clinical text-sm font-medium">Formula 01</span>
+  <span className="font-clinical text-sm font-medium">Conka Flow</span>
 </button>
 ```
 
@@ -324,14 +324,14 @@ The color system uses CSS variables for theming and consistency:
 
 ### Protocol Builder Patterns
 - **Calendar Visualization:** Color-coded days using formula colors
-  - Formula 01 days: `bg-teal-500 text-white`
-  - Formula 02 days: `bg-amber-500 text-white`
+  - Conka Flow days: `bg-teal-500 text-white`
+  - Conka Clarity days: `bg-amber-500 text-white`
   - Rest days: `border-2 border-current opacity-20`
 - **Tier Selection:** Pill-shaped buttons with active state
 - **Path Cards:** Interactive boxes with hover shadow effects
 
 ### Formula Visualization
-- **Consistent Colors:** Formula 01 = Teal, Formula 02 = Amber (always)
+- **Consistent Colors:** Conka Flow = Teal, Conka Clarity = Amber (always)
 - **Calendar Days:** Rounded corners (`rounded-md`) for calendar cells
 - **Formula Badges:** Rounded squares (`rounded-md`) with formula number
 
@@ -364,8 +364,8 @@ The color system uses CSS variables for theming and consistency:
 ## Product Information
 
 ### Products
-- **Formula 01** - Light mode theme, Teal identifier
-- **Formula 02** - Dark mode theme, Amber identifier
+- **Conka Flow** - Light mode theme, Teal identifier
+- **Conka Clarity** - Dark mode theme, Amber identifier
 
 ### Purchase Options
 - **One-time purchase** - Trial packs, single orders
@@ -378,9 +378,9 @@ The color system uses CSS variables for theming and consistency:
 - 28-pack
 
 ### Bundle Paths
-1. **Path 1:** Formula 01 (daily) + Formula 02 (weekly)
-2. **Path 2:** Formula 02 (daily) + Formula 01 (weekly)
-3. **Path 3:** Formula 01 & Formula 02 (balanced/alternating)
+1. **Path 1:** Conka Flow (daily) + Conka Clarity (weekly)
+2. **Path 2:** Conka Clarity (daily) + Conka Flow (weekly)
+3. **Path 3:** Conka Flow & Conka Clarity (balanced/alternating)
 
 ### Protocol Tiers
 - **Starter:** 3-4 doses per week
@@ -418,8 +418,8 @@ All styling uses CSS variables for theming and consistency:
 ```
 
 ### Theme Classes
-- `.theme-formula-01` - Sets light mode (white bg, black text)
-- `.theme-formula-02` - Sets dark mode (black bg, white text)
+- `.theme-conka-flow` - Sets light mode (white bg, black text)
+- `.theme-conka-clarity` - Sets dark mode (black bg, white text)
 - Theme transitions: `transition: background-color 500ms ease-in-out, color 500ms ease-in-out`
 
 ### Accessibility
@@ -439,8 +439,8 @@ All styling uses CSS variables for theming and consistency:
 - **This contrast creates visual hierarchy and guides user interaction**
 
 ### Color Consistency
-- **Formula 01 = Teal** - Always use teal (`#14b8a6`, `bg-teal-500`) for Formula 01
-- **Formula 02 = Amber** - Always use amber (`bg-amber-500`) for Formula 02
+- **Conka Flow = Teal** - Always use teal (`#14b8a6`, `bg-teal-500`) for Conka Flow
+- **Conka Clarity = Amber** - Always use amber (`bg-amber-500`) for Conka Clarity
 - **Never swap these colors** - Consistency is critical for user understanding
 
 ### White Space

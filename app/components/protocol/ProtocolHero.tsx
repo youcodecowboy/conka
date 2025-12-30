@@ -92,7 +92,7 @@ export default function ProtocolHero({
             <div className="sticky top-24">
               <div className="relative w-full aspect-square max-w-2xl mx-auto scale-[2] origin-center z-0">
                 <Image
-                  src="/protocol.png"
+                  src="/main.jpg"
                   alt={`${protocol.name} - Both formulas`}
                   fill
                   className="object-contain"
@@ -162,9 +162,9 @@ export default function ProtocolHero({
                         </div>
                         <div>
                           <p className="font-bold text-[var(--foreground)]">
-                            {tierConfig.formula01Count}x Formula 01
+                            {tierConfig.conkaFlowCount}x Conka Flow
                           </p>
-                          <a href="/formula-01" className="font-clinical text-xs text-[#AAB9BC] hover:underline">
+                          <a href="/conka-flow" className="font-clinical text-xs text-[#AAB9BC] hover:underline">
                             Learn more →
                           </a>
                         </div>
@@ -175,9 +175,9 @@ export default function ProtocolHero({
                         </div>
                         <div>
                           <p className="font-bold text-[var(--foreground)]">
-                            {tierConfig.formula02Count}x Formula 02
+                            {tierConfig.conkaClarityCount}x Conka Clarity
                           </p>
-                          <a href="/formula-02" className="font-clinical text-xs text-amber-500 hover:underline">
+                          <a href="/conka-clarity" className="font-clinical text-xs text-amber-500 hover:underline">
                             Learn more →
                           </a>
                         </div>

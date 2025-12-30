@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import useIsMobile from "../hooks/useIsMobile";
+import TrialPacksMobile from "./TrialPacksMobile";
 
 type FormulaType = "01" | "02";
 type PackSize = "4" | "8" | "12";
@@ -13,7 +15,7 @@ const packPricing: Record<PackSize, string> = {
 
 const formulaExplanations = {
   "01": {
-    title: "Formula 01",
+    title: "Conka Flow",
     subtitle: "Caffeine-Free Focus",
     description: "Daily adaptogen support with Ashwagandha and Rhodiola builds stress resilience and recovery. Perfect for sustained focus without the crash.",
     keyPoints: [
@@ -24,7 +26,7 @@ const formulaExplanations = {
     ]
   },
   "02": {
-    title: "Formula 02",
+    title: "Conka Clarity",
     subtitle: "Peak Performance Boost",
     description: "Cognitive enhancers like Alpha GPC and Vitamin C build your neurological foundation. Designed for when you need peak performance.",
     keyPoints: [
@@ -37,8 +39,14 @@ const formulaExplanations = {
 };
 
 export default function TrialPacks() {
+  const isMobile = useIsMobile();
   const [selectedFormula, setSelectedFormula] = useState<FormulaType>("01");
   const [selectedPack, setSelectedPack] = useState<PackSize>("4");
+
+  // Render mobile version on smaller screens
+  if (isMobile) {
+    return <TrialPacksMobile />;
+  }
 
   return (
     <section className="px-6 md:px-16 py-24">
@@ -61,7 +69,7 @@ export default function TrialPacks() {
                   : "bg-transparent hover:bg-current/10"
               }`}
             >
-              <span className="font-clinical text-sm font-medium">Formula 01</span>
+              <span className="font-clinical text-sm font-medium">Conka Flow</span>
             </button>
             <button
               onClick={() => setSelectedFormula("02")}
@@ -71,7 +79,7 @@ export default function TrialPacks() {
                   : "bg-transparent hover:bg-current/10"
               }`}
             >
-              <span className="font-clinical text-sm font-medium">Formula 02</span>
+              <span className="font-clinical text-sm font-medium">Conka Clarity</span>
             </button>
           </div>
         </div>

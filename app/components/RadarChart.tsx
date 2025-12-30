@@ -14,8 +14,8 @@ export default function RadarChart({ data, mainValue }: RadarChartProps) {
         <ResponsiveContainer width="100%" height="100%">
           <RechartsRadarChart 
             data={data}
-            outerRadius="68%"
-            margin={{ top: 30, right: 50, bottom: 30, left: 50 }}
+            outerRadius="60%"
+            margin={{ top: 40, right: 60, bottom: 40, left: 60 }}
           >
           <PolarGrid 
             stroke="currentColor" 

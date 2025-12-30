@@ -2,17 +2,19 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import useIsMobile from "../hooks/useIsMobile";
+import ProtocolBuilderMobile from "./ProtocolBuilderMobile";
 
-type PathType = "path1" | "path2" | "path3" | null;
-type ProtocolTier = "starter" | "pro" | "max";
+export type PathType = "path1" | "path2" | "path3" | "path4" | null;
+export type ProtocolTier = "starter" | "pro" | "max";
 
 // Formula colors - ALWAYS consistent regardless of path
-const FORMULA_COLORS = {
-  "01": "bg-[#AAB9BC]", // Formula 01 is ALWAYS teal
-  "02": "bg-amber-500", // Formula 02 is ALWAYS amber
+export const FORMULA_COLORS = {
+  "01": "bg-[#AAB9BC]", // Conka Flow is ALWAYS teal
+  "02": "bg-amber-500", // Conka Clarity is ALWAYS amber
 };
 
-interface PathInfo {
+export interface PathInfo {
   id: PathType;
   title: string;
   subtitle: string;
@@ -23,13 +25,15 @@ interface PathInfo {
   description: string;
   benefits: string[];
   isBalanced?: boolean; // for path3
+  isUltimate?: boolean; // for path4 - both formulas daily
+  availableTiers?: ProtocolTier[]; // restrict which tiers are available
 }
 
-const pathData: Record<Exclude<PathType, null>, PathInfo> = {
+export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   path1: {
     id: "path1",
-    title: "Path 1",
-    subtitle: "Formula 01 Daily • Formula 02 Weekly",
+    title: "Protocol 1",
+    subtitle: "Conka Flow Daily • Conka Clarity Weekly",
     primaryFormula: "01",
     secondaryFormula: "02",
     icon: (
@@ -38,7 +42,7 @@ const pathData: Record<Exclude<PathType, null>, PathInfo> = {
       </svg>
     ),
     bestFor: ["Recovery Focus", "Stress Management", "Daily Wellness"],
-    description: "Daily adaptogen support with Formula 01's Ashwagandha and Rhodiola builds stress resilience and recovery. Weekly Formula 02 boosts provide peak cognitive performance when you need it most.",
+    description: "Daily adaptogen support with Conka Flow's Ashwagandha and Rhodiola builds stress resilience and recovery. Weekly Conka Clarity boosts provide peak cognitive performance when you need it most.",
     benefits: [
       "Better stress response (-24% cortisol)",
       "Reduced brain fog & faster recovery",
@@ -48,8 +52,8 @@ const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   },
   path2: {
     id: "path2",
-    title: "Path 2",
-    subtitle: "Formula 02 Daily • Formula 01 Weekly",
+    title: "Protocol 2",
+    subtitle: "Conka Clarity Daily • Conka Flow Weekly",
     primaryFormula: "02",
     secondaryFormula: "01",
     icon: (
@@ -58,7 +62,7 @@ const pathData: Record<Exclude<PathType, null>, PathInfo> = {
       </svg>
     ),
     bestFor: ["Peak Performance", "Mental Endurance", "Cognitive Enhancement"],
-    description: "Front-load with cognitive enhancers for sustained mental endurance. Formula 02's Alpha GPC and Vitamin C build your neurological foundation, while weekly Formula 01 adaptogens prevent burnout.",
+    description: "Front-load with cognitive enhancers for sustained mental endurance. Conka Clarity's Alpha GPC and Vitamin C build your neurological foundation, while weekly Conka Flow adaptogens prevent burnout.",
     benefits: [
       "Sustained focus during long sessions",
       "Enhanced mental endurance (+38%)",
@@ -68,8 +72,8 @@ const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   },
   path3: {
     id: "path3",
-    title: "Path 3",
-    subtitle: "Formula 01 & Formula 02 Balanced",
+    title: "Protocol 3",
+    subtitle: "Conka Flow & Conka Clarity Balanced",
     primaryFormula: "01",
     secondaryFormula: "02",
     isBalanced: true,
@@ -81,17 +85,39 @@ const pathData: Record<Exclude<PathType, null>, PathInfo> = {
       </svg>
     ),
     bestFor: ["Balanced Approach", "All-Rounders", "Hybrid Athletes"],
-    description: "The best of both worlds. Alternate between Formula 01 and Formula 02 for comprehensive cognitive support. Perfect for those who want the full spectrum of benefits without committing to one dominant formula.",
+    description: "The best of both worlds. Alternate between Conka Flow and Conka Clarity for comprehensive cognitive support. Perfect for those who want the full spectrum of benefits without committing to one dominant formula.",
     benefits: [
       "Complete cognitive coverage",
       "Adaptogen + nootropic synergy",
       "Flexible scheduling",
       "Holistic brain optimization"
     ]
+  },
+  path4: {
+    id: "path4",
+    title: "Protocol 4",
+    subtitle: "Both Formulas Daily",
+    primaryFormula: "01",
+    secondaryFormula: "02",
+    isUltimate: true,
+    availableTiers: ["pro", "max"],
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+      </svg>
+    ),
+    bestFor: ["Elite Performance", "Maximum Results", "No Compromise"],
+    description: "Maximum cognitive enhancement with both Conka Flow and Conka Clarity every single day. This is the most comprehensive protocol for those who demand peak performance in every aspect of their cognitive function.",
+    benefits: [
+      "Daily adaptogen + nootropic stack",
+      "Peak energy AND clarity every day",
+      "Maximum neurological support",
+      "The complete cognitive toolkit"
+    ]
   }
 };
 
-const protocolTiers: Record<ProtocolTier, { name: string; primaryCount: number; secondaryCount: number; description: string }> = {
+export const protocolTiers: Record<ProtocolTier, { name: string; primaryCount: number; secondaryCount: number; description: string }> = {
   starter: {
     name: "Starter",
     primaryCount: 3,
@@ -113,37 +139,65 @@ const protocolTiers: Record<ProtocolTier, { name: string; primaryCount: number; 
 };
 
 // For balanced path (Path 3)
-const balancedTiers: Record<ProtocolTier, { name: string; formula01Count: number; formula02Count: number; description: string }> = {
+export const balancedTiers: Record<ProtocolTier, { name: string; conkaFlowCount: number; conkaClarityCount: number; description: string }> = {
   starter: {
     name: "Starter",
-    formula01Count: 2,
-    formula02Count: 2,
+    conkaFlowCount: 2,
+    conkaClarityCount: 2,
     description: "Gentle introduction with balanced formulas"
   },
   pro: {
     name: "Pro",
-    formula01Count: 3,
-    formula02Count: 3,
+    conkaFlowCount: 3,
+    conkaClarityCount: 3,
     description: "Balanced weekly coverage"
   },
   max: {
     name: "Max",
-    formula01Count: 4,
-    formula02Count: 3,
+    conkaFlowCount: 4,
+    conkaClarityCount: 3,
     description: "Maximum balanced coverage"
   }
 };
 
+// For ultimate path (Path 4) - both formulas daily
+export const ultimateTiers: Record<"pro" | "max", { name: string; conkaFlowCount: number; conkaClarityCount: number; description: string }> = {
+  pro: {
+    name: "Pro",
+    conkaFlowCount: 6,
+    conkaClarityCount: 6,
+    description: "Bi-weekly delivery of the full stack"
+  },
+  max: {
+    name: "Max",
+    conkaFlowCount: 7,
+    conkaClarityCount: 7,
+    description: "Daily coverage of both formulas"
+  }
+};
+
 // Pricing data
-const pricingData: Record<ProtocolTier, { price: string; billingCycle: string }> = {
+export const pricingData: Record<ProtocolTier, { price: string; billingCycle: string }> = {
   starter: { price: "£15.99", billingCycle: "billed weekly" },
   pro: { price: "£39.99", billingCycle: "billed bi-weekly" },
   max: { price: "£79.99", billingCycle: "billed monthly" }
 };
 
+// Ultimate pricing (higher due to double formulas)
+export const ultimatePricingData: Record<"pro" | "max", { price: string; billingCycle: string }> = {
+  pro: { price: "£59.99", billingCycle: "billed bi-weekly" },
+  max: { price: "£99.99", billingCycle: "billed monthly" }
+};
+
 export default function ProtocolBuilder() {
+  const isMobile = useIsMobile();
   const [selectedPath, setSelectedPath] = useState<PathType>(null);
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
+
+  // Render mobile version on smaller screens
+  if (isMobile) {
+    return <ProtocolBuilderMobile />;
+  }
 
   const handlePathSelect = (path: PathType) => {
     setSelectedPath(path);
@@ -154,16 +208,35 @@ export default function ProtocolBuilder() {
   };
 
   const getOtherPaths = (currentPath: Exclude<PathType, null>): Exclude<PathType, null>[] => {
-    const allPaths: Exclude<PathType, null>[] = ["path1", "path2", "path3"];
+    const allPaths: Exclude<PathType, null>[] = ["path1", "path2", "path3", "path4"];
     return allPaths.filter(p => p !== currentPath);
   };
 
   // Generate calendar days for a 4-week view
   // Returns the actual formula ("01" or "02") for color consistency
   const generateCalendarDays = (tier: ProtocolTier, path: PathInfo) => {
-    const days: Array<{ day: number; formula: "01" | "02" | "rest" }> = [];
+    const days: Array<{ day: number; formula: "01" | "02" | "both" | "rest" }> = [];
     
-    if (path.isBalanced) {
+    if (path.isUltimate) {
+      // Ultimate path: both formulas every day (or most days)
+      for (let week = 0; week < 4; week++) {
+        for (let day = 0; day < 7; day++) {
+          const dayNum = week * 7 + day + 1;
+          
+          if (tier === "pro") {
+            // Pro ultimate (6+6): Mon-Sat both formulas, Sun rest
+            if (day >= 0 && day <= 5) {
+              days.push({ day: dayNum, formula: "both" });
+            } else {
+              days.push({ day: dayNum, formula: "rest" });
+            }
+          } else {
+            // Max ultimate (7+7): Every day both formulas
+            days.push({ day: dayNum, formula: "both" });
+          }
+        }
+      }
+    } else if (path.isBalanced) {
       // Balanced path: alternate between formulas, evenly distributed
       for (let week = 0; week < 4; week++) {
         for (let day = 0; day < 7; day++) {
@@ -246,7 +319,7 @@ export default function ProtocolBuilder() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Choose Your Protocol</h2>
-          <p className="font-commentary text-xl">two formulas, three paths</p>
+          <p className="font-commentary text-xl">two formulas, four paths</p>
         </div>
 
         {/* Path Selection View */}
@@ -257,16 +330,16 @@ export default function ProtocolBuilder() {
               <div className="relative w-full max-w-md h-64 md:h-80">
                 <Image
                   src="/3.png"
-                  alt="Conka Formula 01 and Formula 02"
+                  alt="Conka Conka Flow and Conka Clarity"
                   fill
                   className="object-contain"
                 />
               </div>
             </div>
 
-            {/* Path Cards - Three Columns */}
-            <div className="grid md:grid-cols-3 gap-6">
-              {(["path1", "path2", "path3"] as const).map((pathKey) => {
+            {/* Path Cards - Four Columns */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {(["path1", "path2", "path3", "path4"] as const).map((pathKey) => {
                 const path = pathData[pathKey];
                 return (
                   <button
@@ -309,11 +382,11 @@ export default function ProtocolBuilder() {
             <div className="flex justify-center gap-8 pt-4 flex-wrap">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-[#AAB9BC] rounded-sm"></div>
-                <span className="font-clinical text-sm">Formula 01 – Caffeine-Free Focus</span>
+                <span className="font-clinical text-sm">Conka Flow – Caffeine-Free Focus</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-amber-500 rounded-sm"></div>
-                <span className="font-clinical text-sm">Formula 02 – Peak Performance</span>
+                <span className="font-clinical text-sm">Conka Clarity – Peak Performance</span>
               </div>
             </div>
           </div>
@@ -407,7 +480,7 @@ export default function ProtocolBuilder() {
                           <span className="text-white font-clinical text-xs font-bold">01</span>
                         </div>
                         <span className="font-clinical text-sm">
-                          Formula 01 – Alternating Days
+                          Conka Flow – Alternating Days
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
@@ -415,7 +488,7 @@ export default function ProtocolBuilder() {
                           <span className="text-white font-clinical text-xs font-bold">02</span>
                         </div>
                         <span className="font-clinical text-sm">
-                          Formula 02 – Alternating Days
+                          Conka Clarity – Alternating Days
                         </span>
                       </div>
                     </>
@@ -478,7 +551,7 @@ export default function ProtocolBuilder() {
                     const isBalanced = pathData[selectedPath].isBalanced;
                     const tierData = isBalanced ? balancedTiers[tier] : protocolTiers[tier];
                     const countDisplay = isBalanced 
-                      ? `${balancedTiers[tier].formula01Count}+${balancedTiers[tier].formula02Count}`
+                      ? `${balancedTiers[tier].conkaFlowCount}+${balancedTiers[tier].conkaClarityCount}`
                       : `${protocolTiers[tier].primaryCount}+${protocolTiers[tier].secondaryCount}`;
                     
                     return (
@@ -505,8 +578,8 @@ export default function ProtocolBuilder() {
                       {(() => {
                         const isBalanced = pathData[selectedPath].isBalanced;
                         if (isBalanced) {
-                          const { formula01Count, formula02Count } = balancedTiers[selectedTier];
-                          return `${formula01Count * 4} × F01 + ${formula02Count * 4} × F02`;
+                          const { conkaFlowCount, conkaClarityCount } = balancedTiers[selectedTier];
+                          return `${conkaFlowCount * 4} × F01 + ${conkaClarityCount * 4} × F02`;
                         } else {
                           const { primaryCount, secondaryCount } = protocolTiers[selectedTier];
                           return `${primaryCount * 4} + ${secondaryCount * 4} doses`;
@@ -534,6 +607,8 @@ export default function ProtocolBuilder() {
                             ? "bg-[#AAB9BC] text-white"
                             : day.formula === "02"
                             ? "bg-amber-500 text-white"
+                            : day.formula === "both"
+                            ? "bg-gradient-to-br from-[#AAB9BC] to-amber-500 text-white"
                             : "border-2 border-current opacity-20"
                         }`}
                       >
@@ -546,11 +621,11 @@ export default function ProtocolBuilder() {
                   <div className="flex gap-6 mt-4 pt-4 border-t border-current border-opacity-20 flex-wrap">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded-sm bg-teal-500"></div>
-                      <span className="font-clinical text-xs">Formula 01</span>
+                      <span className="font-clinical text-xs">Conka Flow</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded-sm bg-amber-500"></div>
-                      <span className="font-clinical text-xs">Formula 02</span>
+                      <span className="font-clinical text-xs">Conka Clarity</span>
                     </div>
                   </div>
                 </div>

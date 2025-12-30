@@ -24,14 +24,14 @@
   --font-mono: var(--font-clinical);
 }
 
-/* Formula 01 Theme (Light Mode) */
-.theme-formula-01 {
+/* Conka Flow Theme (Light Mode) */
+.theme-conka-flow {
   --background: var(--color-white);
   --foreground: var(--color-black);
 }
 
-/* Formula 02 Theme (Light Mode) */
-.theme-formula-02 {
+/* Conka Clarity Theme (Light Mode) */
+.theme-conka-clarity {
   --background: var(--color-white);
   --foreground: var(--color-black);
 }
@@ -113,4 +113,30 @@ body {
   align-items: center;
   justify-content: center;
   opacity: 0.5;
+}
+
+/* Hide scrollbar utility for horizontal scroll carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Slide-up animation for sticky footers */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
 }

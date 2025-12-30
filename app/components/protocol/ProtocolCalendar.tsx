@@ -24,8 +24,8 @@ export default function ProtocolCalendar({
   if (!tierConfig) return null;
 
   // Calculate totals for the month (4 weeks)
-  const formula01Total = tierConfig.formula01Count * 4;
-  const formula02Total = tierConfig.formula02Count * 4;
+  const conkaFlowTotal = tierConfig.conkaFlowCount * 4;
+  const conkaClarityTotal = tierConfig.conkaClarityCount * 4;
 
   return (
     <section className="px-6 md:px-16 py-24">
@@ -45,7 +45,7 @@ export default function ProtocolCalendar({
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-bold">4-Week View</h3>
                 <span className="font-clinical text-sm opacity-70">
-                  {formula01Total}x F01 + {formula02Total}x F02
+                  {conkaFlowTotal}x F01 + {conkaClarityTotal}x F02
                 </span>
               </div>
 
@@ -84,13 +84,13 @@ export default function ProtocolCalendar({
                 <div className="flex items-center gap-2">
                   <div className={`w-4 h-4 rounded-sm ${FORMULA_COLORS["01"].bg}`}></div>
                   <span className="font-clinical text-xs">
-                    Formula 01 - Energy
+                    Conka Flow - Energy
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className={`w-4 h-4 rounded-sm ${FORMULA_COLORS["02"].bg}`}></div>
                   <span className="font-clinical text-xs">
-                    Formula 02 - Clarity
+                    Conka Clarity - Clarity
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -116,12 +116,12 @@ export default function ProtocolCalendar({
                   <span className="font-bold">{tierConfig.shotsPerWeek}</span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-current border-opacity-10">
-                  <span className="font-clinical text-sm">Formula 01</span>
-                  <span className="font-bold">{tierConfig.formula01Count}x weekly</span>
+                  <span className="font-clinical text-sm">Conka Flow</span>
+                  <span className="font-bold">{tierConfig.conkaFlowCount}x weekly</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="font-clinical text-sm">Formula 02</span>
-                  <span className="font-bold">{tierConfig.formula02Count}x weekly</span>
+                  <span className="font-clinical text-sm">Conka Clarity</span>
+                  <span className="font-bold">{tierConfig.conkaClarityCount}x weekly</span>
                 </div>
               </div>
             </div>
@@ -135,7 +135,7 @@ export default function ProtocolCalendar({
                     <span className="text-white text-xs font-bold">01</span>
                   </div>
                   <p className="font-clinical text-sm">
-                    Take Formula 01 in the morning for all-day energy
+                    Take Conka Flow in the morning for all-day energy
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -143,7 +143,7 @@ export default function ProtocolCalendar({
                     <span className="text-white text-xs font-bold">02</span>
                   </div>
                   <p className="font-clinical text-sm">
-                    Take Formula 02 before demanding tasks or in the evening
+                    Take Conka Clarity before demanding tasks or in the evening
                   </p>
                 </div>
               </div>

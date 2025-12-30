@@ -212,24 +212,24 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                         <a
-                          href="/formula-01"
+                          href="/conka-flow"
                           className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
                           onClick={() => setShopDropdownOpen(false)}
                         >
                           <span className="w-8 h-8 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
                           <div>
-                            <span className="font-bold text-sm block">Formula 01</span>
+                            <span className="font-bold text-sm block">Conka Flow</span>
                             <span className="font-clinical text-xs opacity-70">Caffeine-Free Focus</span>
                           </div>
                         </a>
                         <a
-                          href="/formula-02"
+                          href="/conka-clarity"
                           className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
                           onClick={() => setShopDropdownOpen(false)}
                         >
                           <span className="w-8 h-8 bg-amber-500 rounded-sm flex-shrink-0"></span>
                           <div>
-                            <span className="font-bold text-sm block">Formula 02</span>
+                            <span className="font-bold text-sm block">Conka Clarity</span>
                             <span className="font-clinical text-xs opacity-70">Peak Performance Boost</span>
                           </div>
                         </a>
@@ -252,19 +252,8 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
             </button>
           </div>
 
-          {/* Mobile - Cart & Menu */}
-          <div className="lg:hidden flex items-center gap-2">
-            <button 
-              onClick={() => setCartOpen(true)}
-              className="p-2 hover:opacity-70 transition-all"
-              aria-label="Open cart"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="9" cy="21" r="1"/>
-                <circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-              </svg>
-            </button>
+          {/* Mobile - Menu Only (Cart moved to menu) */}
+          <div className="lg:hidden flex items-center">
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 hover:opacity-70 transition-all"
@@ -291,8 +280,10 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-[var(--background)] overflow-y-auto">
-          <div className="flex flex-col min-h-full p-6">
+        <div className="lg:hidden fixed inset-0 z-40 bg-[var(--background)] flex flex-col">
+          {/* Scrollable Content - Centered vertically */}
+          <div className="flex-1 overflow-y-auto p-6 pb-16 flex flex-col">
+            {/* Header */}
             <div className="flex justify-between items-center mb-8">
               <a href="/" className="flex items-center">
                 <span className="text-3xl font-bold tracking-tight font-primary">conka.</span>
@@ -309,82 +300,173 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
               </button>
             </div>
 
-            {/* Main Nav Links */}
-            <nav className="flex flex-col gap-4 mb-8">
-              <a href="/#science" className="font-clinical text-xl tracking-wide" onClick={() => setMobileMenuOpen(false)}>The Science</a>
-              <a href="/#ingredients" className="font-clinical text-xl tracking-wide" onClick={() => setMobileMenuOpen(false)}>Ingredients</a>
-              <a href="/#results" className="font-clinical text-xl tracking-wide" onClick={() => setMobileMenuOpen(false)}>Results</a>
-              <a href="/#story" className="font-clinical text-xl tracking-wide" onClick={() => setMobileMenuOpen(false)}>Our Story</a>
-            </nav>
+            {/* Content - With top spacing */}
+            <div className="mt-4">
+              {/* Quiz CTA - Prominent with RECOMMENDED tag - FIRST */}
+              <div className="block p-3 mb-4 bg-black text-white rounded-lg">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                      <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                      <p className="font-bold text-base">Find Your Protocol</p>
+                      <span className="px-1.5 py-0.5 bg-green-500 text-white font-clinical text-[10px] font-bold rounded-full">RECOMMENDED</span>
+                    </div>
+                    <p className="font-clinical text-xs opacity-80">2-minute quiz</p>
+                  </div>
+                </div>
+                <a
+                  href="/quiz"
+                  className="block w-full py-2 bg-white text-black text-center font-bold text-sm rounded-lg hover:opacity-90 transition-opacity"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Take the Quiz
+                </a>
+              </div>
 
-            {/* Quiz CTA */}
-            <a
-              href="/quiz"
-              className="neo-box p-4 mb-6 flex items-center gap-3"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <div className="w-12 h-12 rounded-full bg-[#AAB9BC] flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                  <line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
+              {/* Shop Protocols Section */}
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center gap-2">
+                  <p className="font-clinical text-xs uppercase opacity-50">Shop Protocols</p>
+                  <p className="font-primary text-xs opacity-70">mixed plans</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <a href="/protocol/1" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 flex-shrink-0">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    <div>
+                      <p className="font-bold text-sm">Protocol 1</p>
+                      <p className="font-clinical text-xs opacity-70">F01 Daily</p>
+                    </div>
+                  </a>
+                  <a href="/protocol/2" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 flex-shrink-0">
+                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                    <div>
+                      <p className="font-bold text-sm">Protocol 2</p>
+                      <p className="font-clinical text-xs opacity-70">F02 Daily</p>
+                    </div>
+                  </a>
+                  <a href="/protocol/3" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 flex-shrink-0">
+                      <line x1="12" y1="3" x2="12" y2="21" />
+                      <path d="M3 12h18" />
+                    </svg>
+                    <div>
+                      <p className="font-bold text-sm">Protocol 3</p>
+                      <p className="font-clinical text-xs opacity-70">Balanced</p>
+                    </div>
+                  </a>
+                  <a href="/protocol/4" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 flex-shrink-0">
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                    </svg>
+                    <div>
+                      <p className="font-bold text-sm">Protocol 4</p>
+                      <p className="font-clinical text-xs opacity-70">Ultimate</p>
+                    </div>
+                  </a>
+                </div>
               </div>
-              <div>
-                <p className="font-bold text-lg">Find Your Protocol</p>
-                <p className="font-clinical text-sm opacity-70">Take our quiz</p>
-              </div>
-            </a>
 
-            {/* Shop Section */}
-            <div className="space-y-4 mb-8">
-              <p className="font-clinical text-xs uppercase opacity-50">Shop Protocols</p>
-              <div className="grid grid-cols-2 gap-3">
-                <a href="/protocol/1" className="neo-box p-3 text-center" onClick={() => setMobileMenuOpen(false)}>
-                  <p className="font-bold">Protocol 1</p>
-                  <p className="font-clinical text-xs opacity-70">F01 Daily</p>
-                </a>
-                <a href="/protocol/2" className="neo-box p-3 text-center" onClick={() => setMobileMenuOpen(false)}>
-                  <p className="font-bold">Protocol 2</p>
-                  <p className="font-clinical text-xs opacity-70">F02 Daily</p>
-                </a>
-                <a href="/protocol/3" className="neo-box p-3 text-center" onClick={() => setMobileMenuOpen(false)}>
-                  <p className="font-bold">Protocol 3</p>
-                  <p className="font-clinical text-xs opacity-70">Balanced</p>
-                </a>
-                <a href="/protocol/4" className="neo-box p-3 text-center" onClick={() => setMobileMenuOpen(false)}>
-                  <p className="font-bold">Protocol 4</p>
-                  <p className="font-clinical text-xs opacity-70">Ultimate</p>
-                </a>
+              {/* Individual Formulas Section */}
+              <div className="space-y-2 mb-5">
+                <div className="flex items-center gap-2">
+                  <p className="font-clinical text-xs uppercase opacity-50">Individual Formulas</p>
+                  <p className="font-primary text-xs opacity-70">order individually</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <a href="/conka-flow" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
+                    <span className="w-3 h-3 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
+                    <span className="font-bold text-sm">Conka Flow</span>
+                  </a>
+                  <a href="/conka-clarity" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
+                    <span className="w-3 h-3 bg-amber-500 rounded-sm flex-shrink-0"></span>
+                    <span className="font-bold text-sm">Conka Clarity</span>
+                  </a>
+                </div>
               </div>
+
+              {/* Navigation Label - Now at the bottom */}
+              <p className="font-clinical text-xs uppercase opacity-50 mb-2">Navigation</p>
+              
+              {/* Main Nav Links - 2x2 Grid with Icons */}
+              <nav className="grid grid-cols-2 gap-2">
+                <a 
+                  href="/#science" 
+                  className="flex items-center gap-2 py-2 px-3 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 1 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                  </svg>
+                  <span className="font-clinical text-sm tracking-wide">The Science</span>
+                </a>
+                <a 
+                  href="/#ingredients" 
+                  className="flex items-center gap-2 py-2 px-3 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <CiBeaker1 size={16} className="opacity-60 flex-shrink-0" />
+                  <span className="font-clinical text-sm tracking-wide">Ingredients</span>
+                </a>
+                <a 
+                  href="/#results" 
+                  className="flex items-center gap-2 py-2 px-3 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                  <span className="font-clinical text-sm tracking-wide">Results</span>
+                </a>
+                <a 
+                  href="/#story" 
+                  className="flex items-center gap-2 py-2 px-3 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <span className="font-clinical text-sm tracking-wide">Our Story</span>
+                </a>
+              </nav>
             </div>
+          </div>
 
-            <div className="space-y-4 mb-8">
-              <p className="font-clinical text-xs uppercase opacity-50">Individual Formulas</p>
-              <div className="grid grid-cols-2 gap-3">
-                <a href="/formula-01" className="neo-box p-3 flex items-center justify-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="w-3 h-3 bg-teal-500 rounded-sm"></span>
-                  <span className="font-bold">Formula 01</span>
-                </a>
-                <a href="/formula-02" className="neo-box p-3 flex items-center justify-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="w-3 h-3 bg-amber-500 rounded-sm"></span>
-                  <span className="font-bold">Formula 02</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Cart Button */}
-            <div className="mt-auto">
+          {/* Cart & Checkout Section */}
+          <div className="px-6 py-4 bg-[var(--background)] border-t-2 border-black">
+            <div className="flex gap-3">
               <button 
                 onClick={() => { setCartOpen(true); setMobileMenuOpen(false); }}
-                className="w-full neo-button px-8 py-4 font-semibold text-lg flex items-center justify-center gap-2"
+                className="flex-1 bg-transparent border-2 border-black text-black px-4 py-3 font-semibold text-sm rounded-lg flex items-center justify-center gap-2 hover:bg-black hover:text-white transition-all"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="9" cy="21" r="1"/>
                   <circle cx="20" cy="21" r="1"/>
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
                 </svg>
-                Cart
+                View Cart
+              </button>
+              <button 
+                onClick={() => { setMobileMenuOpen(false); }}
+                className="flex-1 bg-black text-white px-4 py-3 font-bold text-sm rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                  <line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+                Checkout
               </button>
             </div>
           </div>

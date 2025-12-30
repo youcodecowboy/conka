@@ -4,53 +4,55 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="min-h-screen px-6 md:px-16 pt-2 pb-12 flex flex-col">
+    <section className="min-h-[calc(100vh-80px)] md:min-h-screen px-4 sm:px-6 md:px-16 pt-8 sm:pt-10 md:pt-8 lg:pt-4 pb-8 md:pb-12 flex flex-col">
       {/* Hero Content - Product Centered */}
-      <div className="flex-1 flex flex-col items-center justify-center">
-        {/* Main headline */}
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-2 text-center">
-          Make decisions faster.
-        </h1>
-        <p className="font-commentary text-xl md:text-2xl mb-3 text-center">
-          clinically designed to optimize your <span className="underline decoration-[#AAB9BC]">brain</span>
-        </p>
+      <div className="flex-1 flex flex-col items-center justify-start md:justify-center pt-6 sm:pt-8 md:pt-0">
+        {/* Top Section: Headlines */}
+        <div className="w-full">
+          <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-2 text-center">
+            Make decisions faster.
+          </h1>
+          <p className="font-commentary text-xl sm:text-xl md:text-2xl mb-1 sm:mb-2 md:mb-1 text-center">
+            clinically designed to optimize your <span className="underline decoration-[#AAB9BC]">brain</span>
+          </p>
+        </div>
 
-        {/* Center: Product Image */}
-        <div className="relative mb-3">
+        {/* Center: Product Image - Scales proportionally across viewports */}
+        <div className="relative flex items-center justify-center w-full my-1 sm:my-2 md:my-2">
           <Image
-            src="/3.png"
+            src="/main.jpg"
             alt="Conka nootropic shot"
             width={500}
             height={625}
-            className="w-[175px] h-auto md:w-[300px] lg:w-[400px] object-contain"
+            className="w-[352px] sm:w-[396px] md:w-[380px] lg:w-[400px] xl:w-[450px] h-auto object-contain max-w-[85vw] sm:max-w-[80vw] md:max-w-none"
             priority
           />
         </div>
 
         {/* Clinical text */}
-        <div className="mb-6 text-center max-w-6xl px-4">
-          <p className="font-clinical text-sm md:text-base mb-1">
+        <div className="mb-2 sm:mb-3 md:mb-4 text-center max-w-lg sm:max-w-xl md:max-w-6xl px-4">
+          <p className="font-clinical text-sm md:text-base mb-1 sm:mb-2 md:mb-1">
             backed by 250+ clinical studies
           </p>
-          <p className="font-commentary italic text-lg md:text-xl lg:text-2xl whitespace-nowrap overflow-x-auto md:overflow-x-visible">
+          <p className="font-commentary italic text-xl sm:text-xl md:text-xl lg:text-2xl">
             upgrade focus + decrease anxiety + eliminate brain fog + improve sleep quality
           </p>
         </div>
 
-        {/* CTA Buttons - Pill shaped, skinnier, wider */}
-        <div className="flex flex-col items-center w-full max-w-md px-4">
-          <div className="flex flex-col sm:flex-row gap-3 w-full">
-            <button className="flex-1 px-8 py-2 rounded-full bg-black text-white font-commentary text-lg md:text-xl border-2 border-black hover:opacity-80 transition-all">
+        {/* CTA Buttons - Pill shaped, always side-by-side */}
+        <div className="flex flex-col items-center w-full max-w-md sm:max-w-lg md:max-w-md px-4 mt-6 sm:mt-8 md:mt-0">
+          <div className="flex flex-row gap-3 sm:gap-4 md:gap-3 w-full mb-4 sm:mb-5 md:mb-3">
+            <button className="flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-black text-white font-commentary text-base md:text-lg border-2 border-black hover:opacity-80 transition-all">
               Find Your Stack
             </button>
-            <button className="flex-1 px-8 py-2 rounded-full bg-transparent text-black font-semibold text-base md:text-lg border-2 border-black hover:bg-black hover:text-white transition-all">
+            <button className="flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-transparent text-black font-semibold text-base md:text-lg border-2 border-black hover:bg-black hover:text-white transition-all">
               buy CONKA
             </button>
           </div>
           {/* Scroll indicator */}
-          <div className="text-center mt-3">
-            <p className="font-commentary text-lg">scroll to explore</p>
-            <div className="mt-2 animate-bounce">↓</div>
+          <div className="text-center">
+            <p className="font-commentary text-base md:text-lg">scroll to explore</p>
+            <div className="mt-1 sm:mt-2 md:mt-2 animate-bounce">↓</div>
           </div>
         </div>
       </div>

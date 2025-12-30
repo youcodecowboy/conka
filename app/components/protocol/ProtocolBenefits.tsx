@@ -58,10 +58,10 @@ export default function ProtocolBenefits({ protocolId }: ProtocolBenefitsProps) 
 
         {/* Combined Formula Benefits */}
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Formula 01 Benefits */}
+          {/* Conka Flow Benefits */}
           <div className="neo-box overflow-hidden">
             <div className={`${FORMULA_COLORS["01"].bg} p-4 text-white`}>
-              <h3 className="text-xl font-bold">Formula 01 Benefits</h3>
+              <h3 className="text-xl font-bold">Conka Flow Benefits</h3>
               <p className="font-clinical text-sm opacity-80">Energy & Resilience</p>
             </div>
             <div className="p-6 space-y-4">
@@ -79,10 +79,10 @@ export default function ProtocolBenefits({ protocolId }: ProtocolBenefitsProps) 
                 </div>
               ))}
               <a
-                href="/formula-01"
+                href="/conka-flow"
                 className="inline-flex items-center gap-2 font-clinical text-sm hover:opacity-70 transition-all mt-4"
               >
-                Learn more about Formula 01
+                Learn more about Conka Flow
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="14"
@@ -100,10 +100,10 @@ export default function ProtocolBenefits({ protocolId }: ProtocolBenefitsProps) 
             </div>
           </div>
 
-          {/* Formula 02 Benefits */}
+          {/* Conka Clarity Benefits */}
           <div className="neo-box overflow-hidden">
             <div className={`${FORMULA_COLORS["02"].bg} p-4 text-white`}>
-              <h3 className="text-xl font-bold">Formula 02 Benefits</h3>
+              <h3 className="text-xl font-bold">Conka Clarity Benefits</h3>
               <p className="font-clinical text-sm opacity-80">Clarity & Performance</p>
             </div>
             <div className="p-6 space-y-4">
@@ -121,10 +121,10 @@ export default function ProtocolBenefits({ protocolId }: ProtocolBenefitsProps) 
                 </div>
               ))}
               <a
-                href="/formula-02"
+                href="/conka-clarity"
                 className="inline-flex items-center gap-2 font-clinical text-sm hover:opacity-70 transition-all mt-4"
               >
-                Learn more about Formula 02
+                Learn more about Conka Clarity
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="14"
@@ -147,9 +147,9 @@ export default function ProtocolBenefits({ protocolId }: ProtocolBenefitsProps) 
         <div className="mt-16 neo-box p-8 text-center">
           <h3 className="text-2xl font-bold mb-4">The Power of Combination</h3>
           <p className="text-lg opacity-80 max-w-2xl mx-auto">
-            When taken as part of a protocol, Formula 01 and Formula 02 work
-            together synergistically. Formula 01&apos;s adaptogens build your daily
-            foundation while Formula 02&apos;s nootropics enhance peak performance
+            When taken as part of a protocol, Conka Flow and Conka Clarity work
+            together synergistically. Conka Flow&apos;s adaptogens build your daily
+            foundation while Conka Clarity&apos;s nootropics enhance peak performance
             when you need it most.
           </p>
         </div>

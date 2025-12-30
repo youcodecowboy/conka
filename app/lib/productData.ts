@@ -157,7 +157,7 @@ export interface FormulaContent {
 export const formulaContent: Record<FormulaId, FormulaContent> = {
   "01": {
     id: "01",
-    name: "Formula 01",
+    name: "Conka Flow",
     tagline: "Caffeine-Free Focus",
     theme: "light",
     accentColor: "teal",
@@ -218,20 +218,20 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
     ],
     faq: [
       {
-        question: "When should I take Formula 01?",
-        answer: "Formula 01 is best taken in the morning with or without food. It's designed as a coffee replacement that provides sustained energy without caffeine.",
+        question: "When should I take Conka Flow?",
+        answer: "Conka Flow is best taken in the morning with or without food. It's designed as a coffee replacement that provides sustained energy without caffeine.",
       },
       {
-        question: "Will Formula 01 affect my sleep?",
-        answer: "No. Formula 01 is completely caffeine-free and actually helps improve sleep quality by +31.4% according to our clinical studies.",
+        question: "Will Conka Flow affect my sleep?",
+        answer: "No. Conka Flow is completely caffeine-free and actually helps improve sleep quality by +31.4% according to our clinical studies.",
       },
       {
         question: "How long until I see results?",
         answer: "Most users report noticeable improvements in focus and energy within the first week. Full benefits typically develop over 2-4 weeks of consistent use.",
       },
       {
-        question: "Can I take Formula 01 with coffee?",
-        answer: "Yes, but we recommend using Formula 01 as a coffee replacement. The adaptogens provide sustained energy without the crash that caffeine causes.",
+        question: "Can I take Conka Flow with coffee?",
+        answer: "Yes, but we recommend using Conka Flow as a coffee replacement. The adaptogens provide sustained energy without the crash that caffeine causes.",
       },
     ],
     struggleSolutions: {
@@ -239,7 +239,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "sleep",
         title: "Better Sleep Quality",
         question: "Struggling with sleep?",
-        description: "Formula 01's adaptogenic blend supports your natural sleep-wake cycle without sedation.",
+        description: "Conka Flow's adaptogenic blend supports your natural sleep-wake cycle without sedation.",
         researchExplanation: "Ashwagandha and Lemon Balm work synergistically to reduce cortisol levels and calm the nervous system. Unlike sleep aids, they don't force sleep—they remove the barriers preventing it. Clinical trials show significant improvements in sleep onset, REM cycles, and next-day alertness.",
         stat: "+31.4%",
         statLabel: "improvement in sleep quality",
@@ -279,7 +279,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "energy",
         title: "Sustained Energy",
         question: "Need more energy?",
-        description: "Formula 01 provides caffeine-free energy through adaptogenic support of your adrenal system.",
+        description: "Conka Flow provides caffeine-free energy through adaptogenic support of your adrenal system.",
         researchExplanation: "Rather than stimulating your nervous system like caffeine, adaptogens like Rhodiola rosea optimize your body's energy production at the cellular level. They support mitochondrial function and reduce the energy drain caused by chronic stress, providing steady fuel throughout the day.",
         stat: "+22.1%",
         statLabel: "increase in sustained energy",
@@ -319,7 +319,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "crashing",
         title: "No More Crashes",
         question: "Crashing mid-day?",
-        description: "Formula 01 eliminates energy crashes by supporting stable blood sugar and cortisol levels.",
+        description: "Conka Flow eliminates energy crashes by supporting stable blood sugar and cortisol levels.",
         researchExplanation: "The afternoon crash is often caused by cortisol dysregulation and blood sugar instability. Ashwagandha helps normalize cortisol patterns while Turmeric supports healthy insulin sensitivity. Together, they smooth out the energy rollercoaster that peaks and crashes throughout the day.",
         stat: "-67%",
         statLabel: "reduction in energy crashes",
@@ -359,7 +359,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "stress",
         title: "Stress Resilience",
         question: "Feeling stressed?",
-        description: "Formula 01's adaptogenic blend builds your body's natural resistance to stress.",
+        description: "Conka Flow's adaptogenic blend builds your body's natural resistance to stress.",
         researchExplanation: "Adaptogens work by modulating the HPA axis—your body's stress response system. Ashwagandha has been shown to reduce cortisol by up to 30%, while Rhodiola rosea improves stress tolerance at the cellular level. The result is a calmer baseline and better response to daily pressures.",
         stat: "-24%",
         statLabel: "reduction in cortisol levels",
@@ -399,7 +399,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "anxiety",
         title: "Reduced Anxiety",
         question: "Dealing with anxiety?",
-        description: "Formula 01 supports calm focus through GABAergic and adaptogenic pathways.",
+        description: "Conka Flow supports calm focus through GABAergic and adaptogenic pathways.",
         researchExplanation: "Lemon Balm acts on GABA receptors to promote calm without sedation, while Ashwagandha reduces the physiological symptoms of anxiety by lowering cortisol. This dual-action approach addresses both the mental and physical aspects of anxiety for comprehensive support.",
         stat: "+24.2%",
         statLabel: "improvement in anxiety scores",
@@ -439,7 +439,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "focus",
         title: "Enhanced Focus",
         question: "Can't concentrate?",
-        description: "Formula 01 enhances concentration through stress reduction and improved blood flow.",
+        description: "Conka Flow enhances concentration through stress reduction and improved blood flow.",
         researchExplanation: "Poor focus often stems from elevated stress hormones and inflammation. Turmeric's curcumin improves cerebral blood flow, while Bilberry supports microcirculation to the brain. Combined with the stress-reducing effects of adaptogens, these ingredients create optimal conditions for sustained attention.",
         stat: "+22.1%",
         statLabel: "improvement in focus metrics",
@@ -479,7 +479,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
   },
   "02": {
     id: "02",
-    name: "Formula 02",
+    name: "Conka Clarity",
     tagline: "Peak Performance Boost",
     theme: "light",
     accentColor: "amber",
@@ -543,20 +543,20 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
     ],
     faq: [
       {
-        question: "When should I take Formula 02?",
-        answer: "Formula 02 is best taken 30-60 minutes before you need peak performance, such as important meetings, competitions, or creative work. It's also effective in the evening for recovery.",
+        question: "When should I take Conka Clarity?",
+        answer: "Conka Clarity is best taken 30-60 minutes before you need peak performance, such as important meetings, competitions, or creative work. It's also effective in the evening for recovery.",
       },
       {
-        question: "How is Formula 02 different from Formula 01?",
-        answer: "Formula 01 focuses on daily energy and stress resilience with adaptogens. Formula 02 is designed for peak mental performance with nootropics that enhance clarity, reaction time, and decision-making.",
+        question: "How is Conka Clarity different from Conka Flow?",
+        answer: "Conka Flow focuses on daily energy and stress resilience with adaptogens. Conka Clarity is designed for peak mental performance with nootropics that enhance clarity, reaction time, and decision-making.",
       },
       {
-        question: "Can I take Formula 02 every day?",
-        answer: "Yes, Formula 02 can be taken daily. Many users pair it with Formula 01 as part of a protocol for comprehensive cognitive support.",
+        question: "Can I take Conka Clarity every day?",
+        answer: "Yes, Conka Clarity can be taken daily. Many users pair it with Conka Flow as part of a protocol for comprehensive cognitive support.",
       },
       {
-        question: "Will Formula 02 help with brain fog?",
-        answer: "Yes, Formula 02 is specifically formulated to eliminate brain fog through enhanced blood flow to the brain and improved neurotransmission in the frontal cortex.",
+        question: "Will Conka Clarity help with brain fog?",
+        answer: "Yes, Conka Clarity is specifically formulated to eliminate brain fog through enhanced blood flow to the brain and improved neurotransmission in the frontal cortex.",
       },
     ],
     struggleSolutions: {
@@ -564,7 +564,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "sleep",
         title: "Recovery Sleep",
         question: "Need better recovery?",
-        description: "Formula 02 supports restorative sleep through antioxidant protection and neural repair mechanisms.",
+        description: "Conka Clarity supports restorative sleep through antioxidant protection and neural repair mechanisms.",
         researchExplanation: "Quality sleep requires efficient neural repair and detoxification. Glutathione and N-Acetyl Cysteine are master antioxidants that support the brain's glymphatic system—its nighttime cleaning process. Alpha GPC provides choline for memory consolidation during REM sleep, making your rest more productive.",
         stat: "+38%",
         statLabel: "improvement in sleep recovery",
@@ -604,7 +604,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "energy",
         title: "Mental Energy",
         question: "Need mental energy?",
-        description: "Formula 02 optimizes brain energy through enhanced mitochondrial function and blood flow.",
+        description: "Conka Clarity optimizes brain energy through enhanced mitochondrial function and blood flow.",
         researchExplanation: "Your brain consumes 20% of your body's energy. Acetyl-L-Carnitine shuttles fatty acids into mitochondria for energy production, while Ginkgo Biloba increases cerebral blood flow by up to 40%. Alpha Lipoic Acid protects these energy-producing structures from oxidative damage.",
         stat: "+45min",
         statLabel: "extended mental endurance",
@@ -644,7 +644,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "crashing",
         title: "Sustained Performance",
         question: "Losing steam mid-task?",
-        description: "Formula 02 prevents cognitive decline through neurotransmitter support and oxidative protection.",
+        description: "Conka Clarity prevents cognitive decline through neurotransmitter support and oxidative protection.",
         researchExplanation: "Mental crashes often result from acetylcholine depletion and oxidative stress accumulation. Alpha GPC replenishes acetylcholine—the neurotransmitter of focus. Glutathione and Vitamin C neutralize the oxidative byproducts of intense thinking, keeping your neural pathways clear.",
         stat: "+38.2%",
         statLabel: "longer peak performance",
@@ -684,7 +684,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "stress",
         title: "Performance Under Pressure",
         question: "Performing under pressure?",
-        description: "Formula 02 optimizes cognitive function during high-stress situations through neuroprotection.",
+        description: "Conka Clarity optimizes cognitive function during high-stress situations through neuroprotection.",
         researchExplanation: "High-pressure situations increase oxidative stress and cortisol, both of which impair cognition. Vitamin C and Glutathione provide robust neuroprotection, while Alpha GPC ensures sufficient acetylcholine for sharp thinking. This combination keeps your brain performing optimally when stakes are highest.",
         stat: "+21.3%",
         statLabel: "better decision-making under stress",
@@ -724,7 +724,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "anxiety",
         title: "Calm Clarity",
         question: "Anxious thoughts affecting focus?",
-        description: "Formula 02 supports clear thinking by protecting neural pathways and optimizing neurotransmitter balance.",
+        description: "Conka Clarity supports clear thinking by protecting neural pathways and optimizing neurotransmitter balance.",
         researchExplanation: "Anxiety often hijacks the prefrontal cortex, impairing clear thinking. Ginkgo Biloba improves blood flow to this region, while Alpha GPC supports acetylcholine-mediated attention. The antioxidant blend protects neurons from stress-induced damage, maintaining cognitive clarity even during anxious moments.",
         stat: "+27.9%",
         statLabel: "improvement in working memory",
@@ -764,7 +764,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "focus",
         title: "Laser Focus",
         question: "Need sharper focus?",
-        description: "Formula 02 delivers intense focus through cholinergic enhancement and optimized neural signaling.",
+        description: "Conka Clarity delivers intense focus through cholinergic enhancement and optimized neural signaling.",
         researchExplanation: "Deep focus requires optimal acetylcholine levels and efficient neural communication. Alpha GPC is the most bioavailable choline source, directly boosting acetylcholine synthesis. Ginkgo Biloba enhances blood flow to attention centers, while Lecithin provides phospholipids for healthy neural membranes.",
         stat: "-47ms",
         statLabel: "faster reaction time",
@@ -808,8 +808,8 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
 
 export interface ProtocolTierConfig {
   name: string;
-  formula01Count: number;
-  formula02Count: number;
+  conkaFlowCount: number;
+  conkaClarityCount: number;
   description: string;
   shotsPerWeek: number;
 }
@@ -830,8 +830,8 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
   "1": {
     id: "1",
     name: "Protocol 1",
-    subtitle: "Formula 01 Daily • Formula 02 Weekly",
-    description: "Daily adaptogen support with Formula 01's Ashwagandha and Rhodiola builds stress resilience and recovery. Weekly Formula 02 boosts provide peak cognitive performance when you need it most.",
+    subtitle: "Build Resilience, Stay Sharp",
+    description: "Daily adaptogen support with Conka Flow's Ashwagandha and Rhodiola builds stress resilience and recovery. Weekly Conka Clarity boosts provide peak cognitive performance when you need it most.",
     icon: "shield",
     bestFor: ["Recovery Focus", "Stress Management", "Daily Wellness"],
     benefits: [
@@ -844,22 +844,22 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     tiers: {
       starter: {
         name: "Starter",
-        formula01Count: 3,
-        formula02Count: 1,
+        conkaFlowCount: 3,
+        conkaClarityCount: 1,
         description: "Gentle introduction for newcomers",
         shotsPerWeek: 4,
       },
       pro: {
         name: "Pro",
-        formula01Count: 5,
-        formula02Count: 1,
+        conkaFlowCount: 5,
+        conkaClarityCount: 1,
         description: "Balanced protocol for consistent results",
         shotsPerWeek: 6,
       },
       max: {
         name: "Max",
-        formula01Count: 6,
-        formula02Count: 1,
+        conkaFlowCount: 6,
+        conkaClarityCount: 1,
         description: "Full coverage for maximum effect",
         shotsPerWeek: 7,
       },
@@ -868,8 +868,8 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
   "2": {
     id: "2",
     name: "Protocol 2",
-    subtitle: "Formula 02 Daily • Formula 01 Weekly",
-    description: "Front-load with cognitive enhancers for sustained mental endurance. Formula 02's Alpha GPC and Vitamin C build your neurological foundation, while weekly Formula 01 adaptogens prevent burnout.",
+    subtitle: "Peak Cognition, Zero Burnout",
+    description: "Front-load with cognitive enhancers for sustained mental endurance. Conka Clarity's Alpha GPC and Vitamin C build your neurological foundation, while weekly Conka Flow adaptogens prevent burnout.",
     icon: "bolt",
     bestFor: ["Peak Performance", "Mental Endurance", "Cognitive Enhancement"],
     benefits: [
@@ -882,22 +882,22 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     tiers: {
       starter: {
         name: "Starter",
-        formula01Count: 1,
-        formula02Count: 3,
+        conkaFlowCount: 1,
+        conkaClarityCount: 3,
         description: "Gentle introduction for newcomers",
         shotsPerWeek: 4,
       },
       pro: {
         name: "Pro",
-        formula01Count: 1,
-        formula02Count: 5,
+        conkaFlowCount: 1,
+        conkaClarityCount: 5,
         description: "Balanced protocol for consistent results",
         shotsPerWeek: 6,
       },
       max: {
         name: "Max",
-        formula01Count: 1,
-        formula02Count: 6,
+        conkaFlowCount: 1,
+        conkaClarityCount: 6,
         description: "Full coverage for maximum effect",
         shotsPerWeek: 7,
       },
@@ -906,8 +906,8 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
   "3": {
     id: "3",
     name: "Protocol 3",
-    subtitle: "Formula 01 & Formula 02 Balanced",
-    description: "The best of both worlds. Alternate between Formula 01 and Formula 02 for comprehensive cognitive support. Perfect for those who want the full spectrum of benefits without committing to one dominant formula.",
+    subtitle: "The Best of Both Worlds",
+    description: "The best of both worlds. Alternate between Conka Flow and Conka Clarity for comprehensive cognitive support. Perfect for those who want the full spectrum of benefits without committing to one dominant formula.",
     icon: "balance",
     bestFor: ["Balanced Approach", "All-Rounders", "Hybrid Athletes"],
     benefits: [
@@ -920,22 +920,22 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     tiers: {
       starter: {
         name: "Starter",
-        formula01Count: 2,
-        formula02Count: 2,
+        conkaFlowCount: 2,
+        conkaClarityCount: 2,
         description: "Gentle introduction with balanced formulas",
         shotsPerWeek: 4,
       },
       pro: {
         name: "Pro",
-        formula01Count: 3,
-        formula02Count: 3,
+        conkaFlowCount: 3,
+        conkaClarityCount: 3,
         description: "Balanced weekly coverage",
         shotsPerWeek: 6,
       },
       max: {
         name: "Max",
-        formula01Count: 4,
-        formula02Count: 3,
+        conkaFlowCount: 4,
+        conkaClarityCount: 3,
         description: "Maximum balanced coverage",
         shotsPerWeek: 7,
       },
@@ -944,8 +944,8 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
   "4": {
     id: "4",
     name: "Protocol 4",
-    subtitle: "The Ultimate Protocol",
-    description: "Maximum cognitive enhancement with both Formula 01 and Formula 02 every single day. This is the most comprehensive protocol for those who demand peak performance in every aspect of their cognitive function.",
+    subtitle: "Maximum Power, Every Day",
+    description: "Maximum cognitive enhancement with both Conka Flow and Conka Clarity every single day. This is the most comprehensive protocol for those who demand peak performance in every aspect of their cognitive function.",
     icon: "crown",
     bestFor: ["Elite Performance", "Maximum Results", "No Compromise"],
     benefits: [
@@ -958,15 +958,15 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     tiers: {
       pro: {
         name: "Pro",
-        formula01Count: 6,
-        formula02Count: 6,
+        conkaFlowCount: 6,
+        conkaClarityCount: 6,
         description: "Bi-weekly delivery of the full stack",
         shotsPerWeek: 12, // 6 of each
       },
       max: {
         name: "Max",
-        formula01Count: 7,
-        formula02Count: 7,
+        conkaFlowCount: 7,
+        conkaClarityCount: 7,
         description: "Daily coverage of both formulas",
         shotsPerWeek: 14, // 7 of each
       },
@@ -1048,8 +1048,8 @@ export function generateProtocolCalendarDays(
         days.push({ day: dayNum, formula: day % 2 === 0 ? "01" : "02" });
       } else if (protocolId === "3") {
         // Balanced: Alternating pattern
-        const { formula01Count, formula02Count } = tierConfig;
-        const totalDoses = formula01Count + formula02Count;
+        const { conkaFlowCount, conkaClarityCount } = tierConfig;
+        const totalDoses = conkaFlowCount + conkaClarityCount;
         
         if (tier === "starter") {
           // 2+2: Mon=01, Tue=02, Thu=01, Sat=02
@@ -1068,34 +1068,34 @@ export function generateProtocolCalendarDays(
         }
       } else {
         // Protocol 1 or 2: Primary formula most days, secondary once weekly
-        const isPrimaryFormula01 = protocolId === "1";
-        const { formula01Count, formula02Count } = tierConfig;
-        const primaryCount = isPrimaryFormula01 ? formula01Count : formula02Count;
+        const isPrimaryConkaFlow = protocolId === "1";
+        const { conkaFlowCount, conkaClarityCount } = tierConfig;
+        const primaryCount = isPrimaryConkaFlow ? conkaFlowCount : conkaClarityCount;
         
         if (tier === "starter") {
           // 3+1: Mon/Wed/Fri primary, Sun secondary
           if (day === 0 || day === 2 || day === 4) {
-            days.push({ day: dayNum, formula: isPrimaryFormula01 ? "01" : "02" });
+            days.push({ day: dayNum, formula: isPrimaryConkaFlow ? "01" : "02" });
           } else if (day === 6) {
-            days.push({ day: dayNum, formula: isPrimaryFormula01 ? "02" : "01" });
+            days.push({ day: dayNum, formula: isPrimaryConkaFlow ? "02" : "01" });
           } else {
             days.push({ day: dayNum, formula: "rest" });
           }
         } else if (tier === "pro") {
           // 5+1: Mon-Fri primary, Sun secondary
           if (day >= 0 && day <= 4) {
-            days.push({ day: dayNum, formula: isPrimaryFormula01 ? "01" : "02" });
+            days.push({ day: dayNum, formula: isPrimaryConkaFlow ? "01" : "02" });
           } else if (day === 6) {
-            days.push({ day: dayNum, formula: isPrimaryFormula01 ? "02" : "01" });
+            days.push({ day: dayNum, formula: isPrimaryConkaFlow ? "02" : "01" });
           } else {
             days.push({ day: dayNum, formula: "rest" });
           }
         } else {
           // 6+1: Mon-Sat primary, Sun secondary
           if (day >= 0 && day <= 5) {
-            days.push({ day: dayNum, formula: isPrimaryFormula01 ? "01" : "02" });
+            days.push({ day: dayNum, formula: isPrimaryConkaFlow ? "01" : "02" });
           } else {
-            days.push({ day: dayNum, formula: isPrimaryFormula01 ? "02" : "01" });
+            days.push({ day: dayNum, formula: isPrimaryConkaFlow ? "02" : "01" });
           }
         }
       }

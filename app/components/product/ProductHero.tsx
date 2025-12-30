@@ -44,7 +44,7 @@ export default function ProductHero({
   // Get image path based on formula
   const imagePath = formulaId === "01" ? "/1.png" : "/2.png";
 
-  // Header color based on purchase type - Formula 01 inverts, Formula 02 uses amber
+  // Header color based on purchase type - Conka Flow inverts, Conka Clarity uses amber
   const headerBgClass =
     purchaseType === "subscription"
       ? "bg-[var(--foreground)] text-[var(--background)]"

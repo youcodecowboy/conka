@@ -55,7 +55,7 @@
 <a href="#" className="font-clinical text-sm">The Science</a>
 
 // Button labels (clinical context)
-<button className="font-clinical text-sm font-medium">Formula 01</button>
+<button className="font-clinical text-sm font-medium">Conka Flow</button>
 ```
 
 ## Color Usage
@@ -77,8 +77,8 @@
 
 ### Teal Accent
 ```tsx
-// Formula 01 identifier
-<div className="bg-teal-500 text-white">Formula 01</div>
+// Conka Flow identifier
+<div className="bg-teal-500 text-white">Conka Flow</div>
 
 // Accent underline
 <p className="underline decoration-[#14b8a6]">brain</p>
@@ -89,20 +89,20 @@
 
 ### Formula Colors
 ```tsx
-// Formula 01 - Always Teal
+// Conka Flow - Always Teal
 <div className="bg-teal-500 text-white rounded-md">
   <span className="font-clinical text-xs font-bold">01</span>
 </div>
 
-// Formula 02 - Always Amber
+// Conka Clarity - Always Amber
 <div className="bg-amber-500 text-white rounded-md">
   <span className="font-clinical text-xs font-bold">02</span>
 </div>
 
-// Calendar day - Formula 01
+// Calendar day - Conka Flow
 <div className="bg-teal-500 text-white rounded-md">15</div>
 
-// Calendar day - Formula 02
+// Calendar day - Conka Clarity
 <div className="bg-amber-500 text-white rounded-md">16</div>
 ```
 
@@ -116,9 +116,9 @@
 
 ## Theme Classes
 
-### Formula 01 (Light Mode)
+### Conka Flow (Light Mode)
 ```tsx
-<div className="theme-formula-01">
+<div className="theme-conka-flow">
   {/* White background, black text */}
   <div className="bg-[var(--background)] text-[var(--foreground)]">
     Content here
@@ -126,9 +126,9 @@
 </div>
 ```
 
-### Formula 02 (Dark Mode)
+### Conka Clarity (Dark Mode)
 ```tsx
-<div className="theme-formula-02">
+<div className="theme-conka-clarity">
   {/* Black background, white text */}
   <div className="bg-[var(--background)] text-[var(--foreground)]">
     Content here
@@ -181,7 +181,7 @@
         : "bg-transparent hover:bg-current/10"
     }`}
   >
-    <span className="font-clinical text-sm font-medium">Formula 01</span>
+    <span className="font-clinical text-sm font-medium">Conka Flow</span>
   </button>
   <button
     onClick={() => setActiveFormula("02")}
@@ -191,7 +191,7 @@
         : "bg-transparent hover:bg-current/10"
     }`}
   >
-    <span className="font-clinical text-sm font-medium">Formula 02</span>
+    <span className="font-clinical text-sm font-medium">Conka Clarity</span>
   </button>
 </div>
 ```
@@ -243,7 +243,7 @@
 
 // Header section
 <div className="neo-box-inverted p-4 flex justify-between items-center">
-  <h3 className="text-2xl font-bold">Formula 01</h3>
+  <h3 className="text-2xl font-bold">Conka Flow</h3>
   <span className="font-clinical text-sm">Patented: GB2629279</span>
 </div>
 ```
@@ -444,12 +444,12 @@
 
 ### Formula Visualization
 ```tsx
-// Calendar day - Formula 01 (Teal)
+// Calendar day - Conka Flow (Teal)
 <div className="bg-teal-500 text-white rounded-md aspect-square flex items-center justify-center font-clinical text-sm">
   15
 </div>
 
-// Calendar day - Formula 02 (Amber)
+// Calendar day - Conka Clarity (Amber)
 <div className="bg-amber-500 text-white rounded-md aspect-square flex items-center justify-center font-clinical text-sm">
   16
 </div>
@@ -463,11 +463,11 @@
 <div className="flex gap-6 flex-wrap">
   <div className="flex items-center gap-2">
     <div className="w-4 h-4 bg-teal-500 rounded-sm"></div>
-    <span className="font-clinical text-sm">Formula 01 – Caffeine-Free Focus</span>
+    <span className="font-clinical text-sm">Conka Flow – Caffeine-Free Focus</span>
   </div>
   <div className="flex items-center gap-2">
     <div className="w-4 h-4 bg-amber-500 rounded-sm"></div>
-    <span className="font-clinical text-sm">Formula 02 – Peak Performance</span>
+    <span className="font-clinical text-sm">Conka Clarity – Peak Performance</span>
   </div>
 </div>
 ```
@@ -537,7 +537,7 @@
 
 - **Always use `rounded-full` for buttons** - This is the standard for all interactive buttons
 - **Never round corners on `neo-box` containers** - Keep them sharp and angular
-- **Formula colors are fixed** - Formula 01 = Teal, Formula 02 = Amber (never swap)
+- **Formula colors are fixed** - Conka Flow = Teal, Conka Clarity = Amber (never swap)
 - **Use CSS variables** - `var(--background)`, `var(--foreground)` for theming
 - **Generous spacing** - `py-24` for sections, `gap-6` to `gap-12` between elements
 - **Mobile-first** - Base styles for mobile, enhance with `md:` and `lg:` prefixes

@@ -118,7 +118,12 @@ function MiniRadarChart({
             />
             <PolarAngleAxis
               dataKey="category"
-              tick={(props) => <CustomTick {...props} isDark={isDark} />}
+              tick={(props: any) => {
+                if (typeof props.x === 'number' && typeof props.y === 'number' && props.payload) {
+                  return <CustomTick x={props.x} y={props.y} payload={props.payload} isDark={isDark} />;
+                }
+                return <g />;
+              }}
               tickLine={false}
             />
             <PolarRadiusAxis angle={90} domain={[0, 50]} tick={false} axisLine={false} />
