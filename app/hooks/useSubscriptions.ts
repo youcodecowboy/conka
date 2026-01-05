@@ -1,41 +1,22 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import type { Subscription, SubscriptionInterval } from '@/app/types';
 
-export interface Subscription {
-  id: string;
-  customerId: string;
-  email: string;
-  status: 'active' | 'paused' | 'cancelled' | 'expired';
-  nextBillingDate: string;
-  createdAt: string;
-  updatedAt: string;
-  product: {
-    id: string;
-    title: string;
-    variantTitle?: string;
-    image?: string;
-  };
-  price: {
-    amount: string;
-    currencyCode: string;
-  };
-  quantity: number;
-  interval: {
-    value: number;
-    unit: 'day' | 'week' | 'month' | 'year';
-  };
-}
+// Re-export Subscription type for backwards compatibility
+export type { Subscription } from '@/app/types';
 
 interface UseSubscriptionsReturn {
   subscriptions: Subscription[];
   loading: boolean;
   error: string | null;
-  fetchSubscriptions: (email: string) => Promise<void>;
+  fetchSubscriptions: (accessToken: string) => Promise<void>;
   pauseSubscription: (subscriptionId: string) => Promise<boolean>;
   resumeSubscription: (subscriptionId: string) => Promise<boolean>;
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
+  updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
+  updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
 }
 
 export function useSubscriptions(): UseSubscriptionsReturn {
@@ -43,10 +24,10 @@ export function useSubscriptions(): UseSubscriptionsReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch subscriptions by email
-  const fetchSubscriptions = useCallback(async (email: string): Promise<void> => {
-    if (!email) {
-      setError('Email is required');
+  // Fetch subscriptions (requires auth token)
+  const fetchSubscriptions = useCallback(async (accessToken: string): Promise<void> => {
+    if (!accessToken) {
+      setError('Authentication required');
       return;
     }
 
@@ -54,9 +35,11 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     setError(null);
 
     try {
-      const response = await fetch(
-        `/api/subscriptions?email=${encodeURIComponent(email)}`
-      );
+      const response = await fetch('/api/subscriptions', {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
       const data = await response.json();
 
       if (!response.ok) {
@@ -230,6 +213,88 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
+  // Update subscription frequency
+  const updateFrequency = useCallback(
+    async (subscriptionId: string, interval: SubscriptionInterval): Promise<boolean> => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`/api/subscriptions/${subscriptionId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'updateFrequency', interval }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.error || 'Failed to update frequency');
+          return false;
+        }
+
+        // Update local state
+        setSubscriptions((prev) =>
+          prev.map((sub) =>
+            sub.id === subscriptionId
+              ? { ...sub, interval }
+              : sub
+          )
+        );
+
+        return true;
+      } catch (err) {
+        console.error('Failed to update frequency:', err);
+        setError('Failed to update frequency');
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  // Update subscription quantity
+  const updateQuantity = useCallback(
+    async (subscriptionId: string, quantity: number): Promise<boolean> => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`/api/subscriptions/${subscriptionId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'updateQuantity', quantity }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.error || 'Failed to update quantity');
+          return false;
+        }
+
+        // Update local state
+        setSubscriptions((prev) =>
+          prev.map((sub) =>
+            sub.id === subscriptionId
+              ? { ...sub, quantity }
+              : sub
+          )
+        );
+
+        return true;
+      } catch (err) {
+        console.error('Failed to update quantity:', err);
+        setError('Failed to update quantity');
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   return {
     subscriptions,
     loading,
@@ -239,6 +304,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     resumeSubscription,
     cancelSubscription,
     skipNextOrder,
+    updateFrequency,
+    updateQuantity,
   };
 }
-

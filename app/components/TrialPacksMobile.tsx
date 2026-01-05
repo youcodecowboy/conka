@@ -123,14 +123,17 @@ export default function TrialPacksMobile() {
       </div>
 
       {/* Product Image */}
-      <div className="relative w-full aspect-square max-w-[200px] mx-auto mb-6">
+      <a 
+        href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
+        className="block relative w-full aspect-square max-w-[200px] mx-auto mb-6"
+      >
         <Image
           src={selectedFormula === "01" ? "/1.png" : "/2.png"}
           alt={`Formula ${selectedFormula} bottle`}
           fill
           className="object-contain scale-150"
         />
-      </div>
+      </a>
 
       {/* Pack Size Selection */}
       <div className="mb-4">
@@ -260,7 +263,7 @@ export default function TrialPacksMobile() {
             {/* Split Buttons */}
             <div className="flex gap-2">
               <a
-                href={`/formula-${selectedFormula}`}
+                href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
                 className="flex-1 py-3 px-4 border-2 border-black rounded-lg font-semibold text-sm text-center hover:bg-black/5 transition-colors"
               >
                 Learn More

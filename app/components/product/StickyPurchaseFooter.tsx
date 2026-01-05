@@ -29,11 +29,12 @@ interface StickyPurchaseFooterProps {
   onAddToCart: () => void;
 }
 
-const packSizes: PackSize[] = ["4", "8", "12"];
+const packSizes: PackSize[] = ["4", "8", "12", "28"];
 const packLabels: Record<PackSize, string> = {
   "4": "4-pack",
   "8": "8-pack",
   "12": "12-pack",
+  "28": "28-pack",
 };
 
 // Subscription discount percentage
@@ -279,7 +280,9 @@ export default function StickyPurchaseFooter({
               >
                 <div
                   className={`w-8 h-4 rounded-full relative transition-colors ${
-                    purchaseType === "subscription" ? "bg-amber-500" : "bg-gray-300"
+                    purchaseType === "subscription" 
+                      ? (formulaId === "01" ? "bg-amber-500" : "bg-teal-500") 
+                      : "bg-gray-300"
                   }`}
                 >
                   <div
@@ -307,14 +310,18 @@ export default function StickyPurchaseFooter({
                       {formatPrice(originalPrice)}
                     </span>
                   )}
-                  <span className={`text-xl md:text-2xl font-bold ${isSubscription ? "text-amber-600" : ""}`}>
+                  <span className={`text-xl md:text-2xl font-bold ${
+                    isSubscription ? (formulaId === "01" ? "text-amber-600" : "text-teal-600") : ""
+                  }`}>
                     {formatPrice(price)}
                   </span>
                   <span className="font-clinical text-xs opacity-70 font-normal leading-none">+ Free Shipping</span>
                 </div>
                 {isSubscription && (
                   <div className="flex justify-end mt-1">
-                    <span className="inline-flex items-center gap-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                    <span className={`inline-flex items-center gap-1 ${
+                      formulaId === "01" ? "bg-amber-500" : "bg-teal-500"
+                    } text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>

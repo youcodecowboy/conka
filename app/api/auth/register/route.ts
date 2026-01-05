@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { shopifyFetch, Customer, CustomerAccessToken } from '@/app/lib/shopify';
 import { CUSTOMER_CREATE, CUSTOMER_ACCESS_TOKEN_CREATE } from '@/app/lib/shopifyQueries';
 
-interface RegisterInput {
-  email: string;
-  password: string;
-  firstName?: string;
-  lastName?: string;
-  acceptsMarketing?: boolean;
-}
+// Zod schema for registration validation
+const registerSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(5, 'Password must be at least 5 characters'),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  acceptsMarketing: z.boolean().optional(),
+});
 
 interface CustomerCreateResponse {
   customerCreate: {
@@ -34,23 +36,19 @@ interface CustomerAccessTokenCreateResponse {
 
 export async function POST(request: NextRequest) {
   try {
-    const body: RegisterInput = await request.json();
-    const { email, password, firstName, lastName, acceptsMarketing } = body;
-
-    if (!email || !password) {
+    const body = await request.json();
+    
+    // Validate input with Zod
+    const validationResult = registerSchema.safeParse(body);
+    if (!validationResult.success) {
+      const firstError = validationResult.error.issues[0];
       return NextResponse.json(
-        { error: 'Email and password are required' },
+        { error: firstError.message },
         { status: 400 }
       );
     }
 
-    // Validate password length
-    if (password.length < 5) {
-      return NextResponse.json(
-        { error: 'Password must be at least 5 characters' },
-        { status: 400 }
-      );
-    }
+    const { email, password, firstName, lastName, acceptsMarketing } = validationResult.data;
 
     // Create the customer
     const createResponse = await shopifyFetch<CustomerCreateResponse>(

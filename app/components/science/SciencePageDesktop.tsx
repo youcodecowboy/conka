@@ -23,7 +23,7 @@ export default function SciencePageDesktop() {
                 deserves ingredients backed by rigorous science, not marketing hype.&rdquo;
               </p>
               <p className="font-clinical text-sm opacity-70 mt-4">
-                — The Conka Research Philosophy
+                - The Conka Research Philosophy
               </p>
             </div>
           </div>
@@ -56,7 +56,7 @@ export default function SciencePageDesktop() {
                 </p>
                 <p>
                   Key adaptogens in our formulas include <strong>Ashwagandha</strong>,{" "}
-                  <strong>Rhodiola rosea</strong>, and <strong>Lemon Balm</strong>—each
+                  <strong>Rhodiola rosea</strong>, and <strong>Lemon Balm</strong>, each
                   clinically proven to reduce cortisol and improve stress resilience.
                 </p>
               </div>
@@ -138,7 +138,7 @@ export default function SciencePageDesktop() {
               </div>
               <h3 className="font-bold text-xl mb-2">Clinical Dosing</h3>
               <p className="text-sm opacity-80">
-                We use the same doses proven effective in clinical trials—not
+                We use the same doses proven effective in clinical trials, not
                 underdosed &ldquo;proprietary blends&rdquo; that hide inadequate amounts.
               </p>
             </div>
@@ -190,7 +190,7 @@ export default function SciencePageDesktop() {
               <h3 className="font-bold text-xl mb-2">Full Transparency</h3>
               <p className="text-sm opacity-80">
                 Every statistic links to its PubMed source. No exaggerated
-                claims—just real science you can verify yourself.
+                claims, just real science you can verify yourself.
               </p>
             </div>
           </div>

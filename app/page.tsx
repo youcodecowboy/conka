@@ -205,7 +205,7 @@ export default function Home() {
         </svg>
       ),
       stat: "+63%",
-      annotation: "PMID: 29246725 — Curcumin",
+      annotation: "PMID: 29246725 — Turmeric",
       description: "Enhanced neuroplasticity and memory formation",
       image: "/CONKA_03.jpg",
       focalPoint: { x: 50, y: 45 },
@@ -238,7 +238,7 @@ export default function Home() {
       <Hero />
 
       {/* ===== SECTION 1.5: PRODUCT SLIDESHOW (MOBILE ONLY) ===== */}
-      <ProductSlideshowMobile />
+      <ProductSlideshowMobile variant="hero" />
 
       {/* ===== SECTION 2: KEY BENEFITS SLIDESHOW ===== */}
       <KeyBenefits benefits={keyBenefits} />
@@ -258,7 +258,7 @@ export default function Home() {
       <TrialPacks />
 
       {/* ===== SECTION 6.6: PRODUCT SLIDESHOW (MOBILE ONLY) ===== */}
-      <ProductSlideshowMobile />
+      <ProductSlideshowMobile variant="packaging" />
 
       {/* ===== SECTION 7: FOUNDERS ===== */}
       <section className="px-6 md:px-16 py-24">
@@ -346,17 +346,21 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row justify-between gap-8">
             {/* Left Side */}
             <div className="flex flex-col gap-4">
-              <a href="/" className="text-xl font-bold tracking-tight font-primary hover:opacity-70 transition-all">
-                conka.
+              <a href="/" className="flex items-center hover:opacity-70 transition-all">
+                <img
+                  src="/conka.png"
+                  alt="Conka logo"
+                  className="h-6 w-auto"
+                />
               </a>
               
               {/* Mini Nav */}
               <nav className="flex flex-wrap items-center gap-2">
-                <a href="/#science" className="font-clinical text-xs hover:opacity-70 transition-all">The Science</a>
+                <a href="/science" className="font-clinical text-xs hover:opacity-70 transition-all">The Science</a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/#ingredients" className="font-clinical text-xs hover:opacity-70 transition-all">Ingredients</a>
+                <a href="/ingredients" className="font-clinical text-xs hover:opacity-70 transition-all">Ingredients</a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/#results" className="font-clinical text-xs hover:opacity-70 transition-all">Results</a>
+                <a href="/case-studies" className="font-clinical text-xs hover:opacity-70 transition-all">Results</a>
                 <span className="font-clinical text-xs opacity-30">•</span>
                 <a href="/our-story" className="font-clinical text-xs hover:opacity-70 transition-all">Our Story</a>
               </nav>

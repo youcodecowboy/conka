@@ -175,11 +175,11 @@ export default function ProtocolBuilderMobile() {
         {/* Formula Legend - Above protocol cards */}
         <div className="flex gap-4 mb-4">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-[#AAB9BC] rounded-sm"></div>
+            <div className="w-3 h-3 bg-amber-500 rounded-sm"></div>
             <span className="font-clinical text-xs">Conka Flow</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-amber-500 rounded-sm"></div>
+            <div className="w-3 h-3 bg-[#AAB9BC] rounded-sm"></div>
             <span className="font-clinical text-xs">Conka Clarity</span>
           </div>
         </div>
@@ -298,19 +298,50 @@ export default function ProtocolBuilderMobile() {
 
       {/* Tier Toggle */}
       <div className="flex gap-2 mb-4">
-        {availableTiers.map((tier) => (
-          <button
-            key={tier}
-            onClick={() => setSelectedTier(tier)}
-            className={`flex-1 py-2 px-3 rounded-lg font-clinical text-sm transition-all ${
-              selectedTier === tier
-                ? "bg-black text-white"
-                : "border-2 border-black/10 hover:border-black/30"
-            }`}
-          >
-            {tier.charAt(0).toUpperCase() + tier.slice(1)}
-          </button>
-        ))}
+        {availableTiers.map((tier) => {
+          // Get formula counts with names
+          let flowCount: number;
+          let clarityCount: number;
+          
+          if (currentPath.isUltimate && (tier === "pro" || tier === "max")) {
+            flowCount = ultimateTiers[tier].conkaFlowCount;
+            clarityCount = ultimateTiers[tier].conkaClarityCount;
+          } else if (currentPath.isBalanced) {
+            flowCount = balancedTiers[tier].conkaFlowCount;
+            clarityCount = balancedTiers[tier].conkaClarityCount;
+          } else {
+            // For standard paths, primary/secondary depends on which formula is primary
+            const primaryIsFlow = currentPath.primaryFormula === "01";
+            if (primaryIsFlow) {
+              flowCount = protocolTiers[tier].primaryCount;
+              clarityCount = protocolTiers[tier].secondaryCount;
+            } else {
+              clarityCount = protocolTiers[tier].primaryCount;
+              flowCount = protocolTiers[tier].secondaryCount;
+            }
+          }
+          
+          return (
+            <button
+              key={tier}
+              onClick={() => setSelectedTier(tier)}
+              className={`flex-1 py-3 px-2 rounded-lg transition-all ${
+                selectedTier === tier
+                  ? "bg-black text-white"
+                  : "border-2 border-black/10 hover:border-black/30"
+              }`}
+            >
+              <p className="font-clinical text-xs uppercase opacity-70 mb-1">{tier}</p>
+              <div className="flex items-center justify-center gap-1">
+                <div className="w-2 h-2 rounded-sm bg-amber-500"></div>
+                <span className="font-clinical text-xs">{flowCount}</span>
+                <span className="text-xs opacity-50">+</span>
+                <div className="w-2 h-2 rounded-sm bg-[#AAB9BC]"></div>
+                <span className="font-clinical text-xs">{clarityCount}</span>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* 1-Week Calendar Sample */}

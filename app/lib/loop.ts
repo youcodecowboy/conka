@@ -4,51 +4,29 @@
  * Loop Subscriptions is a third-party subscription management service
  * that integrates with Shopify.
  * 
- * API Documentation: https://loop-subscriptions.readme.io/
+ * API Documentation: https://developer.loopwork.co/reference/api-reference
  */
 
-// Loop API base URL
-const LOOP_API_BASE = 'https://api.loopsubscriptions.com/v1';
+import type { 
+  Subscription, 
+  SubscriptionError, 
+  SubscriptionApiResponse,
+  SubscriptionInterval,
+} from '@/app/types';
 
-// Types for Loop Subscriptions
-export interface LoopSubscription {
-  id: string;
-  customerId: string;
-  email: string;
-  status: 'active' | 'paused' | 'cancelled' | 'expired';
-  nextBillingDate: string;
-  createdAt: string;
-  updatedAt: string;
-  product: {
-    id: string;
-    title: string;
-    variantTitle?: string;
-    image?: string;
-  };
-  price: {
-    amount: string;
-    currencyCode: string;
-  };
-  quantity: number;
-  interval: {
-    value: number;
-    unit: 'day' | 'week' | 'month' | 'year';
-  };
-}
+// Loop Admin API base URL (2023-10 version)
+const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 
-export interface LoopError {
-  code: string;
-  message: string;
-}
+// Re-export types for backwards compatibility
+export type LoopSubscription = Subscription;
+export type LoopError = SubscriptionError;
+type LoopApiResponse<T> = SubscriptionApiResponse<T>;
 
-interface LoopApiResponse<T> {
-  data?: T;
-  error?: LoopError;
-}
+import { env } from './env';
 
 // Get API credentials from environment
 function getCredentials(): { token: string } {
-  const token = process.env.LOOP_API_KEY;
+  const token = env.loopApiKey;
 
   if (!token) {
     throw new Error('Loop API credentials not configured');
@@ -71,7 +49,7 @@ export async function loopFetch<T>(
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        'X-Loop-Token': token,  // Loop uses X-Loop-Token header, not Bearer
         ...options.headers,
       },
     });
@@ -87,7 +65,8 @@ export async function loopFetch<T>(
       };
     }
 
-    return { data };
+    // Loop API wraps responses in a data field
+    return { data: data.data || data };
   } catch (error) {
     console.error('Loop API error:', error);
     return {
@@ -99,81 +78,157 @@ export async function loopFetch<T>(
   }
 }
 
-// Get subscriptions by customer email
-export async function getCustomerSubscriptions(
-  email: string
+// Get all subscriptions (paginated)
+// https://developer.loopwork.co/reference/read-all-subscriptions
+export async function getAllSubscriptions(
+  page: number = 1,
+  limit: number = 50
 ): Promise<LoopApiResponse<LoopSubscription[]>> {
   return loopFetch<LoopSubscription[]>(
-    `/subscriptions?customer_email=${encodeURIComponent(email)}`
+    `/subscription?page=${page}&limit=${limit}`
   );
 }
 
+// Get subscriptions by customer email
+// Note: Loop's Admin API uses customer ID, not email directly
+// We need to first get the customer by email, then get their subscriptions
+export async function getCustomerSubscriptions(
+  email: string
+): Promise<LoopApiResponse<LoopSubscription[]>> {
+  // First, get all subscriptions and filter by email
+  // Loop doesn't have a direct "by email" endpoint in Admin API
+  // For now, we'll use the customer endpoint to find the customer first
+  try {
+    // Get customer by email
+    const customerResult = await loopFetch<{ id: number }>(
+      `/customer?email=${encodeURIComponent(email)}`
+    );
+    
+    if (customerResult.error || !customerResult.data) {
+      return { data: [] }; // No customer found, return empty
+    }
+    
+    // Then get subscriptions for that customer
+    const customerId = customerResult.data.id;
+    return loopFetch<LoopSubscription[]>(
+      `/subscription?customerId=${customerId}`
+    );
+  } catch {
+    return { data: [] };
+  }
+}
+
 // Get single subscription by ID
+// https://developer.loopwork.co/reference/read-subscription-details
 export async function getSubscription(
   subscriptionId: string
 ): Promise<LoopApiResponse<LoopSubscription>> {
-  return loopFetch<LoopSubscription>(`/subscriptions/${subscriptionId}`);
+  return loopFetch<LoopSubscription>(`/subscription/${subscriptionId}`);
 }
 
 // Pause a subscription
+// https://developer.loopwork.co/reference/pause-subscription
 export async function pauseSubscription(
   subscriptionId: string
 ): Promise<LoopApiResponse<LoopSubscription>> {
-  return loopFetch<LoopSubscription>(`/subscriptions/${subscriptionId}/pause`, {
+  return loopFetch<LoopSubscription>(`/subscription/${subscriptionId}/pause`, {
     method: 'POST',
   });
 }
 
 // Resume a subscription
+// https://developer.loopwork.co/reference/resume-subscription
 export async function resumeSubscription(
   subscriptionId: string
 ): Promise<LoopApiResponse<LoopSubscription>> {
-  return loopFetch<LoopSubscription>(`/subscriptions/${subscriptionId}/resume`, {
+  return loopFetch<LoopSubscription>(`/subscription/${subscriptionId}/resume`, {
     method: 'POST',
   });
 }
 
 // Cancel a subscription
+// https://developer.loopwork.co/reference/cancel-subscription
 export async function cancelSubscription(
   subscriptionId: string,
   reason?: string
 ): Promise<LoopApiResponse<LoopSubscription>> {
-  return loopFetch<LoopSubscription>(`/subscriptions/${subscriptionId}/cancel`, {
+  return loopFetch<LoopSubscription>(`/subscription/${subscriptionId}/cancel`, {
     method: 'POST',
-    body: JSON.stringify({ reason }),
+    body: JSON.stringify({ 
+      cancellationReason: reason,
+    }),
   });
 }
 
 // Skip next order
+// https://developer.loopwork.co/reference/skip-next-order
 export async function skipNextOrder(
   subscriptionId: string
-): Promise<LoopApiResponse<{ skippedDate: string }>> {
-  return loopFetch<{ skippedDate: string }>(
-    `/subscriptions/${subscriptionId}/skip`,
+): Promise<LoopApiResponse<{ success: boolean }>> {
+  return loopFetch<{ success: boolean }>(
+    `/subscription/${subscriptionId}/order/skip`,
     {
       method: 'POST',
     }
   );
 }
 
-// Update subscription frequency
+// Update subscription frequency (change billing/delivery interval)
+// https://developer.loopwork.co/reference/update-frequency
+// Note: Changing frequency may require using the "change-frequency" endpoint
 export async function updateSubscriptionFrequency(
   subscriptionId: string,
-  interval: { value: number; unit: 'day' | 'week' | 'month' | 'year' }
+  interval: SubscriptionInterval
 ): Promise<LoopApiResponse<LoopSubscription>> {
-  return loopFetch<LoopSubscription>(`/subscriptions/${subscriptionId}`, {
-    method: 'PATCH',
-    body: JSON.stringify({ interval }),
+  // Map our interval format to Loop's expected format
+  const intervalUnit = interval.unit.toUpperCase(); // Loop uses WEEK, MONTH, etc.
+  
+  return loopFetch<LoopSubscription>(`/subscription/${subscriptionId}/change-frequency`, {
+    method: 'POST',
+    body: JSON.stringify({ 
+      billingInterval: intervalUnit,
+      billingIntervalCount: interval.value,
+      deliveryInterval: intervalUnit,
+      deliveryIntervalCount: interval.value,
+    }),
   });
 }
 
-// Update subscription quantity
+// Update subscription line item quantity
+// https://developer.loopwork.co/reference/update-line-item-quantity
+// Note: Quantity changes happen on line items, not on the subscription directly
 export async function updateSubscriptionQuantity(
   subscriptionId: string,
   quantity: number
 ): Promise<LoopApiResponse<LoopSubscription>> {
-  return loopFetch<LoopSubscription>(`/subscriptions/${subscriptionId}`, {
-    method: 'PATCH',
+  // First, get the subscription to find the line item ID
+  const subResult = await getSubscription(subscriptionId);
+  
+  if (subResult.error || !subResult.data) {
+    return {
+      error: {
+        code: 'SUBSCRIPTION_NOT_FOUND',
+        message: 'Could not find subscription to update quantity',
+      },
+    };
+  }
+  
+  // Get the first line item (most subscriptions have one main product)
+  const lines = (subResult.data as any).lines;
+  if (!lines || lines.length === 0) {
+    return {
+      error: {
+        code: 'NO_LINE_ITEMS',
+        message: 'Subscription has no line items to update',
+      },
+    };
+  }
+  
+  const lineId = lines[0].id;
+  
+  // Update the line item quantity
+  return loopFetch<LoopSubscription>(`/line/${lineId}/update-quantity`, {
+    method: 'POST',
     body: JSON.stringify({ quantity }),
   });
 }

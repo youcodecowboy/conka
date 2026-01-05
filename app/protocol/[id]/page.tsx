@@ -168,13 +168,13 @@ export default function ProtocolPage() {
                 />
               </a>
               <nav className="flex flex-wrap items-center gap-2">
-                <a href="/#science" className="font-clinical text-xs hover:opacity-70 transition-all">The Science</a>
+                <a href="/science" className="font-clinical text-xs hover:opacity-70 transition-all">The Science</a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/#ingredients" className="font-clinical text-xs hover:opacity-70 transition-all">Ingredients</a>
+                <a href="/ingredients" className="font-clinical text-xs hover:opacity-70 transition-all">Ingredients</a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/#results" className="font-clinical text-xs hover:opacity-70 transition-all">Results</a>
+                <a href="/case-studies" className="font-clinical text-xs hover:opacity-70 transition-all">Results</a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/#story" className="font-clinical text-xs hover:opacity-70 transition-all">Our Story</a>
+                <a href="/our-story" className="font-clinical text-xs hover:opacity-70 transition-all">Our Story</a>
               </nav>
               <p className="font-commentary text-xs opacity-60">built with love ♥</p>
             </div>

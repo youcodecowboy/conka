@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { shopifyFetch, CustomerAccessToken } from '@/app/lib/shopify';
 import { CUSTOMER_ACCESS_TOKEN_CREATE } from '@/app/lib/shopifyQueries';
 
-interface LoginInput {
-  email: string;
-  password: string;
-}
+// Zod schema for login validation
+const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
 
 interface CustomerAccessTokenCreateResponse {
   customerAccessTokenCreate: {
@@ -20,15 +22,19 @@ interface CustomerAccessTokenCreateResponse {
 
 export async function POST(request: NextRequest) {
   try {
-    const body: LoginInput = await request.json();
-    const { email, password } = body;
-
-    if (!email || !password) {
+    const body = await request.json();
+    
+    // Validate input with Zod
+    const validationResult = loginSchema.safeParse(body);
+    if (!validationResult.success) {
+      const firstError = validationResult.error.issues[0];
       return NextResponse.json(
-        { error: 'Email and password are required' },
+        { error: firstError.message },
         { status: 400 }
       );
     }
+
+    const { email, password } = validationResult.data;
 
     const response = await shopifyFetch<CustomerAccessTokenCreateResponse>(
       CUSTOMER_ACCESS_TOKEN_CREATE,

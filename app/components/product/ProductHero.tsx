@@ -60,13 +60,13 @@ export default function ProductHero({
     { src: "/CONKA_20.jpg", focalX: 50, focalY: 55 }, // Clarity with lemons
   ];
 
-  // Header color based on purchase type - Conka Flow inverts, Conka Clarity uses amber
+  // Header color based on purchase type - Conka Flow inverts, Conka Clarity uses teal
   const headerBgClass =
     purchaseType === "subscription"
       ? "bg-[var(--foreground)] text-[var(--background)]"
       : formulaId === "01"
       ? "bg-[var(--background)] text-[var(--foreground)] border-2 border-[var(--foreground)]"
-      : "bg-amber-500 text-white";
+      : "bg-[#AAB9BC] text-white";
   
   const oneTimeColor = formulaId === "01" ? "invert" : accentColor.hex;
 
@@ -135,6 +135,7 @@ export default function ProductHero({
                   onSelect={onPackSelect}
                   purchaseType={purchaseType}
                   highlightColor={oneTimeColor}
+                  subscriptionAccentColor={formulaId === "01" ? "#f59e0b" : "#AAB9BC"}
                 />
 
                 {/* Price Display */}
@@ -143,13 +144,15 @@ export default function ProductHero({
                     purchaseType === "one-time"
                       ? formulaId === "01"
                         ? "bg-[var(--background)] border-[var(--foreground)]"
-                        : `border-amber-500`
-                      : "bg-amber-500/10 border-amber-500"
+                        : "border-[#AAB9BC]"
+                      : formulaId === "01"
+                        ? "bg-amber-500/10 border-amber-500"
+                        : "bg-[#AAB9BC]/10 border-[#AAB9BC]"
                   }`}
                   style={
                     purchaseType === "one-time" && formulaId !== "01"
                       ? {
-                          backgroundColor: "rgba(245, 158, 11, 0.1)",
+                          backgroundColor: "rgba(170, 185, 188, 0.1)",
                         }
                       : undefined
                   }

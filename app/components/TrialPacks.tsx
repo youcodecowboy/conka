@@ -116,7 +116,10 @@ export default function TrialPacks() {
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           {/* Left: Formula Image */}
           <div className="lg:w-2/5">
-            <div className="relative w-full h-96 rounded-xl overflow-hidden">
+            <a 
+              href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
+              className="block relative w-full h-96 rounded-xl overflow-hidden hover:opacity-90 transition-opacity"
+            >
               <Image
                 src={formulaImages[selectedFormula].src}
                 alt={`Conka ${selectedFormula === "01" ? "Flow" : "Clarity"} bottles`}
@@ -126,7 +129,7 @@ export default function TrialPacks() {
                   objectPosition: `${formulaImages[selectedFormula].focalX}% ${formulaImages[selectedFormula].focalY}%`,
                 }}
               />
-            </div>
+            </a>
           </div>
 
           {/* Right: Selections */}
@@ -201,7 +204,7 @@ export default function TrialPacks() {
                 {isAdding ? 'Adding...' : 'Add to Cart'}
               </button>
               <a 
-                href={`/formula-${selectedFormula}`}
+                href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
                 className="block w-full neo-button-outline px-8 py-3 font-semibold text-center"
               >
                 Learn More

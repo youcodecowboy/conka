@@ -1,21 +1,15 @@
 import { createStorefrontApiClient, StorefrontApiClient } from '@shopify/storefront-api-client';
+import { env } from './env';
 
 // Lazy initialization of Shopify client to avoid build-time errors
 let _client: StorefrontApiClient | null = null;
 
 function getClient(): StorefrontApiClient {
   if (!_client) {
-    const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
-    const accessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
-    
-    if (!storeDomain || !accessToken) {
-      throw new Error('Shopify environment variables are not configured');
-    }
-    
     _client = createStorefrontApiClient({
-      storeDomain,
+      storeDomain: env.shopifyStoreDomain,
       apiVersion: '2025-10',
-      publicAccessToken: accessToken,
+      publicAccessToken: env.shopifyStorefrontAccessToken,
     });
   }
   return _client;
@@ -122,18 +116,110 @@ export interface CustomerAccessToken {
   expiresAt: string;
 }
 
-// GraphQL request helper
+// Response type for Shopify queries
+export type ShopifyResponse<T> = { data: T; errors?: Array<{ message: string }> };
+
+// Simple in-memory cache for read operations
+interface CacheEntry<T> {
+  data: T;
+  timestamp: number;
+}
+
+const cache = new Map<string, CacheEntry<unknown>>();
+const DEFAULT_CACHE_TTL = 60 * 1000; // 60 seconds default TTL
+
+/**
+ * Generate a cache key from query and variables
+ */
+function getCacheKey(query: string, variables?: Record<string, unknown>): string {
+  const normalizedQuery = query.replace(/\s+/g, ' ').trim();
+  const variablesKey = variables ? JSON.stringify(variables) : '';
+  return `${normalizedQuery}:${variablesKey}`;
+}
+
+/**
+ * Clear expired cache entries (runs periodically)
+ */
+function cleanupCache(): void {
+  const now = Date.now();
+  for (const [key, entry] of cache.entries()) {
+    if (now - entry.timestamp > DEFAULT_CACHE_TTL * 2) {
+      cache.delete(key);
+    }
+  }
+}
+
+// Cleanup cache every 5 minutes
+if (typeof setInterval !== 'undefined') {
+  setInterval(cleanupCache, 5 * 60 * 1000);
+}
+
+/**
+ * GraphQL request helper (no caching)
+ * Use this for mutations and user-specific data
+ */
 export async function shopifyFetch<T>(
   query: string,
   variables?: Record<string, unknown>
-): Promise<{ data: T; errors?: Array<{ message: string }> }> {
+): Promise<ShopifyResponse<T>> {
   try {
     const client = getClient();
     const response = await client.request(query, { variables });
-    return response as { data: T; errors?: Array<{ message: string }> };
+    return response as ShopifyResponse<T>;
   } catch (error) {
     console.error('Shopify API Error:', error);
     throw error;
+  }
+}
+
+/**
+ * Cached GraphQL request helper
+ * Use this for read-only queries that don't change frequently
+ * (e.g., product listings, collections, shop info)
+ * 
+ * @param query - GraphQL query string
+ * @param variables - Query variables
+ * @param ttl - Cache TTL in milliseconds (default: 60 seconds)
+ */
+export async function shopifyFetchCached<T>(
+  query: string,
+  variables?: Record<string, unknown>,
+  ttl: number = DEFAULT_CACHE_TTL
+): Promise<ShopifyResponse<T>> {
+  const cacheKey = getCacheKey(query, variables);
+  const now = Date.now();
+
+  // Check cache
+  const cached = cache.get(cacheKey);
+  if (cached && now - cached.timestamp < ttl) {
+    return cached.data as ShopifyResponse<T>;
+  }
+
+  // Fetch fresh data
+  const response = await shopifyFetch<T>(query, variables);
+
+  // Cache successful responses only
+  if (response.data && !response.errors?.length) {
+    cache.set(cacheKey, { data: response, timestamp: now });
+  }
+
+  return response;
+}
+
+/**
+ * Invalidate cache entries matching a pattern
+ * Useful after mutations that affect cached data
+ */
+export function invalidateCache(pattern?: string): void {
+  if (!pattern) {
+    cache.clear();
+    return;
+  }
+
+  for (const key of cache.keys()) {
+    if (key.includes(pattern)) {
+      cache.delete(key);
+    }
   }
 }
 

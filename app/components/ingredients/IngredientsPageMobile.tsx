@@ -169,39 +169,25 @@ export default function IngredientsPageMobile({
           <IngredientStudies studies={activeIngredient.clinicalStudies} accentColor={accentColor.text} />
         </div>
 
-        {/* Safety & Synergies */}
-        <div className="space-y-4">
-          {/* Safety Profile */}
-          <div className="neo-box p-4">
-            <h3 className="font-bold mb-2 flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-              Safety Profile
-            </h3>
-            <p className="text-sm opacity-80">{activeIngredient.safetyProfile}</p>
-          </div>
-
-          {/* Synergies */}
-          <div className="neo-box p-4">
-            <h3 className="font-bold mb-3 flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="2" y1="12" x2="22" y2="12"/>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-              </svg>
-              Works Well With
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {activeIngredient.synergies.map((synergy, idx) => (
-                <span
-                  key={idx}
-                  className="px-3 py-1 rounded-full border-2 border-current/20 font-clinical text-xs"
-                >
-                  {synergy}
-                </span>
-              ))}
-            </div>
+        {/* Synergies */}
+        <div className="neo-box p-4">
+          <h3 className="font-bold mb-3 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Works Well With
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {activeIngredient.synergies.map((synergy, idx) => (
+              <span
+                key={idx}
+                className="px-3 py-1 rounded-full border-2 border-current/20 font-clinical text-xs"
+              >
+                {synergy}
+              </span>
+            ))}
           </div>
         </div>
 

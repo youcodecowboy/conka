@@ -32,11 +32,12 @@ const tabs: { id: TabType; label: string }[] = [
   { id: "taste", label: "Taste" },
 ];
 
-const packSizes: PackSize[] = ["4", "8", "12"];
+const packSizes: PackSize[] = ["4", "8", "12", "28"];
 const packLabels: Record<PackSize, string> = {
   "4": "4-pack",
   "8": "8-pack",
   "12": "12-pack",
+  "28": "28-pack",
 };
 
 export default function ProductHeroMobile({
@@ -313,11 +314,16 @@ export default function ProductHeroMobile({
         {/* Pack Selector */}
         <div className="p-4">
           <p className="font-clinical text-xs uppercase opacity-50 mb-3">Select Pack Size</p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-4 gap-1.5">
             {packSizes.map((size) => {
               const packPricing = formulaPricing[purchaseType][size];
               const oneTimePricing = formulaPricing["one-time"][size];
               const isSelected = selectedPack === size;
+              
+              // Dynamic shadow color based on formula
+              const shadowColor = formulaId === "01" ? "#f59e0b" : "#14b8a6";
+              // Dynamic selected background for subscription
+              const selectedSubBg = formulaId === "01" ? "bg-amber-500" : "bg-teal-500";
               
               return (
                 <button
@@ -325,12 +331,15 @@ export default function ProductHeroMobile({
                   onClick={() => onPackSelect(size)}
                   className={`overflow-hidden transition-all border-2 ${
                     isSelected
-                      ? "border-black shadow-[3px_3px_0px_0px_#14b8a6]"
+                      ? "border-black"
                       : "border-black/10 hover:border-black/30"
                   }`}
+                  style={{
+                    boxShadow: isSelected ? `3px 3px 0px 0px ${shadowColor}` : "none",
+                  }}
                 >
                   {/* Pack Header */}
-                  <div className={`py-1.5 px-2 text-center ${
+                  <div className={`py-1 px-1 text-center ${
                     isSelected 
                       ? purchaseType === "subscription" 
                         ? "bg-black text-white" 
@@ -339,27 +348,29 @@ export default function ProductHeroMobile({
                         ? "bg-black text-white"
                         : `${accentColor.bg}/10`
                   }`}>
-                    <p className="font-bold text-sm">{packLabels[size]}</p>
+                    <p className="font-bold text-xs">{packLabels[size]}</p>
                   </div>
                   {/* Price Body */}
-                  <div className={`py-2 px-2 text-center ${
+                  <div className={`py-1.5 px-1 text-center ${
                     isSelected 
                       ? purchaseType === "subscription"
-                        ? "bg-teal-500 text-white"
+                        ? `${selectedSubBg} text-white`
                         : `${accentColor.bg} text-white`
                       : "bg-white"
                   }`}>
                     {purchaseType === "subscription" && (
-                      <p className={`font-clinical text-[10px] line-through ${isSelected ? "opacity-70" : "opacity-50"}`}>
+                      <p className={`font-clinical text-[9px] line-through ${isSelected ? "opacity-70" : "opacity-50"}`}>
                         {formatPrice(oneTimePricing.price)}
                       </p>
                     )}
-                    <p className={`font-bold text-base ${
-                      purchaseType === "subscription" && !isSelected ? "text-amber-600" : ""
+                    <p className={`font-bold text-sm ${
+                      purchaseType === "subscription" && !isSelected 
+                        ? (formulaId === "01" ? "text-amber-600" : "text-teal-600") 
+                        : ""
                     }`}>
                       {formatPrice(packPricing.price)}
                     </p>
-                    <p className={`font-clinical text-[10px] ${isSelected ? "opacity-80" : "opacity-60"}`}>
+                    <p className={`font-clinical text-[9px] ${isSelected ? "opacity-80" : "opacity-60"}`}>
                       {purchaseType === "subscription" && "billing" in packPricing
                         ? getBillingLabel(packPricing.billing)
                         : "one-time"}
@@ -374,7 +385,9 @@ export default function ProductHeroMobile({
         {/* Selection Summary */}
         <div className={`p-4 transition-colors ${
           purchaseType === "subscription"
-            ? "bg-amber-500/10 border-t-2 border-amber-500/30"
+            ? formulaId === "01" 
+              ? "bg-amber-500/10 border-t-2 border-amber-500/30"
+              : "bg-teal-500/10 border-t-2 border-teal-500/30"
             : summaryBgClass
         }`}>
           <div className="flex justify-between items-center mb-4">
@@ -382,7 +395,9 @@ export default function ProductHeroMobile({
               <p className="font-clinical text-xs uppercase opacity-50">Your Selection</p>
               <p className="font-bold text-sm">{packLabels[selectedPack]} • {billingText}</p>
               {purchaseType === "subscription" && (
-                <span className="inline-flex items-center gap-1 mt-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                <span className={`inline-flex items-center gap-1 mt-1 text-white text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  formulaId === "01" ? "bg-amber-500" : "bg-teal-500"
+                }`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
@@ -396,7 +411,11 @@ export default function ProductHeroMobile({
                   {formatPrice(formulaPricing["one-time"][selectedPack].price)}
                 </p>
               )}
-              <p className={`text-2xl font-bold ${purchaseType === "subscription" ? "text-amber-600" : ""}`}>
+              <p className={`text-2xl font-bold ${
+                purchaseType === "subscription" 
+                  ? (formulaId === "01" ? "text-amber-600" : "text-teal-600") 
+                  : ""
+              }`}>
                 {formatPrice(pricing.price)}
               </p>
               <p className="font-clinical text-xs opacity-70">{formatPrice(pricing.perShot)}/shot</p>

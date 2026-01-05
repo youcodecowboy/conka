@@ -33,7 +33,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   path1: {
     id: "path1",
     title: "Resilience Protocol",
-    subtitle: "Conka Flow Daily • Conka Clarity Weekly",
+    subtitle: "For those that want more focus",
     primaryFormula: "01",
     secondaryFormula: "02",
     icon: (
@@ -53,7 +53,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   path2: {
     id: "path2",
     title: "Precision Protocol",
-    subtitle: "Conka Clarity Daily • Conka Flow Weekly",
+    subtitle: "For those that feel foggy",
     primaryFormula: "02",
     secondaryFormula: "01",
     icon: (
@@ -73,7 +73,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   path3: {
     id: "path3",
     title: "Balance Protocol",
-    subtitle: "Conka Flow & Conka Clarity Balanced",
+    subtitle: "Alternate daily between flow and clarity",
     primaryFormula: "01",
     secondaryFormula: "02",
     isBalanced: true,
@@ -96,7 +96,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   path4: {
     id: "path4",
     title: "Ultimate Protocol",
-    subtitle: "Both Formulas Daily",
+    subtitle: "Take flow and clarity both daily",
     primaryFormula: "01",
     secondaryFormula: "02",
     isUltimate: true,
@@ -381,11 +381,11 @@ export default function ProtocolBuilder() {
             {/* Formula Legend - Always consistent colors */}
             <div className="flex justify-center gap-8 pt-4 flex-wrap">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-[#AAB9BC] rounded-sm"></div>
+                <div className="w-4 h-4 bg-amber-500 rounded-sm"></div>
                 <span className="font-clinical text-sm">Conka Flow – Caffeine-Free Focus</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-amber-500 rounded-sm"></div>
+                <div className="w-4 h-4 bg-[#AAB9BC] rounded-sm"></div>
                 <span className="font-clinical text-sm">Conka Clarity – Peak Performance</span>
               </div>
             </div>
@@ -548,11 +548,32 @@ export default function ProtocolBuilder() {
                 {/* Protocol Tier Selector */}
                 <div className="flex gap-3">
                   {(Object.keys(protocolTiers) as ProtocolTier[]).map((tier) => {
-                    const isBalanced = pathData[selectedPath].isBalanced;
+                    const currentPath = pathData[selectedPath];
+                    const isBalanced = currentPath.isBalanced;
+                    const isUltimate = currentPath.isUltimate;
                     const tierData = isBalanced ? balancedTiers[tier] : protocolTiers[tier];
-                    const countDisplay = isBalanced 
-                      ? `${balancedTiers[tier].conkaFlowCount}+${balancedTiers[tier].conkaClarityCount}`
-                      : `${protocolTiers[tier].primaryCount}+${protocolTiers[tier].secondaryCount}`;
+                    
+                    // Get formula counts with names
+                    let flowCount: number;
+                    let clarityCount: number;
+                    
+                    if (isUltimate && (tier === "pro" || tier === "max")) {
+                      flowCount = ultimateTiers[tier].conkaFlowCount;
+                      clarityCount = ultimateTiers[tier].conkaClarityCount;
+                    } else if (isBalanced) {
+                      flowCount = balancedTiers[tier].conkaFlowCount;
+                      clarityCount = balancedTiers[tier].conkaClarityCount;
+                    } else {
+                      // For standard paths, primary/secondary depends on which formula is primary
+                      const primaryIsFlow = currentPath.primaryFormula === "01";
+                      if (primaryIsFlow) {
+                        flowCount = protocolTiers[tier].primaryCount;
+                        clarityCount = protocolTiers[tier].secondaryCount;
+                      } else {
+                        clarityCount = protocolTiers[tier].primaryCount;
+                        flowCount = protocolTiers[tier].secondaryCount;
+                      }
+                    }
                     
                     return (
                       <button
@@ -563,8 +584,17 @@ export default function ProtocolBuilder() {
                         }`}
                       >
                         <p className="font-clinical text-xs uppercase opacity-70">{tierData.name}</p>
-                        <p className="text-lg font-bold mt-1">{countDisplay}</p>
-                        <p className="font-commentary text-sm mt-1">weekly</p>
+                        <div className="mt-2 space-y-1">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-sm bg-amber-500 flex-shrink-0"></div>
+                            <span className="font-clinical text-sm">{flowCount}× Flow</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-sm bg-[#AAB9BC] flex-shrink-0"></div>
+                            <span className="font-clinical text-sm">{clarityCount}× Clarity</span>
+                          </div>
+                        </div>
+                        <p className="font-commentary text-xs mt-2 opacity-70">per week</p>
                       </button>
                     );
                   })}

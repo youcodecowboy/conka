@@ -5,6 +5,7 @@ import Image from "next/image";
 import { CiBeaker1 } from "react-icons/ci";
 import { protocolContent } from "@/app/lib/productData";
 import { useCart } from "@/app/context/CartContext";
+import { useAuth } from "@/app/context/AuthContext";
 
 interface NavigationProps {
   cartOpen?: boolean;
@@ -14,6 +15,7 @@ interface NavigationProps {
 export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartOpen }: NavigationProps) {
   // Use cart context - props are deprecated but kept for backwards compatibility
   const { openCart, itemCount } = useCart();
+  const { isAuthenticated, customer, loading: authLoading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
   const [isScrollingDown, setIsScrollingDown] = useState(false);
@@ -139,7 +141,7 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
                       onClick={() => setShopDropdownOpen(false)}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <circle cx="12" cy="12" r="10"/>
                             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
@@ -152,6 +154,15 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
                             <span className="px-2 py-0.5 bg-green-500 text-white font-clinical text-xs font-bold rounded-full">RECOMMENDED</span>
                           </div>
                           <p className="font-clinical text-xs opacity-80 text-white">Take our 2-minute quiz to find your perfect match.</p>
+                        </div>
+                        <div className="flex-shrink-0">
+                          <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#f59e0b] text-black font-bold text-sm rounded-full hover:bg-[#d97706] transition-colors">
+                            Take the Quiz
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M5 12h14"/>
+                              <path d="m12 5 7 7-7 7"/>
+                            </svg>
+                          </span>
                         </div>
                       </div>
                     </a>
@@ -216,7 +227,7 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
                     </div>
 
                     {/* Individual Formulas - Side by Side */}
-                    <div className="p-4">
+                    <div className="p-4 border-b-2 border-current">
                       <div className="flex items-center gap-2 mb-3">
                         <p className="font-clinical text-xs uppercase opacity-50">Individual Formulas</p>
                         <p className="font-primary text-xs opacity-70">Order Conka individually</p>
@@ -243,6 +254,36 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
                             <span className="font-bold text-sm block">Conka Clarity</span>
                             <span className="font-clinical text-xs opacity-70">Peak Performance Boost</span>
                           </div>
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Account Section - Compact */}
+                    <div className="px-4 py-3 bg-current/5 flex items-center justify-between">
+                      <p className="font-clinical text-xs uppercase opacity-40">Account</p>
+                      <div className="flex items-center gap-4">
+                        <a
+                          href={isAuthenticated ? "/account" : "/account/login"}
+                          className="font-clinical text-xs hover:opacity-70 transition-opacity flex items-center gap-1.5"
+                          onClick={() => setShopDropdownOpen(false)}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                          </svg>
+                          {isAuthenticated ? (customer?.firstName || "My Account") : "Sign In"}
+                        </a>
+                        <span className="opacity-20">|</span>
+                        <a
+                          href={isAuthenticated ? "/account/subscriptions" : "/account/login"}
+                          className="font-clinical text-xs hover:opacity-70 transition-opacity flex items-center gap-1.5"
+                          onClick={() => setShopDropdownOpen(false)}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
+                            <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                          </svg>
+                          Manage Subscription
                         </a>
                       </div>
                     </div>
@@ -365,7 +406,7 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
                     </svg>
                     <div>
                       <p className="font-bold text-sm">Resilience Protocol</p>
-                      <p className="font-clinical text-xs opacity-70">F01 Daily</p>
+                      <p className="font-clinical text-xs opacity-70">For those that want more focus</p>
                     </div>
                   </a>
                   <a href="/protocol/2" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
@@ -374,7 +415,7 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
                     </svg>
                     <div>
                       <p className="font-bold text-sm">Precision Protocol</p>
-                      <p className="font-clinical text-xs opacity-70">F02 Daily</p>
+                      <p className="font-clinical text-xs opacity-70">For those that feel foggy</p>
                     </div>
                   </a>
                   <a href="/protocol/3" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
@@ -384,7 +425,7 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
                     </svg>
                     <div>
                       <p className="font-bold text-sm">Balance Protocol</p>
-                      <p className="font-clinical text-xs opacity-70">Balanced</p>
+                      <p className="font-clinical text-xs opacity-70">Alternate daily between Flow and Clarity</p>
                     </div>
                   </a>
                   <a href="/protocol/4" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
@@ -393,7 +434,7 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
                     </svg>
                     <div>
                       <p className="font-bold text-sm">Ultimate Protocol</p>
-                      <p className="font-clinical text-xs opacity-70">Ultimate</p>
+                      <p className="font-clinical text-xs opacity-70">Take Flow and Clarity both daily</p>
                     </div>
                   </a>
                 </div>

@@ -1,7 +1,7 @@
 // ===== FORMULA DATA =====
 
 export type FormulaId = "01" | "02";
-export type PackSize = "4" | "8" | "12";
+export type PackSize = "4" | "8" | "12" | "28";
 export type PurchaseType = "subscription" | "one-time";
 export type ProtocolId = "1" | "2" | "3" | "4";
 export type ProtocolTier = "starter" | "pro" | "max";
@@ -30,12 +30,14 @@ export const formulaPricing = {
     "4": { price: 14.99, perShot: 3.75 },
     "8": { price: 28.99, perShot: 3.62 },
     "12": { price: 39.99, perShot: 3.33 },
+    "28": { price: 79.99, perShot: 2.86 },
   },
   // Subscription = 20% off base price
   subscription: {
     "4": { price: 11.99, billing: "weekly", perShot: 3.00, basePrice: 14.99 },
     "8": { price: 23.19, billing: "bi-weekly", perShot: 2.90, basePrice: 28.99 },
     "12": { price: 31.99, billing: "bi-weekly", perShot: 2.67, basePrice: 39.99 },
+    "28": { price: 63.99, billing: "monthly", perShot: 2.29, basePrice: 79.99 },
   },
 } as const;
 
@@ -836,7 +838,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
   "1": {
     id: "1",
     name: "Resilience Protocol",
-    subtitle: "Build Resilience, Stay Sharp",
+    subtitle: "For those that want more focus",
     description: "Daily adaptogen support with Conka Flow's Ashwagandha and Rhodiola builds stress resilience and recovery. Weekly Conka Clarity boosts provide peak cognitive performance when you need it most.",
     icon: "shield",
     bestFor: ["Recovery Focus", "Stress Management", "Daily Wellness"],
@@ -874,7 +876,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
   "2": {
     id: "2",
     name: "Precision Protocol",
-    subtitle: "Peak Cognition, Zero Burnout",
+    subtitle: "For those that feel foggy",
     description: "Front-load with cognitive enhancers for sustained mental endurance. Conka Clarity's Alpha GPC and Vitamin C build your neurological foundation, while weekly Conka Flow adaptogens prevent burnout.",
     icon: "bolt",
     bestFor: ["Peak Performance", "Mental Endurance", "Cognitive Enhancement"],
@@ -912,7 +914,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
   "3": {
     id: "3",
     name: "Balance Protocol",
-    subtitle: "The Best of Both Worlds",
+    subtitle: "Alternate daily between Flow and Clarity",
     description: "The best of both worlds. Alternate between Conka Flow and Conka Clarity for comprehensive cognitive support. Perfect for those who want the full spectrum of benefits without committing to one dominant formula.",
     icon: "balance",
     bestFor: ["Balanced Approach", "All-Rounders", "Hybrid Athletes"],
@@ -950,7 +952,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
   "4": {
     id: "4",
     name: "Ultimate Protocol",
-    subtitle: "Maximum Power, Every Day",
+    subtitle: "Take Flow and Clarity both daily",
     description: "Maximum cognitive enhancement with both Conka Flow and Conka Clarity every single day. This is the most comprehensive protocol for those who demand peak performance in every aspect of their cognitive function.",
     icon: "crown",
     bestFor: ["Elite Performance", "Maximum Results", "No Compromise"],

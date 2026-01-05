@@ -66,7 +66,7 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
         {/* Research Note */}
         <div className={`${isMobile ? "mt-6" : "mt-8"} neo-box p-4`}>
           <p className={`font-clinical ${isMobile ? "text-xs" : "text-sm"} opacity-80`}>
-            <span className="font-bold">Note:</span> These statistics represent the combined body of research supporting our formulations—including Conka's proprietary clinical studies and peer-reviewed research from leading universities and medical institutions worldwide. All studies are indexed in PubMed.
+            <span className="font-bold">Note:</span> These statistics represent the combined body of research supporting our formulations, including Conka&apos;s proprietary clinical studies and peer-reviewed research from leading universities and medical institutions worldwide. All studies are indexed in PubMed.
           </p>
         </div>
 

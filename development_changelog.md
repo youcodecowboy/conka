@@ -2,6 +2,376 @@
 
 ## January 5, 2026
 
+### 22:50 - Enhanced Mobile Product Slideshow with Better Images
+
+Improved the mobile product slideshow component with better image selection and differentiated content.
+
+#### ProductSlideshowMobile Component Changes (`app/components/ProductSlideshowMobile.tsx`):
+- **Added variant prop**: Component now accepts `variant="hero"` or `variant="packaging"` prop
+- **Two distinct image sets**: Hero slideshow shows different images than packaging slideshow
+- **Increased image size**: Changed from 256x160px to 288x192px (w-72 h-48) for better visibility
+- **Added sizes attribute**: For optimized image loading
+
+#### First Slideshow (Hero - after hero section):
+- **CONKA_30.jpg**: Four Flow bottles tightly framed (replaced zoomed-out CONKA_19)
+- **CONKA_16.jpg**: Both formulas together (kept)
+- **CONKA_20.jpg**: Clarity with lemons and walnuts (larger ingredient shot)
+- **CONKA_17.jpg**: Four Flow bottles with black caps (new)
+
+#### Second Slideshow (Packaging - after trial packs):
+- **CONKA_35.jpg**: Box with single Flow bottle
+- **CONKA_18.jpg**: Four Clarity bottles with white caps
+- **CONKA_40.jpg**: Both bottles with boxes behind
+- **CONKA_25.jpg**: Eight-pack tightly framed
+
+#### Home Page Updates (`app/page.tsx`):
+- First `ProductSlideshowMobile` uses `variant="hero"`
+- Second `ProductSlideshowMobile` uses `variant="packaging"`
+
+---
+
+### 22:30 - Enhanced Quiz with 10 Research-Backed Questions
+
+Expanded the quiz from 3 to 10 questions with lifestyle, training, and cognitive assessment questions.
+
+#### Quiz Data Updates (`app/lib/quizData.ts`):
+- **Extended AnswerValue Type**: Added support for frequency, scale, and category answer formats
+- **New QuizIcon Type**: Added 15 icon types for varied question themes
+
+#### New Questions Added:
+1. Brain fog experience (existing)
+2. Afternoon energy crash (existing)
+3. Sleep difficulties (existing)
+4. **Training intensity**: 60+ min sessions per week (4+, 1-3, Rarely)
+5. **Athlete type**: Endurance, Strength, Combat, Cognitive, or Not athletic
+6. **Head impact exposure**: Regular head impacts/collisions for neuroprotection needs
+7. **Memory self-assessment**: Poor/Average/Excellent rating
+8. **Supplement usage**: Multiple, basics, or none currently
+9. **Cognitive demand**: Extreme, moderate, or light daily mental workload
+10. **Primary goal**: Resilience, clarity, balance, or maximum performance
+
+#### Scoring Balance (Max Points):
+- Protocol 1 (Resilience): 23 points - stress/sleep/recovery focus
+- Protocol 2 (Precision): 24 points - cognitive/neuroprotection focus
+- Protocol 3 (Balance): 21 points - general all-rounder
+- Protocol 4 (Ultimate): 23 points - high performer focus
+
+#### QuizQuestion Component (`app/components/quiz/QuizQuestion.tsx`):
+- Extended icon rendering to support all 15 new icon types
+- Icons include: dumbbell, run, boxing, brain, user, shield, bolt, scale, crown, pill, sparkles, zap
+
+---
+
+### 22:00 - Fixed Accent Color Consistency Across Formula Pages
+
+Fixed accent color mismatch on mobile and desktop formula pages to ensure consistent branding.
+
+#### Color Scheme:
+- **Conka Flow (01)**: Orange/amber accent (#f59e0b)
+- **Conka Clarity (02)**: Teal accent (#AAB9BC)
+
+#### ProductHeroMobile (`app/components/product/ProductHeroMobile.tsx`):
+- **Dynamic Shadow Colors**: Pack selector shadow now uses formula-specific colors
+- **Dynamic Selection Background**: Subscription selected state uses correct accent color
+- **Dynamic Price Text**: Subscription price text uses formula-specific accent
+- **Dynamic Summary Section**: Background, border, and Save badge now use formula-specific colors
+
+#### StickyPurchaseFooterMobile (`app/components/product/StickyPurchaseFooterMobile.tsx`):
+- **Dynamic Border Color**: Footer border uses formula-specific accent on subscription
+- **Dynamic Price Text**: Price text uses formula-specific accent
+- **Dynamic Save Badge**: SAVE badge background uses formula-specific color
+
+#### StickyPurchaseFooter (Desktop) (`app/components/product/StickyPurchaseFooter.tsx`):
+- **Dynamic Toggle Color**: Subscribe toggle uses formula-specific accent
+- **Dynamic Price & Badge**: Price text and SAVE badge use formula-specific colors
+
+#### ProductHero (Desktop) (`app/components/product/ProductHero.tsx`):
+- **Fixed Header Color**: Conka Clarity header now uses teal instead of amber
+- **Fixed Price Display**: Border and background use formula-specific accent colors
+- **PackSelector Integration**: Now passes subscriptionAccentColor prop
+
+#### PackSelector (`app/components/product/PackSelector.tsx`):
+- **New Prop**: Added subscriptionAccentColor prop for dynamic subscription styling
+- **Selected State**: Uses formula-specific color for subscription selected state
+
+---
+
+### 21:45 - Added 28-Pack Option to Formula Pages
+
+Added the 28-pack variant to individual formula pages (Conka Flow & Conka Clarity).
+
+#### Pack Size Updates (`app/lib/productData.ts`):
+- **Extended PackSize Type**: Added "28" to PackSize union type
+- **28-Pack Pricing**: Added pricing for 28-pack variant:
+  - One-time: £79.99 (£2.86/shot)
+  - Subscription: £63.99 monthly (£2.29/shot, 20% discount)
+
+#### Pack Selector Updates (`app/components/product/PackSelector.tsx`):
+- **4-Column Layout**: Changed from 3-column to 4-column grid for pack options
+- **Compact Styling**: Reduced padding and font sizes to fit 4 options side-by-side
+- **All Pack Sizes**: Now displays 4-pack, 8-pack, 12-pack, and 28-pack
+
+#### Mobile Pack Selector (`app/components/product/ProductHeroMobile.tsx`):
+- **4-Column Mobile Grid**: Updated to show all 4 pack sizes in a row
+- **Compact Mobile Styling**: Reduced padding and text sizes for mobile viewport
+
+#### Sticky Footer Updates (`app/components/product/StickyPurchaseFooter.tsx`):
+- **28-Pack in Dropdown**: Pack dropdown now includes 28-pack option
+
+---
+
+### 21:15 - Ingredients, Science, Navigation Updates
+
+Additional client feedback updates for ingredients, science, and navigation pages.
+
+#### Ingredients Page (`app/components/ingredients/IngredientsPageDesktop.tsx`, `IngredientsPageMobile.tsx`):
+- **Removed Safety Profile Section**: Removed the safety profile card from both desktop and mobile views
+- **Kept Synergies Section**: "Works Well With" section remains visible
+
+#### Navigation Protocol Subtexts (`app/components/Navigation.tsx`, `app/lib/productData.ts`):
+- **Updated Protocol Descriptions**: Both mobile menu and desktop dropdown now show new subtexts:
+  - Resilience Protocol: "For those that want more focus"
+  - Precision Protocol: "For those that feel foggy"
+  - Balance Protocol: "Alternate daily between Flow and Clarity"
+  - Ultimate Protocol: "Take Flow and Clarity both daily"
+
+#### Science Page Em-Dash Removal (`app/components/science/*.tsx`):
+- Replaced em-dashes with commas or hyphens throughout science pages
+- Updated: ScienceHero.tsx, SciencePageDesktop.tsx, SciencePageMobile.tsx
+
+#### Protocol Builder Tier Buttons (`app/components/ProtocolBuilder.tsx`, `ProtocolBuilderMobile.tsx`):
+- **Descriptive Tier Buttons**: Replaced generic "3+1" labels with specific formula information
+- Now shows: "3× Flow" and "1× Clarity" with colour-coded indicators
+- Mobile version shows compact version with colour dots
+
+---
+
+### 20:45 - Homepage Fixes & Client Feedback Updates
+
+Addressed various client feedback items for the homepage and site-wide improvements.
+
+#### Protocol Section Updates (`app/components/ProtocolBuilder.tsx`):
+- **Updated Protocol Descriptions**: Changed subtitle text for all four protocols:
+  - Resilience Protocol: "For those that want more focus"
+  - Precision Protocol: "For those that feel foggy"
+  - Balance Protocol: "Alternate daily between flow and clarity"
+  - Ultimate Protocol: "Take flow and clarity both daily"
+
+#### Key Benefits Section (`app/page.tsx`):
+- **Turmeric Reference**: Changed "Curcumin" to "Turmeric" in the memory benefit annotation (line 208)
+
+#### Footer Improvements (Multiple Pages):
+- **Fixed Navigation Links**: Updated footer nav links to point to actual pages instead of anchor links:
+  - `/#science` → `/science`
+  - `/#ingredients` → `/ingredients`
+  - `/#results` → `/case-studies`
+  - `/#story` → `/our-story`
+- **Homepage Mobile Logo**: Replaced text logo "conka." with actual logo image (`/conka.png`)
+- **Applied to Pages**: Homepage, conka-flow, conka-clarity, formula-01, formula-02, protocol pages
+
+#### Trial Packs Section (`app/components/TrialPacks.tsx`, `app/components/TrialPacksMobile.tsx`):
+- **Clickable Product Images**: Made formula images clickable, linking to respective formula pages
+- **Fixed Learn More Links**: Updated from `/formula-${id}` to proper routes (`/conka-flow`, `/conka-clarity`)
+- **Improved Navigation**: Users can now click through trial section to view formula details
+
+---
+
+### 19:30 - Subscription Tier Logic Fix & Profile Modal Redesign
+
+Fixed subscription editing to properly link package size with delivery frequency, and redesigned profile modal.
+
+#### Subscription Editing Fix (`app/account/subscriptions/page.tsx`):
+- **Tier-Based Selection**: Each tier now includes BOTH package size AND frequency:
+  - Starter = 4-pack + Weekly delivery
+  - Pro = 12-pack + Bi-weekly delivery
+  - Max = 28-pack + Monthly delivery
+- **Single Selection UI**: Users choose ONE option (the tier), not separate frequency and package
+- **Current Plan Indicator**: Shows "Current" badge on the user's active tier
+- **Clear Pricing Info**: Each option shows pack size and delivery frequency together
+
+#### Profile Modal Redesign (`app/account/page.tsx`):
+- **Wider Layout**: Increased max width to `max-w-2xl` (672px) for better proportions
+- **Two-Column Grid**: Personal/Contact on left, Delivery Address on right
+- **Card Sections**: Each section in its own `neo-box` card with icon headers
+- **Better Spacing**: Increased padding, larger inputs, rounded corners (`rounded-xl`)
+- **Improved Header/Footer**: Separate header with subtitle, footer with gray background
+- **Backdrop Blur**: Added blur effect to modal overlay
+
+---
+
+### 19:00 - Dev Mode & Profile Editing & Subscription Options Alignment
+
+Added development mode for testing and aligned subscription options with actual product offerings.
+
+#### Development Mode (`app/lib/devMode.ts`):
+- **Mock Authentication**: Dev mode bypasses real authentication for testing
+- **Mock Customer Data**: Dev user with email, name, phone
+- **Mock Subscriptions**: 4 sample subscriptions (2 active, 1 paused, 1 cancelled) with correct tier quantities
+- **Mock Orders**: 4 sample orders with various statuses
+- **Visual Indicator**: Purple "Dev Mode" banner on all account pages when active
+- **Easy Toggle**: "Enter Dev Mode" button on login page (development only)
+
+#### Profile Editing (`app/account/page.tsx`):
+- **Edit Profile Modal**: New modal for editing account information
+- **Personal Information**: Edit first name, last name
+- **Contact Information**: Edit email address, phone number
+- **Delivery Address**: Edit full delivery address (address lines, city, postcode, country)
+- **Country Selector**: Dropdown with UK, Ireland, US, Canada, Australia
+- **API Integration**: New `/api/auth/customer/update` endpoint for saving changes
+
+#### Subscription Options Alignment (`app/account/subscriptions/page.tsx`):
+- **Frequency Options**: Updated to match actual billing frequencies:
+  - Weekly (best for Starter tier)
+  - Bi-weekly (best for Pro tier)
+  - Monthly (best for Max tier)
+- **Package Size Options**: Replaced arbitrary quantities with actual product tiers:
+  - Starter (4-pack) - Gentle introduction
+  - Pro (12-pack) - Balanced protocol
+  - Max (28-pack) - Full month coverage
+- **Better UX**: Each option now shows description and pack size
+
+#### Files Changed:
+- `app/lib/devMode.ts` - New file with mock data
+- `app/context/AuthContext.tsx` - Added dev mode support
+- `app/hooks/useSubscriptions.ts` - Added dev mode data handling
+- `app/components/DevModeBanner.tsx` - New component
+- `app/account/login/page.tsx` - Added dev mode button
+- `app/account/page.tsx` - Added profile editing
+- `app/account/subscriptions/page.tsx` - Aligned options with product tiers
+- `app/account/orders/page.tsx` - Added dev mode support
+- `app/api/auth/customer/update/route.ts` - New API endpoint
+
+---
+
+### 24:30 - Comprehensive Account Management Enhancement
+
+Major enhancement to the account management system with improved UI, subscription management, and desktop navigation access.
+
+#### Navigation Updates (`app/components/Navigation.tsx`):
+- **Account Section in Shop Dropdown**: Added account section at bottom of Shop dropdown menu
+- Two options: "Sign In / My Account" and "Manage Subscription"
+- Auth-aware: Shows personalized greeting and appropriate destinations based on login state
+- Guest users are directed to login page; authenticated users go directly to account/subscriptions
+- Clean design with subtle background and icons matching the dropdown style
+- Mobile navigation unchanged (account button in menu remains as is)
+
+#### Account Dashboard Enhancement (`app/account/page.tsx`):
+- **Stats Overview Grid**: New 4-column grid showing:
+  - Active subscriptions count (with green icon)
+  - Total orders count (with amber icon)
+  - Next delivery date (spanning 2 columns)
+- **Subscription Summary Banner**: Inverted neo-box showing active subscriptions with "Manage Subscriptions" CTA
+- **Quick Actions Cards**: Enhanced with hover shadows and larger icons
+- **Account Information Section**: Redesigned with background cards for name/email
+- Real-time data fetching from both Shopify (orders) and Loop (subscriptions)
+
+#### Subscriptions Page Enhancement (`app/account/subscriptions/page.tsx`):
+- **Edit Subscription Modal**: New modal for modifying subscriptions:
+  - Frequency selection (7 options from weekly to quarterly)
+  - Quantity selection (1-6 units)
+  - Save changes with optimistic UI updates
+- **Summary Stats Bar**: Active/Paused/Past subscription counts
+- **Enhanced Subscription Cards**:
+  - Product images with gradient fallback
+  - Status-specific info banners (next delivery for active, pause message for paused)
+  - Action buttons with icons (Edit, Skip, Pause/Resume, Cancel)
+- **Improved Cancel Flow**: Warning about pausing as alternative, retention messaging
+- **Past Subscriptions Section**: Separate section for cancelled/expired subscriptions
+- **Help Section**: Contact support CTA
+
+#### Orders Page Enhancement (`app/account/orders/page.tsx`):
+- **Summary Stats Bar**: Total orders, delivered count, in-progress count
+- **Expandable Order Cards**: Click to expand/collapse order details
+- **Order Status Timeline**: Visual 5-step progress indicator:
+  - Placed → Paid → Processing → Shipped → Delivered
+  - Checkmarks for completed steps, numbers for pending
+  - Dynamic highlighting based on order status
+- **Enhanced Empty State**: Product recommendations with links to Conka Flow/Clarity
+- **Order Actions**: "Order Again" and "Get Help" buttons per order
+- Relative time display ("2 days ago", "3 weeks ago")
+
+#### Hook Updates (`app/hooks/useSubscriptions.ts`):
+- Added `updateFrequency(subscriptionId, interval)` function
+- Added `updateQuantity(subscriptionId, quantity)` function
+- Both functions update local state optimistically
+
+#### Technical Notes:
+- All pages follow neo-brutalist style guide with `neo-box`, `neo-button` classes
+- Responsive design with mobile-first approach
+- Real-time data synchronization with Shopify and Loop APIs
+- Proper loading states and error handling throughout
+
+---
+
+### 23:45 - Backend Quality & Security Improvements
+
+Major codebase quality improvements focused on security, type safety, and professional polish without affecting the frontend experience.
+
+#### Security Improvements:
+
+**Removed Debug Endpoints:**
+- Deleted `app/api/test-connections/route.ts` (was exposing env var status)
+- Deleted `app/api/test-products/route.ts` (was exposing internal product data)
+
+**Added Zod Validation to API Routes:**
+- `app/api/auth/login/route.ts` - Email and password validation
+- `app/api/auth/register/route.ts` - Registration input validation with password length check
+- `app/api/cart/route.ts` - Discriminated union schema for all cart actions (create, add, update, updateMultiple, remove)
+- `app/api/subscriptions/[id]/route.ts` - Action-based validation for pause, resume, cancel, updateFrequency, updateQuantity
+
+**Subscription API Authorization:**
+- Updated `app/api/subscriptions/route.ts` to require authentication
+- Users can now only query their own subscriptions (prevents data leakage)
+- Updated `app/hooks/useSubscriptions.ts` to pass auth token
+- Updated `app/account/subscriptions/page.tsx` to use auth token for all operations
+
+**HTTP Security Headers:**
+- Added to `next.config.ts`:
+  - `X-Content-Type-Options: nosniff`
+  - `X-Frame-Options: DENY`
+  - `X-XSS-Protection: 1; mode=block`
+  - `Referrer-Policy: strict-origin-when-cross-origin`
+  - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+
+#### Environment & Configuration:
+
+**New Environment Validation Utility:**
+- Created `app/lib/env.ts` with:
+  - `validateEnv()` - Returns validation result with missing/warning lists
+  - `assertEnv()` - Throws on missing required variables
+  - `env` object - Type-safe access to environment variables
+- Updated `app/lib/shopify.ts` to use env module
+- Updated `app/lib/loop.ts` to use env module
+- Created `.env.example` documenting required variables
+
+#### Code Organization:
+
+**Type Consolidation:**
+- Created `app/types/subscription.ts` with shared Subscription types
+- Created `app/types/index.ts` for re-exports
+- Updated `app/lib/loop.ts` to use shared types
+- Updated `app/hooks/useSubscriptions.ts` to use shared types
+
+**Standardized API Utilities:**
+- Created `app/lib/api-utils.ts` with:
+  - `successResponse()` / `errorResponse()` - Standardized response format
+  - `ErrorCodes` - Categorized error codes (VALIDATION_ERROR, AUTHENTICATION_ERROR, etc.)
+  - `handleApiError()` - Centralized error handling with logging
+  - `parseRequestBody()` / `safeParseRequestBody()` - Zod parsing helpers
+
+#### Performance:
+
+**Shopify API Caching:**
+- Added `app/lib/shopify.ts`:
+  - `shopifyFetchCached()` - Cached version for read-only queries (60s default TTL)
+  - `invalidateCache()` - Manual cache invalidation after mutations
+  - In-memory cache with automatic cleanup
+
+#### Dependencies Added:
+- `zod` - Runtime type validation
+
+---
+
 ### 21:30 - Complete Shopify Product Mapping for All Protocols & Formulas
 
 Successfully mapped all Shopify products to the storefront with Loop subscription integration.

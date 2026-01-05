@@ -23,7 +23,7 @@ export default function SciencePageMobile() {
                 deserves ingredients backed by rigorous science.&rdquo;
               </p>
               <p className="font-clinical text-xs opacity-70 mt-3">
-                — The Conka Research Philosophy
+                - The Conka Research Philosophy
               </p>
             </div>
           </div>
@@ -128,7 +128,7 @@ export default function SciencePageMobile() {
               <div>
                 <h3 className="font-bold text-base mb-1">Clinical Dosing</h3>
                 <p className="text-sm opacity-80">
-                  Same doses proven effective in clinical trials—not underdosed blends.
+                  Same doses proven effective in clinical trials, not underdosed blends.
                 </p>
               </div>
             </div>

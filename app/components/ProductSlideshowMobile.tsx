@@ -3,37 +3,78 @@
 import Image from "next/image";
 
 // Image configuration with focal points for proper centering
-const slideshowImages = [
+// First slideshow: Hero products with tight framing
+const heroImages = [
   {
-    src: "/CONKA_19.jpg",
-    alt: "Conka Flow with natural ingredients",
+    src: "/CONKA_30.jpg",
+    alt: "Conka Flow bottles - 4-pack",
     focalX: 50,
-    focalY: 60, // Focus lower where the bottle and ingredients are
+    focalY: 50, // Bottles fill the frame, centered
   },
   {
     src: "/CONKA_16.jpg",
-    alt: "Both Conka formulas",
+    alt: "Both Conka formulas - Flow and Clarity",
     focalX: 50,
-    focalY: 55, // Center on the bottles
+    focalY: 50, // Bottles nicely centered
   },
   {
-    src: "/CONKA_22.jpg",
-    alt: "Conka product packaging",
+    src: "/CONKA_20.jpg",
+    alt: "Conka Clarity with fresh lemons and walnuts",
     focalX: 50,
-    focalY: 65, // Focus on bottles at bottom
+    focalY: 55, // Focus on bottle and ingredients
+  },
+  {
+    src: "/CONKA_17.jpg",
+    alt: "Conka Flow 4-pack",
+    focalX: 50,
+    focalY: 50, // Bottles fill frame nicely
   },
 ];
 
-export default function ProductSlideshowMobile() {
+// Second slideshow: Product and packaging variety
+const packagingImages = [
+  {
+    src: "/CONKA_35.jpg",
+    alt: "Conka Flow with packaging box",
+    focalX: 60,
+    focalY: 55, // Focus on bottle and box
+  },
+  {
+    src: "/CONKA_18.jpg",
+    alt: "Conka Clarity 4-pack with white caps",
+    focalX: 50,
+    focalY: 50, // Bottles nicely centered
+  },
+  {
+    src: "/CONKA_40.jpg",
+    alt: "Conka Flow and Clarity with boxes",
+    focalX: 40,
+    focalY: 60, // Focus on bottles in front
+  },
+  {
+    src: "/CONKA_25.jpg",
+    alt: "Conka Flow 8-pack",
+    focalX: 50,
+    focalY: 50, // Multiple bottles, tightly framed
+  },
+];
+
+interface ProductSlideshowMobileProps {
+  variant?: "hero" | "packaging";
+}
+
+export default function ProductSlideshowMobile({ variant = "hero" }: ProductSlideshowMobileProps) {
+  const images = variant === "hero" ? heroImages : packagingImages;
+  
   return (
     <section className="py-6 md:hidden">
       {/* Image Carousel - Edge to Edge */}
       <div className="overflow-x-auto scrollbar-hide">
         <div className="flex gap-3 px-4">
-          {slideshowImages.map((image, index) => (
+          {images.map((image, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative"
+              className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden relative"
             >
               <Image
                 src={image.src}
@@ -43,6 +84,7 @@ export default function ProductSlideshowMobile() {
                 style={{
                   objectPosition: `${image.focalX}% ${image.focalY}%`,
                 }}
+                sizes="288px"
               />
             </div>
           ))}

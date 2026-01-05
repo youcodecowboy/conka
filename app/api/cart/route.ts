@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { shopifyFetch, Cart } from '@/app/lib/shopify';
 import {
   CREATE_CART,
@@ -7,6 +8,42 @@ import {
   REMOVE_FROM_CART,
   GET_CART,
 } from '@/app/lib/shopifyQueries';
+
+// Zod schemas for cart operations
+const cartActionSchema = z.discriminatedUnion('action', [
+  z.object({
+    action: z.literal('create'),
+    variantId: z.string().optional(),
+    quantity: z.number().int().positive().optional(),
+    sellingPlanId: z.string().optional(),
+  }),
+  z.object({
+    action: z.literal('add'),
+    cartId: z.string().min(1, 'Cart ID is required'),
+    variantId: z.string().min(1, 'Variant ID is required'),
+    quantity: z.number().int().positive().optional(),
+    sellingPlanId: z.string().optional(),
+  }),
+  z.object({
+    action: z.literal('update'),
+    cartId: z.string().min(1, 'Cart ID is required'),
+    lineId: z.string().min(1, 'Line ID is required'),
+    quantity: z.number().int().positive().optional(),
+  }),
+  z.object({
+    action: z.literal('updateMultiple'),
+    cartId: z.string().min(1, 'Cart ID is required'),
+    lines: z.array(z.object({
+      id: z.string(),
+      quantity: z.number().int().positive(),
+    })).min(1, 'Lines are required'),
+  }),
+  z.object({
+    action: z.literal('remove'),
+    cartId: z.string().min(1, 'Cart ID is required'),
+    lineId: z.string().min(1, 'Line ID is required'),
+  }),
+]);
 
 // Types for API responses
 interface CartCreateResponse {
@@ -79,12 +116,25 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { action, cartId, variantId, sellingPlanId, quantity, lineId, lines } = body;
+    
+    // Validate input with Zod
+    const validationResult = cartActionSchema.safeParse(body);
+    if (!validationResult.success) {
+      const firstError = validationResult.error.issues[0];
+      return NextResponse.json(
+        { error: firstError.message },
+        { status: 400 }
+      );
+    }
+
+    const validatedData = validationResult.data;
+    const action = validatedData.action;
 
     switch (action) {
       case 'create': {
         // Create a new cart, optionally with initial items
-        // sellingPlanId is optional - used for subscription products
+        const { variantId, quantity, sellingPlanId } = validatedData;
+        
         interface CartLineInput {
           merchandiseId: string;
           quantity: number;
@@ -167,13 +217,7 @@ export async function POST(request: NextRequest) {
 
       case 'add': {
         // Add item to existing cart
-        // sellingPlanId is optional - used for subscription products
-        if (!cartId || !variantId) {
-          return NextResponse.json(
-            { error: 'Cart ID and variant ID are required' },
-            { status: 400 }
-          );
-        }
+        const { cartId, variantId, quantity, sellingPlanId } = validatedData;
 
         interface CartLineInput {
           merchandiseId: string;
@@ -239,12 +283,7 @@ export async function POST(request: NextRequest) {
 
       case 'update': {
         // Update quantity of a line item
-        if (!cartId || !lineId) {
-          return NextResponse.json(
-            { error: 'Cart ID and line ID are required' },
-            { status: 400 }
-          );
-        }
+        const { cartId, lineId, quantity } = validatedData;
 
         const response = await shopifyFetch<CartLinesUpdateResponse>(UPDATE_CART_LINES, {
           cartId,
@@ -268,12 +307,7 @@ export async function POST(request: NextRequest) {
 
       case 'updateMultiple': {
         // Update multiple line items at once
-        if (!cartId || !lines) {
-          return NextResponse.json(
-            { error: 'Cart ID and lines are required' },
-            { status: 400 }
-          );
-        }
+        const { cartId, lines } = validatedData;
 
         const response = await shopifyFetch<CartLinesUpdateResponse>(UPDATE_CART_LINES, {
           cartId,
@@ -292,12 +326,7 @@ export async function POST(request: NextRequest) {
 
       case 'remove': {
         // Remove a line item from cart
-        if (!cartId || !lineId) {
-          return NextResponse.json(
-            { error: 'Cart ID and line ID are required' },
-            { status: 400 }
-          );
-        }
+        const { cartId, lineId } = validatedData;
 
         const response = await shopifyFetch<CartLinesRemoveResponse>(REMOVE_FROM_CART, {
           cartId,
@@ -313,12 +342,6 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ cart: response.data?.cartLinesRemove?.cart });
       }
-
-      default:
-        return NextResponse.json(
-          { error: `Invalid action: ${action}` },
-          { status: 400 }
-        );
     }
   } catch (error) {
     console.error('Cart operation error:', error);

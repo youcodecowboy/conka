@@ -36,7 +36,7 @@ export default function LoginPage() {
     >
       <Navigation />
 
-      <main className="pt-8 pb-24 lg:pt-24 px-4">
+      <main className="pt-8 pb-24 lg:pt-36 px-4">
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
@@ -129,6 +129,7 @@ export default function LoginPage() {
               You can also checkout as a guest
             </p>
           </div>
+
         </div>
       </main>
     </div>

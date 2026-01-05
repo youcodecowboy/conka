@@ -1,12 +1,33 @@
 // ===== QUIZ DATA =====
 
-export type AnswerValue = "yes" | "no" | "sometimes";
+// Extended answer values to support various question formats
+export type AnswerValue = 
+  // Yes/No/Sometimes (original)
+  | "yes" | "no" | "sometimes"
+  // Training frequency
+  | "4plus" | "1to3" | "rarely"
+  // Athlete type
+  | "endurance" | "strength" | "combat" | "cognitive" | "not-athletic"
+  // Frequency variations
+  | "occasionally"
+  // Memory scale
+  | "poor" | "average" | "excellent"
+  // Supplement usage
+  | "multiple" | "basics" | "none"
+  // Cognitive demand
+  | "extreme" | "moderate" | "light"
+  // Primary goals
+  | "resilience" | "clarity" | "balance" | "maximum";
+
 export type ProtocolKey = "protocol1" | "protocol2" | "protocol3" | "protocol4";
+
+// Icon types for quiz options
+export type QuizIcon = "check" | "x" | "tilde" | "dumbbell" | "run" | "boxing" | "brain" | "user" | "shield" | "bolt" | "scale" | "crown" | "pill" | "sparkles" | "zap";
 
 export interface QuizOption {
   label: string;
   value: AnswerValue;
-  icon: "check" | "x" | "tilde";
+  icon: QuizIcon;
   scores: Partial<Record<ProtocolKey, number>>;
 }
 
@@ -188,8 +209,213 @@ export const quizQuestions: QuizQuestion[] = [
       },
     ],
   },
-  // Placeholder questions - to be expanded to 10
-  // These demonstrate the scoring system and can be easily modified
+  // Question 4: Training Intensity
+  {
+    id: "training-intensity",
+    question: "How many times per week do you train intensely?",
+    subtitle: "Intense = 60+ minutes of resistance, endurance, or combat training",
+    measures: "physical recovery demands",
+    options: [
+      {
+        label: "4+ times/week",
+        value: "4plus",
+        icon: "dumbbell",
+        scores: { protocol4: 3, protocol1: 2 },
+      },
+      {
+        label: "1-3 times/week",
+        value: "1to3",
+        icon: "run",
+        scores: { protocol3: 2, protocol1: 1 },
+      },
+      {
+        label: "Rarely or never",
+        value: "rarely",
+        icon: "user",
+        scores: { protocol2: 2, protocol3: 1 },
+      },
+    ],
+  },
+  // Question 5: Athlete Type
+  {
+    id: "athlete-type",
+    question: "What best describes your primary athletic focus?",
+    subtitle: "Select the closest match to your training style",
+    measures: "performance profile",
+    options: [
+      {
+        label: "Endurance (running, cycling, swimming)",
+        value: "endurance",
+        icon: "run",
+        scores: { protocol1: 2, protocol4: 2 },
+      },
+      {
+        label: "Strength/Power (lifting, CrossFit)",
+        value: "strength",
+        icon: "dumbbell",
+        scores: { protocol1: 2, protocol3: 1 },
+      },
+      {
+        label: "Combat/Contact (MMA, rugby, boxing)",
+        value: "combat",
+        icon: "boxing",
+        scores: { protocol2: 3, protocol4: 2 },
+      },
+      {
+        label: "Cognitive Athlete (chess, esports, poker)",
+        value: "cognitive",
+        icon: "brain",
+        scores: { protocol2: 3, protocol3: 1 },
+      },
+      {
+        label: "Not particularly athletic",
+        value: "not-athletic",
+        icon: "user",
+        scores: { protocol3: 2, protocol2: 1 },
+      },
+    ],
+  },
+  // Question 6: Head Impact Exposure
+  {
+    id: "head-impacts",
+    question: "Do you regularly experience head impacts or collisions?",
+    subtitle: "Headers in football, contact sports, or occupational hazards",
+    measures: "neuroprotection needs",
+    options: [
+      {
+        label: "Yes, regularly",
+        value: "yes",
+        icon: "check",
+        scores: { protocol2: 3, protocol4: 3 },
+      },
+      {
+        label: "Occasionally",
+        value: "occasionally",
+        icon: "tilde",
+        scores: { protocol2: 2, protocol3: 2 },
+      },
+      {
+        label: "No",
+        value: "no",
+        icon: "x",
+        scores: { protocol1: 2, protocol3: 1 },
+      },
+    ],
+  },
+  // Question 7: Memory Self-Assessment
+  {
+    id: "memory-rating",
+    question: "How would you rate your memory?",
+    subtitle: "Consider both short-term recall and long-term memory",
+    measures: "cognitive baseline",
+    options: [
+      {
+        label: "Poor (1-4 out of 10)",
+        value: "poor",
+        icon: "x",
+        scores: { protocol2: 3, protocol4: 2 },
+      },
+      {
+        label: "Average (5-7 out of 10)",
+        value: "average",
+        icon: "tilde",
+        scores: { protocol3: 2, protocol1: 1 },
+      },
+      {
+        label: "Excellent (8-10 out of 10)",
+        value: "excellent",
+        icon: "check",
+        scores: { protocol1: 2, protocol3: 1 },
+      },
+    ],
+  },
+  // Question 8: Current Supplement Usage
+  {
+    id: "supplement-usage",
+    question: "Are you currently taking any cognitive or wellness supplements?",
+    subtitle: "Vitamins, nootropics, adaptogens, or similar",
+    measures: "supplementation baseline",
+    options: [
+      {
+        label: "Yes, multiple supplements",
+        value: "multiple",
+        icon: "pill",
+        scores: { protocol4: 2, protocol3: 2 },
+      },
+      {
+        label: "One or two basics",
+        value: "basics",
+        icon: "tilde",
+        scores: { protocol3: 2, protocol1: 1 },
+      },
+      {
+        label: "No supplements currently",
+        value: "none",
+        icon: "x",
+        scores: { protocol1: 2, protocol2: 1 },
+      },
+    ],
+  },
+  // Question 9: Daily Cognitive Demand
+  {
+    id: "cognitive-demand",
+    question: "How cognitively demanding is your typical day?",
+    subtitle: "Consider decision-making, problem-solving, and mental focus requirements",
+    measures: "cognitive workload",
+    options: [
+      {
+        label: "Extremely demanding (executive, surgeon, trader)",
+        value: "extreme",
+        icon: "zap",
+        scores: { protocol4: 3, protocol2: 2 },
+      },
+      {
+        label: "Moderately demanding (professional, creative)",
+        value: "moderate",
+        icon: "sparkles",
+        scores: { protocol3: 2, protocol2: 2 },
+      },
+      {
+        label: "Light to moderate (routine work, retired)",
+        value: "light",
+        icon: "user",
+        scores: { protocol1: 2, protocol3: 1 },
+      },
+    ],
+  },
+  // Question 10: Primary Goal
+  {
+    id: "primary-goal",
+    question: "What's your #1 goal with Conka?",
+    subtitle: "Select what matters most to you right now",
+    measures: "user intent",
+    options: [
+      {
+        label: "Stress resilience and better recovery",
+        value: "resilience",
+        icon: "shield",
+        scores: { protocol1: 3 },
+      },
+      {
+        label: "Sharper focus and mental clarity",
+        value: "clarity",
+        icon: "bolt",
+        scores: { protocol2: 3 },
+      },
+      {
+        label: "Overall brain health and balance",
+        value: "balance",
+        icon: "scale",
+        scores: { protocol3: 3 },
+      },
+      {
+        label: "Maximum cognitive performance",
+        value: "maximum",
+        icon: "crown",
+        scores: { protocol4: 3 },
+      },
+    ],
+  },
 ];
 
 // ===== SCORING FUNCTIONS =====

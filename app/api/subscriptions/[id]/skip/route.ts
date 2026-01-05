@@ -20,7 +20,6 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
-      skippedDate: result.data?.skippedDate,
     });
   } catch (error) {
     console.error('Skip order error:', error);

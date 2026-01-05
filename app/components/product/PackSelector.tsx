@@ -14,15 +14,17 @@ interface PackSelectorProps {
   onSelect: (pack: PackSize) => void;
   purchaseType: PurchaseType;
   highlightColor?: string;
+  subscriptionAccentColor?: string;
   className?: string;
 }
 
-const packSizes: PackSize[] = ["4", "8", "12"];
+const packSizes: PackSize[] = ["4", "8", "12", "28"];
 
 const packLabels: Record<PackSize, string> = {
   "4": "4-pack",
   "8": "8-pack",
   "12": "12-pack",
+  "28": "28-pack",
 };
 
 export default function PackSelector({
@@ -30,6 +32,7 @@ export default function PackSelector({
   onSelect,
   purchaseType,
   highlightColor = "#f59e0b",
+  subscriptionAccentColor = "#f59e0b",
   className = "",
 }: PackSelectorProps) {
   const isInvert = highlightColor === "invert";
@@ -38,7 +41,7 @@ export default function PackSelector({
   return (
     <div className={`space-y-3 ${className}`}>
       <p className="font-clinical text-xs uppercase opacity-70">Select Pack Size</p>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-4 gap-2">
         {packSizes.map((size) => {
           const pricing = formulaPricing[purchaseType][size];
           if (!pricing) return null;
@@ -64,7 +67,7 @@ export default function PackSelector({
             >
               {/* Pack Size Header - Inverts when selected */}
               <div
-                className="px-3 py-1.5"
+                className="px-2 py-1"
                 style={{
                   backgroundColor: isSelected
                     ? "var(--background)"
@@ -78,23 +81,23 @@ export default function PackSelector({
                       : "white",
                 }}
               >
-                <p className="text-base font-bold font-clinical">{packLabels[size]}</p>
+                <p className="text-sm font-bold font-clinical">{packLabels[size]}</p>
               </div>
 
               {/* Price & Billing Body */}
               <div
-                className="px-3 py-2 flex-1 flex flex-col justify-end"
+                className="px-2 py-1.5 flex-1 flex flex-col justify-end"
                 style={{
                   backgroundColor: isSelected 
-                    ? (purchaseType === "subscription" ? "#f59e0b" : accentColor)
+                    ? (purchaseType === "subscription" ? subscriptionAccentColor : accentColor)
                     : "var(--background)",
                   color: isSelected 
                     ? "white" 
                     : "var(--foreground)",
                 }}
               >
-                <p className="text-xl font-bold mb-0.5">{formatPrice(pricing.price)}</p>
-                <p className={`font-clinical text-xs ${isSelected ? "opacity-90" : "opacity-70"}`}>
+                <p className="text-lg font-bold mb-0.5">{formatPrice(pricing.price)}</p>
+                <p className={`font-clinical text-[11px] ${isSelected ? "opacity-90" : "opacity-70"}`}>
                   {billingText}
                 </p>
               </div>
