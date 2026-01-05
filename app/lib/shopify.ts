@@ -1,11 +1,25 @@
 import { createStorefrontApiClient, StorefrontApiClient } from '@shopify/storefront-api-client';
 
-// Initialize the Shopify Storefront API client
-const client: StorefrontApiClient = createStorefrontApiClient({
-  storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '',
-  apiVersion: '2024-10',
-  publicAccessToken: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '',
-});
+// Lazy initialization of Shopify client to avoid build-time errors
+let _client: StorefrontApiClient | null = null;
+
+function getClient(): StorefrontApiClient {
+  if (!_client) {
+    const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+    const accessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+    
+    if (!storeDomain || !accessToken) {
+      throw new Error('Shopify environment variables are not configured');
+    }
+    
+    _client = createStorefrontApiClient({
+      storeDomain,
+      apiVersion: '2024-10',
+      publicAccessToken: accessToken,
+    });
+  }
+  return _client;
+}
 
 // Types for cart operations
 export interface PriceAmount {
@@ -114,6 +128,7 @@ export async function shopifyFetch<T>(
   variables?: Record<string, unknown>
 ): Promise<{ data: T; errors?: Array<{ message: string }> }> {
   try {
+    const client = getClient();
     const response = await client.request(query, { variables });
     return response as { data: T; errors?: Array<{ message: string }> };
   } catch (error) {
@@ -122,5 +137,9 @@ export async function shopifyFetch<T>(
   }
 }
 
-export { client };
-
+// Export a getter for the client (for backwards compatibility)
+export const client = {
+  get instance() {
+    return getClient();
+  }
+};
