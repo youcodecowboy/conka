@@ -606,7 +606,7 @@ export default function ProtocolBuilder() {
                           day.formula === "01"
                             ? "bg-amber-500 text-white"
                             : day.formula === "02"
-                            ? "bg-amber-500 text-white"
+                            ? "bg-[#AAB9BC] text-white"
                             : day.formula === "both"
                             ? "bg-gradient-to-br from-amber-500 to-[#AAB9BC] text-white"
                             : "border-2 border-current opacity-20"
