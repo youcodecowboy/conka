@@ -163,15 +163,77 @@ export default function AthleteStats({ athlete, compact = false }: AthleteStatsP
         <ComparisonChart athlete={athlete} />
       </div>
 
-      {/* Test Info */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="neo-box p-4 text-center">
-          <p className="text-3xl font-bold font-clinical">{athlete.testsCompleted}</p>
-          <p className="font-clinical text-sm opacity-70">Tests Completed</p>
-        </div>
-        <div className="neo-box p-4 text-center">
-          <p className="text-3xl font-bold font-clinical">{athlete.durationWeeks}</p>
-          <p className="font-clinical text-sm opacity-70">Weeks Duration</p>
+      {/* Radar-style metric display */}
+      <div className="neo-box p-6">
+        <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+            <line x1="12" y1="22" x2="12" y2="15.5"/>
+            <polyline points="22 8.5 12 15.5 2 8.5"/>
+          </svg>
+          Performance Metrics
+        </h4>
+        <div className="grid grid-cols-3 gap-4">
+          {/* Total Score */}
+          <div className="text-center">
+            <div className="relative w-24 h-24 mx-auto mb-2">
+              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="currentColor" strokeOpacity="0.1" strokeWidth="3"/>
+                <circle 
+                  cx="18" cy="18" r="15.915" fill="none" stroke="#10b981" strokeWidth="3"
+                  strokeDasharray={`${(athlete.results.totalScore || 0)} 100`}
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-lg font-bold font-clinical">{athlete.results.totalScore?.toFixed(1)}</span>
+              </div>
+            </div>
+            <p className="font-clinical text-xs opacity-70">Total Score</p>
+            <p className="font-clinical text-xs text-emerald-600">
+              {athlete.improvements[0]?.value}
+            </p>
+          </div>
+          {/* Accuracy */}
+          <div className="text-center">
+            <div className="relative w-24 h-24 mx-auto mb-2">
+              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="currentColor" strokeOpacity="0.1" strokeWidth="3"/>
+                <circle 
+                  cx="18" cy="18" r="15.915" fill="none" stroke="#3b82f6" strokeWidth="3"
+                  strokeDasharray={`${(athlete.results.accuracy || 0)} 100`}
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-lg font-bold font-clinical">{athlete.results.accuracy?.toFixed(1)}</span>
+              </div>
+            </div>
+            <p className="font-clinical text-xs opacity-70">Accuracy</p>
+            <p className="font-clinical text-xs text-blue-600">
+              {athlete.improvements[1]?.value}
+            </p>
+          </div>
+          {/* Speed */}
+          <div className="text-center">
+            <div className="relative w-24 h-24 mx-auto mb-2">
+              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="currentColor" strokeOpacity="0.1" strokeWidth="3"/>
+                <circle 
+                  cx="18" cy="18" r="15.915" fill="none" stroke="#f59e0b" strokeWidth="3"
+                  strokeDasharray={`${(athlete.results.speed || 0)} 100`}
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-lg font-bold font-clinical">{athlete.results.speed?.toFixed(1)}</span>
+              </div>
+            </div>
+            <p className="font-clinical text-xs opacity-70">Speed</p>
+            <p className="font-clinical text-xs text-amber-600">
+              {athlete.improvements[2]?.value}
+            </p>
+          </div>
         </div>
       </div>
     </div>

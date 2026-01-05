@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useCart } from "../context/CartContext";
+import { getTrialPackVariantId } from "../lib/shopifyProductMapping";
 
 type FormulaType = "01" | "02";
 type PackSize = "4" | "8" | "12";
@@ -44,10 +46,33 @@ export default function TrialPacksMobile() {
   const [selectedPack, setSelectedPack] = useState<PackSize | null>(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const cart = useCart();
 
   const handlePackSelect = (size: PackSize) => {
     setSelectedPack(size);
     setShowFooter(true);
+  };
+
+  const handleAddToCart = async () => {
+    if (!selectedPack) return;
+    
+    const variantId = getTrialPackVariantId(selectedFormula, selectedPack);
+    if (!variantId) {
+      console.error(`No variant ID found for formula ${selectedFormula}, pack ${selectedPack}`);
+      return;
+    }
+    
+    setIsAdding(true);
+    try {
+      await cart.addToCart(variantId);
+      // Cart drawer opens automatically after adding
+      setShowFooter(false);
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   return (
@@ -86,7 +111,7 @@ export default function TrialPacksMobile() {
       <div className="flex items-center gap-2 mb-4">
         <div
           className={`w-4 h-4 rounded-sm ${
-            selectedFormula === "01" ? "bg-[#AAB9BC]" : "bg-amber-500"
+            selectedFormula === "01" ? "bg-amber-500" : "bg-[#AAB9BC]"
           }`}
         ></div>
         <span className="font-bold text-sm">
@@ -214,7 +239,7 @@ export default function TrialPacksMobile() {
               <div className="flex items-center gap-2">
                 <div
                   className={`w-3 h-3 rounded-sm ${
-                    selectedFormula === "01" ? "bg-[#AAB9BC]" : "bg-amber-500"
+                    selectedFormula === "01" ? "bg-amber-500" : "bg-[#AAB9BC]"
                   }`}
                 ></div>
                 <div>
@@ -240,23 +265,33 @@ export default function TrialPacksMobile() {
               >
                 Learn More
               </a>
-              <button className="flex-1 neo-button py-3 px-4 font-semibold text-sm flex items-center justify-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="9" cy="21" r="1" />
-                  <circle cx="20" cy="21" r="1" />
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                </svg>
-                Add to Cart
+              <button 
+                onClick={handleAddToCart}
+                disabled={isAdding || cart.loading}
+                className="flex-1 neo-button py-3 px-4 font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isAdding ? (
+                  'Adding...'
+                ) : (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="9" cy="21" r="1" />
+                      <circle cx="20" cy="21" r="1" />
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    Add to Cart
+                  </>
+                )}
               </button>
             </div>
           </div>

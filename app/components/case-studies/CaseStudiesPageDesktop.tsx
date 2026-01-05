@@ -6,6 +6,8 @@ import {
   SportCategory,
   athletes,
   getFeaturedAthletes,
+  getTotalTestsCompleted,
+  getAverageImprovementAcrossAll,
 } from "@/app/lib/caseStudiesData";
 import AthleteSidebar from "./AthleteSidebar";
 import AthleteCard from "./AthleteCard";
@@ -48,16 +50,16 @@ export default function CaseStudiesPageDesktop() {
             <div className="flex gap-6">
               <div className="text-right">
                 <p className="text-3xl font-bold font-clinical">{athletes.length}</p>
-                <p className="font-clinical text-sm opacity-70">Athletes</p>
+                <p className="font-clinical text-sm opacity-70">Athletes & Professionals</p>
               </div>
               <div className="text-right">
                 <p className="text-3xl font-bold font-clinical">
-                  {athletes.reduce((sum, a) => sum + a.testsCompleted, 0)}
+                  {getTotalTestsCompleted().toLocaleString()}
                 </p>
-                <p className="font-clinical text-sm opacity-70">Tests Completed</p>
+                <p className="font-clinical text-sm opacity-70">Cognitive Tests</p>
               </div>
               <div className="text-right">
-                <p className="text-3xl font-bold font-clinical text-emerald-600">+26%</p>
+                <p className="text-3xl font-bold font-clinical text-emerald-600">+{getAverageImprovementAcrossAll().toFixed(1)}%</p>
                 <p className="font-clinical text-sm opacity-70">Avg. Improvement</p>
               </div>
             </div>

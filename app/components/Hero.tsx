@@ -13,7 +13,7 @@ export default function Hero() {
             Make decisions faster.
           </h1>
           <p className="font-commentary text-xl sm:text-xl md:text-2xl mb-1 sm:mb-2 md:mb-1 text-center">
-            clinically designed to optimize your <span className="underline decoration-[#AAB9BC]">brain</span>
+            clinically designed to optimize your <span className="underline decoration-amber-500">brain</span>
           </p>
         </div>
 
@@ -35,7 +35,7 @@ export default function Hero() {
             backed by 250+ clinical studies
           </p>
           <p className="font-commentary italic text-xl sm:text-xl md:text-xl lg:text-2xl">
-            upgrade focus + decrease anxiety + eliminate brain fog + improve sleep quality
+            upgrade focus + reduce stress + eliminate brain fog + boost mental clarity
           </p>
         </div>
 

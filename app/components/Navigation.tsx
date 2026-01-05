@@ -4,13 +4,16 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { CiBeaker1 } from "react-icons/ci";
 import { protocolContent } from "@/app/lib/productData";
+import { useCart } from "@/app/context/CartContext";
 
 interface NavigationProps {
-  cartOpen: boolean;
-  setCartOpen: (open: boolean) => void;
+  cartOpen?: boolean;
+  setCartOpen?: (open: boolean) => void;
 }
 
-export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
+export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartOpen }: NavigationProps) {
+  // Use cart context - props are deprecated but kept for backwards compatibility
+  const { openCart, itemCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
   const [isScrollingDown, setIsScrollingDown] = useState(false);
@@ -72,7 +75,7 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
           {/* Desktop Navigation & Cart - Right */}
           <div className="hidden lg:flex items-center">
             <nav className="flex items-center gap-6">
-              <a href="/#science" className="font-clinical text-sm tracking-wide hover:opacity-70 transition-all flex items-center gap-2">
+              <a href="/science" className="font-clinical text-sm tracking-wide hover:opacity-70 transition-all flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 1 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                 </svg>
@@ -224,7 +227,7 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                           className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
                           onClick={() => setShopDropdownOpen(false)}
                         >
-                          <span className="w-8 h-8 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
+                          <span className="w-8 h-8 bg-amber-500 rounded-sm flex-shrink-0"></span>
                           <div>
                             <span className="font-bold text-sm block">Conka Flow</span>
                             <span className="font-clinical text-xs opacity-70">Caffeine-Free Focus</span>
@@ -235,7 +238,7 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                           className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
                           onClick={() => setShopDropdownOpen(false)}
                         >
-                          <span className="w-8 h-8 bg-amber-500 rounded-sm flex-shrink-0"></span>
+                          <span className="w-8 h-8 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
                           <div>
                             <span className="font-bold text-sm block">Conka Clarity</span>
                             <span className="font-clinical text-xs opacity-70">Peak Performance Boost</span>
@@ -248,8 +251,8 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
               </div>
             </nav>
             <button 
-              onClick={() => setCartOpen(true)}
-              className="ml-6 p-2 hover:opacity-70 transition-all"
+              onClick={openCart}
+              className="ml-6 p-2 hover:opacity-70 transition-all relative"
               aria-label="Open cart"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -257,6 +260,11 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                 <circle cx="20" cy="21" r="1"/>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
               </svg>
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                  {itemCount > 99 ? '99+' : itemCount}
+                </span>
+              )}
             </button>
           </div>
 
@@ -356,7 +364,7 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                     <div>
-                      <p className="font-bold text-sm">Protocol 1</p>
+                      <p className="font-bold text-sm">Resilience Protocol</p>
                       <p className="font-clinical text-xs opacity-70">F01 Daily</p>
                     </div>
                   </a>
@@ -365,7 +373,7 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                       <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                     </svg>
                     <div>
-                      <p className="font-bold text-sm">Protocol 2</p>
+                      <p className="font-bold text-sm">Precision Protocol</p>
                       <p className="font-clinical text-xs opacity-70">F02 Daily</p>
                     </div>
                   </a>
@@ -375,7 +383,7 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                       <path d="M3 12h18" />
                     </svg>
                     <div>
-                      <p className="font-bold text-sm">Protocol 3</p>
+                      <p className="font-bold text-sm">Balance Protocol</p>
                       <p className="font-clinical text-xs opacity-70">Balanced</p>
                     </div>
                   </a>
@@ -384,7 +392,7 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                       <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                     </svg>
                     <div>
-                      <p className="font-bold text-sm">Protocol 4</p>
+                      <p className="font-bold text-sm">Ultimate Protocol</p>
                       <p className="font-clinical text-xs opacity-70">Ultimate</p>
                     </div>
                   </a>
@@ -399,11 +407,11 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <a href="/conka-flow" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
-                    <span className="w-3 h-3 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
+                    <span className="w-3 h-3 bg-amber-500 rounded-sm flex-shrink-0"></span>
                     <span className="font-bold text-sm">Conka Flow</span>
                   </a>
                   <a href="/conka-clarity" className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" onClick={() => setMobileMenuOpen(false)}>
-                    <span className="w-3 h-3 bg-amber-500 rounded-sm flex-shrink-0"></span>
+                    <span className="w-3 h-3 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
                     <span className="font-bold text-sm">Conka Clarity</span>
                   </a>
                 </div>
@@ -413,9 +421,9 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
               <p className="font-clinical text-xs uppercase opacity-50 mb-2">Navigation</p>
               
               {/* Main Nav Links - 2x2 Grid with Icons */}
-              <nav className="grid grid-cols-2 gap-2">
+              <nav className="grid grid-cols-2 gap-2 mb-4">
                 <a 
-                  href="/#science" 
+                  href="/science" 
                   className="flex items-center gap-2 py-2 px-3 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all" 
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -456,33 +464,36 @@ export default function Navigation({ cartOpen, setCartOpen }: NavigationProps) {
                   <span className="font-clinical text-sm tracking-wide">Our Story</span>
                 </a>
               </nav>
-            </div>
-          </div>
 
-          {/* Cart & Checkout Section */}
-          <div className="px-6 py-4 bg-[var(--background)] border-t-2 border-black">
-            <div className="flex gap-3">
-              <button 
-                onClick={() => { setCartOpen(true); setMobileMenuOpen(false); }}
-                className="flex-1 bg-transparent border-2 border-black text-black px-4 py-3 font-semibold text-sm rounded-lg flex items-center justify-center gap-2 hover:bg-black hover:text-white transition-all"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="9" cy="21" r="1"/>
-                  <circle cx="20" cy="21" r="1"/>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                </svg>
-                View Cart
-              </button>
-              <button 
-                onClick={() => { setMobileMenuOpen(false); }}
-                className="flex-1 bg-black text-white px-4 py-3 font-bold text-sm rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                  <line x1="1" y1="10" x2="23" y2="10"/>
-                </svg>
-                Checkout
-              </button>
+              {/* Cart & Account Buttons - Always visible */}
+              <div className="grid grid-cols-2 gap-2 pt-4 border-t-2 border-black/10">
+                <button 
+                  onClick={() => { openCart(); setMobileMenuOpen(false); }}
+                  className="flex items-center justify-center gap-2 py-3 px-4 bg-black text-white font-bold text-sm rounded-lg hover:opacity-90 transition-all"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="9" cy="21" r="1"/>
+                    <circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  </svg>
+                  Cart {itemCount > 0 && (
+                    <span className="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px]">
+                      {itemCount}
+                    </span>
+                  )}
+                </button>
+                <a 
+                  href="/account"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 py-3 px-4 border-2 border-black text-black font-bold text-sm rounded-lg hover:bg-black hover:text-white transition-all"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  Account
+                </a>
+              </div>
             </div>
           </div>
         </div>

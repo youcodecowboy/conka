@@ -84,7 +84,7 @@ export default function ProtocolCalendarSectionMobile({
                     disabled={!isAvailable}
                     className={`px-3 py-1.5 rounded-full font-clinical text-xs transition-all ${
                       isSelected
-                        ? "bg-[#AAB9BC] text-white"
+                        ? "bg-amber-500 text-white"
                         : isAvailable
                         ? "border-2 border-black/10 hover:border-black/30"
                         : "border-2 border-black/5 text-black/30 cursor-not-allowed"
@@ -143,7 +143,7 @@ export default function ProtocolCalendarSectionMobile({
               <div className="flex items-center gap-1">
                 <div 
                   className="w-3 h-3 rounded-sm"
-                  style={{ background: `linear-gradient(135deg, #AAB9BC 50%, #f59e0b 50%)` }}
+                  style={{ background: `linear-gradient(135deg, #f59e0b 50%, #AAB9BC 50%)` }}
                 ></div>
                 <span className="font-clinical text-xs">Both Daily</span>
               </div>
@@ -178,7 +178,7 @@ export default function ProtocolCalendarSectionMobile({
                         key={dayIdx}
                         className="aspect-square rounded overflow-hidden relative flex items-center justify-center text-xs font-clinical text-white"
                         style={{
-                          background: `linear-gradient(135deg, #AAB9BC 50%, #f59e0b 50%)`,
+                          background: `linear-gradient(135deg, #f59e0b 50%, #AAB9BC 50%)`,
                         }}
                       >
                         <span className="relative z-10 drop-shadow-sm">{day.day}</span>
@@ -216,7 +216,7 @@ export default function ProtocolCalendarSectionMobile({
         </div>
 
         {/* Pricing & Buy Section */}
-        <div className="p-4 bg-[#AAB9BC]/10 border-t-2 border-[#AAB9BC]/20">
+        <div className="p-4 bg-amber-500/10 border-t-2 border-amber-500/20">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-2xl font-bold">{pricing ? formatPrice(pricing.price) : "—"}</p>

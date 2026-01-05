@@ -41,7 +41,7 @@ export default function PurchaseToggle({
               purchaseType === "one-time"
                 ? "black"
                 : highlightColor === "invert"
-                ? "#AAB9BC"
+                ? "#f59e0b"
                 : highlightColor,
           }}
         >

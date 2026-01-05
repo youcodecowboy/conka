@@ -2,90 +2,168 @@
 
 import { useState } from "react";
 import { ProtocolId } from "@/app/lib/productData";
+import { 
+  AthleteData, 
+  athletes as allAthletes,
+} from "@/app/lib/caseStudiesData";
 
 interface ProtocolCaseStudiesMobileProps {
   protocolId: ProtocolId;
 }
 
-interface Athlete {
-  name: string;
-  sport: string;
-  protocol: string;
-  quote: string;
-  results: string[];
-}
-
-// Protocol-specific case studies
-const protocolCaseStudies: Record<ProtocolId, Athlete[]> = {
-  "1": [
-    {
-      name: "Sarah Okonkwo",
-      sport: "Professional Rugby",
-      protocol: "Protocol 1 - Pro Tier",
-      quote: "The daily Conka Flow keeps me sharp during training, and the weekly Conka Clarity boost is perfect for match days.",
-      results: ["+18% decision accuracy", "Better recovery", "Improved sleep"],
-    },
-    {
-      name: "David Chen",
-      sport: "Marathon Runner",
-      protocol: "Protocol 1 - Max Tier",
-      quote: "My endurance training has never been better. The stress resilience is game-changing.",
-      results: ["-24% cortisol", "Faster recovery", "No crashes"],
-    },
-  ],
-  "2": [
-    {
-      name: "James Torres",
-      sport: "Esports Pro",
-      protocol: "Protocol 2 - Pro Tier",
-      quote: "Six-hour tournament sessions with zero mental fatigue. This is my competitive edge.",
-      results: ["+23% reaction time", "6+ hour focus", "Reduced fatigue"],
-    },
-    {
-      name: "Emma Williams",
-      sport: "Chess Grandmaster",
-      protocol: "Protocol 2 - Max Tier",
-      quote: "The sustained cognitive enhancement is remarkable. I calculate deeper, faster.",
-      results: ["+38% mental endurance", "Clearer analysis", "Better recall"],
-    },
-  ],
-  "3": [
-    {
-      name: "Marcus Chen",
-      sport: "Olympic Swimming",
-      protocol: "Protocol 3 - Pro Tier",
-      quote: "The balanced approach gives me the best of both worlds. Perfect for my training cycle.",
-      results: ["+12% consistency", "-0.3s average time", "Zero crashes"],
-    },
-    {
-      name: "Lisa Park",
-      sport: "CrossFit Athlete",
-      protocol: "Protocol 3 - Max Tier",
-      quote: "Alternating formulas matches my varied training perfectly. I feel optimized every day.",
-      results: ["Balanced energy", "Better adaptation", "Peak readiness"],
-    },
-  ],
-  "4": [
-    {
-      name: "Alex Rodriguez",
-      sport: "F1 Development Driver",
-      protocol: "Protocol 4 - Pro Tier",
-      quote: "Maximum cognitive support for maximum performance. Nothing else compares at this level.",
-      results: ["2.3x effect", "All-day clarity", "Elite focus"],
-    },
-    {
-      name: "Nina Volkov",
-      sport: "Professional Poker",
-      protocol: "Protocol 4 - Max Tier",
-      quote: "Tournament poker demands peak cognition for 12+ hours. This protocol delivers.",
-      results: ["8+ hour sessions", "Sharp decisions", "No fatigue"],
-    },
-  ],
+// Map protocols to formula preferences
+const protocolToFormula: Record<ProtocolId, "01" | "02" | "both"> = {
+  "1": "01",     // Resilience - Flow-heavy
+  "2": "02",     // Precision - Clarity-heavy
+  "3": "both",   // Balance - Both
+  "4": "both",   // Ultimate - Both
 };
 
+// Get athletes for a protocol
+function getAthletesForProtocol(protocolId: ProtocolId): AthleteData[] {
+  const formulaPreference = protocolToFormula[protocolId];
+  
+  return allAthletes
+    .filter(a => {
+      if (formulaPreference === "both") {
+        return a.productVersion === "both";
+      }
+      return a.productVersion === formulaPreference || a.productVersion === "both";
+    })
+    .sort((a, b) => {
+      const aTotal = a.improvements.find(i => i.metric === "Total Score")?.percentage || 0;
+      const bTotal = b.improvements.find(i => i.metric === "Total Score")?.percentage || 0;
+      return bTotal - aTotal;
+    })
+    .slice(0, 3);
+}
+
+// Compact athlete card with data visualization
+function AthleteDataCard({ athlete }: { athlete: AthleteData }) {
+  const totalImprovement = athlete.improvements.find(i => i.metric === "Total Score");
+
+  return (
+    <div className="neo-box overflow-hidden">
+      {/* Image Placeholder */}
+      <div className="relative h-28 bg-gradient-to-br from-neutral-700 to-neutral-800 flex items-center justify-center">
+        <div className="text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-1 opacity-40">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <p className="font-clinical text-[9px] text-white/40 uppercase tracking-wider">Photo</p>
+        </div>
+      </div>
+
+      {/* Header */}
+      <div className="neo-box-inverted p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <h3 className="font-bold text-sm">{athlete.name}</h3>
+            <p className="font-clinical text-xs opacity-80">{athlete.organization}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-xl font-bold font-clinical text-emerald-400">{totalImprovement?.value}</p>
+            <p className="font-clinical text-[10px] opacity-60">improvement</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bio */}
+      <div className="p-4 border-b border-current/10">
+        <p className="text-sm leading-relaxed opacity-80 line-clamp-3">{athlete.description}</p>
+      </div>
+
+      {/* Circular progress metrics */}
+      <div className="p-4">
+        <div className="grid grid-cols-3 gap-3 mb-4">
+          {[
+            { label: "Total", value: athlete.results.totalScore || 0, change: athlete.improvements[0], color: "#10b981" },
+            { label: "Accuracy", value: athlete.results.accuracy || 0, change: athlete.improvements[1], color: "#3b82f6" },
+            { label: "Speed", value: athlete.results.speed || 0, change: athlete.improvements[2], color: "#f59e0b" },
+          ].map((metric) => (
+            <div key={metric.label} className="text-center">
+              <div className="relative w-14 h-14 mx-auto mb-1">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="currentColor" strokeOpacity="0.1" strokeWidth="2"/>
+                  <circle 
+                    cx="18" cy="18" r="15.915" fill="none" stroke={metric.color} strokeWidth="2"
+                    strokeDasharray={`${metric.value} 100`}
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-[10px] font-bold font-clinical">{metric.value.toFixed(0)}</span>
+                </div>
+              </div>
+              <p className="font-clinical text-[9px] opacity-60">{metric.label}</p>
+              <p className="font-clinical text-[9px]" style={{ color: metric.color }}>
+                {metric.change?.value}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Baseline vs Result comparison */}
+        <div className="space-y-2 mb-3">
+          {[
+            { label: "Total", baseline: athlete.baseline.totalScore || 0, result: athlete.results.totalScore || 0 },
+            { label: "Accuracy", baseline: athlete.baseline.accuracy || 0, result: athlete.results.accuracy || 0 },
+            { label: "Speed", baseline: athlete.baseline.speed || 0, result: athlete.results.speed || 0 },
+          ].map((m) => (
+            <div key={m.label}>
+              <div className="flex justify-between text-[9px] font-clinical mb-0.5">
+                <span className="opacity-60">{m.label}</span>
+                <span className="opacity-60">{m.baseline.toFixed(1)} → {m.result.toFixed(1)}</span>
+              </div>
+              <div className="flex gap-1 h-1.5">
+                <div className="flex-1 bg-current/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-current/30 rounded-full" style={{ width: `${m.baseline}%` }} />
+                </div>
+                <div className="flex-1 bg-current/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${m.result}%` }} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Test stats */}
+        <div className="grid grid-cols-3 gap-2 pt-3 border-t border-current/10">
+          <div className="text-center">
+            <p className="text-lg font-bold font-clinical">{athlete.testsCompleted}</p>
+            <p className="font-clinical text-[9px] opacity-50">Tests</p>
+          </div>
+          <div className="text-center">
+            <p className="text-lg font-bold font-clinical">{athlete.baselineTests}</p>
+            <p className="font-clinical text-[9px] opacity-50">Baseline</p>
+          </div>
+          <div className="text-center">
+            <p className="text-lg font-bold font-clinical">{athlete.postBaselineTests}</p>
+            <p className="font-clinical text-[9px] opacity-50">Post</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="px-4 py-2 bg-current/5 flex items-center justify-between">
+        <span className="font-clinical text-[10px] opacity-60">{athlete.testingPeriod}</span>
+        {athlete.protocolUsed && (
+          <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 text-[9px] font-clinical">
+            {athlete.protocolUsed}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function ProtocolCaseStudiesMobile({ protocolId }: ProtocolCaseStudiesMobileProps) {
+  const athletes = getAthletesForProtocol(protocolId);
   const [activeIndex, setActiveIndex] = useState(0);
-  const athletes = protocolCaseStudies[protocolId] || protocolCaseStudies["1"];
+
+  if (athletes.length === 0) return null;
+
   const currentAthlete = athletes[activeIndex];
 
   const handlePrev = () => {
@@ -101,103 +179,49 @@ export default function ProtocolCaseStudiesMobile({ protocolId }: ProtocolCaseSt
       {/* Header */}
       <div className="mb-5">
         <h2 className="text-2xl font-bold mb-1">Athletes on This Protocol</h2>
-        <p className="font-commentary text-base opacity-70">real results from real users</p>
+        <p className="font-commentary text-base opacity-70">real results from verified testing</p>
       </div>
 
-      {/* Profile Card */}
-      <div className="neo-box overflow-hidden">
-        {/* Athlete Photo Placeholder */}
-        <div className="w-full h-40 bg-gradient-to-br from-[#AAB9BC]/20 to-[#AAB9BC]/40 flex items-center justify-center border-b-2 border-current/10">
-          <div className="text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <p className="font-clinical text-xs opacity-40">[ATHLETE PHOTO]</p>
-          </div>
+      {/* Athlete Card */}
+      <AthleteDataCard athlete={currentAthlete} />
+
+      {/* Navigation */}
+      <div className="flex items-center justify-between mt-4">
+        <button
+          onClick={handlePrev}
+          className="neo-button p-2"
+          aria-label="Previous athlete"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+
+        <div className="flex items-center gap-3">
+          {athletes.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setActiveIndex(idx)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                idx === activeIndex
+                  ? "bg-amber-500 w-4"
+                  : "bg-current/20"
+              }`}
+              aria-label={`Go to athlete ${idx + 1}`}
+            />
+          ))}
         </div>
 
-        {/* Content */}
-        <div className="p-4">
-          {/* Name & Sport */}
-          <div className="mb-3">
-            <h3 className="text-lg font-bold">{currentAthlete.name}</h3>
-            <p className="font-clinical text-sm opacity-70">{currentAthlete.sport}</p>
-          </div>
-
-          {/* Protocol Badge */}
-          <div className="mb-3">
-            <span className="px-2 py-1 bg-[#AAB9BC]/20 text-[#AAB9BC] rounded-full font-clinical text-xs font-bold">
-              {currentAthlete.protocol}
-            </span>
-          </div>
-
-          {/* Quote */}
-          <div className="mb-4 py-3 border-t border-b border-current/10">
-            <p className="font-commentary text-base italic">
-              &quot;{currentAthlete.quote}&quot;
-            </p>
-          </div>
-
-          {/* Results */}
-          <div>
-            <p className="font-clinical text-xs uppercase opacity-50 mb-2">Key Results</p>
-            <div className="flex flex-wrap gap-2">
-              {currentAthlete.results.map((result, idx) => (
-                <span key={idx} className="px-2 py-1 bg-current/10 rounded-full font-clinical text-xs">
-                  {result}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation Footer */}
-        <div className="flex items-center justify-between px-4 py-3 bg-[#AAB9BC] text-white">
-          <button
-            onClick={handlePrev}
-            className="p-2 hover:opacity-70 transition-opacity"
-            aria-label="Previous athlete"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15 18l-6-6 6-6"/>
-            </svg>
-          </button>
-
-          <div className="flex items-center gap-3">
-            <span className="font-clinical text-sm">
-              {activeIndex + 1} / {athletes.length}
-            </span>
-          </div>
-
-          <button
-            onClick={handleNext}
-            className="p-2 hover:opacity-70 transition-opacity"
-            aria-label="Next athlete"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Dot Indicators */}
-      <div className="flex justify-center gap-2 mt-4">
-        {athletes.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setActiveIndex(idx)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              idx === activeIndex
-                ? "bg-[#AAB9BC] w-4"
-                : "bg-black/30"
-            }`}
-            aria-label={`Go to athlete ${idx + 1}`}
-          />
-        ))}
+        <button
+          onClick={handleNext}
+          className="neo-button p-2"
+          aria-label="Next athlete"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
       </div>
     </section>
   );
 }
-

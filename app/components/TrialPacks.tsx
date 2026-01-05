@@ -1,10 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import useIsMobile from "../hooks/useIsMobile";
 import TrialPacksMobile from "./TrialPacksMobile";
+import { useCart } from "../context/CartContext";
+import { getTrialPackVariantId } from "../lib/shopifyProductMapping";
 
 type FormulaType = "01" | "02";
+
+// Formula images with focal points
+const formulaImages = {
+  "01": { src: "/CONKA_17.jpg", focalX: 50, focalY: 55 }, // Flow 4-pack (black caps)
+  "02": { src: "/CONKA_18.jpg", focalX: 50, focalY: 55 }, // Clarity 4-pack (white caps)
+};
 type PackSize = "4" | "8" | "12";
 
 const packPricing: Record<PackSize, string> = {
@@ -42,6 +51,26 @@ export default function TrialPacks() {
   const isMobile = useIsMobile();
   const [selectedFormula, setSelectedFormula] = useState<FormulaType>("01");
   const [selectedPack, setSelectedPack] = useState<PackSize>("4");
+  const [isAdding, setIsAdding] = useState(false);
+  const cart = useCart();
+
+  const handleAddToCart = async () => {
+    const variantId = getTrialPackVariantId(selectedFormula, selectedPack);
+    if (!variantId) {
+      console.error(`No variant ID found for formula ${selectedFormula}, pack ${selectedPack}`);
+      return;
+    }
+    
+    setIsAdding(true);
+    try {
+      await cart.addToCart(variantId);
+      // Cart drawer opens automatically after adding
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+    } finally {
+      setIsAdding(false);
+    }
+  };
 
   // Render mobile version on smaller screens
   if (isMobile) {
@@ -85,10 +114,18 @@ export default function TrialPacks() {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 items-start">
-          {/* Left: Formula Image Placeholder */}
+          {/* Left: Formula Image */}
           <div className="lg:w-2/5">
-            <div className="placeholder-box w-full h-96">
-              <span className="font-clinical text-sm">[FORMULA {selectedFormula} IMAGE]</span>
+            <div className="relative w-full h-96 rounded-xl overflow-hidden">
+              <Image
+                src={formulaImages[selectedFormula].src}
+                alt={`Conka ${selectedFormula === "01" ? "Flow" : "Clarity"} bottles`}
+                fill
+                className="object-cover"
+                style={{
+                  objectPosition: `${formulaImages[selectedFormula].focalX}% ${formulaImages[selectedFormula].focalY}%`,
+                }}
+              />
             </div>
           </div>
 
@@ -105,7 +142,7 @@ export default function TrialPacks() {
               <div className="grid grid-cols-2 gap-2">
                 {formulaExplanations[selectedFormula].keyPoints.map((point, idx) => (
                   <div key={idx} className="flex items-start gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#AAB9BC] flex-shrink-0 mt-0.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-500 flex-shrink-0 mt-0.5">
                       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                       <polyline points="22 4 12 14.01 9 11.01"/>
                     </svg>
@@ -156,12 +193,19 @@ export default function TrialPacks() {
 
             {/* Action Buttons */}
             <div className="space-y-3">
-              <button className="w-full neo-button px-8 py-4 font-bold text-lg">
-                Add to Cart
+              <button 
+                onClick={handleAddToCart}
+                disabled={isAdding || cart.loading}
+                className="w-full neo-button px-8 py-4 font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isAdding ? 'Adding...' : 'Add to Cart'}
               </button>
-              <button className="w-full neo-button-outline px-8 py-3 font-semibold">
+              <a 
+                href={`/formula-${selectedFormula}`}
+                className="block w-full neo-button-outline px-8 py-3 font-semibold text-center"
+              >
                 Learn More
-              </button>
+              </a>
             </div>
           </div>
         </div>

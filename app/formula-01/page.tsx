@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Navigation from "@/app/components/Navigation";
 import {
   ProductHero,
@@ -14,55 +15,26 @@ import {
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
 } from "@/app/components/product";
-import CaseStudiesMobile from "@/app/components/CaseStudiesMobile";
+import { FormulaCaseStudiesMobile } from "@/app/components/FormulaCaseStudies";
+import FormulaCaseStudies from "@/app/components/FormulaCaseStudies";
 import { PackSize, PurchaseType } from "@/app/lib/productData";
 import useIsMobile from "@/app/hooks/useIsMobile";
-
-// Athletes data for case studies
-const athletes = [
-  {
-    name: "Marcus Chen",
-    sport: "Olympic Swimming",
-    achievement: "3x Gold Medalist",
-    protocol: "Conka Flow daily + Conka Clarity on competition days",
-    duration: "18 months",
-    results: ["+12% lap consistency", "-0.3s average time", "Zero crashes"],
-    quote: "Finally found something that works without the jitters",
-  },
-  {
-    name: "Sarah Okonkwo",
-    sport: "Professional Rugby",
-    achievement: "England National Team",
-    protocol: "Conka Flow daily (28-day cycle)",
-    duration: "12 months",
-    results: ["+18% decision accuracy", "Better post-match recovery", "Improved sleep scores"],
-    quote: "The clarity during matches is unreal",
-  },
-  {
-    name: "James Torres",
-    sport: "Esports",
-    achievement: "World Championship Finalist",
-    protocol: "Conka Clarity before tournaments",
-    duration: "8 months",
-    results: ["+23% reaction time", "6+ hour focus sessions", "Reduced mental fatigue"],
-    quote: "My edge in the final rounds",
-  },
-];
+import { useCart } from "@/app/context/CartContext";
+import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 
 export default function ConkaFlowPage() {
   const isMobile = useIsMobile();
-  const [cartOpen, setCartOpen] = useState(false);
   const [selectedPack, setSelectedPack] = useState<PackSize>("12");
   const [purchaseType, setPurchaseType] = useState<PurchaseType>("subscription");
+  const { addToCart } = useCart();
 
-  const handleAddToCart = () => {
-    // TODO: Implement cart functionality with Shopify Storefront API
-    setCartOpen(true);
-    console.log("Add to cart:", {
-      formula: "01",
-      pack: selectedPack,
-      type: purchaseType,
-    });
+  const handleAddToCart = async () => {
+    const variantData = getFormulaVariantId("01", selectedPack, purchaseType);
+    if (variantData?.variantId) {
+      await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
+    } else {
+      console.warn("Variant ID not configured for:", { formula: "01", pack: selectedPack, type: purchaseType });
+    }
   };
 
   // Mobile version
@@ -72,7 +44,7 @@ export default function ConkaFlowPage() {
         className="min-h-screen theme-conka-flow"
         style={{ background: "var(--background)", color: "var(--foreground)" }}
       >
-        <Navigation cartOpen={cartOpen} setCartOpen={setCartOpen} />
+        <Navigation />
 
         <ProductHeroMobile
           formulaId="01"
@@ -90,15 +62,21 @@ export default function ConkaFlowPage() {
         <ProtocolBenefitsMobile formulaId="01" />
 
         {/* Case Studies - Social Proof */}
-        <CaseStudiesMobile athletes={athletes} />
+        <FormulaCaseStudiesMobile formulaId="01" />
 
         {/* Footer */}
         <footer className="px-4 py-8 pb-28 border-t-2 border-current/10">
           <div className="flex flex-col gap-6">
             {/* Logo & Nav */}
             <div className="flex flex-col gap-3">
-              <a href="/" className="text-xl font-bold tracking-tight font-primary hover:opacity-70 transition-all">
-                conka.
+              <a href="/" className="flex items-center hover:opacity-70 transition-all">
+                <Image
+                  src="/conka.png"
+                  alt="Conka logo"
+                  width={90}
+                  height={30}
+                  className="h-6 w-auto"
+                />
               </a>
               <nav className="flex flex-wrap items-center gap-2">
                 <a href="/#science" className="font-clinical text-xs hover:opacity-70 transition-all">The Science</a>
@@ -155,34 +133,6 @@ export default function ConkaFlowPage() {
           onAddToCart={handleAddToCart}
         />
 
-        {/* Cart Drawer */}
-        {cartOpen && (
-          <div className="fixed inset-0 z-50">
-            <div className="absolute inset-0 bg-black/50" onClick={() => setCartOpen(false)} />
-            <div className="absolute right-0 top-0 h-full w-full max-w-md bg-[var(--background)] border-l-2 border-current shadow-2xl">
-              <div className="flex flex-col h-full">
-                <div className="flex justify-between items-center p-4 border-b-2 border-current">
-                  <h2 className="text-lg font-bold">Your Cart</h2>
-                  <button onClick={() => setCartOpen(false)} className="p-2" aria-label="Close cart">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18" />
-                      <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                  </button>
-                </div>
-                <div className="flex-1 p-4 flex items-center justify-center text-center opacity-50">
-                  <div>
-                    <p className="font-clinical text-sm">Your cart is empty</p>
-                    <p className="font-commentary text-sm mt-1">add some brain fuel!</p>
-                  </div>
-                </div>
-                <div className="p-4 border-t-2 border-current">
-                  <button className="neo-button w-full py-3 font-semibold">Checkout</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     );
   }
@@ -194,7 +144,7 @@ export default function ConkaFlowPage() {
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* Navigation */}
-      <Navigation cartOpen={cartOpen} setCartOpen={setCartOpen} />
+      <Navigation />
 
       {/* Hero Section */}
       <ProductHero
@@ -251,9 +201,15 @@ export default function ConkaFlowPage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row justify-between gap-12">
             <div className="flex flex-col gap-6">
-              <span className="text-xl md:text-2xl font-bold tracking-tight font-primary">
-                conka.
-              </span>
+              <a href="/" className="flex items-center hover:opacity-70 transition-all">
+                <Image
+                  src="/conka.png"
+                  alt="Conka logo"
+                  width={120}
+                  height={40}
+                  className="h-8 w-auto"
+                />
+              </a>
               <nav className="flex flex-wrap items-center gap-2">
                 <a
                   href="/"
@@ -317,76 +273,6 @@ export default function ConkaFlowPage() {
         onAddToCart={handleAddToCart}
       />
 
-      {/* Cart Drawer */}
-      {cartOpen && (
-        <div className="fixed inset-0 z-50">
-          <div
-            className="absolute inset-0 bg-black/50 transition-opacity"
-            onClick={() => setCartOpen(false)}
-          />
-          <div className="absolute right-0 top-0 h-full w-full max-w-md bg-[var(--background)] border-l-2 border-current shadow-2xl">
-            <div className="flex flex-col h-full">
-              <div className="flex justify-between items-center p-6 border-b-2 border-current">
-                <h2 className="text-xl font-bold">Your Cart</h2>
-                <button
-                  onClick={() => setCartOpen(false)}
-                  className="p-2 hover:opacity-70 transition-all"
-                  aria-label="Close cart"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </button>
-              </div>
-              <div className="flex-1 p-6 overflow-y-auto">
-                <div className="flex flex-col items-center justify-center h-full text-center opacity-50">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="48"
-                    height="48"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mb-4"
-                  >
-                    <circle cx="9" cy="21" r="1" />
-                    <circle cx="20" cy="21" r="1" />
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                  </svg>
-                  <p className="font-clinical text-sm">Your cart is empty</p>
-                  <p className="font-commentary text-sm mt-2">add some brain fuel!</p>
-                </div>
-              </div>
-              <div className="p-6 border-t-2 border-current">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="font-clinical text-sm">Subtotal</span>
-                  <span className="font-clinical text-lg font-bold">£0.00</span>
-                </div>
-                <button className="neo-button w-full px-8 py-4 font-semibold text-lg">
-                  Checkout
-                </button>
-                <p className="font-clinical text-xs text-center mt-3 opacity-70">
-                  Free UK shipping on orders over £50
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

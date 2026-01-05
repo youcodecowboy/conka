@@ -1,6 +1,29 @@
 "use client";
 
+import Image from "next/image";
 import { FormulaId } from "@/app/lib/productData";
+
+// Image configuration with focal points for proper centering
+const slideshowImages = [
+  {
+    src: "/CONKA_23.jpg",
+    alt: "Conka scientific formulation",
+    focalX: 40,
+    focalY: 55,
+  },
+  {
+    src: "/CONKA_16.jpg",
+    alt: "Both Conka formulas",
+    focalX: 50,
+    focalY: 55,
+  },
+  {
+    src: "/CONKA_24.jpg",
+    alt: "Conka product packaging",
+    focalX: 50,
+    focalY: 60,
+  },
+];
 
 interface ProtocolBenefitsMobileProps {
   formulaId: FormulaId;
@@ -19,7 +42,7 @@ const combinedBenefits = {
 const protocols = [
   {
     id: "1",
-    name: "Protocol 1",
+    name: "Resilience Protocol",
     tagline: "Focus First",
     description: "Conka Flow daily, Conka Clarity weekly for sustained clarity",
     icon: (
@@ -30,7 +53,7 @@ const protocols = [
   },
   {
     id: "2",
-    name: "Protocol 2",
+    name: "Precision Protocol",
     tagline: "Energy First",
     description: "Conka Clarity daily, Conka Flow weekly for peak performance",
     icon: (
@@ -41,7 +64,7 @@ const protocols = [
   },
   {
     id: "3",
-    name: "Protocol 3",
+    name: "Balance Protocol",
     tagline: "Balanced",
     description: "Both formulas in perfect harmony, alternating daily",
     icon: (
@@ -54,7 +77,7 @@ const protocols = [
   },
   {
     id: "4",
-    name: "Protocol 4",
+    name: "Ultimate Protocol",
     tagline: "Ultimate",
     description: "Both formulas daily for maximum cognitive enhancement",
     icon: (
@@ -73,39 +96,22 @@ export default function ProtocolBenefitsMobile({ formulaId }: ProtocolBenefitsMo
       {/* Image Carousel - Edge to Edge */}
       <div className="mb-6 overflow-x-auto scrollbar-hide">
         <div className="flex gap-3 px-4">
-          {/* Placeholder Image 1 */}
-          <div className="flex-shrink-0 w-64 h-40 rounded-xl bg-gradient-to-br from-black/5 to-black/10 border-2 border-black/10 flex items-center justify-center">
-            <div className="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-              <p className="font-clinical text-xs opacity-40">[PRODUCT LIFESTYLE]</p>
+          {slideshowImages.map((image, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative"
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                className="object-cover"
+                style={{
+                  objectPosition: `${image.focalX}% ${image.focalY}%`,
+                }}
+              />
             </div>
-          </div>
-          {/* Placeholder Image 2 */}
-          <div className="flex-shrink-0 w-64 h-40 rounded-xl bg-gradient-to-br from-[#AAB9BC]/20 to-[#AAB9BC]/30 border-2 border-[#AAB9BC]/30 flex items-center justify-center">
-            <div className="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-              <p className="font-clinical text-xs opacity-40">[BOTH FORMULAS]</p>
-            </div>
-          </div>
-          {/* Placeholder Image 3 */}
-          <div className="flex-shrink-0 w-64 h-40 rounded-xl bg-gradient-to-br from-amber-500/10 to-amber-500/20 border-2 border-amber-500/20 flex items-center justify-center">
-            <div className="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-              <p className="font-clinical text-xs opacity-40">[IN ACTION]</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 

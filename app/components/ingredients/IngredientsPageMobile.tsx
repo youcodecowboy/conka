@@ -56,7 +56,7 @@ export default function IngredientsPageMobile({
                 : "border-2 border-current/20 hover:border-current/40"
             }`}
           >
-            <span className={`w-2.5 h-2.5 rounded-sm ${activeFormula === "01" ? "bg-[#AAB9BC]" : "bg-[#AAB9BC]"}`} />
+            <span className={`w-2.5 h-2.5 rounded-sm ${activeFormula === "01" ? "bg-amber-500" : "bg-amber-500"}`} />
             Conka Flow
           </button>
           <button
@@ -67,7 +67,7 @@ export default function IngredientsPageMobile({
                 : "border-2 border-current/20 hover:border-current/40"
             }`}
           >
-            <span className={`w-2.5 h-2.5 rounded-sm bg-amber-500`} />
+            <span className={`w-2.5 h-2.5 rounded-sm bg-[#AAB9BC]`} />
             Conka Clarity
           </button>
         </div>

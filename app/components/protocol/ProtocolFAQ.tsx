@@ -27,7 +27,7 @@ const generalFAQs = [
   {
     question: "Can I take both formulas on the same day?",
     answer:
-      "Yes, absolutely! In fact, our Protocol 4 (Ultimate) involves taking both formulas every day. Take Conka Flow in the morning and Conka Clarity later in the day for optimal results.",
+      "Yes, absolutely! In fact, our Ultimate Protocol involves taking both formulas every day. Take Conka Flow in the morning and Conka Clarity later in the day for optimal results.",
   },
   {
     question: "How long until I see results?",
@@ -41,14 +41,14 @@ const protocolSpecificFAQs: Record<ProtocolId, { question: string; answer: strin
     {
       question: "Why is Conka Flow the daily formula in this protocol?",
       answer:
-        "Protocol 1 is designed for those prioritizing sustained energy and stress resilience. Conka Flow's adaptogens work best when taken consistently, building up your body's ability to handle daily stressors.",
+        "Resilience Protocol is designed for those prioritizing sustained energy and stress resilience. Conka Flow's adaptogens work best when taken consistently, building up your body's ability to handle daily stressors.",
     },
   ],
   "2": [
     {
       question: "Why is Conka Clarity the daily formula in this protocol?",
       answer:
-        "Protocol 2 is optimized for those who need peak cognitive performance regularly. Conka Clarity's nootropics provide consistent mental clarity and focus when taken daily.",
+        "Precision Protocol is optimized for those who need peak cognitive performance regularly. Conka Clarity's nootropics provide consistent mental clarity and focus when taken daily.",
     },
   ],
   "3": [

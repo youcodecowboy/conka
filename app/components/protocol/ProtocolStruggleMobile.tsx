@@ -148,7 +148,7 @@ export default function ProtocolStruggleMobile({ protocolId }: ProtocolStruggleM
               onClick={() => setSelectedStruggle(isSelected ? null : struggle.id)}
               className={`py-3 px-2 rounded-lg flex flex-col items-center gap-1 transition-all ${
                 isSelected
-                  ? "bg-[#AAB9BC] text-white"
+                  ? "bg-amber-500 text-white"
                   : "border-2 border-black/10 hover:border-black/30"
               }`}
             >
@@ -163,7 +163,7 @@ export default function ProtocolStruggleMobile({ protocolId }: ProtocolStruggleM
       {currentSolution && (
         <div className="neo-box overflow-hidden animate-slide-up">
           {/* Solution Header */}
-          <div className="p-4 bg-[#AAB9BC] text-white">
+          <div className="p-4 bg-amber-500 text-white">
             <div className="flex items-center gap-2 mb-2">
               <StruggleIcon icon={currentSolution.icon} />
               <span className="font-clinical text-xs uppercase opacity-80">
@@ -177,7 +177,7 @@ export default function ProtocolStruggleMobile({ protocolId }: ProtocolStruggleM
           <div className="p-4 space-y-4">
             {/* Primary Stat */}
             <div className="flex items-center gap-4">
-              <span className="text-3xl font-bold text-[#AAB9BC]">
+              <span className="text-3xl font-bold text-amber-500">
                 {currentSolution.stat}
               </span>
               <span className="font-clinical text-sm opacity-70">
@@ -195,7 +195,7 @@ export default function ProtocolStruggleMobile({ protocolId }: ProtocolStruggleM
                 {currentSolution.keyBenefits.map((benefit, idx) => (
                   <span
                     key={idx}
-                    className="px-2 py-1 bg-[#AAB9BC]/10 rounded-full font-clinical text-xs"
+                    className="px-2 py-1 bg-amber-500/10 rounded-full font-clinical text-xs"
                   >
                     {benefit}
                   </span>
@@ -209,7 +209,7 @@ export default function ProtocolStruggleMobile({ protocolId }: ProtocolStruggleM
               <ul className="space-y-1">
                 {protocol.benefits.slice(0, 3).map((benefit, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#AAB9BC] mt-0.5 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-500 mt-0.5 flex-shrink-0">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                     <span className="opacity-80">{benefit}</span>

@@ -29,12 +29,15 @@ interface StickyPurchaseFooterProps {
   onAddToCart: () => void;
 }
 
-const packSizes: PackSize[] = ["4", "12", "28"];
+const packSizes: PackSize[] = ["4", "8", "12"];
 const packLabels: Record<PackSize, string> = {
   "4": "4-pack",
+  "8": "8-pack",
   "12": "12-pack",
-  "28": "28-pack",
 };
+
+// Subscription discount percentage
+const SUBSCRIPTION_DISCOUNT = 20;
 
 export default function StickyPurchaseFooter({
   formulaId,
@@ -86,17 +89,21 @@ export default function StickyPurchaseFooter({
 
   // Calculate price based on formula or protocol
   let price = 0;
+  let originalPrice = 0;
   let billingText = "";
   let productLabel = "";
   let showPackSelector = false;
   let showTierSelector = false;
   let availableTiers: ProtocolTier[] = [];
+  const isSubscription = purchaseType === "subscription";
 
   if (formulaId && selectedPack) {
     const pricing = formulaPricing[purchaseType][selectedPack];
     price = pricing.price;
+    // Get original price for comparison
+    originalPrice = formulaPricing["one-time"][selectedPack].price;
     billingText =
-      purchaseType === "subscription"
+      isSubscription
         ? getBillingLabel((pricing as { billing: string }).billing)
         : "one-time";
     productLabel = `${packLabels[selectedPack]} ${billingText}`;
@@ -107,8 +114,13 @@ export default function StickyPurchaseFooter({
     if (selectedTier in tierPricing) {
       const pricing = tierPricing[selectedTier as keyof typeof tierPricing];
       price = pricing.price;
+      // Get original price for comparison
+      const oneTimePricing = protocolPricing[pricingType]["one-time"];
+      if (selectedTier in oneTimePricing) {
+        originalPrice = (oneTimePricing as Record<string, { price: number }>)[selectedTier]?.price || 0;
+      }
       billingText =
-        purchaseType === "subscription" && "billing" in pricing
+        isSubscription && "billing" in pricing
           ? getBillingLabel(pricing.billing)
           : "one-time";
     }
@@ -267,7 +279,7 @@ export default function StickyPurchaseFooter({
               >
                 <div
                   className={`w-8 h-4 rounded-full relative transition-colors ${
-                    purchaseType === "subscription" ? "bg-[#AAB9BC]" : "bg-gray-300"
+                    purchaseType === "subscription" ? "bg-amber-500" : "bg-gray-300"
                   }`}
                 >
                   <div
@@ -289,10 +301,27 @@ export default function StickyPurchaseFooter({
 
               {/* Price Display */}
               <div className="text-right">
-                <div className="flex items-center justify-end gap-1">
-                  <span className="text-xl md:text-2xl font-bold">{formatPrice(price)}</span>
+                <div className="flex items-center justify-end gap-2">
+                  {isSubscription && originalPrice > 0 && (
+                    <span className="text-sm md:text-base font-clinical line-through opacity-50">
+                      {formatPrice(originalPrice)}
+                    </span>
+                  )}
+                  <span className={`text-xl md:text-2xl font-bold ${isSubscription ? "text-amber-600" : ""}`}>
+                    {formatPrice(price)}
+                  </span>
                   <span className="font-clinical text-xs opacity-70 font-normal leading-none">+ Free Shipping</span>
                 </div>
+                {isSubscription && (
+                  <div className="flex justify-end mt-1">
+                    <span className="inline-flex items-center gap-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      SAVE {SUBSCRIPTION_DISCOUNT}%
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>

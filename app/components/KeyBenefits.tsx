@@ -18,6 +18,7 @@ export interface Benefit {
     results: string[];
   };
   image?: string; // Image path
+  focalPoint?: { x: number; y: number }; // Focal point for image centering (0-100)
   testimonial?: {
     quote: string;
     author: string;

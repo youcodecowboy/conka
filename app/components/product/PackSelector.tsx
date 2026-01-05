@@ -17,19 +17,19 @@ interface PackSelectorProps {
   className?: string;
 }
 
-const packSizes: PackSize[] = ["4", "12", "28"];
+const packSizes: PackSize[] = ["4", "8", "12"];
 
 const packLabels: Record<PackSize, string> = {
   "4": "4-pack",
+  "8": "8-pack",
   "12": "12-pack",
-  "28": "28-pack",
 };
 
 export default function PackSelector({
   selectedPack,
   onSelect,
   purchaseType,
-  highlightColor = "#AAB9BC",
+  highlightColor = "#f59e0b",
   className = "",
 }: PackSelectorProps) {
   const isInvert = highlightColor === "invert";
@@ -41,6 +41,8 @@ export default function PackSelector({
       <div className="grid grid-cols-3 gap-3">
         {packSizes.map((size) => {
           const pricing = formulaPricing[purchaseType][size];
+          if (!pricing) return null;
+          
           const isSelected = selectedPack === size;
           const billingText =
             purchaseType === "subscription"
@@ -84,7 +86,7 @@ export default function PackSelector({
                 className="px-3 py-2 flex-1 flex flex-col justify-end"
                 style={{
                   backgroundColor: isSelected 
-                    ? (purchaseType === "subscription" ? "#AAB9BC" : accentColor)
+                    ? (purchaseType === "subscription" ? "#f59e0b" : accentColor)
                     : "var(--background)",
                   color: isSelected 
                     ? "white" 

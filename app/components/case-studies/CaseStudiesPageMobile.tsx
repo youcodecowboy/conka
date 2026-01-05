@@ -7,6 +7,8 @@ import {
   athletes,
   getFeaturedAthletes,
   getAllSports,
+  getTotalTestsCompleted,
+  getAverageImprovementAcrossAll,
 } from "@/app/lib/caseStudiesData";
 import SportIcon from "./SportIcon";
 import AthleteStats from "./AthleteStats";
@@ -71,9 +73,9 @@ export default function CaseStudiesPageMobile() {
     
     const getColor = () => {
       switch (version) {
-        case "01": return "bg-[#AAB9BC]";
-        case "02": return "bg-amber-500";
-        case "both": return "bg-gradient-to-r from-[#AAB9BC] to-amber-500";
+        case "01": return "bg-amber-500";
+        case "02": return "bg-[#AAB9BC]";
+        case "both": return "bg-gradient-to-r from-amber-500 to-[#AAB9BC]";
       }
     };
 
@@ -280,21 +282,6 @@ export default function CaseStudiesPageMobile() {
             <div className="p-5 border-b-2 border-current/10">
               <p className="text-sm leading-relaxed">{activeAthlete.description}</p>
             </div>
-
-            {/* Quote */}
-            {activeAthlete.quote && (
-              <div className="p-5 border-b-2 border-current/10 bg-current/5">
-                <div className="flex gap-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="opacity-20 flex-shrink-0">
-                    <path d="M11 7H7a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v2a2 2 0 0 1-2 2H6v2h1a4 4 0 0 0 4-4V7zm8 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v2a2 2 0 0 1-2 2h-1v2h1a4 4 0 0 0 4-4V7z"/>
-                  </svg>
-                  <div>
-                    <p className="font-commentary text-base mb-2">&quot;{activeAthlete.quote}&quot;</p>
-                    <p className="font-clinical text-xs opacity-50">— {activeAthlete.name}</p>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* Stats Section */}
             <div className="p-5">

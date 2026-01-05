@@ -10,8 +10,8 @@ export type ProtocolTier = "starter" | "pro" | "max";
 
 // Formula colors - ALWAYS consistent regardless of path
 export const FORMULA_COLORS = {
-  "01": "bg-[#AAB9BC]", // Conka Flow is ALWAYS teal
-  "02": "bg-amber-500", // Conka Clarity is ALWAYS amber
+  "01": "bg-amber-500", // Conka Flow is ALWAYS amber/orange
+  "02": "bg-[#AAB9BC]", // Conka Clarity is ALWAYS teal
 };
 
 export interface PathInfo {
@@ -32,7 +32,7 @@ export interface PathInfo {
 export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   path1: {
     id: "path1",
-    title: "Protocol 1",
+    title: "Resilience Protocol",
     subtitle: "Conka Flow Daily • Conka Clarity Weekly",
     primaryFormula: "01",
     secondaryFormula: "02",
@@ -52,7 +52,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   },
   path2: {
     id: "path2",
-    title: "Protocol 2",
+    title: "Precision Protocol",
     subtitle: "Conka Clarity Daily • Conka Flow Weekly",
     primaryFormula: "02",
     secondaryFormula: "01",
@@ -72,7 +72,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   },
   path3: {
     id: "path3",
-    title: "Protocol 3",
+    title: "Balance Protocol",
     subtitle: "Conka Flow & Conka Clarity Balanced",
     primaryFormula: "01",
     secondaryFormula: "02",
@@ -95,7 +95,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
   },
   path4: {
     id: "path4",
-    title: "Protocol 4",
+    title: "Ultimate Protocol",
     subtitle: "Both Formulas Daily",
     primaryFormula: "01",
     secondaryFormula: "02",
@@ -476,7 +476,7 @@ export default function ProtocolBuilder() {
                   {pathData[selectedPath].isBalanced ? (
                     <>
                       <div className="flex items-center gap-3">
-                        <div className="w-6 h-6 rounded-md bg-[#AAB9BC] flex items-center justify-center">
+                        <div className="w-6 h-6 rounded-md bg-amber-500 flex items-center justify-center">
                           <span className="text-white font-clinical text-xs font-bold">01</span>
                         </div>
                         <span className="font-clinical text-sm">
@@ -484,7 +484,7 @@ export default function ProtocolBuilder() {
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="w-6 h-6 rounded-md bg-amber-500 flex items-center justify-center">
+                        <div className="w-6 h-6 rounded-md bg-[#AAB9BC] flex items-center justify-center">
                           <span className="text-white font-clinical text-xs font-bold">02</span>
                         </div>
                         <span className="font-clinical text-sm">
@@ -604,11 +604,11 @@ export default function ProtocolBuilder() {
                         key={idx}
                         className={`aspect-square flex items-center justify-center font-clinical text-sm rounded-md transition-all ${
                           day.formula === "01"
-                            ? "bg-[#AAB9BC] text-white"
+                            ? "bg-amber-500 text-white"
                             : day.formula === "02"
                             ? "bg-amber-500 text-white"
                             : day.formula === "both"
-                            ? "bg-gradient-to-br from-[#AAB9BC] to-amber-500 text-white"
+                            ? "bg-gradient-to-br from-amber-500 to-[#AAB9BC] text-white"
                             : "border-2 border-current opacity-20"
                         }`}
                       >
@@ -620,11 +620,11 @@ export default function ProtocolBuilder() {
                   {/* Legend - Always consistent formula colors */}
                   <div className="flex gap-6 mt-4 pt-4 border-t border-current border-opacity-20 flex-wrap">
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded-sm bg-teal-500"></div>
+                      <div className="w-4 h-4 rounded-sm bg-amber-500"></div>
                       <span className="font-clinical text-xs">Conka Flow</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded-sm bg-amber-500"></div>
+                      <div className="w-4 h-4 rounded-sm bg-[#AAB9BC]"></div>
                       <span className="font-clinical text-xs">Conka Clarity</span>
                     </div>
                   </div>
@@ -638,7 +638,7 @@ export default function ProtocolBuilder() {
                   <div className="space-y-2">
                     {pathData[selectedPath].benefits.map((benefit, idx) => (
                       <div key={idx} className="flex items-start gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#AAB9BC] flex-shrink-0 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-500 flex-shrink-0 mt-0.5">
                           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                           <polyline points="22 4 12 14.01 9 11.01"/>
                         </svg>

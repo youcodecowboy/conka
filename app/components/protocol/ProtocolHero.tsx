@@ -79,9 +79,9 @@ export default function ProtocolHero({
   const headerBgClass =
     purchaseType === "subscription"
       ? "bg-[var(--foreground)] text-[var(--background)]"
-      : "bg-[#AAB9BC] text-white";
+      : "bg-amber-500 text-white";
   
-  const oneTimeColor = "#AAB9BC";
+  const oneTimeColor = "#f59e0b";
 
   return (
     <section className="px-6 md:px-16 py-8 md:py-16">
@@ -149,7 +149,7 @@ export default function ProtocolHero({
                 {tierConfig && (
                   <div className={`p-4 rounded-lg ${
                     purchaseType === "one-time" 
-                      ? "bg-[#AAB9BC]/10 border-2 border-[#AAB9BC]" 
+                      ? "bg-amber-500/10 border-2 border-amber-500" 
                       : "bg-current/5"
                   }`}>
                     <p className="font-clinical text-xs uppercase opacity-70 mb-3">
@@ -164,7 +164,7 @@ export default function ProtocolHero({
                           <p className="font-bold text-[var(--foreground)]">
                             {tierConfig.conkaFlowCount}x Conka Flow
                           </p>
-                          <a href="/conka-flow" className="font-clinical text-xs text-[#AAB9BC] hover:underline">
+                          <a href="/conka-flow" className="font-clinical text-xs text-amber-500 hover:underline">
                             Learn more →
                           </a>
                         </div>
@@ -191,8 +191,8 @@ export default function ProtocolHero({
                   <div
                     className={`flex justify-between items-center p-4 rounded-lg border-2 ${
                       purchaseType === "one-time"
-                        ? "border-[#AAB9BC]"
-                        : "bg-[#AAB9BC]/10 border-[#AAB9BC]"
+                        ? "border-amber-500"
+                        : "bg-amber-500/10 border-amber-500"
                     }`}
                     style={
                       purchaseType === "one-time"
@@ -209,9 +209,32 @@ export default function ProtocolHero({
                       <p className="font-bold">
                         {tierConfig?.name} • {billingText}
                       </p>
+                      {purchaseType === "subscription" && (
+                        <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 bg-green-500/20 text-green-600 rounded-full font-clinical text-xs font-semibold">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                          </svg>
+                          Save 20%
+                        </span>
+                      )}
                     </div>
                     <div className="text-right">
-                      <p className="text-3xl font-bold">{formatPrice(pricing.price)}</p>
+                      {purchaseType === "subscription" ? (
+                        <>
+                          {/* Show original price struck through */}
+                          <p className="font-clinical text-sm line-through opacity-50">
+                            {formatPrice(
+                              selectedTier in protocolPricing[pricingType]["one-time"]
+                                ? (protocolPricing[pricingType]["one-time"] as Record<string, { price: number }>)[selectedTier]?.price || 0
+                                : 0
+                            )}
+                          </p>
+                          <p className="text-3xl font-bold text-green-600">{formatPrice(pricing.price)}</p>
+                        </>
+                      ) : (
+                        <p className="text-3xl font-bold">{formatPrice(pricing.price)}</p>
+                      )}
                       {tierConfig && (
                         <p className="font-clinical text-xs opacity-70">
                           {tierConfig.shotsPerWeek} shots/week

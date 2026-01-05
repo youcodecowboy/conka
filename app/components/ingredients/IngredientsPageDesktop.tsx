@@ -59,7 +59,7 @@ export default function IngredientsPageDesktop({
                     : "bg-transparent hover:bg-current/10"
                 }`}
               >
-                <span className="w-3 h-3 rounded-sm bg-[#AAB9BC]" />
+                <span className="w-3 h-3 rounded-sm bg-amber-500" />
                 <span className="font-clinical text-sm font-medium">Conka Flow</span>
               </button>
               <button
@@ -70,7 +70,7 @@ export default function IngredientsPageDesktop({
                     : "bg-transparent hover:bg-current/10"
                 }`}
               >
-                <span className="w-3 h-3 rounded-sm bg-amber-500" />
+                <span className="w-3 h-3 rounded-sm bg-[#AAB9BC]" />
                 <span className="font-clinical text-sm font-medium">Conka Clarity</span>
               </button>
             </div>

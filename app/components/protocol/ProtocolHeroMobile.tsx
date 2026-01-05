@@ -65,11 +65,11 @@ export default function ProtocolHeroMobile({
       ? getBillingLabel(pricing.billing)
       : "one-time";
 
-  // Header color based on purchase type - protocols use teal accent
+  // Header color based on purchase type - protocols use amber accent
   const headerBgClass =
     purchaseType === "subscription"
       ? "bg-[var(--foreground)] text-[var(--background)]"
-      : "bg-[#AAB9BC] text-white";
+      : "bg-amber-500 text-white";
 
   // Toggle button colors - always on dark/colored header
   const toggleActiveClass = "bg-white text-black border-white";
@@ -79,7 +79,7 @@ export default function ProtocolHeroMobile({
   const summaryBgClass =
     purchaseType === "subscription"
       ? "bg-current/5"
-      : "bg-[#AAB9BC]/10 border-t-2 border-[#AAB9BC]/30";
+      : "bg-amber-500/10 border-t-2 border-amber-500/30";
 
   // FAQ items for this protocol
   const faqItems = [
@@ -108,10 +108,10 @@ export default function ProtocolHeroMobile({
         ];
         // Accent colors for tags - alternating teal and amber
         const tagColors = [
-          "bg-[#AAB9BC]/20 text-[#AAB9BC]",
           "bg-amber-500/20 text-amber-600",
           "bg-[#AAB9BC]/20 text-[#AAB9BC]",
           "bg-amber-500/20 text-amber-600",
+          "bg-[#AAB9BC]/20 text-[#AAB9BC]",
         ];
         return (
           <div className="space-y-4">
@@ -237,7 +237,7 @@ export default function ProtocolHeroMobile({
           <div className="space-y-3">
             {protocol.benefits?.map((benefit, idx) => (
               <div key={idx} className="flex items-start gap-3 p-3 bg-current/5 rounded-lg">
-                <div className="w-8 h-8 rounded-full bg-[#AAB9BC] flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
@@ -365,18 +365,60 @@ export default function ProtocolHeroMobile({
             {availableTiers.map((tier) => {
               const tierPricingData = tierPricing[tier as keyof typeof tierPricing];
               if (!tierPricingData) return null;
+              // Get one-time price for showing crossed-out price
+              const pricingType = protocolId === "4" ? "ultimate" : "standard";
+              const oneTimePricingObj = protocolPricing[pricingType]["one-time"];
+              const oneTimePricing = tier in oneTimePricingObj 
+                ? (oneTimePricingObj as Record<string, { price: number }>)[tier] 
+                : null;
+              const isSelected = selectedTier === tier;
+              
               return (
                 <button
                   key={tier}
                   onClick={() => onTierSelect(tier)}
-                  className={`py-3 px-2 rounded-lg text-center transition-all ${
-                    selectedTier === tier
-                      ? "bg-black text-white"
-                      : "border-2 border-black/10 hover:border-black/30"
+                  className={`overflow-hidden transition-all border-2 ${
+                    isSelected
+                      ? "border-black shadow-[3px_3px_0px_0px_#14b8a6]"
+                      : "border-black/10 hover:border-black/30"
                   }`}
                 >
-                  <p className="font-bold text-sm">{tierLabels[tier]}</p>
-                  <p className="font-clinical text-xs opacity-70">{formatPrice(tierPricingData.price)}</p>
+                  {/* Tier Header */}
+                  <div className={`py-1.5 px-2 text-center ${
+                    isSelected 
+                      ? purchaseType === "subscription" 
+                        ? "bg-black text-white" 
+                        : "bg-amber-500 text-white"
+                      : purchaseType === "subscription"
+                        ? "bg-black text-white"
+                        : "bg-amber-500/10"
+                  }`}>
+                    <p className="font-bold text-sm">{tierLabels[tier]}</p>
+                  </div>
+                  {/* Price Body */}
+                  <div className={`py-2 px-2 text-center ${
+                    isSelected 
+                      ? purchaseType === "subscription"
+                        ? "bg-teal-500 text-white"
+                        : "bg-amber-500 text-white"
+                      : "bg-white"
+                  }`}>
+                    {purchaseType === "subscription" && oneTimePricing && (
+                      <p className={`font-clinical text-[10px] line-through ${isSelected ? "opacity-70" : "opacity-50"}`}>
+                        {formatPrice(oneTimePricing.price)}
+                      </p>
+                    )}
+                    <p className={`font-bold text-base ${
+                      purchaseType === "subscription" && !isSelected ? "text-amber-600" : ""
+                    }`}>
+                      {formatPrice(tierPricingData.price)}
+                    </p>
+                    <p className={`font-clinical text-[10px] ${isSelected ? "opacity-80" : "opacity-60"}`}>
+                      {purchaseType === "subscription" && "billing" in tierPricingData
+                        ? getBillingLabel(tierPricingData.billing)
+                        : "one-time"}
+                    </p>
+                  </div>
                 </button>
               );
             })}
@@ -385,14 +427,40 @@ export default function ProtocolHeroMobile({
 
         {/* Selection Summary */}
         {pricing && tierConfig && (
-          <div className={`p-4 transition-colors ${summaryBgClass}`}>
+          <div className={`p-4 transition-colors ${
+            purchaseType === "subscription"
+              ? "bg-amber-500/10 border-t-2 border-amber-500/30"
+              : "bg-current/5"
+          }`}>
             <div className="flex justify-between items-center mb-4">
               <div>
                 <p className="font-clinical text-xs uppercase opacity-50">Your Selection</p>
                 <p className="font-bold text-sm">{tierConfig.name} • {billingText}</p>
+                {purchaseType === "subscription" && (
+                  <span className="inline-flex items-center gap-1 mt-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    Save 20%
+                  </span>
+                )}
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold">{formatPrice(pricing.price)}</p>
+                {purchaseType === "subscription" && (() => {
+                  const pricingTypeLocal = protocolId === "4" ? "ultimate" : "standard";
+                  const oneTimeObj = protocolPricing[pricingTypeLocal]["one-time"];
+                  const oneTimePrice = selectedTier in oneTimeObj 
+                    ? (oneTimeObj as Record<string, { price: number }>)[selectedTier]?.price || 0 
+                    : 0;
+                  return (
+                    <p className="font-clinical text-xs line-through opacity-50">
+                      {formatPrice(oneTimePrice)}
+                    </p>
+                  );
+                })()}
+                <p className={`text-2xl font-bold ${purchaseType === "subscription" ? "text-amber-600" : ""}`}>
+                  {formatPrice(pricing.price)}
+                </p>
                 <p className="font-clinical text-xs opacity-70">{tierConfig.shotsPerWeek} shots/week</p>
               </div>
             </div>

@@ -52,13 +52,13 @@ export const protocolMatchInfo: Record<ProtocolKey, ProtocolMatchInfo> = {
   protocol1: {
     id: "protocol1",
     protocolNumber: "1",
-    name: "Protocol 1",
+    name: "Resilience Protocol",
     subtitle: "Build Resilience, Stay Sharp",
-    bestForSummary: "Protocol 1 is perfect for people who need consistent daily energy, struggle with stress management, and want better recovery. The adaptogen-focused approach with Conka Flow builds your foundation while strategic Conka Clarity boosts keep you sharp when it matters most.",
+    bestForSummary: "Resilience Protocol is perfect for people who need consistent daily energy, struggle with stress management, and want better recovery. The adaptogen-focused approach with Conka Flow builds your foundation while strategic Conka Clarity boosts keep you sharp when it matters most.",
     keyBenefits: [
-      "Daily stress resilience through adaptogens",
-      "Improved sleep quality and recovery",
-      "Reduced cortisol levels (-24%)",
+      "Daily stress resilience (-56% stress scores, PMID: 23439798)",
+      "Improved sleep quality (+42%, PMID: 32021735)",
+      "Reduced cortisol levels (-28%, PMID: 23439798)",
       "Weekly cognitive boost for peak performance",
     ],
     icon: "shield",
@@ -66,13 +66,13 @@ export const protocolMatchInfo: Record<ProtocolKey, ProtocolMatchInfo> = {
   protocol2: {
     id: "protocol2",
     protocolNumber: "2",
-    name: "Protocol 2",
+    name: "Precision Protocol",
     subtitle: "Peak Cognition, Zero Burnout",
-    bestForSummary: "Protocol 2 is ideal for those who need sustained mental clarity, experience brain fog, or have demanding cognitive work. The nootropic-heavy approach with Conka Clarity enhances focus and reaction time, while weekly Conka Flow prevents burnout.",
+    bestForSummary: "Precision Protocol is ideal for those who need sustained mental clarity, experience brain fog, or have demanding cognitive work. The nootropic-heavy approach with Conka Clarity enhances focus and reaction time, while weekly Conka Flow prevents burnout.",
     keyBenefits: [
-      "Enhanced mental clarity and focus",
-      "Faster reaction time (-47ms)",
-      "Extended mental endurance (+38%)",
+      "Enhanced memory & attention (+63%, PMID: 29246725)",
+      "Increased cerebral blood flow (+57%, PMID: 21802920)",
+      "Reduced mental fatigue (-30%, PMID: 17658628)",
       "Burnout prevention through adaptogens",
     ],
     icon: "bolt",
@@ -80,12 +80,12 @@ export const protocolMatchInfo: Record<ProtocolKey, ProtocolMatchInfo> = {
   protocol3: {
     id: "protocol3",
     protocolNumber: "3",
-    name: "Protocol 3",
+    name: "Balance Protocol",
     subtitle: "The Best of Both Worlds",
-    bestForSummary: "Protocol 3 is designed for all-rounders who want comprehensive cognitive support without committing to one dominant formula. Perfect for those with varied daily demands who need both energy resilience and mental sharpness throughout the week.",
+    bestForSummary: "Balance Protocol is designed for all-rounders who want comprehensive cognitive support without committing to one dominant formula. Perfect for those with varied daily demands who need both energy resilience and mental sharpness throughout the week.",
     keyBenefits: [
-      "Complete cognitive coverage",
-      "Adaptogen + nootropic synergy",
+      "Complete cognitive coverage (both formulas)",
+      "Stress resilience + mental clarity synergy",
       "Flexible scheduling for varied needs",
       "Holistic brain optimization",
     ],
@@ -94,12 +94,12 @@ export const protocolMatchInfo: Record<ProtocolKey, ProtocolMatchInfo> = {
   protocol4: {
     id: "protocol4",
     protocolNumber: "4",
-    name: "Protocol 4",
+    name: "Ultimate Protocol",
     subtitle: "Maximum Power, Every Day",
-    bestForSummary: "Protocol 4 is the ultimate choice for high performers who demand peak cognitive function every single day. With both Conka Flow and Conka Clarity daily, you get maximum adaptogenic support and nootropic enhancement for uncompromising performance.",
+    bestForSummary: "Ultimate Protocol is the ultimate choice for high performers who demand peak cognitive function every single day. With both Conka Flow and Conka Clarity daily, you get maximum adaptogenic support and nootropic enhancement for uncompromising performance.",
     keyBenefits: [
       "Daily adaptogen + nootropic stack",
-      "Peak energy AND clarity every day",
+      "Stress resilience (-56%) + memory boost (+63%)",
       "Maximum neurological support",
       "The complete cognitive toolkit",
     ],
@@ -320,4 +320,6 @@ export function getQuizQuestions(): QuizQuestion[] {
 export function getQuestionById(id: string): QuizQuestion | undefined {
   return quizQuestions.find((q) => q.id === id);
 }
+
+
 

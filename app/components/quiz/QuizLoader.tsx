@@ -57,7 +57,7 @@ export default function QuizLoader({ onComplete, duration = 2500 }: QuizLoaderPr
             cy="50"
             r="46"
             fill="none"
-            stroke="#AAB9BC"
+            stroke="#f59e0b"
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={`${progress * 2.89} 289`}
@@ -105,7 +105,7 @@ export default function QuizLoader({ onComplete, duration = 2500 }: QuizLoaderPr
           <div
             key={dot}
             className={`w-2 h-2 rounded-full transition-colors ${
-              stage >= dot ? "bg-[#AAB9BC]" : "bg-current/20"
+              stage >= dot ? "bg-amber-500" : "bg-current/20"
             }`}
           />
         ))}
@@ -113,4 +113,6 @@ export default function QuizLoader({ onComplete, duration = 2500 }: QuizLoaderPr
     </div>
   );
 }
+
+
 

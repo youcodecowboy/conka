@@ -28,7 +28,7 @@ export default function QuizProgress({
       {/* Progress Bar */}
       <div className="h-1 bg-current/10">
         <div
-          className="h-full bg-[#AAB9BC] transition-all duration-300 ease-out"
+          className="h-full bg-amber-500 transition-all duration-300 ease-out"
           style={{ width: `${progressPercentage}%` }}
         />
       </div>
@@ -69,7 +69,7 @@ export default function QuizProgress({
                 key={idx}
                 className={`w-1.5 h-1.5 rounded-full transition-all ${
                   idx < currentStep
-                    ? "bg-[#AAB9BC]"
+                    ? "bg-amber-500"
                     : idx === currentStep
                     ? "bg-current"
                     : "bg-current/20"

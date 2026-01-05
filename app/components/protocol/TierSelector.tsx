@@ -32,7 +32,7 @@ export default function TierSelector({
   purchaseType,
   protocolId,
   availableTiers,
-  highlightColor = "#AAB9BC",
+  highlightColor = "#f59e0b",
   className = "",
 }: TierSelectorProps) {
   const pricingType = protocolId === "4" ? "ultimate" : "standard";
@@ -53,7 +53,7 @@ export default function TierSelector({
               : "one-time";
 
           const isInvert = highlightColor === "invert";
-          const tealColor = isInvert ? "#AAB9BC" : highlightColor;
+          const accentColor = isInvert ? "#f59e0b" : highlightColor;
 
           const borderClass = "border-2 border-[var(--foreground)]";
           const shadowClass = isSelected
@@ -96,11 +96,22 @@ export default function TierSelector({
                 }`}
                 style={
                   isSelected
-                    ? { backgroundColor: tealColor, color: "white" }
+                    ? { backgroundColor: accentColor, color: "white" }
                     : undefined
                 }
               >
-                <p className="text-xl font-bold mb-0.5">{formatPrice(pricing.price)}</p>
+                {purchaseType === "subscription" && (
+                  <p className={`font-clinical text-xs line-through ${isSelected ? "opacity-60" : "opacity-40"}`}>
+                    {formatPrice(
+                      tier in protocolPricing[pricingType]["one-time"]
+                        ? (protocolPricing[pricingType]["one-time"] as Record<string, { price: number }>)[tier]?.price || 0
+                        : 0
+                    )}
+                  </p>
+                )}
+                <p className={`text-xl font-bold mb-0.5 ${purchaseType === "subscription" && !isSelected ? "text-green-600" : ""}`}>
+                  {formatPrice(pricing.price)}
+                </p>
                 <p className={`font-clinical text-xs ${isSelected ? "opacity-90" : "opacity-70"}`}>{billingText}</p>
               </div>
             </button>

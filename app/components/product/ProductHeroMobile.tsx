@@ -12,6 +12,7 @@ import {
   getBillingLabel,
   FORMULA_COLORS,
 } from "@/app/lib/productData";
+import ProductImageSlideshow from "./ProductImageSlideshow";
 
 interface ProductHeroMobileProps {
   formulaId: FormulaId;
@@ -31,11 +32,11 @@ const tabs: { id: TabType; label: string }[] = [
   { id: "taste", label: "Taste" },
 ];
 
-const packSizes: PackSize[] = ["4", "12", "28"];
+const packSizes: PackSize[] = ["4", "8", "12"];
 const packLabels: Record<PackSize, string> = {
   "4": "4-pack",
+  "8": "8-pack",
   "12": "12-pack",
-  "28": "28-pack",
 };
 
 export default function ProductHeroMobile({
@@ -53,6 +54,22 @@ export default function ProductHeroMobile({
   const pricing = formulaPricing[purchaseType][selectedPack];
   const accentColor = FORMULA_COLORS[formulaId];
   const imagePath = formulaId === "01" ? "/1.png" : "/2.png";
+  
+  // Slideshow images for Conka Flow (formula 01 - BLACK cap) with focal points
+  const flowSlideshowImages = [
+    { src: "/CONKA_01.jpg", focalX: 55, focalY: 48 }, // Front view, CONKA branding
+    { src: "/CONKA_02.jpg", focalX: 55, focalY: 48 }, // Side view with badges
+    { src: "/CONKA_03.jpg", focalX: 50, focalY: 48 }, // "1 BOTTLE DAILY" view
+    { src: "/CONKA_04.jpg", focalX: 52, focalY: 48 }, // Back label view
+    { src: "/CONKA_05.jpg", focalX: 50, focalY: 58 }, // Horizontal/angled view
+  ];
+  
+  // Slideshow images for Conka Clarity (formula 02 - WHITE cap) with focal points
+  const claritySlideshowImages = [
+    { src: "/CONKA_06.jpg", focalX: 52, focalY: 50 }, // Clarity vertical, white cap
+    { src: "/CONKA_10.jpg", focalX: 45, focalY: 55 }, // Clarity horizontal
+    { src: "/CONKA_20.jpg", focalX: 50, focalY: 55 }, // Clarity with lemons
+  ];
 
   const billingText =
     purchaseType === "subscription"
@@ -263,13 +280,10 @@ export default function ProductHeroMobile({
         </div>
 
         {/* Product Image */}
-        <div className="relative w-full aspect-square bg-gradient-to-b from-transparent to-current/5 overflow-hidden">
-          <Image
-            src={imagePath}
+        <div className="relative w-full aspect-square bg-[#FAFAFA] overflow-hidden">
+          <ProductImageSlideshow
+            images={formulaId === "01" ? flowSlideshowImages : claritySlideshowImages}
             alt={`${formula.name} bottle`}
-            fill
-            className="object-contain scale-125"
-            priority
           />
         </div>
 
@@ -302,18 +316,55 @@ export default function ProductHeroMobile({
           <div className="grid grid-cols-3 gap-2">
             {packSizes.map((size) => {
               const packPricing = formulaPricing[purchaseType][size];
+              const oneTimePricing = formulaPricing["one-time"][size];
+              const isSelected = selectedPack === size;
+              
               return (
                 <button
                   key={size}
                   onClick={() => onPackSelect(size)}
-                  className={`py-3 px-2 rounded-lg text-center transition-all ${
-                    selectedPack === size
-                      ? "bg-black text-white"
-                      : "border-2 border-black/10 hover:border-black/30"
+                  className={`overflow-hidden transition-all border-2 ${
+                    isSelected
+                      ? "border-black shadow-[3px_3px_0px_0px_#14b8a6]"
+                      : "border-black/10 hover:border-black/30"
                   }`}
                 >
-                  <p className="font-bold text-sm">{packLabels[size]}</p>
-                  <p className="font-clinical text-xs opacity-70">{formatPrice(packPricing.price)}</p>
+                  {/* Pack Header */}
+                  <div className={`py-1.5 px-2 text-center ${
+                    isSelected 
+                      ? purchaseType === "subscription" 
+                        ? "bg-black text-white" 
+                        : `${accentColor.bg} text-white`
+                      : purchaseType === "subscription"
+                        ? "bg-black text-white"
+                        : `${accentColor.bg}/10`
+                  }`}>
+                    <p className="font-bold text-sm">{packLabels[size]}</p>
+                  </div>
+                  {/* Price Body */}
+                  <div className={`py-2 px-2 text-center ${
+                    isSelected 
+                      ? purchaseType === "subscription"
+                        ? "bg-teal-500 text-white"
+                        : `${accentColor.bg} text-white`
+                      : "bg-white"
+                  }`}>
+                    {purchaseType === "subscription" && (
+                      <p className={`font-clinical text-[10px] line-through ${isSelected ? "opacity-70" : "opacity-50"}`}>
+                        {formatPrice(oneTimePricing.price)}
+                      </p>
+                    )}
+                    <p className={`font-bold text-base ${
+                      purchaseType === "subscription" && !isSelected ? "text-amber-600" : ""
+                    }`}>
+                      {formatPrice(packPricing.price)}
+                    </p>
+                    <p className={`font-clinical text-[10px] ${isSelected ? "opacity-80" : "opacity-60"}`}>
+                      {purchaseType === "subscription" && "billing" in packPricing
+                        ? getBillingLabel(packPricing.billing)
+                        : "one-time"}
+                    </p>
+                  </div>
                 </button>
               );
             })}
@@ -321,14 +372,33 @@ export default function ProductHeroMobile({
         </div>
 
         {/* Selection Summary */}
-        <div className={`p-4 transition-colors ${summaryBgClass}`}>
+        <div className={`p-4 transition-colors ${
+          purchaseType === "subscription"
+            ? "bg-amber-500/10 border-t-2 border-amber-500/30"
+            : summaryBgClass
+        }`}>
           <div className="flex justify-between items-center mb-4">
             <div>
               <p className="font-clinical text-xs uppercase opacity-50">Your Selection</p>
               <p className="font-bold text-sm">{packLabels[selectedPack]} • {billingText}</p>
+              {purchaseType === "subscription" && (
+                <span className="inline-flex items-center gap-1 mt-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Save 20%
+                </span>
+              )}
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold">{formatPrice(pricing.price)}</p>
+              {purchaseType === "subscription" && (
+                <p className="font-clinical text-xs line-through opacity-50">
+                  {formatPrice(formulaPricing["one-time"][selectedPack].price)}
+                </p>
+              )}
+              <p className={`text-2xl font-bold ${purchaseType === "subscription" ? "text-amber-600" : ""}`}>
+                {formatPrice(pricing.price)}
+              </p>
               <p className="font-clinical text-xs opacity-70">{formatPrice(pricing.perShot)}/shot</p>
             </div>
           </div>

@@ -12,6 +12,9 @@ import {
   ProtocolId,
 } from "@/app/lib/productData";
 
+// Subscription discount percentage
+const SUBSCRIPTION_DISCOUNT = 20;
+
 interface StickyPurchaseFooterMobileProps {
   // For formula pages
   formulaId?: FormulaId;
@@ -34,12 +37,16 @@ export default function StickyPurchaseFooterMobile({
 }: StickyPurchaseFooterMobileProps) {
   // Calculate price and billing frequency
   let price = 0;
+  let originalPrice = 0;
   let billingText = "";
+  const isSubscription = purchaseType === "subscription";
 
   if (formulaId && selectedPack) {
     const pricing = formulaPricing[purchaseType][selectedPack];
     price = pricing.price;
-    if (purchaseType === "subscription" && "billing" in pricing) {
+    // Get original price for comparison
+    originalPrice = formulaPricing["one-time"][selectedPack].price;
+    if (isSubscription && "billing" in pricing) {
       billingText = getBillingLabel(pricing.billing);
     }
   } else if (protocolId && selectedTier) {
@@ -48,7 +55,12 @@ export default function StickyPurchaseFooterMobile({
     if (selectedTier in tierPricing) {
       const pricing = tierPricing[selectedTier as keyof typeof tierPricing];
       price = pricing.price;
-      if (purchaseType === "subscription" && pricing && "billing" in pricing) {
+      // Get original price for comparison
+      const oneTimePricing = protocolPricing[pricingType]["one-time"];
+      if (selectedTier in oneTimePricing) {
+        originalPrice = (oneTimePricing as Record<string, { price: number }>)[selectedTier]?.price || 0;
+      }
+      if (isSubscription && pricing && "billing" in pricing) {
         billingText = getBillingLabel(pricing.billing);
       }
     }
@@ -56,20 +68,39 @@ export default function StickyPurchaseFooterMobile({
 
   // Always visible - no scroll logic needed
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] border-t-2 border-black shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
+    <div className={`fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] border-t-2 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] ${
+      isSubscription ? "border-amber-500" : "border-black"
+    }`}>
       <div className="px-4 py-3">
         <div className="flex items-center justify-between gap-4">
           {/* Price Section */}
           <div className="flex-1">
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold">{formatPrice(price)}</span>
+            <div className="flex items-center gap-2">
+              {isSubscription && originalPrice > 0 && (
+                <span className="text-sm font-clinical line-through opacity-50">
+                  {formatPrice(originalPrice)}
+                </span>
+              )}
+              <span className={`text-xl font-bold ${isSubscription ? "text-amber-600" : ""}`}>
+                {formatPrice(price)}
+              </span>
               <span className="font-clinical text-xs opacity-60">+ Free Shipping</span>
             </div>
-            <p className="font-clinical text-xs opacity-50 mt-0.5">
-              {purchaseType === "subscription" && billingText
-                ? `Billed ${billingText}`
-                : "One-time purchase"}
-            </p>
+            <div className="flex items-center gap-2 mt-0.5">
+              <p className="font-clinical text-xs opacity-50">
+                {isSubscription && billingText
+                  ? billingText.charAt(0).toUpperCase() + billingText.slice(1)
+                  : "One-time purchase"}
+              </p>
+              {isSubscription && (
+                <span className="inline-flex items-center gap-1 bg-amber-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  SAVE {SUBSCRIPTION_DISCOUNT}%
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Divider */}

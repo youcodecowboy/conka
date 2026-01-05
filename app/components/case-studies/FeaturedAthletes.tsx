@@ -1,7 +1,6 @@
 "use client";
 
-import { AthleteData, SPORT_INFO } from "@/app/lib/caseStudiesData";
-import SportIcon from "./SportIcon";
+import { AthleteData } from "@/app/lib/caseStudiesData";
 
 interface FeaturedAthletesProps {
   athletes: AthleteData[];
@@ -20,48 +19,55 @@ export default function FeaturedAthletes({ athletes, onSelectAthlete }: Featured
         <h3 className="text-xl font-bold">Featured Case Studies</h3>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {athletes.map((athlete) => {
-          const sportInfo = SPORT_INFO[athlete.sport];
-          const topImprovement = athlete.improvements[0];
-          
-          return (
-            <button
-              key={athlete.id}
-              onClick={() => onSelectAthlete(athlete.id)}
-              className="neo-box overflow-hidden text-left hover:opacity-90 transition-all group"
-            >
-              {/* Photo placeholder with sport icon overlay */}
-              <div className="relative h-32 placeholder-box border-0 border-b-2 border-current">
-                <span className="font-clinical text-xs">[PHOTO]</span>
-                <div className="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-[var(--foreground)] text-[var(--background)] flex items-center justify-center">
-                  <SportIcon sport={athlete.sport} size={16} />
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-4">
-                <h4 className="font-bold text-sm group-hover:opacity-80 transition-opacity">
-                  {athlete.name}
-                </h4>
-                <p className="font-clinical text-xs opacity-60 mb-2">{athlete.profession}</p>
-                
-                {/* Key stat */}
-                {topImprovement && (
-                  <div className="flex items-center justify-between pt-2 border-t border-current/10">
-                    <span className="font-clinical text-xs opacity-50">{topImprovement.metric}</span>
-                    <span className="font-clinical text-lg font-bold text-emerald-600">
-                      {topImprovement.value}
-                    </span>
+      <div className="relative">
+        {/* Scroll container */}
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:-mx-0 md:px-0">
+          {athletes.map((athlete) => {
+            const topImprovement = athlete.improvements[0];
+            
+            return (
+              <button
+                key={athlete.id}
+                onClick={() => onSelectAthlete(athlete.id)}
+                className="neo-box overflow-hidden text-left hover:opacity-90 transition-all group flex-shrink-0 w-64 lg:w-72"
+              >
+                {/* Photo placeholder */}
+                <div className="relative h-32 lg:h-40 bg-gradient-to-br from-neutral-100 to-neutral-200 border-0 border-b-2 border-current/10 flex items-center justify-center">
+                  <div className="text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto opacity-30">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
                   </div>
-                )}
-              </div>
+                </div>
 
-              {/* Hover indicator */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--foreground)] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-            </button>
-          );
-        })}
+                {/* Content */}
+                <div className="p-4">
+                  <h4 className="font-bold text-sm group-hover:opacity-80 transition-opacity truncate">
+                    {athlete.name}
+                  </h4>
+                  <p className="font-clinical text-xs opacity-60 mb-2 truncate">{athlete.profession}</p>
+                  
+                  {/* Key stat */}
+                  {topImprovement && (
+                    <div className="flex items-center justify-between pt-2 border-t border-current/10">
+                      <span className="font-clinical text-xs opacity-50">{topImprovement.metric}</span>
+                      <span className="font-clinical text-lg font-bold text-emerald-600">
+                        {topImprovement.value}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Hover indicator */}
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--foreground)] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+              </button>
+            );
+          })}
+        </div>
+        
+        {/* Scroll fade indicators */}
+        <div className="hidden md:block absolute top-0 right-0 bottom-4 w-12 bg-gradient-to-l from-[var(--background)] to-transparent pointer-events-none" />
       </div>
     </div>
   );

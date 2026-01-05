@@ -79,7 +79,7 @@ export default function QuizResultsOverview({
               <div
                 key={result.protocolId}
                 className={`neo-box overflow-hidden transition-all ${
-                  isRecommended ? "ring-2 ring-[#AAB9BC] ring-offset-2" : ""
+                  isRecommended ? "ring-2 ring-amber-500 ring-offset-2" : ""
                 } ${isSelected ? "bg-current/5" : ""}`}
               >
                 {/* Card Header */}
@@ -92,7 +92,7 @@ export default function QuizResultsOverview({
                     <div
                       className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
                         isRecommended
-                          ? "bg-[#AAB9BC] text-white"
+                          ? "bg-amber-500 text-white"
                           : "border-2 border-current"
                       }`}
                     >
@@ -104,7 +104,7 @@ export default function QuizResultsOverview({
                       <div className="flex items-center gap-2 flex-wrap mb-1">
                         <h3 className="font-bold text-lg">{matchInfo.name}</h3>
                         {isRecommended && (
-                          <span className="px-2 py-0.5 bg-[#AAB9BC] text-white font-clinical text-xs font-bold rounded-full">
+                          <span className="px-2 py-0.5 bg-amber-500 text-white font-clinical text-xs font-bold rounded-full">
                             RECOMMENDED
                           </span>
                         )}
@@ -118,7 +118,7 @@ export default function QuizResultsOverview({
                         <div className="flex-1 h-3 bg-current/10 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${
-                              isRecommended ? "bg-[#AAB9BC]" : "bg-current/40"
+                              isRecommended ? "bg-amber-500" : "bg-current/40"
                             }`}
                             style={{ width: `${result.percentage}%` }}
                           />
@@ -194,4 +194,6 @@ export default function QuizResultsOverview({
     </section>
   );
 }
+
+
 

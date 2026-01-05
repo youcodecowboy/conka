@@ -1,5 +1,691 @@
 # Development Changelog
 
+## January 5, 2026
+
+### 21:30 - Complete Shopify Product Mapping for All Protocols & Formulas
+
+Successfully mapped all Shopify products to the storefront with Loop subscription integration.
+
+#### Protocols Configured:
+- **Protocol 1 (Resilience)** - All 3 tiers (Starter, Pro, Max) with selling plans
+- **Protocol 2 (Precision)** - All 3 tiers with selling plans
+- **Protocol 3 (Balance)** - Already configured, verified
+- **Protocol 4 (Ultimate)** - Pro & Max tiers with selling plans (no Starter)
+
+#### Individual Formulas Configured:
+- **Conka Flow (01)** - 4, 8, 12, 28 pack sizes with subscription support
+- **Conka Clarity (02)** - 4, 8, 12, 28 pack sizes with subscription support
+
+#### Technical Changes:
+- `app/lib/shopifyProductMapping.ts` - Added all variant IDs and selling plan IDs
+- Updated `FORMULA_VARIANTS` structure to support selling plans for subscriptions
+- Added `FORMULA_SELLING_PLANS` mapping for formula pack sizes
+- Updated `getFormulaVariantId()` to return `{ variantId, sellingPlanId? }`
+- Updated trial pack variants for both Flow and Clarity
+
+#### Formula Page Updates:
+- `app/conka-flow/page.tsx` - Updated to pass selling plan ID for subscriptions
+- `app/conka-clarity/page.tsx` - Updated to pass selling plan ID for subscriptions
+- `app/formula-01/page.tsx` - Updated to pass selling plan ID for subscriptions
+- `app/formula-02/page.tsx` - Updated to pass selling plan ID for subscriptions
+
+#### Pricing Updates:
+- Updated `productData.ts` formula pricing to match Shopify:
+  - 8-pack: £28.99 (was £24.99)
+  - 12-pack: £39.99 (was £34.99)
+- Ultimate Protocol Max: £144.99 (was £159.99)
+
+#### Shared Selling Plans (Loop):
+- Starter (4x weekly): `gid://shopify/SellingPlan/711429882230`
+- Pro (12x bi-weekly): `gid://shopify/SellingPlan/711429947766`
+- Max (28x monthly): `gid://shopify/SellingPlan/711429980534`
+
+---
+
+### 20:45 - Visual Enhancements: Product Images Throughout Site
+
+Replaced placeholder boxes with actual product photography using the focal point system across multiple components.
+
+#### ProductSlideshowMobile.tsx
+Replaced placeholder boxes with horizontal product images:
+- **CONKA_19** - Flow with turmeric, blueberries, mint (lifestyle shot)
+- **CONKA_16** - 4 bottles: 2 black + 2 white caps (Both Formulas)
+- **CONKA_22** - Boxes with both bottles (packaging shot)
+
+Each image uses focal point positioning for proper centering in the horizontal card format.
+
+#### ProtocolBenefitsMobile.tsx
+Added the same image slideshow approach with different images:
+- **CONKA_23** - Scientific formulation with beaker
+- **CONKA_16** - Both formulas together
+- **CONKA_24** - Product packaging display
+
+#### TrialPacks.tsx
+Dynamic formula image that changes based on selection:
+- **CONKA_17** - 4 black cap bottles (Flow)
+- **CONKA_18** - 4 white cap bottles (Clarity)
+
+Uses focal point positioning to ensure bottles are centered in the image container.
+
+---
+
+### 19:30 - Science Page: The Foundation of Cognitive Performance
+
+Created a comprehensive, data-driven Science page at `/science` that explains the scientific foundation of Conka's formulas through five key pillars.
+
+#### New Data Layer:
+- **`app/lib/scienceData.ts`** - Science page data and interfaces:
+  - `SciencePillar` interface with category, description, keyStats, ingredients, mechanisms
+  - 5 scientific pillars: Adaptogens & Stress Resilience, Neurotransmitter Support, Antioxidant Defense, Cerebral Circulation, Neuroprotection & Longevity
+  - Clinical evidence summary stats (32 studies, 6,000+ participants)
+  - Formula strength data for radar chart comparison
+  - Headline stats for hero section
+
+#### New Components (`app/components/science/`):
+- **`ScienceHero.tsx`** - Hero section with headline stats grid and research badges
+- **`SciencePillars.tsx`** - Interactive accordion of 5 scientific pillars
+- **`PillarCard.tsx`** - Expandable pillar detail with stats, mechanism, and ingredients
+- **`SynergyChart.tsx`** - Recharts RadarChart comparing Flow, Clarity, and Combined Protocol
+- **`EvidenceSummary.tsx`** - Clinical evidence stats with CTA buttons
+- **`SciencePageDesktop.tsx`** - Full desktop layout with adaptogens section, differentiators
+- **`SciencePageMobile.tsx`** - Mobile-optimized vertical stack layout
+
+#### New Page:
+- **`app/science/page.tsx`** - Responsive rendering using `useIsMobile` hook
+
+#### Content Architecture:
+1. **Adaptogens & Stress Resilience** - HPA axis, cortisol modulation (-56% stress, -28% cortisol)
+2. **Neurotransmitter Support** - Acetylcholine, dopamine, serotonin pathways (+22% cognition)
+3. **Antioxidant Defense & Brain Detox** - Oxidative stress protection (+40% glutathione)
+4. **Cerebral Circulation & Energy** - Blood flow, mitochondrial function (+16% cognition)
+5. **Neuroprotection & Longevity** - BDNF, brain atrophy prevention (-86% atrophy rate)
+
+#### Visualizations:
+- Radar chart comparing formula strengths across all 5 pillars
+- Stats cards with PMID citations for each clinical finding
+- Progress indicators and trust badges
+
+#### Navigation Updates:
+- Changed "The Science" nav link from `/#science` to `/science` (desktop and mobile)
+
+---
+
+### 15:30 - Product Page Image Slideshows with Focal Points
+
+Updated both Conka Flow and Conka Clarity product pages with interactive image slideshows featuring focal point centering.
+
+#### Key Changes:
+
+**Conka Flow (`/conka-flow`):**
+- Uses Flow images (BLACK cap bottles):
+  - CONKA_01.jpg - Front view with CONKA branding
+  - CONKA_02.jpg - Side view with badges
+  - CONKA_03.jpg - "1 BOTTLE DAILY" view
+  - CONKA_04.jpg - Back label view
+  - CONKA_05.jpg - Horizontal/angled view
+- 5 images with arrow navigation and dot indicators
+
+**Conka Clarity (`/conka-clarity`):**
+- Uses Clarity images (WHITE cap bottles):
+  - CONKA_06.jpg - Vertical front view
+  - CONKA_10.jpg - Horizontal view
+  - CONKA_20.jpg - With lemons
+- 3 images with arrow navigation and dot indicators
+
+**Layout Improvements:**
+- Slideshow container enlarged (max-w-2xl) for better visibility
+- Shifted left (-ml-12 on lg, -ml-16 on xl) to center between left edge and control panel
+- Image width increased to 55% on desktop
+- Annotation text aligned left on desktop to match
+
+**ProductImageSlideshow Component:**
+- Now supports per-image focal points (`focalX`, `focalY`)
+- Uses `object-fit: cover` with dynamic `object-position`
+- Works seamlessly for both horizontal and vertical images
+
+---
+
+### 15:15 - Key Benefits Section with Focal Images
+
+Added product images to the Key Benefits section on the homepage, with proper focal point centering for vertical bottle images.
+
+#### New Component:
+- **`FocalImage.tsx`** - Reusable image component with configurable focal point (focalX, focalY) for proper centering when using `object-fit: cover`
+
+#### Changes:
+- Updated `KeyBenefits.tsx` interface to include optional `focalPoint: { x: number; y: number }` property
+- Updated `KeyBenefitsDesktop.tsx` to use `FocalImage` component instead of raw `Image`
+- Assigned vertical bottle images to each benefit:
+  - **Focus**: CONKA_06.jpg (vertical bottle, white cap)
+  - **Sleep**: CONKA_04.jpg (vertical bottle, back label with ingredients)
+  - **Brain Fog**: CONKA_01.jpg (vertical bottle, CONKA branding)
+  - **Stress**: CONKA_02.jpg (vertical bottle, side view with Vegan/Sport badges)
+  - **Memory**: CONKA_03.jpg (vertical bottle, "1 BOTTLE DAILY" text)
+
+#### Key Decision:
+- Horizontal images (like CONKA_48-55 with ingredients) don't work well in the tall vertical container - they get cropped too much
+- Selected only vertical single-bottle images that display properly without excessive cropping
+
+---
+
+### 24:30 - Data-Driven Case Studies with Charts & Visualizations
+
+Major upgrade to all case study components across the site. Removed fabricated quotes and replaced with data-dense visualizations showing real metrics from the CONKA cognitive testing app.
+
+#### Key Changes:
+
+**Data Layer (`app/lib/caseStudiesData.ts`):**
+- Added 35+ real athletes/professionals from the CSV
+- Removed all fabricated quotes (only real data from testing)
+- Added new fields: `baselineTests`, `postBaselineTests`, `testingPeriod`, `tier`, `userType`
+- Added helper functions: `getTotalTestsCompleted()`, `getAverageImprovementAcrossAll()`
+- All metrics: Total Score, Accuracy, Speed with baseline vs result comparisons
+
+**New Components:**
+- `CaseStudiesDataDriven.tsx` - Homepage case studies with:
+  - Aggregate stats (total tests, avg improvement)
+  - Interactive athlete cards with bar charts
+  - Circular progress indicators
+  - Baseline vs Result comparison bars
+  - Full athlete bio/description
+
+- `FormulaCaseStudies.tsx` (+ Mobile version) - Formula page case studies with:
+  - Circular progress charts for each metric
+  - Baseline vs Result bars
+  - Test count breakdown (total/baseline/post)
+  - Real athlete bios from CSV
+
+**Updated Components:**
+- `ProtocolCaseStudiesMobile.tsx` - Now uses real athlete data dynamically based on protocol
+- `AthleteStats.tsx` - Added circular progress charts with color coding
+- `AthleteCard.tsx` - Shows test breakdown instead of fabricated quotes
+- `CaseStudiesPageDesktop.tsx` - Dynamic aggregate stats calculation
+
+**Pages Updated:**
+- Homepage (`app/page.tsx`) - Uses new `CaseStudiesDataDriven` component
+- Formula 01 pages - Uses `FormulaCaseStudiesMobile` with formulaId="01"
+- Formula 02 pages - Uses `FormulaCaseStudiesMobile` with formulaId="02"
+- Protocol pages - Uses updated `ProtocolCaseStudiesMobile`
+- Case Studies page - Now shows all 35+ athletes with full data
+
+**Hero.tsx:**
+- Reverted to "backed by 250+ clinical studies" (confirmed accurate by client)
+
+---
+
+### 14:55 - Product Image Slideshow for Conka Flow
+
+Added a new product image slideshow component for the Conka Flow formula page, replacing the single product image with an interactive gallery of 3 pre-cropped product photos (CONKA_01x.jpg, CONKA_02x.jpg, CONKA_03x.jpg).
+
+#### New Component:
+- **`ProductImageSlideshow.tsx`** - Reusable slideshow component with:
+  - Manual navigation only (no auto-rotation)
+  - Persistent left/right arrow navigation buttons
+  - Dot indicators for direct image selection
+  - Smooth fade transitions between images
+
+#### Features:
+- Works on both desktop and mobile
+- Desktop: Positioned to the left of the selection panel, with "your daily foundation" text centered below
+- Mobile: Full-width slideshow in the hero section
+- Uses pre-cropped images (CONKA_01x, CONKA_02x, CONKA_03x) that are properly centered
+- No zoom/transform needed since images are already properly composed
+
+#### Files Updated:
+- `app/components/product/ProductImageSlideshow.tsx` - New component created
+- `app/components/product/ProductHero.tsx` - Integrated slideshow for formulaId 01
+- `app/components/product/ProductHeroMobile.tsx` - Integrated slideshow for formulaId 01
+- `app/components/product/index.ts` - Exported new component
+
+---
+
+### 23:45 - Real Athlete Case Studies Across All Pages
+
+Replaced all placeholder athlete testimonials with real athlete data from the case study CSV. Athletes are now correctly mapped to formulas and protocols based on their actual usage.
+
+#### Files Updated:
+
+**app/lib/caseStudiesData.ts:**
+- Complete rewrite with 14 real athletes/professionals
+- Tier 1 (Headline): Jade Shekells, Finn Russell, Patrick Bamford, Jack Willis, Nimisha Kurup, Shane Corstorphine
+- Tier 2 (Supporting): Daniel James, Josh Stanton, Max Lahiff, Alex Dombrandt, Michael Olise, Blair Kinghorn, Emma Uren, George Pratt
+- Updated interface to include: organization, position, testingPeriod, baselineTests, postBaselineTests, tier
+- Added helper functions: getTier1Athletes(), getTier2Athletes(), getHomepageAthletes(), getAthletesForFormula()
+
+**app/page.tsx (Homepage):**
+- Updated athletes array with: Jade Shekells (+36.72%), Finn Russell (+28.96%), Nimisha Kurup (+24.68%)
+- All results now show real cognitive test data
+
+**app/formula-01/page.tsx & app/conka-flow/page.tsx (Flow Formula):**
+- Athletes using Resilience Protocol: Finn Russell, Jack Willis, Max Lahiff
+- Focus on stress resilience and recovery benefits
+
+**app/formula-02/page.tsx & app/conka-clarity/page.tsx (Clarity Formula):**
+- Athletes using Precision Protocol: Nimisha Kurup, Patrick Bamford, Josh Stanton
+- Focus on peak performance and mental clarity benefits
+
+**app/components/protocol/ProtocolCaseStudiesMobile.tsx:**
+- Protocol 1 (Resilience): Finn Russell, Jack Willis
+- Protocol 2 (Precision): Nimisha Kurup, Patrick Bamford
+- Protocol 3 (Balance): Jade Shekells, Daniel James
+- Protocol 4 (Ultimate): Josh Stanton, Shane Corstorphine
+
+**app/components/Hero.tsx:**
+- Reverted to "backed by 250+ clinical studies" (confirmed accurate by client)
+
+---
+
+### 23:15 - Site-Wide Content Update with Verified Clinical Data
+
+Systematically replaced all fabricated placeholder content with verified clinical study data from BRAND_HIGHLIGHTS.md. All statistics now include PMID citations for traceability.
+
+#### Files Updated:
+
+**app/components/Hero.tsx:**
+- Changed "backed by 250+ clinical studies" → "ingredients validated by peer-reviewed PubMed research"
+- Updated tagline to match verified claims
+
+**app/page.tsx (Homepage Key Benefits):**
+- Replaced all 5 keyBenefits with real study data and athlete testimonials:
+  - Focus: +18% memory (PMID: 12888775 — Lemon Balm) + Finn Russell testimonial
+  - Sleep: +42% quality (PMID: 32021735 — Ashwagandha) + Jade Shekells testimonial
+  - Brain Fog: +40% glutathione (PMID: 29559699) + Nimisha Kurup testimonial
+  - Stress: -56% stress scores (PMID: 23439798 — Ashwagandha) + Jack Willis testimonial
+  - Memory: +63% improvement (PMID: 29246725 — Curcumin) + Patrick Bamford testimonial
+
+**app/lib/productData.ts:**
+- Replaced all 12 fabricated clinical studies in struggleSolutions (Flow + Clarity)
+- Updated Formula 01 (Flow) benefits with verified stats:
+  - +18% focus, +42% sleep, -56% stress, +17% energy
+- Updated Formula 02 (Clarity) benefits with verified stats:
+  - +63% memory, +57% blood flow, +40% detox, -42% anxiety
+- Updated all 3 protocol benefits with PMID citations
+- Updated FAQ to reference correct statistics
+
+**app/lib/quizData.ts:**
+- Updated protocolMatchInfo keyBenefits with verified statistics and PMIDs
+- Protocol 1: -56% stress, +42% sleep, -28% cortisol
+- Protocol 2: +63% memory, +57% blood flow, -30% fatigue
+- Protocol 3: Complete coverage messaging
+- Protocol 4: Combined benefits messaging
+
+#### All Statistics Now Include PMID Citations:
+- Ashwagandha: PMID 23439798, PMID 32021735
+- Lemon Balm: PMID 12888775, PMID 16444660
+- Rhodiola rosea: PMID 10839209, PMID 19016404
+- Turmeric/Curcumin: PMID 29246725
+- Glutathione: PMID 29559699
+- Ginkgo Biloba: PMID 21802920
+- Vitamin C: PMID 25688638
+- Acetyl-L-Carnitine: PMID 17658628
+- Alpha GPC: PMID 14600878
+
+---
+
+### 22:00 - Added Ingredient Benefit Copy Library & Site Location Mapping
+
+Updated `BRAND_HIGHLIGHTS.md` with comprehensive ingredient benefit copy and site location mapping.
+
+#### New Sections Added:
+
+**Ingredient Benefit Copy Library:**
+- 11 ingredients with marketing-ready copy across 6 use cases:
+  - Mental Benefit (taglines)
+  - Physical Performance
+  - Neuroprotection (Brain Ageing)
+  - Brain Optimisation & Productivity
+  - ADHD/Chronic Fatigue/TBI
+  - Synergistic Benefits
+- CONKA Flow ingredients: Rhodiola Rosea, Ashwagandha, Lemon Balm, Turmeric & Black Pepper, Bilberry
+- CONKA Clarity ingredients: Glutathione, Vitamin C, Alpha Lipoic Acid, Vitamin B12, Acetyl-L-Carnitine, NAC, Ginkgo Biloba, L-Alpha GPC
+
+**Site Location Mapping:**
+- Homepage Key Benefits section - mapped to real studies and athlete case studies
+- Formula Product Pages "What do you struggle with?" - replacement data for all 6 struggles
+- Protocol Pages - athlete case study assignments per protocol
+- Ingredients Page - copy source mapping
+- Quiz Results - athlete social proof recommendations
+
+---
+
+### 21:30 - Brand Highlights Reference Document Created
+
+Created a comprehensive `BRAND_HIGHLIGHTS.md` file that serves as the single source of truth for all marketing copy, clinical claims, and case study data across the website.
+
+#### Document Contains:
+
+**Section 1: Product Benefits Mapped to Real Studies**
+- CONKA Flow (Formula 01) - 5 client-specified benefits with verified statistics:
+  - Consistent Energy → Rhodiola rosea (PMID: 10839209)
+  - Stress Resilience → Ashwagandha (PMID: 23439798)
+  - Focus - Discipline → Lemon Balm (PMID: 12888775)
+  - Memory → Turmeric/Curcumin (PMID: 29246725)
+  - Mood - Calm in Chaos → Lemon Balm (PMID: 16444660)
+- CONKA Clarity (Formula 02) - 5 client-specified benefits with verified statistics:
+  - Mental Detox → Glutathione (PMID: 29559699)
+  - Focus - Lock-In → Ginkgo Biloba (PMID: 22628390)
+  - Re-Charge → ALCAR (PMID: 18937015)
+  - Decision Making → Alpha GPC (PMID: 12882463)
+  - Mental Clarity → Vitamin B12 (PMID: 23690582)
+
+**Section 2: Featured Case Studies (15 Athletes/Professionals)**
+- Elite Athletes with full performance metrics:
+  - Jade Shekells (GB7 Rugby) - +36.72% improvement, 36 tests
+  - Finn Russell (Bath Rugby) - +28.96% improvement, 15 tests
+  - Patrick Bamford (Leeds United) - +27.93% improvement, 9 tests
+  - Jack Willis (Stade Toulousain) - +20.51% improvement, 12 tests
+  - Plus 7 more athletes with baseline vs. post-baseline data
+- High-Performance Professionals:
+  - Nimisha Kurup (Bank of America C-Suite) - +24.68% improvement, 73 tests
+  - Shane Corstorphine (SkyScanner C-Suite) - +13.30% improvement, 33 tests
+  - Charlotte Simpson (Cambridge PhD / AstraZeneca) - +1.17% improvement, 11 tests
+
+**Section 3: Fabricated Content Audit**
+- Identified 12 fake clinical studies in `productData.ts` with fabricated professors
+- Identified fake study references in homepage `clinicalBreakdown` data
+- Flagged "250+ clinical studies" claim in Hero.tsx for update
+- Provided replacement recommendations with real PMID citations
+
+**Section 4: Quick Reference Statistics**
+- Headline stats for marketing copy with proper PMID citations
+- Case study stats for testimonials and social proof
+- Copy guidelines for regulatory compliance
+
+#### Files Created:
+- `BRAND_HIGHLIGHTS.md` - Comprehensive reference document
+
+---
+
+### 19:15 - Mobile Navigation Cart & Account Buttons
+
+Added persistent Cart and Account buttons to the mobile navigation menu, ensuring users can always access their cart even when the product sticky footer is visible.
+
+#### Changes:
+- **Cart Button**: Opens cart drawer, shows item count badge when items are present
+- **Account Button**: Links to `/account` page
+- Both buttons placed below the navigation links with a separator border
+- Buttons are styled prominently:
+  - Cart: Black background, white text, amber badge for item count
+  - Account: Outline style with hover-to-fill effect
+
+#### Files Updated:
+- `app/components/Navigation.tsx` - Added Cart & Account buttons section below nav links
+
+---
+
+### 18:30 - Mobile UI Overhaul for Subscription Visuals
+
+Enhanced mobile components to match the desktop subscription experience with clear visual cues for savings.
+
+#### Protocol Mobile Updates (`ProtocolHeroMobile.tsx`):
+- **Tier Selector Cards** now match desktop styling:
+  - Black header with tier name
+  - Crossed-out original price (e.g., ~~£39.99~~) when subscription selected
+  - Subscription price in amber (e.g., £31.99)
+  - Billing frequency label (e.g., "billed bi-weekly")
+  - Teal shadow on selected tier
+- **Your Selection Section**:
+  - ✅ "Save 20%" badge (amber with checkmark icon)
+  - ~~Original price~~ crossed out
+  - Subscription price in amber
+
+#### Formula Mobile Updates (`ProductHeroMobile.tsx`):
+- Same tier selector styling as protocols
+- Pack sizes updated to 4, 8, 12 (matching Shopify)
+- Subscription savings visual in selection summary
+
+#### Sticky Footer Mobile (`StickyPurchaseFooterMobile.tsx`):
+- Crossed-out original price next to subscription price
+- "SAVE 20%" badge in amber
+- Amber border when subscription is active
+- Proper billing frequency display
+
+#### Sticky Footer Desktop (`StickyPurchaseFooter.tsx`):
+- Same subscription savings visuals as mobile
+- Pack sizes updated to 4, 8, 12
+
+#### Bug Fixes:
+- Fixed "billed billed weekly" duplication issue in billing labels
+
+---
+
+### 17:30 - Visual Pricing Updates & Cart Subscription Savings
+
+Enhanced visual pricing display across product pages and cart drawer to clearly show subscription savings.
+
+#### Pricing Data Corrections:
+- Updated `app/lib/productData.ts` with accurate Shopify-aligned prices:
+  - **Protocol Base Prices (one-time):** Starter £14.99, Pro £39.99, Max £79.99
+  - **Protocol Subscription Prices (20% off):** Starter £11.99, Pro £31.99, Max £63.99
+  - **Trial Pack Sizes:** Updated to 4, 8, 12 packs (was 4, 12, 28)
+
+#### Cart Drawer Subscription Savings:
+- Subscription items now show:
+  - ✅ **SUBSCRIPTION** badge (orange with checkmark icon)
+  - ✅ ~~Original price~~ crossed out (e.g., ~~£39.99~~)
+  - ✅ **Discounted price** in amber/orange (e.g., £31.99)
+  - ✅ **SAVE 20%** badge in green
+- One-time items show standard price display
+
+#### Files Updated:
+- `app/lib/productData.ts` - Corrected all protocol and trial pack prices to match Shopify
+- `app/lib/shopify.ts` - Extended `CartLine` type with `sellingPlanAllocation`, `cost`, `sku`, `compareAtPrice` fields
+- `app/lib/shopifyQueries.ts` - Enhanced cart fragment to fetch selling plan allocation and compare prices
+- `app/components/CartDrawer.tsx` - Added subscription detection, visual savings display with badges
+
+#### Technical Implementation:
+- Cart drawer calculates 20% savings using `SUBSCRIPTION_DISCOUNT` constant
+- Original price shown as base merchandise price, subscription price calculated as 80% of base
+- Selling plan detection via `item.sellingPlanAllocation` presence
+
+---
+
+### 16:00 - Protocol Subscription Integration (Balance Protocol)
+
+Implemented Shopify subscription support for protocols with Loop Subscriptions integration and 20% discount visual display.
+
+#### Product Mapping Updates:
+- **Balance Protocol (ID: 15528510423414)** - Fully configured with Shopify variant IDs and Loop selling plan IDs:
+  - Starter: £14.99 (one-time) / £11.99 (subscription) - Variant: `56998884573558`, Selling Plan: `711429882230`
+  - Pro: £39.99 (one-time) / £31.99 (subscription) - Variant: `56998884606326`, Selling Plan: `711429947766`
+  - Max: £79.99 (one-time) / £63.99 (subscription) - Variant: `56998884639094`, Selling Plan: `711429980534`
+
+#### Files Updated:
+- `app/lib/shopifyProductMapping.ts` - Restructured to include `sellingPlanId` for subscription products, added `SUBSCRIPTION_DISCOUNT_PERCENT` constant
+- `app/api/cart/route.ts` - Added `sellingPlanId` support for cart operations (create, add)
+- `app/context/CartContext.tsx` - Updated `addToCart` to accept optional `sellingPlanId` parameter
+- `app/protocol/[id]/page.tsx` - Updated `handleAddToCart` to pass selling plan ID for subscriptions
+- `app/components/protocol/ProtocolHero.tsx` - Added discount visual with "Save 20%" badge and strikethrough pricing
+- `app/components/protocol/TierSelector.tsx` - Added strikethrough original price display for subscription tiers
+- `next.config.ts` - Added `cdn.shopify.com` to allowed image domains
+
+#### Visual Discount Features:
+- When subscription is selected:
+  - Original price shown with strikethrough
+  - Subscription price highlighted in green
+  - "Save 20%" badge with checkmark icon
+- When one-time is selected:
+  - Full price displayed without strikethrough
+  - No discount badge
+
+#### Test Endpoints:
+- `app/api/test-products/route.ts` - Enhanced to fetch selling plans from Shopify products
+
+#### Note:
+Products must have `availableForSale: true` in Shopify to be added to cart. Currently, Balance Protocol variants show `availableForSale: false` - inventory needs to be enabled in Shopify Admin.
+
+---
+
+### 15:30 - Shopify Trial Packs Cart Integration
+
+Connected the home page Trial Packs section to the Shopify cart system.
+
+#### Trial Pack Variant Mapping:
+- **Conka Flow Trial Pack (ID: 15458243707254):**
+  - 4-pack: `gid://shopify/ProductVariant/56724128203126` (£14.99)
+  - 8-pack: `gid://shopify/ProductVariant/56724128235894` (£24.99)
+  - 12-pack: `gid://shopify/ProductVariant/56724128268662` (£34.99)
+
+#### Files Updated:
+- `app/lib/shopifyProductMapping.ts` - Added Trial Pack variant IDs
+- `app/components/TrialPacks.tsx` - Connected to cart context, add to cart functionality
+- `app/components/TrialPacksMobile.tsx` - Connected to cart context, add to cart functionality
+- `next.config.ts` - Added Shopify CDN to image remote patterns
+
+---
+
+### 14:30 - Shopify Storefront API Integration
+
+Implemented complete Shopify Storefront API integration for headless e-commerce, including cart management, customer authentication, and Loop Subscriptions integration.
+
+#### New Files Created:
+
+**Shopify Core:**
+- `app/lib/shopify.ts` - Storefront API client with typed helpers
+- `app/lib/shopifyQueries.ts` - GraphQL queries for cart and auth operations
+- `app/lib/shopifyProductMapping.ts` - Product variant ID mapping (placeholder values)
+
+**Cart System:**
+- `app/api/cart/route.ts` - Cart API endpoint (create, add, update, remove)
+- `app/hooks/useCart.ts` - Cart hook with localStorage persistence
+- `app/context/CartContext.tsx` - Global cart state provider
+- `app/components/CartDrawer.tsx` - Unified cart drawer component
+
+**Customer Authentication:**
+- `app/api/auth/login/route.ts` - Login endpoint
+- `app/api/auth/register/route.ts` - Registration endpoint with auto-login
+- `app/api/auth/logout/route.ts` - Logout endpoint
+- `app/api/auth/customer/route.ts` - Customer info and orders endpoint
+- `app/hooks/useAuth.ts` - Auth hook with token persistence
+- `app/context/AuthContext.tsx` - Global auth state provider
+
+**Account Pages:**
+- `app/account/page.tsx` - Account dashboard
+- `app/account/login/page.tsx` - Login form
+- `app/account/register/page.tsx` - Registration form
+- `app/account/orders/page.tsx` - Order history
+
+**Loop Subscriptions:**
+- `app/lib/loop.ts` - Loop API client
+- `app/api/subscriptions/route.ts` - List subscriptions endpoint
+- `app/api/subscriptions/[id]/route.ts` - Subscription management (pause/resume/cancel)
+- `app/api/subscriptions/[id]/skip/route.ts` - Skip next order endpoint
+- `app/hooks/useSubscriptions.ts` - Subscriptions hook
+- `app/account/subscriptions/page.tsx` - Subscription management UI
+
+#### Files Updated:
+- `app/layout.tsx` - Added CartProvider and AuthProvider wrappers, CartDrawer component
+- `app/components/Navigation.tsx` - Updated to use cart context, added item count badge
+- `app/conka-flow/page.tsx` - Integrated cart context and variant ID lookup
+- `app/conka-clarity/page.tsx` - Integrated cart context and variant ID lookup
+- `app/formula-01/page.tsx` - Integrated cart context and variant ID lookup
+- `app/formula-02/page.tsx` - Integrated cart context and variant ID lookup
+- `app/protocol/[id]/page.tsx` - Integrated cart context and variant ID lookup
+- `app/quiz/results/page.tsx` - Integrated cart context and variant ID lookup
+- `app/page.tsx` - Removed inline cart drawer (now global)
+- `app/our-story/page.tsx` - Removed inline cart drawer
+- `app/case-studies/page.tsx` - Removed inline cart drawer
+- `app/ingredients/page.tsx` - Removed inline cart drawer
+- `app/quiz/page.tsx` - Removed inline cart drawer
+
+#### Architecture:
+- Cart state persisted to localStorage with automatic recovery
+- Customer tokens stored in localStorage with expiry validation
+- API routes proxy requests to Shopify/Loop to protect credentials
+- Checkout redirects to Shopify's hosted checkout (handles payments, taxes, subscriptions)
+
+#### Setup Required:
+1. Copy `.env.local.example` to `.env.local` and add credentials:
+   - `NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN`
+   - `NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN`
+   - `LOOP_API_KEY`
+   - `LOOP_API_SECRET`
+
+2. Create products in Shopify Admin and update variant IDs in `app/lib/shopifyProductMapping.ts`
+
+---
+
+## December 30, 2025
+
+### 15:29 - Updated Footer Logos to Use Logo Image
+
+Updated all footer instances across the application to use the `/conka.png` logo image instead of text "conka.".
+
+#### Files Updated:
+- `app/ingredients/page.tsx` - Updated footer logo (mobile and desktop)
+- `app/case-studies/page.tsx` - Updated footer logo (mobile and desktop)
+- `app/protocol/[id]/page.tsx` - Updated footer logo
+- `app/conka-flow/page.tsx` - Updated footer logo
+- `app/conka-clarity/page.tsx` - Updated footer logo
+- `app/formula-01/page.tsx` - Updated footer logo (mobile and desktop)
+- `app/formula-02/page.tsx` - Updated footer logo (mobile and desktop)
+
+All footers now consistently use the same logo image as the navigation header.
+
+---
+
+### 15:28 - Swapped Formula Colors Throughout Application
+
+Swapped the colors for Conka Flow and Conka Clarity across the entire application:
+- **Conka Flow (Formula 01)**: Changed from teal (#AAB9BC) to orange/amber (#f59e0b)
+- **Conka Clarity (Formula 02)**: Changed from orange/amber (#f59e0b) to teal (#AAB9BC)
+
+#### Files Updated:
+- `app/lib/productData.ts` - Updated FORMULA_COLORS definition
+- `app/components/ProtocolBuilder.tsx` - Updated FORMULA_COLORS and all formula color references
+- `app/components/ProtocolBuilderMobile.tsx` - Updated all formula color references and gradients
+- `app/components/Navigation.tsx` - Updated formula color indicators in desktop and mobile menus
+- `app/components/protocol/ProtocolCalendar.tsx` - Uses FORMULA_COLORS (automatic)
+- `app/components/protocol/ProtocolCalendarSectionMobile.tsx` - Updated gradients and color references
+- `app/components/protocol/ProtocolHero.tsx` - Updated protocol accent colors to amber
+- `app/components/protocol/ProtocolHeroMobile.tsx` - Updated protocol accent colors and tag colors
+- `app/components/protocol/ProtocolCaseStudiesMobile.tsx` - Updated protocol accent colors
+- `app/components/protocol/ProtocolStruggleMobile.tsx` - Updated protocol accent colors
+- `app/components/protocol/ProtocolBenefits.tsx` - Updated icon colors
+- `app/components/protocol/ProtocolTabs.tsx` - Updated benefit number colors
+- `app/components/protocol/TierSelector.tsx` - Updated default highlight color
+- `app/components/case-studies/CaseStudiesPageMobile.tsx` - Updated formula color mappings
+- `app/components/case-studies/AthleteCard.tsx` - Updated formula color mappings
+- `app/components/ingredients/IngredientsPageMobile.tsx` - Updated formula color indicators
+- `app/components/ingredients/IngredientsPageDesktop.tsx` - Updated formula color indicators
+- `app/components/quiz/QuizRecommendedSection.tsx` - Updated quiz accent colors and gradients
+- `app/components/quiz/QuizResultsOverview.tsx` - Updated quiz accent colors
+- `app/components/quiz/QuizProgress.tsx` - Updated progress bar colors
+- `app/components/quiz/QuizLoader.tsx` - Updated loader colors
+- `app/components/product/ProtocolBenefitsMobile.tsx` - Updated gradient backgrounds
+- `app/components/product/StickyPurchaseFooter.tsx` - Updated subscription toggle color
+- `app/components/product/PurchaseToggle.tsx` - Updated default highlight color
+- `app/components/product/PackSelector.tsx` - Updated default highlight color
+- `app/components/TrialPacks.tsx` - Updated icon colors
+- `app/components/TrialPacksMobile.tsx` - Updated formula color indicators
+- `app/components/Hero.tsx` - Updated underline decoration color
+
+All gradients showing both formulas now correctly display amber (Flow) to teal (Clarity).
+
+---
+
+### 15:24 - Renamed Protocols Throughout Application
+
+Renamed all front-facing protocol names across the application:
+- **Protocol 1** → **Resilience Protocol**
+- **Protocol 2** → **Precision Protocol**
+- **Protocol 3** → **Balance Protocol**
+- **Protocol 4** → **Ultimate Protocol**
+
+#### Files Updated:
+- `app/lib/quizData.ts` - Updated protocol names in `protocolMatchInfo`
+- `app/lib/productData.ts` - Updated protocol names in `protocolContent`
+- `app/components/Navigation.tsx` - Updated protocol names in mobile menu
+- `app/components/ProtocolBuilder.tsx` - Updated protocol titles in `pathData`
+- `app/components/product/ProtocolBenefitsMobile.tsx` - Updated protocol names array
+- `app/components/protocol/ProtocolFAQ.tsx` - Updated protocol references in FAQ answers
+- `app/components/protocol/ProtocolCaseStudiesMobile.tsx` - Updated protocol names in case studies
+- `app/lib/caseStudiesData.ts` - Updated protocol names in athlete data
+
+All components that dynamically display protocol names (using `protocol.name` from `protocolContent` or `matchInfo.name` from `quizData`) will automatically show the new names.
+
+---
+
 ## December 30, 2025
 
 ### 23:00 - Updated Key Statistics with Verified Clinical Data

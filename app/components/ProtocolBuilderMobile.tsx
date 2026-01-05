@@ -277,10 +277,10 @@ export default function ProtocolBuilderMobile() {
       <div className="flex items-center justify-between mb-4 p-3 bg-black text-white rounded-lg">
         <div className="flex items-center gap-3">
           <div className="flex gap-1">
-            <div className="w-4 h-4 bg-[#AAB9BC] rounded-sm flex items-center justify-center">
+            <div className="w-4 h-4 bg-amber-500 rounded-sm flex items-center justify-center">
               <span className="text-[8px] font-bold">01</span>
             </div>
-            <div className="w-4 h-4 bg-amber-500 rounded-sm flex items-center justify-center">
+            <div className="w-4 h-4 bg-[#AAB9BC] rounded-sm flex items-center justify-center">
               <span className="text-[8px] font-bold">02</span>
             </div>
           </div>
@@ -341,11 +341,11 @@ export default function ProtocolBuilderMobile() {
               key={idx}
               className={`aspect-square rounded-md flex items-center justify-center text-xs font-clinical ${
                 day.formula === "01"
-                  ? "bg-[#AAB9BC] text-white"
-                  : day.formula === "02"
                   ? "bg-amber-500 text-white"
+                  : day.formula === "02"
+                  ? "bg-[#AAB9BC] text-white"
                   : day.formula === "both"
-                  ? "bg-gradient-to-br from-[#AAB9BC] to-amber-500 text-white"
+                  ? "bg-gradient-to-br from-amber-500 to-[#AAB9BC] text-white"
                   : "border border-current opacity-20"
               }`}
             >
@@ -437,7 +437,7 @@ export default function ProtocolBuilderMobile() {
               {currentPath.isUltimate && (selectedTier === "pro" || selectedTier === "max") ? (
                 <>
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-[#AAB9BC] rounded-sm flex items-center justify-center">
+                    <div className="w-5 h-5 bg-amber-500 rounded-sm flex items-center justify-center">
                       <span className="text-white text-[8px] font-bold">01</span>
                     </div>
                     <span className="font-clinical text-sm">
@@ -445,7 +445,7 @@ export default function ProtocolBuilderMobile() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-amber-500 rounded-sm flex items-center justify-center">
+                    <div className="w-5 h-5 bg-[#AAB9BC] rounded-sm flex items-center justify-center">
                       <span className="text-white text-[8px] font-bold">02</span>
                     </div>
                     <span className="font-clinical text-sm">
@@ -456,7 +456,7 @@ export default function ProtocolBuilderMobile() {
               ) : currentPath.isBalanced ? (
                 <>
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-[#AAB9BC] rounded-sm flex items-center justify-center">
+                    <div className="w-5 h-5 bg-amber-500 rounded-sm flex items-center justify-center">
                       <span className="text-white text-[8px] font-bold">01</span>
                     </div>
                     <span className="font-clinical text-sm">
@@ -464,7 +464,7 @@ export default function ProtocolBuilderMobile() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-amber-500 rounded-sm flex items-center justify-center">
+                    <div className="w-5 h-5 bg-[#AAB9BC] rounded-sm flex items-center justify-center">
                       <span className="text-white text-[8px] font-bold">02</span>
                     </div>
                     <span className="font-clinical text-sm">
@@ -552,11 +552,11 @@ export default function ProtocolBuilderMobile() {
                     key={idx}
                     className={`aspect-square rounded-sm flex items-center justify-center text-[10px] font-clinical ${
                       day.formula === "01"
-                        ? "bg-[#AAB9BC] text-white"
-                        : day.formula === "02"
                         ? "bg-amber-500 text-white"
+                        : day.formula === "02"
+                        ? "bg-[#AAB9BC] text-white"
                         : day.formula === "both"
-                        ? "bg-gradient-to-br from-[#AAB9BC] to-amber-500 text-white"
+                        ? "bg-gradient-to-br from-amber-500 to-[#AAB9BC] text-white"
                         : "border border-current opacity-20"
                     }`}
                   >
@@ -568,16 +568,16 @@ export default function ProtocolBuilderMobile() {
               {/* Legend */}
               <div className="flex gap-4 mt-3 pt-3 border-t border-black/10">
                 <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 bg-[#AAB9BC] rounded-sm"></div>
+                  <div className="w-3 h-3 bg-amber-500 rounded-sm"></div>
                   <span className="font-clinical text-[10px]">F01</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 bg-amber-500 rounded-sm"></div>
+                  <div className="w-3 h-3 bg-[#AAB9BC] rounded-sm"></div>
                   <span className="font-clinical text-[10px]">F02</span>
                 </div>
                 {currentPath.isUltimate && (
                   <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 bg-gradient-to-br from-[#AAB9BC] to-amber-500 rounded-sm"></div>
+                    <div className="w-3 h-3 bg-gradient-to-br from-amber-500 to-[#AAB9BC] rounded-sm"></div>
                     <span className="font-clinical text-[10px]">Both</span>
                   </div>
                 )}

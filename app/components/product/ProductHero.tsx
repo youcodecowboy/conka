@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   FormulaId,
   PackSize,
@@ -14,6 +13,7 @@ import {
 import PurchaseToggle from "./PurchaseToggle";
 import PackSelector from "./PackSelector";
 import ProductTabs from "./ProductTabs";
+import ProductImageSlideshow from "./ProductImageSlideshow";
 
 interface ProductHeroProps {
   formulaId: FormulaId;
@@ -43,6 +43,22 @@ export default function ProductHero({
 
   // Get image path based on formula
   const imagePath = formulaId === "01" ? "/1.png" : "/2.png";
+  
+  // Slideshow images for Conka Flow (formula 01 - BLACK cap) with focal points
+  const flowSlideshowImages = [
+    { src: "/CONKA_01.jpg", focalX: 55, focalY: 48 }, // Front view, CONKA branding
+    { src: "/CONKA_02.jpg", focalX: 55, focalY: 48 }, // Side view with badges
+    { src: "/CONKA_03.jpg", focalX: 50, focalY: 48 }, // "1 BOTTLE DAILY" view
+    { src: "/CONKA_04.jpg", focalX: 52, focalY: 48 }, // Back label view
+    { src: "/CONKA_05.jpg", focalX: 50, focalY: 58 }, // Horizontal/angled view
+  ];
+  
+  // Slideshow images for Conka Clarity (formula 02 - WHITE cap) with focal points
+  const claritySlideshowImages = [
+    { src: "/CONKA_06.jpg", focalX: 52, focalY: 50 }, // Clarity vertical, white cap
+    { src: "/CONKA_10.jpg", focalX: 45, focalY: 55 }, // Clarity horizontal
+    { src: "/CONKA_20.jpg", focalX: 50, focalY: 55 }, // Clarity with lemons
+  ];
 
   // Header color based on purchase type - Conka Flow inverts, Conka Clarity uses amber
   const headerBgClass =
@@ -59,19 +75,17 @@ export default function ProductHero({
       <div className="max-w-6xl mx-auto lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%]">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left: Product Image */}
-          <div className="lg:w-1/2 order-1 lg:order-1 relative z-0">
+          <div className="lg:w-[55%] order-1 lg:order-1 relative z-0">
             <div className="sticky top-24">
-              <div className="relative w-full aspect-square max-w-2xl mx-auto scale-[2] origin-center z-0">
-                <Image
-                  src={imagePath}
+              {/* Slideshow for both formulas - larger size, shifted left */}
+              <div className="relative w-full aspect-square max-w-2xl lg:-ml-12 xl:-ml-16 group">
+                <ProductImageSlideshow
+                  images={formulaId === "01" ? flowSlideshowImages : claritySlideshowImages}
                   alt={`${formula.name} bottle`}
-                  fill
-                  className="object-contain"
-                  priority
                 />
               </div>
               {/* Annotation */}
-              <p className="font-commentary text-lg text-center mt-4 opacity-70">
+              <p className="font-commentary text-lg text-center lg:text-left lg:-ml-12 xl:-ml-16 mt-4 opacity-70">
                 {formula.annotation}
               </p>
             </div>

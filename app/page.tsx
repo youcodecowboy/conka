@@ -2,43 +2,13 @@
 
 import { useState } from "react";
 import KeyBenefits, { Benefit } from "./components/KeyBenefits";
-import CaseStudies from "./components/CaseStudies";
+import CaseStudiesDataDriven from "./components/CaseStudiesDataDriven";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import ProtocolBuilder from "./components/ProtocolBuilder";
 import TrialPacks from "./components/TrialPacks";
 import Ingredients from "./components/Ingredients";
 import ProductSlideshowMobile from "./components/ProductSlideshowMobile";
-
-const athletes = [
-  {
-    name: "Marcus Chen",
-    sport: "Olympic Swimming",
-    achievement: "3x Gold Medalist",
-    protocol: "Conka Flow daily + Conka Clarity on competition days",
-    duration: "18 months",
-    results: ["+12% lap consistency", "-0.3s average time", "Zero crashes"],
-    quote: "Finally found something that works without the jitters",
-  },
-  {
-    name: "Sarah Okonkwo",
-    sport: "Professional Rugby",
-    achievement: "England National Team",
-    protocol: "Conka Flow daily (28-day cycle)",
-    duration: "12 months",
-    results: ["+18% decision accuracy", "Better post-match recovery", "Improved sleep scores"],
-    quote: "The clarity during matches is unreal",
-  },
-  {
-    name: "James Torres",
-    sport: "Esports",
-    achievement: "World Championship Finalist",
-    protocol: "Conka Clarity before tournaments",
-    duration: "8 months",
-    results: ["+23% reaction time", "6+ hour focus sessions", "Reduced mental fatigue"],
-    quote: "My edge in the final rounds",
-  },
-];
 
 const faqItems = [
   { 
@@ -100,9 +70,8 @@ const faqItems = [
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  const [cartOpen, setCartOpen] = useState(false);
 
-  // Key Benefits Data
+  // Key Benefits Data - All stats from verified PubMed studies
   const keyBenefits: Benefit[] = [
     {
       id: "focus",
@@ -114,25 +83,26 @@ export default function Home() {
           <circle cx="12" cy="12" r="2"/>
         </svg>
       ),
-      stat: "+22.1%",
-      annotation: "tested across 125 clinical trials",
-      description: "Enhanced concentration without stimulants",
-      image: "/bottle2.png",
+      stat: "+18%",
+      annotation: "PMID: 12888775 — Lemon Balm",
+      description: "Balance alertness with tranquility for sustained concentration",
+      image: "/CONKA_06.jpg",
+      focalPoint: { x: 55, y: 45 },
       clinicalBreakdown: {
-        study: "University of Exeter, 2023",
-        participants: "250 participants",
-        duration: "12 weeks",
+        study: "Kennedy et al. 2003, Neuropsychopharmacology",
+        participants: "20 healthy young adults",
+        duration: "Single doses with 7-day intervals",
         results: [
-          "22.1% improvement in processing speed (men)",
-          "33.5% improvement in processing speed (women)",
-          "P<0.01 statistical significance",
-          "Zero reported side effects"
+          "+18% improvement in memory performance",
+          "+15% increase in calmness scores",
+          "Enhanced acetylcholine receptor activity",
+          "P<0.05 statistical significance"
         ]
       },
       testimonial: {
-        quote: "I can finally focus for hours without the jitters or crash",
-        author: "Marcus Chen",
-        role: "Olympic Swimmer"
+        quote: "World-class playmaker with +28.96% cognitive improvement",
+        author: "Finn Russell",
+        role: "Bath Rugby — Fly-Half"
       }
     },
     {
@@ -143,19 +113,26 @@ export default function Home() {
           <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
         </svg>
       ),
-      stat: "+31.4%",
-      annotation: "university of exeter study",
-      description: "Deeper REM cycles and improved recovery",
+      stat: "+42%",
+      annotation: "PMID: 32021735 — Ashwagandha",
+      description: "Improved sleep quality and reduced time to fall asleep",
+      image: "/CONKA_04.jpg",
+      focalPoint: { x: 52, y: 48 },
       clinicalBreakdown: {
-        study: "Sleep Research Lab, University of Exeter",
-        participants: "180 participants",
+        study: "Salve et al. 2019, Cureus",
+        participants: "58 healthy adults",
         duration: "8 weeks",
         results: [
-          "31.4% increase in REM sleep duration",
-          "45% reduction in sleep latency",
-          "Improved sleep efficiency scores",
-          "Better next-day cognitive performance"
+          "+42% improvement in sleep quality",
+          "Reduced morning cortisol levels",
+          "Improved stress resistance",
+          "Enhanced quality of life scores"
         ]
+      },
+      testimonial: {
+        quote: "GB7 Rugby 7s athlete with +36.72% total improvement",
+        author: "Jade Shekells",
+        role: "GB7 Womens Rugby 7s — Paris 2024 Olympian"
       }
     },
     {
@@ -166,42 +143,56 @@ export default function Home() {
           <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 1 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
         </svg>
       ),
-      stat: "+18.7%",
-      annotation: "peer reviewed research",
-      description: "Clearer thinking throughout the day",
+      stat: "+40%",
+      annotation: "PMID: 29559699 — Glutathione",
+      description: "Clear cellular waste and keep your mind responsive",
+      image: "/CONKA_01.jpg",
+      focalPoint: { x: 50, y: 45 },
       clinicalBreakdown: {
-        study: "Cognitive Performance Study, 2023",
-        participants: "320 participants",
-        duration: "16 weeks",
+        study: "Sinha et al. 2018, European Journal of Clinical Nutrition",
+        participants: "12 healthy adults",
+        duration: "4 weeks",
         results: [
-          "18.7% improvement in mental clarity",
-          "Reduced cognitive fatigue",
-          "Better memory recall",
-          "Enhanced problem-solving ability"
+          "+40% increase in blood glutathione levels",
+          "2x enhancement in NK cell activity",
+          "Improved lymphocyte proliferation",
+          "Enhanced immune function markers"
         ]
+      },
+      testimonial: {
+        quote: "Bank of America C-Suite with +24.68% improvement over 73 tests",
+        author: "Nimisha Kurup",
+        role: "Managing Director, CFO Data Management — Bank of America"
       }
     },
     {
       id: "stress",
-      title: "Decrease Anxiety",
+      title: "Stress Resilience",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
         </svg>
       ),
-      stat: "+24.2%",
-      annotation: "adaptogens at work",
-      description: "Better response to daily stressors",
+      stat: "-56%",
+      annotation: "PMID: 23439798 — Ashwagandha",
+      description: "Reduce cortisol and build natural stress resistance",
+      image: "/CONKA_02.jpg",
+      focalPoint: { x: 50, y: 45 },
       clinicalBreakdown: {
-        study: "Stress Response Research, 2023",
-        participants: "200 participants",
-        duration: "10 weeks",
+        study: "Chandrasekhar et al. 2012, Indian Journal of Psychological Medicine",
+        participants: "64 subjects with chronic stress",
+        duration: "60 days",
         results: [
-          "24.2% reduction in cortisol levels",
-          "Improved stress response markers",
-          "Better emotional regulation",
-          "Enhanced resilience scores"
+          "-56% reduction in stress assessment scores",
+          "-28% decrease in serum cortisol levels",
+          "P<0.0001 statistical significance",
+          "Improved quality of life measures"
         ]
+      },
+      testimonial: {
+        quote: "Top 14 Player of the Year with +20.51% cognitive improvement",
+        author: "Jack Willis",
+        role: "Stade Toulousain — Flanker"
       }
     },
     {
@@ -213,19 +204,26 @@ export default function Home() {
           <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
         </svg>
       ),
-      stat: "+19.3%",
-      annotation: "memory recall studies",
-      description: "Enhanced retention and recall",
+      stat: "+63%",
+      annotation: "PMID: 29246725 — Curcumin",
+      description: "Enhanced neuroplasticity and memory formation",
+      image: "/CONKA_03.jpg",
+      focalPoint: { x: 50, y: 45 },
       clinicalBreakdown: {
-        study: "Memory Performance Study, 2023",
-        participants: "280 participants",
-        duration: "14 weeks",
+        study: "Small et al. 2018, American Journal of Geriatric Psychiatry (UCLA)",
+        participants: "40 non-demented adults aged 51-84",
+        duration: "18 months",
         results: [
-          "19.3% improvement in memory recall",
-          "Better working memory capacity",
-          "Enhanced long-term retention",
-          "Improved cognitive flexibility"
+          "+63% improvement in memory (SRT)",
+          "+96% improvement in attention",
+          "Reduced brain amyloid and tau accumulation",
+          "P<0.0001 statistical significance"
         ]
+      },
+      testimonial: {
+        quote: "Leeds United forward with +27.93% total improvement",
+        author: "Patrick Bamford",
+        role: "Leeds United — Forward"
       }
     }
   ];
@@ -236,7 +234,7 @@ export default function Home() {
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* ===== SECTION 1: HERO ===== */}
-      <Navigation cartOpen={cartOpen} setCartOpen={setCartOpen} />
+      <Navigation />
       <Hero />
 
       {/* ===== SECTION 1.5: PRODUCT SLIDESHOW (MOBILE ONLY) ===== */}
@@ -249,7 +247,7 @@ export default function Home() {
       <Ingredients />
 
       {/* ===== SECTION 5: CASE STUDIES ===== */}
-      <CaseStudies athletes={athletes} />
+      <CaseStudiesDataDriven />
 
       {/* ===== SECTION 6: PROTOCOL BUILDER ===== */}
       <div id="protocols">
@@ -400,63 +398,6 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Cart Drawer */}
-      {cartOpen && (
-        <div className="fixed inset-0 z-50">
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-black/50 transition-opacity"
-            onClick={() => setCartOpen(false)}
-          />
-          
-          {/* Drawer */}
-          <div className="absolute right-0 top-0 h-full w-full max-w-md bg-[var(--background)] border-l-2 border-current shadow-2xl">
-            <div className="flex flex-col h-full">
-              {/* Header */}
-              <div className="flex justify-between items-center p-6 border-b-2 border-current">
-                <h2 className="text-xl font-bold">Your Cart</h2>
-                <button 
-                  onClick={() => setCartOpen(false)}
-                  className="p-2 hover:opacity-70 transition-all"
-                  aria-label="Close cart"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"/>
-                    <line x1="6" y1="6" x2="18" y2="18"/>
-                  </svg>
-                </button>
-              </div>
-
-              {/* Cart Content */}
-              <div className="flex-1 p-6 overflow-y-auto">
-                <div className="flex flex-col items-center justify-center h-full text-center opacity-50">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mb-4">
-                    <circle cx="9" cy="21" r="1"/>
-                    <circle cx="20" cy="21" r="1"/>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                  </svg>
-                  <p className="font-clinical text-sm">Your cart is empty</p>
-                  <p className="font-commentary text-sm mt-2">add some brain fuel!</p>
-                </div>
-              </div>
-
-              {/* Footer */}
-              <div className="p-6 border-t-2 border-current">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="font-clinical text-sm">Subtotal</span>
-                  <span className="font-clinical text-lg font-bold">£0.00</span>
-                </div>
-                <button className="neo-button w-full px-8 py-4 font-semibold text-lg">
-                  Checkout
-                </button>
-                <p className="font-clinical text-xs text-center mt-3 opacity-70">
-                  Free UK shipping on orders over £50
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

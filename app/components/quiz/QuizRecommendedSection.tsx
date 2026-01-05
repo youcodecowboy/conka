@@ -99,11 +99,11 @@ export default function QuizRecommendedSection({
   };
 
   return (
-    <section className="px-4 md:px-8 py-12 md:py-16 bg-[#AAB9BC]/5 border-t-2 border-current/10">
+    <section className="px-4 md:px-8 py-12 md:py-16 bg-amber-500/5 border-t-2 border-current/10">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#AAB9BC] text-white rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500 text-white rounded-full mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -126,7 +126,7 @@ export default function QuizRecommendedSection({
         {/* Protocol Description */}
         <div className="neo-box p-6 md:p-8 mb-8">
           <div className="flex items-start gap-4 md:gap-6">
-            <div className="w-16 h-16 rounded-full bg-[#AAB9BC] text-white flex items-center justify-center flex-shrink-0">
+            <div className="w-16 h-16 rounded-full bg-amber-500 text-white flex items-center justify-center flex-shrink-0">
               {getProtocolIcon(matchInfo.icon)}
             </div>
             <div>
@@ -144,7 +144,7 @@ export default function QuizRecommendedSection({
           <div className="grid md:grid-cols-2 gap-3">
             {matchInfo.keyBenefits.map((benefit, idx) => (
               <div key={idx} className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#AAB9BC] flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
@@ -182,7 +182,7 @@ export default function QuizRecommendedSection({
                       disabled={!isAvailable}
                       className={`px-3 py-1.5 rounded-full font-clinical text-xs transition-all ${
                         isSelected
-                          ? "bg-[#AAB9BC] text-white"
+                          ? "bg-amber-500 text-white"
                           : isAvailable
                           ? "border-2 border-black/10 hover:border-black/30"
                           : "border-2 border-black/5 text-black/30 cursor-not-allowed"
@@ -245,7 +245,7 @@ export default function QuizRecommendedSection({
                 <div className="flex items-center gap-1">
                   <div
                     className="w-3 h-3 rounded-sm"
-                    style={{ background: `linear-gradient(135deg, #AAB9BC 50%, #f59e0b 50%)` }}
+                    style={{ background: `linear-gradient(135deg, #f59e0b 50%, #AAB9BC 50%)` }}
                   ></div>
                   <span className="font-clinical text-xs">Both Daily</span>
                 </div>
@@ -277,7 +277,7 @@ export default function QuizRecommendedSection({
                       key={dayIdx}
                       className="aspect-square rounded overflow-hidden relative flex items-center justify-center text-xs font-clinical text-white"
                       style={{
-                        background: `linear-gradient(135deg, #AAB9BC 50%, #f59e0b 50%)`,
+                        background: `linear-gradient(135deg, #f59e0b 50%, #AAB9BC 50%)`,
                       }}
                     >
                       <span className="relative z-10 drop-shadow-sm">{day.day}</span>
@@ -308,7 +308,7 @@ export default function QuizRecommendedSection({
           </div>
 
           {/* Pricing & Actions */}
-          <div className="p-4 md:p-6 bg-[#AAB9BC]/10 border-t-2 border-[#AAB9BC]/20">
+          <div className="p-4 md:p-6 bg-amber-500/10 border-t-2 border-amber-500/20">
             <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
               <div>
                 <p className="text-2xl md:text-3xl font-bold">
@@ -392,4 +392,6 @@ export default function QuizRecommendedSection({
     </section>
   );
 }
+
+
 

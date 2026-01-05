@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Image from "next/image";
 import RadarChart from "./RadarChart";
+import FocalImage from "./FocalImage";
 import { Benefit } from "./KeyBenefits";
 
 interface KeyBenefitsDesktopProps {
@@ -208,13 +208,13 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
               {/* Right: Image/Visual */}
               <div className="flex items-center justify-center">
                 {currentBenefit.image ? (
-                  <div className="w-full h-[800px] md:h-[1000px] flex items-center justify-center">
-                    <Image
+                  <div className="w-full h-[800px] md:h-[1000px] rounded-lg overflow-hidden">
+                    <FocalImage
                       src={currentBenefit.image}
                       alt={currentBenefit.title}
-                      width={1200}
-                      height={1200}
-                      className="w-full h-full object-contain translate-x-12 -translate-y-12"
+                      focalX={currentBenefit.focalPoint?.x ?? 50}
+                      focalY={currentBenefit.focalPoint?.y ?? 50}
+                      priority
                     />
                   </div>
                 ) : (
