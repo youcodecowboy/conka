@@ -75,7 +75,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [fetchCart]);
 
   // Create a new cart
-  const createCart = async (variantId?: string, quantity?: number, sellingPlanId?: string): Promise<Cart | null> => {
+  const createCart = async (variantId?: string, quantity?: number, sellingPlanId?: string): Promise<{ cart: Cart | null; warning?: string }> => {
     try {
       const response = await fetch('/api/cart', {
         method: 'POST',
@@ -93,7 +93,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (response.ok && data.cart) {
         setCart(data.cart);
         localStorage.setItem(CART_ID_KEY, data.cart.id);
-        return data.cart;
+        return { cart: data.cart, warning: data.warning };
       } else {
         throw new Error(data.error || 'Failed to create cart');
       }
@@ -116,10 +116,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const cartId = cart?.id || localStorage.getItem(CART_ID_KEY);
+      let warning: string | undefined;
 
       if (!cartId) {
         // No cart exists - create one with the item
-        await createCart(variantId, quantity, sellingPlanId);
+        const result = await createCart(variantId, quantity, sellingPlanId);
+        warning = result.warning;
       } else {
         // Add to existing cart
         const response = await fetch('/api/cart', {
@@ -138,12 +140,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
         if (response.ok && data.cart) {
           setCart(data.cart);
+          warning = data.warning;
         } else if (response.status === 404) {
           // Cart expired - create new one
-          await createCart(variantId, quantity, sellingPlanId);
+          const result = await createCart(variantId, quantity, sellingPlanId);
+          warning = result.warning;
         } else {
           throw new Error(data.error || 'Failed to add item');
         }
+      }
+      
+      // Show warning if subscription wasn't available (as console log for now)
+      if (warning) {
+        console.warn('Cart warning:', warning);
+        // Could display this in UI via a toast notification in the future
       }
       
       // Open cart drawer after adding item

@@ -111,14 +111,58 @@ export async function POST(request: NextRequest) {
           input,
         });
 
+        // Check for selling plan error and retry without it
         if (response.data?.cartCreate?.userErrors?.length > 0) {
+          const userError = response.data.cartCreate.userErrors[0];
+          console.error('Cart create user errors:', response.data.cartCreate.userErrors);
+          
+          // If the error is about selling plan, retry without it
+          if (sellingPlanId && userError.message.toLowerCase().includes('selling plan')) {
+            console.log('Selling plan not applicable, retrying without subscription...');
+            
+            // Retry without selling plan
+            const retryInput: { lines?: CartLineInput[] } = {};
+            if (variantId) {
+              retryInput.lines = [{
+                merchandiseId: variantId,
+                quantity: quantity || 1,
+              }];
+            }
+            
+            const retryResponse = await shopifyFetch<CartCreateResponse>(CREATE_CART, {
+              input: retryInput,
+            });
+            
+            if (retryResponse.data?.cartCreate?.userErrors?.length > 0) {
+              return NextResponse.json(
+                { error: retryResponse.data.cartCreate.userErrors[0].message },
+                { status: 400 }
+              );
+            }
+            
+            if (retryResponse.data?.cartCreate?.cart) {
+              return NextResponse.json({ 
+                cart: retryResponse.data.cartCreate.cart,
+                warning: 'Subscription not available for this product. Added as one-time purchase.'
+              });
+            }
+          }
+          
           return NextResponse.json(
-            { error: response.data.cartCreate.userErrors[0].message },
+            { error: userError.message },
             { status: 400 }
           );
         }
 
-        return NextResponse.json({ cart: response.data?.cartCreate?.cart });
+        if (!response.data?.cartCreate?.cart) {
+          console.error('Cart create failed - no cart returned. Response:', JSON.stringify(response, null, 2));
+          return NextResponse.json(
+            { error: 'Failed to create cart - no cart returned from Shopify' },
+            { status: 500 }
+          );
+        }
+
+        return NextResponse.json({ cart: response.data.cartCreate.cart });
       }
 
       case 'add': {
@@ -152,9 +196,40 @@ export async function POST(request: NextRequest) {
           lines: [line],
         });
 
+        // Check for selling plan error and retry without it
         if (response.data?.cartLinesAdd?.userErrors?.length > 0) {
+          const userError = response.data.cartLinesAdd.userErrors[0];
+          console.error('Cart add user errors:', response.data.cartLinesAdd.userErrors);
+          
+          // If the error is about selling plan, retry without it
+          if (sellingPlanId && userError.message.toLowerCase().includes('selling plan')) {
+            console.log('Selling plan not applicable, retrying without subscription...');
+            
+            const retryResponse = await shopifyFetch<CartLinesAddResponse>(ADD_TO_CART, {
+              cartId,
+              lines: [{
+                merchandiseId: variantId,
+                quantity: quantity || 1,
+              }],
+            });
+            
+            if (retryResponse.data?.cartLinesAdd?.userErrors?.length > 0) {
+              return NextResponse.json(
+                { error: retryResponse.data.cartLinesAdd.userErrors[0].message },
+                { status: 400 }
+              );
+            }
+            
+            if (retryResponse.data?.cartLinesAdd?.cart) {
+              return NextResponse.json({ 
+                cart: retryResponse.data.cartLinesAdd.cart,
+                warning: 'Subscription not available for this product. Added as one-time purchase.'
+              });
+            }
+          }
+          
           return NextResponse.json(
-            { error: response.data.cartLinesAdd.userErrors[0].message },
+            { error: userError.message },
             { status: 400 }
           );
         }

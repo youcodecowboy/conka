@@ -14,7 +14,7 @@ function getClient(): StorefrontApiClient {
     
     _client = createStorefrontApiClient({
       storeDomain,
-      apiVersion: '2024-10',
+      apiVersion: '2025-10',
       publicAccessToken: accessToken,
     });
   }
