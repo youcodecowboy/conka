@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   IngredientData,
   CATEGORY_INFO,
@@ -90,20 +91,33 @@ export default function IngredientsPageDesktop({
           <div className="lg:w-2/5 lg:sticky lg:top-24 lg:self-start">
             {/* Ingredient Image */}
             <div className="neo-box overflow-hidden mb-6">
-              <div className="relative aspect-square placeholder-box">
-                <span className="font-clinical text-sm">[{activeIngredient.name.toUpperCase()} IMAGE]</span>
-                {/* Percentage Badge */}
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="neo-box-inverted p-4 flex items-center justify-between">
-                    <div>
-                      <p className="font-clinical text-xs opacity-70">Formula Percentage</p>
-                      <p className="text-3xl font-bold font-clinical">{activeIngredient.percentage}</p>
-                    </div>
-                    <div className={`px-3 py-1 rounded-full text-white text-xs font-clinical ${categoryInfo?.color}`}>
-                      {categoryInfo?.name}
-                    </div>
+              {/* Percentage Badge - On Top */}
+              <div className="p-4 border-b-2 border-current/10">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-clinical text-xs opacity-70">Formula Percentage</p>
+                    <p className="text-3xl font-bold font-clinical">{activeIngredient.percentage}</p>
+                  </div>
+                  <div className={`px-3 py-1 rounded-full text-white text-xs font-clinical ${categoryInfo?.color}`}>
+                    {categoryInfo?.name}
                   </div>
                 </div>
+              </div>
+              {/* Image */}
+              <div className="relative aspect-square">
+                {activeIngredient.image ? (
+                  <Image
+                    src={activeIngredient.image}
+                    alt={activeIngredient.name}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full placeholder-box flex items-center justify-center">
+                    <span className="font-clinical text-sm">[{activeIngredient.name.toUpperCase()} IMAGE]</span>
+                  </div>
+                )}
               </div>
             </div>
 

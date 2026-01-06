@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   IngredientData,
   CATEGORY_INFO,
@@ -105,9 +106,21 @@ export default function IngredientsPageMobile({
             </div>
           </div>
 
-          {/* Image Placeholder */}
-          <div className="aspect-video placeholder-box">
-            <span className="font-clinical text-sm">[{activeIngredient.name.toUpperCase()} IMAGE]</span>
+          {/* Image */}
+          <div className="relative aspect-video">
+            {activeIngredient.image ? (
+              <Image
+                src={activeIngredient.image}
+                alt={activeIngredient.name}
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
+            ) : (
+              <div className="w-full h-full placeholder-box flex items-center justify-center">
+                <span className="font-clinical text-sm">[{activeIngredient.name.toUpperCase()} IMAGE]</span>
+              </div>
+            )}
           </div>
 
           {/* Description */}

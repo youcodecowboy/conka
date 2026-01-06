@@ -52,6 +52,7 @@ export interface IngredientData {
   safetyProfile: string;
   synergies: string[];
   molecularStructure?: MolecularStructure;
+  image?: string;
 }
 
 // ===== CONKA FLOW INGREDIENTS (Formula 01) =====
@@ -139,6 +140,7 @@ export const flowIngredients: IngredientData[] = [
       pubchemCid: 5281792,
       activeCompound: "Rosmarinic Acid",
     },
+    image: "/ingredients/lemon-balm.jpg",
   },
   {
     id: "turmeric",
@@ -222,6 +224,7 @@ export const flowIngredients: IngredientData[] = [
       pubchemCid: 969516,
       activeCompound: "Curcumin",
     },
+    image: "/ingredients/turmeric.jpg",
   },
   {
     id: "ashwagandha",
@@ -305,6 +308,7 @@ export const flowIngredients: IngredientData[] = [
       pubchemCid: 11294368,
       activeCompound: "Withanolide A",
     },
+    image: "/ingredients/ashwagandha.jpg",
   },
   {
     id: "rhodiola",
@@ -388,6 +392,7 @@ export const flowIngredients: IngredientData[] = [
       pubchemCid: 159278,
       activeCompound: "Salidroside",
     },
+    image: "/ingredients/rhodiola.jpg",
   },
   {
     id: "bilberry",
@@ -471,6 +476,7 @@ export const flowIngredients: IngredientData[] = [
       pubchemCid: 441667,
       activeCompound: "Cyanidin-3-glucoside",
     },
+    image: "/ingredients/bilberry.jpg",
   },
   {
     id: "black-pepper",
@@ -553,6 +559,7 @@ export const flowIngredients: IngredientData[] = [
       pubchemCid: 638024,
       activeCompound: "Piperine",
     },
+    image: "/ingredients/black-pepper.jpg",
   },
 ];
 
@@ -641,6 +648,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 54670067,
       activeCompound: "Ascorbic Acid",
     },
+    image: "/ingredients/vitamin-c.jpg",
   },
   {
     id: "alpha-gpc",
@@ -724,6 +732,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 657272,
       activeCompound: "Alpha-GPC",
     },
+    image: "/ingredients/alpha-gpc.jpg",
   },
   {
     id: "glutathione",
@@ -807,6 +816,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 124886,
       activeCompound: "Glutathione",
     },
+    image: "/ingredients/glutathione.jpg",
   },
   {
     id: "nac",
@@ -890,6 +900,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 12035,
       activeCompound: "N-Acetyl-L-Cysteine",
     },
+    image: "/ingredients/nac.jpg",
   },
   {
     id: "alcar",
@@ -973,6 +984,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 7045767,
       activeCompound: "Acetyl-L-Carnitine",
     },
+    image: "/ingredients/alcar.jpg",
   },
   {
     id: "ginkgo",
@@ -1056,6 +1068,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 3086178,
       activeCompound: "Ginkgolide A",
     },
+    image: "/ingredients/ginkgo.jpg",
   },
   {
     id: "lecithin",
@@ -1139,6 +1152,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 6441487,
       activeCompound: "Phosphatidylcholine",
     },
+    image: "/ingredients/lecithin.jpg",
   },
   {
     id: "lemon-oil",
@@ -1222,6 +1236,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 22311,
       activeCompound: "Limonene",
     },
+    image: "/ingredients/lemon-oil.jpg",
   },
   {
     id: "ala",
@@ -1305,6 +1320,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 6112,
       activeCompound: "Alpha Lipoic Acid",
     },
+    image: "/ingredients/ala.jpg",
   },
   {
     id: "vitamin-b12",
@@ -1388,6 +1404,7 @@ export const clarityIngredients: IngredientData[] = [
       pubchemCid: 6436232,
       activeCompound: "Methylcobalamin",
     },
+    image: "/ingredients/vitamin-b12.jpg",
   },
 ];
 
