@@ -65,11 +65,11 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
           {/* Logo - Left (links to home) */}
           <a href="/" className="flex items-center">
             <Image
-              src="/conka.png"
+              src="/conka.svg"
               alt="Conka logo"
               width={90}
               height={30}
-              className="h-6 md:h-8 w-auto mt-0.5"
+              className="h-6 md:h-8 w-auto mt-0.5 invert"
               priority
             />
           </a>
@@ -344,11 +344,11 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
             <div className="flex justify-between items-center mb-8">
               <a href="/" className="flex items-center">
                 <Image
-                  src="/conka.png"
+                  src="/conka.svg"
                   alt="Conka logo"
                   width={90}
                   height={30}
-                  className="h-8 w-auto"
+                  className="h-8 w-auto invert"
                   priority
                 />
               </a>

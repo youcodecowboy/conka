@@ -2,6 +2,30 @@
 
 ## January 6, 2026
 
+### 11:00 - Fixed Protocol Header Subscribe/One-Time Button Overflow
+
+Fixed a major issue where the Subscribe/One-Time toggle buttons in the protocol page header were falling off the screen on medium-sized desktop viewports.
+
+#### PurchaseToggle Component (`app/components/product/PurchaseToggle.tsx`):
+- **Added `compact` prop**: Enables smaller buttons when stacked (h-7 vs h-9, smaller text)
+- **Right-aligned when stacked**: Buttons align to the right edge when in vertical stack mode
+- **Responsive sizing**: At 2xl+ buttons return to normal size and horizontal layout
+- **Reduced gap**: 1.5 gap when stacked, 2 gap when side-by-side
+
+#### ProtocolHero Component (`app/components/protocol/ProtocolHero.tsx`):
+- **Flexible header layout**: Always uses row layout with `justify-between items-center`
+- **Title sizing reduced**: `text-xl lg:text-2xl xl:text-3xl` (was `text-2xl md:text-3xl`)
+- **Subtitle sizing reduced**: `text-sm lg:text-base xl:text-lg`
+- **Truncation support**: Title and subtitle truncate with ellipsis if space is limited
+- **Enabled compact + allowStack**: Buttons stack and shrink on mid-range desktops
+
+#### Responsive Behavior:
+- **Mobile (390px)**: Buttons side-by-side, both fully visible
+- **Medium Desktop (1024px)**: Buttons stack vertically, right-aligned, compact size
+- **Large Desktop (1536px+)**: Buttons side-by-side, normal size, centered with title
+
+---
+
 ### 10:30 - Added "What is Conka?" Section
 
 Added a new section above the Ingredients section to introduce both Conka formulas and tie the narrative together.

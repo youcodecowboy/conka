@@ -5,9 +5,10 @@ import Image from "next/image";
 import useIsMobile from "../hooks/useIsMobile";
 import TrialPacksMobile from "./TrialPacksMobile";
 import { useCart } from "../context/CartContext";
-import { getTrialPackVariantId } from "../lib/shopifyProductMapping";
+import { getTrialPackVariantId, getFormulaVariantId } from "../lib/shopifyProductMapping";
 
 type FormulaType = "01" | "02";
+type PurchaseType = "one-time" | "subscription";
 
 // Formula images with focal points
 const formulaImages = {
@@ -16,33 +17,35 @@ const formulaImages = {
 };
 type PackSize = "4" | "8" | "12";
 
-const packPricing: Record<PackSize, string> = {
-  "4": "£14.99",
-  "8": "£24.99",
-  "12": "£34.99",
+// Pricing with subscription discount (20% off)
+const packPricing: Record<PackSize, { oneTime: string; subscription: string; perShotOneTime: string; perShotSub: string }> = {
+  "4": { oneTime: "£14.99", subscription: "£11.99", perShotOneTime: "£3.75", perShotSub: "£3.00" },
+  "8": { oneTime: "£24.99", subscription: "£19.99", perShotOneTime: "£3.12", perShotSub: "£2.50" },
+  "12": { oneTime: "£34.99", subscription: "£27.99", perShotOneTime: "£2.92", perShotSub: "£2.33" },
 };
 
+// Verified statistics from BRAND_HIGHLIGHTS.md with PMID sources
 const formulaExplanations = {
   "01": {
     title: "Conka Flow",
     subtitle: "Caffeine-Free Focus",
     description: "Daily adaptogen support with Ashwagandha and Rhodiola builds stress resilience and recovery. Perfect for sustained focus without the crash.",
     keyPoints: [
-      "Improved focus (+22.1%)",
-      "Better sleep quality (+31.4%)",
-      "Reduced brain fog",
-      "Decreased anxiety"
+      { text: "Stress reduction", stat: "-56%", source: "PMID: 23439798" },
+      { text: "Memory improvement", stat: "+18%", source: "PMID: 12888775" },
+      { text: "Cortisol reduction", stat: "-28%", source: "PMID: 23439798" },
+      { text: "Sleep quality", stat: "+42%", source: "PMID: 32021735" },
     ]
   },
   "02": {
     title: "Conka Clarity",
     subtitle: "Peak Performance Boost",
-    description: "Cognitive enhancers like Alpha GPC and Vitamin C build your neurological foundation. Designed for when you need peak performance.",
+    description: "Cognitive enhancers like Alpha GPC and Ginkgo build your neurological foundation. Designed for when you need peak performance.",
     keyPoints: [
-      "Faster reaction time (-47ms)",
-      "Enhanced mental endurance (+38%)",
-      "Better memory recall (+27.9%)",
-      "Improved neural connectivity"
+      { text: "Glutathione levels", stat: "+40%", source: "PMID: 29559699" },
+      { text: "Mental fatigue", stat: "-35%", source: "PMID: 18937015" },
+      { text: "Cognitive function", stat: "+22%", source: "PMID: 12882463" },
+      { text: "Brain protection", stat: "7x", source: "PMID: 23690582" },
     ]
   }
 };
@@ -51,11 +54,28 @@ export default function TrialPacks() {
   const isMobile = useIsMobile();
   const [selectedFormula, setSelectedFormula] = useState<FormulaType>("01");
   const [selectedPack, setSelectedPack] = useState<PackSize>("4");
+  const [purchaseType, setPurchaseType] = useState<PurchaseType>("one-time");
   const [isAdding, setIsAdding] = useState(false);
   const cart = useCart();
 
+  const accentColor = selectedFormula === "01" ? "#f59e0b" : "#AAB9BC";
+
   const handleAddToCart = async () => {
-    const variantId = getTrialPackVariantId(selectedFormula, selectedPack);
+    let variantId: string | null = null;
+    let sellingPlanId: string | undefined = undefined;
+
+    if (purchaseType === "subscription") {
+      // For subscriptions, use the formula variant with selling plan
+      const variantData = getFormulaVariantId(selectedFormula, selectedPack, "subscription");
+      if (variantData) {
+        variantId = variantData.variantId;
+        sellingPlanId = variantData.sellingPlanId;
+      }
+    } else {
+      // For one-time, use trial pack variant
+      variantId = getTrialPackVariantId(selectedFormula, selectedPack);
+    }
+
     if (!variantId) {
       console.error(`No variant ID found for formula ${selectedFormula}, pack ${selectedPack}`);
       return;
@@ -63,8 +83,7 @@ export default function TrialPacks() {
     
     setIsAdding(true);
     try {
-      await cart.addToCart(variantId);
-      // Cart drawer opens automatically after adding
+      await cart.addToCart(variantId, 1, sellingPlanId);
     } catch (error) {
       console.error('Failed to add to cart:', error);
     } finally {
@@ -76,6 +95,10 @@ export default function TrialPacks() {
   if (isMobile) {
     return <TrialPacksMobile />;
   }
+
+  const currentPrice = purchaseType === "subscription" 
+    ? packPricing[selectedPack].subscription 
+    : packPricing[selectedPack].oneTime;
 
   return (
     <section className="px-6 md:px-16 py-24">
@@ -145,51 +168,124 @@ export default function TrialPacks() {
               <div className="grid grid-cols-2 gap-2">
                 {formulaExplanations[selectedFormula].keyPoints.map((point, idx) => (
                   <div key={idx} className="flex items-start gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-500 flex-shrink-0 mt-0.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5" style={{ color: accentColor }}>
                       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                       <polyline points="22 4 12 14.01 9 11.01"/>
                     </svg>
-                    <span className="font-clinical text-sm">{point}</span>
+                    <span className="font-clinical text-sm">
+                      {point.text} <span className="font-bold" style={{ color: accentColor }}>({point.stat})</span>
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Pack Size Selection */}
-            <div className="space-y-4">
+            {/* Purchase Type Toggle */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setPurchaseType("subscription")}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full border-2 transition-all ${
+                  purchaseType === "subscription"
+                    ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                    : "bg-transparent border-black/20 hover:border-black/40"
+                }`}
+              >
+                <span className="font-clinical text-sm font-medium">Subscribe</span>
+                <span 
+                  className="px-2 py-0.5 text-xs font-clinical rounded-full text-white"
+                  style={{ backgroundColor: accentColor }}
+                >
+                  SAVE 20%
+                </span>
+              </button>
+              <button
+                onClick={() => setPurchaseType("one-time")}
+                className={`px-5 py-2.5 rounded-full border-2 transition-all ${
+                  purchaseType === "one-time"
+                    ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                    : "bg-transparent border-black/20 hover:border-black/40"
+                }`}
+              >
+                <span className="font-clinical text-sm font-medium">One-Time</span>
+              </button>
+            </div>
+
+            {/* Pack Size Selection - Styled like formula pages */}
+            <div className="space-y-3">
               <p className="font-clinical text-sm uppercase opacity-70">Select Pack Size</p>
               <div className="grid grid-cols-3 gap-4">
-                {(["4", "8", "12"] as PackSize[]).map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedPack(size)}
-                    className={`p-4 text-center transition-all ${
-                      selectedPack === size
-                        ? "neo-box-inverted"
-                        : "neo-box hover:shadow-[4px_4px_0px_0px_var(--foreground)]"
-                    }`}
-                  >
-                    <div className="flex items-baseline justify-center gap-2">
-                      <p className="text-2xl font-bold font-clinical">{size}-pack</p>
-                      <p className="font-bold text-lg">{packPricing[size]}</p>
-                    </div>
-                  </button>
-                ))}
+                {(["4", "8", "12"] as PackSize[]).map((size) => {
+                  const isSelected = selectedPack === size;
+                  const pricing = packPricing[size];
+                  
+                  return (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedPack(size)}
+                      className="overflow-hidden transition-all border-2"
+                      style={{
+                        borderColor: isSelected ? accentColor : "rgba(0,0,0,0.1)",
+                        boxShadow: isSelected ? `4px 4px 0px 0px ${accentColor}` : "none",
+                      }}
+                    >
+                      {/* Pack Header */}
+                      <div 
+                        className="py-2 px-3 text-center"
+                        style={{
+                          backgroundColor: isSelected ? accentColor : "rgba(0,0,0,0.03)",
+                          color: isSelected ? "white" : "inherit",
+                        }}
+                      >
+                        <p className="font-bold text-sm">{size}-pack</p>
+                      </div>
+                      {/* Price Body */}
+                      <div className="py-3 px-3 text-center bg-white">
+                        <p className="font-bold text-lg">
+                          {purchaseType === "subscription" ? pricing.subscription : pricing.oneTime}
+                        </p>
+                        {purchaseType === "subscription" && (
+                          <p className="font-clinical text-xs line-through opacity-50">{pricing.oneTime}</p>
+                        )}
+                        <p className="font-clinical text-xs opacity-60 mt-1">
+                          {purchaseType === "subscription" ? pricing.perShotSub : pricing.perShotOneTime}/shot
+                        </p>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
             {/* Price Display */}
-            <div className="neo-box p-6">
+            <div 
+              className="p-6 rounded-lg border-2"
+              style={{
+                borderColor: accentColor,
+                backgroundColor: `${accentColor}10`,
+              }}
+            >
               <div className="flex justify-between items-center">
                 <div>
                   <p className="font-clinical text-sm uppercase opacity-70">Your Selection</p>
                   <p className="text-xl font-bold mt-1">
-                    {selectedPack}-pack • Formula {selectedFormula}
+                    {selectedPack}-pack • {formulaExplanations[selectedFormula].title}
                   </p>
+                  {purchaseType === "subscription" && (
+                    <p className="font-clinical text-sm mt-1" style={{ color: accentColor }}>
+                      Ships monthly • Cancel anytime
+                    </p>
+                  )}
                 </div>
                 <div className="text-right">
-                  <p className="font-clinical text-sm opacity-70">Total</p>
-                  <p className="text-3xl font-bold mt-1">{packPricing[selectedPack]}</p>
+                  <p className="font-clinical text-sm opacity-70">
+                    {purchaseType === "subscription" ? "Monthly" : "Total"}
+                  </p>
+                  <p className="text-3xl font-bold mt-1">{currentPrice}</p>
+                  {purchaseType === "subscription" && (
+                    <p className="font-clinical text-xs opacity-60">
+                      was <span className="line-through">{packPricing[selectedPack].oneTime}</span>
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -201,7 +297,7 @@ export default function TrialPacks() {
                 disabled={isAdding || cart.loading}
                 className="w-full neo-button px-8 py-4 font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isAdding ? 'Adding...' : 'Add to Cart'}
+                {isAdding ? 'Adding...' : purchaseType === "subscription" ? "Subscribe Now" : "Add to Cart"}
               </button>
               <a 
                 href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
@@ -216,4 +312,3 @@ export default function TrialPacks() {
     </section>
   );
 }
-

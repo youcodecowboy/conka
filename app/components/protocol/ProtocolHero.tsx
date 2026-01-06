@@ -111,20 +111,22 @@ export default function ProtocolHero({
           {/* Right: Protocol Info Box */}
           <div className="lg:w-1/2 order-2 lg:order-2 relative z-10">
             <div className="neo-box relative z-10">
-              {/* Header with conditional color - Fixed height */}
+              {/* Header with conditional color - Flexible height */}
               <div
-                className={`p-4 md:p-6 flex justify-between items-center h-[100px] ${headerBgClass}`}
+                className={`p-4 md:p-6 flex flex-row justify-between items-center gap-3 min-h-[100px] ${headerBgClass}`}
               >
-                <div className="flex-shrink-0 flex flex-col justify-center">
-                  <h1 className="text-2xl md:text-3xl font-bold leading-tight">{protocol.name}</h1>
-                  <p className="font-commentary text-lg mt-1 leading-tight">{protocol.subtitle}</p>
+                <div className="flex-1 min-w-0 flex flex-col justify-center">
+                  <h1 className="text-xl lg:text-2xl xl:text-3xl font-bold leading-tight truncate">{protocol.name}</h1>
+                  <p className="font-commentary text-sm lg:text-base xl:text-lg mt-1 leading-tight truncate">{protocol.subtitle}</p>
                 </div>
-                {/* Purchase Toggle - Right aligned in header */}
-                <div className="flex-shrink-0 flex items-center">
+                {/* Purchase Toggle - Right aligned, vertically centered */}
+                <div className="flex-shrink-0 flex items-center justify-end">
                   <PurchaseToggle
                     purchaseType={purchaseType}
                     onToggle={onPurchaseTypeChange}
                     highlightColor={oneTimeColor}
+                    allowStack
+                    compact
                   />
                 </div>
               </div>
