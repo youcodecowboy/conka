@@ -2,6 +2,29 @@
 
 ## January 6, 2026
 
+### 12:00 - Major Trial Packs Section Improvements
+
+Overhauled the Trial Packs section on the homepage with subscription support, proper naming, and verified statistics.
+
+#### Changes to `TrialPacks.tsx` (Desktop):
+- **Formula Names Fixed**: Changed "Formula 01/02" to "Conka Flow/Clarity" throughout
+- **Subscription Toggle**: Added Subscribe (SAVE 20%) and One-Time toggle buttons
+- **Dynamic Pricing**: Shows discounted subscription prices (£11.99 vs £14.99 for 4-pack)
+- **Pack Size Styling**: Colored headers with per-shot pricing, matching formula pages
+- **Selection Display**: Shows "4-pack • Conka Flow" instead of "Formula 01"
+- **Subscription Messaging**: "Ships monthly • Cancel anytime" and "Subscribe Now" button
+- **Verified Statistics**: All stats now from SOURCES.md with PMID citations:
+  - Conka Flow: -56% Stress, +18% Memory, -28% Cortisol, +42% Sleep Quality
+  - Conka Clarity: +40% Glutathione, -35% Mental Fatigue, +22% Cognitive Function, 7x Brain Protection
+
+#### Changes to `TrialPacksMobile.tsx` (Mobile):
+- **Same improvements as desktop** with mobile-optimized layout
+- **Footer Toggle**: Subscribe/One-Time toggle in sticky footer
+- **Compact Pricing Cards**: Strikethrough original price for subscription
+- **Verified Statistics**: Same PMID-sourced stats as desktop
+
+---
+
 ### 11:00 - Fixed Protocol Header Subscribe/One-Time Button Overflow
 
 Fixed a major issue where the Subscribe/One-Time toggle buttons in the protocol page header were falling off the screen on medium-sized desktop viewports.
