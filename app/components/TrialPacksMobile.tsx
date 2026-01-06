@@ -9,6 +9,12 @@ type FormulaType = "01" | "02";
 type PackSize = "4" | "8" | "12";
 type PurchaseType = "one-time" | "subscription";
 
+// Formula images with focal points (matching desktop TrialPacks)
+const formulaImages = {
+  "01": { src: "/CONKA_17.jpg", focalX: 50, focalY: 55 }, // Flow 4-pack (black caps)
+  "02": { src: "/CONKA_18.jpg", focalX: 50, focalY: 55 }, // Clarity 4-pack (white caps)
+};
+
 // Pricing with subscription discount (20% off)
 const packPricing: Record<PackSize, { oneTime: string; subscription: string; perShotOneTime: string; perShotSub: string }> = {
   "4": { oneTime: "£14.99", subscription: "£11.99", perShotOneTime: "£3.75", perShotSub: "£3.00" },
@@ -141,13 +147,16 @@ export default function TrialPacksMobile() {
       {/* Product Image */}
       <a 
         href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
-        className="block relative w-full aspect-square max-w-[200px] mx-auto mb-6"
+        className="block relative w-full aspect-[4/3] max-w-[280px] mx-auto mb-6 rounded-xl overflow-hidden"
       >
         <Image
-          src={selectedFormula === "01" ? "/1.png" : "/2.png"}
+          src={formulaImages[selectedFormula].src}
           alt={`${formulaExplanations[selectedFormula].title} bottle`}
           fill
-          className="object-contain scale-150"
+          className="object-cover"
+          style={{
+            objectPosition: `${formulaImages[selectedFormula].focalX}% ${formulaImages[selectedFormula].focalY}%`,
+          }}
         />
       </a>
 
