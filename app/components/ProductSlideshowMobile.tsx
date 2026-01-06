@@ -2,9 +2,24 @@
 
 import Image from "next/image";
 
+interface SlideshowImage {
+  src: string;
+  alt: string;
+  focalX: number;
+  focalY: number;
+  scale?: number;
+}
+
 // Image configuration with focal points for proper centering
 // First slideshow: Hero products with tight framing
-const heroImages = [
+const heroImages: SlideshowImage[] = [
+  {
+    src: "/CONKA_20.jpg",
+    alt: "Conka Clarity with fresh lemons and walnuts",
+    focalX: 50,
+    focalY: 58, // Focus on bottle and ingredients
+    scale: 1.5, // Zoom in to make the bottle larger
+  },
   {
     src: "/CONKA_30.jpg",
     alt: "Conka Flow bottles - 4-pack",
@@ -18,12 +33,6 @@ const heroImages = [
     focalY: 50, // Bottles nicely centered
   },
   {
-    src: "/CONKA_20.jpg",
-    alt: "Conka Clarity with fresh lemons and walnuts",
-    focalX: 50,
-    focalY: 55, // Focus on bottle and ingredients
-  },
-  {
     src: "/CONKA_17.jpg",
     alt: "Conka Flow 4-pack",
     focalX: 50,
@@ -32,7 +41,7 @@ const heroImages = [
 ];
 
 // Second slideshow: Product and packaging variety
-const packagingImages = [
+const packagingImages: SlideshowImage[] = [
   {
     src: "/CONKA_35.jpg",
     alt: "Conka Flow with packaging box",
@@ -83,6 +92,7 @@ export default function ProductSlideshowMobile({ variant = "hero" }: ProductSlid
                 className="object-cover"
                 style={{
                   objectPosition: `${image.focalX}% ${image.focalY}%`,
+                  transform: image.scale ? `scale(${image.scale})` : undefined,
                 }}
                 sizes="288px"
               />

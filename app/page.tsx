@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import ProtocolBuilder from "./components/ProtocolBuilder";
 import TrialPacks from "./components/TrialPacks";
+import WhatIsConka from "./components/WhatIsConka";
 import Ingredients from "./components/Ingredients";
 import ProductSlideshowMobile from "./components/ProductSlideshowMobile";
 
@@ -242,6 +243,9 @@ export default function Home() {
 
       {/* ===== SECTION 2: KEY BENEFITS SLIDESHOW ===== */}
       <KeyBenefits benefits={keyBenefits} />
+
+      {/* ===== SECTION 2.5: WHAT IS CONKA ===== */}
+      <WhatIsConka />
 
       {/* ===== SECTION 3: INGREDIENTS ===== */}
       <Ingredients />

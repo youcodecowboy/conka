@@ -120,7 +120,7 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
 
       {/* Detailed Content Section - Edge to edge */}
       <div className="w-full bg-[var(--background)]">
-        <div className="px-6 md:px-16 py-16">
+        <div className="px-6 md:px-16 pt-16 pb-6">
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8">
               {/* Left: Main Content */}
@@ -208,7 +208,7 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
               {/* Right: Image/Visual */}
               <div className="flex items-center justify-center">
                 {currentBenefit.image ? (
-                  <div className="w-full h-[800px] md:h-[1000px] rounded-lg overflow-hidden">
+                  <div className="w-full h-[500px] md:h-[600px] rounded-lg overflow-hidden">
                     <FocalImage
                       src={currentBenefit.image}
                       alt={currentBenefit.title}

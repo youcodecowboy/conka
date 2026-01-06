@@ -1,8 +1,48 @@
 # Development Changelog
 
+## January 6, 2026
+
+### 10:30 - Added "What is Conka?" Section
+
+Added a new section above the Ingredients section to introduce both Conka formulas and tie the narrative together.
+
+#### New Component (`app/components/WhatIsConka.tsx`):
+- **Header Section**: "What is Conka?" title with subtitle about data-driven, research-backed formulas
+- **Desktop Layout**: Side-by-side formula cards showing Conka Flow and Conka Clarity
+- **Mobile Layout**: Horizontal scroll between formula cards with snap scrolling
+- **Formula Cards Include**:
+  - Formula ID and positioning (ENERGY vs CLARITY)
+  - Name, tagline, and description
+  - **Product Image**: Full-width photo of each formula bottle below the tagline
+  - "When to take" guidance
+  - Key stats with color-coded accent (amber for Flow, teal for Clarity)
+  - Link to formula detail page
+- **Product Images**: 
+  - Conka Flow: `/CONKA_01.jpg` with focal point 55%, 48%
+  - Conka Clarity: `/CONKA_06.jpg` with focal point 52%, 50%
+- **Bottom Tagline**: "32 peer-reviewed studies • 6,000+ clinical trial participants • 16 active ingredients"
+
+#### Mobile Experience:
+- Cards are 85vw wide for optimal readability
+- Snap scrolling for smooth navigation between formulas
+- Interactive formula toggle buttons at top
+- Dot indicators at bottom
+- Active state styling with accent colors
+
+#### Spacing Improvements:
+- Reduced top padding on WhatIsConka desktop section for better flow from KeyBenefits
+- Reduced KeyBenefitsDesktop bottom padding (py-16 → pt-16 pb-6)
+- Reduced KeyBenefitsDesktop image height (800-1000px → 500-600px) to eliminate excessive whitespace
+
+#### Home Page Updates (`app/page.tsx`):
+- Added `WhatIsConka` component import
+- Placed section between Key Benefits and Ingredients sections
+
+---
+
 ## January 5, 2026
 
-### 22:50 - Enhanced Mobile Product Slideshow with Better Images
+### 22:55 - Enhanced Mobile Product Slideshow with Better Images
 
 Improved the mobile product slideshow component with better image selection and differentiated content.
 
@@ -11,12 +51,13 @@ Improved the mobile product slideshow component with better image selection and 
 - **Two distinct image sets**: Hero slideshow shows different images than packaging slideshow
 - **Increased image size**: Changed from 256x160px to 288x192px (w-72 h-48) for better visibility
 - **Added sizes attribute**: For optimized image loading
+- **Added scale property**: Images can now have optional `scale` transform for zoom effect
 
 #### First Slideshow (Hero - after hero section):
-- **CONKA_30.jpg**: Four Flow bottles tightly framed (replaced zoomed-out CONKA_19)
-- **CONKA_16.jpg**: Both formulas together (kept)
-- **CONKA_20.jpg**: Clarity with lemons and walnuts (larger ingredient shot)
-- **CONKA_17.jpg**: Four Flow bottles with black caps (new)
+- **CONKA_20.jpg** (first): Clarity with lemons and walnuts - 1.5x zoom, focal point at 58% Y
+- **CONKA_30.jpg**: Four Flow bottles tightly framed
+- **CONKA_16.jpg**: Both formulas together
+- **CONKA_17.jpg**: Four Flow bottles with black caps
 
 #### Second Slideshow (Packaging - after trial packs):
 - **CONKA_35.jpg**: Box with single Flow bottle
