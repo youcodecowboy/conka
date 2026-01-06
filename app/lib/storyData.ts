@@ -14,6 +14,7 @@ export interface StorySection {
   body: string;
   quote?: StoryQuote;
   imagePlaceholder: string;
+  image?: string;
 }
 
 // The 10 story sections
@@ -25,6 +26,7 @@ export const storySections: StorySection[] = [
     subtitle: "two athletes, one shared obsession",
     body: "Humphrey Bodington and Harry Glover met at university as teammates. United by a relentless drive for performance, they pushed each other on and off the field. What started as camaraderie between athletes would soon evolve into a mission that neither could have predicted.",
     imagePlaceholder: "[FOUNDERS AT UNIVERSITY]",
+    image: "/story/Conka_Images_2.webp",
   },
   {
     id: 2,
@@ -38,6 +40,7 @@ export const storySections: StorySection[] = [
       role: "Co-Founder",
     },
     imagePlaceholder: "[CONCUSSION RECOVERY JOURNEY]",
+    image: "/story/GettyImages-1330621508.webp",
   },
   {
     id: 3,
@@ -46,6 +49,7 @@ export const storySections: StorySection[] = [
     subtitle: "the science that changed everything",
     body: "Working with neuroscientists at Durham University, Prof. Paul Chazot and Prof. Karen Hind, Humphrey discovered how brain-enhancing nutrition could improve not just cognition after contact sport, but physical recovery, workplace motivation, and the ambition to take on bigger goals. The research revealed something remarkable: the complete CONKA formula extended lifespan equivalent to 15 human years in validated models, reduced oxidative stress, and reversed concussion-induced deficits.",
     imagePlaceholder: "[DURHAM UNIVERSITY RESEARCH LAB]",
+    image: "/story/Screenshot_2025-11-10_143714.webp",
   },
   {
     id: 4,
@@ -54,6 +58,7 @@ export const storySections: StorySection[] = [
     subtitle: "the Olympic revelation",
     body: "At the same time, Harry's journey with Team GB at the 2021 Olympics revealed something critical: cognitive performance was completely untapped, even among the world's elite athletes. Physical training had reached its peak. The next frontier was the mind.",
     imagePlaceholder: "[HARRY AT OLYMPICS]",
+    image: "/story/o0cs6ij6wfkafteqloee.jpg",
   },
   {
     id: 5,
@@ -62,6 +67,7 @@ export const storySections: StorySection[] = [
     subtitle: "no shortcuts, only science",
     body: "We invested over £500,000 into understanding how botanical ingredients could enhance brain performance. Working alongside Durham's neuroscience department, we tested, refined, and tested again. The goal was simple: create something that actually works, backed by real data, not marketing claims. Every ingredient was chosen for its synergistic effect. When any single component was removed, the benefits significantly decreased.",
     imagePlaceholder: "[RESEARCH & DEVELOPMENT]",
+    image: "/story/Screenshot_2025-11-10_171922.webp",
   },
   {
     id: 6,
@@ -70,6 +76,7 @@ export const storySections: StorySection[] = [
     subtitle: "if you can't measure it, you can't improve it",
     body: "Tackling brain performance meant measuring it accurately. CONKA's cognitive testing technology was developed in partnership with Cambridge University. The Integrated Cognitive Assessment (ICA) is a 5-minute, language-independent digital test that measures brain processing speed with high precision. It's unlearnable, objective, and sensitive enough to detect changes that traditional tests miss.",
     imagePlaceholder: "[COGNITIVE TESTING APP]",
+    image: "/story/Tech_Update_1.webp",
   },
   {
     id: 7,
@@ -78,6 +85,7 @@ export const storySections: StorySection[] = [
     subtitle: "alcohol-free, performance-first",
     body: "Typical herbal tinctures use alcohol as a solvent. For professional athletes, that's a compromise we weren't willing to make. Dr. Shankar Katekhaye Ph.D invented an entirely new method of extracting active ingredients from herbs without using alcohol. A liquid formula that delivers faster absorption without any performance-compromising ingredients.",
     imagePlaceholder: "[DR. KATEKHAYE IN LAB]",
+    image: "/story/lab-extraction.jpg",
   },
   {
     id: 8,
@@ -86,6 +94,7 @@ export const storySections: StorySection[] = [
     subtitle: "the first real-world test",
     body: "Less than 16% of supplements are ever tested in clinical trials. CONKA has now completed over 25 trials with high-performing organisations. The first trial showed a 16% increase in brain performance compared to the placebo group. We had proof that this worked. Not in a lab, but on the field.",
     imagePlaceholder: "[CLINICAL TRIAL RESULTS]",
+    image: "/story/clinical-trial.jpg",
   },
   {
     id: 9,
@@ -94,6 +103,7 @@ export const storySections: StorySection[] = [
     subtitle: "precision-tuned for recovery",
     body: "Armed with data from professional sports teams, a pattern emerged. There were two days each week where cognitive performance dipped, always around periods of high intensity training. The technology revealed what athletes couldn't feel themselves. So we developed a second formula specifically designed to complement the first: Conka Flow for daily cognitive enhancement, Conka Clarity for recovery periods.",
     imagePlaceholder: "[TWO FORMULA SYSTEM]",
+    image: "/story/Conka_Images_3_11c686b7-33cd-48e9-8d22-c44ed5406dd2.webp",
   },
   {
     id: 10,
@@ -102,6 +112,7 @@ export const storySections: StorySection[] = [
     subtitle: "from two athletes to thousands",
     body: "What began as a personal mission has grown into something bigger. Tested by Bristol Rugby, McGuigan Boxing Gym, Blackburn Rovers, Sale Sharks, Team GB 7s, Toulouse Rugby, Wigan Athletic, Southampton Saints, Birmingham FC, Bath Rugby, Leeds United, and countless individual athletes seeking an edge. The results speak for themselves: +22% cognitive speed in men, +33% in women. +16% overall cognitive efficiency. This is just the beginning.",
     imagePlaceholder: "[TEAM LOGOS & ATHLETES]",
+    image: "/story/19347-jmp-harlequins-v-bath-jg-158.webp",
   },
 ];
 

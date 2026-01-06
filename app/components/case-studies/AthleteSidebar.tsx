@@ -84,11 +84,19 @@ export default function AthleteSidebar({
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  {/* Photo placeholder */}
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  {/* Photo or sport icon */}
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
                     isActive ? "bg-[var(--background)]/20" : "bg-current/10"
                   }`}>
-                    <SportIcon sport={athlete.sport} size={18} className={isActive ? "opacity-80" : "opacity-50"} />
+                    {athlete.photo ? (
+                      <img 
+                        src={athlete.photo} 
+                        alt={athlete.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <SportIcon sport={athlete.sport} size={18} className={isActive ? "opacity-80" : "opacity-50"} />
+                    )}
                   </div>
                   
                   <div className="flex-1 min-w-0">

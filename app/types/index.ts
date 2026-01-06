@@ -16,3 +16,4 @@ export type {
 // Cart and customer types are exported from shopify.ts
 // Import them from @/app/lib/shopify when needed
 
+

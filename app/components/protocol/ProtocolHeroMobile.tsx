@@ -327,7 +327,7 @@ export default function ProtocolHeroMobile({
         {/* Product Image */}
         <div className="relative w-full aspect-square bg-gradient-to-b from-transparent to-current/5 overflow-hidden">
           <Image
-            src="/main.jpg"
+            src={protocol.image}
             alt={`${protocol.name} - Both formulas`}
             fill
             className="object-contain scale-125"

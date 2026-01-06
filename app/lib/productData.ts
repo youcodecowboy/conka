@@ -828,6 +828,7 @@ export interface ProtocolContent {
   subtitle: string;
   description: string;
   icon: string; // Icon identifier
+  image: string; // Product image path
   bestFor: string[];
   benefits: string[];
   availableTiers: ProtocolTier[];
@@ -841,6 +842,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     subtitle: "For those that want more focus",
     description: "Daily adaptogen support with Conka Flow's Ashwagandha and Rhodiola builds stress resilience and recovery. Weekly Conka Clarity boosts provide peak cognitive performance when you need it most.",
     icon: "shield",
+    image: "/CONKA_15.jpg",
     bestFor: ["Recovery Focus", "Stress Management", "Daily Wellness"],
     benefits: [
       "Better stress response (-28% cortisol, PMID: 23439798)",
@@ -879,6 +881,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     subtitle: "For those that feel foggy",
     description: "Front-load with cognitive enhancers for sustained mental endurance. Conka Clarity's Alpha GPC and Vitamin C build your neurological foundation, while weekly Conka Flow adaptogens prevent burnout.",
     icon: "bolt",
+    image: "/CONKA_18.jpg",
     bestFor: ["Peak Performance", "Mental Endurance", "Cognitive Enhancement"],
     benefits: [
       "Enhanced memory & attention (+63%, PMID: 29246725)",
@@ -917,6 +920,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     subtitle: "Alternate daily between Flow and Clarity",
     description: "The best of both worlds. Alternate between Conka Flow and Conka Clarity for comprehensive cognitive support. Perfect for those who want the full spectrum of benefits without committing to one dominant formula.",
     icon: "balance",
+    image: "/CONKA_16.jpg",
     bestFor: ["Balanced Approach", "All-Rounders", "Hybrid Athletes"],
     benefits: [
       "Stress resilience (-56% stress scores, PMID: 23439798)",
@@ -955,6 +959,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     subtitle: "Take Flow and Clarity both daily",
     description: "Maximum cognitive enhancement with both Conka Flow and Conka Clarity every single day. This is the most comprehensive protocol for those who demand peak performance in every aspect of their cognitive function.",
     icon: "crown",
+    image: "/CONKA_17.jpg",
     bestFor: ["Elite Performance", "Maximum Results", "No Compromise"],
     benefits: [
       "Daily adaptogen + nootropic stack",

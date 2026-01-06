@@ -73,6 +73,7 @@ export const athletes: AthleteData[] = [
   {
     id: "jade-shekells",
     name: "Jade Shekells",
+    photo: "/JADE SHEKELLS.jpeg",
     sport: "rugby7s",
     profession: "GB7 Womens Rugby 7s",
     organization: "GB7 Womens - Rugby 7s",
@@ -99,6 +100,7 @@ export const athletes: AthleteData[] = [
   {
     id: "finn-russell",
     name: "Finn Russell",
+    photo: "/FINN RUSSELL.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Bath Rugby",
@@ -125,6 +127,7 @@ export const athletes: AthleteData[] = [
   {
     id: "patrick-bamford",
     name: "Patrick Bamford",
+    photo: "/PATRICK BAMFORD.jpg",
     sport: "football",
     profession: "Professional Footballer",
     organization: "Leeds United",
@@ -151,6 +154,7 @@ export const athletes: AthleteData[] = [
   {
     id: "pierre-louis-barassi",
     name: "Pierre-Louis Barassi",
+    photo: "/PIERRE-LOUIS.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Stade Toulousain",
@@ -177,6 +181,7 @@ export const athletes: AthleteData[] = [
   {
     id: "jack-willis",
     name: "Jack Willis",
+    photo: "/Jack Willis.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Stade Toulousain",
@@ -203,6 +208,7 @@ export const athletes: AthleteData[] = [
   {
     id: "nimisha-kurup",
     name: "Nimisha Kurup",
+    photo: "/Nimisha Kurup.jpg",
     sport: "business",
     profession: "Managing Director, CFO Data Management",
     organization: "Bank of America",
@@ -230,6 +236,7 @@ export const athletes: AthleteData[] = [
   {
     id: "callum-sheedy",
     name: "Callum Sheedy",
+    photo: "/Callum Sheedy.jpeg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Bristol Bears",
@@ -256,6 +263,7 @@ export const athletes: AthleteData[] = [
   {
     id: "will-stuart",
     name: "Will Stuart",
+    photo: "/WILL STUART.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Bath Rugby",
@@ -282,6 +290,7 @@ export const athletes: AthleteData[] = [
   {
     id: "daniel-james",
     name: "Daniel James",
+    photo: "/Daniel James.jpg",
     sport: "football",
     profession: "Professional Footballer",
     organization: "Leeds United",
@@ -308,6 +317,7 @@ export const athletes: AthleteData[] = [
   {
     id: "josh-stanton",
     name: "Josh Stanton",
+    photo: "/Josh Stanton.jpg",
     sport: "motorsport",
     profession: "Racing Driver",
     organization: "Porsche Motorsport",
@@ -333,6 +343,7 @@ export const athletes: AthleteData[] = [
   {
     id: "shane-corstorphine",
     name: "Shane Corstorphine",
+    photo: "/Shane Corstorphine.jpg",
     sport: "business",
     profession: "Chief Revenue Officer",
     organization: "SkyScanner",
@@ -358,6 +369,7 @@ export const athletes: AthleteData[] = [
   {
     id: "aaron-hope",
     name: "Aaron Hope",
+    photo: "/Aron Hope.jpg",
     sport: "business",
     profession: "Lead Machine Learning Engineer",
     organization: "Draft Kings",
@@ -383,6 +395,7 @@ export const athletes: AthleteData[] = [
   {
     id: "matt-davidson",
     name: "Matt Davidson",
+    photo: "/Matt Davidson.jpg",
     sport: "rugby7s",
     profession: "GB7 Rugby 7s",
     organization: "GB7s - Rugby 7s",
@@ -408,6 +421,7 @@ export const athletes: AthleteData[] = [
   {
     id: "juan-cruz-mallia",
     name: "Juan Cruz Mallía",
+    photo: "/JUAN CRUZ MALLIA.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Stade Toulousain",
@@ -434,6 +448,7 @@ export const athletes: AthleteData[] = [
   {
     id: "francois-cros",
     name: "François Cros",
+    photo: "/François Cros.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Stade Toulousain",
@@ -485,6 +500,7 @@ export const athletes: AthleteData[] = [
   {
     id: "will-homer",
     name: "Will Homer",
+    photo: "/Will Homer.jpg",
     sport: "rugby7s",
     profession: "GB7 Rugby 7s",
     organization: "GB7s - Rugby 7s",
@@ -510,6 +526,7 @@ export const athletes: AthleteData[] = [
   {
     id: "max-lahiff",
     name: "Max Lahiff",
+    photo: "/Max Lahiff.jpeg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Bristol Bears",
@@ -536,6 +553,7 @@ export const athletes: AthleteData[] = [
   {
     id: "ollie-lawrence",
     name: "Ollie Lawrence",
+    photo: "/OLLIE LAWRENCE.jpeg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Bath Rugby",
@@ -562,6 +580,7 @@ export const athletes: AthleteData[] = [
   {
     id: "telusa-veainu",
     name: "Telusa Veainu",
+    photo: "/Telusa Veainu.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Sale Sharks",
@@ -588,6 +607,7 @@ export const athletes: AthleteData[] = [
   {
     id: "alex-dombrandt",
     name: "Alex Dombrandt",
+    photo: "/Alex Dombrandt.jpeg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Harlequins",
@@ -614,6 +634,7 @@ export const athletes: AthleteData[] = [
   {
     id: "pita-ahki",
     name: "Pita Ahki",
+    photo: "/PITA AHKI.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Stade Toulousain",
@@ -640,6 +661,7 @@ export const athletes: AthleteData[] = [
   {
     id: "michael-olise",
     name: "Michael Olise",
+    photo: "/MichaelOlise.jpg",
     sport: "football",
     profession: "Professional Footballer",
     organization: "Bayern Munich",
@@ -666,6 +688,7 @@ export const athletes: AthleteData[] = [
   {
     id: "ao-tanaka",
     name: "Ao Tanaka",
+    photo: "/AO TANAKA.jpg",
     sport: "football",
     profession: "Professional Footballer",
     organization: "Leeds United",
@@ -692,6 +715,7 @@ export const athletes: AthleteData[] = [
   {
     id: "fin-baxter",
     name: "Fin Baxter",
+    photo: "/Fin Baxter.jpeg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Harlequins",
@@ -718,6 +742,7 @@ export const athletes: AthleteData[] = [
   {
     id: "george-pratt",
     name: "George Pratt",
+    photo: "/GEORGE PRATT.webp",
     sport: "football",
     profession: "Youth Footballer",
     organization: "Blackburn Rovers U21",
@@ -744,6 +769,7 @@ export const athletes: AthleteData[] = [
   {
     id: "louis-lynagh",
     name: "Louis Lynagh",
+    photo: "/Louis Lynagh.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Harlequins",
@@ -770,6 +796,7 @@ export const athletes: AthleteData[] = [
   {
     id: "blair-kinghorn",
     name: "Blair Kinghorn",
+    photo: "/BLAIR KINGHORN.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Stade Toulousain",
@@ -796,6 +823,7 @@ export const athletes: AthleteData[] = [
   {
     id: "emma-uren",
     name: "Emma Uren",
+    photo: "/EMMA UREN.jpeg",
     sport: "rugby7s",
     profession: "GB7 Womens Rugby 7s",
     organization: "GB7 Womens - Rugby 7s",
@@ -821,6 +849,7 @@ export const athletes: AthleteData[] = [
   {
     id: "luke-northmore",
     name: "Luke Northmore",
+    photo: "/Luke Northmore.jpeg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Harlequins",
@@ -872,6 +901,7 @@ export const athletes: AthleteData[] = [
   {
     id: "lennox-anyanwu",
     name: "Lennox Anyanwu",
+    photo: "/Lennox Anyanwu.jpg",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Harlequins",
@@ -898,6 +928,7 @@ export const athletes: AthleteData[] = [
   {
     id: "charlotte-simpson",
     name: "Charlotte Simpson",
+    photo: "/Charlotte SIMPSON.jpg",
     sport: "business",
     profession: "PhD Researcher",
     organization: "University of Cambridge",
@@ -923,6 +954,7 @@ export const athletes: AthleteData[] = [
   {
     id: "will-muir",
     name: "Will Muir",
+    photo: "/Will Muir.webp",
     sport: "rugby",
     profession: "Professional Rugby Player",
     organization: "Bath Rugby",
@@ -949,6 +981,7 @@ export const athletes: AthleteData[] = [
   {
     id: "alex-lowe",
     name: "Alex Lowe",
+    photo: "/Alex Lowe.jpg",
     sport: "business",
     profession: "Commercial Operations Programme Manager",
     organization: "Softcat",

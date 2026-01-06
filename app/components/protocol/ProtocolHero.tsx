@@ -88,21 +88,21 @@ export default function ProtocolHero({
       <div className="max-w-6xl mx-auto lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%]">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left: Product Image */}
-          <div className="lg:w-[55%] order-1 lg:order-1 relative z-0">
-            <div className="sticky top-24">
+          <div className="lg:w-[60%] order-1 lg:order-1 relative z-0">
+            <div className="sticky top-24 pt-12 lg:pt-16">
               {/* Protocol images - larger size, shifted left like formula pages */}
-              <div className="relative w-full aspect-square max-w-2xl lg:-ml-12 xl:-ml-16">
+              <div className="relative w-full aspect-[4/3] max-w-3xl lg:-ml-20 xl:-ml-28">
                 <Image
-                  src="/main.jpg"
+                  src={protocol.image}
                   alt={`${protocol.name} - Both formulas`}
                   fill
-                  className="object-contain"
-                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-contain scale-125"
+                  sizes="(max-width: 1024px) 100vw, 60vw"
                   priority
                 />
               </div>
               {/* Annotation */}
-              <p className="font-commentary text-lg text-center lg:text-left lg:-ml-12 xl:-ml-16 mt-4 opacity-70">
+              <p className="font-commentary text-lg text-center lg:text-left lg:-ml-20 xl:-ml-28 mt-2 opacity-70">
                 the complete cognitive stack
               </p>
             </div>

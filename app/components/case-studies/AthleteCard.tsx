@@ -40,12 +40,22 @@ export default function AthleteCard({ athlete, compact = false }: AthleteCardPro
     // Compact view for featured section or list items
     return (
       <div className="neo-box overflow-hidden hover:opacity-90 transition-opacity cursor-pointer">
-        {/* Photo placeholder */}
-        <div className="h-32 w-full border-0 border-b-2 border-current/10 bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="opacity-30">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
+        {/* Photo */}
+        <div className="h-48 w-full border-0 border-b-2 border-current/10 bg-gradient-to-br from-neutral-100 to-neutral-200 overflow-hidden">
+          {athlete.photo ? (
+            <img 
+              src={athlete.photo} 
+              alt={athlete.name}
+              className="w-full h-full object-cover object-center"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="opacity-30">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+          )}
         </div>
         
         {/* Content */}
@@ -74,15 +84,25 @@ export default function AthleteCard({ athlete, compact = false }: AthleteCardPro
     <div className="space-y-6">
       {/* Header Card */}
       <div className="neo-box overflow-hidden">
-        {/* Large Photo Placeholder */}
-        <div className="h-48 lg:h-64 bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center border-b-2 border-current/10">
-          <div className="text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <p className="font-clinical text-xs opacity-40 uppercase tracking-wider">Athlete Photo</p>
-          </div>
+        {/* Large Photo */}
+        <div className="h-80 lg:h-[400px] bg-gradient-to-br from-neutral-100 to-neutral-200 border-b-2 border-current/10 overflow-hidden">
+          {athlete.photo ? (
+            <img 
+              src={athlete.photo} 
+              alt={athlete.name}
+              className="w-full h-full object-cover object-center"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <p className="font-clinical text-xs opacity-40 uppercase tracking-wider">Athlete Photo</p>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="p-6">

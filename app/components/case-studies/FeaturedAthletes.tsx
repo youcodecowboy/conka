@@ -31,14 +31,22 @@ export default function FeaturedAthletes({ athletes, onSelectAthlete }: Featured
                 onClick={() => onSelectAthlete(athlete.id)}
                 className="neo-box overflow-hidden text-left hover:opacity-90 transition-all group flex-shrink-0 w-64 lg:w-72"
               >
-                {/* Photo placeholder */}
-                <div className="relative h-32 lg:h-40 bg-gradient-to-br from-neutral-100 to-neutral-200 border-0 border-b-2 border-current/10 flex items-center justify-center">
-                  <div className="text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto opacity-30">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                      <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                  </div>
+                {/* Photo */}
+                <div className="relative h-48 lg:h-56 bg-gradient-to-br from-neutral-100 to-neutral-200 border-0 border-b-2 border-current/10 overflow-hidden">
+                  {athlete.photo ? (
+                    <img 
+                      src={athlete.photo} 
+                      alt={athlete.name}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto opacity-30">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                      </svg>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}

@@ -327,9 +327,9 @@ export default function ProtocolBuilder() {
           <div className="space-y-12">
             {/* Formula Images Side by Side */}
             <div className="flex justify-center">
-              <div className="relative w-full max-w-md h-64 md:h-80">
+              <div className="relative w-full max-w-3xl h-64 md:h-80">
                 <Image
-                  src="/3.png"
+                  src="/CONKA_34.jpg"
                   alt="Conka Conka Flow and Conka Clarity"
                   fill
                   className="object-contain"

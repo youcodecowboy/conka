@@ -4,6 +4,25 @@ import { useCart } from '@/app/context/CartContext';
 import { CartLine } from '@/app/lib/shopify';
 import Image from 'next/image';
 
+// Fallback product images when Shopify doesn't provide one
+const PRODUCT_FALLBACK_IMAGES: Record<string, string> = {
+  'conka flow': '/CONKA_01x.jpg',
+  'conka clarity': '/CONKA_02x.jpg',
+  'flow': '/CONKA_01x.jpg',
+  'clarity': '/CONKA_02x.jpg',
+};
+
+// Get fallback image based on product title
+function getProductFallbackImage(productTitle: string): string {
+  const lowerTitle = productTitle.toLowerCase();
+  for (const [key, image] of Object.entries(PRODUCT_FALLBACK_IMAGES)) {
+    if (lowerTitle.includes(key)) {
+      return image;
+    }
+  }
+  return '/bottle2.png'; // Default fallback
+}
+
 export default function CartDrawer() {
   const {
     cart,
@@ -158,21 +177,13 @@ export default function CartDrawer() {
                 >
                   {/* Product Image */}
                   <div className="w-20 h-20 flex-shrink-0 bg-current/5 rounded overflow-hidden">
-                    {item.merchandise.product.featuredImage?.url ? (
-                      <Image
-                        src={item.merchandise.product.featuredImage.url}
-                        alt={item.merchandise.product.featuredImage.altText || item.merchandise.product.title}
-                        width={80}
-                        height={80}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="font-clinical text-[10px] opacity-50">
-                          [IMAGE]
-                        </span>
-                      </div>
-                    )}
+                    <Image
+                      src={item.merchandise.product.featuredImage?.url || getProductFallbackImage(item.merchandise.product.title)}
+                      alt={item.merchandise.product.featuredImage?.altText || item.merchandise.product.title}
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
                   {/* Product Info */}

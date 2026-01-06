@@ -67,6 +67,11 @@ export default function ProductHeroMobile({
   
   // Slideshow images for Conka Clarity (formula 02 - WHITE cap) with focal points
   const claritySlideshowImages = [
+    { src: "/CONKA_63.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
+    { src: "/CONKA_64.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
+    { src: "/CONKA_65.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
+    { src: "/CONKA_66.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
+    { src: "/CONKA_67.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
     { src: "/CONKA_06.jpg", focalX: 52, focalY: 50 }, // Clarity vertical, white cap
     { src: "/CONKA_10.jpg", focalX: 45, focalY: 55 }, // Clarity horizontal
     { src: "/CONKA_20.jpg", focalX: 50, focalY: 55 }, // Clarity with lemons

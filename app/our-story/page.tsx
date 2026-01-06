@@ -19,7 +19,13 @@ export default function OurStoryPage() {
       <div className="h-16 lg:h-20" />
 
       {/* Main Content - Responsive */}
-      {isMobile ? <OurStoryMobile /> : <OurStoryDesktop />}
+      {isMobile === undefined ? (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-pulse text-center">
+            <p className="font-clinical text-sm opacity-50">Loading...</p>
+          </div>
+        </div>
+      ) : isMobile ? <OurStoryMobile /> : <OurStoryDesktop />}
     </div>
   );
 }

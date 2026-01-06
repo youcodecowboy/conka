@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { StorySection as StorySectionType } from "@/app/lib/storyData";
 
 interface StorySectionProps {
@@ -71,15 +72,27 @@ export function StorySection({
             section.id % 2 === 0 ? "md:order-1" : "md:order-2"
           }`}
         >
-          <div
-            className={`w-full h-64 md:h-[400px] lg:h-[500px] border-2 border-dashed flex items-center justify-center ${
-              isLight ? "border-black/30" : "border-white/30"
-            }`}
-          >
-            <span className={`font-clinical text-sm text-center px-4 ${isLight ? "opacity-40" : "opacity-50"}`}>
-              {section.imagePlaceholder}
-            </span>
-          </div>
+          {section.image ? (
+            <div className="relative w-full h-64 md:h-[400px] lg:h-[500px] overflow-hidden">
+              <Image
+                src={section.image}
+                alt={section.headline}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover object-center"
+              />
+            </div>
+          ) : (
+            <div
+              className={`w-full h-64 md:h-[400px] lg:h-[500px] border-2 border-dashed flex items-center justify-center ${
+                isLight ? "border-black/30" : "border-white/30"
+              }`}
+            >
+              <span className={`font-clinical text-sm text-center px-4 ${isLight ? "opacity-40" : "opacity-50"}`}>
+                {section.imagePlaceholder}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </section>

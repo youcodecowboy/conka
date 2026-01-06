@@ -31,13 +31,13 @@ export function OurStoryDesktop() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/conka-flow"
-              className="neo-button px-8 py-4 font-semibold text-lg"
+              className="px-8 py-4 font-semibold text-lg bg-white text-black rounded-full border-2 border-white hover:bg-transparent hover:text-white transition-all"
             >
               Explore Conka Flow
             </a>
             <a
               href="/conka-clarity"
-              className="neo-button-outline px-8 py-4 font-semibold text-lg border-white text-white hover:bg-white hover:text-black"
+              className="px-8 py-4 font-semibold text-lg bg-transparent text-white rounded-full border-2 border-white hover:bg-white hover:text-black transition-all"
             >
               Explore Conka Clarity
             </a>

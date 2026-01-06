@@ -2383,3 +2383,24 @@ Major new feature: Complete product and protocol page system with shared compone
 - Placeholder boxes for images: `.placeholder-box`
 - All placeholder content marked with `[PLACEHOLDER]` text
 
+---
+
+## January 6, 2026
+
+### 22:05 - Our Story Page Image Integration
+- Added 8 images to `/public/story/` folder for the Our Story page
+- Converted AVIF image to JPEG for compatibility
+- Updated `StorySection` interface in `storyData.ts` to support optional `image` property
+- Added image paths to story sections data:
+  - Section 1 (Founders): `Conka_Images_2.webp`
+  - Section 2 (The Spark): `GettyImages-1330621508.webp`
+  - Section 3 (Breakthrough Discovery): `Screenshot_2025-11-10_143714.webp`
+  - Section 4 (Parallel Paths): `o0cs6ij6wfkafteqloee.jpg`
+  - Section 5 (Research): `Screenshot_2025-11-10_171922.webp`
+  - Section 6 (Technology): `Tech_Update_1.webp`
+  - Section 9 (Second Formula): `Conka_Images_3...webp`
+  - Section 10 (Journey Continues): `19347-jmp-harlequins-v-bath-jg-158.webp`
+- Updated `StorySection.tsx` component (desktop) to render images with fallback to placeholders
+- Updated `OurStoryMobile.tsx` component to render images with fallback to placeholders
+- Sections 7 & 8 remain as placeholders (no images provided yet)
+

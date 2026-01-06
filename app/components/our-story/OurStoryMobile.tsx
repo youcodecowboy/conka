@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { storySections } from "@/app/lib/storyData";
 
 export function OurStoryMobile() {
@@ -152,14 +153,26 @@ export function OurStoryMobile() {
               </p>
             )}
 
-            {/* Image Placeholder */}
-            <div className={`w-full h-48 mb-6 border-2 border-dashed flex items-center justify-center ${
-              isLight ? "border-black/20" : "border-white/20"
-            }`}>
-              <span className="font-clinical text-xs text-center px-4 opacity-40">
-                {section.imagePlaceholder}
-              </span>
-            </div>
+            {/* Image */}
+            {section.image ? (
+              <div className="relative w-full h-48 mb-6 overflow-hidden">
+                <Image
+                  src={section.image}
+                  alt={section.headline}
+                  fill
+                  sizes="100vw"
+                  className="object-cover object-center"
+                />
+              </div>
+            ) : (
+              <div className={`w-full h-48 mb-6 border-2 border-dashed flex items-center justify-center ${
+                isLight ? "border-black/20" : "border-white/20"
+              }`}>
+                <span className="font-clinical text-xs text-center px-4 opacity-40">
+                  {section.imagePlaceholder}
+                </span>
+              </div>
+            )}
 
             {/* Body Text */}
             <p className="text-sm leading-relaxed opacity-80">
@@ -193,13 +206,13 @@ export function OurStoryMobile() {
           <div className="flex flex-col gap-3">
             <a
               href="/conka-flow"
-              className="neo-button px-6 py-3 font-semibold text-base text-center"
+              className="px-6 py-3 font-semibold text-base text-center bg-white text-black rounded-full border-2 border-white hover:bg-transparent hover:text-white transition-all"
             >
               Explore Conka Flow
             </a>
             <a
               href="/conka-clarity"
-              className="px-6 py-3 font-semibold text-base text-center border-2 border-white text-white rounded-full hover:bg-white hover:text-black transition-all"
+              className="px-6 py-3 font-semibold text-base text-center bg-transparent text-white rounded-full border-2 border-white hover:bg-white hover:text-black transition-all"
             >
               Explore Conka Clarity
             </a>

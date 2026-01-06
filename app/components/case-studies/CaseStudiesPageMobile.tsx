@@ -133,8 +133,18 @@ export default function CaseStudiesPageMobile() {
                     onClick={() => handleSelectFeatured(athlete.id)}
                     className="neo-box flex-shrink-0 w-36 overflow-hidden text-left"
                   >
-                    <div className="placeholder-box h-20 w-full border-0 border-b-2 border-current">
-                      <span className="font-clinical text-[10px]">[PHOTO]</span>
+                    <div className="h-32 w-full border-0 border-b-2 border-current overflow-hidden bg-neutral-100">
+                      {athlete.photo ? (
+                        <img 
+                          src={athlete.photo} 
+                          alt={athlete.name}
+                          className="w-full h-full object-cover object-center"
+                        />
+                      ) : (
+                        <div className="placeholder-box h-full w-full border-0">
+                          <span className="font-clinical text-[10px]">[PHOTO]</span>
+                        </div>
+                      )}
                     </div>
                     <div className="p-3">
                       <div className="flex items-center gap-1 mb-1">
@@ -245,8 +255,18 @@ export default function CaseStudiesPageMobile() {
           </div>
 
           {/* Photo */}
-          <div className="placeholder-box h-48 w-full border-2 border-current border-t-0">
-            <span className="font-clinical text-sm">[ATHLETE PHOTO]</span>
+          <div className="h-72 w-full border-2 border-current border-t-0 overflow-hidden bg-neutral-100">
+            {activeAthlete.photo ? (
+              <img 
+                src={activeAthlete.photo} 
+                alt={activeAthlete.name}
+                className="w-full h-full object-cover object-center"
+              />
+            ) : (
+              <div className="placeholder-box h-full w-full border-0 flex items-center justify-center">
+                <span className="font-clinical text-sm">[ATHLETE PHOTO]</span>
+              </div>
+            )}
           </div>
 
           {/* Content Card */}

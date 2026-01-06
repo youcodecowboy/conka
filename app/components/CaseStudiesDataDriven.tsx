@@ -104,19 +104,27 @@ function AthleteMetricCard({ athlete, isActive, onClick }: {
   );
 }
 
-// Expanded detail view with image placeholder
+// Expanded detail view with image
 function AthleteDetailPanel({ athlete }: { athlete: AthleteData }) {
   return (
     <div className="neo-box overflow-hidden h-full flex flex-col">
-      {/* Image Placeholder */}
-      <div className="relative h-48 lg:h-56 bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center border-b-2 border-current/10">
-        <div className="text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-          <p className="font-clinical text-xs opacity-40 uppercase tracking-wider">Athlete Photo</p>
-        </div>
+      {/* Athlete Photo */}
+      <div className="relative h-72 lg:h-96 bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center border-b-2 border-current/10 overflow-hidden">
+        {athlete.photo ? (
+          <img 
+            src={athlete.photo} 
+            alt={athlete.name}
+            className="w-full h-full object-cover object-center"
+          />
+        ) : (
+          <div className="text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <p className="font-clinical text-xs opacity-40 uppercase tracking-wider">Athlete Photo</p>
+          </div>
+        )}
       </div>
 
       {/* Content */}
