@@ -31,7 +31,7 @@ export const storySections: StorySection[] = [
     theme: "dark",
     headline: "The Spark",
     subtitle: "when everything changed",
-    body: "After years in competitive contact sports, we'd mastered physical rehabilitation. But there was one thing missing from the conversation—recovery for the brain. Harry played over a decade of professional rugby for his country. Humphrey's career, however, was cut short. A concussion injury led to what neurologists called permanent post-concussion syndrome. Eight months of cognitive fog, fatigue, and uncertainty followed.",
+    body: "After years in competitive contact sports, we'd mastered physical rehabilitation. But there was one thing missing from the conversation: recovery for the brain. Harry played over a decade of professional rugby for his country. Humphrey's career, however, was cut short. A concussion injury led to what neurologists called permanent post-concussion syndrome. Eight months of cognitive fog, fatigue, and uncertainty followed.",
     quote: {
       text: "Lingering concussion symptoms pushed us to explore what the brain is truly capable of.",
       author: "Humphrey Bodington",
@@ -44,7 +44,7 @@ export const storySections: StorySection[] = [
     theme: "light",
     headline: "Breakthrough Discovery",
     subtitle: "the science that changed everything",
-    body: "Working with neuroscientists at Durham University—Prof. Paul Chazot and Prof. Karen Hind—Humphrey discovered how brain-enhancing nutrition could improve not just cognition after contact sport, but physical recovery, workplace motivation, and the ambition to take on bigger goals. The research revealed something remarkable: the complete CONKA formula extended lifespan equivalent to 15 human years in validated models, reduced oxidative stress, and reversed concussion-induced deficits.",
+    body: "Working with neuroscientists at Durham University, Prof. Paul Chazot and Prof. Karen Hind, Humphrey discovered how brain-enhancing nutrition could improve not just cognition after contact sport, but physical recovery, workplace motivation, and the ambition to take on bigger goals. The research revealed something remarkable: the complete CONKA formula extended lifespan equivalent to 15 human years in validated models, reduced oxidative stress, and reversed concussion-induced deficits.",
     imagePlaceholder: "[DURHAM UNIVERSITY RESEARCH LAB]",
   },
   {
@@ -60,7 +60,7 @@ export const storySections: StorySection[] = [
     theme: "light",
     headline: "Half a Million in Research",
     subtitle: "no shortcuts, only science",
-    body: "We invested over £500,000 into understanding how botanical ingredients could enhance brain performance. Working alongside Durham's neuroscience department, we tested, refined, and tested again. The goal was simple: create something that actually works, backed by real data, not marketing claims. Every ingredient was chosen for its synergistic effect—when any single component was removed, the benefits significantly decreased.",
+    body: "We invested over £500,000 into understanding how botanical ingredients could enhance brain performance. Working alongside Durham's neuroscience department, we tested, refined, and tested again. The goal was simple: create something that actually works, backed by real data, not marketing claims. Every ingredient was chosen for its synergistic effect. When any single component was removed, the benefits significantly decreased.",
     imagePlaceholder: "[RESEARCH & DEVELOPMENT]",
   },
   {
@@ -84,7 +84,7 @@ export const storySections: StorySection[] = [
     theme: "dark",
     headline: "Pro Sport Validation",
     subtitle: "the first real-world test",
-    body: "Less than 16% of supplements are ever tested in clinical trials. CONKA has now completed over 25 trials with high-performing organisations. The first trial showed a 16% increase in brain performance compared to the placebo group. We had proof that this worked—not in a lab, but on the field.",
+    body: "Less than 16% of supplements are ever tested in clinical trials. CONKA has now completed over 25 trials with high-performing organisations. The first trial showed a 16% increase in brain performance compared to the placebo group. We had proof that this worked. Not in a lab, but on the field.",
     imagePlaceholder: "[CLINICAL TRIAL RESULTS]",
   },
   {
@@ -92,7 +92,7 @@ export const storySections: StorySection[] = [
     theme: "light",
     headline: "The Second Formula",
     subtitle: "precision-tuned for recovery",
-    body: "Armed with data from professional sports teams, a pattern emerged. There were two days each week where cognitive performance dipped—always around periods of high intensity training. The technology revealed what athletes couldn't feel themselves. So we developed a second formula specifically designed to complement the first: Conka Flow for daily cognitive enhancement, Conka Clarity for recovery periods.",
+    body: "Armed with data from professional sports teams, a pattern emerged. There were two days each week where cognitive performance dipped, always around periods of high intensity training. The technology revealed what athletes couldn't feel themselves. So we developed a second formula specifically designed to complement the first: Conka Flow for daily cognitive enhancement, Conka Clarity for recovery periods.",
     imagePlaceholder: "[TWO FORMULA SYSTEM]",
   },
   {

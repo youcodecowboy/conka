@@ -264,42 +264,64 @@ export default function Home() {
       {/* ===== SECTION 6.6: PRODUCT SLIDESHOW (MOBILE ONLY) ===== */}
       <ProductSlideshowMobile variant="packaging" />
 
-      {/* ===== SECTION 7: FOUNDERS ===== */}
+      {/* ===== SECTION 7: OUR STORY TEASER ===== */}
       <section className="px-6 md:px-16 py-24">
-        <div className="max-w-6xl mx-auto">
-          <p className="font-commentary text-xl mb-4">the story behind conka</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">Built by Athletes, for Athletes</h2>
-
-          <div className="flex flex-col md:flex-row gap-12">
-            {/* Founder 1 */}
-            <div className="md:w-1/2">
-              <div className="placeholder-box w-full h-80 mb-6">
-                <span className="font-clinical text-sm">[FOUNDER 1 IMAGE]</span>
+        <div className="max-w-4xl mx-auto">
+          <p className="font-commentary text-xl mb-4 text-center md:text-left">the story behind conka</p>
+          
+          <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-center">
+            {/* Icons */}
+            <div className="flex gap-4 md:gap-6 flex-shrink-0">
+              {/* Brain Icon */}
+              <div className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-current flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+                  <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+                </svg>
               </div>
-              <h3 className="text-2xl font-bold mb-2">Humphrey Bodington</h3>
-              <p className="font-clinical mb-4">athlete</p>
-              <p className="font-clinical text-sm opacity-70">
-                bio coming soon
-              </p>
-            </div>
-
-            {/* Founder 2 */}
-            <div className="md:w-1/2">
-              <div className="placeholder-box w-full h-80 mb-6">
-                <span className="font-clinical text-sm">[FOUNDER 2 IMAGE]</span>
+              {/* Athletes Icon */}
+              <div className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-current flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="18" cy="4" r="2"/>
+                  <path d="m22 8-4.5 4.5"/>
+                  <path d="M15.5 10.5 12 14l-4-2-6 6"/>
+                  <path d="M8.5 16.5 5 20"/>
+                  <path d="m19 12-2 2-5.5-2.5"/>
+                </svg>
               </div>
-              <h3 className="text-2xl font-bold mb-2">Harry Glover</h3>
-              <p className="font-clinical mb-4">athlete</p>
-              <p className="font-clinical text-sm opacity-70">
-                bio coming soon
-              </p>
+              {/* Science Icon */}
+              <div className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-current flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10 2v7.31"/>
+                  <path d="M14 9.3V2"/>
+                  <path d="M8.5 2h7"/>
+                  <path d="M14 9.3a6.5 6.5 0 1 1-4 0"/>
+                  <path d="M5.58 16.5h12.85"/>
+                </svg>
+              </div>
             </div>
-          </div>
-
-          <div className="mt-12 text-center">
-            <button className="neo-button-outline px-6 py-2.5 font-semibold text-base">
-              the story of CONKA
-            </button>
+            
+            {/* Story Content */}
+            <div className="text-center md:text-left">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">
+                Founded by Two Friends
+              </h2>
+              <p className="text-lg opacity-80 mb-6 max-w-xl">
+                After a trip to the Olympics and a career-ending concussion, two athletes and best friends 
+                set out to solve a problem nobody was talking about: recovery for the brain. 
+                Over £500,000 in research later, CONKA was born.
+              </p>
+              <a 
+                href="/our-story" 
+                className="neo-button-outline px-6 py-2.5 font-semibold text-base inline-flex items-center gap-2"
+              >
+                Read Our Story
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14"/>
+                  <path d="m12 5 7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </section>

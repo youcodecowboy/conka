@@ -42,6 +42,37 @@ Added a new section above the Ingredients section to introduce both Conka formul
 
 ## January 5, 2026
 
+### 23:40 - Simplified Founders Section to Story Teaser
+
+Replaced the detailed founders section with a simpler story teaser that links to the Our Story page.
+
+#### Changes (`app/page.tsx`):
+- **Removed**: Individual founder bios, names, and image placeholders
+- **Added**: Compelling story teaser paragraph about the founding journey
+- **Added**: Three themed icons on desktop (brain, athletes, science flask)
+- **Added**: "Read Our Story" CTA linking to `/our-story`
+
+#### New Content:
+- Headline: "Founded by Two Friends"
+- Teaser: Mentions career-ending concussion, highest levels of sport, brain recovery problem, £500,000 research investment
+- Clean, centered layout on mobile
+- Icons + text side-by-side on desktop
+
+---
+
+### 23:35 - Removed Em-Dashes from Our Story Page
+
+Updated story data to remove em-dashes per brand sensitivity.
+
+#### Changes (`app/lib/storyData.ts`):
+- Section 2: "conversation—recovery" → "conversation: recovery"
+- Section 3: "University—Prof...—Humphrey" → "University, Prof..., Humphrey"
+- Section 5: "effect—when" → "effect. When"
+- Section 8: "worked—not" → "worked. Not"
+- Section 9: "dipped—always" → "dipped, always"
+
+---
+
 ### 22:55 - Enhanced Mobile Product Slideshow with Better Images
 
 Improved the mobile product slideshow component with better image selection and differentiated content.
