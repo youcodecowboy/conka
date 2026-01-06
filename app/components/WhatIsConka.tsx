@@ -13,7 +13,7 @@ interface FormulaOverview {
   positioning: string;
   whenToTake: string;
   accentColor: string;
-  keyBenefits: { stat: string; label: string }[];
+  keyBenefits: { stat: string; label: string; source: string }[];
   image: string;
   focalX: number;
   focalY: number;
@@ -30,9 +30,10 @@ const formulas: FormulaOverview[] = [
     whenToTake: "Morning ritual",
     accentColor: "#f59e0b", // Amber
     keyBenefits: [
-      { stat: "-56%", label: "Stress Reduction" },
-      { stat: "+42%", label: "Sleep Quality" },
-      { stat: "+17%", label: "Physical Fitness" },
+      // All stats verified in BRAND_HIGHLIGHTS.md with PMID sources
+      { stat: "-56%", label: "Stress Score", source: "PMID: 23439798" },
+      { stat: "+18%", label: "Memory", source: "PMID: 12888775" },
+      { stat: "-28%", label: "Cortisol", source: "PMID: 23439798" },
     ],
     image: "/CONKA_01.jpg",
     focalX: 55,
@@ -48,9 +49,10 @@ const formulas: FormulaOverview[] = [
     whenToTake: "Before peak performance",
     accentColor: "#AAB9BC", // Teal
     keyBenefits: [
-      { stat: "+63%", label: "Memory (UCLA)" },
-      { stat: "+40%", label: "Brain Detox" },
-      { stat: "-35%", label: "Mental Fatigue" },
+      // All stats verified in BRAND_HIGHLIGHTS.md with PMID sources
+      { stat: "+40%", label: "Glutathione", source: "PMID: 29559699" },
+      { stat: "-35%", label: "Mental Fatigue", source: "PMID: 18937015" },
+      { stat: "7x", label: "Brain Protection", source: "PMID: 23690582" },
     ],
     image: "/CONKA_06.jpg",
     focalX: 52,
