@@ -77,12 +77,13 @@ export default function ProtocolCalendarSectionMobile({
               {(["starter", "pro", "max"] as ProtocolTier[]).map((tier) => {
                 const isAvailable = availableTiers.includes(tier);
                 const isSelected = selectedTier === tier;
+                const tierConf = protocol.tiers[tier];
                 return (
                   <button
                     key={tier}
                     onClick={() => isAvailable && onTierSelect(tier)}
                     disabled={!isAvailable}
-                    className={`px-3 py-1.5 rounded-full font-clinical text-xs transition-all ${
+                    className={`px-3 py-1.5 rounded-lg font-clinical text-xs transition-all flex flex-col items-center ${
                       isSelected
                         ? "bg-amber-500 text-white"
                         : isAvailable
@@ -90,7 +91,12 @@ export default function ProtocolCalendarSectionMobile({
                         : "border-2 border-black/5 text-black/30 cursor-not-allowed"
                     }`}
                   >
-                    {tierLabels[tier]}
+                    <span className="font-semibold">{tierLabels[tier]}</span>
+                    {tierConf && (
+                      <span className={`text-[10px] ${isSelected ? "opacity-80" : "opacity-50"}`}>
+                        {tierConf.shotsPerWeek}/week
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -100,30 +106,38 @@ export default function ProtocolCalendarSectionMobile({
             <div className="flex gap-1">
               <button
                 onClick={() => onPurchaseTypeChange("subscription")}
-                className={`px-2 py-1 rounded font-clinical text-xs transition-all ${
+                className={`px-2 py-1.5 rounded font-clinical text-xs transition-all ${
                   purchaseType === "subscription"
                     ? "bg-black text-white"
                     : "border border-black/10 hover:border-black/30"
                 }`}
               >
-                Sub
+                Subscribe
               </button>
               <button
                 onClick={() => onPurchaseTypeChange("one-time")}
-                className={`px-2 py-1 rounded font-clinical text-xs transition-all ${
+                className={`px-2 py-1.5 rounded font-clinical text-xs transition-all ${
                   purchaseType === "one-time"
                     ? "bg-black text-white"
                     : "border border-black/10 hover:border-black/30"
                 }`}
               >
-                Once
+                One-time
               </button>
             </div>
           </div>
 
-          {/* Tier Description */}
+          {/* Quantity & Description */}
           {tierConfig && (
-            <p className="font-commentary text-sm opacity-70">{tierConfig.description}</p>
+            <div>
+              <p className="font-bold text-sm mb-1">
+                {tierConfig.shotsPerWeek} shots per week
+                <span className="font-normal opacity-60 ml-1">
+                  ({tierConfig.conkaFlowCount}× Flow + {tierConfig.conkaClarityCount}× Clarity)
+                </span>
+              </p>
+              <p className="font-commentary text-sm opacity-70">{tierConfig.description}</p>
+            </div>
           )}
         </div>
 

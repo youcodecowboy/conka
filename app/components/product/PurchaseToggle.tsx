@@ -7,6 +7,7 @@ interface PurchaseToggleProps {
   onToggle: (type: PurchaseType) => void;
   highlightColor?: string;
   className?: string;
+  allowStack?: boolean; // Allow buttons to stack vertically on smaller screens
 }
 
 export default function PurchaseToggle({
@@ -14,13 +15,14 @@ export default function PurchaseToggle({
   onToggle,
   highlightColor = "#AAB9BC",
   className = "",
+  allowStack = false,
 }: PurchaseToggleProps) {
   // When in header, buttons need to adapt to header background
   const isInvert = highlightColor === "invert";
   const isWhiteHeader = isInvert && purchaseType === "one-time";
   
   return (
-    <div className={`flex items-center gap-2 h-9 ${className}`}>
+    <div className={`flex items-center gap-2 ${allowStack ? "flex-col xl:flex-row" : ""} ${className}`}>
       <button
         onClick={() => onToggle("subscription")}
         className={`px-4 py-1.5 rounded-full border-2 transition-all flex items-center justify-center gap-2 h-9 ${
