@@ -61,15 +61,15 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
       <header className={`w-full lg:fixed top-0 left-0 right-0 z-50 bg-[var(--background)] transition-transform duration-300 border-b-2 border-current border-opacity-10 ${
         isScrollingDown ? "lg:-translate-y-full" : "lg:translate-y-0"
       }`}>
-        <div className="px-6 md:px-16 py-6 flex justify-between items-center">
+        <div className="px-6 md:px-16 py-2 flex justify-between items-center">
           {/* Logo - Left (links to home) */}
           <a href="/" className="flex items-center">
             <Image
               src="/conka.svg"
               alt="Conka logo"
-              width={90}
-              height={30}
-              className="h-6 md:h-8 w-auto mt-0.5 invert"
+              width={270}
+              height={90}
+              className="h-16 md:h-20 w-auto invert"
               priority
             />
           </a>
@@ -341,14 +341,14 @@ export default function Navigation({ cartOpen: _cartOpen, setCartOpen: _setCartO
           {/* Scrollable Content - Centered vertically */}
           <div className="flex-1 overflow-y-auto p-6 pb-16 flex flex-col">
             {/* Header */}
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex justify-between items-center mb-6">
               <a href="/" className="flex items-center">
                 <Image
                   src="/conka.svg"
                   alt="Conka logo"
-                  width={90}
-                  height={30}
-                  className="h-8 w-auto invert"
+                  width={270}
+                  height={90}
+                  className="h-16 w-auto invert"
                   priority
                 />
               </a>
