@@ -46,7 +46,12 @@ export default function AthleteCard({ athlete, compact = false }: AthleteCardPro
             <img 
               src={athlete.photo} 
               alt={athlete.name}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover"
+              style={{
+                objectPosition: athlete.focalPoint 
+                  ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%` 
+                  : 'center'
+              }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
@@ -90,7 +95,12 @@ export default function AthleteCard({ athlete, compact = false }: AthleteCardPro
             <img 
               src={athlete.photo} 
               alt={athlete.name}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover"
+              style={{
+                objectPosition: athlete.focalPoint 
+                  ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%` 
+                  : 'center'
+              }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

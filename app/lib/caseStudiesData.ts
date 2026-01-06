@@ -30,6 +30,7 @@ export interface AthleteData {
   id: string;
   name: string;
   photo?: string;
+  focalPoint?: { x: number; y: number }; // Focal point for image centering (0-100)
   sport: SportCategory;
   profession: string;
   organization: string;
@@ -344,6 +345,7 @@ export const athletes: AthleteData[] = [
     id: "shane-corstorphine",
     name: "Shane Corstorphine",
     photo: "/Shane Corstorphine.jpg",
+    focalPoint: { x: 50, y: 35 }, // Lower focal point to show full face
     sport: "business",
     profession: "Chief Revenue Officer",
     organization: "SkyScanner",

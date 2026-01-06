@@ -138,7 +138,12 @@ export default function CaseStudiesPageMobile() {
                         <img 
                           src={athlete.photo} 
                           alt={athlete.name}
-                          className="w-full h-full object-cover object-center"
+                          className="w-full h-full object-cover"
+                          style={{
+                            objectPosition: athlete.focalPoint 
+                              ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%` 
+                              : 'center'
+                          }}
                         />
                       ) : (
                         <div className="placeholder-box h-full w-full border-0">
@@ -260,7 +265,12 @@ export default function CaseStudiesPageMobile() {
               <img 
                 src={activeAthlete.photo} 
                 alt={activeAthlete.name}
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover"
+                style={{
+                  objectPosition: activeAthlete.focalPoint 
+                    ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%` 
+                    : 'center'
+                }}
               />
             ) : (
               <div className="placeholder-box h-full w-full border-0 flex items-center justify-center">

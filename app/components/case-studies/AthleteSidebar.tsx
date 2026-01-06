@@ -93,6 +93,11 @@ export default function AthleteSidebar({
                         src={athlete.photo} 
                         alt={athlete.name}
                         className="w-full h-full object-cover"
+                        style={{
+                          objectPosition: athlete.focalPoint 
+                            ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%` 
+                            : 'center'
+                        }}
                       />
                     ) : (
                       <SportIcon sport={athlete.sport} size={18} className={isActive ? "opacity-80" : "opacity-50"} />
