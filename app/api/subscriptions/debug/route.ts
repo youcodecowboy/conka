@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { env } from '@/app/lib/env';
+import { getCustomerSubscriptions } from '@/app/lib/loop';
 
 // Helper to get customer email from ID token cookie
 async function getCustomerEmailFromSession(): Promise<string | null> {
@@ -128,6 +129,25 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  // Test the actual getCustomerSubscriptions function (same as main route)
+  let mainFunctionTest = null;
+  if (loopApiConfigured && customerEmail) {
+    try {
+      const result = await getCustomerSubscriptions(customerEmail);
+      mainFunctionTest = {
+        error: result.error || null,
+        subscriptionCount: result.data?.length || 0,
+        firstSub: result.data?.[0] ? {
+          id: result.data[0].id,
+          status: (result.data[0] as any).status,
+          customerId: (result.data[0] as any).customerId,
+        } : null,
+      };
+    } catch (e) {
+      mainFunctionTest = { error: String(e) };
+    }
+  }
+
   return NextResponse.json({
     config: {
       loopApiConfigured,
@@ -139,6 +159,7 @@ export async function GET(request: NextRequest) {
     },
     loopApiTest,
     allSubscriptionsTest: allSubsTest,
+    mainFunctionTest,
   });
 }
 
