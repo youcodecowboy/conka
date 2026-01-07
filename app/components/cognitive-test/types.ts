@@ -7,7 +7,7 @@
 /**
  * The current state of the cognitive test flow
  */
-export type TestState = "idle" | "email" | "testing" | "results";
+export type TestState = "idle" | "email" | "testing" | "processing" | "results";
 
 /**
  * Test results received from the WebSDK via postMessage
