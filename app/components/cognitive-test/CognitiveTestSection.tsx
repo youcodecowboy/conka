@@ -50,7 +50,7 @@ export default function CognitiveTestSection({
           heading: "Measure Your Cognitive Performance",
           subheading: "discover your baseline",
           description:
-            "Take our 2-minute cognitive assessment powered by Cognetivity. Discover your baseline scores for speed, accuracy, and overall cognitive function—then see how our formulas can help you improve.",
+            "Take our 30-second cognitive assessment powered by the CONKA App. Discover your baseline scores for speed, accuracy, and overall cognitive function—then see how our formulas can help you improve.",
           showBenefits: true,
         };
       case "email":
@@ -68,7 +68,7 @@ export default function CognitiveTestSection({
           heading: "Focus on the Test",
           subheading: "stay present",
           description:
-            "Follow the on-screen instructions. The assessment evaluates your reaction time, pattern recognition, and decision-making speed. It only takes about 2 minutes.",
+            "Follow the on-screen instructions. The assessment evaluates your reaction time, pattern recognition, and decision-making speed. It only takes about 30 seconds.",
           showBenefits: false,
         };
       case "results":
@@ -215,18 +215,18 @@ export default function CognitiveTestSection({
                   Ready to test your brain?
                 </h3>
                 <p className="text-sm opacity-70 mb-6">
-                  Get your cognitive baseline in just 2 minutes
+                  Get your cognitive baseline in just 30 seconds
                 </p>
 
                 <button
                   onClick={handleStartTest}
                   className="neo-button px-8 py-4 font-bold text-lg w-full"
                 >
-                  Start Free Test
+                  Start Test
                 </button>
 
                 <p className="font-clinical text-xs opacity-50 mt-4">
-                  ~2 minutes • No app required
+                  ~30 seconds • No app required
                 </p>
               </div>
             )}
