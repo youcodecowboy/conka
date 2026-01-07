@@ -5,12 +5,16 @@ import ScienceHero from "./ScienceHero";
 import SciencePillars from "./SciencePillars";
 import SynergyChart from "./SynergyChart";
 import EvidenceSummary from "./EvidenceSummary";
+import { CognitiveTestSection } from "@/app/components/cognitive-test";
 
 export default function SciencePageDesktop() {
   return (
     <div className="min-h-screen pt-24">
       {/* Hero Section */}
       <ScienceHero isMobile={false} />
+
+      {/* Cognitive Test Section */}
+      <CognitiveTestSection />
 
       {/* Divider with Quote */}
       <div className="px-16 py-12">
@@ -19,8 +23,9 @@ export default function SciencePageDesktop() {
             <div className="w-1 h-24 bg-amber-500 flex-shrink-0"></div>
             <div>
               <p className="font-commentary text-2xl leading-relaxed">
-                &ldquo;The brain is the most complex organ in the known universe. We believe it
-                deserves ingredients backed by rigorous science, not marketing hype.&rdquo;
+                &ldquo;The brain is the most complex organ in the known
+                universe. We believe it deserves ingredients backed by rigorous
+                science, not marketing hype.&rdquo;
               </p>
               <p className="font-clinical text-sm opacity-70 mt-4">
                 - The Conka Research Philosophy
@@ -44,20 +49,23 @@ export default function SciencePageDesktop() {
               </h2>
               <div className="space-y-4 text-base opacity-80">
                 <p>
-                  Adaptogens are a unique class of natural compounds that help your body
-                  &ldquo;adapt&rdquo; to stress. Unlike stimulants that force a response, adaptogens
-                  work by normalizing physiological functions and maintaining homeostasis.
+                  Adaptogens are a unique class of natural compounds that help
+                  your body &ldquo;adapt&rdquo; to stress. Unlike stimulants
+                  that force a response, adaptogens work by normalizing
+                  physiological functions and maintaining homeostasis.
                 </p>
                 <p>
-                  The term was coined by Soviet scientist Dr. Nikolai Lazarev in 1947, and
-                  these compounds have been used in traditional medicine for thousands of
-                  years. Modern research has validated their effects on the
-                  hypothalamic-pituitary-adrenal (HPA) axis.
+                  The term was coined by Soviet scientist Dr. Nikolai Lazarev in
+                  1947, and these compounds have been used in traditional
+                  medicine for thousands of years. Modern research has validated
+                  their effects on the hypothalamic-pituitary-adrenal (HPA)
+                  axis.
                 </p>
                 <p>
-                  Key adaptogens in our formulas include <strong>Ashwagandha</strong>,{" "}
-                  <strong>Rhodiola rosea</strong>, and <strong>Lemon Balm</strong>, each
-                  clinically proven to reduce cortisol and improve stress resilience.
+                  Key adaptogens in our formulas include{" "}
+                  <strong>Ashwagandha</strong>, <strong>Rhodiola rosea</strong>,
+                  and <strong>Lemon Balm</strong>, each clinically proven to
+                  reduce cortisol and improve stress resilience.
                 </p>
               </div>
               <div className="flex flex-wrap gap-3 mt-6">
@@ -139,7 +147,8 @@ export default function SciencePageDesktop() {
               <h3 className="font-bold text-xl mb-2">Clinical Dosing</h3>
               <p className="text-sm opacity-80">
                 We use the same doses proven effective in clinical trials, not
-                underdosed &ldquo;proprietary blends&rdquo; that hide inadequate amounts.
+                underdosed &ldquo;proprietary blends&rdquo; that hide inadequate
+                amounts.
               </p>
             </div>
 
@@ -206,7 +215,10 @@ export default function SciencePageDesktop() {
           <div className="flex flex-row justify-between items-start gap-12">
             {/* Logo & Nav */}
             <div className="flex flex-col gap-4">
-              <a href="/" className="flex items-center hover:opacity-70 transition-all">
+              <a
+                href="/"
+                className="flex items-center hover:opacity-70 transition-all"
+              >
                 <Image
                   src="/conka.png"
                   alt="Conka logo"
@@ -216,19 +228,31 @@ export default function SciencePageDesktop() {
                 />
               </a>
               <nav className="flex flex-wrap items-center gap-2">
-                <a href="/" className="font-clinical text-sm hover:opacity-70 transition-all">
+                <a
+                  href="/"
+                  className="font-clinical text-sm hover:opacity-70 transition-all"
+                >
                   Home
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
-                <a href="/ingredients" className="font-clinical text-sm hover:opacity-70 transition-all">
+                <a
+                  href="/ingredients"
+                  className="font-clinical text-sm hover:opacity-70 transition-all"
+                >
                   Ingredients
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
-                <a href="/case-studies" className="font-clinical text-sm hover:opacity-70 transition-all">
+                <a
+                  href="/case-studies"
+                  className="font-clinical text-sm hover:opacity-70 transition-all"
+                >
                   Case Studies
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
-                <a href="/our-story" className="font-clinical text-sm hover:opacity-70 transition-all">
+                <a
+                  href="/our-story"
+                  className="font-clinical text-sm hover:opacity-70 transition-all"
+                >
                   Our Story
                 </a>
               </nav>
@@ -263,4 +287,3 @@ export default function SciencePageDesktop() {
     </div>
   );
 }
-
