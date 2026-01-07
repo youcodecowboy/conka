@@ -6,9 +6,22 @@ import Link from 'next/link';
 import Navigation from '@/app/components/Navigation';
 import { useAuth } from '@/app/context/AuthContext';
 
+interface OrderLineItem {
+  title: string;
+  quantity: number;
+  image?: {
+    url: string;
+    altText?: string;
+  };
+  price: {
+    amount: string;
+    currencyCode: string;
+  };
+}
+
 interface Order {
   id: string;
-  orderNumber: number;
+  orderNumber: string;
   processedAt: string;
   fulfillmentStatus: string;
   financialStatus: string;
@@ -16,14 +29,7 @@ interface Order {
     amount: string;
     currencyCode: string;
   };
-  lineItems: {
-    edges: Array<{
-      node: {
-        title: string;
-        quantity: number;
-      };
-    }>;
-  };
+  lineItems: OrderLineItem[];
 }
 
 // Order status steps for timeline
@@ -44,18 +50,27 @@ export default function OrdersPage() {
     }
   }, [authLoading, isAuthenticated, router]);
 
-  // Fetch orders - Note: Orders will be available via Customer Account API in a future update
+  // Fetch orders from Customer Account API
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        // Orders are now accessed via the Customer Account API
-        // For now, we'll show an empty state - full implementation requires
-        // querying the Customer Account API with the access token from cookies
-        setOrders([]);
-        setError(null);
+        const response = await fetch('/api/auth/orders', {
+          credentials: 'include',
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setOrders(data.orders || []);
+          setError(null);
+        } else {
+          const data = await response.json();
+          setError(data.error || 'Failed to load orders');
+          setOrders([]);
+        }
       } catch (err) {
         console.error('Failed to fetch orders:', err);
         setError('Failed to load orders');
+        setOrders([]);
       } finally {
         setLoading(false);
       }
@@ -372,7 +387,7 @@ export default function OrdersPage() {
                               )}
                             </p>
                             <p className="font-clinical text-xs opacity-50">
-                              {order.lineItems.edges.length} item{order.lineItems.edges.length !== 1 ? 's' : ''}
+                              {order.lineItems.length} item{order.lineItems.length !== 1 ? 's' : ''}
                             </p>
                           </div>
                           <svg
@@ -442,7 +457,7 @@ export default function OrdersPage() {
                         <div className="p-6">
                           <p className="font-clinical text-xs uppercase opacity-50 mb-4">Items</p>
                           <div className="space-y-3">
-                            {order.lineItems.edges.map((edge, index) => (
+                            {order.lineItems.map((item, index) => (
                               <div
                                 key={index}
                                 className="flex items-center justify-between p-3 bg-current/5 rounded-lg"
@@ -455,11 +470,11 @@ export default function OrdersPage() {
                                     </svg>
                                   </div>
                                   <span className="font-bold text-sm">
-                                    {edge.node.title}
+                                    {item.title}
                                   </span>
                                 </div>
                                 <span className="font-clinical text-sm opacity-70">
-                                  × {edge.node.quantity}
+                                  × {item.quantity}
                                 </span>
                               </div>
                             ))}

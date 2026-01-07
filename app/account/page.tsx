@@ -63,9 +63,19 @@ export default function AccountPage() {
         // Fetch subscriptions (uses cookies for auth now)
         fetchSubscriptions();
 
-        // Order count will be fetched via Customer Account API in the future
-        // For now, we'll show 0 until we implement the Customer Account API queries
-        setOrderCount(0);
+        // Fetch order count from Customer Account API
+        try {
+          const response = await fetch('/api/auth/orders', {
+            credentials: 'include',
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setOrderCount(data.orders?.length || 0);
+          }
+        } catch (err) {
+          console.error('Failed to fetch orders:', err);
+          setOrderCount(0);
+        }
       }
     };
 
