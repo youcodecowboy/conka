@@ -14,6 +14,8 @@ const requiredEnvVars = [
 // Optional environment variables (warn if missing, don't fail)
 const optionalEnvVars = [
   'LOOP_API_KEY',
+  'SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID',
+  'SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID',
 ] as const;
 
 interface EnvValidationResult {
@@ -99,6 +101,35 @@ export const env = {
     return process.env.LOOP_API_KEY;
   },
 
+  // Customer Account API (OAuth) configuration
+  get customerAccountClientId(): string {
+    const value = process.env.SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID;
+    if (!value) throw new Error('SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID is not configured');
+    return value;
+  },
+
+  get customerAccountShopId(): string {
+    const value = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
+    if (!value) throw new Error('SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID is not configured');
+    return value;
+  },
+
+  get customerAccountAuthUrl(): string {
+    return `https://shopify.com/authentication/${this.customerAccountShopId}/oauth/authorize`;
+  },
+
+  get customerAccountTokenUrl(): string {
+    return `https://shopify.com/authentication/${this.customerAccountShopId}/oauth/token`;
+  },
+
+  get customerAccountLogoutUrl(): string {
+    return `https://shopify.com/authentication/${this.customerAccountShopId}/logout`;
+  },
+
+  get customerAccountApiUrl(): string {
+    return `https://shopify.com/${this.customerAccountShopId}/account/customer/api/2025-01/graphql`;
+  },
+
   get isProduction(): boolean {
     return process.env.NODE_ENV === 'production';
   },
@@ -107,5 +138,6 @@ export const env = {
     return process.env.NODE_ENV === 'development';
   },
 } as const;
+
 
 

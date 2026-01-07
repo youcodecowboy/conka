@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navigation from '@/app/components/Navigation';
@@ -10,24 +10,21 @@ export default function LoginPage() {
   const router = useRouter();
   const { login, loading, error, clearError, isAuthenticated } = useAuth();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   // Redirect if already authenticated
-  if (isAuthenticated) {
-    router.push('/account');
-    return null;
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    clearError();
-
-    const success = await login(email, password);
-    if (success) {
+  useEffect(() => {
+    if (isAuthenticated) {
       router.push('/account');
     }
+  }, [isAuthenticated, router]);
+
+  const handleLogin = () => {
+    clearError();
+    login();
   };
+
+  if (isAuthenticated) {
+    return null;
+  }
 
   return (
     <div
@@ -40,14 +37,14 @@ export default function LoginPage() {
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
+            <h1 className="text-3xl font-bold mb-2">Welcome</h1>
             <p className="font-commentary text-lg opacity-70">
               sign in to your account
             </p>
           </div>
 
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="neo-box p-6 space-y-6">
+          {/* Login Card */}
+          <div className="neo-box p-6 space-y-6">
             {/* Error Message */}
             {error && (
               <div className="p-3 bg-red-50 border-2 border-red-200 rounded-lg text-red-700 text-sm">
@@ -55,84 +52,70 @@ export default function LoginPage() {
               </div>
             )}
 
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block font-clinical text-sm mb-2"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-                className="w-full px-4 py-3 border-2 border-current rounded-lg font-clinical text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
-                placeholder="you@example.com"
-              />
-            </div>
+            {/* Description */}
+            <p className="text-center font-clinical text-sm opacity-70">
+              We&apos;ll send you a secure one-time code to your email address.
+              No password needed.
+            </p>
 
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block font-clinical text-sm mb-2"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-                className="w-full px-4 py-3 border-2 border-current rounded-lg font-clinical text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
-                placeholder="••••••••"
-              />
-            </div>
-
-            {/* Submit Button */}
+            {/* Login Button */}
             <button
-              type="submit"
+              onClick={handleLogin}
               disabled={loading}
               className="w-full neo-button py-4 font-bold text-lg disabled:opacity-50"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <div className="w-5 h-5 border-2 border-current/20 border-t-current rounded-full animate-spin" />
-                  Signing in...
+                  Loading...
                 </span>
               ) : (
-                'Sign In'
+                'Continue with Email'
               )}
             </button>
 
-            {/* Register Link */}
-            <p className="text-center font-clinical text-sm">
-              Don&apos;t have an account?{' '}
+            {/* Divider */}
+            <div className="flex items-center gap-4">
+              <div className="flex-1 h-px bg-current opacity-20" />
+              <span className="font-clinical text-xs opacity-50">or</span>
+              <div className="flex-1 h-px bg-current opacity-20" />
+            </div>
+
+            {/* Guest Option */}
+            <p className="text-center font-clinical text-sm opacity-70">
+              You can also{' '}
               <Link
-                href="/account/register"
+                href="/"
                 className="font-semibold hover:opacity-70 transition-opacity underline"
               >
-                Create one
-              </Link>
-            </p>
-          </form>
-
-          {/* Guest Option */}
-          <div className="mt-6 text-center">
-            <p className="font-clinical text-sm opacity-70">
-              You can also checkout as a guest
+                continue as guest
+              </Link>{' '}
+              and checkout without an account.
             </p>
           </div>
 
+          {/* Benefits */}
+          <div className="mt-8 space-y-3">
+            <p className="font-clinical text-sm font-semibold text-center opacity-70">
+              Benefits of an account:
+            </p>
+            <ul className="font-clinical text-sm opacity-60 space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500">✓</span>
+                Track your orders and shipments
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500">✓</span>
+                Manage your subscriptions
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500">✓</span>
+                Faster checkout with saved info
+              </li>
+            </ul>
+          </div>
         </div>
       </main>
     </div>
   );
 }
-

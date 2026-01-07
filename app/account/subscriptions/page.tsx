@@ -52,7 +52,7 @@ const TIER_OPTIONS: TierOption[] = [
 
 export default function SubscriptionsPage() {
   const router = useRouter();
-  const { customer, isAuthenticated, loading: authLoading, getAccessToken } = useAuth();
+  const { customer, isAuthenticated, loading: authLoading } = useAuth();
   const {
     subscriptions,
     loading,
@@ -81,11 +81,10 @@ export default function SubscriptionsPage() {
 
   // Fetch subscriptions when customer is available
   useEffect(() => {
-    const token = getAccessToken();
-    if (customer && token) {
-      fetchSubscriptions(token);
+    if (customer) {
+      fetchSubscriptions();
     }
-  }, [customer, fetchSubscriptions, getAccessToken]);
+  }, [customer, fetchSubscriptions]);
 
   // Format price
   const formatPrice = (amount: string, currencyCode: string = 'GBP') => {
@@ -140,10 +139,7 @@ export default function SubscriptionsPage() {
       await pauseSubscription(subscription.id);
     }
     // Refresh subscriptions
-    const token = getAccessToken();
-    if (token) {
-      await fetchSubscriptions(token);
-    }
+    await fetchSubscriptions();
     setActionLoading(null);
   };
 
@@ -153,10 +149,7 @@ export default function SubscriptionsPage() {
     const success = await skipNextOrder(subscriptionId);
     if (success) {
       // Refresh subscriptions
-      const token = getAccessToken();
-      if (token) {
-        await fetchSubscriptions(token);
-      }
+      await fetchSubscriptions();
     }
     setActionLoading(null);
   };
@@ -169,10 +162,7 @@ export default function SubscriptionsPage() {
       setShowCancelModal(null);
       setCancelReason('');
       // Refresh subscriptions
-      const token = getAccessToken();
-      if (token) {
-        await fetchSubscriptions(token);
-      }
+      await fetchSubscriptions();
     }
     setActionLoading(null);
   };
@@ -218,10 +208,7 @@ export default function SubscriptionsPage() {
     if (success) {
       setShowEditModal(null);
       // Refresh subscriptions
-      const token = getAccessToken();
-      if (token) {
-        await fetchSubscriptions(token);
-      }
+      await fetchSubscriptions();
     }
     setActionLoading(null);
   };

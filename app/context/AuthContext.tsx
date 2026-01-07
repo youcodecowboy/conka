@@ -2,16 +2,12 @@
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
-const ACCESS_TOKEN_KEY = 'shopify_customer_access_token';
-const TOKEN_EXPIRY_KEY = 'shopify_customer_token_expiry';
-
 export interface CustomerInfo {
   id: string;
   email: string;
   firstName?: string;
   lastName?: string;
-  phone?: string;
-  acceptsMarketing: boolean;
+  name?: string;
 }
 
 interface AuthContextType {
@@ -19,16 +15,9 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (
-    email: string,
-    password: string,
-    firstName?: string,
-    lastName?: string,
-    acceptsMarketing?: boolean
-  ) => Promise<boolean>;
+  login: () => void;
   logout: () => Promise<void>;
-  getAccessToken: () => string | null;
+  checkSession: () => Promise<void>;
   clearError: () => void;
 }
 
@@ -44,189 +33,75 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Clear error
   const clearError = useCallback(() => setError(null), []);
 
-  // Get access token from localStorage
-  const getAccessToken = useCallback((): string | null => {
-    if (typeof window === 'undefined') return null;
-    
-    const token = localStorage.getItem(ACCESS_TOKEN_KEY);
-    const expiry = localStorage.getItem(TOKEN_EXPIRY_KEY);
-    
-    if (!token || !expiry) return null;
-    
-    // Check if token is expired
-    if (new Date(expiry) < new Date()) {
-      localStorage.removeItem(ACCESS_TOKEN_KEY);
-      localStorage.removeItem(TOKEN_EXPIRY_KEY);
-      return null;
-    }
-    
-    return token;
-  }, []);
-
-  // Store access token in localStorage
-  const setAccessToken = useCallback((token: string, expiresAt: string) => {
-    localStorage.setItem(ACCESS_TOKEN_KEY, token);
-    localStorage.setItem(TOKEN_EXPIRY_KEY, expiresAt);
-  }, []);
-
-  // Clear access token from localStorage
-  const clearAccessToken = useCallback(() => {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
-    localStorage.removeItem(TOKEN_EXPIRY_KEY);
-  }, []);
-
-  // Fetch customer info from token
-  const fetchCustomer = useCallback(async (token: string): Promise<CustomerInfo | null> => {
+  // Check session status
+  const checkSession = useCallback(async () => {
     try {
-      const response = await fetch('/api/auth/customer', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch('/api/auth/session');
+      const data = await response.json();
 
-      if (response.ok) {
-        const data = await response.json();
-        return data.customer;
+      if (data.authenticated && data.customer) {
+        setCustomer(data.customer);
       } else {
-        // Token is invalid or expired
-        clearAccessToken();
-        return null;
+        setCustomer(null);
       }
     } catch (err) {
-      console.error('Failed to fetch customer:', err);
-      return null;
+      console.error('Failed to check session:', err);
+      setCustomer(null);
     }
-  }, [clearAccessToken]);
+  }, []);
 
   // Check for existing session on mount
   useEffect(() => {
-    const checkSession = async () => {
-      const token = getAccessToken();
-      
-      if (token) {
-        const customerInfo = await fetchCustomer(token);
-        setCustomer(customerInfo);
-      }
-      
+    const initSession = async () => {
+      await checkSession();
       setLoading(false);
     };
 
-    checkSession();
-  }, [getAccessToken, fetchCustomer]);
+    initSession();
+  }, [checkSession]);
 
-  // Login
-  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || 'Login failed');
-        setLoading(false);
-        return false;
-      }
-
-      // Store token
-      setAccessToken(data.accessToken, data.expiresAt);
-
-      // Fetch customer info
-      const customerInfo = await fetchCustomer(data.accessToken);
-      setCustomer(customerInfo);
-      setLoading(false);
-
-      return true;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Login failed';
-      setError(message);
-      setLoading(false);
-      return false;
-    }
-  }, [setAccessToken, fetchCustomer]);
-
-  // Register
-  const register = useCallback(async (
-    email: string,
-    password: string,
-    firstName?: string,
-    lastName?: string,
-    acceptsMarketing?: boolean
-  ): Promise<boolean> => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-          firstName,
-          lastName,
-          acceptsMarketing,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || 'Registration failed');
-        setLoading(false);
-        return false;
-      }
-
-      // Store token if auto-login succeeded
-      if (data.accessToken) {
-        setAccessToken(data.accessToken, data.expiresAt);
+  // Check for OAuth errors in URL (after redirect from Shopify)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const errorParam = params.get('error');
+      
+      if (errorParam) {
+        const errorMessages: Record<string, string> = {
+          'access_denied': 'Login was cancelled',
+          'invalid_state': 'Security validation failed. Please try again.',
+          'missing_params': 'Login failed. Please try again.',
+          'token_error': 'Failed to complete login. Please try again.',
+          'callback_failed': 'Login failed. Please try again.',
+          'config': 'Login is not configured properly.',
+        };
         
-        // Set customer info from registration response
-        setCustomer({
-          id: data.customer.id,
-          email: data.customer.email,
-          firstName: data.customer.firstName,
-          lastName: data.customer.lastName,
-          acceptsMarketing: false,
-        });
+        setError(errorMessages[errorParam] || 'Login failed. Please try again.');
+        
+        // Clean up URL
+        window.history.replaceState({}, '', window.location.pathname);
       }
-
-      setLoading(false);
-      return true;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Registration failed';
-      setError(message);
-      setLoading(false);
-      return false;
     }
-  }, [setAccessToken]);
+  }, []);
+
+  // Login - redirects to OAuth authorization endpoint
+  const login = useCallback(() => {
+    // Redirect to our authorize endpoint which handles PKCE and redirects to Shopify
+    window.location.href = '/api/auth/authorize';
+  }, []);
 
   // Logout
   const logout = useCallback(async (): Promise<void> => {
-    const token = getAccessToken();
-    
-    if (token) {
-      try {
-        await fetch('/api/auth/logout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ accessToken: token }),
-        });
-      } catch (err) {
-        console.warn('Logout API error:', err);
-      }
+    try {
+      // Use GET to trigger the full logout flow with Shopify SSO logout
+      window.location.href = '/api/auth/logout';
+    } catch (err) {
+      console.error('Logout error:', err);
+      // Still clear local state
+      setCustomer(null);
+      setError(null);
     }
-
-    clearAccessToken();
-    setCustomer(null);
-    setError(null);
-  }, [getAccessToken, clearAccessToken]);
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -236,9 +111,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         error,
         isAuthenticated,
         login,
-        register,
         logout,
-        getAccessToken,
+        checkSession,
         clearError,
       }}
     >

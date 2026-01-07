@@ -1,60 +1,35 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import Navigation from '@/app/components/Navigation';
 import { useAuth } from '@/app/context/AuthContext';
 
+/**
+ * Register Page
+ * 
+ * With the new Customer Account API, registration is handled automatically
+ * during the first login. This page now redirects to the login flow.
+ */
 export default function RegisterPage() {
   const router = useRouter();
-  const { register, loading, error, clearError, isAuthenticated } = useAuth();
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [acceptsMarketing, setAcceptsMarketing] = useState(false);
-  const [localError, setLocalError] = useState<string | null>(null);
+  const { login, loading, error, clearError, isAuthenticated } = useAuth();
 
   // Redirect if already authenticated
-  if (isAuthenticated) {
-    router.push('/account');
-    return null;
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    clearError();
-    setLocalError(null);
-
-    // Validate passwords match
-    if (password !== confirmPassword) {
-      setLocalError('Passwords do not match');
-      return;
-    }
-
-    // Validate password length
-    if (password.length < 5) {
-      setLocalError('Password must be at least 5 characters');
-      return;
-    }
-
-    const success = await register(
-      email,
-      password,
-      firstName,
-      lastName,
-      acceptsMarketing
-    );
-
-    if (success) {
+  useEffect(() => {
+    if (isAuthenticated) {
       router.push('/account');
     }
+  }, [isAuthenticated, router]);
+
+  const handleGetStarted = () => {
+    clearError();
+    login();
   };
 
-  const displayError = localError || error;
+  if (isAuthenticated) {
+    return null;
+  }
 
   return (
     <div
@@ -63,7 +38,7 @@ export default function RegisterPage() {
     >
       <Navigation />
 
-      <main className="pt-8 pb-24 lg:pt-24 px-4">
+      <main className="pt-8 pb-24 lg:pt-36 px-4">
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
@@ -73,161 +48,74 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          {/* Register Form */}
-          <form onSubmit={handleSubmit} className="neo-box p-6 space-y-5">
+          {/* Registration Card */}
+          <div className="neo-box p-6 space-y-6">
             {/* Error Message */}
-            {displayError && (
+            {error && (
               <div className="p-3 bg-red-50 border-2 border-red-200 rounded-lg text-red-700 text-sm">
-                {displayError}
+                {error}
               </div>
             )}
 
-            {/* Name Fields */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label
-                  htmlFor="firstName"
-                  className="block font-clinical text-sm mb-2"
-                >
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  autoComplete="given-name"
-                  className="w-full px-4 py-3 border-2 border-current rounded-lg font-clinical text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  placeholder="John"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="lastName"
-                  className="block font-clinical text-sm mb-2"
-                >
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  autoComplete="family-name"
-                  className="w-full px-4 py-3 border-2 border-current rounded-lg font-clinical text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  placeholder="Doe"
-                />
-              </div>
-            </div>
-
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block font-clinical text-sm mb-2"
-              >
-                Email *
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-                className="w-full px-4 py-3 border-2 border-current rounded-lg font-clinical text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
-                placeholder="you@example.com"
-              />
-            </div>
-
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block font-clinical text-sm mb-2"
-              >
-                Password *
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={5}
-                autoComplete="new-password"
-                className="w-full px-4 py-3 border-2 border-current rounded-lg font-clinical text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
-                placeholder="••••••••"
-              />
-              <p className="font-clinical text-xs opacity-50 mt-1">
-                Minimum 5 characters
+            {/* Description */}
+            <div className="space-y-4">
+              <p className="text-center font-clinical text-sm opacity-70">
+                Creating an account is simple and secure. Just enter your email
+                and we&apos;ll send you a one-time code.
+              </p>
+              <p className="text-center font-clinical text-sm opacity-70">
+                No password to remember. Ever.
               </p>
             </div>
 
-            {/* Confirm Password */}
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block font-clinical text-sm mb-2"
-              >
-                Confirm Password *
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                autoComplete="new-password"
-                className="w-full px-4 py-3 border-2 border-current rounded-lg font-clinical text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
-                placeholder="••••••••"
-              />
-            </div>
-
-            {/* Marketing Checkbox */}
-            <label className="flex items-start gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={acceptsMarketing}
-                onChange={(e) => setAcceptsMarketing(e.target.checked)}
-                className="mt-1 w-4 h-4 accent-amber-500"
-              />
-              <span className="font-clinical text-sm opacity-70">
-                Keep me updated about new products, protocols, and special
-                offers
-              </span>
-            </label>
-
-            {/* Submit Button */}
+            {/* Get Started Button */}
             <button
-              type="submit"
+              onClick={handleGetStarted}
               disabled={loading}
               className="w-full neo-button py-4 font-bold text-lg disabled:opacity-50"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <div className="w-5 h-5 border-2 border-current/20 border-t-current rounded-full animate-spin" />
-                  Creating account...
+                  Loading...
                 </span>
               ) : (
-                'Create Account'
+                'Get Started'
               )}
             </button>
 
-            {/* Login Link */}
-            <p className="text-center font-clinical text-sm">
-              Already have an account?{' '}
-              <Link
-                href="/account/login"
-                className="font-semibold hover:opacity-70 transition-opacity underline"
-              >
-                Sign in
-              </Link>
+            {/* Already have account */}
+            <p className="text-center font-clinical text-sm opacity-60">
+              Already have an account? The same button works for both!
             </p>
-          </form>
+          </div>
+
+          {/* Benefits */}
+          <div className="mt-8 space-y-3">
+            <p className="font-clinical text-sm font-semibold text-center opacity-70">
+              What you get with an account:
+            </p>
+            <ul className="font-clinical text-sm opacity-60 space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500">✓</span>
+                Track your orders and shipments
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500">✓</span>
+                Manage your subscriptions easily
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500">✓</span>
+                Faster checkout with saved info
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-amber-500">✓</span>
+                Early access to new products
+              </li>
+            </ul>
+          </div>
         </div>
       </main>
     </div>
   );
 }
-

@@ -1,54 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { shopifyFetch } from '@/app/lib/shopify';
-import { CUSTOMER_ACCESS_TOKEN_DELETE } from '@/app/lib/shopifyQueries';
+import { cookies } from 'next/headers';
 
-interface LogoutInput {
-  accessToken: string;
-}
+/**
+ * Logout Endpoint
+ * 
+ * Clears all authentication cookies and optionally redirects to Shopify logout.
+ * GET: Performs logout and redirects to login page
+ * POST: Performs logout and returns JSON response
+ */
+export async function GET(request: NextRequest) {
+  const shopId = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
+  const cookieStore = await cookies();
+  const idToken = cookieStore.get('customer_id_token')?.value;
 
-interface CustomerAccessTokenDeleteResponse {
-  customerAccessTokenDelete: {
-    deletedAccessToken: string | null;
-    deletedCustomerAccessTokenId: string | null;
-    userErrors: Array<{
-      field: string[];
-      message: string;
-    }>;
-  };
+  // Clear all auth cookies
+  const response = NextResponse.redirect(new URL('/account/login', request.url));
+  
+  response.cookies.delete('customer_access_token');
+  response.cookies.delete('customer_token_expires');
+  response.cookies.delete('customer_refresh_token');
+  response.cookies.delete('customer_id_token');
+
+  // If we have an ID token and shop ID, redirect to Shopify logout to end SSO session
+  if (shopId && idToken) {
+    const postLogoutRedirect = `${request.nextUrl.origin}/account/login`;
+    const logoutUrl = new URL(`https://shopify.com/authentication/${shopId}/logout`);
+    logoutUrl.searchParams.set('id_token_hint', idToken);
+    logoutUrl.searchParams.set('post_logout_redirect_uri', postLogoutRedirect);
+    
+    return NextResponse.redirect(logoutUrl.toString());
+  }
+
+  return response;
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const body: LogoutInput = await request.json();
-    const { accessToken } = body;
+  const cookieStore = await cookies();
 
-    if (!accessToken) {
-      return NextResponse.json(
-        { error: 'Access token is required' },
-        { status: 400 }
-      );
-    }
+  // Clear all auth cookies
+  cookieStore.delete('customer_access_token');
+  cookieStore.delete('customer_token_expires');
+  cookieStore.delete('customer_refresh_token');
+  cookieStore.delete('customer_id_token');
 
-    const response = await shopifyFetch<CustomerAccessTokenDeleteResponse>(
-      CUSTOMER_ACCESS_TOKEN_DELETE,
-      {
-        customerAccessToken: accessToken,
-      }
-    );
-
-    const { userErrors } = response.data?.customerAccessTokenDelete || {};
-
-    if (userErrors && userErrors.length > 0) {
-      // Even if there's an error, we'll consider the logout successful
-      // since the client should clear the token anyway
-      console.warn('Logout warning:', userErrors[0].message);
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Logout error:', error);
-    // Return success anyway - client should clear token
-    return NextResponse.json({ success: true });
-  }
+  return NextResponse.json({ success: true });
 }
-

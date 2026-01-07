@@ -25,7 +25,7 @@ interface ProfileFormData {
 
 export default function AccountPage() {
   const router = useRouter();
-  const { customer, loading, isAuthenticated, logout, getAccessToken } = useAuth();
+  const { customer, loading, isAuthenticated, logout } = useAuth();
   const { subscriptions, fetchSubscriptions, loading: subsLoading } = useSubscriptions();
   const [orderCount, setOrderCount] = useState<number | null>(null);
   
@@ -59,35 +59,20 @@ export default function AccountPage() {
   // Fetch subscriptions and orders when authenticated
   useEffect(() => {
     const fetchData = async () => {
-      const token = getAccessToken();
-      if (token && customer) {
-        // Fetch subscriptions
-        fetchSubscriptions(token);
+      if (customer) {
+        // Fetch subscriptions (uses cookies for auth now)
+        fetchSubscriptions();
 
-        // Fetch order count
-        try {
-          const response = await fetch('/api/auth/customer', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              accessToken: token,
-              includeOrders: true,
-            }),
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setOrderCount(data.orders?.length || 0);
-          }
-        } catch (err) {
-          console.error('Failed to fetch orders:', err);
-        }
+        // Order count will be fetched via Customer Account API in the future
+        // For now, we'll show 0 until we implement the Customer Account API queries
+        setOrderCount(0);
       }
     };
 
     if (isAuthenticated && customer) {
       fetchData();
     }
-  }, [isAuthenticated, customer, getAccessToken, fetchSubscriptions]);
+  }, [isAuthenticated, customer, fetchSubscriptions]);
 
   const handleLogout = async () => {
     await logout();
@@ -100,7 +85,7 @@ export default function AccountPage() {
       firstName: customer?.firstName || '',
       lastName: customer?.lastName || '',
       email: customer?.email || '',
-      phone: customer?.phone || '',
+      phone: '',
       address: {
         address1: '',
         address2: '',
@@ -140,21 +125,13 @@ export default function AccountPage() {
     setProfileError(null);
     setProfileSuccess(false);
 
-    // Call API to update the customer
-    // For now, show a message that this requires API implementation
+    // Profile updates will be implemented via Customer Account API
+    // For now, show a placeholder message
     try {
-      const token = getAccessToken();
-      if (!token) {
-        setProfileError('Not authenticated');
-        setProfileSaving(false);
-        return;
-      }
-
       const response = await fetch('/api/auth/customer/update', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(profileForm),
       });
@@ -475,8 +452,8 @@ export default function AccountPage() {
                 <p className="font-bold text-lg">{customer.email}</p>
               </div>
               <div className="p-4 bg-current/5 rounded-lg">
-                <h3 className="font-clinical text-xs opacity-50 mb-1 uppercase tracking-wide">Phone Number</h3>
-                <p className="font-bold text-lg">{customer.phone || 'Not set'}</p>
+                <h3 className="font-clinical text-xs opacity-50 mb-1 uppercase tracking-wide">Account Type</h3>
+                <p className="font-bold text-lg">Passwordless</p>
               </div>
               <div className="p-4 bg-current/5 rounded-lg">
                 <h3 className="font-clinical text-xs opacity-50 mb-1 uppercase tracking-wide">Delivery Address</h3>

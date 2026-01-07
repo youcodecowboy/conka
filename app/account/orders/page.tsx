@@ -31,7 +31,7 @@ const ORDER_STEPS = ['Placed', 'Paid', 'Processing', 'Shipped', 'Delivered'];
 
 export default function OrdersPage() {
   const router = useRouter();
-  const { isAuthenticated, loading: authLoading, getAccessToken } = useAuth();
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,28 +44,15 @@ export default function OrdersPage() {
     }
   }, [authLoading, isAuthenticated, router]);
 
-  // Fetch orders
+  // Fetch orders - Note: Orders will be available via Customer Account API in a future update
   useEffect(() => {
     const fetchOrders = async () => {
-      const token = getAccessToken();
-      if (!token) return;
-
       try {
-        const response = await fetch('/api/auth/customer', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            accessToken: token,
-            includeOrders: true,
-          }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setOrders(data.orders || []);
-        } else {
-          setError('Failed to load orders');
-        }
+        // Orders are now accessed via the Customer Account API
+        // For now, we'll show an empty state - full implementation requires
+        // querying the Customer Account API with the access token from cookies
+        setOrders([]);
+        setError(null);
       } catch (err) {
         console.error('Failed to fetch orders:', err);
         setError('Failed to load orders');
@@ -77,7 +64,7 @@ export default function OrdersPage() {
     if (isAuthenticated) {
       fetchOrders();
     }
-  }, [isAuthenticated, getAccessToken]);
+  }, [isAuthenticated]);
 
   // Format price
   const formatPrice = (amount: string, currencyCode: string = 'GBP') => {

@@ -10,7 +10,7 @@ interface UseSubscriptionsReturn {
   subscriptions: Subscription[];
   loading: boolean;
   error: string | null;
-  fetchSubscriptions: (accessToken: string) => Promise<void>;
+  fetchSubscriptions: () => Promise<void>;
   pauseSubscription: (subscriptionId: string) => Promise<boolean>;
   resumeSubscription: (subscriptionId: string) => Promise<boolean>;
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
@@ -24,21 +24,14 @@ export function useSubscriptions(): UseSubscriptionsReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch subscriptions (requires auth token)
-  const fetchSubscriptions = useCallback(async (accessToken: string): Promise<void> => {
-    if (!accessToken) {
-      setError('Authentication required');
-      return;
-    }
-
+  // Fetch subscriptions (uses HTTP-only cookie for auth)
+  const fetchSubscriptions = useCallback(async (): Promise<void> => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await fetch('/api/subscriptions', {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-        },
+        credentials: 'include', // Include cookies for auth
       });
       const data = await response.json();
 

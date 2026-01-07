@@ -2,6 +2,50 @@
 
 ## January 7, 2026
 
+### 14:00 - Passwordless Login with Shopify Customer Account API
+
+Completely rebuilt the authentication system to use Shopify's new Customer Account API with OAuth 2.0 and passwordless OTP login.
+
+#### Problem Solved:
+- Previous password-based registration sent activation emails that redirected to Shopify's default account pages
+- Users couldn't log in after activation because passwords weren't properly synced
+- Poor UX requiring users to create and remember passwords
+
+#### New OAuth 2.0 Flow:
+- Users click "Continue with Email" on login page
+- Redirected to Shopify's hosted login page
+- Enter email → Receive 6-digit OTP via email → Enter code
+- Redirected back to site with authorization code
+- Code exchanged for access tokens (stored in HTTP-only cookies)
+
+#### New Files Created:
+- `app/api/auth/authorize/route.ts` - OAuth authorization endpoint with PKCE
+- `app/api/auth/callback/route.ts` - OAuth callback handler, exchanges code for tokens
+- `app/api/auth/session/route.ts` - Session check endpoint for client
+
+#### Files Modified:
+- `app/lib/env.ts` - Added Customer Account API configuration
+- `app/context/AuthContext.tsx` - Refactored for OAuth flow (removed password-based login)
+- `app/account/login/page.tsx` - Simplified to single "Continue with Email" button
+- `app/account/register/page.tsx` - Now uses same OAuth flow (registration is automatic)
+- `app/account/page.tsx` - Updated to work with cookie-based auth
+- `app/api/auth/logout/route.ts` - Updated for SSO logout with Shopify
+- `app/hooks/useSubscriptions.ts` - Updated to use cookie-based auth
+
+#### Environment Variables Required:
+```
+SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID=2ffc8429-5053-42ff-94ed-e5d2e3b36f76
+SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID=69347049757
+```
+
+#### Shopify Admin Configuration Required:
+1. Settings > Customer accounts > Enable "Customer accounts"
+2. Headless sales channel > Customer Account API settings
+3. Set callback URL to: `https://your-domain.com/api/auth/callback`
+4. Set logout URL to: `https://your-domain.com/account/login`
+
+---
+
 ### 10:35 - Mobile PageSpeed Performance Optimizations (Phase 2)
 
 Further optimizations after initial changes showed LCP at 5.3s:
