@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
 interface OrderLineItem {
-  title: string;
+  name: string;
   quantity: number;
   image?: {
     url: string;
     altText?: string;
   };
-  price: {
+  totalPrice: {
     amount: string;
     currencyCode: string;
   };
@@ -16,10 +16,13 @@ interface OrderLineItem {
 
 interface Order {
   id: string;
-  name: string;
+  number: number;
   processedAt: string;
-  fulfillmentStatus: string;
-  financialStatus: string;
+  fulfillments: {
+    nodes: Array<{
+      status: string;
+    }>;
+  };
   totalPrice: {
     amount: string;
     currencyCode: string;
@@ -27,6 +30,7 @@ interface Order {
   lineItems: {
     nodes: OrderLineItem[];
   };
+  financialStatus: string;
 }
 
 interface CustomerOrdersResponse {
@@ -40,31 +44,36 @@ interface CustomerOrdersResponse {
   errors?: Array<{ message: string; extensions?: Record<string, unknown> }>;
 }
 
+// Customer Account API uses different field names than Storefront API
 const CUSTOMER_ORDERS_QUERY = `
   query CustomerOrders {
     customer {
       orders(first: 50, sortKey: PROCESSED_AT, reverse: true) {
         nodes {
           id
-          name
+          number
           processedAt
-          fulfillmentStatus
-          financialStatus
           totalPrice {
             amount
             currencyCode
           }
+          financialStatus
+          fulfillments(first: 1) {
+            nodes {
+              status
+            }
+          }
           lineItems(first: 10) {
             nodes {
-              title
+              name
               quantity
+              totalPrice {
+                amount
+                currencyCode
+              }
               image {
                 url
                 altText
-              }
-              price {
-                amount
-                currencyCode
               }
             }
           }
@@ -99,13 +108,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  console.log('Orders API: Access token found, length:', accessToken.length);
-
   try {
     // Customer Account API endpoint
     const apiUrl = `https://shopify.com/${shopId}/account/customer/api/2024-10/graphql`;
-    
-    console.log('Orders API: Fetching from', apiUrl);
 
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -118,15 +123,12 @@ export async function GET(request: NextRequest) {
       }),
     });
 
-    console.log('Orders API: Response status', response.status, response.statusText);
-
-    // Try to get response body for debugging
     const responseText = await response.text();
-    console.log('Orders API: Response body (first 500 chars):', responseText.substring(0, 500));
 
     if (!response.ok) {
+      console.error('Orders API: HTTP error', response.status, responseText.substring(0, 500));
       return NextResponse.json(
-        { error: `API error: ${response.status} ${response.statusText}`, orders: [], debug: responseText.substring(0, 200) },
+        { error: `API error: ${response.status}`, orders: [] },
         { status: response.status }
       );
     }
@@ -135,7 +137,7 @@ export async function GET(request: NextRequest) {
     try {
       data = JSON.parse(responseText);
     } catch (e) {
-      console.error('Orders API: Failed to parse JSON response');
+      console.error('Orders API: Failed to parse JSON');
       return NextResponse.json(
         { error: 'Invalid response from Shopify', orders: [] },
         { status: 500 }
@@ -151,29 +153,33 @@ export async function GET(request: NextRequest) {
     }
 
     const orders = data.data?.customer?.orders?.nodes || [];
-    console.log('Orders API: Found', orders.length, 'orders');
 
-    // Transform orders to a simpler format for the frontend
-    const transformedOrders = orders.map((order) => ({
-      id: order.id,
-      orderNumber: order.name.replace('#', ''),
-      processedAt: order.processedAt,
-      fulfillmentStatus: order.fulfillmentStatus,
-      financialStatus: order.financialStatus,
-      totalPrice: order.totalPrice,
-      lineItems: order.lineItems.nodes.map((item) => ({
-        title: item.title,
-        quantity: item.quantity,
-        image: item.image,
-        price: item.price,
-      })),
-    }));
+    // Transform orders to match frontend expectations
+    const transformedOrders = orders.map((order) => {
+      // Get fulfillment status from first fulfillment or default to UNFULFILLED
+      const fulfillmentStatus = order.fulfillments?.nodes?.[0]?.status || 'UNFULFILLED';
+      
+      return {
+        id: order.id,
+        orderNumber: String(order.number),
+        processedAt: order.processedAt,
+        fulfillmentStatus: fulfillmentStatus,
+        financialStatus: order.financialStatus || 'PENDING',
+        totalPrice: order.totalPrice,
+        lineItems: order.lineItems?.nodes?.map((item) => ({
+          title: item.name,
+          quantity: item.quantity,
+          image: item.image,
+          price: item.totalPrice,
+        })) || [],
+      };
+    });
 
     return NextResponse.json({ orders: transformedOrders });
   } catch (error) {
     console.error('Orders API: Caught error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch orders', orders: [], errorDetails: String(error) },
+      { error: 'Failed to fetch orders', orders: [] },
       { status: 500 }
     );
   }
