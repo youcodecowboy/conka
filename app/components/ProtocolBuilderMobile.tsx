@@ -13,8 +13,19 @@ import {
     PathInfo,
     FORMULA_COLORS,
 } from "./ProtocolBuilder";
+import { useCart } from "@/app/context/CartContext";
+import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
+import { ProtocolId, PurchaseType } from "@/app/lib/productData";
 
 type AccordionSection = "why" | "included" | "fullMonth";
+
+// Map path keys to protocol IDs for Shopify
+const pathToProtocolId: Record<Exclude<PathType, null>, ProtocolId> = {
+  path1: "1", // Resilience Protocol
+  path2: "2", // Precision Protocol
+  path3: "3", // Balance Protocol
+  path4: "4", // Ultimate Protocol
+};
 
 export default function ProtocolBuilderMobile() {
   const [selectedPath, setSelectedPath] = useState<PathType>(null);
@@ -24,6 +35,7 @@ export default function ProtocolBuilderMobile() {
     included: false,
     fullMonth: false,
   });
+  const { addToCart, loading } = useCart();
 
   // Reset tier when selecting path4 (Ultimate) since it doesn't have starter
   useEffect(() => {
@@ -31,6 +43,21 @@ export default function ProtocolBuilderMobile() {
       setSelectedTier("pro");
     }
   }, [selectedPath, selectedTier]);
+
+  // Handle adding protocol subscription to cart
+  const handleAddToCart = async () => {
+    if (!selectedPath) return;
+    
+    const protocolId = pathToProtocolId[selectedPath];
+    const purchaseType: PurchaseType = "subscription";
+    
+    const variantData = getProtocolVariantId(protocolId, selectedTier, purchaseType);
+    if (variantData?.variantId) {
+      await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
+    } else {
+      console.warn("Variant ID not configured for:", { protocol: protocolId, tier: selectedTier, type: purchaseType });
+    }
+  };
 
   const toggleSection = (section: AccordionSection) => {
     setExpandedSections((prev) => ({
@@ -659,8 +686,12 @@ export default function ProtocolBuilderMobile() {
               {currentPricing.billingCycle}
             </p>
           </div>
-          <button className="flex-1 bg-black text-white py-3 px-6 rounded-lg font-semibold text-sm">
-            Subscribe Now
+          <button 
+            onClick={handleAddToCart}
+            disabled={loading}
+            className="flex-1 bg-black text-white py-3 px-6 rounded-lg font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Adding..." : "Subscribe Now"}
           </button>
         </div>
       </div>

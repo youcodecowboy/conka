@@ -4,6 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import useIsMobile from "../hooks/useIsMobile";
 import ProtocolBuilderMobile from "./ProtocolBuilderMobile";
+import { useCart } from "@/app/context/CartContext";
+import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
+import { ProtocolId, PurchaseType } from "@/app/lib/productData";
 
 export type PathType = "path1" | "path2" | "path3" | "path4" | null;
 export type ProtocolTier = "starter" | "pro" | "max";
@@ -189,10 +192,34 @@ export const ultimatePricingData: Record<"pro" | "max", { price: string; billing
   max: { price: "£99.99", billingCycle: "billed monthly" }
 };
 
+// Map path keys to protocol IDs for Shopify
+const pathToProtocolId: Record<Exclude<PathType, null>, ProtocolId> = {
+  path1: "1", // Resilience Protocol
+  path2: "2", // Precision Protocol
+  path3: "3", // Balance Protocol
+  path4: "4", // Ultimate Protocol
+};
+
 export default function ProtocolBuilder() {
   const isMobile = useIsMobile();
   const [selectedPath, setSelectedPath] = useState<PathType>(null);
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
+  const { addToCart, loading } = useCart();
+
+  // Handle adding protocol subscription to cart
+  const handleAddToCart = async () => {
+    if (!selectedPath) return;
+    
+    const protocolId = pathToProtocolId[selectedPath];
+    const purchaseType: PurchaseType = "subscription";
+    
+    const variantData = getProtocolVariantId(protocolId, selectedTier, purchaseType);
+    if (variantData?.variantId) {
+      await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
+    } else {
+      console.warn("Variant ID not configured for:", { protocol: protocolId, tier: selectedTier, type: purchaseType });
+    }
+  };
 
   // Render mobile version on smaller screens
   if (isMobile) {
@@ -462,8 +489,12 @@ export default function ProtocolBuilder() {
                   <p className="font-clinical text-xs opacity-70 mb-4">
                     {protocolTiers[selectedTier].name} Plan • {protocolTiers[selectedTier].primaryCount + protocolTiers[selectedTier].secondaryCount} shots/week
                   </p>
-                  <button className="w-full px-6 py-3 font-semibold mb-3 rounded-full bg-white text-black border-2 border-white hover:bg-white/90 transition-all">
-                    Subscribe Now
+                  <button 
+                    onClick={handleAddToCart}
+                    disabled={loading}
+                    className="w-full px-6 py-3 font-semibold mb-3 rounded-full bg-white text-black border-2 border-white hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? "Adding..." : "Subscribe Now"}
                   </button>
                   <button className="w-full text-center font-clinical text-sm underline opacity-80 hover:opacity-100 transition-opacity">
                     Try a trial pack instead →

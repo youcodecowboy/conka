@@ -1,5 +1,33 @@
 # Development Changelog
 
+## January 7, 2026
+
+### 06:25 - Fixed Protocol Simulator Subscribe Now Buttons
+
+Fixed a critical issue where the "Subscribe Now" buttons in the Protocol Builder/Simulator component on the home page were not connected to any cart functionality. The buttons were purely decorative and didn't add items to the cart.
+
+#### Changes to `ProtocolBuilder.tsx` (Desktop):
+- **Added cart integration**: Imported `useCart` hook and `getProtocolVariantId` function
+- **Path to Protocol ID mapping**: Added mapping from path keys (path1-4) to protocol IDs (1-4)
+- **handleAddToCart function**: Created async function to get variant data and add to cart with selling plan
+- **Subscribe Now button**: Connected to `handleAddToCart`, added loading state with "Adding..." text
+- **Disabled state styling**: Button shows disabled state while cart operation is in progress
+
+#### Changes to `ProtocolBuilderMobile.tsx` (Mobile):
+- **Same cart integration**: Added identical imports and functionality
+- **Path to Protocol ID mapping**: Same mapping for consistency
+- **handleAddToCart function**: Identical implementation for mobile
+- **Sticky footer button**: Subscribe Now button in mobile footer now functional
+- **Loading state**: Shows "Adding..." and disabled state during cart operations
+
+#### Protocol Path Mapping:
+- `path1` → Protocol 1 (Resilience)
+- `path2` → Protocol 2 (Precision)
+- `path3` → Protocol 3 (Balance)
+- `path4` → Protocol 4 (Ultimate)
+
+---
+
 ## January 6, 2026
 
 ### 12:00 - Major Trial Packs Section Improvements
