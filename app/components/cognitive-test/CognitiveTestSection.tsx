@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import type {
   TestState,
+  TestResult,
   EmailSubmission,
   CognitiveTestSectionProps,
 } from "./types";
 import EmailCaptureForm from "./EmailCaptureForm";
+import CognicaSDK from "./CognicaSDK";
 
 /**
  * CognitiveTestSection - Desktop version
@@ -25,6 +27,15 @@ export default function CognitiveTestSection({
   const [testState, setTestState] = useState<TestState>("idle");
   const [emailSubmission, setEmailSubmission] =
     useState<EmailSubmission | null>(null);
+  const [testResult, setTestResult] = useState<TestResult | null>(null);
+
+  // Generate a unique subject ID for tracking (memoized to stay consistent during test)
+  const subjectId = useMemo(() => {
+    if (emailSubmission) {
+      return `website_${emailSubmission.submittedAt.getTime()}`;
+    }
+    return `website_${Date.now()}`;
+  }, [emailSubmission]);
 
   const handleStartTest = useCallback(() => {
     setTestState("email");
@@ -37,8 +48,18 @@ export default function CognitiveTestSection({
   const handleEmailSubmit = useCallback((submission: EmailSubmission) => {
     setEmailSubmission(submission);
     setTestState("testing");
-    // In Phase 2, this will trigger the SDK iframe to load
     console.log("Email submitted:", submission.email);
+  }, []);
+
+  const handleTestComplete = useCallback((result: TestResult) => {
+    setTestResult(result);
+    setTestState("results");
+    console.log("Test completed:", result);
+  }, []);
+
+  const handleRetakeTest = useCallback(() => {
+    setTestResult(null);
+    setTestState("idle");
   }, []);
 
   // Contextual text for the left column based on state
@@ -182,7 +203,13 @@ export default function CognitiveTestSection({
           </div>
 
           {/* Right Column - Interactive Card (transforms based on state) */}
-          <div className="neo-box p-8 min-h-[400px] flex flex-col">
+          <div
+            className={`neo-box flex flex-col ${
+              testState === "testing"
+                ? "p-0 min-h-[550px]" // No padding for iframe, taller card
+                : "p-8 min-h-[400px]"
+            }`}
+          >
             {/* IDLE STATE: CTA */}
             {testState === "idle" && (
               <div className="flex flex-col items-center justify-center text-center h-full">
@@ -239,45 +266,70 @@ export default function CognitiveTestSection({
               />
             )}
 
-            {/* TESTING STATE: SDK Iframe Placeholder */}
+            {/* TESTING STATE: SDK Iframe */}
             {testState === "testing" && (
-              <div className="flex flex-col items-center justify-center text-center h-full">
-                <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-4">
-                  Loading Assessment
-                </p>
-                <h3 className="text-xl font-bold mb-4">
-                  Preparing your cognitive test...
-                </h3>
-                <p className="text-sm opacity-70 mb-6">
-                  The assessment will appear here shortly.
-                </p>
-                {emailSubmission && (
-                  <p className="font-clinical text-sm opacity-50 mb-4">
-                    Results will be sent to: {emailSubmission.email}
-                  </p>
-                )}
-                {/* Placeholder for Phase 2: SDK iframe will go here */}
-                <div className="w-full flex-1 min-h-[200px] border-2 border-dashed border-current/20 flex items-center justify-center">
-                  <p className="font-clinical text-sm opacity-40">
-                    [WebSDK iframe - Phase 2]
-                  </p>
-                </div>
-              </div>
+              <CognicaSDK
+                onComplete={handleTestComplete}
+                subjectId={subjectId}
+              />
             )}
 
-            {/* RESULTS STATE: Score Display Placeholder */}
-            {testState === "results" && (
+            {/* RESULTS STATE: Score Display */}
+            {testState === "results" && testResult && (
               <div className="flex flex-col items-center justify-center text-center h-full">
                 <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-4">
                   Test Complete
                 </p>
-                <h3 className="text-xl font-bold mb-4">Your Results</h3>
-                {/* Placeholder for Phase 3: Results display will go here */}
-                <div className="w-full flex-1 min-h-[200px] border-2 border-dashed border-current/20 flex items-center justify-center">
-                  <p className="font-clinical text-sm opacity-40">
-                    [Results Display - Phase 3]
-                  </p>
+                <h3 className="text-xl font-bold mb-6">Your Results</h3>
+
+                {/* Score Display */}
+                <div className="w-full grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center">
+                    <p className="font-clinical text-4xl font-bold text-teal-500">
+                      {testResult.score}
+                    </p>
+                    <p className="font-clinical text-xs opacity-50 mt-1">
+                      SCORE
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <p className="font-clinical text-4xl font-bold">
+                      {testResult.accuracy}%
+                    </p>
+                    <p className="font-clinical text-xs opacity-50 mt-1">
+                      ACCURACY
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <p className="font-clinical text-4xl font-bold">
+                      {testResult.speed}%
+                    </p>
+                    <p className="font-clinical text-xs opacity-50 mt-1">
+                      SPEED
+                    </p>
+                  </div>
                 </div>
+
+                {emailSubmission && (
+                  <p className="text-sm opacity-70 mb-6">
+                    A detailed breakdown has been sent to{" "}
+                    {emailSubmission.email}
+                  </p>
+                )}
+
+                {/* Actions */}
+                <div className="w-full space-y-3">
+                  <button
+                    onClick={handleRetakeTest}
+                    className="neo-button-outline px-6 py-3 font-bold w-full"
+                  >
+                    Retake Test
+                  </button>
+                </div>
+
+                <p className="font-clinical text-xs opacity-40 mt-4">
+                  [Full Results UI - Phase 3]
+                </p>
               </div>
             )}
           </div>
