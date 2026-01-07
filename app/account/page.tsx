@@ -199,7 +199,7 @@ export default function AccountPage() {
     >
       <Navigation />
 
-      <main className="pt-8 pb-24 lg:pt-24 px-4">
+      <main className="pt-24 pb-24 lg:pt-32 px-4">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">

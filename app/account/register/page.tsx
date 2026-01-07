@@ -38,7 +38,7 @@ export default function RegisterPage() {
     >
       <Navigation />
 
-      <main className="pt-8 pb-24 lg:pt-36 px-4">
+      <main className="pt-24 pb-24 lg:pt-36 px-4">
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="text-center mb-8">

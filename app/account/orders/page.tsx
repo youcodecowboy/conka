@@ -206,7 +206,7 @@ export default function OrdersPage() {
     >
       <Navigation />
 
-      <main className="pt-8 pb-24 lg:pt-24 px-4">
+      <main className="pt-24 pb-24 lg:pt-32 px-4">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-2">
