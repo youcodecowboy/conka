@@ -167,7 +167,17 @@ export default function SubscriptionsPage() {
     setActionLoading(null);
   };
 
-  // Determine current tier from quantity
+  // Determine current tier from subscription interval
+  // Starter = weekly (1 week), Pro = bi-weekly (2 weeks / 14 days), Max = monthly
+  const getTierFromInterval = (interval: SubscriptionInterval): SubscriptionTier => {
+    if (interval.unit === 'month') return 'max';
+    if (interval.unit === 'week' && interval.value >= 2) return 'pro';
+    if (interval.unit === 'day' && interval.value >= 14) return 'pro'; // 14 days = bi-weekly
+    if (interval.unit === 'day' && interval.value >= 28) return 'max'; // 28 days = monthly
+    return 'starter'; // weekly or less
+  };
+
+  // Legacy: Determine tier from quantity (fallback)
   const getTierFromQuantity = (quantity: number): SubscriptionTier => {
     if (quantity >= 28) return 'max';
     if (quantity >= 12) return 'pro';
@@ -179,18 +189,19 @@ export default function SubscriptionsPage() {
     return TIER_OPTIONS.find(t => t.tier === tier) || TIER_OPTIONS[0];
   };
 
-  // Open edit modal
+  // Open edit modal - use interval to determine current tier
   const openEditModal = (subscription: Subscription) => {
     setShowEditModal(subscription);
-    setSelectedTier(getTierFromQuantity(subscription.quantity));
+    // Use interval for more accurate tier detection
+    setSelectedTier(getTierFromInterval(subscription.interval));
   };
 
   // Handle save edit - directly updates frequency via Loop API
   const handleSaveEdit = async () => {
     if (!showEditModal) return;
     
-    // Check if tier actually changed
-    const currentTier = getTierFromQuantity(showEditModal.quantity);
+    // Check if tier actually changed (use interval for accurate comparison)
+    const currentTier = getTierFromInterval(showEditModal.interval);
     if (selectedTier !== currentTier) {
       setActionLoading(showEditModal.id);
       
@@ -641,7 +652,7 @@ export default function SubscriptionsPage() {
               <div className="space-y-3">
                 {TIER_OPTIONS.map((option) => {
                   const isSelected = selectedTier === option.tier;
-                  const isCurrent = showEditModal && getTierFromQuantity(showEditModal.quantity) === option.tier;
+                  const isCurrent = showEditModal && getTierFromInterval(showEditModal.interval) === option.tier;
                   
                   return (
                     <button
@@ -691,7 +702,7 @@ export default function SubscriptionsPage() {
               </button>
               <button
                 onClick={handleSaveEdit}
-                disabled={getTierFromQuantity(showEditModal.quantity) === selectedTier || actionLoading === showEditModal.id}
+                disabled={getTierFromInterval(showEditModal.interval) === selectedTier || actionLoading === showEditModal.id}
                 className="flex-1 neo-button py-3 font-semibold disabled:opacity-50"
               >
                 {actionLoading === showEditModal.id ? (
