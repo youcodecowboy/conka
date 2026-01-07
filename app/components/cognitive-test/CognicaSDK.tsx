@@ -16,10 +16,12 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
   // Build SDK URL with query parameters
   const sdkUrl = new URL("https://conkasdkdev.cognetivity.com/");
   sdkUrl.searchParams.set("shortVersion", "true");
-  sdkUrl.searchParams.set("websiteExperience", "true");
+  sdkUrl.searchParams.set("websiteExperience", "true"); // Required for postMessage to work in web iframe
   if (subjectId) {
     sdkUrl.searchParams.set("subjectId", subjectId);
   }
+  // Cache bust to force fresh SDK load
+  sdkUrl.searchParams.set("_cb", Date.now().toString());
 
   // Memoize the message handler to avoid recreating on each render
   const handleMessage = useCallback(
@@ -29,8 +31,11 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
         const data =
           typeof event.data === "string" ? JSON.parse(event.data) : event.data;
 
-        // Check if this is a test completion event with score data
-        if (data.score !== undefined) {
+        // Check if this is a test completion event with the correct type and score data
+        if (
+          data.type === "cognetivity-test-complete" &&
+          data.score !== undefined
+        ) {
           const result: TestResult = {
             score: Math.round(data.score),
             accuracy: Math.round(data.accuracy),
@@ -102,4 +107,3 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
     </div>
   );
 }
-
