@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Navigation from '@/app/components/Navigation';
 import { useAuth } from '@/app/context/AuthContext';
 import { useSubscriptions, Subscription } from '@/app/hooks/useSubscriptions';
+import { CancellationModal } from '@/app/components/subscriptions/CancellationModal';
 import type { SubscriptionInterval } from '@/app/types';
 
 // Subscription tier options - each tier has a fixed package size AND delivery frequency
@@ -62,8 +63,7 @@ export default function SubscriptionsPage() {
     resumeSubscription,
     cancelSubscription,
     skipNextOrder,
-    updateFrequency,
-    updateQuantity,
+    changePlan,
   } = useSubscriptions();
 
   const [actionLoading, setActionLoading] = useState<string | null>(null);
@@ -185,32 +185,48 @@ export default function SubscriptionsPage() {
     setSelectedTier(getTierFromQuantity(subscription.quantity));
   };
 
-  // Handle save edit - updates both frequency and quantity together based on tier
+  // Handle save edit - updates plan (frequency and quantity together)
   const handleSaveEdit = async () => {
     if (!showEditModal) return;
     
     setActionLoading(showEditModal.id);
-    const tierOption = getTierOption(selectedTier);
-    let success = true;
 
     // Check if tier actually changed
     const currentTier = getTierFromQuantity(showEditModal.quantity);
     if (selectedTier !== currentTier) {
-      // Update frequency (tied to tier)
-      success = await updateFrequency(showEditModal.id, tierOption.interval);
-
-      // Update quantity (tied to tier)
+      const success = await changePlan(showEditModal.id, selectedTier);
       if (success) {
-        success = await updateQuantity(showEditModal.id, tierOption.quantity);
+        setShowEditModal(null);
       }
-    }
-
-    if (success) {
+    } else {
+      // No change needed
       setShowEditModal(null);
-      // Refresh subscriptions
+    }
+    
+    setActionLoading(null);
+  };
+
+  // Handle change plan from cancellation modal
+  const handleChangePlanFromModal = async (plan: 'starter' | 'pro' | 'max'): Promise<boolean> => {
+    if (!showCancelModal) return false;
+    const subscription = subscriptions.find(s => s.id === showCancelModal);
+    if (!subscription) return false;
+    
+    const success = await changePlan(subscription.id, plan);
+    if (success) {
       await fetchSubscriptions();
     }
-    setActionLoading(null);
+    return success;
+  };
+
+  // Handle cancel from modal
+  const handleCancelFromModal = async (reason: string, comment?: string): Promise<boolean> => {
+    if (!showCancelModal) return false;
+    const success = await cancelSubscription(showCancelModal, reason);
+    if (success) {
+      await fetchSubscriptions();
+    }
+    return success;
   };
 
   // Show loading state
@@ -682,78 +698,26 @@ export default function SubscriptionsPage() {
         </div>
       )}
 
-      {/* Cancel Confirmation Modal */}
-      {showCancelModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setShowCancelModal(null)}
-          />
-          <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-600">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="15" y1="9" x2="9" y2="15"/>
-                  <line x1="9" y1="9" x2="15" y2="15"/>
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-bold text-xl">Cancel Subscription?</h3>
-                <p className="font-clinical text-sm opacity-70">
-                  This action cannot be undone
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-amber-50 border-2 border-amber-200 rounded-lg p-4 mb-4">
-              <p className="font-clinical text-sm text-amber-800">
-                <strong>Consider pausing instead:</strong> You can pause your subscription temporarily and resume anytime without losing your subscription rate.
-              </p>
-            </div>
-
-            {/* Optional Reason */}
-            <div className="mb-6">
-              <label className="block font-clinical text-sm mb-2">
-                Reason for cancelling (optional)
-              </label>
-              <textarea
-                value={cancelReason}
-                onChange={(e) => setCancelReason(e.target.value)}
-                rows={3}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg font-clinical text-sm resize-none focus:outline-none focus:ring-2 focus:ring-amber-500"
-                placeholder="Help us improve by sharing why you're cancelling..."
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  setShowCancelModal(null);
-                  setCancelReason('');
-                }}
-                className="flex-1 neo-button py-3 font-semibold"
-              >
-                Keep Subscription
-              </button>
-              <button
-                onClick={() => handleCancel(showCancelModal)}
-                disabled={actionLoading === showCancelModal}
-                className="flex-1 bg-red-600 text-white py-3 rounded-full font-semibold hover:bg-red-700 transition-colors disabled:opacity-50"
-              >
-                {actionLoading === showCancelModal ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                    Cancelling...
-                  </span>
-                ) : (
-                  'Yes, Cancel'
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Cancel Confirmation Modal with Retention Flow */}
+      <CancellationModal
+        isOpen={!!showCancelModal}
+        onClose={() => {
+          setShowCancelModal(null);
+          setCancelReason('');
+        }}
+        onCancel={handleCancelFromModal}
+        onChangePlan={handleChangePlanFromModal}
+        subscriptionName={
+          subscriptions.find(s => s.id === showCancelModal)?.product.title || 'Subscription'
+        }
+        currentPlan={
+          showCancelModal
+            ? getTierFromQuantity(
+                subscriptions.find(s => s.id === showCancelModal)?.quantity || 12
+              )
+            : undefined
+        }
+      />
     </div>
   );
 }

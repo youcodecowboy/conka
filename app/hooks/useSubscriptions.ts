@@ -15,6 +15,7 @@ interface UseSubscriptionsReturn {
   resumeSubscription: (subscriptionId: string) => Promise<boolean>;
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
+  changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', lineId?: string) => Promise<boolean>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
   updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
 }
@@ -79,17 +80,18 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     }
   }, []);
 
-  // Pause subscription
+  // Pause subscription - uses Shopify Customer Account API
   const pauseSubscription = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/subscriptions/${subscriptionId}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'pause' }),
+        // URL encode the subscription ID (contains special characters like gid://...)
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/pause`, {
+          method: 'POST',
+          credentials: 'include',
         });
 
         const data = await response.json();
@@ -120,17 +122,17 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Resume subscription
+  // Resume subscription - uses Shopify Customer Account API
   const resumeSubscription = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/subscriptions/${subscriptionId}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'resume' }),
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/resume`, {
+          method: 'POST',
+          credentials: 'include',
         });
 
         const data = await response.json();
@@ -161,17 +163,19 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Cancel subscription
+  // Cancel subscription - uses Shopify Customer Account API
   const cancelSubscription = useCallback(
     async (subscriptionId: string, reason?: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/subscriptions/${subscriptionId}`, {
-          method: 'PATCH',
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/cancel`, {
+          method: 'POST',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'cancel', reason }),
+          body: JSON.stringify({ reason }),
         });
 
         const data = await response.json();
@@ -202,19 +206,18 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Skip next order
+  // Skip next order - uses Shopify Customer Account API
   const skipNextOrder = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(
-          `/api/subscriptions/${subscriptionId}/skip`,
-          {
-            method: 'POST',
-          }
-        );
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/skip`, {
+          method: 'POST',
+          credentials: 'include',
+        });
 
         const data = await response.json();
 
@@ -235,86 +238,77 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Update subscription frequency
-  const updateFrequency = useCallback(
-    async (subscriptionId: string, interval: SubscriptionInterval): Promise<boolean> => {
+  // Change subscription plan (Starter/Pro/Max) - uses Shopify Customer Account API
+  const changePlan = useCallback(
+    async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', lineId?: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/subscriptions/${subscriptionId}`, {
-          method: 'PATCH',
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/change-plan`, {
+          method: 'POST',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'updateFrequency', interval }),
+          body: JSON.stringify({ plan, lineId }),
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-          setError(data.error || 'Failed to update frequency');
+          setError(data.error || data.message || 'Failed to change plan');
           return false;
         }
 
-        // Update local state
-        setSubscriptions((prev) =>
-          prev.map((sub) =>
-            sub.id === subscriptionId
-              ? { ...sub, interval }
-              : sub
-          )
-        );
+        // Refresh subscriptions to get updated data
+        await fetchSubscriptions();
 
         return true;
       } catch (err) {
-        console.error('Failed to update frequency:', err);
-        setError('Failed to update frequency');
+        console.error('Failed to change plan:', err);
+        setError('Failed to change plan');
         return false;
       } finally {
         setLoading(false);
       }
     },
-    []
+    [fetchSubscriptions]
   );
 
-  // Update subscription quantity
+  // Update subscription frequency - uses change plan endpoint
+  const updateFrequency = useCallback(
+    async (subscriptionId: string, interval: SubscriptionInterval): Promise<boolean> => {
+      // Map interval to plan type
+      let plan: 'starter' | 'pro' | 'max' = 'pro';
+      if (interval.unit === 'week' && interval.value === 1) {
+        plan = 'starter';
+      } else if (interval.unit === 'week' && interval.value === 2) {
+        plan = 'pro';
+      } else if (interval.unit === 'month') {
+        plan = 'max';
+      }
+      
+      return changePlan(subscriptionId, plan);
+    },
+    [changePlan]
+  );
+
+  // Update subscription quantity - uses change plan endpoint
   const updateQuantity = useCallback(
     async (subscriptionId: string, quantity: number): Promise<boolean> => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await fetch(`/api/subscriptions/${subscriptionId}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'updateQuantity', quantity }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          setError(data.error || 'Failed to update quantity');
-          return false;
-        }
-
-        // Update local state
-        setSubscriptions((prev) =>
-          prev.map((sub) =>
-            sub.id === subscriptionId
-              ? { ...sub, quantity }
-              : sub
-          )
-        );
-
-        return true;
-      } catch (err) {
-        console.error('Failed to update quantity:', err);
-        setError('Failed to update quantity');
-        return false;
-      } finally {
-        setLoading(false);
+      // Map quantity to plan type
+      let plan: 'starter' | 'pro' | 'max' = 'pro';
+      if (quantity <= 4) {
+        plan = 'starter';
+      } else if (quantity <= 12) {
+        plan = 'pro';
+      } else {
+        plan = 'max';
       }
+      
+      return changePlan(subscriptionId, plan);
     },
-    []
+    [changePlan]
   );
 
   return {
@@ -326,6 +320,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     resumeSubscription,
     cancelSubscription,
     skipNextOrder,
+    changePlan,
     updateFrequency,
     updateQuantity,
   };
