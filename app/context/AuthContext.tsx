@@ -2,12 +2,23 @@
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
+export interface CustomerAddress {
+  address1: string | null;
+  address2: string | null;
+  city: string | null;
+  province: string | null;
+  zip: string | null;
+  country: string | null;
+}
+
 export interface CustomerInfo {
   id: string;
   email: string;
   firstName?: string;
   lastName?: string;
-  name?: string;
+  displayName?: string;
+  phone?: string;
+  defaultAddress?: CustomerAddress | null;
 }
 
 interface AuthContextType {

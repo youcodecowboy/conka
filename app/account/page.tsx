@@ -454,7 +454,7 @@ export default function AccountPage() {
                 <p className="font-bold text-lg">
                   {customer.firstName || customer.lastName
                     ? `${customer.firstName || ''} ${customer.lastName || ''}`.trim()
-                    : 'Not set'}
+                    : customer.displayName || 'Not set'}
                 </p>
               </div>
               <div className="p-4 bg-current/5 rounded-lg">
@@ -467,7 +467,11 @@ export default function AccountPage() {
               </div>
               <div className="p-4 bg-current/5 rounded-lg">
                 <h3 className="font-clinical text-xs opacity-50 mb-1 uppercase tracking-wide">Delivery Address</h3>
-                <p className="font-bold text-lg">Not set</p>
+                <p className="font-bold text-lg">
+                  {customer.defaultAddress?.address1 
+                    ? `${customer.defaultAddress.address1}${customer.defaultAddress.city ? `, ${customer.defaultAddress.city}` : ''}`
+                    : 'Not set'}
+                </p>
               </div>
             </div>
           </div>
