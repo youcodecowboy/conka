@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import type {
   TestState,
   TestResult,
@@ -31,6 +31,39 @@ export default function CognitiveTestSection({
     useState<EmailSubmission | null>(null);
   const [testResult, setTestResult] = useState<TestResult | null>(null);
 
+  // Processing animation state
+  const [processingProgress, setProcessingProgress] = useState(0);
+  const processingStage =
+    processingProgress < 33 ? 0 : processingProgress < 66 ? 1 : 2;
+  const processingStages = [
+    "Processing your results...",
+    "Analyzing your performance...",
+    "Generating insights...",
+  ];
+
+  // Processing animation effect
+  useEffect(() => {
+    if (testState !== "processing") {
+      setProcessingProgress(0);
+      return;
+    }
+
+    const duration = 2500;
+    const interval = setInterval(() => {
+      setProcessingProgress((prev) => {
+        const next = prev + 2;
+        if (next >= 100) {
+          clearInterval(interval);
+          setTimeout(() => setTestState("results"), 300);
+          return 100;
+        }
+        return next;
+      });
+    }, duration / 50);
+
+    return () => clearInterval(interval);
+  }, [testState]);
+
   // Generate a unique subject ID for tracking (memoized to stay consistent during test)
   const subjectId = useMemo(() => {
     if (emailSubmission) {
@@ -55,7 +88,7 @@ export default function CognitiveTestSection({
 
   const handleTestComplete = useCallback((result: TestResult) => {
     setTestResult(result);
-    setTestState("results");
+    setTestState("processing");
     console.log("Test completed:", result);
   }, []);
 
@@ -290,58 +323,308 @@ export default function CognitiveTestSection({
             </div>
           )}
 
-          {/* RESULTS STATE: Centered score display */}
-          {testState === "results" && testResult && (
+          {/* PROCESSING STATE: Animated loader while "analyzing" results */}
+          {testState === "processing" && (
             <div className="w-full max-w-2xl">
-              <div className="neo-box p-10">
-                {/* Score Display - Larger */}
-                <div className="grid grid-cols-3 gap-6 mb-8">
-                  <div className="text-center p-6 bg-teal-500/10 rounded-lg">
-                    <p className="font-clinical text-5xl font-bold text-teal-500 mb-2">
+              <div className="neo-box p-12 flex flex-col items-center text-center">
+                {/* Animated Progress Ring */}
+                <div className="relative w-24 h-24 mb-8">
+                  {/* Outer ring */}
+                  <div className="absolute inset-0 rounded-full border-4 border-current/10" />
+
+                  {/* Progress ring */}
+                  <svg
+                    className="absolute inset-0 w-full h-full -rotate-90"
+                    viewBox="0 0 100 100"
+                  >
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="46"
+                      fill="none"
+                      stroke="#14b8a6"
+                      strokeWidth="8"
+                      strokeLinecap="round"
+                      strokeDasharray={`${processingProgress * 2.89} 289`}
+                      className="transition-all duration-100"
+                    />
+                  </svg>
+
+                  {/* Center icon */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="36"
+                      height="36"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`transition-opacity ${
+                        processingProgress >= 100 ? "opacity-100" : "opacity-50"
+                      }`}
+                    >
+                      {processingProgress >= 100 ? (
+                        // Checkmark when complete
+                        <polyline points="20 6 9 17 4 12" />
+                      ) : (
+                        // Brain icon while loading
+                        <>
+                          <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
+                          <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
+                        </>
+                      )}
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Stage Text */}
+                <p className="font-bold text-xl mb-2">
+                  {processingStages[processingStage]}
+                </p>
+
+                {/* Progress Percentage */}
+                <p className="font-clinical text-sm opacity-60">
+                  {processingProgress}%
+                </p>
+
+                {/* Stage dots */}
+                <div className="flex gap-1.5 mt-6">
+                  {[0, 1, 2].map((dot) => (
+                    <div
+                      key={dot}
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        processingStage >= dot ? "bg-teal-500" : "bg-current/20"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* RESULTS STATE: Score + Recommendation + App Promo */}
+          {testState === "results" && testResult && (
+            <div className="w-full max-w-2xl space-y-6">
+              {/* Section 1: Score Display */}
+              <div className="neo-box p-8">
+                <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-4 text-center">
+                  Your Speed of Processing Scores
+                </p>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-teal-500/10 rounded-lg">
+                    <p className="font-clinical text-4xl font-bold text-teal-500 mb-1">
                       {testResult.score}
                     </p>
-                    <p className="font-clinical text-sm opacity-60 uppercase tracking-wider">
-                      Score
+                    <p className="font-clinical text-xs opacity-60 uppercase tracking-wider">
+                      Overall
                     </p>
                   </div>
-                  <div className="text-center p-6 bg-current/5 rounded-lg">
-                    <p className="font-clinical text-5xl font-bold mb-2">
+                  <div className="text-center p-4 bg-current/5 rounded-lg">
+                    <p className="font-clinical text-4xl font-bold mb-1">
                       {testResult.accuracy}%
                     </p>
-                    <p className="font-clinical text-sm opacity-60 uppercase tracking-wider">
+                    <p className="font-clinical text-xs opacity-60 uppercase tracking-wider">
                       Accuracy
                     </p>
                   </div>
-                  <div className="text-center p-6 bg-current/5 rounded-lg">
-                    <p className="font-clinical text-5xl font-bold mb-2">
+                  <div className="text-center p-4 bg-current/5 rounded-lg">
+                    <p className="font-clinical text-4xl font-bold mb-1">
                       {testResult.speed}%
                     </p>
-                    <p className="font-clinical text-sm opacity-60 uppercase tracking-wider">
+                    <p className="font-clinical text-xs opacity-60 uppercase tracking-wider">
                       Speed
                     </p>
                   </div>
                 </div>
-
                 {emailSubmission && (
-                  <p className="text-center text-base opacity-70 mb-8">
-                    A detailed breakdown has been sent to{" "}
-                    <span className="font-medium">{emailSubmission.email}</span>
+                  <p className="text-center text-sm opacity-60 mt-4">
+                    Results sent to {emailSubmission.email}
                   </p>
                 )}
+              </div>
 
-                {/* Actions */}
-                <div className="flex justify-center gap-4">
-                  <button
-                    onClick={handleRetakeTest}
-                    className="neo-button-outline px-8 py-4 font-bold"
-                  >
-                    Play Again
-                  </button>
-                </div>
-
-                <p className="font-clinical text-xs opacity-40 mt-6 text-center">
-                  [Full Results UI - Phase 3]
+              {/* Section 2: Smart Recommendation */}
+              <div className="neo-box p-6 border-l-4 border-amber-500">
+                <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-3">
+                  Based on Your Performance
                 </p>
+                {testResult.accuracy < 70 && testResult.speed < 70 ? (
+                  <>
+                    <h4 className="font-bold text-lg mb-2">
+                      Consider the Balance Protocol
+                    </h4>
+                    <p className="text-sm opacity-70 mb-4">
+                      Your scores suggest both accuracy and speed could benefit
+                      from support. The Balance Protocol alternates between
+                      Conka Flow and Conka Clarity daily for comprehensive
+                      cognitive coverage.
+                    </p>
+                    <a
+                      href="/protocol/3"
+                      className="neo-button px-5 py-2 text-sm font-bold inline-block"
+                    >
+                      Try Balance Protocol
+                    </a>
+                  </>
+                ) : testResult.accuracy < 70 ? (
+                  <>
+                    <h4 className="font-bold text-lg mb-2">
+                      Precision Protocol may help
+                    </h4>
+                    <p className="text-sm opacity-70 mb-4">
+                      Your accuracy score suggests room for improvement.
+                      Clinical studies show Conka Clarity ingredients improve
+                      cognition by +16% and attention by +14%.
+                    </p>
+                    <a
+                      href="/protocol/2"
+                      className="neo-button px-5 py-2 text-sm font-bold inline-block"
+                    >
+                      Try Precision Protocol
+                    </a>
+                  </>
+                ) : testResult.speed < 70 ? (
+                  <>
+                    <h4 className="font-bold text-lg mb-2">
+                      Resilience Protocol may help
+                    </h4>
+                    <p className="text-sm opacity-70 mb-4">
+                      Your speed score suggests room for improvement. Clinical
+                      studies show Conka Flow ingredients improve memory by +18%
+                      and overall cognitive performance.
+                    </p>
+                    <a
+                      href="/protocol/1"
+                      className="neo-button px-5 py-2 text-sm font-bold inline-block"
+                    >
+                      Try Resilience Protocol
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <h4 className="font-bold text-lg mb-2">Great baseline!</h4>
+                    <p className="text-sm opacity-70 mb-4">
+                      Your scores show strong cognitive function. The Ultimate
+                      Protocol—taking both Conka Flow and Conka Clarity
+                      daily—helps maintain and further enhance peak performance.
+                    </p>
+                    <a
+                      href="/protocol/4"
+                      className="neo-button px-5 py-2 text-sm font-bold inline-block"
+                    >
+                      Try Ultimate Protocol
+                    </a>
+                  </>
+                )}
+                <a
+                  href="/quiz"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors mt-3"
+                >
+                  Not sure? Take our full quiz
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </a>
+              </div>
+
+              {/* Section 3: CONKA App Promo */}
+              <div className="neo-box p-6 bg-current/5">
+                <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-3">
+                  Get the Full Experience
+                </p>
+                <p className="text-sm opacity-70 mb-4">
+                  This was a 30-second snapshot. The full Speed of Processing
+                  game in the CONKA app gives you detailed insights and tracks
+                  how your performance changes with lifestyle factors.
+                </p>
+                <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-teal-500 flex items-center justify-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                    <span className="text-xs opacity-70">
+                      Full validated test
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-teal-500 flex items-center justify-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                    <span className="text-xs opacity-70">
+                      Sleep &amp; exercise tracking
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-teal-500 flex items-center justify-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                    <span className="text-xs opacity-70">
+                      Personalized insights
+                    </span>
+                  </div>
+                </div>
+                <p className="font-clinical text-xs opacity-50">
+                  Free download on iOS and Android
+                </p>
+              </div>
+
+              {/* Section 4: Actions */}
+              <div className="flex justify-center">
+                <button
+                  onClick={handleRetakeTest}
+                  className="neo-button-outline px-8 py-3 font-bold"
+                >
+                  Play Again
+                </button>
               </div>
             </div>
           )}
