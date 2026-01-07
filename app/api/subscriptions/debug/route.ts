@@ -130,13 +130,17 @@ export async function GET(request: NextRequest) {
   }
 
   // Test the actual getCustomerSubscriptions function (same as main route)
-  let mainFunctionTest = null;
+  let mainFunctionTest: Record<string, unknown> | null = null;
   if (loopApiConfigured && customerEmail) {
     try {
       const result = await getCustomerSubscriptions(customerEmail);
       mainFunctionTest = {
         error: result.error || null,
+        hasData: !!result.data,
+        dataType: typeof result.data,
+        isArray: Array.isArray(result.data),
         subscriptionCount: result.data?.length || 0,
+        rawData: JSON.stringify(result.data)?.substring(0, 500),
         firstSub: result.data?.[0] ? {
           id: result.data[0].id,
           status: (result.data[0] as any).status,
