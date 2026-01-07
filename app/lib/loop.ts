@@ -241,3 +241,101 @@ export async function updateSubscriptionQuantity(
   });
 }
 
+// Swap a product variant in a subscription
+// This replaces an existing line item with a new variant
+export async function swapSubscriptionProduct(
+  subscriptionId: string,
+  newVariantId: string,
+  quantity?: number
+): Promise<LoopApiResponse<LoopSubscription>> {
+  // First, get the subscription to find the line item ID
+  const subResult = await getSubscription(subscriptionId);
+  
+  if (subResult.error || !subResult.data) {
+    return {
+      error: {
+        code: 'SUBSCRIPTION_NOT_FOUND',
+        message: 'Could not find subscription to swap product',
+      },
+    };
+  }
+  
+  // Get the first line item (most subscriptions have one main product)
+  const lines = (subResult.data as any).lines;
+  if (!lines || lines.length === 0) {
+    return {
+      error: {
+        code: 'NO_LINE_ITEMS',
+        message: 'Subscription has no line items to swap',
+      },
+    };
+  }
+  
+  const lineId = lines[0].id;
+  const currentQuantity = lines[0].quantity || 1;
+  
+  // Swap the product using Loop's swap endpoint
+  // Note: The exact endpoint may vary - common patterns are:
+  // POST /line/{lineId}/swap
+  // POST /subscription/{id}/swap-product
+  return loopFetch<LoopSubscription>(`/line/${lineId}/swap`, {
+    method: 'POST',
+    body: JSON.stringify({ 
+      variantId: newVariantId,
+      quantity: quantity || currentQuantity,
+    }),
+  });
+}
+
+// Update both frequency and quantity in one call (for plan changes)
+export async function updateSubscriptionPlan(
+  subscriptionId: string,
+  options: {
+    interval?: SubscriptionInterval;
+    quantity?: number;
+    variantId?: string;
+  }
+): Promise<LoopApiResponse<LoopSubscription>> {
+  const results: { frequency?: boolean; quantity?: boolean; variant?: boolean } = {};
+  let lastError: LoopError | undefined;
+
+  // Update frequency if provided
+  if (options.interval) {
+    const freqResult = await updateSubscriptionFrequency(subscriptionId, options.interval);
+    if (freqResult.error) {
+      lastError = freqResult.error;
+    } else {
+      results.frequency = true;
+    }
+  }
+
+  // Update quantity if provided
+  if (options.quantity) {
+    const qtyResult = await updateSubscriptionQuantity(subscriptionId, options.quantity);
+    if (qtyResult.error) {
+      lastError = qtyResult.error;
+    } else {
+      results.quantity = true;
+    }
+  }
+
+  // Swap variant if provided
+  if (options.variantId) {
+    const swapResult = await swapSubscriptionProduct(subscriptionId, options.variantId, options.quantity);
+    if (swapResult.error) {
+      lastError = swapResult.error;
+    } else {
+      results.variant = true;
+    }
+  }
+
+  // Return the updated subscription
+  const finalResult = await getSubscription(subscriptionId);
+  
+  if (lastError && !results.frequency && !results.quantity && !results.variant) {
+    return { error: lastError };
+  }
+
+  return finalResult;
+}
+

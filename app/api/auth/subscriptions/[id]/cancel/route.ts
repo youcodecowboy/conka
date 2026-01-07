@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { cancelSubscription as cancelLoopSubscription } from '@/app/lib/loop';
 
 const SHOPIFY_SHOP_ID = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
+
+// Extract Loop subscription ID from Shopify contract ID
+// e.g., "gid://shopify/SubscriptionContract/126061281654" -> "126061281654"
+function extractLoopId(shopifyId: string): string {
+  const match = shopifyId.match(/SubscriptionContract\/(\d+)/);
+  return match ? match[1] : shopifyId;
+}
 
 // Cancellation reasons for analytics
 export const CANCELLATION_REASONS = {
@@ -81,6 +89,31 @@ export async function POST(
     });
   }
 
+  // Extract the Loop subscription ID (numeric part)
+  const loopSubscriptionId = extractLoopId(subscriptionId);
+  
+  const results: {
+    shopify?: { success: boolean; error?: string };
+    loop?: { success: boolean; error?: string };
+  } = {};
+
+  // Step 1: Cancel in Loop (this is the primary source of truth)
+  try {
+    console.log('Cancelling in Loop, subscription ID:', loopSubscriptionId);
+    const loopResult = await cancelLoopSubscription(loopSubscriptionId, reason);
+    
+    if (loopResult.error) {
+      console.error('Loop cancel error:', loopResult.error);
+      results.loop = { success: false, error: loopResult.error.message };
+    } else {
+      results.loop = { success: true };
+    }
+  } catch (error) {
+    console.error('Loop cancel exception:', error);
+    results.loop = { success: false, error: String(error) };
+  }
+
+  // Step 2: Also cancel in Shopify (for sync)
   const apiUrl = `https://shopify.com/${SHOPIFY_SHOP_ID}/account/customer/api/2024-10/graphql`;
 
   try {
@@ -101,34 +134,36 @@ export async function POST(
     const data = await response.json();
 
     if (data.errors) {
-      console.error('GraphQL errors:', data.errors);
-      return NextResponse.json(
-        { error: 'Failed to cancel subscription', details: data.errors },
-        { status: 400 }
-      );
+      console.error('Shopify GraphQL errors:', data.errors);
+      results.shopify = { success: false, error: data.errors[0]?.message };
+    } else {
+      const result = data.data?.subscriptionContractCancel;
+      if (result?.userErrors?.length > 0) {
+        results.shopify = { success: false, error: result.userErrors[0].message };
+      } else {
+        results.shopify = { success: true };
+      }
     }
+  } catch (error) {
+    console.error('Shopify cancel error:', error);
+    results.shopify = { success: false, error: String(error) };
+  }
 
-    const result = data.data?.subscriptionContractCancel;
-    
-    if (result?.userErrors?.length > 0) {
-      return NextResponse.json(
-        { error: result.userErrors[0].message, userErrors: result.userErrors },
-        { status: 400 }
-      );
-    }
-
+  // Return success if Loop succeeded (Loop is the source of truth)
+  if (results.loop?.success) {
     return NextResponse.json({
       success: true,
-      contract: result?.contract,
       message: 'Subscription cancelled successfully',
+      details: results,
     });
-  } catch (error) {
-    console.error('Cancel subscription error:', error);
-    return NextResponse.json(
-      { error: 'Failed to cancel subscription', details: String(error) },
-      { status: 500 }
-    );
   }
+
+  // If Loop failed, return error
+  return NextResponse.json({
+    success: false,
+    error: results.loop?.error || 'Failed to cancel subscription',
+    details: results,
+  }, { status: 400 });
 }
 
 // GET endpoint to retrieve cancellation reasons

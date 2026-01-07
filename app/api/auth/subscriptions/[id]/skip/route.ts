@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { skipNextOrder as skipLoopOrder } from '@/app/lib/loop';
 
 const SHOPIFY_SHOP_ID = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
 
-// Mutation to skip the next billing cycle
+// Extract Loop subscription ID from Shopify contract ID
+function extractLoopId(shopifyId: string): string {
+  const match = shopifyId.match(/SubscriptionContract\/(\d+)/);
+  return match ? match[1] : shopifyId;
+}
+
+// Mutation to skip the next billing cycle (for Shopify sync)
 const SKIP_BILLING_CYCLE_MUTATION = `
   mutation subscriptionBillingCycleSkip($billingCycleInput: SubscriptionBillingCycleInput!) {
     subscriptionBillingCycleSkip(billingCycleInput: $billingCycleInput) {
@@ -48,6 +55,31 @@ export async function POST(
     );
   }
 
+  // Extract the Loop subscription ID (numeric part)
+  const loopSubscriptionId = extractLoopId(subscriptionId);
+  
+  const results: {
+    shopify?: { success: boolean; error?: string };
+    loop?: { success: boolean; error?: string };
+  } = {};
+
+  // Step 1: Skip in Loop (this is the primary source of truth)
+  try {
+    console.log('Skipping in Loop, subscription ID:', loopSubscriptionId);
+    const loopResult = await skipLoopOrder(loopSubscriptionId);
+    
+    if (loopResult.error) {
+      console.error('Loop skip error:', loopResult.error);
+      results.loop = { success: false, error: loopResult.error.message };
+    } else {
+      results.loop = { success: true };
+    }
+  } catch (error) {
+    console.error('Loop skip exception:', error);
+    results.loop = { success: false, error: String(error) };
+  }
+
+  // Step 2: Also try to skip in Shopify (for sync, may not always work)
   const apiUrl = `https://shopify.com/${SHOPIFY_SHOP_ID}/account/customer/api/2024-10/graphql`;
 
   try {
@@ -73,32 +105,35 @@ export async function POST(
     const data = await response.json();
 
     if (data.errors) {
-      console.error('GraphQL errors:', data.errors);
-      return NextResponse.json(
-        { error: 'Failed to skip delivery', details: data.errors },
-        { status: 400 }
-      );
+      console.error('Shopify GraphQL errors:', data.errors);
+      results.shopify = { success: false, error: data.errors[0]?.message };
+    } else {
+      const result = data.data?.subscriptionBillingCycleSkip;
+      if (result?.userErrors?.length > 0) {
+        results.shopify = { success: false, error: result.userErrors[0].message };
+      } else {
+        results.shopify = { success: true };
+      }
     }
+  } catch (error) {
+    console.error('Shopify skip error:', error);
+    results.shopify = { success: false, error: String(error) };
+  }
 
-    const result = data.data?.subscriptionBillingCycleSkip;
-    
-    if (result?.userErrors?.length > 0) {
-      return NextResponse.json(
-        { error: result.userErrors[0].message, userErrors: result.userErrors },
-        { status: 400 }
-      );
-    }
-
+  // Return success if Loop succeeded (Loop is the source of truth)
+  if (results.loop?.success) {
     return NextResponse.json({
       success: true,
-      billingCycle: result?.billingCycle,
+      message: 'Next delivery skipped successfully',
+      details: results,
     });
-  } catch (error) {
-    console.error('Skip delivery error:', error);
-    return NextResponse.json(
-      { error: 'Failed to skip delivery', details: String(error) },
-      { status: 500 }
-    );
   }
+
+  // If Loop failed, return error
+  return NextResponse.json({
+    success: false,
+    error: results.loop?.error || 'Failed to skip delivery',
+    details: results,
+  }, { status: 400 });
 }
 

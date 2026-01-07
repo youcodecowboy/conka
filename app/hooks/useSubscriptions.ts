@@ -245,11 +245,11 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Change subscription plan (Starter/Pro/Max) - uses cancel-and-redirect flow
-  // Since Shopify Customer Account API doesn't support plan modifications,
-  // we cancel the current subscription and redirect to checkout with new plan
+  // Change subscription plan (Starter/Pro/Max) - uses Loop API for direct editing
+  // For frequency changes: Loop's updateSubscriptionFrequency API
+  // For protocol changes: cancel and redirect to shop
   const changePlan = useCallback(
-    async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', cancelAndRedirect: boolean = false): Promise<ChangePlanResult> => {
+    async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', forceCancel: boolean = false): Promise<ChangePlanResult> => {
       setLoading(true);
       setError(null);
 
@@ -259,14 +259,24 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ plan, cancelAndRedirect }),
+          body: JSON.stringify({ plan, forceCancel }),
         });
 
         const data = await response.json();
 
-        if (!response.ok && !data.requiresConfirmation) {
+        if (!response.ok) {
           setError(data.error || data.message || 'Failed to change plan');
           return { success: false, message: data.error || data.message };
+        }
+
+        // If subscription was updated successfully (frequency change)
+        if (data.success && data.updatedPlan) {
+          // Refresh subscriptions to get updated data
+          await fetchSubscriptions();
+          return { 
+            success: true, 
+            message: data.message,
+          };
         }
 
         // If subscription was cancelled and we have a redirect URL
@@ -287,16 +297,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           };
         }
 
-        // If requires confirmation (first call without cancelAndRedirect)
-        if (data.requiresConfirmation) {
-          return {
-            success: true,
-            requiresConfirmation: true,
-            message: data.message,
-          };
-        }
-
-        return { success: true };
+        return { success: true, message: data.message };
       } catch (err) {
         console.error('Failed to change plan:', err);
         setError('Failed to change plan');
@@ -305,7 +306,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         setLoading(false);
       }
     },
-    []
+    [fetchSubscriptions]
   );
 
   // Update subscription frequency - uses change plan endpoint
