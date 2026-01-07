@@ -95,12 +95,9 @@ export async function getAllSubscriptions(
 export async function getCustomerSubscriptions(
   email: string
 ): Promise<LoopApiResponse<LoopSubscription[]>> {
-  // First, get all subscriptions and filter by email
-  // Loop doesn't have a direct "by email" endpoint in Admin API
-  // For now, we'll use the customer endpoint to find the customer first
   try {
-    // Get customer by email
-    const customerResult = await loopFetch<{ id: number }>(
+    // Get customer by email - Loop returns an array of customers
+    const customerResult = await loopFetch<Array<{ id: number }>>(
       `/customer?email=${encodeURIComponent(email)}`
     );
     
@@ -108,12 +105,23 @@ export async function getCustomerSubscriptions(
       return { data: [] }; // No customer found, return empty
     }
     
+    // Loop returns an array, get the first matching customer
+    const customers = Array.isArray(customerResult.data) 
+      ? customerResult.data 
+      : [customerResult.data];
+    
+    if (customers.length === 0) {
+      return { data: [] };
+    }
+    
+    const customerId = customers[0].id;
+    
     // Then get subscriptions for that customer
-    const customerId = customerResult.data.id;
     return loopFetch<LoopSubscription[]>(
       `/subscription?customerId=${customerId}`
     );
-  } catch {
+  } catch (error) {
+    console.error('getCustomerSubscriptions error:', error);
     return { data: [] };
   }
 }
