@@ -1,0 +1,137 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { env } from '@/app/lib/env';
+
+// Helper to get customer email from ID token cookie
+async function getCustomerEmailFromSession(): Promise<string | null> {
+  const cookieStore = await cookies();
+  const idToken = cookieStore.get('customer_id_token')?.value;
+  
+  if (!idToken) return null;
+  
+  try {
+    const payload = JSON.parse(
+      Buffer.from(idToken.split('.')[1], 'base64').toString()
+    );
+    return payload.email || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Debug endpoint for Loop API connection
+ */
+export async function GET(request: NextRequest) {
+  const customerEmail = await getCustomerEmailFromSession();
+  
+  // Check if Loop API key is configured
+  let loopApiConfigured = false;
+  let loopApiKeyPreview = null;
+  try {
+    const apiKey = env.loopApiKey;
+    loopApiConfigured = !!apiKey;
+    loopApiKeyPreview = apiKey ? `${apiKey.substring(0, 10)}...` : null;
+  } catch (e) {
+    loopApiConfigured = false;
+  }
+
+  // Test Loop API connection
+  let loopApiTest: Record<string, unknown> | null = null;
+  if (loopApiConfigured && customerEmail) {
+    try {
+      const apiKey = env.loopApiKey;
+      
+      // First test: Get customer by email
+      const customerResponse = await fetch(
+        `https://api.loopsubscriptions.com/admin/2023-10/customer?email=${encodeURIComponent(customerEmail)}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Loop-Token': apiKey!,
+          },
+        }
+      );
+      
+      const customerText = await customerResponse.text();
+      
+      loopApiTest = {
+        customerLookup: {
+          status: customerResponse.status,
+          body: customerText.substring(0, 500),
+        },
+      };
+
+      // If customer found, try to get their subscriptions
+      if (customerResponse.ok) {
+        try {
+          const customerData = JSON.parse(customerText);
+          const customerId = customerData.data?.id;
+          
+          if (customerId) {
+            const subsResponse = await fetch(
+              `https://api.loopsubscriptions.com/admin/2023-10/subscription?customerId=${customerId}`,
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-Loop-Token': apiKey!,
+                },
+              }
+            );
+            
+            const subsText = await subsResponse.text();
+            
+            loopApiTest.subscriptionLookup = {
+              customerId,
+              status: subsResponse.status,
+              body: subsText.substring(0, 1000),
+            };
+          }
+        } catch (e) {
+          loopApiTest.parseError = String(e);
+        }
+      }
+    } catch (e) {
+      loopApiTest = { error: String(e) };
+    }
+  }
+
+  // Also test getting all subscriptions (to see if API works at all)
+  let allSubsTest = null;
+  if (loopApiConfigured) {
+    try {
+      const apiKey = env.loopApiKey;
+      const response = await fetch(
+        `https://api.loopsubscriptions.com/admin/2023-10/subscription?limit=5`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Loop-Token': apiKey!,
+          },
+        }
+      );
+      
+      const text = await response.text();
+      allSubsTest = {
+        status: response.status,
+        body: text.substring(0, 500),
+      };
+    } catch (e) {
+      allSubsTest = { error: String(e) };
+    }
+  }
+
+  return NextResponse.json({
+    config: {
+      loopApiConfigured,
+      loopApiKeyPreview,
+    },
+    session: {
+      customerEmail,
+      isAuthenticated: !!customerEmail,
+    },
+    loopApiTest,
+    allSubscriptionsTest: allSubsTest,
+  });
+}
+
