@@ -165,10 +165,10 @@ export default function AccountPage() {
     }
   };
 
-  // Get truly active subscriptions (must have a nextBillingDate to be considered active)
-  // Loop keeps historical subscriptions marked as "active" even when they're stale
+  // Get active subscriptions
+  // Now using Shopify's native API which returns accurate data
   const activeSubscriptions = subscriptions.filter((s: Subscription) => 
-    s.status === 'active' && s.nextBillingDate && s.nextBillingDate.trim() !== ''
+    s.status === 'active'
   );
   
   // Get next delivery date

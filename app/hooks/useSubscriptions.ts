@@ -24,13 +24,14 @@ export function useSubscriptions(): UseSubscriptionsReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch subscriptions (uses HTTP-only cookie for auth)
+  // Fetch subscriptions from Shopify's native Subscription API
+  // (NOT Loop - Loop's API returns business plans, not customer subscriptions)
   const fetchSubscriptions = useCallback(async (): Promise<void> => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('/api/subscriptions', {
+      const response = await fetch('/api/auth/subscriptions', {
         credentials: 'include', // Include cookies for auth
       });
       const data = await response.json();
@@ -39,7 +40,35 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         setError(data.error || 'Failed to fetch subscriptions');
         setSubscriptions([]);
       } else {
-        setSubscriptions(data.subscriptions || []);
+        // Transform Shopify format to our Subscription type
+        const transformed = (data.subscriptions || []).map((sub: any) => ({
+          id: sub.id,
+          customerId: '', // Not provided by Shopify's customer API
+          email: '', // Not provided by Shopify's customer API
+          status: sub.status as 'active' | 'paused' | 'cancelled' | 'expired',
+          nextBillingDate: sub.nextBillingDate || '',
+          createdAt: sub.createdAt || '',
+          updatedAt: sub.updatedAt || '',
+          product: sub.product ? {
+            id: sub.product.id || '',
+            title: sub.product.title || 'Subscription',
+            variantTitle: sub.product.variantId ? `Variant ${sub.product.variantId}` : undefined,
+            image: sub.product.image,
+          } : {
+            id: '',
+            title: 'Subscription',
+          },
+          price: sub.price ? {
+            amount: sub.price.amount || '0',
+            currencyCode: sub.price.currencyCode || 'GBP',
+          } : {
+            amount: '0',
+            currencyCode: 'GBP',
+          },
+          quantity: sub.product?.quantity || 1,
+          interval: sub.interval || { value: 1, unit: 'month' as const },
+        }));
+        setSubscriptions(transformed);
       }
     } catch (err) {
       console.error('Failed to fetch subscriptions:', err);
