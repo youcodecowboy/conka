@@ -134,18 +134,26 @@ export async function GET(request: NextRequest) {
   if (loopApiConfigured && customerEmail) {
     try {
       const result = await getCustomerSubscriptions(customerEmail);
+      
+      // Check if subscriptions belong to different customers (security check)
+      const customerIds = new Set<string>();
+      const customerShopifyIds = new Set<string>();
+      (result.data || []).forEach((sub: any) => {
+        if (sub.customerId) customerIds.add(String(sub.customerId));
+        if (sub.shopifyCustomerId) customerShopifyIds.add(String(sub.shopifyCustomerId));
+        if (sub.customer?.id) customerIds.add(String(sub.customer.id));
+        if (sub.customer?.shopifyId) customerShopifyIds.add(String(sub.customer.shopifyId));
+      });
+      
       mainFunctionTest = {
         error: result.error || null,
-        hasData: !!result.data,
-        dataType: typeof result.data,
-        isArray: Array.isArray(result.data),
         subscriptionCount: result.data?.length || 0,
-        rawData: JSON.stringify(result.data)?.substring(0, 500),
-        firstSub: result.data?.[0] ? {
-          id: result.data[0].id,
-          status: (result.data[0] as any).status,
-          customerId: (result.data[0] as any).customerId,
-        } : null,
+        uniqueCustomerIds: Array.from(customerIds),
+        uniqueShopifyCustomerIds: Array.from(customerShopifyIds),
+        firstSubRaw: result.data?.[0] ? JSON.stringify(result.data[0]).substring(0, 800) : null,
+        securityWarning: customerIds.size > 1 || customerShopifyIds.size > 1 
+          ? 'MULTIPLE CUSTOMERS DETECTED - DATA LEAK!' 
+          : null,
       };
     } catch (e) {
       mainFunctionTest = { error: String(e) };

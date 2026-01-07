@@ -101,10 +101,7 @@ export async function getCustomerSubscriptions(
       `/customer?email=${encodeURIComponent(email)}`
     );
     
-    console.log('[Loop] Customer lookup result:', JSON.stringify(customerResult).substring(0, 500));
-    
     if (customerResult.error || !customerResult.data) {
-      console.log('[Loop] No customer found or error');
       return { data: [] }; // No customer found, return empty
     }
     
@@ -113,24 +110,16 @@ export async function getCustomerSubscriptions(
       ? customerResult.data 
       : [customerResult.data];
     
-    console.log('[Loop] Customers array length:', customers.length);
-    
     if (customers.length === 0) {
-      console.log('[Loop] Empty customers array');
       return { data: [] };
     }
     
     const customerId = customers[0].id;
-    console.log('[Loop] Customer ID extracted:', customerId);
     
     // Then get subscriptions for that customer
-    const subsResult = await loopFetch<LoopSubscription[]>(
+    return loopFetch<LoopSubscription[]>(
       `/subscription?customerId=${customerId}`
     );
-    
-    console.log('[Loop] Subscriptions result:', JSON.stringify(subsResult).substring(0, 500));
-    
-    return subsResult;
   } catch (error) {
     console.error('getCustomerSubscriptions error:', error);
     return { data: [] };
