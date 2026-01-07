@@ -35,6 +35,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preconnect to Shopify CDN for faster cart/checkout */}
+        <link rel="preconnect" href="https://cdn.shopify.com" />
+        <link rel="dns-prefetch" href="https://cdn.shopify.com" />
+        {/* Preconnect to Shopify storefront API */}
+        <link rel="preconnect" href="https://conka-6770.myshopify.com" />
+        <link rel="dns-prefetch" href="https://conka-6770.myshopify.com" />
+        {/* Preload LCP image for faster initial paint */}
+        <link
+          rel="preload"
+          as="image"
+          href="/main.jpg"
+          fetchPriority="high"
+        />
+      </head>
       <body
         className={`${poppins.variable} ${caveat.variable} ${ibmPlexMono.variable} antialiased`}
       >

@@ -66,11 +66,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Load cart from localStorage on mount
+  // Load cart from localStorage on mount - deferred to not block initial render
   useEffect(() => {
-    const savedCartId = localStorage.getItem(CART_ID_KEY);
-    if (savedCartId) {
-      fetchCart(savedCartId);
+    // Use requestIdleCallback to defer cart fetch until browser is idle
+    // This prevents blocking the main thread during initial page load
+    const loadCart = () => {
+      const savedCartId = localStorage.getItem(CART_ID_KEY);
+      if (savedCartId) {
+        fetchCart(savedCartId);
+      }
+    };
+
+    // Defer cart loading to after initial render and paint
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadCart, { timeout: 2000 });
+    } else {
+      // Fallback for Safari - defer by 100ms
+      setTimeout(loadCart, 100);
     }
   }, [fetchCart]);
 

@@ -26,6 +26,7 @@ export default function Hero() {
             height={625}
             className="w-[352px] sm:w-[396px] md:w-[380px] lg:w-[400px] xl:w-[450px] h-auto object-contain max-w-[85vw] sm:max-w-[80vw] md:max-w-none"
             priority
+            sizes="(max-width: 640px) 352px, (max-width: 768px) 396px, (max-width: 1024px) 380px, (max-width: 1280px) 400px, 450px"
           />
         </div>
 

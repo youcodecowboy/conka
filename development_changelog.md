@@ -2,6 +2,36 @@
 
 ## January 7, 2026
 
+### 10:30 - Mobile PageSpeed Performance Optimizations
+
+Implemented several optimizations to improve mobile PageSpeed score (77 → target 90+) after Shopify integration caused performance regression.
+
+#### Deferred Cart Loading (`CartContext.tsx`):
+- Cart fetch now uses `requestIdleCallback` (with `setTimeout` fallback for Safari)
+- Prevents cart API call from blocking initial page render
+- Only fetches cart data after browser is idle, improving First Contentful Paint
+
+#### Preconnect Hints (`layout.tsx`):
+- Added `preconnect` and `dns-prefetch` for `cdn.shopify.com`
+- Added `preconnect` and `dns-prefetch` for Shopify storefront API
+- Added preload link for hero image (`/main.jpg`) with `fetchPriority="high"`
+- Reduces time to establish connections for cart/checkout operations
+
+#### Image Optimization:
+- **Hero.tsx**: Added `sizes` attribute for responsive hero image
+- **WhatIsConka.tsx**: Added `sizes="(max-width: 768px) 85vw, 400px"` and `loading="lazy"`
+- **TrialPacks.tsx**: Added `sizes` and `loading="lazy"` for formula images
+- **TrialPacksMobile.tsx**: Added `sizes="280px"` and `loading="lazy"`
+- **ProductSlideshowMobile.tsx**: Added `loading="lazy"` for carousel images
+
+#### Expected Impact:
+- Reduced Largest Contentful Paint (LCP) through image preload
+- Reduced main thread blocking by deferring cart API calls
+- Faster connection setup with preconnect hints
+- Smaller initial image downloads with proper sizes attributes
+
+---
+
 ### 06:25 - Fixed Protocol Simulator Subscribe Now Buttons
 
 Fixed a critical issue where the "Subscribe Now" buttons in the Protocol Builder/Simulator component on the home page were not connected to any cart functionality. The buttons were purely decorative and didn't add items to the cart.

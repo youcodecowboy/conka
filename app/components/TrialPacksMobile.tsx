@@ -157,6 +157,8 @@ export default function TrialPacksMobile() {
           style={{
             objectPosition: `${formulaImages[selectedFormula].focalX}% ${formulaImages[selectedFormula].focalY}%`,
           }}
+          sizes="280px"
+          loading="lazy"
         />
       </a>
 

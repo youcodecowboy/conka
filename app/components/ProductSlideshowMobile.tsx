@@ -95,6 +95,7 @@ export default function ProductSlideshowMobile({ variant = "hero" }: ProductSlid
                   transform: image.scale ? `scale(${image.scale})` : undefined,
                 }}
                 sizes="288px"
+                loading="lazy"
               />
             </div>
           ))}

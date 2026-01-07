@@ -151,6 +151,8 @@ export default function TrialPacks() {
                 style={{
                   objectPosition: `${formulaImages[selectedFormula].focalX}% ${formulaImages[selectedFormula].focalY}%`,
                 }}
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                loading="lazy"
               />
             </a>
           </div>

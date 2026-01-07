@@ -98,6 +98,8 @@ function FormulaCard({ formula, isActive, isMobile = false }: { formula: Formula
           style={{
             objectPosition: `${formula.focalX}% ${formula.focalY}%`,
           }}
+          sizes="(max-width: 768px) 85vw, 400px"
+          loading="lazy"
         />
       </Link>
 
