@@ -9,10 +9,13 @@
 ## Overview
 
 Integrate the Cognica WebSDK cognitive test into the science page with:
+
 - Email capture modal before test starts
 - Iframe-based SDK rendering (short version only for now)
 - Custom post-test results UI matching Conka's neo-brutalist style
 - Responsive design for desktop and mobile
+
+**Implementation Strategy:** Each phase is split into Desktop (A) and Mobile (B) sub-phases. Complete Desktop first, then adapt for Mobile.
 
 ---
 
@@ -82,9 +85,9 @@ Show product recommendations
 
 ```typescript
 interface TestResult {
-  score: number;      // Overall cognitive score (0-100)
-  accuracy: number;   // Accuracy percentage (0-100)
-  speed: number;      // Speed percentage (0-100)
+  score: number; // Overall cognitive score (0-100)
+  accuracy: number; // Accuracy percentage (0-100)
+  speed: number; // Speed percentage (0-100)
   testInstanceId?: string;
 }
 ```
@@ -103,15 +106,15 @@ useEffect(() => {
           accuracy: Math.round(data.accuracy),
           speed: Math.round(data.speed),
         });
-        setTestState('results');
+        setTestState("results");
       }
     } catch (e) {
       // Not a JSON message, ignore
     }
   };
 
-  window.addEventListener('message', handleMessage);
-  return () => window.removeEventListener('message', handleMessage);
+  window.addEventListener("message", handleMessage);
+  return () => window.removeEventListener("message", handleMessage);
 }, []);
 ```
 
@@ -119,17 +122,18 @@ useEffect(() => {
 
 ## Phases
 
-### Phase 1: Foundation and Email Capture
+### Phase 1A: Foundation and Email Capture (Desktop)
 
-**Branch:** `websdk/phase-1-foundation`
+**Branch:** `websdk/phase-1a-desktop`
 
 #### Tasks
 
-- [ ] Create component folder structure
+- [ ] Create component folder structure (`app/components/cognitive-test/`)
+- [ ] Create `types.ts` with TypeScript interfaces
+- [ ] Create `index.ts` barrel exports
 - [ ] Build `EmailCaptureModal.tsx` with neo-brutalist styling
-- [ ] Build `CognitiveTestSection.tsx` shell component
-- [ ] Add test section to `SciencePageDesktop.tsx` (after hero)
-- [ ] Add test section to `SciencePageMobile.tsx` (after hero)
+- [ ] Build `CognitiveTestSection.tsx` for desktop
+- [ ] Add section to `SciencePageDesktop.tsx` (after hero, before quote)
 - [ ] Implement state machine: `idle` → `email` → `testing` → `results`
 
 #### Components to Create
@@ -138,33 +142,109 @@ useEffect(() => {
 app/components/cognitive-test/
 ├── index.ts
 ├── types.ts
-├── CognitiveTestSection.tsx
-└── EmailCaptureModal.tsx
+├── CognitiveTestSection.tsx    # Desktop version
+└── EmailCaptureModal.tsx       # Shared (responsive)
+```
+
+#### Section Layout (Desktop)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  px-16 py-16                                                        │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │  max-w-6xl mx-auto                                            │ │
+│  │                                                                │ │
+│  │  ┌─────────────────────────────────────────────────────────┐  │ │
+│  │  │  grid lg:grid-cols-2 gap-12 items-center                │  │ │
+│  │  │  ┌──────────────────┐  ┌──────────────────────────────┐ │  │ │
+│  │  │  │  Text Content    │  │  Visual/CTA Box              │ │  │ │
+│  │  │  │  - Label         │  │  neo-box                     │ │  │ │
+│  │  │  │  - Heading       │  │  - Icon/illustration         │ │  │ │
+│  │  │  │  - Description   │  │  - "Start Test" button       │ │  │ │
+│  │  │  │  - Benefits list │  │  - "~2 minutes" note         │ │  │ │
+│  │  │  └──────────────────┘  └──────────────────────────────┘ │  │ │
+│  │  └─────────────────────────────────────────────────────────┘  │ │
+│  └───────────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 #### EmailCaptureModal Requirements
 
-- Modal overlay with backdrop
-- Neo-box styled container
-- Email input field with validation
+- Fixed overlay with semi-transparent black backdrop (`bg-black/50`)
+- Centered `neo-box` container (sharp corners, white bg)
+- Close button (X) in top-right corner
+- Heading: "Before You Begin" (Poppins bold)
+- Subtext: "we'll send you a detailed breakdown of your results" (font-commentary)
+- Email input field (`border-2 border-current`)
 - Checkbox: "I agree to receive my results via email"
-- Submit button (neo-button style)
-- Close/cancel option
-- Copy: "We'll send you a detailed breakdown of your cognitive performance"
+- Submit button (`neo-button`)
+- Escape key closes modal
 
-#### Acceptance Criteria
+#### Copy/Content
 
-- [ ] Section visible on science page (desktop & mobile)
-- [ ] "Start Test" button opens email modal
-- [ ] Email validation works (required, valid format)
+**Section Heading:** "Test Your Cognitive Performance"
+**Section Subtext:** "measure what matters" (font-commentary)
+**Description:** "Take our 2-minute cognitive assessment powered by Cognetivity. Discover your baseline scores for speed, accuracy, and overall cognitive function."
+**Benefits:**
+
+- Clinically-validated assessment
+- Instant results
+- Personalized recommendations
+
+**CTA Button:** "Start Free Test"
+**Time Note:** "~2 minutes • No app required"
+
+#### Acceptance Criteria (Desktop)
+
+- [ ] Component folder structure created
+- [ ] Types exported correctly
+- [ ] Section visible on desktop science page (after hero)
+- [ ] Section matches neo-brutalist style guide
+- [ ] "Start Free Test" button opens email modal
+- [ ] Modal has proper backdrop overlay
+- [ ] Modal centered on screen
+- [ ] Email validation works (required + valid format)
+- [ ] Consent checkbox required for submission
 - [ ] Submit stores email in component state
-- [ ] Modal closes and transitions to "testing" state
+- [ ] Modal closes on submit → transitions to "testing" state
+- [ ] Modal closes on X click or Escape key
+- [ ] No TypeScript errors
+- [ ] No console errors
 
 ---
 
-### Phase 2: WebSDK Integration
+### Phase 1B: Foundation and Email Capture (Mobile)
 
-**Branch:** `websdk/phase-2-sdk-integration`
+**Branch:** `websdk/phase-1b-mobile`
+
+#### Tasks
+
+- [ ] Create `CognitiveTestSectionMobile.tsx`
+- [ ] Add section to `SciencePageMobile.tsx` (after hero)
+- [ ] Ensure modal works on mobile viewports
+- [ ] Test touch interactions
+
+#### Mobile Considerations
+
+- Single column layout
+- Full-width CTA button
+- Modal takes more screen real estate
+- Larger touch targets for inputs/buttons
+- Consider keyboard behavior with input focus
+
+#### Acceptance Criteria (Mobile)
+
+- [ ] Section visible on mobile science page
+- [ ] Layout adapts to mobile viewport
+- [ ] Modal usable on small screens
+- [ ] Touch interactions work smoothly
+- [ ] Keyboard doesn't obscure inputs
+
+---
+
+### Phase 2A: WebSDK Integration (Desktop)
+
+**Branch:** `websdk/phase-2a-desktop`
 
 #### Tasks
 
@@ -172,14 +252,18 @@ app/components/cognitive-test/
 - [ ] Implement postMessage listener for results
 - [ ] Add loading state with animation
 - [ ] Handle SDK load errors
-- [ ] Test mobile iframe rendering
-- [ ] Verify touch interactions work on mobile
+- [ ] Test on desktop browsers (Chrome, Safari, Firefox)
 
 #### CognicaSDK Component
 
 ```typescript
-export default function CognicaSDK({ onComplete }: { onComplete: (result: TestResult) => void }) {
-  const sdkUrl = "https://conkasdkdev.cognetivity.com/?" +
+export default function CognicaSDK({
+  onComplete,
+}: {
+  onComplete: (result: TestResult) => void;
+}) {
+  const sdkUrl =
+    "https://conkasdkdev.cognetivity.com/?" +
     new URLSearchParams({
       shortVersion: "true",
       websiteExperience: "true",
@@ -204,137 +288,182 @@ export default function CognicaSDK({ onComplete }: { onComplete: (result: TestRe
 }
 ```
 
-#### Iframe Sizing
+#### Desktop Iframe Sizing
 
-| Viewport | Width | Height |
-|----------|-------|--------|
-| Desktop | 100% (max-w-4xl) | 600px |
-| Mobile | 100% | 500px or 80vh |
+- Width: 100% of container (max-w-4xl)
+- Height: 600px
+- No border radius (neo-brutalist)
+- 2px border via neo-box wrapper
 
-#### Acceptance Criteria
+#### Acceptance Criteria (Desktop)
 
 - [ ] SDK iframe loads after email submission
-- [ ] Loading animation shows while SDK initializes
+- [ ] Loading state shows while SDK initializes
 - [ ] Test can be completed successfully
 - [ ] Results captured via postMessage
-- [ ] Works on desktop Chrome, Safari, Firefox
-- [ ] Works on mobile Safari, Chrome
+- [ ] Works on Chrome, Safari, Firefox (desktop)
 
 ---
 
-### Phase 3: Custom Results UI
+### Phase 2B: WebSDK Integration (Mobile)
 
-**Branch:** `websdk/phase-3-results-ui`
+**Branch:** `websdk/phase-2b-mobile`
+
+#### Tasks
+
+- [ ] Test iframe rendering on mobile viewports
+- [ ] Adjust height/width for mobile
+- [ ] Verify touch interactions work properly
+- [ ] Test on mobile Safari and Chrome
+
+#### Mobile Iframe Sizing
+
+- Width: 100%
+- Height: 500px or 80vh (whichever fits better)
+- May need full-screen mode consideration
+
+#### Acceptance Criteria (Mobile)
+
+- [ ] SDK iframe renders correctly on mobile
+- [ ] Touch interactions work
+- [ ] Test can be completed on mobile Safari
+- [ ] Test can be completed on mobile Chrome
+
+---
+
+### Phase 3A: Custom Results UI (Desktop)
+
+**Branch:** `websdk/phase-3a-desktop`
 
 #### Tasks
 
 - [ ] Create `TestResultsDisplay.tsx`
-- [ ] Design score visualization (large number, progress bars)
+- [ ] Design score visualization (large number display)
+- [ ] Add accuracy/speed secondary metrics
 - [ ] Add score interpretation text
 - [ ] Build product recommendation section
 - [ ] Add "Retake Test" option
 - [ ] Add CTAs to products/quiz
 
-#### Components to Create
+#### Results UI Layout (Desktop)
 
 ```
-app/components/cognitive-test/
-├── ... (existing)
-├── TestResultsDisplay.tsx
-└── ScoreInterpretation.tsx
-```
-
-#### Results UI Layout
-
-```
-┌─────────────────────────────────────────────┐
-│  YOUR COGNITIVE SCORE                       │
-│  ┌─────────────────────────────────────┐   │
-│  │           78                         │   │  ← Large, font-clinical
-│  │        out of 100                    │   │
-│  └─────────────────────────────────────┘   │
-│                                             │
-│  ┌──────────────┐  ┌──────────────┐        │
-│  │ Accuracy     │  │ Speed        │        │
-│  │    82%       │  │    74%       │        │
-│  └──────────────┘  └──────────────┘        │
-│                                             │
-│  ─────────────────────────────────────────  │
-│                                             │
-│  What This Means                            │
-│  Your score indicates [interpretation]...   │
-│                                             │
-│  ─────────────────────────────────────────  │
-│                                             │
-│  How Conka Can Help                         │
-│  [Product recommendations based on score]   │
-│                                             │
-│  ┌─────────────┐  ┌─────────────────────┐  │
-│  │ Retake Test │  │ Explore Products    │  │
-│  └─────────────┘  └─────────────────────┘  │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│  YOUR COGNITIVE SCORE                                               │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │  grid lg:grid-cols-3 gap-8                                    │ │
+│  │  ┌──────────────────┐ ┌──────────────┐ ┌──────────────┐      │ │
+│  │  │  TOTAL SCORE     │ │  ACCURACY    │ │  SPEED       │      │ │
+│  │  │      78          │ │     82%      │ │     74%      │      │ │
+│  │  │  out of 100      │ │              │ │              │      │ │
+│  │  └──────────────────┘ └──────────────┘ └──────────────┘      │ │
+│  └───────────────────────────────────────────────────────────────┘ │
+│                                                                     │
+│  What This Means                                                    │
+│  [Interpretation based on score tier]                               │
+│                                                                     │
+│  How Conka Can Help                                                 │
+│  [Product recommendations with links]                               │
+│                                                                     │
+│  ┌─────────────────┐  ┌─────────────────────────┐                  │
+│  │  Retake Test    │  │  Explore Products       │                  │
+│  └─────────────────┘  └─────────────────────────┘                  │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 #### Score Interpretation Tiers
 
-| Score Range | Interpretation |
-|-------------|----------------|
-| 85-100 | Excellent cognitive performance |
-| 70-84 | Good cognitive performance |
-| 55-69 | Average cognitive performance |
-| Below 55 | Room for improvement |
+| Score Range | Label        | Interpretation                                                                                   |
+| ----------- | ------------ | ------------------------------------------------------------------------------------------------ |
+| 85-100      | Excellent    | "Your cognitive performance is excellent. You're operating at peak mental capacity."             |
+| 70-84       | Good         | "Your cognitive performance is good. There's room to optimise your mental edge."                 |
+| 55-69       | Average      | "Your cognitive performance is average. Targeted support could unlock significant improvements." |
+| Below 55    | Room to Grow | "Your results suggest significant opportunity for cognitive enhancement."                        |
 
-#### Product Recommendations
+#### Product Recommendations (from BRAND_HIGHLIGHTS.md)
 
-- **All scores**: Mention both formulas improve cognitive performance
-- **Lower accuracy**: Emphasize Conka Clarity for mental clarity
-- **Lower speed**: Emphasize Conka Flow for focus and quick thinking
-- **Link to quiz**: "Not sure which is right for you? Take our quiz"
+- **All scores**: "Our formulas are clinically shown to improve cognitive function"
+- **Lower accuracy (<70%)**: Emphasize Conka Clarity - "+16% cognition, +14% attention" (Ginkgo, Alpha GPC)
+- **Lower speed (<70%)**: Emphasize Conka Flow - "+18% memory performance, +17% physical fitness" (Rhodiola, Turmeric)
+- **Link**: "Not sure which is right for you? Take our quiz →"
 
-#### Acceptance Criteria
+#### Acceptance Criteria (Desktop)
 
 - [ ] Results display immediately after test completion
-- [ ] Score, accuracy, speed all shown
-- [ ] Interpretation text matches score range
-- [ ] Product recommendations relevant
-- [ ] CTAs functional
-- [ ] Styling matches brand (neo-brutalist, correct fonts)
+- [ ] Score, accuracy, speed all shown with large numbers
+- [ ] Correct interpretation text for score range
+- [ ] Product recommendations with real stats from BRAND_HIGHLIGHTS.md
+- [ ] "Retake Test" resets to idle state
+- [ ] Product CTAs link correctly
+- [ ] Styling matches neo-brutalist brand
 
 ---
 
-### Phase 4: Polish and Mobile Optimization
+### Phase 3B: Custom Results UI (Mobile)
 
-**Branch:** `websdk/phase-4-polish`
+**Branch:** `websdk/phase-3b-mobile`
 
 #### Tasks
 
-- [ ] Add smooth transitions between states
-- [ ] Implement loading animation (breathing/focus)
+- [ ] Create mobile-optimized results layout
+- [ ] Stack metrics vertically
+- [ ] Ensure CTAs are thumb-friendly
+- [ ] Test scroll behavior with long interpretation text
+
+#### Acceptance Criteria (Mobile)
+
+- [ ] Results display properly on mobile
+- [ ] Single column layout
+- [ ] Large, tappable CTAs
+- [ ] No horizontal overflow
+
+---
+
+### Phase 4A: Polish (Desktop)
+
+**Branch:** `websdk/phase-4a-desktop`
+
+#### Tasks
+
+- [ ] Add smooth transitions between states (fade/slide)
+- [ ] Implement loading animation during SDK init
 - [ ] Add number count-up animations for scores
-- [ ] Optimize mobile full-screen experience
 - [ ] Add error boundary and fallback UI
-- [ ] Performance audit and optimization
+- [ ] Performance audit
 - [ ] Cross-browser testing
 
 #### Animations
 
-- State transitions: fade/slide (300ms ease)
+- State transitions: `transition-opacity duration-300`
 - Score reveal: count-up from 0 (1s duration)
-- Loading: subtle pulse or breathing animation
+- Loading: subtle pulse animation
 
-#### Error Handling
+#### Acceptance Criteria (Desktop)
 
-- SDK fails to load → Show retry button with message
-- Test interrupted → Option to restart
-- postMessage timeout → Fallback message
-
-#### Acceptance Criteria
-
-- [ ] Smooth, polished feel
-- [ ] No janky transitions
+- [ ] Smooth, polished transitions
 - [ ] Error states handled gracefully
 - [ ] Performance: < 3s to interactive
-- [ ] Works across all target browsers
+- [ ] Works on Chrome, Safari, Firefox, Edge
+
+---
+
+### Phase 4B: Polish (Mobile)
+
+**Branch:** `websdk/phase-4b-mobile`
+
+#### Tasks
+
+- [ ] Optimize animations for mobile performance
+- [ ] Test full-screen experience option
+- [ ] Final cross-device testing
+- [ ] Performance audit on mobile
+
+#### Acceptance Criteria (Mobile)
+
+- [ ] Animations smooth (60fps)
+- [ ] No janky scrolling
+- [ ] Works on iOS Safari, Chrome
+- [ ] Works on Android Chrome
 
 ---
 
@@ -342,7 +471,7 @@ app/components/cognitive-test/
 
 **Branch:** `websdk/phase-5-convex`
 
-*Dependent on dev setting up Convex backend*
+_Dependent on dev setting up Convex backend_
 
 #### Tasks
 
@@ -359,11 +488,12 @@ app/components/cognitive-test/
 app/components/cognitive-test/
 ├── index.ts                      # Barrel exports
 ├── types.ts                      # TypeScript interfaces
-├── CognitiveTestSection.tsx      # Main wrapper (desktop)
-├── CognitiveTestSectionMobile.tsx # Mobile variant (if needed)
-├── EmailCaptureModal.tsx         # Email gate modal
+├── CognitiveTestSection.tsx      # Desktop version
+├── CognitiveTestSectionMobile.tsx # Mobile version
+├── EmailCaptureModal.tsx         # Shared modal (responsive)
 ├── CognicaSDK.tsx                # Iframe wrapper
-├── TestResultsDisplay.tsx        # Results UI
+├── TestResultsDisplay.tsx        # Desktop results
+├── TestResultsDisplayMobile.tsx  # Mobile results
 ├── TestLoadingState.tsx          # Loading animation
 └── ScoreInterpretation.tsx       # Score meaning + recommendations
 ```
@@ -376,27 +506,31 @@ All components must follow `STYLE_GUIDE_01.md`:
 
 ### Typography
 
-| Element | Font | Class |
-|---------|------|-------|
-| Headings | Poppins Bold | `font-bold` |
-| Annotations | Caveat | `font-commentary` |
-| Scores/Data | IBM Plex Mono | `font-clinical` |
+| Element             | Font          | Class                                                        |
+| ------------------- | ------------- | ------------------------------------------------------------ |
+| Section label       | IBM Plex Mono | `font-clinical text-xs uppercase tracking-widest opacity-50` |
+| Headings            | Poppins Bold  | `text-3xl lg:text-4xl font-bold`                             |
+| Subtext/Annotations | Caveat        | `font-commentary text-xl`                                    |
+| Scores/Data         | IBM Plex Mono | `font-clinical text-6xl font-bold`                           |
+| Body text           | Poppins       | `text-base opacity-80`                                       |
 
 ### Components
 
-| Element | Class | Notes |
-|---------|-------|-------|
-| Containers | `neo-box` | Sharp corners, 2px border |
-| Primary buttons | `neo-button` | Pill-shaped, filled |
-| Secondary buttons | `neo-button-outline` | Pill-shaped, outline |
-| Section padding | `px-6 md:px-16 py-24` | Standard spacing |
+| Element                 | Class                | Notes                     |
+| ----------------------- | -------------------- | ------------------------- |
+| Containers              | `neo-box`            | Sharp corners, 2px border |
+| Primary buttons         | `neo-button`         | Pill-shaped, filled       |
+| Secondary buttons       | `neo-button-outline` | Pill-shaped, outline      |
+| Desktop section padding | `px-16 py-16`        | Standard desktop spacing  |
+| Mobile section padding  | `px-4 py-8`          | Standard mobile spacing   |
+| Max width               | `max-w-6xl mx-auto`  | Content container         |
 
 ### Colors
 
 - Background: `var(--background)` (white)
 - Foreground: `var(--foreground)` (black)
-- Conka Flow accent: `bg-teal-500`
-- Conka Clarity accent: `bg-amber-500`
+- Conka Flow accent: `bg-teal-500` / `text-teal-500`
+- Conka Clarity accent: `bg-amber-500` / `text-amber-500`
 
 ---
 
@@ -405,13 +539,21 @@ All components must follow `STYLE_GUIDE_01.md`:
 ```
 main
 └── websdk (feature branch - DO NOT merge to main until complete)
-    ├── websdk/phase-1-foundation
+    ├── websdk/phase-1a-desktop
     │   └── merge → websdk
-    ├── websdk/phase-2-sdk-integration
+    ├── websdk/phase-1b-mobile
     │   └── merge → websdk
-    ├── websdk/phase-3-results-ui
+    ├── websdk/phase-2a-desktop
     │   └── merge → websdk
-    └── websdk/phase-4-polish
+    ├── websdk/phase-2b-mobile
+    │   └── merge → websdk
+    ├── websdk/phase-3a-desktop
+    │   └── merge → websdk
+    ├── websdk/phase-3b-mobile
+    │   └── merge → websdk
+    ├── websdk/phase-4a-desktop
+    │   └── merge → websdk
+    └── websdk/phase-4b-mobile
         └── merge → websdk
             └── (finally) merge → main
 ```
@@ -420,25 +562,30 @@ main
 
 ## Testing Checklist
 
-### Functional
+### Desktop
 
 - [ ] Email validation rejects invalid emails
 - [ ] Email modal opens/closes correctly
 - [ ] SDK iframe loads without console errors
-- [ ] Test can be completed on desktop
-- [ ] Test can be completed on mobile
+- [ ] Test can be completed
 - [ ] Results captured correctly
 - [ ] Results display all three metrics
-- [ ] Product recommendations show
+- [ ] Product recommendations show with correct stats
 - [ ] Retake test works
 - [ ] All CTAs navigate correctly
-
-### Visual
-
 - [ ] Matches neo-brutalist style guide
-- [ ] Correct fonts used throughout
-- [ ] Responsive at 320px, 768px, 1024px, 1440px
-- [ ] No overflow or clipping issues
+- [ ] Correct fonts throughout
+- [ ] No TypeScript errors
+
+### Mobile
+
+- [ ] Section renders correctly on mobile
+- [ ] Modal usable on small screens
+- [ ] SDK iframe works on mobile
+- [ ] Touch interactions smooth
+- [ ] Results display properly
+- [ ] CTAs thumb-friendly
+- [ ] No horizontal overflow
 - [ ] Animations smooth (60fps)
 
 ### Performance
@@ -452,13 +599,14 @@ main
 
 ## Questions / Decisions Log
 
-| Question | Decision | Date |
-|----------|----------|------|
-| Where to place test section? | After hero, before quote | Jan 2026 |
-| Email flow? | Modal gate on "Start Test" click | Jan 2026 |
-| Results UI approach? | Custom Next.js via postMessage | Jan 2026 |
-| Short vs long test? | Short only for now, long later | Jan 2026 |
-| Backend for email storage? | Convex (Phase 5, after dev setup) | Jan 2026 |
+| Question                     | Decision                                         | Date     |
+| ---------------------------- | ------------------------------------------------ | -------- |
+| Where to place test section? | After hero, before quote                         | Jan 2026 |
+| Email flow?                  | Modal gate on "Start Test" click                 | Jan 2026 |
+| Results UI approach?         | Custom Next.js via postMessage                   | Jan 2026 |
+| Short vs long test?          | Short only for now, long later                   | Jan 2026 |
+| Backend for email storage?   | Convex (Phase 5, after dev setup)                | Jan 2026 |
+| Desktop vs Mobile?           | Split each phase into A (desktop) and B (mobile) | Jan 2026 |
 
 ---
 
@@ -468,4 +616,4 @@ main
 - Production URL will need to be configured via environment variable
 - The SDK already handles the test flow internally; we just embed and listen for results
 - Mobile webview compatibility needs testing - the SDK may need adjustments
-
+- All clinical stats in recommendations must come from `BRAND_HIGHLIGHTS.md`
