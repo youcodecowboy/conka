@@ -243,11 +243,15 @@ export default function SubscriptionsPage() {
     const subscription = subscriptions.find(s => s.id === showCancelModal);
     if (!subscription) return false;
     
-    const success = await changePlan(subscription.id, plan);
-    if (success) {
-      await fetchSubscriptions();
+    const result = await changePlan(subscription.id, plan, true); // cancelAndRedirect
+    if (result.success) {
+      if (result.redirectUrl) {
+        router.push(result.redirectUrl);
+      } else {
+        await fetchSubscriptions();
+      }
     }
-    return success;
+    return result.success;
   };
 
   // Handle cancel from modal
