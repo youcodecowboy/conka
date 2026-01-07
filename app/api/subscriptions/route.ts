@@ -68,6 +68,9 @@ function transformLoopSubscription(loopSub: any, customerEmail: string): Subscri
   };
 }
 
+// Shopify Shop ID - used to filter subscriptions to only this store
+const SHOPIFY_SHOP_ID = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
+
 // GET - Fetch customer subscriptions (requires authentication)
 export async function GET(request: NextRequest) {
   try {
@@ -91,8 +94,24 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Filter subscriptions to only those belonging to THIS store
+    // Loop returns subscriptions across ALL stores that use Loop for the same email
+    const rawSubscriptions = (result.data || []).filter((sub: any) => {
+      // Check if subscription has a shopId/storeId field that matches our store
+      const subShopId = sub.shopId || sub.storeId || sub.shop?.id;
+      if (subShopId && SHOPIFY_SHOP_ID) {
+        return String(subShopId) === String(SHOPIFY_SHOP_ID);
+      }
+      
+      // If no shop identifier, filter by a date range specific to when this store started
+      // This is a fallback - subscriptions from other stores are typically older
+      // You can adjust this cutoff date as needed
+      const STORE_START_DATE = new Date('2024-06-01'); // Adjust to when your store started using Loop
+      const subCreatedAt = new Date(sub.createdAt);
+      return subCreatedAt >= STORE_START_DATE;
+    });
+    
     // Transform Loop's response format to our Subscription type
-    const rawSubscriptions = result.data || [];
     const subscriptions = rawSubscriptions.map((sub: any) => 
       transformLoopSubscription(sub, customerEmail)
     );
