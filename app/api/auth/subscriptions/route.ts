@@ -58,6 +58,8 @@ const CUSTOMER_SUBSCRIPTIONS_QUERY = `
 `;
 
 // Full subscription query with all relevant fields
+// Note: intervalCount returns Count type (needs sub-selections)
+// Note: SubscriptionLine doesn't have productId/variantId directly
 const FULL_SUBSCRIPTIONS_QUERY = `
   query CustomerSubscriptions {
     customer {
@@ -72,11 +74,15 @@ const FULL_SUBSCRIPTIONS_QUERY = `
           lastPaymentStatus
           billingPolicy {
             interval
-            intervalCount
+            intervalCount {
+              count
+            }
           }
           deliveryPolicy {
             interval
-            intervalCount
+            intervalCount {
+              count
+            }
           }
           lines(first: 10) {
             nodes {
@@ -88,8 +94,6 @@ const FULL_SUBSCRIPTIONS_QUERY = `
                 amount
                 currencyCode
               }
-              productId
-              variantId
               variantImage {
                 url
                 altText
@@ -178,6 +182,9 @@ export async function GET(request: NextRequest) {
       const firstLine = contract.lines?.nodes?.[0];
       const billingPolicy = contract.billingPolicy || contract.deliveryPolicy;
       
+      // intervalCount is a Count object with a count field
+      const intervalCount = billingPolicy?.intervalCount?.count || 1;
+      
       return {
         id: contract.id,
         status: contract.status?.toLowerCase() || 'unknown',
@@ -187,9 +194,8 @@ export async function GET(request: NextRequest) {
         currencyCode: contract.currencyCode,
         lastPaymentStatus: contract.lastPaymentStatus,
         product: firstLine ? {
-          id: firstLine.productId || '',
+          id: firstLine.id || '',
           title: firstLine.title || firstLine.name || 'Subscription',
-          variantId: firstLine.variantId,
           quantity: firstLine.quantity || 1,
           image: firstLine.variantImage?.url,
           imageAlt: firstLine.variantImage?.altText,
@@ -199,7 +205,7 @@ export async function GET(request: NextRequest) {
           currencyCode: firstLine.currentPrice.currencyCode,
         } : null,
         interval: billingPolicy ? {
-          value: billingPolicy.intervalCount || 1,
+          value: intervalCount,
           unit: billingPolicy.interval?.toLowerCase() || 'month',
         } : null,
         // Include all line items if there are multiple
@@ -208,8 +214,6 @@ export async function GET(request: NextRequest) {
           name: line.name || line.title,
           quantity: line.quantity,
           price: line.currentPrice,
-          productId: line.productId,
-          variantId: line.variantId,
           image: line.variantImage?.url,
         })) || [],
       };
