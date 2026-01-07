@@ -99,80 +99,76 @@ export async function POST(request: NextRequest) {
 
     if (operation === 'pause') {
       mutationQuery = `
-        mutation subscriptionContractPause($contractId: ID!) {
-          subscriptionContractPause(id: $contractId) {
-            subscriptionContract {
+        mutation subscriptionContractPause($subscriptionContractId: ID!) {
+          subscriptionContractPause(subscriptionContractId: $subscriptionContractId) {
+            contract {
               id
               status
             }
             userErrors {
               field
               message
-              code
             }
           }
         }
       `;
-      mutationVariables = { contractId: subscriptionId };
+      mutationVariables = { subscriptionContractId: subscriptionId };
     } else if (operation === 'resume') {
       mutationQuery = `
-        mutation subscriptionContractActivate($contractId: ID!) {
-          subscriptionContractActivate(id: $contractId) {
-            subscriptionContract {
+        mutation subscriptionContractActivate($subscriptionContractId: ID!) {
+          subscriptionContractActivate(subscriptionContractId: $subscriptionContractId) {
+            contract {
               id
               status
             }
             userErrors {
               field
               message
-              code
             }
           }
         }
       `;
-      mutationVariables = { contractId: subscriptionId };
+      mutationVariables = { subscriptionContractId: subscriptionId };
     } else if (operation === 'skip') {
       mutationQuery = `
-        mutation subscriptionBillingCycleSkip($contractId: ID!, $cycleIndex: Int!) {
+        mutation subscriptionBillingCycleSkip($subscriptionContractId: ID!, $cycleIndex: Int!) {
           subscriptionBillingCycleSkip(
             billingCycleInput: {
-              subscriptionContractId: $contractId,
+              subscriptionContractId: $subscriptionContractId,
               selector: { cycleIndex: $cycleIndex }
             }
           ) {
-            skippedCycle {
+            billingCycle {
               cycleIndex
               status
             }
             userErrors {
               field
               message
-              code
             }
           }
         }
       `;
       mutationVariables = { 
-        contractId: subscriptionId,
+        subscriptionContractId: subscriptionId,
         cycleIndex: variables?.cycleIndex || 1
       };
     } else if (operation === 'cancel') {
       mutationQuery = `
-        mutation subscriptionContractCancel($contractId: ID!) {
-          subscriptionContractCancel(id: $contractId) {
-            subscriptionContract {
+        mutation subscriptionContractCancel($subscriptionContractId: ID!) {
+          subscriptionContractCancel(subscriptionContractId: $subscriptionContractId) {
+            contract {
               id
               status
             }
             userErrors {
               field
               message
-              code
             }
           }
         }
       `;
-      mutationVariables = { contractId: subscriptionId };
+      mutationVariables = { subscriptionContractId: subscriptionId };
     } else if (operation === 'introspect-mutations') {
       // Introspect available mutations
       mutationQuery = `
