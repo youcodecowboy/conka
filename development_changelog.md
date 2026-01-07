@@ -2,7 +2,28 @@
 
 ## January 7, 2026
 
-### 10:30 - Mobile PageSpeed Performance Optimizations
+### 10:35 - Mobile PageSpeed Performance Optimizations (Phase 2)
+
+Further optimizations after initial changes showed LCP at 5.3s:
+
+#### Code Splitting (`page.tsx`):
+- **Dynamic imports** for below-fold components to reduce initial JavaScript bundle:
+  - `KeyBenefits` (contains recharts ~250KB)
+  - `WhatIsConka`
+  - `ProtocolBuilder`
+  - `TrialPacks`
+  - `CaseStudiesDataDriven`
+  - `Ingredients`
+- Added loading placeholders to prevent Cumulative Layout Shift (CLS)
+
+#### Removed Counterproductive Preload:
+- Removed manual preload for `/main.jpg` which was loading the original image
+- Next.js already handles this with `priority` prop on the Image component
+- The manual preload was causing double-loading (original + optimized versions)
+
+---
+
+### 10:30 - Mobile PageSpeed Performance Optimizations (Phase 1)
 
 Implemented several optimizations to improve mobile PageSpeed score (77 → target 90+) after Shopify integration caused performance regression.
 
@@ -14,7 +35,6 @@ Implemented several optimizations to improve mobile PageSpeed score (77 → targ
 #### Preconnect Hints (`layout.tsx`):
 - Added `preconnect` and `dns-prefetch` for `cdn.shopify.com`
 - Added `preconnect` and `dns-prefetch` for Shopify storefront API
-- Added preload link for hero image (`/main.jpg`) with `fetchPriority="high"`
 - Reduces time to establish connections for cart/checkout operations
 
 #### Image Optimization:
@@ -25,10 +45,11 @@ Implemented several optimizations to improve mobile PageSpeed score (77 → targ
 - **ProductSlideshowMobile.tsx**: Added `loading="lazy"` for carousel images
 
 #### Expected Impact:
-- Reduced Largest Contentful Paint (LCP) through image preload
+- Reduced Largest Contentful Paint (LCP) through proper image handling
 - Reduced main thread blocking by deferring cart API calls
 - Faster connection setup with preconnect hints
 - Smaller initial image downloads with proper sizes attributes
+- Significantly reduced initial JavaScript bundle via code splitting
 
 ---
 

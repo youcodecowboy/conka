@@ -1,15 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import KeyBenefits, { Benefit } from "./components/KeyBenefits";
-import CaseStudiesDataDriven from "./components/CaseStudiesDataDriven";
+import dynamic from "next/dynamic";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
-import ProtocolBuilder from "./components/ProtocolBuilder";
-import TrialPacks from "./components/TrialPacks";
-import WhatIsConka from "./components/WhatIsConka";
-import Ingredients from "./components/Ingredients";
 import ProductSlideshowMobile from "./components/ProductSlideshowMobile";
+import type { Benefit } from "./components/KeyBenefits";
+
+// Dynamically import heavy components to reduce initial bundle size
+// These components are below the fold and contain heavy dependencies like recharts
+const KeyBenefits = dynamic(() => import("./components/KeyBenefits"), {
+  loading: () => <div className="h-[600px]" />, // Placeholder to prevent layout shift
+});
+
+const WhatIsConka = dynamic(() => import("./components/WhatIsConka"), {
+  loading: () => <div className="h-[400px]" />,
+});
+
+const ProtocolBuilder = dynamic(() => import("./components/ProtocolBuilder"), {
+  loading: () => <div className="h-[600px]" />,
+});
+
+const TrialPacks = dynamic(() => import("./components/TrialPacks"), {
+  loading: () => <div className="h-[500px]" />,
+});
+
+const CaseStudiesDataDriven = dynamic(() => import("./components/CaseStudiesDataDriven"), {
+  loading: () => <div className="h-[400px]" />,
+});
+
+const Ingredients = dynamic(() => import("./components/Ingredients"), {
+  loading: () => <div className="h-[400px]" />,
+});
 
 const faqItems = [
   { 

@@ -42,13 +42,6 @@ export default function RootLayout({
         {/* Preconnect to Shopify storefront API */}
         <link rel="preconnect" href="https://conka-6770.myshopify.com" />
         <link rel="dns-prefetch" href="https://conka-6770.myshopify.com" />
-        {/* Preload LCP image for faster initial paint */}
-        <link
-          rel="preload"
-          as="image"
-          href="/main.jpg"
-          fetchPriority="high"
-        />
       </head>
       <body
         className={`${poppins.variable} ${caveat.variable} ${ibmPlexMono.variable} antialiased`}
