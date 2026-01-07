@@ -52,3 +52,13 @@ export interface EmailCaptureFormProps {
   /** Callback to go back to idle state */
   onBack: () => void;
 }
+
+/**
+ * Props for the CognicaSDK iframe wrapper component
+ */
+export interface CognicaSDKProps {
+  /** Callback when test is completed with results */
+  onComplete: (result: TestResult) => void;
+  /** Optional subject ID for tracking (e.g., "website_1234567890") */
+  subjectId?: string;
+}
