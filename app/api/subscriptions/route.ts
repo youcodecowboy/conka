@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getCustomerSubscriptions } from '@/app/lib/loop';
+import type { Subscription, SubscriptionStatus } from '@/app/types/subscription';
 
 // Helper to get customer email from ID token cookie
 async function getCustomerEmailFromSession(): Promise<string | null> {
@@ -18,6 +19,53 @@ async function getCustomerEmailFromSession(): Promise<string | null> {
   } catch {
     return null;
   }
+}
+
+// Transform Loop API response to our Subscription type
+function transformLoopSubscription(loopSub: any, customerEmail: string): Subscription {
+  // Map Loop's uppercase status to our lowercase status
+  const statusMap: Record<string, SubscriptionStatus> = {
+    'ACTIVE': 'active',
+    'PAUSED': 'paused',
+    'CANCELLED': 'cancelled',
+    'CANCELED': 'cancelled', // Handle both spellings
+    'EXPIRED': 'expired',
+  };
+  
+  const status = statusMap[loopSub.status?.toUpperCase()] || 'active';
+  
+  // Extract product info from line items if available
+  const lines = loopSub.lines || loopSub.lineItems || [];
+  const firstLine = lines[0] || {};
+  
+  // Get interval info
+  const intervalUnit = (loopSub.billingInterval || loopSub.deliveryInterval || 'month').toLowerCase();
+  const intervalValue = loopSub.billingIntervalCount || loopSub.deliveryIntervalCount || 1;
+  
+  return {
+    id: String(loopSub.id),
+    customerId: String(loopSub.customerId || loopSub.shopifyCustomerId || ''),
+    email: customerEmail,
+    status,
+    nextBillingDate: loopSub.nextBillingDate || loopSub.nextOrderDate || '',
+    createdAt: loopSub.createdAt || '',
+    updatedAt: loopSub.updatedAt || '',
+    product: {
+      id: String(firstLine.productId || firstLine.shopifyProductId || ''),
+      title: firstLine.productTitle || firstLine.title || 'Subscription Product',
+      variantTitle: firstLine.variantTitle || undefined,
+      image: firstLine.imageSrc || firstLine.image || undefined,
+    },
+    price: {
+      amount: String(loopSub.totalLineItemPrice || firstLine.price || '0'),
+      currencyCode: loopSub.currencyCode || 'GBP',
+    },
+    quantity: firstLine.quantity || 1,
+    interval: {
+      value: intervalValue,
+      unit: intervalUnit as 'day' | 'week' | 'month' | 'year',
+    },
+  };
 }
 
 // GET - Fetch customer subscriptions (requires authentication)
@@ -43,7 +91,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ subscriptions: result.data || [] });
+    // Transform Loop's response format to our Subscription type
+    const rawSubscriptions = result.data || [];
+    const subscriptions = rawSubscriptions.map((sub: any) => 
+      transformLoopSubscription(sub, customerEmail)
+    );
+
+    return NextResponse.json({ subscriptions });
   } catch (error) {
     console.error('Get subscriptions error:', error);
     
