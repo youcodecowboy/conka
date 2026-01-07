@@ -55,8 +55,6 @@ export async function loopFetch<T>(
     });
 
     const data = await response.json();
-    
-    console.log('[loopFetch] Response for', endpoint, '- has data.data:', !!data.data, 'data.data length:', data.data?.length);
 
     if (!response.ok) {
       return {
@@ -68,9 +66,7 @@ export async function loopFetch<T>(
     }
 
     // Loop API wraps responses in a data field
-    const result = data.data || data;
-    console.log('[loopFetch] Returning result type:', typeof result, 'isArray:', Array.isArray(result), 'length:', result?.length);
-    return { data: result };
+    return { data: data.data || data };
   } catch (error) {
     console.error('Loop API error:', error);
     return {

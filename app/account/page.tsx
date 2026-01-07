@@ -165,14 +165,20 @@ export default function AccountPage() {
     }
   };
 
-  // Get active subscriptions
-  const activeSubscriptions = subscriptions.filter((s: Subscription) => s.status === 'active');
+  // Get truly active subscriptions (must have a nextBillingDate to be considered active)
+  // Loop keeps historical subscriptions marked as "active" even when they're stale
+  const activeSubscriptions = subscriptions.filter((s: Subscription) => 
+    s.status === 'active' && s.nextBillingDate && s.nextBillingDate.trim() !== ''
+  );
   
   // Get next delivery date
   const getNextDeliveryDate = () => {
     if (activeSubscriptions.length === 0) return null;
-    const dates = activeSubscriptions.map((s: Subscription) => new Date(s.nextBillingDate));
-    const earliest = new Date(Math.min(...dates.map(d => d.getTime())));
+    const validDates = activeSubscriptions
+      .map((s: Subscription) => new Date(s.nextBillingDate))
+      .filter(d => !isNaN(d.getTime()));
+    if (validDates.length === 0) return null;
+    const earliest = new Date(Math.min(...validDates.map(d => d.getTime())));
     return earliest.toLocaleDateString('en-GB', {
       day: 'numeric',
       month: 'short',

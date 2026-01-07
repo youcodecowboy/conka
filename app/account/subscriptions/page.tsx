@@ -234,12 +234,15 @@ export default function SubscriptionsPage() {
     return null;
   }
 
-  // Separate active/paused from cancelled/expired
+  // Separate truly active/paused from cancelled/expired
+  // Only count as "active" if it has a valid nextBillingDate (Loop keeps stale records)
   const activeSubscriptions = subscriptions.filter(
-    s => s.status === 'active' || s.status === 'paused'
+    s => (s.status === 'active' && s.nextBillingDate && s.nextBillingDate.trim() !== '') || 
+         s.status === 'paused'
   );
   const inactiveSubscriptions = subscriptions.filter(
-    s => s.status === 'cancelled' || s.status === 'expired'
+    s => s.status === 'cancelled' || s.status === 'expired' ||
+         (s.status === 'active' && (!s.nextBillingDate || s.nextBillingDate.trim() === ''))
   );
 
   return (
