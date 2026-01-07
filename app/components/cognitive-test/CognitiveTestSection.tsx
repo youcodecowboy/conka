@@ -64,51 +64,19 @@ export default function CognitiveTestSection({
     setTestState("idle");
   }, []);
 
-  // Header content based on state
-  const getHeaderContent = () => {
-    switch (testState) {
-      case "idle":
-        return {
-          label: "Test Your Brain",
-          heading: "Measure Your Cognitive Performance",
-          subheading: "based on a decade of neuroscience research",
-        };
-      case "email":
-        return {
-          label: "Test Your Brain",
-          heading: "Measure Your Cognitive Performance",
-          subheading: "based on a decade of neuroscience research",
-        };
-      case "testing":
-        return {
-          label: "Game in Progress",
-          heading: "Focus on the Game",
-          subheading: "based on a decade of neuroscience research",
-        };
-      case "results":
-        return {
-          label: "Game Complete",
-          heading: "Your Cognitive Profile",
-          subheading: "based on a decade of neuroscience research",
-        };
-    }
-  };
-
-  const headerContent = getHeaderContent();
-
   return (
     <section className={`px-16 py-12 ${className}`}>
       <div className="max-w-6xl mx-auto">
-        {/* Header Area - Always visible */}
+        {/* Header Area - Static */}
         <div className="mb-12">
           <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-3">
-            {headerContent.label}
+            Test Your Brain
           </p>
           <h2 className="text-4xl lg:text-5xl font-bold mb-3">
-            {headerContent.heading}
+            Measure Your Cognitive Performance
           </h2>
           <p className="font-commentary text-xl lg:text-2xl opacity-80">
-            {headerContent.subheading}
+            based on a decade of neuroscience research
           </p>
         </div>
 
@@ -116,7 +84,7 @@ export default function CognitiveTestSection({
         <div className="flex flex-col items-center">
           {/* IDLE STATE: Centered CTA with generous whitespace */}
           {testState === "idle" && (
-            <div className="w-full max-w-lg">
+            <div className="w-full max-w-2xl">
               {/* CTA Card */}
               <div className="neo-box p-10 flex flex-col items-center text-center">
                 {/* Brain Icon */}
@@ -233,7 +201,7 @@ export default function CognitiveTestSection({
 
           {/* EMAIL STATE: Centered form */}
           {testState === "email" && (
-            <div className="w-full max-w-lg">
+            <div className="w-full max-w-2xl">
               <div className="neo-box p-10">
                 <EmailCaptureForm
                   onSubmit={handleEmailSubmit}
