@@ -66,11 +66,18 @@ export async function GET(request: NextRequest) {
       if (customerResponse.ok) {
         try {
           const customerData = JSON.parse(customerText);
-          const customerId = customerData.data?.id;
+          // data is an ARRAY of customers, not a single object!
+          const customers = Array.isArray(customerData.data) ? customerData.data : [];
+          const customerId = customers[0]?.id;
+          
+          loopApiTest.customerIdExtracted = customerId;
           
           if (customerId) {
+            const subsUrl = `https://api.loopsubscriptions.com/admin/2023-10/subscription?customerId=${customerId}`;
+            loopApiTest.subscriptionUrl = subsUrl;
+            
             const subsResponse = await fetch(
-              `https://api.loopsubscriptions.com/admin/2023-10/subscription?customerId=${customerId}`,
+              subsUrl,
               {
                 headers: {
                   'Content-Type': 'application/json',
