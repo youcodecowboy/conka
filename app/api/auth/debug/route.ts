@@ -29,12 +29,45 @@ export async function GET(request: NextRequest) {
   // Check if access token is expired
   const isExpired = expiresAt ? new Date(expiresAt) < new Date() : null;
 
-  // Test the Customer Account API
+  // Test the Customer Account API with introspection to find available fields
   let apiTestResult = null;
+  let schemaInfo = null;
   if (shopId && accessToken) {
     try {
       const apiUrl = `https://shopify.com/${shopId}/account/customer/api/2024-10/graphql`;
       
+      // First, try to get basic customer info with introspection
+      const introspectionQuery = `
+        query IntrospectCustomer {
+          __type(name: "Customer") {
+            name
+            fields {
+              name
+              type {
+                name
+                kind
+              }
+            }
+          }
+        }
+      `;
+      
+      const introspectionResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': accessToken,
+        },
+        body: JSON.stringify({ query: introspectionQuery }),
+      });
+      
+      const introspectionText = await introspectionResponse.text();
+      schemaInfo = {
+        status: introspectionResponse.status,
+        body: introspectionText.substring(0, 2000),
+      };
+
+      // Try a simple query with just id
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -42,7 +75,7 @@ export async function GET(request: NextRequest) {
           'Authorization': accessToken,
         },
         body: JSON.stringify({
-          query: `query { customer { id email firstName lastName } }`,
+          query: `query { customer { id } }`,
         }),
       });
 
@@ -81,6 +114,7 @@ export async function GET(request: NextRequest) {
       iat: idTokenPayload.iat,
     } : null,
     apiTest: apiTestResult,
+    schemaIntrospection: schemaInfo,
   });
 }
 
