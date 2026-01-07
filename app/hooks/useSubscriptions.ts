@@ -6,6 +6,13 @@ import type { Subscription, SubscriptionInterval } from '@/app/types';
 // Re-export Subscription type for backwards compatibility
 export type { Subscription } from '@/app/types';
 
+interface ChangePlanResult {
+  success: boolean;
+  requiresConfirmation?: boolean;
+  redirectUrl?: string;
+  message?: string;
+}
+
 interface UseSubscriptionsReturn {
   subscriptions: Subscription[];
   loading: boolean;
@@ -15,7 +22,7 @@ interface UseSubscriptionsReturn {
   resumeSubscription: (subscriptionId: string) => Promise<boolean>;
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
-  changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', lineId?: string) => Promise<boolean>;
+  changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', cancelAndRedirect?: boolean) => Promise<ChangePlanResult>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
   updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
 }
@@ -238,9 +245,11 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Change subscription plan (Starter/Pro/Max) - uses Shopify Customer Account API
+  // Change subscription plan (Starter/Pro/Max) - uses cancel-and-redirect flow
+  // Since Shopify Customer Account API doesn't support plan modifications,
+  // we cancel the current subscription and redirect to checkout with new plan
   const changePlan = useCallback(
-    async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', lineId?: string): Promise<boolean> => {
+    async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', cancelAndRedirect: boolean = false): Promise<ChangePlanResult> => {
       setLoading(true);
       setError(null);
 
@@ -250,29 +259,53 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ plan, lineId }),
+          body: JSON.stringify({ plan, cancelAndRedirect }),
         });
 
         const data = await response.json();
 
-        if (!response.ok) {
+        if (!response.ok && !data.requiresConfirmation) {
           setError(data.error || data.message || 'Failed to change plan');
-          return false;
+          return { success: false, message: data.error || data.message };
         }
 
-        // Refresh subscriptions to get updated data
-        await fetchSubscriptions();
+        // If subscription was cancelled and we have a redirect URL
+        if (data.cancelled && data.redirectUrl) {
+          // Update local state to show cancelled
+          setSubscriptions((prev) =>
+            prev.map((sub) =>
+              sub.id === subscriptionId
+                ? { ...sub, status: 'cancelled' as const }
+                : sub
+            )
+          );
+          
+          return { 
+            success: true, 
+            redirectUrl: data.redirectUrl,
+            message: data.message,
+          };
+        }
 
-        return true;
+        // If requires confirmation (first call without cancelAndRedirect)
+        if (data.requiresConfirmation) {
+          return {
+            success: true,
+            requiresConfirmation: true,
+            message: data.message,
+          };
+        }
+
+        return { success: true };
       } catch (err) {
         console.error('Failed to change plan:', err);
         setError('Failed to change plan');
-        return false;
+        return { success: false, message: 'Failed to change plan' };
       } finally {
         setLoading(false);
       }
     },
-    [fetchSubscriptions]
+    []
   );
 
   // Update subscription frequency - uses change plan endpoint
@@ -288,7 +321,8 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         plan = 'max';
       }
       
-      return changePlan(subscriptionId, plan);
+      const result = await changePlan(subscriptionId, plan, true);
+      return result.success;
     },
     [changePlan]
   );
@@ -306,7 +340,8 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         plan = 'max';
       }
       
-      return changePlan(subscriptionId, plan);
+      const result = await changePlan(subscriptionId, plan, true);
+      return result.success;
     },
     [changePlan]
   );

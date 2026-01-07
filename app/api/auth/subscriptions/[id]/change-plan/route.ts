@@ -5,6 +5,7 @@ const SHOPIFY_SHOP_ID = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
 
 // Plan configurations - maps plan names to their settings
 // These should match the selling plans configured in Shopify/Loop
+// Update these product/variant IDs to match your actual Shopify products
 export const PLAN_CONFIGURATIONS = {
   starter: {
     name: 'Starter',
@@ -13,6 +14,9 @@ export const PLAN_CONFIGURATIONS = {
     interval: 'WEEK',
     intervalCount: 1,
     frequency: 'Weekly delivery',
+    // TODO: Update with actual Shopify product/variant IDs for the starter plan
+    productHandle: 'conka-precision-starter',
+    variantId: null as string | null, // Will be looked up or configured
   },
   pro: {
     name: 'Pro',
@@ -21,6 +25,8 @@ export const PLAN_CONFIGURATIONS = {
     interval: 'WEEK',
     intervalCount: 2,
     frequency: 'Bi-weekly delivery',
+    productHandle: 'conka-precision-pro',
+    variantId: null as string | null,
   },
   max: {
     name: 'Max',
@@ -29,52 +35,20 @@ export const PLAN_CONFIGURATIONS = {
     interval: 'MONTH',
     intervalCount: 1,
     frequency: 'Monthly delivery',
+    productHandle: 'conka-precision-max',
+    variantId: null as string | null,
   },
 } as const;
 
 export type PlanType = keyof typeof PLAN_CONFIGURATIONS;
 
-// Mutation to update subscription contract delivery/billing policy
-// Note: This may need adjustment based on actual schema introspection
-const UPDATE_SUBSCRIPTION_MUTATION = `
-  mutation subscriptionContractUpdate($contractId: ID!, $input: SubscriptionContractInput!) {
-    subscriptionContractUpdate(contractId: $contractId, input: $input) {
+// Cancel subscription mutation
+const CANCEL_SUBSCRIPTION_MUTATION = `
+  mutation subscriptionContractCancel($subscriptionContractId: ID!) {
+    subscriptionContractCancel(subscriptionContractId: $subscriptionContractId) {
       contract {
         id
         status
-        deliveryPolicy {
-          interval
-          intervalCount {
-            count
-          }
-        }
-        billingPolicy {
-          interval
-          intervalCount {
-            count
-          }
-        }
-      }
-      userErrors {
-        field
-        message
-      }
-    }
-  }
-`;
-
-// Alternative: Update line item quantity
-const UPDATE_LINE_QUANTITY_MUTATION = `
-  mutation subscriptionContractLineUpdate($contractId: ID!, $lineId: ID!, $input: SubscriptionLineUpdateInput!) {
-    subscriptionContractLineUpdate(contractId: $contractId, lineId: $lineId, input: $input) {
-      contract {
-        id
-        lines(first: 10) {
-          nodes {
-            id
-            quantity
-          }
-        }
       }
       userErrors {
         field
@@ -124,7 +98,10 @@ export async function POST(
     );
   }
 
-  const { plan, lineId } = body as { plan?: PlanType; lineId?: string };
+  const { plan, cancelAndRedirect } = body as { 
+    plan?: PlanType; 
+    cancelAndRedirect?: boolean;
+  };
 
   if (!plan || !PLAN_CONFIGURATIONS[plan]) {
     return NextResponse.json(
@@ -134,115 +111,77 @@ export async function POST(
   }
 
   const planConfig = PLAN_CONFIGURATIONS[plan];
-  const apiUrl = `https://shopify.com/${SHOPIFY_SHOP_ID}/account/customer/api/2024-10/graphql`;
 
-  try {
-    // First, try to update the contract's delivery/billing policy
-    const updateResponse = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': accessToken,
-      },
-      body: JSON.stringify({
-        query: UPDATE_SUBSCRIPTION_MUTATION,
-        variables: {
-          contractId: subscriptionId,
-          input: {
-            deliveryPolicy: {
-              interval: planConfig.interval,
-              intervalCount: planConfig.intervalCount,
-            },
-            billingPolicy: {
-              interval: planConfig.interval,
-              intervalCount: planConfig.intervalCount,
-            },
-          },
+  // If cancelAndRedirect is true, cancel the subscription and return checkout URL
+  if (cancelAndRedirect) {
+    const apiUrl = `https://shopify.com/${SHOPIFY_SHOP_ID}/account/customer/api/2024-10/graphql`;
+
+    try {
+      // Step 1: Cancel the current subscription
+      const cancelResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': accessToken,
         },
-      }),
-    });
-
-    const updateData = await updateResponse.json();
-
-    // Check for GraphQL errors (schema mismatch, etc.)
-    if (updateData.errors) {
-      console.error('GraphQL errors on contract update:', updateData.errors);
-      
-      // If contract update fails, try updating line quantity if lineId provided
-      if (lineId) {
-        const lineResponse = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': accessToken,
+        body: JSON.stringify({
+          query: CANCEL_SUBSCRIPTION_MUTATION,
+          variables: {
+            subscriptionContractId: subscriptionId,
           },
-          body: JSON.stringify({
-            query: UPDATE_LINE_QUANTITY_MUTATION,
-            variables: {
-              contractId: subscriptionId,
-              lineId: lineId,
-              input: {
-                quantity: planConfig.packSize,
-              },
-            },
-          }),
-        });
+        }),
+      });
 
-        const lineData = await lineResponse.json();
-        
-        if (lineData.errors) {
-          return NextResponse.json({
-            error: 'Failed to change plan',
-            details: updateData.errors,
-            lineErrors: lineData.errors,
-            message: 'Plan changes may require contacting support or using the customer portal.',
-          }, { status: 400 });
-        }
+      const cancelData = await cancelResponse.json();
 
-        const lineResult = lineData.data?.subscriptionContractLineUpdate;
-        if (lineResult?.userErrors?.length > 0) {
-          return NextResponse.json({
-            error: lineResult.userErrors[0].message,
-            userErrors: lineResult.userErrors,
-          }, { status: 400 });
-        }
-
+      if (cancelData.errors) {
+        console.error('GraphQL errors on cancel:', cancelData.errors);
         return NextResponse.json({
-          success: true,
-          message: `Plan changed to ${planConfig.name}`,
-          contract: lineResult?.contract,
-        });
+          success: false,
+          error: 'Failed to cancel subscription',
+          details: cancelData.errors,
+        }, { status: 400 });
       }
 
-      return NextResponse.json({
-        error: 'Failed to change plan',
-        details: updateData.errors,
-        message: 'Plan changes may require contacting support or using the customer portal.',
-      }, { status: 400 });
-    }
+      const result = cancelData.data?.subscriptionContractCancel;
+      
+      if (result?.userErrors?.length > 0) {
+        return NextResponse.json({
+          success: false,
+          error: result.userErrors[0].message,
+          userErrors: result.userErrors,
+        }, { status: 400 });
+      }
 
-    const result = updateData.data?.subscriptionContractUpdate;
-    
-    if (result?.userErrors?.length > 0) {
+      // Step 2: Return success with redirect URL to the shop page
+      // The user will select their new subscription plan from the product page
       return NextResponse.json({
-        error: result.userErrors[0].message,
-        userErrors: result.userErrors,
-      }, { status: 400 });
-    }
+        success: true,
+        cancelled: true,
+        message: `Your subscription has been cancelled. Redirecting to select your new ${planConfig.name} plan...`,
+        redirectUrl: '/shop', // Redirect to shop to select new subscription
+        targetPlan: planConfig,
+      });
 
-    return NextResponse.json({
-      success: true,
-      message: `Plan changed to ${planConfig.name}`,
-      contract: result?.contract,
-      plan: planConfig,
-    });
-  } catch (error) {
-    console.error('Change plan error:', error);
-    return NextResponse.json({
-      error: 'Failed to change plan',
-      details: String(error),
-    }, { status: 500 });
+    } catch (error) {
+      console.error('Change plan error:', error);
+      return NextResponse.json({
+        success: false,
+        error: 'Failed to process plan change',
+        details: String(error),
+      }, { status: 500 });
+    }
   }
+
+  // Default response: explain the process and ask for confirmation
+  return NextResponse.json({
+    success: true,
+    requiresConfirmation: true,
+    message: `To switch to the ${planConfig.name} plan, we'll cancel your current subscription and redirect you to checkout with the new plan.`,
+    warning: 'Your current subscription will be cancelled immediately.',
+    targetPlan: planConfig,
+    action: 'confirm_change',
+  });
 }
 
 // GET endpoint to retrieve available plans

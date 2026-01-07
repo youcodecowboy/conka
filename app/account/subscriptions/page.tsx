@@ -185,22 +185,53 @@ export default function SubscriptionsPage() {
     setSelectedTier(getTierFromQuantity(subscription.quantity));
   };
 
-  // Handle save edit - updates plan (frequency and quantity together)
+  // State for plan change confirmation
+  const [showPlanChangeConfirm, setShowPlanChangeConfirm] = useState(false);
+  const [pendingPlanChange, setPendingPlanChange] = useState<{
+    subscriptionId: string;
+    newPlan: SubscriptionTier;
+  } | null>(null);
+
+  // Handle save edit - checks if plan change needed, shows confirmation
   const handleSaveEdit = async () => {
     if (!showEditModal) return;
     
-    setActionLoading(showEditModal.id);
-
     // Check if tier actually changed
     const currentTier = getTierFromQuantity(showEditModal.quantity);
     if (selectedTier !== currentTier) {
-      const success = await changePlan(showEditModal.id, selectedTier);
-      if (success) {
-        setShowEditModal(null);
-      }
+      // Show confirmation since this will cancel and create new subscription
+      setPendingPlanChange({
+        subscriptionId: showEditModal.id,
+        newPlan: selectedTier,
+      });
+      setShowPlanChangeConfirm(true);
     } else {
       // No change needed
       setShowEditModal(null);
+    }
+  };
+
+  // Handle confirmed plan change - cancel current and redirect to shop
+  const handleConfirmPlanChange = async () => {
+    if (!pendingPlanChange) return;
+    
+    setActionLoading(pendingPlanChange.subscriptionId);
+    
+    const result = await changePlan(
+      pendingPlanChange.subscriptionId, 
+      pendingPlanChange.newPlan,
+      true // cancelAndRedirect
+    );
+    
+    if (result.success && result.redirectUrl) {
+      // Close modals and redirect
+      setShowEditModal(null);
+      setShowPlanChangeConfirm(false);
+      setPendingPlanChange(null);
+      router.push(result.redirectUrl);
+    } else if (!result.success) {
+      // Error occurred, show it
+      setShowPlanChangeConfirm(false);
     }
     
     setActionLoading(null);
@@ -608,22 +639,29 @@ export default function SubscriptionsPage() {
       </main>
 
       {/* Edit Subscription Modal */}
-      {showEditModal && (
+      {showEditModal && !showPlanChangeConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-black/50"
             onClick={() => setShowEditModal(null)}
           />
           <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <h3 className="font-bold text-xl mb-2">Edit Subscription</h3>
-            <p className="font-clinical text-sm opacity-70 mb-6">
+            <h3 className="font-bold text-xl mb-2">Change Your Plan</h3>
+            <p className="font-clinical text-sm opacity-70 mb-4">
               {showEditModal.product.title}
             </p>
+
+            {/* Info notice about plan changes */}
+            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-3 mb-6">
+              <p className="font-clinical text-xs text-blue-800">
+                <strong>Note:</strong> Changing plans will cancel your current subscription and redirect you to checkout with your new plan. Your new subscription will start immediately.
+              </p>
+            </div>
 
             {/* Subscription Tier Selection */}
             <div className="mb-6">
               <label className="block font-clinical text-sm mb-3 font-semibold">
-                Choose Your Plan
+                Choose Your New Plan
               </label>
               <div className="space-y-3">
                 {TIER_OPTIONS.map((option) => {
@@ -667,9 +705,6 @@ export default function SubscriptionsPage() {
                   );
                 })}
               </div>
-              <p className="font-clinical text-xs opacity-50 mt-3 text-center">
-                Each plan includes a fixed delivery frequency
-              </p>
             </div>
 
             <div className="flex gap-3">
@@ -681,16 +716,81 @@ export default function SubscriptionsPage() {
               </button>
               <button
                 onClick={handleSaveEdit}
-                disabled={actionLoading === showEditModal.id}
+                disabled={getTierFromQuantity(showEditModal.quantity) === selectedTier}
                 className="flex-1 neo-button py-3 font-semibold disabled:opacity-50"
               >
-                {actionLoading === showEditModal.id ? (
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Plan Change Confirmation Modal */}
+      {showPlanChangeConfirm && pendingPlanChange && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => {
+              setShowPlanChangeConfirm(false);
+              setPendingPlanChange(null);
+            }}
+          />
+          <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+              <h3 className="font-bold text-xl mb-2">Confirm Plan Change</h3>
+              <p className="font-clinical text-sm opacity-70">
+                You&apos;re switching to the <strong>{getTierOption(pendingPlanChange.newPlan).label}</strong> plan
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-sm mb-3">What happens next:</h4>
+              <ul className="space-y-2 text-sm font-clinical">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-0.5">✓</span>
+                  <span>Your current subscription will be cancelled</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-0.5">✓</span>
+                  <span>You&apos;ll be redirected to select your new {getTierOption(pendingPlanChange.newPlan).label} plan</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-0.5">✓</span>
+                  <span>New subscription starts with {getTierOption(pendingPlanChange.newPlan).frequency.toLowerCase()} delivery</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowPlanChangeConfirm(false);
+                  setPendingPlanChange(null);
+                }}
+                className="flex-1 neo-button-outline py-3 font-semibold"
+              >
+                Go Back
+              </button>
+              <button
+                onClick={handleConfirmPlanChange}
+                disabled={actionLoading === pendingPlanChange.subscriptionId}
+                className="flex-1 neo-button py-3 font-semibold disabled:opacity-50"
+              >
+                {actionLoading === pendingPlanChange.subscriptionId ? (
                   <span className="flex items-center justify-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                    Saving...
+                    Processing...
                   </span>
                 ) : (
-                  'Save Changes'
+                  'Confirm & Continue'
                 )}
               </button>
             </div>

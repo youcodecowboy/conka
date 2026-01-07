@@ -3,10 +3,11 @@ import { cookies } from 'next/headers';
 
 const SHOPIFY_SHOP_ID = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
 
-// Mutation to resume a paused subscription contract
-const RESUME_SUBSCRIPTION_MUTATION = `
-  mutation subscriptionContractResume($subscriptionContractId: ID!) {
-    subscriptionContractResume(subscriptionContractId: $subscriptionContractId) {
+// Mutation to activate (resume) a paused subscription contract
+// Note: Shopify uses "activate" not "resume" for this operation
+const ACTIVATE_SUBSCRIPTION_MUTATION = `
+  mutation subscriptionContractActivate($subscriptionContractId: ID!) {
+    subscriptionContractActivate(subscriptionContractId: $subscriptionContractId) {
       contract {
         id
         status
@@ -58,7 +59,7 @@ export async function POST(
         'Authorization': accessToken,
       },
       body: JSON.stringify({
-        query: RESUME_SUBSCRIPTION_MUTATION,
+        query: ACTIVATE_SUBSCRIPTION_MUTATION,
         variables: {
           subscriptionContractId: subscriptionId,
         },
@@ -75,7 +76,7 @@ export async function POST(
       );
     }
 
-    const result = data.data?.subscriptionContractResume;
+    const result = data.data?.subscriptionContractActivate;
     
     if (result?.userErrors?.length > 0) {
       return NextResponse.json(
