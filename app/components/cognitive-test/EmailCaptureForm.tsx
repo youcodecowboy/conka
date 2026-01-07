@@ -197,7 +197,7 @@ export default function EmailCaptureForm({
             !isFormValid ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          Continue to Test
+          Continue to Game
         </button>
 
         {/* Privacy Note */}

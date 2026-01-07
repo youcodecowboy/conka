@@ -87,9 +87,7 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
                 <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
               </svg>
             </div>
-            <p className="font-clinical text-sm opacity-50">
-              Loading assessment...
-            </p>
+            <p className="font-clinical text-sm opacity-50">Loading game...</p>
           </div>
         </div>
       )}

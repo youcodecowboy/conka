@@ -77,19 +77,19 @@ export default function CognitiveTestSection({
         return {
           label: "Test Your Brain",
           heading: "Measure Your Cognitive Performance",
-          subheading: "just one quick step",
+          subheading: "based on a decade of neuroscience research",
         };
       case "testing":
         return {
-          label: "Assessment in Progress",
-          heading: "Focus on the Test",
-          subheading: "stay present",
+          label: "Game in Progress",
+          heading: "Focus on the Game",
+          subheading: "based on a decade of neuroscience research",
         };
       case "results":
         return {
-          label: "Test Complete",
+          label: "Game Complete",
           heading: "Your Cognitive Profile",
-          subheading: "your personalized insights",
+          subheading: "based on a decade of neuroscience research",
         };
     }
   };
@@ -97,8 +97,8 @@ export default function CognitiveTestSection({
   const headerContent = getHeaderContent();
 
   return (
-    <section className={`px-8 lg:px-16 py-16 lg:py-24 ${className}`}>
-      <div className="max-w-5xl mx-auto">
+    <section className={`px-16 py-12 ${className}`}>
+      <div className="max-w-6xl mx-auto">
         {/* Header Area - Always visible */}
         <div className="mb-12">
           <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-3">
@@ -146,7 +146,7 @@ export default function CognitiveTestSection({
                 </div>
 
                 <h3 className="text-2xl font-bold mb-3">
-                  Try the Speed of Processing Test
+                  Try the Speed of Processing Game
                 </h3>
                 <p className="text-base opacity-70 mb-8">
                   A 30-second clinical-grade assessment used in real research
@@ -160,7 +160,7 @@ export default function CognitiveTestSection({
                   onClick={handleStartTest}
                   className="neo-button px-12 py-5 font-bold text-xl w-full transition-transform hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  Start Test
+                  Start Game
                 </button>
 
                 <p className="font-clinical text-sm opacity-50 mt-6">
@@ -311,11 +311,13 @@ export default function CognitiveTestSection({
                   subjectId={subjectId}
                 />
               </div>
-              {/* Tips below the iframe */}
+              {/* Instructions below the iframe */}
               <div className="flex justify-center gap-8 mt-6 text-sm opacity-60">
-                <span>• Stay focused</span>
-                <span>• Trust your instincts</span>
-                <span>• Respond quickly</span>
+                <span>Press J for animals</span>
+                <span>•</span>
+                <span>Press F for anything else</span>
+                <span>•</span>
+                <span>Speed and accuracy both count</span>
               </div>
             </div>
           )}
@@ -365,7 +367,7 @@ export default function CognitiveTestSection({
                     onClick={handleRetakeTest}
                     className="neo-button-outline px-8 py-4 font-bold"
                   >
-                    Retake Test
+                    Play Again
                   </button>
                 </div>
 
