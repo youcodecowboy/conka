@@ -9,6 +9,7 @@
 ## Overview
 
 Integrate the Cognica WebSDK cognitive test into the science page with:
+
 - Email capture modal before test starts
 - Iframe-based SDK rendering (short version only for now)
 - Custom post-test results UI matching Conka's neo-brutalist style
@@ -84,9 +85,9 @@ Show product recommendations
 
 ```typescript
 interface TestResult {
-  score: number;      // Overall cognitive score (0-100)
-  accuracy: number;   // Accuracy percentage (0-100)
-  speed: number;      // Speed percentage (0-100)
+  score: number; // Overall cognitive score (0-100)
+  accuracy: number; // Accuracy percentage (0-100)
+  speed: number; // Speed percentage (0-100)
   testInstanceId?: string;
 }
 ```
@@ -105,15 +106,15 @@ useEffect(() => {
           accuracy: Math.round(data.accuracy),
           speed: Math.round(data.speed),
         });
-        setTestState('results');
+        setTestState("results");
       }
     } catch (e) {
       // Not a JSON message, ignore
     }
   };
 
-  window.addEventListener('message', handleMessage);
-  return () => window.removeEventListener('message', handleMessage);
+  window.addEventListener("message", handleMessage);
+  return () => window.removeEventListener("message", handleMessage);
 }, []);
 ```
 
@@ -185,6 +186,7 @@ app/components/cognitive-test/
 **Section Subtext:** "measure what matters" (font-commentary)
 **Description:** "Take our 2-minute cognitive assessment powered by Cognetivity. Discover your baseline scores for speed, accuracy, and overall cognitive function."
 **Benefits:**
+
 - Clinically-validated assessment
 - Instant results
 - Personalized recommendations
@@ -195,7 +197,7 @@ app/components/cognitive-test/
 #### Acceptance Criteria (Desktop)
 
 - [ ] Component folder structure created
-- [ ] Types exported correctly  
+- [ ] Types exported correctly
 - [ ] Section visible on desktop science page (after hero)
 - [ ] Section matches neo-brutalist style guide
 - [ ] "Start Free Test" button opens email modal
@@ -255,8 +257,13 @@ app/components/cognitive-test/
 #### CognicaSDK Component
 
 ```typescript
-export default function CognicaSDK({ onComplete }: { onComplete: (result: TestResult) => void }) {
-  const sdkUrl = "https://conkasdkdev.cognetivity.com/?" +
+export default function CognicaSDK({
+  onComplete,
+}: {
+  onComplete: (result: TestResult) => void;
+}) {
+  const sdkUrl =
+    "https://conkasdkdev.cognetivity.com/?" +
     new URLSearchParams({
       shortVersion: "true",
       websiteExperience: "true",
@@ -366,12 +373,12 @@ export default function CognicaSDK({ onComplete }: { onComplete: (result: TestRe
 
 #### Score Interpretation Tiers
 
-| Score Range | Label | Interpretation |
-|-------------|-------|----------------|
-| 85-100 | Excellent | "Your cognitive performance is excellent. You're operating at peak mental capacity." |
-| 70-84 | Good | "Your cognitive performance is good. There's room to optimise your mental edge." |
-| 55-69 | Average | "Your cognitive performance is average. Targeted support could unlock significant improvements." |
-| Below 55 | Room to Grow | "Your results suggest significant opportunity for cognitive enhancement." |
+| Score Range | Label        | Interpretation                                                                                   |
+| ----------- | ------------ | ------------------------------------------------------------------------------------------------ |
+| 85-100      | Excellent    | "Your cognitive performance is excellent. You're operating at peak mental capacity."             |
+| 70-84       | Good         | "Your cognitive performance is good. There's room to optimise your mental edge."                 |
+| 55-69       | Average      | "Your cognitive performance is average. Targeted support could unlock significant improvements." |
+| Below 55    | Room to Grow | "Your results suggest significant opportunity for cognitive enhancement."                        |
 
 #### Product Recommendations (from BRAND_HIGHLIGHTS.md)
 
@@ -464,7 +471,7 @@ export default function CognicaSDK({ onComplete }: { onComplete: (result: TestRe
 
 **Branch:** `websdk/phase-5-convex`
 
-*Dependent on dev setting up Convex backend*
+_Dependent on dev setting up Convex backend_
 
 #### Tasks
 
@@ -499,24 +506,24 @@ All components must follow `STYLE_GUIDE_01.md`:
 
 ### Typography
 
-| Element | Font | Class |
-|---------|------|-------|
-| Section label | IBM Plex Mono | `font-clinical text-xs uppercase tracking-widest opacity-50` |
-| Headings | Poppins Bold | `text-3xl lg:text-4xl font-bold` |
-| Subtext/Annotations | Caveat | `font-commentary text-xl` |
-| Scores/Data | IBM Plex Mono | `font-clinical text-6xl font-bold` |
-| Body text | Poppins | `text-base opacity-80` |
+| Element             | Font          | Class                                                        |
+| ------------------- | ------------- | ------------------------------------------------------------ |
+| Section label       | IBM Plex Mono | `font-clinical text-xs uppercase tracking-widest opacity-50` |
+| Headings            | Poppins Bold  | `text-3xl lg:text-4xl font-bold`                             |
+| Subtext/Annotations | Caveat        | `font-commentary text-xl`                                    |
+| Scores/Data         | IBM Plex Mono | `font-clinical text-6xl font-bold`                           |
+| Body text           | Poppins       | `text-base opacity-80`                                       |
 
 ### Components
 
-| Element | Class | Notes |
-|---------|-------|-------|
-| Containers | `neo-box` | Sharp corners, 2px border |
-| Primary buttons | `neo-button` | Pill-shaped, filled |
-| Secondary buttons | `neo-button-outline` | Pill-shaped, outline |
-| Desktop section padding | `px-16 py-16` | Standard desktop spacing |
-| Mobile section padding | `px-4 py-8` | Standard mobile spacing |
-| Max width | `max-w-6xl mx-auto` | Content container |
+| Element                 | Class                | Notes                     |
+| ----------------------- | -------------------- | ------------------------- |
+| Containers              | `neo-box`            | Sharp corners, 2px border |
+| Primary buttons         | `neo-button`         | Pill-shaped, filled       |
+| Secondary buttons       | `neo-button-outline` | Pill-shaped, outline      |
+| Desktop section padding | `px-16 py-16`        | Standard desktop spacing  |
+| Mobile section padding  | `px-4 py-8`          | Standard mobile spacing   |
+| Max width               | `max-w-6xl mx-auto`  | Content container         |
 
 ### Colors
 
@@ -592,14 +599,14 @@ main
 
 ## Questions / Decisions Log
 
-| Question | Decision | Date |
-|----------|----------|------|
-| Where to place test section? | After hero, before quote | Jan 2026 |
-| Email flow? | Modal gate on "Start Test" click | Jan 2026 |
-| Results UI approach? | Custom Next.js via postMessage | Jan 2026 |
-| Short vs long test? | Short only for now, long later | Jan 2026 |
-| Backend for email storage? | Convex (Phase 5, after dev setup) | Jan 2026 |
-| Desktop vs Mobile? | Split each phase into A (desktop) and B (mobile) | Jan 2026 |
+| Question                     | Decision                                         | Date     |
+| ---------------------------- | ------------------------------------------------ | -------- |
+| Where to place test section? | After hero, before quote                         | Jan 2026 |
+| Email flow?                  | Modal gate on "Start Test" click                 | Jan 2026 |
+| Results UI approach?         | Custom Next.js via postMessage                   | Jan 2026 |
+| Short vs long test?          | Short only for now, long later                   | Jan 2026 |
+| Backend for email storage?   | Convex (Phase 5, after dev setup)                | Jan 2026 |
+| Desktop vs Mobile?           | Split each phase into A (desktop) and B (mobile) | Jan 2026 |
 
 ---
 
