@@ -55,7 +55,6 @@ export async function POST(
     );
   }
 
-  // Extract the Loop subscription ID (numeric part)
   const loopSubscriptionId = extractLoopId(subscriptionId);
   
   const results: {
@@ -63,23 +62,7 @@ export async function POST(
     loop?: { success: boolean; error?: string };
   } = {};
 
-  // Step 1: Skip in Loop (this is the primary source of truth)
-  try {
-    console.log('Skipping in Loop, subscription ID:', loopSubscriptionId);
-    const loopResult = await skipLoopOrder(loopSubscriptionId);
-    
-    if (loopResult.error) {
-      console.error('Loop skip error:', loopResult.error);
-      results.loop = { success: false, error: loopResult.error.message };
-    } else {
-      results.loop = { success: true };
-    }
-  } catch (error) {
-    console.error('Loop skip exception:', error);
-    results.loop = { success: false, error: String(error) };
-  }
-
-  // Step 2: Also try to skip in Shopify (for sync, may not always work)
+  // Step 1: Try to skip in Shopify first
   const apiUrl = `https://shopify.com/${SHOPIFY_SHOP_ID}/account/customer/api/2024-10/graphql`;
 
   try {
@@ -120,8 +103,24 @@ export async function POST(
     results.shopify = { success: false, error: String(error) };
   }
 
-  // Return success if Loop succeeded (Loop is the source of truth)
-  if (results.loop?.success) {
+  // Step 2: Also try to skip in Loop (best-effort sync)
+  try {
+    console.log('Skipping in Loop (sync), subscription ID:', loopSubscriptionId);
+    const loopResult = await skipLoopOrder(loopSubscriptionId);
+    
+    if (loopResult.error) {
+      console.error('Loop skip error (non-blocking):', loopResult.error);
+      results.loop = { success: false, error: loopResult.error.message };
+    } else {
+      results.loop = { success: true };
+    }
+  } catch (error) {
+    console.error('Loop skip exception (non-blocking):', error);
+    results.loop = { success: false, error: String(error) };
+  }
+
+  // Return success if either Shopify or Loop succeeded
+  if (results.shopify?.success || results.loop?.success) {
     return NextResponse.json({
       success: true,
       message: 'Next delivery skipped successfully',
@@ -129,10 +128,10 @@ export async function POST(
     });
   }
 
-  // If Loop failed, return error
+  // If both failed, return error
   return NextResponse.json({
     success: false,
-    error: results.loop?.error || 'Failed to skip delivery',
+    error: results.shopify?.error || results.loop?.error || 'Failed to skip delivery',
     details: results,
   }, { status: 400 });
 }

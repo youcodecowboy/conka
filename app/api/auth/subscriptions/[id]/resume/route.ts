@@ -56,7 +56,6 @@ export async function POST(
     );
   }
 
-  // Extract the Loop subscription ID (numeric part)
   const loopSubscriptionId = extractLoopId(subscriptionId);
   
   const results: {
@@ -64,23 +63,7 @@ export async function POST(
     loop?: { success: boolean; error?: string };
   } = {};
 
-  // Step 1: Resume in Loop (this is the primary source of truth)
-  try {
-    console.log('Resuming in Loop, subscription ID:', loopSubscriptionId);
-    const loopResult = await resumeLoopSubscription(loopSubscriptionId);
-    
-    if (loopResult.error) {
-      console.error('Loop resume error:', loopResult.error);
-      results.loop = { success: false, error: loopResult.error.message };
-    } else {
-      results.loop = { success: true };
-    }
-  } catch (error) {
-    console.error('Loop resume exception:', error);
-    results.loop = { success: false, error: String(error) };
-  }
-
-  // Step 2: Also resume in Shopify (for sync)
+  // Step 1: Resume in Shopify FIRST (this is the primary source - it's working reliably)
   const apiUrl = `https://shopify.com/${SHOPIFY_SHOP_ID}/account/customer/api/2024-10/graphql`;
 
   try {
@@ -116,8 +99,24 @@ export async function POST(
     results.shopify = { success: false, error: String(error) };
   }
 
-  // Return success if Loop succeeded (Loop is the source of truth)
-  if (results.loop?.success) {
+  // Step 2: Also try to resume in Loop (best-effort sync, don't fail if it errors)
+  try {
+    console.log('Resuming in Loop (sync), subscription ID:', loopSubscriptionId);
+    const loopResult = await resumeLoopSubscription(loopSubscriptionId);
+    
+    if (loopResult.error) {
+      console.error('Loop resume error (non-blocking):', loopResult.error);
+      results.loop = { success: false, error: loopResult.error.message };
+    } else {
+      results.loop = { success: true };
+    }
+  } catch (error) {
+    console.error('Loop resume exception (non-blocking):', error);
+    results.loop = { success: false, error: String(error) };
+  }
+
+  // Return success if Shopify succeeded (Shopify is the source of truth)
+  if (results.shopify?.success) {
     return NextResponse.json({
       success: true,
       message: 'Subscription resumed successfully',
@@ -125,10 +124,10 @@ export async function POST(
     });
   }
 
-  // If Loop failed, return error
+  // If Shopify failed, return error
   return NextResponse.json({
     success: false,
-    error: results.loop?.error || 'Failed to resume subscription',
+    error: results.shopify?.error || 'Failed to resume subscription',
     details: results,
   }, { status: 400 });
 }
