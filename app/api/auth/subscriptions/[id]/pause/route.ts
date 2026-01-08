@@ -16,22 +16,29 @@ import { env } from '@/app/lib/env';
 
 const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 
-// Plan configurations for change-frequency
+// Plan configurations with Shopify Selling Plan IDs
+// These must match the selling plans configured in Shopify
 const PLAN_CONFIGURATIONS = {
   starter: {
-    name: 'Starter',
+    name: 'Starter (Weekly)',
     interval: 'WEEK',
     intervalCount: 1,
+    // From shopifyProductMapping.ts - Weekly delivery
+    sellingPlanId: '711429882230',
   },
   pro: {
-    name: 'Pro',
+    name: 'Pro (Bi-Weekly)',
     interval: 'DAY',
     intervalCount: 14,
+    // From shopifyProductMapping.ts - Bi-weekly delivery  
+    sellingPlanId: '711429947766',
   },
   max: {
-    name: 'Max',
+    name: 'Max (Monthly)',
     interval: 'MONTH',
     intervalCount: 1,
+    // From shopifyProductMapping.ts - Monthly delivery
+    sellingPlanId: '711429980534',
   },
 };
 
@@ -217,30 +224,44 @@ export async function POST(
 
         const planConfig = PLAN_CONFIGURATIONS[plan];
         
-        // Calculate next billing date (30 days from now as default)
-        const nextBillingDate = new Date();
-        nextBillingDate.setDate(nextBillingDate.getDate() + 30);
-        const nextBillingDateEpoch = Math.floor(nextBillingDate.getTime() / 1000);
-        
-        // Use PUT /subscription/{id}/frequency - the correct endpoint per Loop API docs
-        // Required fields: billingPolicy, deliveryPolicy, nextBillingDateEpoch, discountType
+        // Use POST /subscription/{id}/change-plan with selling plan ID
+        // This is the correct endpoint for switching between subscription plans
         result = await loopRequest(
-          `/subscription/${loopSubscriptionId}/frequency`, 
+          `/subscription/${loopSubscriptionId}/change-plan`, 
           loopToken, 
-          'PUT',
+          'POST',
           {
-            billingPolicy: {
-              interval: planConfig.interval,
-              intervalCount: planConfig.intervalCount,
-            },
-            deliveryPolicy: {
-              interval: planConfig.interval,
-              intervalCount: planConfig.intervalCount,
-            },
-            nextBillingDateEpoch: nextBillingDateEpoch,
-            discountType: 'OLD', // Keep existing discount behavior
+            sellingPlanId: planConfig.sellingPlanId,
           }
         );
+        
+        // If change-plan doesn't work, fall back to frequency endpoint
+        if (!result.response.ok && result.response.status === 404) {
+          console.log('[CHANGE-FREQUENCY] change-plan failed, trying frequency endpoint...');
+          
+          const nextBillingDate = new Date();
+          nextBillingDate.setDate(nextBillingDate.getDate() + 30);
+          const nextBillingDateEpoch = Math.floor(nextBillingDate.getTime() / 1000);
+          
+          result = await loopRequest(
+            `/subscription/${loopSubscriptionId}/frequency`, 
+            loopToken, 
+            'PUT',
+            {
+              billingPolicy: {
+                interval: planConfig.interval,
+                intervalCount: planConfig.intervalCount,
+              },
+              deliveryPolicy: {
+                interval: planConfig.interval,
+                intervalCount: planConfig.intervalCount,
+              },
+              nextBillingDateEpoch: nextBillingDateEpoch,
+              discountType: 'OLD',
+            }
+          );
+        }
+        
         successMessage = `Plan updated to ${planConfig.name} successfully`;
         break;
 
