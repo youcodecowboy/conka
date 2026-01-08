@@ -32,8 +32,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch subscriptions from Loop Admin API (the source of truth)
-  // Shopify OAuth is used for authentication, Loop manages subscriptions
+  // Fetch subscriptions from Shopify Customer Account API
+  // Shopify OAuth is used for authentication, returns user's subscriptions
+  // Mutations go through Loop Admin API using shopify-{id} format
   const fetchSubscriptions = useCallback(async (): Promise<void> => {
     setLoading(true);
     setError(null);
@@ -87,15 +88,16 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     }
   }, []);
 
-  // Pause subscription - uses Loop Admin API
+  // Pause subscription - uses Loop Admin API with shopify-{id} format
   const pauseSubscription = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        // Loop subscription IDs are numeric, no encoding needed
-        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/pause`, {
+        // URL-encode the subscription ID to handle Shopify GID format (gid://shopify/...)
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/pause`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -128,14 +130,16 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Resume subscription - uses Loop Admin API
+  // Resume subscription - uses Loop Admin API with shopify-{id} format
   const resumeSubscription = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/resume`, {
+        // URL-encode the subscription ID to handle Shopify GID format
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/resume`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -168,14 +172,16 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Cancel subscription - uses Loop Admin API
+  // Cancel subscription - uses Loop Admin API with shopify-{id} format
   const cancelSubscription = useCallback(
     async (subscriptionId: string, reason?: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/cancel`, {
+        // URL-encode the subscription ID to handle Shopify GID format
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/cancel`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -210,14 +216,16 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Skip next order - uses Loop Admin API
+  // Skip next order - uses Loop Admin API with shopify-{id} format
   const skipNextOrder = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/skip`, {
+        // URL-encode the subscription ID to handle Shopify GID format
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/skip`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -241,16 +249,17 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Change subscription plan (Starter/Pro/Max) - uses Loop API for direct editing
-  // For frequency changes: Loop's updateSubscriptionFrequency API
-  // For protocol changes: cancel and redirect to shop
+  // Change subscription plan (Starter/Pro/Max) - uses Loop API with shopify-{id} format
+  // For frequency changes: Loop's change-frequency API
   const changePlan = useCallback(
     async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', forceCancel: boolean = false): Promise<ChangePlanResult> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/change-plan`, {
+        // URL-encode the subscription ID to handle Shopify GID format
+        const encodedId = encodeURIComponent(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${encodedId}/change-plan`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
