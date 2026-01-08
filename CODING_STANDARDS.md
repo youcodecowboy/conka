@@ -47,10 +47,7 @@ Export all public components and types from a single entry point:
 
 ```tsx
 // Types first
-export type {
-  QuizResult,
-  QuizQuestion,
-} from "./types";
+export type { QuizResult, QuizQuestion } from "./types";
 
 // Components
 export { default as QuizLoader } from "./QuizLoader";
@@ -82,11 +79,11 @@ export interface QuizLoaderProps {
 
 Each component should have one clear purpose:
 
-| Component | Lines | Responsibility |
-|-----------|-------|----------------|
-| Loader | ~80-120 | Loading animation |
-| Scores | ~60-80 | Display score grid |
-| Recommendation | ~80-100 | Smart product suggestion |
+| Component              | Lines    | Responsibility           |
+| ---------------------- | -------- | ------------------------ |
+| Loader                 | ~80-120  | Loading animation        |
+| Scores                 | ~60-80   | Display score grid       |
+| Recommendation         | ~80-100  | Smart product suggestion |
 | Section (orchestrator) | ~150-200 | State management, layout |
 
 ### Orchestrator Pattern
@@ -97,7 +94,7 @@ Complex flows use a thin orchestrator that composes sub-components:
 // Orchestrator manages state and layout
 export default function CognitiveTestSection() {
   const [state, setState] = useState<TestState>("idle");
-  
+
   return (
     <section>
       {state === "idle" && <IdleCard onStart={handleStart} />}
@@ -193,9 +190,15 @@ const subjectId = useMemo(() => {
 Use clear patterns for state-based rendering:
 
 ```tsx
-{testState === "idle" && <IdleCard />}
-{testState === "loading" && <Loader />}
-{testState === "results" && testResult && <Results data={testResult} />}
+{
+  testState === "idle" && <IdleCard />;
+}
+{
+  testState === "loading" && <Loader />;
+}
+{
+  testState === "results" && testResult && <Results data={testResult} />;
+}
 ```
 
 ---
@@ -289,7 +292,7 @@ Project-specific classes in `globals.css`:
 ```tsx
 export default function QuizPage() {
   const [answers, setAnswers] = useState({});
-  
+
   return (
     <div className="min-h-screen">
       <Navigation />

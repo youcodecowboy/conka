@@ -52,7 +52,9 @@ export default function CognitiveTestAppPromo() {
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
-          <span className="text-xs opacity-70">Sleep &amp; exercise tracking</span>
+          <span className="text-xs opacity-70">
+            Sleep &amp; exercise tracking
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded-full bg-teal-500 flex items-center justify-center">
