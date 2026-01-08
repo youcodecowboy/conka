@@ -76,7 +76,7 @@ export default function CognitiveTestAppPromo() {
         </div>
       </div>
       {/* App Store Links */}
-      <div className="flex flex-col sm:flex-row gap-3 mt-4">
+      <div className="flex flex-col sm:flex-row gap-3 mt-4 justify-center">
         <a
           href="https://apps.apple.com/gb/app/conka-app/id6450399391"
           target="_blank"
