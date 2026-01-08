@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 type TierType = 'starter' | 'pro' | 'max';
 type ProductType = 'protocol' | 'formula';
+type FormulaPackSize = '4' | '8' | '12' | '28';
 
 // Protocol data with actual product info
 const PROTOCOLS = [
@@ -47,19 +48,19 @@ const FORMULAS = [
     id: 'flow',
     name: 'Conka Flow',
     subtitle: 'Caffeine-Free Focus',
-    description: 'Adaptogen blend for stress resilience',
+    description: 'Adaptogen blend for stress resilience & recovery',
     color: 'amber',
   },
   {
     id: 'clarity',
     name: 'Conka Clarity',
     subtitle: 'Sharp Mind, Clear Head',
-    description: 'Nootropic blend for mental clarity',
+    description: 'Nootropic blend for mental clarity & focus',
     color: 'teal',
   },
 ];
 
-// Tier pricing and info
+// Protocol tier pricing and info
 interface TierInfo {
   name: string;
   frequency: string;
@@ -90,6 +91,46 @@ const PROTOCOL_TIERS: Record<TierType, TierInfo> = {
     name: 'Max',
     frequency: 'Monthly',
     shots: 28,
+    price: 63.99,
+    pricePerShot: 2.29,
+    billing: 'Billed monthly',
+  },
+};
+
+// Formula pack sizes with pricing
+interface FormulaPackInfo {
+  shots: number;
+  frequency: string;
+  price: number;
+  pricePerShot: number;
+  billing: string;
+}
+
+const FORMULA_PACKS: Record<FormulaPackSize, FormulaPackInfo> = {
+  '4': {
+    shots: 4,
+    frequency: 'Weekly',
+    price: 11.99,
+    pricePerShot: 3.00,
+    billing: 'Billed weekly',
+  },
+  '8': {
+    shots: 8,
+    frequency: 'Bi-Weekly',
+    price: 23.19,
+    pricePerShot: 2.90,
+    billing: 'Billed every 2 weeks',
+  },
+  '12': {
+    shots: 12,
+    frequency: 'Bi-Weekly',
+    price: 31.99,
+    pricePerShot: 2.67,
+    billing: 'Billed every 2 weeks',
+  },
+  '28': {
+    shots: 28,
+    frequency: 'Monthly',
     price: 63.99,
     pricePerShot: 2.29,
     billing: 'Billed monthly',
@@ -148,6 +189,31 @@ const Icon = ({ name, className = '' }: { name: string; className?: string }) =>
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       );
+    case 'checkCircle':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      );
+    case 'calendar':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      );
+    case 'package':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16.5 9.4 7.55 4.24"/>
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+          <line x1="12" y1="22.08" x2="12" y2="12"/>
+        </svg>
+      );
     default:
       return null;
   }
@@ -178,9 +244,17 @@ export function EditSubscriptionModal({
   const [selectedProtocol, setSelectedProtocol] = useState(currentProtocolId);
   const [selectedFormula, setSelectedFormula] = useState('flow');
   const [selectedTier, setSelectedTier] = useState<TierType>(currentTier);
+  const [selectedFormulaPack, setSelectedFormulaPack] = useState<FormulaPackSize>('12');
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [mobileStep, setMobileStep] = useState<'product' | 'tier'>('product');
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successDetails, setSuccessDetails] = useState<{
+    productName: string;
+    frequency: string;
+    price: number;
+    nextBilling: string;
+  } | null>(null);
 
   // Reset on open
   useEffect(() => {
@@ -189,6 +263,8 @@ export function EditSubscriptionModal({
       setSelectedTier(currentTier);
       setError(null);
       setMobileStep('product');
+      setShowSuccess(false);
+      setSuccessDetails(null);
       // Detect if current subscription is a formula or protocol
       const isFormula = subscriptionName.toLowerCase().includes('flow') || subscriptionName.toLowerCase().includes('clarity');
       setProductType(isFormula ? 'formula' : 'protocol');
@@ -218,9 +294,40 @@ export function EditSubscriptionModal({
         ? (selectedFormula === 'flow' ? 'flow' : 'clarity')
         : selectedProtocol;
       
-      const result = await onSave(targetId, selectedTier);
+      const tier = productType === 'formula'
+        ? (selectedFormulaPack === '4' ? 'starter' : selectedFormulaPack === '28' ? 'max' : 'pro')
+        : selectedTier;
+      
+      const result = await onSave(targetId, tier);
       if (result.success) {
-        onClose();
+        // Calculate next billing date (add interval to current date)
+        const nextDate = new Date();
+        if (productType === 'formula') {
+          const pack = FORMULA_PACKS[selectedFormulaPack];
+          if (pack.frequency === 'Weekly') nextDate.setDate(nextDate.getDate() + 7);
+          else if (pack.frequency === 'Bi-Weekly') nextDate.setDate(nextDate.getDate() + 14);
+          else nextDate.setMonth(nextDate.getMonth() + 1);
+        } else {
+          const tierInfo = PROTOCOL_TIERS[selectedTier];
+          if (tierInfo.frequency === 'Weekly') nextDate.setDate(nextDate.getDate() + 7);
+          else if (tierInfo.frequency === 'Bi-Weekly') nextDate.setDate(nextDate.getDate() + 14);
+          else nextDate.setMonth(nextDate.getMonth() + 1);
+        }
+
+        // Show success state
+        setSuccessDetails({
+          productName: productType === 'formula'
+            ? FORMULAS.find(f => f.id === selectedFormula)?.name || ''
+            : `${PROTOCOLS.find(p => p.id === selectedProtocol)?.name} Protocol`,
+          frequency: productType === 'formula'
+            ? FORMULA_PACKS[selectedFormulaPack].frequency
+            : PROTOCOL_TIERS[selectedTier].frequency,
+          price: productType === 'formula'
+            ? FORMULA_PACKS[selectedFormulaPack].price
+            : PROTOCOL_TIERS[selectedTier].price,
+          nextBilling: nextDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+        });
+        setShowSuccess(true);
       } else {
         setError(result.message || 'Failed to update subscription');
       }
@@ -242,6 +349,64 @@ export function EditSubscriptionModal({
     : null;
 
   if (!isOpen) return null;
+
+  // Success State
+  if (showSuccess && successDetails) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-black/60" onClick={onClose} />
+        <div className="relative bg-white neo-box w-full max-w-md p-8 text-center">
+          <div className="w-16 h-16 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
+            <Icon name="checkCircle" className="w-10 h-10 text-green-600" />
+          </div>
+          
+          <h2 className="text-2xl font-bold mb-2">Plan Updated</h2>
+          <p className="font-clinical text-sm opacity-60 mb-8">Your subscription has been changed successfully</p>
+          
+          <div className="neo-box p-6 text-left mb-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <Icon name="package" className="w-5 h-5 opacity-50" />
+                <div>
+                  <p className="font-clinical text-xs uppercase opacity-50">New Plan</p>
+                  <p className="font-bold">{successDetails.productName}</p>
+                </div>
+              </div>
+              
+              <div className="border-t border-dashed border-gray-200 pt-4 flex items-center gap-3">
+                <Icon name="calendar" className="w-5 h-5 opacity-50" />
+                <div>
+                  <p className="font-clinical text-xs uppercase opacity-50">Delivery Frequency</p>
+                  <p className="font-bold">{successDetails.frequency}</p>
+                </div>
+              </div>
+              
+              <div className="border-t border-dashed border-gray-200 pt-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <svg className="w-5 h-5 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="12" y1="1" x2="12" y2="23"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
+                  <div>
+                    <p className="font-clinical text-xs uppercase opacity-50">Next Billing</p>
+                    <p className="font-bold">{successDetails.nextBilling}</p>
+                  </div>
+                </div>
+                <p className="font-bold text-xl">£{successDetails.price.toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
+          
+          <button
+            onClick={onClose}
+            className="w-full neo-button py-3 font-bold"
+          >
+            Done
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -355,90 +520,154 @@ export function EditSubscriptionModal({
             </div>
           </div>
 
-          {/* Right Column - Tier Selection */}
+          {/* Right Column - Tier/Pack Selection */}
           <div className="w-1/2 p-6 overflow-y-auto bg-gray-50">
-            <h3 className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-3">Select Frequency</h3>
+            <h3 className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-3">
+              {productType === 'formula' ? 'Select Pack Size' : 'Select Frequency'}
+            </h3>
             
             {/* Next Billing Info */}
             {formattedNextBilling && (
               <div className="mb-4 p-3 bg-white neo-box">
                 <div className="flex items-center gap-2 text-sm">
-                  <svg className="w-4 h-4 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
-                  </svg>
+                  <Icon name="calendar" className="w-4 h-4 opacity-50" />
                   <span className="font-clinical opacity-70">Next billing:</span>
                   <span className="font-bold">{formattedNextBilling}</span>
                 </div>
               </div>
             )}
 
-            <div className="space-y-3">
-              {availableTiers.map((tier) => {
-                const tierInfo = PROTOCOL_TIERS[tier];
-                const isSelected = selectedTier === tier;
-                const isCurrent = tier === currentTier;
-                
-                return (
-                  <button
-                    key={tier}
-                    onClick={() => setSelectedTier(tier)}
-                    className={`w-full p-4 text-left transition-all ${
-                      isSelected 
-                        ? 'neo-box-inverted' 
-                        : 'neo-box bg-white hover:bg-gray-50'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold">{tierInfo.name}</span>
-                          {tier === 'pro' && (
-                            <span className={`text-xs font-bold px-2 py-0.5 ${
-                              isSelected ? 'bg-white/20' : 'bg-amber-100 text-amber-800'
-                            }`}>
-                              POPULAR
-                            </span>
-                          )}
-                          {tier === 'max' && (
-                            <span className={`text-xs font-bold px-2 py-0.5 ${
-                              isSelected ? 'bg-white/20' : 'bg-green-100 text-green-800'
-                            }`}>
-                              BEST VALUE
-                            </span>
-                          )}
-                          {isCurrent && !isSelected && (
-                            <span className="text-xs font-clinical opacity-50">Current</span>
-                          )}
+            {/* Protocol Tiers */}
+            {productType === 'protocol' && (
+              <div className="space-y-3">
+                {availableTiers.map((tier) => {
+                  const tierInfo = PROTOCOL_TIERS[tier];
+                  const isSelected = selectedTier === tier;
+                  const isCurrent = tier === currentTier;
+                  
+                  return (
+                    <button
+                      key={tier}
+                      onClick={() => setSelectedTier(tier)}
+                      className={`w-full p-4 text-left transition-all ${
+                        isSelected 
+                          ? 'neo-box-inverted' 
+                          : 'neo-box bg-white hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold">{tierInfo.name}</span>
+                            {tier === 'pro' && (
+                              <span className={`text-xs font-bold px-2 py-0.5 ${
+                                isSelected ? 'bg-white/20' : 'bg-amber-100 text-amber-800'
+                              }`}>
+                                POPULAR
+                              </span>
+                            )}
+                            {tier === 'max' && (
+                              <span className={`text-xs font-bold px-2 py-0.5 ${
+                                isSelected ? 'bg-white/20' : 'bg-green-100 text-green-800'
+                              }`}>
+                                BEST VALUE
+                              </span>
+                            )}
+                            {isCurrent && !isSelected && (
+                              <span className="text-xs font-clinical opacity-50">Current</span>
+                            )}
+                          </div>
+                          <div className={`font-clinical text-sm mt-1 ${isSelected ? 'opacity-80' : 'opacity-60'}`}>
+                            {tierInfo.frequency} · {tierInfo.shots} shots
+                          </div>
+                          <div className={`font-clinical text-xs mt-0.5 ${isSelected ? 'opacity-60' : 'opacity-40'}`}>
+                            {tierInfo.billing}
+                          </div>
                         </div>
-                        <div className={`font-clinical text-sm mt-1 ${isSelected ? 'opacity-80' : 'opacity-60'}`}>
-                          {tierInfo.frequency} · {tierInfo.shots} shots
-                        </div>
-                        <div className={`font-clinical text-xs mt-0.5 ${isSelected ? 'opacity-60' : 'opacity-40'}`}>
-                          {tierInfo.billing}
+                        <div className="text-right">
+                          <div className="font-bold text-lg">£{tierInfo.price.toFixed(2)}</div>
+                          <div className={`font-clinical text-xs ${isSelected ? 'opacity-70' : 'opacity-50'}`}>
+                            £{tierInfo.pricePerShot.toFixed(2)}/shot
+                          </div>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="font-bold text-lg">£{tierInfo.price.toFixed(2)}</div>
-                        <div className={`font-clinical text-xs ${isSelected ? 'opacity-70' : 'opacity-50'}`}>
-                          £{tierInfo.pricePerShot.toFixed(2)}/shot
+                      {isSelected && (
+                        <div className={`mt-3 pt-3 border-t flex items-center gap-2 text-sm ${
+                          isSelected ? 'border-white/20' : 'border-gray-200'
+                        }`}>
+                          <Icon name="check" className="w-4 h-4" />
+                          <span className="font-clinical">20% subscription discount applied</span>
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Formula Pack Sizes */}
+            {productType === 'formula' && (
+              <div className="space-y-3">
+                {(Object.keys(FORMULA_PACKS) as FormulaPackSize[]).map((packSize) => {
+                  const packInfo = FORMULA_PACKS[packSize];
+                  const isSelected = selectedFormulaPack === packSize;
+                  
+                  return (
+                    <button
+                      key={packSize}
+                      onClick={() => setSelectedFormulaPack(packSize)}
+                      className={`w-full p-4 text-left transition-all ${
+                        isSelected 
+                          ? 'neo-box-inverted' 
+                          : 'neo-box bg-white hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold">{packInfo.shots} Shots</span>
+                            {packSize === '12' && (
+                              <span className={`text-xs font-bold px-2 py-0.5 ${
+                                isSelected ? 'bg-white/20' : 'bg-amber-100 text-amber-800'
+                              }`}>
+                                POPULAR
+                              </span>
+                            )}
+                            {packSize === '28' && (
+                              <span className={`text-xs font-bold px-2 py-0.5 ${
+                                isSelected ? 'bg-white/20' : 'bg-green-100 text-green-800'
+                              }`}>
+                                BEST VALUE
+                              </span>
+                            )}
+                          </div>
+                          <div className={`font-clinical text-sm mt-1 ${isSelected ? 'opacity-80' : 'opacity-60'}`}>
+                            {packInfo.frequency} delivery
+                          </div>
+                          <div className={`font-clinical text-xs mt-0.5 ${isSelected ? 'opacity-60' : 'opacity-40'}`}>
+                            {packInfo.billing}
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="font-bold text-lg">£{packInfo.price.toFixed(2)}</div>
+                          <div className={`font-clinical text-xs ${isSelected ? 'opacity-70' : 'opacity-50'}`}>
+                            £{packInfo.pricePerShot.toFixed(2)}/shot
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    {isSelected && (
-                      <div className={`mt-3 pt-3 border-t flex items-center gap-2 text-sm ${
-                        isSelected ? 'border-white/20' : 'border-gray-200'
-                      }`}>
-                        <Icon name="check" className="w-4 h-4" />
-                        <span className="font-clinical">20% subscription discount applied</span>
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+                      {isSelected && (
+                        <div className={`mt-3 pt-3 border-t flex items-center gap-2 text-sm ${
+                          isSelected ? 'border-white/20' : 'border-gray-200'
+                        }`}>
+                          <Icon name="check" className="w-4 h-4" />
+                          <span className="font-clinical">20% subscription discount applied</span>
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
 
@@ -454,9 +683,9 @@ export function EditSubscriptionModal({
               {hasChanges ? (
                 <span className="text-green-700 font-medium">
                   → {productType === 'protocol' 
-                    ? PROTOCOLS.find(p => p.id === selectedProtocol)?.name 
-                    : FORMULAS.find(f => f.id === selectedFormula)?.name
-                  } · {PROTOCOL_TIERS[selectedTier].name}
+                    ? `${PROTOCOLS.find(p => p.id === selectedProtocol)?.name} · ${PROTOCOL_TIERS[selectedTier].name}`
+                    : `${FORMULAS.find(f => f.id === selectedFormula)?.name} · ${FORMULA_PACKS[selectedFormulaPack].shots} shots`
+                  }
                 </span>
               ) : (
                 'No changes'
@@ -517,7 +746,7 @@ export function EditSubscriptionModal({
               mobileStep === 'tier' ? 'bg-black text-white' : ''
             }`}
           >
-            2. Frequency
+            2. {productType === 'formula' ? 'Pack Size' : 'Frequency'}
           </button>
         </div>
 
@@ -615,8 +844,8 @@ export function EditSubscriptionModal({
                 </div>
               )}
 
-              {/* Tiers */}
-              {availableTiers.map((tier) => {
+              {/* Protocol Tiers */}
+              {productType === 'protocol' && availableTiers.map((tier) => {
                 const tierInfo = PROTOCOL_TIERS[tier];
                 const isSelected = selectedTier === tier;
                 
@@ -652,6 +881,44 @@ export function EditSubscriptionModal({
                   </button>
                 );
               })}
+
+              {/* Formula Packs */}
+              {productType === 'formula' && (Object.keys(FORMULA_PACKS) as FormulaPackSize[]).map((packSize) => {
+                const packInfo = FORMULA_PACKS[packSize];
+                const isSelected = selectedFormulaPack === packSize;
+                
+                return (
+                  <button
+                    key={packSize}
+                    onClick={() => setSelectedFormulaPack(packSize)}
+                    className={`w-full p-4 text-left transition-all ${
+                      isSelected ? 'neo-box-inverted' : 'neo-box bg-white'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold">{packInfo.shots} Shots</span>
+                          {packSize === '12' && (
+                            <span className={`text-xs font-bold px-1.5 py-0.5 ${
+                              isSelected ? 'bg-white/20' : 'bg-amber-100 text-amber-800'
+                            }`}>POPULAR</span>
+                          )}
+                        </div>
+                        <div className="font-clinical text-xs opacity-70 mt-1">
+                          {packInfo.frequency} delivery
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold">£{packInfo.price.toFixed(2)}</div>
+                        <div className="font-clinical text-xs opacity-60">
+                          £{packInfo.pricePerShot.toFixed(2)}/shot
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -670,9 +937,9 @@ export function EditSubscriptionModal({
           >
             {saving ? 'Updating...' : hasChanges ? (
               `Save: ${productType === 'protocol' 
-                ? PROTOCOLS.find(p => p.id === selectedProtocol)?.name 
-                : FORMULAS.find(f => f.id === selectedFormula)?.name
-              } · ${PROTOCOL_TIERS[selectedTier].name}`
+                ? `${PROTOCOLS.find(p => p.id === selectedProtocol)?.name} · ${PROTOCOL_TIERS[selectedTier].name}`
+                : `${FORMULAS.find(f => f.id === selectedFormula)?.name} · ${FORMULA_PACKS[selectedFormulaPack].shots} shots`
+              }`
             ) : (
               'No changes'
             )}

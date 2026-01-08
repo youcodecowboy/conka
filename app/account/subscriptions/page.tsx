@@ -24,7 +24,6 @@ export default function SubscriptionsPage() {
     pauseSubscription,
     resumeSubscription,
     cancelSubscription,
-    skipNextOrder,
     changePlan,
   } = useSubscriptions();
 
@@ -132,17 +131,6 @@ export default function SubscriptionsPage() {
       await fetchSubscriptions();
     }
     return success;
-  };
-
-  // Handle skip
-  const handleSkip = async (subscriptionId: string) => {
-    setActionLoading(subscriptionId);
-    const success = await skipNextOrder(subscriptionId);
-    if (success) {
-      alert('Next delivery skipped successfully!');
-      await fetchSubscriptions();
-    }
-    setActionLoading(null);
   };
 
   // Handle edit/change plan (called from EditSubscriptionModal)
@@ -423,21 +411,6 @@ export default function SubscriptionsPage() {
                               Edit
                             </button>
 
-                            {/* Skip Button (only for active subscriptions) */}
-                            {subscription.status === 'active' && (
-                              <button
-                                onClick={() => handleSkip(subscription.id)}
-                                disabled={actionLoading === subscription.id}
-                                className="neo-button-outline px-4 py-2 text-sm font-semibold disabled:opacity-50 flex items-center gap-2"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <polygon points="5 4 15 12 5 20 5 4"/>
-                                  <line x1="19" y1="5" x2="19" y2="19"/>
-                                </svg>
-                                Skip Next
-                              </button>
-                            )}
-
                             {/* Pause/Resume Button */}
                             <button
                               onClick={() => handleTogglePause(subscription)}
@@ -467,11 +440,17 @@ export default function SubscriptionsPage() {
                               )}
                             </button>
 
-                            {/* Cancel Button */}
+                            {/* Cancel Button - styled consistently */}
                             <button
                               onClick={() => setShowCancelModal(subscription.id)}
-                              className="text-red-600 hover:text-red-800 px-4 py-2 text-sm font-semibold transition-colors"
+                              disabled={actionLoading === subscription.id}
+                              className="neo-button-outline px-4 py-2 text-sm font-semibold disabled:opacity-50 flex items-center gap-2 border-red-300 text-red-600 hover:bg-red-50"
                             >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="15" y1="9" x2="9" y2="15"/>
+                                <line x1="9" y1="9" x2="15" y2="15"/>
+                              </svg>
                               Cancel
                             </button>
                           </div>
