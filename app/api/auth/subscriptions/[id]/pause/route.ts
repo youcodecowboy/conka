@@ -16,29 +16,66 @@ import { env } from '@/app/lib/env';
 
 const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 
-// Plan configurations with Shopify Selling Plan IDs
-// These must match the selling plans configured in Shopify
+// Plan configurations with Shopify Selling Plan IDs and Variant IDs
+// These must match the selling plans and variants configured in Shopify
+// From shopifyProductMapping.ts
+
+// Variant IDs by protocol and tier (just the numeric Shopify ID)
+const PROTOCOL_VARIANTS: Record<string, Record<string, number>> = {
+  // Protocol 1 (Resilience)
+  '1': {
+    starter: 56999240597878,  // RESILIANCE_STARTER_4
+    pro: 56999240630646,      // RESILIANCE_PRO_12
+    max: 56999240663414,      // RESILIANCE_MAX_28
+  },
+  // Protocol 2 (Precision)
+  '2': {
+    starter: 56999234503030,  // PRECISION_STARTER_4
+    pro: 56999234535798,      // PRECISION_PRO_12
+    max: 56999234568566,      // PRECISION_MAX_28
+  },
+  // Protocol 3 (Balance)
+  '3': {
+    starter: 56998884573558,  // BALANCED_STARTER_4
+    pro: 56998884606326,      // BALANCED_PRO_12
+    max: 56998884639094,      // BALANCED_MAX_28
+  },
+  // Protocol 4 (Ultimate) - no starter tier
+  '4': {
+    pro: 56999249478006,      // ULTAMATE_PRO_28
+    max: 56999249510774,      // ULTAMATE_MAX_56
+  },
+};
+
+// Reverse lookup: variant ID -> protocol ID
+const VARIANT_TO_PROTOCOL: Record<number, string> = {};
+for (const [protocolId, variants] of Object.entries(PROTOCOL_VARIANTS)) {
+  for (const variantId of Object.values(variants)) {
+    VARIANT_TO_PROTOCOL[variantId] = protocolId;
+  }
+}
+
 const PLAN_CONFIGURATIONS = {
   starter: {
     name: 'Starter (Weekly)',
     interval: 'WEEK',
     intervalCount: 1,
-    // From shopifyProductMapping.ts - Weekly delivery
     sellingPlanId: '711429882230',
+    quantity: 1,
   },
   pro: {
     name: 'Pro (Bi-Weekly)',
     interval: 'DAY',
     intervalCount: 14,
-    // From shopifyProductMapping.ts - Bi-weekly delivery  
     sellingPlanId: '711429947766',
+    quantity: 1,
   },
   max: {
     name: 'Max (Monthly)',
     interval: 'MONTH',
     intervalCount: 1,
-    // From shopifyProductMapping.ts - Monthly delivery
     sellingPlanId: '711429980534',
+    quantity: 1,
   },
 };
 
@@ -224,40 +261,79 @@ export async function POST(
 
         const planConfig = PLAN_CONFIGURATIONS[plan];
         
-        // Use POST /subscription/{id}/change-plan with selling plan ID
-        // This is the correct endpoint for switching between subscription plans
-        result = await loopRequest(
-          `/subscription/${loopSubscriptionId}/change-plan`, 
-          loopToken, 
-          'POST',
-          {
-            sellingPlanId: planConfig.sellingPlanId,
-          }
+        // Step 1: Fetch subscription details from Loop to get lineId and current variant
+        console.log('[CHANGE-FREQUENCY] Fetching subscription details...');
+        const subDetailsResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
         );
         
-        // If change-plan doesn't work, fall back to frequency endpoint
-        if (!result.response.ok && result.response.status === 404) {
-          console.log('[CHANGE-FREQUENCY] change-plan failed, trying frequency endpoint...');
-          
-          const nextBillingDate = new Date();
-          nextBillingDate.setDate(nextBillingDate.getDate() + 30);
-          const nextBillingDateEpoch = Math.floor(nextBillingDate.getTime() / 1000);
-          
+        if (!subDetailsResult.response.ok) {
+          return NextResponse.json({
+            success: false,
+            error: 'Failed to fetch subscription details',
+            loopResponse: subDetailsResult.data,
+          }, { status: subDetailsResult.response.status });
+        }
+        
+        const subscriptionData = subDetailsResult.data.data;
+        const lines = subscriptionData?.lines || [];
+        
+        if (lines.length === 0) {
+          return NextResponse.json({
+            success: false,
+            error: 'No lines found in subscription',
+          }, { status: 400 });
+        }
+        
+        // Get the first line (main subscription item)
+        const line = lines[0];
+        const lineId = line.id;
+        const currentVariantId = line.variantShopifyId || line.variant?.shopifyId;
+        
+        console.log('[CHANGE-FREQUENCY] Current line:', { lineId, currentVariantId });
+        
+        // Step 2: Determine which protocol this variant belongs to
+        const protocolId = VARIANT_TO_PROTOCOL[currentVariantId];
+        
+        if (!protocolId) {
+          console.log('[CHANGE-FREQUENCY] Unknown variant, trying direct approach...');
+          // If we can't identify the protocol, try the change-plan endpoint as fallback
           result = await loopRequest(
-            `/subscription/${loopSubscriptionId}/frequency`, 
+            `/subscription/${loopSubscriptionId}/change-plan`, 
             loopToken, 
+            'POST',
+            { sellingPlanId: planConfig.sellingPlanId }
+          );
+        } else {
+          // Step 3: Get the target variant for the new tier of this protocol
+          const protocolVariants = PROTOCOL_VARIANTS[protocolId];
+          const targetVariantId = protocolVariants[plan];
+          
+          if (!targetVariantId) {
+            return NextResponse.json({
+              success: false,
+              error: `Protocol ${protocolId} doesn't support ${plan} tier`,
+            }, { status: 400 });
+          }
+          
+          console.log('[CHANGE-FREQUENCY] Swapping to variant:', { 
+            protocolId, 
+            plan, 
+            targetVariantId,
+            lineId 
+          });
+          
+          // Step 4: Call swap-line endpoint to change the variant
+          result = await loopRequest(
+            `/subscription/${loopSubscriptionId}/line/${lineId}/swap`,
+            loopToken,
             'PUT',
             {
-              billingPolicy: {
-                interval: planConfig.interval,
-                intervalCount: planConfig.intervalCount,
-              },
-              deliveryPolicy: {
-                interval: planConfig.interval,
-                intervalCount: planConfig.intervalCount,
-              },
-              nextBillingDateEpoch: nextBillingDateEpoch,
-              discountType: 'OLD',
+              variantShopifyId: targetVariantId,
+              quantity: planConfig.quantity,
+              pricingType: 'OLD', // Keep existing discount
             }
           );
         }
