@@ -237,18 +237,21 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Skip next order - uses Loop Admin API with shopify-{id} format
+  // Skip next order - uses single actions endpoint to avoid Vercel routing issues
   const skipNextOrder = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        // Extract just the numeric ID to avoid URL encoding issues
-        const numericId = extractShopifyId(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${numericId}/skip-delivery`, {
+        const response = await fetch('/api/auth/subscriptions/actions', {
           method: 'POST',
           credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'skip',
+            subscriptionId,
+          }),
         });
 
         const data = await response.json();
@@ -270,7 +273,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Change subscription plan (Starter/Pro/Max) - uses Loop API with shopify-{id} format
+  // Change subscription plan (Starter/Pro/Max) - uses single actions endpoint
   // For frequency changes: Loop's change-frequency API
   const changePlan = useCallback(
     async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', forceCancel: boolean = false): Promise<ChangePlanResult> => {
@@ -278,13 +281,15 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       setError(null);
 
       try {
-        // Extract just the numeric ID to avoid URL encoding issues
-        const numericId = extractShopifyId(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${numericId}/update-plan`, {
+        const response = await fetch('/api/auth/subscriptions/actions', {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ plan, forceCancel }),
+          body: JSON.stringify({
+            action: 'change-plan',
+            subscriptionId,
+            plan,
+          }),
         });
 
         const data = await response.json();
