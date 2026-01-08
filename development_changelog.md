@@ -2,6 +2,41 @@
 
 ## January 8, 2026
 
+### 22:15 - Full Protocol & Frequency Edit Modal
+
+Implemented a comprehensive edit modal that allows users to change both their protocol AND delivery frequency in a single flow.
+
+#### New Features:
+- **Protocol Selection:** Users can now switch between all 4 protocols:
+  - Resilience (🛡️) - Stress & recovery support
+  - Precision (🎯) - Focus & mental clarity
+  - Balance (⚖️) - Mood & energy balance
+  - Ultimate (⚡) - Complete optimization
+
+- **Tier/Frequency Selection:** Each protocol offers available tiers:
+  - Starter: Weekly delivery (4 shots)
+  - Pro: Bi-Weekly delivery (12 shots) - Most Popular
+  - Max: Monthly delivery (28 shots) - Best Value
+  - Note: Ultimate protocol only has Pro and Max tiers
+
+- **Responsive Design:**
+  - Desktop: Two-column layout (protocols on left, frequencies on right)
+  - Mobile: Tab-based navigation (1. Protocol → 2. Frequency)
+
+#### Technical Implementation:
+- Created new `EditSubscriptionModal` component with full UX for both views
+- Updated API route to accept `protocolId` parameter for protocol switching
+- Uses Loop's `swap-line` endpoint: `PUT /subscription/{id}/line/{lineId}/swap`
+- Swaps to the correct variant based on selected protocol + tier combination
+
+#### Files Created/Modified:
+- `app/components/subscriptions/EditSubscriptionModal.tsx` (NEW)
+- `app/api/auth/subscriptions/[id]/pause/route.ts` (updated to accept protocolId)
+- `app/hooks/useSubscriptions.ts` (updated changePlan signature)
+- `app/account/subscriptions/page.tsx` (integrated new modal)
+
+---
+
 ### 19:55 - Implemented Correct Loop Admin API Endpoints for Edit/Skip
 
 Based on research into Loop's official API documentation, implemented the correct endpoints for editing subscriptions.

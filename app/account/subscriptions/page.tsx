@@ -7,6 +7,7 @@ import Navigation from '@/app/components/Navigation';
 import { useAuth } from '@/app/context/AuthContext';
 import { useSubscriptions, Subscription } from '@/app/hooks/useSubscriptions';
 import { CancellationModal } from '@/app/components/subscriptions/CancellationModal';
+import { EditSubscriptionModal } from '@/app/components/subscriptions/EditSubscriptionModal';
 import type { SubscriptionInterval } from '@/app/types';
 
 // Subscription tier type (used for cancellation modal)
@@ -30,8 +31,7 @@ export default function SubscriptionsPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [showCancelModal, setShowCancelModal] = useState<string | null>(null);
   const [cancelReason, setCancelReason] = useState('');
-  const [showEditModal, setShowEditModal] = useState<string | null>(null);
-  const [selectedPlan, setSelectedPlan] = useState<'starter' | 'pro' | 'max'>('pro');
+  const [showEditModal, setShowEditModal] = useState<Subscription | null>(null);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -145,19 +145,23 @@ export default function SubscriptionsPage() {
     setActionLoading(null);
   };
 
-  // Handle edit/change plan
-  const handleChangePlan = async () => {
-    if (!showEditModal) return;
-    setActionLoading(showEditModal);
-    const result = await changePlan(showEditModal, selectedPlan);
-    if (result.success) {
-      alert(result.message || 'Plan updated successfully!');
-      setShowEditModal(null);
-      await fetchSubscriptions();
-    } else {
-      alert(result.message || 'Failed to update plan');
-    }
+  // Handle edit/change plan (called from EditSubscriptionModal)
+  const handleChangePlan = async (protocolId: string, plan: 'starter' | 'pro' | 'max'): Promise<{ success: boolean; message?: string }> => {
+    if (!showEditModal) return { success: false, message: 'No subscription selected' };
+    setActionLoading(showEditModal.id);
+    const result = await changePlan(showEditModal.id, plan, protocolId);
     setActionLoading(null);
+    return result;
+  };
+
+  // Get protocol ID from subscription (based on product title)
+  const getProtocolFromSubscription = (subscription: Subscription): string => {
+    const title = subscription.product?.title?.toLowerCase() || '';
+    if (title.includes('resilience')) return '1';
+    if (title.includes('precision')) return '2';
+    if (title.includes('balance')) return '3';
+    if (title.includes('ultimate')) return '4';
+    return '1'; // Default to Resilience
   };
 
   // Get current plan from subscription interval
@@ -408,10 +412,7 @@ export default function SubscriptionsPage() {
                           <div className="flex flex-wrap gap-3">
                             {/* Edit Button */}
                             <button
-                              onClick={() => {
-                                setSelectedPlan(getCurrentPlan(subscription));
-                                setShowEditModal(subscription.id);
-                              }}
+                              onClick={() => setShowEditModal(subscription)}
                               disabled={actionLoading === subscription.id}
                               className="neo-button-outline px-4 py-2 text-sm font-semibold disabled:opacity-50 flex items-center gap-2"
                             >
@@ -562,156 +563,15 @@ export default function SubscriptionsPage() {
       />
 
       {/* Edit Subscription Modal */}
-      {showEditModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setShowEditModal(null)}
-          />
-          
-          {/* Modal */}
-          <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full">
-            {/* Header */}
-            <div className="border-b px-6 py-4 rounded-t-2xl">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold">Edit Subscription</h2>
-                <button
-                  onClick={() => setShowEditModal(null)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </button>
-              </div>
-              <p className="text-sm text-gray-500 mt-1">
-                {subscriptions.find(s => s.id === showEditModal)?.product.title}
-              </p>
-            </div>
-
-            {/* Content */}
-            <div className="p-6">
-              <p className="text-gray-600 mb-4">Select your delivery frequency:</p>
-              
-              <div className="space-y-3">
-                {/* Starter Option */}
-                <label
-                  className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-                    selectedPlan === 'starter'
-                      ? 'border-amber-500 bg-amber-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="plan"
-                    value="starter"
-                    checked={selectedPlan === 'starter'}
-                    onChange={() => setSelectedPlan('starter')}
-                    className="sr-only"
-                  />
-                  <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${
-                    selectedPlan === 'starter' ? 'border-amber-500' : 'border-gray-300'
-                  }`}>
-                    {selectedPlan === 'starter' && (
-                      <div className="w-3 h-3 rounded-full bg-amber-500" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold">Weekly</div>
-                    <div className="text-sm text-gray-500">Delivered every week</div>
-                  </div>
-                </label>
-
-                {/* Pro Option */}
-                <label
-                  className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-                    selectedPlan === 'pro'
-                      ? 'border-amber-500 bg-amber-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="plan"
-                    value="pro"
-                    checked={selectedPlan === 'pro'}
-                    onChange={() => setSelectedPlan('pro')}
-                    className="sr-only"
-                  />
-                  <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${
-                    selectedPlan === 'pro' ? 'border-amber-500' : 'border-gray-300'
-                  }`}>
-                    {selectedPlan === 'pro' && (
-                      <div className="w-3 h-3 rounded-full bg-amber-500" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold">Bi-Weekly</div>
-                    <div className="text-sm text-gray-500">Delivered every 2 weeks</div>
-                  </div>
-                  <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">Popular</span>
-                </label>
-
-                {/* Max Option */}
-                <label
-                  className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-                    selectedPlan === 'max'
-                      ? 'border-amber-500 bg-amber-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="plan"
-                    value="max"
-                    checked={selectedPlan === 'max'}
-                    onChange={() => setSelectedPlan('max')}
-                    className="sr-only"
-                  />
-                  <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${
-                    selectedPlan === 'max' ? 'border-amber-500' : 'border-gray-300'
-                  }`}>
-                    {selectedPlan === 'max' && (
-                      <div className="w-3 h-3 rounded-full bg-amber-500" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold">Monthly</div>
-                    <div className="text-sm text-gray-500">Delivered every month</div>
-                  </div>
-                </label>
-              </div>
-
-              {/* Actions */}
-              <div className="flex gap-3 mt-6">
-                <button
-                  onClick={() => setShowEditModal(null)}
-                  className="flex-1 py-3 border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleChangePlan}
-                  disabled={actionLoading === showEditModal}
-                  className="flex-1 py-3 bg-amber-500 text-white rounded-lg font-medium hover:bg-amber-600 transition-colors disabled:opacity-50"
-                >
-                  {actionLoading === showEditModal ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                      Updating...
-                    </span>
-                  ) : (
-                    'Update Frequency'
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <EditSubscriptionModal
+        isOpen={!!showEditModal}
+        onClose={() => setShowEditModal(null)}
+        onSave={handleChangePlan}
+        subscriptionName={showEditModal?.product.title || 'Subscription'}
+        currentProtocolId={showEditModal ? getProtocolFromSubscription(showEditModal) : '1'}
+        currentTier={showEditModal ? getCurrentPlan(showEditModal) : 'pro'}
+        loading={actionLoading === showEditModal?.id}
+      />
     </div>
   );
 }

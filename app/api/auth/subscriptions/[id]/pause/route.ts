@@ -81,10 +81,12 @@ const PLAN_CONFIGURATIONS = {
 
 type ActionType = 'pause' | 'resume' | 'cancel' | 'skip' | 'change-frequency';
 type PlanType = 'starter' | 'pro' | 'max';
+type ProtocolIdType = '1' | '2' | '3' | '4';
 
 interface ActionRequest {
   action?: ActionType;
   plan?: PlanType;
+  protocolId?: ProtocolIdType; // Optional: if provided, swap to this protocol
   reason?: string;
 }
 
@@ -199,7 +201,7 @@ export async function POST(
     // No body or invalid JSON - use default action 'pause'
   }
 
-  const { action = 'pause', plan, reason } = body;
+  const { action = 'pause', plan, protocolId, reason } = body;
 
   // Convert to Loop's shopify-{id} format
   const loopSubscriptionId = toLoopShopifyId(subscriptionId);
@@ -294,10 +296,16 @@ export async function POST(
         
         console.log('[CHANGE-FREQUENCY] Current line:', { lineId, currentVariantId });
         
-        // Step 2: Determine which protocol this variant belongs to
-        const protocolId = VARIANT_TO_PROTOCOL[currentVariantId];
+        // Step 2: Determine which protocol to use
+        // If protocolId is provided, use that (user wants to change protocol)
+        // Otherwise, detect from current variant (just changing tier)
+        let targetProtocolId = protocolId;
         
-        if (!protocolId) {
+        if (!targetProtocolId) {
+          targetProtocolId = VARIANT_TO_PROTOCOL[currentVariantId] as ProtocolIdType;
+        }
+        
+        if (!targetProtocolId) {
           console.log('[CHANGE-FREQUENCY] Unknown variant, trying direct approach...');
           // If we can't identify the protocol, try the change-plan endpoint as fallback
           result = await loopRequest(
@@ -308,18 +316,27 @@ export async function POST(
           );
         } else {
           // Step 3: Get the target variant for the new tier of this protocol
-          const protocolVariants = PROTOCOL_VARIANTS[protocolId];
+          const protocolVariants = PROTOCOL_VARIANTS[targetProtocolId];
+          
+          if (!protocolVariants) {
+            return NextResponse.json({
+              success: false,
+              error: `Invalid protocol: ${targetProtocolId}`,
+            }, { status: 400 });
+          }
+          
           const targetVariantId = protocolVariants[plan];
           
           if (!targetVariantId) {
             return NextResponse.json({
               success: false,
-              error: `Protocol ${protocolId} doesn't support ${plan} tier`,
+              error: `Protocol ${targetProtocolId} doesn't support ${plan} tier`,
             }, { status: 400 });
           }
           
           console.log('[CHANGE-FREQUENCY] Swapping to variant:', { 
-            protocolId, 
+            currentProtocol: VARIANT_TO_PROTOCOL[currentVariantId],
+            targetProtocol: targetProtocolId,
             plan, 
             targetVariantId,
             lineId 
