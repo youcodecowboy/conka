@@ -2806,3 +2806,32 @@ Major new feature: Complete product and protocol page system with shared compone
 - Updated `OurStoryMobile.tsx` component to render images with fallback to placeholders
 - Sections 7 & 8 remain as placeholders (no images provided yet)
 
+
+---
+
+## January 8, 2026
+
+### 20:30 - Hybrid Subscription Fetch (Loop + Shopify)
+**Critical Fix**: Loop and Shopify were showing different subscription data after plan changes.
+
+**Problem Identified**:
+- Frontend fetched subscriptions from Shopify Customer Account API
+- Plan changes were made via Loop Admin API
+- Loop updated its database, but Shopify didn't immediately sync
+- Frontend showed stale Shopify data (wrong plan)
+- This could cause fulfillment errors (wrong products shipped)
+
+**Solution Implemented - Hybrid Approach**:
+1. Use Shopify to identify which subscriptions belong to the customer (correct customer-subscription mapping)
+2. For each subscription ID, fetch current state from Loop API using `shopify-{id}` format
+3. Display Loop data (accurate product/variant/interval info)
+4. Fall back to Shopify data if Loop fetch fails
+
+**Changes**:
+- `app/api/auth/subscriptions/route.ts` - Complete rewrite to hybrid fetch
+- `app/account/subscriptions/page.tsx` - Updated tier parsing to also check product title
+
+**Result**: Frontend now shows accurate Loop data (source of truth for subscription management).
+
+**Outstanding Concern**: Loop→Shopify sync for fulfillment needs investigation. If fulfillment is based on Shopify data and Loop changes don't sync immediately, there could still be mismatches. May need to contact Loop support about sync mechanisms.
+
