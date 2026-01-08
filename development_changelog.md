@@ -2,6 +2,59 @@
 
 ## January 8, 2026
 
+### 19:55 - Implemented Correct Loop Admin API Endpoints for Edit/Skip
+
+Based on research into Loop's official API documentation, implemented the correct endpoints for editing subscriptions.
+
+#### Research Findings:
+The Loop Developer Hub (https://developer.loopwork.co/reference/) documents these Admin API endpoints:
+
+**Frequency Actions:**
+- `PUT /subscription/{id}/frequency` - Update subscription frequency
+- `POST /subscription/{id}/change-plan` - Change subscription plan
+- `GET /subscription/{id}/available-frequencies` - List available frequencies
+
+**Order Actions:**
+- `POST /subscription/{id}/order/reschedule` - Reschedule/skip orders
+- `GET /subscription/{id}/order/schedule` - List order schedule
+
+#### Implementation:
+- Updated pause route to use `PUT` method for frequency changes (was incorrectly using `POST`)
+- Added logging for all Loop API requests for debugging
+- Re-added Edit and Skip buttons to subscriptions page
+- Added inline edit modal for changing delivery frequency (Weekly/Bi-Weekly/Monthly)
+
+#### Files Modified:
+- `app/api/auth/subscriptions/[id]/pause/route.ts`:
+  - `loopRequest()` now accepts HTTP method parameter (GET/POST/PUT/DELETE)
+  - Change-frequency action now uses `PUT /subscription/{id}/frequency`
+  - Added detailed logging for debugging
+  
+- `app/account/subscriptions/page.tsx`:
+  - Re-added Edit and Skip buttons
+  - Added edit modal with plan selection (Weekly, Bi-Weekly, Monthly)
+  - Added `handleSkip()` and `handleChangePlan()` functions
+
+#### Next Steps:
+Test the functionality to verify the correct Loop API endpoints work as documented.
+
+---
+
+### 19:30 - Removed Loop Portal Redirect Links
+
+Removed Edit and Skip buttons that were redirecting to the old Shopify theme via Loop's customer portal.
+
+#### Changes:
+- Removed Edit button from subscriptions page
+- Removed Skip button from subscriptions page
+- Simplified CancellationModal to remove "offer" step with Loop portal link
+- Users can now only: Pause, Resume, Cancel (which work via Loop API)
+
+#### Reason:
+The Loop portal redirect was showing the old off-brand Shopify theme, creating poor UX.
+
+---
+
 ### 18:45 - Edit/Skip via Loop Customer Portal Redirect
 
 Simplified subscription editing by redirecting users to Loop's customer portal instead of custom API implementations.
