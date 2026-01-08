@@ -2,6 +2,30 @@
 
 ## January 8, 2026
 
+### 23:30 - Neo-Brutal Redesign of Edit Subscription Modal
+
+Completely redesigned the EditSubscriptionModal with proper on-brand styling.
+
+#### Design Changes:
+- **Removed emojis:** Replaced with proper SVG icons (shield, bolt, balance, crown, beaker)
+- **Neo-brutal styling:** Uses `neo-box` and `neo-box-inverted` classes throughout
+- **Actual product data:** Using real taglines and descriptions
+- **Price per shot:** Now displayed for each tier
+- **Next billing date:** Shows upcoming billing date in the modal
+- **Individual Formulas section:** Added Conka Flow and Conka Clarity as separate options with visual divider
+- **Subscription discount badge:** Shows "20% subscription discount applied" when tier is selected
+
+#### Pricing Display:
+- Starter: £11.99 (£3.00/shot) - Weekly
+- Pro: £31.99 (£2.67/shot) - Bi-Weekly - POPULAR badge
+- Max: £63.99 (£2.29/shot) - Monthly - BEST VALUE badge
+
+#### Files Modified:
+- `app/components/subscriptions/EditSubscriptionModal.tsx` - Complete redesign
+- `app/account/subscriptions/page.tsx` - Added nextBillingDate prop
+
+---
+
 ### 22:15 - Full Protocol & Frequency Edit Modal
 
 Implemented a comprehensive edit modal that allows users to change both their protocol AND delivery frequency in a single flow.
