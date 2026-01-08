@@ -2,6 +2,30 @@
 
 ## January 8, 2026
 
+### 23:45 - Formula Pack Sizes & Success Confirmation
+
+Enhanced the edit modal with individual formula pack options and a proper success state.
+
+#### New Features:
+- **Individual Formula Packs:** All 4 pack sizes now available:
+  - 4 shots (£11.99, £3.00/shot) - Weekly
+  - 8 shots (£23.19, £2.90/shot) - Bi-Weekly
+  - 12 shots (£31.99, £2.67/shot) - Bi-Weekly - POPULAR
+  - 28 shots (£63.99, £2.29/shot) - Monthly - BEST VALUE
+- **Success Confirmation:** After saving, shows summary with:
+  - New plan name
+  - Delivery frequency
+  - Next billing date
+  - Price
+- **Removed Skip button:** Simplified to Edit, Pause, Cancel
+- **Styled Cancel button:** Now uses `neo-button-outline` with red accent, consistent with other action buttons
+
+#### Files Modified:
+- `app/components/subscriptions/EditSubscriptionModal.tsx` - Added formula packs, success state
+- `app/account/subscriptions/page.tsx` - Removed Skip, styled Cancel
+
+---
+
 ### 23:30 - Neo-Brutal Redesign of Edit Subscription Modal
 
 Completely redesigned the EditSubscriptionModal with proper on-brand styling.
