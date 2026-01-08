@@ -2,6 +2,36 @@
 
 ## January 8, 2026
 
+### 00:30 - Enhanced Subscription Display with Formula Breakdowns
+
+Added detailed formula breakdowns and fixed subscription card display.
+
+#### Modal Improvements:
+- **Formula Breakdown:** Each tier now shows "Xx Flow + Xx Clarity"
+  - Color-coded dots: Amber for Flow, Teal for Clarity
+- **Protocol Descriptions:** Shown in tier selection panel
+- **Ultimate Protocol:** Shows "per delivery" instead of "/week"
+
+#### Formula Breakdowns Per Protocol:
+| Protocol | Starter | Pro | Max |
+|----------|---------|-----|-----|
+| Resilience | 3 Flow + 1 Clarity | 5 Flow + 1 Clarity | 6 Flow + 1 Clarity |
+| Precision | 1 Flow + 3 Clarity | 1 Flow + 5 Clarity | 1 Flow + 6 Clarity |
+| Balance | 2 Flow + 2 Clarity | 3 Flow + 3 Clarity | 4 Flow + 3 Clarity |
+| Ultimate | — | 14 Flow + 14 Clarity | 28 Flow + 28 Clarity |
+
+#### Subscription Card Fixes:
+- **Tier Badge:** Now shows "Starter", "Pro", or "Max"
+- **Correct Price:** Shows subscription price (with 20% discount)
+- **Correct Frequency:** Weekly/Bi-Weekly/Monthly based on tier
+- **Shot Count:** Shows shots per delivery
+
+#### Files Modified:
+- `app/components/subscriptions/EditSubscriptionModal.tsx`
+- `app/account/subscriptions/page.tsx`
+
+---
+
 ### 23:45 - Formula Pack Sizes & Success Confirmation
 
 Enhanced the edit modal with individual formula pack options and a proper success state.
