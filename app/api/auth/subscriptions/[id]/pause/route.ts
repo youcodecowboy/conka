@@ -217,16 +217,28 @@ export async function POST(
 
         const planConfig = PLAN_CONFIGURATIONS[plan];
         
+        // Calculate next billing date (30 days from now as default)
+        const nextBillingDate = new Date();
+        nextBillingDate.setDate(nextBillingDate.getDate() + 30);
+        const nextBillingDateEpoch = Math.floor(nextBillingDate.getTime() / 1000);
+        
         // Use PUT /subscription/{id}/frequency - the correct endpoint per Loop API docs
+        // Required fields: billingPolicy, deliveryPolicy, nextBillingDateEpoch, discountType
         result = await loopRequest(
           `/subscription/${loopSubscriptionId}/frequency`, 
           loopToken, 
           'PUT',
           {
-            billingInterval: planConfig.interval,
-            billingIntervalCount: planConfig.intervalCount,
-            deliveryInterval: planConfig.interval,
-            deliveryIntervalCount: planConfig.intervalCount,
+            billingPolicy: {
+              interval: planConfig.interval,
+              intervalCount: planConfig.intervalCount,
+            },
+            deliveryPolicy: {
+              interval: planConfig.interval,
+              intervalCount: planConfig.intervalCount,
+            },
+            nextBillingDateEpoch: nextBillingDateEpoch,
+            discountType: 'NONE',
           }
         );
         successMessage = `Plan updated to ${planConfig.name} successfully`;
