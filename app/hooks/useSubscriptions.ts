@@ -27,6 +27,27 @@ interface UseSubscriptionsReturn {
   updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
 }
 
+/**
+ * Extract the numeric Shopify ID from various formats
+ * Input formats:
+ * - "gid://shopify/SubscriptionContract/126077600118"
+ * - "126077600118"
+ * Output: "126077600118" (just the numeric part)
+ */
+function extractShopifyId(subscriptionId: string): string {
+  // If it's a GID format, extract the numeric part
+  if (subscriptionId.includes('gid://shopify/SubscriptionContract/')) {
+    return subscriptionId.split('/').pop() || subscriptionId;
+  }
+  // If it's already numeric, return as-is
+  if (/^\d+$/.test(subscriptionId)) {
+    return subscriptionId;
+  }
+  // Fallback: return the last segment after any /
+  const parts = subscriptionId.split('/');
+  return parts[parts.length - 1];
+}
+
 export function useSubscriptions(): UseSubscriptionsReturn {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loading, setLoading] = useState(false);
@@ -95,9 +116,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       setError(null);
 
       try {
-        // URL-encode the subscription ID to handle Shopify GID format (gid://shopify/...)
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/pause`, {
+        // Extract just the numeric ID to avoid URL encoding issues
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -137,9 +158,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       setError(null);
 
       try {
-        // URL-encode the subscription ID to handle Shopify GID format
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/resume`, {
+        // Extract just the numeric ID to avoid URL encoding issues
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/resume`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -179,9 +200,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       setError(null);
 
       try {
-        // URL-encode the subscription ID to handle Shopify GID format
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/cancel`, {
+        // Extract just the numeric ID to avoid URL encoding issues
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/cancel`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -223,9 +244,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       setError(null);
 
       try {
-        // URL-encode the subscription ID to handle Shopify GID format
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/skip`, {
+        // Extract just the numeric ID to avoid URL encoding issues
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/skip`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -257,9 +278,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       setError(null);
 
       try {
-        // URL-encode the subscription ID to handle Shopify GID format
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/change-plan`, {
+        // Extract just the numeric ID to avoid URL encoding issues
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/change-plan`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
