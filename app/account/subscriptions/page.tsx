@@ -168,8 +168,22 @@ export default function SubscriptionsPage() {
     return '1'; // Default to Resilience
   };
 
-  // Get current plan from subscription interval
+  // Get current plan from subscription - parse from product/variant title first, fallback to interval
   const getCurrentPlan = (subscription: Subscription): 'starter' | 'pro' | 'max' => {
+    // First, try to parse from product title or variant title (more reliable after Loop updates)
+    const titleToCheck = `${subscription.product?.title || ''} ${subscription.product?.variantTitle || ''}`.toLowerCase();
+    
+    if (titleToCheck.includes('starter') || titleToCheck.includes('- 4')) {
+      return 'starter';
+    }
+    if (titleToCheck.includes('max') || titleToCheck.includes('- 28') || titleToCheck.includes('- 56')) {
+      return 'max';
+    }
+    if (titleToCheck.includes('pro') || titleToCheck.includes('- 12')) {
+      return 'pro';
+    }
+    
+    // Fallback to interval-based detection
     const { interval } = subscription;
     if (interval.unit === 'week' && interval.value === 1) return 'starter';
     if (interval.unit === 'month' && interval.value === 1) return 'max';
