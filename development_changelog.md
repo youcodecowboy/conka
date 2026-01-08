@@ -2,6 +2,70 @@
 
 ## January 8, 2026
 
+### 18:45 - Edit/Skip via Loop Customer Portal Redirect
+
+Simplified subscription editing by redirecting users to Loop's customer portal instead of custom API implementations.
+
+#### Problem Solved:
+- Loop Admin API does not support skip or change-frequency operations (returns 404)
+- Custom implementations for edit/skip were failing despite working pause/resume/cancel
+- Needed a reliable solution that works with Loop's existing functionality
+
+#### Solution:
+Redirect Edit and Skip buttons to Loop's customer portal where these features work natively.
+
+#### Files Modified:
+- `app/account/subscriptions/page.tsx`:
+  - Edit button now opens Loop portal in new tab
+  - Skip button now opens Loop portal in new tab
+  - Removed local edit modal (no longer needed)
+  - Added external link icons to indicate redirect behavior
+  
+- `app/components/subscriptions/CancellationModal.tsx`:
+  - "Change Plan" option in retention flow now opens Loop portal
+  - Simplified from multiple plan options to single "Edit in Portal" button
+  - Removed unused ALTERNATIVE_PLANS constant
+
+#### Loop Portal URL:
+`https://conka-6770.myshopify.com/a/loop_subscriptions/customer-portal`
+
+#### User Action Required:
+Update Shopify Liquid theme to exclude `/a/loop_subscriptions/` paths from myshopify→conka.io redirect:
+```javascript
+if (window.location.hostname.includes('myshopify.com') && 
+    !window.location.pathname.startsWith('/a/loop_subscriptions')) {
+  window.location.href = 'https://www.conka.io' + window.location.pathname;
+}
+```
+
+---
+
+### 15:30 - Consolidated Subscription Actions into Single Working Route
+
+Fixed persistent 404 errors for skip and change-frequency operations by consolidating all actions into the existing working pause route.
+
+#### Problem Solved:
+- New routes at `/api/auth/subscriptions/[id]/skip` and `/api/auth/subscriptions/actions` were returning 404 in production despite working locally
+- Vercel deployment caching was preventing new routes from being recognized
+- Pause, resume, and cancel worked fine but skip and edit did not
+
+#### Solution:
+Extended the working `/api/auth/subscriptions/[id]/pause` route to handle ALL subscription actions via an `action` parameter in the request body:
+
+```typescript
+// POST /api/auth/subscriptions/{id}/pause
+// Body: { action: 'pause' | 'resume' | 'cancel' | 'skip' | 'change-frequency', plan?: string }
+```
+
+#### Files Modified:
+- `app/api/auth/subscriptions/[id]/pause/route.ts` - Now handles all actions
+- `app/hooks/useSubscriptions.ts` - All functions now call the pause route with action parameter
+
+#### Files Removed:
+- `app/api/auth/subscriptions/actions/route.ts` - No longer needed
+
+---
+
 ### 01:15 - Loop API First Implementation for Subscription Management
 
 Completely refactored subscription management to use Loop Admin API as the source of truth instead of Shopify's Customer Account API.

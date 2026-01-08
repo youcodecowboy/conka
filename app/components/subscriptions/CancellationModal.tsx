@@ -13,50 +13,21 @@ const CANCELLATION_REASONS = [
   { id: 'other', label: 'Other reason' },
 ] as const;
 
-// Alternative plans to offer
-const ALTERNATIVE_PLANS = [
-  {
-    id: 'starter',
-    name: 'Starter',
-    packSize: '4-pack',
-    frequency: 'Weekly delivery',
-    description: 'Gentle introduction for newcomers',
-    highlight: 'Perfect if you want to start slow',
-  },
-  {
-    id: 'pro',
-    name: 'Pro',
-    packSize: '12-pack',
-    frequency: 'Bi-weekly delivery',
-    description: 'Balanced protocol for consistent results',
-    highlight: 'Most popular choice',
-  },
-  {
-    id: 'max',
-    name: 'Max',
-    packSize: '28-pack',
-    frequency: 'Monthly delivery',
-    description: 'Full month coverage for maximum effect',
-    highlight: 'Best value per shot',
-  },
-] as const;
 
 interface CancellationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onCancel: (reason: string, comment?: string) => Promise<boolean>;
-  onChangePlan: (plan: 'starter' | 'pro' | 'max') => Promise<boolean>;
   subscriptionName: string;
   currentPlan?: string;
 }
 
-type Step = 'reason' | 'offer' | 'confirm';
+type Step = 'reason' | 'confirm';
 
 export function CancellationModal({
   isOpen,
   onClose,
   onCancel,
-  onChangePlan,
   subscriptionName,
   currentPlan,
 }: CancellationModalProps) {
@@ -70,25 +41,7 @@ export function CancellationModal({
 
   const handleReasonSubmit = () => {
     if (!selectedReason) return;
-    setStep('offer');
-  };
-
-  const handleChangePlan = async (plan: 'starter' | 'pro' | 'max') => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const success = await onChangePlan(plan);
-      if (success) {
-        onClose();
-      } else {
-        setError('Failed to change plan. Please try again.');
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    setStep('confirm');
   };
 
   const handleConfirmCancel = async () => {
@@ -117,11 +70,6 @@ export function CancellationModal({
     onClose();
   };
 
-  // Filter out current plan from alternatives
-  const alternativePlans = ALTERNATIVE_PLANS.filter(
-    p => p.id !== currentPlan?.toLowerCase()
-  );
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
@@ -137,7 +85,6 @@ export function CancellationModal({
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">
               {step === 'reason' && 'Cancel Subscription'}
-              {step === 'offer' && 'Before You Go...'}
               {step === 'confirm' && 'Confirm Cancellation'}
             </h2>
             <button
@@ -228,59 +175,7 @@ export function CancellationModal({
             </div>
           )}
 
-          {/* Step 2: Alternative Offer */}
-          {step === 'offer' && (
-            <div className="space-y-4">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
-                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold">Try a Different Protocol?</h3>
-                <p className="text-gray-600 text-sm mt-1">
-                  Instead of cancelling, would you prefer a different plan that might suit you better?
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                {alternativePlans.map((plan) => (
-                  <button
-                    key={plan.id}
-                    onClick={() => handleChangePlan(plan.id as 'starter' | 'pro' | 'max')}
-                    disabled={loading}
-                    className="w-full p-4 border border-gray-200 rounded-xl text-left hover:border-amber-500 hover:bg-amber-50 transition-colors disabled:opacity-50"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-semibold">{plan.name}</div>
-                        <div className="text-sm text-gray-500">{plan.description}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-sm font-medium">{plan.packSize}</div>
-                        <div className="text-xs text-amber-600">{plan.frequency}</div>
-                      </div>
-                    </div>
-                    <div className="mt-2 text-xs text-green-600 font-medium">
-                      {plan.highlight}
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              <div className="border-t pt-4 mt-6">
-                <button
-                  onClick={() => setStep('confirm')}
-                  disabled={loading}
-                  className="w-full py-3 text-gray-500 text-sm hover:text-gray-700 transition-colors disabled:opacity-50"
-                >
-                  No thanks, I still want to cancel
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Step 3: Final Confirmation */}
+          {/* Step 2: Final Confirmation */}
           {step === 'confirm' && (
             <div className="space-y-4">
               <div className="text-center mb-6">
@@ -311,7 +206,7 @@ export function CancellationModal({
 
               <div className="flex gap-3 pt-4">
                 <button
-                  onClick={() => setStep('offer')}
+                  onClick={() => setStep('reason')}
                   disabled={loading}
                   className="flex-1 py-3 border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
                 >

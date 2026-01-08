@@ -9,47 +9,8 @@ import { useSubscriptions, Subscription } from '@/app/hooks/useSubscriptions';
 import { CancellationModal } from '@/app/components/subscriptions/CancellationModal';
 import type { SubscriptionInterval } from '@/app/types';
 
-// Subscription tier options - each tier has a fixed package size AND delivery frequency
+// Subscription tier type (used for cancellation modal)
 type SubscriptionTier = 'starter' | 'pro' | 'max';
-interface TierOption {
-  tier: SubscriptionTier;
-  label: string;
-  packSize: string;
-  frequency: string;
-  description: string;
-  interval: SubscriptionInterval;
-  quantity: number;
-}
-
-const TIER_OPTIONS: TierOption[] = [
-  { 
-    tier: 'starter', 
-    label: 'Starter', 
-    packSize: '4-pack', 
-    frequency: 'Weekly',
-    description: 'Gentle introduction for newcomers',
-    interval: { value: 1, unit: 'week' },
-    quantity: 4,
-  },
-  { 
-    tier: 'pro', 
-    label: 'Pro', 
-    packSize: '12-pack', 
-    frequency: 'Bi-weekly',
-    description: 'Balanced protocol for consistent results',
-    interval: { value: 2, unit: 'week' },
-    quantity: 12,
-  },
-  { 
-    tier: 'max', 
-    label: 'Max', 
-    packSize: '28-pack', 
-    frequency: 'Monthly',
-    description: 'Full month coverage for maximum effect',
-    interval: { value: 1, unit: 'month' },
-    quantity: 28,
-  },
-];
 
 export default function SubscriptionsPage() {
   const router = useRouter();
@@ -62,15 +23,11 @@ export default function SubscriptionsPage() {
     pauseSubscription,
     resumeSubscription,
     cancelSubscription,
-    skipNextOrder,
-    changePlan,
   } = useSubscriptions();
 
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [showCancelModal, setShowCancelModal] = useState<string | null>(null);
-  const [showEditModal, setShowEditModal] = useState<Subscription | null>(null);
   const [cancelReason, setCancelReason] = useState('');
-  const [selectedTier, setSelectedTier] = useState<SubscriptionTier>('starter');
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -143,17 +100,6 @@ export default function SubscriptionsPage() {
     setActionLoading(null);
   };
 
-  // Handle skip
-  const handleSkip = async (subscriptionId: string) => {
-    setActionLoading(subscriptionId);
-    const success = await skipNextOrder(subscriptionId);
-    if (success) {
-      // Refresh subscriptions
-      await fetchSubscriptions();
-    }
-    setActionLoading(null);
-  };
-
   // Handle cancel
   const handleCancel = async (subscriptionId: string) => {
     setActionLoading(subscriptionId);
@@ -167,73 +113,11 @@ export default function SubscriptionsPage() {
     setActionLoading(null);
   };
 
-  // Determine current tier from subscription interval
-  // Starter = weekly (1 week), Pro = bi-weekly (2 weeks / 14 days), Max = monthly
-  const getTierFromInterval = (interval: SubscriptionInterval): SubscriptionTier => {
-    if (interval.unit === 'month') return 'max';
-    if (interval.unit === 'week' && interval.value >= 2) return 'pro';
-    if (interval.unit === 'day' && interval.value >= 14) return 'pro'; // 14 days = bi-weekly
-    if (interval.unit === 'day' && interval.value >= 28) return 'max'; // 28 days = monthly
-    return 'starter'; // weekly or less
-  };
-
-  // Legacy: Determine tier from quantity (fallback)
+  // Legacy: Determine tier from quantity (used by cancellation modal)
   const getTierFromQuantity = (quantity: number): SubscriptionTier => {
     if (quantity >= 28) return 'max';
     if (quantity >= 12) return 'pro';
     return 'starter';
-  };
-
-  // Get tier option by tier name
-  const getTierOption = (tier: SubscriptionTier): TierOption => {
-    return TIER_OPTIONS.find(t => t.tier === tier) || TIER_OPTIONS[0];
-  };
-
-  // Open edit modal - use interval to determine current tier
-  const openEditModal = (subscription: Subscription) => {
-    setShowEditModal(subscription);
-    // Use interval for more accurate tier detection
-    setSelectedTier(getTierFromInterval(subscription.interval));
-  };
-
-  // Handle save edit - directly updates frequency via Loop API
-  const handleSaveEdit = async () => {
-    if (!showEditModal) return;
-    
-    // Check if tier actually changed (use interval for accurate comparison)
-    const currentTier = getTierFromInterval(showEditModal.interval);
-    if (selectedTier !== currentTier) {
-      setActionLoading(showEditModal.id);
-      
-      const result = await changePlan(showEditModal.id, selectedTier);
-      
-      if (result.success) {
-        setShowEditModal(null);
-        // Show success message (subscription list will refresh automatically)
-      }
-      
-      setActionLoading(null);
-    } else {
-      // No change needed
-      setShowEditModal(null);
-    }
-  };
-
-  // Handle change plan from cancellation modal
-  const handleChangePlanFromModal = async (plan: 'starter' | 'pro' | 'max'): Promise<boolean> => {
-    if (!showCancelModal) return false;
-    const subscription = subscriptions.find(s => s.id === showCancelModal);
-    if (!subscription) return false;
-    
-    const result = await changePlan(subscription.id, plan, true); // cancelAndRedirect
-    if (result.success) {
-      if (result.redirectUrl) {
-        router.push(result.redirectUrl);
-      } else {
-        await fetchSubscriptions();
-      }
-    }
-    return result.success;
   };
 
   // Handle cancel from modal
@@ -484,42 +368,6 @@ export default function SubscriptionsPage() {
 
                           {/* Actions */}
                           <div className="flex flex-wrap gap-3">
-                            {/* Edit Button */}
-                            <button
-                              onClick={() => openEditModal(subscription)}
-                              className="neo-button-outline px-4 py-2 text-sm font-semibold flex items-center gap-2"
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                              </svg>
-                              Edit
-                            </button>
-
-                            {/* Skip Button */}
-                            {subscription.status === 'active' && (
-                              <button
-                                onClick={() => handleSkip(subscription.id)}
-                                disabled={actionLoading === subscription.id}
-                                className="neo-button-outline px-4 py-2 text-sm font-semibold disabled:opacity-50 flex items-center gap-2"
-                              >
-                                {actionLoading === subscription.id ? (
-                                  <>
-                                    <div className="w-4 h-4 border-2 border-current/20 border-t-current rounded-full animate-spin" />
-                                    Skipping...
-                                  </>
-                                ) : (
-                                  <>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                      <polygon points="5 4 15 12 5 20 5 4"/>
-                                      <line x1="19" y1="5" x2="19" y2="19"/>
-                                    </svg>
-                                    Skip Next
-                                  </>
-                                )}
-                              </button>
-                            )}
-
                             {/* Pause/Resume Button */}
                             <button
                               onClick={() => handleTogglePause(subscription)}
@@ -624,101 +472,6 @@ export default function SubscriptionsPage() {
         </div>
       </main>
 
-      {/* Edit Subscription Modal */}
-      {showEditModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setShowEditModal(null)}
-          />
-          <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <h3 className="font-bold text-xl mb-2">Change Delivery Frequency</h3>
-            <p className="font-clinical text-sm opacity-70 mb-4">
-              {showEditModal.product.title}
-            </p>
-
-            {/* Info notice */}
-            <div className="bg-green-50 border-2 border-green-200 rounded-lg p-3 mb-6">
-              <p className="font-clinical text-xs text-green-800">
-                <strong>Good news!</strong> You can change your delivery frequency instantly. Your next delivery date will be updated automatically.
-              </p>
-            </div>
-
-            {/* Subscription Tier Selection */}
-            <div className="mb-6">
-              <label className="block font-clinical text-sm mb-3 font-semibold">
-                Choose Your Delivery Schedule
-              </label>
-              <div className="space-y-3">
-                {TIER_OPTIONS.map((option) => {
-                  const isSelected = selectedTier === option.tier;
-                  const isCurrent = showEditModal && getTierFromInterval(showEditModal.interval) === option.tier;
-                  
-                  return (
-                    <button
-                      key={option.tier}
-                      onClick={() => setSelectedTier(option.tier)}
-                      className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
-                        isSelected
-                          ? 'border-black bg-black text-white'
-                          : 'border-gray-200 hover:border-gray-400'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-lg">{option.label}</span>
-                          {isCurrent && (
-                            <span className={`text-xs px-2 py-0.5 rounded-full ${
-                              isSelected ? 'bg-white/20' : 'bg-green-100 text-green-700'
-                            }`}>
-                              Current
-                            </span>
-                          )}
-                        </div>
-                        <span className={`font-bold ${isSelected ? 'text-white' : 'text-gray-700'}`}>
-                          {option.packSize}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className={`font-clinical text-sm ${isSelected ? 'opacity-80' : 'opacity-60'}`}>
-                          {option.description}
-                        </span>
-                        <span className={`font-clinical text-sm ${isSelected ? 'text-amber-300' : 'text-amber-600'}`}>
-                          {option.frequency} delivery
-                        </span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowEditModal(null)}
-                className="flex-1 neo-button-outline py-3 font-semibold"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSaveEdit}
-                disabled={getTierFromInterval(showEditModal.interval) === selectedTier || actionLoading === showEditModal.id}
-                className="flex-1 neo-button py-3 font-semibold disabled:opacity-50"
-              >
-                {actionLoading === showEditModal.id ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                    Updating...
-                  </span>
-                ) : (
-                  'Save Changes'
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Cancel Confirmation Modal with Retention Flow */}
       <CancellationModal
         isOpen={!!showCancelModal}
@@ -727,7 +480,6 @@ export default function SubscriptionsPage() {
           setCancelReason('');
         }}
         onCancel={handleCancelFromModal}
-        onChangePlan={handleChangePlanFromModal}
         subscriptionName={
           subscriptions.find(s => s.id === showCancelModal)?.product.title || 'Subscription'
         }
