@@ -12,8 +12,8 @@ import { env } from '@/app/lib/env';
 
 const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 
-// Fetch from Loop API with full response logging
-async function loopFetch<T>(endpoint: string): Promise<{ data?: T; error?: string; rawResponse?: any }> {
+// Fetch from Loop API
+async function loopFetch<T>(endpoint: string): Promise<{ data?: T; error?: string; raw?: any }> {
   const token = env.loopApiKey;
   
   if (!token) {
@@ -21,7 +21,7 @@ async function loopFetch<T>(endpoint: string): Promise<{ data?: T; error?: strin
   }
 
   const url = `${LOOP_API_BASE}${endpoint}`;
-  console.log(`[Subscriptions] Loop API request: ${url}`);
+  console.log(`[Loop API] Fetching: ${url}`);
 
   try {
     const response = await fetch(url, {
@@ -32,15 +32,15 @@ async function loopFetch<T>(endpoint: string): Promise<{ data?: T; error?: strin
     });
 
     const result = await response.json();
-    console.log(`[Subscriptions] Loop API response status: ${response.status}`);
     
     if (!response.ok) {
-      return { error: result.message || 'Loop API error', rawResponse: result };
+      console.error('[Loop API] Error:', result);
+      return { error: result.message || 'Loop API error', raw: result };
     }
 
-    return { data: result.data, rawResponse: result };
+    return { data: result.data, raw: result };
   } catch (error) {
-    console.error('Loop fetch error:', error);
+    console.error('[Loop API] Fetch error:', error);
     return { error: 'Failed to connect to Loop API' };
   }
 }
@@ -83,10 +83,8 @@ export async function GET(request: NextRequest) {
     // Step 1: Find customer in Loop by email
     const customerResult = await loopFetch<any[]>(`/customer?email=${encodeURIComponent(userEmail)}`);
     
-    console.log(`[Subscriptions] Customer lookup result:`, JSON.stringify(customerResult.data?.[0] || 'none'));
-    
     if (customerResult.error || !customerResult.data || customerResult.data.length === 0) {
-      // No Loop customer found - return empty subscriptions
+      console.log('[Subscriptions] No Loop customer found for email:', userEmail);
       return NextResponse.json({ 
         subscriptions: [],
         debug: { 
@@ -99,86 +97,73 @@ export async function GET(request: NextRequest) {
 
     const loopCustomer = customerResult.data[0];
     const loopCustomerId = loopCustomer.id;
-    const shopifyCustomerId = loopCustomer.shopifyId;
+    
+    console.log(`[Subscriptions] Found Loop customer ID: ${loopCustomerId}, active subs: ${loopCustomer.activeSubscriptionsCount}`);
 
-    console.log(`[Subscriptions] Found Loop customer: ${loopCustomerId}, Shopify ID: ${shopifyCustomerId}`);
-
-    // Step 2: Get ALL subscriptions and filter by customer on our side
-    // The Loop API customerId filter doesn't seem to work reliably
-    // So we fetch more and filter to ensure accuracy
-    const subscriptionsResult = await loopFetch<any[]>(`/subscription?limit=100`);
+    // Step 2: Get subscriptions for this specific customer using Loop's customer ID filter
+    // Loop API supports filtering by customerId
+    const subscriptionsResult = await loopFetch<any[]>(`/subscription?customerId=${loopCustomerId}&limit=50`);
     
     if (subscriptionsResult.error) {
+      console.error('[Subscriptions] Error fetching subscriptions:', subscriptionsResult.error);
       return NextResponse.json(
         { error: subscriptionsResult.error },
         { status: 500 }
       );
     }
 
-    const allSubscriptions = subscriptionsResult.data || [];
-    console.log(`[Subscriptions] Total subscriptions from Loop: ${allSubscriptions.length}`);
+    const customerSubscriptions = subscriptionsResult.data || [];
+    console.log(`[Subscriptions] Found ${customerSubscriptions.length} subscriptions for customer ${loopCustomerId}`);
 
-    // Step 3: Filter subscriptions to only this customer's
-    // Loop subscriptions have a nested customer object with id and shopifyId
-    const customerSubscriptions = allSubscriptions.filter((sub: any) => {
-      const subCustomerId = sub.customer?.id;
-      const subShopifyCustomerId = sub.customer?.shopifyId;
-      
-      // Match by either Loop customer ID or Shopify customer ID
-      return subCustomerId === loopCustomerId || 
-             subShopifyCustomerId === shopifyCustomerId ||
-             subCustomerId === shopifyCustomerId; // Sometimes they store shopifyId in the id field
-    });
-
-    console.log(`[Subscriptions] Customer's subscriptions: ${customerSubscriptions.length}`);
-
-    // Step 4: Transform and filter to active/paused only
+    // Step 3: Transform and filter to active/paused only
     const subscriptions = customerSubscriptions
       .filter((sub: any) => ['ACTIVE', 'PAUSED'].includes(sub.status?.toUpperCase()))
       .map((sub: any) => {
         // Get the first line item for product info
         const firstLine = sub.lines?.[0] || {};
         
-        // Build interval from Loop's data - check both policy objects and direct fields
+        // Build interval from Loop's policy data
         const deliveryPolicy = sub.deliveryPolicy || {};
         const billingPolicy = sub.billingPolicy || {};
-        const intervalUnit = (deliveryPolicy.interval || billingPolicy.interval || sub.deliveryInterval || 'MONTH').toLowerCase();
-        const intervalCount = deliveryPolicy.intervalCount || billingPolicy.intervalCount || sub.deliveryIntervalCount || 1;
+        const intervalUnit = (deliveryPolicy.interval || billingPolicy.interval || 'MONTH').toLowerCase();
+        const intervalCount = deliveryPolicy.intervalCount || billingPolicy.intervalCount || 1;
 
         return {
-          // IMPORTANT: Use Loop's subscription ID (numeric), not Shopify's
+          // Use Loop's subscription ID for API operations
           id: String(sub.id),
           loopId: sub.id,
           shopifyId: sub.shopifyId,
           status: sub.status?.toLowerCase() || 'unknown',
           createdAt: sub.createdAt,
           updatedAt: sub.updatedAt,
-          nextBillingDate: sub.nextBillingDate || sub.nextOrderDate,
+          nextBillingDate: sub.nextBillingDateEpoch 
+            ? new Date(sub.nextBillingDateEpoch * 1000).toISOString() 
+            : sub.nextBillingDate || sub.nextOrderDate,
           currencyCode: sub.currencyCode || 'GBP',
           
           // Product info from first line item
           product: {
-            id: firstLine.productShopifyId || firstLine.productId || '',
+            id: String(firstLine.productShopifyId || firstLine.productId || ''),
             title: firstLine.productTitle || firstLine.name || 'Subscription',
             variantTitle: firstLine.variantTitle || '',
-            variantId: firstLine.variantShopifyId || firstLine.variantId || '',
+            variantId: String(firstLine.variantShopifyId || firstLine.variantId || ''),
             quantity: firstLine.quantity || 1,
             image: firstLine.variantImage || firstLine.productImage,
           },
           
           // Price info
           price: {
-            amount: String(sub.totalLineItemPrice || firstLine.price || '0'),
+            amount: String(sub.totalLineItemPrice || sub.totalLineItemDiscountedPrice || firstLine.price || '0'),
             currencyCode: sub.currencyCode || 'GBP',
           },
           
           // Delivery/billing interval
           interval: {
             value: intervalCount,
-            unit: intervalUnit,
+            unit: intervalUnit === 'day' ? 'day' : intervalUnit === 'week' ? 'week' : 'month',
           },
           
-          // All line items
+          // All line items for reference
           lineItems: (sub.lines || []).map((line: any) => ({
             id: line.id,
             productId: line.productShopifyId || line.productId,
@@ -197,15 +182,15 @@ export async function GET(request: NextRequest) {
       debug: {
         email: userEmail,
         loopCustomerId,
-        shopifyCustomerId,
-        totalInLoop: allSubscriptions.length,
-        customerSubscriptions: customerSubscriptions.length,
+        activeCount: loopCustomer.activeSubscriptionsCount,
+        pausedCount: loopCustomer.pausedSubscriptionsCount,
+        totalFromLoop: customerSubscriptions.length,
         activeAndPaused: subscriptions.length,
       }
     });
 
   } catch (error) {
-    console.error('Subscriptions fetch error:', error);
+    console.error('[Subscriptions] Fetch error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch subscriptions', details: String(error) },
       { status: 500 }
