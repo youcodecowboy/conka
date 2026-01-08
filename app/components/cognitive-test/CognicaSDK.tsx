@@ -63,12 +63,12 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
   }, []);
 
   return (
-    <div className="relative w-full h-full flex flex-col">
+    <div className="relative w-full h-full flex flex-col overflow-hidden">
       {/* Loading State */}
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--background)] z-10">
           <div className="text-center">
-            {/* Pulsing brain icon */}
+            {/*  brain icon */}
             <div className="w-16 h-16 mx-auto mb-4 animate-pulse">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,15 +93,22 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
       )}
 
       {/* SDK Iframe */}
-      <iframe
-        ref={iframeRef}
-        src={sdkUrl.toString()}
-        title="Cognitive Assessment"
-        className="w-full flex-1 min-h-[620px]"
-        style={{ border: "none" }}
-        allow="fullscreen"
-        onLoad={handleIframeLoad}
-      />
+      <div className="w-full h-full overflow-hidden">
+        <iframe
+          ref={iframeRef}
+          src={sdkUrl.toString()}
+          title="Cognitive Assessment"
+          className="w-full h-full min-h-[500px]"
+          style={{
+            border: "none",
+            display: "block",
+            overflow: "hidden",
+          }}
+          scrolling="no"
+          allow="fullscreen"
+          onLoad={handleIframeLoad}
+        />
+      </div>
     </div>
   );
 }

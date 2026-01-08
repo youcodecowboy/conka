@@ -12,9 +12,9 @@ export default function CognitiveTestIdleCard({
   onStart,
 }: CognitiveTestIdleCardProps) {
   return (
-    <div className="neo-box p-10 flex flex-col items-center text-center">
+    <div className="neo-box p-6 lg:p-10 flex flex-col items-center text-center">
       {/* Brain Icon */}
-      <div className="w-24 h-24 mb-8 flex items-center justify-center">
+      <div className="w-16 h-16 lg:w-24 lg:h-24 mb-6 lg:mb-8 flex items-center justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="72"
@@ -25,7 +25,7 @@ export default function CognitiveTestIdleCard({
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="opacity-80"
+          className="opacity-80 w-full h-full"
         >
           <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
           <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
@@ -39,7 +39,7 @@ export default function CognitiveTestIdleCard({
         </svg>
       </div>
 
-      <h3 className="text-2xl font-bold mb-3">
+      <h3 className="text-xl lg:text-2xl font-bold mb-3">
         Try the Speed of Processing Game
       </h3>
       <p className="text-base opacity-70 mb-8">
