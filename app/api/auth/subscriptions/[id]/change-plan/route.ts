@@ -7,6 +7,8 @@
  * - Changing product/variant (swap endpoint on line items)
  * 
  * Loop will automatically sync changes to Shopify.
+ * 
+ * Updated: 2026-01-08
  */
 
 import { NextRequest, NextResponse } from 'next/server';
