@@ -104,7 +104,9 @@ export default function CognitiveTestLoader({
       </div>
 
       {/* Stage Text */}
-      <p className="font-bold text-xl mb-2">{stages[stage]}</p>
+      <div className="min-h-[60px] lg:min-h-0 flex items-center justify-center">
+        <p className="font-bold text-xl mb-2">{stages[stage]}</p>
+      </div>
 
       {/* Progress Percentage */}
       <p className="font-clinical text-sm opacity-60">{progress}%</p>
