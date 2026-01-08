@@ -3,41 +3,59 @@
 import { useState, useEffect, useRef } from 'react';
 
 type TierType = 'starter' | 'pro' | 'max';
-type FormulaPackSize = '4' | '8' | '12' | '28';
 
-// Protocol data with actual product info
+// Protocol data with actual product info and formula breakdowns
 const PROTOCOLS = [
   {
     id: '1',
     name: 'Resilience',
     subtitle: 'Build Resilience, Stay Sharp',
     description: 'Daily adaptogen support with stress management',
-    tiers: ['starter', 'pro', 'max'] as TierType[],
     icon: 'shield',
+    color: 'amber',
+    tiers: {
+      starter: { flowCount: 3, clarityCount: 1, totalShots: 4 },
+      pro: { flowCount: 5, clarityCount: 1, totalShots: 6 },
+      max: { flowCount: 6, clarityCount: 1, totalShots: 7 },
+    },
   },
   {
     id: '2',
     name: 'Precision',
     subtitle: 'Peak Cognition, Zero Burnout',
     description: 'Sustained mental clarity for demanding work',
-    tiers: ['starter', 'pro', 'max'] as TierType[],
     icon: 'bolt',
+    color: 'teal',
+    tiers: {
+      starter: { flowCount: 1, clarityCount: 3, totalShots: 4 },
+      pro: { flowCount: 1, clarityCount: 5, totalShots: 6 },
+      max: { flowCount: 1, clarityCount: 6, totalShots: 7 },
+    },
   },
   {
     id: '3',
     name: 'Balance',
     subtitle: 'The Best of Both Worlds',
     description: 'Comprehensive support with both formulas',
-    tiers: ['starter', 'pro', 'max'] as TierType[],
     icon: 'balance',
+    color: 'mixed',
+    tiers: {
+      starter: { flowCount: 2, clarityCount: 2, totalShots: 4 },
+      pro: { flowCount: 3, clarityCount: 3, totalShots: 6 },
+      max: { flowCount: 4, clarityCount: 3, totalShots: 7 },
+    },
   },
   {
     id: '4',
     name: 'Ultimate',
     subtitle: 'Maximum Power, Every Day',
     description: 'Peak performance with daily dual-formula stack',
-    tiers: ['pro', 'max'] as TierType[],
     icon: 'crown',
+    color: 'purple',
+    tiers: {
+      pro: { flowCount: 14, clarityCount: 14, totalShots: 28 }, // Per delivery (bi-weekly)
+      max: { flowCount: 28, clarityCount: 28, totalShots: 56 }, // Per delivery (monthly)
+    },
   },
 ];
 
@@ -59,21 +77,22 @@ const FORMULAS = [
   },
 ];
 
-// Protocol tier pricing and info - Standard Protocols (1, 2, 3)
+// Tier pricing and delivery info
 interface TierInfo {
   name: string;
   frequency: string;
-  shots: number;
   price: number;
   pricePerShot: number;
   billing: string;
+  deliveryShots: number;
 }
 
+// Standard Protocols (1, 2, 3)
 const STANDARD_TIERS: Record<TierType, TierInfo> = {
   starter: {
     name: 'Starter',
     frequency: 'Weekly',
-    shots: 4,
+    deliveryShots: 4,
     price: 11.99,
     pricePerShot: 3.00,
     billing: 'Billed weekly',
@@ -81,7 +100,7 @@ const STANDARD_TIERS: Record<TierType, TierInfo> = {
   pro: {
     name: 'Pro',
     frequency: 'Bi-Weekly',
-    shots: 12,
+    deliveryShots: 12,
     price: 31.99,
     pricePerShot: 2.67,
     billing: 'Billed every 2 weeks',
@@ -89,19 +108,19 @@ const STANDARD_TIERS: Record<TierType, TierInfo> = {
   max: {
     name: 'Max',
     frequency: 'Monthly',
-    shots: 28,
+    deliveryShots: 28,
     price: 63.99,
     pricePerShot: 2.29,
     billing: 'Billed monthly',
   },
 };
 
-// Ultimate Protocol (4) has different pricing and shot counts
+// Ultimate Protocol (4) - different pricing and delivery
 const ULTIMATE_TIERS: Partial<Record<TierType, TierInfo>> = {
   pro: {
     name: 'Pro',
     frequency: 'Bi-Weekly',
-    shots: 28,
+    deliveryShots: 28,
     price: 63.99,
     pricePerShot: 2.29,
     billing: 'Billed every 2 weeks',
@@ -109,19 +128,11 @@ const ULTIMATE_TIERS: Partial<Record<TierType, TierInfo>> = {
   max: {
     name: 'Max',
     frequency: 'Monthly',
-    shots: 56,
+    deliveryShots: 56,
     price: 115.99,
     pricePerShot: 2.07,
     billing: 'Billed monthly',
   },
-};
-
-// Formula pack sizes with pricing (shown for reference)
-const FORMULA_PACKS: Record<FormulaPackSize, { shots: number; frequency: string; price: number; pricePerShot: number; billing: string }> = {
-  '4': { shots: 4, frequency: 'Weekly', price: 11.99, pricePerShot: 3.00, billing: 'Billed weekly' },
-  '8': { shots: 8, frequency: 'Bi-Weekly', price: 23.19, pricePerShot: 2.90, billing: 'Billed every 2 weeks' },
-  '12': { shots: 12, frequency: 'Bi-Weekly', price: 31.99, pricePerShot: 2.67, billing: 'Billed every 2 weeks' },
-  '28': { shots: 28, frequency: 'Monthly', price: 63.99, pricePerShot: 2.29, billing: 'Billed monthly' },
 };
 
 // Helper to get tier info based on protocol
@@ -130,6 +141,19 @@ const getTierInfo = (protocolId: string, tier: TierType): TierInfo | undefined =
     return ULTIMATE_TIERS[tier];
   }
   return STANDARD_TIERS[tier];
+};
+
+// Helper to get available tiers for a protocol
+const getAvailableTiers = (protocolId: string): TierType[] => {
+  if (protocolId === '4') return ['pro', 'max'];
+  return ['starter', 'pro', 'max'];
+};
+
+// Helper to get formula breakdown for a protocol tier
+const getFormulaBreakdown = (protocolId: string, tier: TierType) => {
+  const protocol = PROTOCOLS.find(p => p.id === protocolId);
+  if (!protocol) return null;
+  return protocol.tiers[tier as keyof typeof protocol.tiers];
 };
 
 // Icons component
@@ -200,9 +224,44 @@ const Icon = ({ name, className = '' }: { name: string; className?: string }) =>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       );
+    case 'droplet':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+        </svg>
+      );
     default:
       return null;
   }
+};
+
+// Formula breakdown component
+const FormulaBreakdown = ({ 
+  flowCount, 
+  clarityCount, 
+  isSelected,
+  isUltimate = false 
+}: { 
+  flowCount: number; 
+  clarityCount: number; 
+  isSelected: boolean;
+  isUltimate?: boolean;
+}) => {
+  const perDeliveryText = isUltimate ? ' per delivery' : '/week';
+  return (
+    <div className={`flex items-center gap-3 mt-2 ${isSelected ? 'opacity-90' : 'opacity-60'}`}>
+      <div className="flex items-center gap-1">
+        <div className={`w-3 h-3 rounded-full ${isSelected ? 'bg-amber-400' : 'bg-amber-500'}`} />
+        <span className="font-clinical text-xs">{flowCount}x Flow</span>
+      </div>
+      <span className={isSelected ? 'opacity-50' : 'opacity-30'}>+</span>
+      <div className="flex items-center gap-1">
+        <div className={`w-3 h-3 rounded-full ${isSelected ? 'bg-[#AAB9BC]' : 'bg-[#AAB9BC]'}`} />
+        <span className="font-clinical text-xs">{clarityCount}x Clarity</span>
+      </div>
+      <span className={`font-clinical text-xs ${isSelected ? 'opacity-50' : 'opacity-40'}`}>{perDeliveryText}</span>
+    </div>
+  );
 };
 
 interface EditSubscriptionModalProps {
@@ -249,8 +308,7 @@ export function EditSubscriptionModal({
   }, [isOpen, currentProtocolId, currentTier]);
 
   // Get available tiers for selected protocol
-  const selectedProtocolData = PROTOCOLS.find(p => p.id === selectedProtocol);
-  const availableTiers = selectedProtocolData?.tiers || ['starter', 'pro', 'max'];
+  const availableTiers = getAvailableTiers(selectedProtocol);
 
   // Adjust tier if not available
   useEffect(() => {
@@ -267,7 +325,6 @@ export function EditSubscriptionModal({
       if (!result.success) {
         setError(result.message || 'Failed to update subscription');
       }
-      // If success, the parent will close the modal and show success message
     } catch {
       setError('An error occurred. Please try again.');
     } finally {
@@ -284,6 +341,9 @@ export function EditSubscriptionModal({
   const formattedNextBilling = nextBillingDate 
     ? new Date(nextBillingDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
     : null;
+
+  // Get selected protocol data
+  const selectedProtocolData = PROTOCOLS.find(p => p.id === selectedProtocol);
 
   if (!isOpen) return null;
 
@@ -307,7 +367,7 @@ export function EditSubscriptionModal({
 
         {/* Content */}
         <div className="flex flex-1 overflow-hidden">
-          {/* Left Column - Product Selection */}
+          {/* Left Column - Protocol Selection */}
           <div className="w-1/2 border-r-2 border-current p-6 overflow-y-auto">
             {/* Protocols Section */}
             <div className="mb-6">
@@ -326,15 +386,15 @@ export function EditSubscriptionModal({
                           : 'neo-box hover:bg-gray-50'
                       }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      <div className="flex items-start gap-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                           isSelected ? 'bg-white/20' : 'bg-gray-100'
                         }`}>
                           <Icon name={protocol.icon} className={`w-5 h-5 ${isSelected ? 'text-white' : ''}`} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold truncate">{protocol.name}</span>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-bold">{protocol.name}</span>
                             {isCurrent && (
                               <span className={`text-xs font-bold px-2 py-0.5 ${
                                 isSelected ? 'bg-white/20' : 'bg-gray-200'
@@ -343,12 +403,15 @@ export function EditSubscriptionModal({
                               </span>
                             )}
                           </div>
-                          <div className={`font-clinical text-xs truncate ${isSelected ? 'opacity-70' : 'opacity-50'}`}>
+                          <div className={`font-clinical text-xs ${isSelected ? 'opacity-70' : 'opacity-50'}`}>
                             {protocol.subtitle}
+                          </div>
+                          <div className={`text-xs mt-1 ${isSelected ? 'opacity-60' : 'opacity-40'}`}>
+                            {protocol.description}
                           </div>
                         </div>
                         {isSelected && (
-                          <Icon name="check" className="w-5 h-5 flex-shrink-0" />
+                          <Icon name="check" className="w-5 h-5 flex-shrink-0 mt-1" />
                         )}
                       </div>
                     </button>
@@ -382,7 +445,7 @@ export function EditSubscriptionModal({
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold truncate">{formula.name}</span>
+                          <span className="font-bold">{formula.name}</span>
                           <Icon name="lock" className="w-3 h-3 opacity-50" />
                         </div>
                         <div className="font-clinical text-xs opacity-50">
@@ -398,6 +461,17 @@ export function EditSubscriptionModal({
 
           {/* Right Column - Tier Selection */}
           <div className="w-1/2 p-6 overflow-y-auto bg-gray-50">
+            {/* Protocol Summary */}
+            {selectedProtocolData && (
+              <div className="mb-4 p-4 bg-white neo-box">
+                <div className="flex items-center gap-3 mb-2">
+                  <Icon name={selectedProtocolData.icon} className="w-5 h-5" />
+                  <span className="font-bold">{selectedProtocolData.name} Protocol</span>
+                </div>
+                <p className="text-xs opacity-60">{selectedProtocolData.description}</p>
+              </div>
+            )}
+
             <h3 className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-3">Select Frequency</h3>
             
             {/* Next Billing Info */}
@@ -415,10 +489,12 @@ export function EditSubscriptionModal({
             <div className="space-y-3">
               {availableTiers.map((tier) => {
                 const tierInfo = getTierInfo(selectedProtocol, tier);
-                if (!tierInfo) return null;
+                const formulaBreakdown = getFormulaBreakdown(selectedProtocol, tier);
+                if (!tierInfo || !formulaBreakdown) return null;
                 
                 const isSelected = selectedTier === tier;
                 const isCurrent = tier === initialTierRef.current && selectedProtocol === initialProtocolRef.current;
+                const isUltimate = selectedProtocol === '4';
                 
                 return (
                   <button
@@ -457,9 +533,18 @@ export function EditSubscriptionModal({
                           )}
                         </div>
                         <div className={`font-clinical text-sm mt-1 ${isSelected ? 'opacity-80' : 'opacity-60'}`}>
-                          {tierInfo.frequency} · {tierInfo.shots} shots
+                          {tierInfo.frequency} · {tierInfo.deliveryShots} shots per delivery
                         </div>
-                        <div className={`font-clinical text-xs mt-0.5 ${isSelected ? 'opacity-60' : 'opacity-40'}`}>
+                        
+                        {/* Formula Breakdown */}
+                        <FormulaBreakdown 
+                          flowCount={formulaBreakdown.flowCount} 
+                          clarityCount={formulaBreakdown.clarityCount}
+                          isSelected={isSelected}
+                          isUltimate={isUltimate}
+                        />
+                        
+                        <div className={`font-clinical text-xs mt-2 ${isSelected ? 'opacity-60' : 'opacity-40'}`}>
                           {tierInfo.billing}
                         </div>
                       </div>
@@ -634,13 +719,16 @@ export function EditSubscriptionModal({
             </div>
           ) : (
             <div className="space-y-3">
-              {/* Selected Product Summary */}
-              <div className="p-3 bg-gray-100 neo-box mb-4">
-                <div className="font-clinical text-xs uppercase opacity-50">Selected</div>
-                <div className="font-bold">
-                  {PROTOCOLS.find(p => p.id === selectedProtocol)?.name}
+              {/* Selected Protocol Summary */}
+              {selectedProtocolData && (
+                <div className="p-3 bg-gray-100 neo-box mb-4">
+                  <div className="flex items-center gap-2">
+                    <Icon name={selectedProtocolData.icon} className="w-4 h-4" />
+                    <span className="font-bold text-sm">{selectedProtocolData.name}</span>
+                  </div>
+                  <p className="text-xs opacity-60 mt-1">{selectedProtocolData.subtitle}</p>
                 </div>
-              </div>
+              )}
 
               {/* Next Billing */}
               {formattedNextBilling && (
@@ -655,10 +743,12 @@ export function EditSubscriptionModal({
               {/* Protocol Tiers */}
               {availableTiers.map((tier) => {
                 const tierInfo = getTierInfo(selectedProtocol, tier);
-                if (!tierInfo) return null;
+                const formulaBreakdown = getFormulaBreakdown(selectedProtocol, tier);
+                if (!tierInfo || !formulaBreakdown) return null;
                 
                 const isSelected = selectedTier === tier;
                 const isCurrent = tier === initialTierRef.current && selectedProtocol === initialProtocolRef.current;
+                const isUltimate = selectedProtocol === '4';
                 
                 return (
                   <button
@@ -669,7 +759,7 @@ export function EditSubscriptionModal({
                     }`}
                   >
                     <div className="flex items-start justify-between">
-                      <div>
+                      <div className="flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-bold">{tierInfo.name}</span>
                           {isCurrent && (
@@ -684,8 +774,14 @@ export function EditSubscriptionModal({
                           )}
                         </div>
                         <div className="font-clinical text-xs opacity-70 mt-1">
-                          {tierInfo.frequency} · {tierInfo.shots} shots
+                          {tierInfo.frequency} · {tierInfo.deliveryShots} shots
                         </div>
+                        <FormulaBreakdown 
+                          flowCount={formulaBreakdown.flowCount} 
+                          clarityCount={formulaBreakdown.clarityCount}
+                          isSelected={isSelected}
+                          isUltimate={isUltimate}
+                        />
                       </div>
                       <div className="text-right">
                         <div className="font-bold">£{tierInfo.price.toFixed(2)}</div>

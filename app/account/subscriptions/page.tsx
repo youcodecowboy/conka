@@ -176,6 +176,51 @@ export default function SubscriptionsPage() {
     return 'pro'; // Default: bi-weekly (14 days)
   };
 
+  // Get tier display info based on protocol and plan
+  const getTierDisplayInfo = (subscription: Subscription) => {
+    const protocolId = getProtocolFromSubscription(subscription);
+    const tier = getCurrentPlan(subscription);
+    const isUltimate = protocolId === '4';
+    
+    // Tier names
+    const tierNames: Record<string, string> = {
+      starter: 'Starter',
+      pro: 'Pro',
+      max: 'Max'
+    };
+
+    // Frequency display
+    const frequencyDisplay: Record<string, string> = {
+      starter: 'Weekly',
+      pro: 'Bi-Weekly',
+      max: 'Monthly'
+    };
+
+    // Pricing (subscription prices with 20% discount)
+    const standardPricing: Record<string, { price: number; shots: number }> = {
+      starter: { price: 11.99, shots: 4 },
+      pro: { price: 31.99, shots: 12 },
+      max: { price: 63.99, shots: 28 }
+    };
+
+    const ultimatePricing: Record<string, { price: number; shots: number }> = {
+      pro: { price: 63.99, shots: 28 },
+      max: { price: 115.99, shots: 56 }
+    };
+
+    const pricing = isUltimate ? ultimatePricing : standardPricing;
+    const tierPricing = pricing[tier] || standardPricing.pro;
+
+    return {
+      tierName: tierNames[tier],
+      frequency: frequencyDisplay[tier],
+      price: tierPricing.price,
+      shots: tierPricing.shots,
+      protocolId,
+      tier
+    };
+  };
+
   // Show loading state
   if (authLoading || loading) {
     return (
@@ -342,25 +387,22 @@ export default function SubscriptionsPage() {
                                 <h3 className="font-bold text-lg mb-1">
                                   {subscription.product.title}
                                 </h3>
-                                {subscription.product.variantTitle && (
-                                  <p className="font-clinical text-sm opacity-70 mb-1">
-                                    {subscription.product.variantTitle}
-                                  </p>
-                                )}
+                                {/* Tier Badge */}
+                                <div className="flex items-center gap-2 mb-2">
+                                  <span className="px-2 py-0.5 bg-gray-100 text-xs font-bold">
+                                    {getTierDisplayInfo(subscription).tierName}
+                                  </span>
+                                  <span className="font-clinical text-xs opacity-60">
+                                    {getTierDisplayInfo(subscription).shots} shots
+                                  </span>
+                                </div>
                                 <div className="flex flex-wrap items-center gap-2 text-sm">
                                   <span className="font-clinical">
-                                    {formatInterval(subscription.interval)}
+                                    {getTierDisplayInfo(subscription).frequency}
                                   </span>
                                   <span className="opacity-30">•</span>
                                   <span className="font-bold">
-                                    {formatPrice(
-                                      subscription.price.amount,
-                                      subscription.price.currencyCode
-                                    )}
-                                  </span>
-                                  <span className="opacity-30">•</span>
-                                  <span className="font-clinical opacity-70">
-                                    Qty: {subscription.quantity}
+                                    £{getTierDisplayInfo(subscription).price.toFixed(2)}
                                   </span>
                                 </div>
                               </div>
