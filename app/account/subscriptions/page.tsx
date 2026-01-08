@@ -176,6 +176,54 @@ export default function SubscriptionsPage() {
     return 'pro'; // Default: bi-weekly (14 days)
   };
 
+  // Protocol descriptions and formula breakdowns
+  const protocolInfo: Record<string, {
+    name: string;
+    subtitle: string;
+    description: string;
+    tiers: Record<string, { flowCount: number; clarityCount: number }>;
+  }> = {
+    '1': {
+      name: 'Resilience',
+      subtitle: 'Build Resilience, Stay Sharp',
+      description: 'Daily adaptogen support with stress management. Flow-heavy for recovery and stress resilience.',
+      tiers: {
+        starter: { flowCount: 3, clarityCount: 1 },
+        pro: { flowCount: 5, clarityCount: 1 },
+        max: { flowCount: 6, clarityCount: 1 },
+      }
+    },
+    '2': {
+      name: 'Precision',
+      subtitle: 'Peak Cognition, Zero Burnout',
+      description: 'Sustained mental clarity for demanding work. Clarity-heavy for cognitive enhancement.',
+      tiers: {
+        starter: { flowCount: 1, clarityCount: 3 },
+        pro: { flowCount: 1, clarityCount: 5 },
+        max: { flowCount: 1, clarityCount: 6 },
+      }
+    },
+    '3': {
+      name: 'Balance',
+      subtitle: 'The Best of Both Worlds',
+      description: 'Comprehensive support with both formulas. Equal mix for all-round cognitive support.',
+      tiers: {
+        starter: { flowCount: 2, clarityCount: 2 },
+        pro: { flowCount: 3, clarityCount: 3 },
+        max: { flowCount: 4, clarityCount: 3 },
+      }
+    },
+    '4': {
+      name: 'Ultimate',
+      subtitle: 'Maximum Power, Every Day',
+      description: 'Peak performance with daily dual-formula stack. Both formulas every single day.',
+      tiers: {
+        pro: { flowCount: 14, clarityCount: 14 },
+        max: { flowCount: 28, clarityCount: 28 },
+      }
+    }
+  };
+
   // Get tier display info based on protocol and plan
   const getTierDisplayInfo = (subscription: Subscription) => {
     const protocolId = getProtocolFromSubscription(subscription);
@@ -197,27 +245,38 @@ export default function SubscriptionsPage() {
     };
 
     // Pricing (subscription prices with 20% discount)
-    const standardPricing: Record<string, { price: number; shots: number }> = {
-      starter: { price: 11.99, shots: 4 },
-      pro: { price: 31.99, shots: 12 },
-      max: { price: 63.99, shots: 28 }
+    const standardPricing: Record<string, { price: number; shots: number; pricePerShot: number }> = {
+      starter: { price: 11.99, shots: 4, pricePerShot: 3.00 },
+      pro: { price: 31.99, shots: 12, pricePerShot: 2.67 },
+      max: { price: 63.99, shots: 28, pricePerShot: 2.29 }
     };
 
-    const ultimatePricing: Record<string, { price: number; shots: number }> = {
-      pro: { price: 63.99, shots: 28 },
-      max: { price: 115.99, shots: 56 }
+    const ultimatePricing: Record<string, { price: number; shots: number; pricePerShot: number }> = {
+      pro: { price: 63.99, shots: 28, pricePerShot: 2.29 },
+      max: { price: 115.99, shots: 56, pricePerShot: 2.07 }
     };
 
     const pricing = isUltimate ? ultimatePricing : standardPricing;
     const tierPricing = pricing[tier] || standardPricing.pro;
+
+    // Get formula breakdown
+    const protocol = protocolInfo[protocolId];
+    const formulaBreakdown = protocol?.tiers[tier] || { flowCount: 0, clarityCount: 0 };
 
     return {
       tierName: tierNames[tier],
       frequency: frequencyDisplay[tier],
       price: tierPricing.price,
       shots: tierPricing.shots,
+      pricePerShot: tierPricing.pricePerShot,
       protocolId,
-      tier
+      tier,
+      protocolName: protocol?.name || 'Protocol',
+      protocolSubtitle: protocol?.subtitle || '',
+      protocolDescription: protocol?.description || '',
+      flowCount: formulaBreakdown.flowCount,
+      clarityCount: formulaBreakdown.clarityCount,
+      isUltimate
     };
   };
 
@@ -364,58 +423,102 @@ export default function SubscriptionsPage() {
                       <div key={subscription.id} className="neo-box overflow-hidden">
                         {/* Subscription Header */}
                         <div className="p-6">
-                          <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
-                            <div className="flex gap-4">
-                              {/* Product Image */}
-                              {subscription.product.image ? (
-                                <div className="w-20 h-20 rounded-lg bg-current/5 flex-shrink-0 overflow-hidden">
-                                  <img
-                                    src={subscription.product.image}
-                                    alt={subscription.product.title}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                              ) : (
-                                <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-amber-100 to-amber-200 flex-shrink-0 flex items-center justify-center">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
-                                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
-                                    <path d="M22 12A10 10 0 0 0 12 2v10z"/>
-                                  </svg>
-                                </div>
-                              )}
-                              <div>
-                                <h3 className="font-bold text-lg mb-1">
-                                  {subscription.product.title}
-                                </h3>
-                                {/* Tier Badge */}
-                                <div className="flex items-center gap-2 mb-2">
-                                  <span className="px-2 py-0.5 bg-gray-100 text-xs font-bold">
-                                    {getTierDisplayInfo(subscription).tierName}
+                          {(() => {
+                            const info = getTierDisplayInfo(subscription);
+                            return (
+                              <>
+                                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                                  <div className="flex gap-4">
+                                    {/* Product Image */}
+                                    {subscription.product.image ? (
+                                      <div className="w-20 h-20 rounded-lg bg-current/5 flex-shrink-0 overflow-hidden">
+                                        <img
+                                          src={subscription.product.image}
+                                          alt={subscription.product.title}
+                                          className="w-full h-full object-cover"
+                                        />
+                                      </div>
+                                    ) : (
+                                      <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-amber-100 to-amber-200 flex-shrink-0 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+                                          <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
+                                          <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                                        </svg>
+                                      </div>
+                                    )}
+                                    <div>
+                                      <h3 className="font-bold text-lg mb-1">
+                                        {subscription.product.title}
+                                      </h3>
+                                      {/* Tier Badge & Subtitle */}
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <span className="px-2 py-0.5 bg-gray-100 text-xs font-bold">
+                                          {info.tierName}
+                                        </span>
+                                        <span className="font-clinical text-xs opacity-60">
+                                          {info.protocolSubtitle}
+                                        </span>
+                                      </div>
+                                      <p className="text-xs opacity-50 mb-2 max-w-md">
+                                        {info.protocolDescription}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <span
+                                    className={`px-3 py-1.5 rounded-full text-xs font-bold self-start ${getStatusColor(
+                                      subscription.status
+                                    )}`}
+                                  >
+                                    {subscription.status.charAt(0).toUpperCase() +
+                                      subscription.status.slice(1)}
                                   </span>
-                                  <span className="font-clinical text-xs opacity-60">
-                                    {getTierDisplayInfo(subscription).shots} shots
+                                </div>
+
+                                {/* Subscription Details Grid */}
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 p-4 bg-gray-50 rounded-lg">
+                                  {/* Frequency */}
+                                  <div>
+                                    <p className="font-clinical text-xs uppercase opacity-40 mb-1">Delivery</p>
+                                    <p className="font-bold text-sm">{info.frequency}</p>
+                                  </div>
+                                  {/* Price */}
+                                  <div>
+                                    <p className="font-clinical text-xs uppercase opacity-40 mb-1">Price</p>
+                                    <p className="font-bold text-sm">£{info.price.toFixed(2)}</p>
+                                  </div>
+                                  {/* Shots */}
+                                  <div>
+                                    <p className="font-clinical text-xs uppercase opacity-40 mb-1">Shots</p>
+                                    <p className="font-bold text-sm">{info.shots} per delivery</p>
+                                  </div>
+                                  {/* Price Per Shot */}
+                                  <div>
+                                    <p className="font-clinical text-xs uppercase opacity-40 mb-1">Per Shot</p>
+                                    <p className="font-bold text-sm">£{info.pricePerShot.toFixed(2)}</p>
+                                  </div>
+                                </div>
+
+                                {/* Formula Breakdown */}
+                                <div className="flex items-center gap-4 mb-4 p-3 border-2 border-dashed border-gray-200 rounded-lg">
+                                  <p className="font-clinical text-xs uppercase opacity-40">Formula Mix</p>
+                                  <div className="flex items-center gap-3">
+                                    <div className="flex items-center gap-1.5">
+                                      <div className="w-3 h-3 rounded-full bg-amber-500" />
+                                      <span className="font-clinical text-sm">{info.flowCount}x Flow</span>
+                                    </div>
+                                    <span className="opacity-30">+</span>
+                                    <div className="flex items-center gap-1.5">
+                                      <div className="w-3 h-3 rounded-full bg-[#AAB9BC]" />
+                                      <span className="font-clinical text-sm">{info.clarityCount}x Clarity</span>
+                                    </div>
+                                  </div>
+                                  <span className="font-clinical text-xs opacity-40 ml-auto">
+                                    {info.isUltimate ? 'per delivery' : '/week'}
                                   </span>
                                 </div>
-                                <div className="flex flex-wrap items-center gap-2 text-sm">
-                                  <span className="font-clinical">
-                                    {getTierDisplayInfo(subscription).frequency}
-                                  </span>
-                                  <span className="opacity-30">•</span>
-                                  <span className="font-bold">
-                                    £{getTierDisplayInfo(subscription).price.toFixed(2)}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <span
-                              className={`px-3 py-1.5 rounded-full text-xs font-bold self-start ${getStatusColor(
-                                subscription.status
-                              )}`}
-                            >
-                              {subscription.status.charAt(0).toUpperCase() +
-                                subscription.status.slice(1)}
-                            </span>
-                          </div>
+                              </>
+                            );
+                          })()}
 
                           {/* Success Message */}
                           {successMessage?.subscriptionId === subscription.id && (
