@@ -60,7 +60,7 @@ export default function CognitiveTestRecommendation({
       <div className="flex flex-col sm:flex-row gap-3">
         <a
           href={recommendation.href}
-          className="neo-button px-5 py-2 text-sm font-bold inline-block"
+          className="neo-button px-5 py-2 text-sm font-bold inline-flex items-center justify-center"
         >
           {recommendation.buttonText}
         </a>
