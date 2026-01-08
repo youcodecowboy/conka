@@ -98,11 +98,13 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
           ref={iframeRef}
           src={sdkUrl.toString()}
           title="Cognitive Assessment"
-          className="w-full h-full min-h-[500px] lg:min-h-[620px]"
+          className="w-full h-full min-h-[500px]"
           style={{
             border: "none",
             display: "block",
+            overflow: "hidden",
           }}
+          scrolling="no"
           allow="fullscreen"
           onLoad={handleIframeLoad}
         />
