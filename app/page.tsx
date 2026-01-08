@@ -263,11 +263,11 @@ export default function Home() {
       {/* ===== SECTION 1.5: PRODUCT SLIDESHOW (MOBILE ONLY) ===== */}
       <ProductSlideshowMobile variant="hero" />
 
-      {/* ===== SECTION 2: KEY BENEFITS SLIDESHOW ===== */}
-      <KeyBenefits benefits={keyBenefits} />
-
-      {/* ===== SECTION 2.5: WHAT IS CONKA ===== */}
+      {/* ===== SECTION 2: WHAT IS CONKA ===== */}
       <WhatIsConka />
+
+      {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
+      <KeyBenefits benefits={keyBenefits} />
 
       {/* ===== SECTION 3: INGREDIENTS ===== */}
       <Ingredients />

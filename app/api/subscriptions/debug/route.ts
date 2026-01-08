@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { env } from '@/app/lib/env';
+import { getCustomerSubscriptions } from '@/app/lib/loop';
 
 // Helper to get customer email from ID token cookie
 async function getCustomerEmailFromSession(): Promise<string | null> {
@@ -66,11 +67,18 @@ export async function GET(request: NextRequest) {
       if (customerResponse.ok) {
         try {
           const customerData = JSON.parse(customerText);
-          const customerId = customerData.data?.id;
+          // data is an ARRAY of customers, not a single object!
+          const customers = Array.isArray(customerData.data) ? customerData.data : [];
+          const customerId = customers[0]?.id;
+          
+          loopApiTest.customerIdExtracted = customerId;
           
           if (customerId) {
+            const subsUrl = `https://api.loopsubscriptions.com/admin/2023-10/subscription?customerId=${customerId}`;
+            loopApiTest.subscriptionUrl = subsUrl;
+            
             const subsResponse = await fetch(
-              `https://api.loopsubscriptions.com/admin/2023-10/subscription?customerId=${customerId}`,
+              subsUrl,
               {
                 headers: {
                   'Content-Type': 'application/json',
@@ -121,6 +129,37 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  // Test the actual getCustomerSubscriptions function (same as main route)
+  let mainFunctionTest: Record<string, unknown> | null = null;
+  if (loopApiConfigured && customerEmail) {
+    try {
+      const result = await getCustomerSubscriptions(customerEmail);
+      
+      // Check if subscriptions belong to different customers (security check)
+      const customerIds = new Set<string>();
+      const customerShopifyIds = new Set<string>();
+      (result.data || []).forEach((sub: any) => {
+        if (sub.customerId) customerIds.add(String(sub.customerId));
+        if (sub.shopifyCustomerId) customerShopifyIds.add(String(sub.shopifyCustomerId));
+        if (sub.customer?.id) customerIds.add(String(sub.customer.id));
+        if (sub.customer?.shopifyId) customerShopifyIds.add(String(sub.customer.shopifyId));
+      });
+      
+      mainFunctionTest = {
+        error: result.error || null,
+        subscriptionCount: result.data?.length || 0,
+        uniqueCustomerIds: Array.from(customerIds),
+        uniqueShopifyCustomerIds: Array.from(customerShopifyIds),
+        firstSubRaw: result.data?.[0] ? JSON.stringify(result.data[0]).substring(0, 800) : null,
+        securityWarning: customerIds.size > 1 || customerShopifyIds.size > 1 
+          ? 'MULTIPLE CUSTOMERS DETECTED - DATA LEAK!' 
+          : null,
+      };
+    } catch (e) {
+      mainFunctionTest = { error: String(e) };
+    }
+  }
+
   return NextResponse.json({
     config: {
       loopApiConfigured,
@@ -132,6 +171,7 @@ export async function GET(request: NextRequest) {
     },
     loopApiTest,
     allSubscriptionsTest: allSubsTest,
+    mainFunctionTest,
   });
 }
 

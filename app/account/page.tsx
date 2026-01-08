@@ -166,13 +166,19 @@ export default function AccountPage() {
   };
 
   // Get active subscriptions
-  const activeSubscriptions = subscriptions.filter((s: Subscription) => s.status === 'active');
+  // Now using Shopify's native API which returns accurate data
+  const activeSubscriptions = subscriptions.filter((s: Subscription) => 
+    s.status === 'active'
+  );
   
   // Get next delivery date
   const getNextDeliveryDate = () => {
     if (activeSubscriptions.length === 0) return null;
-    const dates = activeSubscriptions.map((s: Subscription) => new Date(s.nextBillingDate));
-    const earliest = new Date(Math.min(...dates.map(d => d.getTime())));
+    const validDates = activeSubscriptions
+      .map((s: Subscription) => new Date(s.nextBillingDate))
+      .filter(d => !isNaN(d.getTime()));
+    if (validDates.length === 0) return null;
+    const earliest = new Date(Math.min(...validDates.map(d => d.getTime())));
     return earliest.toLocaleDateString('en-GB', {
       day: 'numeric',
       month: 'short',
