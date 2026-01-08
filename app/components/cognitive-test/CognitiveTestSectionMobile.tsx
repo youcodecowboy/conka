@@ -154,8 +154,8 @@ export default function CognitiveTestSectionMobile({
               />
             </div>
             <div className="flex flex-col items-center gap-2 mt-4 text-xs opacity-60">
-              <span>Press J for animals</span>
-              <span>Press F for anything else</span>
+              <span>Tap right for animals</span>
+              <span>Tap left for anything else</span>
               <span>Speed and accuracy both count</span>
             </div>
           </div>
