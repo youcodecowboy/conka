@@ -8,7 +8,7 @@
  */
 export default function CognitiveTestAppPromo() {
   return (
-    <div className="neo-box p-6 bg-current/5">
+    <div className="neo-box p-4 lg:p-6 bg-current/5">
       <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-3">
         Get the Full Experience
       </p>
@@ -76,12 +76,12 @@ export default function CognitiveTestAppPromo() {
         </div>
       </div>
       {/* App Store Links */}
-      <div className="flex flex-wrap gap-3 mt-4">
+      <div className="flex flex-col sm:flex-row gap-3 mt-4">
         <a
           href="https://apps.apple.com/gb/app/conka-app/id6450399391"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +98,7 @@ export default function CognitiveTestAppPromo() {
           href="https://play.google.com/store/apps/details?id=com.conka.conkaApp"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

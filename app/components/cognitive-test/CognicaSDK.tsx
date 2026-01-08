@@ -63,7 +63,7 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
   }, []);
 
   return (
-    <div className="relative w-full h-full flex flex-col">
+    <div className="relative w-full h-full flex flex-col overflow-hidden">
       {/* Loading State */}
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--background)] z-10">
@@ -93,15 +93,21 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
       )}
 
       {/* SDK Iframe */}
-      <iframe
-        ref={iframeRef}
-        src={sdkUrl.toString()}
-        title="Cognitive Assessment"
-        className="w-full flex-1 min-h-[620px]"
-        style={{ border: "none" }}
-        allow="fullscreen"
-        onLoad={handleIframeLoad}
-      />
+      <div className="w-full flex-1 overflow-hidden lg:overflow-visible">
+        <iframe
+          ref={iframeRef}
+          src={sdkUrl.toString()}
+          title="Cognitive Assessment"
+          className="w-full h-full min-h-[500px] lg:min-h-[620px]"
+          style={{
+            border: "none",
+            transform: "scale(1)",
+            transformOrigin: "top left",
+          }}
+          allow="fullscreen"
+          onLoad={handleIframeLoad}
+        />
+      </div>
     </div>
   );
 }
