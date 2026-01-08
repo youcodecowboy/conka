@@ -238,7 +238,7 @@ export async function POST(
               intervalCount: planConfig.intervalCount,
             },
             nextBillingDateEpoch: nextBillingDateEpoch,
-            discountType: 'NONE',
+            discountType: 'OLD', // Keep existing discount behavior
           }
         );
         successMessage = `Plan updated to ${planConfig.name} successfully`;
