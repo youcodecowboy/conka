@@ -2,6 +2,44 @@
 
 ## January 8, 2026
 
+### 18:45 - Edit/Skip via Loop Customer Portal Redirect
+
+Simplified subscription editing by redirecting users to Loop's customer portal instead of custom API implementations.
+
+#### Problem Solved:
+- Loop Admin API does not support skip or change-frequency operations (returns 404)
+- Custom implementations for edit/skip were failing despite working pause/resume/cancel
+- Needed a reliable solution that works with Loop's existing functionality
+
+#### Solution:
+Redirect Edit and Skip buttons to Loop's customer portal where these features work natively.
+
+#### Files Modified:
+- `app/account/subscriptions/page.tsx`:
+  - Edit button now opens Loop portal in new tab
+  - Skip button now opens Loop portal in new tab
+  - Removed local edit modal (no longer needed)
+  - Added external link icons to indicate redirect behavior
+  
+- `app/components/subscriptions/CancellationModal.tsx`:
+  - "Change Plan" option in retention flow now opens Loop portal
+  - Simplified from multiple plan options to single "Edit in Portal" button
+  - Removed unused ALTERNATIVE_PLANS constant
+
+#### Loop Portal URL:
+`https://conka-6770.myshopify.com/a/loop_subscriptions/customer-portal`
+
+#### User Action Required:
+Update Shopify Liquid theme to exclude `/a/loop_subscriptions/` paths from myshopify→conka.io redirect:
+```javascript
+if (window.location.hostname.includes('myshopify.com') && 
+    !window.location.pathname.startsWith('/a/loop_subscriptions')) {
+  window.location.href = 'https://www.conka.io' + window.location.pathname;
+}
+```
+
+---
+
 ### 15:30 - Consolidated Subscription Actions into Single Working Route
 
 Fixed persistent 404 errors for skip and change-frequency operations by consolidating all actions into the existing working pause route.

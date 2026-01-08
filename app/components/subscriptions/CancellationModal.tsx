@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 
+// Loop Customer Portal URL - users are redirected here for edit functionality
+const LOOP_PORTAL_URL = 'https://conka-6770.myshopify.com/a/loop_subscriptions/customer-portal';
+
 // Cancellation reasons
 const CANCELLATION_REASONS = [
   { id: 'too_expensive', label: 'Too expensive' },
@@ -13,39 +16,11 @@ const CANCELLATION_REASONS = [
   { id: 'other', label: 'Other reason' },
 ] as const;
 
-// Alternative plans to offer
-const ALTERNATIVE_PLANS = [
-  {
-    id: 'starter',
-    name: 'Starter',
-    packSize: '4-pack',
-    frequency: 'Weekly delivery',
-    description: 'Gentle introduction for newcomers',
-    highlight: 'Perfect if you want to start slow',
-  },
-  {
-    id: 'pro',
-    name: 'Pro',
-    packSize: '12-pack',
-    frequency: 'Bi-weekly delivery',
-    description: 'Balanced protocol for consistent results',
-    highlight: 'Most popular choice',
-  },
-  {
-    id: 'max',
-    name: 'Max',
-    packSize: '28-pack',
-    frequency: 'Monthly delivery',
-    description: 'Full month coverage for maximum effect',
-    highlight: 'Best value per shot',
-  },
-] as const;
 
 interface CancellationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onCancel: (reason: string, comment?: string) => Promise<boolean>;
-  onChangePlan: (plan: 'starter' | 'pro' | 'max') => Promise<boolean>;
   subscriptionName: string;
   currentPlan?: string;
 }
@@ -56,7 +31,6 @@ export function CancellationModal({
   isOpen,
   onClose,
   onCancel,
-  onChangePlan,
   subscriptionName,
   currentPlan,
 }: CancellationModalProps) {
@@ -73,22 +47,10 @@ export function CancellationModal({
     setStep('offer');
   };
 
-  const handleChangePlan = async (plan: 'starter' | 'pro' | 'max') => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const success = await onChangePlan(plan);
-      if (success) {
-        onClose();
-      } else {
-        setError('Failed to change plan. Please try again.');
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+  // Open Loop portal to change plan - closes modal and opens in new tab
+  const handleChangePlan = () => {
+    window.open(LOOP_PORTAL_URL, '_blank', 'noopener,noreferrer');
+    onClose();
   };
 
   const handleConfirmCancel = async () => {
@@ -116,11 +78,6 @@ export function CancellationModal({
     setError(null);
     onClose();
   };
-
-  // Filter out current plan from alternatives
-  const alternativePlans = ALTERNATIVE_PLANS.filter(
-    p => p.id !== currentPlan?.toLowerCase()
-  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -243,30 +200,32 @@ export function CancellationModal({
                 </p>
               </div>
 
-              <div className="space-y-3">
-                {alternativePlans.map((plan) => (
-                  <button
-                    key={plan.id}
-                    onClick={() => handleChangePlan(plan.id as 'starter' | 'pro' | 'max')}
-                    disabled={loading}
-                    className="w-full p-4 border border-gray-200 rounded-xl text-left hover:border-amber-500 hover:bg-amber-50 transition-colors disabled:opacity-50"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-semibold">{plan.name}</div>
-                        <div className="text-sm text-gray-500">{plan.description}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-sm font-medium">{plan.packSize}</div>
-                        <div className="text-xs text-amber-600">{plan.frequency}</div>
-                      </div>
+              {/* Single button to open Loop portal for all plan changes */}
+              <button
+                onClick={handleChangePlan}
+                disabled={loading}
+                className="w-full p-4 border-2 border-amber-500 bg-amber-50 rounded-xl text-left hover:bg-amber-100 transition-colors disabled:opacity-50"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-amber-200 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-700">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-semibold">Change Your Plan</div>
+                    <div className="text-sm text-gray-600">
+                      Edit frequency, quantity, or product in our subscription portal
                     </div>
-                    <div className="mt-2 text-xs text-green-600 font-medium">
-                      {plan.highlight}
-                    </div>
-                  </button>
-                ))}
-              </div>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600 flex-shrink-0">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                </div>
+              </button>
 
               <div className="border-t pt-4 mt-6">
                 <button
