@@ -1,178 +1,156 @@
 /**
  * Subscriptions API Route
  * 
- * Fetches customer subscriptions from Loop (the source of truth).
- * Uses Shopify OAuth for authentication (to identify the user by email),
- * then queries Loop Admin API for their subscriptions.
+ * FETCH: Uses Shopify's Customer Account API (works correctly, returns only user's subscriptions)
+ * MUTATIONS: Will use Loop API (pause, resume, cancel, skip, edit)
+ * 
+ * The Shopify Customer Account API is the reliable source for fetching the logged-in user's subscriptions.
+ * Loop API's customerId filter doesn't work properly - it returns all store subscriptions.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { env } from '@/app/lib/env';
 
-const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
-
-// Fetch from Loop API
-async function loopFetch<T>(endpoint: string): Promise<{ data?: T; error?: string; raw?: any }> {
-  const token = env.loopApiKey;
-  
-  if (!token) {
-    return { error: 'Loop API not configured' };
-  }
-
-  const url = `${LOOP_API_BASE}${endpoint}`;
-  console.log(`[Loop API] Fetching: ${url}`);
-
-  try {
-    const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Loop-Token': token,
-      },
-    });
-
-    const result = await response.json();
-    
-    if (!response.ok) {
-      console.error('[Loop API] Error:', result);
-      return { error: result.message || 'Loop API error', raw: result };
-    }
-
-    return { data: result.data, raw: result };
-  } catch (error) {
-    console.error('[Loop API] Fetch error:', error);
-    return { error: 'Failed to connect to Loop API' };
-  }
-}
-
 export async function GET(request: NextRequest) {
   const cookieStore = await cookies();
-  const idToken = cookieStore.get('customer_id_token')?.value;
   const accessToken = cookieStore.get('customer_access_token')?.value;
 
-  // Check authentication
-  if (!accessToken || !idToken) {
+  if (!accessToken) {
     return NextResponse.json(
       { error: 'Not authenticated' },
       { status: 401 }
     );
   }
 
-  // Parse the ID token to get user email
-  let userEmail = '';
-  try {
-    const payload = JSON.parse(Buffer.from(idToken.split('.')[1], 'base64').toString());
-    userEmail = payload.email || '';
-  } catch {
-    return NextResponse.json(
-      { error: 'Invalid session' },
-      { status: 401 }
-    );
-  }
-
-  if (!userEmail) {
-    return NextResponse.json(
-      { error: 'Could not determine user email' },
-      { status: 400 }
-    );
-  }
-
-  console.log(`[Subscriptions] Looking up subscriptions for email: ${userEmail}`);
-
-  try {
-    // Step 1: Find customer in Loop by email
-    const customerResult = await loopFetch<any[]>(`/customer?email=${encodeURIComponent(userEmail)}`);
-    
-    if (customerResult.error || !customerResult.data || customerResult.data.length === 0) {
-      console.log('[Subscriptions] No Loop customer found for email:', userEmail);
-      return NextResponse.json({ 
-        subscriptions: [],
-        debug: { 
-          email: userEmail, 
-          message: 'No Loop customer found for this email',
-          customerLookupError: customerResult.error,
+  // Query Shopify Customer Account API for subscriptions
+  // This correctly returns ONLY the logged-in customer's subscriptions
+  const query = `
+    query {
+      customer {
+        subscriptionContracts(first: 50) {
+          nodes {
+            id
+            status
+            createdAt
+            updatedAt
+            nextBillingDate
+            currencyCode
+            lastPaymentStatus
+            billingPolicy {
+              interval
+              intervalCount {
+                count
+              }
+            }
+            deliveryPolicy {
+              interval
+              intervalCount {
+                count
+              }
+            }
+            lines(first: 10) {
+              nodes {
+                id
+                name
+                title
+                quantity
+                currentPrice {
+                  amount
+                  currencyCode
+                }
+                variantImage {
+                  url
+                }
+              }
+            }
+          }
         }
-      });
+      }
     }
+  `;
 
-    const loopCustomer = customerResult.data[0];
-    const loopCustomerId = loopCustomer.id;
-    
-    console.log(`[Subscriptions] Found Loop customer ID: ${loopCustomerId}, active subs: ${loopCustomer.activeSubscriptionsCount}`);
+  try {
+    const response = await fetch(env.customerAccountApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': accessToken,
+      },
+      body: JSON.stringify({ query }),
+    });
 
-    // Step 2: Get subscriptions for this specific customer using Loop's customer ID filter
-    // Loop API supports filtering by customerId
-    const subscriptionsResult = await loopFetch<any[]>(`/subscription?customerId=${loopCustomerId}&limit=50`);
+    const result = await response.json();
     
-    if (subscriptionsResult.error) {
-      console.error('[Subscriptions] Error fetching subscriptions:', subscriptionsResult.error);
+    if (result.errors) {
+      console.error('[Subscriptions] Shopify API errors:', result.errors);
       return NextResponse.json(
-        { error: subscriptionsResult.error },
+        { error: 'Failed to fetch subscriptions', details: result.errors },
         { status: 500 }
       );
     }
 
-    const customerSubscriptions = subscriptionsResult.data || [];
-    console.log(`[Subscriptions] Found ${customerSubscriptions.length} subscriptions for customer ${loopCustomerId}`);
+    const shopifySubscriptions = result.data?.customer?.subscriptionContracts?.nodes || [];
+    
+    console.log(`[Subscriptions] Found ${shopifySubscriptions.length} subscriptions from Shopify`);
 
-    // Step 3: Transform and filter to active/paused only
-    const subscriptions = customerSubscriptions
+    // Transform Shopify subscriptions to our format
+    // Filter to only active and paused subscriptions
+    const subscriptions = shopifySubscriptions
       .filter((sub: any) => ['ACTIVE', 'PAUSED'].includes(sub.status?.toUpperCase()))
       .map((sub: any) => {
-        // Get the first line item for product info
-        const firstLine = sub.lines?.[0] || {};
-        
-        // Build interval from Loop's policy data
-        const deliveryPolicy = sub.deliveryPolicy || {};
+        const firstLine = sub.lines?.nodes?.[0] || {};
         const billingPolicy = sub.billingPolicy || {};
-        const intervalUnit = (deliveryPolicy.interval || billingPolicy.interval || 'MONTH').toLowerCase();
-        const intervalCount = deliveryPolicy.intervalCount || billingPolicy.intervalCount || 1;
+        const deliveryPolicy = sub.deliveryPolicy || {};
+        
+        // Get interval info - prefer delivery policy
+        const interval = deliveryPolicy.interval || billingPolicy.interval || 'MONTH';
+        const intervalCount = deliveryPolicy.intervalCount?.count || billingPolicy.intervalCount?.count || 1;
+
+        // Extract the numeric Shopify ID from the GID
+        // Format: gid://shopify/SubscriptionContract/126077600118 -> 126077600118
+        const shopifyNumericId = sub.id.split('/').pop();
 
         return {
-          // Use Loop's subscription ID for API operations
-          id: String(sub.id),
-          loopId: sub.id,
-          shopifyId: sub.shopifyId,
+          // Use the Shopify GID as the primary ID
+          id: sub.id,
+          shopifyId: sub.id,
+          shopifyNumericId, // For Loop API lookups
           status: sub.status?.toLowerCase() || 'unknown',
           createdAt: sub.createdAt,
           updatedAt: sub.updatedAt,
-          nextBillingDate: sub.nextBillingDateEpoch 
-            ? new Date(sub.nextBillingDateEpoch * 1000).toISOString() 
-            : sub.nextBillingDate || sub.nextOrderDate,
+          nextBillingDate: sub.nextBillingDate,
           currencyCode: sub.currencyCode || 'GBP',
+          lastPaymentStatus: sub.lastPaymentStatus,
           
           // Product info from first line item
           product: {
-            id: String(firstLine.productShopifyId || firstLine.productId || ''),
-            title: firstLine.productTitle || firstLine.name || 'Subscription',
-            variantTitle: firstLine.variantTitle || '',
-            variantId: String(firstLine.variantShopifyId || firstLine.variantId || ''),
+            id: firstLine.id || '',
+            title: firstLine.title || firstLine.name || 'Subscription',
+            variantTitle: '',
             quantity: firstLine.quantity || 1,
-            image: firstLine.variantImage || firstLine.productImage,
+            image: firstLine.variantImage?.url,
           },
           
           // Price info
           price: {
-            amount: String(sub.totalLineItemPrice || sub.totalLineItemDiscountedPrice || firstLine.price || '0'),
-            currencyCode: sub.currencyCode || 'GBP',
+            amount: firstLine.currentPrice?.amount || '0',
+            currencyCode: firstLine.currentPrice?.currencyCode || sub.currencyCode || 'GBP',
           },
           
           // Delivery/billing interval
           interval: {
             value: intervalCount,
-            unit: intervalUnit === 'day' ? 'day' : intervalUnit === 'week' ? 'week' : 'month',
+            unit: interval.toLowerCase(),
           },
           
-          // All line items for reference
-          lineItems: (sub.lines || []).map((line: any) => ({
+          // All line items
+          lineItems: (sub.lines?.nodes || []).map((line: any) => ({
             id: line.id,
-            productId: line.productShopifyId || line.productId,
-            variantId: line.variantShopifyId || line.variantId,
-            title: line.productTitle || line.name,
-            variantTitle: line.variantTitle,
+            title: line.title || line.name,
             quantity: line.quantity,
-            price: line.price,
-            image: line.variantImage || line.productImage,
+            price: line.currentPrice?.amount,
+            image: line.variantImage?.url,
           })),
         };
       });
@@ -180,11 +158,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ 
       subscriptions,
       debug: {
-        email: userEmail,
-        loopCustomerId,
-        activeCount: loopCustomer.activeSubscriptionsCount,
-        pausedCount: loopCustomer.pausedSubscriptionsCount,
-        totalFromLoop: customerSubscriptions.length,
+        source: 'shopify-customer-account-api',
+        totalFromShopify: shopifySubscriptions.length,
         activeAndPaused: subscriptions.length,
       }
     });
