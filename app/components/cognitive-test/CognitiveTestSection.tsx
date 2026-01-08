@@ -141,11 +141,21 @@ export default function CognitiveTestSection({
           {/* TESTING STATE */}
           {testState === "testing" && (
             <div className="w-full">
-              <div className="neo-box p-0 min-h-[650px] overflow-hidden">
-                <CognicaSDK
-                  onComplete={handleTestComplete}
-                  subjectId={subjectId}
-                />
+              <div className="neo-box p-0 h-[650px] overflow-hidden relative">
+                <div
+                  className="absolute top-0 left-0"
+                  style={{
+                    width: "90.91%", // Compensate for scale: 100% / 1.1
+                    height: "90.91%",
+                    transform: "scale(1.1)",
+                    transformOrigin: "top left",
+                  }}
+                >
+                  <CognicaSDK
+                    onComplete={handleTestComplete}
+                    subjectId={subjectId}
+                  />
+                </div>
               </div>
               <div className="flex justify-center gap-8 mt-6 text-sm opacity-60">
                 <span>Press J for animals</span>

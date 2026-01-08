@@ -68,7 +68,7 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--background)] z-10">
           <div className="text-center">
-            {/* Pulsing brain icon */}
+            {/*  brain icon */}
             <div className="w-16 h-16 mx-auto mb-4 animate-pulse">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +93,7 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
       )}
 
       {/* SDK Iframe */}
-      <div className="w-full flex-1 overflow-hidden lg:overflow-visible">
+      <div className="w-full h-full overflow-hidden">
         <iframe
           ref={iframeRef}
           src={sdkUrl.toString()}
@@ -101,8 +101,7 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
           className="w-full h-full min-h-[500px] lg:min-h-[620px]"
           style={{
             border: "none",
-            transform: "scale(1)",
-            transformOrigin: "top left",
+            display: "block",
           }}
           allow="fullscreen"
           onLoad={handleIframeLoad}
