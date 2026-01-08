@@ -246,7 +246,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       try {
         // Extract just the numeric ID to avoid URL encoding issues
         const numericId = extractShopifyId(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${numericId}/skip`, {
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/skip-delivery`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -280,7 +280,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       try {
         // Extract just the numeric ID to avoid URL encoding issues
         const numericId = extractShopifyId(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${numericId}/change-plan`, {
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/update-plan`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },

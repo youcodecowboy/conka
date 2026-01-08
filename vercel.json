@@ -1,10 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
-    "app/api/auth/subscriptions/[id]/skip/route.ts": {
+    "app/api/auth/subscriptions/[id]/skip-delivery/route.ts": {
       "maxDuration": 30
     },
-    "app/api/auth/subscriptions/[id]/change-plan/route.ts": {
+    "app/api/auth/subscriptions/[id]/update-plan/route.ts": {
       "maxDuration": 30
     },
     "app/api/auth/subscriptions/[id]/pause/route.ts": {
