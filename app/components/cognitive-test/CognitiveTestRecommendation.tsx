@@ -59,15 +59,15 @@ export default function CognitiveTestRecommendation({
       <p className="text-sm opacity-70 mb-4">{recommendation.description}</p>
       <a
         href={recommendation.href}
-        className="neo-button px-5 py-2 text-sm font-bold inline-block"
+        className="neo-button px-5 py-2 text-sm font-bold inline-block mr-4"
       >
         {recommendation.buttonText}
       </a>
       <a
         href="/quiz"
-        className="inline-flex items-center gap-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors mt-3"
+        className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500 text-black font-semibold text-sm border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all"
       >
-        Not sure? Take our full quiz
+        Take the Quiz
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -75,11 +75,12 @@ export default function CognitiveTestRecommendation({
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <polyline points="9 18 15 12 9 6" />
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
         </svg>
       </a>
     </div>
