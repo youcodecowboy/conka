@@ -5,7 +5,8 @@
  * This allows us to pass the Shopify subscription contract ID directly,
  * and Loop will find and skip the next delivery for the corresponding subscription.
  * 
- * Updated: 2026-01-08
+ * @route POST /api/auth/subscriptions/[id]/skip
+ * @version 2.0.0
  */
 
 import { NextRequest, NextResponse } from 'next/server';

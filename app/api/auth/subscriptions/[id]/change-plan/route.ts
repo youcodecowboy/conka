@@ -8,7 +8,8 @@
  * 
  * Loop will automatically sync changes to Shopify.
  * 
- * Updated: 2026-01-08
+ * @route POST /api/auth/subscriptions/[id]/change-plan
+ * @version 2.0.0
  */
 
 import { NextRequest, NextResponse } from 'next/server';
