@@ -570,6 +570,7 @@ export default function SubscriptionsPage() {
         subscriptionName={showEditModal?.product.title || 'Subscription'}
         currentProtocolId={showEditModal ? getProtocolFromSubscription(showEditModal) : '1'}
         currentTier={showEditModal ? getCurrentPlan(showEditModal) : 'pro'}
+        nextBillingDate={showEditModal?.nextBillingDate}
         loading={actionLoading === showEditModal?.id}
       />
     </div>
