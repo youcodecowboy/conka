@@ -79,10 +79,22 @@ function toLoopShopifyId(subscriptionId: string): string {
 
 /**
  * Make a request to Loop API
+ * @param endpoint - API endpoint path
+ * @param loopToken - Loop API token
+ * @param method - HTTP method (default: POST)
+ * @param body - Request body (optional)
  */
-async function loopRequest(endpoint: string, loopToken: string, body?: object) {
-  const response = await fetch(`${LOOP_API_BASE}${endpoint}`, {
-    method: 'POST',
+async function loopRequest(
+  endpoint: string, 
+  loopToken: string, 
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'POST',
+  body?: object
+) {
+  const url = `${LOOP_API_BASE}${endpoint}`;
+  console.log(`[Loop API] ${method} ${url}`, body ? JSON.stringify(body) : '');
+  
+  const response = await fetch(url, {
+    method,
     headers: {
       'Content-Type': 'application/json',
       'X-Loop-Token': loopToken,
@@ -98,6 +110,7 @@ async function loopRequest(endpoint: string, loopToken: string, body?: object) {
     data = { rawResponse: responseText };
   }
 
+  console.log(`[Loop API] Response ${response.status}:`, JSON.stringify(data).substring(0, 500));
   return { response, data };
 }
 
@@ -155,30 +168,41 @@ export async function POST(
 
     switch (action) {
       case 'pause':
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/pause`, loopToken);
+        result = await loopRequest(`/subscription/${loopSubscriptionId}/pause`, loopToken, 'POST');
         successMessage = 'Subscription paused successfully';
         break;
 
       case 'resume':
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/resume`, loopToken);
+        result = await loopRequest(`/subscription/${loopSubscriptionId}/resume`, loopToken, 'POST');
         successMessage = 'Subscription resumed successfully';
         break;
 
       case 'cancel':
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/cancel`, loopToken, {
+        result = await loopRequest(`/subscription/${loopSubscriptionId}/cancel`, loopToken, 'POST', {
           cancellationReason: reason,
         });
         successMessage = 'Subscription cancelled successfully';
         break;
 
       case 'skip':
-        // Try to skip the next order
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/order/skip`, loopToken);
+        // Use the correct Loop API endpoint for skipping next order
+        // Based on Loop API docs: Order actions section
+        // First try updating next billing date (skip = delay next order)
+        result = await loopRequest(
+          `/subscription/${loopSubscriptionId}/order/reschedule`, 
+          loopToken, 
+          'POST',
+          { skipNextOrder: true }
+        );
         
-        // If that fails, try alternative endpoint
+        // If that fails, try the direct skip endpoint
         if (!result.response.ok) {
-          console.log('[SKIP] First endpoint failed, trying skip-order...');
-          result = await loopRequest(`/subscription/${loopSubscriptionId}/skip-order`, loopToken);
+          console.log('[SKIP] Reschedule endpoint failed, trying direct skip...');
+          result = await loopRequest(
+            `/subscription/${loopSubscriptionId}/skip`, 
+            loopToken, 
+            'POST'
+          );
         }
         successMessage = 'Next delivery skipped successfully';
         break;
@@ -192,12 +216,19 @@ export async function POST(
         }
 
         const planConfig = PLAN_CONFIGURATIONS[plan];
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/change-frequency`, loopToken, {
-          billingInterval: planConfig.interval,
-          billingIntervalCount: planConfig.intervalCount,
-          deliveryInterval: planConfig.interval,
-          deliveryIntervalCount: planConfig.intervalCount,
-        });
+        
+        // Use PUT /subscription/{id}/frequency - the correct endpoint per Loop API docs
+        result = await loopRequest(
+          `/subscription/${loopSubscriptionId}/frequency`, 
+          loopToken, 
+          'PUT',
+          {
+            billingInterval: planConfig.interval,
+            billingIntervalCount: planConfig.intervalCount,
+            deliveryInterval: planConfig.interval,
+            deliveryIntervalCount: planConfig.intervalCount,
+          }
+        );
         successMessage = `Plan updated to ${planConfig.name} successfully`;
         break;
 
