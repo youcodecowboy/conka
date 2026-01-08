@@ -12,16 +12,19 @@ import { env } from '@/app/lib/env';
 
 const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 
-// Fetch from Loop API
-async function loopFetch<T>(endpoint: string): Promise<{ data?: T; error?: string }> {
+// Fetch from Loop API with full response logging
+async function loopFetch<T>(endpoint: string): Promise<{ data?: T; error?: string; rawResponse?: any }> {
   const token = env.loopApiKey;
   
   if (!token) {
     return { error: 'Loop API not configured' };
   }
 
+  const url = `${LOOP_API_BASE}${endpoint}`;
+  console.log(`[Subscriptions] Loop API request: ${url}`);
+
   try {
-    const response = await fetch(`${LOOP_API_BASE}${endpoint}`, {
+    const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
         'X-Loop-Token': token,
@@ -29,12 +32,13 @@ async function loopFetch<T>(endpoint: string): Promise<{ data?: T; error?: strin
     });
 
     const result = await response.json();
+    console.log(`[Subscriptions] Loop API response status: ${response.status}`);
     
     if (!response.ok) {
-      return { error: result.message || 'Loop API error' };
+      return { error: result.message || 'Loop API error', rawResponse: result };
     }
 
-    return { data: result.data };
+    return { data: result.data, rawResponse: result };
   } catch (error) {
     console.error('Loop fetch error:', error);
     return { error: 'Failed to connect to Loop API' };
@@ -73,9 +77,13 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  console.log(`[Subscriptions] Looking up subscriptions for email: ${userEmail}`);
+
   try {
     // Step 1: Find customer in Loop by email
     const customerResult = await loopFetch<any[]>(`/customer?email=${encodeURIComponent(userEmail)}`);
+    
+    console.log(`[Subscriptions] Customer lookup result:`, JSON.stringify(customerResult.data?.[0] || 'none'));
     
     if (customerResult.error || !customerResult.data || customerResult.data.length === 0) {
       // No Loop customer found - return empty subscriptions
@@ -83,15 +91,22 @@ export async function GET(request: NextRequest) {
         subscriptions: [],
         debug: { 
           email: userEmail, 
-          message: 'No Loop customer found for this email' 
+          message: 'No Loop customer found for this email',
+          customerLookupError: customerResult.error,
         }
       });
     }
 
-    const loopCustomerId = customerResult.data[0].id;
+    const loopCustomer = customerResult.data[0];
+    const loopCustomerId = loopCustomer.id;
+    const shopifyCustomerId = loopCustomer.shopifyId;
 
-    // Step 2: Get subscriptions for this customer from Loop
-    const subscriptionsResult = await loopFetch<any[]>(`/subscription?customerId=${loopCustomerId}`);
+    console.log(`[Subscriptions] Found Loop customer: ${loopCustomerId}, Shopify ID: ${shopifyCustomerId}`);
+
+    // Step 2: Get ALL subscriptions and filter by customer on our side
+    // The Loop API customerId filter doesn't seem to work reliably
+    // So we fetch more and filter to ensure accuracy
+    const subscriptionsResult = await loopFetch<any[]>(`/subscription?limit=100`);
     
     if (subscriptionsResult.error) {
       return NextResponse.json(
@@ -100,25 +115,41 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const loopSubscriptions = subscriptionsResult.data || [];
+    const allSubscriptions = subscriptionsResult.data || [];
+    console.log(`[Subscriptions] Total subscriptions from Loop: ${allSubscriptions.length}`);
 
-    // Step 3: Transform Loop subscriptions to our frontend format
-    // Filter to only show active and paused subscriptions (not cancelled/expired)
-    const subscriptions = loopSubscriptions
+    // Step 3: Filter subscriptions to only this customer's
+    // Loop subscriptions have a nested customer object with id and shopifyId
+    const customerSubscriptions = allSubscriptions.filter((sub: any) => {
+      const subCustomerId = sub.customer?.id;
+      const subShopifyCustomerId = sub.customer?.shopifyId;
+      
+      // Match by either Loop customer ID or Shopify customer ID
+      return subCustomerId === loopCustomerId || 
+             subShopifyCustomerId === shopifyCustomerId ||
+             subCustomerId === shopifyCustomerId; // Sometimes they store shopifyId in the id field
+    });
+
+    console.log(`[Subscriptions] Customer's subscriptions: ${customerSubscriptions.length}`);
+
+    // Step 4: Transform and filter to active/paused only
+    const subscriptions = customerSubscriptions
       .filter((sub: any) => ['ACTIVE', 'PAUSED'].includes(sub.status?.toUpperCase()))
       .map((sub: any) => {
         // Get the first line item for product info
         const firstLine = sub.lines?.[0] || {};
         
-        // Build interval from Loop's data
-        const intervalUnit = (sub.deliveryInterval || sub.billingInterval || 'MONTH').toLowerCase();
-        const intervalCount = sub.deliveryIntervalCount || sub.billingIntervalCount || 1;
+        // Build interval from Loop's data - check both policy objects and direct fields
+        const deliveryPolicy = sub.deliveryPolicy || {};
+        const billingPolicy = sub.billingPolicy || {};
+        const intervalUnit = (deliveryPolicy.interval || billingPolicy.interval || sub.deliveryInterval || 'MONTH').toLowerCase();
+        const intervalCount = deliveryPolicy.intervalCount || billingPolicy.intervalCount || sub.deliveryIntervalCount || 1;
 
         return {
           // IMPORTANT: Use Loop's subscription ID (numeric), not Shopify's
           id: String(sub.id),
-          loopId: sub.id, // Keep numeric version too
-          shopifyId: sub.shopifyId, // For reference
+          loopId: sub.id,
+          shopifyId: sub.shopifyId,
           status: sub.status?.toLowerCase() || 'unknown',
           createdAt: sub.createdAt,
           updatedAt: sub.updatedAt,
@@ -127,12 +158,12 @@ export async function GET(request: NextRequest) {
           
           // Product info from first line item
           product: {
-            id: firstLine.productId || firstLine.shopifyProductId || '',
-            title: firstLine.productTitle || sub.productTitle || 'Subscription',
+            id: firstLine.productShopifyId || firstLine.productId || '',
+            title: firstLine.productTitle || firstLine.name || 'Subscription',
             variantTitle: firstLine.variantTitle || '',
-            variantId: firstLine.variantId || firstLine.shopifyVariantId || '',
+            variantId: firstLine.variantShopifyId || firstLine.variantId || '',
             quantity: firstLine.quantity || 1,
-            image: firstLine.productImage || firstLine.variantImage,
+            image: firstLine.variantImage || firstLine.productImage,
           },
           
           // Price info
@@ -150,13 +181,13 @@ export async function GET(request: NextRequest) {
           // All line items
           lineItems: (sub.lines || []).map((line: any) => ({
             id: line.id,
-            productId: line.productId || line.shopifyProductId,
-            variantId: line.variantId || line.shopifyVariantId,
-            title: line.productTitle,
+            productId: line.productShopifyId || line.productId,
+            variantId: line.variantShopifyId || line.variantId,
+            title: line.productTitle || line.name,
             variantTitle: line.variantTitle,
             quantity: line.quantity,
             price: line.price,
-            image: line.productImage || line.variantImage,
+            image: line.variantImage || line.productImage,
           })),
         };
       });
@@ -166,7 +197,9 @@ export async function GET(request: NextRequest) {
       debug: {
         email: userEmail,
         loopCustomerId,
-        totalFound: loopSubscriptions.length,
+        shopifyCustomerId,
+        totalInLoop: allSubscriptions.length,
+        customerSubscriptions: customerSubscriptions.length,
         activeAndPaused: subscriptions.length,
       }
     });
