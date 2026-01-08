@@ -9,19 +9,49 @@ import type {
 } from "./types";
 import EmailCaptureForm from "./EmailCaptureForm";
 import CognicaSDK from "./CognicaSDK";
+import CognitiveTestIdleCard from "./CognitiveTestIdleCard";
+import CognitiveTestLoader from "./CognitiveTestLoader";
+import CognitiveTestScores from "./CognitiveTestScores";
+import CognitiveTestRecommendation from "./CognitiveTestRecommendation";
+import CognitiveTestAppPromo from "./CognitiveTestAppPromo";
+
+/**
+ * Benefits row component - reused in idle and email states
+ */
+function BenefitsRow() {
+  return (
+    <div className="flex justify-center gap-8 mt-8">
+      {["Clinically-validated", "Instant results", "Personalized"].map(
+        (benefit) => (
+          <div key={benefit} className="flex items-center gap-2">
+            <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <span className="text-sm opacity-70">{benefit}</span>
+          </div>
+        ),
+      )}
+    </div>
+  );
+}
 
 /**
  * CognitiveTestSection - Desktop version (Hero-style layout)
  *
- * A prominent section on the science page that introduces and launches the
- * cognitive assessment test powered by Cognetivity.
- *
- * Uses a hero-style layout with:
- * - Centered header that changes based on state
- * - Single-column content area with generous whitespace
- * - Large iframe during testing state (650-700px)
- *
- * Flow: idle → email → testing → results
+ * Orchestrates the cognitive test flow through 5 states:
+ * idle → email → testing → processing → results
  */
 export default function CognitiveTestSection({
   className = "",
@@ -31,7 +61,7 @@ export default function CognitiveTestSection({
     useState<EmailSubmission | null>(null);
   const [testResult, setTestResult] = useState<TestResult | null>(null);
 
-  // Generate a unique subject ID for tracking (memoized to stay consistent during test)
+  // Generate a unique subject ID for tracking
   const subjectId = useMemo(() => {
     if (emailSubmission) {
       return `website_${emailSubmission.submittedAt.getTime()}`;
@@ -39,6 +69,7 @@ export default function CognitiveTestSection({
     return `website_${Date.now()}`;
   }, [emailSubmission]);
 
+  // State transition handlers
   const handleStartTest = useCallback(() => {
     setTestState("email");
   }, []);
@@ -55,8 +86,12 @@ export default function CognitiveTestSection({
 
   const handleTestComplete = useCallback((result: TestResult) => {
     setTestResult(result);
-    setTestState("results");
+    setTestState("processing");
     console.log("Test completed:", result);
+  }, []);
+
+  const handleProcessingComplete = useCallback(() => {
+    setTestState("results");
   }, []);
 
   const handleRetakeTest = useCallback(() => {
@@ -82,124 +117,15 @@ export default function CognitiveTestSection({
 
         {/* Content Area - Changes based on state */}
         <div className="flex flex-col items-center">
-          {/* IDLE STATE: Centered CTA with generous whitespace */}
+          {/* IDLE STATE */}
           {testState === "idle" && (
             <div className="w-full max-w-2xl">
-              {/* CTA Card */}
-              <div className="neo-box p-10 flex flex-col items-center text-center">
-                {/* Brain Icon */}
-                <div className="w-24 h-24 mb-8 flex items-center justify-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="72"
-                    height="72"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="opacity-80"
-                  >
-                    <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
-                    <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
-                    <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
-                    <path d="M17.599 6.5a3 3 0 0 0 .399-1.375" />
-                    <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" />
-                    <path d="M3.477 10.896a4 4 0 0 1 .585-.396" />
-                    <path d="M19.938 10.5a4 4 0 0 1 .585.396" />
-                    <path d="M6 18a4 4 0 0 1-1.967-.516" />
-                    <path d="M19.967 17.484A4 4 0 0 1 18 18" />
-                  </svg>
-                </div>
-
-                <h3 className="text-2xl font-bold mb-3">
-                  Try the Speed of Processing Game
-                </h3>
-                <p className="text-base opacity-70 mb-8">
-                  A 30-second clinical-grade assessment used in real research
-                  trials. Unlike typical brain games, you can&apos;t improve
-                  through practice alone—only by genuinely enhancing your
-                  cognitive function.
-                </p>
-
-                {/* Large prominent button */}
-                <button
-                  onClick={handleStartTest}
-                  className="neo-button px-12 py-5 font-bold text-xl w-full transition-transform hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  Start Game
-                </button>
-
-                <p className="font-clinical text-sm opacity-50 mt-6">
-                  Full test with personalized insights available in the CONKA
-                  app
-                </p>
-              </div>
-
-              {/* Benefits row - horizontal below CTA */}
-              <div className="flex justify-center gap-8 mt-8">
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <span className="text-sm opacity-70">
-                    Clinically-validated
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <span className="text-sm opacity-70">Instant results</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <span className="text-sm opacity-70">Personalized</span>
-                </div>
-              </div>
+              <CognitiveTestIdleCard onStart={handleStartTest} />
+              <BenefitsRow />
             </div>
           )}
 
-          {/* EMAIL STATE: Centered form */}
+          {/* EMAIL STATE */}
           {testState === "email" && (
             <div className="w-full max-w-2xl">
               <div className="neo-box p-10">
@@ -208,69 +134,11 @@ export default function CognitiveTestSection({
                   onBack={handleBackToIdle}
                 />
               </div>
-              {/* Benefits row - horizontal below form */}
-              <div className="flex justify-center gap-8 mt-8">
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <span className="text-sm opacity-70">
-                    Clinically-validated
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <span className="text-sm opacity-70">Instant results</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <span className="text-sm opacity-70">Personalized</span>
-                </div>
-              </div>
+              <BenefitsRow />
             </div>
           )}
 
-          {/* TESTING STATE: Large SDK Iframe */}
+          {/* TESTING STATE */}
           {testState === "testing" && (
             <div className="w-full">
               <div className="neo-box p-0 min-h-[650px] overflow-hidden">
@@ -279,7 +147,6 @@ export default function CognitiveTestSection({
                   subjectId={subjectId}
                 />
               </div>
-              {/* Instructions below the iframe */}
               <div className="flex justify-center gap-8 mt-6 text-sm opacity-60">
                 <span>Press J for animals</span>
                 <span>•</span>
@@ -290,58 +157,29 @@ export default function CognitiveTestSection({
             </div>
           )}
 
-          {/* RESULTS STATE: Centered score display */}
-          {testState === "results" && testResult && (
+          {/* PROCESSING STATE */}
+          {testState === "processing" && (
             <div className="w-full max-w-2xl">
-              <div className="neo-box p-10">
-                {/* Score Display - Larger */}
-                <div className="grid grid-cols-3 gap-6 mb-8">
-                  <div className="text-center p-6 bg-teal-500/10 rounded-lg">
-                    <p className="font-clinical text-5xl font-bold text-teal-500 mb-2">
-                      {testResult.score}
-                    </p>
-                    <p className="font-clinical text-sm opacity-60 uppercase tracking-wider">
-                      Score
-                    </p>
-                  </div>
-                  <div className="text-center p-6 bg-current/5 rounded-lg">
-                    <p className="font-clinical text-5xl font-bold mb-2">
-                      {testResult.accuracy}%
-                    </p>
-                    <p className="font-clinical text-sm opacity-60 uppercase tracking-wider">
-                      Accuracy
-                    </p>
-                  </div>
-                  <div className="text-center p-6 bg-current/5 rounded-lg">
-                    <p className="font-clinical text-5xl font-bold mb-2">
-                      {testResult.speed}%
-                    </p>
-                    <p className="font-clinical text-sm opacity-60 uppercase tracking-wider">
-                      Speed
-                    </p>
-                  </div>
-                </div>
+              <CognitiveTestLoader onComplete={handleProcessingComplete} />
+            </div>
+          )}
 
-                {emailSubmission && (
-                  <p className="text-center text-base opacity-70 mb-8">
-                    A detailed breakdown has been sent to{" "}
-                    <span className="font-medium">{emailSubmission.email}</span>
-                  </p>
-                )}
-
-                {/* Actions */}
-                <div className="flex justify-center gap-4">
-                  <button
-                    onClick={handleRetakeTest}
-                    className="neo-button-outline px-8 py-4 font-bold"
-                  >
-                    Play Again
-                  </button>
-                </div>
-
-                <p className="font-clinical text-xs opacity-40 mt-6 text-center">
-                  [Full Results UI - Phase 3]
-                </p>
+          {/* RESULTS STATE */}
+          {testState === "results" && testResult && (
+            <div className="w-full max-w-2xl space-y-6">
+              <CognitiveTestScores
+                result={testResult}
+                email={emailSubmission?.email}
+              />
+              <CognitiveTestRecommendation result={testResult} />
+              <CognitiveTestAppPromo />
+              <div className="flex justify-center">
+                <button
+                  onClick={handleRetakeTest}
+                  className="neo-button-outline px-8 py-3 font-bold"
+                >
+                  Play Again
+                </button>
               </div>
             </div>
           )}

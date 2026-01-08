@@ -12,9 +12,22 @@ export type {
   CognitiveTestSectionProps,
   EmailCaptureFormProps,
   CognicaSDKProps,
+  CognitiveTestIdleCardProps,
+  CognitiveTestLoaderProps,
+  CognitiveTestScoresProps,
+  CognitiveTestRecommendationProps,
 } from "./types";
 
-// Components
+// Main orchestrator
 export { default as CognitiveTestSection } from "./CognitiveTestSection";
+
+// Sub-components
+export { default as CognitiveTestIdleCard } from "./CognitiveTestIdleCard";
+export { default as CognitiveTestLoader } from "./CognitiveTestLoader";
+export { default as CognitiveTestScores } from "./CognitiveTestScores";
+export { default as CognitiveTestRecommendation } from "./CognitiveTestRecommendation";
+export { default as CognitiveTestAppPromo } from "./CognitiveTestAppPromo";
+
+// Utility components
 export { default as EmailCaptureForm } from "./EmailCaptureForm";
 export { default as CognicaSDK } from "./CognicaSDK";
