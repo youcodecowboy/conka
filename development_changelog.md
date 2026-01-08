@@ -2,6 +2,32 @@
 
 ## January 8, 2026
 
+### 15:30 - Consolidated Subscription Actions into Single Working Route
+
+Fixed persistent 404 errors for skip and change-frequency operations by consolidating all actions into the existing working pause route.
+
+#### Problem Solved:
+- New routes at `/api/auth/subscriptions/[id]/skip` and `/api/auth/subscriptions/actions` were returning 404 in production despite working locally
+- Vercel deployment caching was preventing new routes from being recognized
+- Pause, resume, and cancel worked fine but skip and edit did not
+
+#### Solution:
+Extended the working `/api/auth/subscriptions/[id]/pause` route to handle ALL subscription actions via an `action` parameter in the request body:
+
+```typescript
+// POST /api/auth/subscriptions/{id}/pause
+// Body: { action: 'pause' | 'resume' | 'cancel' | 'skip' | 'change-frequency', plan?: string }
+```
+
+#### Files Modified:
+- `app/api/auth/subscriptions/[id]/pause/route.ts` - Now handles all actions
+- `app/hooks/useSubscriptions.ts` - All functions now call the pause route with action parameter
+
+#### Files Removed:
+- `app/api/auth/subscriptions/actions/route.ts` - No longer needed
+
+---
+
 ### 01:15 - Loop API First Implementation for Subscription Management
 
 Completely refactored subscription management to use Loop Admin API as the source of truth instead of Shopify's Customer Account API.
