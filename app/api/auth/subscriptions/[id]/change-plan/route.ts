@@ -1,7 +1,7 @@
 /**
  * Change Subscription Plan API Route
  * 
- * Uses Loop Admin API as the source of truth.
+ * Uses Loop Admin API with the shopify-{id} format.
  * Supports:
  * - Changing delivery frequency (change-frequency endpoint)
  * - Changing product/variant (swap endpoint on line items)
@@ -44,6 +44,39 @@ export const PLAN_CONFIGURATIONS = {
 };
 
 export type PlanType = keyof typeof PLAN_CONFIGURATIONS;
+
+/**
+ * Convert a Shopify GID or numeric ID to Loop's shopify-{id} format
+ * Input: "gid://shopify/SubscriptionContract/126077600118" or "126077600118"
+ * Output: "shopify-126077600118"
+ */
+function toLoopShopifyId(subscriptionId: string): string {
+  // If it's already in Loop format, return as-is
+  if (subscriptionId.startsWith('shopify-') || subscriptionId.startsWith('loop-')) {
+    return subscriptionId;
+  }
+  
+  // Extract numeric ID from Shopify GID format
+  if (subscriptionId.includes('gid://shopify/SubscriptionContract/')) {
+    const numericId = subscriptionId.split('/').pop();
+    return `shopify-${numericId}`;
+  }
+  
+  // If it's a plain numeric ID, prefix with shopify-
+  if (/^\d+$/.test(subscriptionId)) {
+    return `shopify-${subscriptionId}`;
+  }
+  
+  // If it's a URL-encoded GID, decode and extract
+  if (subscriptionId.includes('%2F')) {
+    const decoded = decodeURIComponent(subscriptionId);
+    const numericId = decoded.split('/').pop();
+    return `shopify-${numericId}`;
+  }
+  
+  // Fallback: return as-is and let Loop handle it
+  return subscriptionId;
+}
 
 // Helper to make Loop API calls with full response logging
 async function loopFetch(endpoint: string, options: RequestInit = {}) {
@@ -132,9 +165,12 @@ export async function POST(
   }
 
   const planConfig = PLAN_CONFIGURATIONS[plan];
-  const loopSubscriptionId = subscriptionId;
+  
+  // Convert to Loop's shopify-{id} format
+  const loopSubscriptionId = toLoopShopifyId(subscriptionId);
 
-  console.log(`[Change-Plan] Changing subscription ${loopSubscriptionId} to plan: ${plan}`);
+  console.log(`[Change-Plan] Input: ${subscriptionId} -> Loop format: ${loopSubscriptionId}`);
+  console.log(`[Change-Plan] Changing to plan: ${plan}`);
 
   try {
     // Step 1: Get current subscription to find line item IDs
@@ -145,6 +181,7 @@ export async function POST(
         success: false,
         error: 'Could not find subscription',
         loopResponse: subData,
+        loopSubscriptionId,
       }, { status: 404 });
     }
 
@@ -169,6 +206,7 @@ export async function POST(
         success: false,
         error: freqData.message || 'Failed to update delivery frequency',
         loopResponse: freqData,
+        loopSubscriptionId,
       }, { status: freqResponse.status });
     }
 
