@@ -32,8 +32,8 @@ export function useSubscriptions(): UseSubscriptionsReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch subscriptions from Shopify's native Subscription API
-  // (NOT Loop - Loop's API returns business plans, not customer subscriptions)
+  // Fetch subscriptions from Loop Admin API (the source of truth)
+  // Shopify OAuth is used for authentication, Loop manages subscriptions
   const fetchSubscriptions = useCallback(async (): Promise<void> => {
     setLoading(true);
     setError(null);
@@ -87,16 +87,15 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     }
   }, []);
 
-  // Pause subscription - uses Shopify Customer Account API
+  // Pause subscription - uses Loop Admin API
   const pauseSubscription = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        // URL encode the subscription ID (contains special characters like gid://...)
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/pause`, {
+        // Loop subscription IDs are numeric, no encoding needed
+        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/pause`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -129,15 +128,14 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Resume subscription - uses Shopify Customer Account API
+  // Resume subscription - uses Loop Admin API
   const resumeSubscription = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/resume`, {
+        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/resume`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -170,15 +168,14 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Cancel subscription - uses Shopify Customer Account API
+  // Cancel subscription - uses Loop Admin API
   const cancelSubscription = useCallback(
     async (subscriptionId: string, reason?: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/cancel`, {
+        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/cancel`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -213,15 +210,14 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Skip next order - uses Shopify Customer Account API
+  // Skip next order - uses Loop Admin API
   const skipNextOrder = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/skip`, {
+        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/skip`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -254,8 +250,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       setError(null);
 
       try {
-        const encodedId = encodeURIComponent(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${encodedId}/change-plan`, {
+        const response = await fetch(`/api/auth/subscriptions/${subscriptionId}/change-plan`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },

@@ -1,5 +1,54 @@
 # Development Changelog
 
+## January 8, 2026
+
+### 01:15 - Loop API First Implementation for Subscription Management
+
+Completely refactored subscription management to use Loop Admin API as the source of truth instead of Shopify's Customer Account API.
+
+#### Problem Solved:
+- Shopify Customer Account API mutations (pause/resume/cancel) were returning "success" but not actually affecting Loop-managed subscriptions
+- Changes made via Shopify were not reflected in Loop dashboard (the actual source of truth for billing)
+- Users could not effectively manage their subscriptions from the customer portal
+
+#### Architecture Change:
+```
+Before: User → Shopify API → (hoped for sync to Loop) ❌
+After:  User → Loop Admin API → (Loop syncs to Shopify) ✓
+```
+
+#### Key Changes:
+1. **Subscriptions now fetched from Loop** - `/api/auth/subscriptions` queries Loop by customer email
+2. **All mutations go through Loop** - pause, resume, cancel, skip, change-plan
+3. **Loop subscription IDs used** - numeric IDs (e.g., `3885948`) instead of Shopify GIDs
+4. **Shopify OAuth still used for authentication** - identifies user by email, then queries Loop
+
+#### Files Modified:
+- `app/api/auth/subscriptions/route.ts` - Fetches from Loop API instead of Shopify
+- `app/api/auth/subscriptions/[id]/pause/route.ts` - Loop-only implementation
+- `app/api/auth/subscriptions/[id]/resume/route.ts` - Loop-only implementation
+- `app/api/auth/subscriptions/[id]/cancel/route.ts` - Loop-only implementation
+- `app/api/auth/subscriptions/[id]/skip/route.ts` - Loop-only implementation
+- `app/api/auth/subscriptions/[id]/change-plan/route.ts` - Loop-only frequency changes
+- `app/hooks/useSubscriptions.ts` - Updated comments and removed URL encoding
+
+#### New Files Created:
+- `app/api/auth/subscriptions/debug-loop/route.ts` - Comprehensive Loop API debug endpoint
+
+#### Loop API Endpoints Used:
+- `GET /customer?email=...` - Find customer by email
+- `GET /subscription?customerId=...` - Get customer's subscriptions
+- `POST /subscription/{id}/pause` - Pause subscription
+- `POST /subscription/{id}/resume` - Resume subscription
+- `POST /subscription/{id}/cancel` - Cancel subscription
+- `POST /subscription/{id}/order/skip` - Skip next delivery
+- `POST /subscription/{id}/change-frequency` - Change delivery frequency
+
+#### Debug Endpoint:
+Visit `/api/auth/subscriptions/debug-loop` to test Loop API connectivity and operations.
+
+---
+
 ## January 7, 2026
 
 ### 14:00 - Passwordless Login with Shopify Customer Account API

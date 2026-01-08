@@ -1,30 +1,15 @@
+/**
+ * Skip Next Delivery API Route
+ * 
+ * Uses Loop Admin API as the source of truth.
+ * Loop will automatically sync changes to Shopify.
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { skipNextOrder as skipLoopOrder } from '@/app/lib/loop';
+import { env } from '@/app/lib/env';
 
-const SHOPIFY_SHOP_ID = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
-
-// Extract Loop subscription ID from Shopify contract ID
-function extractLoopId(shopifyId: string): string {
-  const match = shopifyId.match(/SubscriptionContract\/(\d+)/);
-  return match ? match[1] : shopifyId;
-}
-
-// Mutation to skip the next billing cycle (for Shopify sync)
-const SKIP_BILLING_CYCLE_MUTATION = `
-  mutation subscriptionBillingCycleSkip($billingCycleInput: SubscriptionBillingCycleInput!) {
-    subscriptionBillingCycleSkip(billingCycleInput: $billingCycleInput) {
-      billingCycle {
-        cycleIndex
-        skipped
-      }
-      userErrors {
-        field
-        message
-      }
-    }
-  }
-`;
+const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 
 export async function POST(
   request: NextRequest,
@@ -41,13 +26,6 @@ export async function POST(
     );
   }
 
-  if (!SHOPIFY_SHOP_ID) {
-    return NextResponse.json(
-      { error: 'Shop ID not configured' },
-      { status: 500 }
-    );
-  }
-
   if (!subscriptionId) {
     return NextResponse.json(
       { error: 'Subscription ID is required' },
@@ -55,84 +33,58 @@ export async function POST(
     );
   }
 
-  const loopSubscriptionId = extractLoopId(subscriptionId);
-  
-  const results: {
-    shopify?: { success: boolean; error?: string };
-    loop?: { success: boolean; error?: string };
-  } = {};
+  const loopToken = env.loopApiKey;
+  if (!loopToken) {
+    return NextResponse.json(
+      { error: 'Loop API not configured' },
+      { status: 500 }
+    );
+  }
 
-  // Step 1: Try to skip in Shopify first
-  const apiUrl = `https://shopify.com/${SHOPIFY_SHOP_ID}/account/customer/api/2024-10/graphql`;
+  // The subscription ID should already be Loop's numeric ID
+  const loopSubscriptionId = subscriptionId;
+
+  console.log(`[Skip] Skipping next delivery for subscription ${loopSubscriptionId} via Loop API`);
 
   try {
-    const response = await fetch(apiUrl, {
+    const response = await fetch(`${LOOP_API_BASE}/subscription/${loopSubscriptionId}/order/skip`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': accessToken,
+        'X-Loop-Token': loopToken,
       },
-      body: JSON.stringify({
-        query: SKIP_BILLING_CYCLE_MUTATION,
-        variables: {
-          billingCycleInput: {
-            contractId: subscriptionId,
-            selector: {
-              index: 0, // Skip the next (first upcoming) billing cycle
-            },
-          },
-        },
-      }),
     });
 
-    const data = await response.json();
-
-    if (data.errors) {
-      console.error('Shopify GraphQL errors:', data.errors);
-      results.shopify = { success: false, error: data.errors[0]?.message };
-    } else {
-      const result = data.data?.subscriptionBillingCycleSkip;
-      if (result?.userErrors?.length > 0) {
-        results.shopify = { success: false, error: result.userErrors[0].message };
-      } else {
-        results.shopify = { success: true };
-      }
+    const responseText = await response.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      data = { rawResponse: responseText };
     }
-  } catch (error) {
-    console.error('Shopify skip error:', error);
-    results.shopify = { success: false, error: String(error) };
-  }
 
-  // Step 2: Also try to skip in Loop (best-effort sync)
-  try {
-    console.log('Skipping in Loop (sync), subscription ID:', loopSubscriptionId);
-    const loopResult = await skipLoopOrder(loopSubscriptionId);
-    
-    if (loopResult.error) {
-      console.error('Loop skip error (non-blocking):', loopResult.error);
-      results.loop = { success: false, error: loopResult.error.message };
-    } else {
-      results.loop = { success: true };
+    console.log(`[Skip] Loop API response:`, { status: response.status, data });
+
+    if (!response.ok) {
+      return NextResponse.json({
+        success: false,
+        error: data.message || 'Failed to skip delivery in Loop',
+        loopResponse: data,
+      }, { status: response.status });
     }
-  } catch (error) {
-    console.error('Loop skip exception (non-blocking):', error);
-    results.loop = { success: false, error: String(error) };
-  }
 
-  // Return success if either Shopify or Loop succeeded
-  if (results.shopify?.success || results.loop?.success) {
     return NextResponse.json({
       success: true,
       message: 'Next delivery skipped successfully',
-      details: results,
+      result: data.data || data,
     });
+
+  } catch (error) {
+    console.error('[Skip] Error:', error);
+    return NextResponse.json({
+      success: false,
+      error: 'Failed to skip delivery',
+      details: String(error),
+    }, { status: 500 });
   }
-
-  // If both failed, return error
-  return NextResponse.json({
-    success: false,
-    error: results.shopify?.error || results.loop?.error || 'Failed to skip delivery',
-    details: results,
-  }, { status: 400 });
 }
-
