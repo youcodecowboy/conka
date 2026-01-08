@@ -62,3 +62,39 @@ export interface CognicaSDKProps {
   /** Optional subject ID for tracking (e.g., "website_1234567890") */
   subjectId?: string;
 }
+
+/**
+ * Props for the CognitiveTestIdleCard component
+ */
+export interface CognitiveTestIdleCardProps {
+  /** Callback when user clicks to start the test */
+  onStart: () => void;
+}
+
+/**
+ * Props for the CognitiveTestLoader component
+ */
+export interface CognitiveTestLoaderProps {
+  /** Callback when loading animation completes */
+  onComplete: () => void;
+  /** Duration of the loading animation in milliseconds */
+  duration?: number;
+}
+
+/**
+ * Props for the CognitiveTestScores component
+ */
+export interface CognitiveTestScoresProps {
+  /** Test results to display */
+  result: TestResult;
+  /** Optional email to show confirmation */
+  email?: string;
+}
+
+/**
+ * Props for the CognitiveTestRecommendation component
+ */
+export interface CognitiveTestRecommendationProps {
+  /** Test results to base recommendation on */
+  result: TestResult;
+}
