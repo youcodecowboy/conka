@@ -334,7 +334,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         plan = 'max';
       }
       
-      const result = await changePlan(subscriptionId, plan, true);
+      const result = await changePlan(subscriptionId, plan);
       return result.success;
     },
     [changePlan]
@@ -353,7 +353,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         plan = 'max';
       }
       
-      const result = await changePlan(subscriptionId, plan, true);
+      const result = await changePlan(subscriptionId, plan);
       return result.success;
     },
     [changePlan]

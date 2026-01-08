@@ -38,7 +38,19 @@ const PROTOCOLS = [
   },
 ] as const;
 
-const TIER_INFO = {
+type TierType = 'starter' | 'pro' | 'max';
+type ProtocolId = '1' | '2' | '3' | '4';
+
+interface TierInfoItem {
+  name: string;
+  frequency: string;
+  description: string;
+  price: string;
+  interval: string;
+  badge?: string;
+}
+
+const TIER_INFO: Record<TierType, TierInfoItem> = {
   starter: {
     name: 'Starter',
     frequency: 'Weekly',
@@ -62,10 +74,7 @@ const TIER_INFO = {
     interval: 'Every month',
     badge: 'Best Value',
   },
-} as const;
-
-type TierType = 'starter' | 'pro' | 'max';
-type ProtocolId = '1' | '2' | '3' | '4';
+};
 
 interface EditSubscriptionModalProps {
   isOpen: boolean;
@@ -104,12 +113,12 @@ export function EditSubscriptionModal({
 
   // Get selected protocol's available tiers
   const selectedProtocolData = PROTOCOLS.find(p => p.id === selectedProtocol);
-  const availableTiers = selectedProtocolData?.tiers || ['starter', 'pro', 'max'];
+  const availableTiers: TierType[] = (selectedProtocolData?.tiers || ['starter', 'pro', 'max']) as TierType[];
 
   // Adjust tier if not available in selected protocol
   useEffect(() => {
     if (!availableTiers.includes(selectedTier)) {
-      setSelectedTier(availableTiers[0] as TierType);
+      setSelectedTier(availableTiers[0]);
     }
   }, [selectedProtocol, availableTiers, selectedTier]);
 
