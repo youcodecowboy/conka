@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 type TierType = 'starter' | 'pro' | 'max';
 type ProductType = 'protocol' | 'formula';
@@ -60,7 +60,7 @@ const FORMULAS = [
   },
 ];
 
-// Protocol tier pricing and info
+// Protocol tier pricing and info - Standard Protocols (1, 2, 3)
 interface TierInfo {
   name: string;
   frequency: string;
@@ -70,7 +70,7 @@ interface TierInfo {
   billing: string;
 }
 
-const PROTOCOL_TIERS: Record<TierType, TierInfo> = {
+const STANDARD_TIERS: Record<TierType, TierInfo> = {
   starter: {
     name: 'Starter',
     frequency: 'Weekly',
@@ -93,6 +93,26 @@ const PROTOCOL_TIERS: Record<TierType, TierInfo> = {
     shots: 28,
     price: 63.99,
     pricePerShot: 2.29,
+    billing: 'Billed monthly',
+  },
+};
+
+// Ultimate Protocol (4) has different pricing and shot counts
+const ULTIMATE_TIERS: Partial<Record<TierType, TierInfo>> = {
+  pro: {
+    name: 'Pro',
+    frequency: 'Bi-Weekly',
+    shots: 28,
+    price: 63.99,
+    pricePerShot: 2.29,
+    billing: 'Billed every 2 weeks',
+  },
+  max: {
+    name: 'Max',
+    frequency: 'Monthly',
+    shots: 56,
+    price: 115.99,
+    pricePerShot: 2.07,
     billing: 'Billed monthly',
   },
 };
@@ -135,6 +155,14 @@ const FORMULA_PACKS: Record<FormulaPackSize, FormulaPackInfo> = {
     pricePerShot: 2.29,
     billing: 'Billed monthly',
   },
+};
+
+// Helper to get tier info based on protocol
+const getTierInfo = (protocolId: string, tier: TierType): TierInfo | undefined => {
+  if (protocolId === '4') {
+    return ULTIMATE_TIERS[tier];
+  }
+  return STANDARD_TIERS[tier];
 };
 
 // Icons component
@@ -253,18 +281,23 @@ export function EditSubscriptionModal({
     productName: string;
     frequency: string;
     price: number;
+    shots: number;
     nextBilling: string;
   } | null>(null);
+  
+  // Track initial values to show "Current" badge
+  const initialProtocolRef = useRef(currentProtocolId);
+  const initialTierRef = useRef(currentTier);
 
-  // Reset on open
+  // Only reset when modal opens fresh (not when props change after save)
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !showSuccess) {
       setSelectedProtocol(currentProtocolId);
       setSelectedTier(currentTier);
       setError(null);
       setMobileStep('product');
-      setShowSuccess(false);
-      setSuccessDetails(null);
+      initialProtocolRef.current = currentProtocolId;
+      initialTierRef.current = currentTier;
       // Detect if current subscription is a formula or protocol
       const isFormula = subscriptionName.toLowerCase().includes('flow') || subscriptionName.toLowerCase().includes('clarity');
       setProductType(isFormula ? 'formula' : 'protocol');
@@ -272,7 +305,15 @@ export function EditSubscriptionModal({
         setSelectedFormula(subscriptionName.toLowerCase().includes('flow') ? 'flow' : 'clarity');
       }
     }
-  }, [isOpen, currentProtocolId, currentTier, subscriptionName]);
+  }, [isOpen]); // Only depend on isOpen, not the changing props
+
+  // Reset success state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setShowSuccess(false);
+      setSuccessDetails(null);
+    }
+  }, [isOpen]);
 
   // Get available tiers for selected protocol
   const selectedProtocolData = PROTOCOLS.find(p => p.id === selectedProtocol);
@@ -302,15 +343,25 @@ export function EditSubscriptionModal({
       if (result.success) {
         // Calculate next billing date (add interval to current date)
         const nextDate = new Date();
+        let frequency: string;
+        let price: number;
+        let shots: number;
+        
         if (productType === 'formula') {
           const pack = FORMULA_PACKS[selectedFormulaPack];
+          frequency = pack.frequency;
+          price = pack.price;
+          shots = pack.shots;
           if (pack.frequency === 'Weekly') nextDate.setDate(nextDate.getDate() + 7);
           else if (pack.frequency === 'Bi-Weekly') nextDate.setDate(nextDate.getDate() + 14);
           else nextDate.setMonth(nextDate.getMonth() + 1);
         } else {
-          const tierInfo = PROTOCOL_TIERS[selectedTier];
-          if (tierInfo.frequency === 'Weekly') nextDate.setDate(nextDate.getDate() + 7);
-          else if (tierInfo.frequency === 'Bi-Weekly') nextDate.setDate(nextDate.getDate() + 14);
+          const tierInfo = getTierInfo(selectedProtocol, selectedTier);
+          frequency = tierInfo?.frequency || 'Bi-Weekly';
+          price = tierInfo?.price || 31.99;
+          shots = tierInfo?.shots || 12;
+          if (tierInfo?.frequency === 'Weekly') nextDate.setDate(nextDate.getDate() + 7);
+          else if (tierInfo?.frequency === 'Bi-Weekly') nextDate.setDate(nextDate.getDate() + 14);
           else nextDate.setMonth(nextDate.getMonth() + 1);
         }
 
@@ -319,12 +370,9 @@ export function EditSubscriptionModal({
           productName: productType === 'formula'
             ? FORMULAS.find(f => f.id === selectedFormula)?.name || ''
             : `${PROTOCOLS.find(p => p.id === selectedProtocol)?.name} Protocol`,
-          frequency: productType === 'formula'
-            ? FORMULA_PACKS[selectedFormulaPack].frequency
-            : PROTOCOL_TIERS[selectedTier].frequency,
-          price: productType === 'formula'
-            ? FORMULA_PACKS[selectedFormulaPack].price
-            : PROTOCOL_TIERS[selectedTier].price,
+          frequency,
+          price,
+          shots,
           nextBilling: nextDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
         });
         setShowSuccess(true);
@@ -339,8 +387,8 @@ export function EditSubscriptionModal({
   };
 
   // Check if anything changed
-  const isProtocolChanged = productType === 'protocol' && selectedProtocol !== currentProtocolId;
-  const isTierChanged = selectedTier !== currentTier;
+  const isProtocolChanged = productType === 'protocol' && selectedProtocol !== initialProtocolRef.current;
+  const isTierChanged = selectedTier !== initialTierRef.current;
   const hasChanges = isProtocolChanged || isTierChanged;
 
   // Format next billing date
@@ -376,8 +424,8 @@ export function EditSubscriptionModal({
               <div className="border-t border-dashed border-gray-200 pt-4 flex items-center gap-3">
                 <Icon name="calendar" className="w-5 h-5 opacity-50" />
                 <div>
-                  <p className="font-clinical text-xs uppercase opacity-50">Delivery Frequency</p>
-                  <p className="font-bold">{successDetails.frequency}</p>
+                  <p className="font-clinical text-xs uppercase opacity-50">Delivery</p>
+                  <p className="font-bold">{successDetails.frequency} · {successDetails.shots} shots</p>
                 </div>
               </div>
               
@@ -436,6 +484,7 @@ export function EditSubscriptionModal({
               <div className="space-y-2">
                 {PROTOCOLS.map((protocol) => {
                   const isSelected = productType === 'protocol' && selectedProtocol === protocol.id;
+                  const isCurrent = protocol.id === initialProtocolRef.current && productType === 'protocol';
                   return (
                     <button
                       key={protocol.id}
@@ -456,7 +505,16 @@ export function EditSubscriptionModal({
                           <Icon name={protocol.icon} className={`w-5 h-5 ${isSelected ? 'text-white' : ''}`} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="font-bold truncate">{protocol.name}</div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold truncate">{protocol.name}</span>
+                            {isCurrent && (
+                              <span className={`text-xs font-bold px-2 py-0.5 ${
+                                isSelected ? 'bg-white/20' : 'bg-gray-200'
+                              }`}>
+                                CURRENT
+                              </span>
+                            )}
+                          </div>
                           <div className={`font-clinical text-xs truncate ${isSelected ? 'opacity-70' : 'opacity-50'}`}>
                             {protocol.subtitle}
                           </div>
@@ -541,9 +599,11 @@ export function EditSubscriptionModal({
             {productType === 'protocol' && (
               <div className="space-y-3">
                 {availableTiers.map((tier) => {
-                  const tierInfo = PROTOCOL_TIERS[tier];
+                  const tierInfo = getTierInfo(selectedProtocol, tier);
+                  if (!tierInfo) return null;
+                  
                   const isSelected = selectedTier === tier;
-                  const isCurrent = tier === currentTier;
+                  const isCurrent = tier === initialTierRef.current && selectedProtocol === initialProtocolRef.current;
                   
                   return (
                     <button
@@ -557,24 +617,28 @@ export function EditSubscriptionModal({
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <span className="font-bold">{tierInfo.name}</span>
-                            {tier === 'pro' && (
+                            {isCurrent && (
+                              <span className={`text-xs font-bold px-2 py-0.5 ${
+                                isSelected ? 'bg-white/20' : 'bg-gray-200'
+                              }`}>
+                                CURRENT
+                              </span>
+                            )}
+                            {tier === 'pro' && !isCurrent && (
                               <span className={`text-xs font-bold px-2 py-0.5 ${
                                 isSelected ? 'bg-white/20' : 'bg-amber-100 text-amber-800'
                               }`}>
                                 POPULAR
                               </span>
                             )}
-                            {tier === 'max' && (
+                            {tier === 'max' && !isCurrent && (
                               <span className={`text-xs font-bold px-2 py-0.5 ${
                                 isSelected ? 'bg-white/20' : 'bg-green-100 text-green-800'
                               }`}>
                                 BEST VALUE
                               </span>
-                            )}
-                            {isCurrent && !isSelected && (
-                              <span className="text-xs font-clinical opacity-50">Current</span>
                             )}
                           </div>
                           <div className={`font-clinical text-sm mt-1 ${isSelected ? 'opacity-80' : 'opacity-60'}`}>
@@ -683,7 +747,7 @@ export function EditSubscriptionModal({
               {hasChanges ? (
                 <span className="text-green-700 font-medium">
                   → {productType === 'protocol' 
-                    ? `${PROTOCOLS.find(p => p.id === selectedProtocol)?.name} · ${PROTOCOL_TIERS[selectedTier].name}`
+                    ? `${PROTOCOLS.find(p => p.id === selectedProtocol)?.name} · ${getTierInfo(selectedProtocol, selectedTier)?.name}`
                     : `${FORMULAS.find(f => f.id === selectedFormula)?.name} · ${FORMULA_PACKS[selectedFormulaPack].shots} shots`
                   }
                 </span>
@@ -760,6 +824,7 @@ export function EditSubscriptionModal({
                 <div className="space-y-2">
                   {PROTOCOLS.map((protocol) => {
                     const isSelected = productType === 'protocol' && selectedProtocol === protocol.id;
+                    const isCurrent = protocol.id === initialProtocolRef.current && productType === 'protocol';
                     return (
                       <button
                         key={protocol.id}
@@ -775,7 +840,14 @@ export function EditSubscriptionModal({
                         <div className="flex items-center gap-3">
                           <Icon name={protocol.icon} className="w-5 h-5" />
                           <div className="flex-1">
-                            <div className="font-bold text-sm">{protocol.name}</div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-sm">{protocol.name}</span>
+                              {isCurrent && (
+                                <span className={`text-xs font-bold px-1.5 py-0.5 ${
+                                  isSelected ? 'bg-white/20' : 'bg-gray-200'
+                                }`}>CURRENT</span>
+                              )}
+                            </div>
                             <div className="font-clinical text-xs opacity-60">{protocol.subtitle}</div>
                           </div>
                           {isSelected && <Icon name="check" className="w-4 h-4" />}
@@ -846,8 +918,11 @@ export function EditSubscriptionModal({
 
               {/* Protocol Tiers */}
               {productType === 'protocol' && availableTiers.map((tier) => {
-                const tierInfo = PROTOCOL_TIERS[tier];
+                const tierInfo = getTierInfo(selectedProtocol, tier);
+                if (!tierInfo) return null;
+                
                 const isSelected = selectedTier === tier;
+                const isCurrent = tier === initialTierRef.current && selectedProtocol === initialProtocolRef.current;
                 
                 return (
                   <button
@@ -859,9 +934,14 @@ export function EditSubscriptionModal({
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-bold">{tierInfo.name}</span>
-                          {tier === 'pro' && (
+                          {isCurrent && (
+                            <span className={`text-xs font-bold px-1.5 py-0.5 ${
+                              isSelected ? 'bg-white/20' : 'bg-gray-200'
+                            }`}>CURRENT</span>
+                          )}
+                          {tier === 'pro' && !isCurrent && (
                             <span className={`text-xs font-bold px-1.5 py-0.5 ${
                               isSelected ? 'bg-white/20' : 'bg-amber-100 text-amber-800'
                             }`}>POPULAR</span>
@@ -937,7 +1017,7 @@ export function EditSubscriptionModal({
           >
             {saving ? 'Updating...' : hasChanges ? (
               `Save: ${productType === 'protocol' 
-                ? `${PROTOCOLS.find(p => p.id === selectedProtocol)?.name} · ${PROTOCOL_TIERS[selectedTier].name}`
+                ? `${PROTOCOLS.find(p => p.id === selectedProtocol)?.name} · ${getTierInfo(selectedProtocol, selectedTier)?.name}`
                 : `${FORMULAS.find(f => f.id === selectedFormula)?.name} · ${FORMULA_PACKS[selectedFormulaPack].shots} shots`
               }`
             ) : (
