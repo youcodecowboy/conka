@@ -109,18 +109,19 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     }
   }, []);
 
-  // Pause subscription - uses Loop Admin API with shopify-{id} format
+  // Pause subscription - uses the consolidated pause route
   const pauseSubscription = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        // Extract just the numeric ID to avoid URL encoding issues
         const numericId = extractShopifyId(subscriptionId);
         const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
           method: 'POST',
           credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'pause' }),
         });
 
         const data = await response.json();
@@ -151,18 +152,19 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Resume subscription - uses Loop Admin API with shopify-{id} format
+  // Resume subscription - uses the consolidated pause route with action: 'resume'
   const resumeSubscription = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        // Extract just the numeric ID to avoid URL encoding issues
         const numericId = extractShopifyId(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${numericId}/resume`, {
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
           method: 'POST',
           credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'resume' }),
         });
 
         const data = await response.json();
@@ -193,20 +195,19 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Cancel subscription - uses Loop Admin API with shopify-{id} format
+  // Cancel subscription - uses the consolidated pause route with action: 'cancel'
   const cancelSubscription = useCallback(
     async (subscriptionId: string, reason?: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        // Extract just the numeric ID to avoid URL encoding issues
         const numericId = extractShopifyId(subscriptionId);
-        const response = await fetch(`/api/auth/subscriptions/${numericId}/cancel`, {
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ reason }),
+          body: JSON.stringify({ action: 'cancel', reason }),
         });
 
         const data = await response.json();
@@ -237,21 +238,19 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Skip next order - uses single actions endpoint to avoid Vercel routing issues
+  // Skip next order - uses the consolidated pause route with action: 'skip'
   const skipNextOrder = useCallback(
     async (subscriptionId: string): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch('/api/auth/subscriptions/actions', {
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'skip',
-            subscriptionId,
-          }),
+          body: JSON.stringify({ action: 'skip' }),
         });
 
         const data = await response.json();
@@ -273,23 +272,19 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Change subscription plan (Starter/Pro/Max) - uses single actions endpoint
-  // For frequency changes: Loop's change-frequency API
+  // Change subscription plan - uses the consolidated pause route with action: 'change-frequency'
   const changePlan = useCallback(
     async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', forceCancel: boolean = false): Promise<ChangePlanResult> => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch('/api/auth/subscriptions/actions', {
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'change-plan',
-            subscriptionId,
-            plan,
-          }),
+          body: JSON.stringify({ action: 'change-frequency', plan }),
         });
 
         const data = await response.json();
@@ -299,30 +294,12 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           return { success: false, message: data.error || data.message };
         }
 
-        // If subscription was updated successfully (frequency change)
+        // If subscription was updated successfully
         if (data.success && data.updatedPlan) {
           // Refresh subscriptions to get updated data
           await fetchSubscriptions();
           return { 
             success: true, 
-            message: data.message,
-          };
-        }
-
-        // If subscription was cancelled and we have a redirect URL
-        if (data.cancelled && data.redirectUrl) {
-          // Update local state to show cancelled
-          setSubscriptions((prev) =>
-            prev.map((sub) =>
-              sub.id === subscriptionId
-                ? { ...sub, status: 'cancelled' as const }
-                : sub
-            )
-          );
-          
-          return { 
-            success: true, 
-            redirectUrl: data.redirectUrl,
             message: data.message,
           };
         }
@@ -339,7 +316,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     [fetchSubscriptions]
   );
 
-  // Update subscription frequency - uses change plan endpoint
+  // Update subscription frequency - uses change plan
   const updateFrequency = useCallback(
     async (subscriptionId: string, interval: SubscriptionInterval): Promise<boolean> => {
       // Map interval to plan type
@@ -358,7 +335,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     [changePlan]
   );
 
-  // Update subscription quantity - uses change plan endpoint
+  // Update subscription quantity - uses change plan
   const updateQuantity = useCallback(
     async (subscriptionId: string, quantity: number): Promise<boolean> => {
       // Map quantity to plan type
