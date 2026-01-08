@@ -20,6 +20,7 @@ export type {
 
 // Main orchestrator
 export { default as CognitiveTestSection } from "./CognitiveTestSection";
+export { default as CognitiveTestSectionMobile } from "./CognitiveTestSectionMobile";
 
 // Sub-components
 export { default as CognitiveTestIdleCard } from "./CognitiveTestIdleCard";
