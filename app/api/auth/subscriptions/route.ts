@@ -159,7 +159,8 @@ export async function GET(request: NextRequest) {
             const loopDeliveryPolicy = loopData.deliveryPolicy || {};
             
             // Determine interval from Loop data
-            const loopInterval = loopDeliveryPolicy.intervalUnit || loopBillingPolicy.intervalUnit || shopifyInterval;
+            // Loop uses 'interval' not 'intervalUnit'
+            const loopInterval = loopDeliveryPolicy.interval || loopBillingPolicy.interval || shopifyInterval;
             const loopIntervalCount = loopDeliveryPolicy.intervalCount || loopBillingPolicy.intervalCount || shopifyIntervalCount;
             
             console.log(`[Subscriptions] Loop data for ${shopifyNumericId}:`, {
@@ -185,11 +186,12 @@ export async function GET(request: NextRequest) {
               // Product info from Loop (more accurate after edits)
               product: {
                 id: loopLine.id || shopifyFirstLine.id || '',
-                // Use Loop's product/variant titles - these are updated when plan changes
-                title: loopLine.productTitle || shopifyFirstLine.title || shopifyFirstLine.name || 'Subscription',
+                // Use Loop's full product name (includes variant) or fall back to product title
+                // Loop provides 'name' which is "Product - Variant" format
+                title: loopLine.name || loopLine.productTitle || shopifyFirstLine.title || shopifyFirstLine.name || 'Subscription',
                 variantTitle: loopLine.variantTitle || '',
                 quantity: loopLine.quantity || shopifyFirstLine.quantity || 1,
-                image: loopLine.image || shopifyFirstLine.variantImage?.url,
+                image: loopLine.variantImage || loopLine.image || shopifyFirstLine.variantImage?.url,
               },
               
               // Price info from Loop
