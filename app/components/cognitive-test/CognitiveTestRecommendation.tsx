@@ -57,7 +57,7 @@ export default function CognitiveTestRecommendation({
       </p>
       <h4 className="font-bold text-lg mb-2">{recommendation.headline}</h4>
       <p className="text-sm opacity-70 mb-4">{recommendation.description}</p>
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <a
           href={recommendation.href}
           className="neo-button px-5 py-2 text-sm font-bold inline-flex items-center justify-center"
