@@ -342,7 +342,8 @@ export async function POST(
             lineId 
           });
           
-          // Step 4: Call swap-line endpoint to change the variant
+          // Step 4: Call swap-line endpoint to change the variant AND selling plan
+          // Including sellingPlanGroupId ensures Shopify subscription contract is updated
           result = await loopRequest(
             `/subscription/${loopSubscriptionId}/line/${lineId}/swap`,
             loopToken,
@@ -351,6 +352,7 @@ export async function POST(
               variantShopifyId: targetVariantId,
               quantity: planConfig.quantity,
               pricingType: 'OLD', // Keep existing discount
+              sellingPlanGroupId: planConfig.sellingPlanId, // Include selling plan for Shopify sync
             }
           );
         }
