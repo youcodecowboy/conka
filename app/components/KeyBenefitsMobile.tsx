@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo } from "react";
 import RadarChart from "./RadarChart";
 import { Benefit } from "./KeyBenefits";
 
@@ -11,42 +11,8 @@ interface KeyBenefitsMobileProps {
 export default function KeyBenefitsMobile({ benefits }: KeyBenefitsMobileProps) {
   const [activeBenefit, setActiveBenefit] = useState(0);
   const [clinicalExpanded, setClinicalExpanded] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const currentBenefit = benefits[activeBenefit];
-
-  // Check scroll position to update indicators
-  const updateScrollIndicators = () => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    
-    const { scrollLeft, scrollWidth, clientWidth } = container;
-    setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-  };
-
-  // Scroll active benefit into view when it changes
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const activeButton = container.children[activeBenefit] as HTMLElement;
-    if (activeButton) {
-      const containerRect = container.getBoundingClientRect();
-      const buttonRect = activeButton.getBoundingClientRect();
-      
-      // Calculate scroll position to center the button
-      const scrollLeft = activeButton.offsetLeft - (containerRect.width / 2) + (buttonRect.width / 2);
-      container.scrollTo({ left: scrollLeft, behavior: "smooth" });
-    }
-  }, [activeBenefit]);
-
-  // Initialize scroll indicators
-  useEffect(() => {
-    updateScrollIndicators();
-  }, []);
 
   // Generate chart data showing baseline vs improved performance
   const chartData = useMemo(() => {
@@ -82,6 +48,36 @@ export default function KeyBenefitsMobile({ benefits }: KeyBenefitsMobileProps) 
     return statMatch ? parseFloat(statMatch[1]) : 0;
   }, [currentBenefit.stat]);
 
+  // Split benefits into rows for brick-laying pattern
+  // Row 1: first 2, Row 2: next 2, Row 3: last 1
+  const row1 = benefits.slice(0, 2);
+  const row2 = benefits.slice(2, 4);
+  const row3 = benefits.slice(4);
+
+  const renderPill = (benefit: Benefit, idx: number) => {
+    const isActive = idx === activeBenefit;
+    return (
+      <button
+        key={benefit.id}
+        onClick={() => setActiveBenefit(idx)}
+        className={`px-3.5 py-1.5 rounded-full border-2 border-black transition-all flex items-center gap-2 min-h-[36px] active:opacity-80 ${
+          isActive
+            ? "bg-black text-white"
+            : "bg-transparent text-black"
+        }`}
+      >
+        {benefit.icon && (
+          <span className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-white" : "text-black"}`}>
+            {benefit.icon}
+          </span>
+        )}
+        <span className="font-primary font-medium text-sm whitespace-nowrap">
+          {benefit.title}
+        </span>
+      </button>
+    );
+  };
+
   return (
     <section className="w-full pt-2 pb-8">
       {/* Header Section - Left Aligned */}
@@ -92,70 +88,33 @@ export default function KeyBenefitsMobile({ benefits }: KeyBenefitsMobileProps) 
         </div>
       </div>
 
-      {/* Horizontal Scroll Carousel for Benefits */}
-      <div className="relative mb-3">
-        {/* Fade indicators - only show when scrollable */}
-        {canScrollLeft && (
-          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
-        )}
-        {canScrollRight && (
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
-        )}
+      {/* Brick-laying Pills Layout */}
+      <div className="px-6 mb-5">
+        {/* Tap instruction */}
+        <p className="font-commentary text-sm mb-3 opacity-70">tap to explore</p>
         
-        {/* Scrollable container */}
-        <div 
-          ref={scrollContainerRef}
-          onScroll={updateScrollIndicators}
-          className="flex overflow-x-auto snap-x snap-mandatory gap-3 px-6 pb-2 scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {benefits.map((benefit, idx) => {
-            const isActive = idx === activeBenefit;
-            return (
-              <button
-                key={benefit.id}
-                onClick={() => setActiveBenefit(idx)}
-                className={`snap-center flex-shrink-0 px-3.5 py-1.5 rounded-full border-2 border-black transition-all flex items-center gap-2 min-h-[36px] ${
-                  isActive
-                    ? "bg-black text-white"
-                    : "bg-transparent text-black active:bg-black/10"
-                }`}
-              >
-                {benefit.icon && (
-                  <span className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-white" : "text-black"}`}>
-                    {benefit.icon}
-                  </span>
-                )}
-                <span className="font-primary font-medium text-sm whitespace-nowrap">
-                  {benefit.title}
-                </span>
-              </button>
-            );
-          })}
+        {/* Row 1 - Left aligned */}
+        <div className="flex gap-2.5 mb-2.5 justify-start">
+          {row1.map((benefit, i) => renderPill(benefit, i))}
         </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="px-6 mb-5 flex items-center gap-2">
-        <div className="flex gap-1">
-          {benefits.map((_, idx) => (
-            <div 
-              key={idx}
-              className={`h-1 rounded-full transition-all ${
-                idx === activeBenefit 
-                  ? 'w-4 bg-black' 
-                  : 'w-1.5 bg-black/20'
-              }`}
-            />
-          ))}
+        
+        {/* Row 2 - Centered */}
+        <div className="flex gap-2.5 mb-2.5 justify-center">
+          {row2.map((benefit, i) => renderPill(benefit, i + 2))}
         </div>
-        <span className="font-clinical text-xs opacity-50 ml-2">swipe for more</span>
+        
+        {/* Row 3 - Left aligned */}
+        {row3.length > 0 && (
+          <div className="flex gap-2.5 justify-start">
+            {row3.map((benefit, i) => renderPill(benefit, i + 4))}
+          </div>
+        )}
       </div>
 
       {/* Main Content Area */}
       <div className="px-6">
         {/* Stat Display - Right Aligned */}
-        <div className="text-right mb-2 mt-6">
+        <div className="text-right mb-2 mt-4">
           <p className="font-clinical text-5xl sm:text-6xl font-bold mb-1">
             {currentBenefit.stat}
           </p>
