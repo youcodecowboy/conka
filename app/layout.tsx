@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Preconnect to Shopify CDN for faster cart/checkout */}
         <link rel="preconnect" href="https://cdn.shopify.com" />
