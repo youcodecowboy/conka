@@ -2,14 +2,8 @@
 
 import { useState } from "react";
 import Navigation from "@/app/components/Navigation";
-import {
-  WinHero,
-  WinCountdown,
-  WinEmailForm,
-  WinThankYou,
-  WinPrize,
-  WinReassurance,
-} from "@/app/components/win";
+import { WinPageDesktop, WinPageMobile } from "@/app/components/win";
+import useIsMobile from "@/app/hooks/useIsMobile";
 
 const CONTEST_ID = "win_protocol3_09012026";
 const DEADLINE = "2026-01-16T17:00:00Z";
@@ -17,6 +11,7 @@ const DEADLINE = "2026-01-16T17:00:00Z";
 export default function WinPage() {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
+  const isMobile = useIsMobile();
 
   const handleSuccess = (email: string) => {
     setSubmittedEmail(email);
@@ -30,20 +25,29 @@ export default function WinPage() {
     >
       <Navigation />
 
-      <main className="pt-4 pb-12 lg:pt-20">
-        <WinCountdown deadline={DEADLINE} />
-        <WinHero />
-        <WinPrize />
-
-        {emailSubmitted ? (
-          <>
-            <WinThankYou email={submittedEmail || undefined} />
-          </>
+      <main className="pb-12">
+        {isMobile === undefined ? (
+          <div className="min-h-screen pt-32 pb-16 flex items-center justify-center">
+            <div className="animate-pulse text-center">
+              <p className="font-clinical text-sm opacity-50">Loading...</p>
+            </div>
+          </div>
+        ) : isMobile ? (
+          <WinPageMobile
+            contestId={CONTEST_ID}
+            deadline={DEADLINE}
+            emailSubmitted={emailSubmitted}
+            submittedEmail={submittedEmail}
+            onSuccess={handleSuccess}
+          />
         ) : (
-          <>
-            <WinEmailForm contestId={CONTEST_ID} onSuccess={handleSuccess} />
-            <WinReassurance />
-          </>
+          <WinPageDesktop
+            contestId={CONTEST_ID}
+            deadline={DEADLINE}
+            emailSubmitted={emailSubmitted}
+            submittedEmail={submittedEmail}
+            onSuccess={handleSuccess}
+          />
         )}
       </main>
 
