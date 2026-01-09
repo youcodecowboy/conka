@@ -44,3 +44,33 @@ export async function trackCognitiveTest(
     console.error("Failed to track cognitive test to Klaviyo:", error);
   }
 }
+
+/**
+ * Subscribes an email to the Klaviyo master list (WBbMia) for the Win page.
+ * This is a fire-and-forget operation that never throws errors.
+ *
+ * @param email - User's email address
+ */
+export async function subscribeToWinList(email: string): Promise<void> {
+  try {
+    const response = await fetch("/api/klaviyo/subscribe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    });
+
+    if (!response.ok) {
+      // Log error but don't throw - graceful failure
+      console.error(
+        `Klaviyo subscription failed: ${response.status} ${response.statusText}`,
+      );
+    }
+  } catch (error) {
+    // Silently fail - never interrupt user experience
+    console.error("Failed to subscribe to Klaviyo list:", error);
+  }
+}

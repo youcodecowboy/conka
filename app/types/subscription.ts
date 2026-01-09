@@ -24,6 +24,14 @@ export interface Subscription {
   };
   quantity: number;
   interval: SubscriptionInterval;
+  
+  // Fulfillment tracking
+  completedOrdersCount?: number | null;
+  totalOrdersPlaced?: number | null;
+  pendingOrdersCount?: number | null;
+  hasUnfulfilledOrder?: boolean;
+  unfulfilledOrdersCount?: number;
+  originOrderId?: number | null;
 }
 
 export type SubscriptionStatus = 'active' | 'paused' | 'cancelled' | 'expired';

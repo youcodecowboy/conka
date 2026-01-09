@@ -2,6 +2,69 @@
 
 ## January 9, 2026
 
+### 15:30 - Order History Page UI/UX Overhaul
+
+Redesigned the Order History page with improved timeline, shipping address display, tracking information, and subscription-style card design.
+
+#### Problems Solved:
+1. **Disconnected Timeline:** The order status timeline had broken connecting lines between steps
+2. **Missing Delivery Info:** No shipping address or tracking information was displayed
+3. **Limited Order Details:** Only showed total price, missing subtotal, shipping, and tax breakdown
+4. **Inconsistent Design:** UI didn't match the polished Subscriptions page design
+
+#### UI/UX Improvements:
+- **Fixed Timeline:** Continuous progress bar that properly fills based on order status with highlighted current step
+- **Shipping Address Display:** Shows full delivery address in a nicely formatted card
+- **Tracking Information:** Clickable tracking links with tracking numbers when available
+- **Estimated Delivery:** Shows expected delivery date when provided by carrier
+- **Order Summary Breakdown:** Shows subtotal, shipping (or "Free"), tax, and total
+- **Product Images:** Displays product images in both card header and item list
+- **Item Preview:** Quick summary of items visible in collapsed card view
+- **Cancelled Order State:** Special display for cancelled orders with reason if available
+- **Track Shipment Button:** New action button when tracking URL is available
+
+#### API Enhancements:
+Extended the orders API to fetch additional data from Shopify Customer Account API:
+- Shipping address (name, address lines, city, province, country, zip)
+- Tracking info (number and URL from fulfillments)
+- Estimated delivery date
+- Subtotal, shipping cost, and tax breakdown
+- Cancellation info (cancelledAt, cancelReason)
+
+#### Files Modified:
+- `app/api/auth/orders/route.ts` - Extended GraphQL query and response transformation
+- `app/account/orders/page.tsx` - Complete UI redesign with new components and layout
+
+---
+
+### 14:15 - Unfulfilled First Order Warning System
+
+Added smart warning system for customers with unfulfilled first orders when editing their subscription plan.
+
+#### Problem Solved:
+When a customer changes their subscription plan in Loop, Shopify's original order doesn't auto-update. This only matters if the first order hasn't been fulfilled yet - otherwise future orders will be correct.
+
+#### Solution:
+Instead of complex API syncing, we now:
+1. Detect if a subscription has an unfulfilled first order (using `completedOrdersCount` from Loop)
+2. Show an info banner on the subscription card
+3. Show a warning in the Edit modal when making changes
+4. Guide users to contact support if they need their first order adjusted
+
+#### Changes:
+- **API Route:** Added `completedOrdersCount`, `hasUnfulfilledFirstOrder`, and `originOrderId` to subscription response
+- **Subscription Type:** Extended interface with new fulfillment tracking fields
+- **Subscription Card:** Blue info banner appears when first order is pending
+- **Edit Modal:** Warning banner appears in footer when making changes
+
+#### Files Modified:
+- `app/api/auth/subscriptions/route.ts` - Added fulfillment status fields
+- `app/types/subscription.ts` - Extended Subscription interface
+- `app/account/subscriptions/page.tsx` - Added warning banner display
+- `app/components/subscriptions/EditSubscriptionModal.tsx` - Added warning in modal footer
+
+---
+
 ### 10:30 - Added Convex Backend for Quiz Analytics
 
 Integrated Convex as a backend solution to track quiz interactions and results for user behavior analytics.

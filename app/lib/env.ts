@@ -148,4 +148,8 @@ export const env = {
   get klaviyoPublicKey(): string | undefined {
     return process.env.NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY;
   },
+
+  get klaviyoPrivateKey(): string | undefined {
+    return process.env.KLAVIYO_PRIVATE_KEY;
+  },
 } as const;

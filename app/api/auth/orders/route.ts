@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+interface Fulfillment {
+  status: string;
+}
+
 interface OrderLineItem {
   name: string;
   quantity: number;
@@ -14,16 +18,38 @@ interface OrderLineItem {
   };
 }
 
+interface ShippingAddress {
+  address1?: string;
+  address2?: string;
+  city?: string;
+  province?: string;
+  country?: string;
+  zip?: string;
+}
+
 interface Order {
   id: string;
   number: number;
+  name: string;
   processedAt: string;
+  cancelledAt?: string;
+  cancelReason?: string;
   fulfillments: {
-    nodes: Array<{
-      status: string;
-    }>;
+    nodes: Fulfillment[];
   };
   totalPrice: {
+    amount: string;
+    currencyCode: string;
+  };
+  subtotal: {
+    amount: string;
+    currencyCode: string;
+  };
+  totalShipping: {
+    amount: string;
+    currencyCode: string;
+  };
+  totalTax?: {
     amount: string;
     currencyCode: string;
   };
@@ -31,6 +57,7 @@ interface Order {
     nodes: OrderLineItem[];
   };
   financialStatus: string;
+  shippingAddress?: ShippingAddress;
 }
 
 interface CustomerOrdersResponse {
@@ -52,12 +79,35 @@ const CUSTOMER_ORDERS_QUERY = `
         nodes {
           id
           number
+          name
           processedAt
+          cancelledAt
+          cancelReason
           totalPrice {
             amount
             currencyCode
           }
+          subtotal {
+            amount
+            currencyCode
+          }
+          totalShipping {
+            amount
+            currencyCode
+          }
+          totalTax {
+            amount
+            currencyCode
+          }
           financialStatus
+          shippingAddress {
+            address1
+            address2
+            city
+            province
+            country
+            zip
+          }
           fulfillments(first: 1) {
             nodes {
               status
@@ -156,16 +206,31 @@ export async function GET(request: NextRequest) {
 
     // Transform orders to match frontend expectations
     const transformedOrders = orders.map((order) => {
-      // Get fulfillment status from first fulfillment or default to UNFULFILLED
-      const fulfillmentStatus = order.fulfillments?.nodes?.[0]?.status || 'UNFULFILLED';
+      // Get fulfillment status from first fulfillment
+      const fulfillments = order.fulfillments?.nodes || [];
+      const fulfillmentStatus = fulfillments[0]?.status || 'UNFULFILLED';
       
       return {
         id: order.id,
         orderNumber: String(order.number),
+        orderName: order.name,
         processedAt: order.processedAt,
+        cancelledAt: order.cancelledAt,
+        cancelReason: order.cancelReason,
         fulfillmentStatus: fulfillmentStatus,
         financialStatus: order.financialStatus || 'PENDING',
         totalPrice: order.totalPrice,
+        subtotal: order.subtotal,
+        totalShipping: order.totalShipping,
+        totalTax: order.totalTax,
+        shippingAddress: order.shippingAddress ? {
+          address1: order.shippingAddress.address1,
+          address2: order.shippingAddress.address2,
+          city: order.shippingAddress.city,
+          province: order.shippingAddress.province,
+          country: order.shippingAddress.country,
+          zip: order.shippingAddress.zip,
+        } : null,
         lineItems: order.lineItems?.nodes?.map((item) => ({
           title: item.name,
           quantity: item.quantity,
