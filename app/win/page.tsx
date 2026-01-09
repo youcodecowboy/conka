@@ -12,7 +12,7 @@ import {
 } from "@/app/components/win";
 
 const CONTEST_ID = "win_protocol3_09012026";
-const DEADLINE = process.env.NEXT_PUBLIC_WIN_DEADLINE || "2026-01-31T23:59:59Z";
+const DEADLINE = "2026-01-16T17:00:00Z";
 
 export default function WinPage() {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
