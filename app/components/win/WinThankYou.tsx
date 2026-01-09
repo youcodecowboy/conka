@@ -23,7 +23,7 @@ export default function WinThankYou({ email }: WinThankYouProps) {
         <div className="space-y-6">
           <div className="text-center">
             <p className="font-clinical text-xs opacity-80 mb-3">
-              Take our 2-minute quiz to find your perfect match. Worth £40.
+              Take our 2-minute quiz to find your perfect match.
             </p>
             <a
               href="/quiz"
