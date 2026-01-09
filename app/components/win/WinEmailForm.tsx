@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import useIsMobile from "@/app/hooks/useIsMobile";
+import { subscribeToWinList } from "@/app/lib/klaviyo";
 
 interface WinEmailFormProps {
   contestId: string;
@@ -57,6 +58,8 @@ export default function WinEmailForm({
           setError("Already submitted, nice try though!");
           setIsSubmitting(false);
         } else if (result.success) {
+          // Subscribe to Klaviyo list (fire-and-forget, doesn't block UX)
+          await subscribeToWinList(email.toLowerCase().trim());
           onSuccess(email);
         } else {
           setError("Something went wrong. Please try again.");
