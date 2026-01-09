@@ -38,7 +38,6 @@ export default function WinPage() {
         {emailSubmitted ? (
           <>
             <WinThankYou email={submittedEmail || undefined} />
-            <WinReassurance />
           </>
         ) : (
           <>
