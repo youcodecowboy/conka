@@ -1,17 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-interface TrackingInfo {
-  number: string;
-  url: string;
-}
-
 interface Fulfillment {
   status: string;
-  createdAt: string;
-  updatedAt: string;
-  trackingInfo: TrackingInfo[];
-  estimatedDeliveryAt?: string;
 }
 
 interface OrderLineItem {
@@ -117,16 +108,9 @@ const CUSTOMER_ORDERS_QUERY = `
             country
             zip
           }
-          fulfillments(first: 5) {
+          fulfillments(first: 1) {
             nodes {
               status
-              createdAt
-              updatedAt
-              estimatedDeliveryAt
-              trackingInfo {
-                number
-                url
-              }
             }
           }
           lineItems(first: 10) {
@@ -222,18 +206,9 @@ export async function GET(request: NextRequest) {
 
     // Transform orders to match frontend expectations
     const transformedOrders = orders.map((order) => {
-      // Get the most relevant fulfillment (latest one with tracking preferably)
+      // Get fulfillment status from first fulfillment
       const fulfillments = order.fulfillments?.nodes || [];
-      const primaryFulfillment = fulfillments[0];
-      const fulfillmentStatus = primaryFulfillment?.status || 'UNFULFILLED';
-      
-      // Get tracking info from all fulfillments
-      const trackingInfo = fulfillments
-        .flatMap(f => f.trackingInfo || [])
-        .filter(t => t.number || t.url);
-      
-      // Get estimated delivery from first fulfillment that has it
-      const estimatedDeliveryAt = fulfillments.find(f => f.estimatedDeliveryAt)?.estimatedDeliveryAt;
+      const fulfillmentStatus = fulfillments[0]?.status || 'UNFULFILLED';
       
       return {
         id: order.id,
@@ -256,10 +231,6 @@ export async function GET(request: NextRequest) {
           country: order.shippingAddress.country,
           zip: order.shippingAddress.zip,
         } : null,
-        trackingInfo: trackingInfo.length > 0 ? trackingInfo : null,
-        estimatedDeliveryAt,
-        fulfillmentCreatedAt: primaryFulfillment?.createdAt,
-        fulfillmentUpdatedAt: primaryFulfillment?.updatedAt,
         lineItems: order.lineItems?.nodes?.map((item) => ({
           title: item.name,
           quantity: item.quantity,

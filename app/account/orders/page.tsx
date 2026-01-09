@@ -28,11 +28,6 @@ interface ShippingAddress {
   zip?: string;
 }
 
-interface TrackingInfo {
-  number: string;
-  url: string;
-}
-
 interface Order {
   id: string;
   orderNumber: string;
@@ -59,10 +54,6 @@ interface Order {
     currencyCode: string;
   };
   shippingAddress?: ShippingAddress | null;
-  trackingInfo?: TrackingInfo[] | null;
-  estimatedDeliveryAt?: string;
-  fulfillmentCreatedAt?: string;
-  fulfillmentUpdatedAt?: string;
   lineItems: OrderLineItem[];
 }
 
@@ -559,99 +550,38 @@ export default function OrdersPage() {
                           )}
                         </div>
 
-                        {/* Tracking & Delivery Info */}
-                        {(order.trackingInfo || order.estimatedDeliveryAt || order.shippingAddress) && (
-                          <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {/* Tracking Info */}
-                            {order.trackingInfo && order.trackingInfo.length > 0 && (
-                              <div className="p-4 bg-blue-50 border-2 border-blue-200 rounded-lg">
-                                <div className="flex items-start gap-3">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 flex-shrink-0 mt-0.5">
-                                    <rect x="1" y="3" width="15" height="13"/>
-                                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-                                    <circle cx="5.5" cy="18.5" r="2.5"/>
-                                    <circle cx="18.5" cy="18.5" r="2.5"/>
-                                  </svg>
-                                  <div className="flex-1">
-                                    <p className="font-bold text-sm text-blue-800 mb-1">Tracking</p>
-                                    {order.trackingInfo.map((tracking, idx) => (
-                                      <div key={idx} className="mb-1 last:mb-0">
-                                        {tracking.url ? (
-                                          <a 
-                                            href={tracking.url} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className="font-clinical text-sm text-blue-700 underline hover:text-blue-900 flex items-center gap-1"
-                                          >
-                                            {tracking.number || 'Track Package'}
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                                              <polyline points="15 3 21 3 21 9"/>
-                                              <line x1="10" y1="14" x2="21" y2="3"/>
-                                            </svg>
-                                          </a>
-                                        ) : (
-                                          <p className="font-clinical text-sm text-blue-700">{tracking.number}</p>
-                                        )}
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-
-                            {/* Estimated Delivery */}
-                            {order.estimatedDeliveryAt && (
-                              <div className="p-4 bg-green-50 border-2 border-green-200 rounded-lg">
-                                <div className="flex items-start gap-3">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 flex-shrink-0 mt-0.5">
-                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                    <line x1="16" y1="2" x2="16" y2="6"/>
-                                    <line x1="8" y1="2" x2="8" y2="6"/>
-                                    <line x1="3" y1="10" x2="21" y2="10"/>
-                                  </svg>
-                                  <div>
-                                    <p className="font-bold text-sm text-green-800 mb-1">Estimated Delivery</p>
-                                    <p className="font-clinical text-sm text-green-700">
-                                      {formatDate(order.estimatedDeliveryAt)}
+                        {/* Shipping Address */}
+                        {order.shippingAddress && (
+                          <div className="p-6">
+                            <div className="p-4 bg-current/5 border-2 border-current/10 rounded-lg">
+                              <div className="flex items-start gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0 mt-0.5">
+                                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                  <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                <div>
+                                  <p className="font-bold text-sm mb-1">Delivery Address</p>
+                                  <div className="font-clinical text-sm opacity-70 space-y-0.5">
+                                    {order.shippingAddress.address1 && (
+                                      <p>{order.shippingAddress.address1}</p>
+                                    )}
+                                    {order.shippingAddress.address2 && (
+                                      <p>{order.shippingAddress.address2}</p>
+                                    )}
+                                    <p>
+                                      {[
+                                        order.shippingAddress.city,
+                                        order.shippingAddress.province,
+                                        order.shippingAddress.zip
+                                      ].filter(Boolean).join(', ')}
                                     </p>
+                                    {order.shippingAddress.country && (
+                                      <p>{order.shippingAddress.country}</p>
+                                    )}
                                   </div>
                                 </div>
                               </div>
-                            )}
-
-                            {/* Shipping Address */}
-                            {order.shippingAddress && (
-                              <div className={`p-4 bg-current/5 border-2 border-current/10 rounded-lg ${!order.trackingInfo && !order.estimatedDeliveryAt ? 'md:col-span-2' : ''}`}>
-                                <div className="flex items-start gap-3">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0 mt-0.5">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                  </svg>
-                                  <div>
-                                    <p className="font-bold text-sm mb-1">Delivery Address</p>
-                                    <div className="font-clinical text-sm opacity-70 space-y-0.5">
-                                      {order.shippingAddress.address1 && (
-                                        <p>{order.shippingAddress.address1}</p>
-                                      )}
-                                      {order.shippingAddress.address2 && (
-                                        <p>{order.shippingAddress.address2}</p>
-                                      )}
-                                      <p>
-                                        {[
-                                          order.shippingAddress.city,
-                                          order.shippingAddress.province,
-                                          order.shippingAddress.zip
-                                        ].filter(Boolean).join(', ')}
-                                      </p>
-                                      {order.shippingAddress.country && (
-                                        <p>{order.shippingAddress.country}</p>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
+                            </div>
                           </div>
                         )}
 
@@ -749,22 +679,6 @@ export default function OrdersPage() {
                               </svg>
                               Order Again
                             </Link>
-                            {order.trackingInfo && order.trackingInfo[0]?.url && (
-                              <a
-                                href={order.trackingInfo[0].url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="neo-button-outline px-6 py-2.5 text-sm font-semibold flex items-center gap-2"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <rect x="1" y="3" width="15" height="13"/>
-                                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-                                  <circle cx="5.5" cy="18.5" r="2.5"/>
-                                  <circle cx="18.5" cy="18.5" r="2.5"/>
-                                </svg>
-                                Track Shipment
-                              </a>
-                            )}
                             <a
                               href={`mailto:support@conka.com?subject=Order%20%23${order.orderNumber}`}
                               className="neo-button-outline px-6 py-2.5 text-sm font-semibold flex items-center gap-2"
