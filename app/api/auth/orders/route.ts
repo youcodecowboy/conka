@@ -28,18 +28,12 @@ interface OrderLineItem {
 }
 
 interface ShippingAddress {
-  name?: string;
-  firstName?: string;
-  lastName?: string;
   address1?: string;
   address2?: string;
   city?: string;
   province?: string;
-  provinceCode?: string;
   country?: string;
-  countryCode?: string;
   zip?: string;
-  phone?: string;
 }
 
 interface Order {
@@ -116,18 +110,12 @@ const CUSTOMER_ORDERS_QUERY = `
           }
           financialStatus
           shippingAddress {
-            name
-            firstName
-            lastName
             address1
             address2
             city
             province
-            provinceCode
             country
-            countryCode
             zip
-            phone
           }
           fulfillments(first: 5) {
             nodes {
@@ -261,17 +249,12 @@ export async function GET(request: NextRequest) {
         totalShipping: order.totalShipping,
         totalTax: order.totalTax,
         shippingAddress: order.shippingAddress ? {
-          name: order.shippingAddress.name || 
-            [order.shippingAddress.firstName, order.shippingAddress.lastName].filter(Boolean).join(' '),
           address1: order.shippingAddress.address1,
           address2: order.shippingAddress.address2,
           city: order.shippingAddress.city,
           province: order.shippingAddress.province,
-          provinceCode: order.shippingAddress.provinceCode,
           country: order.shippingAddress.country,
-          countryCode: order.shippingAddress.countryCode,
           zip: order.shippingAddress.zip,
-          phone: order.shippingAddress.phone,
         } : null,
         trackingInfo: trackingInfo.length > 0 ? trackingInfo : null,
         estimatedDeliveryAt,

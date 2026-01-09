@@ -20,16 +20,12 @@ interface OrderLineItem {
 }
 
 interface ShippingAddress {
-  name?: string;
   address1?: string;
   address2?: string;
   city?: string;
   province?: string;
-  provinceCode?: string;
   country?: string;
-  countryCode?: string;
   zip?: string;
-  phone?: string;
 }
 
 interface TrackingInfo {
@@ -635,9 +631,6 @@ export default function OrdersPage() {
                                   <div>
                                     <p className="font-bold text-sm mb-1">Delivery Address</p>
                                     <div className="font-clinical text-sm opacity-70 space-y-0.5">
-                                      {order.shippingAddress.name && (
-                                        <p>{order.shippingAddress.name}</p>
-                                      )}
                                       {order.shippingAddress.address1 && (
                                         <p>{order.shippingAddress.address1}</p>
                                       )}
@@ -647,7 +640,7 @@ export default function OrdersPage() {
                                       <p>
                                         {[
                                           order.shippingAddress.city,
-                                          order.shippingAddress.provinceCode || order.shippingAddress.province,
+                                          order.shippingAddress.province,
                                           order.shippingAddress.zip
                                         ].filter(Boolean).join(', ')}
                                       </p>
