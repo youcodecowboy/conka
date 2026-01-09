@@ -74,6 +74,14 @@ export default function WinEmailForm({
   return (
     <div className="px-6 md:px-16 py-4 md:py-6">
       <div className="max-w-2xl mx-auto">
+        <div className="mb-4">
+          <p className="font-commentary text-lg text-center mb-2">
+            enter your email to take part
+          </p>
+          <p className="font-clinical text-xs opacity-70 text-center mb-4">
+            winner notified by email when entries close
+          </p>
+        </div>
         <form
           onSubmit={handleSubmit}
           className="neo-box p-6 md:p-8 border-l-4 border-amber-500"
@@ -109,16 +117,11 @@ export default function WinEmailForm({
 
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !email.trim()}
               className="neo-button px-8 py-4 font-bold text-lg w-full transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
-              {isSubmitting ? "Submitting..." : "Enter to Win"}
+              {isSubmitting ? "Submitting..." : "Enter the draw"}
             </button>
-            <p className="text-center mt-3">
-              <span className="font-clinical text-xs opacity-60">
-                Win the Balance Protocol • Experience both formulas
-              </span>
-            </p>
           </div>
         </form>
 
