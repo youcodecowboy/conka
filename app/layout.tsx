@@ -75,6 +75,13 @@ export default function RootLayout({
             fbq('track', 'PageView');
           `}
         </Script>
+
+        {/* Klaviyo Sign-up Forms */}
+        <Script
+          src={`https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=${process.env.NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY}`}
+          strategy="afterInteractive"
+          async
+        />
       </head>
       <body
         className={`${poppins.variable} ${caveat.variable} ${ibmPlexMono.variable} antialiased`}
