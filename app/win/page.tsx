@@ -7,11 +7,12 @@ import {
   WinCountdown,
   WinEmailForm,
   WinThankYou,
+  WinPrize,
+  WinReassurance,
 } from "@/app/components/win";
 
 const CONTEST_ID = process.env.NEXT_PUBLIC_WIN_CONTEST_ID || "nike-2026-01";
-const DEADLINE =
-  process.env.NEXT_PUBLIC_WIN_DEADLINE || "2026-01-31T23:59:59Z";
+const DEADLINE = process.env.NEXT_PUBLIC_WIN_DEADLINE || "2026-01-31T23:59:59Z";
 
 export default function WinPage() {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
@@ -32,11 +33,18 @@ export default function WinPage() {
       <main className="pt-4 pb-12 lg:pt-20">
         <WinCountdown deadline={DEADLINE} />
         <WinHero />
+        <WinPrize />
 
         {emailSubmitted ? (
-          <WinThankYou email={submittedEmail || undefined} />
+          <>
+            <WinThankYou email={submittedEmail || undefined} />
+            <WinReassurance />
+          </>
         ) : (
-          <WinEmailForm contestId={CONTEST_ID} onSuccess={handleSuccess} />
+          <>
+            <WinEmailForm contestId={CONTEST_ID} onSuccess={handleSuccess} />
+            <WinReassurance />
+          </>
         )}
       </main>
 
@@ -46,12 +54,11 @@ export default function WinPage() {
           <div className="flex flex-col lg:flex-row justify-between gap-8">
             {/* Left Side */}
             <div className="flex flex-col gap-4">
-              <a href="/" className="flex items-center hover:opacity-70 transition-all">
-                <img
-                  src="/conka.png"
-                  alt="Conka logo"
-                  className="h-6 w-auto"
-                />
+              <a
+                href="/"
+                className="flex items-center hover:opacity-70 transition-all"
+              >
+                <img src="/conka.png" alt="Conka logo" className="h-6 w-auto" />
               </a>
 
               {/* Mini Nav */}
