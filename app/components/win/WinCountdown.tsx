@@ -58,8 +58,8 @@ export default function WinCountdown({ deadline }: WinCountdownProps) {
 
   if (!timeRemaining) {
     return (
-      <div className="px-4 md:px-16 py-6 md:py-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="px-0 md:px-16 pt-4 md:pt-6 pb-6 md:pb-8">
+        <div className="max-w-full md:max-w-6xl mx-auto">
           <div className="neo-box-inverted p-6 md:p-8">
             <p className="font-clinical text-sm opacity-80 text-center">
               Loading...
@@ -71,8 +71,8 @@ export default function WinCountdown({ deadline }: WinCountdownProps) {
   }
 
   return (
-    <div className="px-4 md:px-16 py-6 md:py-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="px-0 md:px-16 pt-4 md:pt-6 pb-6 md:pb-8">
+      <div className="max-w-full md:max-w-6xl mx-auto">
         <div className="neo-box-inverted p-6 md:p-8">
           <p className="font-commentary text-lg md:text-xl mb-4 text-center">
             Time remaining

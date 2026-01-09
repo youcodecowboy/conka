@@ -29,10 +29,7 @@ export default function WinPageDesktop({
       <WinPrize />
 
       {emailSubmitted ? (
-        <>
-          <WinThankYou email={submittedEmail || undefined} />
-          <WinReassurance />
-        </>
+        <WinThankYou email={submittedEmail || undefined} />
       ) : (
         <>
           <WinEmailForm contestId={contestId} onSuccess={onSuccess} />
