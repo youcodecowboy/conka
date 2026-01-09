@@ -1,6 +1,236 @@
 # Development Changelog
 
+## January 9, 2026
+
+### 10:30 - Added Convex Backend for Quiz Analytics
+
+Integrated Convex as a backend solution to track quiz interactions and results for user behavior analytics.
+
+#### Data Tracked:
+- **Quiz Sessions:** Each quiz attempt with session ID, user agent, referrer, and timestamps
+- **Individual Answers:** Every question response with answer value, label, time spent, and question number
+- **Quiz Results:** Recommended protocol and all protocol scores when quiz is completed
+
+#### Schema Design:
+- **quizSessions table:** Tracks quiz sessions with completion status, recommended protocol, and protocol scores
+- **quizAnswers table:** Stores individual question answers with timing data
+
+#### Convex Functions:
+- `startSession` - Initialize a new quiz session
+- `recordAnswer` - Save individual question answers (updates if user changes answer)
+- `completeSession` - Mark quiz complete with final results
+- `linkUserToSession` - Associate logged-in user with their session
+- Query functions for analytics dashboard (completion stats, protocol distribution, answer distribution)
+
+#### Frontend Integration:
+- Created `ConvexClientProvider` wrapper component
+- Created `useQuizAnalytics` hook for easy tracking
+- Integrated tracking into quiz page:
+  - Session starts when quiz loads
+  - Each answer is recorded with time spent
+  - Results are saved when quiz completes
+
+#### Files Created:
+- `convex/schema.ts` - Database schema definitions
+- `convex/quizAnalytics.ts` - Mutations and queries for analytics
+- `app/components/ConvexClientProvider.tsx` - Convex provider component
+- `app/hooks/useQuizAnalytics.ts` - Analytics hook for quiz tracking
+
+#### Files Modified:
+- `app/layout.tsx` - Added ConvexClientProvider
+- `app/quiz/page.tsx` - Integrated analytics tracking
+- `package.json` - Added convex dependency
+
+---
+
+### 10:00 - Added Vercel Analytics
+
+Integrated Vercel Analytics to replace Shopify's built-in analytics for the headless storefront.
+
+#### New Features:
+- **Vercel Analytics:** Automatic page view tracking and Web Vitals monitoring
+- **Zero-config setup:** Works automatically once deployed to Vercel
+- **Privacy-friendly:** GDPR compliant, no cookie banner required
+- **Real-time insights:** Page views, unique visitors, and performance metrics
+
+#### Technical Implementation:
+- Installed `@vercel/analytics` package
+- Added `<Analytics />` component to root layout
+- Analytics data will be available in Vercel Dashboard under Analytics tab
+
+#### Files Modified:
+- `app/layout.tsx` - Added Analytics component import and usage
+- `package.json` - Added @vercel/analytics dependency
+
+---
+
 ## January 8, 2026
+
+### 00:30 - Enhanced Subscription Display with Formula Breakdowns
+
+Added detailed formula breakdowns and fixed subscription card display.
+
+#### Modal Improvements:
+- **Formula Breakdown:** Each tier now shows "Xx Flow + Xx Clarity"
+  - Color-coded dots: Amber for Flow, Teal for Clarity
+- **Protocol Descriptions:** Shown in tier selection panel
+- **Ultimate Protocol:** Shows "per delivery" instead of "/week"
+
+#### Formula Breakdowns Per Protocol:
+| Protocol | Starter | Pro | Max |
+|----------|---------|-----|-----|
+| Resilience | 3 Flow + 1 Clarity | 5 Flow + 1 Clarity | 6 Flow + 1 Clarity |
+| Precision | 1 Flow + 3 Clarity | 1 Flow + 5 Clarity | 1 Flow + 6 Clarity |
+| Balance | 2 Flow + 2 Clarity | 3 Flow + 3 Clarity | 4 Flow + 3 Clarity |
+| Ultimate | — | 14 Flow + 14 Clarity | 28 Flow + 28 Clarity |
+
+#### Subscription Card Fixes:
+- **Tier Badge:** Now shows "Starter", "Pro", or "Max"
+- **Correct Price:** Shows subscription price (with 20% discount)
+- **Correct Frequency:** Weekly/Bi-Weekly/Monthly based on tier
+- **Shot Count:** Shows shots per delivery
+
+#### Files Modified:
+- `app/components/subscriptions/EditSubscriptionModal.tsx`
+- `app/account/subscriptions/page.tsx`
+
+---
+
+### 23:45 - Formula Pack Sizes & Success Confirmation
+
+Enhanced the edit modal with individual formula pack options and a proper success state.
+
+#### New Features:
+- **Individual Formula Packs:** All 4 pack sizes now available:
+  - 4 shots (£11.99, £3.00/shot) - Weekly
+  - 8 shots (£23.19, £2.90/shot) - Bi-Weekly
+  - 12 shots (£31.99, £2.67/shot) - Bi-Weekly - POPULAR
+  - 28 shots (£63.99, £2.29/shot) - Monthly - BEST VALUE
+- **Success Confirmation:** After saving, shows summary with:
+  - New plan name
+  - Delivery frequency
+  - Next billing date
+  - Price
+- **Removed Skip button:** Simplified to Edit, Pause, Cancel
+- **Styled Cancel button:** Now uses `neo-button-outline` with red accent, consistent with other action buttons
+
+#### Files Modified:
+- `app/components/subscriptions/EditSubscriptionModal.tsx` - Added formula packs, success state
+- `app/account/subscriptions/page.tsx` - Removed Skip, styled Cancel
+
+---
+
+### 23:30 - Neo-Brutal Redesign of Edit Subscription Modal
+
+Completely redesigned the EditSubscriptionModal with proper on-brand styling.
+
+#### Design Changes:
+- **Removed emojis:** Replaced with proper SVG icons (shield, bolt, balance, crown, beaker)
+- **Neo-brutal styling:** Uses `neo-box` and `neo-box-inverted` classes throughout
+- **Actual product data:** Using real taglines and descriptions
+- **Price per shot:** Now displayed for each tier
+- **Next billing date:** Shows upcoming billing date in the modal
+- **Individual Formulas section:** Added Conka Flow and Conka Clarity as separate options with visual divider
+- **Subscription discount badge:** Shows "20% subscription discount applied" when tier is selected
+
+#### Pricing Display:
+- Starter: £11.99 (£3.00/shot) - Weekly
+- Pro: £31.99 (£2.67/shot) - Bi-Weekly - POPULAR badge
+- Max: £63.99 (£2.29/shot) - Monthly - BEST VALUE badge
+
+#### Files Modified:
+- `app/components/subscriptions/EditSubscriptionModal.tsx` - Complete redesign
+- `app/account/subscriptions/page.tsx` - Added nextBillingDate prop
+
+---
+
+### 22:15 - Full Protocol & Frequency Edit Modal
+
+Implemented a comprehensive edit modal that allows users to change both their protocol AND delivery frequency in a single flow.
+
+#### New Features:
+- **Protocol Selection:** Users can now switch between all 4 protocols:
+  - Resilience (🛡️) - Stress & recovery support
+  - Precision (🎯) - Focus & mental clarity
+  - Balance (⚖️) - Mood & energy balance
+  - Ultimate (⚡) - Complete optimization
+
+- **Tier/Frequency Selection:** Each protocol offers available tiers:
+  - Starter: Weekly delivery (4 shots)
+  - Pro: Bi-Weekly delivery (12 shots) - Most Popular
+  - Max: Monthly delivery (28 shots) - Best Value
+  - Note: Ultimate protocol only has Pro and Max tiers
+
+- **Responsive Design:**
+  - Desktop: Two-column layout (protocols on left, frequencies on right)
+  - Mobile: Tab-based navigation (1. Protocol → 2. Frequency)
+
+#### Technical Implementation:
+- Created new `EditSubscriptionModal` component with full UX for both views
+- Updated API route to accept `protocolId` parameter for protocol switching
+- Uses Loop's `swap-line` endpoint: `PUT /subscription/{id}/line/{lineId}/swap`
+- Swaps to the correct variant based on selected protocol + tier combination
+
+#### Files Created/Modified:
+- `app/components/subscriptions/EditSubscriptionModal.tsx` (NEW)
+- `app/api/auth/subscriptions/[id]/pause/route.ts` (updated to accept protocolId)
+- `app/hooks/useSubscriptions.ts` (updated changePlan signature)
+- `app/account/subscriptions/page.tsx` (integrated new modal)
+
+---
+
+### 19:55 - Implemented Correct Loop Admin API Endpoints for Edit/Skip
+
+Based on research into Loop's official API documentation, implemented the correct endpoints for editing subscriptions.
+
+#### Research Findings:
+The Loop Developer Hub (https://developer.loopwork.co/reference/) documents these Admin API endpoints:
+
+**Frequency Actions:**
+- `PUT /subscription/{id}/frequency` - Update subscription frequency
+- `POST /subscription/{id}/change-plan` - Change subscription plan
+- `GET /subscription/{id}/available-frequencies` - List available frequencies
+
+**Order Actions:**
+- `POST /subscription/{id}/order/reschedule` - Reschedule/skip orders
+- `GET /subscription/{id}/order/schedule` - List order schedule
+
+#### Implementation:
+- Updated pause route to use `PUT` method for frequency changes (was incorrectly using `POST`)
+- Added logging for all Loop API requests for debugging
+- Re-added Edit and Skip buttons to subscriptions page
+- Added inline edit modal for changing delivery frequency (Weekly/Bi-Weekly/Monthly)
+
+#### Files Modified:
+- `app/api/auth/subscriptions/[id]/pause/route.ts`:
+  - `loopRequest()` now accepts HTTP method parameter (GET/POST/PUT/DELETE)
+  - Change-frequency action now uses `PUT /subscription/{id}/frequency`
+  - Added detailed logging for debugging
+  
+- `app/account/subscriptions/page.tsx`:
+  - Re-added Edit and Skip buttons
+  - Added edit modal with plan selection (Weekly, Bi-Weekly, Monthly)
+  - Added `handleSkip()` and `handleChangePlan()` functions
+
+#### Next Steps:
+Test the functionality to verify the correct Loop API endpoints work as documented.
+
+---
+
+### 19:30 - Removed Loop Portal Redirect Links
+
+Removed Edit and Skip buttons that were redirecting to the old Shopify theme via Loop's customer portal.
+
+#### Changes:
+- Removed Edit button from subscriptions page
+- Removed Skip button from subscriptions page
+- Simplified CancellationModal to remove "offer" step with Loop portal link
+- Users can now only: Pause, Resume, Cancel (which work via Loop API)
+
+#### Reason:
+The Loop portal redirect was showing the old off-brand Shopify theme, creating poor UX.
+
+---
 
 ### 18:45 - Edit/Skip via Loop Customer Portal Redirect
 
@@ -2640,3 +2870,30 @@ Major new feature: Complete product and protocol page system with shared compone
 - Updated `OurStoryMobile.tsx` component to render images with fallback to placeholders
 - Sections 7 & 8 remain as placeholders (no images provided yet)
 
+---
+
+## January 8, 2026
+
+### 20:30 - Hybrid Subscription Fetch (Loop + Shopify)
+**Critical Fix**: Loop and Shopify were showing different subscription data after plan changes.
+
+**Problem Identified**:
+- Frontend fetched subscriptions from Shopify Customer Account API
+- Plan changes were made via Loop Admin API
+- Loop updated its database, but Shopify didn't immediately sync
+- Frontend showed stale Shopify data (wrong plan)
+- This could cause fulfillment errors (wrong products shipped)
+
+**Solution Implemented - Hybrid Approach**:
+1. Use Shopify to identify which subscriptions belong to the customer (correct customer-subscription mapping)
+2. For each subscription ID, fetch current state from Loop API using `shopify-{id}` format
+3. Display Loop data (accurate product/variant/interval info)
+4. Fall back to Shopify data if Loop fetch fails
+
+**Changes**:
+- `app/api/auth/subscriptions/route.ts` - Complete rewrite to hybrid fetch
+- `app/account/subscriptions/page.tsx` - Updated tier parsing to also check product title
+
+**Result**: Frontend now shows accurate Loop data (source of truth for subscription management).
+
+**Outstanding Concern**: Loop→Shopify sync for fulfillment needs investigation. If fulfillment is based on Shopify data and Loop changes don't sync immediately, there could still be mismatches. May need to contact Loop support about sync mechanisms.

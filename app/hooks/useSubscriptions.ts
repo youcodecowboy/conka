@@ -22,7 +22,7 @@ interface UseSubscriptionsReturn {
   resumeSubscription: (subscriptionId: string) => Promise<boolean>;
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
-  changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', cancelAndRedirect?: boolean) => Promise<ChangePlanResult>;
+  changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', protocolId?: string) => Promise<ChangePlanResult>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
   updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
 }
@@ -273,8 +273,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
   );
 
   // Change subscription plan - uses the consolidated pause route with action: 'change-frequency'
+  // Can optionally change to a different protocol by passing protocolId
   const changePlan = useCallback(
-    async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', forceCancel: boolean = false): Promise<ChangePlanResult> => {
+    async (subscriptionId: string, plan: 'starter' | 'pro' | 'max', protocolId?: string): Promise<ChangePlanResult> => {
       setLoading(true);
       setError(null);
 
@@ -284,7 +285,11 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'change-frequency', plan }),
+          body: JSON.stringify({ 
+            action: 'change-frequency', 
+            plan,
+            ...(protocolId ? { protocolId } : {}),
+          }),
         });
 
         const data = await response.json();
@@ -295,7 +300,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         }
 
         // If subscription was updated successfully
-        if (data.success && data.updatedPlan) {
+        if (data.success) {
           // Refresh subscriptions to get updated data
           await fetchSubscriptions();
           return { 
@@ -329,7 +334,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         plan = 'max';
       }
       
-      const result = await changePlan(subscriptionId, plan, true);
+      const result = await changePlan(subscriptionId, plan);
       return result.success;
     },
     [changePlan]
@@ -348,7 +353,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         plan = 'max';
       }
       
-      const result = await changePlan(subscriptionId, plan, true);
+      const result = await changePlan(subscriptionId, plan);
       return result.success;
     },
     [changePlan]

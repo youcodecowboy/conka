@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Poppins, Caveat, IBM_Plex_Mono } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { CartProvider } from "@/app/context/CartContext";
 import { AuthProvider } from "@/app/context/AuthContext";
 import CartDrawer from "@/app/components/CartDrawer";
+import ConvexClientProvider from "@/app/components/ConvexClientProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -35,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Preconnect to Shopify CDN for faster cart/checkout */}
         <link rel="preconnect" href="https://cdn.shopify.com" />
@@ -73,16 +75,26 @@ export default function RootLayout({
             fbq('track', 'PageView');
           `}
         </Script>
+
+        {/* Klaviyo Sign-up Forms */}
+        <Script
+          src={`https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=${process.env.NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY}`}
+          strategy="afterInteractive"
+          async
+        />
       </head>
       <body
         className={`${poppins.variable} ${caveat.variable} ${ibmPlexMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <CartProvider>
-            {children}
-            <CartDrawer />
-          </CartProvider>
-        </AuthProvider>
+        <ConvexClientProvider>
+          <AuthProvider>
+            <CartProvider>
+              {children}
+              <CartDrawer />
+            </CartProvider>
+          </AuthProvider>
+        </ConvexClientProvider>
+        <Analytics />
       </body>
     </html>
   );

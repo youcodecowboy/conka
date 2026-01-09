@@ -2,7 +2,7 @@
 // All athlete data from real CONKA case study CSV - NO FABRICATED QUOTES
 
 // Sport categories for filtering
-export type SportCategory = 
+export type SportCategory =
   | "rugby"
   | "rugby7s"
   | "football"
@@ -37,11 +37,11 @@ export interface AthleteData {
   position?: string;
   achievement?: string;
   description: string; // Real bio from CSV
-  
+
   // Product Info
   productVersion?: "01" | "02" | "both";
   protocolUsed?: string;
-  
+
   // Performance Data (from CSV)
   testsCompleted: number;
   baselineTests: number;
@@ -50,7 +50,7 @@ export interface AthleteData {
   baseline: PerformanceMetrics;
   results: PerformanceMetrics;
   improvements: ImprovementStat[];
-  
+
   // Categorization
   featured: boolean;
   tier: 1 | 2 | 3;
@@ -58,7 +58,10 @@ export interface AthleteData {
 }
 
 // Sport category display info
-export const SPORT_INFO: Record<SportCategory, { name: string; emoji: string }> = {
+export const SPORT_INFO: Record<
+  SportCategory,
+  { name: string; emoji: string }
+> = {
   rugby: { name: "Rugby Union", emoji: "🏉" },
   rugby7s: { name: "Rugby 7s", emoji: "🏉" },
   football: { name: "Football", emoji: "⚽" },
@@ -80,14 +83,15 @@ export const athletes: AthleteData[] = [
     organization: "GB7 Womens - Rugby 7s",
     position: "Back",
     achievement: "Paris 2024 Olympian, European Games Gold 2023",
-    description: "Forged at Worcester Warriors, Shekells rose from local standout to an explosive force on the global SVNS circuit. A dominant physical presence, she helped secure European Games gold in 2023 and qualification for the Paris 2024 Olympics. Her rapid ascent marks her as one of the most powerful emerging backs in British rugby.",
+    description:
+      "Forged at Worcester Warriors, Shekells rose from local standout to an explosive force on the global SVNS circuit. A dominant physical presence, she helped secure European Games gold in 2023 and qualification for the Paris 2024 Olympics. Her rapid ascent marks her as one of the most powerful emerging backs in British rugby.",
     productVersion: "both",
     protocolUsed: "Balance Protocol",
     testsCompleted: 36,
     baselineTests: 3,
     postBaselineTests: 33,
     testingPeriod: "Oct 2024 - Feb 2025",
-    baseline: { totalScore: 60.33, accuracy: 62.00, speed: 97.33 },
+    baseline: { totalScore: 60.33, accuracy: 62.0, speed: 97.33 },
     results: { totalScore: 82.48, accuracy: 82.76, speed: 99.64 },
     improvements: [
       { metric: "Total Score", value: "+36.72%", percentage: 36.72 },
@@ -107,15 +111,16 @@ export const athletes: AthleteData[] = [
     organization: "Bath Rugby",
     position: "Fly-Half",
     achievement: "World-class playmaker, Scotland international",
-    description: "Russell is a world-class fly-half for Bath Rugby, celebrated for his creativity and tactical mastery. A game-changer with precise kicking and vision, he is a central figure in club and international rugby. His flair and consistency set him apart in the Premiership.",
+    description:
+      "Russell is a world-class fly-half for Bath Rugby, celebrated for his creativity and tactical mastery. A game-changer with precise kicking and vision, he is a central figure in club and international rugby. His flair and consistency set him apart in the Premiership.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 15,
     baselineTests: 3,
     postBaselineTests: 12,
     testingPeriod: "Dec 2024 - Mar 2025",
-    baseline: { totalScore: 54.67, accuracy: 61.00, speed: 89.67 },
-    results: { totalScore: 70.50, accuracy: 72.33, speed: 97.08 },
+    baseline: { totalScore: 54.67, accuracy: 61.0, speed: 89.67 },
+    results: { totalScore: 70.5, accuracy: 72.33, speed: 97.08 },
     improvements: [
       { metric: "Total Score", value: "+28.96%", percentage: 28.96 },
       { metric: "Accuracy", value: "+18.58%", percentage: 18.58 },
@@ -134,7 +139,8 @@ export const athletes: AthleteData[] = [
     organization: "Leeds United",
     position: "Forward",
     achievement: "Championship key player",
-    description: "Patrick James Bamford is an English professional footballer who plays as a forward for EFL Championship club Sheffield United. Bamford began his career at Nottingham Forest, making his debut in December 2011, at the age of 18. A month later he joined Chelsea for a fee of £1.5 million.",
+    description:
+      "Patrick James Bamford is an English professional footballer who plays as a forward for EFL Championship club Sheffield United. Bamford began his career at Nottingham Forest, making his debut in December 2011, at the age of 18. A month later he joined Chelsea for a fee of £1.5 million.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 9,
@@ -161,19 +167,20 @@ export const athletes: AthleteData[] = [
     organization: "Stade Toulousain",
     position: "Centre",
     achievement: "Champions Cup & Top 14 Double 2024",
-    description: "Barassi is a French international centre for Stade Toulousain, celebrated for his powerful running and attacking prowess. He won the European Challenge Cup with Lyon OU in 2022 and went on to secure Top 14 titles with Toulouse, achieving a Champions Cup–French Championship double in 2024. His consistency and skill have established him as one of France's premier centres.",
+    description:
+      "Barassi is a French international centre for Stade Toulousain, celebrated for his powerful running and attacking prowess. He won the European Challenge Cup with Lyon OU in 2022 and went on to secure Top 14 titles with Toulouse, achieving a Champions Cup–French Championship double in 2024. His consistency and skill have established him as one of France's premier centres.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 7,
     baselineTests: 3,
     postBaselineTests: 4,
     testingPeriod: "Feb 2025 - Mar 2025",
-    baseline: { totalScore: 67.00, accuracy: 82.67, speed: 80.67 },
-    results: { totalScore: 85.25, accuracy: 94.50, speed: 90.75 },
+    baseline: { totalScore: 67.0, accuracy: 82.67, speed: 80.67 },
+    results: { totalScore: 85.25, accuracy: 94.5, speed: 90.75 },
     improvements: [
       { metric: "Total Score", value: "+27.24%", percentage: 27.24 },
       { metric: "Accuracy", value: "+14.31%", percentage: 14.31 },
-      { metric: "Speed", value: "+12.50%", percentage: 12.50 },
+      { metric: "Speed", value: "+12.50%", percentage: 12.5 },
     ],
     featured: true,
     tier: 1,
@@ -187,19 +194,21 @@ export const athletes: AthleteData[] = [
     profession: "Professional Rugby Player",
     organization: "Stade Toulousain",
     position: "Flanker",
-    achievement: "Top 14 Player of the Year 2025, Premiership Player of the Season",
-    description: "Willis is a flanker who has excelled in both the Premiership and Top 14, earning multiple awards including Premiership Player of the Season and Top 14 Player of the Year 2025. His breakout performances with Wasps and subsequent success in France highlight his impact as a dominant and versatile back-row forward. Willis is recognized for his relentless work rate, physicality, and game-changing presence on the field.",
+    achievement:
+      "Top 14 Player of the Year 2025, Premiership Player of the Season",
+    description:
+      "Willis is a flanker who has excelled in both the Premiership and Top 14, earning multiple awards including Premiership Player of the Season and Top 14 Player of the Year 2025. His breakout performances with Wasps and subsequent success in France highlight his impact as a dominant and versatile back-row forward. Willis is recognized for his relentless work rate, physicality, and game-changing presence on the field.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 12,
     baselineTests: 3,
     postBaselineTests: 9,
     testingPeriod: "Jun 2024 - Oct 2025",
-    baseline: { totalScore: 69.33, accuracy: 72.00, speed: 96.67 },
+    baseline: { totalScore: 69.33, accuracy: 72.0, speed: 96.67 },
     results: { totalScore: 83.56, accuracy: 86.11, speed: 96.89 },
     improvements: [
       { metric: "Total Score", value: "+20.51%", percentage: 20.51 },
-      { metric: "Accuracy", value: "+19.60%", percentage: 19.60 },
+      { metric: "Accuracy", value: "+19.60%", percentage: 19.6 },
       { metric: "Speed", value: "+0.23%", percentage: 0.23 },
     ],
     featured: true,
@@ -209,12 +218,14 @@ export const athletes: AthleteData[] = [
   {
     id: "nimisha-kurup",
     name: "Nimisha Kurup",
-    photo: "/Nimisha Kurup.jpg",
+    photo: "/NimishaKurup.JPG",
     sport: "business",
     profession: "Managing Director, CFO Data Management",
     organization: "Bank of America",
-    achievement: "C-Suite Executive overseeing teams across America, Europe, and Asia",
-    description: "Managing Director, CFO Data Management Executive. C-suite at one of the largest banks in the world, overseeing hundreds of people across America, Europe and Asia.",
+    achievement:
+      "C-Suite Executive overseeing teams across America, Europe, and Asia",
+    description:
+      "Managing Director, CFO Data Management Executive. C-suite at one of the largest banks in the world, overseeing hundreds of people across America, Europe and Asia.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 73,
@@ -243,7 +254,8 @@ export const athletes: AthleteData[] = [
     organization: "Bristol Bears",
     position: "Fly-Half",
     achievement: "1,000+ first-team points",
-    description: "Sheedy is one of just eight players in club history to surpass 1,000 first-team points, cementing his legacy as an elite Premiership playmaker. Renowned for his control, kicking accuracy and leadership, he has been a pivotal figure for Bristol Bears. His consistency and game-breaking ability continue to define him as one of the Premiership's most reliable fly-halves.",
+    description:
+      "Sheedy is one of just eight players in club history to surpass 1,000 first-team points, cementing his legacy as an elite Premiership playmaker. Renowned for his control, kicking accuracy and leadership, he has been a pivotal figure for Bristol Bears. His consistency and game-breaking ability continue to define him as one of the Premiership's most reliable fly-halves.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 16,
@@ -270,15 +282,16 @@ export const athletes: AthleteData[] = [
     organization: "Bath Rugby",
     position: "Prop",
     achievement: "England international",
-    description: "Stuart is a dominant prop for Bath Rugby, respected for his strength and scrummaging technique. A reliable cornerstone of the forward pack, he consistently impacts set-pieces and open play. His experience and power make him one of the Premiership's leading front-rowers.",
+    description:
+      "Stuart is a dominant prop for Bath Rugby, respected for his strength and scrummaging technique. A reliable cornerstone of the forward pack, he consistently impacts set-pieces and open play. His experience and power make him one of the Premiership's leading front-rowers.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 5,
     baselineTests: 3,
     postBaselineTests: 2,
     testingPeriod: "Jan 2025",
-    baseline: { totalScore: 73.00, accuracy: 73.67, speed: 99.00 },
-    results: { totalScore: 85.50, accuracy: 86.50, speed: 99.50 },
+    baseline: { totalScore: 73.0, accuracy: 73.67, speed: 99.0 },
+    results: { totalScore: 85.5, accuracy: 86.5, speed: 99.5 },
     improvements: [
       { metric: "Total Score", value: "+17.12%", percentage: 17.12 },
       { metric: "Accuracy", value: "+17.42%", percentage: 17.42 },
@@ -297,7 +310,8 @@ export const athletes: AthleteData[] = [
     organization: "Leeds United",
     position: "Winger",
     achievement: "Wales international",
-    description: "Daniel Owen James (born 10 November 1997) is a professional footballer who plays as a winger for Premier League club Leeds United and the Wales national team.",
+    description:
+      "Daniel Owen James (born 10 November 1997) is a professional footballer who plays as a winger for Premier League club Leeds United and the Wales national team.",
     productVersion: "both",
     protocolUsed: "Balance Protocol",
     testsCompleted: 11,
@@ -323,7 +337,8 @@ export const athletes: AthleteData[] = [
     profession: "Racing Driver",
     organization: "Porsche Motorsport",
     achievement: "Porsche Motorsport competitor",
-    description: "Stanton is a high-performance athlete competing in Porsche Motorsport, known for his precision and focus. His technical skill and competitive mindset make him a standout in the racing world. He continues to impress on international circuits.",
+    description:
+      "Stanton is a high-performance athlete competing in Porsche Motorsport, known for his precision and focus. His technical skill and competitive mindset make him a standout in the racing world. He continues to impress on international circuits.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 15,
@@ -331,7 +346,7 @@ export const athletes: AthleteData[] = [
     postBaselineTests: 12,
     testingPeriod: "Jan 2024 - Mar 2024",
     baseline: { totalScore: 75.67, accuracy: 82.67, speed: 91.33 },
-    results: { totalScore: 86.50, accuracy: 87.17, speed: 99.17 },
+    results: { totalScore: 86.5, accuracy: 87.17, speed: 99.17 },
     improvements: [
       { metric: "Total Score", value: "+14.32%", percentage: 14.32 },
       { metric: "Accuracy", value: "+5.44%", percentage: 5.44 },
@@ -350,7 +365,8 @@ export const athletes: AthleteData[] = [
     profession: "Chief Revenue Officer",
     organization: "SkyScanner",
     achievement: "C-Suite Executive at global travel tech company",
-    description: "C-Suite executive at SkyScanner, one of the world's leading travel technology companies.",
+    description:
+      "C-Suite executive at SkyScanner, one of the world's leading travel technology companies.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 33,
@@ -358,9 +374,9 @@ export const athletes: AthleteData[] = [
     postBaselineTests: 30,
     testingPeriod: "May 2025 - Nov 2025",
     baseline: { totalScore: 69.67, accuracy: 89.67, speed: 77.33 },
-    results: { totalScore: 78.93, accuracy: 85.53, speed: 92.50 },
+    results: { totalScore: 78.93, accuracy: 85.53, speed: 92.5 },
     improvements: [
-      { metric: "Total Score", value: "+13.30%", percentage: 13.30 },
+      { metric: "Total Score", value: "+13.30%", percentage: 13.3 },
       { metric: "Accuracy", value: "-4.61%", percentage: -4.61 },
       { metric: "Speed", value: "+19.61%", percentage: 19.61 },
     ],
@@ -376,7 +392,8 @@ export const athletes: AthleteData[] = [
     profession: "Lead Machine Learning Engineer",
     organization: "Draft Kings",
     achievement: "Senior ML Engineer",
-    description: "Lead Machine Learning Engineer. Hard job, long hours, stressful but good at what he does. Enjoys socialising and maintaining his own form of balance.",
+    description:
+      "Lead Machine Learning Engineer. Hard job, long hours, stressful but good at what he does. Enjoys socialising and maintaining his own form of balance.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 52,
@@ -384,7 +401,7 @@ export const athletes: AthleteData[] = [
     postBaselineTests: 49,
     testingPeriod: "Mar 2024 - Nov 2025",
     baseline: { totalScore: 79.33, accuracy: 91.33, speed: 87.33 },
-    results: { totalScore: 89.10, accuracy: 90.20, speed: 98.69 },
+    results: { totalScore: 89.1, accuracy: 90.2, speed: 98.69 },
     improvements: [
       { metric: "Total Score", value: "+12.31%", percentage: 12.31 },
       { metric: "Accuracy", value: "-1.24%", percentage: -1.24 },
@@ -402,7 +419,8 @@ export const athletes: AthleteData[] = [
     profession: "GB7 Rugby 7s",
     organization: "GB7s - Rugby 7s",
     achievement: "GB7s squad member",
-    description: "Davidson is a dynamic rugby 7s athlete representing GB7s. Renowned for his agility and work rate, he is a key contributor on the pitch. His performances continue to establish him as a standout in international rugby 7s.",
+    description:
+      "Davidson is a dynamic rugby 7s athlete representing GB7s. Renowned for his agility and work rate, he is a key contributor on the pitch. His performances continue to establish him as a standout in international rugby 7s.",
     productVersion: "both",
     protocolUsed: "Balance Protocol",
     testsCompleted: 51,
@@ -410,7 +428,7 @@ export const athletes: AthleteData[] = [
     postBaselineTests: 48,
     testingPeriod: "Nov 2023 - Feb 2025",
     baseline: { totalScore: 80.33, accuracy: 80.67, speed: 99.33 },
-    results: { totalScore: 90.17, accuracy: 90.17, speed: 100.00 },
+    results: { totalScore: 90.17, accuracy: 90.17, speed: 100.0 },
     improvements: [
       { metric: "Total Score", value: "+12.24%", percentage: 12.24 },
       { metric: "Accuracy", value: "+11.78%", percentage: 11.78 },
@@ -429,18 +447,19 @@ export const athletes: AthleteData[] = [
     organization: "Stade Toulousain",
     position: "Utility Back",
     achievement: "Champions Cup winner 2021",
-    description: "Mallía is a utility back capable of playing from 10 to 15, known for his versatility and high-level performances with Toulouse. He debuted in Super Rugby for the Jaguares in 2018 and has since become a key figure in European rugby, scoring Toulouse's only try in their 2021 Champions Cup final win. Mallía also secured a Top 14 title in 2021, showcasing his impact across multiple positions.",
+    description:
+      "Mallía is a utility back capable of playing from 10 to 15, known for his versatility and high-level performances with Toulouse. He debuted in Super Rugby for the Jaguares in 2018 and has since become a key figure in European rugby, scoring Toulouse's only try in their 2021 Champions Cup final win. Mallía also secured a Top 14 title in 2021, showcasing his impact across multiple positions.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 17,
     baselineTests: 3,
     postBaselineTests: 14,
     testingPeriod: "Feb 2025 - Mar 2025",
-    baseline: { totalScore: 77.00, accuracy: 80.33, speed: 95.67 },
+    baseline: { totalScore: 77.0, accuracy: 80.33, speed: 95.67 },
     results: { totalScore: 84.79, accuracy: 85.07, speed: 99.71 },
     improvements: [
       { metric: "Total Score", value: "+10.11%", percentage: 10.11 },
-      { metric: "Accuracy", value: "+5.90%", percentage: 5.90 },
+      { metric: "Accuracy", value: "+5.90%", percentage: 5.9 },
       { metric: "Speed", value: "+4.23%", percentage: 4.23 },
     ],
     featured: false,
@@ -456,18 +475,19 @@ export const athletes: AthleteData[] = [
     organization: "Stade Toulousain",
     position: "Back Row",
     achievement: "Multiple Top 14 & Champions Cup titles",
-    description: "Cros is a versatile back-row forward for Stade Toulousain, standing 1.90 m and weighing 107 kg. He has spent his entire professional career with Toulouse, contributing to multiple Top 14 titles (2019, 2021, 2023–2025) and European Rugby Champions Cup victories in 2021 and 2024. His athleticism and adaptability make him a cornerstone of both club and European rugby.",
+    description:
+      "Cros is a versatile back-row forward for Stade Toulousain, standing 1.90 m and weighing 107 kg. He has spent his entire professional career with Toulouse, contributing to multiple Top 14 titles (2019, 2021, 2023–2025) and European Rugby Champions Cup victories in 2021 and 2024. His athleticism and adaptability make him a cornerstone of both club and European rugby.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 14,
     baselineTests: 3,
     postBaselineTests: 11,
     testingPeriod: "Feb 2025 - Mar 2025",
-    baseline: { totalScore: 68.33, accuracy: 78.67, speed: 89.00 },
+    baseline: { totalScore: 68.33, accuracy: 78.67, speed: 89.0 },
     results: { totalScore: 75.27, accuracy: 78.27, speed: 96.55 },
     improvements: [
       { metric: "Total Score", value: "+10.16%", percentage: 10.16 },
-      { metric: "Accuracy", value: "-0.50%", percentage: -0.50 },
+      { metric: "Accuracy", value: "-0.50%", percentage: -0.5 },
       { metric: "Speed", value: "+8.48%", percentage: 8.48 },
     ],
     featured: false,
@@ -481,15 +501,16 @@ export const athletes: AthleteData[] = [
     profession: "GB7 Rugby 7s",
     organization: "GB7s - Rugby 7s",
     achievement: "GB7s squad member",
-    description: "Williams is a core member of GB7s rugby, bringing athleticism and sharp decision-making to every match. His dedication and performance metrics highlight him as a top-tier sevens athlete. He continues to impress at the international level.",
+    description:
+      "Williams is a core member of GB7s rugby, bringing athleticism and sharp decision-making to every match. His dedication and performance metrics highlight him as a top-tier sevens athlete. He continues to impress at the international level.",
     productVersion: "both",
     protocolUsed: "Balance Protocol",
     testsCompleted: 45,
     baselineTests: 3,
     postBaselineTests: 42,
     testingPeriod: "Sep 2024 - Feb 2025",
-    baseline: { totalScore: 74.00, accuracy: 80.67, speed: 92.00 },
-    results: { totalScore: 80.69, accuracy: 81.95, speed: 98.50 },
+    baseline: { totalScore: 74.0, accuracy: 80.67, speed: 92.0 },
+    results: { totalScore: 80.69, accuracy: 81.95, speed: 98.5 },
     improvements: [
       { metric: "Total Score", value: "+9.04%", percentage: 9.04 },
       { metric: "Accuracy", value: "+1.59%", percentage: 1.59 },
@@ -507,7 +528,8 @@ export const athletes: AthleteData[] = [
     profession: "GB7 Rugby 7s",
     organization: "GB7s - Rugby 7s",
     achievement: "GB7s squad member",
-    description: "Homer plays elite rugby 7s for GB7s, combining speed, skill, and strategic awareness. He is recognized for his consistency and ability to perform in high-pressure games. His impact on the squad underscores his rising profile in the sport.",
+    description:
+      "Homer plays elite rugby 7s for GB7s, combining speed, skill, and strategic awareness. He is recognized for his consistency and ability to perform in high-pressure games. His impact on the squad underscores his rising profile in the sport.",
     productVersion: "both",
     protocolUsed: "Balance Protocol",
     testsCompleted: 77,
@@ -534,14 +556,15 @@ export const athletes: AthleteData[] = [
     organization: "Bristol Bears",
     position: "Prop",
     achievement: "100+ appearances, Maul or Nothing podcast host",
-    description: "Centurion prop Max Lahiff has made over 100 appearances for Bristol Bears, becoming one of the club's most experienced and influential forwards. Equally effective on both sides of the scrum, he is known for his consistency, power, and character. Off the field, he hosts the popular Maul or Nothing podcast.",
+    description:
+      "Centurion prop Max Lahiff has made over 100 appearances for Bristol Bears, becoming one of the club's most experienced and influential forwards. Equally effective on both sides of the scrum, he is known for his consistency, power, and character. Off the field, he hosts the popular Maul or Nothing podcast.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 30,
     baselineTests: 3,
     postBaselineTests: 27,
     testingPeriod: "Jan 2024 - Sep 2025",
-    baseline: { totalScore: 75.33, accuracy: 90.00, speed: 83.67 },
+    baseline: { totalScore: 75.33, accuracy: 90.0, speed: 83.67 },
     results: { totalScore: 81.15, accuracy: 89.74, speed: 90.56 },
     improvements: [
       { metric: "Total Score", value: "+7.72%", percentage: 7.72 },
@@ -561,7 +584,8 @@ export const athletes: AthleteData[] = [
     organization: "Bath Rugby",
     position: "Centre",
     achievement: "England international",
-    description: "Lawrence is a dynamic centre for Bath Rugby, combining power, pace, and attacking instinct. A key performer for both club and country, he is known for breaking through defenses and creating scoring opportunities. His skill and athleticism make him a standout in modern rugby.",
+    description:
+      "Lawrence is a dynamic centre for Bath Rugby, combining power, pace, and attacking instinct. A key performer for both club and country, he is known for breaking through defenses and creating scoring opportunities. His skill and athleticism make him a standout in modern rugby.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 40,
@@ -569,7 +593,7 @@ export const athletes: AthleteData[] = [
     postBaselineTests: 37,
     testingPeriod: "Nov 2024 - Mar 2025",
     baseline: { totalScore: 76.33, accuracy: 81.33, speed: 94.67 },
-    results: { totalScore: 81.84, accuracy: 82.46, speed: 99.30 },
+    results: { totalScore: 81.84, accuracy: 82.46, speed: 99.3 },
     improvements: [
       { metric: "Total Score", value: "+7.21%", percentage: 7.21 },
       { metric: "Accuracy", value: "+1.38%", percentage: 1.38 },
@@ -588,15 +612,16 @@ export const athletes: AthleteData[] = [
     organization: "Sale Sharks",
     position: "Fullback/Wing",
     achievement: "Tonga international",
-    description: "Koloti Telusa Pelaki Veainu is a rugby union player. He plays at fullback or on the wing for Doncaster Knights. Born and raised in New Zealand, he represents Tonga internationally. He is known for his speed, elusiveness and strength from fullback, earning him a place in Will Greenwood's Daily Telegraph team of the year for 2016/17.",
+    description:
+      "Koloti Telusa Pelaki Veainu is a rugby union player. He plays at fullback or on the wing for Doncaster Knights. Born and raised in New Zealand, he represents Tonga internationally. He is known for his speed, elusiveness and strength from fullback, earning him a place in Will Greenwood's Daily Telegraph team of the year for 2016/17.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 4,
     baselineTests: 3,
     postBaselineTests: 1,
     testingPeriod: "Nov 2023 - Dec 2023",
-    baseline: { totalScore: 76.67, accuracy: 77.33, speed: 99.00 },
-    results: { totalScore: 82.00, accuracy: 82.00, speed: 100.00 },
+    baseline: { totalScore: 76.67, accuracy: 77.33, speed: 99.0 },
+    results: { totalScore: 82.0, accuracy: 82.0, speed: 100.0 },
     improvements: [
       { metric: "Total Score", value: "+6.96%", percentage: 6.96 },
       { metric: "Accuracy", value: "+6.03%", percentage: 6.03 },
@@ -615,14 +640,15 @@ export const athletes: AthleteData[] = [
     organization: "Harlequins",
     position: "No.8",
     achievement: "England international, Six Nations regular",
-    description: "Dombrandt made his England debut in 2021 and has since become a regular feature in the Six Nations and national squad selections. A dynamic No.8 with try-scoring impact, he played key roles in the 2023 and 2024 championships. His athleticism and intelligence continue to make him one of the most exciting back-rowers in England.",
+    description:
+      "Dombrandt made his England debut in 2021 and has since become a regular feature in the Six Nations and national squad selections. A dynamic No.8 with try-scoring impact, he played key roles in the 2023 and 2024 championships. His athleticism and intelligence continue to make him one of the most exciting back-rowers in England.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 15,
     baselineTests: 3,
     postBaselineTests: 12,
     testingPeriod: "Nov 2023 - Jan 2024",
-    baseline: { totalScore: 74.67, accuracy: 74.67, speed: 100.00 },
+    baseline: { totalScore: 74.67, accuracy: 74.67, speed: 100.0 },
     results: { totalScore: 79.83, accuracy: 85.83, speed: 93.17 },
     improvements: [
       { metric: "Total Score", value: "+6.92%", percentage: 6.92 },
@@ -642,15 +668,16 @@ export const athletes: AthleteData[] = [
     organization: "Stade Toulousain",
     position: "Centre",
     achievement: "Tonga international",
-    description: "Pita Jordan Ahki is a professional rugby union player who plays as a centre for Top 14 club Toulouse. Born in New Zealand, he represents Tonga at international level after qualifying on ancestry grounds.",
+    description:
+      "Pita Jordan Ahki is a professional rugby union player who plays as a centre for Top 14 club Toulouse. Born in New Zealand, he represents Tonga at international level after qualifying on ancestry grounds.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 15,
     baselineTests: 3,
     postBaselineTests: 12,
     testingPeriod: "Feb 2025 - Mar 2025",
-    baseline: { totalScore: 82.33, accuracy: 82.67, speed: 100.00 },
-    results: { totalScore: 87.83, accuracy: 87.83, speed: 100.00 },
+    baseline: { totalScore: 82.33, accuracy: 82.67, speed: 100.0 },
+    results: { totalScore: 87.83, accuracy: 87.83, speed: 100.0 },
     improvements: [
       { metric: "Total Score", value: "+6.68%", percentage: 6.68 },
       { metric: "Accuracy", value: "+6.25%", percentage: 6.25 },
@@ -669,15 +696,16 @@ export const athletes: AthleteData[] = [
     organization: "Bayern Munich",
     position: "Winger",
     achievement: "Bundesliga player",
-    description: "Michael is an emerging football talent with Bayern Munich, celebrated for his speed and tactical awareness. A promising athlete in the Bundesliga, he combines youth and skill to influence games at the highest level. His development marks him as one to watch in European football.",
+    description:
+      "Michael is an emerging football talent with Bayern Munich, celebrated for his speed and tactical awareness. A promising athlete in the Bundesliga, he combines youth and skill to influence games at the highest level. His development marks him as one to watch in European football.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 6,
     baselineTests: 3,
     postBaselineTests: 3,
     testingPeriod: "Aug 2025",
-    baseline: { totalScore: 73.67, accuracy: 82.00, speed: 90.67 },
-    results: { totalScore: 78.33, accuracy: 78.33, speed: 100.00 },
+    baseline: { totalScore: 73.67, accuracy: 82.0, speed: 90.67 },
+    results: { totalScore: 78.33, accuracy: 78.33, speed: 100.0 },
     improvements: [
       { metric: "Total Score", value: "+6.33%", percentage: 6.33 },
       { metric: "Accuracy", value: "-4.47%", percentage: -4.47 },
@@ -696,15 +724,16 @@ export const athletes: AthleteData[] = [
     organization: "Leeds United",
     position: "Midfielder",
     achievement: "Japan international",
-    description: "Tanaka is a Japanese professional footballer who plays as a midfielder for Premier League club Leeds United and the Japan national team.",
+    description:
+      "Tanaka is a Japanese professional footballer who plays as a midfielder for Premier League club Leeds United and the Japan national team.",
     productVersion: "both",
     protocolUsed: "Balance Protocol",
     testsCompleted: 9,
     baselineTests: 3,
     postBaselineTests: 6,
     testingPeriod: "Mar 2025 - Apr 2025",
-    baseline: { totalScore: 80.00, accuracy: 84.67, speed: 94.67 },
-    results: { totalScore: 84.50, accuracy: 86.17, speed: 98.00 },
+    baseline: { totalScore: 80.0, accuracy: 84.67, speed: 94.67 },
+    results: { totalScore: 84.5, accuracy: 86.17, speed: 98.0 },
     improvements: [
       { metric: "Total Score", value: "+5.62%", percentage: 5.62 },
       { metric: "Accuracy", value: "+1.77%", percentage: 1.77 },
@@ -723,15 +752,16 @@ export const athletes: AthleteData[] = [
     organization: "Harlequins",
     position: "Prop",
     achievement: "England U18 captain",
-    description: "Baxter's rugby journey began at age five before rising through the Harlequins academy and captaining England U18s. He made his senior debut at just 18 and has remained a consistent presence in the first XV. His power, technique, and maturity mark him as one of English rugby's brightest young front-row talents.",
+    description:
+      "Baxter's rugby journey began at age five before rising through the Harlequins academy and captaining England U18s. He made his senior debut at just 18 and has remained a consistent presence in the first XV. His power, technique, and maturity mark him as one of English rugby's brightest young front-row talents.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 9,
     baselineTests: 3,
     postBaselineTests: 6,
     testingPeriod: "Nov 2023 - Dec 2023",
-    baseline: { totalScore: 85.33, accuracy: 85.33, speed: 100.00 },
-    results: { totalScore: 90.00, accuracy: 90.67, speed: 99.17 },
+    baseline: { totalScore: 85.33, accuracy: 85.33, speed: 100.0 },
+    results: { totalScore: 90.0, accuracy: 90.67, speed: 99.17 },
     improvements: [
       { metric: "Total Score", value: "+5.47%", percentage: 5.47 },
       { metric: "Accuracy", value: "+6.25%", percentage: 6.25 },
@@ -750,14 +780,15 @@ export const athletes: AthleteData[] = [
     organization: "Blackburn Rovers U21",
     position: "Youth Prospect",
     achievement: "Rising talent",
-    description: "Pratt is a rising football talent playing for Blackburn Rovers U21. Known for his speed and tactical awareness, he has made a mark as a performance-focused athlete. His development trajectory signals a bright future in professional football.",
+    description:
+      "Pratt is a rising football talent playing for Blackburn Rovers U21. Known for his speed and tactical awareness, he has made a mark as a performance-focused athlete. His development trajectory signals a bright future in professional football.",
     productVersion: "both",
     protocolUsed: "Balance Protocol",
     testsCompleted: 17,
     baselineTests: 3,
     postBaselineTests: 14,
     testingPeriod: "Oct 2024 - Nov 2024",
-    baseline: { totalScore: 82.00, accuracy: 86.00, speed: 95.00 },
+    baseline: { totalScore: 82.0, accuracy: 86.0, speed: 95.0 },
     results: { totalScore: 86.36, accuracy: 87.71, speed: 98.57 },
     improvements: [
       { metric: "Total Score", value: "+5.31%", percentage: 5.31 },
@@ -777,19 +808,20 @@ export const athletes: AthleteData[] = [
     organization: "Harlequins",
     position: "Wing",
     achievement: "Italy international",
-    description: "Lynagh is a dynamic wing who plays for Benetton Rugby and represents Italy in the Six Nations. Known for his pace and finishing ability, he has become a key figure for club and country. His performances continue to elevate him as one of Europe's most exciting wide threats.",
+    description:
+      "Lynagh is a dynamic wing who plays for Benetton Rugby and represents Italy in the Six Nations. Known for his pace and finishing ability, he has become a key figure for club and country. His performances continue to elevate him as one of Europe's most exciting wide threats.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 13,
     baselineTests: 3,
     postBaselineTests: 10,
     testingPeriod: "Nov 2023 - Dec 2023",
-    baseline: { totalScore: 82.67, accuracy: 82.67, speed: 100.00 },
-    results: { totalScore: 86.50, accuracy: 90.00, speed: 96.20 },
+    baseline: { totalScore: 82.67, accuracy: 82.67, speed: 100.0 },
+    results: { totalScore: 86.5, accuracy: 90.0, speed: 96.2 },
     improvements: [
       { metric: "Total Score", value: "+4.64%", percentage: 4.64 },
       { metric: "Accuracy", value: "+8.87%", percentage: 8.87 },
-      { metric: "Speed", value: "-3.80%", percentage: -3.80 },
+      { metric: "Speed", value: "-3.80%", percentage: -3.8 },
     ],
     featured: false,
     tier: 2,
@@ -804,15 +836,16 @@ export const athletes: AthleteData[] = [
     organization: "Stade Toulousain",
     position: "Utility Back",
     achievement: "42 appearances, 209 points for Toulouse",
-    description: "Since joining Toulouse in 2023, Kinghorn has featured in 42 appearances, scoring 12 tries and 209 points, with a near-perfect win rate in his starts across the Top 14 and Champions Cup, including key performances in title-winning seasons.",
+    description:
+      "Since joining Toulouse in 2023, Kinghorn has featured in 42 appearances, scoring 12 tries and 209 points, with a near-perfect win rate in his starts across the Top 14 and Champions Cup, including key performances in title-winning seasons.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 10,
     baselineTests: 3,
     postBaselineTests: 7,
     testingPeriod: "Feb 2025 - Mar 2025",
-    baseline: { totalScore: 82.00, accuracy: 82.33, speed: 99.33 },
-    results: { totalScore: 84.86, accuracy: 84.86, speed: 100.00 },
+    baseline: { totalScore: 82.0, accuracy: 82.33, speed: 99.33 },
+    results: { totalScore: 84.86, accuracy: 84.86, speed: 100.0 },
     improvements: [
       { metric: "Total Score", value: "+3.48%", percentage: 3.48 },
       { metric: "Accuracy", value: "+3.07%", percentage: 3.07 },
@@ -830,15 +863,16 @@ export const athletes: AthleteData[] = [
     profession: "GB7 Womens Rugby 7s",
     organization: "GB7 Womens - Rugby 7s",
     achievement: "Two-time Olympian (Tokyo 2020, Paris 2024)",
-    description: "Uren is a two-time Olympian whose dynamic rugby career followed a promising junior swimming journey cut short by illness. A former Saracens standout in the Premier 15s, she helped secure Team GB's Tokyo 2020 qualification before finishing fourth at the Games. She returned for Paris 2024, cementing her status as one of Britain's most versatile rugby talents.",
+    description:
+      "Uren is a two-time Olympian whose dynamic rugby career followed a promising junior swimming journey cut short by illness. A former Saracens standout in the Premier 15s, she helped secure Team GB's Tokyo 2020 qualification before finishing fourth at the Games. She returned for Paris 2024, cementing her status as one of Britain's most versatile rugby talents.",
     productVersion: "both",
     protocolUsed: "Balance Protocol",
     testsCompleted: 24,
     baselineTests: 3,
     postBaselineTests: 21,
     testingPeriod: "Oct 2024 - Feb 2025",
-    baseline: { totalScore: 84.67, accuracy: 84.67, speed: 100.00 },
-    results: { totalScore: 87.10, accuracy: 87.57, speed: 99.48 },
+    baseline: { totalScore: 84.67, accuracy: 84.67, speed: 100.0 },
+    results: { totalScore: 87.1, accuracy: 87.57, speed: 99.48 },
     improvements: [
       { metric: "Total Score", value: "+2.87%", percentage: 2.87 },
       { metric: "Accuracy", value: "+3.43%", percentage: 3.43 },
@@ -857,14 +891,15 @@ export const athletes: AthleteData[] = [
     organization: "Harlequins",
     position: "Centre",
     achievement: "Premiership champion 2021",
-    description: "Northmore began playing at 15 before rising rapidly through Tavistock RFC, Cardiff Met, and into the Premiership with Harlequins. A Premiership champion in 2021, he has earned national squad recognition for his powerful running and defensive reliability. His versatility and consistency make him a major asset in the Quins midfield.",
+    description:
+      "Northmore began playing at 15 before rising rapidly through Tavistock RFC, Cardiff Met, and into the Premiership with Harlequins. A Premiership champion in 2021, he has earned national squad recognition for his powerful running and defensive reliability. His versatility and consistency make him a major asset in the Quins midfield.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 17,
     baselineTests: 3,
     postBaselineTests: 14,
     testingPeriod: "Nov 2023 - Dec 2023",
-    baseline: { totalScore: 76.67, accuracy: 76.67, speed: 100.00 },
+    baseline: { totalScore: 76.67, accuracy: 76.67, speed: 100.0 },
     results: { totalScore: 78.79, accuracy: 78.86, speed: 99.93 },
     improvements: [
       { metric: "Total Score", value: "+2.76%", percentage: 2.76 },
@@ -882,18 +917,19 @@ export const athletes: AthleteData[] = [
     profession: "Procedural Specialist",
     organization: "Applied Medical",
     achievement: "Dubai Sevens, England Touch Rugby World Cup",
-    description: "Procedural Specialist at Applied Medical, bachelor of medical science. Long days working in hospitals and training 3x a week having played consecutive years at the Dubai Sevens and represented England for the Touch Rugby World Cup.",
+    description:
+      "Procedural Specialist at Applied Medical, bachelor of medical science. Long days working in hospitals and training 3x a week having played consecutive years at the Dubai Sevens and represented England for the Touch Rugby World Cup.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 16,
     baselineTests: 3,
     postBaselineTests: 13,
     testingPeriod: "Dec 2024 - Oct 2025",
-    baseline: { totalScore: 77.00, accuracy: 77.00, speed: 99.67 },
+    baseline: { totalScore: 77.0, accuracy: 77.0, speed: 99.67 },
     results: { totalScore: 78.85, accuracy: 79.23, speed: 99.46 },
     improvements: [
-      { metric: "Total Score", value: "+2.40%", percentage: 2.40 },
-      { metric: "Accuracy", value: "+2.90%", percentage: 2.90 },
+      { metric: "Total Score", value: "+2.40%", percentage: 2.4 },
+      { metric: "Accuracy", value: "+2.90%", percentage: 2.9 },
       { metric: "Speed", value: "-0.21%", percentage: -0.21 },
     ],
     featured: false,
@@ -909,18 +945,19 @@ export const athletes: AthleteData[] = [
     organization: "Harlequins",
     position: "Centre",
     achievement: "Premiership regular",
-    description: "Anyanwu progressed from Harlequins' Elite Player Development Group to a prolific midfield threat known for his decisive running and attacking instincts. After debuting in 2020, he quickly became a reliable contributor at Premiership level. His blend of physicality and creativity makes him a standout centre for Quins.",
+    description:
+      "Anyanwu progressed from Harlequins' Elite Player Development Group to a prolific midfield threat known for his decisive running and attacking instincts. After debuting in 2020, he quickly became a reliable contributor at Premiership level. His blend of physicality and creativity makes him a standout centre for Quins.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 15,
     baselineTests: 3,
     postBaselineTests: 12,
     testingPeriod: "Nov 2023 - Dec 2023",
-    baseline: { totalScore: 81.33, accuracy: 81.33, speed: 100.00 },
-    results: { totalScore: 82.75, accuracy: 88.00, speed: 94.25 },
+    baseline: { totalScore: 81.33, accuracy: 81.33, speed: 100.0 },
+    results: { totalScore: 82.75, accuracy: 88.0, speed: 94.25 },
     improvements: [
       { metric: "Total Score", value: "+1.74%", percentage: 1.74 },
-      { metric: "Accuracy", value: "+8.20%", percentage: 8.20 },
+      { metric: "Accuracy", value: "+8.20%", percentage: 8.2 },
       { metric: "Speed", value: "-5.75%", percentage: -5.75 },
     ],
     featured: false,
@@ -935,7 +972,8 @@ export const athletes: AthleteData[] = [
     profession: "PhD Researcher",
     organization: "University of Cambridge",
     achievement: "Pancreatic cancer researcher, AstraZeneca consultant",
-    description: "PhD in pancreatic cancer research, part time for AstraZeneca as part of a VC programme, consultant scientist for healthcare start up. Needs her brain to perform at an elite level.",
+    description:
+      "PhD in pancreatic cancer research, part time for AstraZeneca as part of a VC programme, consultant scientist for healthcare start up. Needs her brain to perform at an elite level.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 11,
@@ -947,7 +985,7 @@ export const athletes: AthleteData[] = [
     improvements: [
       { metric: "Total Score", value: "+1.17%", percentage: 1.17 },
       { metric: "Accuracy", value: "-4.52%", percentage: -4.52 },
-      { metric: "Speed", value: "+5.50%", percentage: 5.50 },
+      { metric: "Speed", value: "+5.50%", percentage: 5.5 },
     ],
     featured: false,
     tier: 3,
@@ -962,7 +1000,8 @@ export const athletes: AthleteData[] = [
     organization: "Bath Rugby",
     position: "Wing",
     achievement: "Premiership regular",
-    description: "Muir is a fast and versatile wing for Bath Rugby, known for breaking defensive lines. His blend of speed and rugby IQ makes him a dangerous attacking weapon. Muir consistently shines in Premiership competitions.",
+    description:
+      "Muir is a fast and versatile wing for Bath Rugby, known for breaking defensive lines. His blend of speed and rugby IQ makes him a dangerous attacking weapon. Muir consistently shines in Premiership competitions.",
     productVersion: "01",
     protocolUsed: "Resilience Protocol",
     testsCompleted: 41,
@@ -972,7 +1011,7 @@ export const athletes: AthleteData[] = [
     baseline: { totalScore: 89.67, accuracy: 92.67, speed: 96.67 },
     results: { totalScore: 90.03, accuracy: 91.82, speed: 98.29 },
     improvements: [
-      { metric: "Total Score", value: "+0.40%", percentage: 0.40 },
+      { metric: "Total Score", value: "+0.40%", percentage: 0.4 },
       { metric: "Accuracy", value: "-0.92%", percentage: -0.92 },
       { metric: "Speed", value: "+1.68%", percentage: 1.68 },
     ],
@@ -988,7 +1027,8 @@ export const athletes: AthleteData[] = [
     profession: "Commercial Operations Programme Manager",
     organization: "Softcat",
     achievement: "Tech sales leader",
-    description: "Leading Commercial Operations Programme Management at Softcat plc. University of Leeds graduate, managing a team whilst dealing with constant calls from clients. Managing a healthy social life with drinking and sport.",
+    description:
+      "Leading Commercial Operations Programme Management at Softcat plc. University of Leeds graduate, managing a team whilst dealing with constant calls from clients. Managing a healthy social life with drinking and sport.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 134,
@@ -1011,51 +1051,58 @@ export const athletes: AthleteData[] = [
 // ===== HELPER FUNCTIONS =====
 
 export function getAthleteById(id: string): AthleteData | undefined {
-  return athletes.find(athlete => athlete.id === id);
+  return athletes.find((athlete) => athlete.id === id);
 }
 
 export function getFeaturedAthletes(): AthleteData[] {
-  return athletes.filter(athlete => athlete.featured);
+  return athletes.filter((athlete) => athlete.featured);
 }
 
 export function getTier1Athletes(): AthleteData[] {
-  return athletes.filter(athlete => athlete.tier === 1);
+  return athletes.filter((athlete) => athlete.tier === 1);
 }
 
 export function getTier2Athletes(): AthleteData[] {
-  return athletes.filter(athlete => athlete.tier === 2);
+  return athletes.filter((athlete) => athlete.tier === 2);
 }
 
 export function getAthletesBySport(sport: SportCategory): AthleteData[] {
-  return athletes.filter(athlete => athlete.sport === sport);
+  return athletes.filter((athlete) => athlete.sport === sport);
 }
 
 export function getAllSports(): SportCategory[] {
-  const sports = new Set(athletes.map(athlete => athlete.sport));
+  const sports = new Set(athletes.map((athlete) => athlete.sport));
   return Array.from(sports);
 }
 
-export function getAthletesByProductVersion(version: "01" | "02" | "both"): AthleteData[] {
-  return athletes.filter(athlete => 
-    athlete.productVersion === version || athlete.productVersion === "both"
+export function getAthletesByProductVersion(
+  version: "01" | "02" | "both",
+): AthleteData[] {
+  return athletes.filter(
+    (athlete) =>
+      athlete.productVersion === version || athlete.productVersion === "both",
   );
 }
 
 export function getAverageImprovement(athlete: AthleteData): number {
-  const totalImprovement = athlete.improvements.find(i => i.metric === "Total Score");
+  const totalImprovement = athlete.improvements.find(
+    (i) => i.metric === "Total Score",
+  );
   return totalImprovement ? totalImprovement.percentage : 0;
 }
 
 export function getHomepageAthletes(): AthleteData[] {
   return athletes
-    .filter(a => a.tier === 1)
+    .filter((a) => a.tier === 1)
     .sort((a, b) => getAverageImprovement(b) - getAverageImprovement(a))
     .slice(0, 4);
 }
 
 export function getAthletesForFormula(formulaId: "01" | "02"): AthleteData[] {
   return athletes
-    .filter(a => a.productVersion === formulaId || a.productVersion === "both")
+    .filter(
+      (a) => a.productVersion === formulaId || a.productVersion === "both",
+    )
     .sort((a, b) => getAverageImprovement(b) - getAverageImprovement(a))
     .slice(0, 3);
 }
@@ -1065,6 +1112,8 @@ export function getTotalTestsCompleted(): number {
 }
 
 export function getAverageImprovementAcrossAll(): number {
-  const improvements = athletes.map(a => getAverageImprovement(a)).filter(i => i > 0);
+  const improvements = athletes
+    .map((a) => getAverageImprovement(a))
+    .filter((i) => i > 0);
   return improvements.reduce((sum, i) => sum + i, 0) / improvements.length;
 }

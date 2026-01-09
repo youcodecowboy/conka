@@ -16,31 +16,77 @@ import { env } from '@/app/lib/env';
 
 const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 
-// Plan configurations for change-frequency
+// Plan configurations with Shopify Selling Plan IDs and Variant IDs
+// These must match the selling plans and variants configured in Shopify
+// From shopifyProductMapping.ts
+
+// Variant IDs by protocol and tier (just the numeric Shopify ID)
+const PROTOCOL_VARIANTS: Record<string, Record<string, number>> = {
+  // Protocol 1 (Resilience)
+  '1': {
+    starter: 56999240597878,  // RESILIANCE_STARTER_4
+    pro: 56999240630646,      // RESILIANCE_PRO_12
+    max: 56999240663414,      // RESILIANCE_MAX_28
+  },
+  // Protocol 2 (Precision)
+  '2': {
+    starter: 56999234503030,  // PRECISION_STARTER_4
+    pro: 56999234535798,      // PRECISION_PRO_12
+    max: 56999234568566,      // PRECISION_MAX_28
+  },
+  // Protocol 3 (Balance)
+  '3': {
+    starter: 56998884573558,  // BALANCED_STARTER_4
+    pro: 56998884606326,      // BALANCED_PRO_12
+    max: 56998884639094,      // BALANCED_MAX_28
+  },
+  // Protocol 4 (Ultimate) - no starter tier
+  '4': {
+    pro: 56999249478006,      // ULTAMATE_PRO_28
+    max: 56999249510774,      // ULTAMATE_MAX_56
+  },
+};
+
+// Reverse lookup: variant ID -> protocol ID
+const VARIANT_TO_PROTOCOL: Record<number, string> = {};
+for (const [protocolId, variants] of Object.entries(PROTOCOL_VARIANTS)) {
+  for (const variantId of Object.values(variants)) {
+    VARIANT_TO_PROTOCOL[variantId] = protocolId;
+  }
+}
+
 const PLAN_CONFIGURATIONS = {
   starter: {
-    name: 'Starter',
+    name: 'Starter (Weekly)',
     interval: 'WEEK',
     intervalCount: 1,
+    sellingPlanId: '711429882230',
+    quantity: 1,
   },
   pro: {
-    name: 'Pro',
+    name: 'Pro (Bi-Weekly)',
     interval: 'DAY',
     intervalCount: 14,
+    sellingPlanId: '711429947766',
+    quantity: 1,
   },
   max: {
-    name: 'Max',
+    name: 'Max (Monthly)',
     interval: 'MONTH',
     intervalCount: 1,
+    sellingPlanId: '711429980534',
+    quantity: 1,
   },
 };
 
 type ActionType = 'pause' | 'resume' | 'cancel' | 'skip' | 'change-frequency';
 type PlanType = 'starter' | 'pro' | 'max';
+type ProtocolIdType = '1' | '2' | '3' | '4';
 
 interface ActionRequest {
   action?: ActionType;
   plan?: PlanType;
+  protocolId?: ProtocolIdType; // Optional: if provided, swap to this protocol
   reason?: string;
 }
 
@@ -79,10 +125,22 @@ function toLoopShopifyId(subscriptionId: string): string {
 
 /**
  * Make a request to Loop API
+ * @param endpoint - API endpoint path
+ * @param loopToken - Loop API token
+ * @param method - HTTP method (default: POST)
+ * @param body - Request body (optional)
  */
-async function loopRequest(endpoint: string, loopToken: string, body?: object) {
-  const response = await fetch(`${LOOP_API_BASE}${endpoint}`, {
-    method: 'POST',
+async function loopRequest(
+  endpoint: string, 
+  loopToken: string, 
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'POST',
+  body?: object
+) {
+  const url = `${LOOP_API_BASE}${endpoint}`;
+  console.log(`[Loop API] ${method} ${url}`, body ? JSON.stringify(body) : '');
+  
+  const response = await fetch(url, {
+    method,
     headers: {
       'Content-Type': 'application/json',
       'X-Loop-Token': loopToken,
@@ -98,6 +156,7 @@ async function loopRequest(endpoint: string, loopToken: string, body?: object) {
     data = { rawResponse: responseText };
   }
 
+  console.log(`[Loop API] Response ${response.status}:`, JSON.stringify(data).substring(0, 500));
   return { response, data };
 }
 
@@ -142,7 +201,7 @@ export async function POST(
     // No body or invalid JSON - use default action 'pause'
   }
 
-  const { action = 'pause', plan, reason } = body;
+  const { action = 'pause', plan, protocolId, reason } = body;
 
   // Convert to Loop's shopify-{id} format
   const loopSubscriptionId = toLoopShopifyId(subscriptionId);
@@ -155,30 +214,41 @@ export async function POST(
 
     switch (action) {
       case 'pause':
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/pause`, loopToken);
+        result = await loopRequest(`/subscription/${loopSubscriptionId}/pause`, loopToken, 'POST');
         successMessage = 'Subscription paused successfully';
         break;
 
       case 'resume':
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/resume`, loopToken);
+        result = await loopRequest(`/subscription/${loopSubscriptionId}/resume`, loopToken, 'POST');
         successMessage = 'Subscription resumed successfully';
         break;
 
       case 'cancel':
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/cancel`, loopToken, {
+        result = await loopRequest(`/subscription/${loopSubscriptionId}/cancel`, loopToken, 'POST', {
           cancellationReason: reason,
         });
         successMessage = 'Subscription cancelled successfully';
         break;
 
       case 'skip':
-        // Try to skip the next order
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/order/skip`, loopToken);
+        // Use the correct Loop API endpoint for skipping next order
+        // Based on Loop API docs: Order actions section
+        // First try updating next billing date (skip = delay next order)
+        result = await loopRequest(
+          `/subscription/${loopSubscriptionId}/order/reschedule`, 
+          loopToken, 
+          'POST',
+          { skipNextOrder: true }
+        );
         
-        // If that fails, try alternative endpoint
+        // If that fails, try the direct skip endpoint
         if (!result.response.ok) {
-          console.log('[SKIP] First endpoint failed, trying skip-order...');
-          result = await loopRequest(`/subscription/${loopSubscriptionId}/skip-order`, loopToken);
+          console.log('[SKIP] Reschedule endpoint failed, trying direct skip...');
+          result = await loopRequest(
+            `/subscription/${loopSubscriptionId}/skip`, 
+            loopToken, 
+            'POST'
+          );
         }
         successMessage = 'Next delivery skipped successfully';
         break;
@@ -192,12 +262,101 @@ export async function POST(
         }
 
         const planConfig = PLAN_CONFIGURATIONS[plan];
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/change-frequency`, loopToken, {
-          billingInterval: planConfig.interval,
-          billingIntervalCount: planConfig.intervalCount,
-          deliveryInterval: planConfig.interval,
-          deliveryIntervalCount: planConfig.intervalCount,
-        });
+        
+        // Step 1: Fetch subscription details from Loop to get lineId and current variant
+        console.log('[CHANGE-FREQUENCY] Fetching subscription details...');
+        const subDetailsResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        
+        if (!subDetailsResult.response.ok) {
+          return NextResponse.json({
+            success: false,
+            error: 'Failed to fetch subscription details',
+            loopResponse: subDetailsResult.data,
+          }, { status: subDetailsResult.response.status });
+        }
+        
+        const subscriptionData = subDetailsResult.data.data;
+        const lines = subscriptionData?.lines || [];
+        
+        if (lines.length === 0) {
+          return NextResponse.json({
+            success: false,
+            error: 'No lines found in subscription',
+          }, { status: 400 });
+        }
+        
+        // Get the first line (main subscription item)
+        const line = lines[0];
+        const lineId = line.id;
+        const currentVariantId = line.variantShopifyId || line.variant?.shopifyId;
+        
+        console.log('[CHANGE-FREQUENCY] Current line:', { lineId, currentVariantId });
+        
+        // Step 2: Determine which protocol to use
+        // If protocolId is provided, use that (user wants to change protocol)
+        // Otherwise, detect from current variant (just changing tier)
+        let targetProtocolId = protocolId;
+        
+        if (!targetProtocolId) {
+          targetProtocolId = VARIANT_TO_PROTOCOL[currentVariantId] as ProtocolIdType;
+        }
+        
+        if (!targetProtocolId) {
+          console.log('[CHANGE-FREQUENCY] Unknown variant, trying direct approach...');
+          // If we can't identify the protocol, try the change-plan endpoint as fallback
+          result = await loopRequest(
+            `/subscription/${loopSubscriptionId}/change-plan`, 
+            loopToken, 
+            'POST',
+            { sellingPlanId: planConfig.sellingPlanId }
+          );
+        } else {
+          // Step 3: Get the target variant for the new tier of this protocol
+          const protocolVariants = PROTOCOL_VARIANTS[targetProtocolId];
+          
+          if (!protocolVariants) {
+            return NextResponse.json({
+              success: false,
+              error: `Invalid protocol: ${targetProtocolId}`,
+            }, { status: 400 });
+          }
+          
+          const targetVariantId = protocolVariants[plan];
+          
+          if (!targetVariantId) {
+            return NextResponse.json({
+              success: false,
+              error: `Protocol ${targetProtocolId} doesn't support ${plan} tier`,
+            }, { status: 400 });
+          }
+          
+          console.log('[CHANGE-FREQUENCY] Swapping to variant:', { 
+            currentProtocol: VARIANT_TO_PROTOCOL[currentVariantId],
+            targetProtocol: targetProtocolId,
+            plan, 
+            targetVariantId,
+            lineId 
+          });
+          
+          // Step 4: Call swap-line endpoint to change the variant AND selling plan
+          // Including sellingPlanGroupId ensures Shopify subscription contract is updated
+          result = await loopRequest(
+            `/subscription/${loopSubscriptionId}/line/${lineId}/swap`,
+            loopToken,
+            'PUT',
+            {
+              variantShopifyId: targetVariantId,
+              quantity: planConfig.quantity,
+              pricingType: 'OLD', // Keep existing discount
+              sellingPlanGroupId: planConfig.sellingPlanId, // Include selling plan for Shopify sync
+            }
+          );
+        }
+        
         successMessage = `Plan updated to ${planConfig.name} successfully`;
         break;
 

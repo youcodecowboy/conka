@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 0.0.0.0 -p 3000",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@shopify/storefront-api-client": "^1.0.9",
+    "@vercel/analytics": "^1.6.1",
+    "convex": "^1.31.3",
     "next": "16.0.7",
     "react": "19.2.0",
     "react-dom": "19.2.0",
