@@ -2,6 +2,34 @@
 
 ## January 9, 2026
 
+### 14:15 - Unfulfilled First Order Warning System
+
+Added smart warning system for customers with unfulfilled first orders when editing their subscription plan.
+
+#### Problem Solved:
+When a customer changes their subscription plan in Loop, Shopify's original order doesn't auto-update. This only matters if the first order hasn't been fulfilled yet - otherwise future orders will be correct.
+
+#### Solution:
+Instead of complex API syncing, we now:
+1. Detect if a subscription has an unfulfilled first order (using `completedOrdersCount` from Loop)
+2. Show an info banner on the subscription card
+3. Show a warning in the Edit modal when making changes
+4. Guide users to contact support if they need their first order adjusted
+
+#### Changes:
+- **API Route:** Added `completedOrdersCount`, `hasUnfulfilledFirstOrder`, and `originOrderId` to subscription response
+- **Subscription Type:** Extended interface with new fulfillment tracking fields
+- **Subscription Card:** Blue info banner appears when first order is pending
+- **Edit Modal:** Warning banner appears in footer when making changes
+
+#### Files Modified:
+- `app/api/auth/subscriptions/route.ts` - Added fulfillment status fields
+- `app/types/subscription.ts` - Extended Subscription interface
+- `app/account/subscriptions/page.tsx` - Added warning banner display
+- `app/components/subscriptions/EditSubscriptionModal.tsx` - Added warning in modal footer
+
+---
+
 ### 10:30 - Added Convex Backend for Quiz Analytics
 
 Integrated Convex as a backend solution to track quiz interactions and results for user behavior analytics.
