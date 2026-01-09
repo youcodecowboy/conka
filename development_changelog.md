@@ -2,6 +2,41 @@
 
 ## January 9, 2026
 
+### 15:30 - Order History Page UI/UX Overhaul
+
+Redesigned the Order History page with improved timeline, shipping address display, tracking information, and subscription-style card design.
+
+#### Problems Solved:
+1. **Disconnected Timeline:** The order status timeline had broken connecting lines between steps
+2. **Missing Delivery Info:** No shipping address or tracking information was displayed
+3. **Limited Order Details:** Only showed total price, missing subtotal, shipping, and tax breakdown
+4. **Inconsistent Design:** UI didn't match the polished Subscriptions page design
+
+#### UI/UX Improvements:
+- **Fixed Timeline:** Continuous progress bar that properly fills based on order status with highlighted current step
+- **Shipping Address Display:** Shows full delivery address in a nicely formatted card
+- **Tracking Information:** Clickable tracking links with tracking numbers when available
+- **Estimated Delivery:** Shows expected delivery date when provided by carrier
+- **Order Summary Breakdown:** Shows subtotal, shipping (or "Free"), tax, and total
+- **Product Images:** Displays product images in both card header and item list
+- **Item Preview:** Quick summary of items visible in collapsed card view
+- **Cancelled Order State:** Special display for cancelled orders with reason if available
+- **Track Shipment Button:** New action button when tracking URL is available
+
+#### API Enhancements:
+Extended the orders API to fetch additional data from Shopify Customer Account API:
+- Shipping address (name, address lines, city, province, country, zip)
+- Tracking info (number and URL from fulfillments)
+- Estimated delivery date
+- Subtotal, shipping cost, and tax breakdown
+- Cancellation info (cancelledAt, cancelReason)
+
+#### Files Modified:
+- `app/api/auth/orders/route.ts` - Extended GraphQL query and response transformation
+- `app/account/orders/page.tsx` - Complete UI redesign with new components and layout
+
+---
+
 ### 14:15 - Unfulfilled First Order Warning System
 
 Added smart warning system for customers with unfulfilled first orders when editing their subscription plan.

@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+interface TrackingInfo {
+  number: string;
+  url: string;
+}
+
+interface Fulfillment {
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  trackingInfo: TrackingInfo[];
+  estimatedDeliveryAt?: string;
+}
+
 interface OrderLineItem {
   name: string;
   quantity: number;
@@ -14,16 +27,44 @@ interface OrderLineItem {
   };
 }
 
+interface ShippingAddress {
+  name?: string;
+  firstName?: string;
+  lastName?: string;
+  address1?: string;
+  address2?: string;
+  city?: string;
+  province?: string;
+  provinceCode?: string;
+  country?: string;
+  countryCode?: string;
+  zip?: string;
+  phone?: string;
+}
+
 interface Order {
   id: string;
   number: number;
+  name: string;
   processedAt: string;
+  cancelledAt?: string;
+  cancelReason?: string;
   fulfillments: {
-    nodes: Array<{
-      status: string;
-    }>;
+    nodes: Fulfillment[];
   };
   totalPrice: {
+    amount: string;
+    currencyCode: string;
+  };
+  subtotal: {
+    amount: string;
+    currencyCode: string;
+  };
+  totalShipping: {
+    amount: string;
+    currencyCode: string;
+  };
+  totalTax?: {
     amount: string;
     currencyCode: string;
   };
@@ -31,6 +72,7 @@ interface Order {
     nodes: OrderLineItem[];
   };
   financialStatus: string;
+  shippingAddress?: ShippingAddress;
 }
 
 interface CustomerOrdersResponse {
@@ -52,15 +94,51 @@ const CUSTOMER_ORDERS_QUERY = `
         nodes {
           id
           number
+          name
           processedAt
+          cancelledAt
+          cancelReason
           totalPrice {
             amount
             currencyCode
           }
+          subtotal {
+            amount
+            currencyCode
+          }
+          totalShipping {
+            amount
+            currencyCode
+          }
+          totalTax {
+            amount
+            currencyCode
+          }
           financialStatus
-          fulfillments(first: 1) {
+          shippingAddress {
+            name
+            firstName
+            lastName
+            address1
+            address2
+            city
+            province
+            provinceCode
+            country
+            countryCode
+            zip
+            phone
+          }
+          fulfillments(first: 5) {
             nodes {
               status
+              createdAt
+              updatedAt
+              estimatedDeliveryAt
+              trackingInfo {
+                number
+                url
+              }
             }
           }
           lineItems(first: 10) {
@@ -156,16 +234,49 @@ export async function GET(request: NextRequest) {
 
     // Transform orders to match frontend expectations
     const transformedOrders = orders.map((order) => {
-      // Get fulfillment status from first fulfillment or default to UNFULFILLED
-      const fulfillmentStatus = order.fulfillments?.nodes?.[0]?.status || 'UNFULFILLED';
+      // Get the most relevant fulfillment (latest one with tracking preferably)
+      const fulfillments = order.fulfillments?.nodes || [];
+      const primaryFulfillment = fulfillments[0];
+      const fulfillmentStatus = primaryFulfillment?.status || 'UNFULFILLED';
+      
+      // Get tracking info from all fulfillments
+      const trackingInfo = fulfillments
+        .flatMap(f => f.trackingInfo || [])
+        .filter(t => t.number || t.url);
+      
+      // Get estimated delivery from first fulfillment that has it
+      const estimatedDeliveryAt = fulfillments.find(f => f.estimatedDeliveryAt)?.estimatedDeliveryAt;
       
       return {
         id: order.id,
         orderNumber: String(order.number),
+        orderName: order.name,
         processedAt: order.processedAt,
+        cancelledAt: order.cancelledAt,
+        cancelReason: order.cancelReason,
         fulfillmentStatus: fulfillmentStatus,
         financialStatus: order.financialStatus || 'PENDING',
         totalPrice: order.totalPrice,
+        subtotal: order.subtotal,
+        totalShipping: order.totalShipping,
+        totalTax: order.totalTax,
+        shippingAddress: order.shippingAddress ? {
+          name: order.shippingAddress.name || 
+            [order.shippingAddress.firstName, order.shippingAddress.lastName].filter(Boolean).join(' '),
+          address1: order.shippingAddress.address1,
+          address2: order.shippingAddress.address2,
+          city: order.shippingAddress.city,
+          province: order.shippingAddress.province,
+          provinceCode: order.shippingAddress.provinceCode,
+          country: order.shippingAddress.country,
+          countryCode: order.shippingAddress.countryCode,
+          zip: order.shippingAddress.zip,
+          phone: order.shippingAddress.phone,
+        } : null,
+        trackingInfo: trackingInfo.length > 0 ? trackingInfo : null,
+        estimatedDeliveryAt,
+        fulfillmentCreatedAt: primaryFulfillment?.createdAt,
+        fulfillmentUpdatedAt: primaryFulfillment?.updatedAt,
         lineItems: order.lineItems?.nodes?.map((item) => ({
           title: item.name,
           quantity: item.quantity,
