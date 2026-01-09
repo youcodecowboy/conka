@@ -171,6 +171,12 @@ export async function GET(request: NextRequest) {
               intervalCount: loopIntervalCount,
             });
 
+            // Check if there's an unfulfilled first order
+            // If completedOrdersCount is 0 and there's an origin order, the first order hasn't been fulfilled yet
+            const completedOrdersCount = loopData.completedOrdersCount || 0;
+            const hasOriginOrder = !!loopData.originOrderShopifyId;
+            const hasUnfulfilledFirstOrder = hasOriginOrder && completedOrdersCount === 0;
+
             return {
               id: sub.id,
               shopifyId: sub.id,
@@ -182,6 +188,11 @@ export async function GET(request: NextRequest) {
               nextBillingDate: loopData.nextBillingDate || sub.nextBillingDate,
               currencyCode: loopData.currencyCode || sub.currencyCode || 'GBP',
               lastPaymentStatus: sub.lastPaymentStatus,
+              
+              // Fulfillment info for warning display
+              completedOrdersCount,
+              hasUnfulfilledFirstOrder,
+              originOrderId: loopData.originOrderShopifyId,
               
               // Product info from Loop (more accurate after edits)
               product: {
@@ -234,6 +245,12 @@ export async function GET(request: NextRequest) {
             nextBillingDate: sub.nextBillingDate,
             currencyCode: sub.currencyCode || 'GBP',
             lastPaymentStatus: sub.lastPaymentStatus,
+            
+            // Without Loop data, we can't determine fulfillment status
+            // Default to false (don't show warning) when falling back
+            completedOrdersCount: null,
+            hasUnfulfilledFirstOrder: false,
+            originOrderId: null,
             
             // Product info from Shopify
             product: {

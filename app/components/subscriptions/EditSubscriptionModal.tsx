@@ -273,6 +273,7 @@ interface EditSubscriptionModalProps {
   subscriptionName: string;
   nextBillingDate?: string;
   loading?: boolean;
+  hasUnfulfilledFirstOrder?: boolean;
 }
 
 export function EditSubscriptionModal({
@@ -284,6 +285,7 @@ export function EditSubscriptionModal({
   subscriptionName,
   nextBillingDate,
   loading = false,
+  hasUnfulfilledFirstOrder = false,
 }: EditSubscriptionModalProps) {
   const [selectedProtocol, setSelectedProtocol] = useState(currentProtocolId);
   const [selectedTier, setSelectedTier] = useState<TierType>(currentTier);
@@ -572,6 +574,22 @@ export function EditSubscriptionModal({
 
         {/* Footer */}
         <div className="border-t-2 border-current p-6">
+          {/* Warning for unfulfilled first order */}
+          {hasUnfulfilledFirstOrder && hasChanges && (
+            <div className="mb-4 p-3 bg-blue-50 border-2 border-blue-200 rounded-lg">
+              <div className="flex items-start gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 flex-shrink-0 mt-0.5">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4"/>
+                  <path d="M12 8h.01"/>
+                </svg>
+                <p className="font-clinical text-xs text-blue-800">
+                  This change will take effect on your <strong>next delivery</strong>. Your first order is already being prepared. 
+                  Need to adjust it? <a href="mailto:support@conka.io" className="underline font-medium">Contact support</a>.
+                </p>
+              </div>
+            </div>
+          )}
           {error && (
             <div className="mb-4 p-3 bg-red-50 border-2 border-red-200 text-red-700 text-sm font-clinical">
               {error}
@@ -799,6 +817,22 @@ export function EditSubscriptionModal({
 
         {/* Mobile Footer */}
         <div className="border-t-2 border-current p-4">
+          {/* Warning for unfulfilled first order */}
+          {hasUnfulfilledFirstOrder && hasChanges && (
+            <div className="mb-3 p-2 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-start gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 flex-shrink-0 mt-0.5">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4"/>
+                  <path d="M12 8h.01"/>
+                </svg>
+                <p className="font-clinical text-xs text-blue-800">
+                  Changes apply to your <strong>next delivery</strong>. 
+                  <a href="mailto:support@conka.io" className="underline ml-1">Contact support</a> to adjust your first order.
+                </p>
+              </div>
+            </div>
+          )}
           {error && (
             <div className="mb-3 p-2 bg-red-50 border border-red-200 text-red-700 text-sm">
               {error}
