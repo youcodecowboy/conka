@@ -61,18 +61,15 @@ export async function POST(request: NextRequest) {
       },
     };
 
-    const profileResponse = await fetch(
-      "https://a.klaviyo.com/api/profiles/",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Klaviyo-API-Key ${klaviyoPrivateKey}`,
-          "Content-Type": "application/json",
-          revision: "2024-10-15",
-        },
-        body: JSON.stringify(profilePayload),
+    const profileResponse = await fetch("https://a.klaviyo.com/api/profiles/", {
+      method: "POST",
+      headers: {
+        Authorization: `Klaviyo-API-Key ${klaviyoPrivateKey}`,
+        "Content-Type": "application/json",
+        revision: "2024-10-15",
       },
-    );
+      body: JSON.stringify(profilePayload),
+    });
 
     let profileId: string | null = null;
 
@@ -85,13 +82,33 @@ export async function POST(request: NextRequest) {
         console.error("Failed to parse profile response:", parseError);
       }
     } else {
-      const errorText = await profileResponse.text();
-      console.error(
-        `Klaviyo Profile API error: ${profileResponse.status} ${profileResponse.statusText}`,
-        errorText,
-      );
-      // If profile creation fails, try to get profile by email
-      // Klaviyo might have the profile already
+      // Handle 409 Conflict - profile already exists
+      if (profileResponse.status === 409) {
+        try {
+          const errorData = await profileResponse.json();
+          // Extract duplicate_profile_id from error meta
+          const duplicateProfileId =
+            errorData?.errors?.[0]?.meta?.duplicate_profile_id || null;
+
+          if (duplicateProfileId) {
+            profileId = duplicateProfileId;
+            // Profile exists - this is fine, we'll use the existing ID
+          } else {
+            console.error(
+              "Klaviyo 409 error but no duplicate_profile_id in response",
+              JSON.stringify(errorData),
+            );
+          }
+        } catch (parseError) {
+          console.error("Failed to parse 409 error response:", parseError);
+        }
+      } else {
+        const errorText = await profileResponse.text();
+        console.error(
+          `Klaviyo Profile API error: ${profileResponse.status} ${profileResponse.statusText}`,
+          errorText,
+        );
+      }
     }
 
     // If we don't have a profile ID, try to get it by email lookup
@@ -111,10 +128,7 @@ export async function POST(request: NextRequest) {
 
         if (lookupResponse.ok) {
           const lookupData = await lookupResponse.json();
-          profileId =
-            lookupData?.data?.[0]?.id ||
-            lookupData?.data?.id ||
-            null;
+          profileId = lookupData?.data?.[0]?.id || lookupData?.data?.id || null;
         }
       } catch (lookupError) {
         console.error("Failed to lookup profile by email:", lookupError);
@@ -123,9 +137,7 @@ export async function POST(request: NextRequest) {
 
     // If we still don't have a profile ID, we can't add to list
     if (!profileId) {
-      console.error(
-        "Unable to get profile ID for email, cannot add to list",
-      );
+      console.error("Unable to get profile ID for email, cannot add to list");
       // Return success: false but 200 OK - graceful failure
       return NextResponse.json({
         success: false,
