@@ -38,7 +38,7 @@ const packPricing: Record<
   },
   "8": {
     oneTime: "£28.99",
-    subscription: "£19.99",
+    subscription: "£23.19",
     perShotOneTime: "£3.12",
     perShotSub: "£2.50",
   },
