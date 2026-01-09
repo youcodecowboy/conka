@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import useIsMobile from "@/app/hooks/useIsMobile";
 import { subscribeToWinList } from "@/app/lib/klaviyo";
@@ -22,6 +22,15 @@ export default function WinEmailForm({
 
   const submitEntry = useMutation(api.winEntries.submitEntry);
 
+  // Check if email exists in Convex (only when email is valid)
+  const normalizedEmail = email.toLowerCase().trim();
+  const emailExists = useQuery(
+    api.winEntries.checkEmailExists,
+    email && normalizedEmail.includes("@")
+      ? { contestId, email: normalizedEmail }
+      : "skip",
+  );
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -37,6 +46,17 @@ export default function WinEmailForm({
       setIsSubmitting(true);
 
       try {
+        const normalizedEmailValue = email.toLowerCase().trim();
+
+        // Check if email already exists in Convex
+        // If it exists, skip Klaviyo (assume profile already created) and show error
+        if (emailExists === true) {
+          // Already in Convex - show error message
+          setError("Already submitted, nice try though!");
+          setIsSubmitting(false);
+          return;
+        }
+
         // Capture userAgent and referrer for analytics
         const userAgent =
           typeof window !== "undefined"
@@ -47,19 +67,24 @@ export default function WinEmailForm({
             ? document.referrer || undefined
             : undefined;
 
+        // Submit to Convex (new entry)
         const result = await submitEntry({
           contestId,
-          email: email.toLowerCase().trim(),
+          email: normalizedEmailValue,
           userAgent,
           referrer,
         });
 
         if (result.duplicate) {
+          // Handle duplicate case - show error
           setError("Already submitted, nice try though!");
           setIsSubmitting(false);
         } else if (result.success) {
-          // Subscribe to Klaviyo list (fire-and-forget, doesn't block UX)
-          await subscribeToWinList(email.toLowerCase().trim());
+          // New entry - call Klaviyo API (fire-and-forget, doesn't block UX)
+          subscribeToWinList(normalizedEmailValue).catch((err) => {
+            // Log but don't block UX - Klaviyo failures are handled gracefully
+            console.error("Klaviyo subscription failed (non-blocking):", err);
+          });
           onSuccess(email);
         } else {
           setError("Something went wrong. Please try again.");
@@ -71,7 +96,7 @@ export default function WinEmailForm({
         setIsSubmitting(false);
       }
     },
-    [email, contestId, submitEntry, onSuccess],
+    [email, contestId, submitEntry, onSuccess, emailExists],
   );
 
   return (
