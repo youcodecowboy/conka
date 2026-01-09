@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 3000",
+    "dev:all": "concurrently \"npm run dev\" \"npx convex dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
