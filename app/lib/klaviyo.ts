@@ -4,10 +4,6 @@
  * Client-side utility functions for tracking events to Klaviyo.
  */
 
-// Ensure this module is included in the build graph
-// This import helps Turbopack properly resolve the module
-import type {} from "./productData";
-
 /**
  * Tracks a cognitive test completion event to Klaviyo.
  * This is a fire-and-forget operation that never throws errors.
