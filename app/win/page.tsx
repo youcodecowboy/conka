@@ -11,7 +11,7 @@ import {
   WinReassurance,
 } from "@/app/components/win";
 
-const CONTEST_ID = process.env.NEXT_PUBLIC_WIN_CONTEST_ID || "nike-2026-01";
+const CONTEST_ID = "win_protocol3_09012026";
 const DEADLINE = process.env.NEXT_PUBLIC_WIN_DEADLINE || "2026-01-31T23:59:59Z";
 
 export default function WinPage() {

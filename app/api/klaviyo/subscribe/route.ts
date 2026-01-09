@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
           email: normalizedEmail,
           properties: {
             source: "win_free_month",
+            campaign_id: "win_protocol3_09012026",
           },
         },
       },
