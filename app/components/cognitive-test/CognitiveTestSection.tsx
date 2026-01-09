@@ -14,6 +14,7 @@ import CognitiveTestLoader from "./CognitiveTestLoader";
 import CognitiveTestScores from "./CognitiveTestScores";
 import CognitiveTestRecommendation from "./CognitiveTestRecommendation";
 import CognitiveTestAppPromo from "./CognitiveTestAppPromo";
+import { trackCognitiveTest } from "@/app/lib/klaviyo";
 
 /**
  * Benefits row component - reused in idle and email states
@@ -91,8 +92,22 @@ export default function CognitiveTestSection({
   }, []);
 
   const handleProcessingComplete = useCallback(() => {
+    // Always transition to results state first (critical for graceful failure)
     setTestState("results");
-  }, []);
+
+    // Track to Klaviyo (fire and forget - never blocks UI)
+    if (emailSubmission && testResult) {
+      trackCognitiveTest(
+        emailSubmission.email,
+        testResult.score,
+        testResult.accuracy,
+        testResult.speed,
+      ).catch((err) => {
+        // Silently fail - user already sees results
+        console.error("Failed to track to Klaviyo:", err);
+      });
+    }
+  }, [emailSubmission, testResult]);
 
   const handleRetakeTest = useCallback(() => {
     setTestResult(null);
