@@ -27,8 +27,8 @@ export default defineSchema({
           protocolId: v.string(),
           percentage: v.number(),
           totalPoints: v.number(),
-        })
-      )
+        }),
+      ),
     ),
   })
     .index("by_session", ["sessionId"])
@@ -60,4 +60,21 @@ export default defineSchema({
     .index("by_session", ["sessionId"])
     .index("by_question", ["questionId"])
     .index("by_answer", ["questionId", "answerValue"]),
+
+  // Store contest entry submissions
+  winEntries: defineTable({
+    // Contest identifier (e.g., "nike-2026-01")
+    contestId: v.string(),
+    // Email address
+    email: v.string(),
+    // Timestamp when submitted
+    submittedAt: v.number(),
+    // Browser/device info for analytics
+    userAgent: v.optional(v.string()),
+    // Source URL for campaign tracking
+    referrer: v.optional(v.string()),
+  })
+    .index("by_contest", ["contestId"])
+    .index("by_email_contest", ["email", "contestId"])
+    .index("by_referrer", ["referrer"]),
 });
