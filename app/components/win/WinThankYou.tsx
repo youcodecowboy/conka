@@ -52,27 +52,26 @@ export default function WinThankYou({ email }: WinThankYouProps) {
             protocol fits your goals.
           </p>
 
-          <div className="flex justify-center md:justify-start">
+          <div className="flex justify-center">
             <a
               href="/quiz"
-              className="neo-button px-8 py-4 font-bold text-lg flex items-center gap-3 justify-center"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-amber-500 text-black font-semibold text-lg border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all"
             >
+              Find your protocol
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <circle cx="12" cy="12" r="10" />
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                <line x1="12" y1="17" x2="12.01" y2="17" />
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
               </svg>
-              Find your protocol
             </a>
           </div>
         </div>
