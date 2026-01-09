@@ -27,7 +27,10 @@ export interface Subscription {
   
   // Fulfillment tracking
   completedOrdersCount?: number | null;
-  hasUnfulfilledFirstOrder?: boolean;
+  totalOrdersPlaced?: number | null;
+  pendingOrdersCount?: number | null;
+  hasUnfulfilledOrder?: boolean;
+  unfulfilledOrdersCount?: number;
   originOrderId?: number | null;
 }
 

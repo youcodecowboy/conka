@@ -595,8 +595,8 @@ export default function SubscriptionsPage() {
                             </div>
                           )}
 
-                          {/* Unfulfilled First Order Warning */}
-                          {subscription.hasUnfulfilledFirstOrder && subscription.status === 'active' && (
+                          {/* Unfulfilled Order Warning */}
+                          {subscription.hasUnfulfilledOrder && subscription.status === 'active' && (
                             <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-4">
                               <div className="flex items-start gap-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 flex-shrink-0 mt-0.5">
@@ -606,11 +606,13 @@ export default function SubscriptionsPage() {
                                 </svg>
                                 <div>
                                   <p className="font-clinical text-sm text-blue-800 font-medium mb-1">
-                                    Your first order is being prepared
+                                    {subscription.unfulfilledOrdersCount === 1 || !subscription.unfulfilledOrdersCount
+                                      ? 'You have an order being prepared'
+                                      : `You have ${subscription.unfulfilledOrdersCount} orders being prepared`}
                                   </p>
                                   <p className="font-clinical text-xs text-blue-700">
                                     Any plan changes will take effect on your next delivery. 
-                                    If you need to adjust your first order, please{' '}
+                                    If you need to adjust a pending order, please{' '}
                                     <a href="mailto:support@conka.io" className="underline font-medium">contact support</a>.
                                   </p>
                                 </div>
@@ -773,7 +775,7 @@ export default function SubscriptionsPage() {
         currentTier={showEditModal ? getCurrentPlan(showEditModal) : 'pro'}
         nextBillingDate={showEditModal?.nextBillingDate}
         loading={actionLoading === showEditModal?.id}
-        hasUnfulfilledFirstOrder={showEditModal?.hasUnfulfilledFirstOrder ?? false}
+        hasUnfulfilledFirstOrder={showEditModal?.hasUnfulfilledOrder ?? false}
       />
     </div>
   );

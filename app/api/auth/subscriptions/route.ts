@@ -163,19 +163,58 @@ export async function GET(request: NextRequest) {
             const loopInterval = loopDeliveryPolicy.interval || loopBillingPolicy.interval || shopifyInterval;
             const loopIntervalCount = loopDeliveryPolicy.intervalCount || loopBillingPolicy.intervalCount || shopifyIntervalCount;
             
+            // Log all Loop order-related fields for debugging
             console.log(`[Subscriptions] Loop data for ${shopifyNumericId}:`, {
               status: loopData.status,
               productTitle: loopLine.productTitle,
               variantTitle: loopLine.variantTitle,
               interval: loopInterval,
               intervalCount: loopIntervalCount,
+              // Order tracking fields
+              completedOrdersCount: loopData.completedOrdersCount,
+              allOrdersCount: loopData.allOrdersCount,
+              ordersCount: loopData.ordersCount,
+              billingAttemptCount: loopData.billingAttemptCount,
+              pendingOrdersCount: loopData.pendingOrdersCount,
+              originOrderShopifyId: loopData.originOrderShopifyId,
+              lastOrderId: loopData.lastOrderId,
+              lastBillingDate: loopData.lastBillingDate,
             });
 
-            // Check if there's an unfulfilled first order
-            // If completedOrdersCount is 0 and there's an origin order, the first order hasn't been fulfilled yet
-            const completedOrdersCount = loopData.completedOrdersCount || 0;
+            // Robust check for unfulfilled orders
+            // Strategy: Compare total orders placed vs completed orders
+            const completedOrdersCount = loopData.completedOrdersCount ?? 0;
+            const totalOrdersPlaced = loopData.allOrdersCount ?? loopData.ordersCount ?? loopData.billingAttemptCount ?? null;
+            const pendingOrdersCount = loopData.pendingOrdersCount ?? null;
             const hasOriginOrder = !!loopData.originOrderShopifyId;
-            const hasUnfulfilledFirstOrder = hasOriginOrder && completedOrdersCount === 0;
+            
+            // Multiple ways to detect unfulfilled orders:
+            // 1. If we have totalOrders and it's greater than completed
+            // 2. If pendingOrdersCount is available and > 0
+            // 3. Fallback: If it's a new subscription with origin order but 0 completions
+            let hasUnfulfilledOrder = false;
+            let unfulfilledOrdersCount = 0;
+            
+            if (totalOrdersPlaced !== null && totalOrdersPlaced > completedOrdersCount) {
+              hasUnfulfilledOrder = true;
+              unfulfilledOrdersCount = totalOrdersPlaced - completedOrdersCount;
+            } else if (pendingOrdersCount !== null && pendingOrdersCount > 0) {
+              hasUnfulfilledOrder = true;
+              unfulfilledOrdersCount = pendingOrdersCount;
+            } else if (hasOriginOrder && completedOrdersCount === 0) {
+              // Fallback for first order scenario
+              hasUnfulfilledOrder = true;
+              unfulfilledOrdersCount = 1;
+            }
+            
+            console.log(`[Subscriptions] Unfulfilled order check for ${shopifyNumericId}:`, {
+              totalOrdersPlaced,
+              completedOrdersCount,
+              pendingOrdersCount,
+              hasOriginOrder,
+              hasUnfulfilledOrder,
+              unfulfilledOrdersCount,
+            });
 
             return {
               id: sub.id,
@@ -191,7 +230,10 @@ export async function GET(request: NextRequest) {
               
               // Fulfillment info for warning display
               completedOrdersCount,
-              hasUnfulfilledFirstOrder,
+              totalOrdersPlaced,
+              pendingOrdersCount,
+              hasUnfulfilledOrder,
+              unfulfilledOrdersCount,
               originOrderId: loopData.originOrderShopifyId,
               
               // Product info from Loop (more accurate after edits)
@@ -249,7 +291,10 @@ export async function GET(request: NextRequest) {
             // Without Loop data, we can't determine fulfillment status
             // Default to false (don't show warning) when falling back
             completedOrdersCount: null,
-            hasUnfulfilledFirstOrder: false,
+            totalOrdersPlaced: null,
+            pendingOrdersCount: null,
+            hasUnfulfilledOrder: false,
+            unfulfilledOrdersCount: 0,
             originOrderId: null,
             
             // Product info from Shopify
