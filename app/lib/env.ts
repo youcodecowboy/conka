@@ -1,21 +1,21 @@
 /**
  * Environment Variable Validation
- * 
+ *
  * This module validates required environment variables at startup
  * to fail fast with clear error messages instead of failing at runtime.
  */
 
 // Required environment variables for core functionality
 const requiredEnvVars = [
-  'NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN',
-  'NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN',
+  "NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN",
+  "NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN",
 ] as const;
 
 // Optional environment variables (warn if missing, don't fail)
 const optionalEnvVars = [
-  'LOOP_API_KEY',
-  'SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID',
-  'SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID',
+  "LOOP_API_KEY",
+  "SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID",
+  "SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID",
 ] as const;
 
 interface EnvValidationResult {
@@ -62,20 +62,20 @@ export function assertEnv(): void {
 
   if (!result.isValid) {
     const errorMessage = [
-      'Missing required environment variables:',
+      "Missing required environment variables:",
       ...result.missing.map((v) => `  - ${v}`),
-      '',
-      'Please ensure these variables are set in your .env.local file or environment.',
-    ].join('\n');
+      "",
+      "Please ensure these variables are set in your .env.local file or environment.",
+    ].join("\n");
 
     throw new Error(errorMessage);
   }
 
   // Log warnings for optional missing variables (only in development)
-  if (result.warnings.length > 0 && process.env.NODE_ENV === 'development') {
+  if (result.warnings.length > 0 && process.env.NODE_ENV === "development") {
     console.warn(
-      'Warning: Optional environment variables not configured:',
-      result.warnings.join(', ')
+      "Warning: Optional environment variables not configured:",
+      result.warnings.join(", "),
     );
   }
 }
@@ -87,13 +87,17 @@ export function assertEnv(): void {
 export const env = {
   get shopifyStoreDomain(): string {
     const value = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
-    if (!value) throw new Error('NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN is not configured');
+    if (!value)
+      throw new Error("NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN is not configured");
     return value;
   },
 
   get shopifyStorefrontAccessToken(): string {
     const value = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
-    if (!value) throw new Error('NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN is not configured');
+    if (!value)
+      throw new Error(
+        "NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN is not configured",
+      );
     return value;
   },
 
@@ -104,13 +108,15 @@ export const env = {
   // Customer Account API (OAuth) configuration
   get customerAccountClientId(): string {
     const value = process.env.SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID;
-    if (!value) throw new Error('SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID is not configured');
+    if (!value)
+      throw new Error("SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID is not configured");
     return value;
   },
 
   get customerAccountShopId(): string {
     const value = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
-    if (!value) throw new Error('SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID is not configured');
+    if (!value)
+      throw new Error("SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID is not configured");
     return value;
   },
 
@@ -131,13 +137,19 @@ export const env = {
   },
 
   get isProduction(): boolean {
-    return process.env.NODE_ENV === 'production';
+    return process.env.NODE_ENV === "production";
   },
 
   get isDevelopment(): boolean {
-    return process.env.NODE_ENV === 'development';
+    return process.env.NODE_ENV === "development";
+  },
+
+  // Klaviyo configuration
+  get klaviyoPublicKey(): string | undefined {
+    return process.env.NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY;
+  },
+
+  get klaviyoPrivateKey(): string | undefined {
+    return process.env.KLAVIYO_PRIVATE_KEY;
   },
 } as const;
-
-
-

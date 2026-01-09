@@ -9,6 +9,7 @@
  */
 
 import type * as quizAnalytics from "../quizAnalytics.js";
+import type * as winEntries from "../winEntries.js";
 
 import type {
   ApiFromModules,
@@ -18,6 +19,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   quizAnalytics: typeof quizAnalytics;
+  winEntries: typeof winEntries;
 }>;
 
 /**

@@ -5,12 +5,16 @@ import ScienceHero from "./ScienceHero";
 import SciencePillars from "./SciencePillars";
 import SynergyChart from "./SynergyChart";
 import EvidenceSummary from "./EvidenceSummary";
+import { CognitiveTestSectionMobile } from "@/app/components/cognitive-test";
 
 export default function SciencePageMobile() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <ScienceHero isMobile={true} />
+
+      {/* Cognitive Test Section */}
+      <CognitiveTestSectionMobile />
 
       {/* Quote Section */}
       <div className="px-4 py-8">

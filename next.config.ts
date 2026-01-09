@@ -34,6 +34,17 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // Redirects
+  async redirects() {
+    return [
+      {
+        source: '/durhamuniversityresearch',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
+
   // Security headers for all routes
   async headers() {
     return [
