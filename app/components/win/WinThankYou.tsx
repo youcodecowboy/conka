@@ -6,10 +6,10 @@ interface WinThankYouProps {
 
 export default function WinThankYou({ email }: WinThankYouProps) {
   return (
-    <div className="px-6 md:px-16 py-12">
-      <div className="max-w-4xl mx-auto">
+    <div className="px-4 md:px-16 py-12">
+      <div className="max-w-6xl mx-auto">
         {/* Confirmation */}
-        <div className="neo-box p-8 md:p-12 text-center mb-10">
+        <div className="neo-box p-8 md:p-12 mb-10">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
             You&apos;re in
           </h2>
@@ -22,7 +22,7 @@ export default function WinThankYou({ email }: WinThankYouProps) {
         </div>
 
         {/* Gentle continuation */}
-        <div className="text-center max-w-2xl mx-auto space-y-6">
+        <div className="max-w-4xl space-y-6">
           <p className="font-commentary text-lg">while you&apos;re here</p>
 
           <p className="font-primary text-base md:text-lg opacity-90">
@@ -37,7 +37,7 @@ export default function WinThankYou({ email }: WinThankYouProps) {
 
           <a
             href="/quiz"
-            className="neo-button px-8 py-4 font-bold text-lg flex items-center gap-3 justify-center mx-auto"
+            className="neo-button px-8 py-4 font-bold text-lg flex items-center gap-3 justify-center w-fit"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -100,13 +100,13 @@ export default function WinEmailForm({
   );
 
   return (
-    <div className="px-6 md:px-16 py-4 md:py-6">
-      <div className="max-w-2xl mx-auto">
-        <div className="mb-4">
-          <p className="font-commentary text-lg text-center mb-2">
+    <div className="px-4 md:px-16 py-8 md:py-12">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-6">
+          <p className="font-commentary text-lg mb-2">
             enter your email to take part
           </p>
-          <p className="font-clinical text-xs opacity-70 text-center mb-4">
+          <p className="font-clinical text-xs opacity-70 mb-4">
             winner notified by email when entries close
           </p>
         </div>
