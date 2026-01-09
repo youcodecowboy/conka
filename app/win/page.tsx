@@ -29,9 +29,9 @@ export default function WinPage() {
     >
       <Navigation />
 
-      <main className="pt-4 pb-12 lg:pt-24">
-        <WinHero />
+      <main className="pt-4 pb-12 lg:pt-20">
         <WinCountdown deadline={DEADLINE} />
+        <WinHero />
 
         {emailSubmitted ? (
           <WinThankYou email={submittedEmail || undefined} />
