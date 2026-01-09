@@ -1,13 +1,11 @@
 "use client";
 
-import {
-  WinHero,
-  WinCountdown,
-  WinEmailForm,
-  WinThankYou,
-  WinPrize,
-  WinReassurance,
-} from "./index";
+import WinHero from "./WinHero";
+import WinCountdown from "./WinCountdown";
+import WinEmailForm from "./WinEmailForm";
+import WinThankYou from "./WinThankYou";
+import WinPrize from "./WinPrize";
+import WinReassurance from "./WinReassurance";
 
 interface WinPageMobileProps {
   contestId: string;
