@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navigation from "@/app/components/Navigation";
 import { QuizQuestion, QuizProgress, QuizLoader } from "@/app/components/quiz";
@@ -8,11 +8,14 @@ import {
   getQuizQuestions,
   AnswerValue,
   UserAnswers,
+  calculateQuizResults,
 } from "@/app/lib/quizData";
+import { useQuizAnalytics } from "@/app/hooks/useQuizAnalytics";
 
 export default function QuizPage() {
   const router = useRouter();
   const questions = getQuizQuestions();
+  const { onQuestionView, onAnswerSelect: trackAnswer, onQuizComplete } = useQuizAnalytics();
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<UserAnswers>({});
@@ -24,12 +27,31 @@ export default function QuizPage() {
   const canGoNext = currentAnswer !== null;
   const canGoPrevious = currentQuestionIndex > 0;
 
+  // Track when question changes
+  useEffect(() => {
+    onQuestionView();
+  }, [currentQuestionIndex, onQuestionView]);
+
   const handleAnswerSelect = useCallback((answer: AnswerValue) => {
     setAnswers((prev) => ({
       ...prev,
       [currentQuestion.id]: answer,
     }));
-  }, [currentQuestion?.id]);
+
+    // Find the selected option to get the label
+    const selectedOption = currentQuestion.options.find(opt => opt.value === answer);
+    if (selectedOption) {
+      // Track the answer in Convex
+      trackAnswer(
+        currentQuestion.id,
+        currentQuestion.question,
+        currentQuestion.measures,
+        answer,
+        selectedOption.label,
+        currentQuestionIndex + 1
+      );
+    }
+  }, [currentQuestion, currentQuestionIndex, trackAnswer]);
 
   const handleNext = useCallback(() => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -43,11 +65,25 @@ export default function QuizPage() {
     }
   }, [currentQuestionIndex]);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     // Store answers in sessionStorage for the results page
     sessionStorage.setItem("quizAnswers", JSON.stringify(answers));
+    
+    // Calculate results and track completion in Convex
+    const results = calculateQuizResults(answers);
+    if (results.length > 0) {
+      await onQuizComplete(
+        results[0].protocolId,
+        results.map(r => ({
+          protocolId: r.protocolId,
+          percentage: r.percentage,
+          totalPoints: r.totalPoints,
+        }))
+      );
+    }
+    
     setIsLoading(true);
-  }, [answers]);
+  }, [answers, onQuizComplete]);
 
   const handleLoadingComplete = useCallback(() => {
     router.push("/quiz/results");

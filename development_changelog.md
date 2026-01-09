@@ -1,5 +1,69 @@
 # Development Changelog
 
+## January 9, 2026
+
+### 10:30 - Added Convex Backend for Quiz Analytics
+
+Integrated Convex as a backend solution to track quiz interactions and results for user behavior analytics.
+
+#### Data Tracked:
+- **Quiz Sessions:** Each quiz attempt with session ID, user agent, referrer, and timestamps
+- **Individual Answers:** Every question response with answer value, label, time spent, and question number
+- **Quiz Results:** Recommended protocol and all protocol scores when quiz is completed
+
+#### Schema Design:
+- **quizSessions table:** Tracks quiz sessions with completion status, recommended protocol, and protocol scores
+- **quizAnswers table:** Stores individual question answers with timing data
+
+#### Convex Functions:
+- `startSession` - Initialize a new quiz session
+- `recordAnswer` - Save individual question answers (updates if user changes answer)
+- `completeSession` - Mark quiz complete with final results
+- `linkUserToSession` - Associate logged-in user with their session
+- Query functions for analytics dashboard (completion stats, protocol distribution, answer distribution)
+
+#### Frontend Integration:
+- Created `ConvexClientProvider` wrapper component
+- Created `useQuizAnalytics` hook for easy tracking
+- Integrated tracking into quiz page:
+  - Session starts when quiz loads
+  - Each answer is recorded with time spent
+  - Results are saved when quiz completes
+
+#### Files Created:
+- `convex/schema.ts` - Database schema definitions
+- `convex/quizAnalytics.ts` - Mutations and queries for analytics
+- `app/components/ConvexClientProvider.tsx` - Convex provider component
+- `app/hooks/useQuizAnalytics.ts` - Analytics hook for quiz tracking
+
+#### Files Modified:
+- `app/layout.tsx` - Added ConvexClientProvider
+- `app/quiz/page.tsx` - Integrated analytics tracking
+- `package.json` - Added convex dependency
+
+---
+
+### 10:00 - Added Vercel Analytics
+
+Integrated Vercel Analytics to replace Shopify's built-in analytics for the headless storefront.
+
+#### New Features:
+- **Vercel Analytics:** Automatic page view tracking and Web Vitals monitoring
+- **Zero-config setup:** Works automatically once deployed to Vercel
+- **Privacy-friendly:** GDPR compliant, no cookie banner required
+- **Real-time insights:** Page views, unique visitors, and performance metrics
+
+#### Technical Implementation:
+- Installed `@vercel/analytics` package
+- Added `<Analytics />` component to root layout
+- Analytics data will be available in Vercel Dashboard under Analytics tab
+
+#### Files Modified:
+- `app/layout.tsx` - Added Analytics component import and usage
+- `package.json` - Added @vercel/analytics dependency
+
+---
+
 ## January 8, 2026
 
 ### 00:30 - Enhanced Subscription Display with Formula Breakdowns
@@ -2806,7 +2870,6 @@ Major new feature: Complete product and protocol page system with shared compone
 - Updated `OurStoryMobile.tsx` component to render images with fallback to placeholders
 - Sections 7 & 8 remain as placeholders (no images provided yet)
 
-
 ---
 
 ## January 8, 2026
@@ -2834,4 +2897,3 @@ Major new feature: Complete product and protocol page system with shared compone
 **Result**: Frontend now shows accurate Loop data (source of truth for subscription management).
 
 **Outstanding Concern**: Loop→Shopify sync for fulfillment needs investigation. If fulfillment is based on Shopify data and Loop changes don't sync immediately, there could still be mismatches. May need to contact Loop support about sync mechanisms.
-

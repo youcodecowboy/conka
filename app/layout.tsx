@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Poppins, Caveat, IBM_Plex_Mono } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { CartProvider } from "@/app/context/CartContext";
 import { AuthProvider } from "@/app/context/AuthContext";
 import CartDrawer from "@/app/components/CartDrawer";
+import ConvexClientProvider from "@/app/components/ConvexClientProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -77,12 +79,15 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${caveat.variable} ${ibmPlexMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <CartProvider>
-            {children}
-            <CartDrawer />
-          </CartProvider>
-        </AuthProvider>
+        <ConvexClientProvider>
+          <AuthProvider>
+            <CartProvider>
+              {children}
+              <CartDrawer />
+            </CartProvider>
+          </AuthProvider>
+        </ConvexClientProvider>
+        <Analytics />
       </body>
     </html>
   );
