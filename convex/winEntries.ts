@@ -58,14 +58,25 @@ export const checkEmailExists = query({
     email: v.string(),
   },
   handler: async (ctx, args) => {
-    const existing = await ctx.db
-      .query("winEntries")
-      .withIndex("by_email_contest", (q) =>
-        q.eq("email", args.email).eq("contestId", args.contestId),
-      )
-      .first();
+    try {
+      // Validate inputs
+      if (!args.email || !args.contestId) {
+        return false;
+      }
 
-    return existing !== null;
+      const existing = await ctx.db
+        .query("winEntries")
+        .withIndex("by_email_contest", (q) =>
+          q.eq("email", args.email).eq("contestId", args.contestId),
+        )
+        .first();
+
+      return existing !== null;
+    } catch (error) {
+      // Return false on error instead of throwing
+      console.error("[checkEmailExists] Error:", error);
+      return false;
+    }
   },
 });
 
