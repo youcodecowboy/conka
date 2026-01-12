@@ -12,6 +12,7 @@ import {
   FORMULA_COLORS,
 } from "@/app/lib/productData";
 import ProductImageSlideshow from "./ProductImageSlideshow";
+import PaymentLogos from "../PaymentLogos";
 
 interface ProductHeroMobileProps {
   formulaId: FormulaId;
@@ -54,7 +55,7 @@ export default function ProductHeroMobile({
   const pricing = formulaPricing[purchaseType][selectedPack];
   const accentColor = FORMULA_COLORS[formulaId];
   const imagePath = formulaId === "01" ? "/1.png" : "/2.png";
-  
+
   // Slideshow images for Conka Flow (formula 01 - BLACK cap) with focal points
   const flowSlideshowImages = [
     { src: "/CONKA_01.jpg", focalX: 55, focalY: 48 }, // Front view, CONKA branding
@@ -63,7 +64,7 @@ export default function ProductHeroMobile({
     { src: "/CONKA_04.jpg", focalX: 52, focalY: 48 }, // Back label view
     { src: "/CONKA_05.jpg", focalX: 50, focalY: 58 }, // Horizontal/angled view
   ];
-  
+
   // Slideshow images for Conka Clarity (formula 02 - WHITE cap) with focal points
   const claritySlideshowImages = [
     { src: "/CONKA_63.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
@@ -86,8 +87,8 @@ export default function ProductHeroMobile({
     purchaseType === "subscription"
       ? "bg-[var(--foreground)] text-[var(--background)]"
       : formulaId === "01"
-      ? "bg-white text-black border-b-2 border-black"
-      : "bg-amber-500 text-white";
+        ? "bg-white text-black border-b-2 border-black"
+        : "bg-amber-500 text-white";
 
   // Toggle button colors depend on header background
   const isLightHeader = purchaseType === "one-time" && formulaId === "01";
@@ -103,8 +104,8 @@ export default function ProductHeroMobile({
     purchaseType === "subscription"
       ? "bg-current/5"
       : formulaId === "01"
-      ? "bg-black/5 border-t-2 border-black/20"
-      : "bg-amber-500/10 border-t-2 border-amber-500/30";
+        ? "bg-black/5 border-t-2 border-black/20"
+        : "bg-amber-500/10 border-t-2 border-amber-500/30";
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -112,7 +113,9 @@ export default function ProductHeroMobile({
         return (
           <div className="space-y-4">
             <h3 className="text-[15px] font-bold">{formula.headline}</h3>
-            <p className="font-commentary text-base opacity-80">{formula.subheadline}</p>
+            <p className="font-commentary text-base opacity-80">
+              {formula.subheadline}
+            </p>
             <div className="space-y-3">
               {formula.keyPoints.map((point, idx) => (
                 <div key={idx} className="flex items-start gap-3">
@@ -143,13 +146,20 @@ export default function ProductHeroMobile({
         return (
           <div className="space-y-3">
             {formula.benefits.map((benefit, idx) => (
-              <div key={idx} className="border-b border-current/10 pb-3 last:border-0">
+              <div
+                key={idx}
+                className="border-b border-current/10 pb-3 last:border-0"
+              >
                 <button
-                  onClick={() => setExpandedBenefit(expandedBenefit === idx ? null : idx)}
+                  onClick={() =>
+                    setExpandedBenefit(expandedBenefit === idx ? null : idx)
+                  }
                   className="w-full flex items-center justify-between"
                 >
                   <div className="flex items-center gap-3">
-                    <span className={`${accentColor.text} text-xl font-bold font-clinical`}>
+                    <span
+                      className={`${accentColor.text} text-xl font-bold font-clinical`}
+                    >
                       {benefit.stat}
                     </span>
                     <span className="font-bold text-sm">{benefit.title}</span>
@@ -171,7 +181,9 @@ export default function ProductHeroMobile({
                 </button>
                 {expandedBenefit === idx && (
                   <div className="mt-2 pl-12 space-y-1">
-                    <p className="font-clinical text-xs opacity-70">{benefit.annotation}</p>
+                    <p className="font-clinical text-xs opacity-70">
+                      {benefit.annotation}
+                    </p>
                     <p className="text-sm opacity-80">{benefit.description}</p>
                   </div>
                 )}
@@ -191,10 +203,14 @@ export default function ProductHeroMobile({
                 <div>
                   <span className="font-medium text-sm">{ing.name}</span>
                   {ing.part && (
-                    <span className="font-clinical text-xs opacity-70 ml-1">– {ing.part}</span>
+                    <span className="font-clinical text-xs opacity-70 ml-1">
+                      – {ing.part}
+                    </span>
                   )}
                 </div>
-                <span className="font-clinical text-sm font-medium">{ing.percentage}</span>
+                <span className="font-clinical text-sm font-medium">
+                  {ing.percentage}
+                </span>
               </div>
             ))}
           </div>
@@ -214,7 +230,10 @@ export default function ProductHeroMobile({
                 { icon: "coffee", label: "No Caffeine" },
                 { icon: "leaf", label: "Vegan" },
               ].map((item, idx) => (
-                <div key={idx} className="flex flex-col items-center text-center">
+                <div
+                  key={idx}
+                  className="flex flex-col items-center text-center"
+                >
                   <div className="w-8 h-8 mb-1 flex items-center justify-center opacity-70">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -260,14 +279,18 @@ export default function ProductHeroMobile({
                   formula.name
                 )}
               </h1>
-              <p className="font-commentary text-base mt-0.5 opacity-90">{formula.tagline}</p>
+              <p className="font-commentary text-base mt-0.5 opacity-90">
+                {formula.tagline}
+              </p>
             </div>
             {/* Purchase Toggle */}
             <div className="flex items-center gap-1">
               <button
                 onClick={() => onPurchaseTypeChange("subscription")}
                 className={`px-3 py-1.5 rounded-full border-2 font-clinical text-xs transition-all ${
-                  purchaseType === "subscription" ? toggleActiveClass : toggleInactiveClass
+                  purchaseType === "subscription"
+                    ? toggleActiveClass
+                    : toggleInactiveClass
                 }`}
               >
                 Subscribe
@@ -275,7 +298,9 @@ export default function ProductHeroMobile({
               <button
                 onClick={() => onPurchaseTypeChange("one-time")}
                 className={`px-3 py-1.5 rounded-full border-2 font-clinical text-xs transition-all ${
-                  purchaseType === "one-time" ? toggleActiveClass : toggleInactiveClass
+                  purchaseType === "one-time"
+                    ? toggleActiveClass
+                    : toggleInactiveClass
                 }`}
               >
                 One-Time
@@ -287,7 +312,9 @@ export default function ProductHeroMobile({
         {/* Product Image */}
         <div className="relative w-full aspect-square bg-[#FAFAFA] overflow-hidden">
           <ProductImageSlideshow
-            images={formulaId === "01" ? flowSlideshowImages : claritySlideshowImages}
+            images={
+              formulaId === "01" ? flowSlideshowImages : claritySlideshowImages
+            }
             alt={`${formula.name} bottle`}
           />
         </div>
@@ -317,18 +344,25 @@ export default function ProductHeroMobile({
 
         {/* Pack Selector */}
         <div className="p-4">
-          <p className="font-clinical text-xs uppercase opacity-50 mb-3">Select Pack Size</p>
+          <div className="flex items-center justify-between mb-3">
+            <p className="font-clinical text-xs uppercase opacity-50">
+              Select Pack Size
+            </p>
+            {/* Payment Logos - Show when pack is selected */}
+            {selectedPack && <PaymentLogos size="sm" />}
+          </div>
           <div className="grid grid-cols-4 gap-1.5">
             {packSizes.map((size) => {
               const packPricing = formulaPricing[purchaseType][size];
               const oneTimePricing = formulaPricing["one-time"][size];
               const isSelected = selectedPack === size;
-              
+
               // Dynamic shadow color based on formula
               const shadowColor = formulaId === "01" ? "#f59e0b" : "#14b8a6";
               // Dynamic selected background for subscription
-              const selectedSubBg = formulaId === "01" ? "bg-amber-500" : "bg-teal-500";
-              
+              const selectedSubBg =
+                formulaId === "01" ? "bg-amber-500" : "bg-teal-500";
+
               return (
                 <button
                   key={size}
@@ -339,43 +373,58 @@ export default function ProductHeroMobile({
                       : "border-black/10 hover:border-black/30"
                   }`}
                   style={{
-                    boxShadow: isSelected ? `3px 3px 0px 0px ${shadowColor}` : "none",
+                    boxShadow: isSelected
+                      ? `3px 3px 0px 0px ${shadowColor}`
+                      : "none",
                   }}
                 >
                   {/* Pack Header */}
-                  <div className={`py-1 px-1 text-center ${
-                    isSelected 
-                      ? purchaseType === "subscription" 
-                        ? "bg-black text-white" 
-                        : `${accentColor.bg} text-white`
-                      : purchaseType === "subscription"
-                        ? "bg-black text-white"
-                        : `${accentColor.bg}/10`
-                  }`}>
+                  <div
+                    className={`py-1 px-1 text-center ${
+                      isSelected
+                        ? purchaseType === "subscription"
+                          ? "bg-black text-white"
+                          : `${accentColor.bg} text-white`
+                        : purchaseType === "subscription"
+                          ? "bg-black text-white"
+                          : `${accentColor.bg}/10`
+                    }`}
+                  >
                     <p className="font-bold text-xs">{packLabels[size]}</p>
                   </div>
                   {/* Price Body */}
-                  <div className={`py-1.5 px-1 text-center ${
-                    isSelected 
-                      ? purchaseType === "subscription"
-                        ? `${selectedSubBg} text-white`
-                        : `${accentColor.bg} text-white`
-                      : "bg-white"
-                  }`}>
+                  <div
+                    className={`py-1.5 px-1 text-center ${
+                      isSelected
+                        ? purchaseType === "subscription"
+                          ? `${selectedSubBg} text-white`
+                          : `${accentColor.bg} text-white`
+                        : "bg-white"
+                    }`}
+                  >
                     {purchaseType === "subscription" && (
-                      <p className={`font-clinical text-[9px] line-through ${isSelected ? "opacity-70" : "opacity-50"}`}>
+                      <p
+                        className={`font-clinical text-[9px] line-through ${isSelected ? "opacity-70" : "opacity-50"}`}
+                      >
                         {formatPrice(oneTimePricing.price)}
                       </p>
                     )}
-                    <p className={`font-bold text-sm ${
-                      purchaseType === "subscription" && !isSelected 
-                        ? (formulaId === "01" ? "text-amber-600" : "text-teal-600") 
-                        : ""
-                    }`}>
+                    <p
+                      className={`font-bold text-sm ${
+                        purchaseType === "subscription" && !isSelected
+                          ? formulaId === "01"
+                            ? "text-amber-600"
+                            : "text-teal-600"
+                          : ""
+                      }`}
+                    >
                       {formatPrice(packPricing.price)}
                     </p>
-                    <p className={`font-clinical text-[9px] ${isSelected ? "opacity-80" : "opacity-60"}`}>
-                      {purchaseType === "subscription" && "billing" in packPricing
+                    <p
+                      className={`font-clinical text-[9px] ${isSelected ? "opacity-80" : "opacity-60"}`}
+                    >
+                      {purchaseType === "subscription" &&
+                      "billing" in packPricing
                         ? getBillingLabel(packPricing.billing)
                         : "one-time"}
                     </p>
@@ -387,22 +436,40 @@ export default function ProductHeroMobile({
         </div>
 
         {/* Selection Summary */}
-        <div className={`p-4 transition-colors ${
-          purchaseType === "subscription"
-            ? formulaId === "01" 
-              ? "bg-amber-500/10 border-t-2 border-amber-500/30"
-              : "bg-teal-500/10 border-t-2 border-teal-500/30"
-            : summaryBgClass
-        }`}>
+        <div
+          className={`p-4 transition-colors ${
+            purchaseType === "subscription"
+              ? formulaId === "01"
+                ? "bg-amber-500/10 border-t-2 border-amber-500/30"
+                : "bg-teal-500/10 border-t-2 border-teal-500/30"
+              : summaryBgClass
+          }`}
+        >
           <div className="flex justify-between items-center mb-4">
             <div>
-              <p className="font-clinical text-xs uppercase opacity-50">Your Selection</p>
-              <p className="font-bold text-sm">{packLabels[selectedPack]} • {billingText}</p>
+              <p className="font-clinical text-xs uppercase opacity-50">
+                Your Selection
+              </p>
+              <p className="font-bold text-sm">
+                {packLabels[selectedPack]} • {billingText}
+              </p>
               {purchaseType === "subscription" && (
-                <span className={`inline-flex items-center gap-1 mt-1 text-white text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                  formulaId === "01" ? "bg-amber-500" : "bg-teal-500"
-                }`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <span
+                  className={`inline-flex items-center gap-1 mt-1 text-white text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                    formulaId === "01" ? "bg-amber-500" : "bg-teal-500"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                   Save 20%
@@ -415,27 +482,53 @@ export default function ProductHeroMobile({
                   {formatPrice(formulaPricing["one-time"][selectedPack].price)}
                 </p>
               )}
-              <p className={`text-2xl font-bold ${
-                purchaseType === "subscription" 
-                  ? (formulaId === "01" ? "text-amber-600" : "text-teal-600") 
-                  : ""
-              }`}>
+              <p
+                className={`text-2xl font-bold ${
+                  purchaseType === "subscription"
+                    ? formulaId === "01"
+                      ? "text-amber-600"
+                      : "text-teal-600"
+                    : ""
+                }`}
+              >
                 {formatPrice(pricing.price)}
               </p>
-              <p className="font-clinical text-xs opacity-70">{formatPrice(pricing.perShot)}/shot</p>
+              <p className="font-clinical text-xs opacity-70">
+                {formatPrice(pricing.perShot)}/shot
+              </p>
             </div>
           </div>
 
           {/* Trust Badges */}
           <div className="flex justify-center gap-4 mb-4">
             <span className="font-clinical text-xs opacity-70 flex items-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
               100-day guarantee
             </span>
             <span className="font-clinical text-xs opacity-70 flex items-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <rect x="1" y="3" width="15" height="13" />
                 <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
                 <circle cx="5.5" cy="18.5" r="2.5" />
@@ -462,4 +555,3 @@ export default function ProductHeroMobile({
     </section>
   );
 }
-
