@@ -14,6 +14,7 @@ import PurchaseToggle from "./PurchaseToggle";
 import PackSelector from "./PackSelector";
 import ProductTabs from "./ProductTabs";
 import ProductImageSlideshow from "./ProductImageSlideshow";
+import PaymentLogos from "../PaymentLogos";
 
 interface ProductHeroProps {
   formulaId: FormulaId;
@@ -43,7 +44,7 @@ export default function ProductHero({
 
   // Get image path based on formula
   const imagePath = formulaId === "01" ? "/1.png" : "/2.png";
-  
+
   // Slideshow images for Conka Flow (formula 01 - BLACK cap) with focal points
   const flowSlideshowImages = [
     { src: "/CONKA_01.jpg", focalX: 55, focalY: 48 }, // Front view, CONKA branding
@@ -52,7 +53,7 @@ export default function ProductHero({
     { src: "/CONKA_04.jpg", focalX: 52, focalY: 48 }, // Back label view
     { src: "/CONKA_05.jpg", focalX: 50, focalY: 58 }, // Horizontal/angled view
   ];
-  
+
   // Slideshow images for Conka Clarity (formula 02 - WHITE cap) with focal points
   const claritySlideshowImages = [
     { src: "/CONKA_63.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
@@ -70,9 +71,9 @@ export default function ProductHero({
     purchaseType === "subscription"
       ? "bg-[var(--foreground)] text-[var(--background)]"
       : formulaId === "01"
-      ? "bg-[var(--background)] text-[var(--foreground)] border-2 border-[var(--foreground)]"
-      : "bg-[#AAB9BC] text-white";
-  
+        ? "bg-[var(--background)] text-[var(--foreground)] border-2 border-[var(--foreground)]"
+        : "bg-[#AAB9BC] text-white";
+
   const oneTimeColor = formulaId === "01" ? "invert" : accentColor.hex;
 
   return (
@@ -85,7 +86,11 @@ export default function ProductHero({
               {/* Slideshow for both formulas - larger size, shifted left */}
               <div className="relative w-full aspect-square max-w-2xl lg:-ml-12 xl:-ml-16 group">
                 <ProductImageSlideshow
-                  images={formulaId === "01" ? flowSlideshowImages : claritySlideshowImages}
+                  images={
+                    formulaId === "01"
+                      ? flowSlideshowImages
+                      : claritySlideshowImages
+                  }
                   alt={`${formula.name} bottle`}
                 />
               </div>
@@ -114,7 +119,9 @@ export default function ProductHero({
                       formula.name
                     )}
                   </h1>
-                  <p className="font-commentary text-lg mt-1 leading-tight">{formula.tagline}</p>
+                  <p className="font-commentary text-lg mt-1 leading-tight">
+                    {formula.tagline}
+                  </p>
                 </div>
                 {/* Purchase Toggle - Right aligned in header */}
                 <div className="flex-shrink-0 flex items-center">
@@ -140,7 +147,9 @@ export default function ProductHero({
                   onSelect={onPackSelect}
                   purchaseType={purchaseType}
                   highlightColor={oneTimeColor}
-                  subscriptionAccentColor={formulaId === "01" ? "#f59e0b" : "#AAB9BC"}
+                  subscriptionAccentColor={
+                    formulaId === "01" ? "#f59e0b" : "#AAB9BC"
+                  }
                 />
 
                 {/* Price Display */}
@@ -171,7 +180,9 @@ export default function ProductHero({
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-3xl font-bold">{formatPrice(pricing.price)}</p>
+                    <p className="text-3xl font-bold">
+                      {formatPrice(pricing.price)}
+                    </p>
                     <p className="font-clinical text-xs opacity-70">
                       {formatPrice(pricing.perShot)}/shot
                     </p>
@@ -223,13 +234,17 @@ export default function ProductHero({
                     onClick={onAddToCart}
                     className="w-full neo-button px-8 py-4 font-bold text-lg"
                   >
-                    {purchaseType === "subscription" ? "Subscribe Now" : "Add to Cart"}
+                    {purchaseType === "subscription"
+                      ? "Subscribe Now"
+                      : "Add to Cart"}
                   </button>
                   {purchaseType === "subscription" && (
                     <p className="text-center font-clinical text-xs opacity-70">
                       Cancel anytime • No minimum commitment
                     </p>
                   )}
+                  {/* Payment Logos */}
+                  <PaymentLogos size="sm" className="mt-2" />
                 </div>
               </div>
             </div>
@@ -239,4 +254,3 @@ export default function ProductHero({
     </section>
   );
 }
-

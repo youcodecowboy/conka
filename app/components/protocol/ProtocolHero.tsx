@@ -14,6 +14,7 @@ import {
 import PurchaseToggle from "../product/PurchaseToggle";
 import TierSelector from "./TierSelector";
 import ProtocolTabs from "./ProtocolTabs";
+import PaymentLogos from "../PaymentLogos";
 
 interface ProtocolHeroProps {
   protocolId: ProtocolId;
@@ -27,17 +28,47 @@ interface ProtocolHeroProps {
 // Protocol icons
 const protocolIcons: Record<string, React.ReactNode> = {
   shield: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>
   ),
   bolt: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
     </svg>
   ),
   balance: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <line x1="12" y1="3" x2="12" y2="21" />
       <path d="M3 12h18" />
       <circle cx="6" cy="8" r="3" />
@@ -47,7 +78,17 @@ const protocolIcons: Record<string, React.ReactNode> = {
     </svg>
   ),
   crown: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
     </svg>
   ),
@@ -80,7 +121,7 @@ export default function ProtocolHero({
     purchaseType === "subscription"
       ? "bg-[var(--foreground)] text-[var(--background)]"
       : "bg-amber-500 text-white";
-  
+
   const oneTimeColor = "#f59e0b";
 
   return (
@@ -116,8 +157,12 @@ export default function ProtocolHero({
                 className={`p-4 md:p-6 flex flex-row justify-between items-center gap-3 min-h-[100px] ${headerBgClass}`}
               >
                 <div className="flex-1 min-w-0 flex flex-col justify-center">
-                  <h1 className="text-xl lg:text-2xl xl:text-3xl font-bold leading-tight truncate">{protocol.name}</h1>
-                  <p className="font-commentary text-sm lg:text-base xl:text-lg mt-1 leading-tight truncate">{protocol.subtitle}</p>
+                  <h1 className="text-xl lg:text-2xl xl:text-3xl font-bold leading-tight truncate">
+                    {protocol.name}
+                  </h1>
+                  <p className="font-commentary text-sm lg:text-base xl:text-lg mt-1 leading-tight truncate">
+                    {protocol.subtitle}
+                  </p>
                 </div>
                 {/* Purchase Toggle - Right aligned, vertically centered */}
                 <div className="flex-shrink-0 flex items-center justify-end">
@@ -151,37 +196,53 @@ export default function ProtocolHero({
 
                 {/* What's Included */}
                 {tierConfig && (
-                  <div className={`p-4 rounded-lg ${
-                    purchaseType === "one-time" 
-                      ? "bg-amber-500/10 border-2 border-amber-500" 
-                      : "bg-current/5"
-                  }`}>
+                  <div
+                    className={`p-4 rounded-lg ${
+                      purchaseType === "one-time"
+                        ? "bg-amber-500/10 border-2 border-amber-500"
+                        : "bg-current/5"
+                    }`}
+                  >
                     <p className="font-clinical text-xs uppercase opacity-70 mb-3">
                       What&apos;s Included
                     </p>
                     <div className="flex items-center gap-6">
                       <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-md ${FORMULA_COLORS["01"].bg} flex items-center justify-center`}>
-                          <span className="text-white font-clinical text-xs font-bold">01</span>
+                        <div
+                          className={`w-8 h-8 rounded-md ${FORMULA_COLORS["01"].bg} flex items-center justify-center`}
+                        >
+                          <span className="text-white font-clinical text-xs font-bold">
+                            01
+                          </span>
                         </div>
                         <div>
                           <p className="font-bold text-[var(--foreground)]">
                             {tierConfig.conkaFlowCount}x Conka Flow
                           </p>
-                          <a href="/conka-flow" className="font-clinical text-xs text-amber-500 hover:underline">
+                          <a
+                            href="/conka-flow"
+                            className="font-clinical text-xs text-amber-500 hover:underline"
+                          >
                             Learn more →
                           </a>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-md ${FORMULA_COLORS["02"].bg} flex items-center justify-center`}>
-                          <span className="text-white font-clinical text-xs font-bold">02</span>
+                        <div
+                          className={`w-8 h-8 rounded-md ${FORMULA_COLORS["02"].bg} flex items-center justify-center`}
+                        >
+                          <span className="text-white font-clinical text-xs font-bold">
+                            02
+                          </span>
                         </div>
                         <div>
                           <p className="font-bold text-[var(--foreground)]">
                             {tierConfig.conkaClarityCount}x Conka Clarity
                           </p>
-                          <a href="/conka-clarity" className="font-clinical text-xs text-amber-500 hover:underline">
+                          <a
+                            href="/conka-clarity"
+                            className="font-clinical text-xs text-amber-500 hover:underline"
+                          >
                             Learn more →
                           </a>
                         </div>
@@ -215,9 +276,19 @@ export default function ProtocolHero({
                       </p>
                       {purchaseType === "subscription" && (
                         <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 bg-green-500/20 text-green-600 rounded-full font-clinical text-xs font-semibold">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                            <polyline points="22 4 12 14.01 9 11.01"/>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
                           </svg>
                           Save 20%
                         </span>
@@ -229,15 +300,24 @@ export default function ProtocolHero({
                           {/* Show original price struck through */}
                           <p className="font-clinical text-sm line-through opacity-50">
                             {formatPrice(
-                              selectedTier in protocolPricing[pricingType]["one-time"]
-                                ? (protocolPricing[pricingType]["one-time"] as Record<string, { price: number }>)[selectedTier]?.price || 0
-                                : 0
+                              selectedTier in
+                                protocolPricing[pricingType]["one-time"]
+                                ? (
+                                    protocolPricing[pricingType][
+                                      "one-time"
+                                    ] as Record<string, { price: number }>
+                                  )[selectedTier]?.price || 0
+                                : 0,
                             )}
                           </p>
-                          <p className="text-3xl font-bold text-green-600">{formatPrice(pricing.price)}</p>
+                          <p className="text-3xl font-bold text-green-600">
+                            {formatPrice(pricing.price)}
+                          </p>
                         </>
                       ) : (
-                        <p className="text-3xl font-bold">{formatPrice(pricing.price)}</p>
+                        <p className="text-3xl font-bold">
+                          {formatPrice(pricing.price)}
+                        </p>
                       )}
                       {tierConfig && (
                         <p className="font-clinical text-xs opacity-70">
@@ -293,13 +373,17 @@ export default function ProtocolHero({
                     onClick={onAddToCart}
                     className="w-full neo-button px-8 py-4 font-bold text-lg"
                   >
-                    {purchaseType === "subscription" ? "Subscribe Now" : "Add to Cart"}
+                    {purchaseType === "subscription"
+                      ? "Subscribe Now"
+                      : "Add to Cart"}
                   </button>
                   {purchaseType === "subscription" && (
                     <p className="text-center font-clinical text-xs opacity-70">
                       Cancel anytime • No minimum commitment
                     </p>
                   )}
+                  {/* Payment Logos */}
+                  <PaymentLogos size="sm" className="mt-2" />
                 </div>
               </div>
             </div>
