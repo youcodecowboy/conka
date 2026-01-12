@@ -18,19 +18,19 @@ export const foundingMemberConfig: BannerConfig = {
   content: {
     text: [
       { text: "Founding Member • Use code " },
-      { text: "FOUNDING1000", bold: true },
+      { text: "FOUNDING1000", bold: true, isCode: true },
       { text: " for 20% off any subscription for an entire year • " },
     ],
     secondaryText: [{ text: "492 spots remaining", bold: true }],
     button: {
-      text: "Learn More",
-      href: "/our-story#founding-members",
+      text: "Copy Code",
+      copyText: "FOUNDING1000",
     },
     mobileContent: {
       text: [
-        { text: "Founding Member • Code: " },
-        { text: "FOUNDING1000", bold: true },
-        { text: " • 20% off subscriptions" },
+        { text: "Founding Member • Use code " },
+        { text: "FOUNDING1000", bold: true, isCode: true },
+        { text: " for 20% off subscriptions for an entire year • " },
       ],
       secondaryText: [{ text: "492 spots remaining", bold: true }],
     },
