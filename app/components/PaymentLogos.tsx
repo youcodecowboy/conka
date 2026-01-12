@@ -35,11 +35,11 @@ export default function PaymentLogos({
   const containerClass = LOGO_CONTAINERS[size];
 
   return (
-    <div className={`flex items-center justify-center gap-1.5 ${className}`}>
+    <div className={`flex items-center justify-end ${className}`}>
       {showLabel && (
         <span className="font-clinical text-xs opacity-60 mr-1">We accept</span>
       )}
-      <div className="flex items-center gap-1.5 opacity-60">
+      <div className="flex items-center opacity-60">
         {logos.map((logo) => {
           const logoData = LOGO_MAP[logo.toLowerCase()];
           if (!logoData) return null;
