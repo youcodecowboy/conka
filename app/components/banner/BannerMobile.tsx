@@ -8,18 +8,33 @@ interface BannerMobileProps {
   config: BannerConfig;
 }
 
+function renderTextSegments(
+  segments: { text: string; bold?: boolean }[],
+  className: string,
+) {
+  return (
+    <span className={className}>
+      {segments.map((segment, i) => (
+        <span key={i} className={segment.bold ? "font-bold" : ""}>
+          {segment.text}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export default function BannerMobile({ config }: BannerMobileProps) {
   const handleDismiss = useCallback(() => {
     if (typeof window !== "undefined" && config.dismissible) {
       const dismissalKey = config.dismissalKey || `${config.id}BannerDismissed`;
       localStorage.setItem(dismissalKey, "true");
-      // Trigger re-render by reloading or using state management
-      // For now, we rely on the parent component to handle this
       window.location.reload();
     }
   }, [config.dismissible, config.dismissalKey, config.id]);
 
   const mobileContent = config.content.mobileContent || config.content;
+  const mobileSecondaryText =
+    mobileContent.secondaryText || config.content.secondaryText;
 
   return (
     <div
@@ -31,48 +46,26 @@ export default function BannerMobile({ config }: BannerMobileProps) {
             <div className="flex-1 overflow-hidden relative min-w-0">
               <div className="marquee flex items-center gap-4">
                 {/* Duplicate content for seamless loop */}
-                <span className="font-clinical text-xs whitespace-nowrap text-white">
-                  {mobileContent.text.includes("FOUNDING1000") ? (
-                    <>
-                      {mobileContent.text.split("FOUNDING1000").map((part, i, arr) => 
-                        i === arr.length - 1 ? (
-                          <span key={i}>{part}</span>
-                        ) : (
-                          <span key={i}>
-                            {part}
-                            <span className="font-bold text-white">FOUNDING1000</span>
-                          </span>
-                        )
-                      )}
-                    </>
-                  ) : (
-                    mobileContent.text
-                  )}
-                  {mobileContent.secondaryText && (
-                    <span className="font-bold text-white"> • {mobileContent.secondaryText}</span>
-                  )}
-                </span>
-                <span className="font-clinical text-xs whitespace-nowrap text-white">
-                  {mobileContent.text.includes("FOUNDING1000") ? (
-                    <>
-                      {mobileContent.text.split("FOUNDING1000").map((part, i, arr) => 
-                        i === arr.length - 1 ? (
-                          <span key={i}>{part}</span>
-                        ) : (
-                          <span key={i}>
-                            {part}
-                            <span className="font-bold text-white">FOUNDING1000</span>
-                          </span>
-                        )
-                      )}
-                    </>
-                  ) : (
-                    mobileContent.text
-                  )}
-                  {mobileContent.secondaryText && (
-                    <span className="font-bold text-white"> • {mobileContent.secondaryText}</span>
-                  )}
-                </span>
+                {renderTextSegments(
+                  [
+                    ...mobileContent.text,
+                    ...(mobileSecondaryText || []).map((seg) => ({
+                      ...seg,
+                      text: ` • ${seg.text}`,
+                    })),
+                  ],
+                  "font-clinical text-xs whitespace-nowrap text-white",
+                )}
+                {renderTextSegments(
+                  [
+                    ...mobileContent.text,
+                    ...(mobileSecondaryText || []).map((seg) => ({
+                      ...seg,
+                      text: ` • ${seg.text}`,
+                    })),
+                  ],
+                  "font-clinical text-xs whitespace-nowrap text-white",
+                )}
               </div>
             </div>
             {config.content.button && (
@@ -111,30 +104,17 @@ export default function BannerMobile({ config }: BannerMobileProps) {
           <>
             <div className="flex-1 min-w-0 flex flex-col justify-center">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="font-clinical text-xs text-white">
-                  {mobileContent.text.includes("FOUNDING1000") ? (
-                    <>
-                      {mobileContent.text.split("FOUNDING1000").map((part, i, arr) => 
-                        i === arr.length - 1 ? (
-                          <span key={i}>{part}</span>
-                        ) : (
-                          <span key={i}>
-                            {part}
-                            <span className="font-bold text-white">FOUNDING1000</span>
-                          </span>
-                        )
-                      )}
-                    </>
-                  ) : (
-                    mobileContent.text
-                  )}
-                </span>
+                {renderTextSegments(
+                  mobileContent.text,
+                  "font-clinical text-xs text-white",
+                )}
               </div>
-              {mobileContent.secondaryText && (
+              {mobileSecondaryText && (
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="font-clinical text-xs text-white opacity-80">
-                    {mobileContent.secondaryText}
-                  </span>
+                  {renderTextSegments(
+                    mobileSecondaryText,
+                    "font-clinical text-xs text-white opacity-80",
+                  )}
                 </div>
               )}
               {config.content.button && (

@@ -7,6 +7,18 @@ interface BannerDesktopProps {
   config: BannerConfig;
 }
 
+function renderTextSegments(segments: { text: string; bold?: boolean }[], className: string) {
+  return (
+    <span className={className}>
+      {segments.map((segment, i) => (
+        <span key={i} className={segment.bold ? "font-bold" : ""}>
+          {segment.text}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export default function BannerDesktop({ config }: BannerDesktopProps) {
   return (
     <div
@@ -18,18 +30,20 @@ export default function BannerDesktop({ config }: BannerDesktopProps) {
             <div className="flex-1 overflow-hidden relative min-w-0">
               <div className="marquee flex items-center gap-4">
                 {/* Duplicate content for seamless loop */}
-                <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
-                  {config.content.text}
-                  {config.content.secondaryText && (
-                    <span className="font-bold"> {config.content.secondaryText}</span>
-                  )}
-                </span>
-                <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
-                  {config.content.text}
-                  {config.content.secondaryText && (
-                    <span className="font-bold"> {config.content.secondaryText}</span>
-                  )}
-                </span>
+                {renderTextSegments(
+                  [
+                    ...config.content.text,
+                    ...(config.content.secondaryText || []).map((seg) => ({ ...seg, text: ` ${seg.text}` })),
+                  ],
+                  "font-clinical text-xs md:text-sm whitespace-nowrap text-white"
+                )}
+                {renderTextSegments(
+                  [
+                    ...config.content.text,
+                    ...(config.content.secondaryText || []).map((seg) => ({ ...seg, text: ` ${seg.text}` })),
+                  ],
+                  "font-clinical text-xs md:text-sm whitespace-nowrap text-white"
+                )}
               </div>
             </div>
             {config.content.button && (
@@ -45,12 +59,13 @@ export default function BannerDesktop({ config }: BannerDesktopProps) {
         ) : (
           <>
             <div className="flex-1">
-              <span className="font-clinical text-xs md:text-sm">
-                {config.content.text}
-                {config.content.secondaryText && (
-                  <span className="font-bold"> {config.content.secondaryText}</span>
-                )}
-              </span>
+              {renderTextSegments(
+                [
+                  ...config.content.text,
+                  ...(config.content.secondaryText || []).map((seg) => ({ ...seg, text: ` ${seg.text}` })),
+                ],
+                "font-clinical text-xs md:text-sm"
+              )}
             </div>
             {config.content.button && (
               <a
