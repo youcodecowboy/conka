@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { storySections } from "@/app/lib/storyData";
+import { FoundingMemberSection } from "./FoundingMemberSection";
 
 export function OurStoryMobile() {
   return (
@@ -222,6 +223,9 @@ export function OurStoryMobile() {
           </p>
         </div>
       </section>
+
+      {/* Founding Member Section */}
+      <FoundingMemberSection />
     </div>
   );
 }
