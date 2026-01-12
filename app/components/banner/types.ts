@@ -11,6 +11,8 @@ export interface BannerButton {
   href?: string;
   /** Optional onClick handler */
   onClick?: () => void;
+  /** Text to copy to clipboard (if set, button becomes a copy button) */
+  copyText?: string;
 }
 
 export interface BannerTextSegment {
@@ -18,6 +20,8 @@ export interface BannerTextSegment {
   text: string;
   /** Whether this segment should be bold */
   bold?: boolean;
+  /** Whether this is a code/promo code that should be highlighted */
+  isCode?: boolean;
 }
 
 export interface BannerContent {
