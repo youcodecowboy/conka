@@ -389,7 +389,9 @@ export default function CartDrawer() {
 
           {/* Payment Logos */}
           {cartItems.length > 0 && (
-            <PaymentLogos size="sm" className="mt-2 justify-center" />
+            <div className="flex justify-center mt-2">
+              <PaymentLogos size="sm" />
+            </div>
           )}
         </div>
       </div>
