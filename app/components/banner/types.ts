@@ -13,17 +13,24 @@ export interface BannerButton {
   onClick?: () => void;
 }
 
-export interface BannerContent {
-  /** Main banner text (for marquee, this is the scrolling text) */
+export interface BannerTextSegment {
+  /** Text content */
   text: string;
-  /** Optional secondary text (e.g., spots remaining) */
-  secondaryText?: string;
+  /** Whether this segment should be bold */
+  bold?: boolean;
+}
+
+export interface BannerContent {
+  /** Main banner text segments (for marquee, this is the scrolling text) */
+  text: BannerTextSegment[];
+  /** Optional secondary text segments */
+  secondaryText?: BannerTextSegment[];
   /** Optional button configuration */
   button?: BannerButton;
   /** Mobile-specific content override */
   mobileContent?: {
-    text: string;
-    secondaryText?: string;
+    text: BannerTextSegment[];
+    secondaryText?: BannerTextSegment[];
   };
 }
 
