@@ -4,7 +4,6 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
-import FoundingMemberBanner from "./components/FoundingMemberBanner";
 import ProductSlideshowMobile from "./components/ProductSlideshowMobile";
 import type { Benefit } from "./components/KeyBenefits";
 
@@ -369,7 +368,6 @@ export default function Home() {
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* ===== SECTION 1: HERO ===== */}
-      <FoundingMemberBanner />
       <Navigation />
       <Hero />
 
