@@ -92,7 +92,7 @@ export default function BannerMobile({ config }: BannerMobileProps) {
               (config.content.button.copyText ? (
                 <button
                   onClick={handleButtonClick}
-                  className="ml-4 px-3 py-1.5 font-semibold text-xs whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full flex-shrink-0 flex items-center justify-center gap-1.5"
+                  className="ml-4 px-3 py-1.5 font-semibold text-xs whitespace-nowrap bg-amber-500 text-black border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all rounded-full flex-shrink-0 flex items-center justify-center gap-1.5"
                 >
                   {copied ? (
                     <>
@@ -169,7 +169,7 @@ export default function BannerMobile({ config }: BannerMobileProps) {
                 (config.content.button.copyText ? (
                   <button
                     onClick={handleButtonClick}
-                    className="inline-block mt-1 text-xs underline text-white opacity-80 hover:opacity-100 transition-opacity"
+                    className="inline-block mt-1 px-3 py-1 text-xs font-semibold bg-amber-500 text-black border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all rounded-full"
                   >
                     {copied ? "Copied!" : config.content.button.text}
                   </button>
