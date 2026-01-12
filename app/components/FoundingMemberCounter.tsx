@@ -1,5 +1,8 @@
 "use client";
 
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
 interface FoundingMemberCounterProps {
   /** Show full text or just number */
   variant?: "full" | "number-only";
@@ -14,8 +17,9 @@ export default function FoundingMemberCounter({
   size = "md",
   background = "light",
 }: FoundingMemberCounterProps) {
-  // Hardcoded value - no Convex dependency
-  const spotsRemaining = 492;
+  // Fetch from Convex instead of hardcoded
+  const counter = useQuery(api.foundingMemberCounter.getCounter);
+  const spotsRemaining = counter?.spotsRemaining ?? 492; // Fallback to 492
   const isUrgent = spotsRemaining <= 50;
 
   // Size classes
