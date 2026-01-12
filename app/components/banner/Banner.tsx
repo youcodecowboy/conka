@@ -1,6 +1,6 @@
 "use client";
 
-import { useIsMobile } from "@/app/hooks/useIsMobile";
+import useIsMobile from "@/app/hooks/useIsMobile";
 import type { BannerConfig } from "./types";
 import BannerDesktop from "./BannerDesktop";
 import BannerMobile from "./BannerMobile";
@@ -11,7 +11,7 @@ interface BannerProps {
 }
 
 export default function Banner({ config }: BannerProps) {
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(1024); // lg breakpoint
 
   // During SSR/hydration when isMobile is undefined, show desktop version
   if (isMobile === undefined) {
