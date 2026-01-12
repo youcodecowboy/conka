@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback } from "react";
 import { useIsMobile } from "@/app/hooks/useIsMobile";
 import type { BannerConfig } from "./types";
+import BannerDesktop from "./BannerDesktop";
+import BannerMobile from "./BannerMobile";
 
 interface BannerProps {
   /** Banner configuration */
@@ -12,195 +13,15 @@ interface BannerProps {
 export default function Banner({ config }: BannerProps) {
   const isMobile = useIsMobile();
 
-  const handleDismiss = useCallback(() => {
-    if (typeof window !== "undefined" && config.dismissible) {
-      const dismissalKey = config.dismissalKey || `${config.id}BannerDismissed`;
-      localStorage.setItem(dismissalKey, "true");
-      // Trigger re-render by reloading or using state management
-      // For now, we rely on the parent component to handle this
-      window.location.reload();
-    }
-  }, [config.dismissible, config.dismissalKey, config.id]);
-
-  // Desktop version
-  if (isMobile === false) {
-    return (
-      <div
-        className={`w-full ${config.styling.bgColor} ${config.styling.textColor} border-b-2 ${config.styling.borderColor || config.styling.bgColor} relative`}
-      >
-        <div className="px-6 md:px-16 py-3 md:py-4 flex items-center">
-          {config.variant === "marquee" ? (
-            <>
-              <div className="flex-1 overflow-hidden relative min-w-0">
-                <div className="marquee flex items-center gap-4">
-                  {/* Duplicate content for seamless loop */}
-                  <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
-                    {config.content.text}
-                    {config.content.secondaryText && (
-                      <span className="font-bold"> {config.content.secondaryText}</span>
-                    )}
-                  </span>
-                  <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
-                    {config.content.text}
-                    {config.content.secondaryText && (
-                      <span className="font-bold"> {config.content.secondaryText}</span>
-                    )}
-                  </span>
-                </div>
-              </div>
-              {config.content.button && (
-                <a
-                  href={config.content.button.href}
-                  onClick={config.content.button.onClick}
-                  className="ml-6 px-4 py-1.5 md:px-6 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full flex-shrink-0"
-                >
-                  {config.content.button.text}
-                </a>
-              )}
-            </>
-          ) : (
-            <>
-              <div className="flex-1">
-                <span className="font-clinical text-xs md:text-sm">
-                  {config.content.text}
-                  {config.content.secondaryText && (
-                    <span className="font-bold"> {config.content.secondaryText}</span>
-                  )}
-                </span>
-              </div>
-              {config.content.button && (
-                <a
-                  href={config.content.button.href}
-                  onClick={config.content.button.onClick}
-                  className="ml-6 px-4 py-1.5 md:px-6 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full flex-shrink-0"
-                >
-                  {config.content.button.text}
-                </a>
-              )}
-            </>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  // Mobile version
-  if (isMobile === true) {
-    const mobileContent = config.content.mobileContent || config.content;
-
-    return (
-      <div
-        className={`fixed top-0 left-0 right-0 ${config.styling.bgColor} ${config.styling.textColor} border-b-2 ${config.styling.borderColor || config.styling.bgColor}`}
-      >
-        <div className="px-4 py-3">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1 flex-wrap">
-                <span className="font-clinical text-xs opacity-80">
-                  {mobileContent.text}
-                </span>
-              </div>
-              {mobileContent.secondaryText && (
-                <div className="flex items-baseline gap-2">
-                  <span className="font-clinical text-xs opacity-80">
-                    {mobileContent.secondaryText}
-                  </span>
-                </div>
-              )}
-              {config.content.button && (
-                <a
-                  href={config.content.button.href}
-                  onClick={config.content.button.onClick}
-                  className="inline-block mt-1 text-xs underline opacity-80 hover:opacity-100 transition-opacity"
-                >
-                  {config.content.button.text}
-                </a>
-              )}
-            </div>
-            {config.dismissible && (
-              <button
-                onClick={handleDismiss}
-                className="flex-shrink-0 p-1 hover:opacity-70 transition-opacity"
-                aria-label="Dismiss banner"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   // During SSR/hydration when isMobile is undefined, show desktop version
-  return (
-    <div
-      className={`w-full ${config.styling.bgColor} ${config.styling.textColor} border-b-2 ${config.styling.borderColor || config.styling.bgColor}`}
-    >
-      <div className="px-6 md:px-16 py-3 md:py-4 flex items-center">
-        {config.variant === "marquee" ? (
-          <>
-            <div className="flex-1 overflow-hidden relative min-w-0">
-              <div className="marquee flex items-center gap-4">
-                <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
-                  {config.content.text}
-                  {config.content.secondaryText && (
-                    <span className="font-bold"> {config.content.secondaryText}</span>
-                  )}
-                </span>
-                <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
-                  {config.content.text}
-                  {config.content.secondaryText && (
-                    <span className="font-bold"> {config.content.secondaryText}</span>
-                  )}
-                </span>
-              </div>
-            </div>
-            {config.content.button && (
-              <a
-                href={config.content.button.href}
-                onClick={config.content.button.onClick}
-                className="ml-6 px-4 py-1.5 md:px-6 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full flex-shrink-0"
-              >
-                {config.content.button.text}
-              </a>
-            )}
-          </>
-        ) : (
-          <>
-            <div className="flex-1">
-              <span className="font-clinical text-xs md:text-sm">
-                {config.content.text}
-                {config.content.secondaryText && (
-                  <span className="font-bold"> {config.content.secondaryText}</span>
-                )}
-              </span>
-            </div>
-            {config.content.button && (
-              <a
-                href={config.content.button.href}
-                onClick={config.content.button.onClick}
-                className="ml-6 px-4 py-1.5 md:px-6 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full flex-shrink-0"
-              >
-                {config.content.button.text}
-              </a>
-            )}
-          </>
-        )}
-      </div>
-    </div>
-  );
+  if (isMobile === undefined) {
+    return <BannerDesktop config={config} />;
+  }
+
+  // Render mobile or desktop version
+  if (isMobile) {
+    return <BannerMobile config={config} />;
+  }
+
+  return <BannerDesktop config={config} />;
 }
