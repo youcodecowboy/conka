@@ -306,21 +306,8 @@ export default function StickyPurchaseFooter({
               {/* Right: Payment Logos, Subscribe Toggle, CTA & Price */}
               <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-end">
                 {/* Payment Logos - Stacked vertically, desktop only */}
-                <div className="hidden md:flex flex-col gap-1.5 opacity-60">
-                  <div className="w-20 h-6 flex items-center justify-center">
-                    <img
-                      src="/logos/Klarna.png"
-                      alt="Pay with Klarna"
-                      className="w-full h-full object-contain object-center"
-                    />
-                  </div>
-                  <div className="w-20 h-6 flex items-center justify-center">
-                    <img
-                      src="/logos/Revolut.png"
-                      alt="Pay with Revolut"
-                      className="w-full h-full object-contain object-center"
-                    />
-                  </div>
+                <div className="hidden md:block">
+                  <PaymentLogos size="sm" vertical />
                 </div>
 
                 {/* Subscribe Toggle */}
