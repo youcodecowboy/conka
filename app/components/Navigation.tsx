@@ -6,15 +6,19 @@ import { CiBeaker1 } from "react-icons/ci";
 import { protocolContent } from "@/app/lib/productData";
 import { useCart } from "@/app/context/CartContext";
 import { useAuth } from "@/app/context/AuthContext";
+import { Banner, useBannerConfig } from "@/app/components/banner";
 
 interface NavigationProps {
   cartOpen?: boolean;
   setCartOpen?: (open: boolean) => void;
+  /** Hide banner on this page */
+  hideBanner?: boolean;
 }
 
 export default function Navigation({
   cartOpen: _cartOpen,
   setCartOpen: _setCartOpen,
+  hideBanner = false,
 }: NavigationProps) {
   // Use cart context - props are deprecated but kept for backwards compatibility
   const { openCart, itemCount } = useCart();
@@ -24,6 +28,7 @@ export default function Navigation({
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const shopDropdownRef = useRef<HTMLDivElement>(null);
+  const bannerConfig = useBannerConfig("founding-member");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -128,15 +133,19 @@ export default function Navigation({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <path d="M16 10a4 4 0 0 1-8 0" />
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
                   </svg>
-                  Shop
+                  Case Studies
+                </a>
+                <a
+                  href="/our-story"
+                  className="font-clinical text-sm tracking-wide hover:opacity-70 transition-all flex items-center gap-2"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
