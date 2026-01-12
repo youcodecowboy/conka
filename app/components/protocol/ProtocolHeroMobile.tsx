@@ -13,6 +13,7 @@ import {
   FORMULA_COLORS,
   generateProtocolCalendarDays,
 } from "@/app/lib/productData";
+import PaymentLogos from "../PaymentLogos";
 
 interface ProtocolHeroMobileProps {
   protocolId: ProtocolId;
@@ -73,7 +74,8 @@ export default function ProtocolHeroMobile({
 
   // Toggle button colors - always on dark/colored header
   const toggleActiveClass = "bg-white text-black border-white";
-  const toggleInactiveClass = "bg-transparent border-white/50 text-white hover:bg-white/20";
+  const toggleInactiveClass =
+    "bg-transparent border-white/50 text-white hover:bg-white/20";
 
   // Selection summary accent colors
   const summaryBgClass =
@@ -83,9 +85,18 @@ export default function ProtocolHeroMobile({
 
   // FAQ items for this protocol
   const faqItems = [
-    { q: "How do I take the protocol?", a: "Take Conka Flow in the morning for sustained energy and focus. Take Conka Clarity before demanding tasks or in the evening for mental clarity and calm." },
-    { q: "Can I switch tiers?", a: "Yes! You can upgrade or downgrade your tier at any time. Changes take effect on your next billing cycle." },
-    { q: "What if it doesn't work for me?", a: "We offer a 100-day money-back guarantee. If you're not satisfied, we'll refund your purchase, no questions asked." },
+    {
+      q: "How do I take the protocol?",
+      a: "Take Conka Flow in the morning for sustained energy and focus. Take Conka Clarity before demanding tasks or in the evening for mental clarity and calm.",
+    },
+    {
+      q: "Can I switch tiers?",
+      a: "Yes! You can upgrade or downgrade your tier at any time. Changes take effect on your next billing cycle.",
+    },
+    {
+      q: "What if it doesn't work for me?",
+      a: "We offer a 100-day money-back guarantee. If you're not satisfied, we'll refund your purchase, no questions asked.",
+    },
   ];
 
   const renderTabContent = () => {
@@ -94,17 +105,77 @@ export default function ProtocolHeroMobile({
         // Ensure we have at least 4 tags for better visual balance
         const allTags = [...protocol.bestFor];
         if (allTags.length < 4) {
-          const extraTags = ["Optimized Performance", "Clinical Grade", "Easy Routine", "Proven Results"];
+          const extraTags = [
+            "Optimized Performance",
+            "Clinical Grade",
+            "Easy Routine",
+            "Proven Results",
+          ];
           while (allTags.length < 4) {
             allTags.push(extraTags[allTags.length - protocol.bestFor.length]);
           }
         }
         // Icons for benefits
         const benefitIcons = [
-          <svg key="icon-0" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
-          <svg key="icon-1" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
-          <svg key="icon-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
-          <svg key="icon-3" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>,
+          <svg
+            key="icon-0"
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>,
+          <svg
+            key="icon-1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>,
+          <svg
+            key="icon-2"
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>,
+          <svg
+            key="icon-3"
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="6" />
+            <circle cx="12" cy="12" r="2" />
+          </svg>,
         ];
         // Accent colors for tags - alternating teal and amber
         const tagColors = [
@@ -116,10 +187,15 @@ export default function ProtocolHeroMobile({
         return (
           <div className="space-y-4">
             <div>
-              <p className="font-clinical text-xs uppercase opacity-50 mb-2">Key Benefits</p>
+              <p className="font-clinical text-xs uppercase opacity-50 mb-2">
+                Key Benefits
+              </p>
               <div className="flex flex-wrap gap-2">
                 {allTags.slice(0, 4).map((tag, idx) => (
-                  <span key={idx} className={`px-2 py-1 rounded-full font-clinical text-xs flex items-center gap-1 ${tagColors[idx]}`}>
+                  <span
+                    key={idx}
+                    className={`px-2 py-1 rounded-full font-clinical text-xs flex items-center gap-1 ${tagColors[idx]}`}
+                  >
                     {benefitIcons[idx]}
                     {tag}
                   </span>
@@ -127,24 +203,40 @@ export default function ProtocolHeroMobile({
               </div>
             </div>
             <div>
-              <p className="font-clinical text-xs uppercase opacity-50 mb-2">About this Protocol</p>
+              <p className="font-clinical text-xs uppercase opacity-50 mb-2">
+                About this Protocol
+              </p>
               <p className="text-sm opacity-80">{protocol.description}</p>
             </div>
             {tierConfig && (
               <div className="p-3 bg-current/5 rounded-lg space-y-2">
-                <p className="font-clinical text-xs uppercase opacity-50">What&apos;s Included</p>
+                <p className="font-clinical text-xs uppercase opacity-50">
+                  What&apos;s Included
+                </p>
                 <div className="flex gap-4">
                   <div className="flex items-center gap-2">
-                    <div className={`w-6 h-6 rounded ${FORMULA_COLORS["01"].bg} flex items-center justify-center`}>
-                      <span className="text-white font-clinical text-xs">01</span>
+                    <div
+                      className={`w-6 h-6 rounded ${FORMULA_COLORS["01"].bg} flex items-center justify-center`}
+                    >
+                      <span className="text-white font-clinical text-xs">
+                        01
+                      </span>
                     </div>
-                    <span className="text-sm font-bold">{tierConfig.conkaFlowCount}x</span>
+                    <span className="text-sm font-bold">
+                      {tierConfig.conkaFlowCount}x
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className={`w-6 h-6 rounded ${FORMULA_COLORS["02"].bg} flex items-center justify-center`}>
-                      <span className="text-white font-clinical text-xs">02</span>
+                    <div
+                      className={`w-6 h-6 rounded ${FORMULA_COLORS["02"].bg} flex items-center justify-center`}
+                    >
+                      <span className="text-white font-clinical text-xs">
+                        02
+                      </span>
                     </div>
-                    <span className="text-sm font-bold">{tierConfig.conkaClarityCount}x</span>
+                    <span className="text-sm font-bold">
+                      {tierConfig.conkaClarityCount}x
+                    </span>
                   </div>
                   <span className="text-sm opacity-70">per week</span>
                 </div>
@@ -155,7 +247,9 @@ export default function ProtocolHeroMobile({
 
       case "schedule":
         // Show 1 week by default, 4 weeks if expanded
-        const daysToShow = showFullCalendar ? calendarDays : calendarDays.slice(0, 7);
+        const daysToShow = showFullCalendar
+          ? calendarDays
+          : calendarDays.slice(0, 7);
         const weeksToShow = showFullCalendar ? 4 : 1;
 
         return (
@@ -163,11 +257,15 @@ export default function ProtocolHeroMobile({
             {/* Legend */}
             <div className="flex justify-center gap-4">
               <div className="flex items-center gap-1">
-                <div className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["01"].bg}`}></div>
+                <div
+                  className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["01"].bg}`}
+                ></div>
                 <span className="font-clinical text-xs">F01</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["02"].bg}`}></div>
+                <div
+                  className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["02"].bg}`}
+                ></div>
                 <span className="font-clinical text-xs">F02</span>
               </div>
               <div className="flex items-center gap-1">
@@ -179,7 +277,10 @@ export default function ProtocolHeroMobile({
             {/* Week Days Header */}
             <div className="grid grid-cols-7 gap-1">
               {["M", "T", "W", "T", "F", "S", "S"].map((day, idx) => (
-                <div key={idx} className="text-center font-clinical text-xs opacity-50 py-1">
+                <div
+                  key={idx}
+                  className="text-center font-clinical text-xs opacity-50 py-1"
+                >
                   {day}
                 </div>
               ))}
@@ -194,8 +295,8 @@ export default function ProtocolHeroMobile({
                     day.formula === "01"
                       ? `${FORMULA_COLORS["01"].bg} text-white`
                       : day.formula === "02"
-                      ? `${FORMULA_COLORS["02"].bg} text-white`
-                      : "border border-current/20"
+                        ? `${FORMULA_COLORS["02"].bg} text-white`
+                        : "border border-current/20"
                   }`}
                 >
                   {day.day}
@@ -227,7 +328,9 @@ export default function ProtocolHeroMobile({
 
             {/* Tier Description */}
             {tierConfig && (
-              <p className="text-sm opacity-70 text-center">{tierConfig.description}</p>
+              <p className="text-sm opacity-70 text-center">
+                {tierConfig.description}
+              </p>
             )}
           </div>
         );
@@ -236,9 +339,22 @@ export default function ProtocolHeroMobile({
         return (
           <div className="space-y-3">
             {protocol.benefits?.map((benefit, idx) => (
-              <div key={idx} className="flex items-start gap-3 p-3 bg-current/5 rounded-lg">
+              <div
+                key={idx}
+                className="flex items-start gap-3 p-3 bg-current/5 rounded-lg"
+              >
                 <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
                   </svg>
@@ -248,7 +364,10 @@ export default function ProtocolHeroMobile({
                 </div>
               </div>
             )) || (
-              <p className="text-sm opacity-70">This protocol combines both formulas for maximum cognitive enhancement.</p>
+              <p className="text-sm opacity-70">
+                This protocol combines both formulas for maximum cognitive
+                enhancement.
+              </p>
             )}
           </div>
         );
@@ -257,9 +376,14 @@ export default function ProtocolHeroMobile({
         return (
           <div className="space-y-2">
             {faqItems.map((item, idx) => (
-              <div key={idx} className="border-b border-current/10 pb-2 last:border-0">
+              <div
+                key={idx}
+                className="border-b border-current/10 pb-2 last:border-0"
+              >
                 <button
-                  onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
+                  onClick={() =>
+                    setExpandedFaq(expandedFaq === idx ? null : idx)
+                  }
                   className="w-full flex items-center justify-between py-2"
                 >
                   <span className="font-bold text-sm text-left">{item.q}</span>
@@ -300,14 +424,18 @@ export default function ProtocolHeroMobile({
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-xl font-bold">{protocol.name}</h1>
-              <p className="font-commentary text-base mt-0.5 opacity-90">{protocol.subtitle}</p>
+              <p className="font-commentary text-base mt-0.5 opacity-90">
+                {protocol.subtitle}
+              </p>
             </div>
             {/* Purchase Toggle */}
             <div className="flex items-center gap-1 flex-shrink-0">
               <button
                 onClick={() => onPurchaseTypeChange("subscription")}
                 className={`px-3 py-1.5 rounded-full border-2 font-clinical text-xs transition-all whitespace-nowrap ${
-                  purchaseType === "subscription" ? toggleActiveClass : toggleInactiveClass
+                  purchaseType === "subscription"
+                    ? toggleActiveClass
+                    : toggleInactiveClass
                 }`}
               >
                 Subscribe
@@ -315,7 +443,9 @@ export default function ProtocolHeroMobile({
               <button
                 onClick={() => onPurchaseTypeChange("one-time")}
                 className={`px-3 py-1.5 rounded-full border-2 font-clinical text-xs transition-all whitespace-nowrap ${
-                  purchaseType === "one-time" ? toggleActiveClass : toggleInactiveClass
+                  purchaseType === "one-time"
+                    ? toggleActiveClass
+                    : toggleInactiveClass
                 }`}
               >
                 One-Time
@@ -360,19 +490,26 @@ export default function ProtocolHeroMobile({
 
         {/* Tier Selector */}
         <div className="p-4">
-          <p className="font-clinical text-xs uppercase opacity-50 mb-3">Select Tier</p>
+          <p className="font-clinical text-xs uppercase opacity-50 mb-3">
+            Select Tier
+          </p>
           <div className="grid grid-cols-3 gap-2">
             {availableTiers.map((tier) => {
-              const tierPricingData = tierPricing[tier as keyof typeof tierPricing];
+              const tierPricingData =
+                tierPricing[tier as keyof typeof tierPricing];
               if (!tierPricingData) return null;
               // Get one-time price for showing crossed-out price
               const pricingType = protocolId === "4" ? "ultimate" : "standard";
-              const oneTimePricingObj = protocolPricing[pricingType]["one-time"];
-              const oneTimePricing = tier in oneTimePricingObj 
-                ? (oneTimePricingObj as Record<string, { price: number }>)[tier] 
-                : null;
+              const oneTimePricingObj =
+                protocolPricing[pricingType]["one-time"];
+              const oneTimePricing =
+                tier in oneTimePricingObj
+                  ? (oneTimePricingObj as Record<string, { price: number }>)[
+                      tier
+                    ]
+                  : null;
               const isSelected = selectedTier === tier;
-              
+
               return (
                 <button
                   key={tier}
@@ -384,37 +521,50 @@ export default function ProtocolHeroMobile({
                   }`}
                 >
                   {/* Tier Header */}
-                  <div className={`py-1.5 px-2 text-center ${
-                    isSelected 
-                      ? purchaseType === "subscription" 
-                        ? "bg-black text-white" 
-                        : "bg-amber-500 text-white"
-                      : purchaseType === "subscription"
-                        ? "bg-black text-white"
-                        : "bg-amber-500/10"
-                  }`}>
+                  <div
+                    className={`py-1.5 px-2 text-center ${
+                      isSelected
+                        ? purchaseType === "subscription"
+                          ? "bg-black text-white"
+                          : "bg-amber-500 text-white"
+                        : purchaseType === "subscription"
+                          ? "bg-black text-white"
+                          : "bg-amber-500/10"
+                    }`}
+                  >
                     <p className="font-bold text-sm">{tierLabels[tier]}</p>
                   </div>
                   {/* Price Body */}
-                  <div className={`py-2 px-2 text-center ${
-                    isSelected 
-                      ? purchaseType === "subscription"
-                        ? "bg-teal-500 text-white"
-                        : "bg-amber-500 text-white"
-                      : "bg-white"
-                  }`}>
+                  <div
+                    className={`py-2 px-2 text-center ${
+                      isSelected
+                        ? purchaseType === "subscription"
+                          ? "bg-teal-500 text-white"
+                          : "bg-amber-500 text-white"
+                        : "bg-white"
+                    }`}
+                  >
                     {purchaseType === "subscription" && oneTimePricing && (
-                      <p className={`font-clinical text-[10px] line-through ${isSelected ? "opacity-70" : "opacity-50"}`}>
+                      <p
+                        className={`font-clinical text-[10px] line-through ${isSelected ? "opacity-70" : "opacity-50"}`}
+                      >
                         {formatPrice(oneTimePricing.price)}
                       </p>
                     )}
-                    <p className={`font-bold text-base ${
-                      purchaseType === "subscription" && !isSelected ? "text-amber-600" : ""
-                    }`}>
+                    <p
+                      className={`font-bold text-base ${
+                        purchaseType === "subscription" && !isSelected
+                          ? "text-amber-600"
+                          : ""
+                      }`}
+                    >
                       {formatPrice(tierPricingData.price)}
                     </p>
-                    <p className={`font-clinical text-[10px] ${isSelected ? "opacity-80" : "opacity-60"}`}>
-                      {purchaseType === "subscription" && "billing" in tierPricingData
+                    <p
+                      className={`font-clinical text-[10px] ${isSelected ? "opacity-80" : "opacity-60"}`}
+                    >
+                      {purchaseType === "subscription" &&
+                      "billing" in tierPricingData
                         ? getBillingLabel(tierPricingData.billing)
                         : "one-time"}
                     </p>
@@ -427,18 +577,34 @@ export default function ProtocolHeroMobile({
 
         {/* Selection Summary */}
         {pricing && tierConfig && (
-          <div className={`p-4 transition-colors ${
-            purchaseType === "subscription"
-              ? "bg-amber-500/10 border-t-2 border-amber-500/30"
-              : "bg-current/5"
-          }`}>
+          <div
+            className={`p-4 transition-colors ${
+              purchaseType === "subscription"
+                ? "bg-amber-500/10 border-t-2 border-amber-500/30"
+                : "bg-current/5"
+            }`}
+          >
             <div className="flex justify-between items-center mb-4">
               <div>
-                <p className="font-clinical text-xs uppercase opacity-50">Your Selection</p>
-                <p className="font-bold text-sm">{tierConfig.name} • {billingText}</p>
+                <p className="font-clinical text-xs uppercase opacity-50">
+                  Your Selection
+                </p>
+                <p className="font-bold text-sm">
+                  {tierConfig.name} • {billingText}
+                </p>
                 {purchaseType === "subscription" && (
                   <span className="inline-flex items-center gap-1 mt-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                     Save 20%
@@ -446,35 +612,65 @@ export default function ProtocolHeroMobile({
                 )}
               </div>
               <div className="text-right">
-                {purchaseType === "subscription" && (() => {
-                  const pricingTypeLocal = protocolId === "4" ? "ultimate" : "standard";
-                  const oneTimeObj = protocolPricing[pricingTypeLocal]["one-time"];
-                  const oneTimePrice = selectedTier in oneTimeObj 
-                    ? (oneTimeObj as Record<string, { price: number }>)[selectedTier]?.price || 0 
-                    : 0;
-                  return (
-                    <p className="font-clinical text-xs line-through opacity-50">
-                      {formatPrice(oneTimePrice)}
-                    </p>
-                  );
-                })()}
-                <p className={`text-2xl font-bold ${purchaseType === "subscription" ? "text-amber-600" : ""}`}>
+                {purchaseType === "subscription" &&
+                  (() => {
+                    const pricingTypeLocal =
+                      protocolId === "4" ? "ultimate" : "standard";
+                    const oneTimeObj =
+                      protocolPricing[pricingTypeLocal]["one-time"];
+                    const oneTimePrice =
+                      selectedTier in oneTimeObj
+                        ? (oneTimeObj as Record<string, { price: number }>)[
+                            selectedTier
+                          ]?.price || 0
+                        : 0;
+                    return (
+                      <p className="font-clinical text-xs line-through opacity-50">
+                        {formatPrice(oneTimePrice)}
+                      </p>
+                    );
+                  })()}
+                <p
+                  className={`text-2xl font-bold ${purchaseType === "subscription" ? "text-amber-600" : ""}`}
+                >
                   {formatPrice(pricing.price)}
                 </p>
-                <p className="font-clinical text-xs opacity-70">{tierConfig.shotsPerWeek} shots/week</p>
+                <p className="font-clinical text-xs opacity-70">
+                  {tierConfig.shotsPerWeek} shots/week
+                </p>
               </div>
             </div>
 
             {/* Trust Badges */}
             <div className="flex justify-center gap-4 mb-4">
               <span className="font-clinical text-xs opacity-70 flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
                 100-day guarantee
               </span>
               <span className="font-clinical text-xs opacity-70 flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <rect x="1" y="3" width="15" height="13" />
                   <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
                   <circle cx="5.5" cy="18.5" r="2.5" />
@@ -489,17 +685,20 @@ export default function ProtocolHeroMobile({
               onClick={onAddToCart}
               className="w-full neo-button py-4 font-bold text-base"
             >
-              {purchaseType === "subscription" ? "Subscribe Now" : "Add to Cart"}
+              {purchaseType === "subscription"
+                ? "Subscribe Now"
+                : "Add to Cart"}
             </button>
             {purchaseType === "subscription" && (
               <p className="text-center font-clinical text-xs opacity-70 mt-2">
                 Cancel anytime • No minimum commitment
               </p>
             )}
+            {/* Payment Logos */}
+            <PaymentLogos size="sm" className="mt-3" />
           </div>
         )}
       </div>
     </section>
   );
 }
-
