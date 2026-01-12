@@ -547,6 +547,16 @@ export default function Navigation({
         </header>
       </div>
 
+      {/* Spacer to push content down on desktop (accounts for fixed header height) */}
+      {/* Only needed on desktop (lg:) where header is fixed */}
+      {/* When banner is visible: 136px (banner ~56px + header ~80px) */}
+      {!hideBanner && bannerConfig ? (
+        <div className="hidden lg:block h-[136px]" />
+      ) : (
+        /* When banner is hidden or not available: 80px (just header height) */
+        <div className="hidden lg:block h-20" />
+      )}
+
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 z-40 bg-[var(--background)] flex flex-col">
