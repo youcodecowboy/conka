@@ -23,56 +23,154 @@ export default function BannerMobile({ config }: BannerMobileProps) {
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 ${config.styling.bgColor} ${config.styling.textColor} border-b-2 ${config.styling.borderColor || config.styling.bgColor}`}
+      className={`w-full ${config.styling.bgColor} ${config.styling.textColor} border-b-2 ${config.styling.borderColor || config.styling.bgColor}`}
     >
-      <div className="px-4 py-3 flex items-center min-h-[56px]">
-        <div className="flex items-center justify-between gap-3 w-full">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <span className="font-clinical text-xs opacity-80">
-                {mobileContent.text}
-              </span>
-            </div>
-            {mobileContent.secondaryText && (
-              <div className="flex items-baseline gap-2">
-                <span className="font-clinical text-xs opacity-80">
-                  {mobileContent.secondaryText}
+      <div className="px-4 py-4 flex items-center min-h-[56px]">
+        {config.variant === "marquee" ? (
+          <>
+            <div className="flex-1 overflow-hidden relative min-w-0">
+              <div className="marquee flex items-center gap-4">
+                {/* Duplicate content for seamless loop */}
+                <span className="font-clinical text-xs whitespace-nowrap text-white">
+                  {mobileContent.text.includes("FOUNDING1000") ? (
+                    <>
+                      {mobileContent.text.split("FOUNDING1000").map((part, i, arr) => 
+                        i === arr.length - 1 ? (
+                          <span key={i}>{part}</span>
+                        ) : (
+                          <span key={i}>
+                            {part}
+                            <span className="font-bold text-white">FOUNDING1000</span>
+                          </span>
+                        )
+                      )}
+                    </>
+                  ) : (
+                    mobileContent.text
+                  )}
+                  {mobileContent.secondaryText && (
+                    <span className="font-bold text-white"> • {mobileContent.secondaryText}</span>
+                  )}
+                </span>
+                <span className="font-clinical text-xs whitespace-nowrap text-white">
+                  {mobileContent.text.includes("FOUNDING1000") ? (
+                    <>
+                      {mobileContent.text.split("FOUNDING1000").map((part, i, arr) => 
+                        i === arr.length - 1 ? (
+                          <span key={i}>{part}</span>
+                        ) : (
+                          <span key={i}>
+                            {part}
+                            <span className="font-bold text-white">FOUNDING1000</span>
+                          </span>
+                        )
+                      )}
+                    </>
+                  ) : (
+                    mobileContent.text
+                  )}
+                  {mobileContent.secondaryText && (
+                    <span className="font-bold text-white"> • {mobileContent.secondaryText}</span>
+                  )}
                 </span>
               </div>
-            )}
+            </div>
             {config.content.button && (
               <a
                 href={config.content.button.href}
                 onClick={config.content.button.onClick}
-                className="inline-block mt-1 text-xs underline opacity-80 hover:opacity-100 transition-opacity"
+                className="ml-4 px-3 py-1.5 font-semibold text-xs whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full flex-shrink-0 flex items-center justify-center"
               >
                 {config.content.button.text}
               </a>
             )}
-          </div>
-          {config.dismissible && (
-            <button
-              onClick={handleDismiss}
-              className="flex-shrink-0 p-1 hover:opacity-70 transition-opacity flex items-center justify-center"
-              aria-label="Dismiss banner"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            {config.dismissible && (
+              <button
+                onClick={handleDismiss}
+                className="ml-2 flex-shrink-0 p-1 hover:opacity-70 transition-opacity flex items-center justify-center"
+                aria-label="Dismiss banner"
               >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-          )}
-        </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            )}
+          </>
+        ) : (
+          <>
+            <div className="flex-1 min-w-0 flex flex-col justify-center">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="font-clinical text-xs text-white">
+                  {mobileContent.text.includes("FOUNDING1000") ? (
+                    <>
+                      {mobileContent.text.split("FOUNDING1000").map((part, i, arr) => 
+                        i === arr.length - 1 ? (
+                          <span key={i}>{part}</span>
+                        ) : (
+                          <span key={i}>
+                            {part}
+                            <span className="font-bold text-white">FOUNDING1000</span>
+                          </span>
+                        )
+                      )}
+                    </>
+                  ) : (
+                    mobileContent.text
+                  )}
+                </span>
+              </div>
+              {mobileContent.secondaryText && (
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="font-clinical text-xs text-white opacity-80">
+                    {mobileContent.secondaryText}
+                  </span>
+                </div>
+              )}
+              {config.content.button && (
+                <a
+                  href={config.content.button.href}
+                  onClick={config.content.button.onClick}
+                  className="inline-block mt-1 text-xs underline text-white opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  {config.content.button.text}
+                </a>
+              )}
+            </div>
+            {config.dismissible && (
+              <button
+                onClick={handleDismiss}
+                className="flex-shrink-0 p-1 hover:opacity-70 transition-opacity flex items-center justify-center"
+                aria-label="Dismiss banner"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
