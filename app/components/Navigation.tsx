@@ -143,357 +143,400 @@ export default function Navigation({
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className={`transition-transform ${
-                      shopDropdownOpen ? "rotate-180" : ""
-                    }`}
                   >
-                    <polyline points="6 9 12 15 18 9" />
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
                   </svg>
-                </button>
+                  Our Story
+                </a>
 
-                {/* Dropdown Menu */}
-                {shopDropdownOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-[800px] bg-[var(--background)] border-2 border-current rounded-lg shadow-lg overflow-hidden z-50">
-                    {/* Quiz CTA */}
-                    <a
-                      href="/quiz"
-                      className="block p-4 bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 transition-opacity border-b-2 border-current relative"
-                      onClick={() => setShopDropdownOpen(false)}
+                {/* Shop Dropdown */}
+                <div ref={shopDropdownRef} className="relative">
+                  <button
+                    onClick={() => setShopDropdownOpen(!shopDropdownOpen)}
+                    className="px-6 py-1.5 rounded-full bg-transparent font-clinical text-sm border-2 border-current hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all flex items-center gap-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#000"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <line x1="12" y1="17" x2="12.01" y2="17" />
-                          </svg>
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <p className="font-bold text-white">
-                              Find Your Protocol
-                            </p>
-                            <span className="px-2 py-0.5 bg-green-500 text-white font-clinical text-xs font-bold rounded-full">
-                              RECOMMENDED
-                            </span>
-                          </div>
-                          <p className="font-clinical text-xs opacity-80 text-white">
-                            Take our 2-minute quiz to find your perfect match.
-                          </p>
-                        </div>
-                        <div className="flex-shrink-0">
-                          <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#f59e0b] text-black font-bold text-sm rounded-full hover:bg-[#d97706] transition-colors">
-                            Take the Quiz
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                    Shop
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`transition-transform ${
+                        shopDropdownOpen ? "rotate-180" : ""
+                      }`}
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {shopDropdownOpen && (
+                    <div className="absolute top-full right-0 mt-2 w-[800px] bg-[var(--background)] border-2 border-current rounded-lg shadow-lg overflow-hidden z-50">
+                      {/* Quiz CTA */}
+                      <a
+                        href="/quiz"
+                        className="block p-4 bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 transition-opacity border-b-2 border-current relative"
+                        onClick={() => setShopDropdownOpen(false)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
+                              width="20"
+                              height="20"
                               viewBox="0 0 24 24"
                               fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2.5"
+                              stroke="#000"
+                              strokeWidth="2"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             >
-                              <path d="M5 12h14" />
-                              <path d="m12 5 7 7-7 7" />
+                              <circle cx="12" cy="12" r="10" />
+                              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                              <line x1="12" y1="17" x2="12.01" y2="17" />
                             </svg>
-                          </span>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <p className="font-bold text-white">
+                                Find Your Protocol
+                              </p>
+                              <span className="px-2 py-0.5 bg-green-500 text-white font-clinical text-xs font-bold rounded-full">
+                                RECOMMENDED
+                              </span>
+                            </div>
+                            <p className="font-clinical text-xs opacity-80 text-white">
+                              Take our 2-minute quiz to find your perfect match.
+                            </p>
+                          </div>
+                          <div className="flex-shrink-0">
+                            <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#f59e0b] text-black font-bold text-sm rounded-full hover:bg-[#d97706] transition-colors">
+                              Take the Quiz
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <path d="M5 12h14" />
+                                <path d="m12 5 7 7-7 7" />
+                              </svg>
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+
+                      {/* Protocols Section - 2x2 Grid */}
+                      <div className="p-4 border-b-2 border-current">
+                        <div className="flex items-center gap-2 mb-4">
+                          <p className="font-clinical text-xs uppercase opacity-50">
+                            Protocols
+                          </p>
+                          <p className="font-primary text-xs opacity-70">
+                            mixed plans for maximum performance
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          {(["1", "2", "3", "4"] as const).map((protocolId) => {
+                            const protocol = protocolContent[protocolId];
+                            const iconMap = {
+                              shield: (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                </svg>
+                              ),
+                              bolt: (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                                </svg>
+                              ),
+                              balance: (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <line x1="12" y1="3" x2="12" y2="21" />
+                                  <path d="M3 12h18" />
+                                  <circle cx="6" cy="8" r="3" />
+                                  <circle cx="18" cy="8" r="3" />
+                                  <circle cx="6" cy="16" r="3" />
+                                  <circle cx="18" cy="16" r="3" />
+                                </svg>
+                              ),
+                              crown: (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                                </svg>
+                              ),
+                            };
+
+                            return (
+                              <a
+                                key={protocolId}
+                                href={`/protocol/${protocolId}`}
+                                className="block p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
+                                onClick={() => setShopDropdownOpen(false)}
+                              >
+                                <div className="flex items-start gap-3">
+                                  <div className="w-8 h-8 flex items-center justify-center text-[#AAB9BC] flex-shrink-0">
+                                    {
+                                      iconMap[
+                                        protocol.icon as keyof typeof iconMap
+                                      ]
+                                    }
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="font-bold text-sm mb-1">
+                                      {protocol.name}
+                                    </p>
+                                    <p className="font-clinical text-xs opacity-70 leading-relaxed">
+                                      {protocol.subtitle}
+                                    </p>
+                                  </div>
+                                </div>
+                              </a>
+                            );
+                          })}
                         </div>
                       </div>
-                    </a>
 
-                    {/* Protocols Section - 2x2 Grid */}
-                    <div className="p-4 border-b-2 border-current">
-                      <div className="flex items-center gap-2 mb-4">
-                        <p className="font-clinical text-xs uppercase opacity-50">
-                          Protocols
-                        </p>
-                        <p className="font-primary text-xs opacity-70">
-                          mixed plans for maximum performance
-                        </p>
+                      {/* Individual Formulas - Side by Side */}
+                      <div className="p-4 border-b-2 border-current">
+                        <div className="flex items-center gap-2 mb-3">
+                          <p className="font-clinical text-xs uppercase opacity-50">
+                            Individual Formulas
+                          </p>
+                          <p className="font-primary text-xs opacity-70">
+                            Order Conka individually
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <a
+                            href="/conka-flow"
+                            className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
+                            onClick={() => setShopDropdownOpen(false)}
+                          >
+                            <span className="w-8 h-8 bg-amber-500 rounded-sm flex-shrink-0"></span>
+                            <div>
+                              <span className="font-bold text-sm block">
+                                Conka Flow
+                              </span>
+                              <span className="font-clinical text-xs opacity-70">
+                                Caffeine-Free Focus
+                              </span>
+                            </div>
+                          </a>
+                          <a
+                            href="/conka-clarity"
+                            className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
+                            onClick={() => setShopDropdownOpen(false)}
+                          >
+                            <span className="w-8 h-8 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
+                            <div>
+                              <span className="font-bold text-sm block">
+                                Conka Clarity
+                              </span>
+                              <span className="font-clinical text-xs opacity-70">
+                                Peak Performance Boost
+                              </span>
+                            </div>
+                          </a>
+                        </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-3">
-                        {(["1", "2", "3", "4"] as const).map((protocolId) => {
-                          const protocol = protocolContent[protocolId];
-                          const iconMap = {
-                            shield: (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                              </svg>
-                            ),
-                            bolt: (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                              </svg>
-                            ),
-                            balance: (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <line x1="12" y1="3" x2="12" y2="21" />
-                                <path d="M3 12h18" />
-                                <circle cx="6" cy="8" r="3" />
-                                <circle cx="18" cy="8" r="3" />
-                                <circle cx="6" cy="16" r="3" />
-                                <circle cx="18" cy="16" r="3" />
-                              </svg>
-                            ),
-                            crown: (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                              </svg>
-                            ),
-                          };
 
-                          return (
-                            <a
-                              key={protocolId}
-                              href={`/protocol/${protocolId}`}
-                              className="block p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
-                              onClick={() => setShopDropdownOpen(false)}
+                      {/* Account Section - Compact */}
+                      <div className="px-4 py-3 bg-current/5 flex items-center justify-between">
+                        <p className="font-clinical text-xs uppercase opacity-40">
+                          Account
+                        </p>
+                        <div className="flex items-center gap-4">
+                          <a
+                            href={
+                              isAuthenticated ? "/account" : "/account/login"
+                            }
+                            className="font-clinical text-xs hover:opacity-70 transition-opacity flex items-center gap-1.5"
+                            onClick={() => setShopDropdownOpen(false)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="opacity-60"
                             >
-                              <div className="flex items-start gap-3">
-                                <div className="w-8 h-8 flex items-center justify-center text-[#AAB9BC] flex-shrink-0">
-                                  {
-                                    iconMap[
-                                      protocol.icon as keyof typeof iconMap
-                                    ]
-                                  }
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="font-bold text-sm mb-1">
-                                    {protocol.name}
-                                  </p>
-                                  <p className="font-clinical text-xs opacity-70 leading-relaxed">
-                                    {protocol.subtitle}
-                                  </p>
-                                </div>
-                              </div>
-                            </a>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Individual Formulas - Side by Side */}
-                    <div className="p-4 border-b-2 border-current">
-                      <div className="flex items-center gap-2 mb-3">
-                        <p className="font-clinical text-xs uppercase opacity-50">
-                          Individual Formulas
-                        </p>
-                        <p className="font-primary text-xs opacity-70">
-                          Order Conka individually
-                        </p>
-                      </div>
-                      <div className="grid grid-cols-2 gap-3">
-                        <a
-                          href="/conka-flow"
-                          className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
-                          onClick={() => setShopDropdownOpen(false)}
-                        >
-                          <span className="w-8 h-8 bg-amber-500 rounded-sm flex-shrink-0"></span>
-                          <div>
-                            <span className="font-bold text-sm block">
-                              Conka Flow
-                            </span>
-                            <span className="font-clinical text-xs opacity-70">
-                              Caffeine-Free Focus
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="/conka-clarity"
-                          className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
-                          onClick={() => setShopDropdownOpen(false)}
-                        >
-                          <span className="w-8 h-8 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
-                          <div>
-                            <span className="font-bold text-sm block">
-                              Conka Clarity
-                            </span>
-                            <span className="font-clinical text-xs opacity-70">
-                              Peak Performance Boost
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-
-                    {/* Account Section - Compact */}
-                    <div className="px-4 py-3 bg-current/5 flex items-center justify-between">
-                      <p className="font-clinical text-xs uppercase opacity-40">
-                        Account
-                      </p>
-                      <div className="flex items-center gap-4">
-                        <a
-                          href={isAuthenticated ? "/account" : "/account/login"}
-                          className="font-clinical text-xs hover:opacity-70 transition-opacity flex items-center gap-1.5"
-                          onClick={() => setShopDropdownOpen(false)}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="opacity-60"
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                              <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            {isAuthenticated
+                              ? customer?.firstName || "My Account"
+                              : "Sign In"}
+                          </a>
+                          <span className="opacity-20">|</span>
+                          <a
+                            href={
+                              isAuthenticated
+                                ? "/account/subscriptions"
+                                : "/account/login"
+                            }
+                            className="font-clinical text-xs hover:opacity-70 transition-opacity flex items-center gap-1.5"
+                            onClick={() => setShopDropdownOpen(false)}
                           >
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                            <circle cx="12" cy="7" r="4" />
-                          </svg>
-                          {isAuthenticated
-                            ? customer?.firstName || "My Account"
-                            : "Sign In"}
-                        </a>
-                        <span className="opacity-20">|</span>
-                        <a
-                          href={
-                            isAuthenticated
-                              ? "/account/subscriptions"
-                              : "/account/login"
-                          }
-                          className="font-clinical text-xs hover:opacity-70 transition-opacity flex items-center gap-1.5"
-                          onClick={() => setShopDropdownOpen(false)}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="opacity-60"
-                          >
-                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                            <path d="M22 12A10 10 0 0 0 12 2v10z" />
-                          </svg>
-                          Manage Subscription
-                        </a>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="opacity-60"
+                            >
+                              <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                              <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                            </svg>
+                            Manage Subscription
+                          </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            </nav>
-            <button
-              onClick={openCart}
-              className="ml-6 p-2 hover:opacity-70 transition-all relative"
-              aria-label="Open cart"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                  )}
+                </div>
+              </nav>
+              <button
+                onClick={openCart}
+                className="ml-6 p-2 hover:opacity-70 transition-all relative"
+                aria-label="Open cart"
               >
-                <circle cx="9" cy="21" r="1" />
-                <circle cx="20" cy="21" r="1" />
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-              </svg>
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                  {itemCount > 99 ? "99+" : itemCount}
-                </span>
-              )}
-            </button>
-          </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                    {itemCount > 99 ? "99+" : itemCount}
+                  </span>
+                )}
+              </button>
+            </div>
 
-          {/* Mobile - Menu Only (Cart moved to menu) */}
-          <div className="lg:hidden flex items-center">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 hover:opacity-70 transition-all"
-              aria-label="Toggle menu"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            {/* Mobile - Menu Only (Cart moved to menu) */}
+            <div className="lg:hidden flex items-center">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 hover:opacity-70 transition-all"
+                aria-label="Toggle menu"
               >
-                {mobileMenuOpen ? (
-                  <>
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </>
-                ) : (
-                  <>
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <line x1="3" y1="12" x2="21" y2="12" />
-                    <line x1="3" y1="18" x2="21" y2="18" />
-                  </>
-                )}
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {mobileMenuOpen ? (
+                    <>
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </>
+                  ) : (
+                    <>
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <line x1="3" y1="12" x2="21" y2="12" />
+                      <line x1="3" y1="18" x2="21" y2="18" />
+                    </>
+                  )}
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+      </div>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
