@@ -6,7 +6,10 @@ import FoundingMemberCounter from "@/app/components/FoundingMemberCounter";
 export function FoundingMemberSection() {
   // Scroll to section on mount if hash is present
   useEffect(() => {
-    if (typeof window !== "undefined" && window.location.hash === "#founding-members") {
+    if (
+      typeof window !== "undefined" &&
+      window.location.hash === "#founding-members"
+    ) {
       const element = document.getElementById("founding-members");
       if (element) {
         setTimeout(() => {
@@ -27,10 +30,14 @@ export function FoundingMemberSection() {
           <p className="font-commentary text-xl md:text-2xl mb-6 opacity-80">
             join an exclusive community of high performers
           </p>
-          
+
           {/* Counter Display */}
           <div className="flex flex-col items-center gap-2 mb-4">
-            <FoundingMemberCounter variant="full" size="lg" background="light" />
+            <FoundingMemberCounter
+              variant="full"
+              size="lg"
+              background="light"
+            />
             <p className="font-clinical text-sm opacity-70">
               of 1,000 total spots
             </p>
@@ -62,7 +69,9 @@ export function FoundingMemberSection() {
               </h3>
             </div>
             <p className="font-clinical text-sm opacity-80 mb-4 leading-relaxed">
-              Early access to research findings, 20% off any subscription for an entire year with code FOUNDING1000, and priority support from our team.
+              Early access to research findings, 20% off any subscription for an
+              entire year with code FOUNDING1000, and priority support from our
+              team.
             </p>
             <div className="pt-4 border-t-2 border-current/10">
               <p className="font-clinical text-xs uppercase opacity-60 mb-2">
@@ -72,7 +81,8 @@ export function FoundingMemberSection() {
                 FOUNDING1000
               </p>
               <p className="font-clinical text-xs opacity-70">
-                Applies to all subscriptions (protocols & formulas). Not valid on trial packs.
+                Applies to all subscriptions (protocols & formulas). Not valid
+                on trial packs.
               </p>
               <p className="font-clinical text-xs opacity-60 mt-3">
                 Orders must be placed before 31 March 2026 to qualify.
@@ -105,7 +115,8 @@ export function FoundingMemberSection() {
               </h3>
             </div>
             <p className="font-clinical text-sm opacity-80 mb-4 leading-relaxed">
-              Join our private WhatsApp group, attend exclusive events, and connect directly with founders and fellow members.
+              Join our private WhatsApp group, attend exclusive events, and
+              connect directly with founders and fellow members.
             </p>
             <div className="pt-4 border-t-2 border-current/10">
               <p className="font-clinical text-xs uppercase opacity-60 mb-2">
@@ -140,14 +151,17 @@ export function FoundingMemberSection() {
               </h3>
             </div>
             <p className="font-clinical text-sm opacity-80 mb-4 leading-relaxed">
-              You'll be joining a select group of professional sportsmen, Olympians, founders, PhDs, and ambitious individuals committed to taking their performance to the next level.
+              You'll be joining a select group of professional sportsmen,
+              Olympians, founders, PhDs, and ambitious individuals committed to
+              taking their performance to the next level.
             </p>
             <div className="pt-4 border-t-2 border-current/10">
               <p className="font-clinical text-xs uppercase opacity-60 mb-2">
                 Lifetime Perks
               </p>
               <p className="font-clinical text-sm">
-                Founding Member badge in app, priority support, and early access to new products.
+                Founding Member badge in app, priority support, and early access
+                to new products.
               </p>
             </div>
           </div>
@@ -156,7 +170,8 @@ export function FoundingMemberSection() {
         {/* CTA Section */}
         <div className="text-center">
           <p className="font-commentary text-lg md:text-xl mb-6 opacity-80">
-            This is not a general sale. This is an exclusive opportunity for those serious about cognitive performance.
+            This is not a general sale. This is an exclusive opportunity for
+            those serious about cognitive performance.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
