@@ -4,12 +4,12 @@
   /* Color Palette - Style Guide 01 */
   --color-black: #000000;
   --color-white: #ffffff;
-  --color-teal: #AAB9BC;
-  
+  --color-teal: #aab9bc;
+
   /* Background & Foreground */
   --background: var(--color-white);
   --foreground: var(--color-black);
-  
+
   /* Typography */
   --font-primary: var(--font-poppins);
   --font-commentary: var(--font-handwriting);
@@ -57,7 +57,10 @@ body {
 
 /* Smooth Theme Transitions */
 .theme-transition {
-  transition: background-color 500ms ease-in-out, color 500ms ease-in-out, border-color 500ms ease-in-out;
+  transition:
+    background-color 500ms ease-in-out,
+    color 500ms ease-in-out,
+    border-color 500ms ease-in-out;
 }
 
 .content-transition {
@@ -117,12 +120,12 @@ body {
 
 /* Hide scrollbar utility for horizontal scroll carousels */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari, Opera */
+  display: none; /* Chrome, Safari, Opera */
 }
 
 /* Slide-up animation for sticky footers */
@@ -219,7 +222,8 @@ body {
 
 /* Scroll indicator animation */
 @keyframes bounce-slow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -248,10 +252,18 @@ body {
 }
 
 /* Staggered animation delays for children */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+.stagger-4 {
+  animation-delay: 0.4s;
+}
 
 /* Quote styling */
 .story-quote {
@@ -268,4 +280,21 @@ body {
   font-family: var(--font-handwriting), cursive;
   opacity: 0.3;
   line-height: 1;
+}
+
+/* Marquee animation for Founding Member banner */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  animation: marquee 30s linear infinite;
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
 }
