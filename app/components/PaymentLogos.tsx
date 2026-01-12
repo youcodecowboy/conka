@@ -5,6 +5,7 @@ interface PaymentLogosProps {
   size?: "sm" | "md" | "lg";
   className?: string;
   showLabel?: boolean;
+  vertical?: boolean;
 }
 
 const LOGO_CONTAINERS = {
@@ -31,15 +32,20 @@ export default function PaymentLogos({
   size = "md",
   className = "",
   showLabel = false,
+  vertical = false,
 }: PaymentLogosProps) {
   const containerClass = LOGO_CONTAINERS[size];
 
   return (
-    <div className={`flex items-center justify-end ${className}`}>
+    <div
+      className={`flex items-center ${vertical ? "flex-col" : "justify-end"} ${className}`}
+    >
       {showLabel && (
         <span className="font-clinical text-xs opacity-60 mr-1">We accept</span>
       )}
-      <div className="flex items-center opacity-60">
+      <div
+        className={`flex items-center opacity-60 ${vertical ? "flex-col gap-1.5" : "-space-x-2"}`}
+      >
         {logos.map((logo) => {
           const logoData = LOGO_MAP[logo.toLowerCase()];
           if (!logoData) return null;
