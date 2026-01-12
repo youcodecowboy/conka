@@ -1,15 +1,16 @@
-'use client';
+"use client";
 
-import { useCart } from '@/app/context/CartContext';
-import { CartLine } from '@/app/lib/shopify';
-import Image from 'next/image';
+import { useCart } from "@/app/context/CartContext";
+import { CartLine } from "@/app/lib/shopify";
+import Image from "next/image";
+import PaymentLogos from "./PaymentLogos";
 
 // Fallback product images when Shopify doesn't provide one
 const PRODUCT_FALLBACK_IMAGES: Record<string, string> = {
-  'conka flow': '/CONKA_01x.jpg',
-  'conka clarity': '/CONKA_02x.jpg',
-  'flow': '/CONKA_01x.jpg',
-  'clarity': '/CONKA_02x.jpg',
+  "conka flow": "/CONKA_01x.jpg",
+  "conka clarity": "/CONKA_02x.jpg",
+  flow: "/CONKA_01x.jpg",
+  clarity: "/CONKA_02x.jpg",
 };
 
 // Get fallback image based on product title
@@ -20,7 +21,7 @@ function getProductFallbackImage(productTitle: string): string {
       return image;
     }
   }
-  return '/bottle2.png'; // Default fallback
+  return "/bottle2.png"; // Default fallback
 }
 
 export default function CartDrawer() {
@@ -38,10 +39,10 @@ export default function CartDrawer() {
   const cartItems = getCartItems();
 
   // Format price from Shopify format
-  const formatPrice = (amount: string, currencyCode: string = 'GBP') => {
+  const formatPrice = (amount: string, currencyCode: string = "GBP") => {
     const num = parseFloat(amount);
-    return new Intl.NumberFormat('en-GB', {
-      style: 'currency',
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
       currency: currencyCode,
     }).format(num);
   };
@@ -50,10 +51,12 @@ export default function CartDrawer() {
   const isSubscription = (item: CartLine) => !!item.sellingPlanAllocation;
 
   // Subscription discount percentage (Loop subscriptions are 20% off)
-  const SUBSCRIPTION_DISCOUNT = 0.20;
+  const SUBSCRIPTION_DISCOUNT = 0.2;
 
   // Get the original/compare price for subscriptions
-  const getCompareAtPrice = (item: CartLine): { amount: string; currencyCode: string } | null => {
+  const getCompareAtPrice = (
+    item: CartLine,
+  ): { amount: string; currencyCode: string } | null => {
     // Try to get compare price from selling plan allocation first
     if (item.sellingPlanAllocation?.priceAdjustments?.[0]?.compareAtPrice) {
       return item.sellingPlanAllocation.priceAdjustments[0].compareAtPrice;
@@ -83,7 +86,7 @@ export default function CartDrawer() {
   const getSavingsPercentage = (item: CartLine) => {
     // For subscriptions, we know it's always 20%
     if (isSubscription(item)) return 20;
-    
+
     const compareAtPrice = getCompareAtPrice(item);
     if (!compareAtPrice) return 0;
     const original = parseFloat(compareAtPrice.amount);
@@ -165,7 +168,9 @@ export default function CartDrawer() {
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
                 <p className="font-clinical text-sm">Your cart is empty</p>
-                <p className="font-commentary text-sm mt-1">add some brain fuel!</p>
+                <p className="font-commentary text-sm mt-1">
+                  add some brain fuel!
+                </p>
               </div>
             </div>
           ) : (
@@ -178,8 +183,14 @@ export default function CartDrawer() {
                   {/* Product Image */}
                   <div className="w-20 h-20 flex-shrink-0 bg-current/5 rounded overflow-hidden">
                     <Image
-                      src={item.merchandise.product.featuredImage?.url || getProductFallbackImage(item.merchandise.product.title)}
-                      alt={item.merchandise.product.featuredImage?.altText || item.merchandise.product.title}
+                      src={
+                        item.merchandise.product.featuredImage?.url ||
+                        getProductFallbackImage(item.merchandise.product.title)
+                      }
+                      alt={
+                        item.merchandise.product.featuredImage?.altText ||
+                        item.merchandise.product.title
+                      }
                       width={80}
                       height={80}
                       className="w-full h-full object-cover"
@@ -194,7 +205,7 @@ export default function CartDrawer() {
                     <p className="font-clinical text-xs opacity-70 truncate">
                       {item.merchandise.title}
                     </p>
-                    
+
                     {/* Price with subscription savings */}
                     <div className="mt-1">
                       {isSubscription(item) ? (
@@ -212,8 +223,8 @@ export default function CartDrawer() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             >
-                              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-                              <path d="m9 12 2 2 4-4"/>
+                              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                              <path d="m9 12 2 2 4-4" />
                             </svg>
                             SUBSCRIPTION
                           </span>
@@ -223,14 +234,17 @@ export default function CartDrawer() {
                             <span className="text-xs line-through opacity-50">
                               {formatPrice(
                                 item.merchandise.price.amount,
-                                item.merchandise.price.currencyCode
+                                item.merchandise.price.currencyCode,
                               )}
                             </span>
                             {/* Subscription price (20% off) */}
                             <span className="font-bold text-sm text-amber-600">
                               {formatPrice(
-                                (parseFloat(item.merchandise.price.amount) * (1 - SUBSCRIPTION_DISCOUNT)).toFixed(2),
-                                item.merchandise.price.currencyCode
+                                (
+                                  parseFloat(item.merchandise.price.amount) *
+                                  (1 - SUBSCRIPTION_DISCOUNT)
+                                ).toFixed(2),
+                                item.merchandise.price.currencyCode,
                               )}
                             </span>
                             <span className="text-[10px] font-bold text-green-600 bg-green-100 px-1 py-0.5 rounded">
@@ -242,7 +256,7 @@ export default function CartDrawer() {
                         <p className="font-bold text-sm">
                           {formatPrice(
                             item.merchandise.price.amount,
-                            item.merchandise.price.currencyCode
+                            item.merchandise.price.currencyCode,
                           )}
                         </p>
                       )}
@@ -251,7 +265,9 @@ export default function CartDrawer() {
                     {/* Quantity Controls */}
                     <div className="flex items-center gap-2 mt-2">
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity - 1)
+                        }
                         disabled={loading}
                         className="w-7 h-7 flex items-center justify-center border-2 border-current rounded hover:bg-current/10 transition-colors disabled:opacity-50"
                         aria-label="Decrease quantity"
@@ -274,7 +290,9 @@ export default function CartDrawer() {
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity + 1)
+                        }
                         disabled={loading}
                         className="w-7 h-7 flex items-center justify-center border-2 border-current rounded hover:bg-current/10 transition-colors disabled:opacity-50"
                         aria-label="Increase quantity"
@@ -333,7 +351,7 @@ export default function CartDrawer() {
                 <span className="font-bold text-lg">
                   {formatPrice(
                     cart.cost.subtotalAmount.amount,
-                    cart.cost.subtotalAmount.currencyCode
+                    cart.cost.subtotalAmount.currencyCode,
                   )}
                 </span>
               </div>
@@ -347,14 +365,14 @@ export default function CartDrawer() {
 
           {/* Checkout Button */}
           <a
-            href={cart?.checkoutUrl || '#'}
+            href={cart?.checkoutUrl || "#"}
             onClick={(e) => {
               if (!cart?.checkoutUrl || cartItems.length === 0) {
                 e.preventDefault();
               }
             }}
             className={`block w-full neo-button py-3 font-semibold text-center ${
-              cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
+              cartItems.length === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             {loading ? (
@@ -363,22 +381,18 @@ export default function CartDrawer() {
                 Updating...
               </span>
             ) : cartItems.length === 0 ? (
-              'Cart is Empty'
+              "Cart is Empty"
             ) : (
-              'Checkout'
+              "Checkout"
             )}
           </a>
 
-          {/* Continue Shopping */}
-          <button
-            onClick={closeCart}
-            className="w-full mt-2 py-2 font-clinical text-sm opacity-70 hover:opacity-100 transition-opacity"
-          >
-            Continue Shopping
-          </button>
+          {/* Payment Logos */}
+          {cartItems.length > 0 && (
+            <PaymentLogos size="sm" className="mt-2 justify-center" />
+          )}
         </div>
       </div>
     </div>
   );
 }
-
