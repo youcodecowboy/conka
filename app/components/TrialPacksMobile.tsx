@@ -3,7 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useCart } from "../context/CartContext";
-import { getTrialPackVariantId, getFormulaVariantId } from "../lib/shopifyProductMapping";
+import {
+  getTrialPackVariantId,
+  getFormulaVariantId,
+} from "../lib/shopifyProductMapping";
+import PaymentLogos from "./PaymentLogos";
 
 type FormulaType = "01" | "02";
 type PackSize = "4" | "8" | "12";
@@ -16,10 +20,33 @@ const formulaImages = {
 };
 
 // Pricing with subscription discount (20% off)
-const packPricing: Record<PackSize, { oneTime: string; subscription: string; perShotOneTime: string; perShotSub: string }> = {
-  "4": { oneTime: "£14.99", subscription: "£11.99", perShotOneTime: "£3.75", perShotSub: "£3.00" },
-  "8": { oneTime: "£24.99", subscription: "£19.99", perShotOneTime: "£3.12", perShotSub: "£2.50" },
-  "12": { oneTime: "£34.99", subscription: "£27.99", perShotOneTime: "£2.92", perShotSub: "£2.33" },
+const packPricing: Record<
+  PackSize,
+  {
+    oneTime: string;
+    subscription: string;
+    perShotOneTime: string;
+    perShotSub: string;
+  }
+> = {
+  "4": {
+    oneTime: "£14.99",
+    subscription: "£11.99",
+    perShotOneTime: "£3.75",
+    perShotSub: "£3.00",
+  },
+  "8": {
+    oneTime: "£24.99",
+    subscription: "£19.99",
+    perShotOneTime: "£3.12",
+    perShotSub: "£2.50",
+  },
+  "12": {
+    oneTime: "£34.99",
+    subscription: "£27.99",
+    perShotOneTime: "£2.92",
+    perShotSub: "£2.33",
+  },
 };
 
 // Verified statistics from BRAND_HIGHLIGHTS.md with PMID sources
@@ -68,12 +95,16 @@ export default function TrialPacksMobile() {
 
   const handleAddToCart = async () => {
     if (!selectedPack) return;
-    
+
     let variantId: string | null = null;
     let sellingPlanId: string | undefined = undefined;
 
     if (purchaseType === "subscription") {
-      const variantData = getFormulaVariantId(selectedFormula, selectedPack, "subscription");
+      const variantData = getFormulaVariantId(
+        selectedFormula,
+        selectedPack,
+        "subscription",
+      );
       if (variantData) {
         variantId = variantData.variantId;
         sellingPlanId = variantData.sellingPlanId;
@@ -83,26 +114,32 @@ export default function TrialPacksMobile() {
     }
 
     if (!variantId) {
-      console.error(`No variant ID found for formula ${selectedFormula}, pack ${selectedPack}`);
+      console.error(
+        `No variant ID found for formula ${selectedFormula}, pack ${selectedPack}`,
+      );
       return;
     }
-    
+
     setIsAdding(true);
     try {
       await cart.addToCart(variantId, 1, sellingPlanId);
       setShowFooter(false);
     } catch (error) {
-      console.error('Failed to add to cart:', error);
+      console.error("Failed to add to cart:", error);
     } finally {
       setIsAdding(false);
     }
   };
 
   return (
-    <section className={`px-6 py-12 ${showFooter && selectedPack ? "pb-52" : "pb-12"}`}>
+    <section
+      className={`px-6 py-12 ${showFooter && selectedPack ? "pb-52" : "pb-12"}`}
+    >
       {/* Header */}
       <div className="text-left mb-4">
-        <p className="font-commentary text-base opacity-70">not ready for a protocol?</p>
+        <p className="font-commentary text-base opacity-70">
+          not ready for a protocol?
+        </p>
         <h2 className="text-2xl font-bold">try our trial packs</h2>
       </div>
 
@@ -145,7 +182,7 @@ export default function TrialPacksMobile() {
       </div>
 
       {/* Product Image */}
-      <a 
+      <a
         href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
         className="block relative w-full aspect-[4/3] max-w-[280px] mx-auto mb-6 rounded-xl overflow-hidden"
       >
@@ -173,9 +210,12 @@ export default function TrialPacksMobile() {
           }`}
         >
           <span className="font-clinical text-sm">Subscribe</span>
-          <span 
+          <span
             className="px-1.5 py-0.5 text-[10px] font-clinical rounded-full text-white"
-            style={{ backgroundColor: purchaseType === "subscription" ? accentColor : "black" }}
+            style={{
+              backgroundColor:
+                purchaseType === "subscription" ? accentColor : "black",
+            }}
           >
             SAVE
           </span>
@@ -194,12 +234,18 @@ export default function TrialPacksMobile() {
 
       {/* Pack Size Selection - Styled like formula pages */}
       <div className="mb-4">
-        <p className="font-clinical text-xs uppercase opacity-50 mb-2">Select Pack Size</p>
+        <div className="flex items-center justify-between mb-2">
+          <p className="font-clinical text-xs uppercase opacity-50">
+            Select Pack Size
+          </p>
+          {/* Payment Logos - Show when pack is selected */}
+          {selectedPack && <PaymentLogos size="sm" />}
+        </div>
         <div className="grid grid-cols-3 gap-2">
           {(["4", "8", "12"] as PackSize[]).map((size) => {
             const isSelected = selectedPack === size;
             const pricing = packPricing[size];
-            
+
             return (
               <button
                 key={size}
@@ -207,14 +253,18 @@ export default function TrialPacksMobile() {
                 className="overflow-hidden transition-all border-2"
                 style={{
                   borderColor: isSelected ? accentColor : "rgba(0,0,0,0.1)",
-                  boxShadow: isSelected ? `3px 3px 0px 0px ${accentColor}` : "none",
+                  boxShadow: isSelected
+                    ? `3px 3px 0px 0px ${accentColor}`
+                    : "none",
                 }}
               >
                 {/* Pack Header */}
-                <div 
+                <div
                   className="py-1.5 px-2 text-center"
                   style={{
-                    backgroundColor: isSelected ? accentColor : "rgba(0,0,0,0.03)",
+                    backgroundColor: isSelected
+                      ? accentColor
+                      : "rgba(0,0,0,0.03)",
                     color: isSelected ? "white" : "inherit",
                   }}
                 >
@@ -223,10 +273,14 @@ export default function TrialPacksMobile() {
                 {/* Price Body */}
                 <div className="py-2 px-2 text-center bg-white">
                   <p className="font-bold text-sm">
-                    {purchaseType === "subscription" ? pricing.subscription : pricing.oneTime}
+                    {purchaseType === "subscription"
+                      ? pricing.subscription
+                      : pricing.oneTime}
                   </p>
                   {purchaseType === "subscription" && (
-                    <p className="font-clinical text-[10px] line-through opacity-50">{pricing.oneTime}</p>
+                    <p className="font-clinical text-[10px] line-through opacity-50">
+                      {pricing.oneTime}
+                    </p>
                   )}
                 </div>
               </button>
@@ -265,29 +319,37 @@ export default function TrialPacksMobile() {
               {formulaExplanations[selectedFormula].description}
             </p>
             <div className="space-y-2">
-              {formulaExplanations[selectedFormula].keyPoints.map((point, idx) => (
-                <div key={idx} className="flex items-start gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="flex-shrink-0 mt-0.5"
-                    style={{ color: accentColor }}
-                  >
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                  <span className="font-clinical text-xs">
-                    {point.text} <span className="font-bold" style={{ color: accentColor }}>({point.stat})</span>
-                  </span>
-                </div>
-              ))}
+              {formulaExplanations[selectedFormula].keyPoints.map(
+                (point, idx) => (
+                  <div key={idx} className="flex items-start gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="flex-shrink-0 mt-0.5"
+                      style={{ color: accentColor }}
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                    <span className="font-clinical text-xs">
+                      {point.text}{" "}
+                      <span
+                        className="font-bold"
+                        style={{ color: accentColor }}
+                      >
+                        ({point.stat})
+                      </span>
+                    </span>
+                  </div>
+                ),
+              )}
             </div>
           </div>
         )}
@@ -328,26 +390,28 @@ export default function TrialPacksMobile() {
                 ></div>
                 <div>
                   <p className="font-bold text-sm">
-                    {selectedPack}-pack • {formulaExplanations[selectedFormula].title}
+                    {selectedPack}-pack •{" "}
+                    {formulaExplanations[selectedFormula].title}
                   </p>
                   <p className="font-clinical text-xs opacity-60">
-                    {purchaseType === "subscription" 
+                    {purchaseType === "subscription"
                       ? `${packPricing[selectedPack].perShotSub}/shot • Ships monthly`
-                      : `${packPricing[selectedPack].perShotOneTime}/shot`
-                    }
+                      : `${packPricing[selectedPack].perShotOneTime}/shot`}
                   </p>
                 </div>
               </div>
               <div className="text-right">
                 <p className="text-xl font-bold">
-                  {purchaseType === "subscription" 
-                    ? packPricing[selectedPack].subscription 
-                    : packPricing[selectedPack].oneTime
-                  }
+                  {purchaseType === "subscription"
+                    ? packPricing[selectedPack].subscription
+                    : packPricing[selectedPack].oneTime}
                 </p>
                 {purchaseType === "subscription" && (
                   <p className="font-clinical text-xs opacity-60">
-                    was <span className="line-through">{packPricing[selectedPack].oneTime}</span>
+                    was{" "}
+                    <span className="line-through">
+                      {packPricing[selectedPack].oneTime}
+                    </span>
                   </p>
                 )}
               </div>
@@ -363,12 +427,16 @@ export default function TrialPacksMobile() {
                     : "border border-black/10"
                 }`}
                 style={{
-                  borderColor: purchaseType === "subscription" ? accentColor : undefined,
-                  backgroundColor: purchaseType === "subscription" ? `${accentColor}10` : undefined,
+                  borderColor:
+                    purchaseType === "subscription" ? accentColor : undefined,
+                  backgroundColor:
+                    purchaseType === "subscription"
+                      ? `${accentColor}10`
+                      : undefined,
                 }}
               >
                 <span className="font-clinical text-xs">Subscribe</span>
-                <span 
+                <span
                   className="px-1 py-0.5 text-[9px] font-clinical rounded-full text-white"
                   style={{ backgroundColor: accentColor }}
                 >
@@ -390,18 +458,20 @@ export default function TrialPacksMobile() {
             {/* Split Buttons */}
             <div className="flex gap-2">
               <a
-                href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
+                href={
+                  selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"
+                }
                 className="flex-1 py-3 px-4 border-2 border-black rounded-lg font-semibold text-sm text-center hover:bg-black/5 transition-colors"
               >
                 Learn More
               </a>
-              <button 
+              <button
                 onClick={handleAddToCart}
                 disabled={isAdding || cart.loading}
                 className="flex-1 neo-button py-3 px-4 font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isAdding ? (
-                  'Adding...'
+                  "Adding..."
                 ) : (
                   <>
                     <svg
@@ -419,11 +489,15 @@ export default function TrialPacksMobile() {
                       <circle cx="20" cy="21" r="1" />
                       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                     </svg>
-                    {purchaseType === "subscription" ? "Subscribe" : "Add to Cart"}
+                    {purchaseType === "subscription"
+                      ? "Subscribe"
+                      : "Add to Cart"}
                   </>
                 )}
               </button>
             </div>
+            {/* Payment Logos */}
+            {/* <PaymentLogos size="sm" className="mt-3" /> */}
           </div>
         </div>
       )}
