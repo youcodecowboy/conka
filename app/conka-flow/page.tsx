@@ -43,9 +43,9 @@ export default function ConkaFlowPage() {
     return (
       <div
         className="min-h-screen theme-conka-flow"
-        style={{ background: "var(--background)", color: "var(--foreground)" }}
-      >
-        <Navigation />
+      style={{ background: "var(--background)", color: "var(--foreground)" }}
+    >
+      <Navigation />
 
         <ProductHeroMobile
           formulaId="01"
