@@ -3,5 +3,3 @@ export { OurStoryHero } from "./OurStoryHero";
 export { StorySection } from "./StorySection";
 export { OurStoryDesktop } from "./OurStoryDesktop";
 export { OurStoryMobile } from "./OurStoryMobile";
-export { FoundingMemberSection } from "./FoundingMemberSection";
-

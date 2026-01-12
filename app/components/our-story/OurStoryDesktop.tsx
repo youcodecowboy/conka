@@ -3,7 +3,6 @@
 import { storySections } from "@/app/lib/storyData";
 import { OurStoryHero } from "./OurStoryHero";
 import { StorySection } from "./StorySection";
-import { FoundingMemberSection } from "./FoundingMemberSection";
 
 export function OurStoryDesktop() {
   return (
@@ -19,9 +18,6 @@ export function OurStoryDesktop() {
           totalSections={storySections.length}
         />
       ))}
-
-      {/* Founding Member Section */}
-      <FoundingMemberSection />
 
       {/* Final CTA Section */}
       <section className="bg-black text-white px-6 md:px-16 py-32">
@@ -56,4 +52,3 @@ export function OurStoryDesktop() {
 }
 
 export default OurStoryDesktop;
-
