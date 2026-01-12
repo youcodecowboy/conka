@@ -50,7 +50,7 @@ export default function PaymentLogos({
   // Build logo container classes - inner flex container
   const logoContainerClasses = vertical
     ? "flex flex-col items-center gap-1.5 opacity-60"
-    : "flex items-center opacity-60 -space-x-2";
+    : "flex items-center opacity-60 -space-x-4";
 
   return (
     <div className={containerClasses}>
