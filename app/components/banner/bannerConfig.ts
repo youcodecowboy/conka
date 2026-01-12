@@ -17,14 +17,23 @@ export const foundingMemberConfig: BannerConfig = {
   variant: "marquee",
   dismissalKey: "foundingMemberBannerDismissed",
   content: {
-    text: "Founding Member • Use code FOUNDING1000 for 20% off any subscription for an entire year • ",
-    secondaryText: "492 spots remaining",
+    text: [
+      { text: "Founding Member • Use code " },
+      { text: "FOUNDING1000", bold: true },
+      { text: " for 20% off any subscription for an entire year • " },
+    ],
+    secondaryText: [{ text: "492 spots remaining", bold: true }],
     button: {
       text: "Learn More",
       href: "/our-story#founding-members",
     },
     mobileContent: {
-      text: "Founding Member • Code: FOUNDING1000 • 20% off subscriptions",
+      text: [
+        { text: "Founding Member • Code: " },
+        { text: "FOUNDING1000", bold: true },
+        { text: " • 20% off subscriptions" },
+      ],
+      secondaryText: [{ text: "492 spots remaining", bold: true }],
     },
   },
   styling: {
@@ -58,7 +67,11 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
 
   // Check localStorage for dismissal (only on mobile)
   useEffect(() => {
-    if (typeof window !== "undefined" && isMobile === true && config?.dismissible) {
+    if (
+      typeof window !== "undefined" &&
+      isMobile === true &&
+      config?.dismissible
+    ) {
       const dismissalKey = config.dismissalKey || `${config.id}BannerDismissed`;
       const wasDismissed = localStorage.getItem(dismissalKey);
       if (wasDismissed === "true") {
