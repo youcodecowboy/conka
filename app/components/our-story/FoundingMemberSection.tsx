@@ -170,8 +170,8 @@ export function FoundingMemberSection() {
         {/* CTA Section */}
         <div className="text-center">
           <p className="font-commentary text-lg md:text-xl mb-6 opacity-80">
-            This is not a general sale. This is an exclusive opportunity for
-            those serious about cognitive performance.
+            Limited to 1,000 founding members. Join elite athletes, founders,
+            and innovators committed to cognitive excellence.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
