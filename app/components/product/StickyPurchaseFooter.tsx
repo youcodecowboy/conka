@@ -13,6 +13,7 @@ import {
   ProtocolId,
   protocolContent,
 } from "@/app/lib/productData";
+import PaymentLogos from "../PaymentLogos";
 
 interface StickyPurchaseFooterProps {
   // For formula pages
@@ -103,10 +104,9 @@ export default function StickyPurchaseFooter({
     price = pricing.price;
     // Get original price for comparison
     originalPrice = formulaPricing["one-time"][selectedPack].price;
-    billingText =
-      isSubscription
-        ? getBillingLabel((pricing as { billing: string }).billing)
-        : "one-time";
+    billingText = isSubscription
+      ? getBillingLabel((pricing as { billing: string }).billing)
+      : "one-time";
     productLabel = `${packLabels[selectedPack]} ${billingText}`;
     showPackSelector = true;
   } else if (protocolId && selectedTier) {
@@ -118,14 +118,17 @@ export default function StickyPurchaseFooter({
       // Get original price for comparison
       const oneTimePricing = protocolPricing[pricingType]["one-time"];
       if (selectedTier in oneTimePricing) {
-        originalPrice = (oneTimePricing as Record<string, { price: number }>)[selectedTier]?.price || 0;
+        originalPrice =
+          (oneTimePricing as Record<string, { price: number }>)[selectedTier]
+            ?.price || 0;
       }
       billingText =
         isSubscription && "billing" in pricing
           ? getBillingLabel(pricing.billing)
           : "one-time";
     }
-    const tierName = selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1);
+    const tierName =
+      selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1);
     productLabel = `${tierName} ${billingText}`;
     showTierSelector = true;
     // Get available tiers from protocol content
@@ -153,182 +156,258 @@ export default function StickyPurchaseFooter({
 
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] border-t-2 border-current shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
         <div className="max-w-6xl mx-auto lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%] px-4 md:px-6 lg:pl-0 lg:pr-16 py-3">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4">
-            {/* Left: Your Selection with Pack/Tier Selector */}
-            <div className="flex items-center gap-4 w-full md:w-auto md:flex-none">
-              <span className="font-clinical text-xs uppercase opacity-70 whitespace-nowrap">Your Selection</span>
-              {(showPackSelector && selectedPack && onPackSelect) || (showTierSelector && selectedTier && onTierSelect) ? (
-                <div className="relative" ref={dropdownRef}>
-                  <button
-                    onClick={() => setShowPackDropdown(!showPackDropdown)}
-                    className="flex items-center gap-2 px-4 py-2 border-2 border-current rounded-full font-clinical text-sm hover:bg-current/5 transition-colors min-w-[200px]"
-                  >
-                    <span className="font-bold whitespace-nowrap">
-                      {showPackSelector && selectedPack ? (
-                        <>
-                          {packLabels[selectedPack]}{" "}
-                          <span className="font-commentary">{billingText}</span>
-                        </>
-                      ) : showTierSelector && selectedTier ? (
-                        <>
-                          {tierLabels[selectedTier]}{" "}
-                          <span className="font-commentary">{billingText}</span>
-                        </>
-                      ) : (
-                        productLabel
-                      )}
-                    </span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className={`transition-transform flex-shrink-0 ${showPackDropdown ? "rotate-180" : ""}`}
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4">
+              {/* Left: Your Selection with Pack/Tier Selector */}
+              <div className="flex items-center gap-4 w-full md:w-auto md:flex-none">
+                <span className="font-clinical text-xs uppercase opacity-70 whitespace-nowrap">
+                  Your Selection
+                </span>
+                {(showPackSelector && selectedPack && onPackSelect) ||
+                (showTierSelector && selectedTier && onTierSelect) ? (
+                  <div className="relative" ref={dropdownRef}>
+                    <button
+                      onClick={() => setShowPackDropdown(!showPackDropdown)}
+                      className="flex items-center gap-2 px-4 py-2 border-2 border-current rounded-full font-clinical text-sm hover:bg-current/5 transition-colors min-w-[200px]"
                     >
-                      <polyline points="18 15 12 9 6 15" />
-                    </svg>
-                  </button>
+                      <span className="font-bold whitespace-nowrap">
+                        {showPackSelector && selectedPack ? (
+                          <>
+                            {packLabels[selectedPack]}{" "}
+                            <span className="font-commentary">
+                              {billingText}
+                            </span>
+                          </>
+                        ) : showTierSelector && selectedTier ? (
+                          <>
+                            {tierLabels[selectedTier]}{" "}
+                            <span className="font-commentary">
+                              {billingText}
+                            </span>
+                          </>
+                        ) : (
+                          productLabel
+                        )}
+                      </span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={`transition-transform flex-shrink-0 ${showPackDropdown ? "rotate-180" : ""}`}
+                      >
+                        <polyline points="18 15 12 9 6 15" />
+                      </svg>
+                    </button>
 
-                  {/* Pack/Tier Dropdown (drops UP from footer) */}
-                  {showPackDropdown && (
-                    <div className="absolute bottom-full left-0 mb-2 bg-[var(--background)] border-2 border-current rounded-lg overflow-hidden min-w-[240px] shadow-lg">
-                      {showPackSelector && packSizes.map((pack) => {
-                        const packPricing = formulaPricing[purchaseType][pack];
-                        const packBillingText =
-                          purchaseType === "subscription"
-                            ? getBillingLabel((packPricing as { billing: string }).billing)
-                            : "one-time";
-                        return (
-                          <button
-                            key={pack}
-                            onClick={() => {
-                              onPackSelect?.(pack);
-                              setShowPackDropdown(false);
-                            }}
-                            className={`w-full px-4 py-2 text-left font-clinical text-sm hover:bg-current/10 transition-colors ${
-                              selectedPack === pack ? "bg-current/10 font-bold" : ""
-                            }`}
-                          >
-                            <div className="flex justify-between items-center gap-4">
-                              <span className="whitespace-nowrap">
-                                {packLabels[pack]}{" "}
-                                <span className="font-commentary">{packBillingText}</span>
-                              </span>
-                              <span className="opacity-70 whitespace-nowrap">{formatPrice(packPricing.price)}</span>
-                            </div>
-                          </button>
-                        );
-                      })}
-                      {showTierSelector && protocolId && availableTiers.map((tier) => {
-                        const pricingType = protocolId === "4" ? "ultimate" : "standard";
-                        const tierPricing = protocolPricing[pricingType][purchaseType];
-                        const tierPricingData = tierPricing[tier as keyof typeof tierPricing];
-                        if (!tierPricingData) return null;
-                        const tierBillingText =
-                          purchaseType === "subscription" && "billing" in tierPricingData
-                            ? getBillingLabel(tierPricingData.billing)
-                            : "one-time";
-                        return (
-                          <button
-                            key={tier}
-                            onClick={() => {
-                              onTierSelect?.(tier);
-                              setShowPackDropdown(false);
-                            }}
-                            className={`w-full px-4 py-2 text-left font-clinical text-sm hover:bg-current/10 transition-colors ${
-                              selectedTier === tier ? "bg-current/10 font-bold" : ""
-                            }`}
-                          >
-                            <div className="flex justify-between items-center gap-4">
-                              <span className="whitespace-nowrap">
-                                {tierLabels[tier]}{" "}
-                                <span className="font-commentary">{tierBillingText}</span>
-                              </span>
-                              <span className="opacity-70 whitespace-nowrap">{formatPrice(tierPricingData.price)}</span>
-                            </div>
-                          </button>
-                        );
-                      })}
+                    {/* Pack/Tier Dropdown (drops UP from footer) */}
+                    {showPackDropdown && (
+                      <div className="absolute bottom-full left-0 mb-2 bg-[var(--background)] border-2 border-current rounded-lg overflow-hidden min-w-[240px] shadow-lg">
+                        {showPackSelector &&
+                          packSizes.map((pack) => {
+                            const packPricing =
+                              formulaPricing[purchaseType][pack];
+                            const packBillingText =
+                              purchaseType === "subscription"
+                                ? getBillingLabel(
+                                    (packPricing as { billing: string })
+                                      .billing,
+                                  )
+                                : "one-time";
+                            return (
+                              <button
+                                key={pack}
+                                onClick={() => {
+                                  onPackSelect?.(pack);
+                                  setShowPackDropdown(false);
+                                }}
+                                className={`w-full px-4 py-2 text-left font-clinical text-sm hover:bg-current/10 transition-colors ${
+                                  selectedPack === pack
+                                    ? "bg-current/10 font-bold"
+                                    : ""
+                                }`}
+                              >
+                                <div className="flex justify-between items-center gap-4">
+                                  <span className="whitespace-nowrap">
+                                    {packLabels[pack]}{" "}
+                                    <span className="font-commentary">
+                                      {packBillingText}
+                                    </span>
+                                  </span>
+                                  <span className="opacity-70 whitespace-nowrap">
+                                    {formatPrice(packPricing.price)}
+                                  </span>
+                                </div>
+                              </button>
+                            );
+                          })}
+                        {showTierSelector &&
+                          protocolId &&
+                          availableTiers.map((tier) => {
+                            const pricingType =
+                              protocolId === "4" ? "ultimate" : "standard";
+                            const tierPricing =
+                              protocolPricing[pricingType][purchaseType];
+                            const tierPricingData =
+                              tierPricing[tier as keyof typeof tierPricing];
+                            if (!tierPricingData) return null;
+                            const tierBillingText =
+                              purchaseType === "subscription" &&
+                              "billing" in tierPricingData
+                                ? getBillingLabel(tierPricingData.billing)
+                                : "one-time";
+                            return (
+                              <button
+                                key={tier}
+                                onClick={() => {
+                                  onTierSelect?.(tier);
+                                  setShowPackDropdown(false);
+                                }}
+                                className={`w-full px-4 py-2 text-left font-clinical text-sm hover:bg-current/10 transition-colors ${
+                                  selectedTier === tier
+                                    ? "bg-current/10 font-bold"
+                                    : ""
+                                }`}
+                              >
+                                <div className="flex justify-between items-center gap-4">
+                                  <span className="whitespace-nowrap">
+                                    {tierLabels[tier]}{" "}
+                                    <span className="font-commentary">
+                                      {tierBillingText}
+                                    </span>
+                                  </span>
+                                  <span className="opacity-70 whitespace-nowrap">
+                                    {formatPrice(tierPricingData.price)}
+                                  </span>
+                                </div>
+                              </button>
+                            );
+                          })}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    <p className="font-bold text-sm md:text-base">
+                      {productLabel}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Divider */}
+              <div className="hidden md:block w-px h-8 bg-current opacity-20"></div>
+
+              {/* Right: Payment Logos, Subscribe Toggle, CTA & Price */}
+              <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-end">
+                {/* Payment Logos - Stacked vertically, desktop only */}
+                <div className="hidden md:flex flex-col gap-1.5 opacity-60">
+                  <div className="w-20 h-6 flex items-center justify-center">
+                    <img
+                      src="/logos/Klarna.png"
+                      alt="Pay with Klarna"
+                      className="w-full h-full object-contain object-center"
+                    />
+                  </div>
+                  <div className="w-20 h-6 flex items-center justify-center">
+                    <img
+                      src="/logos/Revolut.png"
+                      alt="Pay with Revolut"
+                      className="w-full h-full object-contain object-center"
+                    />
+                  </div>
+                </div>
+
+                {/* Subscribe Toggle */}
+                <button
+                  onClick={() =>
+                    onPurchaseTypeChange(
+                      purchaseType === "subscription"
+                        ? "one-time"
+                        : "subscription",
+                    )
+                  }
+                  className="flex items-center gap-2 px-3 py-2 border-2 border-current rounded-full font-clinical text-xs hover:bg-current/5 transition-colors"
+                >
+                  <div
+                    className={`w-8 h-4 rounded-full relative transition-colors ${
+                      purchaseType === "subscription"
+                        ? formulaId === "01"
+                          ? "bg-amber-500"
+                          : "bg-teal-500"
+                        : "bg-gray-300"
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${
+                        purchaseType === "subscription" ? "left-4" : "left-0.5"
+                      }`}
+                    />
+                  </div>
+                  <span className="hidden sm:inline">Subscribe</span>
+                </button>
+
+                {/* Add to Cart Button */}
+                <button
+                  onClick={onAddToCart}
+                  className="neo-button px-4 py-2 font-bold text-sm whitespace-nowrap"
+                >
+                  Add to Cart
+                </button>
+
+                {/* Price Display */}
+                <div className="text-right">
+                  <div className="flex items-center justify-end gap-2">
+                    {isSubscription && originalPrice > 0 && (
+                      <span className="text-sm md:text-base font-clinical line-through opacity-50">
+                        {formatPrice(originalPrice)}
+                      </span>
+                    )}
+                    <span
+                      className={`text-xl md:text-2xl font-bold ${
+                        isSubscription
+                          ? formulaId === "01"
+                            ? "text-amber-600"
+                            : "text-teal-600"
+                          : ""
+                      }`}
+                    >
+                      {formatPrice(price)}
+                    </span>
+                    <span className="font-clinical text-xs opacity-70 font-normal leading-none">
+                      + Free Shipping
+                    </span>
+                  </div>
+                  {isSubscription && (
+                    <div className="flex justify-end mt-1">
+                      <span
+                        className={`inline-flex items-center gap-1 ${
+                          formulaId === "01" ? "bg-amber-500" : "bg-teal-500"
+                        } text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="10"
+                          height="10"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        SAVE {SUBSCRIPTION_DISCOUNT}%
+                      </span>
                     </div>
                   )}
                 </div>
-              ) : (
-                <div>
-                  <p className="font-bold text-sm md:text-base">{productLabel}</p>
-                </div>
-              )}
-            </div>
-
-            {/* Divider */}
-            <div className="hidden md:block w-px h-8 bg-current opacity-20"></div>
-
-            {/* Right: Subscribe Toggle, CTA & Price */}
-            <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-end">
-              {/* Subscribe Toggle */}
-              <button
-                onClick={() =>
-                  onPurchaseTypeChange(
-                    purchaseType === "subscription" ? "one-time" : "subscription"
-                  )
-                }
-                className="flex items-center gap-2 px-3 py-2 border-2 border-current rounded-full font-clinical text-xs hover:bg-current/5 transition-colors"
-              >
-                <div
-                  className={`w-8 h-4 rounded-full relative transition-colors ${
-                    purchaseType === "subscription" 
-                      ? (formulaId === "01" ? "bg-amber-500" : "bg-teal-500") 
-                      : "bg-gray-300"
-                  }`}
-                >
-                  <div
-                    className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${
-                      purchaseType === "subscription" ? "left-4" : "left-0.5"
-                    }`}
-                  />
-                </div>
-                <span className="hidden sm:inline">Subscribe</span>
-              </button>
-
-              {/* Add to Cart Button */}
-              <button
-                onClick={onAddToCart}
-                className="neo-button px-4 py-2 font-bold text-sm whitespace-nowrap"
-              >
-                Add to Cart
-              </button>
-
-              {/* Price Display */}
-              <div className="text-right">
-                <div className="flex items-center justify-end gap-2">
-                  {isSubscription && originalPrice > 0 && (
-                    <span className="text-sm md:text-base font-clinical line-through opacity-50">
-                      {formatPrice(originalPrice)}
-                    </span>
-                  )}
-                  <span className={`text-xl md:text-2xl font-bold ${
-                    isSubscription ? (formulaId === "01" ? "text-amber-600" : "text-teal-600") : ""
-                  }`}>
-                    {formatPrice(price)}
-                  </span>
-                  <span className="font-clinical text-xs opacity-70 font-normal leading-none">+ Free Shipping</span>
-                </div>
-                {isSubscription && (
-                  <div className="flex justify-end mt-1">
-                    <span className={`inline-flex items-center gap-1 ${
-                      formulaId === "01" ? "bg-amber-500" : "bg-teal-500"
-                    } text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      SAVE {SUBSCRIPTION_DISCOUNT}%
-                    </span>
-                  </div>
-                )}
               </div>
             </div>
           </div>
