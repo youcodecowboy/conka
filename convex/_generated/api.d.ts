@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as foundingMemberCounter from "../foundingMemberCounter.js";
 import type * as quizAnalytics from "../quizAnalytics.js";
 import type * as winEntries from "../winEntries.js";
 
@@ -18,6 +19,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  foundingMemberCounter: typeof foundingMemberCounter;
   quizAnalytics: typeof quizAnalytics;
   winEntries: typeof winEntries;
 }>;
