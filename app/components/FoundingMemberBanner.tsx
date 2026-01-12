@@ -42,66 +42,66 @@ export default function FoundingMemberBanner() {
     return null;
   }
 
-  // Desktop version
+  // Marquee text content
+  const marqueeText =
+    "Founding Member • Use code FOUNDING1000 for 20% off any subscription for an entire year • ";
+  const spotsText = "492 spots remaining";
+
+  // Desktop version with marquee
   if (isMobile === false) {
     return (
-      <div className="w-full bg-black text-white border-b-2 border-black relative z-50">
-        <div className="px-6 md:px-16 py-3 md:py-4">
-          <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4 md:gap-6 flex-1">
-              <div className="flex items-center gap-2">
-                <span className="font-clinical text-xs md:text-sm uppercase tracking-wider opacity-80">
-                  Founding Member
-                </span>
-                <span className="w-1 h-1 bg-white rounded-full opacity-50"></span>
-                <span className="font-clinical text-xs md:text-sm opacity-80">
-                  £50 for all protocols
-                </span>
-              </div>
-              <div className="hidden md:flex items-center gap-2">
-                <FoundingMemberCounter variant="number-only" size="sm" />
-                <span className="font-clinical text-xs opacity-70">
-                  spots remaining
-                </span>
-              </div>
+      <div className="w-full bg-black text-white border-b-2 border-black relative z-[60]">
+        <div className="px-6 md:px-16 py-3 md:py-4 flex items-center">
+          <div className="flex-1 overflow-hidden relative min-w-0">
+            {/* Marquee container */}
+            <div className="marquee flex items-center gap-4">
+              {/* Duplicate content for seamless loop */}
+              <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
+                {marqueeText}
+                <span className="font-bold">{spotsText}</span>
+              </span>
+              <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
+                {marqueeText}
+                <span className="font-bold">{spotsText}</span>
+              </span>
             </div>
-            <a
-              href="/our-story#founding-members"
-              className="px-4 py-1.5 md:px-6 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full"
-            >
-              Learn More
-            </a>
           </div>
+          {/* Fixed Learn More button */}
+          <a
+            href="/our-story#founding-members"
+            className="ml-6 px-4 py-1.5 md:px-6 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full flex-shrink-0"
+          >
+            Learn More
+          </a>
         </div>
       </div>
     );
   }
 
-  // Mobile version - fixed at top
+  // Mobile version - simplified with dismiss
   if (isMobile === true) {
     return (
-      <div className="fixed top-0 left-0 right-0 z-50 bg-black text-white border-b-2 border-black">
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-black text-white border-b-2 border-black">
         <div className="px-4 py-3">
-          <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center justify-between gap-3">
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
                 <span className="font-clinical text-xs uppercase tracking-wider opacity-80">
                   Founding Member
                 </span>
                 <span className="w-1 h-1 bg-white rounded-full opacity-50"></span>
                 <span className="font-clinical text-xs opacity-80">
-                  £50 protocols
+                  Code: FOUNDING1000
                 </span>
               </div>
               <div className="flex items-baseline gap-2">
-                <FoundingMemberCounter variant="number-only" size="sm" />
-                <span className="font-clinical text-[10px] opacity-70">
-                  remaining
+                <span className="font-clinical text-xs opacity-80">
+                  20% off subscriptions
                 </span>
               </div>
               <a
                 href="/our-story#founding-members"
-                className="inline-block mt-2 text-xs underline opacity-80 hover:opacity-100 transition-opacity"
+                className="inline-block mt-1 text-xs underline opacity-80 hover:opacity-100 transition-opacity"
               >
                 Learn More
               </a>
@@ -134,33 +134,26 @@ export default function FoundingMemberBanner() {
 
   // During SSR/hydration when isMobile is undefined, show desktop version
   return (
-    <div className="w-full bg-black text-white border-b-2 border-black relative z-50">
-      <div className="px-6 md:px-16 py-3 md:py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4 md:gap-6 flex-1">
-            <div className="flex items-center gap-2">
-              <span className="font-clinical text-xs md:text-sm uppercase tracking-wider opacity-80">
-                Founding Member
-              </span>
-              <span className="w-1 h-1 bg-white rounded-full opacity-50"></span>
-              <span className="font-clinical text-xs md:text-sm opacity-80">
-                £50 for all protocols
-              </span>
-            </div>
-            <div className="hidden md:flex items-center gap-2">
-              <FoundingMemberCounter variant="number-only" size="sm" />
-              <span className="font-clinical text-xs opacity-70">
-                spots remaining
-              </span>
-            </div>
+    <div className="w-full bg-black text-white border-b-2 border-black relative z-[60]">
+      <div className="px-6 md:px-16 py-3 md:py-4 flex items-center">
+        <div className="flex-1 overflow-hidden relative min-w-0">
+          <div className="marquee flex items-center gap-4">
+            <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
+              {marqueeText}
+              <span className="font-bold">{spotsText}</span>
+            </span>
+            <span className="font-clinical text-xs md:text-sm whitespace-nowrap">
+              {marqueeText}
+              <span className="font-bold">{spotsText}</span>
+            </span>
           </div>
-          <a
-            href="/our-story#founding-members"
-            className="px-4 py-1.5 md:px-6 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full"
-          >
-            Learn More
-          </a>
         </div>
+        <a
+          href="/our-story#founding-members"
+          className="ml-6 px-4 py-1.5 md:px-6 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap border-2 border-white text-white hover:bg-white hover:text-black transition-all rounded-full flex-shrink-0"
+        >
+          Learn More
+        </a>
       </div>
     </div>
   );
