@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { copyToClipboard } from "@/app/lib/clipboard";
 import type { BannerConfig } from "./types";
 
 interface BannerMobileProps {
@@ -37,14 +38,12 @@ export default function BannerMobile({ config }: BannerMobileProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopyClick = async () => {
-    if (config.content.button?.copyText) {
-      try {
-        await navigator.clipboard.writeText(config.content.button.copyText);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      } catch (err) {
-        console.error("Failed to copy:", err);
-      }
+    if (!config.content.button?.copyText) return;
+
+    const success = await copyToClipboard(config.content.button.copyText);
+    if (success) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 
