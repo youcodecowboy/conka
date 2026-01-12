@@ -2,7 +2,7 @@
 
 import type { BannerConfig } from "./types";
 
-interface BannerDesktopProps {
+interface BannerProps {
   /** Banner configuration */
   config: BannerConfig;
 }
@@ -22,7 +22,7 @@ function renderTextSegments(
   );
 }
 
-export default function BannerDesktop({ config }: BannerDesktopProps) {
+export default function Banner({ config }: BannerProps) {
   return (
     <div
       className={`w-full ${config.styling.bgColor} ${config.styling.textColor} border-b-2 ${config.styling.borderColor || config.styling.bgColor}`}
@@ -36,16 +36,22 @@ export default function BannerDesktop({ config }: BannerDesktopProps) {
                 {renderTextSegments(
                   [
                     ...config.content.text,
-                    ...(config.content.secondaryText || []).map((seg) => ({ ...seg, text: ` ${seg.text}` })),
+                    ...(config.content.secondaryText || []).map((seg) => ({
+                      ...seg,
+                      text: ` ${seg.text}`,
+                    })),
                   ],
-                  "font-clinical text-xs md:text-sm whitespace-nowrap text-white"
+                  "font-clinical text-xs md:text-sm whitespace-nowrap text-white",
                 )}
                 {renderTextSegments(
                   [
                     ...config.content.text,
-                    ...(config.content.secondaryText || []).map((seg) => ({ ...seg, text: ` ${seg.text}` })),
+                    ...(config.content.secondaryText || []).map((seg) => ({
+                      ...seg,
+                      text: ` ${seg.text}`,
+                    })),
                   ],
-                  "font-clinical text-xs md:text-sm whitespace-nowrap text-white"
+                  "font-clinical text-xs md:text-sm whitespace-nowrap text-white",
                 )}
               </div>
             </div>
@@ -65,9 +71,12 @@ export default function BannerDesktop({ config }: BannerDesktopProps) {
               {renderTextSegments(
                 [
                   ...config.content.text,
-                  ...(config.content.secondaryText || []).map((seg) => ({ ...seg, text: ` ${seg.text}` })),
+                  ...(config.content.secondaryText || []).map((seg) => ({
+                    ...seg,
+                    text: ` ${seg.text}`,
+                  })),
                 ],
-                "font-clinical text-xs md:text-sm"
+                "font-clinical text-xs md:text-sm",
               )}
             </div>
             {config.content.button && (
