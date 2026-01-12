@@ -5,11 +5,14 @@ interface FoundingMemberCounterProps {
   variant?: "full" | "number-only";
   /** Size variant */
   size?: "sm" | "md" | "lg";
+  /** Background context for color selection */
+  background?: "light" | "dark";
 }
 
 export default function FoundingMemberCounter({
   variant = "full",
   size = "md",
+  background = "light",
 }: FoundingMemberCounterProps) {
   // Hardcoded value - no Convex dependency
   const spotsRemaining = 492;
@@ -22,8 +25,12 @@ export default function FoundingMemberCounter({
     lg: "text-3xl md:text-4xl lg:text-5xl",
   };
 
-  // Urgency color
-  const urgencyColor = isUrgent ? "text-amber-500" : "text-white";
+  // Color based on background and urgency
+  const urgencyColor = isUrgent
+    ? "text-amber-500"
+    : background === "dark"
+      ? "text-white"
+      : "text-black";
 
   if (variant === "number-only") {
     return (
