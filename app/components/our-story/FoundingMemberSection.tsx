@@ -1,8 +1,21 @@
 "use client";
 
+import { useEffect } from "react";
 import FoundingMemberCounter from "@/app/components/FoundingMemberCounter";
 
 export function FoundingMemberSection() {
+  // Scroll to section on mount if hash is present
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash === "#founding-members") {
+      const element = document.getElementById("founding-members");
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+    }
+  }, []);
+
   return (
     <section id="founding-members" className="px-6 md:px-16 py-24 scroll-mt-20">
       <div className="max-w-6xl mx-auto">
@@ -17,7 +30,7 @@ export function FoundingMemberSection() {
           
           {/* Counter Display */}
           <div className="flex flex-col items-center gap-2 mb-4">
-            <FoundingMemberCounter variant="full" size="lg" />
+            <FoundingMemberCounter variant="full" size="lg" background="light" />
             <p className="font-clinical text-sm opacity-70">
               of 1,000 total spots
             </p>
@@ -49,14 +62,20 @@ export function FoundingMemberSection() {
               </h3>
             </div>
             <p className="font-clinical text-sm opacity-80 mb-4 leading-relaxed">
-              Early access to research findings, exclusive pricing at £50 for all protocol plans, and priority support from our team.
+              Early access to research findings, 20% off any subscription for an entire year with code FOUNDING1000, and priority support from our team.
             </p>
             <div className="pt-4 border-t-2 border-current/10">
               <p className="font-clinical text-xs uppercase opacity-60 mb-2">
-                Limited Availability
+                Discount Code
               </p>
-              <p className="font-clinical text-sm">
-                Orders must be placed before 31 March 2025 to qualify.
+              <p className="font-clinical text-sm font-bold mb-2">
+                FOUNDING1000
+              </p>
+              <p className="font-clinical text-xs opacity-70">
+                Applies to all subscriptions (protocols & formulas). Not valid on trial packs.
+              </p>
+              <p className="font-clinical text-xs opacity-60 mt-3">
+                Orders must be placed before 31 March 2026 to qualify.
               </p>
             </div>
           </div>
@@ -93,7 +112,7 @@ export function FoundingMemberSection() {
                 First Event
               </p>
               <p className="font-clinical text-sm">
-                Our first Founding Member event will be in April 2025.
+                Our first Founding Member event will be in April 2026.
               </p>
             </div>
           </div>
