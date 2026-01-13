@@ -21,7 +21,7 @@ export default function Hero() {
         {/* Center: Product Image - Scales proportionally across viewports */}
         <div className="relative flex items-center justify-center w-full my-1 sm:my-2 md:my-1">
           <Image
-            src="/main.jpg"
+            src="/HeroImage.jpg"
             alt="Conka nootropic shot"
             width={500}
             height={625}
