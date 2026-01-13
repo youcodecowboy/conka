@@ -15,6 +15,7 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
   // Fetch spots remaining from Convex
   const counter = useQuery(api.foundingMemberCounter.getCounter);
   const spotsRemaining = counter?.spotsRemaining ?? 492; // Fallback to 492
+  const isUrgent = spotsRemaining <= 50;
 
   // Get config based on bannerId
   const config = useMemo(() => {
@@ -33,7 +34,8 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
             { text: " for 20% off any subscription for an entire year • " },
           ],
           secondaryText: [
-            { text: `${spotsRemaining} spots remaining`, bold: true },
+            { text: `${spotsRemaining}`, bold: true, urgent: isUrgent },
+            { text: " spots remaining", bold: true },
           ],
           button: {
             text: "Copy Code",
@@ -46,7 +48,8 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
               { text: " for 20% off subscriptions for an entire year • " },
             ],
             secondaryText: [
-              { text: `${spotsRemaining} spots remaining`, bold: true },
+              { text: `${spotsRemaining}`, bold: true, urgent: isUrgent },
+              { text: " spots remaining", bold: true },
             ],
           },
         },
@@ -58,7 +61,7 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
       } as BannerConfig;
     }
     return null;
-  }, [bannerId, spotsRemaining]);
+  }, [bannerId, spotsRemaining, isUrgent]);
 
   // Check if deadline has passed
   const isPastDeadline = useMemo(() => {
