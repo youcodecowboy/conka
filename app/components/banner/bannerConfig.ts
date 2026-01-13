@@ -29,9 +29,9 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
         dismissalKey: "foundingMemberBannerDismissed",
         content: {
           text: [
-            { text: "Founding Member • Use code " },
-            { text: "FOUNDING1000", bold: true, isCode: true },
-            { text: " for 20% off any subscription for an entire year • " },
+            { text: "Founding Member • Code " },
+            { text: "FOUNDER200", bold: true, isCode: true },
+            { text: " • 20% off subscriptions for a year • Deadline: 15th March 2026 • " },
           ],
           secondaryText: [
             { text: `${spotsRemaining}`, bold: true, urgent: isUrgent },
@@ -39,7 +39,7 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
           ],
           button: {
             text: "Copy Code",
-            copyText: "FOUNDING1000",
+            copyText: "FOUNDER200",
           },
         },
         styling: {
