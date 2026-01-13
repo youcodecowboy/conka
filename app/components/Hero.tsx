@@ -13,7 +13,8 @@ export default function Hero() {
             Make decisions faster.
           </h1>
           <p className="font-commentary text-xl sm:text-xl md:text-2xl mb-1 sm:mb-2 md:mb-1 text-center">
-            clinically designed to optimize your <span className="underline decoration-amber-500">brain</span>
+            clinically designed to optimize your{" "}
+            <span className="underline decoration-amber-500">brain</span>
           </p>
         </div>
 
@@ -36,27 +37,46 @@ export default function Hero() {
             backed by 250+ clinical studies
           </p>
           <p className="font-commentary italic text-xl sm:text-xl md:text-xl lg:text-2xl">
-            upgrade focus + reduce stress + eliminate brain fog + boost mental clarity
+            upgrade focus + reduce stress + eliminate brain fog + boost mental
+            clarity
           </p>
         </div>
 
         {/* CTA Buttons - Pill shaped, always side-by-side */}
         <div className="flex flex-col items-center w-full max-w-md sm:max-w-lg md:max-w-md px-4 mt-6 sm:mt-8 md:mt-0">
           <div className="flex flex-row gap-3 sm:gap-4 md:gap-3 w-full mb-4 sm:mb-5 md:mb-3">
-            <a href="/quiz" className="flex-1 inline-flex items-center justify-center gap-2 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-amber-500 text-black font-semibold text-base md:text-lg border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all whitespace-nowrap">
+            <a
+              href="/quiz"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-amber-500 text-black font-semibold text-base md:text-lg border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all whitespace-nowrap"
+            >
               Take the Quiz
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14"/>
-                <path d="m12 5 7 7-7 7"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
               </svg>
             </a>
-            <a href="#protocols" className="flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-transparent text-black font-semibold text-base md:text-lg border-2 border-black hover:bg-black hover:text-white transition-all text-center">
+            <a
+              href="#protocols"
+              className="flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-2.5 rounded-full bg-transparent text-black font-semibold text-base md:text-lg border-2 border-black hover:bg-black hover:text-white transition-all text-center"
+            >
               buy CONKA
             </a>
           </div>
           {/* Scroll indicator */}
           <div className="text-center">
-            <p className="font-commentary text-base md:text-lg">scroll to explore</p>
+            <p className="font-commentary text-base md:text-lg">
+              scroll to explore
+            </p>
             <div className="mt-1 sm:mt-2 md:mt-2 animate-bounce">↓</div>
           </div>
         </div>
@@ -64,4 +84,3 @@ export default function Hero() {
     </section>
   );
 }
-
