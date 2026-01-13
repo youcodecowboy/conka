@@ -5,7 +5,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { BannerConfig } from "./types";
 
-const FOUNDING_MEMBER_DEADLINE = new Date("2026-03-31T23:59:59");
+const FOUNDING_MEMBER_DEADLINE = new Date("2026-03-15T23:59:59");
 
 /**
  * Hook to get active banner configuration
@@ -14,8 +14,8 @@ const FOUNDING_MEMBER_DEADLINE = new Date("2026-03-31T23:59:59");
 export function useBannerConfig(bannerId: string): BannerConfig | null {
   // Fetch spots remaining from Convex
   const counter = useQuery(api.foundingMemberCounter.getCounter);
-  const spotsRemaining = counter?.spotsRemaining ?? 492; // Fallback to 492
-  const isUrgent = spotsRemaining <= 50;
+  const spotsRemaining = counter?.spotsRemaining ?? 158; // Fallback to 158
+  const isUrgent = spotsRemaining <= 20; // Urgent when 20 or fewer spots (10% of 200)
 
   // Get config based on bannerId
   const config = useMemo(() => {
@@ -29,17 +29,19 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
         dismissalKey: "foundingMemberBannerDismissed",
         content: {
           text: [
-            { text: "Founding Member • Use code " },
-            { text: "FOUNDING1000", bold: true, isCode: true },
-            { text: " for 20% off any subscription for an entire year • " },
+            { text: "Founding Member • Code " },
+            { text: "FOUNDER200", bold: true, isCode: true },
+            {
+              text: " • 20% off subscriptions for a year • Deadline: 15th March 2026 • ",
+            },
           ],
           secondaryText: [
-            { text: `${spotsRemaining}`, bold: true, urgent: isUrgent },
-            { text: " spots remaining", bold: true },
+            { text: `${spotsRemaining} `, bold: true, urgent: isUrgent },
+            { text: "spots remaining", bold: true },
           ],
           button: {
             text: "Copy Code",
-            copyText: "FOUNDING1000",
+            copyText: "FOUNDER200",
           },
         },
         styling: {

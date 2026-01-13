@@ -971,7 +971,7 @@ export const athletes: AthleteData[] = [
     sport: "business",
     profession: "PhD Researcher",
     organization: "University of Cambridge",
-    achievement: "Pancreatic cancer researcher, AstraZeneca consultant",
+    achievement: "Pancreatic cancer researcher",
     description:
       "Researching the role of Group 2 Innate Lymphoid cells in Pancreatic Cancer funded by the PCUK. Long hours of intense focus and cognitive performance is essential.",
     productVersion: "02",
