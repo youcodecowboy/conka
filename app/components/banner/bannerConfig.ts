@@ -31,7 +31,9 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
           text: [
             { text: "Founding Member • Code " },
             { text: "FOUNDER200", bold: true, isCode: true },
-            { text: " • 20% off subscriptions for a year • Deadline: 15th March 2026 • " },
+            {
+              text: " • 20% off subscriptions for a year • Deadline: 15th March 2026 • ",
+            },
           ],
           secondaryText: [
             { text: `${spotsRemaining}`, bold: true, urgent: isUrgent },
