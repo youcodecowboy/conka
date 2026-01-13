@@ -10,7 +10,7 @@ interface BannerDesktopProps {
 }
 
 function renderTextSegments(
-  segments: { text: string; bold?: boolean; isCode?: boolean }[],
+  segments: { text: string; bold?: boolean; isCode?: boolean; urgent?: boolean }[],
   className: string,
 ) {
   return (
@@ -22,7 +22,7 @@ function renderTextSegments(
             segment.isCode
               ? "mx-1 px-2 py-0.5 bg-white/20 rounded font-mono tracking-wider"
               : ""
-          }`}
+          } ${segment.urgent ? "text-red-500" : ""}`}
         >
           {segment.text}
         </span>
