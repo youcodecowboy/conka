@@ -973,7 +973,7 @@ export const athletes: AthleteData[] = [
     organization: "University of Cambridge",
     achievement: "Pancreatic cancer researcher, AstraZeneca consultant",
     description:
-      "PhD in pancreatic cancer research, part time for AstraZeneca as part of a VC programme, consultant scientist for healthcare start up. Needs her brain to perform at an elite level.",
+      "Researching the role of Group 2 Innate Lymphoid cells in Pancreatic Cancer funded by the PCUK. Long hours of intense focus and cognitive performance is essential.",
     productVersion: "02",
     protocolUsed: "Precision Protocol",
     testsCompleted: 11,
