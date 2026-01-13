@@ -63,6 +63,7 @@ export const initializeCounter = mutation({
 export const updateCounter = mutation({
   args: {
     spotsTaken: v.number(),
+    totalLimit: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     // Get existing counter
@@ -70,15 +71,19 @@ export const updateCounter = mutation({
 
     if (counter) {
       // Update existing counter
-      await ctx.db.patch(counter._id, {
+      const updateData: { spotsTaken: number; updatedAt: number; totalLimit?: number } = {
         spotsTaken: args.spotsTaken,
         updatedAt: Date.now(),
-      });
+      };
+      if (args.totalLimit !== undefined) {
+        updateData.totalLimit = args.totalLimit;
+      }
+      await ctx.db.patch(counter._id, updateData);
       return counter._id;
     } else {
       // Create new counter with default limit
       const id = await ctx.db.insert("foundingMemberCounter", {
-        totalLimit: 200,
+        totalLimit: args.totalLimit ?? 200,
         spotsTaken: args.spotsTaken,
         updatedAt: Date.now(),
       });
