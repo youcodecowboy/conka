@@ -4,7 +4,6 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
-import ProductSlideshowMobile from "./components/ProductSlideshowMobile";
 import type { Benefit } from "./components/KeyBenefits";
 
 // Dynamically import heavy components to reduce initial bundle size
@@ -371,9 +370,6 @@ export default function Home() {
       <Navigation />
       <Hero />
 
-      {/* ===== SECTION 1.5: PRODUCT SLIDESHOW (MOBILE ONLY) ===== */}
-      <ProductSlideshowMobile variant="hero" />
-
       {/* ===== SECTION 2: WHAT IS CONKA ===== */}
       <WhatIsConka />
 
@@ -393,9 +389,6 @@ export default function Home() {
 
       {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
       <TrialPacks />
-
-      {/* ===== SECTION 6.6: PRODUCT SLIDESHOW (MOBILE ONLY) ===== */}
-      <ProductSlideshowMobile variant="packaging" />
 
       {/* ===== SECTION 7: OUR STORY TEASER ===== */}
       <section className="px-6 md:px-16 py-24">
