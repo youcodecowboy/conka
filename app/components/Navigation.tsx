@@ -76,7 +76,7 @@ export default function Navigation({
 
         {/* Header - Edge to edge */}
         <header className="w-full bg-[var(--background)] border-b-2 border-current border-opacity-10">
-          <div className="px-6 md:px-16 py-2 flex justify-between items-center">
+          <div className="px-6 md:px-16 py-1 flex justify-between items-center">
             {/* Logo - Left (links to home) */}
             <a href="/" className="flex items-center">
               <Image
