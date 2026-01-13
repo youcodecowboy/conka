@@ -10,7 +10,12 @@ interface BannerMobileProps {
 }
 
 function renderTextSegments(
-  segments: { text: string; bold?: boolean; isCode?: boolean; urgent?: boolean }[],
+  segments: {
+    text: string;
+    bold?: boolean;
+    isCode?: boolean;
+    urgent?: boolean;
+  }[],
   className: string,
 ) {
   return (
@@ -59,7 +64,7 @@ export default function BannerMobile({ config }: BannerMobileProps) {
     <div
       className={`w-full ${config.styling.bgColor} ${config.styling.textColor} border-b-2 ${config.styling.borderColor || config.styling.bgColor}`}
     >
-      <div className="px-4 py-4 flex items-center min-h-[56px]">
+      <div className="px-4 py-3 flex items-center min-h-[48px]">
         {config.variant === "marquee" ? (
           <>
             <div className="flex-1 overflow-hidden relative min-w-0">
@@ -91,7 +96,7 @@ export default function BannerMobile({ config }: BannerMobileProps) {
               (config.content.button.copyText ? (
                 <button
                   onClick={handleButtonClick}
-                  className="ml-4 px-3 py-1.5 font-semibold text-xs whitespace-nowrap bg-amber-500 text-black border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all rounded-full flex-shrink-0 flex items-center justify-center gap-1.5"
+                  className="ml-4 px-2.5 py-1 font-semibold text-xs whitespace-nowrap bg-amber-500 text-black border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all rounded-full flex-shrink-0 flex items-center justify-center gap-1.5"
                 >
                   {copied ? (
                     <>
