@@ -41,17 +41,6 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
             text: "Copy Code",
             copyText: "FOUNDING1000",
           },
-          mobileContent: {
-            text: [
-              { text: "Founding Member • Use code " },
-              { text: "FOUNDING1000", bold: true, isCode: true },
-              { text: " for 20% off subscriptions for an entire year • " },
-            ],
-            secondaryText: [
-              { text: `${spotsRemaining}`, bold: true, urgent: isUrgent },
-              { text: " spots remaining", bold: true },
-            ],
-          },
         },
         styling: {
           bgColor: "bg-black",
