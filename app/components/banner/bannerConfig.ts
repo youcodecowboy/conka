@@ -36,8 +36,8 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
             },
           ],
           secondaryText: [
-            { text: `${spotsRemaining}`, bold: true, urgent: isUrgent },
-            { text: " spots remaining", bold: true },
+            { text: `${spotsRemaining} `, bold: true, urgent: isUrgent },
+            { text: "spots remaining", bold: true },
           ],
           button: {
             text: "Copy Code",
