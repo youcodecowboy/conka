@@ -1,7 +1,10 @@
 "use client";
 
 import Navigation from "@/app/components/Navigation";
-import { SciencePageDesktop, SciencePageMobile } from "@/app/components/science";
+import {
+  SciencePageDesktop,
+  SciencePageMobile,
+} from "@/app/components/science";
 import useIsMobile from "@/app/hooks/useIsMobile";
 
 export default function SciencePage() {
@@ -22,8 +25,11 @@ export default function SciencePage() {
             <p className="font-clinical text-sm opacity-50">Loading...</p>
           </div>
         </div>
-      ) : isMobile ? <SciencePageMobile /> : <SciencePageDesktop />}
+      ) : isMobile ? (
+        <SciencePageMobile />
+      ) : (
+        <SciencePageDesktop />
+      )}
     </div>
   );
 }
-

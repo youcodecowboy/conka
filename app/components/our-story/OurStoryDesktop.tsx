@@ -52,4 +52,3 @@ export function OurStoryDesktop() {
 }
 
 export default OurStoryDesktop;
-

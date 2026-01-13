@@ -10,13 +10,8 @@ export default function OurStoryPage() {
 
   return (
     <div className="min-h-screen">
-      {/* Navigation - positioned fixed for scroll-snap pages */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm">
-        <Navigation />
-      </div>
-
-      {/* Spacer for fixed nav */}
-      <div className="h-16 lg:h-20" />
+      {/* Navigation with Banner */}
+      <Navigation />
 
       {/* Main Content - Responsive */}
       {isMobile === undefined ? (

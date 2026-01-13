@@ -77,4 +77,14 @@ export default defineSchema({
     .index("by_contest", ["contestId"])
     .index("by_email_contest", ["email", "contestId"])
     .index("by_referrer", ["referrer"]),
+
+  // Founding Member counter - single document to track spots remaining
+  foundingMemberCounter: defineTable({
+    // Total limit of founding member spots
+    totalLimit: v.number(),
+    // Current number of spots taken
+    spotsTaken: v.number(),
+    // Last updated timestamp
+    updatedAt: v.number(),
+  }),
 });
