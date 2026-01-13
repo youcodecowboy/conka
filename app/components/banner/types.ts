@@ -22,6 +22,8 @@ export interface BannerTextSegment {
   bold?: boolean;
   /** Whether this is a code/promo code that should be highlighted */
   isCode?: boolean;
+  /** Whether this segment should be styled as urgent (red text) */
+  urgent?: boolean;
 }
 
 export interface BannerContent {
