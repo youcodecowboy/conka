@@ -388,7 +388,9 @@ export default function Home() {
       </div>
 
       {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
-      <TrialPacks />
+      <div id="trial-packs" className="scroll-mt-20 lg:scroll-mt-20">
+        <TrialPacks />
+      </div>
 
       {/* ===== SECTION 7: OUR STORY TEASER ===== */}
       <section className="px-6 md:px-16 py-24">
