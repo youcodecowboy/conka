@@ -30,7 +30,7 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
         content: {
           text: [
             { text: "Founding Member • Code " },
-            { text: "FOUNDER200", bold: true, isCode: true },
+            { text: "FOUNDING200", bold: true, isCode: true },
             {
               text: " • 20% off subscriptions for a year • Deadline: 15th March 2026 • ",
             },
@@ -41,7 +41,7 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
           ],
           button: {
             text: "Copy Code",
-            copyText: "FOUNDER200",
+            copyText: "FOUNDING200",
           },
         },
         styling: {
