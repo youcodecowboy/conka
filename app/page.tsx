@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import type { Benefit } from "./components/KeyBenefits";
@@ -395,13 +396,13 @@ export default function Home() {
       {/* ===== SECTION 7: OUR STORY TEASER ===== */}
       <section className="px-6 md:px-16 py-24">
         <div className="max-w-4xl mx-auto">
-          <p className="font-commentary text-xl mb-4 text-center md:text-left">
+          <p className="font-commentary text-xl mb-4 text-center">
             the story behind conka
           </p>
 
-          <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-center">
+          <div className="flex flex-col gap-8 md:gap-12 items-center">
             {/* Icons */}
-            <div className="flex gap-4 md:gap-6 flex-shrink-0">
+            <div className="flex gap-4 md:gap-6 justify-center">
               {/* Brain Icon */}
               <div className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-current flex items-center justify-center">
                 <svg
@@ -459,11 +460,24 @@ export default function Home() {
             </div>
 
             {/* Story Content */}
-            <div className="text-center md:text-left">
+            <div className="text-center w-full max-w-2xl mx-auto">
               <h2 className="text-2xl md:text-3xl font-bold mb-4">
                 Founded by Two Friends
               </h2>
-              <p className="text-lg opacity-80 mb-6 max-w-xl">
+
+              {/* Founder Image */}
+              <div className="mb-6">
+                <div className="relative w-full max-w-xs md:max-w-sm h-64 md:h-80 mx-auto">
+                  <Image
+                    src="/TwoFounders.jpg"
+                    alt="Conka founders"
+                    fill
+                    className="object-cover rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <p className="text-lg opacity-80 mb-6 max-w-xl mx-auto">
                 After a trip to the Olympics and a career-ending concussion, two
                 athletes and best friends set out to solve a problem nobody was
                 talking about: recovery for the brain. Over £500,000 in research
