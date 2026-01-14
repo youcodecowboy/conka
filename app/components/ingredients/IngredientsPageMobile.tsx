@@ -48,8 +48,8 @@ export default function IngredientsPageMobile({
       {/* Header */}
       <div className="px-4 mb-6">
         <h1 className="text-2xl font-bold mb-1">The Science Inside</h1>
-        <p className="font-commentary text-base opacity-70">
-          explore every ingredient
+        <p className="font-clinical text-sm opacity-70">
+          Explore every ingredient
         </p>
       </div>
 

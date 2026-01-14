@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 import { IngredientData, CATEGORY_INFO } from "@/app/lib/ingredientsData";
 
 interface IngredientCarouselProps {
@@ -22,7 +23,10 @@ export default function IngredientCarousel({
     const activeElement = itemRefs.current.get(activeIngredientId);
     if (activeElement && scrollRef.current) {
       const container = scrollRef.current;
-      const scrollLeft = activeElement.offsetLeft - container.offsetWidth / 2 + activeElement.offsetWidth / 2;
+      const scrollLeft =
+        activeElement.offsetLeft -
+        container.offsetWidth / 2 +
+        activeElement.offsetWidth / 2;
       container.scrollTo({ left: scrollLeft, behavior: "smooth" });
     }
   }, [activeIngredientId]);
@@ -55,26 +59,46 @@ export default function IngredientCarousel({
             >
               <div
                 className={`neo-box overflow-hidden ${
-                  isActive ? "border-2 border-[var(--foreground)]" : "border border-current/30"
+                  isActive
+                    ? "border-2 border-[var(--foreground)]"
+                    : "border border-current/30"
                 }`}
               >
-                {/* Image Placeholder */}
-                <div className="aspect-square placeholder-box bg-current/5">
-                  <span className="font-clinical text-[8px] text-center px-1">
-                    [{ingredient.name.toUpperCase()}]
-                  </span>
+                {/* Image */}
+                <div className="relative aspect-square">
+                  {ingredient.image ? (
+                    <Image
+                      src={ingredient.image}
+                      alt={ingredient.name}
+                      fill
+                      sizes="128px"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full placeholder-box bg-current/5 flex items-center justify-center">
+                      <span className="font-clinical text-[8px] text-center px-1">
+                        [{ingredient.name.toUpperCase()}]
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Info */}
                 <div className="p-2">
                   <div className="flex items-center gap-1 mb-1">
-                    <span className={`w-1.5 h-1.5 rounded-full ${categoryInfo.color}`} />
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${categoryInfo.color}`}
+                    />
                     <span className="font-clinical text-[10px] opacity-60 truncate">
                       {categoryInfo.name}
                     </span>
                   </div>
-                  <p className="font-bold text-xs truncate">{ingredient.name}</p>
-                  <p className="font-clinical text-sm font-medium">{ingredient.percentage}</p>
+                  <p className="font-bold text-xs truncate">
+                    {ingredient.name}
+                  </p>
+                  <p className="font-clinical text-sm font-medium">
+                    {ingredient.percentage}
+                  </p>
                 </div>
               </div>
             </button>
@@ -83,10 +107,9 @@ export default function IngredientCarousel({
       </div>
 
       {/* Scroll Hint */}
-      <p className="font-commentary text-xs text-center mt-2 opacity-50">
+      <p className="font-commentary text-md text-center mt-2 ">
         swipe to explore
       </p>
     </div>
   );
 }
-

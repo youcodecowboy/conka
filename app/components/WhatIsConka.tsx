@@ -220,7 +220,7 @@ function WhatIsConkaMobile() {
   };
 
   return (
-    <section className="py-12 overflow-hidden">
+    <section className="pt-6 md:pt-4 pb-12 overflow-hidden">
       {/* Header */}
       <div className="px-6 mb-6">
         <p className="font-commentary text-lg mb-2">engineered for results</p>
@@ -319,7 +319,7 @@ function WhatIsConkaMobile() {
 
 function WhatIsConkaDesktop() {
   return (
-    <section className="px-16 pt-16 pb-12">
+    <section className="px-16 pt-8 pb-12">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
