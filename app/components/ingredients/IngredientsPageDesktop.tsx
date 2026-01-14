@@ -54,8 +54,8 @@ export default function IngredientsPageDesktop({
               <h1 className="text-4xl lg:text-5xl font-bold mb-2">
                 The Science Inside
               </h1>
-              <p className="font-commentary text-xl lg:text-2xl">
-                explore every ingredient
+              <p className="font-clinical text-base">
+                Explore every ingredient
               </p>
             </div>
 
