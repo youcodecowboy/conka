@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Navigation from "./components/Navigation";
@@ -159,12 +159,14 @@ const faqItems = [
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [shuffledTestimonials, setShuffledTestimonials] = useState<
+    typeof testimonials
+  >([]);
 
-  // Shuffle testimonials for variety (memoized to prevent re-shuffling on re-renders)
-  const shuffledTestimonials = useMemo(
-    () => shuffleTestimonials(testimonials),
-    [],
-  );
+  // Shuffle testimonials on client side only to avoid hydration mismatch
+  useEffect(() => {
+    setShuffledTestimonials(shuffleTestimonials(testimonials));
+  }, []);
 
   // Key Benefits Data - All stats from verified PubMed studies
   const keyBenefits: Benefit[] = [
@@ -392,7 +394,9 @@ export default function Home() {
       <KeyBenefits benefits={keyBenefits} />
 
       {/* ===== SECTION 2.75: TESTIMONIALS ===== */}
-      <Testimonials testimonials={shuffledTestimonials} />
+      {shuffledTestimonials.length > 0 && (
+        <Testimonials testimonials={shuffledTestimonials} />
+      )}
 
       {/* ===== SECTION 3: INGREDIENTS ===== */}
       <Ingredients />
