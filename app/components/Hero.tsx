@@ -37,8 +37,8 @@ export default function Hero() {
             backed by 250+ clinical studies
           </p> */}
           <p className="font-clinical text-sm sm:text-lg md:text-xl lg:text-2xl leading-tight">
-            upgrade focus + reduce stress + eliminate brain fog + boost mental
-            clarity
+            Upgrade Focus + Reduce Stress + Eliminate Brain Fog + Boost Mental
+            Clarity
           </p>
         </div>
 
