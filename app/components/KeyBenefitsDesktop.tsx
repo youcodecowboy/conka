@@ -114,7 +114,9 @@ export default function KeyBenefitsDesktop({
               <h2 className="text-3xl md:text-4xl font-bold mb-2">
                 Key Benefits
               </h2>
-              <p className="font-commentary text-xl">backed by real science</p>
+              <p className="font-clinical opacity-70 text-lg">
+                backed by real science, tap to explore
+              </p>
             </div>
 
             {/* Benefit Navigation Buttons - Pill shaped */}
@@ -125,7 +127,7 @@ export default function KeyBenefitsDesktop({
                   <button
                     key={benefit.id}
                     onClick={() => setActiveBenefit(idx)}
-                    className={`px-5 py-2 rounded-full border-2 border-black transition-all flex items-center gap-2 ${
+                    className={`px-5 md:px-7 lg:px-8 py-2 md:py-3.5 lg:py-4 rounded-full border-2 border-black transition-all flex items-center justify-center gap-2 md:gap-2.5 lg:gap-3 ${
                       isActive
                         ? "bg-black text-white"
                         : "bg-transparent text-black hover:bg-black/10"
@@ -133,12 +135,12 @@ export default function KeyBenefitsDesktop({
                   >
                     {benefit.icon && (
                       <span
-                        className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-white" : "text-black"}`}
+                        className={`w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 flex-shrink-0 flex items-center justify-center ${isActive ? "text-white" : "text-black"}`}
                       >
                         {benefit.icon}
                       </span>
                     )}
-                    <span className="font-primary font-medium text-sm whitespace-nowrap">
+                    <span className="font-primary font-medium text-sm md:text-base lg:text-lg whitespace-nowrap flex items-center">
                       {benefit.title}
                     </span>
                   </button>
