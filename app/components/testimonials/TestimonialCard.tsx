@@ -6,6 +6,7 @@ import { TestimonialCardProps } from "./types";
 /**
  * Star Rating Component
  * Displays 5 stars, filled based on rating value (1-5)
+ * Uses amber accent color for filled stars
  */
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -17,16 +18,44 @@ function StarRating({ rating }: { rating: number }) {
           width="16"
           height="16"
           viewBox="0 0 24 24"
-          fill={star <= rating ? "currentColor" : "none"}
-          stroke="currentColor"
+          fill={star <= rating ? "#f59e0b" : "none"}
+          stroke={star <= rating ? "#f59e0b" : "currentColor"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={star <= rating ? "text-current" : "text-current opacity-30"}
+          className={star <= rating ? "" : "opacity-30"}
         >
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
       ))}
+    </div>
+  );
+}
+
+/**
+ * Verified Customer Badge
+ * Blue checkmark badge similar to Meta/X verified accounts
+ */
+function VerifiedBadge() {
+  return (
+    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#3b82f6"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="flex-shrink-0"
+      >
+        <path d="M20 6L9 17l-5-5" />
+      </svg>
+      <span className="font-clinical text-[10px] text-blue-600 font-medium">
+        Verified Customer
+      </span>
     </div>
   );
 }
@@ -72,11 +101,16 @@ export default function TestimonialCard({
         borderColor: "rgba(0, 0, 0, 0.7)",
       }}
     >
-      {/* Header: Name and Country */}
+      {/* Header: Name, Verified Badge, and Country */}
       <div className="mb-3">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="font-bold text-lg">{name}</h3>
-          <span className="font-clinical text-xs opacity-70">{country}</span>
+        <div className="flex items-start justify-between mb-2 gap-2">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1.5">
+              <h3 className="font-bold text-lg">{name}</h3>
+              <VerifiedBadge />
+            </div>
+            <span className="font-clinical text-xs opacity-70">{country}</span>
+          </div>
         </div>
 
         {/* Rating Stars */}
