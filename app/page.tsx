@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import type { Benefit } from "./components/KeyBenefits";
+import { testimonials, shuffleTestimonials } from "./lib/testimonialsData";
 
 // Dynamically import heavy components to reduce initial bundle size
 // These components are below the fold and contain heavy dependencies like recharts
@@ -35,6 +36,13 @@ const CaseStudiesDataDriven = dynamic(
 const Ingredients = dynamic(() => import("./components/Ingredients"), {
   loading: () => <div className="h-[400px]" />,
 });
+
+const Testimonials = dynamic(
+  () => import("./components/testimonials/Testimonials"),
+  {
+    loading: () => <div className="h-[500px]" />,
+  },
+);
 
 const faqItems = [
   {
@@ -151,6 +159,12 @@ const faqItems = [
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+
+  // Shuffle testimonials for variety (memoized to prevent re-shuffling on re-renders)
+  const shuffledTestimonials = useMemo(
+    () => shuffleTestimonials(testimonials),
+    [],
+  );
 
   // Key Benefits Data - All stats from verified PubMed studies
   const keyBenefits: Benefit[] = [
@@ -376,6 +390,9 @@ export default function Home() {
 
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
       <KeyBenefits benefits={keyBenefits} />
+
+      {/* ===== SECTION 2.75: TESTIMONIALS ===== */}
+      <Testimonials testimonials={shuffledTestimonials} />
 
       {/* ===== SECTION 3: INGREDIENTS ===== */}
       <Ingredients />
