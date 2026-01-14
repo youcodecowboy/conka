@@ -4,9 +4,9 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="min-h-[calc(100vh-80px)] md:min-h-0 px-4 sm:px-6 md:px-16 pt-2 sm:pt-5 md:pt-12 lg:pt-5 xl:pt-6 pb-3 md:pb-12 flex flex-col">
+    <section className="min-h-0 md:min-h-0 px-4 sm:px-6 md:px-16 pt-2 sm:pt-5 md:pt-12 lg:pt-5 xl:pt-6 pb-2 mb-2 md:pb-12 md:mb-0 flex flex-col">
       {/* Hero Content - Product Centered */}
-      <div className="flex-1 flex flex-col items-center justify-start md:justify-start pt-2 sm:pt-2 md:pt-0 lg:pt-1">
+      <div className="flex flex-col items-center justify-start md:justify-start pt-2 sm:pt-2 md:pt-0 lg:pt-1">
         {/* Top Section: Headlines */}
         <div className="w-full mb-1 sm:mb-3 md:mb-2">
           <h1 className="text-2xl sm:text-4xl md:text-4xl lg:text-5xl font-bold mb-1 sm:mb-3 md:mb-2 text-center">
@@ -43,7 +43,7 @@ export default function Hero() {
         </div>
 
         {/* CTA Button - Single decision - Reduced top margin */}
-        <div className="flex flex-col items-center w-full max-w-md sm:max-w-lg md:max-w-md px-4 mt-2 sm:mt-6 md:mt-4 mb-2 sm:mb-6 md:mb-6">
+        <div className="flex flex-col items-center w-full max-w-md sm:max-w-lg md:max-w-md px-4 mt-2 sm:mt-6 md:mt-4 mb-0 sm:mb-6 md:mb-6">
           <div className="w-full max-w-[280px] sm:max-w-none mb-2 sm:mb-5 md:mb-3">
             <a
               href="#trial-packs"
