@@ -22,7 +22,7 @@ export default function Hero() {
         <div className="relative flex items-center justify-center w-full my-0.5 sm:my-2 md:my-1">
           <Image
             src="/HeroImage.jpg"
-            alt="Conka nootropic shot"
+            alt="CONKA nootropic shot"
             width={500}
             height={625}
             className="w-[300px] sm:w-[396px] md:w-[380px] lg:w-[400px] xl:w-[450px] h-auto md:h-auto max-h-[260px] md:max-h-none object-cover object-center max-w-[85vw] sm:max-w-[80vw] md:max-w-none"

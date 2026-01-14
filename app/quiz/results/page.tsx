@@ -7,7 +7,10 @@ import {
   QuizResultsOverview,
   QuizRecommendedSection,
 } from "@/app/components/quiz";
-import { StickyPurchaseFooter, StickyPurchaseFooterMobile } from "@/app/components/product";
+import {
+  StickyPurchaseFooter,
+  StickyPurchaseFooterMobile,
+} from "@/app/components/product";
 import {
   calculateQuizResults,
   UserAnswers,
@@ -26,16 +29,19 @@ export default function QuizResultsPage() {
   const { addToCart } = useCart();
 
   const [results, setResults] = useState<QuizResult[]>([]);
-  const [selectedProtocol, setSelectedProtocol] = useState<ProtocolKey | null>(null);
+  const [selectedProtocol, setSelectedProtocol] = useState<ProtocolKey | null>(
+    null,
+  );
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
-  const [purchaseType, setPurchaseType] = useState<PurchaseType>("subscription");
+  const [purchaseType, setPurchaseType] =
+    useState<PurchaseType>("subscription");
   const [showStickyFooter, setShowStickyFooter] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Load results from sessionStorage on mount
   useEffect(() => {
     const storedAnswers = sessionStorage.getItem("quizAnswers");
-    
+
     if (!storedAnswers) {
       // No answers found, redirect back to quiz
       router.push("/quiz");
@@ -46,17 +52,20 @@ export default function QuizResultsPage() {
       const answers: UserAnswers = JSON.parse(storedAnswers);
       const calculatedResults = calculateQuizResults(answers);
       setResults(calculatedResults);
-      
+
       // Set the recommended protocol (first in sorted results)
       if (calculatedResults.length > 0) {
         setSelectedProtocol(calculatedResults[0].protocolId);
-        
+
         // Adjust tier for Protocol 4 (no starter)
-        if (calculatedResults[0].protocolNumber === "4" && selectedTier === "starter") {
+        if (
+          calculatedResults[0].protocolNumber === "4" &&
+          selectedTier === "starter"
+        ) {
           setSelectedTier("pro");
         }
       }
-      
+
       setIsLoaded(true);
     } catch {
       router.push("/quiz");
@@ -86,7 +95,7 @@ export default function QuizResultsPage() {
 
   const handleProtocolSelect = (protocolId: ProtocolKey) => {
     setSelectedProtocol(protocolId);
-    
+
     // Scroll to recommended section
     setTimeout(() => {
       recommendedSectionRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -95,17 +104,29 @@ export default function QuizResultsPage() {
 
   const handleAddToCart = async () => {
     if (protocolId) {
-      const variantData = getProtocolVariantId(protocolId, selectedTier, purchaseType);
+      const variantData = getProtocolVariantId(
+        protocolId,
+        selectedTier,
+        purchaseType,
+      );
       if (variantData) {
         await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
       } else {
-        console.warn("Variant ID not configured for:", { protocol: protocolId, tier: selectedTier, type: purchaseType });
+        console.warn("Variant ID not configured for:", {
+          protocol: protocolId,
+          tier: selectedTier,
+          type: purchaseType,
+        });
       }
     }
   };
 
-  const recommendedProtocol = selectedProtocol || (results[0]?.protocolId ?? null);
-  const protocolId = recommendedProtocol?.replace("protocol", "") as ProtocolId | null;
+  const recommendedProtocol =
+    selectedProtocol || (results[0]?.protocolId ?? null);
+  const protocolId = recommendedProtocol?.replace(
+    "protocol",
+    "",
+  ) as ProtocolId | null;
 
   // Show loading state while checking for answers
   if (!isLoaded) {
@@ -170,7 +191,10 @@ export default function QuizResultsPage() {
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">
               <div className="text-center md:text-left">
-                <a href="/" className="text-xl font-bold tracking-tight font-primary">
+                <a
+                  href="/"
+                  className="text-xl font-bold tracking-tight font-primary"
+                >
                   conka.
                 </a>
                 <p className="font-commentary text-sm opacity-60 mt-1">
@@ -178,16 +202,28 @@ export default function QuizResultsPage() {
                 </p>
               </div>
               <nav className="flex flex-wrap items-center justify-center gap-4">
-                <a href="/" className="font-clinical text-xs hover:opacity-70 transition-all">
+                <a
+                  href="/"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
                   Home
                 </a>
-                <a href="/conka-flow" className="font-clinical text-xs hover:opacity-70 transition-all">
-                  Conka Flow
+                <a
+                  href="/conka-flow"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  CONKA Flow
                 </a>
-                <a href="/conka-clarity" className="font-clinical text-xs hover:opacity-70 transition-all">
-                  Conka Clarity
+                <a
+                  href="/conka-clarity"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  CONKA Clarity
                 </a>
-                <a href="/protocol/1" className="font-clinical text-xs hover:opacity-70 transition-all">
+                <a
+                  href="/protocol/1"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
                   Protocols
                 </a>
               </nav>
@@ -197,8 +233,9 @@ export default function QuizResultsPage() {
       </main>
 
       {/* Sticky Purchase Footer (only when recommended section is visible) */}
-      {showStickyFooter && protocolId && (
-        isMobile ? (
+      {showStickyFooter &&
+        protocolId &&
+        (isMobile ? (
           <StickyPurchaseFooterMobile
             protocolId={protocolId}
             selectedTier={selectedTier}
@@ -214,12 +251,7 @@ export default function QuizResultsPage() {
             onPurchaseTypeChange={setPurchaseType}
             onAddToCart={handleAddToCart}
           />
-        )
-      )}
-
+        ))}
     </div>
   );
 }
-
-
-

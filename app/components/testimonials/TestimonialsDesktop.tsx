@@ -84,7 +84,7 @@ export default function TestimonialsDesktop({
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
             Don't just take our word for it
           </h2>
-          <p className="font-commentary text-xl opacity-80">
+          <p className="font-clinical text-l opacity-70">
             see what our customers are saying
           </p>
         </div>

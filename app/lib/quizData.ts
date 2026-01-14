@@ -1,28 +1,60 @@
 // ===== QUIZ DATA =====
 
 // Extended answer values to support various question formats
-export type AnswerValue = 
+export type AnswerValue =
   // Yes/No/Sometimes (original)
-  | "yes" | "no" | "sometimes"
+  | "yes"
+  | "no"
+  | "sometimes"
   // Training frequency
-  | "4plus" | "1to3" | "rarely"
+  | "4plus"
+  | "1to3"
+  | "rarely"
   // Athlete type
-  | "endurance" | "strength" | "combat" | "cognitive" | "not-athletic"
+  | "endurance"
+  | "strength"
+  | "combat"
+  | "cognitive"
+  | "not-athletic"
   // Frequency variations
   | "occasionally"
   // Memory scale
-  | "poor" | "average" | "excellent"
+  | "poor"
+  | "average"
+  | "excellent"
   // Supplement usage
-  | "multiple" | "basics" | "none"
+  | "multiple"
+  | "basics"
+  | "none"
   // Cognitive demand
-  | "extreme" | "moderate" | "light"
+  | "extreme"
+  | "moderate"
+  | "light"
   // Primary goals
-  | "resilience" | "clarity" | "balance" | "maximum";
+  | "resilience"
+  | "clarity"
+  | "balance"
+  | "maximum";
 
 export type ProtocolKey = "protocol1" | "protocol2" | "protocol3" | "protocol4";
 
 // Icon types for quiz options
-export type QuizIcon = "check" | "x" | "tilde" | "dumbbell" | "run" | "boxing" | "brain" | "user" | "shield" | "bolt" | "scale" | "crown" | "pill" | "sparkles" | "zap";
+export type QuizIcon =
+  | "check"
+  | "x"
+  | "tilde"
+  | "dumbbell"
+  | "run"
+  | "boxing"
+  | "brain"
+  | "user"
+  | "shield"
+  | "bolt"
+  | "scale"
+  | "crown"
+  | "pill"
+  | "sparkles"
+  | "zap";
 
 export interface QuizOption {
   label: string;
@@ -75,7 +107,8 @@ export const protocolMatchInfo: Record<ProtocolKey, ProtocolMatchInfo> = {
     protocolNumber: "1",
     name: "Resilience Protocol",
     subtitle: "Build Resilience, Stay Sharp",
-    bestForSummary: "Resilience Protocol is perfect for people who need consistent daily energy, struggle with stress management, and want better recovery. The adaptogen-focused approach with Conka Flow builds your foundation while strategic Conka Clarity boosts keep you sharp when it matters most.",
+    bestForSummary:
+      "Resilience Protocol is perfect for people who need consistent daily energy, struggle with stress management, and want better recovery. The adaptogen-focused approach with CONKA Flow builds your foundation while strategic CONKA Clarity boosts keep you sharp when it matters most.",
     keyBenefits: [
       "Daily stress resilience (-56% stress scores, PMID: 23439798)",
       "Improved sleep quality (+42%, PMID: 32021735)",
@@ -89,7 +122,8 @@ export const protocolMatchInfo: Record<ProtocolKey, ProtocolMatchInfo> = {
     protocolNumber: "2",
     name: "Precision Protocol",
     subtitle: "Peak Cognition, Zero Burnout",
-    bestForSummary: "Precision Protocol is ideal for those who need sustained mental clarity, experience brain fog, or have demanding cognitive work. The nootropic-heavy approach with Conka Clarity enhances focus and reaction time, while weekly Conka Flow prevents burnout.",
+    bestForSummary:
+      "Precision Protocol is ideal for those who need sustained mental clarity, experience brain fog, or have demanding cognitive work. The nootropic-heavy approach with CONKA Clarity enhances focus and reaction time, while weekly CONKA Flow prevents burnout.",
     keyBenefits: [
       "Enhanced memory & attention (+63%, PMID: 29246725)",
       "Increased cerebral blood flow (+57%, PMID: 21802920)",
@@ -103,7 +137,8 @@ export const protocolMatchInfo: Record<ProtocolKey, ProtocolMatchInfo> = {
     protocolNumber: "3",
     name: "Balance Protocol",
     subtitle: "The Best of Both Worlds",
-    bestForSummary: "Balance Protocol is designed for all-rounders who want comprehensive cognitive support without committing to one dominant formula. Perfect for those with varied daily demands who need both energy resilience and mental sharpness throughout the week.",
+    bestForSummary:
+      "Balance Protocol is designed for all-rounders who want comprehensive cognitive support without committing to one dominant formula. Perfect for those with varied daily demands who need both energy resilience and mental sharpness throughout the week.",
     keyBenefits: [
       "Complete cognitive coverage (both formulas)",
       "Stress resilience + mental clarity synergy",
@@ -117,7 +152,8 @@ export const protocolMatchInfo: Record<ProtocolKey, ProtocolMatchInfo> = {
     protocolNumber: "4",
     name: "Ultimate Protocol",
     subtitle: "Maximum Power, Every Day",
-    bestForSummary: "Ultimate Protocol is the ultimate choice for high performers who demand peak cognitive function every single day. With both Conka Flow and Conka Clarity daily, you get maximum adaptogenic support and nootropic enhancement for uncompromising performance.",
+    bestForSummary:
+      "Ultimate Protocol is the ultimate choice for high performers who demand peak cognitive function every single day. With both CONKA Flow and CONKA Clarity daily, you get maximum adaptogenic support and nootropic enhancement for uncompromising performance.",
     keyBenefits: [
       "Daily adaptogen + nootropic stack",
       "Stress resilience (-56%) + memory boost (+63%)",
@@ -134,7 +170,8 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: "brain-fog",
     question: "Do you experience brain fog throughout the day?",
-    subtitle: "Difficulty concentrating, mental cloudiness, or feeling mentally sluggish",
+    subtitle:
+      "Difficulty concentrating, mental cloudiness, or feeling mentally sluggish",
     measures: "mental clarity needs",
     options: [
       {
@@ -213,7 +250,8 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: "training-intensity",
     question: "How many times per week do you train intensely?",
-    subtitle: "Intense = 60+ minutes of resistance, endurance, or combat training",
+    subtitle:
+      "Intense = 60+ minutes of resistance, endurance, or combat training",
     measures: "physical recovery demands",
     options: [
       {
@@ -360,7 +398,8 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: "cognitive-demand",
     question: "How cognitively demanding is your typical day?",
-    subtitle: "Consider decision-making, problem-solving, and mental focus requirements",
+    subtitle:
+      "Consider decision-making, problem-solving, and mental focus requirements",
     measures: "cognitive workload",
     options: [
       {
@@ -386,7 +425,7 @@ export const quizQuestions: QuizQuestion[] = [
   // Question 10: Primary Goal
   {
     id: "primary-goal",
-    question: "What's your #1 goal with Conka?",
+    question: "What's your #1 goal with CONKA?",
     subtitle: "Select what matters most to you right now",
     measures: "user intent",
     options: [
@@ -427,7 +466,7 @@ export type UserAnswers = Record<string, AnswerValue>;
  */
 function getMaxPossiblePoints(protocolKey: ProtocolKey): number {
   let maxPoints = 0;
-  
+
   for (const question of quizQuestions) {
     let questionMax = 0;
     for (const option of question.options) {
@@ -438,7 +477,7 @@ function getMaxPossiblePoints(protocolKey: ProtocolKey): number {
     }
     maxPoints += questionMax;
   }
-  
+
   return maxPoints;
 }
 
@@ -447,15 +486,17 @@ function getMaxPossiblePoints(protocolKey: ProtocolKey): number {
  */
 function calculateProtocolScore(
   protocolKey: ProtocolKey,
-  answers: UserAnswers
+  answers: UserAnswers,
 ): { totalPoints: number; breakdown: QuestionBreakdown[] } {
   let totalPoints = 0;
   const breakdown: QuestionBreakdown[] = [];
-  
+
   for (const question of quizQuestions) {
     const userAnswer = answers[question.id];
-    const selectedOption = question.options.find((opt) => opt.value === userAnswer);
-    
+    const selectedOption = question.options.find(
+      (opt) => opt.value === userAnswer,
+    );
+
     // Calculate max points for this question for this protocol
     let maxPoints = 0;
     for (const option of question.options) {
@@ -464,10 +505,10 @@ function calculateProtocolScore(
         maxPoints = points;
       }
     }
-    
+
     const pointsAwarded = selectedOption?.scores[protocolKey] || 0;
     totalPoints += pointsAwarded;
-    
+
     breakdown.push({
       questionId: question.id,
       questionText: question.question,
@@ -477,7 +518,7 @@ function calculateProtocolScore(
       maxPoints,
     });
   }
-  
+
   return { totalPoints, breakdown };
 }
 
@@ -486,17 +527,26 @@ function calculateProtocolScore(
  * Returns sorted array with highest match first
  */
 export function calculateQuizResults(answers: UserAnswers): QuizResult[] {
-  const protocols: ProtocolKey[] = ["protocol1", "protocol2", "protocol3", "protocol4"];
+  const protocols: ProtocolKey[] = [
+    "protocol1",
+    "protocol2",
+    "protocol3",
+    "protocol4",
+  ];
   const results: QuizResult[] = [];
-  
+
   for (const protocolKey of protocols) {
     const maxPossiblePoints = getMaxPossiblePoints(protocolKey);
-    const { totalPoints, breakdown } = calculateProtocolScore(protocolKey, answers);
-    
-    const percentage = maxPossiblePoints > 0 
-      ? Math.round((totalPoints / maxPossiblePoints) * 100) 
-      : 0;
-    
+    const { totalPoints, breakdown } = calculateProtocolScore(
+      protocolKey,
+      answers,
+    );
+
+    const percentage =
+      maxPossiblePoints > 0
+        ? Math.round((totalPoints / maxPossiblePoints) * 100)
+        : 0;
+
     results.push({
       protocolId: protocolKey,
       protocolNumber: protocolKey.replace("protocol", ""),
@@ -506,7 +556,7 @@ export function calculateQuizResults(answers: UserAnswers): QuizResult[] {
       questionBreakdown: breakdown,
     });
   }
-  
+
   // Sort by percentage descending, then by protocol number ascending for ties
   results.sort((a, b) => {
     if (b.percentage !== a.percentage) {
@@ -514,7 +564,7 @@ export function calculateQuizResults(answers: UserAnswers): QuizResult[] {
     }
     return parseInt(a.protocolNumber) - parseInt(b.protocolNumber);
   });
-  
+
   return results;
 }
 
@@ -529,7 +579,9 @@ export function getRecommendedProtocol(answers: UserAnswers): QuizResult {
 /**
  * Get protocol match info by protocol key
  */
-export function getProtocolMatchInfo(protocolKey: ProtocolKey): ProtocolMatchInfo {
+export function getProtocolMatchInfo(
+  protocolKey: ProtocolKey,
+): ProtocolMatchInfo {
   return protocolMatchInfo[protocolKey];
 }
 
@@ -546,6 +598,3 @@ export function getQuizQuestions(): QuizQuestion[] {
 export function getQuestionById(id: string): QuizQuestion | undefined {
   return quizQuestions.find((q) => q.id === id);
 }
-
-
-

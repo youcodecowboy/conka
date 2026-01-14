@@ -153,7 +153,7 @@ const faqItems = [
     category: "Usage",
     question: "When should I take it?",
     answer:
-      "Conka Flow is best taken in the morning with or without food. Conka Clarity is best 30-60 minutes before you need peak performance.",
+      "CONKA Flow is best taken in the morning with or without food. CONKA Clarity is best 30-60 minutes before you need peak performance.",
   },
 ];
 
@@ -491,7 +491,7 @@ export default function Home() {
                 <div className="relative w-full max-w-xs md:max-w-sm h-64 md:h-80 mx-auto">
                   <Image
                     src="/TwoFounders.jpg"
-                    alt="Conka founders"
+                    alt="CONKA founders"
                     fill
                     className="object-cover rounded-lg"
                   />
@@ -591,7 +591,7 @@ export default function Home() {
                 href="/"
                 className="flex items-center hover:opacity-70 transition-all"
               >
-                <img src="/conka.png" alt="Conka logo" className="h-6 w-auto" />
+                <img src="/conka.png" alt="CONKA logo" className="h-6 w-auto" />
               </a>
 
               {/* Mini Nav */}
@@ -673,7 +673,7 @@ export default function Home() {
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                   </svg>
-                  Buy Conka
+                  Buy CONKA
                 </a>
               </div>
               <p className="font-clinical text-xs opacity-50">

@@ -12,7 +12,7 @@ Integrate the Cognica WebSDK cognitive test into the science page with:
 
 - Email capture modal before test starts
 - Iframe-based SDK rendering (short version only for now)
-- Custom post-test results UI matching Conka's neo-brutalist style
+- Custom post-test results UI matching CONKA's neo-brutalist style
 - Responsive design for desktop and mobile
 
 **Implementation Strategy:** Each phase is split into Desktop (A) and Mobile (B) sub-phases. Complete Desktop first, then adapt for Mobile.
@@ -362,7 +362,7 @@ export default function CognicaSDK({
 │  What This Means                                                    │
 │  [Interpretation based on score tier]                               │
 │                                                                     │
-│  How Conka Can Help                                                 │
+│  How CONKA Can Help                                                 │
 │  [Product recommendations with links]                               │
 │                                                                     │
 │  ┌─────────────────┐  ┌─────────────────────────┐                  │
@@ -383,8 +383,8 @@ export default function CognicaSDK({
 #### Product Recommendations (from BRAND_HIGHLIGHTS.md)
 
 - **All scores**: "Our formulas are clinically shown to improve cognitive function"
-- **Lower accuracy (<70%)**: Emphasize Conka Clarity - "+16% cognition, +14% attention" (Ginkgo, Alpha GPC)
-- **Lower speed (<70%)**: Emphasize Conka Flow - "+18% memory performance, +17% physical fitness" (Rhodiola, Turmeric)
+- **Lower accuracy (<70%)**: Emphasize CONKA Clarity - "+16% cognition, +14% attention" (Ginkgo, Alpha GPC)
+- **Lower speed (<70%)**: Emphasize CONKA Flow - "+18% memory performance, +17% physical fitness" (Rhodiola, Turmeric)
 - **Link**: "Not sure which is right for you? Take our quiz →"
 
 #### Acceptance Criteria (Desktop)
@@ -529,8 +529,8 @@ All components must follow `STYLE_GUIDE_01.md`:
 
 - Background: `var(--background)` (white)
 - Foreground: `var(--foreground)` (black)
-- Conka Flow accent: `bg-teal-500` / `text-teal-500`
-- Conka Clarity accent: `bg-amber-500` / `text-amber-500`
+- CONKA Flow accent: `bg-teal-500` / `text-teal-500`
+- CONKA Clarity accent: `bg-amber-500` / `text-amber-500`
 
 ---
 

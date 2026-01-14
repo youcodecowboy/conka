@@ -61,7 +61,7 @@ export default function WinPage() {
                 href="/"
                 className="flex items-center hover:opacity-70 transition-all"
               >
-                <img src="/conka.png" alt="Conka logo" className="h-6 w-auto" />
+                <img src="/conka.png" alt="CONKA logo" className="h-6 w-auto" />
               </a>
 
               {/* Mini Nav */}
@@ -143,7 +143,7 @@ export default function WinPage() {
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                   </svg>
-                  Buy Conka
+                  Buy CONKA
                 </a>
               </div>
               <p className="font-clinical text-xs opacity-50">

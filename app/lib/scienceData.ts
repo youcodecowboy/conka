@@ -1,5 +1,5 @@
 // ===== SCIENCE PAGE DATA =====
-// Defines the 5 scientific pillars of Conka's cognitive performance formulas
+// Defines the 5 scientific pillars of CONKA's cognitive performance formulas
 
 export interface PillarStat {
   value: string;
@@ -383,7 +383,6 @@ export function getPillarById(id: string): SciencePillar | undefined {
 // Helper to get pillars for a specific formula
 export function getPillarsForFormula(formula: "01" | "02"): SciencePillar[] {
   return sciencePillars.filter(
-    (p) => p.forFormula === formula || p.forFormula === "both"
+    (p) => p.forFormula === formula || p.forFormula === "both",
   );
 }
-

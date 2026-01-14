@@ -54,7 +54,7 @@ const packPricing: Record<
 // Verified statistics from BRAND_HIGHLIGHTS.md with PMID sources
 const formulaExplanations = {
   "01": {
-    title: "Conka Flow",
+    title: "CONKA Flow",
     subtitle: "Caffeine-Free Focus",
     description:
       "Daily adaptogen support with Ashwagandha and Rhodiola builds stress resilience and recovery. Perfect for sustained focus without the crash.",
@@ -66,7 +66,7 @@ const formulaExplanations = {
     ],
   },
   "02": {
-    title: "Conka Clarity",
+    title: "CONKA Clarity",
     subtitle: "Peak Performance Boost",
     description:
       "Cognitive enhancers like Alpha GPC and Ginkgo build your neurological foundation. Designed for when you need peak performance.",
@@ -162,7 +162,7 @@ export default function TrialPacks() {
               }`}
             >
               <span className="font-clinical text-sm font-medium">
-                Conka Flow
+                CONKA Flow
               </span>
             </button>
             <button
@@ -174,7 +174,7 @@ export default function TrialPacks() {
               }`}
             >
               <span className="font-clinical text-sm font-medium">
-                Conka Clarity
+                CONKA Clarity
               </span>
             </button>
           </div>
@@ -189,7 +189,7 @@ export default function TrialPacks() {
             >
               <Image
                 src={formulaImages[selectedFormula].src}
-                alt={`Conka ${selectedFormula === "01" ? "Flow" : "Clarity"} bottles`}
+                alt={`CONKA ${selectedFormula === "01" ? "Flow" : "Clarity"} bottles`}
                 fill
                 className="object-cover"
                 style={{

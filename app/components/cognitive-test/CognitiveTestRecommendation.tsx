@@ -16,7 +16,7 @@ export default function CognitiveTestRecommendation({
       return {
         headline: "Consider the Balance Protocol",
         description:
-          "Your scores suggest both accuracy and speed could benefit from support. The Balance Protocol alternates between Conka Flow and Conka Clarity daily for comprehensive cognitive coverage.",
+          "Your scores suggest both accuracy and speed could benefit from support. The Balance Protocol alternates between CONKA Flow and CONKA Clarity daily for comprehensive cognitive coverage.",
         buttonText: "Try Balance Protocol",
         href: "/protocol/3",
       };
@@ -25,7 +25,7 @@ export default function CognitiveTestRecommendation({
       return {
         headline: "Precision Protocol may help",
         description:
-          "Your accuracy score suggests room for improvement. Clinical studies show Conka Clarity ingredients improve cognition by +16% and attention by +14%.",
+          "Your accuracy score suggests room for improvement. Clinical studies show CONKA Clarity ingredients improve cognition by +16% and attention by +14%.",
         buttonText: "Try Precision Protocol",
         href: "/protocol/2",
       };
@@ -34,7 +34,7 @@ export default function CognitiveTestRecommendation({
       return {
         headline: "Resilience Protocol may help",
         description:
-          "Your speed score suggests room for improvement. Clinical studies show Conka Flow ingredients improve memory by +18% and overall cognitive performance.",
+          "Your speed score suggests room for improvement. Clinical studies show CONKA Flow ingredients improve memory by +18% and overall cognitive performance.",
         buttonText: "Try Resilience Protocol",
         href: "/protocol/1",
       };
@@ -42,7 +42,7 @@ export default function CognitiveTestRecommendation({
     return {
       headline: "Great baseline!",
       description:
-        "Your scores show strong cognitive function. The Ultimate Protocol—taking both Conka Flow and Conka Clarity daily—helps maintain and further enhance peak performance.",
+        "Your scores show strong cognitive function. The Ultimate Protocol—taking both CONKA Flow and CONKA Clarity daily—helps maintain and further enhance peak performance.",
       buttonText: "Try Ultimate Protocol",
       href: "/protocol/4",
     };

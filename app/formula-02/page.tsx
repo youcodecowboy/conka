@@ -25,7 +25,8 @@ import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 export default function ConkaClarityPage() {
   const isMobile = useIsMobile();
   const [selectedPack, setSelectedPack] = useState<PackSize>("12");
-  const [purchaseType, setPurchaseType] = useState<PurchaseType>("subscription");
+  const [purchaseType, setPurchaseType] =
+    useState<PurchaseType>("subscription");
   const { addToCart } = useCart();
 
   const handleAddToCart = async () => {
@@ -33,7 +34,11 @@ export default function ConkaClarityPage() {
     if (variantData?.variantId) {
       await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
     } else {
-      console.warn("Variant ID not configured for:", { formula: "02", pack: selectedPack, type: purchaseType });
+      console.warn("Variant ID not configured for:", {
+        formula: "02",
+        pack: selectedPack,
+        type: purchaseType,
+      });
     }
   };
 
@@ -42,9 +47,9 @@ export default function ConkaClarityPage() {
     return (
       <div
         className="min-h-screen theme-conka-clarity"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
-      <Navigation />
+        style={{ background: "var(--background)", color: "var(--foreground)" }}
+      >
+        <Navigation />
 
         <ProductHeroMobile
           formulaId="02"
@@ -69,56 +74,111 @@ export default function ConkaClarityPage() {
           <div className="flex flex-col gap-6">
             {/* Logo & Nav */}
             <div className="flex flex-col gap-3">
-              <a href="/" className="flex items-center hover:opacity-70 transition-all">
+              <a
+                href="/"
+                className="flex items-center hover:opacity-70 transition-all"
+              >
                 <Image
                   src="/conka.png"
-                  alt="Conka logo"
+                  alt="CONKA logo"
                   width={90}
                   height={30}
                   className="h-6 w-auto"
                 />
               </a>
               <nav className="flex flex-wrap items-center gap-2">
-                <a href="/science" className="font-clinical text-xs hover:opacity-70 transition-all">The Science</a>
+                <a
+                  href="/science"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  The Science
+                </a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/ingredients" className="font-clinical text-xs hover:opacity-70 transition-all">Ingredients</a>
+                <a
+                  href="/ingredients"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  Ingredients
+                </a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/case-studies" className="font-clinical text-xs hover:opacity-70 transition-all">Results</a>
+                <a
+                  href="/case-studies"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  Results
+                </a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/our-story" className="font-clinical text-xs hover:opacity-70 transition-all">Our Story</a>
+                <a
+                  href="/our-story"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  Our Story
+                </a>
               </nav>
-              <p className="font-commentary text-xs opacity-60">built with love ♥</p>
+              <p className="font-commentary text-xs opacity-60">
+                built with love ♥
+              </p>
             </div>
 
             {/* CTAs */}
             <div className="flex flex-col gap-3">
               <div className="flex gap-3">
-                <a 
-                  href="/quiz" 
+                <a
+                  href="/quiz"
                   className="flex-1 neo-button-outline px-3 py-2 font-semibold text-sm flex items-center justify-center gap-2"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
                   </svg>
                   Find Your Protocol
                 </a>
-                <a 
-                  href="#protocols" 
+                <a
+                  href="#protocols"
                   className="flex-1 neo-button px-3 py-2 font-semibold text-sm flex items-center justify-center gap-2"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="9" cy="21" r="1"/>
-                    <circle cx="20" cy="21" r="1"/>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                   </svg>
-                  Buy Conka
+                  Buy CONKA
                 </a>
               </div>
               <p className="font-clinical text-xs text-center opacity-50 flex items-center justify-center gap-1.5">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
                 100-day money-back guarantee
               </p>
@@ -132,7 +192,6 @@ export default function ConkaClarityPage() {
           purchaseType={purchaseType}
           onAddToCart={handleAddToCart}
         />
-
       </div>
     );
   }
@@ -176,14 +235,14 @@ export default function ConkaClarityPage() {
               Want the Complete Experience?
             </h2>
             <p className="font-commentary text-xl mb-6">
-              combine Conka Clarity with Conka Flow in a protocol
+              combine CONKA Clarity with CONKA Flow in a protocol
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/conka-flow"
                 className="neo-button-outline px-8 py-4 font-semibold text-lg"
               >
-                Explore Conka Flow
+                Explore CONKA Flow
               </a>
               <a
                 href="/protocol/2"
@@ -201,10 +260,13 @@ export default function ConkaClarityPage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row justify-between gap-12">
             <div className="flex flex-col gap-6">
-              <a href="/" className="flex items-center hover:opacity-70 transition-all">
+              <a
+                href="/"
+                className="flex items-center hover:opacity-70 transition-all"
+              >
                 <Image
                   src="/conka.png"
-                  alt="Conka logo"
+                  alt="CONKA logo"
                   width={120}
                   height={40}
                   className="h-8 w-auto"
@@ -222,14 +284,14 @@ export default function ConkaClarityPage() {
                   href="/conka-flow"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
-                  Conka Flow
+                  CONKA Flow
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
                 <a
                   href="/conka-clarity"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
-                  Conka Clarity
+                  CONKA Clarity
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
                 <a
@@ -272,7 +334,6 @@ export default function ConkaClarityPage() {
         onPurchaseTypeChange={setPurchaseType}
         onAddToCart={handleAddToCart}
       />
-
     </div>
   );
 }

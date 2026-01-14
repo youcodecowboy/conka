@@ -14,16 +14,19 @@ import SportIcon from "./SportIcon";
 import AthleteStats from "./AthleteStats";
 
 export default function CaseStudiesPageMobile() {
-  const [selectedSport, setSelectedSport] = useState<SportCategory | "all">("all");
+  const [selectedSport, setSelectedSport] = useState<SportCategory | "all">(
+    "all",
+  );
   const [activeAthleteIndex, setActiveAthleteIndex] = useState(0);
 
   const featuredAthletes = getFeaturedAthletes();
   const availableSports = getAllSports();
-  
+
   // Filter athletes by sport
-  const filteredAthletes = selectedSport === "all"
-    ? athletes
-    : athletes.filter(a => a.sport === selectedSport);
+  const filteredAthletes =
+    selectedSport === "all"
+      ? athletes
+      : athletes.filter((a) => a.sport === selectedSport);
 
   const activeAthlete = filteredAthletes[activeAthleteIndex];
 
@@ -33,26 +36,26 @@ export default function CaseStudiesPageMobile() {
   }, [selectedSport]);
 
   const handlePrev = () => {
-    setActiveAthleteIndex((prev) => 
-      prev === 0 ? filteredAthletes.length - 1 : prev - 1
+    setActiveAthleteIndex((prev) =>
+      prev === 0 ? filteredAthletes.length - 1 : prev - 1,
     );
   };
 
   const handleNext = () => {
-    setActiveAthleteIndex((prev) => 
-      prev === filteredAthletes.length - 1 ? 0 : prev + 1
+    setActiveAthleteIndex((prev) =>
+      prev === filteredAthletes.length - 1 ? 0 : prev + 1,
     );
   };
 
   const handleSelectFeatured = (id: string) => {
     // Find in filtered list first
-    let index = filteredAthletes.findIndex(a => a.id === id);
+    let index = filteredAthletes.findIndex((a) => a.id === id);
     if (index >= 0) {
       setActiveAthleteIndex(index);
     } else {
       // If not in filtered list, reset filter to "all" and find
       setSelectedSport("all");
-      index = athletes.findIndex(a => a.id === id);
+      index = athletes.findIndex((a) => a.id === id);
       if (index >= 0) {
         setActiveAthleteIndex(index);
       }
@@ -62,25 +65,33 @@ export default function CaseStudiesPageMobile() {
   // Product version badge
   const ProductBadge = ({ version }: { version?: "01" | "02" | "both" }) => {
     if (!version) return null;
-    
+
     const getLabel = () => {
       switch (version) {
-        case "01": return "Conka Flow";
-        case "02": return "Conka Clarity";
-        case "both": return "Flow + Clarity";
+        case "01":
+          return "CONKA Flow";
+        case "02":
+          return "CONKA Clarity";
+        case "both":
+          return "Flow + Clarity";
       }
     };
-    
+
     const getColor = () => {
       switch (version) {
-        case "01": return "bg-amber-500";
-        case "02": return "bg-[#AAB9BC]";
-        case "both": return "bg-gradient-to-r from-amber-500 to-[#AAB9BC]";
+        case "01":
+          return "bg-amber-500";
+        case "02":
+          return "bg-[#AAB9BC]";
+        case "both":
+          return "bg-gradient-to-r from-amber-500 to-[#AAB9BC]";
       }
     };
 
     return (
-      <span className={`px-2 py-0.5 rounded-full text-[10px] font-clinical font-medium text-white ${getColor()}`}>
+      <span
+        className={`px-2 py-0.5 rounded-full text-[10px] font-clinical font-medium text-white ${getColor()}`}
+      >
         {getLabel()}
       </span>
     );
@@ -91,14 +102,20 @@ export default function CaseStudiesPageMobile() {
       <div className="px-6">
         {/* Header - Larger title with inline stats */}
         <div className="mb-8">
-          <p className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-2">Research & Results</p>
+          <p className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-2">
+            Research & Results
+          </p>
           <h1 className="text-4xl font-bold mb-1">Case Studies</h1>
-          <p className="font-commentary text-xl mb-4">real athletes, measurable results</p>
-          
+          <p className="font-commentary text-xl mb-4">
+            real athletes, measurable results
+          </p>
+
           {/* Inline stats - like desktop */}
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-2">
-              <span className="font-clinical font-bold text-2xl">{athletes.length}</span>
+              <span className="font-clinical font-bold text-2xl">
+                {athletes.length}
+              </span>
               <span className="font-clinical text-sm opacity-60">Athletes</span>
             </div>
             <span className="opacity-20 text-xl">•</span>
@@ -110,7 +127,9 @@ export default function CaseStudiesPageMobile() {
             </div>
             <span className="opacity-20 text-xl">•</span>
             <div className="flex items-center gap-2">
-              <span className="font-clinical font-bold text-2xl text-emerald-600">+26%</span>
+              <span className="font-clinical font-bold text-2xl text-emerald-600">
+                +26%
+              </span>
               <span className="font-clinical text-sm opacity-60">Avg</span>
             </div>
           </div>
@@ -120,8 +139,18 @@ export default function CaseStudiesPageMobile() {
         {featuredAthletes.length > 0 && (
           <div className="mb-6">
             <p className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-3 flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
               Featured
             </p>
@@ -135,28 +164,38 @@ export default function CaseStudiesPageMobile() {
                   >
                     <div className="h-32 w-full border-0 border-b-2 border-current overflow-hidden bg-neutral-100">
                       {athlete.photo ? (
-                        <img 
-                          src={athlete.photo} 
+                        <img
+                          src={athlete.photo}
                           alt={athlete.name}
                           className="w-full h-full object-cover"
                           style={{
-                            objectPosition: athlete.focalPoint 
-                              ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%` 
-                              : 'center'
+                            objectPosition: athlete.focalPoint
+                              ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%`
+                              : "center",
                           }}
                         />
                       ) : (
                         <div className="placeholder-box h-full w-full border-0">
-                          <span className="font-clinical text-[10px]">[PHOTO]</span>
+                          <span className="font-clinical text-[10px]">
+                            [PHOTO]
+                          </span>
                         </div>
                       )}
                     </div>
                     <div className="p-3">
                       <div className="flex items-center gap-1 mb-1">
-                        <SportIcon sport={athlete.sport} size={12} className="opacity-50" />
-                        <p className="font-bold text-xs truncate">{athlete.name}</p>
+                        <SportIcon
+                          sport={athlete.sport}
+                          size={12}
+                          className="opacity-50"
+                        />
+                        <p className="font-bold text-xs truncate">
+                          {athlete.name}
+                        </p>
                       </div>
-                      <p className="font-clinical text-[10px] opacity-60 truncate mb-2">{athlete.profession}</p>
+                      <p className="font-clinical text-[10px] opacity-60 truncate mb-2">
+                        {athlete.profession}
+                      </p>
                       {athlete.improvements[0] && (
                         <p className="font-clinical text-sm font-bold text-emerald-600">
                           {athlete.improvements[0].value}
@@ -173,11 +212,23 @@ export default function CaseStudiesPageMobile() {
         {/* Sport Filter Bar with scroll indicator */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <p className="font-clinical text-xs uppercase tracking-wider opacity-50">Filter by Sport</p>
+            <p className="font-clinical text-xs uppercase tracking-wider opacity-50">
+              Filter by Sport
+            </p>
             <div className="flex items-center gap-1 opacity-40">
               <span className="font-clinical text-[10px]">swipe</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>
           </div>
@@ -198,7 +249,7 @@ export default function CaseStudiesPageMobile() {
               {/* Sport filters */}
               {availableSports.map((sport) => {
                 const info = SPORT_INFO[sport];
-                
+
                 return (
                   <button
                     key={sport}
@@ -231,17 +282,32 @@ export default function CaseStudiesPageMobile() {
                 className="flex items-center gap-1 hover:opacity-70 transition-opacity"
                 aria-label="Previous athlete"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M15 18l-6-6 6-6"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M15 18l-6-6 6-6" />
                 </svg>
-                <span className="font-clinical text-xs hidden xs:inline">Prev</span>
+                <span className="font-clinical text-xs hidden xs:inline">
+                  Prev
+                </span>
               </button>
 
               {/* Center - Name & Counter */}
               <div className="text-center flex-1 px-2">
-                <p className="font-bold text-sm truncate">{activeAthlete.name}</p>
+                <p className="font-bold text-sm truncate">
+                  {activeAthlete.name}
+                </p>
                 <p className="font-clinical text-xs opacity-70">
-                  Case Study {activeAthleteIndex + 1} of {filteredAthletes.length}
+                  Case Study {activeAthleteIndex + 1} of{" "}
+                  {filteredAthletes.length}
                 </p>
               </div>
 
@@ -251,9 +317,21 @@ export default function CaseStudiesPageMobile() {
                 className="flex items-center gap-1 hover:opacity-70 transition-opacity"
                 aria-label="Next athlete"
               >
-                <span className="font-clinical text-xs hidden xs:inline">Next</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 18l6-6-6-6"/>
+                <span className="font-clinical text-xs hidden xs:inline">
+                  Next
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M9 18l6-6-6-6" />
                 </svg>
               </button>
             </div>
@@ -262,14 +340,14 @@ export default function CaseStudiesPageMobile() {
           {/* Photo */}
           <div className="h-72 w-full border-2 border-current border-t-0 overflow-hidden bg-neutral-100">
             {activeAthlete.photo ? (
-              <img 
-                src={activeAthlete.photo} 
+              <img
+                src={activeAthlete.photo}
                 alt={activeAthlete.name}
                 className="w-full h-full object-cover"
                 style={{
-                  objectPosition: activeAthlete.focalPoint 
-                    ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%` 
-                    : 'center'
+                  objectPosition: activeAthlete.focalPoint
+                    ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
+                    : "center",
                 }}
               />
             ) : (
@@ -286,21 +364,31 @@ export default function CaseStudiesPageMobile() {
               <div className="flex items-start justify-between gap-3 mb-2">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <SportIcon sport={activeAthlete.sport} size={16} className="opacity-60" />
-                    <p className="font-clinical text-sm opacity-70">{activeAthlete.profession}</p>
+                    <SportIcon
+                      sport={activeAthlete.sport}
+                      size={16}
+                      className="opacity-60"
+                    />
+                    <p className="font-clinical text-sm opacity-70">
+                      {activeAthlete.profession}
+                    </p>
                   </div>
                   {activeAthlete.achievement && (
-                    <p className="font-clinical text-xs opacity-50">{activeAthlete.achievement}</p>
+                    <p className="font-clinical text-xs opacity-50">
+                      {activeAthlete.achievement}
+                    </p>
                   )}
                 </div>
                 <div className="flex flex-wrap gap-1 justify-end">
                   <ProductBadge version={activeAthlete.productVersion} />
                   {activeAthlete.featured && (
-                    <span className="px-2 py-0.5 rounded-full bg-current/10 text-[10px] font-clinical">★ Featured</span>
+                    <span className="px-2 py-0.5 rounded-full bg-current/10 text-[10px] font-clinical">
+                      ★ Featured
+                    </span>
                   )}
                 </div>
               </div>
-              
+
               {activeAthlete.protocolUsed && (
                 <p className="font-clinical text-xs opacity-60 mt-2">
                   Protocol: {activeAthlete.protocolUsed}
@@ -310,7 +398,9 @@ export default function CaseStudiesPageMobile() {
 
             {/* Description */}
             <div className="p-5 border-b-2 border-current/10">
-              <p className="text-sm leading-relaxed">{activeAthlete.description}</p>
+              <p className="text-sm leading-relaxed">
+                {activeAthlete.description}
+              </p>
             </div>
 
             {/* Stats Section */}
@@ -335,7 +425,9 @@ export default function CaseStudiesPageMobile() {
                 />
               ))}
               {filteredAthletes.length > 10 && (
-                <span className="font-clinical text-xs opacity-50 ml-1">+{filteredAthletes.length - 10}</span>
+                <span className="font-clinical text-xs opacity-50 ml-1">
+                  +{filteredAthletes.length - 10}
+                </span>
               )}
             </div>
           )}
@@ -343,7 +435,9 @@ export default function CaseStudiesPageMobile() {
       ) : (
         <div className="px-6">
           <div className="neo-box p-8 text-center">
-            <p className="font-commentary text-lg opacity-50">No athletes found for this filter</p>
+            <p className="font-commentary text-lg opacity-50">
+              No athletes found for this filter
+            </p>
           </div>
         </div>
       )}
@@ -352,19 +446,21 @@ export default function CaseStudiesPageMobile() {
       <div className="px-6 mt-8">
         <div className="neo-box p-5 text-center">
           <h3 className="font-bold mb-2">Start your journey</h3>
-          <p className="font-commentary text-sm opacity-70 mb-4">Join hundreds of athletes</p>
+          <p className="font-commentary text-sm opacity-70 mb-4">
+            Join hundreds of athletes
+          </p>
           <div className="flex gap-2">
             <a
               href="/conka-flow"
               className="flex-1 neo-button-outline px-4 py-2 font-semibold text-xs text-center"
             >
-              Conka Flow
+              CONKA Flow
             </a>
             <a
               href="/conka-clarity"
               className="flex-1 neo-button px-4 py-2 font-semibold text-xs text-center"
             >
-              Conka Clarity
+              CONKA Clarity
             </a>
           </div>
         </div>

@@ -33,13 +33,13 @@ export function OurStoryDesktop() {
               href="/conka-flow"
               className="px-8 py-4 font-semibold text-lg bg-white text-black rounded-full border-2 border-white hover:bg-transparent hover:text-white transition-all"
             >
-              Explore Conka Flow
+              Explore CONKA Flow
             </a>
             <a
               href="/conka-clarity"
               className="px-8 py-4 font-semibold text-lg bg-transparent text-white rounded-full border-2 border-white hover:bg-white hover:text-black transition-all"
             >
-              Explore Conka Clarity
+              Explore CONKA Clarity
             </a>
           </div>
           <p className="font-clinical text-sm mt-8 opacity-50">

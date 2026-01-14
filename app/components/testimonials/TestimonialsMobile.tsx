@@ -48,7 +48,7 @@ export default function TestimonialsMobile({
         <h2 className="text-2xl sm:text-3xl font-bold mb-2">
           Don't just take our word for it
         </h2>
-        <p className="font-commentary text-lg opacity-80">
+        <p className="font-clinical text-sm opacity-70">
           see what our customers are saying
         </p>
       </div>
@@ -96,7 +96,7 @@ export default function TestimonialsMobile({
         />
 
         {/* Swipe Hint */}
-        <p className="font-commentary text-xs opacity-50 flex items-center gap-1">
+        <p className="font-commentary text-md flex items-center gap-1">
           <span>swipe for more</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"

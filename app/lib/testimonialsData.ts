@@ -28,7 +28,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "2025-11-28",
     headline: "Legit results",
-    body: "3 Conka 1 shots down and they are legit! Taken fist Conka 2 last night as well!\n\nIt's a strange awakening feeling with consistency when taken the Conka 1 my eyes feel wider and bigger ready for everything and feel more alert\n\nLoving it",
+    body: "3 CONKA 1 shots down and they are legit! Taken fist CONKA 2 last night as well!\n\nIt's a strange awakening feeling with consistency when taken the CONKA 1 my eyes feel wider and bigger ready for everything and feel more alert\n\nLoving it",
   },
   {
     name: "Sienna",
@@ -43,8 +43,8 @@ export const testimonials: Testimonial[] = [
     country: "GB",
     rating: 5,
     date: "2025-10-13",
-    headline: "Been taking Conka for 4 months",
-    body: "As someone who has lived with ADHD symptoms for many years, finding a product that genuinely eases the day-to-day challenges has been incredibly rewarding. I've never been one to rely on medication and have always preferred exploring natural approaches to managing my symptoms.\n\nAfter taking Conka for four months, I can confidently say the results are far from a placebo effect. The short-term benefits appeared quickly, I felt noticeably calmer and less anxious in situations that would normally feel overwhelming. These early improvements soon developed into deeper, more lasting changes: greater focus, increased productivity, and a more methodical approach to both my work and daily life.\n\nAs a private performance chef in elite sport, my role demands intense concentration, adaptability, and the ability to handle last-minute changes. Recognising shifts in athletes energy expenditure and adjusting menus accordingly requires sharp attention to detail. Since incorporating Conka into my routine, I've been able to approach my work with a greater sense of calm, clarity, and control.\n\nI genuinely believe that since taking Conka, I've become less prone to hyperfocus on unrealistic ventures or side projects, and far better at recognising what truly deserves my attention.",
+    headline: "Been taking CONKA for 4 months",
+    body: "As someone who has lived with ADHD symptoms for many years, finding a product that genuinely eases the day-to-day challenges has been incredibly rewarding. I've never been one to rely on medication and have always preferred exploring natural approaches to managing my symptoms.\n\nAfter taking CONKA for four months, I can confidently say the results are far from a placebo effect. The short-term benefits appeared quickly, I felt noticeably calmer and less anxious in situations that would normally feel overwhelming. These early improvements soon developed into deeper, more lasting changes: greater focus, increased productivity, and a more methodical approach to both my work and daily life.\n\nAs a private performance chef in elite sport, my role demands intense concentration, adaptability, and the ability to handle last-minute changes. Recognising shifts in athletes energy expenditure and adjusting menus accordingly requires sharp attention to detail. Since incorporating CONKA into my routine, I've been able to approach my work with a greater sense of calm, clarity, and control.\n\nI genuinely believe that since taking CONKA, I've become less prone to hyperfocus on unrealistic ventures or side projects, and far better at recognising what truly deserves my attention.",
   },
   {
     name: "Tom Redican",
@@ -107,8 +107,8 @@ export const testimonials: Testimonial[] = [
     country: "GB",
     rating: 5,
     date: "2025-07-31",
-    headline: "I started taking Conka this summer",
-    body: "I started taking Conka this summer as so far the results have been very impressive. I can't tell if its the weather or its my new girlfriend thats making me so happy but everything going well in my life RE job, health, relationships and it happens to coincide with when I started taking Conka. So i aint gunna stop",
+    headline: "I started taking CONKA this summer",
+    body: "I started taking CONKA this summer as so far the results have been very impressive. I can't tell if its the weather or its my new girlfriend thats making me so happy but everything going well in my life RE job, health, relationships and it happens to coincide with when I started taking CONKA. So i aint gunna stop",
   },
   {
     name: "Fraser",
@@ -124,7 +124,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "2025-07-29",
     headline: "Mental edge that actually shows up in training",
-    body: "I've been using Conka for a few weeks and it's made a real difference in how I train. I'm more focused, quicker to react, and I don't hit that mental fatigue like I used to. No crash, just clean, steady clarity.\n\nThe app's brain tests are a nice bonus - simple, but you can actually see progress. If you're an athlete looking to level up your mental game, this is worth trying.",
+    body: "I've been using CONKA for a few weeks and it's made a real difference in how I train. I'm more focused, quicker to react, and I don't hit that mental fatigue like I used to. No crash, just clean, steady clarity.\n\nThe app's brain tests are a nice bonus - simple, but you can actually see progress. If you're an athlete looking to level up your mental game, this is worth trying.",
   },
   {
     name: "Sam Turton",
@@ -155,7 +155,7 @@ export const testimonials: Testimonial[] = [
     country: "SG",
     rating: 5,
     date: "2025-07-29",
-    headline: "Conka is the best",
+    headline: "CONKA is the best",
     body: "Has benefited me immensely from when I started it three months ago. Have felt more energised and switched on which has benefitted my ability to perform day to day tasks",
   },
   {
@@ -164,7 +164,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "2025-07-29",
     headline: "Highly recommend",
-    body: "It's hard to know, without carrying out a comprehensive, scientific study on myself (working with professional athletes and crying out trials with them, is the next best thing!). I started taking conka in the acute phase of acquiring a third degree TBI (after getting into a life changing car crash, coming out of a comma for just under a month and being discharged from a Nero rehab hospital for 4 months).\n\nSo recovery has been HUGE both physically and cognitively. It would have been with or without conka; however I believe looking at the research, that it undoubtedly has hugely helped in this process! I look forward to having Conka each day! It has also taken all of the leg work out of trying to collate all of the beneficial supplements for aiding the recovery process and put it into one easy to take, tasty shot. I highly recommend the product.",
+    body: "It's hard to know, without carrying out a comprehensive, scientific study on myself (working with professional athletes and crying out trials with them, is the next best thing!). I started taking conka in the acute phase of acquiring a third degree TBI (after getting into a life changing car crash, coming out of a comma for just under a month and being discharged from a Nero rehab hospital for 4 months).\n\nSo recovery has been HUGE both physically and cognitively. It would have been with or without conka; however I believe looking at the research, that it undoubtedly has hugely helped in this process! I look forward to having CONKA each day! It has also taken all of the leg work out of trying to collate all of the beneficial supplements for aiding the recovery process and put it into one easy to take, tasty shot. I highly recommend the product.",
   },
   {
     name: "Fergus Blount",
@@ -188,7 +188,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "2025-07-29",
     headline: "As a professional boxer",
-    body: "As a professional boxer, Conka provided me a superb product that I could trust due to their Informed Sport testing. It was the first nootropic product I found which was tested.\n\nIt is hugely beneficial and reassuring to have this product in a sport where looking after brain health is of paramount importance.",
+    body: "As a professional boxer, CONKA provided me a superb product that I could trust due to their Informed Sport testing. It was the first nootropic product I found which was tested.\n\nIt is hugely beneficial and reassuring to have this product in a sport where looking after brain health is of paramount importance.",
   },
   {
     name: "George Harding",
@@ -196,7 +196,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "2025-07-29",
     headline: "Unbelievable product",
-    body: "Unbelievable product that's had a tangible impact on my energy and focus. Strongly recommend both Conka 1 and 2 to take performance to the next level in all fields.",
+    body: "Unbelievable product that's had a tangible impact on my energy and focus. Strongly recommend both CONKA 1 and 2 to take performance to the next level in all fields.",
   },
   {
     name: "Rudh Kurup",
@@ -204,7 +204,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "2025-07-29",
     headline: "Actually helps me stay sharp and focused",
-    body: "I've been using Conka for a few weeks now, and it's genuinely become part of my daily routine. I usually take it in the morning, especially if I've got a busy or stressful day ahead, or if I haven't slept well. It helps me feel more focused and level-headed, without any weird side effects or crash.\n\nThere's also an app that comes with it, where you can track how you're doing and test your brain a bit. It's a nice touch and makes it feel like I'm not just taking something passively, I'm actually engaging with my brain health a bit more.",
+    body: "I've been using CONKA for a few weeks now, and it's genuinely become part of my daily routine. I usually take it in the morning, especially if I've got a busy or stressful day ahead, or if I haven't slept well. It helps me feel more focused and level-headed, without any weird side effects or crash.\n\nThere's also an app that comes with it, where you can track how you're doing and test your brain a bit. It's a nice touch and makes it feel like I'm not just taking something passively, I'm actually engaging with my brain health a bit more.",
   },
   {
     name: "Humphrey Bodington",

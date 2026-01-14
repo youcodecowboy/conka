@@ -27,7 +27,7 @@ const generalFAQs = [
   {
     question: "Can I take both formulas on the same day?",
     answer:
-      "Yes, absolutely! In fact, our Ultimate Protocol involves taking both formulas every day. Take Conka Flow in the morning and Conka Clarity later in the day for optimal results.",
+      "Yes, absolutely! In fact, our Ultimate Protocol involves taking both formulas every day. Take CONKA Flow in the morning and CONKA Clarity later in the day for optimal results.",
   },
   {
     question: "How long until I see results?",
@@ -36,33 +36,36 @@ const generalFAQs = [
   },
 ];
 
-const protocolSpecificFAQs: Record<ProtocolId, { question: string; answer: string }[]> = {
+const protocolSpecificFAQs: Record<
+  ProtocolId,
+  { question: string; answer: string }[]
+> = {
   "1": [
     {
-      question: "Why is Conka Flow the daily formula in this protocol?",
+      question: "Why is CONKA Flow the daily formula in this protocol?",
       answer:
-        "Resilience Protocol is designed for those prioritizing sustained energy and stress resilience. Conka Flow's adaptogens work best when taken consistently, building up your body's ability to handle daily stressors.",
+        "Resilience Protocol is designed for those prioritizing sustained energy and stress resilience. CONKA Flow's adaptogens work best when taken consistently, building up your body's ability to handle daily stressors.",
     },
   ],
   "2": [
     {
-      question: "Why is Conka Clarity the daily formula in this protocol?",
+      question: "Why is CONKA Clarity the daily formula in this protocol?",
       answer:
-        "Precision Protocol is optimized for those who need peak cognitive performance regularly. Conka Clarity's nootropics provide consistent mental clarity and focus when taken daily.",
+        "Precision Protocol is optimized for those who need peak cognitive performance regularly. CONKA Clarity's nootropics provide consistent mental clarity and focus when taken daily.",
     },
   ],
   "3": [
     {
       question: "How do I alternate between formulas?",
       answer:
-        "The balanced protocol alternates days - for example, Conka Flow on Monday, Conka Clarity on Tuesday, and so on. This gives you the benefits of both formulas while allowing each to work independently.",
+        "The balanced protocol alternates days - for example, CONKA Flow on Monday, CONKA Clarity on Tuesday, and so on. This gives you the benefits of both formulas while allowing each to work independently.",
     },
   ],
   "4": [
     {
       question: "Is taking both formulas every day safe?",
       answer:
-        "Yes, our formulas are designed to be complementary and safe to take together. Conka Flow in the morning for energy and Conka Clarity later for clarity creates an optimal cognitive support system.",
+        "Yes, our formulas are designed to be complementary and safe to take together. CONKA Flow in the morning for energy and CONKA Clarity later for clarity creates an optimal cognitive support system.",
     },
   ],
 };
@@ -133,4 +136,3 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
     </section>
   );
 }
-

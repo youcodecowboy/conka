@@ -8,7 +8,7 @@ import type { EmailCaptureFormProps, EmailSubmission } from "./types";
  *
  * An inline form for capturing the user's email before starting the cognitive test.
  * This is NOT a modal - it renders directly within the card area.
- * Follows Conka's neo-brutalist design with sharp corners and bold styling.
+ * Follows CONKA's neo-brutalist design with sharp corners and bold styling.
  */
 export default function EmailCaptureForm({
   onSubmit,

@@ -217,7 +217,7 @@ export default function ProtocolHero({
                         </div>
                         <div>
                           <p className="font-bold text-[var(--foreground)]">
-                            {tierConfig.conkaFlowCount}x Conka Flow
+                            {tierConfig.conkaFlowCount}x CONKA Flow
                           </p>
                           <a
                             href="/conka-flow"
@@ -237,7 +237,7 @@ export default function ProtocolHero({
                         </div>
                         <div>
                           <p className="font-bold text-[var(--foreground)]">
-                            {tierConfig.conkaClarityCount}x Conka Clarity
+                            {tierConfig.conkaClarityCount}x CONKA Clarity
                           </p>
                           <a
                             href="/conka-clarity"

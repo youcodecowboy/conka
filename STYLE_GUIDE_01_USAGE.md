@@ -3,6 +3,7 @@
 ## Typography Classes
 
 ### Primary Font (Poppins)
+
 ```tsx
 // Default - already applied to body
 <div>Regular text uses Poppins</div>
@@ -25,6 +26,7 @@
 ```
 
 ### Commentary Font (Caveat - Script)
+
 ```tsx
 // Subheadings
 <p className="font-commentary text-xl">what's inside</p>
@@ -40,6 +42,7 @@
 ```
 
 ### Clinical Font (IBM Plex Mono)
+
 ```tsx
 // Large stats
 <p className="font-clinical text-6xl font-bold">+22.1%</p>
@@ -55,12 +58,13 @@
 <a href="#" className="font-clinical text-sm">The Science</a>
 
 // Button labels (clinical context)
-<button className="font-clinical text-sm font-medium">Conka Flow</button>
+<button className="font-clinical text-sm font-medium">CONKA Flow</button>
 ```
 
 ## Color Usage
 
 ### Primary Colors
+
 ```tsx
 // Black text/borders
 <div className="text-black border-black border-2">Content</div>
@@ -76,9 +80,10 @@
 ```
 
 ### Teal Accent
+
 ```tsx
-// Conka Flow identifier
-<div className="bg-teal-500 text-white">Conka Flow</div>
+// CONKA Flow identifier
+<div className="bg-teal-500 text-white">CONKA Flow</div>
 
 // Accent underline
 <p className="underline decoration-[#14b8a6]">brain</p>
@@ -88,25 +93,27 @@
 ```
 
 ### Formula Colors
+
 ```tsx
-// Conka Flow - Always Teal
+// CONKA Flow - Always Teal
 <div className="bg-teal-500 text-white rounded-md">
   <span className="font-clinical text-xs font-bold">01</span>
 </div>
 
-// Conka Clarity - Always Amber
+// CONKA Clarity - Always Amber
 <div className="bg-amber-500 text-white rounded-md">
   <span className="font-clinical text-xs font-bold">02</span>
 </div>
 
-// Calendar day - Conka Flow
+// Calendar day - CONKA Flow
 <div className="bg-teal-500 text-white rounded-md">15</div>
 
-// Calendar day - Conka Clarity
+// Calendar day - CONKA Clarity
 <div className="bg-amber-500 text-white rounded-md">16</div>
 ```
 
 ### CSS Variables
+
 ```tsx
 // Using CSS variables for theming
 <div style={{ color: 'var(--foreground)' }}>Text</div>
@@ -116,7 +123,8 @@
 
 ## Theme Classes
 
-### Conka Flow (Light Mode)
+### CONKA Flow (Light Mode)
+
 ```tsx
 <div className="theme-conka-flow">
   {/* White background, black text */}
@@ -126,7 +134,8 @@
 </div>
 ```
 
-### Conka Clarity (Dark Mode)
+### CONKA Clarity (Dark Mode)
+
 ```tsx
 <div className="theme-conka-clarity">
   {/* Black background, white text */}
@@ -139,6 +148,7 @@
 ## Button Patterns
 
 ### Filled Button (Primary CTA)
+
 ```tsx
 // Standard size
 <button className="neo-button px-8 py-4 font-bold text-lg">
@@ -157,6 +167,7 @@
 ```
 
 ### Outline Button (Secondary CTA)
+
 ```tsx
 // Standard
 <button className="neo-button-outline px-8 py-3 font-semibold">
@@ -170,6 +181,7 @@
 ```
 
 ### Toggle Buttons
+
 ```tsx
 // Formula selection toggle
 <div className="flex gap-3">
@@ -181,7 +193,7 @@
         : "bg-transparent hover:bg-current/10"
     }`}
   >
-    <span className="font-clinical text-sm font-medium">Conka Flow</span>
+    <span className="font-clinical text-sm font-medium">CONKA Flow</span>
   </button>
   <button
     onClick={() => setActiveFormula("02")}
@@ -191,16 +203,27 @@
         : "bg-transparent hover:bg-current/10"
     }`}
   >
-    <span className="font-clinical text-sm font-medium">Conka Clarity</span>
+    <span className="font-clinical text-sm font-medium">CONKA Clarity</span>
   </button>
 </div>
 ```
 
 ### Button with Icon
+
 ```tsx
 <button className="neo-button-outline px-5 py-2.5 flex items-center gap-2">
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M19 12H5M12 19l-7-7 7-7"/>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M19 12H5M12 19l-7-7 7-7" />
   </svg>
   <span className="font-clinical text-sm">Back to Options</span>
 </button>
@@ -209,6 +232,7 @@
 ## Container Patterns
 
 ### Standard Box (Neo-Brutalist)
+
 ```tsx
 // Basic box
 <div className="neo-box p-6">
@@ -229,6 +253,7 @@
 ```
 
 ### Inverted Box (Highlighted)
+
 ```tsx
 // Pricing box
 <div className="neo-box-inverted p-6">
@@ -243,12 +268,13 @@
 
 // Header section
 <div className="neo-box-inverted p-4 flex justify-between items-center">
-  <h3 className="text-2xl font-bold">Conka Flow</h3>
+  <h3 className="text-2xl font-bold">CONKA Flow</h3>
   <span className="font-clinical text-sm">Patented: GB2629279</span>
 </div>
 ```
 
 ### Clinical Data Box
+
 ```tsx
 <div className="neo-box p-6">
   <div className="flex justify-between items-center mb-4">
@@ -273,17 +299,17 @@
 ```
 
 ### Placeholder Box
+
 ```tsx
 <div className="placeholder-box w-full h-80">
-  <span className="font-clinical text-sm opacity-50">
-    [IMAGE PLACEHOLDER]
-  </span>
+  <span className="font-clinical text-sm opacity-50">[IMAGE PLACEHOLDER]</span>
 </div>
 ```
 
 ## SVG Icon Patterns
 
 ### Standard Icon
+
 ```tsx
 // Navigation icon (16x16)
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -304,6 +330,7 @@
 ```
 
 ### Icon with Text
+
 ```tsx
 // Navigation link with icon
 <a href="#" className="font-clinical text-sm hover:opacity-70 transition-all flex items-center gap-2">
@@ -325,26 +352,38 @@
 ```
 
 ### Icon with Accent Color
+
 ```tsx
 // Teal accent icon
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-teal-500">
-  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-  <polyline points="22 4 12 14.01 9 11.01"/>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="18"
+  height="18"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  className="text-teal-500"
+>
+  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+  <polyline points="22 4 12 14.01 9 11.01" />
 </svg>
 ```
 
 ## Layout Patterns
 
 ### Section Structure
+
 ```tsx
 <section className="px-6 md:px-16 py-24">
-  <div className="max-w-6xl mx-auto">
-    {/* Content here */}
-  </div>
+  <div className="max-w-6xl mx-auto">{/* Content here */}</div>
 </section>
 ```
 
 ### Grid Layouts
+
 ```tsx
 // 2 column grid
 <div className="grid md:grid-cols-2 gap-8">
@@ -376,6 +415,7 @@
 ```
 
 ### Flex Layouts
+
 ```tsx
 // Responsive row/column
 <div className="flex flex-col md:flex-row gap-8">
@@ -399,6 +439,7 @@
 ## Interactive Elements
 
 ### Hover Effects
+
 ```tsx
 // Box with shadow hover
 <div className="neo-box p-6 hover:shadow-[8px_8px_0px_0px_var(--foreground)] transition-all duration-200">
@@ -422,6 +463,7 @@
 ```
 
 ### Toggle Selection
+
 ```tsx
 // Tier selection
 <div className="flex gap-3">
@@ -443,13 +485,14 @@
 ```
 
 ### Formula Visualization
+
 ```tsx
-// Calendar day - Conka Flow (Teal)
+// Calendar day - CONKA Flow (Teal)
 <div className="bg-teal-500 text-white rounded-md aspect-square flex items-center justify-center font-clinical text-sm">
   15
 </div>
 
-// Calendar day - Conka Clarity (Amber)
+// Calendar day - CONKA Clarity (Amber)
 <div className="bg-amber-500 text-white rounded-md aspect-square flex items-center justify-center font-clinical text-sm">
   16
 </div>
@@ -463,11 +506,11 @@
 <div className="flex gap-6 flex-wrap">
   <div className="flex items-center gap-2">
     <div className="w-4 h-4 bg-teal-500 rounded-sm"></div>
-    <span className="font-clinical text-sm">Conka Flow – Caffeine-Free Focus</span>
+    <span className="font-clinical text-sm">CONKA Flow – Caffeine-Free Focus</span>
   </div>
   <div className="flex items-center gap-2">
     <div className="w-4 h-4 bg-amber-500 rounded-sm"></div>
-    <span className="font-clinical text-sm">Conka Clarity – Peak Performance</span>
+    <span className="font-clinical text-sm">CONKA Clarity – Peak Performance</span>
   </div>
 </div>
 ```
@@ -475,6 +518,7 @@
 ## Complete Component Examples
 
 ### Hero Section
+
 ```tsx
 <section className="min-h-screen px-6 md:px-16 pt-2 pb-12 flex flex-col">
   <div className="flex-1 flex flex-col items-center justify-center">
@@ -482,15 +526,16 @@
       Make decisions faster.
     </h1>
     <p className="font-commentary text-xl md:text-2xl mb-3 text-center">
-      clinically designed to optimize your <span className="underline decoration-[#14b8a6]">brain</span>
+      clinically designed to optimize your{" "}
+      <span className="underline decoration-[#14b8a6]">brain</span>
     </p>
-    
+
     <div className="mb-6 text-center">
       <p className="font-clinical text-sm md:text-base mb-1">
         backed by 250+ clinical studies
       </p>
     </div>
-    
+
     <div className="flex flex-col sm:flex-row gap-3">
       <button className="neo-button px-8 py-2 font-commentary text-lg md:text-xl">
         Find Your Stack
@@ -504,6 +549,7 @@
 ```
 
 ### Section with Heading
+
 ```tsx
 <section className="px-6 md:px-16 py-24">
   <div className="max-w-6xl mx-auto">
@@ -511,13 +557,14 @@
       <h2 className="text-3xl md:text-4xl font-bold mb-2">Section Title</h2>
       <p className="font-commentary text-xl">subtitle here</p>
     </div>
-    
+
     {/* Content */}
   </div>
 </section>
 ```
 
 ### Card with Hover
+
 ```tsx
 <button className="neo-box p-6 text-left hover:shadow-[8px_8px_0px_0px_var(--foreground)] transition-all duration-200 group">
   <div className="flex items-start gap-3 mb-4">
@@ -537,7 +584,7 @@
 
 - **Always use `rounded-full` for buttons** - This is the standard for all interactive buttons
 - **Never round corners on `neo-box` containers** - Keep them sharp and angular
-- **Formula colors are fixed** - Conka Flow = Teal, Conka Clarity = Amber (never swap)
+- **Formula colors are fixed** - CONKA Flow = Teal, CONKA Clarity = Amber (never swap)
 - **Use CSS variables** - `var(--background)`, `var(--foreground)` for theming
 - **Generous spacing** - `py-24` for sections, `gap-6` to `gap-12` between elements
 - **Mobile-first** - Base styles for mobile, enhance with `md:` and `lg:` prefixes

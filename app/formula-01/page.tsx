@@ -80,7 +80,7 @@ export default function ConkaFlowPage() {
               >
                 <Image
                   src="/conka.png"
-                  alt="Conka logo"
+                  alt="CONKA logo"
                   width={90}
                   height={30}
                   className="h-6 w-auto"
@@ -163,7 +163,7 @@ export default function ConkaFlowPage() {
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                   </svg>
-                  Buy Conka
+                  Buy CONKA
                 </a>
               </div>
               <p className="font-clinical text-xs text-center opacity-50 flex items-center justify-center gap-1.5">
@@ -235,14 +235,14 @@ export default function ConkaFlowPage() {
               Want the Complete Experience?
             </h2>
             <p className="font-commentary text-xl mb-6">
-              combine Conka Flow with Conka Clarity in a protocol
+              combine CONKA Flow with CONKA Clarity in a protocol
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/conka-clarity"
                 className="neo-button-outline px-8 py-4 font-semibold text-lg"
               >
-                Explore Conka Clarity
+                Explore CONKA Clarity
               </a>
               <a
                 href="/protocol/1"
@@ -266,7 +266,7 @@ export default function ConkaFlowPage() {
               >
                 <Image
                   src="/conka.png"
-                  alt="Conka logo"
+                  alt="CONKA logo"
                   width={120}
                   height={40}
                   className="h-8 w-auto"
@@ -284,14 +284,14 @@ export default function ConkaFlowPage() {
                   href="/conka-flow"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
-                  Conka Flow
+                  CONKA Flow
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
                 <a
                   href="/conka-clarity"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
-                  Conka Clarity
+                  CONKA Clarity
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
                 <a
