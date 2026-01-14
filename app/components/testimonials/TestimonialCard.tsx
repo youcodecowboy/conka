@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { TestimonialCardProps } from "./types";
 
 /**
@@ -53,9 +54,24 @@ export default function TestimonialCard({
   isMobile = false,
 }: TestimonialCardProps) {
   const { name, country, rating, headline, body, date } = testimonial;
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Character limit for truncation
+  const CHAR_LIMIT = 200;
+  const isLongText = body.length > CHAR_LIMIT;
+  const displayText = isExpanded
+    ? body
+    : isLongText
+      ? `${body.slice(0, CHAR_LIMIT)}...`
+      : body;
 
   return (
-    <div className={`neo-box ${isMobile ? "p-5" : "p-6"} h-full flex flex-col`}>
+    <div
+      className={`border-2 ${isMobile ? "p-5" : "p-6"} h-full flex flex-col bg-[var(--background)]`}
+      style={{
+        borderColor: "rgba(0, 0, 0, 0.7)",
+      }}
+    >
       {/* Header: Name and Country */}
       <div className="mb-3">
         <div className="flex items-center justify-between mb-2">
@@ -74,10 +90,20 @@ export default function TestimonialCard({
       {/* Headline */}
       <h4 className="font-bold text-xl mb-3">{headline}</h4>
 
-      {/* Body Text - Truncated */}
-      <p className="text-sm opacity-80 leading-relaxed line-clamp-4 flex-grow mb-4">
-        {body}
-      </p>
+      {/* Body Text - With Read More */}
+      <div className="flex-grow mb-4">
+        <p className="text-sm opacity-80 leading-relaxed mb-2 whitespace-pre-line">
+          {displayText}
+        </p>
+        {isLongText && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="font-clinical text-xs opacity-70 hover:opacity-100 transition-opacity underline"
+          >
+            {isExpanded ? "Read less" : "Read more"}
+          </button>
+        )}
+      </div>
 
       {/* Date */}
       <div className="mt-auto">
