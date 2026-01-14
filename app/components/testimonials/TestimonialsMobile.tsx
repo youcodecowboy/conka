@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import TestimonialCard from "./TestimonialCard";
+import ScrollIndicator from "./ScrollIndicator";
 import type { TestimonialsProps } from "./types";
 
 export default function TestimonialsMobile({
@@ -52,46 +53,47 @@ export default function TestimonialsMobile({
         </p>
       </div>
 
-      {/* Horizontal Scroll Cards */}
-      <div
-        ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-6 px-6"
-        style={{ scrollPaddingLeft: "24px" }}
-      >
-        {testimonials.map((testimonial, idx) => (
-          <div
-            key={idx}
-            className="flex-shrink-0 snap-start"
-            style={{ width: "85vw", maxWidth: "400px" }}
-          >
-            <TestimonialCard
-              testimonial={testimonial}
-              showRating={showRating}
-              isMobile={true}
-            />
-          </div>
-        ))}
-        {/* Spacer for last card */}
-        <div className="flex-shrink-0 w-6" />
+      {/* Horizontal Scroll Cards Container - Relative for gradient overlays */}
+      <div className="relative -mx-6 px-6">
+        {/* Left gradient fade */}
+        <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
+
+        {/* Right gradient fade */}
+        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
+
+        {/* Horizontal Scroll Cards */}
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+          style={{ scrollPaddingLeft: "24px" }}
+        >
+          {testimonials.map((testimonial, idx) => (
+            <div
+              key={idx}
+              className="flex-shrink-0 snap-start"
+              style={{ width: "85vw", maxWidth: "400px" }}
+            >
+              <TestimonialCard
+                testimonial={testimonial}
+                showRating={showRating}
+                isMobile={true}
+              />
+            </div>
+          ))}
+          {/* Spacer for last card */}
+          <div className="flex-shrink-0 w-6" />
+        </div>
       </div>
 
       {/* Scroll Indicators */}
       <div className="mt-6 flex flex-col items-center gap-3">
-        {/* Dots */}
-        <div className="flex gap-2">
-          {testimonials.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => scrollToIndex(idx)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                activeIndex === idx
-                  ? "bg-[var(--foreground)] opacity-100 scale-125"
-                  : "bg-[var(--foreground)] opacity-20 scale-100"
-              }`}
-              aria-label={`Go to testimonial ${idx + 1}`}
-            />
-          ))}
-        </div>
+        {/* Scroll Indicator */}
+        <ScrollIndicator
+          total={testimonials.length}
+          activeIndex={activeIndex}
+          onDotClick={scrollToIndex}
+          maxDots={7}
+        />
 
         {/* Swipe Hint */}
         <p className="font-commentary text-xs opacity-50 flex items-center gap-1">

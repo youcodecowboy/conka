@@ -1,44 +1,9 @@
 "use client";
 
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect } from "react";
 import TestimonialCard from "./TestimonialCard";
+import ScrollIndicator from "./ScrollIndicator";
 import type { TestimonialsProps } from "./types";
-
-/**
- * Generate grouped dot indicators (5-8 dots)
- * First dot = first testimonial, last dot = last testimonial
- * Middle dots represent groups of testimonials
- */
-function generateGroupedDots(total: number, maxDots: number = 7): number[] {
-  if (total <= maxDots) {
-    // If we have fewer testimonials than max dots, show one dot per testimonial
-    return Array.from({ length: total }, (_, i) => i);
-  }
-
-  const dots: number[] = [0]; // First dot always represents first testimonial
-
-  // Calculate how many testimonials each middle dot represents
-  const middleDotsCount = maxDots - 2; // Exclude first and last
-  const testimonialsPerDot = Math.ceil((total - 1) / (middleDotsCount + 1));
-
-  // Generate middle dots
-  for (let i = 1; i <= middleDotsCount; i++) {
-    const testimonialIndex = Math.min(
-      i * testimonialsPerDot,
-      total - 1
-    );
-    if (testimonialIndex > 0 && testimonialIndex < total - 1) {
-      dots.push(testimonialIndex);
-    }
-  }
-
-  // Last dot always represents last testimonial
-  if (total > 1) {
-    dots.push(total - 1);
-  }
-
-  return dots;
-}
 
 export default function TestimonialsDesktop({
   testimonials,
@@ -48,12 +13,6 @@ export default function TestimonialsDesktop({
   const [activeIndex, setActiveIndex] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-
-  // Generate grouped dots (5-8 dots)
-  const dotIndices = useMemo(
-    () => generateGroupedDots(testimonials.length, 7),
-    [testimonials.length]
-  );
 
   // Calculate card width (including gap)
   const cardWidth = 420; // ~400px card + 20px gap
@@ -217,37 +176,14 @@ export default function TestimonialsDesktop({
           </div>
         </div>
 
-        {/* Scroll Indicators - Grouped Dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          {dotIndices.map((testimonialIndex, dotIdx) => {
-            // Determine if this dot should be active
-            // Active if current index is within the range this dot represents
-            let isActive = false;
-            if (dotIdx === 0) {
-              // First dot: active if we're at the first testimonial
-              isActive = activeIndex === 0;
-            } else if (dotIdx === dotIndices.length - 1) {
-              // Last dot: active if we're at or past the last testimonial index
-              isActive = activeIndex >= testimonialIndex;
-            } else {
-              // Middle dots: active if current index is between previous dot and this dot
-              const prevIndex = dotIndices[dotIdx - 1];
-              isActive = activeIndex >= prevIndex && activeIndex < testimonialIndex;
-            }
-
-            return (
-              <button
-                key={dotIdx}
-                onClick={() => scrollToIndex(testimonialIndex)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  isActive
-                    ? "bg-[var(--foreground)] opacity-100 scale-125"
-                    : "bg-[var(--foreground)] opacity-20 scale-100"
-                }`}
-                aria-label={`Go to testimonial group ${dotIdx + 1}`}
-              />
-            );
-          })}
+        {/* Scroll Indicator */}
+        <div className="flex justify-center mt-8">
+          <ScrollIndicator
+            total={testimonials.length}
+            activeIndex={activeIndex}
+            onDotClick={scrollToIndex}
+            maxDots={7}
+          />
         </div>
       </div>
     </section>
