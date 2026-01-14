@@ -42,6 +42,11 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: true,
       },
+      {
+        source: '/pages/get-more',
+        destination: '/app',
+        permanent: true,
+      },
     ];
   },
 
