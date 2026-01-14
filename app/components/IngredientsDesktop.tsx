@@ -79,8 +79,13 @@ export default function IngredientsDesktop({
                 />
               </div>
             ) : (
-              <div className="placeholder-box w-full h-80 md:h-[450px]">
-                <span className="font-clinical text-sm">[INGREDIENT IMAGE]</span>
+              <div className="relative w-full h-80 md:h-[450px]">
+                <Image
+                  src="/L-Alpha_GPC_b1977529-f12b-4ae9-8f1f-44c6be1e81b8.webp"
+                  alt="L-Alpha GPC ingredient"
+                  fill
+                  className="object-contain"
+                />
               </div>
             )}
           </div>
