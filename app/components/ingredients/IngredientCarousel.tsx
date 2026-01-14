@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 import { IngredientData, CATEGORY_INFO } from "@/app/lib/ingredientsData";
 
 interface IngredientCarouselProps {
@@ -58,11 +59,23 @@ export default function IngredientCarousel({
                   isActive ? "border-2 border-[var(--foreground)]" : "border border-current/30"
                 }`}
               >
-                {/* Image Placeholder */}
-                <div className="aspect-square placeholder-box bg-current/5">
-                  <span className="font-clinical text-[8px] text-center px-1">
-                    [{ingredient.name.toUpperCase()}]
-                  </span>
+                {/* Image */}
+                <div className="relative aspect-square">
+                  {ingredient.image ? (
+                    <Image
+                      src={ingredient.image}
+                      alt={ingredient.name}
+                      fill
+                      sizes="128px"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full placeholder-box bg-current/5 flex items-center justify-center">
+                      <span className="font-clinical text-[8px] text-center px-1">
+                        [{ingredient.name.toUpperCase()}]
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Info */}
