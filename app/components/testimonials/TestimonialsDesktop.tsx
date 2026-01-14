@@ -1,8 +1,44 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import TestimonialCard from "./TestimonialCard";
 import type { TestimonialsProps } from "./types";
+
+/**
+ * Generate grouped dot indicators (5-8 dots)
+ * First dot = first testimonial, last dot = last testimonial
+ * Middle dots represent groups of testimonials
+ */
+function generateGroupedDots(total: number, maxDots: number = 7): number[] {
+  if (total <= maxDots) {
+    // If we have fewer testimonials than max dots, show one dot per testimonial
+    return Array.from({ length: total }, (_, i) => i);
+  }
+
+  const dots: number[] = [0]; // First dot always represents first testimonial
+
+  // Calculate how many testimonials each middle dot represents
+  const middleDotsCount = maxDots - 2; // Exclude first and last
+  const testimonialsPerDot = Math.ceil((total - 1) / (middleDotsCount + 1));
+
+  // Generate middle dots
+  for (let i = 1; i <= middleDotsCount; i++) {
+    const testimonialIndex = Math.min(
+      i * testimonialsPerDot,
+      total - 1
+    );
+    if (testimonialIndex > 0 && testimonialIndex < total - 1) {
+      dots.push(testimonialIndex);
+    }
+  }
+
+  // Last dot always represents last testimonial
+  if (total > 1) {
+    dots.push(total - 1);
+  }
+
+  return dots;
+}
 
 export default function TestimonialsDesktop({
   testimonials,
@@ -12,6 +48,12 @@ export default function TestimonialsDesktop({
   const [activeIndex, setActiveIndex] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+
+  // Generate grouped dots (5-8 dots)
+  const dotIndices = useMemo(
+    () => generateGroupedDots(testimonials.length, 7),
+    [testimonials.length]
+  );
 
   // Calculate card width (including gap)
   const cardWidth = 420; // ~400px card + 20px gap
@@ -27,9 +69,11 @@ export default function TestimonialsDesktop({
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
 
-      // Update active index based on scroll position
-      const index = Math.round(scrollLeft / (cardWidth + gap));
-      setActiveIndex(Math.min(index, testimonials.length - 1));
+      // Update active index based on scroll position (accounting for centering padding)
+      const padding = (clientWidth - cardWidth) / 2;
+      const adjustedScroll = scrollLeft + padding;
+      const index = Math.round(adjustedScroll / (cardWidth + gap));
+      setActiveIndex(Math.min(Math.max(0, index), testimonials.length - 1));
     };
 
     updateScrollState();
@@ -46,9 +90,12 @@ export default function TestimonialsDesktop({
     const container = scrollRef.current;
     if (!container) return;
 
-    const scrollPosition = index * (cardWidth + gap);
+    // Calculate scroll position accounting for centering padding
+    const containerWidth = container.clientWidth;
+    const padding = (containerWidth - cardWidth) / 2;
+    const scrollPosition = index * (cardWidth + gap) - padding;
     container.scrollTo({
-      left: scrollPosition,
+      left: Math.max(0, scrollPosition),
       behavior: "smooth",
     });
   };
@@ -72,7 +119,7 @@ export default function TestimonialsDesktop({
 
   return (
     <section className="px-6 md:px-16 py-24">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1400px] mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
@@ -83,15 +130,15 @@ export default function TestimonialsDesktop({
           </p>
         </div>
 
-        {/* Carousel Container - Relative for arrow positioning */}
-        <div className="relative">
-          {/* Left Arrow */}
+        {/* Carousel Container - Relative for arrow positioning and gradients */}
+        <div className="relative -mx-6 md:-mx-16">
+          {/* Left Arrow - Inverted colors */}
           <button
             onClick={scrollLeft}
             disabled={!canScrollLeft}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 flex items-center justify-center neo-box transition-all ${
+            className={`absolute left-6 md:left-16 top-1/2 -translate-y-1/2 -translate-x-4 z-20 w-12 h-12 flex items-center justify-center border-2 border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)] transition-all ${
               canScrollLeft
-                ? "opacity-100 hover:opacity-80 cursor-pointer"
+                ? "opacity-100 hover:opacity-90 cursor-pointer"
                 : "opacity-30 cursor-not-allowed pointer-events-none"
             }`}
             aria-label="Previous testimonial"
@@ -111,13 +158,13 @@ export default function TestimonialsDesktop({
             </svg>
           </button>
 
-          {/* Right Arrow */}
+          {/* Right Arrow - Inverted colors */}
           <button
             onClick={scrollRight}
             disabled={!canScrollRight}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 flex items-center justify-center neo-box transition-all ${
+            className={`absolute right-6 md:right-16 top-1/2 -translate-y-1/2 translate-x-4 z-20 w-12 h-12 flex items-center justify-center border-2 border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)] transition-all ${
               canScrollRight
-                ? "opacity-100 hover:opacity-80 cursor-pointer"
+                ? "opacity-100 hover:opacity-90 cursor-pointer"
                 : "opacity-30 cursor-not-allowed pointer-events-none"
             }`}
             aria-label="Next testimonial"
@@ -137,11 +184,22 @@ export default function TestimonialsDesktop({
             </svg>
           </button>
 
-          {/* Scrollable Cards Container */}
+          {/* Left gradient fade */}
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
+
+          {/* Right gradient fade */}
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
+
+          {/* Scrollable Cards Container - Wider to show partial cards, no swipe on desktop */}
           <div
             ref={scrollRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-4"
-            style={{ scrollPaddingLeft: "24px" }}
+            className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+            style={{
+              paddingLeft: "calc(50% - 210px)",
+              paddingRight: "calc(50% - 210px)",
+              touchAction: "pan-y", // Only allow vertical touch scrolling, disable horizontal swipe
+              overscrollBehaviorX: "none", // Prevent horizontal overscroll
+            }}
           >
             {testimonials.map((testimonial, idx) => (
               <div
@@ -159,20 +217,37 @@ export default function TestimonialsDesktop({
           </div>
         </div>
 
-        {/* Scroll Indicators - Dots */}
+        {/* Scroll Indicators - Grouped Dots */}
         <div className="flex justify-center gap-2 mt-8">
-          {testimonials.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => scrollToIndex(idx)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                activeIndex === idx
-                  ? "bg-[var(--foreground)] opacity-100 scale-125"
-                  : "bg-[var(--foreground)] opacity-20 scale-100"
-              }`}
-              aria-label={`Go to testimonial ${idx + 1}`}
-            />
-          ))}
+          {dotIndices.map((testimonialIndex, dotIdx) => {
+            // Determine if this dot should be active
+            // Active if current index is within the range this dot represents
+            let isActive = false;
+            if (dotIdx === 0) {
+              // First dot: active if we're at the first testimonial
+              isActive = activeIndex === 0;
+            } else if (dotIdx === dotIndices.length - 1) {
+              // Last dot: active if we're at or past the last testimonial index
+              isActive = activeIndex >= testimonialIndex;
+            } else {
+              // Middle dots: active if current index is between previous dot and this dot
+              const prevIndex = dotIndices[dotIdx - 1];
+              isActive = activeIndex >= prevIndex && activeIndex < testimonialIndex;
+            }
+
+            return (
+              <button
+                key={dotIdx}
+                onClick={() => scrollToIndex(testimonialIndex)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  isActive
+                    ? "bg-[var(--foreground)] opacity-100 scale-125"
+                    : "bg-[var(--foreground)] opacity-20 scale-100"
+                }`}
+                aria-label={`Go to testimonial group ${dotIdx + 1}`}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
