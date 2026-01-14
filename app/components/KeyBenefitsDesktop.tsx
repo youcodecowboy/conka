@@ -9,7 +9,9 @@ interface KeyBenefitsDesktopProps {
   benefits: Benefit[];
 }
 
-export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps) {
+export default function KeyBenefitsDesktop({
+  benefits,
+}: KeyBenefitsDesktopProps) {
   const [activeBenefit, setActiveBenefit] = useState(0);
 
   const currentBenefit = benefits[activeBenefit];
@@ -19,53 +21,78 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
     // Extract percentage from stat (e.g., "+22.1%" -> 22.1)
     const statMatch = currentBenefit.stat.match(/(\d+\.?\d*)/);
     const improvementValue = statMatch ? parseFloat(statMatch[1]) : 0;
-    
+
     // Baseline human performance (all dimensions start at ~12%)
     const baseline = 12;
-    
+
     // Map benefit IDs to their primary category
     const benefitCategoryMap: { [key: string]: string } = {
-      "focus": "Focus",
-      "sleep": "Energy", // Sleep improves Energy/Recovery
+      focus: "Focus",
+      sleep: "Energy", // Sleep improves Energy/Recovery
       "brain-fog": "Clarity", // Brain fog relates to Clarity
-      "stress": "Recovery", // Stress resilience relates to Recovery
-      "memory": "Memory",
+      stress: "Recovery", // Stress resilience relates to Recovery
+      memory: "Memory",
     };
-    
-    const primaryCategory = benefitCategoryMap[currentBenefit.id] || "Performance";
-    
+
+    const primaryCategory =
+      benefitCategoryMap[currentBenefit.id] || "Performance";
+
     // Create categories with the primary category getting full improvement,
     // and others getting smaller improvements
     const categories = [
-      { 
-        category: "Focus", 
-        baseline: baseline, 
-        improved: baseline + (primaryCategory === "Focus" ? improvementValue : improvementValue * 0.3)
+      {
+        category: "Focus",
+        baseline: baseline,
+        improved:
+          baseline +
+          (primaryCategory === "Focus"
+            ? improvementValue
+            : improvementValue * 0.3),
       },
-      { 
-        category: "Memory", 
-        baseline: baseline, 
-        improved: baseline + (primaryCategory === "Memory" ? improvementValue : improvementValue * 0.3)
+      {
+        category: "Memory",
+        baseline: baseline,
+        improved:
+          baseline +
+          (primaryCategory === "Memory"
+            ? improvementValue
+            : improvementValue * 0.3),
       },
-      { 
-        category: "Energy", 
-        baseline: baseline, 
-        improved: baseline + (primaryCategory === "Energy" ? improvementValue : improvementValue * 0.3)
+      {
+        category: "Energy",
+        baseline: baseline,
+        improved:
+          baseline +
+          (primaryCategory === "Energy"
+            ? improvementValue
+            : improvementValue * 0.3),
       },
-      { 
-        category: "Clarity", 
-        baseline: baseline, 
-        improved: baseline + (primaryCategory === "Clarity" ? improvementValue : improvementValue * 0.3)
+      {
+        category: "Clarity",
+        baseline: baseline,
+        improved:
+          baseline +
+          (primaryCategory === "Clarity"
+            ? improvementValue
+            : improvementValue * 0.3),
       },
-      { 
-        category: "Recovery", 
-        baseline: baseline, 
-        improved: baseline + (primaryCategory === "Recovery" ? improvementValue : improvementValue * 0.3)
+      {
+        category: "Recovery",
+        baseline: baseline,
+        improved:
+          baseline +
+          (primaryCategory === "Recovery"
+            ? improvementValue
+            : improvementValue * 0.3),
       },
-      { 
-        category: "Performance", 
-        baseline: baseline, 
-        improved: baseline + (primaryCategory === "Performance" ? improvementValue : improvementValue * 0.4)
+      {
+        category: "Performance",
+        baseline: baseline,
+        improved:
+          baseline +
+          (primaryCategory === "Performance"
+            ? improvementValue
+            : improvementValue * 0.4),
       },
     ];
 
@@ -79,17 +106,19 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
 
   return (
     <section className="w-full">
-      {/* Navigation - Edge to edge, right-aligned */}
+      {/* Navigation - Edge to edge, centered */}
       <div className="w-full bg-[var(--background)]">
         <div className="px-6 md:px-16 py-6">
-          <div className="flex flex-col items-end gap-4">
-            <div className="text-right">
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Key Benefits</h2>
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">
+                Key Benefits
+              </h2>
               <p className="font-commentary text-xl">backed by real science</p>
             </div>
-            
+
             {/* Benefit Navigation Buttons - Pill shaped */}
-            <div className="flex flex-wrap gap-3 justify-end">
+            <div className="flex flex-wrap gap-3 justify-center">
               {benefits.map((benefit, idx) => {
                 const isActive = idx === activeBenefit;
                 return (
@@ -103,7 +132,9 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
                     }`}
                   >
                     {benefit.icon && (
-                      <span className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-white" : "text-black"}`}>
+                      <span
+                        className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-white" : "text-black"}`}
+                      >
                         {benefit.icon}
                       </span>
                     )}
@@ -142,7 +173,7 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
                       {currentBenefit.description}
                     </p>
                   </div>
-                  
+
                   {/* Right Column: Radar Chart */}
                   <div className="w-full flex items-center justify-center overflow-visible">
                     <div className="w-[280px] md:w-[320px] overflow-visible">
@@ -164,30 +195,34 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
                           vs. baseline human performance
                         </p>
                       </div>
-                    <div className="space-y-3 font-clinical text-sm">
-                      <div>
-                        <span className="opacity-70">Study:</span>{" "}
-                        <span>{currentBenefit.clinicalBreakdown.study}</span>
+                      <div className="space-y-3 font-clinical text-sm">
+                        <div>
+                          <span className="opacity-70">Study:</span>{" "}
+                          <span>{currentBenefit.clinicalBreakdown.study}</span>
+                        </div>
+                        <div>
+                          <span className="opacity-70">Participants:</span>{" "}
+                          <span>
+                            {currentBenefit.clinicalBreakdown.participants}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="opacity-70">Duration:</span>{" "}
+                          <span>
+                            {currentBenefit.clinicalBreakdown.duration}
+                          </span>
+                        </div>
+                        <div className="mt-4 pt-4 border-t-2 border-current border-opacity-20">
+                          <p className="opacity-70 mb-2">Key Results:</p>
+                          <ul className="space-y-1">
+                            {currentBenefit.clinicalBreakdown.results.map(
+                              (result, idx) => (
+                                <li key={idx}>• {result}</li>
+                              ),
+                            )}
+                          </ul>
+                        </div>
                       </div>
-                      <div>
-                        <span className="opacity-70">Participants:</span>{" "}
-                        <span>{currentBenefit.clinicalBreakdown.participants}</span>
-                      </div>
-                      <div>
-                        <span className="opacity-70">Duration:</span>{" "}
-                        <span>{currentBenefit.clinicalBreakdown.duration}</span>
-                      </div>
-                      <div className="mt-4 pt-4 border-t-2 border-current border-opacity-20">
-                        <p className="opacity-70 mb-2">Key Results:</p>
-                        <ul className="space-y-1">
-                          {currentBenefit.clinicalBreakdown.results.map(
-                            (result, idx) => (
-                              <li key={idx}>• {result}</li>
-                            )
-                          )}
-                        </ul>
-                      </div>
-                    </div>
                     </div>
                   </div>
                 )}
@@ -199,7 +234,8 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
                       &quot;{currentBenefit.testimonial.quote}&quot;
                     </p>
                     <p className="font-clinical text-sm opacity-70">
-                      — {currentBenefit.testimonial.author}, {currentBenefit.testimonial.role}
+                      — {currentBenefit.testimonial.author},{" "}
+                      {currentBenefit.testimonial.role}
                     </p>
                   </div>
                 )}
@@ -232,5 +268,3 @@ export default function KeyBenefitsDesktop({ benefits }: KeyBenefitsDesktopProps
     </section>
   );
 }
-
-
