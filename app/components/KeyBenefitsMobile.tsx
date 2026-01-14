@@ -105,19 +105,14 @@ export default function KeyBenefitsMobile({
       <div className="px-6 mb-4">
         <div className="text-left">
           <h2 className="text-2xl sm:text-3xl font-bold mb-1">Key Benefits</h2>
-          <p className="font-commentary text-lg sm:text-xl">
-            backed by real science
+          <p className="font-clinical text-sm font-clinical opacity-70 sm:text-xl">
+            backed by real science, tap to explore
           </p>
         </div>
       </div>
 
       {/* Brick-laying Pills Layout */}
       <div className="px-6 mb-5">
-        {/* Tap instruction */}
-        <p className="font-commentary text-sm mb-3 opacity-70">
-          tap to explore
-        </p>
-
         {/* Flex-wrap container - pills wrap naturally to fit screen */}
         <div className="flex flex-wrap gap-2.5">
           {benefits.map((benefit, idx) => {
