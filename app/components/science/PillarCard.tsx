@@ -98,17 +98,17 @@ export default function PillarCard({
 }: PillarCardProps) {
   const formulaLabel =
     pillar.forFormula === "01"
-      ? "Conka Flow"
+      ? "CONKA Flow"
       : pillar.forFormula === "02"
-      ? "Conka Clarity"
-      : "Both Formulas";
+        ? "CONKA Clarity"
+        : "Both Formulas";
 
   const formulaColor =
     pillar.forFormula === "01"
       ? "bg-amber-500"
       : pillar.forFormula === "02"
-      ? "bg-[#AAB9BC]"
-      : "bg-gradient-to-r from-amber-500 to-[#AAB9BC]";
+        ? "bg-[#AAB9BC]"
+        : "bg-gradient-to-r from-amber-500 to-[#AAB9BC]";
 
   return (
     <div className="neo-box overflow-hidden">
@@ -136,9 +136,7 @@ export default function PillarCard({
                 {pillar.tagline}
               </p>
               <div className="flex items-center gap-2 mt-2">
-                <span
-                  className={`w-2 h-2 rounded-full ${formulaColor}`}
-                ></span>
+                <span className={`w-2 h-2 rounded-full ${formulaColor}`}></span>
                 <span className="font-clinical text-xs opacity-50">
                   {formulaLabel}
                 </span>
@@ -168,16 +166,16 @@ export default function PillarCard({
       {/* Expanded Content */}
       {isExpanded && (
         <div
-          className={`border-t-2 border-current/10 ${
-            isMobile ? "p-4" : "p-6"
-          }`}
+          className={`border-t-2 border-current/10 ${isMobile ? "p-4" : "p-6"}`}
         >
           {/* Description */}
           <div className="mb-6">
             <p className="font-clinical text-xs uppercase opacity-50 mb-2">
               What Is It?
             </p>
-            <p className={`${isMobile ? "text-sm" : "text-base"} leading-relaxed`}>
+            <p
+              className={`${isMobile ? "text-sm" : "text-base"} leading-relaxed`}
+            >
               {pillar.description}
             </p>
           </div>
@@ -239,8 +237,8 @@ export default function PillarCard({
                       ingredient.formula === "01"
                         ? "bg-amber-500"
                         : ingredient.formula === "02"
-                        ? "bg-[#AAB9BC]"
-                        : "bg-gradient-to-r from-amber-500 to-[#AAB9BC]"
+                          ? "bg-[#AAB9BC]"
+                          : "bg-gradient-to-r from-amber-500 to-[#AAB9BC]"
                     }`}
                   ></span>
                   <div className="flex-1">
@@ -253,8 +251,8 @@ export default function PillarCard({
                     {ingredient.formula === "01"
                       ? "F01"
                       : ingredient.formula === "02"
-                      ? "F02"
-                      : "BOTH"}
+                        ? "F02"
+                        : "BOTH"}
                   </span>
                 </div>
               ))}
@@ -265,4 +263,3 @@ export default function PillarCard({
     </div>
   );
 }
-

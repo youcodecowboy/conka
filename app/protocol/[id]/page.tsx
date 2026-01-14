@@ -14,7 +14,10 @@ import {
   ProtocolCalendarSectionMobile,
   ProtocolCaseStudiesMobile,
 } from "@/app/components/protocol";
-import { StickyPurchaseFooter, StickyPurchaseFooterMobile } from "@/app/components/product";
+import {
+  StickyPurchaseFooter,
+  StickyPurchaseFooterMobile,
+} from "@/app/components/product";
 import {
   ProtocolId,
   ProtocolTier,
@@ -36,7 +39,8 @@ export default function ProtocolPage() {
   const { addToCart } = useCart();
 
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
-  const [purchaseType, setPurchaseType] = useState<PurchaseType>("subscription");
+  const [purchaseType, setPurchaseType] =
+    useState<PurchaseType>("subscription");
 
   // Validate protocol ID
   useEffect(() => {
@@ -60,12 +64,20 @@ export default function ProtocolPage() {
   }
 
   const handleAddToCart = async () => {
-    const variantData = getProtocolVariantId(protocolId as ProtocolId, selectedTier, purchaseType);
+    const variantData = getProtocolVariantId(
+      protocolId as ProtocolId,
+      selectedTier,
+      purchaseType,
+    );
     if (variantData?.variantId) {
       // Pass selling plan ID for subscription purchases
       await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
     } else {
-      console.warn("Variant ID not configured for:", { protocol: protocolId, tier: selectedTier, type: purchaseType });
+      console.warn("Variant ID not configured for:", {
+        protocol: protocolId,
+        tier: selectedTier,
+        type: purchaseType,
+      });
     }
   };
 
@@ -74,9 +86,9 @@ export default function ProtocolPage() {
     return (
       <div
         className="min-h-screen theme-conka-flow"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
-      <Navigation />
+        style={{ background: "var(--background)", color: "var(--foreground)" }}
+      >
+        <Navigation />
 
         <ProtocolHeroMobile
           protocolId={protocolId as ProtocolId}
@@ -107,7 +119,9 @@ export default function ProtocolPage() {
         <section className="px-4 py-8">
           <div className="text-center mb-4">
             <h2 className="text-lg font-bold mb-1">Explore Other Protocols</h2>
-            <p className="font-commentary text-sm opacity-70">find your perfect match</p>
+            <p className="font-commentary text-sm opacity-70">
+              find your perfect match
+            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -117,11 +131,7 @@ export default function ProtocolPage() {
               .map((id) => {
                 const otherProtocol = protocolContent[id];
                 return (
-                  <a
-                    key={id}
-                    href={`/protocol/${id}`}
-                    className="neo-box p-3"
-                  >
+                  <a key={id} href={`/protocol/${id}`} className="neo-box p-3">
                     <h3 className="font-bold text-sm">{otherProtocol.name}</h3>
                     <p className="font-clinical text-xs opacity-70 mt-1">
                       {otherProtocol.subtitle}
@@ -133,21 +143,23 @@ export default function ProtocolPage() {
 
           {/* Individual Formulas CTA */}
           <div className="mt-6 neo-box p-4 text-center">
-            <h3 className="font-bold text-sm mb-2">Prefer Individual Formulas?</h3>
+            <h3 className="font-bold text-sm mb-2">
+              Prefer Individual Formulas?
+            </h3>
             <div className="flex gap-3">
               <a
                 href="/conka-flow"
                 className="flex-1 neo-button-outline px-3 py-2 font-semibold text-xs flex items-center justify-center gap-1"
               >
                 <span className="w-2 h-2 bg-[#2563eb] rounded-sm"></span>
-                Conka Flow
+                CONKA Flow
               </a>
               <a
                 href="/conka-clarity"
                 className="flex-1 neo-button-outline px-3 py-2 font-semibold text-xs flex items-center justify-center gap-1"
               >
                 <span className="w-2 h-2 bg-amber-500 rounded-sm"></span>
-                Conka Clarity
+                CONKA Clarity
               </a>
             </div>
           </div>
@@ -158,56 +170,111 @@ export default function ProtocolPage() {
           <div className="flex flex-col gap-6">
             {/* Logo & Nav */}
             <div className="flex flex-col gap-3">
-              <a href="/" className="flex items-center hover:opacity-70 transition-all">
+              <a
+                href="/"
+                className="flex items-center hover:opacity-70 transition-all"
+              >
                 <Image
                   src="/conka.png"
-                  alt="Conka logo"
+                  alt="CONKA logo"
                   width={90}
                   height={30}
                   className="h-6 w-auto"
                 />
               </a>
               <nav className="flex flex-wrap items-center gap-2">
-                <a href="/science" className="font-clinical text-xs hover:opacity-70 transition-all">The Science</a>
+                <a
+                  href="/science"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  The Science
+                </a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/ingredients" className="font-clinical text-xs hover:opacity-70 transition-all">Ingredients</a>
+                <a
+                  href="/ingredients"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  Ingredients
+                </a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/case-studies" className="font-clinical text-xs hover:opacity-70 transition-all">Results</a>
+                <a
+                  href="/case-studies"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  Results
+                </a>
                 <span className="font-clinical text-xs opacity-30">•</span>
-                <a href="/our-story" className="font-clinical text-xs hover:opacity-70 transition-all">Our Story</a>
+                <a
+                  href="/our-story"
+                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                >
+                  Our Story
+                </a>
               </nav>
-              <p className="font-commentary text-xs opacity-60">built with love ♥</p>
+              <p className="font-commentary text-xs opacity-60">
+                built with love ♥
+              </p>
             </div>
 
             {/* CTAs */}
             <div className="flex flex-col gap-3">
               <div className="flex gap-3">
-                <a 
-                  href="/quiz" 
+                <a
+                  href="/quiz"
                   className="flex-1 neo-button-outline px-3 py-2 font-semibold text-sm flex items-center justify-center gap-2"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
                   </svg>
                   Find Your Protocol
                 </a>
-                <a 
-                  href="#protocols" 
+                <a
+                  href="#protocols"
                   className="flex-1 neo-button px-3 py-2 font-semibold text-sm flex items-center justify-center gap-2"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="9" cy="21" r="1"/>
-                    <circle cx="20" cy="21" r="1"/>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                   </svg>
-                  Buy Conka
+                  Buy CONKA
                 </a>
               </div>
               <p className="font-clinical text-xs text-center opacity-50 flex items-center justify-center gap-1.5">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
                 100-day money-back guarantee
               </p>
@@ -221,7 +288,6 @@ export default function ProtocolPage() {
           purchaseType={purchaseType}
           onAddToCart={handleAddToCart}
         />
-
       </div>
     );
   }
@@ -311,14 +377,14 @@ export default function ProtocolPage() {
                 className="neo-button-outline px-6 py-3 font-semibold flex items-center justify-center gap-2"
               >
                 <span className="w-3 h-3 bg-[#2563eb] rounded-sm"></span>
-                Conka Flow
+                CONKA Flow
               </a>
               <a
                 href="/conka-clarity"
                 className="neo-button-outline px-6 py-3 font-semibold flex items-center justify-center gap-2"
               >
                 <span className="w-3 h-3 bg-amber-500 rounded-sm"></span>
-                Conka Clarity
+                CONKA Clarity
               </a>
             </div>
           </div>
@@ -345,14 +411,14 @@ export default function ProtocolPage() {
                   href="/conka-flow"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
-                  Conka Flow
+                  CONKA Flow
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
                 <a
                   href="/conka-clarity"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
-                  Conka Clarity
+                  CONKA Clarity
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
                 <a
@@ -395,7 +461,6 @@ export default function ProtocolPage() {
         onPurchaseTypeChange={setPurchaseType}
         onAddToCart={handleAddToCart}
       />
-
     </div>
   );
 }

@@ -101,7 +101,7 @@ export const storySections: StorySection[] = [
     theme: "light",
     headline: "The Second Formula",
     subtitle: "precision-tuned for recovery",
-    body: "Armed with data from professional sports teams, a pattern emerged. There were two days each week where cognitive performance dipped, always around periods of high intensity training. The technology revealed what athletes couldn't feel themselves. So we developed a second formula specifically designed to complement the first: Conka Flow for daily cognitive enhancement, Conka Clarity for recovery periods.",
+    body: "Armed with data from professional sports teams, a pattern emerged. There were two days each week where cognitive performance dipped, always around periods of high intensity training. The technology revealed what athletes couldn't feel themselves. So we developed a second formula specifically designed to complement the first: CONKA Flow for daily cognitive enhancement, CONKA Clarity for recovery periods.",
     imagePlaceholder: "[TWO FORMULA SYSTEM]",
     image: "/story/Conka_Images_3_11c686b7-33cd-48e9-8d22-c44ed5406dd2.webp",
   },
@@ -141,4 +141,3 @@ export const researchStats = {
   efficiencyMen: "+16%",
   efficiencyWomen: "+23%",
 };
-

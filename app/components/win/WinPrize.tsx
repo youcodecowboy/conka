@@ -11,7 +11,7 @@ export default function WinPrize() {
           <div className="relative w-full max-w-2xl h-64 sm:h-80 md:h-96">
             <Image
               src="/CONKA_16.jpg"
-              alt="Conka Flow and Conka Clarity - Balance Protocol"
+              alt="CONKA Flow and CONKA Clarity - Balance Protocol"
               fill
               className="object-contain"
               priority

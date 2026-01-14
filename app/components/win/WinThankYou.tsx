@@ -43,7 +43,7 @@ export default function WinThankYou({ email }: WinThankYouProps) {
           </p>
 
           <p className="font-primary text-base md:text-lg opacity-90">
-            Conka exists to help people think more clearly, decide faster, and
+            CONKA exists to help people think more clearly, decide faster, and
             perform better — using clinically grounded ingredients, not hype.
           </p>
 

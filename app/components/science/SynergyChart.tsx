@@ -18,7 +18,9 @@ interface SynergyChartProps {
 
 export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
   return (
-    <section className={`${isMobile ? "px-4 py-8" : "px-16 py-16"} bg-current/5`}>
+    <section
+      className={`${isMobile ? "px-4 py-8" : "px-16 py-16"} bg-current/5`}
+    >
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className={`${isMobile ? "mb-6" : "mb-10"} text-center`}>
@@ -37,7 +39,8 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
               isMobile ? "text-base" : "text-lg"
             }`}
           >
-            See how Conka Flow and Conka Clarity complement each other across all five pillars
+            See how CONKA Flow and CONKA Clarity complement each other across
+            all five pillars
           </p>
         </div>
 
@@ -45,7 +48,10 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
         <div className="neo-box p-4 lg:p-8">
           <div className={`${isMobile ? "h-72" : "h-96"}`}>
             <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={formulaStrengths} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+              <RadarChart
+                data={formulaStrengths}
+                margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
+              >
                 <PolarGrid stroke="currentColor" strokeOpacity={0.2} />
                 <PolarAngleAxis
                   dataKey="pillar"
@@ -66,7 +72,7 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
                   tickCount={5}
                 />
                 <Radar
-                  name="Conka Flow"
+                  name="CONKA Flow"
                   dataKey="flow"
                   stroke="#f59e0b"
                   fill="#f59e0b"
@@ -74,7 +80,7 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
                   strokeWidth={2}
                 />
                 <Radar
-                  name="Conka Clarity"
+                  name="CONKA Clarity"
                   dataKey="clarity"
                   stroke="#AAB9BC"
                   fill="#AAB9BC"
@@ -119,7 +125,7 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
             <div className="flex items-center gap-3 p-3 border-2 border-amber-500/30 rounded">
               <span className="w-4 h-4 bg-amber-500 rounded-sm flex-shrink-0"></span>
               <div>
-                <p className="font-bold text-sm">Conka Flow</p>
+                <p className="font-bold text-sm">CONKA Flow</p>
                 <p className="font-clinical text-xs opacity-70">
                   Adaptogenic foundation for stress resilience
                 </p>
@@ -128,7 +134,7 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
             <div className="flex items-center gap-3 p-3 border-2 border-[#AAB9BC]/30 rounded">
               <span className="w-4 h-4 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
               <div>
-                <p className="font-bold text-sm">Conka Clarity</p>
+                <p className="font-bold text-sm">CONKA Clarity</p>
                 <p className="font-clinical text-xs opacity-70">
                   Nootropic power for peak performance
                 </p>
@@ -149,4 +155,3 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
     </section>
   );
 }
-

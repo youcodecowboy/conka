@@ -23,11 +23,12 @@ export default function SciencePageMobile() {
             <div className="w-1 bg-amber-500 flex-shrink-0"></div>
             <div>
               <p className="font-commentary text-lg leading-relaxed">
-                &ldquo;The brain is the most complex organ in the known universe. It
-                deserves ingredients backed by rigorous science.&rdquo;
+                &ldquo;The brain is the most complex organ in the known
+                universe. It deserves ingredients backed by rigorous
+                science.&rdquo;
               </p>
               <p className="font-clinical text-xs opacity-70 mt-3">
-                - The Conka Research Philosophy
+                - The CONKA Research Philosophy
               </p>
             </div>
           </div>
@@ -48,11 +49,9 @@ export default function SciencePageMobile() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-4 left-4 right-4 text-white">
               <p className="font-clinical text-xs opacity-70 mb-1">
-                Conka Flow Contains
+                CONKA Flow Contains
               </p>
-              <p className="font-bold text-lg">
-                3 Research-Backed Adaptogens
-              </p>
+              <p className="font-bold text-lg">3 Research-Backed Adaptogens</p>
             </div>
           </div>
         </div>
@@ -65,17 +64,18 @@ export default function SciencePageMobile() {
           <h2 className="text-2xl font-bold mb-4">What Are Adaptogens?</h2>
           <div className="space-y-3 text-sm opacity-80">
             <p>
-              Adaptogens are a unique class of natural compounds that help your body
-              &ldquo;adapt&rdquo; to stress. Unlike stimulants that force a response, adaptogens
-              work by normalizing physiological functions.
+              Adaptogens are a unique class of natural compounds that help your
+              body &ldquo;adapt&rdquo; to stress. Unlike stimulants that force a
+              response, adaptogens work by normalizing physiological functions.
             </p>
             <p>
-              The term was coined by Soviet scientist Dr. Nikolai Lazarev in 1947.
-              Modern research has validated their effects on the HPA axis.
+              The term was coined by Soviet scientist Dr. Nikolai Lazarev in
+              1947. Modern research has validated their effects on the HPA axis.
             </p>
             <p>
-              Key adaptogens in our formulas include <strong>Ashwagandha</strong>,{" "}
-              <strong>Rhodiola rosea</strong>, and <strong>Lemon Balm</strong>.
+              Key adaptogens in our formulas include{" "}
+              <strong>Ashwagandha</strong>, <strong>Rhodiola rosea</strong>, and{" "}
+              <strong>Lemon Balm</strong>.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 mt-4">
@@ -104,7 +104,7 @@ export default function SciencePageMobile() {
           <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-2">
             Our Approach
           </p>
-          <h2 className="text-2xl font-bold">What Makes Conka Different</h2>
+          <h2 className="text-2xl font-bold">What Makes CONKA Different</h2>
         </div>
 
         <div className="space-y-4">
@@ -132,7 +132,8 @@ export default function SciencePageMobile() {
               <div>
                 <h3 className="font-bold text-base mb-1">Clinical Dosing</h3>
                 <p className="text-sm opacity-80">
-                  Same doses proven effective in clinical trials, not underdosed blends.
+                  Same doses proven effective in clinical trials, not underdosed
+                  blends.
                 </p>
               </div>
             </div>
@@ -159,7 +160,9 @@ export default function SciencePageMobile() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-bold text-base mb-1">Bioavailability First</h3>
+                <h3 className="font-bold text-base mb-1">
+                  Bioavailability First
+                </h3>
                 <p className="text-sm opacity-80">
                   Black pepper increases curcumin absorption by 2000%.
                 </p>
@@ -189,7 +192,8 @@ export default function SciencePageMobile() {
               <div>
                 <h3 className="font-bold text-base mb-1">Full Transparency</h3>
                 <p className="text-sm opacity-80">
-                  Every stat links to its PubMed source. Real science you can verify.
+                  Every stat links to its PubMed source. Real science you can
+                  verify.
                 </p>
               </div>
             </div>
@@ -205,25 +209,37 @@ export default function SciencePageMobile() {
         <div className="flex flex-col gap-6">
           {/* Logo & Nav */}
           <div className="flex flex-col gap-4">
-            <a href="/" className="flex items-center hover:opacity-70 transition-all">
+            <a
+              href="/"
+              className="flex items-center hover:opacity-70 transition-all"
+            >
               <Image
                 src="/conka.png"
-                alt="Conka logo"
+                alt="CONKA logo"
                 width={90}
                 height={30}
                 className="h-6 w-auto"
               />
             </a>
             <nav className="flex flex-wrap items-center gap-2">
-              <a href="/" className="font-clinical text-sm hover:opacity-70 transition-all">
+              <a
+                href="/"
+                className="font-clinical text-sm hover:opacity-70 transition-all"
+              >
                 Home
               </a>
               <span className="font-clinical text-sm opacity-30">•</span>
-              <a href="/ingredients" className="font-clinical text-sm hover:opacity-70 transition-all">
+              <a
+                href="/ingredients"
+                className="font-clinical text-sm hover:opacity-70 transition-all"
+              >
                 Ingredients
               </a>
               <span className="font-clinical text-sm opacity-30">•</span>
-              <a href="/case-studies" className="font-clinical text-sm hover:opacity-70 transition-all">
+              <a
+                href="/case-studies"
+                className="font-clinical text-sm hover:opacity-70 transition-all"
+              >
                 Case Studies
               </a>
             </nav>
@@ -257,4 +273,3 @@ export default function SciencePageMobile() {
     </div>
   );
 }
-

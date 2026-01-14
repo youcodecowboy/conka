@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from "react";
 import {
-    PathType,
-    ProtocolTier,
-    pathData,
-    protocolTiers,
-    balancedTiers,
-    ultimateTiers,
-    pricingData,
-    ultimatePricingData,
-    PathInfo,
-    FORMULA_COLORS,
+  PathType,
+  ProtocolTier,
+  pathData,
+  protocolTiers,
+  balancedTiers,
+  ultimateTiers,
+  pricingData,
+  ultimatePricingData,
+  PathInfo,
+  FORMULA_COLORS,
 } from "./ProtocolBuilder";
 import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
@@ -30,7 +30,9 @@ const pathToProtocolId: Record<Exclude<PathType, null>, ProtocolId> = {
 export default function ProtocolBuilderMobile() {
   const [selectedPath, setSelectedPath] = useState<PathType>(null);
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
-  const [expandedSections, setExpandedSections] = useState<Record<AccordionSection, boolean>>({
+  const [expandedSections, setExpandedSections] = useState<
+    Record<AccordionSection, boolean>
+  >({
     why: false,
     included: false,
     fullMonth: false,
@@ -47,15 +49,23 @@ export default function ProtocolBuilderMobile() {
   // Handle adding protocol subscription to cart
   const handleAddToCart = async () => {
     if (!selectedPath) return;
-    
+
     const protocolId = pathToProtocolId[selectedPath];
     const purchaseType: PurchaseType = "subscription";
-    
-    const variantData = getProtocolVariantId(protocolId, selectedTier, purchaseType);
+
+    const variantData = getProtocolVariantId(
+      protocolId,
+      selectedTier,
+      purchaseType,
+    );
     if (variantData?.variantId) {
       await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
     } else {
-      console.warn("Variant ID not configured for:", { protocol: protocolId, tier: selectedTier, type: purchaseType });
+      console.warn("Variant ID not configured for:", {
+        protocol: protocolId,
+        tier: selectedTier,
+        type: purchaseType,
+      });
     }
   };
 
@@ -79,9 +89,10 @@ export default function ProtocolBuilderMobile() {
   const generateCalendarDays = (
     tier: ProtocolTier,
     path: PathInfo,
-    weeksToShow: number = 1
+    weeksToShow: number = 1,
   ): Array<{ day: number; formula: "01" | "02" | "both" | "rest" }> => {
-    const days: Array<{ day: number; formula: "01" | "02" | "both" | "rest" }> = [];
+    const days: Array<{ day: number; formula: "01" | "02" | "both" | "rest" }> =
+      [];
 
     for (let week = 0; week < weeksToShow; week++) {
       for (let day = 0; day < 7; day++) {
@@ -196,18 +207,20 @@ export default function ProtocolBuilderMobile() {
       <section className="px-6 py-12">
         <div className="text-left mb-4">
           <h2 className="text-2xl font-bold mb-2">Choose Your Protocol</h2>
-          <p className="font-commentary text-base opacity-70">two formulas, four paths</p>
+          <p className="font-commentary text-base opacity-70">
+            two formulas, four paths
+          </p>
         </div>
 
         {/* Formula Legend - Above protocol cards */}
         <div className="flex gap-4 mb-4">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-amber-500 rounded-sm"></div>
-            <span className="font-clinical text-xs">Conka Flow</span>
+            <span className="font-clinical text-xs">CONKA Flow</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-[#AAB9BC] rounded-sm"></div>
-            <span className="font-clinical text-xs">Conka Clarity</span>
+            <span className="font-clinical text-xs">CONKA Clarity</span>
           </div>
         </div>
 
@@ -296,7 +309,9 @@ export default function ProtocolBuilderMobile() {
         </button>
         <div>
           <h2 className="text-xl font-bold">{currentPath.title}</h2>
-          <p className="font-clinical text-xs opacity-60">{currentPath.subtitle}</p>
+          <p className="font-clinical text-xs opacity-60">
+            {currentPath.subtitle}
+          </p>
         </div>
       </div>
 
@@ -329,7 +344,7 @@ export default function ProtocolBuilderMobile() {
           // Get formula counts with names
           let flowCount: number;
           let clarityCount: number;
-          
+
           if (currentPath.isUltimate && (tier === "pro" || tier === "max")) {
             flowCount = ultimateTiers[tier].conkaFlowCount;
             clarityCount = ultimateTiers[tier].conkaClarityCount;
@@ -347,7 +362,7 @@ export default function ProtocolBuilderMobile() {
               flowCount = protocolTiers[tier].secondaryCount;
             }
           }
-          
+
           return (
             <button
               key={tier}
@@ -358,7 +373,9 @@ export default function ProtocolBuilderMobile() {
                   : "border-2 border-black/10 hover:border-black/30"
               }`}
             >
-              <p className="font-clinical text-xs uppercase opacity-70 mb-1">{tier}</p>
+              <p className="font-clinical text-xs uppercase opacity-70 mb-1">
+                {tier}
+              </p>
               <div className="flex items-center justify-center gap-1">
                 <div className="w-2 h-2 rounded-sm bg-amber-500"></div>
                 <span className="font-clinical text-xs">{flowCount}</span>
@@ -374,7 +391,9 @@ export default function ProtocolBuilderMobile() {
       {/* 1-Week Calendar Sample */}
       <div className="border-2 border-black/10 rounded-lg p-4 mb-4">
         <div className="flex justify-between items-center mb-3">
-          <p className="font-clinical text-xs uppercase opacity-50">Sample Week</p>
+          <p className="font-clinical text-xs uppercase opacity-50">
+            Sample Week
+          </p>
           <p className="font-clinical text-xs opacity-50">
             {getTierData(currentPath, selectedTier).description}
           </p>
@@ -394,22 +413,24 @@ export default function ProtocolBuilderMobile() {
 
         {/* Calendar Cells - 1 Week */}
         <div className="grid grid-cols-7 gap-1">
-          {generateCalendarDays(selectedTier, currentPath, 1).map((day, idx) => (
-            <div
-              key={idx}
-              className={`aspect-square rounded-md flex items-center justify-center text-xs font-clinical ${
-                day.formula === "01"
-                  ? "bg-amber-500 text-white"
-                  : day.formula === "02"
-                  ? "bg-[#AAB9BC] text-white"
-                  : day.formula === "both"
-                  ? "bg-gradient-to-br from-amber-500 to-[#AAB9BC] text-white"
-                  : "border border-current opacity-20"
-              }`}
-            >
-              {day.day}
-            </div>
-          ))}
+          {generateCalendarDays(selectedTier, currentPath, 1).map(
+            (day, idx) => (
+              <div
+                key={idx}
+                className={`aspect-square rounded-md flex items-center justify-center text-xs font-clinical ${
+                  day.formula === "01"
+                    ? "bg-amber-500 text-white"
+                    : day.formula === "02"
+                      ? "bg-[#AAB9BC] text-white"
+                      : day.formula === "both"
+                        ? "bg-gradient-to-br from-amber-500 to-[#AAB9BC] text-white"
+                        : "border border-current opacity-20"
+                }`}
+              >
+                {day.day}
+              </div>
+            ),
+          )}
         </div>
       </div>
 
@@ -492,22 +513,29 @@ export default function ProtocolBuilderMobile() {
           </button>
           {expandedSections.included && (
             <div className="px-3 pb-3 space-y-2">
-              {currentPath.isUltimate && (selectedTier === "pro" || selectedTier === "max") ? (
+              {currentPath.isUltimate &&
+              (selectedTier === "pro" || selectedTier === "max") ? (
                 <>
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 bg-amber-500 rounded-sm flex items-center justify-center">
-                      <span className="text-white text-[8px] font-bold">01</span>
+                      <span className="text-white text-[8px] font-bold">
+                        01
+                      </span>
                     </div>
                     <span className="font-clinical text-sm">
-                      {ultimateTiers[selectedTier].conkaFlowCount}× Conka Flow per week
+                      {ultimateTiers[selectedTier].conkaFlowCount}× CONKA Flow
+                      per week
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 bg-[#AAB9BC] rounded-sm flex items-center justify-center">
-                      <span className="text-white text-[8px] font-bold">02</span>
+                      <span className="text-white text-[8px] font-bold">
+                        02
+                      </span>
                     </div>
                     <span className="font-clinical text-sm">
-                      {ultimateTiers[selectedTier].conkaClarityCount}× Conka Clarity per week
+                      {ultimateTiers[selectedTier].conkaClarityCount}× CONKA
+                      Clarity per week
                     </span>
                   </div>
                 </>
@@ -515,18 +543,24 @@ export default function ProtocolBuilderMobile() {
                 <>
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 bg-amber-500 rounded-sm flex items-center justify-center">
-                      <span className="text-white text-[8px] font-bold">01</span>
+                      <span className="text-white text-[8px] font-bold">
+                        01
+                      </span>
                     </div>
                     <span className="font-clinical text-sm">
-                      {balancedTiers[selectedTier].conkaFlowCount}× Conka Flow per week
+                      {balancedTiers[selectedTier].conkaFlowCount}× CONKA Flow
+                      per week
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 bg-[#AAB9BC] rounded-sm flex items-center justify-center">
-                      <span className="text-white text-[8px] font-bold">02</span>
+                      <span className="text-white text-[8px] font-bold">
+                        02
+                      </span>
                     </div>
                     <span className="font-clinical text-sm">
-                      {balancedTiers[selectedTier].conkaClarityCount}× Conka Clarity per week
+                      {balancedTiers[selectedTier].conkaClarityCount}× CONKA
+                      Clarity per week
                     </span>
                   </div>
                 </>
@@ -593,34 +627,38 @@ export default function ProtocolBuilderMobile() {
             <div className="px-3 pb-3">
               {/* Day Headers */}
               <div className="grid grid-cols-7 gap-1 mb-2">
-                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-                  <div
-                    key={day}
-                    className="text-center font-clinical text-[10px] opacity-50"
-                  >
-                    {day}
-                  </div>
-                ))}
+                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+                  (day) => (
+                    <div
+                      key={day}
+                      className="text-center font-clinical text-[10px] opacity-50"
+                    >
+                      {day}
+                    </div>
+                  ),
+                )}
               </div>
 
               {/* Full 4-week Calendar */}
               <div className="grid grid-cols-7 gap-1">
-                {generateCalendarDays(selectedTier, currentPath, 4).map((day, idx) => (
-                  <div
-                    key={idx}
-                    className={`aspect-square rounded-sm flex items-center justify-center text-[10px] font-clinical ${
-                      day.formula === "01"
-                        ? "bg-amber-500 text-white"
-                        : day.formula === "02"
-                        ? "bg-[#AAB9BC] text-white"
-                        : day.formula === "both"
-                        ? "bg-gradient-to-br from-amber-500 to-[#AAB9BC] text-white"
-                        : "border border-current opacity-20"
-                    }`}
-                  >
-                    {day.day}
-                  </div>
-                ))}
+                {generateCalendarDays(selectedTier, currentPath, 4).map(
+                  (day, idx) => (
+                    <div
+                      key={idx}
+                      className={`aspect-square rounded-sm flex items-center justify-center text-[10px] font-clinical ${
+                        day.formula === "01"
+                          ? "bg-amber-500 text-white"
+                          : day.formula === "02"
+                            ? "bg-[#AAB9BC] text-white"
+                            : day.formula === "both"
+                              ? "bg-gradient-to-br from-amber-500 to-[#AAB9BC] text-white"
+                              : "border border-current opacity-20"
+                      }`}
+                    >
+                      {day.day}
+                    </div>
+                  ),
+                )}
               </div>
 
               {/* Legend */}
@@ -686,7 +724,7 @@ export default function ProtocolBuilderMobile() {
               {currentPricing.billingCycle}
             </p>
           </div>
-          <button 
+          <button
             onClick={handleAddToCart}
             disabled={loading}
             className="flex-1 bg-black text-white py-3 px-6 rounded-lg font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
@@ -698,4 +736,3 @@ export default function ProtocolBuilderMobile() {
     </section>
   );
 }
-

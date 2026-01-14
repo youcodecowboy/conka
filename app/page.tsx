@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import type { Benefit } from "./components/KeyBenefits";
+import { testimonials, shuffleTestimonials } from "./lib/testimonialsData";
 
 // Dynamically import heavy components to reduce initial bundle size
 // These components are below the fold and contain heavy dependencies like recharts
@@ -35,6 +36,13 @@ const CaseStudiesDataDriven = dynamic(
 const Ingredients = dynamic(() => import("./components/Ingredients"), {
   loading: () => <div className="h-[400px]" />,
 });
+
+const Testimonials = dynamic(
+  () => import("./components/testimonials/Testimonials"),
+  {
+    loading: () => <div className="h-[500px]" />,
+  },
+);
 
 const faqItems = [
   {
@@ -145,12 +153,20 @@ const faqItems = [
     category: "Usage",
     question: "When should I take it?",
     answer:
-      "Conka Flow is best taken in the morning with or without food. Conka Clarity is best 30-60 minutes before you need peak performance.",
+      "CONKA Flow is best taken in the morning with or without food. CONKA Clarity is best 30-60 minutes before you need peak performance.",
   },
 ];
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [shuffledTestimonials, setShuffledTestimonials] = useState<
+    typeof testimonials
+  >([]);
+
+  // Shuffle testimonials on client side only to avoid hydration mismatch
+  useEffect(() => {
+    setShuffledTestimonials(shuffleTestimonials(testimonials));
+  }, []);
 
   // Key Benefits Data - All stats from verified PubMed studies
   const keyBenefits: Benefit[] = [
@@ -377,6 +393,11 @@ export default function Home() {
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
       <KeyBenefits benefits={keyBenefits} />
 
+      {/* ===== SECTION 2.75: TESTIMONIALS ===== */}
+      {shuffledTestimonials.length > 0 && (
+        <Testimonials testimonials={shuffledTestimonials} />
+      )}
+
       {/* ===== SECTION 3: INGREDIENTS ===== */}
       <Ingredients />
 
@@ -470,7 +491,7 @@ export default function Home() {
                 <div className="relative w-full max-w-xs md:max-w-sm h-64 md:h-80 mx-auto">
                   <Image
                     src="/TwoFounders.jpg"
-                    alt="Conka founders"
+                    alt="CONKA founders"
                     fill
                     className="object-cover rounded-lg"
                   />
@@ -570,7 +591,7 @@ export default function Home() {
                 href="/"
                 className="flex items-center hover:opacity-70 transition-all"
               >
-                <img src="/conka.png" alt="Conka logo" className="h-6 w-auto" />
+                <img src="/conka.png" alt="CONKA logo" className="h-6 w-auto" />
               </a>
 
               {/* Mini Nav */}
@@ -652,7 +673,7 @@ export default function Home() {
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                   </svg>
-                  Buy Conka
+                  Buy CONKA
                 </a>
               </div>
               <p className="font-clinical text-xs opacity-50">

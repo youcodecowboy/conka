@@ -8,7 +8,7 @@ import IngredientsMobile from "./IngredientsMobile";
 // Formula content data for ingredients section
 const formulaContent = {
   "01": {
-    name: "Conka Flow",
+    name: "CONKA Flow",
     tagline: "Caffeine-Free Focus",
     patent: "Patented: GB2629279",
     ingredients: [
@@ -22,7 +22,7 @@ const formulaContent = {
     taste: "Citrus",
   },
   "02": {
-    name: "Conka Clarity",
+    name: "CONKA Clarity",
     tagline: "Peak Performance Boost",
     ingredients: [
       { name: "Vitamin C", part: "", percentage: "50.46%" },
@@ -32,9 +32,21 @@ const formulaContent = {
       { name: "Acetyl-L-Carnitine", part: "Amino acid", percentage: "5.04%" },
       { name: "Ginkgo Biloba", part: "Leaves", percentage: "3.02%" },
       { name: "Lecithin", part: "Seeds", percentage: "1.51%" },
-      { name: "Lemon essential oil", part: "natural flavouring", percentage: "0.60%" },
-      { name: "Alpha Lipoic Acid (ALA)", part: "Fatty acid", percentage: "0.20%" },
-      { name: "Vitamin B12", part: "(bacterial fermentation)", percentage: "0.03%" },
+      {
+        name: "Lemon essential oil",
+        part: "natural flavouring",
+        percentage: "0.60%",
+      },
+      {
+        name: "Alpha Lipoic Acid (ALA)",
+        part: "Fatty acid",
+        percentage: "0.20%",
+      },
+      {
+        name: "Vitamin B12",
+        part: "(bacterial fermentation)",
+        percentage: "0.03%",
+      },
     ],
     taste: "Lemons",
   },
@@ -64,4 +76,3 @@ export default function Ingredients() {
     />
   );
 }
-

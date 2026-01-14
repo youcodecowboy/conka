@@ -13,7 +13,7 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
         {/* Main Header */}
         <div className={`${isMobile ? "mb-8" : "mb-12"}`}>
           <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-2">
-            The Science Behind Conka
+            The Science Behind CONKA
           </p>
           <h1
             className={`font-bold leading-tight ${
@@ -37,15 +37,10 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
 
         {/* Stats Grid */}
         <div
-          className={`grid gap-4 ${
-            isMobile ? "grid-cols-2" : "grid-cols-4"
-          }`}
+          className={`grid gap-4 ${isMobile ? "grid-cols-2" : "grid-cols-4"}`}
         >
           {headlineStats.map((stat, idx) => (
-            <div
-              key={idx}
-              className="neo-box p-4 lg:p-6 text-center"
-            >
+            <div key={idx} className="neo-box p-4 lg:p-6 text-center">
               <p
                 className={`font-bold font-clinical ${
                   isMobile ? "text-3xl" : "text-4xl lg:text-5xl"
@@ -65,13 +60,21 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
 
         {/* Research Note */}
         <div className={`${isMobile ? "mt-6" : "mt-8"} neo-box p-4`}>
-          <p className={`font-clinical ${isMobile ? "text-xs" : "text-sm"} opacity-80`}>
-            <span className="font-bold">Note:</span> These statistics represent the combined body of research supporting our formulations, including Conka&apos;s proprietary clinical studies and peer-reviewed research from leading universities and medical institutions worldwide. All studies are indexed in PubMed.
+          <p
+            className={`font-clinical ${isMobile ? "text-xs" : "text-sm"} opacity-80`}
+          >
+            <span className="font-bold">Note:</span> These statistics represent
+            the combined body of research supporting our formulations, including
+            CONKA&apos;s proprietary clinical studies and peer-reviewed research
+            from leading universities and medical institutions worldwide. All
+            studies are indexed in PubMed.
           </p>
         </div>
 
         {/* Subtext */}
-        <div className={`${isMobile ? "mt-4" : "mt-6"} flex flex-wrap gap-4 items-center`}>
+        <div
+          className={`${isMobile ? "mt-4" : "mt-6"} flex flex-wrap gap-4 items-center`}
+        >
           <span className="font-clinical text-xs px-3 py-1.5 border-2 border-current/20 rounded-full">
             Patent #GB2620279
           </span>
@@ -86,4 +89,3 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
     </section>
   );
 }
-

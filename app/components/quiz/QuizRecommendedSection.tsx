@@ -66,19 +66,49 @@ export default function QuizRecommendedSection({
     switch (iconType) {
       case "shield":
         return (
-          <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={size}
+            height={size}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
           </svg>
         );
       case "bolt":
         return (
-          <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={size}
+            height={size}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
         );
       case "balance":
         return (
-          <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={size}
+            height={size}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <line x1="12" y1="3" x2="12" y2="21" />
             <path d="M3 12h18" />
             <circle cx="6" cy="8" r="3" />
@@ -89,7 +119,17 @@ export default function QuizRecommendedSection({
         );
       case "crown":
         return (
-          <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={size}
+            height={size}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
           </svg>
         );
@@ -117,9 +157,13 @@ export default function QuizRecommendedSection({
             >
               <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
             </svg>
-            <span className="font-clinical text-xs font-bold">YOUR TOP MATCH</span>
+            <span className="font-clinical text-xs font-bold">
+              YOUR TOP MATCH
+            </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">{matchInfo.name}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+            {matchInfo.name}
+          </h2>
           <p className="font-commentary text-xl">{matchInfo.subtitle}</p>
         </div>
 
@@ -184,8 +228,8 @@ export default function QuizRecommendedSection({
                         isSelected
                           ? "bg-amber-500 text-white"
                           : isAvailable
-                          ? "border-2 border-black/10 hover:border-black/30"
-                          : "border-2 border-black/5 text-black/30 cursor-not-allowed"
+                            ? "border-2 border-black/10 hover:border-black/30"
+                            : "border-2 border-black/5 text-black/30 cursor-not-allowed"
                       }`}
                     >
                       {tierLabels[tier]}
@@ -230,22 +274,28 @@ export default function QuizRecommendedSection({
           {/* Calendar */}
           <div className="p-4 md:p-6">
             <h3 className="font-bold text-base mb-4">Your Weekly Schedule</h3>
-            
+
             {/* Legend */}
             <div className="flex justify-center gap-4 mb-4 flex-wrap">
               <div className="flex items-center gap-1">
-                <div className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["01"].bg}`}></div>
-                <span className="font-clinical text-xs">Conka Flow</span>
+                <div
+                  className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["01"].bg}`}
+                ></div>
+                <span className="font-clinical text-xs">CONKA Flow</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["02"].bg}`}></div>
-                <span className="font-clinical text-xs">Conka Clarity</span>
+                <div
+                  className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["02"].bg}`}
+                ></div>
+                <span className="font-clinical text-xs">CONKA Clarity</span>
               </div>
               {protocolId === "4" ? (
                 <div className="flex items-center gap-1">
                   <div
                     className="w-3 h-3 rounded-sm"
-                    style={{ background: `linear-gradient(135deg, #f59e0b 50%, #AAB9BC 50%)` }}
+                    style={{
+                      background: `linear-gradient(135deg, #f59e0b 50%, #AAB9BC 50%)`,
+                    }}
                   ></div>
                   <span className="font-clinical text-xs">Both Daily</span>
                 </div>
@@ -260,7 +310,10 @@ export default function QuizRecommendedSection({
             {/* Day Headers */}
             <div className="grid grid-cols-7 gap-1 mb-2">
               {dayNames.map((day, idx) => (
-                <div key={idx} className="text-center font-clinical text-xs opacity-50">
+                <div
+                  key={idx}
+                  className="text-center font-clinical text-xs opacity-50"
+                >
                   {day}
                 </div>
               ))}
@@ -280,7 +333,9 @@ export default function QuizRecommendedSection({
                         background: `linear-gradient(135deg, #f59e0b 50%, #AAB9BC 50%)`,
                       }}
                     >
-                      <span className="relative z-10 drop-shadow-sm">{day.day}</span>
+                      <span className="relative z-10 drop-shadow-sm">
+                        {day.day}
+                      </span>
                     </div>
                   );
                 }
@@ -289,9 +344,10 @@ export default function QuizRecommendedSection({
                   day.formula === "01"
                     ? FORMULA_COLORS["01"].bg
                     : day.formula === "02"
-                    ? FORMULA_COLORS["02"].bg
-                    : "bg-gray-100";
-                const textColor = day.formula === "rest" ? "text-black/30" : "text-white";
+                      ? FORMULA_COLORS["02"].bg
+                      : "bg-gray-100";
+                const textColor =
+                  day.formula === "rest" ? "text-black/30" : "text-white";
                 return (
                   <div
                     key={dayIdx}
@@ -304,7 +360,9 @@ export default function QuizRecommendedSection({
             </div>
 
             {/* Week label */}
-            <p className="font-clinical text-xs text-center mt-2 opacity-40">Week 1 Preview</p>
+            <p className="font-clinical text-xs text-center mt-2 opacity-40">
+              Week 1 Preview
+            </p>
           </div>
 
           {/* Pricing & Actions */}
@@ -314,13 +372,18 @@ export default function QuizRecommendedSection({
                 <p className="text-2xl md:text-3xl font-bold">
                   {pricing ? formatPrice(pricing.price) : "—"}
                 </p>
-                <p className="font-clinical text-xs opacity-60">{billingText}</p>
+                <p className="font-clinical text-xs opacity-60">
+                  {billingText}
+                </p>
               </div>
               {tierConfig && (
                 <div className="text-right">
-                  <p className="font-bold text-sm">{tierConfig.shotsPerWeek} shots/week</p>
+                  <p className="font-bold text-sm">
+                    {tierConfig.shotsPerWeek} shots/week
+                  </p>
                   <p className="font-clinical text-xs opacity-60">
-                    {tierConfig.conkaFlowCount}x Flow + {tierConfig.conkaClarityCount}x Clarity
+                    {tierConfig.conkaFlowCount}x Flow +{" "}
+                    {tierConfig.conkaClarityCount}x Clarity
                   </p>
                 </div>
               )}
@@ -392,6 +455,3 @@ export default function QuizRecommendedSection({
     </section>
   );
 }
-
-
-

@@ -51,14 +51,16 @@ export default function ProtocolCalendar({
 
               {/* Week Days Header */}
               <div className="grid grid-cols-7 gap-2 mb-3">
-                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-                  <div
-                    key={day}
-                    className="text-center font-clinical text-xs opacity-70 py-1"
-                  >
-                    {day}
-                  </div>
-                ))}
+                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+                  (day) => (
+                    <div
+                      key={day}
+                      className="text-center font-clinical text-xs opacity-70 py-1"
+                    >
+                      {day}
+                    </div>
+                  ),
+                )}
               </div>
 
               {/* Calendar Grid */}
@@ -70,8 +72,8 @@ export default function ProtocolCalendar({
                       day.formula === "01"
                         ? `${FORMULA_COLORS["01"].bg} text-white`
                         : day.formula === "02"
-                        ? `${FORMULA_COLORS["02"].bg} text-white`
-                        : "border-2 border-current opacity-20"
+                          ? `${FORMULA_COLORS["02"].bg} text-white`
+                          : "border-2 border-current opacity-20"
                     }`}
                   >
                     {day.day}
@@ -82,15 +84,19 @@ export default function ProtocolCalendar({
               {/* Legend */}
               <div className="flex gap-6 mt-6 pt-4 border-t border-current border-opacity-20 flex-wrap justify-center">
                 <div className="flex items-center gap-2">
-                  <div className={`w-4 h-4 rounded-sm ${FORMULA_COLORS["01"].bg}`}></div>
+                  <div
+                    className={`w-4 h-4 rounded-sm ${FORMULA_COLORS["01"].bg}`}
+                  ></div>
                   <span className="font-clinical text-xs">
-                    Conka Flow - Energy
+                    CONKA Flow - Energy
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className={`w-4 h-4 rounded-sm ${FORMULA_COLORS["02"].bg}`}></div>
+                  <div
+                    className={`w-4 h-4 rounded-sm ${FORMULA_COLORS["02"].bg}`}
+                  ></div>
                   <span className="font-clinical text-xs">
-                    Conka Clarity - Clarity
+                    CONKA Clarity - Clarity
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -109,19 +115,23 @@ export default function ProtocolCalendar({
                 {tierConfig.name} Plan Details
               </h3>
               <p className="opacity-80 mb-4">{tierConfig.description}</p>
-              
+
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-2 border-b border-current border-opacity-10">
                   <span className="font-clinical text-sm">Shots per Week</span>
                   <span className="font-bold">{tierConfig.shotsPerWeek}</span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-current border-opacity-10">
-                  <span className="font-clinical text-sm">Conka Flow</span>
-                  <span className="font-bold">{tierConfig.conkaFlowCount}x weekly</span>
+                  <span className="font-clinical text-sm">CONKA Flow</span>
+                  <span className="font-bold">
+                    {tierConfig.conkaFlowCount}x weekly
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="font-clinical text-sm">Conka Clarity</span>
-                  <span className="font-bold">{tierConfig.conkaClarityCount}x weekly</span>
+                  <span className="font-clinical text-sm">CONKA Clarity</span>
+                  <span className="font-bold">
+                    {tierConfig.conkaClarityCount}x weekly
+                  </span>
                 </div>
               </div>
             </div>
@@ -131,19 +141,23 @@ export default function ProtocolCalendar({
               <h3 className="text-lg font-bold mb-4">Pro Tips</h3>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className={`w-6 h-6 rounded-full ${FORMULA_COLORS["01"].bg} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                  <div
+                    className={`w-6 h-6 rounded-full ${FORMULA_COLORS["01"].bg} flex items-center justify-center flex-shrink-0 mt-0.5`}
+                  >
                     <span className="text-white text-xs font-bold">01</span>
                   </div>
                   <p className="font-clinical text-sm">
-                    Take Conka Flow in the morning for all-day energy
+                    Take CONKA Flow in the morning for all-day energy
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className={`w-6 h-6 rounded-full ${FORMULA_COLORS["02"].bg} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                  <div
+                    className={`w-6 h-6 rounded-full ${FORMULA_COLORS["02"].bg} flex items-center justify-center flex-shrink-0 mt-0.5`}
+                  >
                     <span className="text-white text-xs font-bold">02</span>
                   </div>
                   <p className="font-clinical text-sm">
-                    Take Conka Clarity before demanding tasks or in the evening
+                    Take CONKA Clarity before demanding tasks or in the evening
                   </p>
                 </div>
               </div>
@@ -154,4 +168,3 @@ export default function ProtocolCalendar({
     </section>
   );
 }
-

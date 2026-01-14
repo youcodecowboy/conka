@@ -6,7 +6,9 @@ interface EvidenceSummaryProps {
   isMobile?: boolean;
 }
 
-export default function EvidenceSummary({ isMobile = false }: EvidenceSummaryProps) {
+export default function EvidenceSummary({
+  isMobile = false,
+}: EvidenceSummaryProps) {
   const evidence = clinicalEvidenceSummary;
 
   return (
@@ -65,9 +67,7 @@ export default function EvidenceSummary({ isMobile = false }: EvidenceSummaryPro
               </p>
             </div>
             <div className="text-center">
-              <p className="text-3xl lg:text-4xl font-bold font-clinical">
-                16
-              </p>
+              <p className="text-3xl lg:text-4xl font-bold font-clinical">16</p>
               <p className="font-clinical text-xs opacity-70 mt-1">
                 Active Ingredients
               </p>
@@ -92,14 +92,21 @@ export default function EvidenceSummary({ isMobile = false }: EvidenceSummaryPro
         </div>
 
         {/* Research Source Note */}
-        <div className={`mt-6 ${isMobile ? "px-2" : "max-w-2xl mx-auto"} text-center`}>
+        <div
+          className={`mt-6 ${isMobile ? "px-2" : "max-w-2xl mx-auto"} text-center`}
+        >
           <p className="font-clinical text-xs opacity-60 leading-relaxed">
-            Research includes Conka's proprietary studies plus peer-reviewed research from leading institutions including Oxford University, UCLA, Northumbria University, and others. All citations are PubMed indexed with direct links to original publications.
+            Research includes CONKA's proprietary studies plus peer-reviewed
+            research from leading institutions including Oxford University,
+            UCLA, Northumbria University, and others. All citations are PubMed
+            indexed with direct links to original publications.
           </p>
         </div>
 
         {/* PubMed Note */}
-        <div className={`mt-4 flex ${isMobile ? "flex-col" : "flex-row"} items-center justify-center gap-4 text-center`}>
+        <div
+          className={`mt-4 flex ${isMobile ? "flex-col" : "flex-row"} items-center justify-center gap-4 text-center`}
+        >
           <div className="flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -165,4 +172,3 @@ export default function EvidenceSummary({ isMobile = false }: EvidenceSummaryPro
     </section>
   );
 }
-

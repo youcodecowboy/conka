@@ -52,7 +52,7 @@ const packPricing: Record<
 // Verified statistics from BRAND_HIGHLIGHTS.md with PMID sources
 const formulaExplanations = {
   "01": {
-    title: "Conka Flow",
+    title: "CONKA Flow",
     subtitle: "Caffeine-Free Focus",
     description:
       "Daily adaptogen support with Ashwagandha and Rhodiola builds stress resilience and recovery. Perfect for sustained focus without the crash.",
@@ -64,7 +64,7 @@ const formulaExplanations = {
     ],
   },
   "02": {
-    title: "Conka Clarity",
+    title: "CONKA Clarity",
     subtitle: "Peak Performance Boost",
     description:
       "Cognitive enhancers like Alpha GPC and Ginkgo build your neurological foundation. Designed for when you need peak performance.",
@@ -153,7 +153,7 @@ export default function TrialPacksMobile() {
               : "border-2 border-black/10 hover:border-black/30"
           }`}
         >
-          Conka Flow
+          CONKA Flow
         </button>
         <button
           onClick={() => setSelectedFormula("02")}
@@ -163,7 +163,7 @@ export default function TrialPacksMobile() {
               : "border-2 border-black/10 hover:border-black/30"
           }`}
         >
-          Conka Clarity
+          CONKA Clarity
         </button>
       </div>
 

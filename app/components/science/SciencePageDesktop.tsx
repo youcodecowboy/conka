@@ -28,7 +28,7 @@ export default function SciencePageDesktop() {
                 science, not marketing hype.&rdquo;
               </p>
               <p className="font-clinical text-sm opacity-70 mt-4">
-                - The Conka Research Philosophy
+                - The CONKA Research Philosophy
               </p>
             </div>
           </div>
@@ -92,7 +92,7 @@ export default function SciencePageDesktop() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-6 left-6 right-6 text-white">
                   <p className="font-clinical text-xs opacity-70 mb-1">
-                    Conka Flow Contains
+                    CONKA Flow Contains
                   </p>
                   <p className="font-bold text-xl">
                     3 Research-Backed Adaptogens
@@ -118,7 +118,7 @@ export default function SciencePageDesktop() {
               Our Approach
             </p>
             <h2 className="text-3xl lg:text-4xl font-bold">
-              What Makes Conka Different
+              What Makes CONKA Different
             </h2>
           </div>
 
@@ -221,7 +221,7 @@ export default function SciencePageDesktop() {
               >
                 <Image
                   src="/conka.png"
-                  alt="Conka logo"
+                  alt="CONKA logo"
                   width={120}
                   height={40}
                   className="h-8 w-auto"
@@ -271,13 +271,13 @@ export default function SciencePageDesktop() {
                   href="/conka-flow"
                   className="neo-button-outline px-6 py-3 font-semibold text-sm"
                 >
-                  Try Conka Flow
+                  Try CONKA Flow
                 </a>
                 <a
                   href="/conka-clarity"
                   className="neo-button px-6 py-3 font-semibold text-sm"
                 >
-                  Try Conka Clarity
+                  Try CONKA Clarity
                 </a>
               </div>
             </div>

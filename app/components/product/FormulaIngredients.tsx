@@ -1,17 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { FormulaId, formulaContent, FORMULA_COLORS } from "@/app/lib/productData";
+import {
+  FormulaId,
+  formulaContent,
+  FORMULA_COLORS,
+} from "@/app/lib/productData";
 
 interface FormulaIngredientsProps {
   formulaId: FormulaId;
 }
 
-export default function FormulaIngredients({ formulaId }: FormulaIngredientsProps) {
+export default function FormulaIngredients({
+  formulaId,
+}: FormulaIngredientsProps) {
   const formula = formulaContent[formulaId];
   const accentColor = FORMULA_COLORS[formulaId];
 
-  // Image path - using turmeric for Conka Flow, placeholder for 02
+  // Image path - using turmeric for CONKA Flow, placeholder for 02
   const ingredientImage = formulaId === "01" ? "/tumeric.jpg" : null;
 
   return (
@@ -39,7 +45,9 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
               </div>
             ) : (
               <div className="placeholder-box w-full h-80 md:h-[450px]">
-                <span className="font-clinical text-sm">[INGREDIENT IMAGE]</span>
+                <span className="font-clinical text-sm">
+                  [INGREDIENT IMAGE]
+                </span>
               </div>
             )}
           </div>
@@ -50,9 +58,13 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
               <div className="neo-box-inverted p-4 flex justify-between items-center">
                 <h3 className="text-2xl font-bold">{formula.name}</h3>
                 {formula.patent ? (
-                  <span className="font-clinical text-sm">{formula.patent}</span>
+                  <span className="font-clinical text-sm">
+                    {formula.patent}
+                  </span>
                 ) : (
-                  <span className="font-commentary text-lg">{formula.tagline}</span>
+                  <span className="font-commentary text-lg">
+                    {formula.tagline}
+                  </span>
                 )}
               </div>
 
@@ -84,7 +96,9 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
 
                 <div className="mt-6 pt-6 border-t-2 border-current border-opacity-20">
                   <div className="flex justify-between items-center">
-                    <p className="font-clinical text-sm opacity-70">tastes like</p>
+                    <p className="font-clinical text-sm opacity-70">
+                      tastes like
+                    </p>
                     <p className="font-commentary text-xl">{formula.taste}</p>
                   </div>
                 </div>
@@ -111,7 +125,9 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
             </div>
-            <p className="font-clinical text-sm font-medium">Antioxidant Heavy</p>
+            <p className="font-clinical text-sm font-medium">
+              Antioxidant Heavy
+            </p>
           </div>
           <div className="flex flex-col items-center text-center">
             <div className="w-12 h-12 mb-3 flex items-center justify-center">
@@ -179,4 +195,3 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
     </section>
   );
 }
-

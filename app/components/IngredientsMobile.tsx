@@ -48,7 +48,7 @@ export default function IngredientsMobile({
               : "bg-transparent text-black"
           }`}
         >
-          <span className="font-clinical text-sm font-medium">Conka Flow</span>
+          <span className="font-clinical text-sm font-medium">CONKA Flow</span>
         </button>
         <button
           onClick={() => setActiveFormula("02")}
@@ -58,7 +58,9 @@ export default function IngredientsMobile({
               : "bg-transparent text-black"
           }`}
         >
-          <span className="font-clinical text-sm font-medium">Conka Clarity</span>
+          <span className="font-clinical text-sm font-medium">
+            CONKA Clarity
+          </span>
         </button>
       </div>
 
@@ -68,15 +70,19 @@ export default function IngredientsMobile({
         {currentFormula.patent ? (
           <span className="font-clinical text-xs">{currentFormula.patent}</span>
         ) : (
-          <span className="font-commentary text-sm">{currentFormula.tagline}</span>
+          <span className="font-commentary text-sm">
+            {currentFormula.tagline}
+          </span>
         )}
       </div>
 
       {/* Ingredients Table */}
       <div className="border-2 border-t-0 border-black rounded-b-lg">
         <div className="p-4">
-          <p className="font-clinical text-xs mb-3 opacity-70 uppercase tracking-wider">Formula Breakdown</p>
-          
+          <p className="font-clinical text-xs mb-3 opacity-70 uppercase tracking-wider">
+            Formula Breakdown
+          </p>
+
           <div className="space-y-0">
             {currentFormula.ingredients.map((ing, idx) => (
               <div
@@ -86,10 +92,14 @@ export default function IngredientsMobile({
                 <div className="flex-1 min-w-0">
                   <span className="font-medium text-sm">{ing.name}</span>
                   {ing.part && (
-                    <span className="font-clinical text-xs opacity-60 ml-1.5">– {ing.part}</span>
+                    <span className="font-clinical text-xs opacity-60 ml-1.5">
+                      – {ing.part}
+                    </span>
                   )}
                 </div>
-                <span className="font-clinical text-sm font-medium ml-3">{ing.percentage}</span>
+                <span className="font-clinical text-sm font-medium ml-3">
+                  {ing.percentage}
+                </span>
               </div>
             ))}
           </div>
@@ -97,7 +107,9 @@ export default function IngredientsMobile({
           {/* Taste Info */}
           <div className="mt-4 pt-4 border-t-2 border-black/20">
             <div className="flex justify-between items-center">
-              <p className="font-clinical text-xs opacity-70 uppercase">tastes like</p>
+              <p className="font-clinical text-xs opacity-70 uppercase">
+                tastes like
+              </p>
               <p className="font-commentary text-lg">{currentFormula.taste}</p>
             </div>
           </div>
@@ -108,39 +120,79 @@ export default function IngredientsMobile({
       <div className="mt-6 grid grid-cols-2 gap-4">
         <div className="flex items-center gap-2 p-3 bg-black/5 rounded-lg">
           <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
           </div>
           <p className="font-clinical text-xs font-medium">Antioxidant Heavy</p>
         </div>
         <div className="flex items-center gap-2 p-3 bg-black/5 rounded-lg">
           <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M9 12l2 2 4-4"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9 12l2 2 4-4" />
             </svg>
           </div>
           <p className="font-clinical text-xs font-medium">Zero Calories</p>
         </div>
         <div className="flex items-center gap-2 p-3 bg-black/5 rounded-lg">
           <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
-              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-              <line x1="6" y1="1" x2="6" y2="4"/>
-              <line x1="10" y1="1" x2="10" y2="4"/>
-              <line x1="14" y1="1" x2="14" y2="4"/>
-              <line x1="2" y1="8" x2="22" y2="8"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+              <line x1="6" y1="1" x2="6" y2="4" />
+              <line x1="10" y1="1" x2="10" y2="4" />
+              <line x1="14" y1="1" x2="14" y2="4" />
+              <line x1="2" y1="8" x2="22" y2="8" />
             </svg>
           </div>
           <p className="font-clinical text-xs font-medium">No Caffeine</p>
         </div>
         <div className="flex items-center gap-2 p-3 bg-black/5 rounded-lg">
           <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
-              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z" />
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
             </svg>
           </div>
           <p className="font-clinical text-xs font-medium">Vegan Friendly</p>
@@ -149,4 +201,3 @@ export default function IngredientsMobile({
     </section>
   );
 }
-

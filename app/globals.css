@@ -24,13 +24,13 @@
   --font-mono: var(--font-clinical);
 }
 
-/* Conka Flow Theme (Light Mode) */
+/* CONKA Flow Theme (Light Mode) */
 .theme-conka-flow {
   --background: var(--color-white);
   --foreground: var(--color-black);
 }
 
-/* Conka Clarity Theme (Light Mode) */
+/* CONKA Clarity Theme (Light Mode) */
 .theme-conka-clarity {
   --background: var(--color-white);
   --foreground: var(--color-black);

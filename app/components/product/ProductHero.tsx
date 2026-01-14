@@ -45,7 +45,7 @@ export default function ProductHero({
   // Get image path based on formula
   const imagePath = formulaId === "01" ? "/1.png" : "/2.png";
 
-  // Slideshow images for Conka Flow (formula 01 - BLACK cap) with focal points
+  // Slideshow images for CONKA Flow (formula 01 - BLACK cap) with focal points
   const flowSlideshowImages = [
     { src: "/CONKA_01.jpg", focalX: 55, focalY: 48 }, // Front view, CONKA branding
     { src: "/CONKA_02.jpg", focalX: 55, focalY: 48 }, // Side view with badges
@@ -54,7 +54,7 @@ export default function ProductHero({
     { src: "/CONKA_05.jpg", focalX: 50, focalY: 58 }, // Horizontal/angled view
   ];
 
-  // Slideshow images for Conka Clarity (formula 02 - WHITE cap) with focal points
+  // Slideshow images for CONKA Clarity (formula 02 - WHITE cap) with focal points
   const claritySlideshowImages = [
     { src: "/CONKA_63.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
     { src: "/CONKA_64.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
@@ -66,7 +66,7 @@ export default function ProductHero({
     { src: "/CONKA_20.jpg", focalX: 50, focalY: 55 }, // Clarity with lemons
   ];
 
-  // Header color based on purchase type - Conka Flow inverts, Conka Clarity uses teal
+  // Header color based on purchase type - CONKA Flow inverts, CONKA Clarity uses teal
   const headerBgClass =
     purchaseType === "subscription"
       ? "bg-[var(--foreground)] text-[var(--background)]"

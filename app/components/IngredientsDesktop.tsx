@@ -54,7 +54,7 @@ export default function IngredientsDesktop({
               }`}
             >
               <span className="font-clinical text-sm font-medium">
-                Conka Flow
+                CONKA Flow
               </span>
             </button>
             <button
@@ -66,7 +66,7 @@ export default function IngredientsDesktop({
               }`}
             >
               <span className="font-clinical text-sm font-medium">
-                Conka Clarity
+                CONKA Clarity
               </span>
             </button>
           </div>

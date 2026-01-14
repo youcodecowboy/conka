@@ -81,7 +81,7 @@ export default function Navigation({
             <a href="/" className="flex items-center">
               <Image
                 src="/conka.svg"
-                alt="Conka logo"
+                alt="CONKA logo"
                 width={270}
                 height={90}
                 className="h-16 md:h-20 w-auto invert"
@@ -401,7 +401,7 @@ export default function Navigation({
                             Individual Formulas
                           </p>
                           <p className="font-primary text-xs opacity-70">
-                            Order Conka individually
+                            Order CONKA individually
                           </p>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
@@ -413,7 +413,7 @@ export default function Navigation({
                             <span className="w-8 h-8 bg-amber-500 rounded-sm flex-shrink-0"></span>
                             <div>
                               <span className="font-bold text-sm block">
-                                Conka Flow
+                                CONKA Flow
                               </span>
                               <span className="font-clinical text-xs opacity-70">
                                 Caffeine-Free Focus
@@ -428,7 +428,7 @@ export default function Navigation({
                             <span className="w-8 h-8 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
                             <div>
                               <span className="font-bold text-sm block">
-                                Conka Clarity
+                                CONKA Clarity
                               </span>
                               <span className="font-clinical text-xs opacity-70">
                                 Peak Performance Boost
@@ -588,7 +588,7 @@ export default function Navigation({
               <a href="/" className="flex items-center">
                 <Image
                   src="/conka.svg"
-                  alt="Conka logo"
+                  alt="CONKA logo"
                   width={270}
                   height={90}
                   className="h-16 w-auto invert"
@@ -794,7 +794,7 @@ export default function Navigation({
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <span className="w-3 h-3 bg-amber-500 rounded-sm flex-shrink-0"></span>
-                    <span className="font-bold text-sm">Conka Flow</span>
+                    <span className="font-bold text-sm">CONKA Flow</span>
                   </a>
                   <a
                     href="/conka-clarity"
@@ -802,7 +802,7 @@ export default function Navigation({
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <span className="w-3 h-3 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
-                    <span className="font-bold text-sm">Conka Clarity</span>
+                    <span className="font-bold text-sm">CONKA Clarity</span>
                   </a>
                 </div>
               </div>

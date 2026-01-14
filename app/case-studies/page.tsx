@@ -47,7 +47,7 @@ export default function CaseStudiesPage() {
                 >
                   <Image
                     src="/conka.png"
-                    alt="Conka logo"
+                    alt="CONKA logo"
                     width={isMobile ? 90 : 120}
                     height={isMobile ? 30 : 40}
                     className={`${isMobile ? "h-6" : "h-8"} w-auto`}
@@ -65,14 +65,14 @@ export default function CaseStudiesPage() {
                     href="/conka-flow"
                     className="font-clinical text-sm hover:opacity-70 transition-all"
                   >
-                    Conka Flow
+                    CONKA Flow
                   </a>
                   <span className="font-clinical text-sm opacity-30">•</span>
                   <a
                     href="/conka-clarity"
                     className="font-clinical text-sm hover:opacity-70 transition-all"
                   >
-                    Conka Clarity
+                    CONKA Clarity
                   </a>
                   <span className="font-clinical text-sm opacity-30">•</span>
                   <a
@@ -108,13 +108,13 @@ export default function CaseStudiesPage() {
                     href="/conka-flow"
                     className="neo-button-outline px-6 py-3 font-semibold text-sm"
                   >
-                    Try Conka Flow
+                    Try CONKA Flow
                   </a>
                   <a
                     href="/conka-clarity"
                     className="neo-button px-6 py-3 font-semibold text-sm"
                   >
-                    Try Conka Clarity
+                    Try CONKA Clarity
                   </a>
                 </div>
                 <p className="font-clinical text-sm opacity-70">

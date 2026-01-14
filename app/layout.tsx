@@ -27,13 +27,13 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Conka - Daily Nootropic Brain Shot",
+  title: "CONKA - Daily Nootropic Brain Shot",
   description: "Premium daily nootropic brain shot supplements",
   openGraph: {
-    title: "Conka - Daily Nootropic Brain Shot",
+    title: "CONKA - Daily Nootropic Brain Shot",
     description: "Premium daily nootropic brain shot supplements",
     url: "https://www.conka.io",
-    siteName: "Conka",
+    siteName: "CONKA",
     images: [
       {
         url: "/opengraph-image.png",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Conka - Daily Nootropic Brain Shot",
+    title: "CONKA - Daily Nootropic Brain Shot",
     description: "Premium daily nootropic brain shot supplements",
     images: ["/opengraph-image.png"],
   },
