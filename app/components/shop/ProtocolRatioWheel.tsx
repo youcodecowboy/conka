@@ -1,19 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 
 interface ProtocolRatioWheelProps {
   flowPercentage: number;
   clarityPercentage: number;
-  size?: "small" | "medium" | "large";
+  size?: "xsmall" | "small" | "medium" | "large";
   isUltimate?: boolean;
   animate?: boolean;
+  icon?: ReactNode;
 }
 
 const SIZE_CONFIG = {
-  small: { diameter: 48, strokeWidth: 6, fontSize: "text-[8px]" },
-  medium: { diameter: 80, strokeWidth: 8, fontSize: "text-xs" },
-  large: { diameter: 140, strokeWidth: 12, fontSize: "text-sm" },
+  xsmall: { diameter: 36, strokeWidth: 4, fontSize: "text-[6px]", iconSize: 14 },
+  small: { diameter: 48, strokeWidth: 6, fontSize: "text-[8px]", iconSize: 18 },
+  medium: { diameter: 80, strokeWidth: 8, fontSize: "text-xs", iconSize: 24 },
+  large: { diameter: 140, strokeWidth: 12, fontSize: "text-sm", iconSize: 32 },
 };
 
 const FLOW_COLOR = "#f59e0b"; // Amber
@@ -25,6 +27,7 @@ export default function ProtocolRatioWheel({
   size = "medium",
   isUltimate = false,
   animate = true,
+  icon,
 }: ProtocolRatioWheelProps) {
   const [animatedFlow, setAnimatedFlow] = useState(animate ? 0 : flowPercentage);
   const config = SIZE_CONFIG[size];
@@ -94,8 +97,8 @@ export default function ProtocolRatioWheel({
             {/* Crown icon for Ultimate */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={size === "large" ? 24 : size === "medium" ? 16 : 12}
-              height={size === "large" ? 24 : size === "medium" ? 16 : 12}
+              width={config.iconSize * 0.75}
+              height={config.iconSize * 0.75}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -106,11 +109,24 @@ export default function ProtocolRatioWheel({
             >
               <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
             </svg>
-            {size !== "small" && (
+            {(size === "large" || size === "medium") && (
               <span className={`font-clinical ${config.fontSize} mt-0.5 opacity-70`}>
                 Both daily
               </span>
             )}
+          </div>
+        ) : (size === "xsmall" || size === "small") && icon ? (
+          // Render passed icon for small/xsmall sizes
+          <div
+            className="flex items-center justify-center opacity-80"
+            style={{ width: config.iconSize, height: config.iconSize }}
+          >
+            <div
+              className="[&>svg]:w-full [&>svg]:h-full"
+              style={{ width: config.iconSize * 0.7, height: config.iconSize * 0.7 }}
+            >
+              {icon}
+            </div>
           </div>
         ) : (
           <div className="flex flex-col items-center">
@@ -132,8 +148,8 @@ export default function ProtocolRatioWheel({
         )}
       </div>
 
-      {/* Legend for large size */}
-      {size === "large" && !isUltimate && (
+      {/* Legend for large size - always show for both standard and Ultimate */}
+      {size === "large" && (
         <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-4">
           <div className="flex items-center gap-1">
             <div
