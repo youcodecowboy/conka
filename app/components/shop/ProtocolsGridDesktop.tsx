@@ -159,12 +159,6 @@ export default function ProtocolsGridDesktop() {
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                  {/* Premium Badge Overlay */}
-                  {protocol.isUltimate && (
-                    <span className="absolute top-3 right-3 px-2 py-0.5 bg-amber-500 text-white text-xs font-clinical rounded-full">
-                      PREMIUM
-                    </span>
-                  )}
                   {/* Icon Overlay */}
                   <div className="absolute bottom-3 left-3 p-2 bg-[var(--background)]/90 border-2 border-current rounded-lg backdrop-blur-sm">
                     {protocol.icon}
@@ -270,11 +264,6 @@ export default function ProtocolsGridDesktop() {
                   <div className="flex-1 flex flex-col">
                     {/* Header */}
                     <div className="mb-4">
-                      {expandedProtocol.isUltimate && (
-                        <span className="px-2 py-0.5 bg-amber-500 text-white text-xs font-clinical rounded-full inline-block mb-2">
-                          PREMIUM
-                        </span>
-                      )}
                       <h3
                         id="expanded-protocol-title"
                         className="text-3xl font-bold leading-tight mb-1"
