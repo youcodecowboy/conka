@@ -12,7 +12,12 @@ interface ProtocolRatioWheelProps {
 }
 
 const SIZE_CONFIG = {
-  xsmall: { diameter: 36, strokeWidth: 4, fontSize: "text-[6px]", iconSize: 14 },
+  xsmall: {
+    diameter: 36,
+    strokeWidth: 4,
+    fontSize: "text-[6px]",
+    iconSize: 14,
+  },
   small: { diameter: 48, strokeWidth: 6, fontSize: "text-[8px]", iconSize: 18 },
   medium: { diameter: 80, strokeWidth: 8, fontSize: "text-xs", iconSize: 24 },
   large: { diameter: 140, strokeWidth: 12, fontSize: "text-sm", iconSize: 32 },
@@ -29,7 +34,9 @@ export default function ProtocolRatioWheel({
   animate = true,
   icon,
 }: ProtocolRatioWheelProps) {
-  const [animatedFlow, setAnimatedFlow] = useState(animate ? 0 : flowPercentage);
+  const [animatedFlow, setAnimatedFlow] = useState(
+    animate ? 0 : flowPercentage,
+  );
   const config = SIZE_CONFIG[size];
   const radius = (config.diameter - config.strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -63,7 +70,7 @@ export default function ProtocolRatioWheel({
         viewBox={`0 0 ${config.diameter} ${config.diameter}`}
         className="transform -rotate-90"
         role="img"
-        aria-label={`${flowPercentage}% Flow, ${clarityPercentage}% Clarity`}
+        aria-label={`${flowPercentage}% CONKA Flow, ${clarityPercentage}% CONKA Clarity`}
       >
         {/* Background circle (Clarity segment - starts where Flow ends) */}
         <circle
@@ -110,7 +117,9 @@ export default function ProtocolRatioWheel({
               <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
             </svg>
             {(size === "large" || size === "medium") && (
-              <span className={`font-clinical ${config.fontSize} mt-0.5 opacity-70`}>
+              <span
+                className={`font-clinical ${config.fontSize} mt-0.5 opacity-70`}
+              >
                 Both daily
               </span>
             )}
@@ -123,7 +132,10 @@ export default function ProtocolRatioWheel({
           >
             <div
               className="[&>svg]:w-full [&>svg]:h-full"
-              style={{ width: config.iconSize * 0.7, height: config.iconSize * 0.7 }}
+              style={{
+                width: config.iconSize * 0.7,
+                height: config.iconSize * 0.7,
+              }}
             >
               {icon}
             </div>
@@ -132,7 +144,9 @@ export default function ProtocolRatioWheel({
           <div className="flex flex-col items-center">
             {size === "large" && (
               <>
-                <span className="font-clinical text-xs opacity-60 mb-0.5">Flow</span>
+                <span className="font-clinical text-xs opacity-60 mb-0.5">
+                  Flow
+                </span>
                 <span className="font-bold text-lg">{flowPercentage}%</span>
                 <span className="font-clinical text-[10px] opacity-50 mt-1">
                   {clarityPercentage}% Clarity
