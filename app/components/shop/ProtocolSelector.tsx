@@ -47,7 +47,7 @@ export default function ProtocolSelector({
     (id: ProtocolId) => {
       onSelect(id);
     },
-    [onSelect]
+    [onSelect],
   );
 
   const renderProtocolPill = (protocol: ProtocolSelectorData) => {
@@ -71,9 +71,13 @@ export default function ProtocolSelector({
         aria-label={`Select ${protocol.name}`}
         title={`${protocol.flowPercentage}% Flow / ${protocol.clarityPercentage}% Clarity`}
       >
-        <div className={`flex items-center gap-2 ${isMobile ? "flex-col text-center" : "gap-3"}`}>
+        <div
+          className={`flex items-center gap-2 ${isMobile ? "flex-col text-center" : "gap-3"}`}
+        >
           {/* Content - prioritize text */}
-          <div className={`flex-1 min-w-0 ${isMobile ? "text-center w-full order-1" : "text-left"}`}>
+          <div
+            className={`flex-1 min-w-0 ${isMobile ? "text-center w-full order-1" : "text-left"}`}
+          >
             <p
               className="font-bold text-sm leading-tight"
               style={{ wordBreak: "break-word" }}
@@ -109,15 +113,15 @@ export default function ProtocolSelector({
   if (isMobile) {
     return (
       <div className="relative">
-        {/* Gradient Fades */}
-        <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
-
         {/* Scrollable Container */}
         <div
           ref={scrollRef}
-          className="flex gap-3 overflow-x-auto scrollbar-hide px-2 py-2 -mx-2"
+          className="flex gap-3 overflow-x-auto scrollbar-hide px-2 py-2 -mx-2 relative"
         >
+          {/* Gradient Fades - aligned with scrollable content edges (accounting for px-2 padding) */}
+          <div className="absolute left-2 top-0 bottom-0 w-6 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-2 top-0 bottom-0 w-6 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
+
           {protocolsArray.map(renderProtocolPill)}
         </div>
 
