@@ -9,6 +9,9 @@ export { default as ProtocolSelector } from "./ProtocolSelector";
 export { default as ProtocolActivePanel } from "./ProtocolActivePanel";
 export { default as ProtocolRatioWheel } from "./ProtocolRatioWheel";
 export { default as FormulasShowcase } from "./FormulasShowcase";
+export { default as FormulasShowcaseDesktop } from "./FormulasShowcaseDesktop";
+export { default as FormulasShowcaseMobile } from "./FormulasShowcaseMobile";
 
 // Data exports
 export * from "./protocolSelectorData";
+export * from "./formulasShowcaseData";
