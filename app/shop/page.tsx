@@ -4,7 +4,7 @@ import Navigation from "../components/Navigation";
 import ShopHero from "../components/shop/ShopHero";
 import ProtocolsGrid from "../components/shop/ProtocolsGrid";
 import FormulasShowcase from "../components/shop/FormulasShowcase";
-import TrialPacksShop from "../components/shop/TrialPacksShop";
+import TrialPacks from "../components/TrialPacks";
 
 export default function ShopPage() {
   return (
@@ -31,7 +31,7 @@ export default function ShopPage() {
 
       {/* ===== SECTION 4: TRIAL PACKS ===== */}
       <section id="trial-packs" className="scroll-mt-20">
-        <TrialPacksShop />
+        <TrialPacks />
       </section>
     </div>
   );
