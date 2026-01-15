@@ -85,7 +85,7 @@ export default function FormulasShowcase() {
               <div className="w-full lg:w-2/5">
                 <Link
                   href={formula.href}
-                  className="block relative w-full aspect-[3/4] lg:aspect-[2/3] rounded-lg overflow-hidden hover:opacity-90 transition-opacity neo-box"
+                  className="block relative w-full aspect-[3/4] lg:aspect-[2/3] rounded-lg overflow-hidden hover:opacity-90 transition-opacity"
                 >
                   <Image
                     src={formula.image.src}
