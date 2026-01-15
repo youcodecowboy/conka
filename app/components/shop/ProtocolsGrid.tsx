@@ -43,7 +43,7 @@ const protocols = (Object.keys(pathData) as Exclude<PathType, null>[]).map(
       isUltimate: data.isUltimate,
       icon: data.icon,
     };
-  }
+  },
 );
 
 export default function ProtocolsGrid() {
@@ -89,7 +89,9 @@ export default function ProtocolsGrid() {
               </div>
 
               {/* Description */}
-              <p className="text-base mb-4 opacity-80">{protocol.description}</p>
+              <p className="text-base mb-4 opacity-80">
+                {protocol.description}
+              </p>
 
               {/* Benefits */}
               <ul className="space-y-2 mb-6">
