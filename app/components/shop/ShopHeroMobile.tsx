@@ -41,7 +41,7 @@ export default function ShopHeroMobile() {
               <path d="M7.57 7.5a2.5 2.5 0 0 1 4.86.83c0 1.67-2.5 2.5-2.5 2.5" />
               <line x1="10" y1="14" x2="10.01" y2="14" />
             </svg>
-            <div className="flex-1 text-left">
+            <div className="flex-1 text-center">
               <div>Find Your Protocol</div>
               <div className="text-xs opacity-70 font-normal">2-minute quiz</div>
             </div>
@@ -80,7 +80,7 @@ export default function ShopHeroMobile() {
             >
               <path d="M10 1l7 3.5v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10v-5L10 1z" />
             </svg>
-            <div className="flex-1 text-left">
+            <div className="flex-1 text-center">
               <div>Browse Protocols</div>
               <div className="text-xs opacity-70 font-normal">4 proven protocols</div>
             </div>
@@ -116,7 +116,7 @@ export default function ShopHeroMobile() {
                 style={{ backgroundColor: FORMULA_COLORS["02"].hex }}
               />
             </div>
-            <div className="flex-1 text-left">
+            <div className="flex-1 text-center">
               <div>Try Flow or Clarity</div>
               <div className="text-xs opacity-70 font-normal">Trial packs available</div>
             </div>
