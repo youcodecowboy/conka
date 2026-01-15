@@ -21,7 +21,7 @@ export default function ShopHero() {
         </h1>
 
         {/* ===== Subhead ===== */}
-        <p className="font-clinical text-lg md:text-xl lg:text-2xl mb-12 md:mb-16 opacity-70">
+        <p className="font-clinical text-base md:text-lg lg:text-xl mb-12 md:mb-16 opacity-70">
           Take the quiz to see which protocol suits your goal, browse our proven
           protocols, or try Flow & Clarity individually.
         </p>
@@ -110,14 +110,48 @@ export default function ShopHero() {
             <div className="flex flex-col items-center gap-3 mb-4">
               <div className="flex items-center gap-3">
                 <div
-                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center text-white font-clinical text-xs font-bold"
-                  style={{ backgroundColor: FORMULA_COLORS["01"].hex }}
+                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold transition-all border-2"
+                  style={{
+                    backgroundColor: FORMULA_COLORS["01"].hex,
+                    color: "white",
+                    borderColor: FORMULA_COLORS["01"].hex,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--background)";
+                    e.currentTarget.style.color = FORMULA_COLORS["01"].hex;
+                    e.currentTarget.style.borderColor =
+                      FORMULA_COLORS["01"].hex;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      FORMULA_COLORS["01"].hex;
+                    e.currentTarget.style.color = "white";
+                    e.currentTarget.style.borderColor =
+                      FORMULA_COLORS["01"].hex;
+                  }}
                 >
                   01
                 </div>
                 <div
-                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center text-white font-clinical text-xs font-bold"
-                  style={{ backgroundColor: FORMULA_COLORS["02"].hex }}
+                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold transition-all border-2"
+                  style={{
+                    backgroundColor: FORMULA_COLORS["02"].hex,
+                    color: "white",
+                    borderColor: FORMULA_COLORS["02"].hex,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--background)";
+                    e.currentTarget.style.color = FORMULA_COLORS["02"].hex;
+                    e.currentTarget.style.borderColor =
+                      FORMULA_COLORS["02"].hex;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      FORMULA_COLORS["02"].hex;
+                    e.currentTarget.style.color = "white";
+                    e.currentTarget.style.borderColor =
+                      FORMULA_COLORS["02"].hex;
+                  }}
                 >
                   02
                 </div>
@@ -126,7 +160,7 @@ export default function ShopHero() {
                 {["4", "8", "12"].map((size) => (
                   <div
                     key={size}
-                    className="w-8 h-8 md:w-10 md:h-10 border-2 border-current rounded-md flex items-center justify-center font-clinical text-xs opacity-60"
+                    className="w-8 h-8 md:w-10 md:h-10 border-2 border-current rounded-md flex items-center justify-center font-clinical text-xs opacity-60 group-hover:bg-[var(--foreground)] group-hover:text-[var(--background)] group-hover:opacity-100 transition-colors"
                   >
                     {size}
                   </div>
