@@ -62,65 +62,46 @@ export default function ProtocolSelector({
           if (el) itemRefs.current.set(protocol.id, el);
         }}
         onClick={() => handleSelect(protocol.id)}
-        className={`flex-shrink-0 neo-box p-3 md:p-4 transition-all duration-200 group ${
+        className={`flex-shrink-0 p-3 md:p-4 transition-all duration-200 group ${
           isActive
-            ? "bg-[var(--foreground)] text-[var(--background)] shadow-[4px_4px_0px_0px_var(--foreground)]"
-            : "hover:shadow-[4px_4px_0px_0px_var(--foreground)]"
-        } ${isMobile ? "min-w-[140px] min-h-[48px]" : "flex-1"}`}
+            ? "neo-box-inverted shadow-[4px_4px_0px_0px_var(--foreground)]"
+            : "neo-box hover:shadow-[4px_4px_0px_0px_var(--foreground)]"
+        } ${isMobile ? "w-[180px] min-h-[48px]" : "flex-1"}`}
         aria-pressed={isActive}
         aria-label={`Select ${protocol.name}`}
         title={`${protocol.flowPercentage}% Flow / ${protocol.clarityPercentage}% Clarity`}
       >
-        <div className="flex items-center gap-3">
-          {/* Icon */}
-          <div
-            className={`flex-shrink-0 w-8 h-8 flex items-center justify-center transition-colors ${
-              isActive ? "opacity-100" : "opacity-70 group-hover:opacity-100"
-            }`}
-          >
-            {icon && (
-              <div className="w-6 h-6 [&>svg]:w-6 [&>svg]:h-6">
-                {icon}
-              </div>
-            )}
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 min-w-0 text-left">
+        <div className={`flex items-center gap-2 ${isMobile ? "flex-col text-center" : "gap-3"}`}>
+          {/* Content - prioritize text */}
+          <div className={`flex-1 min-w-0 ${isMobile ? "text-center w-full order-1" : "text-left"}`}>
             <p
-              className={`font-bold text-sm truncate ${
-                isActive ? "" : "group-hover:opacity-100"
-              }`}
+              className="font-bold text-sm leading-tight"
+              style={{ wordBreak: "break-word" }}
             >
               {protocol.outcome}
             </p>
-            <p className="font-clinical text-[10px] opacity-60 truncate">
+            <p
+              className={`font-clinical text-[10px] leading-tight mt-0.5 ${
+                isActive ? "opacity-80" : "opacity-60"
+              }`}
+              style={{ wordBreak: "break-word" }}
+            >
               {protocol.name}
             </p>
           </div>
 
-          {/* Mini Ratio Wheel */}
-          <div className="flex-shrink-0">
+          {/* Ratio Wheel with Icon inside */}
+          <div className={`flex-shrink-0 ${isMobile ? "order-2" : ""}`}>
             <ProtocolRatioWheel
               flowPercentage={protocol.flowPercentage}
               clarityPercentage={protocol.clarityPercentage}
-              size="small"
+              size={isMobile ? "xsmall" : "small"}
               isUltimate={protocol.isUltimate}
               animate={false}
+              icon={icon}
             />
           </div>
         </div>
-
-        {/* Premium badge for Ultimate */}
-        {protocol.isPremium && (
-          <div
-            className={`mt-2 font-clinical text-[9px] uppercase tracking-wider ${
-              isActive ? "opacity-80" : "opacity-50"
-            }`}
-          >
-            Most Advanced
-          </div>
-        )}
       </button>
     );
   };
