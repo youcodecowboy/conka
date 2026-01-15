@@ -36,21 +36,7 @@ export default function ShopHeroDesktop() {
             <h3 className="font-bold text-xl md:text-2xl mb-2">
               Find Your Protocol
             </h3>
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center text-white font-clinical text-xs font-bold"
-                  style={{ backgroundColor: FORMULA_COLORS["01"].hex }}
-                >
-                  01
-                </div>
-                <div
-                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center text-white font-clinical text-xs font-bold"
-                  style={{ backgroundColor: FORMULA_COLORS["02"].hex }}
-                >
-                  02
-                </div>
-              </div>
+            <div className="flex items-center justify-center mb-4">
               <div className="p-3 border-2 border-current rounded-lg group-hover:bg-[var(--foreground)] group-hover:text-[var(--background)] transition-colors">
                 {/* Stylized protocol icon */}
                 <svg
