@@ -6,4 +6,3 @@ export { default as ProtocolsGrid } from "./ProtocolsGrid";
 export { default as ProtocolsGridDesktop } from "./ProtocolsGridDesktop";
 export { default as ProtocolsGridMobile } from "./ProtocolsGridMobile";
 export { default as FormulasShowcase } from "./FormulasShowcase";
-export { default as TrialPacksShop } from "./TrialPacksShop";
