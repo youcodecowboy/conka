@@ -123,7 +123,9 @@ function FormulaPanel({ formula }: { formula: FormulaShowcaseData }) {
           <div
             className={`w-10 h-10 ${formula.bgColor} text-white rounded-md flex items-center justify-center flex-shrink-0`}
           >
-            <span className="font-clinical text-sm font-bold">{formula.id}</span>
+            <span className="font-clinical text-sm font-bold">
+              {formula.id}
+            </span>
           </div>
           <div>
             <h3 className="text-2xl font-bold">{formula.name}</h3>
@@ -187,7 +189,9 @@ export default function FormulasShowcaseDesktop() {
           <h2 className="text-3xl lg:text-4xl font-bold mb-2">
             Individual Formulas
           </h2>
-          <p className="font-commentary text-xl">build your own stack</p>
+          <p className="font-commentary text-base md:text-lg opacity-70">
+            build your own stack
+          </p>
         </div>
 
         {/* Split Screen Grid */}

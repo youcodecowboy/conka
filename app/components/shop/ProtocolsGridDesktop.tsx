@@ -24,8 +24,9 @@ export default function ProtocolsGridDesktop() {
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">
               Choose Your Protocol
             </h2>
-            <p className="font-commentary text-lg md:text-xl opacity-80">
-              Four Flow + Clarity ratios for different mental demands
+            <p className="font-clinical text-base md:text-lg opacity-70">
+              Four pre-optimised Flow + Clarity ratios for different mental
+              demands
             </p>
           </div>
           <Link

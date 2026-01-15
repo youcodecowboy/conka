@@ -165,7 +165,9 @@ export default function FormulasShowcaseMobile() {
       {/* Header */}
       <div className="px-6 mb-6">
         <h2 className="text-2xl font-bold mb-2">Individual Formulas</h2>
-        <p className="font-commentary text-lg">build your own stack</p>
+        <p className="font-commentary text-sm opacity-70">
+          build your own stack
+        </p>
       </div>
 
       {/* Scroll Indicator */}
