@@ -8,10 +8,10 @@ import { protocolPricing } from "@/app/lib/productData";
 
 // Primary outcomes mapping
 const primaryOutcomes: Record<Exclude<PathType, null>, string> = {
-  path1: "Sustainable energy and focus",
-  path2: "Unstoppable clarity",
-  path3: "The perfect balance",
-  path4: "Your mind on the next level",
+  path1: "Sustainable Energy & Focus",
+  path2: "Unstoppable Clarity",
+  path3: "The Perfect Balance",
+  path4: "Your Mind on the Next Level",
 };
 
 // Lifestyle images mapping
@@ -107,8 +107,8 @@ export default function ProtocolsGridDesktop() {
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">
               Choose Your Protocol
             </h2>
-            <p className="font-commentary text-lg md:text-xl">
-              curated combinations for specific goals
+            <p className="font-clinical text-lg md:text-xl">
+              Curated combinations for specific goals
             </p>
           </div>
           <Link
