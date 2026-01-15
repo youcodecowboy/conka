@@ -100,17 +100,22 @@ export default function ShopHeroDesktop() {
           </a>
 
           {/* Block 3: I Want to Try → Single Formula / Trial Packs */}
-          <a
-            href="#trial-packs"
-            className="neo-box p-6 md:p-8 hover:shadow-[8px_8px_0px_0px_var(--foreground)] transition-all duration-200 group text-left flex flex-col items-center"
+          <div
+            onClick={() => {
+              document
+                .getElementById("trial-packs")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="neo-box p-6 md:p-8 hover:shadow-[8px_8px_0px_0px_var(--foreground)] transition-all duration-200 group text-left flex flex-col items-center cursor-pointer"
           >
             <h3 className="font-bold text-xl md:text-2xl mb-2">
               Try Flow or Clarity
             </h3>
             <div className="flex flex-col items-center gap-3 mb-4">
               <div className="flex items-center gap-3">
-                <div
-                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold transition-all border-2"
+                <a
+                  href="#formulas"
+                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold transition-all border-2 cursor-pointer"
                   style={{
                     backgroundColor: FORMULA_COLORS["01"].hex,
                     color: "white",
@@ -129,11 +134,15 @@ export default function ShopHeroDesktop() {
                     e.currentTarget.style.borderColor =
                       FORMULA_COLORS["01"].hex;
                   }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                 >
                   01
-                </div>
-                <div
-                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold transition-all border-2"
+                </a>
+                <a
+                  href="#formulas"
+                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold transition-all border-2 cursor-pointer"
                   style={{
                     backgroundColor: FORMULA_COLORS["02"].hex,
                     color: "white",
@@ -152,9 +161,12 @@ export default function ShopHeroDesktop() {
                     e.currentTarget.style.borderColor =
                       FORMULA_COLORS["02"].hex;
                   }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                 >
                   02
-                </div>
+                </a>
               </div>
               <div className="flex items-center gap-2">
                 {["4", "8", "12"].map((size) => (
@@ -170,7 +182,7 @@ export default function ShopHeroDesktop() {
             <p className="font-clinical text-sm md:text-base opacity-80 text-center">
               Order Flow or Clarity individually, or try small packs first.
             </p>
-          </a>
+          </div>
         </div>
 
         {/* ===== Trust / Proof Microline ===== */}
