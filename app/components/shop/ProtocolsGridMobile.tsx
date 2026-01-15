@@ -4,7 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { pathData, PathType } from "@/app/components/ProtocolBuilder";
-import { protocolPricing } from "@/app/lib/productData";
+import {
+  protocolPricing,
+  protocolContent,
+  ProtocolId,
+} from "@/app/lib/productData";
 
 // Primary outcomes mapping
 const primaryOutcomes: Record<Exclude<PathType, null>, string> = {
@@ -60,22 +64,25 @@ const protocolMapping: Record<
   },
 };
 
-// Build protocols array from pathData
+// Build protocols array from pathData and protocolContent
 const protocols = (Object.keys(pathData) as Exclude<PathType, null>[]).map(
   (key) => {
-    const data = pathData[key];
+    const pathDataItem = pathData[key];
     const mapping = protocolMapping[key];
+    const protocolContentItem = protocolContent[mapping.id as ProtocolId];
+
     return {
       id: mapping.id,
       path: key,
-      title: data.title,
-      subtitle: data.subtitle,
+      name: protocolContentItem.name, // "Resilience Protocol"
+      title: pathDataItem.title, // Keep for compatibility
+      subtitle: protocolContentItem.subtitle || pathDataItem.subtitle,
       primaryOutcome: primaryOutcomes[key],
-      description: data.description,
-      benefits: data.benefits,
+      description: protocolContentItem.description, // Use from protocolContent
+      benefits: protocolContentItem.benefits, // Use from protocolContent
       startingPrice: mapping.startingPrice,
-      isUltimate: data.isUltimate,
-      icon: data.icon,
+      isUltimate: pathDataItem.isUltimate,
+      icon: pathDataItem.icon,
       lifestyleImage: lifestyleImages[key],
     };
   },
@@ -126,6 +133,19 @@ export default function ProtocolsGridMobile() {
             </svg>
             Not sure? Take the quiz
           </Link>
+        </div>
+
+        {/* Power of Combination Section */}
+        <div className="mb-6 text-center md:text-left">
+          <h3 className="text-lg md:text-xl font-bold mb-2">
+            The Power of Combination
+          </h3>
+          <p className="font-clinical text-sm md:text-base opacity-80">
+            When taken as part of a protocol, CONKA Flow and CONKA Clarity work
+            together synergistically. CONKA Flow's adaptogens build your daily
+            foundation while CONKA Clarity's nootropics enhance peak performance
+            when you need it most.
+          </p>
         </div>
 
         {/* Stacked Cards */}
@@ -232,8 +252,12 @@ export default function ProtocolsGridMobile() {
                   aria-hidden={!isExpanded}
                 >
                   <div className="px-4 pb-4 pt-0 border-t border-current border-opacity-10">
+                    {/* Protocol Name Title */}
+                    <h2 className="text-lg font-bold mb-2 mt-4">
+                      {protocol.name}
+                    </h2>
                     {/* Full Description */}
-                    <p className="text-sm opacity-80 mb-4 mt-4">
+                    <p className="text-sm opacity-80 mb-4">
                       {protocol.description}
                     </p>
 
@@ -274,7 +298,7 @@ export default function ProtocolsGridMobile() {
                         className="neo-button px-5 py-2 rounded-lg font-semibold text-sm inline-flex items-center gap-2"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        View Protocol
+                        View {protocol.name}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="14"

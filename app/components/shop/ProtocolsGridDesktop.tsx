@@ -4,7 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { pathData, PathType } from "@/app/components/ProtocolBuilder";
-import { protocolPricing } from "@/app/lib/productData";
+import {
+  protocolPricing,
+  protocolContent,
+  ProtocolId,
+} from "@/app/lib/productData";
 
 // Primary outcomes mapping
 const primaryOutcomes: Record<Exclude<PathType, null>, string> = {
@@ -60,22 +64,25 @@ const protocolMapping: Record<
   },
 };
 
-// Build protocols array from pathData
+// Build protocols array from pathData and protocolContent
 const protocols = (Object.keys(pathData) as Exclude<PathType, null>[]).map(
   (key) => {
-    const data = pathData[key];
+    const pathDataItem = pathData[key];
     const mapping = protocolMapping[key];
+    const protocolContentItem = protocolContent[mapping.id as ProtocolId];
+
     return {
       id: mapping.id,
       path: key,
-      title: data.title,
-      subtitle: data.subtitle,
+      name: protocolContentItem.name, // "Resilience Protocol"
+      title: pathDataItem.title, // Keep for compatibility
+      subtitle: protocolContentItem.subtitle || pathDataItem.subtitle,
       primaryOutcome: primaryOutcomes[key],
-      description: data.description,
-      benefits: data.benefits,
+      description: protocolContentItem.description, // Use from protocolContent
+      benefits: protocolContentItem.benefits, // Use from protocolContent
       startingPrice: mapping.startingPrice,
-      isUltimate: data.isUltimate,
-      icon: data.icon,
+      isUltimate: pathDataItem.isUltimate,
+      icon: pathDataItem.icon,
       lifestyleImage: lifestyleImages[key],
     };
   },
@@ -132,6 +139,19 @@ export default function ProtocolsGridDesktop() {
             </svg>
             Not sure? Take the quiz
           </Link>
+        </div>
+
+        {/* Power of Combination Section */}
+        <div className="mb-8 md:mb-12 text-center md:text-left">
+          <h3 className="text-xl md:text-2xl font-bold mb-3">
+            The Power of Combination
+          </h3>
+          <p className="font-clinical text-base md:text-lg opacity-80 max-w-3xl mx-auto md:mx-0">
+            When taken as part of a protocol, CONKA Flow and CONKA Clarity work
+            together synergistically. CONKA Flow's adaptogens build your daily
+            foundation while CONKA Clarity's nootropics enhance peak performance
+            when you need it most.
+          </p>
         </div>
 
         {/* Grid Container */}
@@ -264,6 +284,9 @@ export default function ProtocolsGridDesktop() {
                   <div className="flex-1 flex flex-col">
                     {/* Header */}
                     <div className="mb-4">
+                      <h2 className="text-2xl font-bold mb-2">
+                        {expandedProtocol.name}
+                      </h2>
                       <h3
                         id="expanded-protocol-title"
                         className="text-3xl font-bold leading-tight mb-1"
@@ -316,7 +339,7 @@ export default function ProtocolsGridDesktop() {
                         href={`/protocol/${expandedProtocol.id}`}
                         className="neo-button px-8 py-3 rounded-lg lg:rounded-full font-semibold inline-flex items-center gap-2"
                       >
-                        View Protocol
+                        View {expandedProtocol.name}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
