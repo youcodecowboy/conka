@@ -100,7 +100,7 @@ export default function ProtocolsGridMobile() {
   };
 
   return (
-    <div className="px-6 py-12 border-t-2 border-current border-opacity-10">
+    <div className="px-6 py-12">
       <div className="max-w-6xl mx-auto">
         {/* Section Header with Quiz CTA */}
         <div className="mb-6">

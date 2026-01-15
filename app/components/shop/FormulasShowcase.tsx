@@ -43,7 +43,7 @@ const formulas = (["01", "02"] as FormulaId[]).map((id) => {
 
 export default function FormulasShowcase() {
   return (
-    <div className="px-6 md:px-16 py-12 md:py-24 border-t-2 border-current border-opacity-10">
+    <div className="px-6 md:px-16 py-12 md:py-24">
       <div className="max-w-6xl mx-auto">
         {/* Section Header - Left aligned on mobile */}
         <div className="mb-8 md:mb-12 text-left">

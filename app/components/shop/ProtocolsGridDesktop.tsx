@@ -106,7 +106,7 @@ export default function ProtocolsGridDesktop() {
     : null;
 
   return (
-    <div className="px-6 md:px-16 py-12 md:py-24 border-t-2 border-current border-opacity-10">
+    <div className="px-6 md:px-16 py-12 md:py-24">
       <div className="max-w-6xl mx-auto">
         {/* Section Header with Quiz CTA */}
         <div className="flex items-center justify-between mb-8 md:mb-12">
