@@ -36,7 +36,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
     <div className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden">
       {/* Image Container with Hover Overlay */}
       <div
-        className="relative aspect-[5/2] overflow-hidden cursor-pointer"
+        className="relative aspect-[5/2.2] overflow-hidden cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -54,31 +54,31 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
 
         {/* Hover Overlay */}
         <div
-          className={`absolute inset-0 bg-[var(--background)] flex flex-col justify-center p-3 transition-all duration-300 ${
+          className={`absolute inset-0 bg-[var(--background)] flex flex-col justify-center p-4 transition-all duration-300 ${
             isHovered ? "opacity-95" : "opacity-0 pointer-events-none"
           }`}
         >
           {/* Protocol Name (Centered Header) */}
-          <h4 className="text-xs font-primary opacity-80 text-center mb-2">
+          <h4 className="text-sm font-primary opacity-80 text-center mb-3">
             {protocol.name}
           </h4>
 
           {/* Situation / Outcome */}
-          <p className="text-sm font-bold mb-2 leading-snug">
+          <p className="text-base font-bold mb-3 leading-snug">
             For those who {protocol.forPeopleWho}
           </p>
 
           {/* Key Benefits */}
-          <ul className="space-y-1 mb-3">
+          <ul className="space-y-1.5 mb-4">
             {visibleBenefits.map((benefit, idx) => (
               <li
                 key={idx}
-                className="flex items-start gap-1.5 font-clinical text-xs"
+                className="flex items-start gap-2 font-clinical text-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -96,27 +96,25 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
           </ul>
 
           {/* Secondary Ratio Info */}
-          <div className="flex gap-4">
+          <div className="flex gap-5">
             <div className="flex items-baseline gap-1">
-              <span className="text-sm font-bold text-teal-600">
+              <span className="text-base font-bold text-teal-600">
                 {protocol.flowPercentage}%
               </span>
-              <span className="font-clinical text-[10px] opacity-70">Flow</span>
+              <span className="font-clinical text-xs opacity-70">Flow</span>
             </div>
             <div className="flex items-baseline gap-1">
-              <span className="text-sm font-bold text-amber-600">
+              <span className="text-base font-bold text-amber-600">
                 {protocol.clarityPercentage}%
               </span>
-              <span className="font-clinical text-[10px] opacity-70">
-                Clarity
-              </span>
+              <span className="font-clinical text-xs opacity-70">Clarity</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="py-4 px-5 flex items-center justify-between gap-5">
+      <div className="py-5 px-5 flex items-center justify-between gap-5">
         {/* Text Content */}
         <div className="flex-1 min-w-0">
           <h3 className="text-lg font-bold mb-1 leading-tight">
