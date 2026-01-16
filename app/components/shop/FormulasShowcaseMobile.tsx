@@ -17,7 +17,7 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden">
       {/* Hero Image */}
       <div className="relative w-full aspect-[4/3.5] overflow-hidden">
         <div
@@ -40,9 +40,9 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col gap-3">
+      <div className="p-6 flex flex-col gap-4 bg-white/50">
         {/* Name & Subtitle */}
-        <div>
+        <div className="pb-2 border-b border-black/5">
           <h3 className="text-2xl font-bold">{formula.name}</h3>
           <p className="font-commentary text-lg opacity-80 mt-1">
             {formula.subtitle}
@@ -50,12 +50,12 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
         </div>
 
         {/* Microcopy */}
-        <p className="font-clinical text-sm opacity-70 mb-3">
+        <p className="font-clinical text-sm opacity-70">
           {microcopy[formula.id]}
         </p>
 
         {/* Top 2 Stats */}
-        <div className="flex gap-6 mb-4">
+        <div className="flex gap-6 pt-2 border-t border-black/5">
           {formula.stats.slice(0, 2).map((stat, idx) => (
             <div key={idx} className="flex flex-col items-center">
               <span
