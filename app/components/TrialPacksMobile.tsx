@@ -137,10 +137,13 @@ export default function TrialPacksMobile() {
     >
       {/* Header */}
       <div className="text-left mb-4">
-        <p className="font-commentary text-base opacity-70">
-          not ready for a protocol?
+        <p className="font-commentary text-base opacity-80 mb-2">
+          Not ready to commit?
         </p>
-        <h2 className="text-2xl font-bold">try our trial packs</h2>
+        <h2 className="text-2xl font-bold mb-2">Start Small</h2>
+        <p className="font-clinical text-sm opacity-60">
+          No subscription • Designed for first-time users
+        </p>
       </div>
 
       {/* Formula Toggle */}
