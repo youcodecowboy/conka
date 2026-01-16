@@ -41,12 +41,12 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
 
       {/* Content */}
       <div className="p-6 flex flex-col gap-4 bg-white/50">
-        {/* Name & Subtitle */}
+        {/* Subtitle & Name */}
         <div className="pb-2 border-b border-black/5">
-          <h3 className="text-2xl font-bold">{formula.name}</h3>
-          <p className="font-commentary text-lg opacity-80 mt-1">
+          <h3 className="text-2xl font-bold font-primary opacity-100">
             {formula.subtitle}
-          </p>
+          </h3>
+          <p className="font-primary text-lg opacity-80 mt-1">{formula.name}</p>
         </div>
 
         {/* Microcopy */}
