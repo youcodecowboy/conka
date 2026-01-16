@@ -15,7 +15,7 @@ const protocolImages: Record<ProtocolId, string> = {
 
 // Situational cues mapping
 const situationalCues: Record<ProtocolId, string> = {
-  "1": "Long days • stress builds up • steady energy",
+  "1": "Long days • stress builds up • steady energy needed",
   "2": "Thinking is demanding • accuracy matters • mental fatigue shows up",
   "3": "Training hard • thinking hard • recovery matters",
   "4": "You want everything working, every day",
@@ -58,9 +58,11 @@ export default function ProtocolCardMobile({
         {/* Outcome Headline (Primary) */}
         <div className="mb-4 pb-4 border-b border-black/5">
           <h3 className="text-2xl font-bold mb-1">{protocol.outcome}</h3>
-          <p className="font-primary text-lg opacity-80">{protocol.name}</p>
-          <p className="font-clinical text-xs opacity-60 mt-1">
-            Commonly chosen when… {situationalCues[protocol.id]}
+          <p className="font-primary text-sm opacity-80 mb-1">
+            Commonly chosen when:
+          </p>
+          <p className="font-primary text-sm opacity-80">
+            {situationalCues[protocol.id]}
           </p>
         </div>
 
@@ -97,7 +99,7 @@ export default function ProtocolCardMobile({
             href={`/protocol/${protocol.id}`}
             className="neo-button w-full py-3 rounded-full font-bold text-base flex items-center justify-center gap-2"
           >
-            View protocol
+            View {protocol.name}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

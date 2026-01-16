@@ -65,6 +65,11 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
             isHovered ? "opacity-95" : "opacity-0 pointer-events-none"
           }`}
         >
+          {/* Protocol Name (Centered Header) */}
+          <h4 className="text-sm font-primary opacity-80 text-center mb-4">
+            {protocol.name}
+          </h4>
+
           {/* Situation / Outcome */}
           <p className="text-lg font-bold mb-4 leading-snug">
             For those who {protocol.forPeopleWho}
@@ -120,9 +125,11 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
         {/* Outcome Headline */}
         <div className="mb-4 pb-4 border-b border-black/5">
           <h3 className="text-xl font-bold mb-1">{protocol.outcome}</h3>
-          <p className="font-primary text-sm opacity-80">{protocol.name}</p>
-          <p className="font-primary text-sm md:text-base opacity-70 mt-1">
-            Commonly chosen when… {situationalCues[protocol.id]}
+          <p className="font-primary text-sm opacity-80 mb-1">
+            Commonly chosen when:
+          </p>
+          <p className="font-primary text-sm opacity-80">
+            {situationalCues[protocol.id]}
           </p>
         </div>
 
