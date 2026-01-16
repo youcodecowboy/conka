@@ -1,49 +1,25 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { formulas, FormulaShowcaseData } from "./formulasShowcaseData";
+import { FormulaId } from "@/app/lib/productData";
+
+// Combined Microcopy
+const microcopy: Record<FormulaId, string> = {
+  "01": "For deep focus — what this feels like",
+  "02": "For mental clarity without jitters — what you'll notice first",
+};
 
 // Mobile Formula Card Component
-function FormulaCard({
-  formula,
-  isActive,
-}: {
-  formula: FormulaShowcaseData;
-  isActive?: boolean;
-}) {
-  return (
-    <div
-      className="neo-box p-5 h-full flex flex-col"
-      style={{
-        borderColor: isActive ? formula.accentColor : "var(--foreground)",
-        borderWidth: isActive ? "3px" : "2px",
-      }}
-    >
-      {/* Header */}
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <p
-            className="font-clinical text-xs tracking-wider mb-1"
-            style={{ color: formula.accentColor }}
-          >
-            FORMULA {formula.id} — {formula.positioning}
-          </p>
-          <h3 className="text-2xl font-bold">{formula.name}</h3>
-          <p className="font-commentary text-lg mt-1">{formula.subtitle}</p>
-        </div>
-        <div
-          className="w-3 h-3 rounded-full flex-shrink-0 mt-2"
-          style={{ backgroundColor: formula.accentColor }}
-        />
-      </div>
+function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
+  const [expanded, setExpanded] = useState(false);
 
-      {/* Product Image */}
-      <Link
-        href={formula.href}
-        className="block relative w-full h-40 rounded-lg overflow-hidden mb-4 hover:opacity-90 transition-opacity"
-      >
+  return (
+    <div className="flex flex-col bg-white rounded-2xl shadow-lg overflow-hidden">
+      {/* Hero Image */}
+      <div className="relative w-full aspect-[4/5]">
         <Image
           src={formula.image.src}
           alt={formula.image.alt}
@@ -52,66 +28,53 @@ function FormulaCard({
           style={{
             objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
           }}
-          sizes="85vw"
+          sizes="100vw"
           loading="lazy"
         />
-      </Link>
-
-      {/* Description */}
-      <p className="font-clinical text-sm opacity-80 mb-4 leading-relaxed">
-        {formula.description}
-      </p>
-
-      {/* When to take */}
-      <div className="flex items-center gap-2 mb-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="opacity-60"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <polyline points="12 6 12 12 16 14" />
-        </svg>
-        <span className="font-clinical text-xs opacity-60">
-          {formula.whenToTake}
-        </span>
       </div>
 
-      {/* Key Benefits */}
-      <div className="grid grid-cols-3 gap-3 mb-4">
-        {formula.stats.map((stat, idx) => (
-          <div key={idx} className="text-center">
-            <p
-              className="text-xl font-bold"
-              style={{ color: formula.accentColor }}
-            >
-              {stat.value}
-            </p>
-            <p className="font-clinical text-[10px] opacity-60 leading-tight">
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </div>
+      {/* Content */}
+      <div className="p-6 flex flex-col gap-3">
+        {/* Name & Subtitle */}
+        <div>
+          <h3 className="text-2xl font-bold">{formula.name}</h3>
+          <p className="font-commentary text-lg opacity-80 mt-1">
+            {formula.subtitle}
+          </p>
+        </div>
 
-      {/* CTA */}
-      <div className="mt-auto">
+        {/* Microcopy */}
+        <p className="font-clinical text-sm opacity-70 mb-3">
+          {microcopy[formula.id]}
+        </p>
+
+        {/* Top 2 Stats */}
+        <div className="flex gap-6 mb-4">
+          {formula.stats.slice(0, 2).map((stat, idx) => (
+            <div key={idx} className="flex flex-col items-center">
+              <span
+                className="text-xl font-bold"
+                style={{ color: formula.accentColor }}
+              >
+                {stat.value}
+              </span>
+              <span className="font-clinical text-xs opacity-70">
+                {stat.label}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
         <Link
           href={formula.href}
-          className="neo-button px-4 py-2.5 font-semibold text-sm inline-flex items-center gap-2 w-full justify-center rounded-lg"
+          className="neo-button w-full py-3 font-bold text-base rounded-full flex items-center justify-center gap-2 mb-3"
         >
           Shop {formula.name}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -120,139 +83,75 @@ function FormulaCard({
             strokeLinejoin="round"
           >
             <path d="M5 12h14" />
-            <path d="M12 5l7 7-7 7" />
+            <path d="m12 5 7 7-7 7" />
           </svg>
         </Link>
+
+        {/* Key Points (collapsible) */}
+        <button
+          className="text-sm font-clinical opacity-70 mb-2 text-left"
+          onClick={() => setExpanded(!expanded)}
+        >
+          {expanded ? "Hide details ▲" : "Show key benefits ▼"}
+        </button>
+        {expanded && (
+          <ul className="space-y-2">
+            {formula.keyPoints.map((point, idx) => (
+              <li key={idx} className="flex items-start gap-2 text-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="flex-shrink-0 mt-0.5"
+                  style={{ color: formula.accentColor }}
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
 }
 
 export default function FormulasShowcaseMobile() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      const scrollLeft = container.scrollLeft;
-      const cardWidth = container.offsetWidth * 0.85; // Card is 85vw
-      const gap = 16; // gap-4
-      const index = Math.round(scrollLeft / (cardWidth + gap));
-      setActiveIndex(Math.min(index, formulas.length - 1));
-    };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToIndex = (index: number) => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    const cardWidth = container.offsetWidth * 0.85;
-    const gap = 16;
-    container.scrollTo({
-      left: index * (cardWidth + gap),
-      behavior: "smooth",
-    });
-  };
-
   return (
-    <section className="py-12 overflow-hidden">
-      {/* Header */}
-      <div className="px-6 mb-6">
-        <h2 className="text-2xl font-bold mb-2">Individual Formulas</h2>
-        <p className="font-commentary text-sm opacity-70">
-          build your own stack
-        </p>
-      </div>
+    <section className="px-6 py-12 bg-gray-50">
+      <div className="max-w-3xl mx-auto flex flex-col gap-8">
+        {/* Section Header */}
+        <div className="text-left">
+          <p className="font-commentary text-base opacity-80 mb-2">
+            Most first-time customers start here
+          </p>
+          <h2 className="text-3xl font-bold mb-2">Individual Formulas</h2>
+          <p className="font-clinical text-base opacity-70">
+            Start simple. Feel the difference.
+          </p>
+        </div>
 
-      {/* Scroll Indicator */}
-      <div className="px-6 mb-4 flex items-center gap-2">
-        <div className="flex gap-2">
-          {formulas.map((formula, idx) => (
-            <button
-              key={formula.id}
-              onClick={() => scrollToIndex(idx)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all"
-              style={{
-                borderColor:
-                  activeIndex === idx
-                    ? formula.accentColor
-                    : "var(--foreground)",
-                opacity: activeIndex === idx ? 1 : 0.4,
-                backgroundColor:
-                  activeIndex === idx ? formula.accentColor : "transparent",
-                color: activeIndex === idx ? "white" : "var(--foreground)",
-              }}
-            >
-              <span className="font-clinical text-xs">{formula.name}</span>
-            </button>
+        {/* Cards */}
+        <div className="flex flex-col gap-8">
+          {formulas.map((formula) => (
+            <FormulaCard key={formula.id} formula={formula} />
           ))}
         </div>
-        <div className="ml-auto flex items-center gap-1 opacity-40">
-          <span className="font-clinical text-xs">swipe</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14" />
-            <path d="M12 5l7 7-7 7" />
-          </svg>
+
+        {/* Comparison Note */}
+        <div className="mt-8 text-center">
+          <p className="font-commentary text-base opacity-70">
+            Both formulas work together synergistically
+          </p>
         </div>
-      </div>
-
-      {/* Horizontal Scroll Cards */}
-      <div
-        ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide px-6 snap-x snap-mandatory"
-        style={{ scrollPaddingLeft: "24px" }}
-      >
-        {formulas.map((formula, idx) => (
-          <div
-            key={formula.id}
-            className="flex-shrink-0 snap-start"
-            style={{ width: "85vw", maxWidth: "400px" }}
-          >
-            <FormulaCard formula={formula} isActive={activeIndex === idx} />
-          </div>
-        ))}
-        {/* Spacer for last card */}
-        <div className="flex-shrink-0 w-6" />
-      </div>
-
-      {/* Bottom indicator dots */}
-      <div className="flex justify-center gap-2 mt-6">
-        {formulas.map((formula, idx) => (
-          <button
-            key={formula.id}
-            onClick={() => scrollToIndex(idx)}
-            className="w-2 h-2 rounded-full transition-all"
-            style={{
-              backgroundColor:
-                activeIndex === idx ? formula.accentColor : "var(--foreground)",
-              opacity: activeIndex === idx ? 1 : 0.2,
-              transform: activeIndex === idx ? "scale(1.5)" : "scale(1)",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Comparison note */}
-      <div className="mt-6 text-center px-6">
-        <p className="font-commentary text-base opacity-70">
-          both formulas work together synergistically
-        </p>
       </div>
     </section>
   );
