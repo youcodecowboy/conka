@@ -203,14 +203,14 @@ export default function FormulasShowcaseDesktop() {
     <section className="px-16 pt-12 pb-24">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="mb-8 text-left">
-          <p className="font-commentary text-md opacity-80 mb-2">
+        <div className="mb-10 text-left">
+          <p className="font-commentary text-lg opacity-80 mb-3">
             Most first-time customers start here
           </p>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-2">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-3">
             Individual Formulas
           </h2>
-          <p className="font-clincal text-base md:text-lg opacity-70">
+          <p className="font-clinical text-lg md:text-xl opacity-70">
             Start simple. Feel the difference.
           </p>
         </div>
