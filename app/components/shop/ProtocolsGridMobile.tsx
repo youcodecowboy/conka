@@ -1,30 +1,19 @@
 "use client";
 
-import { useState, useCallback } from "react";
 import Link from "next/link";
-import { ProtocolId } from "@/app/lib/productData";
-import ProtocolSelector from "./ProtocolSelector";
-import ProtocolActivePanel from "./ProtocolActivePanel";
-import { DEFAULT_PROTOCOL_ID } from "./protocolSelectorData";
+import { protocolsArray } from "./protocolSelectorData";
+import ProtocolCardMobile from "./ProtocolCardMobile";
 
 export default function ProtocolsGridMobile() {
-  const [activeProtocolId, setActiveProtocolId] =
-    useState<ProtocolId>(DEFAULT_PROTOCOL_ID);
-
-  const handleProtocolSelect = useCallback((id: ProtocolId) => {
-    setActiveProtocolId(id);
-  }, []);
-
   return (
-    <div className="px-6 py-12">
+    <div className="py-12">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="mb-6">
+        <div className="px-6 mb-6">
           <div className="text-left mb-4">
             <h2 className="text-2xl font-bold mb-1">Choose Your Protocol</h2>
             <p className="font-clinical text-sm opacity-70">
-              Pre-optimised CONKA Flow + CONKA Clarity ratios for different
-              mental demands
+              Optimised Flow + Clarity combinations for specific mental goals
             </p>
           </div>
           <Link
@@ -50,17 +39,44 @@ export default function ProtocolsGridMobile() {
           </Link>
         </div>
 
-        {/* Protocol Selector (Scrollable) */}
-        <div className="mb-6">
-          <ProtocolSelector
-            activeProtocolId={activeProtocolId}
-            onSelect={handleProtocolSelect}
-            isMobile={true}
-          />
+        {/* Horizontal Scroll Carousel */}
+        <div
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth"
+          style={{ WebkitOverflowScrolling: "touch" }}
+        >
+          {/* Left padding spacer */}
+          <div className="flex-shrink-0 w-4" aria-hidden="true" />
+
+          {/* Protocol Cards */}
+          {protocolsArray.map((protocol, idx) => (
+            <div
+              key={protocol.id}
+              className="w-[82.5%] flex-shrink-0 snap-center"
+            >
+              <ProtocolCardMobile protocol={protocol} isFirst={idx === 0} />
+            </div>
+          ))}
+
+          {/* Right padding spacer */}
+          <div className="flex-shrink-0 w-4" aria-hidden="true" />
         </div>
 
-        {/* Active Panel (Stacked) */}
-        <ProtocolActivePanel protocolId={activeProtocolId} isMobile={true} />
+        {/* Scroll Hint / Indicator Dots */}
+        <div className="flex justify-center gap-2 mt-4 px-6">
+          {protocolsArray.map((protocol) => (
+            <div
+              key={protocol.id}
+              className="w-2 h-2 rounded-full bg-current opacity-20"
+            />
+          ))}
+        </div>
+
+        {/* Comparison note */}
+        <div className="mt-6 text-center px-6">
+          <p className="font-commentary text-sm opacity-70">
+            All protocols can be combined for full cognitive coverage
+          </p>
+        </div>
       </div>
     </div>
   );
