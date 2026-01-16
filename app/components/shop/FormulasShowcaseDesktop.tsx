@@ -185,7 +185,7 @@ export default function FormulasShowcaseDesktop() {
     <section className="px-16 py-24">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="mb-12 text-left">
+        <div className="mb-6 text-left">
           <h2 className="text-3xl lg:text-4xl font-bold mb-2">
             Individual Formulas
           </h2>
