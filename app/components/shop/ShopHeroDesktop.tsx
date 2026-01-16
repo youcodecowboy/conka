@@ -32,7 +32,7 @@ export default function ShopHeroDesktop() {
           <div
             onClick={() => {
               document
-                .getElementById("trial-packs")
+                .getElementById("formulas")
                 ?.scrollIntoView({ behavior: "smooth" });
             }}
             className="neo-box p-6 md:p-8 hover:shadow-[8px_8px_0px_0px_var(--foreground)] transition-all duration-200 group text-left flex flex-col items-center cursor-pointer"
@@ -42,60 +42,26 @@ export default function ShopHeroDesktop() {
             </h3>
             <div className="flex flex-col items-center gap-3 mb-4">
               <div className="flex items-center gap-3">
-                <a
-                  href="#formulas"
-                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold transition-all border-2 cursor-pointer"
+                <div
+                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold border-2"
                   style={{
                     backgroundColor: FORMULA_COLORS["01"].hex,
                     color: "white",
                     borderColor: FORMULA_COLORS["01"].hex,
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--background)";
-                    e.currentTarget.style.color = FORMULA_COLORS["01"].hex;
-                    e.currentTarget.style.borderColor =
-                      FORMULA_COLORS["01"].hex;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor =
-                      FORMULA_COLORS["01"].hex;
-                    e.currentTarget.style.color = "white";
-                    e.currentTarget.style.borderColor =
-                      FORMULA_COLORS["01"].hex;
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
                 >
                   01
-                </a>
-                <a
-                  href="#formulas"
-                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold transition-all border-2 cursor-pointer"
+                </div>
+                <div
+                  className="w-12 h-16 md:w-14 md:h-20 rounded-md flex items-center justify-center font-clinical text-xs font-bold border-2"
                   style={{
                     backgroundColor: FORMULA_COLORS["02"].hex,
                     color: "white",
                     borderColor: FORMULA_COLORS["02"].hex,
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--background)";
-                    e.currentTarget.style.color = FORMULA_COLORS["02"].hex;
-                    e.currentTarget.style.borderColor =
-                      FORMULA_COLORS["02"].hex;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor =
-                      FORMULA_COLORS["02"].hex;
-                    e.currentTarget.style.color = "white";
-                    e.currentTarget.style.borderColor =
-                      FORMULA_COLORS["02"].hex;
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
                 >
                   02
-                </a>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 {["4", "8", "12"].map((size) => (
@@ -140,7 +106,8 @@ export default function ShopHeroDesktop() {
 
         {/* ===== Trust / Proof Microline ===== */}
         <p className="font-clinical text-xs md:text-sm text-center opacity-70">
-          Trusted by high-performers
+          250+ clinical studies • Patent-protected formulas • Used by athletes
+          worldwide
         </p>
       </div>
     </div>
