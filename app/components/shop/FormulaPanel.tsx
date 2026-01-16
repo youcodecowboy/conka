@@ -25,10 +25,10 @@ export default function FormulaPanel({ formula }: FormulaPanelProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden">
       {/* Image Container with Hover Overlay */}
       <div
-        className="relative aspect-[5/5] rounded-lg overflow-hidden group"
+        className="relative aspect-[5/5] overflow-hidden group"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -135,9 +135,9 @@ export default function FormulaPanel({ formula }: FormulaPanelProps) {
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="pt-6 flex-1 flex flex-col">
+      <div className="pt-6 px-6 flex-1 flex flex-col">
         {/* Product Name and Tagline */}
-        <div className="flex items-start gap-3 mb-4">
+        <div className="flex items-start gap-3 mb-4 pb-4 border-b border-black/5">
           <div
             className={`w-10 h-10 ${formula.bgColor} text-white rounded-md flex items-center justify-center flex-shrink-0`}
           >
@@ -176,7 +176,7 @@ export default function FormulaPanel({ formula }: FormulaPanelProps) {
         </div>
 
         {/* CTA Button */}
-        <div className="mt-auto">
+        <div className="mt-auto pb-6">
           <Link
             href={formula.href}
             className="neo-button px-8 py-3 rounded-full font-bold text-base inline-flex items-center gap-2 w-full justify-center"
