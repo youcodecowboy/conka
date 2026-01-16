@@ -9,7 +9,7 @@ import { FormulaId } from "@/app/lib/productData";
 // Formula-specific microcopy
 const hoverMicrocopy: Record<FormulaId, string> = {
   "01": "What this feels like",
-  "02": "Why people love this",
+  "02": "What you’ll notice first",
 };
 
 const outcomeMicrocopy: Record<FormulaId, string> = {
