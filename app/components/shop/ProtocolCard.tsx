@@ -138,13 +138,13 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
           </p>
           <Link
             href={`/protocol/${protocol.id}`}
-            className="neo-button px-5 py-1.5 rounded-full font-bold text-xs inline-flex items-center gap-2 w-auto"
+            className="neo-button px-7 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-auto"
           >
             Shop {protocol.name}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
