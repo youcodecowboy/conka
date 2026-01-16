@@ -14,102 +14,54 @@ const protocolImages: Record<ProtocolId, string> = {
   "4": "/protocols/Ultimate.jpg",
 };
 
-// Protocol-specific hover microcopy
-const hoverMicrocopy: Record<ProtocolId, string> = {
-  "1": "What you'll feel",
-  "2": "How it helps",
-  "3": "Why it works",
-  "4": "The full stack",
-};
-
 // Protocol Card Component
 function ProtocolCard({ protocol }: { protocol: ProtocolSelectorData }) {
   const [isHovered, setIsHovered] = useState(false);
 
+  // Limit benefits to 3 max for hover display
+  const visibleBenefits = protocol.benefits.slice(0, 3);
+
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full group">
       {/* Image Container with Hover Overlay */}
       <div
-        className="relative aspect-[5/5] rounded-lg overflow-hidden group"
+        className="relative aspect-[5/5] rounded-lg overflow-hidden cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Protocol Image */}
         <div
-          className="absolute inset-0"
-          style={{ bottom: "-5%", transform: "scale(0.8)" }}
+          className="absolute inset-0 transition-transform duration-500"
+          style={{
+            transform: isHovered ? "scale(1.05)" : "scale(0.95)",
+            bottom: "-5%",
+          }}
         >
           <Image
             src={protocolImages[protocol.id]}
             alt={`${protocol.name} - ${protocol.outcome}`}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            style={{
-              objectPosition: "50% 30%",
-            }}
+            className="object-cover"
+            style={{ objectPosition: "50% 30%" }}
             sizes="50vw"
             priority
           />
         </div>
 
-        {/* Hover Indicator Badge (visible in default state, hidden on hover) */}
-        <div
-          className={`absolute top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--background)] border-2 border-[var(--foreground)] transition-opacity duration-300 z-10 ${
-            isHovered ? "opacity-0" : "opacity-80"
-          }`}
-        >
-          <span className="font-clinical text-xs">
-            {hoverMicrocopy[protocol.id]}
-          </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="16" x2="12" y2="12" />
-            <line x1="12" y1="8" x2="12.01" y2="8" />
-          </svg>
-        </div>
-
         {/* Hover Overlay */}
         <div
-          className={`absolute inset-0 bg-[var(--background)] flex flex-col justify-center p-8 transition-all duration-300 ${
-            isHovered ? "opacity-95" : "opacity-0 pointer-events-none"
+          className={`absolute inset-0 bg-[var(--background)] bg-opacity-95 flex flex-col justify-center p-6 transition-opacity duration-300 ${
+            isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         >
-          {/* For People Who... */}
-          <p className="text-base mb-6 leading-relaxed opacity-90">
-            For people who {protocol.forPeopleWho}
+          {/* Situation / Outcome */}
+          <p className="text-lg font-bold mb-4 leading-snug">
+            For those who {protocol.forPeopleWho}
           </p>
 
-          {/* Ratio Info */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="text-center">
-              <p className="text-2xl font-bold mb-1 text-teal-600">
-                {protocol.flowPercentage}%
-              </p>
-              <p className="font-clinical text-xs font-semibold">Flow</p>
-              <p className="font-clinical text-[10px] opacity-60">Adaptogens</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold mb-1 text-amber-600">
-                {protocol.clarityPercentage}%
-              </p>
-              <p className="font-clinical text-xs font-semibold">Clarity</p>
-              <p className="font-clinical text-[10px] opacity-60">Nootropics</p>
-            </div>
-          </div>
-
           {/* Key Benefits */}
-          <ul className="space-y-2">
-            {protocol.benefits.map((benefit, idx) => (
+          <ul className="space-y-2 mb-6">
+            {visibleBenefits.map((benefit, idx) => (
               <li
                 key={idx}
                 className="flex items-start gap-2 font-clinical text-sm"
@@ -133,40 +85,50 @@ function ProtocolCard({ protocol }: { protocol: ProtocolSelectorData }) {
               </li>
             ))}
           </ul>
+
+          {/* Secondary Ratio Info */}
+          <div className="flex gap-6">
+            <div className="flex items-baseline gap-1">
+              <span className="text-lg font-bold text-teal-600">
+                {protocol.flowPercentage}%
+              </span>
+              <span className="font-clinical text-xs opacity-70">Flow</span>
+            </div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-lg font-bold text-amber-600">
+                {protocol.clarityPercentage}%
+              </span>
+              <span className="font-clinical text-xs opacity-70">Clarity</span>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="pt-6 flex-1 flex flex-col">
-        {/* Outcome Headline + Protocol Name */}
-        <div className="mb-4">
-          <h3 className="text-2xl font-bold font-primary opacity-100">
-            {protocol.outcome}
-          </h3>
-          <p className="font-primary text-lg opacity-80 mt-1">
-            {protocol.name}
-          </p>
-        </div>
+      <div className="pt-4 flex-1 flex flex-col">
+        {/* Outcome Headline */}
+        <h3 className="text-2xl font-bold mb-1">{protocol.outcome}</h3>
+        <p className="font-primary text-lg opacity-80 mb-2">{protocol.name}</p>
 
-        {/* Ratio Info (Tertiary) */}
-        <div className="flex gap-4 mb-6">
+        {/* Ratios tertiary */}
+        <div className="flex gap-4 mb-4">
           <div className="flex items-baseline gap-1">
-            <span className="text-lg font-bold text-teal-600">
+            <span className="text-base font-bold text-teal-600">
               {protocol.flowPercentage}%
             </span>
             <span className="font-clinical text-xs opacity-70">Flow</span>
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-lg font-bold text-amber-600">
+            <span className="text-base font-bold text-amber-600">
               {protocol.clarityPercentage}%
             </span>
             <span className="font-clinical text-xs opacity-70">Clarity</span>
           </div>
         </div>
 
-        {/* Price + CTA Button */}
+        {/* Price + CTA */}
         <div className="mt-auto">
-          <p className="font-clinical text-sm opacity-60 mb-3">
+          <p className="font-clinical text-sm opacity-60 mb-2">
             {protocol.startingPrice}
           </p>
           <Link
@@ -195,6 +157,7 @@ function ProtocolCard({ protocol }: { protocol: ProtocolSelectorData }) {
   );
 }
 
+// Main Protocols Grid (Desktop)
 export default function ProtocolsGridDesktop() {
   return (
     <section className="px-16 pt-12 pb-24">
@@ -206,7 +169,7 @@ export default function ProtocolsGridDesktop() {
               Choose Your Protocol
             </h2>
             <p className="font-clinical text-lg md:text-xl opacity-70">
-              Pre-optimised Flow + Clarity ratios for different mental demands
+              Optimised Flow + Clarity combinations for specific mental goals
             </p>
           </div>
           <Link
@@ -242,7 +205,7 @@ export default function ProtocolsGridDesktop() {
         {/* Comparison note */}
         <div className="mt-12 text-center">
           <p className="font-commentary text-lg opacity-70">
-            all protocols work synergistically
+            All protocols can be combined for full cognitive coverage
           </p>
         </div>
       </div>
