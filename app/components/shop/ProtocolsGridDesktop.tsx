@@ -6,15 +6,15 @@ import ProtocolCard from "./ProtocolCard";
 
 export default function ProtocolsGridDesktop() {
   return (
-    <section className="px-16 pt-8 pb-16">
+    <section className="px-16 pt-6 pb-12">
       <div className="max-w-6xl mx-auto">
         {/* Section Header with Quiz CTA */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <div className="text-left">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-2">
+            <h2 className="text-2xl lg:text-3xl font-bold mb-2">
               Choose Your Protocol
             </h2>
-            <p className="font-clinical text-base md:text-lg opacity-70">
+            <p className="font-clinical text-sm md:text-base opacity-70">
               Optimised Flow + Clarity combinations for specific mental goals
             </p>
           </div>
@@ -42,15 +42,15 @@ export default function ProtocolsGridDesktop() {
         </div>
 
         {/* 2x2 Protocol Grid */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-4">
           {protocolsArray.map((protocol) => (
             <ProtocolCard key={protocol.id} protocol={protocol} />
           ))}
         </div>
 
         {/* Comparison note */}
-        <div className="mt-8 text-center">
-          <p className="font-commentary text-base opacity-70">
+        <div className="mt-6 text-center">
+          <p className="font-commentary text-sm opacity-70">
             All protocols can be combined for full cognitive coverage
           </p>
         </div>
