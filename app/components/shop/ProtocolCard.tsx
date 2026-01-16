@@ -25,10 +25,10 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
   const visibleBenefits = protocol.benefits.slice(0, 3);
 
   return (
-    <div className="flex flex-col h-full group">
+    <div className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden">
       {/* Image Container with Hover Overlay */}
       <div
-        className="relative aspect-[4/2.5] rounded-lg overflow-hidden cursor-pointer"
+        className="relative aspect-[4/2.5] overflow-hidden cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -108,20 +108,22 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="pt-2 flex-1 flex flex-col">
+      <div className="pt-6 px-6 flex-1 flex flex-col">
         {/* Outcome Headline */}
-        <h3 className="text-lg font-bold mb-0">{protocol.outcome}</h3>
-        <p className="font-primary text-sm opacity-80 mb-1">{protocol.name}</p>
+        <div className="mb-4 pb-4 border-b border-black/5">
+          <h3 className="text-lg font-bold mb-1">{protocol.outcome}</h3>
+          <p className="font-primary text-sm opacity-80">{protocol.name}</p>
+        </div>
 
         {/* Ratios tertiary */}
-        <div className="flex gap-3 mb-2">
-          <div className="flex items-baseline gap-1">
+        <div className="flex gap-6 mb-6">
+          <div className="flex items-baseline gap-2">
             <span className="text-xs font-bold text-teal-600">
               {protocol.flowPercentage}%
             </span>
             <span className="font-clinical text-[10px] opacity-70">Flow</span>
           </div>
-          <div className="flex items-baseline gap-1">
+          <div className="flex items-baseline gap-2">
             <span className="text-xs font-bold text-amber-600">
               {protocol.clarityPercentage}%
             </span>
@@ -133,7 +135,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
 
         {/* Price + CTA */}
         <div className="mt-auto flex flex-col items-center">
-          <p className="font-clinical text-[10px] opacity-60 mb-1">
+          <p className="font-clinical text-[10px] opacity-60 mb-3">
             {protocol.startingPrice}
           </p>
           <Link
