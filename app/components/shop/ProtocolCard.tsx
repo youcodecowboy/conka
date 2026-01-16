@@ -53,8 +53,8 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
 
         {/* Hover Overlay */}
         <div
-          className={`absolute inset-0 bg-[var(--background)] bg-opacity-95 flex flex-col justify-center p-4 transition-opacity duration-300 ${
-            isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
+          className={`absolute inset-0 bg-[var(--background)] flex flex-col justify-center p-4 transition-all duration-300 ${
+            isHovered ? "opacity-95" : "opacity-0 pointer-events-none"
           }`}
         >
           {/* Situation / Outcome */}
