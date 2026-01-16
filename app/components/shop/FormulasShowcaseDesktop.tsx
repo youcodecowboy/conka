@@ -143,9 +143,11 @@ function FormulaPanel({ formula }: { formula: FormulaShowcaseData }) {
             </span>
           </div>
           <div>
-            <h3 className="text-2xl font-bold">{formula.name}</h3>
-            <p className="font-commentary text-lg opacity-80">
+            <h3 className="text-2xl font-bold font-primary opacity-100">
               {formula.subtitle}
+            </h3>
+            <p className="font-primary text-lg opacity-80 mt-1">
+              {formula.name}
             </p>
             <p className="font-clinical text-sm opacity-70 mt-1">
               {outcomeMicrocopy[formula.id]}
