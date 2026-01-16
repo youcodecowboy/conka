@@ -14,6 +14,14 @@ const protocolImages: Record<ProtocolId, string> = {
   "4": "/protocols/Ultimate.jpg",
 };
 
+// Situational cues mapping
+const situationalCues: Record<ProtocolId, string> = {
+  "1": "Long days • stress builds up • steady energy",
+  "2": "Thinking is demanding • accuracy matters • mental fatigue shows up",
+  "3": "Training hard • thinking hard • recovery matters",
+  "4": "You want everything working, every day",
+};
+
 interface ProtocolCardProps {
   protocol: ProtocolSelectorData;
 }
@@ -113,6 +121,9 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
         <div className="mb-4 pb-4 border-b border-black/5">
           <h3 className="text-xl font-bold mb-1">{protocol.outcome}</h3>
           <p className="font-primary text-sm opacity-80">{protocol.name}</p>
+          <p className="font-primary text-sm md:text-base opacity-70 mt-1">
+            Commonly chosen when… {situationalCues[protocol.id]}
+          </p>
         </div>
 
         {/* Ratios tertiary */}
