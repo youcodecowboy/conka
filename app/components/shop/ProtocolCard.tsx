@@ -36,24 +36,17 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
     <div className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden">
       {/* Image Container with Hover Overlay */}
       <div
-        className="relative aspect-[4/3] overflow-hidden cursor-pointer"
+        className="relative aspect-[6/2] overflow-hidden cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Protocol Image */}
-        <div
-          className="absolute inset-0 transition-transform duration-500"
-          style={{
-            transform: isHovered ? "scale(1.05)" : "scale(0.95)",
-            bottom: "-5%",
-          }}
-        >
+        <div className="absolute inset-0 flex items-center justify-center">
           <Image
             src={protocolImages[protocol.id]}
             alt={`${protocol.name} - ${protocol.outcome}`}
             fill
-            className="object-cover"
-            style={{ objectPosition: "50% 30%" }}
+            className="object-contain transition-transform duration-500 group-hover:scale-105"
             sizes="50vw"
             priority
           />
@@ -61,31 +54,31 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
 
         {/* Hover Overlay */}
         <div
-          className={`absolute inset-0 bg-[var(--background)] flex flex-col justify-center p-4 transition-all duration-300 ${
+          className={`absolute inset-0 bg-[var(--background)] flex flex-col justify-center p-3 transition-all duration-300 ${
             isHovered ? "opacity-95" : "opacity-0 pointer-events-none"
           }`}
         >
           {/* Protocol Name (Centered Header) */}
-          <h4 className="text-sm font-primary opacity-80 text-center mb-4">
+          <h4 className="text-xs font-primary opacity-80 text-center mb-2">
             {protocol.name}
           </h4>
 
           {/* Situation / Outcome */}
-          <p className="text-lg font-bold mb-4 leading-snug">
+          <p className="text-sm font-bold mb-2 leading-snug">
             For those who {protocol.forPeopleWho}
           </p>
 
           {/* Key Benefits */}
-          <ul className="space-y-2 mb-6">
+          <ul className="space-y-1 mb-3">
             {visibleBenefits.map((benefit, idx) => (
               <li
                 key={idx}
-                className="flex items-start gap-2 font-clinical text-sm"
+                className="flex items-start gap-1.5 font-clinical text-xs"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
+                  width="12"
+                  height="12"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -103,28 +96,30 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
           </ul>
 
           {/* Secondary Ratio Info */}
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             <div className="flex items-baseline gap-1">
-              <span className="text-lg font-bold text-teal-600">
+              <span className="text-sm font-bold text-teal-600">
                 {protocol.flowPercentage}%
               </span>
-              <span className="font-clinical text-xs opacity-70">Flow</span>
+              <span className="font-clinical text-[10px] opacity-70">Flow</span>
             </div>
             <div className="flex items-baseline gap-1">
-              <span className="text-lg font-bold text-amber-600">
+              <span className="text-sm font-bold text-amber-600">
                 {protocol.clarityPercentage}%
               </span>
-              <span className="font-clinical text-xs opacity-70">Clarity</span>
+              <span className="font-clinical text-[10px] opacity-70">
+                Clarity
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="pt-4 px-6 flex-1 flex flex-col">
+      <div className="pt-3 px-5 flex-1 flex flex-col">
         {/* Outcome Headline */}
-        <div className="mb-3 pb-3 border-b border-black/5">
-          <h3 className="text-xl font-bold mb-1">{protocol.outcome}</h3>
+        <div className="mb-2 pb-2 border-b border-black/5">
+          <h3 className="text-lg font-bold mb-0.5">{protocol.outcome}</h3>
           <p className="font-primary text-sm opacity-80 mb-0.5">
             Commonly chosen when:
           </p>
@@ -134,7 +129,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
         </div>
 
         {/* Ratios tertiary */}
-        <div className="flex gap-6 mb-4">
+        <div className="flex gap-6 mb-3">
           <div className="flex items-baseline gap-2">
             <span className="text-xs font-bold text-teal-600">
               {protocol.flowPercentage}%
@@ -152,10 +147,10 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
         </div>
 
         {/* CTA */}
-        <div className="mt-auto pb-4 flex flex-col items-center">
+        <div className="mt-auto pb-3 flex flex-col items-center">
           <Link
             href={`/protocol/${protocol.id}`}
-            className="neo-button px-7 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-auto"
+            className="neo-button px-6 py-2 rounded-full font-bold text-sm inline-flex items-center gap-2 w-auto"
           >
             Shop {protocol.name}
             <svg
