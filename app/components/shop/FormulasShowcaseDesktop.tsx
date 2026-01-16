@@ -6,6 +6,17 @@ import Image from "next/image";
 import { formulas, FormulaShowcaseData } from "./formulasShowcaseData";
 import { FormulaId } from "@/app/lib/productData";
 
+// Formula-specific microcopy
+const hoverMicrocopy: Record<FormulaId, string> = {
+  "01": "What this feels like",
+  "02": "Why people love this",
+};
+
+const outcomeMicrocopy: Record<FormulaId, string> = {
+  "01": "For deep focus",
+  "02": "For mental clarity without jitters",
+};
+
 // Desktop Formula Card with Hover Overlay
 function FormulaPanel({ formula }: { formula: FormulaShowcaseData }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -14,22 +25,50 @@ function FormulaPanel({ formula }: { formula: FormulaShowcaseData }) {
     <div className="flex flex-col h-full">
       {/* Image Container with Hover Overlay */}
       <div
-        className="relative aspect-[3/4] rounded-lg overflow-hidden group"
+        className="relative aspect-[5/5] rounded-lg overflow-hidden group"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Product Image */}
-        <Image
-          src={formula.image.src}
-          alt={formula.image.alt}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          style={{
-            objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
-          }}
-          sizes="50vw"
-          priority
-        />
+        {/* Product Image (cropped 10% from bottom) */}
+        <div className="absolute inset-0" style={{ bottom: "-30%" }}>
+          <Image
+            src={formula.image.src}
+            alt={formula.image.alt}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            style={{
+              objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
+            }}
+            sizes="50vw"
+            priority
+          />
+        </div>
+
+        {/* Hover Indicator Badge (visible in default state, hidden on hover) */}
+        <div
+          className={`absolute top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--background)] border-2 border-[var(--foreground)] transition-opacity duration-300 z-10 ${
+            isHovered ? "opacity-0" : "opacity-80"
+          }`}
+        >
+          <span className="font-clinical text-xs">
+            {hoverMicrocopy[formula.id]}
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+        </div>
 
         {/* Hover Overlay */}
         <div
@@ -90,30 +129,6 @@ function FormulaPanel({ formula }: { formula: FormulaShowcaseData }) {
             ))}
           </ul>
         </div>
-
-        {/* Hover Indicator (visible in default state) */}
-        <div
-          className={`absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--background)] border-2 border-[var(--foreground)] transition-opacity duration-300 ${
-            isHovered ? "opacity-0" : "opacity-80"
-          }`}
-        >
-          <span className="font-clinical text-xs">Hover for details</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="16" x2="12" y2="12" />
-            <line x1="12" y1="8" x2="12.01" y2="8" />
-          </svg>
-        </div>
       </div>
 
       {/* Content Section (Always Visible) */}
@@ -131,6 +146,9 @@ function FormulaPanel({ formula }: { formula: FormulaShowcaseData }) {
             <h3 className="text-2xl font-bold">{formula.name}</h3>
             <p className="font-commentary text-lg opacity-80">
               {formula.subtitle}
+            </p>
+            <p className="font-clinical text-sm opacity-70 mt-1">
+              {outcomeMicrocopy[formula.id]}
             </p>
           </div>
         </div>
@@ -182,15 +200,18 @@ function FormulaPanel({ formula }: { formula: FormulaShowcaseData }) {
 
 export default function FormulasShowcaseDesktop() {
   return (
-    <section className="px-16 py-24">
+    <section className="px-16 pt-12 pb-24">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="mb-6 text-left">
+        <div className="mb-8 text-left">
+          <p className="font-commentary text-md opacity-80 mb-2">
+            Most first-time customers start here
+          </p>
           <h2 className="text-3xl lg:text-4xl font-bold mb-2">
             Individual Formulas
           </h2>
-          <p className="font-commentary text-base md:text-lg opacity-70">
-            build your own stack
+          <p className="font-clincal text-base md:text-lg opacity-70">
+            Start simple. Feel the difference.
           </p>
         </div>
 
