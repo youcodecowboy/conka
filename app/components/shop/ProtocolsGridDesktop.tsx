@@ -38,12 +38,12 @@ function ProtocolCard({ protocol }: { protocol: ProtocolSelectorData }) {
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Protocol Image */}
-        <div className="absolute inset-0" style={{ bottom: "-20%" }}>
+        <div className="absolute inset-0" style={{ bottom: "-5%" }}>
           <Image
             src={protocolImages[protocol.id]}
             alt={`${protocol.name} - ${protocol.outcome}`}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-100"
             style={{
               objectPosition: "50% 30%",
             }}
@@ -112,7 +112,7 @@ function ProtocolCard({ protocol }: { protocol: ProtocolSelectorData }) {
           </div>
 
           {/* Key Benefits */}
-          <ul className="space-y-2 mb-6">
+          <ul className="space-y-2">
             {protocol.benefits.map((benefit, idx) => (
               <li
                 key={idx}
@@ -137,28 +137,6 @@ function ProtocolCard({ protocol }: { protocol: ProtocolSelectorData }) {
               </li>
             ))}
           </ul>
-
-          {/* CTA in Overlay */}
-          <Link
-            href={`/protocol/${protocol.id}`}
-            className="neo-button px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 justify-center"
-          >
-            Shop {protocol.name}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </Link>
         </div>
       </div>
 
@@ -199,7 +177,7 @@ function ProtocolCard({ protocol }: { protocol: ProtocolSelectorData }) {
             href={`/protocol/${protocol.id}`}
             className="neo-button px-8 py-3 rounded-full font-bold text-base inline-flex items-center gap-2 w-full justify-center"
           >
-            Shop Protocol
+            Shop {protocol.name}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
