@@ -19,18 +19,24 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
   return (
     <div className="flex flex-col bg-white rounded-2xl shadow-lg overflow-hidden">
       {/* Hero Image */}
-      <div className="relative w-full aspect-[4/5]">
-        <Image
-          src={formula.image.src}
-          alt={formula.image.alt}
-          fill
-          className="object-cover"
-          style={{
-            objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
-          }}
-          sizes="100vw"
-          loading="lazy"
-        />
+      <div className="relative w-full aspect-[4/3.5] overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{ top: "-10%", bottom: "-20%" }}
+        >
+          <Image
+            src={formula.image.src}
+            alt={formula.image.alt}
+            fill
+            className="object-cover"
+            style={{
+              objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
+              transform: "scale(1.43)",
+            }}
+            sizes="100vw"
+            loading="lazy"
+          />
+        </div>
       </div>
 
       {/* Content */}
