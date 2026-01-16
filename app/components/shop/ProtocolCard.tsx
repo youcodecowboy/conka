@@ -111,7 +111,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
       <div className="pt-6 px-6 flex-1 flex flex-col">
         {/* Outcome Headline */}
         <div className="mb-4 pb-4 border-b border-black/5">
-          <h3 className="text-lg font-bold mb-1">{protocol.outcome}</h3>
+          <h3 className="text-xl font-bold mb-1">{protocol.outcome}</h3>
           <p className="font-primary text-sm opacity-80">{protocol.name}</p>
         </div>
 
@@ -133,11 +133,8 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
           </div>
         </div>
 
-        {/* Price + CTA */}
-        <div className="mt-auto flex flex-col items-center">
-          <p className="font-clinical text-[10px] opacity-60 mb-3">
-            {protocol.startingPrice}
-          </p>
+        {/* CTA */}
+        <div className="mt-auto pb-6 flex flex-col items-center">
           <Link
             href={`/protocol/${protocol.id}`}
             className="neo-button px-7 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-auto"
