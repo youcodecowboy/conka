@@ -36,7 +36,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
     <div className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden">
       {/* Image Container with Hover Overlay */}
       <div
-        className="relative aspect-[4/2.5] overflow-hidden cursor-pointer"
+        className="relative aspect-[4/3] overflow-hidden cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -121,11 +121,11 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="pt-6 px-6 flex-1 flex flex-col">
+      <div className="pt-4 px-6 flex-1 flex flex-col">
         {/* Outcome Headline */}
-        <div className="mb-4 pb-4 border-b border-black/5">
+        <div className="mb-3 pb-3 border-b border-black/5">
           <h3 className="text-xl font-bold mb-1">{protocol.outcome}</h3>
-          <p className="font-primary text-sm opacity-80 mb-1">
+          <p className="font-primary text-sm opacity-80 mb-0.5">
             Commonly chosen when:
           </p>
           <p className="font-primary text-sm opacity-80">
@@ -134,7 +134,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
         </div>
 
         {/* Ratios tertiary */}
-        <div className="flex gap-6 mb-6">
+        <div className="flex gap-6 mb-4">
           <div className="flex items-baseline gap-2">
             <span className="text-xs font-bold text-teal-600">
               {protocol.flowPercentage}%
@@ -152,7 +152,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
         </div>
 
         {/* CTA */}
-        <div className="mt-auto pb-6 flex flex-col items-center">
+        <div className="mt-auto pb-4 flex flex-col items-center">
           <Link
             href={`/protocol/${protocol.id}`}
             className="neo-button px-7 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-auto"
