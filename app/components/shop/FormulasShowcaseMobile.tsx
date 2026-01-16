@@ -151,13 +151,6 @@ export default function FormulasShowcaseMobile() {
             <FormulaCard key={formula.id} formula={formula} />
           ))}
         </div>
-
-        {/* Comparison Note */}
-        <div className="mt-8 text-center">
-          <p className="font-commentary text-base opacity-70">
-            Both formulas work together synergistically
-          </p>
-        </div>
       </div>
     </section>
   );
