@@ -28,7 +28,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
     <div className="flex flex-col h-full group">
       {/* Image Container with Hover Overlay */}
       <div
-        className="relative aspect-[4/3.5] rounded-lg overflow-hidden cursor-pointer"
+        className="relative aspect-[4/2.5] rounded-lg overflow-hidden cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -58,21 +58,21 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
           }`}
         >
           {/* Situation / Outcome */}
-          <p className="text-base font-bold mb-3 leading-snug">
+          <p className="text-lg font-bold mb-4 leading-snug">
             For those who {protocol.forPeopleWho}
           </p>
 
           {/* Key Benefits */}
-          <ul className="space-y-1.5 mb-4">
+          <ul className="space-y-2 mb-6">
             {visibleBenefits.map((benefit, idx) => (
               <li
                 key={idx}
-                className="flex items-start gap-2 font-clinical text-xs"
+                className="flex items-start gap-2 font-clinical text-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -90,59 +90,61 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
           </ul>
 
           {/* Secondary Ratio Info */}
-          <div className="flex gap-4">
+          <div className="flex gap-6">
             <div className="flex items-baseline gap-1">
-              <span className="text-base font-bold text-teal-600">
+              <span className="text-lg font-bold text-teal-600">
                 {protocol.flowPercentage}%
               </span>
-              <span className="font-clinical text-[10px] opacity-70">Flow</span>
+              <span className="font-clinical text-xs opacity-70">Flow</span>
             </div>
             <div className="flex items-baseline gap-1">
-              <span className="text-base font-bold text-amber-600">
+              <span className="text-lg font-bold text-amber-600">
                 {protocol.clarityPercentage}%
               </span>
-              <span className="font-clinical text-[10px] opacity-70">Clarity</span>
+              <span className="font-clinical text-xs opacity-70">Clarity</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="pt-3 flex-1 flex flex-col">
+      <div className="pt-2 flex-1 flex flex-col">
         {/* Outcome Headline */}
-        <h3 className="text-xl font-bold mb-0.5">{protocol.outcome}</h3>
-        <p className="font-primary text-base opacity-80 mb-1.5">{protocol.name}</p>
+        <h3 className="text-lg font-bold mb-0">{protocol.outcome}</h3>
+        <p className="font-primary text-sm opacity-80 mb-1">{protocol.name}</p>
 
         {/* Ratios tertiary */}
-        <div className="flex gap-3 mb-3">
+        <div className="flex gap-3 mb-2">
           <div className="flex items-baseline gap-1">
-            <span className="text-sm font-bold text-teal-600">
+            <span className="text-xs font-bold text-teal-600">
               {protocol.flowPercentage}%
             </span>
             <span className="font-clinical text-[10px] opacity-70">Flow</span>
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-sm font-bold text-amber-600">
+            <span className="text-xs font-bold text-amber-600">
               {protocol.clarityPercentage}%
             </span>
-            <span className="font-clinical text-[10px] opacity-70">Clarity</span>
+            <span className="font-clinical text-[10px] opacity-70">
+              Clarity
+            </span>
           </div>
         </div>
 
         {/* Price + CTA */}
-        <div className="mt-auto">
-          <p className="font-clinical text-xs opacity-60 mb-1.5">
+        <div className="mt-auto flex flex-col items-center">
+          <p className="font-clinical text-[10px] opacity-60 mb-1">
             {protocol.startingPrice}
           </p>
           <Link
             href={`/protocol/${protocol.id}`}
-            className="neo-button px-6 py-2 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center"
+            className="neo-button px-5 py-1.5 rounded-full font-bold text-xs inline-flex items-center gap-2 w-auto"
           >
             Shop {protocol.name}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
+              width="12"
+              height="12"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
