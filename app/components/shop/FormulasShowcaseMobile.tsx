@@ -8,8 +8,8 @@ import { FormulaId } from "@/app/lib/productData";
 
 // Combined Microcopy
 const microcopy: Record<FormulaId, string> = {
-  "01": "For deep focus — what this feels like",
-  "02": "For mental clarity without jitters — what you'll notice first",
+  "01": "Supports deep focus without jitters ",
+  "02": "Promotes alertness and sustained mental clarity ",
 };
 
 // Mobile Formula Card Component
@@ -17,7 +17,7 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="flex flex-col bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="flex flex-col">
       {/* Hero Image */}
       <div className="relative w-full aspect-[4/3.5] overflow-hidden">
         <div
@@ -31,7 +31,7 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
             className="object-cover"
             style={{
               objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
-              transform: "scale(1.43)",
+              transform: "scale(1.30)",
             }}
             sizes="100vw"
             loading="lazy"
@@ -132,7 +132,7 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
 
 export default function FormulasShowcaseMobile() {
   return (
-    <section className="px-6 py-12 bg-gray-50">
+    <section className="px-6 py-12 bg-white">
       <div className="max-w-3xl mx-auto flex flex-col gap-8">
         {/* Section Header */}
         <div className="text-left">
