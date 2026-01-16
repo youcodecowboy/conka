@@ -19,19 +19,19 @@ export default function ShopPage() {
         <ShopHero />
       </section>
 
-      {/* ===== SECTION 2: PROTOCOLS ===== */}
-      <section id="protocols" className="scroll-mt-20">
-        <ProtocolsGrid />
-      </section>
-
-      {/* ===== SECTION 3: INDIVIDUAL FORMULAS ===== */}
+      {/* ===== SECTION 2: INDIVIDUAL FORMULAS ===== */}
       <section id="formulas" className="scroll-mt-20">
         <FormulasShowcase />
       </section>
 
-      {/* ===== SECTION 4: TRIAL PACKS ===== */}
+      {/* ===== SECTION 3: TRIAL PACKS ===== */}
       <section id="trial-packs" className="scroll-mt-20">
         <TrialPacks />
+      </section>
+
+      {/* ===== SECTION 4: PROTOCOLS ===== */}
+      <section id="protocols" className="scroll-mt-20">
+        <ProtocolsGrid />
       </section>
     </div>
   );
