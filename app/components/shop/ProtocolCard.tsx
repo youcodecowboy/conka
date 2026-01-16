@@ -123,7 +123,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
           <p className="font-primary text-sm opacity-70 mb-0.5">
             Commonly chosen when:
           </p>
-          <p className="font-primary text-sm opacity-70 truncate">
+          <p className="font-primary text-sm opacity-70">
             {situationalCues[protocol.id]}
           </p>
         </div>
