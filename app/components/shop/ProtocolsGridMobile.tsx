@@ -51,7 +51,7 @@ export default function ProtocolsGridMobile() {
           {protocolsArray.map((protocol, idx) => (
             <div
               key={protocol.id}
-              className="w-[82.5%] flex-shrink-0 snap-center"
+              className="w-[80vw] flex-shrink-0 snap-center"
             >
               <ProtocolCardMobile protocol={protocol} isFirst={idx === 0} />
             </div>
