@@ -4,10 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ProtocolId } from "@/app/lib/productData";
-import {
-  protocolsArray,
-  ProtocolSelectorData,
-} from "./protocolSelectorData";
+import { protocolsArray, ProtocolSelectorData } from "./protocolSelectorData";
 
 // Protocol images mapping
 const protocolImages: Record<ProtocolId, string> = {
@@ -38,12 +35,15 @@ function ProtocolCard({ protocol }: { protocol: ProtocolSelectorData }) {
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Protocol Image */}
-        <div className="absolute inset-0" style={{ bottom: "-5%" }}>
+        <div
+          className="absolute inset-0"
+          style={{ bottom: "-5%", transform: "scale(0.8)" }}
+        >
           <Image
             src={protocolImages[protocol.id]}
             alt={`${protocol.name} - ${protocol.outcome}`}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-100"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             style={{
               objectPosition: "50% 30%",
             }}
@@ -96,18 +96,14 @@ function ProtocolCard({ protocol }: { protocol: ProtocolSelectorData }) {
                 {protocol.flowPercentage}%
               </p>
               <p className="font-clinical text-xs font-semibold">Flow</p>
-              <p className="font-clinical text-[10px] opacity-60">
-                Adaptogens
-              </p>
+              <p className="font-clinical text-[10px] opacity-60">Adaptogens</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold mb-1 text-amber-600">
                 {protocol.clarityPercentage}%
               </p>
               <p className="font-clinical text-xs font-semibold">Clarity</p>
-              <p className="font-clinical text-[10px] opacity-60">
-                Nootropics
-              </p>
+              <p className="font-clinical text-[10px] opacity-60">Nootropics</p>
             </div>
           </div>
 
