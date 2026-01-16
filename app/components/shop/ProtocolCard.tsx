@@ -116,16 +116,16 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="py-3 px-4 flex items-center justify-between gap-4">
+      <div className="py-4 px-5 flex items-center justify-between gap-5">
         {/* Text Content */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-base font-bold mb-0.5 leading-tight">
+          <h3 className="text-lg font-bold mb-1 leading-tight">
             {protocol.outcome}
           </h3>
-          <p className="font-primary text-xs opacity-70 mb-0.5">
+          <p className="font-primary text-sm opacity-70 mb-0.5">
             Commonly chosen when:
           </p>
-          <p className="font-primary text-xs opacity-70 truncate">
+          <p className="font-primary text-sm opacity-70 truncate">
             {situationalCues[protocol.id]}
           </p>
         </div>
@@ -133,13 +133,13 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
         {/* CTA */}
         <Link
           href={`/protocol/${protocol.id}`}
-          className="neo-button px-4 py-2 rounded-full font-bold text-xs inline-flex items-center gap-1.5 flex-shrink-0"
+          className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 flex-shrink-0"
         >
           View {protocol.name}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="12"
-            height="12"
+            width="14"
+            height="14"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
