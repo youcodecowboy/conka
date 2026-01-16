@@ -36,7 +36,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
     <div className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden">
       {/* Image Container with Hover Overlay */}
       <div
-        className="relative aspect-[6/2] overflow-hidden cursor-pointer"
+        className="relative aspect-[5/2] overflow-hidden cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -116,59 +116,41 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="pt-3 px-5 flex-1 flex flex-col">
-        {/* Outcome Headline */}
-        <div className="mb-2 pb-2 border-b border-black/5">
-          <h3 className="text-lg font-bold mb-0.5">{protocol.outcome}</h3>
-          <p className="font-primary text-sm opacity-80 mb-0.5">
+      <div className="py-3 px-4 flex items-center justify-between gap-4">
+        {/* Text Content */}
+        <div className="flex-1 min-w-0">
+          <h3 className="text-base font-bold mb-0.5 leading-tight">
+            {protocol.outcome}
+          </h3>
+          <p className="font-primary text-xs opacity-70 mb-0.5">
             Commonly chosen when:
           </p>
-          <p className="font-primary text-sm opacity-80">
+          <p className="font-primary text-xs opacity-70 truncate">
             {situationalCues[protocol.id]}
           </p>
         </div>
 
-        {/* Ratios tertiary */}
-        <div className="flex gap-6 mb-3">
-          <div className="flex items-baseline gap-2">
-            <span className="text-xs font-bold text-teal-600">
-              {protocol.flowPercentage}%
-            </span>
-            <span className="font-clinical text-[10px] opacity-70">Flow</span>
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-xs font-bold text-amber-600">
-              {protocol.clarityPercentage}%
-            </span>
-            <span className="font-clinical text-[10px] opacity-70">
-              Clarity
-            </span>
-          </div>
-        </div>
-
         {/* CTA */}
-        <div className="mt-auto pb-3 flex flex-col items-center">
-          <Link
-            href={`/protocol/${protocol.id}`}
-            className="neo-button px-6 py-2 rounded-full font-bold text-sm inline-flex items-center gap-2 w-auto"
+        <Link
+          href={`/protocol/${protocol.id}`}
+          className="neo-button px-4 py-2 rounded-full font-bold text-xs inline-flex items-center gap-1.5 flex-shrink-0"
+        >
+          View {protocol.name}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            Shop {protocol.name}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </Link>
       </div>
     </div>
   );
