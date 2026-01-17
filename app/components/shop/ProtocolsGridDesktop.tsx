@@ -50,7 +50,7 @@ export default function ProtocolsGridDesktop() {
 
         {/* Comparison note */}
         <div className="mt-6 text-center">
-          <p className="font-commentary text-sm opacity-70">
+          <p className="font-commentary text-lg opacity-70">
             All protocols can be combined for full cognitive coverage
           </p>
         </div>
