@@ -10,7 +10,7 @@ export default function Hero() {
         {/* Top Section: Headlines */}
         <div className="w-full mb-1 sm:mb-3 md:mb-2">
           <h1 className="text-2xl sm:text-4xl md:text-4xl lg:text-5xl font-bold mb-1 sm:mb-3 md:mb-2 text-center">
-            Sustainable energy. Unstoppable clarity.
+            Sustainable Energy. Unstoppable Clarity.
           </h1>
           <p className="font-clinical text-xs sm:text-base md:text-lg mb-0 sm:mb-2 md:mb-1 text-center">
             Clinically designed to optimize your{" "}
