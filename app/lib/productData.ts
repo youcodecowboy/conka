@@ -1314,7 +1314,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     description:
       "Front-load with cognitive enhancers for sustained mental endurance. CONKA Clarity's Alpha GPC and Vitamin C build your neurological foundation, while weekly CONKA Flow adaptogens prevent burnout.",
     icon: "bolt",
-    image: "/CONKA_18.jpg",
+    image: "/protocols/Precision.jpg",
     bestFor: ["Peak Performance", "Mental Endurance", "Cognitive Enhancement"],
     benefits: [
       "Enhanced memory & attention (+63%, PMID: 29246725)",
@@ -1394,7 +1394,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     description:
       "Maximum cognitive enhancement with both CONKA Flow and CONKA Clarity every single day. This is the most comprehensive protocol for those who demand peak performance in every aspect of their cognitive function.",
     icon: "crown",
-    image: "/CONKA_17.jpg",
+    image: "/protocols/Ultimate.jpg",
     bestFor: ["Elite Performance", "Maximum Results", "No Compromise"],
     benefits: [
       "Daily adaptogen + nootropic stack",
