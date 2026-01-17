@@ -46,7 +46,7 @@ export default function Hero() {
         <div className="flex flex-col items-center w-full max-w-md sm:max-w-lg md:max-w-md px-4 mt-2 sm:mt-6 md:mt-4 mb-0 sm:mb-6 md:mb-6">
           <div className="w-full max-w-[280px] sm:max-w-none mb-2 sm:mb-5 md:mb-3">
             <a
-              href="#trial-packs"
+              href="#protocols"
               className="block w-full px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-2.5 rounded-full bg-amber-500 text-black font-semibold text-base md:text-lg border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all text-center"
             >
               Buy CONKA
