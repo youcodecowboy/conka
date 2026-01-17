@@ -96,7 +96,7 @@ export default function ProtocolCalendar({
                     className={`w-4 h-4 rounded-sm ${FORMULA_COLORS["02"].bg}`}
                   ></div>
                   <span className="font-clinical text-xs">
-                    CONKA Clarity - Clarity
+                    CONKA Clear - Clarity
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -128,7 +128,7 @@ export default function ProtocolCalendar({
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="font-clinical text-sm">CONKA Clarity</span>
+                  <span className="font-clinical text-sm">CONKA Clear</span>
                   <span className="font-bold">
                     {tierConfig.conkaClarityCount}x weekly
                   </span>
@@ -157,7 +157,7 @@ export default function ProtocolCalendar({
                     <span className="text-white text-xs font-bold">02</span>
                   </div>
                   <p className="font-clinical text-sm">
-                    Take CONKA Clarity before demanding tasks or in the evening
+                    Take CONKA Clear before demanding tasks or in the evening
                   </p>
                 </div>
               </div>

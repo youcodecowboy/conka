@@ -87,7 +87,7 @@ export default function ProtocolHeroMobile({
   const faqItems = [
     {
       q: "How do I take the protocol?",
-      a: "Take CONKA Flow in the morning for sustained energy and focus. Take CONKA Clarity before demanding tasks or in the evening for mental clarity and calm.",
+      a: "Take CONKA Flow in the morning for sustained energy and focus. Take CONKA Clear before demanding tasks or in the evening for mental clarity and calm.",
     },
     {
       q: "Can I switch tiers?",

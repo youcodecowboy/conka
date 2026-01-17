@@ -84,7 +84,7 @@ export default function IngredientsPageDesktop({
               >
                 <span className="w-3 h-3 rounded-sm bg-[#AAB9BC]" />
                 <span className="font-clinical text-sm font-medium">
-                  CONKA Clarity
+                  CONKA Clear
                 </span>
               </button>
             </div>

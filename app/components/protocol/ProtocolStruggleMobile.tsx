@@ -28,7 +28,7 @@ const PROTOCOL_STRUGGLES = [
     stat: "-24%",
     statLabel: "cortisol levels",
     description:
-      "Adaptogens from CONKA Flow combined with cognitive enhancers from CONKA Clarity create a balanced stress response system.",
+      "Adaptogens from CONKA Flow combined with cognitive enhancers from CONKA Clear create a balanced stress response system.",
     keyBenefits: ["Calmer under pressure", "Faster recovery", "Better sleep"],
   },
   {

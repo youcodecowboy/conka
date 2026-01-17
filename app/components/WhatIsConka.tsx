@@ -43,7 +43,7 @@ const formulas: FormulaOverview[] = [
   },
   {
     id: "02",
-    name: "CONKA Clarity",
+    name: "CONKA Clear",
     tagline: "Peak Performance Boost",
     description:
       "Your competitive edge. Nootropic compounds that enhance mental clarity, reaction time, and decision-making when you need peak performance.",

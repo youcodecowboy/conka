@@ -106,10 +106,10 @@ export default function ProtocolBenefits({
             </div>
           </div>
 
-          {/* CONKA Clarity Benefits */}
+          {/* CONKA Clear Benefits */}
           <div className="neo-box overflow-hidden">
             <div className={`${FORMULA_COLORS["02"].bg} p-4 text-white`}>
-              <h3 className="text-xl font-bold">CONKA Clarity Benefits</h3>
+              <h3 className="text-xl font-bold">CONKA Clear Benefits</h3>
               <p className="font-clinical text-sm opacity-80">
                 Clarity & Performance
               </p>
@@ -134,7 +134,7 @@ export default function ProtocolBenefits({
                 href="/conka-clarity"
                 className="inline-flex items-center gap-2 font-clinical text-sm hover:opacity-70 transition-all mt-4"
               >
-                Learn more about CONKA Clarity
+                Learn more about CONKA Clear
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="14"
@@ -157,9 +157,9 @@ export default function ProtocolBenefits({
         <div className="mt-16 neo-box p-8 text-center">
           <h3 className="text-2xl font-bold mb-4">The Power of Combination</h3>
           <p className="text-lg opacity-80 max-w-2xl mx-auto">
-            When taken as part of a protocol, CONKA Flow and CONKA Clarity work
+            When taken as part of a protocol, CONKA Flow and CONKA Clear work
             together synergistically. CONKA Flow&apos;s adaptogens build your
-            daily foundation while CONKA Clarity&apos;s nootropics enhance peak
+            daily foundation while CONKA Clear&apos;s nootropics enhance peak
             performance when you need it most.
           </p>
         </div>

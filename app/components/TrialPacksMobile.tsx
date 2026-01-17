@@ -36,16 +36,16 @@ const packPricing: Record<
     perShotSub: "£3.00",
   },
   "8": {
-    oneTime: "£24.99",
-    subscription: "£19.99",
-    perShotOneTime: "£3.12",
-    perShotSub: "£2.50",
+    oneTime: "£28.99",
+    subscription: "£23.19",
+    perShotOneTime: "£3.62",
+    perShotSub: "£2.90",
   },
   "12": {
-    oneTime: "£34.99",
-    subscription: "£27.99",
-    perShotOneTime: "£2.92",
-    perShotSub: "£2.33",
+    oneTime: "£39.99",
+    subscription: "£31.99",
+    perShotOneTime: "£3.33",
+    perShotSub: "£2.67",
   },
 };
 
@@ -64,7 +64,7 @@ const formulaExplanations = {
     ],
   },
   "02": {
-    title: "CONKA Clarity",
+    title: "CONKA Clear",
     subtitle: "Peak Performance Boost",
     description:
       "Cognitive enhancers like Alpha GPC and Ginkgo build your neurological foundation. Designed for when you need peak performance.",
@@ -166,7 +166,7 @@ export default function TrialPacksMobile() {
               : "border-2 border-black/10 hover:border-black/30"
           }`}
         >
-          CONKA Clarity
+          CONKA Clear
         </button>
       </div>
 

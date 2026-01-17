@@ -71,9 +71,9 @@ export default function CaseStudiesPageMobile() {
         case "01":
           return "CONKA Flow";
         case "02":
-          return "CONKA Clarity";
+          return "CONKA Clear";
         case "both":
-          return "Flow + Clarity";
+          return "Flow + Clear";
       }
     };
 
@@ -460,7 +460,7 @@ export default function CaseStudiesPageMobile() {
               href="/conka-clarity"
               className="flex-1 neo-button px-4 py-2 font-semibold text-xs text-center"
             >
-              CONKA Clarity
+              CONKA Clear
             </a>
           </div>
         </div>

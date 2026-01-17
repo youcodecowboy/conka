@@ -56,7 +56,7 @@ const protocols = [
     id: "1",
     name: "Resilience Protocol",
     tagline: "Focus First",
-    description: "CONKA Flow daily, CONKA Clarity weekly for sustained clarity",
+    description: "CONKA Flow daily, CONKA Clear weekly for sustained clarity",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@ const protocols = [
     id: "2",
     name: "Precision Protocol",
     tagline: "Energy First",
-    description: "CONKA Clarity daily, CONKA Flow weekly for peak performance",
+    description: "CONKA Clear daily, CONKA Flow weekly for peak performance",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

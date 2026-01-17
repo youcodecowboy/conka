@@ -17,9 +17,9 @@ function ProductBadge({ version }: { version?: "01" | "02" | "both" }) {
       case "01":
         return "CONKA Flow";
       case "02":
-        return "CONKA Clarity";
+        return "CONKA Clear";
       case "both":
-        return "Flow + Clarity";
+        return "Flow + Clear";
     }
   };
 

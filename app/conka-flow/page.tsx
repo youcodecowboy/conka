@@ -236,14 +236,14 @@ export default function ConkaFlowPage() {
               Want the Complete Experience?
             </h2>
             <p className="font-commentary text-xl mb-6">
-              combine CONKA Flow with CONKA Clarity in a protocol
+              combine CONKA Flow with CONKA Clear in a protocol
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/conka-clarity"
                 className="neo-button-outline px-8 py-4 font-semibold text-lg"
               >
-                Explore CONKA Clarity
+                Explore CONKA Clear
               </a>
               <a
                 href="/protocol/1"
@@ -283,7 +283,7 @@ export default function ConkaFlowPage() {
                   href="/conka-clarity"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
-                  CONKA Clarity
+                  CONKA Clear
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
                 <a

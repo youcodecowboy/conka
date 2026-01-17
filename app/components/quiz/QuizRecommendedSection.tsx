@@ -287,7 +287,7 @@ export default function QuizRecommendedSection({
                 <div
                   className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["02"].bg}`}
                 ></div>
-                <span className="font-clinical text-xs">CONKA Clarity</span>
+                <span className="font-clinical text-xs">CONKA Clear</span>
               </div>
               {protocolId === "4" ? (
                 <div className="flex items-center gap-1">
@@ -383,7 +383,7 @@ export default function QuizRecommendedSection({
                   </p>
                   <p className="font-clinical text-xs opacity-60">
                     {tierConfig.conkaFlowCount}x Flow +{" "}
-                    {tierConfig.conkaClarityCount}x Clarity
+                    {tierConfig.conkaClarityCount}x Clear
                   </p>
                 </div>
               )}

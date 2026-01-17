@@ -70,7 +70,7 @@ const FORMULAS = [
   },
   {
     id: "clarity",
-    name: "CONKA Clarity",
+    name: "CONKA Clear",
     subtitle: "Sharp Mind, Clear Head",
     description: "Nootropic blend for mental clarity & focus",
     color: "teal",
@@ -344,7 +344,7 @@ const FormulaBreakdown = ({
         <div
           className={`w-3 h-3 rounded-full ${isSelected ? "bg-[#AAB9BC]" : "bg-[#AAB9BC]"}`}
         />
-        <span className="font-clinical text-xs">{clarityCount}x Clarity</span>
+        <span className="font-clinical text-xs">{clarityCount}x Clear</span>
       </div>
       <span
         className={`font-clinical text-xs ${isSelected ? "opacity-50" : "opacity-40"}`}

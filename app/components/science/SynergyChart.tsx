@@ -39,8 +39,8 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
               isMobile ? "text-base" : "text-lg"
             }`}
           >
-            See how CONKA Flow and CONKA Clarity complement each other across
-            all five pillars
+            See how CONKA Flow and CONKA Clear complement each other across all
+            five pillars
           </p>
         </div>
 
@@ -80,7 +80,7 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
                   strokeWidth={2}
                 />
                 <Radar
-                  name="CONKA Clarity"
+                  name="CONKA Clear"
                   dataKey="clarity"
                   stroke="#AAB9BC"
                   fill="#AAB9BC"
@@ -134,7 +134,7 @@ export default function SynergyChart({ isMobile = false }: SynergyChartProps) {
             <div className="flex items-center gap-3 p-3 border-2 border-[#AAB9BC]/30 rounded">
               <span className="w-4 h-4 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
               <div>
-                <p className="font-bold text-sm">CONKA Clarity</p>
+                <p className="font-bold text-sm">CONKA Clear</p>
                 <p className="font-clinical text-xs opacity-70">
                   Nootropic power for peak performance
                 </p>

@@ -27,7 +27,7 @@ const generalFAQs = [
   {
     question: "Can I take both formulas on the same day?",
     answer:
-      "Yes, absolutely! In fact, our Ultimate Protocol involves taking both formulas every day. Take CONKA Flow in the morning and CONKA Clarity later in the day for optimal results.",
+      "Yes, absolutely! In fact, our Ultimate Protocol involves taking both formulas every day. Take CONKA Flow in the morning and CONKA Clear later in the day for optimal results.",
   },
   {
     question: "How long until I see results?",
@@ -49,23 +49,23 @@ const protocolSpecificFAQs: Record<
   ],
   "2": [
     {
-      question: "Why is CONKA Clarity the daily formula in this protocol?",
+      question: "Why is CONKA Clear the daily formula in this protocol?",
       answer:
-        "Precision Protocol is optimized for those who need peak cognitive performance regularly. CONKA Clarity's nootropics provide consistent mental clarity and focus when taken daily.",
+        "Precision Protocol is optimized for those who need peak cognitive performance regularly. CONKA Clear's nootropics provide consistent mental clarity and focus when taken daily.",
     },
   ],
   "3": [
     {
       question: "How do I alternate between formulas?",
       answer:
-        "The balanced protocol alternates days - for example, CONKA Flow on Monday, CONKA Clarity on Tuesday, and so on. This gives you the benefits of both formulas while allowing each to work independently.",
+        "The balanced protocol alternates days - for example, CONKA Flow on Monday, CONKA Clear on Tuesday, and so on. This gives you the benefits of both formulas while allowing each to work independently.",
     },
   ],
   "4": [
     {
       question: "Is taking both formulas every day safe?",
       answer:
-        "Yes, our formulas are designed to be complementary and safe to take together. CONKA Flow in the morning for energy and CONKA Clarity later for clarity creates an optimal cognitive support system.",
+        "Yes, our formulas are designed to be complementary and safe to take together. CONKA Flow in the morning for energy and CONKA Clear later for clarity creates an optimal cognitive support system.",
     },
   ],
 };

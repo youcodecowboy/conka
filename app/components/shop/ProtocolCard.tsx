@@ -107,7 +107,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
               <span className="text-base font-bold text-amber-600">
                 {protocol.clarityPercentage}%
               </span>
-              <span className="font-clinical text-xs opacity-70">Clarity</span>
+              <span className="font-clinical text-xs opacity-70">Clear</span>
             </div>
           </div>
         </div>

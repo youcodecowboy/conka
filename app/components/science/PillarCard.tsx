@@ -100,7 +100,7 @@ export default function PillarCard({
     pillar.forFormula === "01"
       ? "CONKA Flow"
       : pillar.forFormula === "02"
-        ? "CONKA Clarity"
+        ? "CONKA Clear"
         : "Both Formulas";
 
   const formulaColor =

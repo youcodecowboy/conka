@@ -218,7 +218,7 @@ export default function QuizResultsPage() {
                   href="/conka-clarity"
                   className="font-clinical text-xs hover:opacity-70 transition-all"
                 >
-                  CONKA Clarity
+                  CONKA Clear
                 </a>
                 <a
                   href="/protocol/1"

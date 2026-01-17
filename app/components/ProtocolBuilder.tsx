@@ -14,7 +14,7 @@ export type ProtocolTier = "starter" | "pro" | "max";
 // Formula colors - ALWAYS consistent regardless of path
 export const FORMULA_COLORS = {
   "01": "bg-amber-500", // CONKA Flow is ALWAYS amber/orange
-  "02": "bg-[#AAB9BC]", // CONKA Clarity is ALWAYS teal
+  "02": "bg-[#AAB9BC]", // CONKA Clear is ALWAYS teal
 };
 
 export interface PathInfo {
@@ -56,7 +56,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
     ),
     bestFor: ["Recovery Focus", "Stress Management", "Daily Wellness"],
     description:
-      "Daily adaptogen support with CONKA Flow's Ashwagandha and Rhodiola builds stress resilience and recovery. Weekly CONKA Clarity boosts provide peak cognitive performance when you need it most.",
+      "Daily adaptogen support with CONKA Flow's Ashwagandha and Rhodiola builds stress resilience and recovery. Weekly CONKA Clear boosts provide peak cognitive performance when you need it most.",
     benefits: [
       "Better stress response (-24% cortisol)",
       "Reduced brain fog & faster recovery",
@@ -87,7 +87,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
     ),
     bestFor: ["Peak Performance", "Mental Endurance", "Cognitive Enhancement"],
     description:
-      "Front-load with cognitive enhancers for sustained mental endurance. CONKA Clarity's Alpha GPC and Vitamin C build your neurological foundation, while weekly CONKA Flow adaptogens prevent burnout.",
+      "Front-load with cognitive enhancers for sustained mental endurance. CONKA Clear's Alpha GPC and Vitamin C build your neurological foundation, while weekly CONKA Flow adaptogens prevent burnout.",
     benefits: [
       "Sustained focus during long sessions",
       "Enhanced mental endurance (+38%)",
@@ -121,7 +121,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
     ),
     bestFor: ["Balanced Approach", "All-Rounders", "Hybrid Athletes"],
     description:
-      "The best of both worlds. Alternate between CONKA Flow and CONKA Clarity for comprehensive cognitive support. Perfect for those who want the full spectrum of benefits without committing to one dominant formula.",
+      "The best of both worlds. Alternate between CONKA Flow and CONKA Clear for comprehensive cognitive support. Perfect for those who want the full spectrum of benefits without committing to one dominant formula.",
     benefits: [
       "Complete cognitive coverage",
       "Adaptogen + nootropic synergy",
@@ -154,7 +154,7 @@ export const pathData: Record<Exclude<PathType, null>, PathInfo> = {
     ),
     bestFor: ["Elite Performance", "Maximum Results", "No Compromise"],
     description:
-      "Maximum cognitive enhancement with both CONKA Flow and CONKA Clarity every single day. This is the most comprehensive protocol for those who demand peak performance in every aspect of their cognitive function.",
+      "Maximum cognitive enhancement with both CONKA Flow and CONKA Clear every single day. This is the most comprehensive protocol for those who demand peak performance in every aspect of their cognitive function.",
     benefits: [
       "Daily adaptogen + nootropic stack",
       "Peak energy AND clarity every day",
@@ -449,7 +449,7 @@ export default function ProtocolBuilder() {
               <div className="relative w-full max-w-3xl h-64 md:h-80">
                 <Image
                   src="/CONKA_34.jpg"
-                  alt="CONKA CONKA Flow and CONKA Clarity"
+                  alt="CONKA CONKA Flow and CONKA Clear"
                   fill
                   className="object-contain"
                 />
@@ -527,7 +527,7 @@ export default function ProtocolBuilder() {
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-[#AAB9BC] rounded-sm"></div>
                 <span className="font-clinical text-sm">
-                  CONKA Clarity – Peak Performance
+                  CONKA Clear – Peak Performance
                 </span>
               </div>
             </div>
@@ -664,7 +664,7 @@ export default function ProtocolBuilder() {
                           </span>
                         </div>
                         <span className="font-clinical text-sm">
-                          CONKA Clarity – Alternating Days
+                          CONKA Clear – Alternating Days
                         </span>
                       </div>
                     </>
@@ -790,7 +790,7 @@ export default function ProtocolBuilder() {
                             <div className="flex items-center gap-2">
                               <div className="w-3 h-3 rounded-sm bg-[#AAB9BC] flex-shrink-0"></div>
                               <span className="font-clinical text-sm">
-                                {clarityCount}× Clarity
+                                {clarityCount}× Clear
                               </span>
                             </div>
                           </div>
@@ -868,9 +868,7 @@ export default function ProtocolBuilder() {
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded-sm bg-[#AAB9BC]"></div>
-                      <span className="font-clinical text-xs">
-                        CONKA Clarity
-                      </span>
+                      <span className="font-clinical text-xs">CONKA Clear</span>
                     </div>
                   </div>
                 </div>
