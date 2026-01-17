@@ -143,12 +143,14 @@ export default function TrialPacks() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
           {/* Left: Heading */}
           <div className="text-left">
-            <p className="font-commentary text-xl mb-1">
-              not ready for a protocol?
+            <p className="font-commentary text-lg opacity-80 mb-2">
+              Not ready to commit?
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold">
-              try our trial packs
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-2">Start Small</h2>
+            <p className="font-clinical text-sm opacity-60">
+              No subscription • No long-term commitment • Designed for
+              first-time users
+            </p>
           </div>
 
           {/* Right: Formula Toggle */}
