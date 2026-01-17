@@ -440,7 +440,7 @@ export default function OrdersPage() {
                     className="neo-box p-4 hover:shadow-[4px_4px_0px_0px_var(--foreground)] transition-all text-left"
                   >
                     <div className="w-8 h-8 bg-[#AAB9BC] rounded mb-3"></div>
-                    <p className="font-bold text-sm">CONKA Clarity</p>
+                    <p className="font-bold text-sm">CONKA Clear</p>
                     <p className="font-clinical text-xs opacity-70">
                       Peak Performance
                     </p>

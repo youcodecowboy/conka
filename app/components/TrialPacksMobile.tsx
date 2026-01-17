@@ -64,7 +64,7 @@ const formulaExplanations = {
     ],
   },
   "02": {
-    title: "CONKA Clarity",
+    title: "CONKA Clear",
     subtitle: "Peak Performance Boost",
     description:
       "Cognitive enhancers like Alpha GPC and Ginkgo build your neurological foundation. Designed for when you need peak performance.",
@@ -166,7 +166,7 @@ export default function TrialPacksMobile() {
               : "border-2 border-black/10 hover:border-black/30"
           }`}
         >
-          CONKA Clarity
+          CONKA Clear
         </button>
       </div>
 

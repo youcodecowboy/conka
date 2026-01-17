@@ -138,7 +138,7 @@ export default function ProtocolCalendarSectionMobile({
                 {tierConfig.shotsPerWeek} shots per week
                 <span className="font-normal opacity-60 ml-1">
                   ({tierConfig.conkaFlowCount}× Flow +{" "}
-                  {tierConfig.conkaClarityCount}× Clarity)
+                  {tierConfig.conkaClarityCount}× Clear)
                 </span>
               </p>
               <p className="font-commentary text-sm opacity-70">
@@ -162,7 +162,7 @@ export default function ProtocolCalendarSectionMobile({
               <div
                 className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["02"].bg}`}
               ></div>
-              <span className="font-clinical text-xs">CONKA Clarity</span>
+              <span className="font-clinical text-xs">CONKA Clear</span>
             </div>
             {protocolId === "4" ? (
               <div className="flex items-center gap-1">

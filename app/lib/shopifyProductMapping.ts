@@ -53,7 +53,7 @@ export const FORMULA_VARIANTS: Record<
     "12": "gid://shopify/ProductVariant/56999967752566", // FLOW_TRIAL_12 - £39.99
     "28": "gid://shopify/ProductVariant/56999967818102", // FLOW_TRIAL_28 - £79.99
   },
-  // CONKA Clarity (Formula 02) - CONFIGURED
+  // CONKA Clear (Formula 02) - CONFIGURED
   "02": {
     "4": "gid://shopify/ProductVariant/57000418607478", // CLEAR_TRIAL_4 - £14.99
     "8": "gid://shopify/ProductVariant/57000418640246", // CLEAR_TRIAL_8 - £28.99
@@ -79,7 +79,7 @@ export const TRIAL_PACK_VARIANTS: Record<
     "8": "gid://shopify/ProductVariant/56999967785334", // FLOW_TRIAL_8 - £28.99
     "12": "gid://shopify/ProductVariant/56999967752566", // FLOW_TRIAL_12 - £39.99
   },
-  // CONKA Clarity Trial Packs - CONFIGURED
+  // CONKA Clear Trial Packs - CONFIGURED
   "02": {
     "4": "gid://shopify/ProductVariant/57000418607478", // CLEAR_TRIAL_4 - £14.99
     "8": "gid://shopify/ProductVariant/57000418640246", // CLEAR_TRIAL_8 - £28.99

@@ -674,7 +674,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
   },
   "02": {
     id: "02",
-    name: "CONKA Clarity",
+    name: "CONKA Clear",
     tagline: "Peak Performance Boost",
     theme: "light",
     accentColor: "amber",
@@ -776,24 +776,24 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
     ],
     faq: [
       {
-        question: "When should I take CONKA Clarity?",
+        question: "When should I take CONKA Clear?",
         answer:
-          "CONKA Clarity is best taken 30-60 minutes before you need peak performance, such as important meetings, competitions, or creative work. It's also effective in the evening for recovery.",
+          "CONKA Clear is best taken 30-60 minutes before you need peak performance, such as important meetings, competitions, or creative work. It's also effective in the evening for recovery.",
       },
       {
-        question: "How is CONKA Clarity different from CONKA Flow?",
+        question: "How is CONKA Clear different from CONKA Flow?",
         answer:
-          "CONKA Flow focuses on daily energy and stress resilience with adaptogens. CONKA Clarity is designed for peak mental performance with nootropics that enhance clarity, reaction time, and decision-making.",
+          "CONKA Flow focuses on daily energy and stress resilience with adaptogens. CONKA Clear is designed for peak mental performance with nootropics that enhance clarity, reaction time, and decision-making.",
       },
       {
-        question: "Can I take CONKA Clarity every day?",
+        question: "Can I take CONKA Clear every day?",
         answer:
-          "Yes, CONKA Clarity can be taken daily. Many users pair it with CONKA Flow as part of a protocol for comprehensive cognitive support.",
+          "Yes, CONKA Clear can be taken daily. Many users pair it with CONKA Flow as part of a protocol for comprehensive cognitive support.",
       },
       {
-        question: "Will CONKA Clarity help with brain fog?",
+        question: "Will CONKA Clear help with brain fog?",
         answer:
-          "Yes, CONKA Clarity is specifically formulated to eliminate brain fog through enhanced blood flow to the brain and improved neurotransmission in the frontal cortex.",
+          "Yes, CONKA Clear is specifically formulated to eliminate brain fog through enhanced blood flow to the brain and improved neurotransmission in the frontal cortex.",
       },
     ],
     struggleSolutions: {

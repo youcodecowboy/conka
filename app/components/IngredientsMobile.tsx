@@ -58,9 +58,7 @@ export default function IngredientsMobile({
               : "bg-transparent text-black"
           }`}
         >
-          <span className="font-clinical text-sm font-medium">
-            CONKA Clarity
-          </span>
+          <span className="font-clinical text-sm font-medium">CONKA Clear</span>
         </button>
       </div>
 

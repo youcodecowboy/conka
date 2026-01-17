@@ -15,7 +15,7 @@ export default function ProtocolsGridDesktop() {
               Choose Your Protocol
             </h2>
             <p className="font-clinical text-sm md:text-base opacity-70">
-              Optimised CONKA Flow + CONKA Clarity combinations for specific
+              Optimised CONKA Flow + CONKA Clear combinations for specific
               mental goals
             </p>
           </div>

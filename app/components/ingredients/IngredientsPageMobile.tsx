@@ -78,7 +78,7 @@ export default function IngredientsPageMobile({
             }`}
           >
             <span className={`w-2.5 h-2.5 rounded-sm bg-[#AAB9BC]`} />
-            CONKA Clarity
+            CONKA Clear
           </button>
         </div>
       </div>

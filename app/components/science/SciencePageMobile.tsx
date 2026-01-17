@@ -258,13 +258,13 @@ export default function SciencePageMobile() {
                 href="/conka-flow"
                 className="neo-button-outline px-4 py-3 font-semibold text-sm flex-1 text-center"
               >
-                Try Flow
+                Try CONKA Flow
               </a>
               <a
                 href="/conka-clarity"
                 className="neo-button px-4 py-3 font-semibold text-sm flex-1 text-center"
               >
-                Try Clarity
+                Try CONKA Clear
               </a>
             </div>
           </div>

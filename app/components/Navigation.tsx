@@ -428,7 +428,7 @@ export default function Navigation({
                             <span className="w-8 h-8 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
                             <div>
                               <span className="font-bold text-sm block">
-                                CONKA Clarity
+                                CONKA Clear
                               </span>
                               <span className="font-clinical text-xs opacity-70">
                                 Peak Performance Boost
@@ -744,7 +744,7 @@ export default function Navigation({
                     <div>
                       <p className="font-bold text-sm">Balance Protocol</p>
                       <p className="font-clinical text-xs opacity-70">
-                        Alternate daily between Flow and Clarity
+                        Alternate daily between CONKA Flow and CONKA Clear
                       </p>
                     </div>
                   </a>
@@ -770,7 +770,7 @@ export default function Navigation({
                     <div>
                       <p className="font-bold text-sm">Ultimate Protocol</p>
                       <p className="font-clinical text-xs opacity-70">
-                        Take Flow and Clarity both daily
+                        Take CONKA Flow and CONKA Clear both daily
                       </p>
                     </div>
                   </a>
@@ -802,7 +802,7 @@ export default function Navigation({
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <span className="w-3 h-3 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
-                    <span className="font-bold text-sm">CONKA Clarity</span>
+                    <span className="font-bold text-sm">CONKA Clear</span>
                   </a>
                 </div>
               </div>

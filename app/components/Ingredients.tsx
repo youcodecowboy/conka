@@ -22,7 +22,7 @@ const formulaContent = {
     taste: "Citrus",
   },
   "02": {
-    name: "CONKA Clarity",
+    name: "CONKA Clear",
     tagline: "Peak Performance Boost",
     ingredients: [
       { name: "Vitamin C", part: "", percentage: "50.46%" },

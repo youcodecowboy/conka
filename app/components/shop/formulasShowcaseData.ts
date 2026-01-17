@@ -46,14 +46,17 @@ const formulaImages: Record<
   },
   "02": {
     src: "/CONKA_06.jpg",
-    alt: "CONKA Clarity bottle - Peak Performance Boost",
+    alt: "CONKA Clear bottle - Peak Performance Boost",
     focalX: 52,
     focalY: 50,
   },
 };
 
 // Positioning and timing data
-const formulaMeta: Record<FormulaId, { positioning: string; whenToTake: string }> = {
+const formulaMeta: Record<
+  FormulaId,
+  { positioning: string; whenToTake: string }
+> = {
   "01": {
     positioning: "ENERGY",
     whenToTake: "Morning ritual",
@@ -65,7 +68,9 @@ const formulaMeta: Record<FormulaId, { positioning: string; whenToTake: string }
 };
 
 // Build formulas array from formulaContent
-export const formulas: FormulaShowcaseData[] = (["01", "02"] as FormulaId[]).map((id) => {
+export const formulas: FormulaShowcaseData[] = (
+  ["01", "02"] as FormulaId[]
+).map((id) => {
   const content = formulaContent[id];
   const colors = FORMULA_COLORS[id];
   const meta = formulaMeta[id];

@@ -39,7 +39,7 @@ export function OurStoryDesktop() {
               href="/conka-clarity"
               className="px-8 py-4 font-semibold text-lg bg-transparent text-white rounded-full border-2 border-white hover:bg-white hover:text-black transition-all"
             >
-              Explore CONKA Clarity
+              Explore CONKA Clear
             </a>
           </div>
           <p className="font-clinical text-sm mt-8 opacity-50">

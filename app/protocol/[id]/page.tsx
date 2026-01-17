@@ -159,7 +159,7 @@ export default function ProtocolPage() {
                 className="flex-1 neo-button-outline px-3 py-2 font-semibold text-xs flex items-center justify-center gap-1"
               >
                 <span className="w-2 h-2 bg-amber-500 rounded-sm"></span>
-                CONKA Clarity
+                CONKA Clear
               </a>
             </div>
           </div>
@@ -384,7 +384,7 @@ export default function ProtocolPage() {
                 className="neo-button-outline px-6 py-3 font-semibold flex items-center justify-center gap-2"
               >
                 <span className="w-3 h-3 bg-amber-500 rounded-sm"></span>
-                CONKA Clarity
+                CONKA Clear
               </a>
             </div>
           </div>
@@ -418,7 +418,7 @@ export default function ProtocolPage() {
                   href="/conka-clarity"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
-                  CONKA Clarity
+                  CONKA Clear
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
                 <a

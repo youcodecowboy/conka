@@ -72,7 +72,7 @@ export default function CaseStudiesPage() {
                     href="/conka-clarity"
                     className="font-clinical text-sm hover:opacity-70 transition-all"
                   >
-                    CONKA Clarity
+                    CONKA Clear
                   </a>
                   <span className="font-clinical text-sm opacity-30">•</span>
                   <a
@@ -114,7 +114,7 @@ export default function CaseStudiesPage() {
                     href="/conka-clarity"
                     className="neo-button px-6 py-3 font-semibold text-sm"
                   >
-                    Try CONKA Clarity
+                    Try CONKA Clear
                   </a>
                 </div>
                 <p className="font-clinical text-sm opacity-70">

@@ -235,7 +235,7 @@ export default function ConkaClarityPage() {
               Want the Complete Experience?
             </h2>
             <p className="font-commentary text-xl mb-6">
-              combine CONKA Clarity with CONKA Flow in a protocol
+              combine CONKA Clear with CONKA Flow in a protocol
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -291,7 +291,7 @@ export default function ConkaClarityPage() {
                   href="/conka-clarity"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
-                  CONKA Clarity
+                  CONKA Clear
                 </a>
                 <span className="font-clinical text-sm opacity-30">•</span>
                 <a

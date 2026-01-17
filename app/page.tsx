@@ -157,7 +157,7 @@ const faqItems = [
     category: "Usage",
     question: "When should I take it?",
     answer:
-      "CONKA Flow is best taken in the morning with or without food. CONKA Clarity is best 30-60 minutes before you need peak performance.",
+      "CONKA Flow is best taken in the morning with or without food. CONKA Clear is best 30-60 minutes before you need peak performance.",
   },
 ];
 

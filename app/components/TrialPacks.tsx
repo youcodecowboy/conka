@@ -17,7 +17,7 @@ type PurchaseType = "one-time" | "subscription";
 // Formula images with focal points
 const formulaImages = {
   "01": { src: "/CONKA_17.jpg", focalX: 50, focalY: 55 }, // Flow 4-pack (black caps)
-  "02": { src: "/CONKA_18.jpg", focalX: 50, focalY: 55 }, // Clarity 4-pack (white caps)
+  "02": { src: "/CONKA_18.jpg", focalX: 50, focalY: 55 }, // Clear 4-pack (white caps)
 };
 type PackSize = "4" | "8" | "12";
 
@@ -66,7 +66,7 @@ const formulaExplanations = {
     ],
   },
   "02": {
-    title: "CONKA Clarity",
+    title: "CONKA Clear",
     subtitle: "Peak Performance Boost",
     description:
       "Cognitive enhancers like Alpha GPC and Ginkgo build your neurological foundation. Designed for when you need peak performance.",
@@ -176,7 +176,7 @@ export default function TrialPacks() {
               }`}
             >
               <span className="font-clinical text-sm font-medium">
-                CONKA Clarity
+                CONKA Clear
               </span>
             </button>
           </div>
@@ -191,7 +191,7 @@ export default function TrialPacks() {
             >
               <Image
                 src={formulaImages[selectedFormula].src}
-                alt={`CONKA ${selectedFormula === "01" ? "Flow" : "Clarity"} bottles`}
+                alt={`CONKA ${selectedFormula === "01" ? "Flow" : "Clear"} bottles`}
                 fill
                 className="object-cover"
                 style={{

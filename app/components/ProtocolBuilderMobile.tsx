@@ -220,7 +220,7 @@ export default function ProtocolBuilderMobile() {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-[#AAB9BC] rounded-sm"></div>
-            <span className="font-clinical text-xs">CONKA Clarity</span>
+            <span className="font-clinical text-xs">CONKA Clear</span>
           </div>
         </div>
 
@@ -535,7 +535,7 @@ export default function ProtocolBuilderMobile() {
                     </div>
                     <span className="font-clinical text-sm">
                       {ultimateTiers[selectedTier].conkaClarityCount}× CONKA
-                      Clarity per week
+                      Clear per week
                     </span>
                   </div>
                 </>
@@ -560,7 +560,7 @@ export default function ProtocolBuilderMobile() {
                     </div>
                     <span className="font-clinical text-sm">
                       {balancedTiers[selectedTier].conkaClarityCount}× CONKA
-                      Clarity per week
+                      Clear per week
                     </span>
                   </div>
                 </>

@@ -143,7 +143,7 @@ export default function CaseStudiesPageDesktop() {
                 href="/conka-clarity"
                 className="neo-button px-6 py-3 font-semibold text-sm"
               >
-                Try CONKA Clarity
+                Try CONKA Clear
               </a>
             </div>
           </div>
