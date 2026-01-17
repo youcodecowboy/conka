@@ -18,7 +18,11 @@ const WhatIsConka = dynamic(() => import("./components/WhatIsConka"), {
   loading: () => <div className="h-[400px]" />,
 });
 
-const ProtocolBuilder = dynamic(() => import("./components/ProtocolBuilder"), {
+// const ProtocolBuilder = dynamic(() => import("./components/ProtocolBuilder"), {
+//   loading: () => <div className="h-[600px]" />,
+// });
+
+const ProtocolsGrid = dynamic(() => import("./components/shop/ProtocolsGrid"), {
   loading: () => <div className="h-[600px]" />,
 });
 
@@ -405,9 +409,14 @@ export default function Home() {
       <CaseStudiesDataDriven />
 
       {/* ===== SECTION 6: PROTOCOL BUILDER ===== */}
-      <div id="protocols">
+      {/* <div id="protocols">
         <ProtocolBuilder />
-      </div>
+      </div> */}
+
+      {/* ===== SECTION 4: PROTOCOLS ===== */}
+      <section id="protocols" className="scroll-mt-20">
+        <ProtocolsGrid />
+      </section>
 
       {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
       <div id="trial-packs" className="scroll-mt-20 lg:scroll-mt-20">
