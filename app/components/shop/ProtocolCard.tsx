@@ -134,7 +134,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
         {/* Tier 3: Action */}
         <div className="flex flex-col items-end gap-1 flex-shrink-0">
           {/* Price Anchor */}
-          <span className="font-clinical text-xs opacity-60">
+          <span className="font-clinical text-xs opacity-90">
             {protocol.startingPrice}
           </span>
 
