@@ -54,68 +54,51 @@ export default function ProtocolCardMobile({
       </div>
 
       {/* Content Section */}
-      <div className="p-5 flex-1 flex flex-col">
-        {/* Outcome Headline (Primary) */}
-        <div className="mb-4 pb-4 border-b border-black/5">
-          <h3 className="text-2xl font-bold mb-1">{protocol.outcome}</h3>
-          <p className="font-primary text-sm opacity-80 mb-1">
-            Commonly chosen when:
-          </p>
-          <p className="font-primary text-sm opacity-80">
-            {situationalCues[protocol.id]}
-          </p>
-        </div>
+      <div className="p-5 flex flex-col flex-1">
+        {/* Product Name */}
+        <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
+          {protocol.name}
+        </p>
 
-        {/* Benefit Bullets */}
-        <ul className="space-y-3 mb-6 flex-1">
-          {formattedBenefits.map((benefit, idx) => (
-            <li
-              key={idx}
-              className="flex items-start gap-2 font-clinical text-sm"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="flex-shrink-0 mt-0.5 text-teal-500"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
-              <span className="opacity-80">{benefit}</span>
-            </li>
-          ))}
-        </ul>
+        {/* Outcome Headline */}
+        <h3 className="text-2xl font-bold leading-tight mb-2">
+          {protocol.outcome}
+        </h3>
 
-        {/* CTA Button */}
-        <div className="mt-auto">
-          <Link
-            href={`/protocol/${protocol.id}`}
-            className="neo-button w-full py-3 rounded-full font-bold text-base flex items-center justify-center gap-2"
+        {/* Qualifier (single line, not a block) */}
+        <p className="font-primary text-sm opacity-70 mb-5">
+          {situationalCues[protocol.id]}
+        </p>
+
+        {/* Spacer */}
+        <div className="flex-1" />
+
+        {/* Price */}
+        <p className="font-clinical text-sm opacity-90 mb-3">
+          {protocol.startingPrice}
+        </p>
+
+        {/* CTA */}
+        <Link
+          href={`/protocol/${protocol.id}`}
+          className="neo-button w-full py-3 rounded-full font-bold text-base flex items-center justify-center gap-2"
+        >
+          View product
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            View {protocol.name}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </Link>
       </div>
     </div>
   );
