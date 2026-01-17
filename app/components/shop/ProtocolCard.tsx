@@ -114,41 +114,52 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
       </div>
 
       {/* Content Section (Always Visible) */}
-      <div className="py-5 px-5 flex items-center justify-between gap-5">
+      <div className="py-5 px-5 flex items-center justify-between gap-6">
         {/* Text Content */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-bold mb-1 leading-tight">
+          {/* Tier 1: Outcome */}
+          <h3 className="text-lg font-bold leading-tight mb-2">
             {protocol.outcome}
           </h3>
-          <p className="font-primary text-sm opacity-70 mb-0.5">
-            Commonly chosen when:
+
+          {/* Tier 2: Qualification */}
+          <p className="font-primary text-xs uppercase tracking-wide opacity-50 mb-1">
+            Commonly chosen when
           </p>
-          <p className="font-primary text-sm opacity-70">
+          <p className="font-primary text-sm opacity-70 leading-relaxed">
             {situationalCues[protocol.id]}
           </p>
         </div>
 
-        {/* CTA */}
-        <Link
-          href={`/protocol/${protocol.id}`}
-          className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 flex-shrink-0"
-        >
-          View {protocol.name}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        {/* Tier 3: Action */}
+        <div className="flex flex-col items-end gap-1 flex-shrink-0">
+          {/* Price Anchor */}
+          <span className="font-clinical text-xs opacity-60">
+            {protocol.startingPrice}
+          </span>
+
+          {/* CTA */}
+          <Link
+            href={`/protocol/${protocol.id}`}
+            className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2"
           >
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
-        </Link>
+            View product
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
       </div>
     </div>
   );
