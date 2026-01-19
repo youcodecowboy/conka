@@ -14,7 +14,7 @@ const FOUNDING_MEMBER_DEADLINE = new Date("2026-03-15T23:59:59");
 export function useBannerConfig(bannerId: string): BannerConfig | null {
   // Fetch spots remaining from Convex
   const counter = useQuery(api.foundingMemberCounter.getCounter);
-  const spotsRemaining = counter?.spotsRemaining ?? 158; // Fallback to 158
+  const spotsRemaining = counter?.spotsRemaining ?? 155; // Fallback to 155
   const isUrgent = spotsRemaining <= 20; // Urgent when 20 or fewer spots (10% of 200)
 
   // Get config based on bannerId
@@ -32,7 +32,7 @@ export function useBannerConfig(bannerId: string): BannerConfig | null {
             { text: "Founding Member • Code " },
             { text: "FOUNDING200", bold: true, isCode: true },
             {
-              text: " • 20% off subscriptions for a year • Deadline: 15th March 2026 • ",
+              text: " • 20% off subscriptions forever • Deadline: 15th March 2026 • ",
             },
           ],
           secondaryText: [

@@ -12,8 +12,8 @@ export const getCounter = query({
     if (!counter) {
       return {
         totalLimit: 200,
-        spotsTaken: 42,
-        spotsRemaining: 158,
+        spotsTaken: 45,
+        spotsRemaining: 155,
         updatedAt: Date.now(),
       };
     }
@@ -44,16 +44,16 @@ export const initializeCounter = mutation({
       };
     }
 
-    // Create initial counter with 42 spots taken
+    // Create initial counter with 45 spots taken
     const id = await ctx.db.insert("foundingMemberCounter", {
       totalLimit: 200,
-      spotsTaken: 42,
+      spotsTaken: 45,
       updatedAt: Date.now(),
     });
 
     return {
       success: true,
-      message: "Counter initialized with 42 spots taken (158 remaining)",
+      message: "Counter initialized with 45 spots taken (155 remaining)",
       id,
     };
   },
