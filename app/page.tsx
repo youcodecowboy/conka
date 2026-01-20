@@ -419,7 +419,7 @@ export default function Home() {
       </section>
 
       {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
-      <div id="trial-packs" className="scroll-mt-20 lg:scroll-mt-20">
+      <div id="trial-packs" className="scroll-mt-32 lg:scroll-mt-24">
         <TrialPacks />
       </div>
 
