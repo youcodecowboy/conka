@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { whyConkaPoints } from "@/app/lib/whyConkaData";
+import { AppInstallButtons } from "@/app/components/AppInstallButtons";
 
 export function WhyConkaMobile() {
   return (
@@ -97,9 +98,19 @@ export function WhyConkaMobile() {
             )}
 
             {/* Description */}
-            <p className="text-sm leading-relaxed opacity-80">
+            <p className="text-sm leading-relaxed opacity-80 mb-6">
               {point.description}
             </p>
+
+            {/* App Install Buttons for Section 4 */}
+            {point.id === 4 && (
+              <div className="mt-4">
+                <AppInstallButtons 
+                  iconSize={18}
+                  buttonClassName="px-6 py-3 text-sm"
+                />
+              </div>
+            )}
           </section>
         );
       })}
