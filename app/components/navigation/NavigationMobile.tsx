@@ -9,7 +9,7 @@ import { Banner } from "@/app/components/banner";
 import { protocolContent } from "@/app/lib/productData";
 import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
 import { formulas } from "@/app/components/shop/formulasShowcaseData";
-import { getProtocolImage } from "./protocolImageConfig";
+import { getProtocolImage, getFormulaImage } from "./protocolImageConfig";
 import type { NavigationMobileProps } from "./types";
 
 export default function NavigationMobile({
@@ -307,59 +307,63 @@ export default function NavigationMobile({
           {shopView === "formulas" && (
             <div className="pb-4 mb-4">
               <div className="flex flex-col gap-4">
-                {formulas.map((formula) => (
-                  <Link
-                    key={formula.id}
-                    href={formula.href}
-                    className="block"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3">
-                      <div className="relative aspect-[3/2] mb-3 rounded-lg overflow-hidden">
-                        <Image
-                          src={formula.image.src}
-                          alt={formula.image.alt}
-                          fill
-                          className="object-cover"
-                          style={{
-                            objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
-                          }}
-                          sizes="100vw"
-                        />
-                      </div>
-                      <div className="flex flex-col flex-1">
-                        {/* Formula Name - Small, Above Headline */}
-                        <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
-                          {formula.name}
-                        </p>
-                        
-                        {/* Headline - Always Visible */}
-                        <h3 className="text-lg font-bold leading-tight mb-3">
-                          {formula.headline}
-                        </h3>
+                {formulas.map((formula) => {
+                  // Get image based on config
+                  const imageSrc = getFormulaImage(formula.id) || formula.image.src;
+                  return (
+                    <Link
+                      key={formula.id}
+                      href={formula.href}
+                      className="block"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3">
+                        <div className="relative aspect-[3/2] mb-3 rounded-lg overflow-hidden">
+                          <Image
+                            src={imageSrc}
+                            alt={formula.image.alt}
+                            fill
+                            className="object-cover"
+                            style={{
+                              objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
+                            }}
+                            sizes="100vw"
+                          />
+                        </div>
+                        <div className="flex flex-col flex-1">
+                          {/* Formula Name - Small, Above Headline */}
+                          <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
+                            {formula.name}
+                          </p>
+                          
+                          {/* Headline - Always Visible */}
+                          <h3 className="text-lg font-bold leading-tight mb-3">
+                            {formula.headline}
+                          </h3>
 
-                        {/* CTA Button */}
-                        <div className="neo-button px-3 py-1.5 rounded-full font-bold text-xs inline-flex items-center gap-1.5 w-fit mx-auto">
-                          View product
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path d="M5 12h14" />
-                            <path d="m12 5 7 7-7 7" />
-                          </svg>
+                          {/* CTA Button */}
+                          <div className="neo-button px-3 py-1.5 rounded-full font-bold text-xs inline-flex items-center gap-1.5 w-fit mx-auto">
+                            View product
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M5 12h14" />
+                              <path d="m12 5 7 7-7 7" />
+                            </svg>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           )}
