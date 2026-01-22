@@ -55,9 +55,16 @@ export default function ShopMegaMenuContent({
 
       {/* Help me Choose - Expanded */}
       {hoveredSection === "quiz" && (
-        <div className="grid grid-cols-2 gap-8 min-h-[400px]">
-          {/* Left: Quiz Section */}
-          <div className="flex items-center pr-8">
+        <div>
+          <div className="mb-6">
+            <h3 className="font-bold text-xl mb-2">We are here to help</h3>
+            <p className="font-clinical text-base opacity-70">
+              Find your perfect CONKA match with our personalized quiz
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-8 min-h-[280px]">
+            {/* Left: Quiz Section */}
+            <div className="flex items-center pr-8">
             <div className="w-full p-8 bg-[var(--foreground)] text-[var(--background)] rounded-lg">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0">
@@ -98,26 +105,27 @@ export default function ShopMegaMenuContent({
                 Take the Quiz
               </a>
             </div>
-          </div>
+            </div>
 
-          {/* Right: Learn More Section */}
-          <div className="flex flex-col justify-center pl-8">
-            <h3 className="font-bold text-xl mb-4">Learn more</h3>
-            <div className="flex flex-col gap-3">
-              <a
-                href="/ingredients"
-                onClick={onNavigate}
-                className="font-clinical text-sm py-2 px-4 border-2 border-current/20 rounded-lg hover:border-current hover:bg-current/5 transition-all"
-              >
-                What is in CONKA Flow and CONKA Clear?
-              </a>
-              <a
-                href="/why-conka"
-                onClick={onNavigate}
-                className="font-clinical text-sm py-2 px-4 border-2 border-current/20 rounded-lg hover:border-current hover:bg-current/5 transition-all"
-              >
-                Why CONKA?
-              </a>
+            {/* Right: Learn More Section */}
+            <div className="flex flex-col justify-center pl-8">
+              <h3 className="font-bold text-xl mb-4">Learn more</h3>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="/ingredients"
+                  onClick={onNavigate}
+                  className="font-clinical text-sm py-2 px-4 border-2 border-current/20 rounded-lg hover:border-current hover:bg-current/5 transition-all"
+                >
+                  What is in CONKA Flow and CONKA Clear?
+                </a>
+                <a
+                  href="/why-conka"
+                  onClick={onNavigate}
+                  className="font-clinical text-sm py-2 px-4 border-2 border-current/20 rounded-lg hover:border-current hover:bg-current/5 transition-all"
+                >
+                  Why CONKA?
+                </a>
+              </div>
             </div>
           </div>
         </div>
