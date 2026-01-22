@@ -23,14 +23,8 @@ export default function ShopMegaMenu({
     >
       <div className="w-full px-6 md:px-16 py-8">
         <div className="flex gap-12 max-w-[1920px] mx-auto">
-          {/* Left Side: Dynamic Content Area */}
-          <ShopMegaMenuContent
-            hoveredSection={hoveredSection}
-            onNavigate={onClose}
-          />
-
-          {/* Right Side: Section Headers Stacked Vertically */}
-          <div className="w-64 flex-shrink-0 border-l-2 border-current pl-8 pr-0">
+          {/* Left Side: Section Headers Stacked Vertically */}
+          <div className="w-64 flex-shrink-0 border-r-2 border-current pr-8 pl-0">
             <div className="flex flex-col gap-4">
               <button
                 onMouseEnter={() => setHoveredSection("protocols")}
@@ -64,6 +58,12 @@ export default function ShopMegaMenu({
               </button>
             </div>
           </div>
+
+          {/* Right Side: Dynamic Content Area */}
+          <ShopMegaMenuContent
+            hoveredSection={hoveredSection}
+            onNavigate={onClose}
+          />
         </div>
       </div>
     </div>
