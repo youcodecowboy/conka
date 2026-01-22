@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import type { WhyConkaPoint } from "@/app/lib/whyConkaData";
+import { AppInstallButtons } from "@/app/components/AppInstallButtons";
 
 interface WhyConkaSectionProps {
   point: WhyConkaPoint;
@@ -82,9 +83,16 @@ export function WhyConkaSection({
           </p>
 
           {/* Description */}
-          <p className="text-base md:text-lg leading-relaxed opacity-80 max-w-xl">
+          <p className="text-base md:text-lg leading-relaxed opacity-80 max-w-xl mb-8">
             {point.description}
           </p>
+
+          {/* App Install Buttons for Section 4 */}
+          {point.id === 4 && (
+            <div className="mt-6">
+              <AppInstallButtons />
+            </div>
+          )}
         </div>
       </div>
     </section>
