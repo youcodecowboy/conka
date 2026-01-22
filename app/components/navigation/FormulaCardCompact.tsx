@@ -19,21 +19,21 @@ export default function FormulaCardCompact({
       onClick={onNavigate}
       className="group block"
     >
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3 h-full">
         {/* Image Container */}
-        <div className="relative aspect-[3/2] mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all bg-[var(--background)]">
+        <div className="relative aspect-[3/2] mb-4 rounded-lg overflow-hidden">
           <Image
             src={formula.image.src}
             alt={formula.image.alt}
             fill
-            className="object-cover transition-all duration-500 group-hover:scale-120 group-hover:opacity-20"
+            className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-20"
             style={{
               objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
             }}
             sizes="50vw"
           />
           {/* Hover Overlay */}
-          <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4 text-black">
+          <div className="absolute inset-0 bg-[var(--background)] opacity-0 group-hover:opacity-95 transition-opacity duration-300 flex flex-col justify-center items-center p-4 text-black">
             <h4 className="font-bold text-lg mb-3 text-center">{formula.subtitle}</h4>
             <p className="text-sm font-clinical opacity-90 mb-4 text-center leading-relaxed">
               {formula.description}
@@ -63,43 +63,34 @@ export default function FormulaCardCompact({
         </div>
 
         {/* Content Section */}
-        <div className="flex-1 flex flex-col">
-          {/* Badge + Name + Tagline */}
-          <div className="flex items-start gap-3 mb-4">
-            <div
-              className={`w-10 h-10 ${formula.bgColor} text-white rounded-md flex items-center justify-center flex-shrink-0`}
-            >
-              <span className="font-clinical text-sm font-bold">
-                {formula.id}
-              </span>
-            </div>
-            <div className="flex-1">
-              <h4 className="text-xl font-bold mb-1">{formula.name}</h4>
-              <p className="font-clinical text-base opacity-70 mb-4">
-                {formula.subtitle}
-              </p>
-            </div>
-          </div>
+        <div className="flex flex-col flex-1">
+          {/* Formula Name - Small, Above Headline */}
+          <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
+            {formula.name}
+          </p>
+          
+          {/* Headline - Always Visible */}
+          <h3 className="text-lg font-bold leading-tight mb-3 flex-1">
+            {formula.headline}
+          </h3>
 
           {/* CTA Button */}
-          <div className="mt-auto">
-            <div className="neo-button px-6 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center">
-              Shop {formula.name}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </div>
+          <div className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center mt-auto">
+            View product
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
           </div>
         </div>
       </div>

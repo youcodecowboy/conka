@@ -314,49 +314,49 @@ export default function NavigationMobile({
                     className="block"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    <div className="relative aspect-[3/2] mb-3 rounded-lg overflow-hidden border-2 border-transparent bg-[var(--background)]">
-                      <Image
-                        src={formula.image.src}
-                        alt={formula.image.alt}
-                        fill
-                        className="object-cover"
-                        style={{
-                          objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
-                        }}
-                        sizes="100vw"
-                      />
-                    </div>
-                    <div className="flex items-start gap-2 mb-3">
-                      <div
-                        className={`w-8 h-8 ${formula.bgColor} text-white rounded-md flex items-center justify-center flex-shrink-0`}
-                      >
-                        <span className="font-clinical text-xs font-bold">
-                          {formula.id}
-                        </span>
+                    <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3">
+                      <div className="relative aspect-[3/2] mb-3 rounded-lg overflow-hidden">
+                        <Image
+                          src={formula.image.src}
+                          alt={formula.image.alt}
+                          fill
+                          className="object-cover"
+                          style={{
+                            objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
+                          }}
+                          sizes="100vw"
+                        />
                       </div>
-                      <div className="flex-1">
-                        <h4 className="text-base font-bold mb-1">{formula.name}</h4>
-                        <p className="font-clinical text-sm opacity-70">
-                          {formula.subtitle}
+                      <div className="flex flex-col flex-1">
+                        {/* Formula Name - Small, Above Headline */}
+                        <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
+                          {formula.name}
                         </p>
+                        
+                        {/* Headline - Always Visible */}
+                        <h3 className="text-lg font-bold leading-tight mb-3">
+                          {formula.headline}
+                        </h3>
+
+                        {/* CTA Button */}
+                        <div className="neo-button px-3 py-1.5 rounded-full font-bold text-xs inline-flex items-center gap-1.5 w-fit mx-auto">
+                          View product
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                          </svg>
+                        </div>
                       </div>
-                    </div>
-                    <div className="neo-button px-4 py-2 rounded-full font-bold text-xs inline-flex items-center gap-1.5 w-full justify-center">
-                      Shop {formula.name}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                      </svg>
                     </div>
                   </Link>
                 ))}
