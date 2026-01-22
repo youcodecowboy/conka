@@ -75,7 +75,7 @@ export default function FormulaCardCompact({
           </h3>
 
           {/* CTA Button */}
-          <div className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center mt-auto">
+          <div className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-fit mx-auto mt-auto">
             View product
             <svg
               xmlns="http://www.w3.org/2000/svg"
