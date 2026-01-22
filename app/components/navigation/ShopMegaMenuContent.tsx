@@ -55,9 +55,9 @@ export default function ShopMegaMenuContent({
 
       {/* Help me Choose - Expanded */}
       {hoveredSection === "quiz" && (
-        <div className="flex flex-col gap-8 min-h-[400px]">
-          {/* Quiz Section */}
-          <div className="flex items-center">
+        <div className="grid grid-cols-2 gap-8 min-h-[400px]">
+          {/* Left: Quiz Section */}
+          <div className="flex items-center pr-8">
             <div className="w-full p-8 bg-[var(--foreground)] text-[var(--background)] rounded-lg">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0">
@@ -100,8 +100,8 @@ export default function ShopMegaMenuContent({
             </div>
           </div>
 
-          {/* Learn More Section */}
-          <div>
+          {/* Right: Learn More Section */}
+          <div className="flex flex-col justify-center pl-8">
             <h3 className="font-bold text-xl mb-4">Learn more</h3>
             <div className="flex flex-col gap-3">
               <a
@@ -116,7 +116,7 @@ export default function ShopMegaMenuContent({
                 onClick={onNavigate}
                 className="font-clinical text-sm py-2 px-4 border-2 border-current/20 rounded-lg hover:border-current hover:bg-current/5 transition-all"
               >
-                Why CONKA
+                Why CONKA?
               </a>
             </div>
           </div>
