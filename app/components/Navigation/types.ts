@@ -34,6 +34,7 @@ export interface NavigationMobileProps {
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
   hideBanner: boolean;
+  bannerConfig: ReturnType<typeof import("@/app/components/banner").useBannerConfig>;
 }
 
 /**

@@ -87,6 +87,7 @@ export default function Navigation({
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
           hideBanner={hideBanner}
+          bannerConfig={bannerConfig}
         />
       </div>
     </>

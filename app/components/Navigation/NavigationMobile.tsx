@@ -3,17 +3,22 @@
 import Image from "next/image";
 import { CiBeaker1 } from "react-icons/ci";
 import { useCart } from "@/app/context/CartContext";
+import { Banner } from "@/app/components/banner";
 import type { NavigationMobileProps } from "./types";
 
 export default function NavigationMobile({
   mobileMenuOpen,
   setMobileMenuOpen,
   hideBanner,
+  bannerConfig,
 }: NavigationMobileProps) {
   const { openCart, itemCount } = useCart();
 
   return (
     <>
+      {/* Founding Member Banner */}
+      {!hideBanner && bannerConfig && <Banner config={bannerConfig} />}
+
       {/* Mobile Header - Always visible */}
       <header className="w-full bg-[var(--background)] border-b-2 border-current border-opacity-10">
         <div className="px-6 md:px-16 py-1 flex justify-between items-center">
