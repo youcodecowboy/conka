@@ -17,8 +17,8 @@ export default function FormulaIngredients({
   const formula = formulaContent[formulaId];
   const accentColor = FORMULA_COLORS[formulaId];
 
-  // Image path - using turmeric for CONKA Flow, placeholder for 02
-  const ingredientImage = formulaId === "01" ? "/tumeric.jpg" : null;
+  // Image path - using turmeric for CONKA Flow, CONKA_52.jpg for CONKA Clear
+  const ingredientImage = formulaId === "01" ? "/tumeric.jpg" : "/CONKA_52.jpg";
 
   return (
     <section className="px-6 md:px-16 py-24">
@@ -40,7 +40,7 @@ export default function FormulaIngredients({
                   src={ingredientImage}
                   alt="Key ingredient"
                   fill
-                  className="object-contain"
+                  className="object-cover"
                 />
               </div>
             ) : (
