@@ -28,7 +28,7 @@ export default function ProtocolCard({
         />
         {/* Hover Overlay */}
         <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4 text-white">
-          <h4 className="font-bold text-lg mb-3 text-center">{protocol.name}</h4>
+          <h4 className="font-bold text-lg mb-3 text-center">{protocol.subtitle}</h4>
           <ul className="space-y-2 text-sm font-clinical">
             {selectorData.benefits.slice(0, 3).map((benefit, idx) => (
               <li key={idx} className="flex items-center gap-2">
@@ -52,8 +52,23 @@ export default function ProtocolCard({
           </ul>
         </div>
       </div>
-      <h4 className="font-bold text-base mb-2">{protocol.name}</h4>
-      <p className="font-clinical text-sm opacity-70 mb-2">{protocol.subtitle}</p>
+      <div className="neo-button px-6 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center">
+        {protocol.name}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </div>
     </a>
   );
 }

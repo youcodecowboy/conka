@@ -26,7 +26,7 @@ export default function FormulaCardCompact({
             src={formula.image.src}
             alt={formula.image.alt}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-transform duration-500 group-hover:scale-120"
             style={{
               objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
             }}
@@ -75,27 +75,10 @@ export default function FormulaCardCompact({
             </div>
             <div className="flex-1">
               <h4 className="text-xl font-bold mb-1">{formula.name}</h4>
-              <p className="font-clinical text-base opacity-70 mb-2">
+              <p className="font-clinical text-base opacity-70 mb-4">
                 {formula.subtitle}
               </p>
             </div>
-          </div>
-
-          {/* Top 2 Stats (Inline) */}
-          <div className="flex gap-6 mb-4">
-            {formula.stats.slice(0, 2).map((stat, idx) => (
-              <div key={idx} className="flex items-baseline gap-2">
-                <span
-                  className="text-lg font-bold"
-                  style={{ color: formula.accentColor }}
-                >
-                  {stat.value}
-                </span>
-                <span className="font-clinical text-xs opacity-70">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
           </div>
 
           {/* CTA Button */}
