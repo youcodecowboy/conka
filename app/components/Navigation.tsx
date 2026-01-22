@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { CiBeaker1 } from "react-icons/ci";
 import { protocolContent, formulaContent } from "@/app/lib/productData";
+import { formulas } from "@/app/components/shop/formulasShowcaseData";
+import FormulaCardCompact from "@/app/components/Navigation/FormulaCardCompact";
 import { useCart } from "@/app/context/CartContext";
 import { useAuth } from "@/app/context/AuthContext";
 import { Banner, useBannerConfig } from "@/app/components/banner";
@@ -235,7 +237,7 @@ export default function Navigation({
                       <div className="w-full px-6 md:px-16 py-8">
                         <div className="flex gap-12 max-w-[1920px] mx-auto">
                           {/* Left Side: Dynamic Content Area */}
-                          <div className="flex-1 min-w-0">
+                          <div className="flex-1 min-w-0 bg-neutral-50">
                             {/* Shop by Protocol - Default/Expanded */}
                             {hoveredSection === "protocols" && (
                               <div>
@@ -260,7 +262,7 @@ export default function Navigation({
                                             src={protocol.image}
                                             alt={protocol.name}
                                             fill
-                                            className="object-cover"
+                                            className="object-contain"
                                             sizes="(max-width: 768px) 50vw, 25vw"
                                           />
                                         </div>
@@ -284,42 +286,13 @@ export default function Navigation({
                                   </p>
                                 </div>
                                 <div className="grid grid-cols-2 gap-8">
-                                  <a
-                                    href="/conka-flow"
-                                    className="group block"
-                                    onClick={() => setShopDropdownOpen(false)}
-                                  >
-                                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all">
-                                      <Image
-                                        src="/CONKA_01.jpg"
-                                        alt="CONKA Flow"
-                                        fill
-                                        className="object-cover"
-                                        sizes="(max-width: 768px) 50vw, 50vw"
-                                      />
-                                    </div>
-                                    <h4 className="font-bold text-xl mb-2">CONKA Flow</h4>
-                                    <p className="font-clinical text-base opacity-70 mb-3">{formulaContent["01"].tagline}</p>
-                                    <p className="font-clinical text-sm opacity-60">{formulaContent["01"].subheadline}</p>
-                                  </a>
-                                  <a
-                                    href="/conka-clarity"
-                                    className="group block"
-                                    onClick={() => setShopDropdownOpen(false)}
-                                  >
-                                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all">
-                                      <Image
-                                        src="/CONKA_63.jpg"
-                                        alt="CONKA Clear"
-                                        fill
-                                        className="object-cover"
-                                        sizes="(max-width: 768px) 50vw, 50vw"
-                                      />
-                                    </div>
-                                    <h4 className="font-bold text-xl mb-2">CONKA Clear</h4>
-                                    <p className="font-clinical text-base opacity-70 mb-3">{formulaContent["02"].tagline}</p>
-                                    <p className="font-clinical text-sm opacity-60">{formulaContent["02"].subheadline}</p>
-                                  </a>
+                                  {formulas.map((formula) => (
+                                    <FormulaCardCompact
+                                      key={formula.id}
+                                      formula={formula}
+                                      onNavigate={() => setShopDropdownOpen(false)}
+                                    />
+                                  ))}
                                 </div>
                               </div>
                             )}
