@@ -12,14 +12,66 @@ export default function NavigationMobile({
 }: NavigationMobileProps) {
   const { openCart, itemCount } = useCart();
 
-  if (!mobileMenuOpen) return null;
-
   return (
-    <div className="lg:hidden fixed inset-0 z-40 bg-[var(--background)] flex flex-col">
-      {/* Scrollable Content - Centered vertically */}
-      <div className="flex-1 overflow-y-auto p-6 pb-16 flex flex-col">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+    <>
+      {/* Mobile Header - Always visible */}
+      <header className="w-full bg-[var(--background)] border-b-2 border-current border-opacity-10">
+        <div className="px-6 md:px-16 py-1 flex justify-between items-center">
+          {/* Logo - Left (links to home) */}
+          <a href="/" className="flex items-center">
+            <Image
+              src="/conka.svg"
+              alt="CONKA logo"
+              width={270}
+              height={90}
+              className="h-16 md:h-20 w-auto invert"
+              priority
+            />
+          </a>
+
+          {/* Mobile - Menu Only (Cart moved to menu) */}
+          <div className="lg:hidden flex items-center">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 hover:opacity-70 transition-all"
+              aria-label="Toggle menu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {mobileMenuOpen ? (
+                  <>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </>
+                ) : (
+                  <>
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                  </>
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay - Only visible when mobileMenuOpen is true */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-40 bg-[var(--background)] flex flex-col">
+          {/* Scrollable Content - Centered vertically */}
+          <div className="flex-1 overflow-y-auto p-6 pb-16 flex flex-col">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-6">
           <a href="/" className="flex items-center">
             <Image
               src="/conka.svg"
@@ -50,10 +102,10 @@ export default function NavigationMobile({
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
-        </div>
+            </div>
 
-        {/* Content - With top spacing */}
-        <div className="mt-4">
+            {/* Content - With top spacing */}
+            <div className="mt-4">
           {/* Quiz CTA - Prominent with RECOMMENDED tag - FIRST */}
           <div className="block p-3 pb-4 mb-4 border-b-2 border-black bg-black text-white rounded-lg">
             <div className="flex items-center gap-3 mb-2">
@@ -388,8 +440,10 @@ export default function NavigationMobile({
               Account
             </a>
           </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
