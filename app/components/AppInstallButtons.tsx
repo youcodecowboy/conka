@@ -4,6 +4,7 @@ interface AppInstallButtonsProps {
   className?: string;
   buttonClassName?: string;
   iconSize?: number;
+  inverted?: boolean;
 }
 
 const APP_STORE_URL = "https://apps.apple.com/gb/app/conka-app/id6450399391";
@@ -13,6 +14,7 @@ export function AppInstallButtons({
   className = "",
   buttonClassName = "",
   iconSize = 20,
+  inverted = false,
 }: AppInstallButtonsProps) {
   return (
     <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${className}`}>
@@ -20,7 +22,7 @@ export function AppInstallButtons({
         href={APP_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className={`neo-button px-8 py-4 font-semibold text-base flex items-center gap-2 ${buttonClassName}`}
+        className={`${inverted ? "neo-button-outline" : "neo-button"} px-8 py-4 font-semibold text-base flex items-center gap-2 ${buttonClassName}`}
       >
         App Store
         <svg
@@ -41,7 +43,7 @@ export function AppInstallButtons({
         href={PLAY_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className={`neo-button-outline px-8 py-4 font-semibold text-base flex items-center gap-2 ${buttonClassName}`}
+        className={`${inverted ? "neo-button" : "neo-button-outline"} px-8 py-4 font-semibold text-base flex items-center gap-2 ${buttonClassName}`}
       >
         Play Store
         <svg
