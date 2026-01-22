@@ -21,17 +21,45 @@ export default function FormulaCardCompact({
     >
       <div className="flex flex-col h-full">
         {/* Image Container */}
-        <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all bg-[var(--background)]">
+        <div className="relative aspect-[3/2] mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all bg-[var(--background)]">
           <Image
             src={formula.image.src}
             alt={formula.image.alt}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
             style={{
               objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
             }}
             sizes="50vw"
           />
+          {/* Hover Overlay */}
+          <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4 text-white">
+            <h4 className="font-bold text-lg mb-3 text-center">{formula.name}</h4>
+            <p className="text-sm font-clinical opacity-90 mb-4 text-center leading-relaxed">
+              {formula.description}
+            </p>
+            <ul className="space-y-2 text-sm font-clinical">
+              {formula.keyPoints.map((point, idx) => (
+                <li key={idx} className="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="flex-shrink-0"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         {/* Content Section */}
