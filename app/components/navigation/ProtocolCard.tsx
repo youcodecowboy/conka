@@ -23,11 +23,11 @@ export default function ProtocolCard({
           src={protocol.image}
           alt={protocol.name}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
+          className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-20"
           sizes="(max-width: 768px) 50vw, 25vw"
         />
         {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4 text-white">
+        <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4 text-black">
           <h4 className="font-bold text-lg mb-3 text-center">{protocol.subtitle}</h4>
           <ul className="space-y-2 text-sm font-clinical">
             {selectorData.benefits.slice(0, 3).map((benefit, idx) => (

@@ -26,15 +26,15 @@ export default function FormulaCardCompact({
             src={formula.image.src}
             alt={formula.image.alt}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-120"
+            className="object-cover transition-all duration-500 group-hover:scale-120 group-hover:opacity-20"
             style={{
               objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
             }}
             sizes="50vw"
           />
           {/* Hover Overlay */}
-          <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4 text-white">
-            <h4 className="font-bold text-lg mb-3 text-center">{formula.name}</h4>
+          <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4 text-black">
+            <h4 className="font-bold text-lg mb-3 text-center">{formula.subtitle}</h4>
             <p className="text-sm font-clinical opacity-90 mb-4 text-center leading-relaxed">
               {formula.description}
             </p>
