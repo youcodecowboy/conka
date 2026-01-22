@@ -22,7 +22,7 @@ export interface NavigationDesktopProps {
   setShopDropdownOpen: (open: boolean) => void;
   hoveredSection: HoveredSection;
   setHoveredSection: (section: HoveredSection) => void;
-  shopDropdownRef: React.RefObject<HTMLDivElement>;
+  shopDropdownRef: React.RefObject<HTMLDivElement | null>;
   bannerConfig: ReturnType<typeof import("@/app/components/banner").useBannerConfig>;
   isScrollingDown: boolean;
 }
