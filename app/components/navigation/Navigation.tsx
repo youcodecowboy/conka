@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Banner, useBannerConfig } from "@/app/components/banner";
 import NavigationDesktop from "./NavigationDesktop";
 import NavigationMobile from "./NavigationMobile";
@@ -18,6 +18,43 @@ export default function Navigation({
   const [lastScrollY, setLastScrollY] = useState(0);
   const shopDropdownRef = useRef<HTMLDivElement>(null);
   const bannerConfig = useBannerConfig("founding-member");
+  
+  // Hover tracking for shop area (button + menu)
+  // Opens dropdown on hover, closes when mouse leaves
+  const resetTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const handleShopAreaEnter = () => {
+    // Cancel any pending close
+    if (resetTimeoutRef.current) {
+      clearTimeout(resetTimeoutRef.current);
+      resetTimeoutRef.current = null;
+    }
+    // Open dropdown on hover (if not already open)
+    if (!shopDropdownOpen) {
+      setShopDropdownOpen(true);
+    }
+  };
+  
+  const handleShopAreaLeave = () => {
+    // Close dropdown when leaving shop area (with delay for smooth movement)
+    resetTimeoutRef.current = setTimeout(() => {
+      setShopDropdownOpen(false);
+      setHoveredSection("protocols");
+    }, 150); // 150ms delay to allow smooth mouse movement between button and menu
+  };
+  
+  // Cleanup timeout on unmount or when dropdown closes
+  useEffect(() => {
+    if (!shopDropdownOpen && resetTimeoutRef.current) {
+      clearTimeout(resetTimeoutRef.current);
+      resetTimeoutRef.current = null;
+    }
+    return () => {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+      }
+    };
+  }, [shopDropdownOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,11 +82,21 @@ export default function Navigation({
         !shopDropdownRef.current.contains(event.target as Node)
       ) {
         setShopDropdownOpen(false);
+        setHoveredSection("protocols");
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+      }
+    };
   }, []);
 
   // Render both desktop and mobile versions immediately
@@ -68,6 +115,8 @@ export default function Navigation({
           shopDropdownRef={shopDropdownRef}
           bannerConfig={bannerConfig}
           isScrollingDown={isScrollingDown}
+          onShopAreaEnter={handleShopAreaEnter}
+          onShopAreaLeave={handleShopAreaLeave}
         />
 
         {/* Spacer to push content down on desktop (accounts for fixed header height) */}
