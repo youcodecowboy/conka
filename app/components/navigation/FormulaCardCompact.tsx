@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FormulaShowcaseData } from "@/app/components/shop/formulasShowcaseData";
+import { getFormulaImage } from "./protocolImageConfig";
 
 interface FormulaCardCompactProps {
   formula: FormulaShowcaseData;
@@ -13,6 +14,9 @@ export default function FormulaCardCompact({
   formula,
   onNavigate,
 }: FormulaCardCompactProps) {
+  // Get image based on config
+  const imageSrc = getFormulaImage(formula.id) || formula.image.src;
+
   return (
     <Link
       href={formula.href}
@@ -23,7 +27,7 @@ export default function FormulaCardCompact({
         {/* Image Container */}
         <div className="relative aspect-[3/2] mb-4 rounded-lg overflow-hidden">
           <Image
-            src={formula.image.src}
+            src={imageSrc}
             alt={formula.image.alt}
             fill
             className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-20"
