@@ -2,20 +2,20 @@
 
 export function WhyConkaHero() {
   return (
-    <section className="min-h-[calc(100vh-5rem)] bg-white text-black px-6 md:px-16 py-8 md:py-12 flex flex-col">
-      <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col justify-center">
+    <section className="bg-white text-black px-6 md:px-16 pt-16 md:pt-24 pb-12 md:pb-16">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Main Headline */}
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4">
           Why CONKA?
         </h1>
 
         {/* Subtitle */}
-        <p className="font-commentary text-xl md:text-2xl mb-8 opacity-70 max-w-2xl">
+        <p className="font-commentary text-xl md:text-2xl mb-6 opacity-70 max-w-2xl">
           CONKA could change your life. Here&apos;s why.
         </p>
 
         {/* Introduction */}
-        <p className="text-base md:text-lg opacity-80 mb-12 max-w-3xl leading-relaxed">
+        <p className="text-base md:text-lg opacity-80 mb-8 max-w-3xl leading-relaxed">
           Here are the top seven reasons why so many smart people are choosing
           CONKA&apos;s research-backed cognitive enhancement.
         </p>

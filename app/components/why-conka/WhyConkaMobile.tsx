@@ -7,41 +7,39 @@ export function WhyConkaMobile() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="min-h-[calc(100vh-4rem)] bg-white text-black px-6 py-6 flex flex-col">
-        <div className="flex-1 flex flex-col justify-center">
-          {/* Main Headline */}
-          <h1 className="text-4xl font-bold tracking-tight mb-2">Why CONKA?</h1>
+      <section className="bg-white text-black px-6 pt-12 pb-8">
+        {/* Main Headline */}
+        <h1 className="text-4xl font-bold tracking-tight mb-2">Why CONKA?</h1>
 
-          {/* Subtitle */}
-          <p className="font-commentary text-lg mb-4 opacity-70">
-            CONKA could change your life. Here&apos;s why.
-          </p>
+        {/* Subtitle */}
+        <p className="font-commentary text-lg mb-4 opacity-70">
+          CONKA could change your life. Here&apos;s why.
+        </p>
 
-          {/* Introduction */}
-          <p className="text-sm opacity-60 mb-8 leading-relaxed">
-            Here are the top seven reasons why so many smart people are choosing
-            CONKA&apos;s research-backed cognitive enhancement.
-          </p>
+        {/* Introduction */}
+        <p className="text-sm opacity-60 mb-6 leading-relaxed">
+          Here are the top seven reasons why so many smart people are choosing
+          CONKA&apos;s research-backed cognitive enhancement.
+        </p>
 
-          {/* Scroll Indicator */}
-          <div className="flex items-center justify-center gap-2 py-3 opacity-50">
-            <p className="font-commentary text-sm">scroll to discover why</p>
-            <div className="animate-bounce-slow">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 5v14" />
-                <path d="m19 12-7 7-7-7" />
-              </svg>
-            </div>
+        {/* Scroll Indicator */}
+        <div className="flex items-center gap-2 opacity-50">
+          <p className="font-commentary text-sm">scroll to discover why</p>
+          <div className="animate-bounce-slow">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 5v14" />
+              <path d="m19 12-7 7-7-7" />
+            </svg>
           </div>
         </div>
       </section>
