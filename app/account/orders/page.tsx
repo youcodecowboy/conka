@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Navigation from "@/app/components/Navigation";
+import Navigation from "@/app/components/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 
 interface OrderLineItem {

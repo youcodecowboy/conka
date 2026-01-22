@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Navigation from "@/app/components/Navigation";
+import Navigation from "@/app/components/navigation";
 import IngredientsPageDesktop from "@/app/components/ingredients/IngredientsPageDesktop";
 import IngredientsPageMobile from "@/app/components/ingredients/IngredientsPageMobile";
 import { FormulaId } from "@/app/lib/productData";
