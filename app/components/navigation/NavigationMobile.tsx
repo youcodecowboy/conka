@@ -21,21 +21,9 @@ export default function NavigationMobile({
 
       {/* Mobile Header - Always visible */}
       <header className="w-full bg-[var(--background)] border-b-2 border-current border-opacity-10">
-        <div className="px-6 md:px-16 py-1 flex justify-between items-center">
-          {/* Logo - Left (links to home) */}
-          <a href="/" className="flex items-center">
-            <Image
-              src="/conka.svg"
-              alt="CONKA logo"
-              width={270}
-              height={90}
-              className="h-16 md:h-20 w-auto invert"
-              priority
-            />
-          </a>
-
-          {/* Mobile - Menu Only (Cart moved to menu) */}
-          <div className="lg:hidden flex items-center">
+        <div className="px-6 md:px-16 py-1 flex items-center">
+          {/* Left: Hamburger */}
+          <div className="lg:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 hover:opacity-70 transition-all"
@@ -65,6 +53,75 @@ export default function NavigationMobile({
                   </>
                 )}
               </svg>
+            </button>
+          </div>
+
+          {/* Center: Logo */}
+          <div className="flex-1 flex justify-center">
+            <a href="/" className="flex items-center">
+              <Image
+                src="/conka.svg"
+                alt="CONKA logo"
+                width={270}
+                height={90}
+                className="h-16 md:h-20 w-auto invert"
+                priority
+              />
+            </a>
+          </div>
+
+          {/* Right: Account + Cart */}
+          <div className="lg:hidden flex items-center gap-2">
+            {/* Account Icon */}
+            <a
+              href="/account/login"
+              className="p-2 hover:opacity-70 transition-all"
+              aria-label="Account"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </a>
+            {/* Cart Icon */}
+            <button
+              onClick={() => {
+                openCart();
+                setMobileMenuOpen(false);
+              }}
+              className="p-2 hover:opacity-70 transition-all relative"
+              aria-label="Open cart"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+              </svg>
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
