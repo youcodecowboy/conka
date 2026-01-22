@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { protocolContent } from "@/app/lib/productData";
 import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
+import { getProtocolImage } from "./protocolImageConfig";
 import type { ProtocolCardProps } from "./types";
 
 export default function ProtocolCard({
@@ -16,6 +17,9 @@ export default function ProtocolCard({
 
   // Limit benefits to 3 max for hover display
   const visibleBenefits = selectorData.benefits.slice(0, 3);
+  
+  // Get image based on config
+  const imageSrc = getProtocolImage(protocolId) || protocol.image;
 
   return (
     <a
@@ -31,7 +35,7 @@ export default function ProtocolCard({
           onMouseLeave={() => setIsHovered(false)}
         >
           <Image
-            src={protocol.image}
+            src={imageSrc}
             alt={protocol.name}
             fill
             className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-20"
