@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Navigation from "./components/Navigation";
+import Navigation from "./components/navigation";
 import Hero from "./components/Hero";
 import type { Benefit } from "./components/KeyBenefits";
 import { testimonials, shuffleTestimonials } from "./lib/testimonialsData";

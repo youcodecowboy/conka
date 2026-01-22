@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import Navigation from "@/app/components/Navigation";
+import Navigation from "@/app/components/navigation";
 import {
   ProtocolHero,
   ProtocolHeroMobile,

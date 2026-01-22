@@ -1,7 +1,7 @@
 "use client";
 
 import { useIsMobile } from "@/app/hooks/useIsMobile";
-import Navigation from "@/app/components/Navigation";
+import Navigation from "@/app/components/navigation";
 import { OurStoryDesktop } from "@/app/components/our-story/OurStoryDesktop";
 import { OurStoryMobile } from "@/app/components/our-story/OurStoryMobile";
 

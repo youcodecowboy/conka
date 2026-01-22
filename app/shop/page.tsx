@@ -1,6 +1,6 @@
 "use client";
 
-import Navigation from "../components/Navigation";
+import Navigation from "../components/navigation";
 import ShopHero from "../components/shop/ShopHero";
 import ProtocolsGrid from "../components/shop/ProtocolsGrid";
 import FormulasShowcase from "../components/shop/FormulasShowcase";

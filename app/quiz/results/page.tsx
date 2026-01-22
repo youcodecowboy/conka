@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Navigation from "@/app/components/Navigation";
+import Navigation from "@/app/components/navigation";
 import {
   QuizResultsOverview,
   QuizRecommendedSection,
