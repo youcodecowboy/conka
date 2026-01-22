@@ -20,7 +20,7 @@ export default function ShopMegaMenuContent({
               Mixed plans combining CONKA Flow and CONKA Clear for maximum performance
             </p>
           </div>
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-4 gap-6 items-stretch">
             {(["1", "2", "3", "4"] as const).map((protocolId) => (
               <ProtocolCard
                 key={protocolId}

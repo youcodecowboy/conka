@@ -1,9 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { CiBeaker1 } from "react-icons/ci";
 import { useCart } from "@/app/context/CartContext";
 import { Banner } from "@/app/components/banner";
+import { protocolContent } from "@/app/lib/productData";
+import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
+import { formulas } from "@/app/components/shop/formulasShowcaseData";
+import { getProtocolImage, getFormulaImage } from "./protocolImageConfig";
 import type { NavigationMobileProps } from "./types";
 
 export default function NavigationMobile({
@@ -13,6 +19,7 @@ export default function NavigationMobile({
   bannerConfig,
 }: NavigationMobileProps) {
   const { openCart, itemCount } = useCart();
+  const [shopView, setShopView] = useState<"protocols" | "formulas">("protocols");
 
   return (
     <>
@@ -169,7 +176,7 @@ export default function NavigationMobile({
             {/* Content - With top spacing */}
             <div className="mt-4">
           {/* Quiz CTA - Prominent with RECOMMENDED tag - FIRST */}
-          <div className="block p-3 pb-4 mb-4 border-b-2 border-black bg-black text-white rounded-lg">
+          <div className="block p-3 pb-4 mb-4 border-b-8 border-gray-200 bg-black text-white rounded-lg">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                 <svg
@@ -209,161 +216,166 @@ export default function NavigationMobile({
             </a>
           </div>
 
-          {/* Shop Protocols Section */}
-          <div className="space-y-2 pb-4 mb-4 border-b-2 border-black">
-            <div className="flex items-center gap-2">
-              <p className="font-clinical text-xs uppercase opacity-50">
-                Shop Protocols
-              </p>
-              <p className="font-primary text-xs opacity-70">mixed plans</p>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <a
-                href="/protocol/1"
-                className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="opacity-50 flex-shrink-0"
-                >
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-                <div>
-                  <p className="font-bold text-sm">Resilience Protocol</p>
-                  <p className="font-clinical text-xs opacity-70">
-                    For those that want more focus
-                  </p>
-                </div>
-              </a>
-              <a
-                href="/protocol/2"
-                className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="opacity-50 flex-shrink-0"
-                >
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                </svg>
-                <div>
-                  <p className="font-bold text-sm">Precision Protocol</p>
-                  <p className="font-clinical text-xs opacity-70">
-                    For those that feel foggy
-                  </p>
-                </div>
-              </a>
-              <a
-                href="/protocol/3"
-                className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="opacity-50 flex-shrink-0"
-                >
-                  <line x1="12" y1="3" x2="12" y2="21" />
-                  <path d="M3 12h18" />
-                </svg>
-                <div>
-                  <p className="font-bold text-sm">Balance Protocol</p>
-                  <p className="font-clinical text-xs opacity-70">
-                    Alternate daily between CONKA Flow and CONKA Clear
-                  </p>
-                </div>
-              </a>
-              <a
-                href="/protocol/4"
-                className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="opacity-50 flex-shrink-0"
-                >
-                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                </svg>
-                <div>
-                  <p className="font-bold text-sm">Ultimate Protocol</p>
-                  <p className="font-clinical text-xs opacity-70">
-                    Take CONKA Flow and CONKA Clear both daily
-                  </p>
-                </div>
-              </a>
-            </div>
+          {/* Shop Toggle */}
+          <div className="flex gap-0 mb-4 bg-gray-100 p-1 rounded-full border-2 border-current">
+            <button
+              onClick={() => setShopView("protocols")}
+              className={`flex-1 px-4 py-2 rounded-full transition-all ${
+                shopView === "protocols"
+                  ? "bg-[var(--foreground)] text-[var(--background)]"
+                  : "bg-transparent"
+              }`}
+            >
+              <span className="font-clinical text-sm font-medium">Shop by Protocol</span>
+            </button>
+            <button
+              onClick={() => setShopView("formulas")}
+              className={`flex-1 px-4 py-2 rounded-full transition-all ${
+                shopView === "formulas"
+                  ? "bg-[var(--foreground)] text-[var(--background)]"
+                  : "bg-transparent"
+              }`}
+            >
+              <span className="font-clinical text-sm font-medium">Shop Individual Formula</span>
+            </button>
           </div>
 
-          {/* Individual Formulas Section */}
-          <div className="space-y-2 pb-4 mb-4 border-b-2 border-black">
-            <div className="flex items-center gap-2">
-              <p className="font-clinical text-xs uppercase opacity-50">
-                Individual Formulas
-              </p>
-              <p className="font-primary text-xs opacity-70">
-                order individually
-              </p>
+          {/* Shop by Protocol Section */}
+          {shopView === "protocols" && (
+            <div className="pb-4 mb-4">
+              <div className="grid grid-cols-2 gap-3">
+                {(["1", "2", "3", "4"] as const).map((protocolId) => {
+                  const protocol = protocolContent[protocolId];
+                  const selectorData = protocolSelectorData[protocolId];
+                  // Get image based on config
+                  const imageSrc = getProtocolImage(protocolId) || protocol.image;
+                  return (
+                    <div
+                      key={protocolId}
+                      className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3"
+                    >
+                      <a
+                        href={`/protocol/${protocolId}`}
+                        className="block mb-2"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <div className="relative aspect-square mb-3 rounded-lg overflow-hidden">
+                          <Image
+                            src={imageSrc}
+                            alt={protocol.name}
+                            fill
+                            className="object-cover"
+                            sizes="50vw"
+                          />
+                        </div>
+                        <p className="font-primary text-[10px] uppercase tracking-wide opacity-60 mb-1">
+                          {protocol.name}
+                        </p>
+                        <h3 className="text-base font-bold leading-tight mb-2">
+                          {selectorData.outcome}
+                        </h3>
+                      </a>
+                      <a
+                        href={`/protocol/${protocolId}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="neo-button px-3 py-1.5 rounded-full font-bold text-xs inline-flex items-center gap-1.5 w-fit mx-auto"
+                      >
+                        View product
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M5 12h14" />
+                          <path d="m12 5 7 7-7 7" />
+                        </svg>
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <a
-                href="/conka-flow"
-                className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="w-3 h-3 bg-amber-500 rounded-sm flex-shrink-0"></span>
-                <span className="font-bold text-sm">CONKA Flow</span>
-              </a>
-              <a
-                href="/conka-clarity"
-                className="py-2 px-3 flex items-center gap-2 border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="w-3 h-3 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
-                <span className="font-bold text-sm">CONKA Clear</span>
-              </a>
-            </div>
-          </div>
+          )}
 
-          {/* Navigation - Visually separated */}
-          <div className="py-4 mb-4">
-            <p className="font-clinical text-xs uppercase opacity-50 mb-2">
+          {/* Shop Individual Formula Section */}
+          {shopView === "formulas" && (
+            <div className="pb-4 mb-4">
+              <div className="flex flex-col gap-4">
+                {formulas.map((formula) => {
+                  // Get image based on config
+                  const imageSrc = getFormulaImage(formula.id) || formula.image.src;
+                  return (
+                    <Link
+                      key={formula.id}
+                      href={formula.href}
+                      className="block"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3">
+                        <div className="relative aspect-[3/2] mb-3 rounded-lg overflow-hidden">
+                          <Image
+                            src={imageSrc}
+                            alt={formula.image.alt}
+                            fill
+                            className="object-cover"
+                            style={{
+                              objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
+                            }}
+                            sizes="100vw"
+                          />
+                        </div>
+                        <div className="flex flex-col flex-1">
+                          {/* Formula Name - Small, Above Headline */}
+                          <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
+                            {formula.name}
+                          </p>
+                          
+                          {/* Headline - Always Visible */}
+                          <h3 className="text-lg font-bold leading-tight mb-3">
+                            {formula.headline}
+                          </h3>
+
+                          {/* CTA Button */}
+                          <div className="neo-button px-3 py-1.5 rounded-full font-bold text-xs inline-flex items-center gap-1.5 w-fit mx-auto">
+                            View product
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M5 12h14" />
+                              <path d="m12 5 7 7-7 7" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Navigation - Neutral background with white tiles */}
+          <div className="bg-neutral-100 py-4 px-4 -mx-6 mb-4">
+            <p className="font-clinical text-xs uppercase opacity-50 mb-3">
               Navigation
             </p>
 
-            {/* Main Nav Links - 2x2 Grid with Icons */}
-            <nav className="grid grid-cols-2 gap-2">
+            {/* Main Nav Links - Vertically stacked white tiles */}
+            <nav className="flex flex-col gap-2">
               <a
                 href="/science"
                 className="flex items-center gap-2 py-2 px-3 bg-white border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
@@ -447,60 +459,6 @@ export default function NavigationMobile({
                 </span>
               </a>
             </nav>
-          </div>
-
-          {/* Cart & Account Buttons - Always visible */}
-          <div className="grid grid-cols-2 gap-2 pt-4 mt-auto border-t-2 border-black">
-            <button
-              onClick={() => {
-                openCart();
-                setMobileMenuOpen(false);
-              }}
-              className="flex items-center justify-center gap-2 py-3 px-4 bg-black text-white font-bold text-sm rounded-lg hover:opacity-90 transition-all"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="9" cy="21" r="1" />
-                <circle cx="20" cy="21" r="1" />
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-              </svg>
-              Cart{" "}
-              {itemCount > 0 && (
-                <span className="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px]">
-                  {itemCount}
-                </span>
-              )}
-            </button>
-            <a
-              href="/account"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-3 px-4 border-2 border-black text-black font-bold text-sm rounded-lg hover:bg-black hover:text-white transition-all"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-              Account
-            </a>
           </div>
             </div>
           </div>
