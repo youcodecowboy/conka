@@ -23,7 +23,7 @@ export default function ProtocolCard({
       className="group block"
       onClick={onClick}
     >
-      <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3">
+      <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3 h-full">
         {/* Image Container with Hover Overlay */}
         <div
           className="relative aspect-square mb-4 rounded-lg overflow-hidden"
@@ -43,11 +43,6 @@ export default function ProtocolCard({
               isHovered ? "opacity-95" : "opacity-0 pointer-events-none"
             }`}
           >
-            {/* Protocol Name (Less Intense Header) */}
-            <h4 className="text-sm font-primary opacity-80 text-center mb-3">
-              {protocol.name}
-            </h4>
-
             {/* Situation / Outcome */}
             <p className="text-base font-bold mb-3 leading-snug text-center">
               For those who {selectorData.forPeopleWho}
@@ -83,14 +78,19 @@ export default function ProtocolCard({
         </div>
 
         {/* Content Section (Always Visible) */}
-        <div className="flex flex-col">
+        <div className="flex flex-col flex-1">
+          {/* Protocol Name - Small, Above Outcome */}
+          <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
+            {protocol.name}
+          </p>
+          
           {/* Outcome - Always Visible */}
-          <h3 className="text-lg font-bold leading-tight mb-3">
+          <h3 className="text-lg font-bold leading-tight mb-3 flex-1">
             {selectorData.outcome}
           </h3>
 
           {/* CTA */}
-          <div className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center">
+          <div className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center mt-auto">
             View product
             <svg
               xmlns="http://www.w3.org/2000/svg"
