@@ -1,6 +1,7 @@
 "use client";
 
 import Navigation from "@/app/components/navigation";
+import { AppInstallButtons } from "@/app/components/AppInstallButtons";
 
 export default function AppPage() {
   return (
@@ -21,46 +22,7 @@ export default function AppPage() {
               Take the CONKA Cognitive Test to identify strengths and weaknesses,
               then unlock personalised strategies to improve your score.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
-                href="#"
-                className="neo-button px-8 py-4 font-semibold text-base flex items-center gap-2"
-              >
-                App Store
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z" />
-                </svg>
-              </a>
-              <a
-                href="#"
-                className="neo-button-outline px-8 py-4 font-semibold text-base flex items-center gap-2"
-              >
-                Play Store
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z" />
-                </svg>
-              </a>
-            </div>
+            <AppInstallButtons />
           </div>
         </div>
       </section>
