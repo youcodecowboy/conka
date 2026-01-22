@@ -249,14 +249,14 @@ export default function NavigationMobile({
                   return (
                     <div
                       key={protocolId}
-                      className="flex flex-col"
+                      className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3"
                     >
                       <a
                         href={`/protocol/${protocolId}`}
                         className="block mb-2"
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        <div className="relative aspect-square mb-3 rounded-lg overflow-hidden border-2 border-transparent">
+                        <div className="relative aspect-square mb-3 rounded-lg overflow-hidden">
                           <Image
                             src={protocol.image}
                             alt={protocol.name}
