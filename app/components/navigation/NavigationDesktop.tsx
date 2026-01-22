@@ -16,6 +16,8 @@ export default function NavigationDesktop({
   shopDropdownRef,
   bannerConfig,
   isScrollingDown,
+  onShopAreaEnter,
+  onShopAreaLeave,
 }: NavigationDesktopProps) {
   const { openCart, itemCount } = useCart();
 
@@ -47,7 +49,11 @@ export default function NavigationDesktop({
           {/* Shop + Navigation Links */}
           <div className="hidden lg:flex items-center gap-6 ml-6">
             {/* Shop Mega Menu */}
-            <div className="relative">
+            <div
+              className="relative"
+              onMouseEnter={onShopAreaEnter}
+              onMouseLeave={onShopAreaLeave}
+            >
               <button
                 onClick={() => setShopDropdownOpen(!shopDropdownOpen)}
                 className="px-6 py-1.5 rounded-full bg-transparent font-clinical text-sm border-2 border-current hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all flex items-center gap-2"
@@ -93,6 +99,8 @@ export default function NavigationDesktop({
                 setHoveredSection={setHoveredSection}
                 bannerConfig={bannerConfig}
                 hideBanner={hideBanner}
+                onShopAreaEnter={onShopAreaEnter}
+                onShopAreaLeave={onShopAreaLeave}
               />
             </div>
 

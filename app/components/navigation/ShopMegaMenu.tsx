@@ -10,6 +10,8 @@ export default function ShopMegaMenu({
   setHoveredSection,
   bannerConfig,
   hideBanner,
+  onShopAreaEnter,
+  onShopAreaLeave,
 }: ShopMegaMenuProps) {
   if (!isOpen) return null;
 
@@ -19,7 +21,8 @@ export default function ShopMegaMenu({
       style={{
         top: bannerConfig && !hideBanner ? "136px" : "80px",
       }}
-      onMouseLeave={() => setHoveredSection("protocols")}
+      onMouseEnter={onShopAreaEnter}
+      onMouseLeave={onShopAreaLeave}
     >
       <div className="w-full px-6 md:px-16 py-8">
         <div className="flex gap-12 max-w-[1920px] mx-auto">
