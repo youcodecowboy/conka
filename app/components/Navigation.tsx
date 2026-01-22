@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { CiBeaker1 } from "react-icons/ci";
-import { protocolContent } from "@/app/lib/productData";
+import { protocolContent, formulaContent } from "@/app/lib/productData";
 import { useCart } from "@/app/context/CartContext";
 import { useAuth } from "@/app/context/AuthContext";
 import { Banner, useBannerConfig } from "@/app/components/banner";
@@ -25,6 +25,7 @@ export default function Navigation({
   const { isAuthenticated, customer, loading: authLoading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
+  const [hoveredSection, setHoveredSection] = useState<"protocols" | "formulas" | "quiz">("protocols");
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const shopDropdownRef = useRef<HTMLDivElement>(null);
@@ -70,6 +71,7 @@ export default function Navigation({
         className={`w-full lg:fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
           isScrollingDown ? "lg:-translate-y-full" : "lg:translate-y-0"
         }`}
+        ref={shopDropdownRef}
       >
         {/* Founding Member Banner */}
         {!hideBanner && bannerConfig && <Banner config={bannerConfig} />}
@@ -181,8 +183,8 @@ export default function Navigation({
                   Take the Quiz
                 </a>
 
-                {/* Shop Dropdown */}
-                <div ref={shopDropdownRef} className="relative">
+                {/* Shop Mega Menu */}
+                <div className="relative">
                   <button
                     onClick={() => setShopDropdownOpen(!shopDropdownOpen)}
                     className="px-6 py-1.5 rounded-full bg-transparent font-clinical text-sm border-2 border-current hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all flex items-center gap-2"
@@ -221,282 +223,189 @@ export default function Navigation({
                     </svg>
                   </button>
 
-                  {/* Dropdown Menu */}
+                  {/* Full-Width Mega Menu */}
                   {shopDropdownOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-[800px] bg-[var(--background)] border-2 border-current rounded-lg shadow-lg overflow-hidden z-50">
-                      {/* Quiz CTA */}
-                      <a
-                        href="/quiz"
-                        className="block p-4 bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 transition-opacity border-b-2 border-current relative"
-                        onClick={() => setShopDropdownOpen(false)}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="#000"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <circle cx="12" cy="12" r="10" />
-                              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                              <line x1="12" y1="17" x2="12.01" y2="17" />
-                            </svg>
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <p className="font-bold text-white">
-                                Find Your Protocol
-                              </p>
-                              <span className="px-2 py-0.5 bg-green-500 text-white font-clinical text-xs font-bold rounded-full">
-                                RECOMMENDED
-                              </span>
-                            </div>
-                            <p className="font-clinical text-xs opacity-80 text-white">
-                              Take our 2-minute quiz to find your perfect match.
-                            </p>
-                          </div>
-                          <div className="flex-shrink-0">
-                            <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#f59e0b] text-black font-bold text-sm rounded-full hover:bg-[#d97706] transition-colors">
-                              Take the Quiz
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <path d="M5 12h14" />
-                                <path d="m12 5 7 7-7 7" />
-                              </svg>
-                            </span>
-                          </div>
-                        </div>
-                      </a>
-
-                      {/* Protocols Section - 2x2 Grid */}
-                      <div className="p-4 border-b-2 border-current">
-                        <div className="flex items-center gap-2 mb-4">
-                          <p className="font-clinical text-xs uppercase opacity-50">
-                            Protocols
-                          </p>
-                          <p className="font-primary text-xs opacity-70">
-                            mixed plans for maximum performance
-                          </p>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          {(["1", "2", "3", "4"] as const).map((protocolId) => {
-                            const protocol = protocolContent[protocolId];
-                            const iconMap = {
-                              shield: (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                                </svg>
-                              ),
-                              bolt: (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                                </svg>
-                              ),
-                              balance: (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <line x1="12" y1="3" x2="12" y2="21" />
-                                  <path d="M3 12h18" />
-                                  <circle cx="6" cy="8" r="3" />
-                                  <circle cx="18" cy="8" r="3" />
-                                  <circle cx="6" cy="16" r="3" />
-                                  <circle cx="18" cy="16" r="3" />
-                                </svg>
-                              ),
-                              crown: (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                                </svg>
-                              ),
-                            };
-
-                            return (
-                              <a
-                                key={protocolId}
-                                href={`/protocol/${protocolId}`}
-                                className="block p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
-                                onClick={() => setShopDropdownOpen(false)}
-                              >
-                                <div className="flex items-start gap-3">
-                                  <div className="w-8 h-8 flex items-center justify-center text-[#AAB9BC] flex-shrink-0">
-                                    {
-                                      iconMap[
-                                        protocol.icon as keyof typeof iconMap
-                                      ]
-                                    }
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <p className="font-bold text-sm mb-1">
-                                      {protocol.name}
-                                    </p>
-                                    <p className="font-clinical text-xs opacity-70 leading-relaxed">
-                                      {protocol.subtitle}
-                                    </p>
-                                  </div>
+                    <div 
+                      className="fixed left-0 right-0 bg-[var(--background)] border-b-2 border-current shadow-lg z-50"
+                      style={{ 
+                        top: bannerConfig && !hideBanner ? '136px' : '80px',
+                      }}
+                      onMouseLeave={() => setHoveredSection("protocols")}
+                    >
+                      <div className="w-full px-6 md:px-16 py-8">
+                        <div className="flex gap-12 max-w-[1920px] mx-auto">
+                          {/* Left Side: Dynamic Content Area */}
+                          <div className="flex-1 min-w-0">
+                            {/* Shop by Protocol - Default/Expanded */}
+                            {hoveredSection === "protocols" && (
+                              <div>
+                                <div className="mb-6">
+                                  <h3 className="font-bold text-xl mb-2">Protocols</h3>
+                                  <p className="font-clinical text-base opacity-70">
+                                    Mixed plans combining CONKA Flow and CONKA Clear for maximum performance
+                                  </p>
                                 </div>
-                              </a>
-                            );
-                          })}
-                        </div>
-                      </div>
+                                <div className="grid grid-cols-4 gap-6">
+                                  {(["1", "2", "3", "4"] as const).map((protocolId) => {
+                                    const protocol = protocolContent[protocolId];
+                                    return (
+                                      <a
+                                        key={protocolId}
+                                        href={`/protocol/${protocolId}`}
+                                        className="group block"
+                                        onClick={() => setShopDropdownOpen(false)}
+                                      >
+                                        <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all">
+                                          <Image
+                                            src={protocol.image}
+                                            alt={protocol.name}
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 768px) 50vw, 25vw"
+                                          />
+                                        </div>
+                                        <h4 className="font-bold text-base mb-2">{protocol.name}</h4>
+                                        <p className="font-clinical text-sm opacity-70 mb-2">{protocol.subtitle}</p>
+                                        <p className="font-clinical text-xs opacity-60 line-clamp-2">{protocol.description}</p>
+                                      </a>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
 
-                      {/* Individual Formulas - Side by Side */}
-                      <div className="p-4 border-b-2 border-current">
-                        <div className="flex items-center gap-2 mb-3">
-                          <p className="font-clinical text-xs uppercase opacity-50">
-                            Individual Formulas
-                          </p>
-                          <p className="font-primary text-xs opacity-70">
-                            Order CONKA individually
-                          </p>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <a
-                            href="/conka-flow"
-                            className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
-                            onClick={() => setShopDropdownOpen(false)}
-                          >
-                            <span className="w-8 h-8 bg-amber-500 rounded-sm flex-shrink-0"></span>
-                            <div>
-                              <span className="font-bold text-sm block">
-                                CONKA Flow
-                              </span>
-                              <span className="font-clinical text-xs opacity-70">
-                                Caffeine-Free Focus
-                              </span>
-                            </div>
-                          </a>
-                          <a
-                            href="/conka-clarity"
-                            className="flex items-center gap-3 p-3 rounded border-2 border-transparent hover:border-current hover:bg-current/5 transition-all"
-                            onClick={() => setShopDropdownOpen(false)}
-                          >
-                            <span className="w-8 h-8 bg-[#AAB9BC] rounded-sm flex-shrink-0"></span>
-                            <div>
-                              <span className="font-bold text-sm block">
-                                CONKA Clear
-                              </span>
-                              <span className="font-clinical text-xs opacity-70">
-                                Peak Performance Boost
-                              </span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
+                            {/* Shop by Individual Formula - Expanded */}
+                            {hoveredSection === "formulas" && (
+                              <div>
+                                <div className="mb-6">
+                                  <h3 className="font-bold text-xl mb-2">Individual Formulas</h3>
+                                  <p className="font-clinical text-base opacity-70">
+                                    Order CONKA Flow or CONKA Clear separately
+                                  </p>
+                                </div>
+                                <div className="grid grid-cols-2 gap-8">
+                                  <a
+                                    href="/conka-flow"
+                                    className="group block"
+                                    onClick={() => setShopDropdownOpen(false)}
+                                  >
+                                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all">
+                                      <Image
+                                        src="/CONKA_01.jpg"
+                                        alt="CONKA Flow"
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 768px) 50vw, 50vw"
+                                      />
+                                    </div>
+                                    <h4 className="font-bold text-xl mb-2">CONKA Flow</h4>
+                                    <p className="font-clinical text-base opacity-70 mb-3">{formulaContent["01"].tagline}</p>
+                                    <p className="font-clinical text-sm opacity-60">{formulaContent["01"].subheadline}</p>
+                                  </a>
+                                  <a
+                                    href="/conka-clarity"
+                                    className="group block"
+                                    onClick={() => setShopDropdownOpen(false)}
+                                  >
+                                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all">
+                                      <Image
+                                        src="/CONKA_63.jpg"
+                                        alt="CONKA Clear"
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 768px) 50vw, 50vw"
+                                      />
+                                    </div>
+                                    <h4 className="font-bold text-xl mb-2">CONKA Clear</h4>
+                                    <p className="font-clinical text-base opacity-70 mb-3">{formulaContent["02"].tagline}</p>
+                                    <p className="font-clinical text-sm opacity-60">{formulaContent["02"].subheadline}</p>
+                                  </a>
+                                </div>
+                              </div>
+                            )}
 
-                      {/* Account Section - Compact */}
-                      <div className="px-4 py-3 bg-current/5 flex items-center justify-between">
-                        <p className="font-clinical text-xs uppercase opacity-40">
-                          Account
-                        </p>
-                        <div className="flex items-center gap-4">
-                          <a
-                            href={
-                              isAuthenticated ? "/account" : "/account/login"
-                            }
-                            className="font-clinical text-xs hover:opacity-70 transition-opacity flex items-center gap-1.5"
-                            onClick={() => setShopDropdownOpen(false)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="12"
-                              height="12"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="opacity-60"
-                            >
-                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                              <circle cx="12" cy="7" r="4" />
-                            </svg>
-                            {isAuthenticated
-                              ? customer?.firstName || "My Account"
-                              : "Sign In"}
-                          </a>
-                          <span className="opacity-20">|</span>
-                          <a
-                            href={
-                              isAuthenticated
-                                ? "/account/subscriptions"
-                                : "/account/login"
-                            }
-                            className="font-clinical text-xs hover:opacity-70 transition-opacity flex items-center gap-1.5"
-                            onClick={() => setShopDropdownOpen(false)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="12"
-                              height="12"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="opacity-60"
-                            >
-                              <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                              <path d="M22 12A10 10 0 0 0 12 2v10z" />
-                            </svg>
-                            Manage Subscription
-                          </a>
+                            {/* Help me Choose - Expanded */}
+                            {hoveredSection === "quiz" && (
+                              <div className="flex items-center justify-center min-h-[400px]">
+                                <div className="max-w-md w-full p-8 bg-[var(--foreground)] text-[var(--background)] rounded-lg">
+                                  <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="text-black"
+                                      >
+                                        <circle cx="12" cy="12" r="10" />
+                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                      </svg>
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <p className="font-bold text-lg text-white">Find Your Protocol</p>
+                                        <span className="px-2 py-0.5 bg-green-500 text-white font-clinical text-xs font-bold rounded-full">
+                                          RECOMMENDED
+                                        </span>
+                                      </div>
+                                      <p className="font-clinical text-sm opacity-80 text-white">
+                                        Take our 2-minute quiz to find your perfect match.
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <a
+                                    href="/quiz"
+                                    onClick={() => setShopDropdownOpen(false)}
+                                    className="block w-full py-3 px-6 bg-[#f59e0b] text-black font-bold text-base rounded-full hover:bg-[#d97706] transition-colors text-center"
+                                  >
+                                    Take the Quiz
+                                  </a>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Right Side: Section Headers Stacked Vertically */}
+                          <div className="w-64 flex-shrink-0 border-l-2 border-current pl-8 pr-0">
+                            <div className="flex flex-col gap-4">
+                              <button
+                                onMouseEnter={() => setHoveredSection("protocols")}
+                                className={`px-4 py-3 text-left font-clinical text-sm font-bold transition-all rounded-lg border-2 ${
+                                  hoveredSection === "protocols"
+                                    ? "border-current bg-current/5"
+                                    : "border-transparent opacity-60 hover:opacity-100 hover:border-current/30"
+                                }`}
+                              >
+                                Shop by Protocol
+                              </button>
+                              <button
+                                onMouseEnter={() => setHoveredSection("formulas")}
+                                className={`px-4 py-3 text-left font-clinical text-sm font-bold transition-all rounded-lg border-2 ${
+                                  hoveredSection === "formulas"
+                                    ? "border-current bg-current/5"
+                                    : "border-transparent opacity-60 hover:opacity-100 hover:border-current/30"
+                                }`}
+                              >
+                                Shop by Individual Formula
+                              </button>
+                              <button
+                                onMouseEnter={() => setHoveredSection("quiz")}
+                                className={`px-4 py-3 text-left font-clinical text-sm font-bold transition-all rounded-lg border-2 ${
+                                  hoveredSection === "quiz"
+                                    ? "border-current bg-current/5"
+                                    : "border-transparent opacity-60 hover:opacity-100 hover:border-current/30"
+                                }`}
+                              >
+                                Help me Choose
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
