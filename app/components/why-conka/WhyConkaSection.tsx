@@ -90,7 +90,7 @@ export function WhyConkaSection({
           {/* App Install Buttons for Section 4 */}
           {point.id === 4 && (
             <div className="mt-6">
-              <AppInstallButtons />
+              <AppInstallButtons inverted={!isLight} />
             </div>
           )}
         </div>

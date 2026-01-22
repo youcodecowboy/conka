@@ -108,6 +108,7 @@ export function WhyConkaMobile() {
                 <AppInstallButtons 
                   iconSize={18}
                   buttonClassName="px-6 py-3 text-sm"
+                  inverted={!isLight}
                 />
               </div>
             )}
