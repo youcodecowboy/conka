@@ -175,7 +175,7 @@ export default function NavigationMobile({
             {/* Content - With top spacing */}
             <div className="mt-4">
           {/* Quiz CTA - Prominent with RECOMMENDED tag - FIRST */}
-          <div className="block p-3 pb-4 mb-4 border-b-2 border-black bg-black text-white rounded-lg">
+          <div className="block p-3 pb-4 mb-4 border-b-8 border-gray-200 bg-black text-white rounded-lg">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                 <svg
@@ -216,23 +216,23 @@ export default function NavigationMobile({
           </div>
 
           {/* Shop Toggle */}
-          <div className="flex gap-2 mb-4 pb-4 border-b-2 border-black">
+          <div className="flex gap-0 mb-4 bg-gray-100 p-1 rounded-full border-2 border-current">
             <button
               onClick={() => setShopView("protocols")}
-              className={`flex-1 px-4 py-2 rounded-full border-2 border-current transition-all ${
+              className={`flex-1 px-4 py-2 rounded-full transition-all ${
                 shopView === "protocols"
                   ? "bg-[var(--foreground)] text-[var(--background)]"
-                  : "bg-transparent hover:bg-current/10"
+                  : "bg-transparent"
               }`}
             >
               <span className="font-clinical text-sm font-medium">Shop by Protocol</span>
             </button>
             <button
               onClick={() => setShopView("formulas")}
-              className={`flex-1 px-4 py-2 rounded-full border-2 border-current transition-all ${
+              className={`flex-1 px-4 py-2 rounded-full transition-all ${
                 shopView === "formulas"
                   ? "bg-[var(--foreground)] text-[var(--background)]"
-                  : "bg-transparent hover:bg-current/10"
+                  : "bg-transparent"
               }`}
             >
               <span className="font-clinical text-sm font-medium">Shop Individual Formula</span>
@@ -247,26 +247,53 @@ export default function NavigationMobile({
                   const protocol = protocolContent[protocolId];
                   const selectorData = protocolSelectorData[protocolId];
                   return (
-                    <a
+                    <div
                       key={protocolId}
-                      href={`/protocol/${protocolId}`}
-                      className="block"
-                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex flex-col"
                     >
-                      <div className="relative aspect-square mb-2 rounded-lg overflow-hidden border-2 border-transparent">
-                        <Image
-                          src={protocol.image}
-                          alt={protocol.name}
-                          fill
-                          className="object-cover"
-                          sizes="50vw"
-                        />
-                      </div>
-                      <h4 className="font-bold text-sm mb-1">{protocol.name}</h4>
-                      <p className="font-clinical text-xs opacity-70">
-                        {selectorData.forPeopleWho}
-                      </p>
-                    </a>
+                      <a
+                        href={`/protocol/${protocolId}`}
+                        className="block mb-2"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <div className="relative aspect-square mb-3 rounded-lg overflow-hidden border-2 border-transparent">
+                          <Image
+                            src={protocol.image}
+                            alt={protocol.name}
+                            fill
+                            className="object-cover"
+                            sizes="50vw"
+                          />
+                        </div>
+                        <p className="font-primary text-[10px] uppercase tracking-wide opacity-60 mb-1">
+                          {protocol.name}
+                        </p>
+                        <h3 className="text-base font-bold leading-tight mb-2">
+                          {selectorData.outcome}
+                        </h3>
+                      </a>
+                      <a
+                        href={`/protocol/${protocolId}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="neo-button px-3 py-1.5 rounded-full font-bold text-xs inline-flex items-center gap-1.5 w-fit mx-auto"
+                      >
+                        View product
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M5 12h14" />
+                          <path d="m12 5 7 7-7 7" />
+                        </svg>
+                      </a>
+                    </div>
                   );
                 })}
               </div>
