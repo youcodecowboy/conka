@@ -362,7 +362,7 @@ export default function NavigationMobile({
           )}
 
           {/* Navigation - Neutral background with white tiles */}
-          <div className="bg-neutral-50 py-4 px-4 -mx-6 mb-4">
+          <div className="bg-neutral-100 py-4 px-4 -mx-6 mb-4">
             <p className="font-clinical text-xs uppercase opacity-50 mb-3">
               Navigation
             </p>
