@@ -9,6 +9,7 @@ import { Banner } from "@/app/components/banner";
 import { protocolContent } from "@/app/lib/productData";
 import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
 import { formulas } from "@/app/components/shop/formulasShowcaseData";
+import { getProtocolImage } from "./protocolImageConfig";
 import type { NavigationMobileProps } from "./types";
 
 export default function NavigationMobile({
@@ -246,6 +247,8 @@ export default function NavigationMobile({
                 {(["1", "2", "3", "4"] as const).map((protocolId) => {
                   const protocol = protocolContent[protocolId];
                   const selectorData = protocolSelectorData[protocolId];
+                  // Get image based on config
+                  const imageSrc = getProtocolImage(protocolId) || protocol.image;
                   return (
                     <div
                       key={protocolId}
@@ -258,7 +261,7 @@ export default function NavigationMobile({
                       >
                         <div className="relative aspect-square mb-3 rounded-lg overflow-hidden">
                           <Image
-                            src={protocol.image}
+                            src={imageSrc}
                             alt={protocol.name}
                             fill
                             className="object-cover"
