@@ -241,7 +241,7 @@ export default function NavigationMobile({
 
           {/* Shop by Protocol Section */}
           {shopView === "protocols" && (
-            <div className="pb-4 mb-4 border-b-2 border-black">
+            <div className="pb-4 mb-4">
               <div className="grid grid-cols-2 gap-3">
                 {(["1", "2", "3", "4"] as const).map((protocolId) => {
                   const protocol = protocolContent[protocolId];
@@ -302,7 +302,7 @@ export default function NavigationMobile({
 
           {/* Shop Individual Formula Section */}
           {shopView === "formulas" && (
-            <div className="pb-4 mb-4 border-b-2 border-black">
+            <div className="pb-4 mb-4">
               <div className="flex flex-col gap-4">
                 {formulas.map((formula) => (
                   <Link
@@ -361,14 +361,14 @@ export default function NavigationMobile({
             </div>
           )}
 
-          {/* Navigation - Visually separated */}
-          <div className="py-4 mb-4">
-            <p className="font-clinical text-xs uppercase opacity-50 mb-2">
+          {/* Navigation - Neutral background with white tiles */}
+          <div className="bg-neutral-50 py-4 px-4 -mx-6 mb-4">
+            <p className="font-clinical text-xs uppercase opacity-50 mb-3">
               Navigation
             </p>
 
-            {/* Main Nav Links - 2x2 Grid with Icons */}
-            <nav className="grid grid-cols-2 gap-2">
+            {/* Main Nav Links - Vertically stacked white tiles */}
+            <nav className="flex flex-col gap-2">
               <a
                 href="/science"
                 className="flex items-center gap-2 py-2 px-3 bg-white border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
