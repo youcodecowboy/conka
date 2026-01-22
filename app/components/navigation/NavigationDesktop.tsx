@@ -31,8 +31,8 @@ export default function NavigationDesktop({
 
       {/* Header - Edge to edge */}
       <header className="w-full bg-[var(--background)] border-b-2 border-current border-opacity-10">
-        <div className="px-6 md:px-16 py-1 flex justify-between items-center">
-          {/* Logo - Left (links to home) */}
+        <div className="px-6 md:px-16 py-1 flex items-center relative">
+          {/* Logo - Left */}
           <a href="/" className="flex items-center">
             <Image
               src="/conka.svg"
@@ -44,8 +44,58 @@ export default function NavigationDesktop({
             />
           </a>
 
-          {/* Desktop Navigation & Cart - Right */}
-          <div className="hidden lg:flex items-center">
+          {/* Shop + Navigation Links */}
+          <div className="hidden lg:flex items-center gap-6 ml-6">
+            {/* Shop Mega Menu */}
+            <div className="relative">
+              <button
+                onClick={() => setShopDropdownOpen(!shopDropdownOpen)}
+                className="px-6 py-1.5 rounded-full bg-transparent font-clinical text-sm border-2 border-current hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+                Shop
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={`transition-transform ${
+                    shopDropdownOpen ? "rotate-180" : ""
+                  }`}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+
+              <ShopMegaMenu
+                isOpen={shopDropdownOpen}
+                onClose={() => setShopDropdownOpen(false)}
+                hoveredSection={hoveredSection}
+                setHoveredSection={setHoveredSection}
+                bannerConfig={bannerConfig}
+                hideBanner={hideBanner}
+              />
+            </div>
+
             <nav className="flex items-center gap-6">
               <a
                 href="/science"
@@ -114,103 +164,60 @@ export default function NavigationDesktop({
                 </svg>
                 Our Story
               </a>
-              <a
-                href="/quiz"
-                className="hidden lg:flex items-center gap-2 font-clinical text-sm tracking-wide hover:opacity-70 transition-all"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                  <line x1="12" y1="17" x2="12.01" y2="17" />
-                </svg>
-                Take the Quiz
-              </a>
-
-              {/* Shop Mega Menu */}
-              <div className="relative">
-                <button
-                  onClick={() => setShopDropdownOpen(!shopDropdownOpen)}
-                  className="px-6 py-1.5 rounded-full bg-transparent font-clinical text-sm border-2 border-current hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all flex items-center gap-2"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <path d="M16 10a4 4 0 0 1-8 0" />
-                  </svg>
-                  Shop
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`transition-transform ${
-                      shopDropdownOpen ? "rotate-180" : ""
-                    }`}
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
-
-                <ShopMegaMenu
-                  isOpen={shopDropdownOpen}
-                  onClose={() => setShopDropdownOpen(false)}
-                  hoveredSection={hoveredSection}
-                  setHoveredSection={setHoveredSection}
-                  bannerConfig={bannerConfig}
-                  hideBanner={hideBanner}
-                />
-              </div>
-
-              {/* Account Icon */}
-              <a
-                href="/account/login"
-                className="p-2 hover:opacity-70 transition-all"
-                aria-label="Account"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-              </a>
             </nav>
+          </div>
+
+          {/* White Space */}
+          <div className="flex-1"></div>
+
+          {/* Right: Take Quiz + Account + Cart */}
+          <div className="hidden lg:flex items-center gap-4">
+            {/* Take the Quiz */}
+            <a
+              href="/quiz"
+              className="flex items-center gap-2 font-clinical text-sm tracking-wide hover:opacity-70 transition-all"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              Take the Quiz
+            </a>
+            {/* Account Icon */}
+            <a
+              href="/account/login"
+              className="p-2 hover:opacity-70 transition-all"
+              aria-label="Account"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </a>
             <button
               onClick={openCart}
-              className="ml-6 p-2 hover:opacity-70 transition-all relative"
+              className="p-2 hover:opacity-70 transition-all relative"
               aria-label="Open cart"
             >
               <svg
