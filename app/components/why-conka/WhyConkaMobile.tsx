@@ -57,7 +57,11 @@ export function WhyConkaMobile() {
             }`}
           >
             {/* Section Number */}
-            <div className="font-clinical text-5xl font-bold mb-4 opacity-20">
+            <div
+              className={`font-clinical text-5xl font-bold mb-4 ${
+                isLight ? "text-black" : "text-white"
+              }`}
+            >
               {formattedId}
             </div>
 

@@ -63,7 +63,11 @@ export function WhyConkaSection({
           }`}
         >
           {/* Section Number */}
-          <div className="font-clinical text-6xl md:text-7xl lg:text-8xl font-bold mb-6 opacity-20">
+          <div
+            className={`font-clinical text-6xl md:text-7xl lg:text-8xl font-bold mb-6 ${
+              isLight ? "text-black" : "text-white"
+            }`}
+          >
             {formattedId}
           </div>
 
