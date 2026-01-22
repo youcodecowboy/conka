@@ -41,10 +41,10 @@ export const whyConkaPoints: WhyConkaPoint[] = [
   {
     id: 4,
     theme: "dark",
-    headline: "Measure your improvement with our free cognitive test",
+    headline: "Measure your improvement with our industry-leading app",
     subheading: "We don't just talk—we show you the results",
     description:
-      "CONKA includes a research-quality cognitive test developed in partnership with Cambridge University. The Integrated Cognitive Assessment (ICA) is a 5-minute, language-independent digital test that measures brain processing speed with precision. Track your cognitive function over time and see how much CONKA is helping you. It's free to use and unlearnable—giving you objective proof of improvement.",
+      "CONKA includes an industry-leading cognitive testing app developed in partnership with Cambridge University. The Integrated Cognitive Assessment (ICA) is an unlearnable, 5-minute, language-independent digital test that measures your brain's processing speed with precision. It's purely a measurement of how your brain is performing—track your cognitive function over time and see exactly how much CONKA is helping you with objective proof of improvement.",
     image: "/story/Tech_Update_1.webp",
   },
   {
