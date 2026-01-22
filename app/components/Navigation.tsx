@@ -6,6 +6,7 @@ import { CiBeaker1 } from "react-icons/ci";
 import { protocolContent, formulaContent } from "@/app/lib/productData";
 import { formulas } from "@/app/components/shop/formulasShowcaseData";
 import FormulaCardCompact from "@/app/components/Navigation/FormulaCardCompact";
+import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
 import { useCart } from "@/app/context/CartContext";
 import { useAuth } from "@/app/context/AuthContext";
 import { Banner, useBannerConfig } from "@/app/components/banner";
@@ -237,7 +238,7 @@ export default function Navigation({
                       <div className="w-full px-6 md:px-16 py-8">
                         <div className="flex gap-12 max-w-[1920px] mx-auto">
                           {/* Left Side: Dynamic Content Area */}
-                          <div className="flex-1 min-w-0 bg-neutral-50">
+                          <div className="flex-1 min-w-0">
                             {/* Shop by Protocol - Default/Expanded */}
                             {hoveredSection === "protocols" && (
                               <div>
@@ -250,6 +251,7 @@ export default function Navigation({
                                 <div className="grid grid-cols-4 gap-6">
                                   {(["1", "2", "3", "4"] as const).map((protocolId) => {
                                     const protocol = protocolContent[protocolId];
+                                    const selectorData = protocolSelectorData[protocolId];
                                     return (
                                       <a
                                         key={protocolId}
@@ -257,14 +259,39 @@ export default function Navigation({
                                         className="group block"
                                         onClick={() => setShopDropdownOpen(false)}
                                       >
-                                        <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all">
+                                        <div className="relative aspect-square mb-4 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-current transition-all">
                                           <Image
                                             src={protocol.image}
                                             alt={protocol.name}
                                             fill
-                                            className="object-contain"
+                                            className="object-cover transition-transform duration-500 group-hover:scale-110"
                                             sizes="(max-width: 768px) 50vw, 25vw"
                                           />
+                                          {/* Hover Overlay */}
+                                          <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4 text-white">
+                                            <h4 className="font-bold text-lg mb-3 text-center">{protocol.name}</h4>
+                                            <ul className="space-y-2 text-sm font-clinical">
+                                              {selectorData.benefits.slice(0, 3).map((benefit, idx) => (
+                                                <li key={idx} className="flex items-center gap-2">
+                                                  <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="16"
+                                                    height="16"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    className="flex-shrink-0"
+                                                  >
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                  </svg>
+                                                  <span>{benefit}</span>
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          </div>
                                         </div>
                                         <h4 className="font-bold text-base mb-2">{protocol.name}</h4>
                                         <p className="font-clinical text-sm opacity-70 mb-2">{protocol.subtitle}</p>
