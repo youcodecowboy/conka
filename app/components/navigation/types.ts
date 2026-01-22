@@ -25,6 +25,8 @@ export interface NavigationDesktopProps {
   shopDropdownRef: React.RefObject<HTMLDivElement | null>;
   bannerConfig: ReturnType<typeof import("@/app/components/banner").useBannerConfig>;
   isScrollingDown: boolean;
+  onShopAreaEnter: () => void;
+  onShopAreaLeave: () => void;
 }
 
 /**
@@ -47,6 +49,8 @@ export interface ShopMegaMenuProps {
   setHoveredSection: (section: HoveredSection) => void;
   bannerConfig: ReturnType<typeof import("@/app/components/banner").useBannerConfig>;
   hideBanner: boolean;
+  onShopAreaEnter: () => void;
+  onShopAreaLeave: () => void;
 }
 
 /**
