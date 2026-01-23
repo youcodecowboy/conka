@@ -39,13 +39,13 @@ const formulaImages: Record<
   { src: string; alt: string; focalX: number; focalY: number }
 > = {
   "01": {
-    src: "/CONKA_51.jpg",
+    src: "/CONKA_01.jpg",
     alt: "CONKA Flow bottle - Caffeine-Free Focus",
     focalX: 55,
     focalY: 48,
   },
   "02": {
-    src: "/CONKA_52.jpg",
+    src: "/CONKA_06.jpg",
     alt: "CONKA Clear bottle - Peak Performance Boost",
     focalX: 52,
     focalY: 50,
