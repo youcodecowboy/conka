@@ -13,10 +13,17 @@ const SCREENSHOTS = [
   "/app/5.png",
 ];
 
+// Fixed dimensions - all images maintain same size to prevent layout shifts
+const ACTIVE_WIDTH = 300;
+const ACTIVE_HEIGHT = 650;
+const INACTIVE_SCALE = 0.75; // 75% scale for inactive images
+
 export function AppHeroDesktop() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const isScrollingProgrammatically = useRef(false);
+  const hasInitialized = useRef(false);
 
   const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % SCREENSHOTS.length);
@@ -26,20 +33,122 @@ export function AppHeroDesktop() {
     setCurrentIndex((prev) => (prev - 1 + SCREENSHOTS.length) % SCREENSHOTS.length);
   }, []);
 
+  // Find which image is closest to center
+  const findCenteredImage = useCallback((): number => {
+    const container = scrollContainerRef.current;
+    if (!container) return 0;
+
+    const containerRect = container.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+
+    imageRefs.current.forEach((image, index) => {
+      if (!image) return;
+      const imageRect = image.getBoundingClientRect();
+      const imageCenter = imageRect.left + imageRect.width / 2;
+      const distance = Math.abs(containerCenter - imageCenter);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    return closestIndex;
+  }, []);
+
+  // Handle scroll to detect centered image
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      if (isScrollingProgrammatically.current) return;
+
+      const centeredIndex = findCenteredImage();
+      if (centeredIndex !== currentIndex) {
+        setCurrentIndex(centeredIndex);
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [currentIndex, findCenteredImage]);
+
   // Auto-scroll to center active image
   useEffect(() => {
     const activeImage = imageRefs.current[currentIndex];
     const container = scrollContainerRef.current;
     if (activeImage && container) {
+      isScrollingProgrammatically.current = true;
+      
+      // Calculate scroll position to center the active image
+      // Account for the container's padding and the image's actual position
       const containerRect = container.getBoundingClientRect();
-      const imageRect = activeImage.getBoundingClientRect();
-      const scrollLeft = activeImage.offsetLeft - containerRect.width / 2 + imageRect.width / 2;
+      const containerCenter = containerRect.width / 2;
+      
+      // Get the image's position relative to the scroll container
+      const imageCenter = activeImage.offsetLeft + (activeImage.offsetWidth / 2);
+      const scrollLeft = imageCenter - containerCenter;
+      
       container.scrollTo({
         left: scrollLeft,
         behavior: 'smooth',
       });
+
+      // Reset flag after scroll completes
+      setTimeout(() => {
+        isScrollingProgrammatically.current = false;
+      }, 500);
     }
   }, [currentIndex]);
+
+  // Center first image on mount
+  useEffect(() => {
+    if (hasInitialized.current) return;
+
+    const centerFirstImage = () => {
+      const container = scrollContainerRef.current;
+      const firstImage = imageRefs.current[0];
+      
+      if (container && firstImage && firstImage.offsetWidth > 0) {
+        isScrollingProgrammatically.current = true;
+        
+        const containerRect = container.getBoundingClientRect();
+        const containerCenter = containerRect.width / 2;
+        const imageCenter = firstImage.offsetLeft + (firstImage.offsetWidth / 2);
+        const scrollLeft = imageCenter - containerCenter;
+        
+        // Use scrollTo with instant behavior for initial positioning
+        container.scrollTo({
+          left: scrollLeft,
+          behavior: 'auto',
+        });
+
+        setTimeout(() => {
+          isScrollingProgrammatically.current = false;
+          hasInitialized.current = true;
+        }, 100);
+        return true;
+      }
+      return false;
+    };
+
+    // Use requestAnimationFrame to ensure DOM is ready
+    const rafId = requestAnimationFrame(() => {
+      if (!centerFirstImage()) {
+        setTimeout(() => {
+          if (!centerFirstImage()) {
+            setTimeout(centerFirstImage, 500);
+          }
+        }, 200);
+      }
+    });
+
+    return () => cancelAnimationFrame(rafId);
+  }, []);
 
   // Keyboard navigation
   useEffect(() => {
@@ -64,7 +173,14 @@ export function AppHeroDesktop() {
       </div>
 
       {/* Carousel Container - Horizontal Scroll View */}
-      <div className="relative mb-6 pb-12" style={{ height: '874px' }}>
+      <div 
+        className="relative mb-6 pb-12" 
+        style={{ 
+          height: `${ACTIVE_HEIGHT}px`,
+          minHeight: `${ACTIVE_HEIGHT}px`,
+          maxHeight: `${ACTIVE_HEIGHT}px`,
+        }}
+      >
         {/* Left fade gradient */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none z-30" />
         
@@ -73,40 +189,62 @@ export function AppHeroDesktop() {
         
         <div 
           ref={scrollContainerRef}
-          className="overflow-x-auto overflow-y-visible [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-full"
+          className="overflow-x-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-full"
+          style={{ height: `${ACTIVE_HEIGHT}px` }}
         >
-          <div className="flex items-center gap-6 px-8 h-full" style={{ width: 'max-content' }}>
+          <div 
+            className="flex items-center gap-6 px-8 h-full" 
+            style={{ 
+              width: 'max-content',
+              height: `${ACTIVE_HEIGHT}px`,
+              alignItems: 'center',
+            }}
+          >
             {SCREENSHOTS.map((src, index) => {
               const distance = Math.abs(index - currentIndex);
               const isActive = index === currentIndex;
               const isVisible = distance <= 2; // Show 2 images on each side
 
+              // Calculate scale - active is 1.0, inactive is INACTIVE_SCALE
+              const scale = isActive ? 1 : INACTIVE_SCALE;
+              
               return (
                 <div
                   key={src}
-                  ref={(el) => (imageRefs.current[index] = el)}
+                  ref={(el) => { imageRefs.current[index] = el; }}
                   className={`flex-shrink-0 transition-all duration-500 ease-out ${
                     isActive
-                      ? "scale-100 opacity-100 z-10"
+                      ? "opacity-100 z-10"
                       : isVisible
-                      ? "scale-75 opacity-60 z-0"
-                      : "scale-50 opacity-0 z-0 pointer-events-none"
+                      ? "opacity-60 z-0"
+                      : "opacity-0 z-0 pointer-events-none"
                   }`}
                   style={{
-                    width: isActive ? '403px' : '302px', // 806px / 2 for active, 75% for others
-                    height: isActive ? '874px' : '655px', // 1748px / 2 for active, 75% for others
+                    // Fixed dimensions for all images to prevent layout shifts
+                    width: `${ACTIVE_WIDTH}px`,
+                    height: `${ACTIVE_HEIGHT}px`,
+                    // Use transform scale instead of changing dimensions
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'center center',
                     cursor: isActive ? 'default' : 'pointer',
                   }}
                   onClick={() => !isActive && setCurrentIndex(index)}
                 >
-                  <div className="relative w-full h-full rounded-3xl overflow-hidden">
+                  <div 
+                    className="relative w-full h-full rounded-3xl overflow-hidden"
+                    style={{
+                      width: `${ACTIVE_WIDTH}px`,
+                      height: `${ACTIVE_HEIGHT}px`,
+                    }}
+                  >
                     <Image
                       src={src}
                       alt={`CONKA App screenshot ${index + 1}`}
                       fill
                       className="object-contain rounded-3xl"
                       priority={index === 0}
-                      sizes="403px"
+                      loading={index === 0 ? undefined : "lazy"}
+                      sizes={`${ACTIVE_WIDTH}px`}
                     />
                   </div>
                 </div>
