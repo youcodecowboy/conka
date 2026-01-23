@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Navigation from "@/app/components/Navigation";
+import Navigation from "@/app/components/navigation";
 import { WinPageDesktop, WinPageMobile } from "@/app/components/win";
 import useIsMobile from "@/app/hooks/useIsMobile";
 

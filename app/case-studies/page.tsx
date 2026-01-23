@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Navigation from "@/app/components/Navigation";
+import Navigation from "@/app/components/navigation";
 import CaseStudiesPageDesktop from "@/app/components/case-studies/CaseStudiesPageDesktop";
 import CaseStudiesPageMobile from "@/app/components/case-studies/CaseStudiesPageMobile";
 import useIsMobile from "@/app/hooks/useIsMobile";

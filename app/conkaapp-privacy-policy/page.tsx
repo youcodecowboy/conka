@@ -1,6 +1,6 @@
 "use client";
 
-import Navigation from "@/app/components/Navigation";
+import Navigation from "@/app/components/navigation";
 import Image from "next/image";
 
 export default function PrivacyPolicyPage() {

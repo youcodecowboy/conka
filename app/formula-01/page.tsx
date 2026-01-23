@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Navigation from "@/app/components/Navigation";
+import Navigation from "@/app/components/navigation";
 import {
   ProductHero,
   ProductHeroMobile,
