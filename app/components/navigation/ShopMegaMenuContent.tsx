@@ -58,14 +58,11 @@ export default function ShopMegaMenuContent({
         <div>
           <div className="mb-6">
             <h3 className="font-bold text-xl mb-2">We are here to help</h3>
-            <p className="font-clinical text-base opacity-70">
-              Find your perfect CONKA match with our personalized quiz
-            </p>
           </div>
-          <div className="grid grid-cols-2 gap-8 min-h-[280px]">
+          <div className="grid grid-cols-2 gap-8 min-h-[225px]">
             {/* Left: Quiz Section */}
-            <div className="flex items-center pr-8">
-            <div className="w-full p-8 bg-[var(--foreground)] text-[var(--background)] rounded-lg">
+            <div className="flex items-center pr-8 min-h-[225px]">
+            <div className="w-full h-full p-8 bg-[var(--foreground)] text-[var(--background)] rounded-lg">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                   <svg
@@ -108,7 +105,7 @@ export default function ShopMegaMenuContent({
             </div>
 
             {/* Right: Learn More Section */}
-            <div className="flex flex-col justify-center pl-8">
+            <div className="flex flex-col justify-center pl-8 min-h-[225px]">
               <h3 className="font-bold text-xl mb-4">Learn more</h3>
               <div className="flex flex-col gap-3">
                 <a
