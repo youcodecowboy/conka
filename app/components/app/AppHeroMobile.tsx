@@ -56,20 +56,18 @@ export function AppHeroMobile() {
   return (
     <div className="w-full">
       <div className="text-center mb-4">
-        <h1 className="text-2xl font-bold mb-3">
+        <h1 className="text-2xl font-bold mb-4">
           Discover How Your Brain Performs Today
         </h1>
-        <p className="text-sm mb-4 max-w-lg mx-auto">
-          Take the CONKA Cognitive Test to identify strengths and weaknesses,
-          then unlock personalised strategies to improve your score.
-        </p>
       </div>
 
       {/* Carousel Container */}
-      <div className="relative w-full max-w-md mx-auto mb-4">
+      <div className="relative w-full mx-auto mb-4" style={{ maxWidth: '403px' }}>
         <div
-          className="relative w-full overflow-hidden rounded-3xl"
-          style={{ minHeight: '400px' }}
+          className="relative w-full overflow-hidden rounded-3xl pb-12"
+          style={{ 
+            aspectRatio: '806/1748'
+          }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -84,25 +82,23 @@ export function AppHeroMobile() {
             {SCREENSHOTS.map((src, index) => (
               <div
                 key={src}
-                className="relative flex-shrink-0 w-full h-full flex items-center justify-center"
+                className="relative flex-shrink-0 w-full h-full"
               >
-                <div className="relative w-full h-full max-w-sm mx-auto">
-                  <Image
-                    src={src}
-                    alt={`CONKA App screenshot ${index + 1}`}
-                    fill
-                    className="object-contain rounded-3xl"
-                    priority={index === 0}
-                    sizes="100vw"
-                  />
-                </div>
+                <Image
+                  src={src}
+                  alt={`CONKA App screenshot ${index + 1}`}
+                  fill
+                  className="object-contain rounded-3xl"
+                  priority={index === 0}
+                  sizes="403px"
+                />
               </div>
             ))}
           </div>
 
           {/* Dot Indicators */}
           {SCREENSHOTS.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-2 z-10 pb-2">
               {SCREENSHOTS.map((_, index) => (
                 <button
                   key={index}
