@@ -13,17 +13,20 @@ const SCREENSHOTS = [
   "/app/5.png",
 ];
 
-// Fixed dimensions - all images maintain same size to prevent layout shifts
+// Fixed dimensions
 const ACTIVE_WIDTH = 300;
 const ACTIVE_HEIGHT = 650;
-const INACTIVE_SCALE = 0.75; // 75% scale for inactive images
+const INACTIVE_SCALE = 0.75;
+
+// Calculate actual inactive dimensions
+const INACTIVE_WIDTH = ACTIVE_WIDTH * INACTIVE_SCALE;
+const INACTIVE_HEIGHT = ACTIVE_HEIGHT * INACTIVE_SCALE;
 
 export function AppHeroDesktop() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isScrollingProgrammatically = useRef(false);
-  const hasInitialized = useRef(false);
 
   const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % SCREENSHOTS.length);
@@ -81,84 +84,62 @@ export function AppHeroDesktop() {
   useEffect(() => {
     const activeImage = imageRefs.current[currentIndex];
     const container = scrollContainerRef.current;
-    if (activeImage && container) {
-      isScrollingProgrammatically.current = true;
-      
-      // Calculate scroll position to center the active image
-      // The center point is fixed at the center of the viewport
-      const containerWidth = container.clientWidth;
-      const containerCenter = containerWidth / 2;
-      
-      // Get the image's position relative to the scroll container's content
-      const imageLeft = activeImage.offsetLeft;
-      const imageWidth = activeImage.offsetWidth;
-      const imageCenter = imageLeft + (imageWidth / 2);
-      
-      // Calculate scroll position to center the image
-      const scrollLeft = imageCenter - containerCenter;
-      
-      container.scrollTo({
-        left: scrollLeft,
-        behavior: 'smooth',
-      });
+    if (!activeImage || !container) return;
 
-      // Reset flag after scroll completes
-      setTimeout(() => {
-        isScrollingProgrammatically.current = false;
-      }, 500);
-    }
+    isScrollingProgrammatically.current = true;
+    
+    const containerWidth = container.clientWidth;
+    const containerCenter = containerWidth / 2;
+    
+    const imageLeft = activeImage.offsetLeft;
+    const imageWidth = activeImage.offsetWidth;
+    const imageCenter = imageLeft + imageWidth / 2;
+    
+    const scrollLeft = imageCenter - containerCenter;
+    
+    container.scrollTo({
+      left: scrollLeft,
+      behavior: 'smooth',
+    });
+
+    const timeoutId = setTimeout(() => {
+      isScrollingProgrammatically.current = false;
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
   }, [currentIndex]);
 
   // Center first image on mount
   useEffect(() => {
-    if (hasInitialized.current) return;
+    const container = scrollContainerRef.current;
+    const firstImage = imageRefs.current[0];
+    
+    if (!container || !firstImage) return;
 
-    const centerFirstImage = () => {
-      const container = scrollContainerRef.current;
-      const firstImage = imageRefs.current[0];
+    // Wait for layout to be ready
+    const timeoutId = setTimeout(() => {
+      isScrollingProgrammatically.current = true;
       
-      if (container && firstImage && firstImage.offsetWidth > 0) {
-        isScrollingProgrammatically.current = true;
-        
-        // Calculate center point - fixed at viewport center
-        const containerWidth = container.clientWidth;
-        const containerCenter = containerWidth / 2;
-        
-        // Get first image position
-        const imageLeft = firstImage.offsetLeft;
-        const imageWidth = firstImage.offsetWidth;
-        const imageCenter = imageLeft + (imageWidth / 2);
-        
-        // Calculate scroll to center the image
-        const scrollLeft = imageCenter - containerCenter;
-        
-        // Use scrollTo with instant behavior for initial positioning
-        container.scrollTo({
-          left: scrollLeft,
-          behavior: 'auto',
-        });
+      const containerWidth = container.clientWidth;
+      const containerCenter = containerWidth / 2;
+      
+      const imageLeft = firstImage.offsetLeft;
+      const imageWidth = firstImage.offsetWidth;
+      const imageCenter = imageLeft + imageWidth / 2;
+      
+      const scrollLeft = imageCenter - containerCenter;
+      
+      container.scrollTo({
+        left: scrollLeft,
+        behavior: 'auto',
+      });
 
-        setTimeout(() => {
-          isScrollingProgrammatically.current = false;
-          hasInitialized.current = true;
-        }, 100);
-        return true;
-      }
-      return false;
-    };
+      setTimeout(() => {
+        isScrollingProgrammatically.current = false;
+      }, 100);
+    }, 50);
 
-    // Use requestAnimationFrame to ensure DOM is ready
-    const rafId = requestAnimationFrame(() => {
-      if (!centerFirstImage()) {
-        setTimeout(() => {
-          if (!centerFirstImage()) {
-            setTimeout(centerFirstImage, 500);
-          }
-        }, 200);
-      }
-    });
-
-    return () => cancelAnimationFrame(rafId);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   // Keyboard navigation
@@ -189,8 +170,6 @@ export function AppHeroDesktop() {
           className="relative" 
           style={{ 
             height: `${ACTIVE_HEIGHT}px`,
-            minHeight: `${ACTIVE_HEIGHT}px`,
-            maxHeight: `${ACTIVE_HEIGHT}px`,
           }}
         >
           {/* Left fade gradient */}
@@ -201,25 +180,30 @@ export function AppHeroDesktop() {
           
           <div 
             ref={scrollContainerRef}
-            className="overflow-x-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-full"
-            style={{ height: `${ACTIVE_HEIGHT}px` }}
+            className="overflow-x-auto overflow-y-hidden h-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            style={{ 
+              height: `${ACTIVE_HEIGHT}px`,
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
           >
             <div 
-              className="flex items-center gap-6 px-8 h-full" 
+              className="flex items-center gap-6 h-full" 
               style={{ 
                 width: 'max-content',
                 height: `${ACTIVE_HEIGHT}px`,
-                alignItems: 'center',
+                paddingLeft: '50%',
+                paddingRight: '50%',
               }}
             >
               {SCREENSHOTS.map((src, index) => {
                 const distance = Math.abs(index - currentIndex);
                 const isActive = index === currentIndex;
-                const isVisible = distance <= 2; // Show 2 images on each side
+                const isVisible = distance <= 2;
 
-                // Calculate actual dimensions - active uses full size, inactive uses scaled size
-                const width = isActive ? ACTIVE_WIDTH : ACTIVE_WIDTH * INACTIVE_SCALE;
-                const height = isActive ? ACTIVE_HEIGHT : ACTIVE_HEIGHT * INACTIVE_SCALE;
+                // Actual dimensions based on active state
+                const width = isActive ? ACTIVE_WIDTH : INACTIVE_WIDTH;
+                const height = isActive ? ACTIVE_HEIGHT : INACTIVE_HEIGHT;
                 
                 return (
                   <div
