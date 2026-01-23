@@ -1,7 +1,6 @@
 "use client";
 
 import { pathData } from "@/app/components/ProtocolBuilder";
-import { FORMULA_COLORS } from "@/app/lib/productData";
 
 export default function ShopHeroDesktop() {
   const protocolIcons = [
