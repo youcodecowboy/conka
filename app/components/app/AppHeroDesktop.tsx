@@ -246,54 +246,52 @@ export function AppHeroDesktop() {
               })}
             </div>
           </div>
-
-          {/* Navigation Arrows */}
-          {SCREENSHOTS.length > 1 && (
-            <>
-              <button
-                onClick={goToPrev}
-                className="absolute left-4 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 z-40"
-                aria-label="Previous screenshot"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-white"
-                >
-                  <polyline points="15 18 9 12 15 6" />
-                </svg>
-              </button>
-
-              <button
-                onClick={goToNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 z-40"
-                aria-label="Next screenshot"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-white"
-                >
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
-            </>
-          )}
         </div>
+
+        {/* Navigation Arrows - Positioned relative to outer container, always visible */}
+        {SCREENSHOTS.length > 1 && (
+          <>
+            <button
+              onClick={goToPrev}
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-white/30 hover:bg-white/40 backdrop-blur-md transition-all duration-200 z-50 touch-manipulation shadow-lg"
+              aria-label="Previous screenshot"
+              style={{ top: `${ACTIVE_HEIGHT / 2}px` }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-white w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
+              >
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+
+            <button
+              onClick={goToNext}
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-white/30 hover:bg-white/40 backdrop-blur-md transition-all duration-200 z-50 touch-manipulation shadow-lg"
+              aria-label="Next screenshot"
+              style={{ top: `${ACTIVE_HEIGHT / 2}px` }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-white w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
+              >
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </>
+        )}
 
         {/* Dot Indicators - moved outside container to avoid overlap */}
         {SCREENSHOTS.length > 1 && (
