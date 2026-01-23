@@ -85,12 +85,16 @@ export function AppHeroDesktop() {
       isScrollingProgrammatically.current = true;
       
       // Calculate scroll position to center the active image
-      // Account for the container's padding and the image's actual position
-      const containerRect = container.getBoundingClientRect();
-      const containerCenter = containerRect.width / 2;
+      // The center point is fixed at the center of the viewport
+      const containerWidth = container.clientWidth;
+      const containerCenter = containerWidth / 2;
       
-      // Get the image's position relative to the scroll container
-      const imageCenter = activeImage.offsetLeft + (activeImage.offsetWidth / 2);
+      // Get the image's position relative to the scroll container's content
+      const imageLeft = activeImage.offsetLeft;
+      const imageWidth = activeImage.offsetWidth;
+      const imageCenter = imageLeft + (imageWidth / 2);
+      
+      // Calculate scroll position to center the image
       const scrollLeft = imageCenter - containerCenter;
       
       container.scrollTo({
@@ -116,9 +120,16 @@ export function AppHeroDesktop() {
       if (container && firstImage && firstImage.offsetWidth > 0) {
         isScrollingProgrammatically.current = true;
         
-        const containerRect = container.getBoundingClientRect();
-        const containerCenter = containerRect.width / 2;
-        const imageCenter = firstImage.offsetLeft + (firstImage.offsetWidth / 2);
+        // Calculate center point - fixed at viewport center
+        const containerWidth = container.clientWidth;
+        const containerCenter = containerWidth / 2;
+        
+        // Get first image position
+        const imageLeft = firstImage.offsetLeft;
+        const imageWidth = firstImage.offsetWidth;
+        const imageCenter = imageLeft + (imageWidth / 2);
+        
+        // Calculate scroll to center the image
         const scrollLeft = imageCenter - containerCenter;
         
         // Use scrollTo with instant behavior for initial positioning
@@ -173,136 +184,136 @@ export function AppHeroDesktop() {
       </div>
 
       {/* Carousel Container - Horizontal Scroll View */}
-      <div 
-        className="relative mb-6 pb-12" 
-        style={{ 
-          height: `${ACTIVE_HEIGHT}px`,
-          minHeight: `${ACTIVE_HEIGHT}px`,
-          maxHeight: `${ACTIVE_HEIGHT}px`,
-        }}
-      >
-        {/* Left fade gradient */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none z-30" />
-        
-        {/* Right fade gradient */}
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent pointer-events-none z-30" />
-        
+      <div className="relative mb-6">
         <div 
-          ref={scrollContainerRef}
-          className="overflow-x-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-full"
-          style={{ height: `${ACTIVE_HEIGHT}px` }}
+          className="relative" 
+          style={{ 
+            height: `${ACTIVE_HEIGHT}px`,
+            minHeight: `${ACTIVE_HEIGHT}px`,
+            maxHeight: `${ACTIVE_HEIGHT}px`,
+          }}
         >
+          {/* Left fade gradient */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none z-30" />
+          
+          {/* Right fade gradient */}
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent pointer-events-none z-30" />
+          
           <div 
-            className="flex items-center gap-6 px-8 h-full" 
-            style={{ 
-              width: 'max-content',
-              height: `${ACTIVE_HEIGHT}px`,
-              alignItems: 'center',
-            }}
+            ref={scrollContainerRef}
+            className="overflow-x-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-full"
+            style={{ height: `${ACTIVE_HEIGHT}px` }}
           >
-            {SCREENSHOTS.map((src, index) => {
-              const distance = Math.abs(index - currentIndex);
-              const isActive = index === currentIndex;
-              const isVisible = distance <= 2; // Show 2 images on each side
+            <div 
+              className="flex items-center gap-6 px-8 h-full" 
+              style={{ 
+                width: 'max-content',
+                height: `${ACTIVE_HEIGHT}px`,
+                alignItems: 'center',
+              }}
+            >
+              {SCREENSHOTS.map((src, index) => {
+                const distance = Math.abs(index - currentIndex);
+                const isActive = index === currentIndex;
+                const isVisible = distance <= 2; // Show 2 images on each side
 
-              // Calculate scale - active is 1.0, inactive is INACTIVE_SCALE
-              const scale = isActive ? 1 : INACTIVE_SCALE;
-              
-              return (
-                <div
-                  key={src}
-                  ref={(el) => { imageRefs.current[index] = el; }}
-                  className={`flex-shrink-0 transition-all duration-500 ease-out ${
-                    isActive
-                      ? "opacity-100 z-10"
-                      : isVisible
-                      ? "opacity-60 z-0"
-                      : "opacity-0 z-0 pointer-events-none"
-                  }`}
-                  style={{
-                    // Fixed dimensions for all images to prevent layout shifts
-                    width: `${ACTIVE_WIDTH}px`,
-                    height: `${ACTIVE_HEIGHT}px`,
-                    // Use transform scale instead of changing dimensions
-                    transform: `scale(${scale})`,
-                    transformOrigin: 'center center',
-                    cursor: isActive ? 'default' : 'pointer',
-                  }}
-                  onClick={() => !isActive && setCurrentIndex(index)}
-                >
-                  <div 
-                    className="relative w-full h-full rounded-3xl overflow-hidden"
+                // Calculate actual dimensions - active uses full size, inactive uses scaled size
+                const width = isActive ? ACTIVE_WIDTH : ACTIVE_WIDTH * INACTIVE_SCALE;
+                const height = isActive ? ACTIVE_HEIGHT : ACTIVE_HEIGHT * INACTIVE_SCALE;
+                
+                return (
+                  <div
+                    key={src}
+                    ref={(el) => { imageRefs.current[index] = el; }}
+                    className={`flex-shrink-0 transition-all duration-500 ease-out ${
+                      isActive
+                        ? "opacity-100 z-10"
+                        : isVisible
+                        ? "opacity-60 z-0"
+                        : "opacity-0 z-0 pointer-events-none"
+                    }`}
                     style={{
-                      width: `${ACTIVE_WIDTH}px`,
-                      height: `${ACTIVE_HEIGHT}px`,
+                      // Actual dimensions change based on active state
+                      width: `${width}px`,
+                      height: `${height}px`,
+                      cursor: isActive ? 'default' : 'pointer',
                     }}
+                    onClick={() => !isActive && setCurrentIndex(index)}
                   >
-                    <Image
-                      src={src}
-                      alt={`CONKA App screenshot ${index + 1}`}
-                      fill
-                      className="object-contain rounded-3xl"
-                      priority={index === 0}
-                      loading={index === 0 ? undefined : "lazy"}
-                      sizes={`${ACTIVE_WIDTH}px`}
-                    />
+                    <div 
+                      className="relative w-full h-full rounded-3xl overflow-hidden"
+                      style={{
+                        width: `${width}px`,
+                        height: `${height}px`,
+                      }}
+                    >
+                      <Image
+                        src={src}
+                        alt={`CONKA App screenshot ${index + 1}`}
+                        fill
+                        className="object-contain rounded-3xl"
+                        priority={index === 0}
+                        loading={index === 0 ? undefined : "lazy"}
+                        sizes={`${width}px`}
+                      />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
+
+          {/* Navigation Arrows */}
+          {SCREENSHOTS.length > 1 && (
+            <>
+              <button
+                onClick={goToPrev}
+                className="absolute left-4 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 z-40"
+                aria-label="Previous screenshot"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-white"
+                >
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+
+              <button
+                onClick={goToNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 z-40"
+                aria-label="Next screenshot"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-white"
+                >
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </>
+          )}
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Dot Indicators - moved outside container to avoid overlap */}
         {SCREENSHOTS.length > 1 && (
-          <>
-            <button
-              onClick={goToPrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 z-40"
-              aria-label="Previous screenshot"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white"
-              >
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-
-            <button
-              onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 z-40"
-              aria-label="Next screenshot"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white"
-              >
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
-          </>
-        )}
-
-        {/* Dot Indicators */}
-        {SCREENSHOTS.length > 1 && (
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+          <div className="flex justify-center gap-2 mt-6">
             {SCREENSHOTS.map((_, index) => (
               <button
                 key={index}
