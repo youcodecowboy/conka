@@ -64,12 +64,18 @@ export function AppHeroDesktop() {
       </div>
 
       {/* Carousel Container - Horizontal Scroll View */}
-      <div className="relative mb-6 pb-12">
+      <div className="relative mb-6 pb-12" style={{ height: '874px' }}>
+        {/* Left fade gradient */}
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none z-30" />
+        
+        {/* Right fade gradient */}
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent pointer-events-none z-30" />
+        
         <div 
           ref={scrollContainerRef}
-          className="overflow-x-auto overflow-y-visible [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="overflow-x-auto overflow-y-visible [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-full"
         >
-          <div className="flex items-center gap-6 px-8" style={{ width: 'max-content' }}>
+          <div className="flex items-center gap-6 px-8 h-full" style={{ width: 'max-content' }}>
             {SCREENSHOTS.map((src, index) => {
               const distance = Math.abs(index - currentIndex);
               const isActive = index === currentIndex;
@@ -114,17 +120,17 @@ export function AppHeroDesktop() {
           <>
             <button
               onClick={goToPrev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-200 z-20"
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 z-40"
               aria-label="Previous screenshot"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="32"
+                height="32"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="text-white"
@@ -135,17 +141,17 @@ export function AppHeroDesktop() {
 
             <button
               onClick={goToNext}
-              className="absolute right-0 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-200 z-20"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 z-40"
               aria-label="Next screenshot"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="32"
+                height="32"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="text-white"
