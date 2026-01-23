@@ -21,6 +21,10 @@ import { ProtocolId, ProtocolTier, PurchaseType } from "@/app/lib/productData";
 import useIsMobile from "@/app/hooks/useIsMobile";
 import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
+import {
+  trackQuizResultsViewed,
+  trackQuizResultCTAClicked,
+} from "@/app/lib/analytics";
 
 export default function QuizResultsPage() {
   const router = useRouter();
@@ -72,6 +76,38 @@ export default function QuizResultsPage() {
     }
   }, [router, selectedTier]);
 
+  // Track results viewed (Phase 1A)
+  useEffect(() => {
+    if (!isLoaded || results.length === 0) return;
+    
+    const sessionId = sessionStorage.getItem("quizSessionId");
+    if (!sessionId) return;
+    
+    const recommendedProtocol = results[0].protocolId.replace("protocol", "") as "1" | "2" | "3" | "4";
+    
+    // Calculate quiz completion time
+    let quizCompletionTime = 0;
+    const startTime = sessionStorage.getItem("quizStartTime");
+    if (startTime) {
+      quizCompletionTime = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+    }
+    
+    // Store results view time for CTA click tracking
+    sessionStorage.setItem("quizResultsViewTime", Date.now().toString());
+    
+    trackQuizResultsViewed({
+      recommendedProtocol,
+      topMatchScore: results[0].percentage,
+      sessionId,
+      allProtocolScores: results.map(r => ({
+        protocolId: r.protocolId,
+        percentage: r.percentage,
+        totalPoints: r.totalPoints,
+      })),
+      quizCompletionTime,
+    });
+  }, [isLoaded, results]);
+
   // Show sticky footer when scrolling to recommended section
   useEffect(() => {
     const handleScroll = () => {
@@ -96,14 +132,42 @@ export default function QuizResultsPage() {
   const handleProtocolSelect = (protocolId: ProtocolKey) => {
     setSelectedProtocol(protocolId);
 
+    // Track CTA click (Phase 1B)
+    const sessionId = sessionStorage.getItem("quizSessionId");
+    const recommendedProtocol = results[0]?.protocolId.replace("protocol", "") as "1" | "2" | "3" | "4" | undefined;
+    if (sessionId && recommendedProtocol) {
+      trackQuizResultCTAClicked({
+        recommendedProtocol,
+        ctaType: "view_protocol",
+        sessionId,
+        location: "results_page",
+        destination: protocolId.replace("protocol", ""),
+        topMatchScore: results[0]?.percentage || 0,
+      });
+    }
+
     // Scroll to recommended section
     setTimeout(() => {
       recommendedSectionRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (location: "results_page" | "sticky_footer" = "results_page") => {
     if (protocolId) {
+      // Track CTA click (Phase 1B)
+      const sessionId = sessionStorage.getItem("quizSessionId");
+      const recommendedProtocol = results[0]?.protocolId.replace("protocol", "") as "1" | "2" | "3" | "4" | undefined;
+      if (sessionId && recommendedProtocol) {
+        trackQuizResultCTAClicked({
+          recommendedProtocol,
+          ctaType: "add_to_cart",
+          sessionId,
+          location,
+          destination: protocolId,
+          topMatchScore: results[0]?.percentage || 0,
+        });
+      }
+      
       const variantData = getProtocolVariantId(
         protocolId,
         selectedTier,
@@ -165,7 +229,7 @@ export default function QuizResultsPage() {
               onTierSelect={setSelectedTier}
               purchaseType={purchaseType}
               onPurchaseTypeChange={setPurchaseType}
-              onAddToCart={handleAddToCart}
+              onAddToCart={() => handleAddToCart("results_page")}
             />
           </div>
         )}
@@ -177,6 +241,19 @@ export default function QuizResultsPage() {
           </p>
           <button
             onClick={() => {
+              // Track CTA click (Phase 1B)
+              const sessionId = sessionStorage.getItem("quizSessionId");
+              const recommendedProtocol = results[0]?.protocolId.replace("protocol", "") as "1" | "2" | "3" | "4" | undefined;
+              if (sessionId && recommendedProtocol) {
+                trackQuizResultCTAClicked({
+                  recommendedProtocol,
+                  ctaType: "retake_quiz",
+                  sessionId,
+                  location: "results_page",
+                  topMatchScore: results[0]?.percentage || 0,
+                });
+              }
+              
               sessionStorage.removeItem("quizAnswers");
               router.push("/quiz");
             }}
@@ -240,7 +317,7 @@ export default function QuizResultsPage() {
             protocolId={protocolId}
             selectedTier={selectedTier}
             purchaseType={purchaseType}
-            onAddToCart={handleAddToCart}
+            onAddToCart={() => handleAddToCart("sticky_footer")}
           />
         ) : (
           <StickyPurchaseFooter
@@ -249,7 +326,7 @@ export default function QuizResultsPage() {
             onTierSelect={setSelectedTier}
             purchaseType={purchaseType}
             onPurchaseTypeChange={setPurchaseType}
-            onAddToCart={handleAddToCart}
+            onAddToCart={() => handleAddToCart("sticky_footer")}
           />
         ))}
     </div>
