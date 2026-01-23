@@ -4,14 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ProtocolId } from "@/app/lib/productData";
 import { ProtocolSelectorData } from "./protocolSelectorData";
-
-// Protocol images mapping
-const protocolImages: Record<ProtocolId, string> = {
-  "1": "/protocols/Resilience.jpg",
-  "2": "/protocols/Precision.jpg",
-  "3": "/protocols/Balance.jpg",
-  "4": "/protocols/Ultimate.jpg",
-};
+import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 
 // Situational cues mapping
 const situationalCues: Record<ProtocolId, string> = {
@@ -42,7 +35,7 @@ export default function ProtocolCardMobile({
       {/* Protocol Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image
-          src={protocolImages[protocol.id]}
+          src={getProtocolImage(protocol.id)}
           alt={`${protocol.name} - ${protocol.outcome}`}
           fill
           className="object-cover"
