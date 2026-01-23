@@ -14,9 +14,9 @@ const SCREENSHOTS = [
 ];
 
 // Fixed dimensions
-const ACTIVE_WIDTH = 300;
-const ACTIVE_HEIGHT = 650;
-const INACTIVE_SCALE = 0.75;
+const ACTIVE_WIDTH = 360;  // 300 * 1.2
+const ACTIVE_HEIGHT = 780;
+const INACTIVE_SCALE = 0.55;
 
 // Calculate actual inactive dimensions
 const INACTIVE_WIDTH = ACTIVE_WIDTH * INACTIVE_SCALE;
