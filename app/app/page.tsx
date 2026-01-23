@@ -1,7 +1,7 @@
 "use client";
 
 import Navigation from "@/app/components/navigation";
-import { AppInstallButtons } from "@/app/components/AppInstallButtons";
+import { AppHero } from "@/app/components/app";
 
 export default function AppPage() {
   return (
@@ -11,24 +11,13 @@ export default function AppPage() {
     >
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="px-6 md:px-16 py-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Discover How Your Brain Performs Today
-            </h1>
-            <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-              Take the CONKA Cognitive Test to identify strengths and weaknesses,
-              then unlock personalised strategies to improve your score.
-            </p>
-            <AppInstallButtons />
-          </div>
-        </div>
+      {/* Hero Section - Black */}
+      <section className="bg-black text-white px-6 md:px-16 py-12 md:py-16">
+        <AppHero />
       </section>
 
-      {/* Evidence Section */}
-      <section className="px-6 md:px-16 py-24 bg-[var(--foreground)]/5">
+      {/* Evidence Section - White */}
+      <section className="bg-white text-black px-6 md:px-16 py-24 md:py-32">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
             <p className="font-clinical text-xs uppercase tracking-widest opacity-70 mb-4">
@@ -48,15 +37,15 @@ export default function AppPage() {
         </div>
       </section>
 
-      {/* Key Features Section */}
-      <section className="px-6 md:px-16 py-24">
+      {/* Key Features Section - Black */}
+      <section className="bg-black text-white px-6 md:px-16 py-24 md:py-32">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             The App Features
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div className="neo-box p-6">
+            <div className="border-2 border-white/20 rounded-lg bg-white/5 p-6">
               <div className="mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +57,7 @@ export default function AppPage() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-teal-500"
+                  className="text-white"
                 >
                   <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                 </svg>
@@ -83,7 +72,7 @@ export default function AppPage() {
             </div>
 
             {/* Feature 2 */}
-            <div className="neo-box p-6">
+            <div className="border-2 border-white/20 rounded-lg bg-white/5 p-6">
               <div className="mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +84,7 @@ export default function AppPage() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-teal-500"
+                  className="text-white"
                 >
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 6 12 12 16 14" />
@@ -110,7 +99,7 @@ export default function AppPage() {
             </div>
 
             {/* Feature 3 */}
-            <div className="neo-box p-6">
+            <div className="border-2 border-white/20 rounded-lg bg-white/5 p-6">
               <div className="mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +111,7 @@ export default function AppPage() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-teal-500"
+                  className="text-white"
                 >
                   <path d="M3 3v18h18" />
                   <path d="M18 7l-5 5-4-4-3 3" />
@@ -140,8 +129,8 @@ export default function AppPage() {
         </div>
       </section>
 
-      {/* App Features List Section */}
-      <section className="px-6 md:px-16 py-24 bg-[var(--foreground)]/5">
+      {/* App Features List Section - White */}
+      <section className="bg-white text-black px-6 md:px-16 py-24 md:py-32">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             The App Features
@@ -194,23 +183,23 @@ export default function AppPage() {
         </div>
       </section>
 
-      {/* Comparison Table Section */}
-      <section className="px-6 md:px-16 py-24">
+      {/* Comparison Table Section - Black */}
+      <section className="bg-black text-white px-6 md:px-16 py-24 md:py-32">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Why our App has the best functionality
           </h2>
-          <div className="neo-box p-6 overflow-x-auto">
+          <div className="border-2 border-white/20 rounded-lg bg-white/5 p-6 overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b-2 border-current">
+                <tr className="border-b-2 border-white/30">
                   <th className="text-left p-4 font-bold">Feature</th>
                   <th className="text-left p-4 font-bold">Us</th>
                   <th className="text-left p-4 font-bold">Them</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-current/20">
+                <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Purpose</td>
                   <td className="p-4">
                     Measures and trains your brain for real performance improvement
@@ -219,7 +208,7 @@ export default function AppPage() {
                     Tracks general wellness or gives broad lifestyle advice
                   </td>
                 </tr>
-                <tr className="border-b border-current/20">
+                <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Measurement</td>
                   <td className="p-4">
                     Objective cognitive data that shows when you&apos;re actually
@@ -229,7 +218,7 @@ export default function AppPage() {
                     Relies on how you feel or surface-level metrics
                   </td>
                 </tr>
-                <tr className="border-b border-current/20">
+                <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Focus</td>
                   <td className="p-4">
                     Brain-first. The organ that drives everything
@@ -238,7 +227,7 @@ export default function AppPage() {
                     Mostly heart rate, steps, sleep or mood tracking
                   </td>
                 </tr>
-                <tr className="border-b border-current/20">
+                <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Scientific Backing</td>
                   <td className="p-4">
                     FDA cleared medical device with clinical grounding
@@ -247,7 +236,7 @@ export default function AppPage() {
                     Often unverified or loosely science-informed
                   </td>
                 </tr>
-                <tr className="border-b border-current/20">
+                <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Testing Method</td>
                   <td className="p-4">
                     Uses visual tests (animals) to avoid learning, language or
@@ -257,7 +246,7 @@ export default function AppPage() {
                     Many tests are affected by prior knowledge or IQ factors
                   </td>
                 </tr>
-                <tr className="border-b border-current/20">
+                <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Progress Over Time</td>
                   <td className="p-4">
                     Shows measurable cognitive improvement without learning effects
@@ -266,7 +255,7 @@ export default function AppPage() {
                     Score increases are often just familiarity with the test
                   </td>
                 </tr>
-                <tr className="border-b border-current/20">
+                <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Guidance</td>
                   <td className="p-4">
                     Pairs data with the CONKA formula to actively improve
@@ -291,8 +280,8 @@ export default function AppPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="px-6 md:px-16 py-12 border-t-2 border-current/10">
+      {/* Footer - White */}
+      <footer className="bg-white text-black px-6 md:px-16 py-12 border-t-2 border-black/10">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row justify-between gap-8">
             {/* Left Side */}
