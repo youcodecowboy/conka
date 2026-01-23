@@ -62,7 +62,7 @@ export default function ShopMegaMenuContent({
           <div className="grid grid-cols-2 gap-8 min-h-[225px]">
             {/* Left: Quiz Section */}
             <div className="flex items-center pr-8 min-h-[225px]">
-            <div className="w-full h-full p-8 bg-[var(--foreground)] text-[var(--background)] rounded-lg">
+            <div className="w-full h-full p-8 bg-[var(--foreground)] text-[var(--background)] rounded-lg flex flex-col">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                   <svg
@@ -97,7 +97,7 @@ export default function ShopMegaMenuContent({
               <a
                 href="/quiz"
                 onClick={onNavigate}
-                className="block w-full py-3 px-6 bg-[#f59e0b] text-black font-bold text-base rounded-full hover:bg-[#d97706] transition-colors text-center"
+                className="block w-full py-3 px-6 bg-[#f59e0b] text-black font-bold text-base rounded-full hover:bg-[#d97706] transition-colors text-center mt-auto"
               >
                 Take the Quiz
               </a>
