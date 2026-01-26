@@ -57,21 +57,31 @@ export default function QuizPage() {
     
     // Track question view
     const now = Date.now();
-    const timeOnPage = previousQuestionTime.current 
+    
+    // Cap time calculations to prevent unrealistic values from abandonment/return scenarios
+    // If time > 5 minutes, user likely abandoned and returned - cap it
+    const MAX_TIME_BETWEEN_QUESTIONS = 300; // 5 minutes in seconds
+    
+    const rawTimeOnPage = previousQuestionTime.current 
       ? Math.floor((now - previousQuestionTime.current) / 1000)
       : 0;
+    const timeOnPage = Math.min(rawTimeOnPage, MAX_TIME_BETWEEN_QUESTIONS);
     
     const isReturning = visitedQuestions.current.has(currentQuestionIndex);
     visitedQuestions.current.add(currentQuestionIndex);
     
     if (sessionId) {
+      const previousAnswerTime = previousQuestionTime.current 
+        ? Math.min(Math.floor((now - previousQuestionTime.current) / 1000), MAX_TIME_BETWEEN_QUESTIONS)
+        : undefined;
+      
       trackQuizQuestionViewed({
         questionNumber: currentQuestionIndex + 1,
         questionId: currentQuestion.id,
         sessionId,
         totalQuestions: questions.length,
         timeOnPage,
-        previousAnswerTime: previousQuestionTime.current ? Math.floor((now - previousQuestionTime.current) / 1000) : undefined,
+        previousAnswerTime,
         isReturning,
       });
     }
@@ -96,8 +106,11 @@ export default function QuizPage() {
     // Find the selected option to get the label
     const selectedOption = currentQuestion.options.find(opt => opt.value === answer);
     if (selectedOption) {
-      // Calculate time spent on this question
-      const timeSpentMs = Date.now() - questionStartTime.current;
+      // Calculate time spent on this question, with cap to prevent unrealistic values
+      // If time > 10 minutes, user likely abandoned - cap it
+      const MAX_TIME_ON_QUESTION = 600000; // 10 minutes in milliseconds
+      const rawTimeSpentMs = Date.now() - questionStartTime.current;
+      const timeSpentMs = Math.min(rawTimeSpentMs, MAX_TIME_ON_QUESTION);
       const isFirstAttempt = !answers[currentQuestion.id];
       
       // Track the answer in Convex
