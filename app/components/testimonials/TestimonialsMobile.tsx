@@ -19,7 +19,7 @@ export default function TestimonialsMobile({
 
     const handleScroll = () => {
       const scrollLeft = container.scrollLeft;
-      const cardWidth = container.offsetWidth * 0.85; // Card is 85vw
+      const cardWidth = container.offsetWidth * 0.75; // Card is 75vw (scaled down)
       const gap = 16; // gap-4
       const index = Math.round(scrollLeft / (cardWidth + gap));
       setActiveIndex(Math.min(index, testimonials.length - 1));
@@ -33,7 +33,7 @@ export default function TestimonialsMobile({
     const container = scrollRef.current;
     if (!container) return;
 
-    const cardWidth = container.offsetWidth * 0.85;
+    const cardWidth = container.offsetWidth * 0.75; // Card is 75vw (scaled down)
     const gap = 16;
     container.scrollTo({
       left: index * (cardWidth + gap),
@@ -71,7 +71,7 @@ export default function TestimonialsMobile({
             <div
               key={idx}
               className="flex-shrink-0 snap-start"
-              style={{ width: "85vw", maxWidth: "400px" }}
+              style={{ width: "75vw", maxWidth: "350px" }}
             >
               <TestimonialCard
                 testimonial={testimonial}

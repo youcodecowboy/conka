@@ -96,7 +96,7 @@ export default function TestimonialCard({
 
   return (
     <div
-      className={`border-2 ${isMobile ? "p-5" : "p-6"} h-full flex flex-col bg-[var(--background)]`}
+      className={`border-2 ${isMobile ? "p-5" : "p-6"} flex flex-col bg-[var(--background)]`}
       style={{
         borderColor: "rgba(0, 0, 0, 0.7)",
       }}
