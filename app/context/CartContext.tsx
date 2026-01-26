@@ -2,8 +2,17 @@
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { Cart, CartLine } from '@/app/lib/shopify';
+import { trackAddToCart } from '@/app/lib/tripleWhale';
+import { trackPurchaseAddToCart } from '@/app/lib/analytics';
+import { extractProductMetadata } from '@/app/lib/productMetadata';
 
 const CART_ID_KEY = 'shopify_cart_id';
+
+interface AddToCartMetadata {
+  location?: string;  // "hero", "sticky_footer", "results_page", "calendar"
+  source?: string;   // "quiz", "menu", "direct", "cta"
+  sessionId?: string; // Quiz session ID
+}
 
 interface CartContextType {
   cart: Cart | null;
@@ -14,7 +23,12 @@ interface CartContextType {
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
-  addToCart: (variantId: string, quantity?: number, sellingPlanId?: string) => Promise<void>;
+  addToCart: (
+    variantId: string,
+    quantity?: number,
+    sellingPlanId?: string,
+    metadata?: AddToCartMetadata
+  ) => Promise<void>;
   updateQuantity: (lineId: string, quantity: number) => Promise<void>;
   removeItem: (lineId: string) => Promise<void>;
   clearCart: () => void;
@@ -117,7 +131,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   // Add item to cart
   // sellingPlanId is optional - used for subscription products (e.g., Loop Subscriptions)
-  const addToCart = useCallback(async (variantId: string, quantity: number = 1, sellingPlanId?: string): Promise<void> => {
+  // metadata is optional - used for analytics tracking (location, source, sessionId)
+  const addToCart = useCallback(async (
+    variantId: string,
+    quantity: number = 1,
+    sellingPlanId?: string,
+    metadata?: AddToCartMetadata
+  ): Promise<void> => {
     if (!variantId) {
       setError('Invalid product variant');
       return;
@@ -129,11 +149,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const cartId = cart?.id || localStorage.getItem(CART_ID_KEY);
       let warning: string | undefined;
+      let updatedCart: Cart | null = null;
 
       if (!cartId) {
         // No cart exists - create one with the item
         const result = await createCart(variantId, quantity, sellingPlanId);
         warning = result.warning;
+        updatedCart = result.cart;
       } else {
         // Add to existing cart
         const response = await fetch('/api/cart', {
@@ -151,12 +173,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const data = await response.json();
 
         if (response.ok && data.cart) {
+          updatedCart = data.cart;
           setCart(data.cart);
           warning = data.warning;
         } else if (response.status === 404) {
           // Cart expired - create new one
           const result = await createCart(variantId, quantity, sellingPlanId);
           warning = result.warning;
+          updatedCart = result.cart;
         } else {
           throw new Error(data.error || 'Failed to add item');
         }
@@ -166,6 +190,44 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (warning) {
         console.warn('Cart warning:', warning);
         // Could display this in UI via a toast notification in the future
+      }
+      
+      // Track analytics events after successful cart update
+      if (updatedCart) {
+        // Get the newly added line item (first item in cart or last added)
+        const lineItems = updatedCart.lines?.edges || [];
+        const newLineItem = lineItems[lineItems.length - 1]?.node;
+
+        if (newLineItem?.merchandise) {
+          const merchandise = newLineItem.merchandise;
+          
+          // Track Triple Whale AddToCart (e-commerce)
+          if (merchandise.product?.id && merchandise.id) {
+            trackAddToCart({
+              productId: merchandise.product.id,
+              variantId: merchandise.id,
+              quantity: quantity,
+              cartToken: updatedCart.id,
+            });
+          }
+
+          // Track Vercel Analytics purchase:add_to_cart (funnel)
+          const productMetadata = extractProductMetadata(variantId);
+          if (productMetadata) {
+            trackPurchaseAddToCart({
+              productType: productMetadata.productType,
+              productId: productMetadata.productId,
+              variantId: variantId,
+              packSize: productMetadata.packSize,
+              tier: productMetadata.tier,
+              purchaseType: sellingPlanId ? "subscription" : "one-time",
+              location: metadata?.location || "unknown",
+              source: metadata?.source || "direct",
+              price: parseFloat(merchandise.price.amount),
+              sessionId: metadata?.sessionId,
+            });
+          }
+        }
       }
       
       // Open cart drawer after adding item
