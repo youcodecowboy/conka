@@ -8,15 +8,16 @@ import { TestimonialCardProps } from "./types";
  * Displays 5 stars, filled based on rating value (1-5)
  * Uses amber accent color for filled stars
  */
-function StarRating({ rating }: { rating: number }) {
+function StarRating({ rating, isMobile = false }: { rating: number; isMobile?: boolean }) {
+  const starSize = isMobile ? 12 : 16;
   return (
     <div className="flex items-center gap-0.5">
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width={starSize}
+          height={starSize}
           viewBox="0 0 24 24"
           fill={star <= rating ? "#f59e0b" : "none"}
           stroke={star <= rating ? "#f59e0b" : "currentColor"}
@@ -96,43 +97,43 @@ export default function TestimonialCard({
 
   return (
     <div
-      className={`border-2 ${isMobile ? "p-5" : "p-6"} flex flex-col bg-[var(--background)]`}
+      className={`border-2 ${isMobile ? "p-3" : "p-6"} flex flex-col bg-[var(--background)]`}
       style={{
         borderColor: "rgba(0, 0, 0, 0.7)",
       }}
     >
       {/* Header: Name, Verified Badge, and Country */}
-      <div className="mb-3">
-        <div className="flex items-start justify-between mb-2 gap-2">
+      <div className={isMobile ? "mb-2" : "mb-3"}>
+        <div className={`flex items-start justify-between ${isMobile ? "mb-1" : "mb-2"} gap-2`}>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1.5">
-              <h3 className="font-bold text-lg">{name}</h3>
-              <VerifiedBadge />
+            <div className={`flex items-center gap-1.5 ${isMobile ? "mb-1" : "mb-1.5"}`}>
+              <h3 className={`font-bold ${isMobile ? "text-sm" : "text-lg"}`}>{name}</h3>
+              {!isMobile && <VerifiedBadge />}
             </div>
-            <span className="font-clinical text-xs opacity-70">{country}</span>
+            <span className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-70`}>{country}</span>
           </div>
         </div>
 
         {/* Rating Stars */}
         {showRating && rating && (
-          <div className="mb-3">
-            <StarRating rating={rating} />
+          <div className={isMobile ? "mb-2" : "mb-3"}>
+            <StarRating rating={rating} isMobile={isMobile} />
           </div>
         )}
       </div>
 
       {/* Headline */}
-      <h4 className="font-bold text-xl mb-3">{headline}</h4>
+      <h4 className={`font-bold ${isMobile ? "text-sm mb-2" : "text-xl mb-3"}`}>{headline}</h4>
 
       {/* Body Text - With Read More */}
-      <div className="flex-grow mb-4">
-        <p className="text-sm opacity-80 leading-relaxed mb-2 whitespace-pre-line">
+      <div className={`flex-grow ${isMobile ? "mb-2" : "mb-4"}`}>
+        <p className={`${isMobile ? "text-xs" : "text-sm"} opacity-80 ${isMobile ? "leading-snug" : "leading-relaxed"} ${isMobile ? "mb-1" : "mb-2"} whitespace-pre-line`}>
           {displayText}
         </p>
         {isLongText && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="font-clinical text-xs opacity-70 hover:opacity-100 transition-opacity underline"
+            className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-70 hover:opacity-100 transition-opacity underline`}
           >
             {isExpanded ? "Read less" : "Read more"}
           </button>
@@ -141,7 +142,7 @@ export default function TestimonialCard({
 
       {/* Date */}
       <div className="mt-auto">
-        <p className="font-clinical text-xs opacity-60">{formatDate(date)}</p>
+        <p className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-60`}>{formatDate(date)}</p>
       </div>
     </div>
   );
