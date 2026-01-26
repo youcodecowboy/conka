@@ -21,6 +21,7 @@ import { PackSize, PurchaseType } from "@/app/lib/productData";
 import useIsMobile from "@/app/hooks/useIsMobile";
 import { useCart } from "@/app/context/CartContext";
 import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
+import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 
 export default function ConkaFlowPage() {
   const isMobile = useIsMobile();
@@ -29,10 +30,43 @@ export default function ConkaFlowPage() {
     useState<PurchaseType>("subscription");
   const { addToCart } = useCart();
 
-  const handleAddToCart = async () => {
+  // Hero section handler
+  const handleAddToCartFromHero = async () => {
     const variantData = getFormulaVariantId("01", selectedPack, purchaseType);
     if (variantData?.variantId) {
-      await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
+      await addToCart(
+        variantData.variantId,
+        1,
+        variantData.sellingPlanId,
+        {
+          location: "hero",
+          source: getAddToCartSource(),
+          sessionId: getQuizSessionId(),
+        }
+      );
+    } else {
+      console.warn("Variant ID not configured for:", {
+        formula: "01",
+        pack: selectedPack,
+        type: purchaseType,
+      });
+    }
+  };
+
+  // Sticky footer handler
+  const handleAddToCartFromFooter = async () => {
+    const variantData = getFormulaVariantId("01", selectedPack, purchaseType);
+    if (variantData?.variantId) {
+      await addToCart(
+        variantData.variantId,
+        1,
+        variantData.sellingPlanId,
+        {
+          location: "sticky_footer",
+          source: getAddToCartSource(),
+          sessionId: getQuizSessionId(),
+        }
+      );
     } else {
       console.warn("Variant ID not configured for:", {
         formula: "01",
@@ -57,7 +91,7 @@ export default function ConkaFlowPage() {
           onPackSelect={setSelectedPack}
           purchaseType={purchaseType}
           onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCart}
+          onAddToCart={handleAddToCartFromHero}
         />
 
         {/* What do you struggle with section */}
@@ -190,7 +224,7 @@ export default function ConkaFlowPage() {
           formulaId="01"
           selectedPack={selectedPack}
           purchaseType={purchaseType}
-          onAddToCart={handleAddToCart}
+          onAddToCart={handleAddToCartFromFooter}
         />
       </div>
     );
@@ -212,7 +246,7 @@ export default function ConkaFlowPage() {
         onPackSelect={setSelectedPack}
         purchaseType={purchaseType}
         onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCart}
+        onAddToCart={handleAddToCartFromHero}
       />
 
       {/* Benefits Section */}
@@ -312,7 +346,7 @@ export default function ConkaFlowPage() {
                 ready to unlock your potential?
               </p>
               <button
-                onClick={handleAddToCart}
+                onClick={handleAddToCartFromHero}
                 className="neo-button px-8 py-3 font-bold text-base"
               >
                 Add to Cart
@@ -332,7 +366,7 @@ export default function ConkaFlowPage() {
         onPackSelect={setSelectedPack}
         purchaseType={purchaseType}
         onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCart}
+        onAddToCart={handleAddToCartFromFooter}
       />
     </div>
   );
