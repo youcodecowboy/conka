@@ -39,6 +39,7 @@ const CART_FRAGMENT = `
               title
               sku
               product {
+                id
                 title
                 handle
                 featuredImage {
