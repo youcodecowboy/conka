@@ -65,6 +65,11 @@ function safeTrack(eventName: string, properties: Record<string, any>): void {
   
   try {
     track(eventName, properties);
+    
+    // Log events in development for debugging
+    if (process.env.NODE_ENV === "development") {
+      console.log("📊 Analytics Event:", eventName, properties);
+    }
   } catch (error) {
     // Fail silently in production, log in development
     if (process.env.NODE_ENV === "development") {
@@ -278,5 +283,37 @@ export function trackQuizResultCTAClicked(params: {
     timeOnResults,
     source,
     topMatchScore: params.topMatchScore,
+  });
+}
+
+// ===== PURCHASE INTENT TRACKING =====
+
+/**
+ * Track add to cart event
+ * Phase 4A: Purchase intent with context
+ */
+export function trackPurchaseAddToCart(params: {
+  productType: "formula" | "protocol";
+  productId: string;  // "01", "02", "1", "2", "3", "4"
+  variantId: string;  // Shopify variant GID
+  packSize?: "4" | "8" | "12" | "28";
+  tier?: "starter" | "pro" | "max";
+  purchaseType: "subscription" | "one-time";
+  location: string;  // "hero", "sticky_footer", "results_page", "calendar"
+  source: string;  // "quiz", "menu", "direct", "cta"
+  price?: number;
+  sessionId?: string;  // Quiz session ID
+}): void {
+  safeTrack("purchase:add_to_cart", {
+    productType: params.productType,
+    productId: params.productId,
+    variantId: params.variantId,
+    packSize: params.packSize,
+    tier: params.tier,
+    purchaseType: params.purchaseType,
+    location: params.location,
+    source: params.source,
+    price: params.price,
+    sessionId: params.sessionId,
   });
 }
