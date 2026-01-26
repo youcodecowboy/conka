@@ -118,7 +118,16 @@ export default function TrialPacks() {
 
     setIsAdding(true);
     try {
-      await cart.addToCart(variantId, 1, sellingPlanId);
+      await cart.addToCart(
+        variantId,
+        1,
+        sellingPlanId,
+        {
+          location: "homepage",
+          source: "direct",
+          sessionId: undefined,
+        }
+      );
     } catch (error) {
       console.error("Failed to add to cart:", error);
     } finally {

@@ -27,6 +27,7 @@ import {
 import useIsMobile from "@/app/hooks/useIsMobile";
 import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
+import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 
 // Valid protocol IDs
 const validProtocolIds: ProtocolId[] = ["1", "2", "3", "4"];
@@ -63,15 +64,51 @@ export default function ProtocolPage() {
     return null; // Will redirect
   }
 
-  const handleAddToCart = async () => {
+  // Hero section handler
+  const handleAddToCartFromHero = async () => {
     const variantData = getProtocolVariantId(
       protocolId as ProtocolId,
       selectedTier,
       purchaseType,
     );
     if (variantData?.variantId) {
-      // Pass selling plan ID for subscription purchases
-      await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
+      await addToCart(
+        variantData.variantId,
+        1,
+        variantData.sellingPlanId,
+        {
+          location: "hero",
+          source: getAddToCartSource(),
+          sessionId: getQuizSessionId(),
+        }
+      );
+    } else {
+      console.warn("Variant ID not configured for:", {
+        protocol: protocolId,
+        tier: selectedTier,
+        type: purchaseType,
+      });
+    }
+  };
+
+  // Sticky footer handler
+  const handleAddToCartFromFooter = async () => {
+    const variantData = getProtocolVariantId(
+      protocolId as ProtocolId,
+      selectedTier,
+      purchaseType,
+    );
+    if (variantData?.variantId) {
+      await addToCart(
+        variantData.variantId,
+        1,
+        variantData.sellingPlanId,
+        {
+          location: "sticky_footer",
+          source: getAddToCartSource(),
+          sessionId: getQuizSessionId(),
+        }
+      );
     } else {
       console.warn("Variant ID not configured for:", {
         protocol: protocolId,
@@ -96,7 +133,7 @@ export default function ProtocolPage() {
           onTierSelect={setSelectedTier}
           purchaseType={purchaseType}
           onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCart}
+          onAddToCart={handleAddToCartFromHero}
         />
 
         {/* What do you struggle with? */}
@@ -109,7 +146,7 @@ export default function ProtocolPage() {
           onTierSelect={setSelectedTier}
           purchaseType={purchaseType}
           onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCart}
+          onAddToCart={handleAddToCartFromHero}
         />
 
         {/* Case Studies - Protocol Specific */}
@@ -286,7 +323,7 @@ export default function ProtocolPage() {
           protocolId={protocolId as ProtocolId}
           selectedTier={selectedTier}
           purchaseType={purchaseType}
-          onAddToCart={handleAddToCart}
+          onAddToCart={handleAddToCartFromFooter}
         />
       </div>
     );
@@ -308,7 +345,7 @@ export default function ProtocolPage() {
         onTierSelect={setSelectedTier}
         purchaseType={purchaseType}
         onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCart}
+        onAddToCart={handleAddToCartFromHero}
       />
 
       {/* Calendar Section */}
@@ -439,7 +476,7 @@ export default function ProtocolPage() {
                 ready to unlock your potential?
               </p>
               <button
-                onClick={handleAddToCart}
+                onClick={handleAddToCartFromHero}
                 className="neo-button px-8 py-3 font-bold text-base"
               >
                 Start Protocol
@@ -459,7 +496,7 @@ export default function ProtocolPage() {
         onTierSelect={setSelectedTier}
         purchaseType={purchaseType}
         onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCart}
+        onAddToCart={handleAddToCartFromFooter}
       />
     </div>
   );
