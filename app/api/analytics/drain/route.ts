@@ -44,10 +44,19 @@ export async function POST(request: NextRequest) {
     // Example: Send to external service
     // await sendToLoggingService(eventArray);
     
-    return NextResponse.json({ 
-      received: true, 
-      eventCount: eventArray.length 
-    });
+    // Return 200 with explicit status to avoid redirects
+    return NextResponse.json(
+      { 
+        received: true, 
+        eventCount: eventArray.length 
+      },
+      { 
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    );
   } catch (error) {
     console.error("Analytics drain error:", error);
     return NextResponse.json(
