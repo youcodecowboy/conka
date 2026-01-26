@@ -289,6 +289,36 @@ export function trackQuizResultCTAClicked(params: {
 // ===== PURCHASE INTENT TRACKING =====
 
 /**
+ * Detect source for add-to-cart events
+ * Returns "quiz" if user came from quiz, "direct" otherwise
+ * Note: Menu source requires Phase 2 navigation tracking
+ */
+export function getAddToCartSource(): string {
+  if (typeof window === "undefined") return "direct";
+  
+  // Check if from quiz (sessionStorage)
+  if (sessionStorage.getItem("quizSessionId")) {
+    return "quiz";
+  }
+  
+  // Check referrer
+  if (document.referrer && document.referrer.includes("/quiz")) {
+    return "quiz";
+  }
+  
+  // Default
+  return "direct";
+}
+
+/**
+ * Get quiz session ID if available
+ */
+export function getQuizSessionId(): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  return sessionStorage.getItem("quizSessionId") || undefined;
+}
+
+/**
  * Track add to cart event
  * Phase 4A: Purchase intent with context
  */
