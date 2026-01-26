@@ -24,6 +24,7 @@ import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
 import {
   trackQuizResultsViewed,
   trackQuizResultCTAClicked,
+  getQuizSessionId,
 } from "@/app/lib/analytics";
 
 export default function QuizResultsPage() {
@@ -174,7 +175,16 @@ export default function QuizResultsPage() {
         purchaseType,
       );
       if (variantData) {
-        await addToCart(variantData.variantId, 1, variantData.sellingPlanId);
+        await addToCart(
+          variantData.variantId,
+          1,
+          variantData.sellingPlanId,
+          {
+            location: location,
+            source: "quiz",
+            sessionId: getQuizSessionId(),
+          }
+        );
       } else {
         console.warn("Variant ID not configured for:", {
           protocol: protocolId,
