@@ -337,7 +337,7 @@ export default function ConkaFlowPage() {
                 ready to unlock your potential?
               </p>
               <button
-                onClick={handleAddToCart}
+                onClick={handleAddToCartFromHero}
                 className="neo-button px-8 py-3 font-bold text-base"
               >
                 Add to Cart
