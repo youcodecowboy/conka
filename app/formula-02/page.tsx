@@ -366,7 +366,7 @@ export default function ConkaClarityPage() {
         onPackSelect={setSelectedPack}
         purchaseType={purchaseType}
         onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCart}
+        onAddToCart={handleAddToCartFromFooter}
       />
     </div>
   );
