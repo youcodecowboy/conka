@@ -49,6 +49,15 @@ export function trackAddToCart(params: {
   // Only run in browser
   if (typeof window === 'undefined') return;
   
+  // Optional: Skip tracking in development/preview to avoid polluting production data
+  // Uncomment the lines below if you want to disable tracking in non-production
+  // if (process.env.NODE_ENV === 'development' || window.location.hostname.includes('vercel.app')) {
+  //   if (process.env.NODE_ENV === 'development') {
+  //     console.log('🐋 Triple Whale AddToCart (skipped in dev):', params);
+  //   }
+  //   return;
+  // }
+  
   // Check if TriplePixel is loaded
   if (!window.TriplePixel) {
     if (process.env.NODE_ENV === 'development') {
