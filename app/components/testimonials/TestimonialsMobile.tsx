@@ -19,8 +19,8 @@ export default function TestimonialsMobile({
 
     const handleScroll = () => {
       const scrollLeft = container.scrollLeft;
-      const cardWidth = container.offsetWidth * 0.75; // Card is 75vw (scaled down)
-      const gap = 16; // gap-4
+      const cardWidth = container.offsetWidth * 0.70; // Card is 70vw (scaled down)
+      const gap = 12; // gap-3
       const index = Math.round(scrollLeft / (cardWidth + gap));
       setActiveIndex(Math.min(index, testimonials.length - 1));
     };
@@ -33,8 +33,8 @@ export default function TestimonialsMobile({
     const container = scrollRef.current;
     if (!container) return;
 
-    const cardWidth = container.offsetWidth * 0.75; // Card is 75vw (scaled down)
-    const gap = 16;
+    const cardWidth = container.offsetWidth * 0.70; // Card is 70vw (scaled down)
+    const gap = 12;
     container.scrollTo({
       left: index * (cardWidth + gap),
       behavior: "smooth",
@@ -53,25 +53,19 @@ export default function TestimonialsMobile({
         </p>
       </div>
 
-      {/* Horizontal Scroll Cards Container - Relative for gradient overlays */}
-      <div className="relative -mx-6 px-6">
-        {/* Left gradient fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
-
-        {/* Right gradient fade */}
-        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
-
+      {/* Horizontal Scroll Cards Container */}
+      <div className="relative -mx-6 px-4">
         {/* Horizontal Scroll Cards */}
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
-          style={{ scrollPaddingLeft: "24px" }}
+          className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+          style={{ scrollPaddingLeft: "16px" }}
         >
           {testimonials.map((testimonial, idx) => (
             <div
               key={idx}
               className="flex-shrink-0 snap-start"
-              style={{ width: "75vw", maxWidth: "350px" }}
+              style={{ width: "70vw", maxWidth: "280px" }}
             >
               <TestimonialCard
                 testimonial={testimonial}
@@ -81,7 +75,7 @@ export default function TestimonialsMobile({
             </div>
           ))}
           {/* Spacer for last card */}
-          <div className="flex-shrink-0 w-6" />
+          <div className="flex-shrink-0 w-4" />
         </div>
       </div>
 
