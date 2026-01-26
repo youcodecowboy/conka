@@ -23,25 +23,23 @@ export async function POST(request: NextRequest) {
     // Events can be a single event or an array
     const eventArray = Array.isArray(events) ? events : [events];
     
-    // Log each event (development)
-    if (process.env.NODE_ENV === "development") {
-      console.log("\n📊 === VERCEL ANALYTICS DRAIN EVENT ===\n");
-      eventArray.forEach((event, index) => {
-        console.log(`Event ${index + 1}:`, JSON.stringify(event, null, 2));
-      });
-      console.log("\n========================================\n");
-    }
+    // Log events (both development and production)
+    // In production, these logs appear in Vercel Dashboard → Logs
+    console.log(`[ANALYTICS DRAIN] Received ${eventArray.length} event(s)`);
+    eventArray.forEach((event, index) => {
+      console.log(`[ANALYTICS DRAIN] Event ${index + 1}:`, JSON.stringify(event));
+    });
     
-    // In production, you could:
-    // - Save to database
-    // - Send to logging service (Logtail, Axiom, etc.)
-    // - Send to data warehouse
-    // - Store in file system
+    // TODO: Add storage solution for querying/analysis
+    // Options:
+    // - Send to logging service (Axiom, Logtail, Better Stack)
+    // - Save to database (Convex, PostgreSQL)
+    // - Send to data warehouse (BigQuery, Snowflake)
     
-    // Example: Save to database (uncomment and configure)
-    // await saveEventsToDatabase(eventArray);
+    // Example: Save to Convex (you already use Convex for quiz data)
+    // await saveEventsToConvex(eventArray);
     
-    // Example: Send to external service
+    // Example: Send to external logging service
     // await sendToLoggingService(eventArray);
     
     // Return 200 with explicit status to avoid redirects
