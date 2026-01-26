@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import BarrysEmailForm from "./BarrysEmailForm";
-import BalanceProtocolInfoMobile from "./BalanceProtocolInfoMobile";
+import BalanceProtocolInfo from "./BalanceProtocolInfo";
 import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 
 interface BarrysPageMobileProps {
@@ -49,7 +49,7 @@ export default function BarrysPageMobile({
       </div>
 
       {/* Balance Protocol Info Section */}
-      <BalanceProtocolInfoMobile />
+      <BalanceProtocolInfo />
     </div>
   );
 }
