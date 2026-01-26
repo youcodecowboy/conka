@@ -3,17 +3,26 @@ import { NextRequest, NextResponse } from "next/server";
 /**
  * Vercel Analytics Drain Endpoint
  * 
- * Receives raw analytics events from Vercel Analytics Drains.
- * This allows you to see individual events with all properties.
+ * ⚠️ OPTIONAL - Only needed if you want to export/store events elsewhere
  * 
- * To set up:
- * 1. Deploy this endpoint
- * 2. Go to Vercel Dashboard → Project Settings → Analytics → Web Analytics Drains
- * 3. Add drain URL: https://your-domain.com/api/analytics/drain
- * 4. Events will be sent here automatically
+ * What this does:
+ * - Receives raw events from Vercel Analytics (if drain is configured)
+ * - Currently just logs events (harmless if not configured)
  * 
- * In development, events are logged to console.
- * In production, you can save to database, send to logging service, etc.
+ * What you DON'T need this for:
+ * - ✅ Viewing events in Vercel Dashboard (works without drain)
+ * - ✅ Viewing events in Triple Whale (uses TriplePixel, not drain)
+ * 
+ * What you DO need this for:
+ * - Exporting events to data warehouses (BigQuery, Snowflake)
+ * - Sending to logging services (Axiom, Logtail, Better Stack)
+ * - Building custom analytics dashboards
+ * - Storing raw events in your own database
+ * 
+ * Current status: Logs events only. No storage configured.
+ * This is fine - you can view analytics in Vercel Dashboard without this.
+ * 
+ * To enable: Configure drain URL in Vercel Dashboard → Analytics → Drains
  */
 
 export async function POST(request: NextRequest) {
@@ -23,24 +32,29 @@ export async function POST(request: NextRequest) {
     // Events can be a single event or an array
     const eventArray = Array.isArray(events) ? events : [events];
     
-    // Log events (both development and production)
+    // Log events for debugging (harmless if drain not configured)
     // In production, these logs appear in Vercel Dashboard → Logs
     console.log(`[ANALYTICS DRAIN] Received ${eventArray.length} event(s)`);
     eventArray.forEach((event, index) => {
-      console.log(`[ANALYTICS DRAIN] Event ${index + 1}:`, JSON.stringify(event));
+      console.log(`[ANALYTICS DRAIN] Event ${index + 1}:`, JSON.stringify(event, null, 2));
     });
     
-    // TODO: Add storage solution for querying/analysis
-    // Options:
-    // - Send to logging service (Axiom, Logtail, Better Stack)
-    // - Save to database (Convex, PostgreSQL)
-    // - Send to data warehouse (BigQuery, Snowflake)
-    
-    // Example: Save to Convex (you already use Convex for quiz data)
-    // await saveEventsToConvex(eventArray);
-    
-    // Example: Send to external logging service
-    // await sendToLoggingService(eventArray);
+    // NOTE: Currently just logging. To actually use these events:
+    // 
+    // Option 1: Send to logging service (Axiom, Logtail, Better Stack)
+    //   - Best for: Queryable event logs, debugging, monitoring
+    //   - Cost: ~$20-100/month depending on volume
+    //
+    // Option 2: Send to data warehouse (BigQuery, Snowflake)
+    //   - Best for: Advanced SQL analysis, joining with other data
+    //   - Cost: Pay per query/storage
+    //
+    // Option 3: Store in your own database
+    //   - Best for: Full control, custom queries
+    //   - Cost: Database hosting costs
+    //
+    // For most DTC stores: Vercel Dashboard + Triple Whale is enough.
+    // Only add storage if you need custom analysis beyond what dashboards provide.
     
     // Return 200 with explicit status to avoid redirects
     return NextResponse.json(
