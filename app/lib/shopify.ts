@@ -45,6 +45,7 @@ export interface CartLine {
     title: string;
     sku?: string;
     product: {
+      id: string;
       title: string;
       handle: string;
       featuredImage?: {
