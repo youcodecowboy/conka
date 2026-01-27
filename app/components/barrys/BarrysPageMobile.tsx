@@ -35,10 +35,10 @@ export default function BarrysPageMobile({
             The perfect balance of clarity and focus
           </h1>
           <p className="text-xl md:text-2xl font-semibold text-teal-600">
-            Save £25—that&apos;s 62.5% off
+            40% off anything over £25
           </p>
           <p className="font-clinical text-sm uppercase tracking-widest opacity-70">
-            Original price £39.99 • Today only £14.99
+            Get your discount code delivered to your inbox
           </p>
         </div>
 
