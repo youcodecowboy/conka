@@ -47,6 +47,11 @@ const nextConfig: NextConfig = {
         destination: '/app',
         permanent: true,
       },
+      {
+        source: '/pages/buy-now',
+        destination: '/',
+        permanent: true,
+      },
     ];
   },
 
