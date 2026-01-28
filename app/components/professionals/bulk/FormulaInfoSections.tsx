@@ -70,11 +70,16 @@ const infoIcons = [
 ];
 
 // Info Section Component
-export function InfoSection() {
+export function InfoSection({ selectedFormula }: { selectedFormula: FormulaId }) {
   const flowFormula = formulaContent["01"];
   const clearFormula = formulaContent["02"];
   const flowColor = FORMULA_COLORS["01"];
   const clearColor = FORMULA_COLORS["02"];
+
+  // Get the currently selected formula's data
+  const currentFormula =
+    selectedFormula === "01" ? flowFormula : clearFormula;
+  const currentColor = selectedFormula === "01" ? flowColor : clearColor;
 
   return (
     <section className="px-6 md:px-16 py-8 md:py-12">
@@ -84,9 +89,45 @@ export function InfoSection() {
             Info
           </h2>
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative">
-          {/* Flow Column */}
-          <div className="space-y-4">
+          {/* Mobile: Show only selected formula */}
+          <div className="md:hidden space-y-4">
+            <div className="mb-4">
+              <h3 className="text-xl font-bold mb-2">{currentFormula.headline}</h3>
+              <p className="font-commentary text-lg opacity-80">
+                {currentFormula.subheadline}
+              </p>
+            </div>
+            <div className="space-y-3">
+              {currentFormula.keyPoints.map((point, idx) => (
+                <div key={idx} className="neo-box p-4 flex items-start gap-3">
+                  <div className={`${currentColor.text} flex-shrink-0 mt-0.5`}>
+                    {infoIcons[idx] || (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                      </svg>
+                    )}
+                  </div>
+                  <span className="font-primary text-sm leading-relaxed">{point}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Flow Column - Desktop only */}
+          <div className="hidden md:block space-y-4">
             <div className="mb-4">
               <h3 className="text-xl font-bold mb-2">{flowFormula.headline}</h3>
               <p className="font-commentary text-lg opacity-80">
@@ -123,8 +164,8 @@ export function InfoSection() {
           {/* Vertical Divider */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-current/10 -translate-x-1/2" />
 
-          {/* Clear Column */}
-          <div className="space-y-4">
+          {/* Clear Column - Desktop only */}
+          <div className="hidden md:block space-y-4">
             <div className="mb-4">
               <h3 className="text-xl font-bold mb-2">{clearFormula.headline}</h3>
               <p className="font-commentary text-lg opacity-80">
@@ -164,11 +205,16 @@ export function InfoSection() {
 }
 
 // Benefits Section Component
-export function BenefitsSection() {
+export function BenefitsSection({ selectedFormula }: { selectedFormula: FormulaId }) {
   const flowFormula = formulaContent["01"];
   const clearFormula = formulaContent["02"];
   const flowColor = FORMULA_COLORS["01"];
   const clearColor = FORMULA_COLORS["02"];
+
+  // Get the currently selected formula's data
+  const currentFormula =
+    selectedFormula === "01" ? flowFormula : clearFormula;
+  const currentColor = selectedFormula === "01" ? flowColor : clearColor;
 
   return (
     <section className="px-6 md:px-16 py-8 md:py-12">
@@ -179,8 +225,30 @@ export function BenefitsSection() {
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative">
-          {/* Flow Column */}
-          <div className="space-y-4">
+          {/* Mobile: Show only selected formula */}
+          <div className="md:hidden space-y-4">
+            {currentFormula.benefits.map((benefit, idx) => (
+              <div key={idx} className="neo-box p-4 md:p-5">
+                <div className="flex items-start gap-4">
+                  <div
+                    className={`${currentColor.text} text-3xl font-bold font-clinical flex-shrink-0`}
+                  >
+                    {benefit.stat}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-bold text-base mb-1">{benefit.title}</p>
+                    <p className="font-clinical text-xs opacity-70 mb-2">
+                      {benefit.annotation}
+                    </p>
+                    <p className="text-sm opacity-80">{benefit.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Flow Column - Desktop only */}
+          <div className="hidden md:block space-y-4">
             {flowFormula.benefits.map((benefit, idx) => (
               <div key={idx} className="neo-box p-4 md:p-5">
                 <div className="flex items-start gap-4">
@@ -204,8 +272,8 @@ export function BenefitsSection() {
           {/* Vertical Divider */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-current/10 -translate-x-1/2" />
 
-          {/* Clear Column */}
-          <div className="space-y-4">
+          {/* Clear Column - Desktop only */}
+          <div className="hidden md:block space-y-4">
             {clearFormula.benefits.map((benefit, idx) => (
               <div key={idx} className="neo-box p-4 md:p-5">
                 <div className="flex items-start gap-4">
@@ -232,9 +300,13 @@ export function BenefitsSection() {
 }
 
 // Ingredients Section Component
-export function IngredientsSection() {
+export function IngredientsSection({ selectedFormula }: { selectedFormula: FormulaId }) {
   const flowFormula = formulaContent["01"];
   const clearFormula = formulaContent["02"];
+
+  // Get the currently selected formula's data
+  const currentFormula =
+    selectedFormula === "01" ? flowFormula : clearFormula;
 
   return (
     <section className="px-6 md:px-16 py-8 md:py-12">
@@ -253,8 +325,38 @@ export function IngredientsSection() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative">
-          {/* Flow Column */}
-          <div>
+          {/* Mobile: Show only selected formula */}
+          <div className="md:hidden">
+            <div className="neo-box p-4 md:p-5">
+              <div className="space-y-2">
+                {currentFormula.ingredients.map((ing, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex justify-between items-center py-2 ${
+                      idx !== currentFormula.ingredients.length - 1
+                        ? "border-b border-current/10"
+                        : ""
+                    }`}
+                  >
+                    <div>
+                      <span className="font-medium text-sm">{ing.name}</span>
+                      {ing.part && (
+                        <span className="font-clinical text-xs opacity-70 ml-2">
+                          – {ing.part}
+                        </span>
+                      )}
+                    </div>
+                    <span className="font-clinical font-medium text-sm">
+                      {ing.percentage}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Flow Column - Desktop only */}
+          <div className="hidden md:block">
             <div className="neo-box p-4 md:p-5">
               <div className="space-y-2">
                 {flowFormula.ingredients.map((ing, idx) => (
@@ -286,8 +388,8 @@ export function IngredientsSection() {
           {/* Vertical Divider */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-current/10 -translate-x-1/2" />
 
-          {/* Clear Column */}
-          <div>
+          {/* Clear Column - Desktop only */}
+          <div className="hidden md:block">
             <div className="neo-box p-4 md:p-5">
               <div className="space-y-2">
                 {clearFormula.ingredients.map((ing, idx) => (
@@ -322,9 +424,13 @@ export function IngredientsSection() {
 }
 
 // Taste Section Component
-export function TasteSection() {
+export function TasteSection({ selectedFormula }: { selectedFormula: FormulaId }) {
   const flowFormula = formulaContent["01"];
   const clearFormula = formulaContent["02"];
+
+  // Get the currently selected formula's data
+  const currentFormula =
+    selectedFormula === "01" ? flowFormula : clearFormula;
 
   const characteristics = [
     {
@@ -417,8 +523,30 @@ export function TasteSection() {
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative">
-          {/* Flow Column */}
-          <div className="space-y-4">
+          {/* Mobile: Show only selected formula */}
+          <div className="md:hidden space-y-4">
+            <div className="neo-box p-4 md:p-5">
+              <div className="flex items-center justify-between mb-4">
+                <p className="font-clinical text-sm opacity-70">Tastes Like:</p>
+                <p className="font-commentary text-xl md:text-2xl">
+                  {currentFormula.taste}
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {characteristics.map((char, idx) => (
+                <div key={idx} className="neo-box p-3 flex flex-col items-center text-center">
+                  <div className="w-10 h-10 mb-2 flex items-center justify-center opacity-60">
+                    {char.icon}
+                  </div>
+                  <p className="font-clinical text-xs font-medium">{char.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Flow Column - Desktop only */}
+          <div className="hidden md:block space-y-4">
             <div className="neo-box p-4 md:p-5">
               <div className="flex items-center justify-between mb-4">
                 <p className="font-clinical text-sm opacity-70">Tastes Like:</p>
@@ -442,8 +570,8 @@ export function TasteSection() {
           {/* Vertical Divider */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-current/10 -translate-x-1/2" />
 
-          {/* Clear Column */}
-          <div className="space-y-4">
+          {/* Clear Column - Desktop only */}
+          <div className="hidden md:block space-y-4">
             <div className="neo-box p-4 md:p-5">
               <div className="flex items-center justify-between mb-4">
                 <p className="font-clinical text-sm opacity-70">Tastes Like:</p>
