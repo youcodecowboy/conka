@@ -368,6 +368,42 @@ export default function NavigationMobile({
             </div>
           )}
 
+          {/* For Professionals Link */}
+          <div className="pb-4 mb-4 border-t-2 border-current/10 pt-4">
+            <Link
+              href="/professionals"
+              className="block p-4 bg-white border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 mt-0.5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="opacity-60"
+                  >
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <p className="font-bold text-base mb-1">Professional purchasing portal</p>
+                  <p className="font-clinical text-xs opacity-70">
+                    Trusted by practitioners • Athletes, teams, clients • Streamlined ordering
+                  </p>
+                </div>
+              </div>
+            </Link>
+          </div>
+
           {/* Navigation - Neutral background with white tiles */}
           <div className="bg-neutral-100 py-4 px-4 -mx-6 mb-4">
             <p className="font-clinical text-xs uppercase opacity-50 mb-3">

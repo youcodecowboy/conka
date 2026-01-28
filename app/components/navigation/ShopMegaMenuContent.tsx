@@ -127,6 +127,41 @@ export default function ShopMegaMenuContent({
           </div>
         </div>
       )}
+
+      {/* For Professionals - Expanded */}
+      {hoveredSection === "professionals" && (
+        <div>
+          <div className="mb-6">
+            <h3 className="font-bold text-xl mb-2">Professional purchasing portal</h3>
+            <ul className="font-clinical text-base opacity-70 space-y-2 mb-6">
+              <li>• Trusted by practitioners</li>
+              <li>• Athletes, teams, clients</li>
+              <li>• Streamlined ordering</li>
+            </ul>
+            <a
+              href="/professionals"
+              onClick={onNavigate}
+              className="neo-button px-6 py-3 font-semibold text-sm inline-flex items-center gap-2"
+            >
+              Visit Portal
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
