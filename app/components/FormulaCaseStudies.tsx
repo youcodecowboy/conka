@@ -55,12 +55,7 @@ function AthleteDetailCompact({ athlete }: { athlete: AthleteData }) {
           <img 
             src={athlete.photo} 
             alt={athlete.name}
-            className="w-full h-full object-cover"
-            style={{
-              objectPosition: athlete.focalPoint 
-                ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%`
-                : "center"
-            }}
+            className="w-full h-full object-contain"
           />
         ) : (
           <div className="text-center">
