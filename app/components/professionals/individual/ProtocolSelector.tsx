@@ -77,7 +77,7 @@ export default function ProtocolSelector({
                         : "bg-[var(--foreground)] text-[var(--background)]"
                     }`}
                   >
-                    View
+                    {isSelected ? "Selected" : "View"}
                     {!isSelected && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +150,7 @@ export default function ProtocolSelector({
                         : "bg-[var(--foreground)] text-[var(--background)]"
                     }`}
                   >
-                    View
+                    {isSelected ? "Selected" : "View"}
                     {!isSelected && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
