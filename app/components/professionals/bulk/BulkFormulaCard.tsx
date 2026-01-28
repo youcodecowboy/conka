@@ -153,6 +153,9 @@ export default function BulkFormulaCard({
                 <p className="font-clinical text-xs opacity-70">
                   {quantity === 1 ? "box" : "boxes"}
                 </p>
+                <p className="font-clinical text-xs opacity-60 mt-0.5">
+                  ({quantity * 28} shots)
+                </p>
               </div>
               <button
                 onClick={handleIncrement}
@@ -177,9 +180,16 @@ export default function BulkFormulaCard({
               <span className="font-clinical text-base font-semibold">
                 Total:
               </span>
-              <span className="text-2xl font-bold">
-                {formatPrice(totalPrice)}
-              </span>
+              <div className="flex flex-col items-end">
+                {selectedPurchaseType === "subscription" && (
+                  <span className="text-lg font-bold line-through opacity-50 mb-1">
+                    {formatPrice(oneTimePricing.price * quantity)}
+                  </span>
+                )}
+                <span className="text-2xl font-bold">
+                  {formatPrice(totalPrice)}
+                </span>
+              </div>
             </div>
           </div>
         </div>
