@@ -1,8 +1,50 @@
 # Professional Portal Implementation Plan
 
 **Created:** January 28, 2026  
-**Status:** Planning  
+**Status:** In Progress (Phases 1-4 Complete, Phase 5 Mostly Complete)  
 **Feature Branch:** `professional-portal`
+
+---
+
+## Progress Summary
+
+### ✅ Completed Phases
+
+- **Phase 1: Navigation & Gateway Page** - ✅ Complete
+  - Navigation links added (desktop & mobile)
+  - Gateway page created with mode selection cards
+  - Case studies integrated
+  
+- **Phase 2: Individual Purchase - Protocols** - ✅ Complete
+  - Protocol selector with horizontal banner layout
+  - Expanded protocol views with inline purchase controls
+  - Tier selector and subscription toggle
+  
+- **Phase 3: Individual Purchase - Formulas** - ✅ Complete
+  - Formula selector matching protocol style
+  - Expanded formula views
+  - Case studies section always visible
+  
+- **Phase 4: Bulk Purchase Page** - ✅ Complete
+  - Two large formula cards (Flow & Clear)
+  - Quantity incrementer with shots count
+  - Subscription pricing with slashed prices
+  - Side-by-side comparison sections
+  - Mobile toggle for all sections
+  
+- **Phase 5: Mobile Optimization** - ✅ Mostly Complete
+  - Mobile layouts implemented
+  - Touch targets optimized
+  - Horizontal scroll for selectors
+  - Pending: Device testing (iOS Safari, Android Chrome)
+
+### 🔄 Remaining Work
+
+- **Phase 6: Testing & Documentation** - ⏳ Pending
+  - End-to-end testing
+  - Cross-browser testing
+  - Performance audit
+  - Documentation updates
 
 ---
 
@@ -105,12 +147,12 @@ Cart drawer opens with multiple items
 
 #### Tasks
 
-- [ ] Add "For Professionals" link to Shop dropdown menu (desktop)
-- [ ] Add "For Professionals" link to mobile navigation menu
-- [ ] Create `/app/professionals/page.tsx` gateway page
-- [ ] Create gateway page components (desktop + mobile)
-- [ ] Integrate case studies section (reuse homepage pattern)
-- [ ] Create mode selection cards (Individual vs Bulk)
+- [x] Add "For Professionals" link to Shop dropdown menu (desktop)
+- [x] Add "For Professionals" link to mobile navigation menu
+- [x] Create `/app/professionals/page.tsx` gateway page
+- [x] Create gateway page components (desktop + mobile)
+- [x] Integrate case studies section (reuse homepage pattern)
+- [x] Create mode selection cards (Individual vs Bulk)
 
 #### Navigation Updates
 
@@ -187,16 +229,18 @@ app/components/professionals/
 
 #### Acceptance Criteria
 
-- [ ] "For Professionals" link visible in Shop dropdown (desktop)
-- [ ] "For Professionals" link visible in mobile nav
-- [ ] Gateway page accessible at `/professionals`
-- [ ] Context section explains purpose clearly
-- [ ] Case studies section displays (if included)
-- [ ] Two mode cards displayed side-by-side (desktop) or stacked (mobile)
-- [ ] CTAs navigate to correct paths
-- [ ] Mobile layout works correctly
-- [ ] No visual distinction from DTC pages
-- [ ] Matches neo-brutalist style guide
+- [x] "For Professionals" link visible in Shop dropdown (desktop)
+- [x] "For Professionals" link visible in mobile nav
+- [x] Gateway page accessible at `/professionals`
+- [x] Context section explains purpose clearly
+- [x] Case studies section displays (if included)
+- [x] Two mode cards displayed side-by-side (desktop) or stacked (mobile)
+- [x] CTAs navigate to correct paths
+- [x] Mobile layout works correctly
+- [x] No visual distinction from DTC pages
+- [x] Matches neo-brutalist style guide
+
+**Status:** ✅ **COMPLETED**
 
 ---
 
@@ -204,16 +248,22 @@ app/components/professionals/
 
 **Branch:** `professional-portal/phase-2-individual-protocols`
 
+**Note:** Implementation differs from original plan. Instead of inline purchase cards, we implemented a selector-based approach:
+- Horizontal protocol selector (black banner, compact cards)
+- Selected protocol expands to show full product sections (Hero, Calendar, Benefits)
+- Inline purchase controls (tier selector, subscription toggle, add to cart)
+- No auto-selection on mount
+
 #### Tasks
 
-- [ ] Create `/app/professionals/individual/page.tsx`
-- [ ] Create inline purchase components for protocols
-- [ ] Build protocol cards with embedded purchase controls
-- [ ] Implement pack size selector (12, 30, etc.)
-- [ ] Implement subscription vs one-time toggle
-- [ ] Display pricing inline
-- [ ] Connect to cart context
-- [ ] Create mobile versions
+- [x] Create `/app/professionals/individual/page.tsx`
+- [x] Create protocol selector component
+- [x] Build expanded protocol view with existing product sections
+- [x] Implement tier selector (Starter, Pro, Max)
+- [x] Implement subscription vs one-time toggle
+- [x] Display pricing inline
+- [x] Connect to cart context
+- [x] Create mobile versions (horizontal scroll for selector)
 
 #### Page Structure
 
@@ -313,18 +363,20 @@ app/components/professionals/
 
 #### Acceptance Criteria
 
-- [ ] Page accessible at `/professionals/individual`
-- [ ] Protocols section displays all 4 protocols
-- [ ] Each protocol card shows image, name, outcome
-- [ ] Pack size selector works and updates price
-- [ ] Purchase type toggle works and updates price
-- [ ] Pricing displays correctly for all combinations
-- [ ] "Add to Cart" adds correct variant to cart
-- [ ] Cart drawer opens automatically after add
-- [ ] "View Details" links to protocol detail pages
-- [ ] Mobile layout works correctly
-- [ ] All interactions smooth and responsive
-- [ ] No TypeScript errors
+- [x] Page accessible at `/professionals/individual`
+- [x] Protocols section displays all 4 protocols
+- [x] Protocol selector shows product name and benefit lead copy
+- [x] Selected protocol expands to show Hero, Calendar, Benefits sections
+- [x] Tier selector works and updates price
+- [x] Purchase type toggle works and updates price
+- [x] Pricing displays correctly for all combinations
+- [x] "Add to Cart" adds correct variant to cart
+- [x] Cart drawer opens automatically after add
+- [x] Mobile layout works correctly (horizontal scroll for selector)
+- [x] All interactions smooth and responsive
+- [x] No TypeScript errors
+
+**Status:** ✅ **COMPLETED** (with implementation variations)
 
 ---
 
@@ -332,13 +384,23 @@ app/components/professionals/
 
 **Branch:** `professional-portal/phase-3-individual-formulas`
 
+**Note:** Implementation follows same pattern as protocols:
+- Formula selector matching protocol selector style
+- Only Flow ("01") and Clear ("02") displayed
+- Selected formula expands to show Hero, Benefits, FAQ, HowItWorks
+- Inline purchase controls (pack selector, subscription toggle, add to cart)
+- Case studies moved to always-visible section (not in expanded formula view)
+- Users can have both protocol and formula expanded simultaneously
+
 #### Tasks
 
-- [ ] Add formulas section to individual purchase page
-- [ ] Create formula cards with inline purchase controls
-- [ ] Reuse same purchase component patterns from protocols
-- [ ] Ensure visual hierarchy separates protocols from formulas
-- [ ] Test mobile layout
+- [x] Add formulas section to individual purchase page
+- [x] Create formula selector component
+- [x] Build expanded formula view with existing product sections
+- [x] Reuse same purchase component patterns from protocols
+- [x] Ensure visual hierarchy separates protocols from formulas
+- [x] Add case studies section (always visible, matches homepage)
+- [x] Test mobile layout
 
 #### Page Structure Update
 
@@ -378,13 +440,17 @@ app/components/professionals/individual/
 
 #### Acceptance Criteria
 
-- [ ] Formulas section displays below protocols
-- [ ] Visual hierarchy clearly separates sections
-- [ ] Both formulas (Flow and Clear) displayed
-- [ ] Same purchase controls as protocols
-- [ ] All functionality works (pack selector, toggle, add to cart)
-- [ ] Mobile layout stacks formulas vertically
-- [ ] Consistent styling with protocols section
+- [x] Formulas section displays below protocols
+- [x] Visual hierarchy clearly separates sections
+- [x] Both formulas (Flow and Clear) displayed in selector
+- [x] Same purchase controls as protocols (pack selector, toggle, add to cart)
+- [x] All functionality works correctly
+- [x] Mobile layout works (horizontal scroll for selector)
+- [x] Consistent styling with protocols section
+- [x] Case studies section displays correctly (matches homepage)
+- [x] Multiple selections allowed (protocol + formula can both be expanded)
+
+**Status:** ✅ **COMPLETED**
 
 ---
 
@@ -392,14 +458,32 @@ app/components/professionals/individual/
 
 **Branch:** `professional-portal/phase-4-bulk`
 
+**Note:** Implementation includes:
+- Two large cards (Flow and Clear) with images
+- Purchase type toggle (Subscribe with save % / One-off)
+- Quantity incrementer (+/- buttons)
+- Shots count display (1 box = 28 shots)
+- Subscription pricing shows slashed old price + new price
+- Info sections refactored for side-by-side comparison
+- Black banner headers with white text for all sections
+- Ingredients link to full breakdown page
+- Mobile toggle to switch between Flow/Clear for all sections
+
 #### Tasks
 
-- [ ] Create `/app/professionals/bulk/page.tsx`
-- [ ] Build bulk box definition component
-- [ ] Create quantity incrementer (+/- buttons)
-- [ ] Display pricing per box
-- [ ] Implement add to cart for bulk boxes
-- [ ] Create mobile version
+- [x] Create `/app/professionals/bulk/page.tsx`
+- [x] Build bulk formula cards (Flow and Clear)
+- [x] Create quantity incrementer (+/- buttons)
+- [x] Display pricing per box
+- [x] Implement purchase type toggle (Subscribe/One-off)
+- [x] Implement add to cart for bulk boxes
+- [x] Add subscription pricing display (slashed old price)
+- [x] Add shots count display
+- [x] Refactor info sections for comparison (Info, Benefits, Ingredients, Taste)
+- [x] Add black banner headers for sections
+- [x] Add ingredients link CTA
+- [x] Create mobile toggle for formula selection
+- [x] Create mobile version
 
 #### Page Structure
 
@@ -441,18 +525,20 @@ app/components/professionals/individual/
 - Larger +/- buttons for touch
 - Full-width CTA button
 
-#### Components to Create
+#### Components Created
 
 ```
 app/components/professionals/
 ├── bulk/
 │   ├── index.ts
 │   ├── types.ts
-│   ├── BulkPurchasePage.tsx          # Desktop wrapper
-│   ├── BulkPurchasePageMobile.tsx    # Mobile wrapper
-│   ├── BulkBoxDefinition.tsx         # Box contents display
-│   ├── QuantityIncrementer.tsx       # +/- quantity controls
-│   └── BulkAddToCart.tsx              # Add multiple boxes
+│   ├── BulkPurchaseHeader.tsx        # Page header
+│   ├── BulkFormulaCard.tsx            # Formula card with purchase controls
+│   └── FormulaInfoSections.tsx        # Info sections (Info, Benefits, Ingredients, Taste)
+│       ├── InfoSection
+│       ├── BenefitsSection
+│       ├── IngredientsSection
+│       └── TasteSection
 ```
 
 #### Bulk Box Logic
@@ -477,16 +563,25 @@ app/components/professionals/
 
 #### Acceptance Criteria
 
-- [ ] Page accessible at `/professionals/bulk`
-- [ ] Bulk box definition clearly shows contents
-- [ ] Price per box displayed
-- [ ] Quantity incrementer works (+/- buttons)
-- [ ] Total price updates when quantity changes
-- [ ] "Add to Cart" adds correct items to cart
-- [ ] Cart drawer opens automatically
-- [ ] Mobile layout works correctly
-- [ ] No minimum quantity enforced
-- [ ] All calculations correct
+- [x] Page accessible at `/professionals/bulk`
+- [x] Two large formula cards displayed (Flow and Clear)
+- [x] Price per box displayed
+- [x] Quantity incrementer works (+/- buttons)
+- [x] Shots count displayed (quantity × 28)
+- [x] Subscription pricing shows slashed old price + new price
+- [x] Total price updates when quantity changes
+- [x] Purchase type toggle works (Subscribe/One-off)
+- [x] "Add to Cart" adds correct items to cart
+- [x] Cart drawer opens automatically
+- [x] Info sections display side-by-side comparison
+- [x] Black banner headers for all sections
+- [x] Ingredients link works
+- [x] Mobile toggle switches all sections between Flow/Clear
+- [x] Mobile layout works correctly
+- [x] No minimum quantity enforced
+- [x] All calculations correct
+
+**Status:** ✅ **COMPLETED**
 
 ---
 
@@ -496,13 +591,14 @@ app/components/professionals/
 
 #### Tasks
 
-- [ ] Review all pages on mobile viewports
-- [ ] Optimize touch targets (44px minimum)
-- [ ] Test pack selector on mobile (dropdown vs pills)
-- [ ] Ensure cart drawer works correctly on mobile
-- [ ] Test quantity incrementer on mobile
-- [ ] Verify spacing and typography on mobile
-- [ ] Test on actual devices (iOS Safari, Android Chrome)
+- [x] Review all pages on mobile viewports
+- [x] Optimize touch targets (44px minimum)
+- [x] Implement horizontal scroll for selectors on mobile
+- [x] Ensure cart drawer works correctly on mobile
+- [x] Test quantity incrementer on mobile
+- [x] Verify spacing and typography on mobile
+- [x] Implement mobile toggle for bulk page sections
+- [ ] Test on actual devices (iOS Safari, Android Chrome) - **Pending device testing**
 
 #### Mobile-Specific Considerations
 
@@ -519,14 +615,16 @@ app/components/professionals/
 
 #### Acceptance Criteria
 
-- [ ] All pages usable on mobile viewports
-- [ ] Touch targets meet accessibility standards
-- [ ] No horizontal scrolling
-- [ ] Text readable without zooming
-- [ ] Cart drawer works on mobile
-- [ ] All interactions smooth (60fps)
-- [ ] Tested on iOS Safari
-- [ ] Tested on Android Chrome
+- [x] All pages usable on mobile viewports
+- [x] Touch targets meet accessibility standards
+- [x] Horizontal scrolling implemented for selectors (intentional UX)
+- [x] Text readable without zooming
+- [x] Cart drawer works on mobile
+- [x] All interactions smooth (60fps)
+- [ ] Tested on iOS Safari - **Pending device testing**
+- [ ] Tested on Android Chrome - **Pending device testing**
+
+**Status:** ✅ **MOSTLY COMPLETED** (pending device testing)
 
 ---
 
@@ -582,45 +680,44 @@ app/components/professionals/
 
 ---
 
-## File Structure (Final)
+## File Structure (Actual Implementation)
 
 ```
 app/
 ├── professionals/
-│   ├── page.tsx                          # Gateway page
+│   ├── page.tsx                          # Gateway page ✅
 │   ├── individual/
-│   │   └── page.tsx                      # Individual purchase page
+│   │   └── page.tsx                      # Individual purchase page ✅
 │   └── bulk/
-│       └── page.tsx                      # Bulk purchase page
+│       └── page.tsx                      # Bulk purchase page ✅
 │
 └── components/
     └── professionals/
-        ├── index.ts                      # Barrel exports
-        ├── types.ts                      # TypeScript interfaces
-        ├── ProfessionalsGateway.tsx      # Gateway desktop
-        ├── ProfessionalsGatewayMobile.tsx # Gateway mobile
-        ├── ModeSelectionCard.tsx         # Reusable mode card
-        ├── ProfessionalsContext.tsx      # Context section
+        ├── index.ts                      # Barrel exports ✅
+        ├── gateway/
+        │   ├── ProfessionalsGateway.tsx  # Gateway component ✅
+        │   ├── ModeSelectionCard.tsx     # Mode card ✅
+        │   └── ProfessionalsContext.tsx # Context section ✅
         ├── individual/
         │   ├── index.ts
-        │   ├── types.ts
-        │   ├── IndividualPurchasePage.tsx
-        │   ├── IndividualPurchasePageMobile.tsx
-        │   ├── ProtocolPurchaseCard.tsx
-        │   ├── ProtocolPurchaseCardMobile.tsx
-        │   ├── FormulaPurchaseCard.tsx
-        │   ├── FormulaPurchaseCardMobile.tsx
-        │   ├── PackSizeSelector.tsx
-        │   └── PurchaseTypeToggle.tsx
+        │   ├── IndividualPurchaseHeader.tsx # Page header ✅
+        │   ├── ProtocolSelector.tsx       # Protocol selector ✅
+        │   ├── ExpandedProtocolView.tsx  # Expanded protocol ✅
+        │   ├── FormulaSelector.tsx       # Formula selector ✅
+        │   └── ExpandedFormulaView.tsx   # Expanded formula ✅
         └── bulk/
             ├── index.ts
             ├── types.ts
-            ├── BulkPurchasePage.tsx
-            ├── BulkPurchasePageMobile.tsx
-            ├── BulkBoxDefinition.tsx
-            ├── QuantityIncrementer.tsx
-            └── BulkAddToCart.tsx
+            ├── BulkPurchaseHeader.tsx    # Page header ✅
+            ├── BulkFormulaCard.tsx       # Formula card ✅
+            └── FormulaInfoSections.tsx   # Info sections ✅
+                ├── InfoSection
+                ├── BenefitsSection
+                ├── IngredientsSection
+                └── TasteSection
 ```
+
+**Note:** Implementation uses responsive components rather than separate mobile/desktop files. Components adapt using Tailwind breakpoints.
 
 ---
 
