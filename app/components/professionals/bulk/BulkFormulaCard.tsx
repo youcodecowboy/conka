@@ -3,14 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import { formulas } from "@/app/components/shop/formulasShowcaseData";
-import { getFormulaImage } from "@/app/components/navigation/protocolImageConfig";
 import {
   formulaPricing,
   formatPrice,
   getBillingLabel,
   FORMULA_COLORS,
 } from "@/app/lib/productData";
-import PurchaseToggle from "@/app/components/product/PurchaseToggle";
 import type { BulkFormulaCardProps } from "./types";
 
 export default function BulkFormulaCard({
@@ -26,14 +24,17 @@ export default function BulkFormulaCard({
   
   if (!formula) return null;
 
-  const formulaImage = getFormulaImage(formulaId) || formula.image.src;
+  const formulaImage = formula.image.src;
   const pricing = formulaPricing[selectedPurchaseType]["28"];
+  const oneTimePricing = formulaPricing["one-time"]["28"];
   const pricePerBox = pricing.price;
   const totalPrice = pricePerBox * quantity;
   const billingText =
     selectedPurchaseType === "subscription" && "billing" in pricing
       ? getBillingLabel(pricing.billing)
       : "one-time";
+  const saveAmount = oneTimePricing.price - pricing.price;
+  const savePercentage = Math.round((saveAmount / oneTimePricing.price) * 100);
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
@@ -56,8 +57,8 @@ export default function BulkFormulaCard({
 
   return (
     <div className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden">
-      {/* Image Container */}
-      <div className="relative aspect-[5/5] overflow-hidden">
+      {/* Image Container - Shorter */}
+      <div className="relative aspect-[4/3] overflow-hidden">
         <div className="absolute inset-0" style={{ bottom: "-30%" }}>
           <Image
             src={formulaImage}
@@ -74,9 +75,9 @@ export default function BulkFormulaCard({
       </div>
 
       {/* Content Section */}
-      <div className="pt-6 px-6 flex-1 flex flex-col">
+      <div className="pt-4 px-6 flex-1 flex flex-col">
         {/* Product Name and Tagline */}
-        <div className="flex items-start gap-3 mb-4 pb-4 border-b border-black/5">
+        <div className="flex items-start gap-3 mb-3 pb-3 border-b border-black/5">
           <div
             className={`w-10 h-10 ${formula.bgColor} text-white rounded-md flex items-center justify-center flex-shrink-0`}
           >
@@ -98,17 +99,40 @@ export default function BulkFormulaCard({
         </div>
 
         {/* Purchase Controls */}
-        <div className="space-y-4 mb-6">
-          {/* Subscription Toggle */}
+        <div className="space-y-3 mb-4">
+          {/* Purchase Type Toggle */}
           <div>
             <p className="font-clinical text-xs uppercase opacity-70 mb-2">
               Purchase Type
             </p>
-            <PurchaseToggle
-              purchaseType={selectedPurchaseType}
-              onToggle={onPurchaseTypeChange}
-              highlightColor={formula.accentColor}
-            />
+            <div className="flex gap-2">
+              <button
+                onClick={() => onPurchaseTypeChange("subscription")}
+                className={`px-4 py-2 rounded-full border-2 transition-all flex items-center gap-2 ${
+                  selectedPurchaseType === "subscription"
+                    ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                    : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
+                }`}
+              >
+                <span className="font-clinical text-sm font-medium">Subscribe</span>
+                <span
+                  className="px-2 py-0.5 rounded-full text-white font-clinical text-xs"
+                  style={{ backgroundColor: formula.accentColor }}
+                >
+                  SAVE {savePercentage}%
+                </span>
+              </button>
+              <button
+                onClick={() => onPurchaseTypeChange("one-time")}
+                className={`px-4 py-2 rounded-full border-2 transition-all ${
+                  selectedPurchaseType === "one-time"
+                    ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                    : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
+                }`}
+              >
+                <span className="font-clinical text-sm font-medium">One-off</span>
+              </button>
+            </div>
           </div>
 
           {/* Quantity Selector */}
@@ -161,7 +185,7 @@ export default function BulkFormulaCard({
         </div>
 
         {/* Add to Cart Button */}
-        <div className="mt-auto pb-6">
+        <div className="mt-auto pb-4">
           <button
             onClick={handleAddToCart}
             disabled={isAddingToCart}
