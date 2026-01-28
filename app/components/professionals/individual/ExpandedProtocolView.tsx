@@ -29,7 +29,7 @@ export default function ExpandedProtocolView({
   onAddToCart,
 }: ExpandedProtocolViewProps) {
   return (
-    <div className="border-t-2 border-current/10">
+    <div>
       {/* Protocol Hero Section */}
       <ProtocolHero
         protocolId={protocolId}
