@@ -20,6 +20,9 @@ import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 export default function ProfessionalsBulkPage() {
   const { addToCart, openCart } = useCart();
 
+  // State for formula selection (mobile toggle)
+  const [selectedFormula, setSelectedFormula] = useState<FormulaId>("01");
+
   // State for CONKA Flow (01)
   const [flowPurchaseType, setFlowPurchaseType] =
     useState<PurchaseType>("subscription");
@@ -104,10 +107,42 @@ export default function ProfessionalsBulkPage() {
       </section>
 
       {/* Formula Information Sections */}
-      <InfoSection />
-      <BenefitsSection />
-      <IngredientsSection />
-      <TasteSection />
+      {/* Mobile Toggle - Only visible on mobile */}
+      <div className="md:hidden px-6 md:px-16 pb-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setSelectedFormula("01")}
+              className={`flex-1 px-4 py-3 rounded-lg border-2 transition-all ${
+                selectedFormula === "01"
+                  ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                  : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
+              }`}
+            >
+              <span className="font-clinical text-sm font-medium">
+                CONKA Flow
+              </span>
+            </button>
+            <button
+              onClick={() => setSelectedFormula("02")}
+              className={`flex-1 px-4 py-3 rounded-lg border-2 transition-all ${
+                selectedFormula === "02"
+                  ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                  : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
+              }`}
+            >
+              <span className="font-clinical text-sm font-medium">
+                CONKA Clear
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <InfoSection selectedFormula={selectedFormula} />
+      <BenefitsSection selectedFormula={selectedFormula} />
+      <IngredientsSection selectedFormula={selectedFormula} />
+      <TasteSection selectedFormula={selectedFormula} />
     </div>
   );
 }
