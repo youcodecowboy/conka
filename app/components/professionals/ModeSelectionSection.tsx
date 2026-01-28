@@ -54,6 +54,10 @@ export default function ModeSelectionSection() {
             ctaText="Shop for an Individual"
             href="/professionals/individual"
             icon={individualIcon}
+            image={{
+              src: "/JoshStanton.jpg",
+              alt: "Professional practitioner working with athlete",
+            }}
           />
 
           {/* Bulk Mode Card */}
@@ -64,6 +68,10 @@ export default function ModeSelectionSection() {
             ctaText="Shop for Teams"
             href="/professionals/bulk"
             icon={bulkIcon}
+            image={{
+              src: "/professionals/Team.webp",
+              alt: "Team and club purchasing",
+            }}
           />
         </div>
       </div>
