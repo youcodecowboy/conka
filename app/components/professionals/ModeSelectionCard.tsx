@@ -13,7 +13,7 @@ export default function ModeSelectionCard({
   image,
 }: ModeSelectionCardProps) {
   return (
-    <div className="neo-box overflow-hidden flex flex-col h-full">
+    <Link href={href} className="neo-box overflow-hidden flex flex-col h-full block hover:opacity-90 transition-opacity">
       {/* Image */}
       {image && (
         <div className="relative w-full aspect-[4/3] overflow-hidden">
@@ -40,10 +40,7 @@ export default function ModeSelectionCard({
         </p>
 
         {/* CTA Button */}
-        <Link
-          href={href}
-          className="neo-button px-6 py-3 font-semibold text-sm inline-flex items-center justify-center gap-2 w-full"
-        >
+        <div className="neo-button px-6 py-3 font-semibold text-sm inline-flex items-center justify-center gap-2 w-full pointer-events-none">
           {ctaText}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -59,8 +56,8 @@ export default function ModeSelectionCard({
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
           </svg>
-        </Link>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
