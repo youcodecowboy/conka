@@ -13,4 +13,8 @@ export interface ModeSelectionCardProps {
   ctaText: string;
   href: string;
   icon: React.ReactNode;
+  image?: {
+    src: string;
+    alt: string;
+  };
 }
