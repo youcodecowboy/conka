@@ -45,19 +45,32 @@ function AthleteMetricCardCompact({ athlete, isActive, onClick }: {
   );
 }
 
-// Detailed view panel with image placeholder
+// Detailed view panel with image
 function AthleteDetailCompact({ athlete }: { athlete: AthleteData }) {
   return (
     <div className="neo-box overflow-hidden">
-      {/* Image Placeholder */}
-      <div className="relative h-32 bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center border-b-2 border-current/10">
-        <div className="text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-1 opacity-30">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-          <p className="font-clinical text-[10px] opacity-40 uppercase tracking-wider">Photo</p>
-        </div>
+      {/* Athlete Photo */}
+      <div className="relative h-32 bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center border-b-2 border-current/10 overflow-hidden">
+        {athlete.photo ? (
+          <img 
+            src={athlete.photo} 
+            alt={athlete.name}
+            className="w-full h-full object-cover"
+            style={{
+              objectPosition: athlete.focalPoint 
+                ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%`
+                : "center"
+            }}
+          />
+        ) : (
+          <div className="text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-1 opacity-30">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <p className="font-clinical text-[10px] opacity-40 uppercase tracking-wider">Photo</p>
+          </div>
+        )}
       </div>
 
       {/* Header */}
