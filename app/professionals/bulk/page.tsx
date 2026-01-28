@@ -5,6 +5,7 @@ import Navigation from "../../components/navigation";
 import {
   BulkPurchaseHeader,
   BulkFormulaCard,
+  FormulaInfoSections,
 } from "../../components/professionals/bulk";
 import {
   FormulaId,
@@ -73,7 +74,7 @@ export default function ProfessionalsBulkPage() {
       <BulkPurchaseHeader />
 
       {/* Formula Cards Grid */}
-      <section className="px-6 md:px-16 pb-12 md:pb-24">
+      <section className="px-6 md:px-16 pb-12 md:pb-16">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
             {/* CONKA Flow Card */}
@@ -95,6 +96,25 @@ export default function ProfessionalsBulkPage() {
               onQuantityChange={setClearQuantity}
               onAddToCart={handleClearAddToCart}
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Formula Information Sections */}
+      <section className="px-6 md:px-16 py-12 md:py-16 border-t-2 border-current/10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+            {/* CONKA Flow Info */}
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold mb-8">CONKA Flow</h2>
+              <FormulaInfoSections formulaId="01" />
+            </div>
+
+            {/* CONKA Clear Info */}
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold mb-8">CONKA Clear</h2>
+              <FormulaInfoSections formulaId="02" />
+            </div>
           </div>
         </div>
       </section>
