@@ -128,8 +128,9 @@ export default function ShopMegaMenuContent({
         </div>
       )}
 
+      {/* Temporarily commented out for deployment feedback */}
       {/* For Professionals - Expanded */}
-      {hoveredSection === "professionals" && (
+      {/* {hoveredSection === "professionals" && (
         <div>
           <div className="mb-6">
             <h3 className="font-bold text-xl mb-2">Professional purchasing portal</h3>
@@ -161,7 +162,7 @@ export default function ShopMegaMenuContent({
             </a>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

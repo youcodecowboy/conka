@@ -368,8 +368,9 @@ export default function NavigationMobile({
             </div>
           )}
 
+          {/* Temporarily commented out for deployment feedback */}
           {/* For Professionals Link */}
-          <div className="pb-4 mb-4 border-t-2 border-current/10 pt-4">
+          {/* <div className="pb-4 mb-4 border-t-2 border-current/10 pt-4">
             <Link
               href="/professionals"
               className="block p-4 bg-white border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
@@ -402,7 +403,7 @@ export default function NavigationMobile({
                 </div>
               </div>
             </Link>
-          </div>
+          </div> */}
 
           {/* Navigation - Neutral background with white tiles */}
           <div className="bg-neutral-100 py-4 px-4 -mx-6 mb-4">

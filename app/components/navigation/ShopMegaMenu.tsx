@@ -18,10 +18,11 @@ export default function ShopMegaMenu({
 
   if (!isOpen) return null;
 
-  const handleProfessionalsClick = () => {
-    router.push("/professionals");
-    onClose();
-  };
+  // Temporarily commented out for deployment feedback
+  // const handleProfessionalsClick = () => {
+  //   router.push("/professionals");
+  //   onClose();
+  // };
 
   return (
     <div
@@ -67,7 +68,8 @@ export default function ShopMegaMenu({
               >
                 Help me Choose
               </button>
-              <button
+              {/* Temporarily commented out for deployment feedback */}
+              {/* <button
                 onMouseEnter={() => setHoveredSection("professionals")}
                 onClick={handleProfessionalsClick}
                 className={`px-4 py-3 text-left font-clinical text-sm font-bold transition-all rounded-lg border-2 w-full ${
@@ -77,7 +79,7 @@ export default function ShopMegaMenu({
                 }`}
               >
                 For Professionals
-              </button>
+              </button> */}
             </div>
           </div>
 
