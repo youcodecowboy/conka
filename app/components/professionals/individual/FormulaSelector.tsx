@@ -17,20 +17,20 @@ export default function FormulaSelector({
   const formulaIds: FormulaId[] = ["01", "02"];
 
   return (
-    <section className="px-6 md:px-16 py-6 md:py-8">
-      <div className="max-w-6xl mx-auto">
+    <section className="bg-[var(--foreground)] text-[var(--background)] py-4 md:py-6">
+      <div className="px-6 md:px-16">
         {/* Section Header */}
-        <div className="mb-6 md:mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-2">
+        <div className="mb-3 md:mb-4">
+          <h2 className="text-xl md:text-2xl font-bold mb-1">
             Individual Formulas
           </h2>
-          <p className="font-clinical text-sm md:text-base opacity-70">
+          <p className="font-clinical text-xs md:text-sm opacity-80">
             Purchase individual formulas separately
           </p>
         </div>
 
-        {/* Formula Cards - Desktop Grid, Mobile Horizontal Scroll */}
-        <div className="hidden md:grid md:grid-cols-4 gap-6">
+        {/* Formula Cards - Horizontal Strip */}
+        <div className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide pb-2">
           {formulaIds.map((formulaId) => {
             const formula = formulas.find((f) => f.id === formulaId);
             if (!formula) return null;
@@ -39,146 +39,82 @@ export default function FormulaSelector({
             const isSelected = selectedFormula === formulaId;
 
             return (
-              <button
+              <div
                 key={formulaId}
-                onClick={() => onSelect(formulaId)}
-                className={`flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3 h-full transition-all duration-200 text-left ${
-                  isSelected
-                    ? "scale-105 opacity-100 shadow-[4px_4px_0px_0px_var(--foreground)]"
-                    : "opacity-60 hover:opacity-100 hover:shadow-[4px_4px_0px_0px_var(--foreground)]"
-                }`}
+                className="flex-shrink-0 relative"
+                style={{ minWidth: "280px", maxWidth: "320px" }}
               >
-                {/* Formula Image - Larger, Square */}
-                <div className="relative aspect-square mb-4 rounded-lg overflow-hidden">
-                  <Image
-                    src={formulaImage}
-                    alt={formula.image.alt}
-                    fill
-                    className="object-cover"
-                    style={{
-                      objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
-                    }}
-                    sizes="(max-width: 1024px) 25vw, 200px"
-                  />
-                </div>
-
-                {/* Content Section */}
-                <div className="flex flex-col flex-1">
-                  {/* Formula Name */}
-                  <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
-                    {formula.name}
-                  </p>
-
-                  {/* Headline */}
-                  <h3 className="text-lg font-bold leading-tight mb-3 flex-1">
-                    {formula.headline}
-                  </h3>
-
-                  {/* CTA Button */}
-                  <div
-                    className={`px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center mt-auto border-2 border-[var(--foreground)] ${
-                      isSelected
-                        ? "bg-white text-black"
-                        : "bg-[var(--foreground)] text-[var(--background)]"
-                    }`}
-                  >
-                    {isSelected ? "Selected" : "View"}
-                    {!isSelected && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                      </svg>
-                    )}
+                {/* Shadow Card (Grey) - Only visible when selected */}
+                {isSelected && (
+                  <div className="absolute inset-0 bg-gray-200 border-2 border-[var(--background)]/30 rounded-lg translate-x-1 translate-y-1" />
+                )}
+                
+                {/* Main Card */}
+                <button
+                  onClick={() => onSelect(formulaId)}
+                  className={`relative flex items-center gap-3 md:gap-4 border-2 rounded-lg overflow-hidden p-3 md:p-4 transition-all duration-200 w-full ${
+                    isSelected
+                      ? "bg-[var(--background)] text-[var(--foreground)] border-[var(--background)] opacity-100"
+                      : "bg-[var(--background)] text-[var(--foreground)] border-[var(--background)]/30 opacity-60 hover:opacity-100 hover:border-[var(--background)]/50"
+                  }`}
+                >
+                  {/* Formula Image - Compact */}
+                  <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden flex-shrink-0">
+                    <Image
+                      src={formulaImage}
+                      alt={formula.image.alt}
+                      fill
+                      className="object-cover"
+                      style={{
+                        objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
+                      }}
+                      sizes="96px"
+                    />
                   </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
 
-        {/* Mobile: Horizontal Scroll */}
-        <div className="flex md:hidden gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
-          {formulaIds.map((formulaId) => {
-            const formula = formulas.find((f) => f.id === formulaId);
-            if (!formula) return null;
+                  {/* Content Section */}
+                  <div className="flex flex-col flex-1 min-w-0">
+                    {/* Formula Name - Small */}
+                    <p className={`font-primary text-[10px] md:text-xs uppercase tracking-wide mb-1 ${
+                      isSelected ? "opacity-60" : "opacity-60"
+                    }`}>
+                      {formula.name}
+                    </p>
 
-            const formulaImage = getFormulaImage(formulaId) || formula.image.src;
-            const isSelected = selectedFormula === formulaId;
+                    {/* Headline - Benefit Lead Copy */}
+                    <h3 className="text-sm md:text-base font-bold leading-tight mb-2">
+                      {formula.headline}
+                    </h3>
 
-            return (
-              <button
-                key={formulaId}
-                onClick={() => onSelect(formulaId)}
-                className={`flex-shrink-0 w-64 flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3 h-full transition-all duration-200 text-left ${
-                  isSelected
-                    ? "opacity-100 shadow-[4px_4px_0px_0px_var(--foreground)]"
-                    : "opacity-60 hover:opacity-100"
-                }`}
-              >
-                {/* Formula Image */}
-                <div className="relative aspect-square mb-4 rounded-lg overflow-hidden">
-                  <Image
-                    src={formulaImage}
-                    alt={formula.image.alt}
-                    fill
-                    className="object-cover"
-                    style={{
-                      objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
-                    }}
-                    sizes="256px"
-                  />
-                </div>
-
-                {/* Content Section */}
-                <div className="flex flex-col flex-1">
-                  {/* Formula Name */}
-                  <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
-                    {formula.name}
-                  </p>
-
-                  {/* Headline */}
-                  <h3 className="text-lg font-bold leading-tight mb-3 flex-1">
-                    {formula.headline}
-                  </h3>
-
-                  {/* CTA Button */}
-                  <div
-                    className={`px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center mt-auto border-2 border-[var(--foreground)] ${
-                      isSelected
-                        ? "bg-white text-black"
-                        : "bg-[var(--foreground)] text-[var(--background)]"
-                    }`}
-                  >
-                    {isSelected ? "Selected" : "View"}
-                    {!isSelected && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                      </svg>
-                    )}
+                    {/* CTA Button */}
+                    <div
+                      className={`mt-auto px-3 py-1.5 rounded-full font-bold text-[10px] md:text-xs inline-flex items-center gap-1.5 border-2 ${
+                        isSelected
+                          ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                          : "bg-transparent text-[var(--foreground)] border-[var(--foreground)]/30"
+                      }`}
+                    >
+                      {isSelected ? "Selected" : "View"}
+                      {!isSelected && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="10"
+                          height="10"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M5 12h14" />
+                          <path d="m12 5 7 7-7 7" />
+                        </svg>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </button>
+                </button>
+              </div>
             );
           })}
         </div>
