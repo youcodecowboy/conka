@@ -11,7 +11,6 @@ import {
   FormulaFAQ,
   HowItWorks,
 } from "@/app/components/product";
-import FormulaCaseStudies from "@/app/components/FormulaCaseStudies";
 
 interface ExpandedFormulaViewProps {
   formulaId: FormulaId;
@@ -50,9 +49,6 @@ export default function ExpandedFormulaView({
 
       {/* How It Works Section */}
       <HowItWorks formulaId={formulaId} />
-
-      {/* Case Studies Section */}
-      <FormulaCaseStudies formulaId={formulaId} />
     </div>
   );
 }
