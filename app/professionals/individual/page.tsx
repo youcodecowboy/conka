@@ -4,26 +4,48 @@ import { useState, useEffect } from "react";
 import Navigation from "../../components/navigation";
 import ProtocolSelector from "../../components/professionals/individual/ProtocolSelector";
 import ExpandedProtocolView from "../../components/professionals/individual/ExpandedProtocolView";
-import FormulasSection from "../../components/professionals/individual/FormulasSection";
+import FormulaSelector from "../../components/professionals/individual/FormulaSelector";
+import ExpandedFormulaView from "../../components/professionals/individual/ExpandedFormulaView";
 import {
   ProtocolId,
   ProtocolTier,
   PurchaseType,
+  FormulaId,
+  PackSize,
   protocolContent,
 } from "@/app/lib/productData";
 import { useCart } from "@/app/context/CartContext";
-import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
+import { getProtocolVariantId, getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 
 export default function ProfessionalsIndividualPage() {
   const { addToCart, openCart } = useCart();
 
-  // State management
+  // Protocol state management
   const [selectedProtocol, setSelectedProtocol] = useState<ProtocolId | null>(
     null
   );
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
+  
+  // Formula state management
+  const [selectedFormula, setSelectedFormula] = useState<FormulaId | null>(
+    null
+  );
+  const [selectedPack, setSelectedPack] = useState<PackSize>("12");
+  
+  // Shared purchase type
   const [purchaseType, setPurchaseType] =
     useState<PurchaseType>("subscription");
+
+  // Auto-select first protocol and CONKA Flow on mount
+  useEffect(() => {
+    setSelectedProtocol("1");
+    const protocol = protocolContent["1"];
+    const defaultTier: ProtocolTier = protocol.availableTiers.includes("pro")
+      ? "pro"
+      : protocol.availableTiers[0];
+    setSelectedTier(defaultTier);
+    setSelectedFormula("01");
+  }, []);
 
   // Reset tier when protocol changes (Protocol 4 doesn't have starter)
   useEffect(() => {
@@ -48,13 +70,47 @@ export default function ProfessionalsIndividualPage() {
     }
   };
 
-  // Handle add to cart
-  const handleAddToCart = async () => {
+  // Handle formula selection
+  const handleFormulaSelect = (formulaId: FormulaId) => {
+    // If clicking the same formula, collapse it
+    if (selectedFormula === formulaId) {
+      setSelectedFormula(null);
+    } else {
+      setSelectedFormula(formulaId);
+    }
+  };
+
+  // Handle protocol add to cart
+  const handleProtocolAddToCart = async () => {
     if (!selectedProtocol) return;
 
     const variantData = getProtocolVariantId(
       selectedProtocol,
       selectedTier,
+      purchaseType
+    );
+
+    if (variantData?.variantId) {
+      await addToCart(
+        variantData.variantId,
+        1,
+        variantData.sellingPlanId,
+        {
+          location: "professional_individual",
+          source: "professional_portal",
+        }
+      );
+      openCart();
+    }
+  };
+
+  // Handle formula add to cart
+  const handleFormulaAddToCart = async () => {
+    if (!selectedFormula) return;
+
+    const variantData = getFormulaVariantId(
+      selectedFormula,
+      selectedPack,
       purchaseType
     );
 
@@ -93,12 +149,27 @@ export default function ProfessionalsIndividualPage() {
           onTierSelect={setSelectedTier}
           purchaseType={purchaseType}
           onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCart}
+          onAddToCart={handleProtocolAddToCart}
         />
       )}
 
-      {/* Formulas Section */}
-      <FormulasSection />
+      {/* Formula Selector */}
+      <FormulaSelector
+        selectedFormula={selectedFormula}
+        onSelect={handleFormulaSelect}
+      />
+
+      {/* Expanded Formula View (conditional) */}
+      {selectedFormula && (
+        <ExpandedFormulaView
+          formulaId={selectedFormula}
+          selectedPack={selectedPack}
+          onPackSelect={setSelectedPack}
+          purchaseType={purchaseType}
+          onPurchaseTypeChange={setPurchaseType}
+          onAddToCart={handleFormulaAddToCart}
+        />
+      )}
     </div>
   );
 }
