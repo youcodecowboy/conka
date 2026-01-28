@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Navigation from "../../components/navigation";
+import IndividualPurchaseHeader from "../../components/professionals/individual/IndividualPurchaseHeader";
 import ProtocolSelector from "../../components/professionals/individual/ProtocolSelector";
 import ExpandedProtocolView from "../../components/professionals/individual/ExpandedProtocolView";
 import FormulaSelector from "../../components/professionals/individual/FormulaSelector";
@@ -124,6 +125,9 @@ export default function ProfessionalsIndividualPage() {
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       <Navigation />
+
+      {/* Header Section */}
+      <IndividualPurchaseHeader />
 
       {/* Protocol Selector */}
       <ProtocolSelector
