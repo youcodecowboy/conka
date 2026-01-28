@@ -2,7 +2,7 @@
 
 export default function ProfessionalsContext() {
   return (
-    <section className="px-6 md:px-16 py-12 md:py-16">
+    <section className="px-6 md:px-16 pt-6 md:pt-8 pb-12 md:pb-16">
       <div className="max-w-6xl mx-auto">
         {/* Heading */}
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">
