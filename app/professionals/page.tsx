@@ -1,7 +1,8 @@
 "use client";
 
 import Navigation from "../components/navigation";
-import ProfessionalsGateway from "../components/professionals/ProfessionalsGateway";
+import ProfessionalsContext from "../components/professionals/ProfessionalsContext";
+import ModeSelectionSection from "../components/professionals/ModeSelectionSection";
 
 export default function ProfessionalsPage() {
   return (
@@ -11,7 +12,8 @@ export default function ProfessionalsPage() {
     >
       <Navigation />
 
-      <ProfessionalsGateway />
+      <ProfessionalsContext />
+      <ModeSelectionSection />
     </div>
   );
 }
