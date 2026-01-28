@@ -6,6 +6,7 @@ import ProtocolSelector from "../../components/professionals/individual/Protocol
 import ExpandedProtocolView from "../../components/professionals/individual/ExpandedProtocolView";
 import FormulaSelector from "../../components/professionals/individual/FormulaSelector";
 import ExpandedFormulaView from "../../components/professionals/individual/ExpandedFormulaView";
+import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
 import {
   ProtocolId,
   ProtocolTier,
@@ -35,17 +36,6 @@ export default function ProfessionalsIndividualPage() {
   // Shared purchase type
   const [purchaseType, setPurchaseType] =
     useState<PurchaseType>("subscription");
-
-  // Auto-select first protocol and CONKA Flow on mount
-  useEffect(() => {
-    setSelectedProtocol("1");
-    const protocol = protocolContent["1"];
-    const defaultTier: ProtocolTier = protocol.availableTiers.includes("pro")
-      ? "pro"
-      : protocol.availableTiers[0];
-    setSelectedTier(defaultTier);
-    setSelectedFormula("01");
-  }, []);
 
   // Reset tier when protocol changes (Protocol 4 doesn't have starter)
   useEffect(() => {
@@ -170,6 +160,9 @@ export default function ProfessionalsIndividualPage() {
           onAddToCart={handleFormulaAddToCart}
         />
       )}
+
+      {/* Case Studies Section - Always Visible */}
+      <CaseStudiesDataDriven />
     </div>
   );
 }
