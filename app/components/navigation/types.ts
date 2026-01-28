@@ -11,7 +11,7 @@ export interface NavigationProps {
 /**
  * Hovered section type for shop mega menu
  */
-export type HoveredSection = "protocols" | "formulas" | "quiz";
+export type HoveredSection = "protocols" | "formulas" | "quiz" | "professionals";
 
 /**
  * Props for NavigationDesktop component

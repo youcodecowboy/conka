@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import ShopMegaMenuContent from "./ShopMegaMenuContent";
 import type { ShopMegaMenuProps, HoveredSection } from "./types";
 
@@ -13,7 +14,15 @@ export default function ShopMegaMenu({
   onShopAreaEnter,
   onShopAreaLeave,
 }: ShopMegaMenuProps) {
+  const router = useRouter();
+
   if (!isOpen) return null;
+
+  // Temporarily commented out for deployment feedback
+  // const handleProfessionalsClick = () => {
+  //   router.push("/professionals");
+  //   onClose();
+  // };
 
   return (
     <div
@@ -59,6 +68,18 @@ export default function ShopMegaMenu({
               >
                 Help me Choose
               </button>
+              {/* Temporarily commented out for deployment feedback */}
+              {/* <button
+                onMouseEnter={() => setHoveredSection("professionals")}
+                onClick={handleProfessionalsClick}
+                className={`px-4 py-3 text-left font-clinical text-sm font-bold transition-all rounded-lg border-2 w-full ${
+                  hoveredSection === "professionals"
+                    ? "border-current bg-current/5"
+                    : "border-transparent opacity-60 hover:opacity-100 hover:border-current/30"
+                }`}
+              >
+                For Professionals
+              </button> */}
             </div>
           </div>
 

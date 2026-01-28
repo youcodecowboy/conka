@@ -1,0 +1,19 @@
+"use client";
+
+export default function BulkPurchaseHeader() {
+  return (
+    <section className="px-6 md:px-16 py-6 md:py-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Heading */}
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">
+          Bulk & Team Orders
+        </h1>
+
+        {/* Subheading */}
+        <p className="font-clinical text-base md:text-lg opacity-80">
+          For clubs, teams, and organisations purchasing at scale
+        </p>
+      </div>
+    </section>
+  );
+}
