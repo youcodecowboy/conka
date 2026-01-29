@@ -100,29 +100,29 @@ export const TEAM_FORMULA_VARIANTS: Record<
 > = {
   "01": {
     starter: {
-      variantId: "gid://shopify/ProductVariant/56999967818102", // TODO: Replace with Flow B2B Starter variant ID
+      variantId: "gid://shopify/ProductVariant/57172474134902", // Flow B2B Starter
       sellingPlanId: "gid://shopify/SellingPlan/711429980534",
     },
     squad: {
-      variantId: "gid://shopify/ProductVariant/56999967818102", // TODO: Replace with Flow B2B Squad variant ID
+      variantId: "gid://shopify/ProductVariant/57172474167670", // Flow B2B Squad
       sellingPlanId: "gid://shopify/SellingPlan/711429980534",
     },
     elite: {
-      variantId: "gid://shopify/ProductVariant/56999967818102", // TODO: Replace with Flow B2B Elite variant ID
+      variantId: "gid://shopify/ProductVariant/57172474200438", // Flow B2B Elite
       sellingPlanId: "gid://shopify/SellingPlan/711429980534",
     },
   },
   "02": {
     starter: {
-      variantId: "gid://shopify/ProductVariant/57000418705782", // TODO: Replace with Clear B2B Starter variant ID
+      variantId: "gid://shopify/ProductVariant/57172529774966", // Clear B2B Starter
       sellingPlanId: "gid://shopify/SellingPlan/711429980534",
     },
     squad: {
-      variantId: "gid://shopify/ProductVariant/57000418705782", // TODO: Replace with Clear B2B Squad variant ID
+      variantId: "gid://shopify/ProductVariant/57172529807734", // Clear B2B Squad
       sellingPlanId: "gid://shopify/SellingPlan/711429980534",
     },
     elite: {
-      variantId: "gid://shopify/ProductVariant/57000418705782", // TODO: Replace with Clear B2B Elite variant ID
+      variantId: "gid://shopify/ProductVariant/57172529840502", // Clear B2B Elite
       sellingPlanId: "gid://shopify/SellingPlan/711429980534",
     },
   },
