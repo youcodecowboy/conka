@@ -62,11 +62,11 @@ export default function ModeSelectionSection() {
 
           {/* Team Mode Card */}
           <ModeSelectionCard
-            mode="bulk"
+            mode="team"
             heading="Team Orders"
             description="For teams, clubs, and organisations purchasing in volume"
             ctaText="Shop for Teams"
-            href="/professionals/bulk"
+            href="/professionals/team"
             icon={teamIcon}
             image={{
               src: "/professionals/Team.webp",

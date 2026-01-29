@@ -1,7 +1,7 @@
 /**
  * Mode type for professional portal
  */
-export type ProfessionalMode = "individual" | "bulk";
+export type ProfessionalMode = "individual" | "team";
 
 /**
  * Props for ModeSelectionCard component
