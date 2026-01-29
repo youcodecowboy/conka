@@ -5,9 +5,10 @@ import Image from "next/image";
 import { formulas } from "@/app/components/shop/formulasShowcaseData";
 import {
   formulaPricing,
+  getTeamFormulaPricing,
+  TEAM_PRICE_DISPLAY_INC_VAT,
   formatPrice,
   getBillingLabel,
-  FORMULA_COLORS,
 } from "@/app/lib/productData";
 import type { TeamFormulaCardProps } from "./types";
 
@@ -15,6 +16,8 @@ export default function TeamFormulaCard({
   formulaId,
   selectedPurchaseType,
   quantity,
+  tier,
+  nextTier,
   onPurchaseTypeChange,
   onQuantityChange,
   onAddToCart,
@@ -24,16 +27,30 @@ export default function TeamFormulaCard({
 
   if (!formula) return null;
 
+  const useTeamPricing = tier !== undefined;
   const formulaImage = formula.image.src;
-  const pricing = formulaPricing[selectedPurchaseType]["28"];
-  const oneTimePricing = formulaPricing["one-time"]["28"];
-  const pricePerBox = pricing.price;
+
+  const pricing = useTeamPricing && tier !== undefined
+    ? getTeamFormulaPricing(formulaId, tier, selectedPurchaseType)
+    : formulaPricing[selectedPurchaseType]["28"];
+  const oneTimePricing = useTeamPricing && tier !== undefined
+    ? getTeamFormulaPricing(formulaId, tier, "one-time")
+    : formulaPricing["one-time"]["28"];
+
+  // Team (B2B): display only from VAT-inclusive constant (£61/£55/£50 one-off, £48.80/£44/£40 sub)
+  const pricePerBox =
+    useTeamPricing && tier !== undefined
+      ? TEAM_PRICE_DISPLAY_INC_VAT[selectedPurchaseType][tier]
+      : pricing.price;
   const totalPrice = pricePerBox * quantity;
   const billingText =
     selectedPurchaseType === "subscription" && "billing" in pricing
       ? getBillingLabel(pricing.billing)
       : "one-time";
-  // Always show 20% on Subscribe button (subscription deal), not the current selection's calculated %
+  const oneTimePerBox =
+    useTeamPricing && tier !== undefined
+      ? TEAM_PRICE_DISPLAY_INC_VAT["one-time"][tier]
+      : oneTimePricing.price;
   const subscriptionSavePercentage = 20;
 
   const handleAddToCart = async () => {
@@ -55,11 +72,13 @@ export default function TeamFormulaCard({
     onQuantityChange(quantity + 1);
   };
 
+  const rrp28 = 79.99;
+
   return (
     <div className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden">
-      {/* Image Container - Shorter */}
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <div className="absolute inset-0" style={{ bottom: "-30%" }}>
+      {/* Image – ~15% taller than 5/2 */}
+      <div className="relative w-full overflow-hidden" style={{ aspectRatio: "5/2.3" }}>
+        <div className="absolute inset-0" style={{ bottom: "-25%" }}>
           <Image
             src={formulaImage}
             alt={formula.image.alt}
@@ -74,33 +93,25 @@ export default function TeamFormulaCard({
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className="pt-4 px-6 flex-1 flex flex-col">
-        {/* Product Name and Tagline */}
-        <div className="flex items-start gap-3 mb-3 pb-3 border-b border-black/5">
+      {/* Content */}
+      <div className="pt-5 px-6 flex-1 flex flex-col">
+        {/* Product name row */}
+        <div className="flex items-start gap-3 mb-4 pb-3 border-b border-black/5">
           <div
-            className={`w-10 h-10 ${formula.bgColor} text-white rounded-md flex items-center justify-center flex-shrink-0`}
+            className={`w-10 h-10 flex-shrink-0 ${formula.bgColor} text-white rounded-md flex items-center justify-center`}
           >
-            <span className="font-clinical text-sm font-bold">
-              {formula.id}
-            </span>
+            <span className="font-clinical text-sm font-bold">{formula.id}</span>
           </div>
-          <div>
-            <h3 className="text-2xl font-bold font-primary opacity-100">
+          <div className="min-w-0">
+            <h3 className="text-xl font-bold font-primary opacity-100 leading-tight">
               {formula.subtitle}
             </h3>
-            <p className="font-primary text-lg opacity-80 mt-1">
-              {formula.name}
-            </p>
-            <p className="font-clinical text-sm opacity-70 mt-1">
-              {formula.headline}
-            </p>
+            <p className="font-primary text-base opacity-80 mt-1">{formula.name}</p>
           </div>
         </div>
 
-        {/* Purchase Controls */}
-        <div className="space-y-3 mb-4">
-          {/* Purchase Type Toggle */}
+        {/* Purchase controls */}
+        <div className="space-y-4 mb-4">
           <div>
             <p className="font-clinical text-xs uppercase opacity-70 mb-2">
               Purchase Type
@@ -135,7 +146,6 @@ export default function TeamFormulaCard({
             </div>
           </div>
 
-          {/* Quantity Selector */}
           <div>
             <p className="font-clinical text-xs uppercase opacity-70 mb-2">
               Quantity
@@ -151,10 +161,7 @@ export default function TeamFormulaCard({
               <div className="flex-1 text-center">
                 <p className="text-2xl md:text-3xl font-bold">{quantity}</p>
                 <p className="font-clinical text-xs opacity-70">
-                  {quantity === 1 ? "box" : "boxes"}
-                </p>
-                <p className="font-clinical text-xs opacity-60 mt-0.5">
-                  ({quantity * 28} shots)
+                  {quantity === 1 ? "box" : "boxes"} · {quantity * 28} shots
                 </p>
               </div>
               <button
@@ -166,26 +173,42 @@ export default function TeamFormulaCard({
             </div>
           </div>
 
-          {/* Price Display */}
-          <div className="pt-4 border-t border-black/5">
+          {useTeamPricing && tier !== undefined && (
+            <div className="flex flex-col gap-1">
+              <p className="font-clinical text-xs uppercase opacity-70">
+                Tier: <span className="font-semibold opacity-100 capitalize">{tier}</span>
+              </p>
+              {nextTier && (
+                <p className="font-clinical text-sm opacity-90" style={{ color: formula.accentColor }}>
+                  Add {nextTier.boxesToNext} more for {nextTier.tierName}: {formatPrice(nextTier.pricePerBoxIncVat)}/box inc. VAT
+                </p>
+              )}
+            </div>
+          )}
+
+          <div className="pt-5 border-t border-black/5">
+            {useTeamPricing && (
+              <p className="font-clinical text-xs opacity-70 mb-2">
+                28-shot RRP {formatPrice(rrp28)}
+              </p>
+            )}
             <div className="flex justify-between items-baseline mb-2">
               <span className="font-clinical text-sm opacity-70">
                 Per box ({billingText}
                 {selectedPurchaseType === "subscription" && ", delivered monthly"}
                 ):
               </span>
-              <span className="text-xl font-bold">
+              <span className="text-lg font-bold">
                 {formatPrice(pricePerBox)}
+                {useTeamPricing && <span className="font-clinical text-xs font-normal opacity-70 ml-1">inc. VAT</span>}
               </span>
             </div>
             <div className="flex justify-between items-baseline">
-              <span className="font-clinical text-base font-semibold">
-                Total:
-              </span>
+              <span className="font-clinical text-base font-semibold">Total:</span>
               <div className="flex flex-col items-end">
                 {selectedPurchaseType === "subscription" && (
-                  <span className="text-lg font-bold line-through opacity-50 mb-1">
-                    {formatPrice(oneTimePricing.price * quantity)}
+                  <span className="text-base font-bold line-through opacity-50 mb-1">
+                    {formatPrice(oneTimePerBox * quantity)}
                   </span>
                 )}
                 <span
@@ -203,12 +226,11 @@ export default function TeamFormulaCard({
           </div>
         </div>
 
-        {/* Add to Cart Button */}
-        <div className="mt-auto pb-4">
+        <div className="mt-auto pb-5">
           <button
             onClick={handleAddToCart}
             disabled={isAddingToCart}
-            className="neo-button px-8 py-3 rounded-full font-bold text-base inline-flex items-center gap-2 w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="neo-button px-6 py-3 rounded-full font-bold text-base inline-flex items-center gap-2 w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isAddingToCart ? (
               <>
