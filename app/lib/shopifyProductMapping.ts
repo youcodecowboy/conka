@@ -128,6 +128,73 @@ export const B2B_FORMULA_VARIANTS: Record<
 };
 
 // ============================================
+// B2B PROTOCOL VARIANTS
+// ============================================
+// One variant per tier per protocol (Resilience, Precision, Balance, Ultimate – B2B).
+// Subscription uses same selling plan as 28-shot monthly. Ultimate = 2 boxes per unit for tier count.
+export const B2B_PROTOCOL_VARIANTS: Record<
+  ProtocolId,
+  Record<B2BTier, { variantId: string; sellingPlanId: string }>
+> = {
+  "1": {
+    starter: {
+      variantId: "gid://shopify/ProductVariant/57172721598838", // Resilience B2B Starter
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    squad: {
+      variantId: "gid://shopify/ProductVariant/57172721631606", // Resilience B2B Squad
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    elite: {
+      variantId: "gid://shopify/ProductVariant/57172721664374", // Resilience B2B Elite
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+  },
+  "2": {
+    starter: {
+      variantId: "gid://shopify/ProductVariant/57172828389750", // Precision B2B Starter
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    squad: {
+      variantId: "gid://shopify/ProductVariant/57172828422518", // Precision B2B Squad
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    elite: {
+      variantId: "gid://shopify/ProductVariant/57172828455286", // Precision B2B Elite
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+  },
+  "3": {
+    starter: {
+      variantId: "gid://shopify/ProductVariant/57172753056118", // Balance B2B Starter
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    squad: {
+      variantId: "gid://shopify/ProductVariant/57172753088886", // Balance B2B Squad
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    elite: {
+      variantId: "gid://shopify/ProductVariant/57172753121654", // Balance B2B Elite
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+  },
+  "4": {
+    starter: {
+      variantId: "gid://shopify/ProductVariant/57172801126774", // Ultimate B2B Starter
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    squad: {
+      variantId: "gid://shopify/ProductVariant/57172801159542", // Ultimate B2B Squad
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    elite: {
+      variantId: "gid://shopify/ProductVariant/57172885111158", // Ultimate B2B Elite
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+  },
+};
+
+// ============================================
 // PROTOCOL VARIANTS
 // ============================================
 
@@ -274,6 +341,26 @@ export function getB2BFormulaVariantId(
   purchaseType: PurchaseType,
 ): { variantId: string; sellingPlanId?: string } | null {
   const tierVariant = B2B_FORMULA_VARIANTS[formulaId]?.[tier];
+  if (!tierVariant?.variantId) return null;
+  if (purchaseType === "subscription") {
+    return {
+      variantId: tierVariant.variantId,
+      sellingPlanId: tierVariant.sellingPlanId,
+    };
+  }
+  return { variantId: tierVariant.variantId };
+}
+
+/**
+ * Get the Shopify variant ID for a B2B protocol by tier and purchase type.
+ * Protocol 4 (Ultimate) = 2 boxes per unit for tier count.
+ */
+export function getB2BProtocolVariantId(
+  protocolId: ProtocolId,
+  tier: B2BTier,
+  purchaseType: PurchaseType,
+): { variantId: string; sellingPlanId?: string } | null {
+  const tierVariant = B2B_PROTOCOL_VARIANTS[protocolId]?.[tier];
   if (!tierVariant?.variantId) return null;
   if (purchaseType === "subscription") {
     return {
