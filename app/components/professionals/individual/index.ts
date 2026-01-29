@@ -10,5 +10,6 @@ export type { ProfessionalProtocolCopy } from "./protocolCopy";
 export { default as IndividualPurchaseHeader } from "./IndividualPurchaseHeader";
 export { default as ProtocolListSelector } from "./ProtocolListSelector";
 export { default as ProtocolPurchaseCard } from "./ProtocolPurchaseCard";
+export { default as ProtocolScheduleCalendar } from "./ProtocolScheduleCalendar";
 export { default as IndividualFormulasSection } from "./IndividualFormulasSection";
 export { default as PageHeader } from "./PageHeader";
