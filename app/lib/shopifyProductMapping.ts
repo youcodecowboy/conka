@@ -19,7 +19,7 @@ import {
   PurchaseType,
   ProtocolId,
   ProtocolTier,
-  TeamTier,
+  B2BTier,
 } from "./productData";
 
 // ============================================
@@ -89,14 +89,13 @@ export const TRIAL_PACK_VARIANTS: Record<
 };
 
 // ============================================
-// TEAM (B2B) FORMULA VARIANTS
+// B2B FORMULA VARIANTS
 // ============================================
-// One variant per tier per formula. Replace placeholder variant IDs when B2B
-// products exist in Shopify (Products > [CONKA Flow/Clear B2B] > Variants).
+// One variant per tier per formula. B2B products in Shopify (CONKA Flow/Clear – B2B).
 // Subscription uses same selling plan as 28-shot monthly for now.
-export const TEAM_FORMULA_VARIANTS: Record<
+export const B2B_FORMULA_VARIANTS: Record<
   FormulaId,
-  Record<TeamTier, { variantId: string; sellingPlanId: string }>
+  Record<B2BTier, { variantId: string; sellingPlanId: string }>
 > = {
   "01": {
     starter: {
@@ -267,14 +266,14 @@ export function getProtocolVariantId(
 }
 
 /**
- * Get the Shopify variant ID for a team (B2B) formula by tier and purchase type.
+ * Get the Shopify variant ID for a B2B formula by tier and purchase type.
  */
-export function getTeamFormulaVariantId(
+export function getB2BFormulaVariantId(
   formulaId: FormulaId,
-  tier: TeamTier,
+  tier: B2BTier,
   purchaseType: PurchaseType,
 ): { variantId: string; sellingPlanId?: string } | null {
-  const tierVariant = TEAM_FORMULA_VARIANTS[formulaId]?.[tier];
+  const tierVariant = B2B_FORMULA_VARIANTS[formulaId]?.[tier];
   if (!tierVariant?.variantId) return null;
   if (purchaseType === "subscription") {
     return {
