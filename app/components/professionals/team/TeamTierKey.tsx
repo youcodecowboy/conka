@@ -10,6 +10,10 @@ import type { TeamTier } from "@/app/lib/productData";
 const TIER_ORDER: TeamTier[] = ["starter", "squad", "elite"];
 const RRP_28 = 79.99;
 
+function tierLabel(tier: TeamTier): string {
+  return tier.charAt(0).toUpperCase() + tier.slice(1);
+}
+
 function quantityRange(tier: TeamTier): string {
   const { min, max } = TEAM_TIER_BANDS[tier];
   if (max === Infinity) return `${min}+ boxes`;
@@ -40,7 +44,10 @@ export default function TeamTierKey() {
                 key={tier}
                 className="rounded-lg border border-black/10 bg-black/[0.02] p-4 flex flex-col"
               >
-                <span className="font-clinical text-sm font-semibold text-[var(--foreground)]">
+                <span className="font-clinical text-xs uppercase tracking-wide opacity-70">
+                  Tier: {tierLabel(tier)}
+                </span>
+                <span className="font-clinical text-sm font-semibold text-[var(--foreground)] mt-1">
                   {quantityRange(tier)}
                 </span>
                 <div className="mt-2 flex flex-wrap items-baseline gap-2">
