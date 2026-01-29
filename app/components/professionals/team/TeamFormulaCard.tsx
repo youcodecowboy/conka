@@ -179,7 +179,7 @@ export default function TeamFormulaCard({
                 Tier: <span className="font-semibold opacity-100 capitalize">{tier}</span>
               </p>
               {nextTier && (
-                <p className="font-clinical text-sm opacity-90" style={{ color: formula.accentColor }}>
+                <p className="font-clinical text-sm text-[var(--foreground)] opacity-90">
                   Add {nextTier.boxesToNext} more for {nextTier.tierName}: {formatPrice(nextTier.pricePerBoxIncVat)}/box inc. VAT
                 </p>
               )}

@@ -48,7 +48,7 @@ export default function TeamTierKey() {
                     {formatPrice(price)}
                   </span>
                   <span
-                    className="font-clinical text-sm font-semibold tabular-nums"
+                    className="font-clinical text-2xl font-bold tabular-nums"
                     style={{ color: "#059669" }}
                   >
                     Save {save}%
