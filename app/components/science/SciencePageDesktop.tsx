@@ -5,16 +5,12 @@ import ScienceHero from "./ScienceHero";
 import SciencePillars from "./SciencePillars";
 import SynergyChart from "./SynergyChart";
 import EvidenceSummary from "./EvidenceSummary";
-import { CognitiveTestSection } from "@/app/components/cognitive-test";
 
 export default function SciencePageDesktop() {
   return (
     <div className="min-h-screen pt-24">
       {/* Hero Section */}
       <ScienceHero isMobile={false} />
-
-      {/* Cognitive Test Section */}
-      <CognitiveTestSection />
 
       {/* Divider with Quote */}
       <div className="px-16 py-12">
