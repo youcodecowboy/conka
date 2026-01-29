@@ -14,12 +14,12 @@ import {
 import {
   FormulaId,
   PurchaseType,
-  getTeamTier,
-  getTeamNextTierInfo,
-  getTeamFormulaPricing,
+  getB2BTier,
+  getB2BNextTierInfo,
+  getB2BFormulaPricing,
 } from "@/app/lib/productData";
 import { useCart } from "@/app/context/CartContext";
-import { getTeamFormulaVariantId } from "@/app/lib/shopifyProductMapping";
+import { getB2BFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 
 export default function ProfessionalsTeamPage() {
   const { addToCart, openCart } = useCart();
@@ -37,13 +37,13 @@ export default function ProfessionalsTeamPage() {
     useState<PurchaseType>("subscription");
   const [clearQuantity, setClearQuantity] = useState(1);
 
-  const flowTier = getTeamTier(flowQuantity);
-  const clearTier = getTeamTier(clearQuantity);
-  const flowNextTier = getTeamNextTierInfo(flowQuantity);
-  const clearNextTier = getTeamNextTierInfo(clearQuantity);
+  const flowTier = getB2BTier(flowQuantity);
+  const clearTier = getB2BTier(clearQuantity);
+  const flowNextTier = getB2BNextTierInfo(flowQuantity);
+  const clearNextTier = getB2BNextTierInfo(clearQuantity);
 
   const handleFlowAddToCart = async () => {
-    const variantData = getTeamFormulaVariantId("01", flowTier, flowPurchaseType);
+    const variantData = getB2BFormulaVariantId("01", flowTier, flowPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
@@ -56,7 +56,7 @@ export default function ProfessionalsTeamPage() {
   };
 
   const handleClearAddToCart = async () => {
-    const variantData = getTeamFormulaVariantId("02", clearTier, clearPurchaseType);
+    const variantData = getB2BFormulaVariantId("02", clearTier, clearPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,

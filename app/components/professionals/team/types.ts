@@ -1,7 +1,7 @@
-import { FormulaId, PurchaseType, TeamTier } from "@/app/lib/productData";
+import { FormulaId, PurchaseType, B2BTier } from "@/app/lib/productData";
 
 /** Info for "next tier" message when quantity is below next threshold */
-export interface TeamNextTierInfo {
+export interface B2BNextTierInfo {
   boxesToNext: number;
   tierName: string;
   pricePerBoxIncVat: number;
@@ -9,14 +9,14 @@ export interface TeamNextTierInfo {
 
 /**
  * Props for TeamFormulaCard component.
- * When tier and nextTier are provided, team (B2B) pricing is used; otherwise retail pricing.
+ * When tier and nextTier are provided, B2B pricing is used; otherwise retail pricing.
  */
 export interface TeamFormulaCardProps {
   formulaId: FormulaId;
   selectedPurchaseType: PurchaseType;
   quantity: number;
-  tier?: TeamTier;
-  nextTier?: TeamNextTierInfo | null;
+  tier?: B2BTier;
+  nextTier?: B2BNextTierInfo | null;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onQuantityChange: (quantity: number) => void;
   onAddToCart: () => void;

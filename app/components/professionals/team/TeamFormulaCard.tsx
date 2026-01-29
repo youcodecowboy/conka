@@ -5,8 +5,8 @@ import Image from "next/image";
 import { formulas } from "@/app/components/shop/formulasShowcaseData";
 import {
   formulaPricing,
-  getTeamFormulaPricing,
-  TEAM_PRICE_DISPLAY_INC_VAT,
+  getB2BFormulaPricing,
+  B2B_PRICE_DISPLAY_INC_VAT,
   formatPrice,
   getBillingLabel,
 } from "@/app/lib/productData";
@@ -31,16 +31,16 @@ export default function TeamFormulaCard({
   const formulaImage = formula.image.src;
 
   const pricing = useTeamPricing && tier !== undefined
-    ? getTeamFormulaPricing(formulaId, tier, selectedPurchaseType)
+    ? getB2BFormulaPricing(formulaId, tier, selectedPurchaseType)
     : formulaPricing[selectedPurchaseType]["28"];
   const oneTimePricing = useTeamPricing && tier !== undefined
-    ? getTeamFormulaPricing(formulaId, tier, "one-time")
+    ? getB2BFormulaPricing(formulaId, tier, "one-time")
     : formulaPricing["one-time"]["28"];
 
   // Team (B2B): display only from VAT-inclusive constant (£61/£55/£50 one-off, £48.80/£44/£40 sub)
   const pricePerBox =
     useTeamPricing && tier !== undefined
-      ? TEAM_PRICE_DISPLAY_INC_VAT[selectedPurchaseType][tier]
+      ? B2B_PRICE_DISPLAY_INC_VAT[selectedPurchaseType][tier]
       : pricing.price;
   const totalPrice = pricePerBox * quantity;
   const billingText =
@@ -49,7 +49,7 @@ export default function TeamFormulaCard({
       : "one-time";
   const oneTimePerBox =
     useTeamPricing && tier !== undefined
-      ? TEAM_PRICE_DISPLAY_INC_VAT["one-time"][tier]
+      ? B2B_PRICE_DISPLAY_INC_VAT["one-time"][tier]
       : oneTimePricing.price;
   const subscriptionSavePercentage = 20;
 

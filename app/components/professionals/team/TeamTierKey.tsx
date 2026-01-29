@@ -1,27 +1,27 @@
 "use client";
 
 import {
-  TEAM_TIER_BANDS,
-  TEAM_PRICE_DISPLAY_INC_VAT,
+  B2B_TIER_BANDS,
+  B2B_PRICE_DISPLAY_INC_VAT,
   formatPrice,
 } from "@/app/lib/productData";
-import type { TeamTier } from "@/app/lib/productData";
+import type { B2BTier } from "@/app/lib/productData";
 
-const TIER_ORDER: TeamTier[] = ["starter", "squad", "elite"];
+const TIER_ORDER: B2BTier[] = ["starter", "squad", "elite"];
 const RRP_28 = 79.99;
 
-function tierLabel(tier: TeamTier): string {
+function tierLabel(tier: B2BTier): string {
   return tier.charAt(0).toUpperCase() + tier.slice(1);
 }
 
-function quantityRange(tier: TeamTier): string {
-  const { min, max } = TEAM_TIER_BANDS[tier];
+function quantityRange(tier: B2BTier): string {
+  const { min, max } = B2B_TIER_BANDS[tier];
   if (max === Infinity) return `${min}+ boxes`;
   return `${min}–${max} boxes`;
 }
 
-function savingsPercent(tier: TeamTier): number {
-  const price = TEAM_PRICE_DISPLAY_INC_VAT["one-time"][tier];
+function savingsPercent(tier: B2BTier): number {
+  const price = B2B_PRICE_DISPLAY_INC_VAT["one-time"][tier];
   return Math.round(((RRP_28 - price) / RRP_28) * 100);
 }
 
@@ -37,7 +37,7 @@ export default function TeamTierKey() {
         </h2>
         <div className="grid grid-cols-3 gap-4 md:gap-6">
           {TIER_ORDER.map((tier) => {
-            const price = TEAM_PRICE_DISPLAY_INC_VAT["one-time"][tier];
+            const price = B2B_PRICE_DISPLAY_INC_VAT["one-time"][tier];
             const save = savingsPercent(tier);
             return (
               <div
