@@ -19,6 +19,7 @@ import {
   PurchaseType,
   ProtocolId,
   ProtocolTier,
+  TeamTier,
 } from "./productData";
 
 // ============================================
@@ -84,6 +85,46 @@ export const TRIAL_PACK_VARIANTS: Record<
     "4": "gid://shopify/ProductVariant/57000418607478", // CLEAR_TRIAL_4 - £14.99
     "8": "gid://shopify/ProductVariant/57000418640246", // CLEAR_TRIAL_8 - £28.99
     "12": "gid://shopify/ProductVariant/57000418673014", // CLEAR_TRIAL_12 - £39.99
+  },
+};
+
+// ============================================
+// TEAM (B2B) FORMULA VARIANTS
+// ============================================
+// One variant per tier per formula. Replace placeholder variant IDs when B2B
+// products exist in Shopify (Products > [CONKA Flow/Clear B2B] > Variants).
+// Subscription uses same selling plan as 28-shot monthly for now.
+export const TEAM_FORMULA_VARIANTS: Record<
+  FormulaId,
+  Record<TeamTier, { variantId: string; sellingPlanId: string }>
+> = {
+  "01": {
+    starter: {
+      variantId: "gid://shopify/ProductVariant/56999967818102", // TODO: Replace with Flow B2B Starter variant ID
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    squad: {
+      variantId: "gid://shopify/ProductVariant/56999967818102", // TODO: Replace with Flow B2B Squad variant ID
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    elite: {
+      variantId: "gid://shopify/ProductVariant/56999967818102", // TODO: Replace with Flow B2B Elite variant ID
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+  },
+  "02": {
+    starter: {
+      variantId: "gid://shopify/ProductVariant/57000418705782", // TODO: Replace with Clear B2B Starter variant ID
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    squad: {
+      variantId: "gid://shopify/ProductVariant/57000418705782", // TODO: Replace with Clear B2B Squad variant ID
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
+    elite: {
+      variantId: "gid://shopify/ProductVariant/57000418705782", // TODO: Replace with Clear B2B Elite variant ID
+      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+    },
   },
 };
 
@@ -222,6 +263,25 @@ export function getProtocolVariantId(
   }
 
   // One-time purchase - no selling plan
+  return { variantId: tierVariant.variantId };
+}
+
+/**
+ * Get the Shopify variant ID for a team (B2B) formula by tier and purchase type.
+ */
+export function getTeamFormulaVariantId(
+  formulaId: FormulaId,
+  tier: TeamTier,
+  purchaseType: PurchaseType,
+): { variantId: string; sellingPlanId?: string } | null {
+  const tierVariant = TEAM_FORMULA_VARIANTS[formulaId]?.[tier];
+  if (!tierVariant?.variantId) return null;
+  if (purchaseType === "subscription") {
+    return {
+      variantId: tierVariant.variantId,
+      sellingPlanId: tierVariant.sellingPlanId,
+    };
+  }
   return { variantId: tierVariant.variantId };
 }
 

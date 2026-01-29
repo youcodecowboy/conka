@@ -22,8 +22,8 @@ export default function ModeSelectionSection() {
     </svg>
   );
 
-  // Bulk/Team icon
-  const bulkIcon = (
+  // Team icon
+  const teamIcon = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="28"
@@ -60,14 +60,14 @@ export default function ModeSelectionSection() {
             }}
           />
 
-          {/* Bulk Mode Card */}
+          {/* Team Mode Card */}
           <ModeSelectionCard
-            mode="bulk"
-            heading="Bulk / Team Orders"
+            mode="team"
+            heading="Team Orders"
             description="For teams, clubs, and organisations purchasing in volume"
             ctaText="Shop for Teams"
-            href="/professionals/bulk"
-            icon={bulkIcon}
+            href="/professionals/team"
+            icon={teamIcon}
             image={{
               src: "/professionals/Team.webp",
               alt: "Team and club purchasing",

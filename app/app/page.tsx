@@ -2,8 +2,15 @@
 
 import Navigation from "@/app/components/navigation";
 import { AppHero } from "@/app/components/app";
+import {
+  CognitiveTestSection,
+  CognitiveTestSectionMobile,
+} from "@/app/components/cognitive-test";
+import useIsMobile from "@/app/hooks/useIsMobile";
 
 export default function AppPage() {
+  const isMobile = useIsMobile();
+
   return (
     <div
       className="min-h-screen theme-conka-flow"
@@ -15,6 +22,14 @@ export default function AppPage() {
       <section className="bg-black text-white px-6 md:px-16 py-12 md:py-16">
         <AppHero />
       </section>
+
+      {/* Cognitive Test Section */}
+      {isMobile !== undefined &&
+        (isMobile ? (
+          <CognitiveTestSectionMobile />
+        ) : (
+          <CognitiveTestSection />
+        ))}
 
       {/* Evidence Section - White */}
       <section className="bg-white text-black px-6 md:px-16 py-24 md:py-32">

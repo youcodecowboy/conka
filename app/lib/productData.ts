@@ -77,6 +77,38 @@ export const protocolPricing = {
   },
 } as const;
 
+// ===== TEAM (B2B) PRICING =====
+// Tier bands: Starter 1–10, Squad 11–25, Elite 26+
+export type TeamTier = "starter" | "squad" | "elite";
+
+export const VAT_RATE = 1.2;
+
+export const TEAM_TIER_BANDS = {
+  starter: { min: 1, max: 10 },
+  squad: { min: 11, max: 25 },
+  elite: { min: 26, max: Infinity },
+} as const;
+
+// Base prices EX-VAT: £61 / £55 / £50 per box. Cart/Shopify use these ex-VAT.
+export const teamFormulaPricing = {
+  "one-time": {
+    starter: { price: 61, priceIncVat: 61 * VAT_RATE },
+    squad: { price: 55, priceIncVat: 55 * VAT_RATE },
+    elite: { price: 50, priceIncVat: 50 * VAT_RATE },
+  },
+  subscription: {
+    starter: { price: 61 * 0.8, priceIncVat: 61 * VAT_RATE * 0.8, billing: "monthly" as const, basePrice: 61 },
+    squad: { price: 55 * 0.8, priceIncVat: 55 * VAT_RATE * 0.8, billing: "monthly" as const, basePrice: 55 },
+    elite: { price: 50 * 0.8, priceIncVat: 50 * VAT_RATE * 0.8, billing: "monthly" as const, basePrice: 50 },
+  },
+} as const;
+
+/** Team (B2B) per-box prices INCLUDING 20% VAT for UI. Base ex-VAT £61/£55/£50 → inc-VAT £73.20/£66/£60. */
+export const TEAM_PRICE_DISPLAY_INC_VAT: Record<PurchaseType, Record<TeamTier, number>> = {
+  "one-time": { starter: 61 * VAT_RATE, squad: 55 * VAT_RATE, elite: 50 * VAT_RATE },
+  subscription: { starter: 61 * VAT_RATE * 0.8, squad: 55 * VAT_RATE * 0.8, elite: 50 * VAT_RATE * 0.8 },
+};
+
 // ===== FORMULA CONTENT =====
 
 export interface Ingredient {
@@ -1475,6 +1507,38 @@ export function getBillingLabel(billing: string): string {
     default:
       return billing;
   }
+}
+
+/** Team (B2B): tier from quantity. Starter 1–10, Squad 11–25, Elite 26+. */
+export function getTeamTier(quantity: number): TeamTier {
+  if (quantity >= TEAM_TIER_BANDS.elite.min) return "elite";
+  if (quantity >= TEAM_TIER_BANDS.squad.min) return "squad";
+  return "starter";
+}
+
+/** Team (B2B): pricing for a tier and purchase type. Same price for both formulas. */
+export function getTeamFormulaPricing(
+  _formulaId: FormulaId,
+  tier: TeamTier,
+  purchaseType: PurchaseType,
+) {
+  return teamFormulaPricing[purchaseType][tier];
+}
+
+/** Format price including VAT for team/B2B display. */
+export function formatPriceWithVAT(priceExVAT: number): string {
+  return `£${(priceExVAT * VAT_RATE).toFixed(2)}`;
+}
+
+/** Team: info for "next tier" message (boxes needed, tier name, and that tier's per-box price inc VAT), or null if at max tier. */
+export function getTeamNextTierInfo(quantity: number): { boxesToNext: number; tierName: string; pricePerBoxIncVat: number } | null {
+  if (quantity >= TEAM_TIER_BANDS.elite.min) return null;
+  if (quantity >= TEAM_TIER_BANDS.squad.min) {
+    const boxesToNext = TEAM_TIER_BANDS.elite.min - quantity;
+    return { boxesToNext, tierName: "Elite", pricePerBoxIncVat: TEAM_PRICE_DISPLAY_INC_VAT["one-time"].elite };
+  }
+  const boxesToNext = TEAM_TIER_BANDS.squad.min - quantity;
+  return { boxesToNext, tierName: "Squad", pricePerBoxIncVat: TEAM_PRICE_DISPLAY_INC_VAT["one-time"].squad };
 }
 
 // Generate calendar days for protocol visualization

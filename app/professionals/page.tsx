@@ -3,8 +3,12 @@
 import Navigation from "../components/navigation";
 import ProfessionalsContext from "../components/professionals/ProfessionalsContext";
 import ModeSelectionSection from "../components/professionals/ModeSelectionSection";
+import { SciencePageDesktop, SciencePageMobile } from "../components/science";
+import useIsMobile from "../hooks/useIsMobile";
 
 export default function ProfessionalsPage() {
+  const isMobile = useIsMobile();
+
   return (
     <div
       className="min-h-screen theme-conka-flow lg:pt-20"
@@ -14,6 +18,19 @@ export default function ProfessionalsPage() {
 
       <ProfessionalsContext />
       <ModeSelectionSection />
+
+      {/* Science & research – scroll down to learn more */}
+      {isMobile === undefined ? (
+        <div className="min-h-[40vh] py-16 flex items-center justify-center">
+          <div className="animate-pulse text-center">
+            <p className="font-clinical text-sm opacity-50">Loading...</p>
+          </div>
+        </div>
+      ) : isMobile ? (
+        <SciencePageMobile />
+      ) : (
+        <SciencePageDesktop />
+      )}
     </div>
   );
 }

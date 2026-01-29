@@ -3,21 +3,25 @@
 import { useState } from "react";
 import Navigation from "../../components/navigation";
 import {
-  BulkPurchaseHeader,
-  BulkFormulaCard,
+  TeamPurchaseHeader,
+  TeamTierKey,
+  TeamFormulaCard,
   InfoSection,
   BenefitsSection,
   IngredientsSection,
   TasteSection,
-} from "../../components/professionals/bulk";
+} from "../../components/professionals/team";
 import {
   FormulaId,
   PurchaseType,
+  getTeamTier,
+  getTeamNextTierInfo,
+  getTeamFormulaPricing,
 } from "@/app/lib/productData";
 import { useCart } from "@/app/context/CartContext";
-import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
+import { getTeamFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 
-export default function ProfessionalsBulkPage() {
+export default function ProfessionalsTeamPage() {
   const { addToCart, openCart } = useCart();
 
   // State for formula selection (mobile toggle)
@@ -33,37 +37,32 @@ export default function ProfessionalsBulkPage() {
     useState<PurchaseType>("subscription");
   const [clearQuantity, setClearQuantity] = useState(1);
 
-  // Handle Flow add to cart
-  const handleFlowAddToCart = async () => {
-    const variantData = getFormulaVariantId("01", "28", flowPurchaseType);
+  const flowTier = getTeamTier(flowQuantity);
+  const clearTier = getTeamTier(clearQuantity);
+  const flowNextTier = getTeamNextTierInfo(flowQuantity);
+  const clearNextTier = getTeamNextTierInfo(clearQuantity);
 
+  const handleFlowAddToCart = async () => {
+    const variantData = getTeamFormulaVariantId("01", flowTier, flowPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
         flowQuantity,
         variantData.sellingPlanId,
-        {
-          location: "professional_bulk",
-          source: "professional_portal",
-        }
+        { location: "professional_team", source: "professional_portal" }
       );
       openCart();
     }
   };
 
-  // Handle Clear add to cart
   const handleClearAddToCart = async () => {
-    const variantData = getFormulaVariantId("02", "28", clearPurchaseType);
-
+    const variantData = getTeamFormulaVariantId("02", clearTier, clearPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
         clearQuantity,
         variantData.sellingPlanId,
-        {
-          location: "professional_bulk",
-          source: "professional_portal",
-        }
+        { location: "professional_team", source: "professional_portal" }
       );
       openCart();
     }
@@ -77,27 +76,31 @@ export default function ProfessionalsBulkPage() {
       <Navigation />
 
       {/* Header Section */}
-      <BulkPurchaseHeader />
+      <TeamPurchaseHeader />
+
+      {/* Tier key – volume pricing at a glance */}
+      <TeamTierKey />
 
       {/* Formula Cards Grid */}
       <section className="px-6 md:px-16 pb-12 md:pb-16">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
-            {/* CONKA Flow Card */}
-            <BulkFormulaCard
+            <TeamFormulaCard
               formulaId="01"
               selectedPurchaseType={flowPurchaseType}
               quantity={flowQuantity}
+              tier={flowTier}
+              nextTier={flowNextTier}
               onPurchaseTypeChange={setFlowPurchaseType}
               onQuantityChange={setFlowQuantity}
               onAddToCart={handleFlowAddToCart}
             />
-
-            {/* CONKA Clear Card */}
-            <BulkFormulaCard
+            <TeamFormulaCard
               formulaId="02"
               selectedPurchaseType={clearPurchaseType}
               quantity={clearQuantity}
+              tier={clearTier}
+              nextTier={clearNextTier}
               onPurchaseTypeChange={setClearPurchaseType}
               onQuantityChange={setClearQuantity}
               onAddToCart={handleClearAddToCart}
