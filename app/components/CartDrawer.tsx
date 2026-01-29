@@ -25,7 +25,7 @@ function getProductFallbackImage(productTitle: string): string {
   return "/bottle2.png"; // Default fallback
 }
 
-const B2B_TIER_MESSAGE_MS = 3000;
+const B2B_TIER_MESSAGE_MS = 8000;
 
 export default function CartDrawer() {
   const {
@@ -155,14 +155,14 @@ export default function CartDrawer() {
         {/* B2B tier / error message */}
         {b2bTierUpdatedTo && (
           <div className="px-4 py-2 bg-emerald-500/10 border-b border-emerald-500/20">
-            <p className="font-clinical text-sm text-emerald-700 dark:text-emerald-400">
+            <p className="font-clinical text-sm text-black">
               Volume pricing updated to {b2bTierUpdatedTo.charAt(0).toUpperCase() + b2bTierUpdatedTo.slice(1)}.
             </p>
           </div>
         )}
         {b2bNormalizeError && (
           <div className="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center justify-between gap-2">
-            <p className="font-clinical text-sm text-amber-700 dark:text-amber-400">
+            <p className="font-clinical text-sm text-black">
               {b2bNormalizeError}
             </p>
             <button
