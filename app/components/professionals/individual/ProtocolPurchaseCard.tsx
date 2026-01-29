@@ -107,6 +107,13 @@ export default function ProtocolPurchaseCard({
           </p>
         </div>
 
+        {/* Protocol description (from protocolContent) */}
+        {protocolContent[protocolId]?.description && (
+          <p className="font-clinical text-xs md:text-sm opacity-80 mb-3">
+            {protocolContent[protocolId].description}
+          </p>
+        )}
+
         {/* Purchase Controls */}
         <div className="space-y-2 mb-3">
           {/* Purchase Type Toggle */}
