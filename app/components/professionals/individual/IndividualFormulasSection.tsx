@@ -28,7 +28,7 @@ export default function IndividualFormulasSection({
   onClearAddToCart,
 }: IndividualFormulasSectionProps) {
   return (
-    <section className="px-6 md:px-16 py-12 md:py-16 border-t-2 border-current/10">
+    <section className="px-6 md:px-16 py-12 md:py-16">
       <div className="max-w-6xl mx-auto">
         <div className="mb-6 md:mb-8">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
