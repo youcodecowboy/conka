@@ -77,9 +77,9 @@ export default function ProtocolPurchaseCard({
 
   return (
     <div className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden">
-      {/* Image Container */}
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <div className="absolute inset-0" style={{ bottom: "-30%" }}>
+      {/* Image Container - shorter aspect */}
+      <div className="relative aspect-[5/2] overflow-hidden">
+        <div className="absolute inset-0" style={{ bottom: "-20%" }}>
           {protocolImage && (
             <Image
               src={protocolImage}
@@ -94,32 +94,32 @@ export default function ProtocolPurchaseCard({
       </div>
 
       {/* Content Section */}
-      <div className="pt-4 px-6 flex-1 flex flex-col">
+      <div className="pt-2 px-4 md:px-5 flex-1 flex flex-col">
         {/* Protocol Name and Tagline */}
-        <div className="flex items-start gap-3 mb-3 pb-3 border-b border-black/5">
-          <div className="min-w-[2.5rem]">
-            <h3 className="text-2xl font-bold font-primary opacity-100">
+        <div className="flex items-start gap-2 mb-2 pb-2 border-b border-black/5">
+          <div className="min-w-0">
+            <h3 className="text-lg md:text-xl font-bold font-primary opacity-100">
               {copy.name}
             </h3>
           </div>
           <div>
-            <p className="font-clinical text-sm opacity-70 mt-1">
+            <p className="font-clinical text-xs opacity-70 mt-0.5">
               {copy.tagline}
             </p>
           </div>
         </div>
 
         {/* Purchase Controls */}
-        <div className="space-y-3 mb-4">
+        <div className="space-y-2 mb-3">
           {/* Purchase Type Toggle */}
           <div>
-            <p className="font-clinical text-xs uppercase opacity-70 mb-2">
+            <p className="font-clinical text-[10px] uppercase opacity-70 mb-1">
               Purchase Type
             </p>
             <div className="flex gap-2 flex-wrap">
               <button
                 onClick={() => onPurchaseTypeChange("subscription")}
-                className={`px-4 py-2 rounded-full border-2 transition-all flex items-center gap-2 ${
+                className={`px-3 py-1.5 rounded-full border-2 transition-all flex items-center gap-1.5 text-sm ${
                   selectedPurchaseType === "subscription"
                     ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
                     : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
@@ -136,7 +136,7 @@ export default function ProtocolPurchaseCard({
               </button>
               <button
                 onClick={() => onPurchaseTypeChange("one-time")}
-                className={`px-4 py-2 rounded-full border-2 transition-all ${
+                className={`px-3 py-1.5 rounded-full border-2 transition-all text-sm ${
                   selectedPurchaseType === "one-time"
                     ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
                     : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
@@ -151,29 +151,26 @@ export default function ProtocolPurchaseCard({
 
           {/* Quantity Selector */}
           <div>
-            <p className="font-clinical text-xs uppercase opacity-70 mb-2">
+            <p className="font-clinical text-[10px] uppercase opacity-70 mb-1">
               Quantity
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <button
                 onClick={handleDecrement}
                 disabled={quantity <= 1}
-                className="w-10 h-10 md:w-12 md:h-12 border-2 border-[var(--foreground)] rounded-lg flex items-center justify-center font-bold text-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--foreground)]/10 transition-colors"
+                className="w-8 h-8 md:w-9 md:h-9 border-2 border-[var(--foreground)] rounded-lg flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--foreground)]/10 transition-colors"
               >
                 −
               </button>
               <div className="flex-1 text-center">
-                <p className="text-2xl md:text-3xl font-bold">{quantity}</p>
-                <p className="font-clinical text-xs opacity-70">
-                  {quantity === 1 ? "box" : "boxes"}
-                </p>
-                <p className="font-clinical text-xs opacity-60 mt-0.5">
-                  (28 shots per box)
+                <p className="text-xl md:text-2xl font-bold">{quantity}</p>
+                <p className="font-clinical text-[10px] opacity-70">
+                  {quantity === 1 ? "box" : "boxes"} (28 shots)
                 </p>
               </div>
               <button
                 onClick={handleIncrement}
-                className="w-10 h-10 md:w-12 md:h-12 border-2 border-[var(--foreground)] rounded-lg flex items-center justify-center font-bold text-lg hover:bg-[var(--foreground)]/10 transition-colors"
+                className="w-8 h-8 md:w-9 md:h-9 border-2 border-[var(--foreground)] rounded-lg flex items-center justify-center font-bold text-base hover:bg-[var(--foreground)]/10 transition-colors"
               >
                 +
               </button>
@@ -181,27 +178,27 @@ export default function ProtocolPurchaseCard({
           </div>
 
           {/* Price Display */}
-          <div className="pt-4 border-t border-black/5">
-            <div className="flex justify-between items-baseline mb-2">
-              <span className="font-clinical text-sm opacity-70">
+          <div className="pt-2 border-t border-black/5">
+            <div className="flex justify-between items-baseline mb-0.5">
+              <span className="font-clinical text-xs opacity-70">
                 Per box ({billingText}):
               </span>
-              <span className="text-xl font-bold">
+              <span className="text-base font-bold">
                 {formatPrice(pricePerUnit)}
               </span>
             </div>
             <div className="flex justify-between items-baseline">
-              <span className="font-clinical text-base font-semibold">
+              <span className="font-clinical text-sm font-semibold">
                 Total:
               </span>
               <div className="flex flex-col items-end">
                 {selectedPurchaseType === "subscription" &&
                   oneTimePricing?.price && (
-                    <span className="text-lg font-bold line-through opacity-50 mb-1">
+                    <span className="text-sm font-bold line-through opacity-50 mb-0.5">
                       {formatPrice(oneTimePricing.price * quantity)}
                     </span>
                   )}
-                <span className="text-2xl font-bold">
+                <span className="text-lg font-bold">
                   {formatPrice(totalPrice)}
                 </span>
               </div>
@@ -210,11 +207,11 @@ export default function ProtocolPurchaseCard({
         </div>
 
         {/* Add to Cart Button */}
-        <div className="mt-auto pb-4">
+        <div className="mt-auto pb-3">
           <button
             onClick={handleAddToCart}
             disabled={isAddingToCart}
-            className="neo-button px-8 py-3 rounded-full font-bold text-base inline-flex items-center gap-2 w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="neo-button px-6 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isAddingToCart ? (
               <>
