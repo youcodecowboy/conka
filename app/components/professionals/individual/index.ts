@@ -1,14 +1,14 @@
-// Types
-export type {
-  ProtocolSelectorProps,
-  ExpandedProtocolViewProps,
-  FormulaPurchaseCardProps,
-} from "./types";
+// Practitioner-only protocol copy (display order: Resilience → Balanced → Precision → Ultimate)
+export {
+  professionalProtocolCopy,
+  PROFESSIONAL_PROTOCOL_ORDER,
+  getProfessionalProtocolsOrdered,
+} from "./protocolCopy";
+export type { ProfessionalProtocolCopy } from "./protocolCopy";
 
 // Components
-export { default as ProtocolSelector } from "./ProtocolSelector";
-export { default as ExpandedProtocolView } from "./ExpandedProtocolView";
-export { default as FormulaSelector } from "./FormulaSelector";
-export { default as ExpandedFormulaView } from "./ExpandedFormulaView";
-export { default as FormulasSection } from "./FormulasSection";
-export { default as FormulaPurchaseCard } from "./FormulaPurchaseCard";
+export { default as IndividualPurchaseHeader } from "./IndividualPurchaseHeader";
+export { default as ProtocolListSelector } from "./ProtocolListSelector";
+export { default as ProtocolPurchaseCard } from "./ProtocolPurchaseCard";
+export { default as IndividualFormulasSection } from "./IndividualFormulasSection";
+export { default as PageHeader } from "./PageHeader";
