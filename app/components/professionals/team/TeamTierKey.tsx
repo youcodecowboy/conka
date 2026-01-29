@@ -52,40 +52,6 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
       aria-label="Volume pricing by quantity"
     >
       <div className="max-w-6xl mx-auto">
-        {/* Your volume: one bar of 26 bricks (Starter 10 | Squad 15 | Elite 1), rectangular bricks */}
-        <div className="mb-6">
-          <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-2">
-            Your volume
-          </h2>
-          <p className="font-clinical text-sm text-[var(--foreground)] mb-2">
-            {caption}
-          </p>
-          <div
-            className="grid gap-0.5 mt-0"
-            style={{ gridTemplateColumns: `repeat(${NUM_BRICKS}, minmax(0, 1fr))` }}
-            role="img"
-            aria-label={`${totalBoxes} boxes in cart`}
-          >
-            {Array.from({ length: NUM_BRICKS }, (_, i) => (
-              <div
-                key={i}
-                className={`rounded-sm transition-colors bg-gray-300 dark:bg-gray-600 min-w-0 ${
-                  i < filledCount ? "!bg-emerald-600" : ""
-                }`}
-                style={{ aspectRatio: "4/3" }}
-              />
-            ))}
-          </div>
-          <div
-            className="grid mt-1 font-clinical text-[10px] opacity-60"
-            style={{ gridTemplateColumns: `${STARTER_BRICKS}fr ${SQUAD_BRICKS}fr ${ELITE_BRICKS}fr` }}
-          >
-            <span>Starter</span>
-            <span>Squad</span>
-            <span>26+ Elite</span>
-          </div>
-        </div>
-
         <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-4">
           Price per box by quantity
         </h2>
@@ -121,6 +87,40 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
               </div>
             );
           })}
+        </div>
+
+        {/* Your volume: one bar of 26 bricks (Starter 10 | Squad 15 | Elite 1), below tier explanation */}
+        <div className="mt-6">
+          <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-2">
+            Your volume
+          </h2>
+          <p className="font-clinical text-sm text-[var(--foreground)] mb-2">
+            {caption}
+          </p>
+          <div
+            className="grid gap-0.5 mt-0"
+            style={{ gridTemplateColumns: `repeat(${NUM_BRICKS}, minmax(0, 1fr))` }}
+            role="img"
+            aria-label={`${totalBoxes} boxes in cart`}
+          >
+            {Array.from({ length: NUM_BRICKS }, (_, i) => (
+              <div
+                key={i}
+                className={`rounded-sm transition-colors bg-gray-300 dark:bg-gray-600 min-w-0 ${
+                  i < filledCount ? "!bg-emerald-600" : ""
+                }`}
+                style={{ aspectRatio: "4/3" }}
+              />
+            ))}
+          </div>
+          <div
+            className="grid mt-1 font-clinical text-[10px] opacity-60"
+            style={{ gridTemplateColumns: `${STARTER_BRICKS}fr ${SQUAD_BRICKS}fr ${ELITE_BRICKS}fr` }}
+          >
+            <span>Starter</span>
+            <span>Squad</span>
+            <span>26+ Elite</span>
+          </div>
         </div>
       </div>
     </section>
