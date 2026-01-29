@@ -102,14 +102,14 @@ export default function ProtocolPurchaseCard({
           <h3 className="text-lg md:text-xl font-bold font-primary opacity-100">
             {copy.name}
           </h3>
-          <p className="font-clinical text-[10px] md:text-xs opacity-60">
+          <p className="font-primary text-[10px] md:text-xs text-[var(--foreground)] opacity-90">
             {copy.tagline}
           </p>
         </div>
 
         {/* Protocol description (from protocolContent) */}
         {protocolContent[protocolId]?.description && (
-          <p className="font-clinical text-xs md:text-sm opacity-80 mb-3">
+          <p className="font-primary text-xs md:text-sm text-[var(--foreground)] opacity-80 mb-3">
             {protocolContent[protocolId].description}
           </p>
         )}

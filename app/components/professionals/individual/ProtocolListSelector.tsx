@@ -53,7 +53,7 @@ function ProtocolOption({
         <span className="font-bold text-sm leading-tight text-center line-clamp-2">
           {protocol.name}
         </span>
-        <span className="font-clinical text-xs opacity-80 text-center line-clamp-2">
+        <span className="font-primary text-xs text-[var(--foreground)] opacity-80 text-center line-clamp-2">
           {protocol.tagline}
         </span>
       </button>
@@ -84,8 +84,8 @@ function ProtocolOption({
       </div>
       <div className="flex-1 min-w-0">
         <h3 className="font-bold text-base mb-1">{protocol.name}</h3>
-        <p className="font-clinical text-sm opacity-90 mb-2">{protocol.tagline}</p>
-        <ul className="font-clinical text-xs opacity-80 space-y-0.5">
+        <p className="font-primary text-sm text-[var(--foreground)] opacity-90 mb-2">{protocol.tagline}</p>
+        <ul className="font-primary text-xs text-[var(--foreground)] opacity-80 space-y-0.5">
           {protocol.bullets.map((bullet, i) => (
             <li key={i}>• {bullet}</li>
           ))}
