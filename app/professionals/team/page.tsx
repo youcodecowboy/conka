@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Navigation from "../../components/navigation";
 import {
   TeamPurchaseHeader,
@@ -16,7 +17,6 @@ import {
   PurchaseType,
   getB2BTier,
   getB2BNextTierInfo,
-  getB2BFormulaPricing,
 } from "@/app/lib/productData";
 import { useCart } from "@/app/context/CartContext";
 import { getB2BFormulaVariantId } from "@/app/lib/shopifyProductMapping";
@@ -45,7 +45,8 @@ export default function ProfessionalsTeamPage() {
   const flowTotalBoxes =
     getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
   const clearTotalBoxes =
-    getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "02", clearQuantity);
+    getB2BTotalBoxes(lines) +
+    getB2BPendingBoxes("formula", "02", clearQuantity);
   const flowTier = getB2BTier(flowTotalBoxes);
   const clearTier = getB2BTier(clearTotalBoxes);
   const flowNextTier = getB2BNextTierInfo(flowTotalBoxes);
@@ -54,7 +55,8 @@ export default function ProfessionalsTeamPage() {
   const handleFlowAddToCart = async () => {
     const lines = getCartItems();
     const totalBoxes =
-      getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
+      getB2BTotalBoxes(lines) +
+      getB2BPendingBoxes("formula", "01", flowQuantity);
     const tier = getB2BTier(totalBoxes);
     const variantData = getB2BFormulaVariantId("01", tier, flowPurchaseType);
     if (variantData?.variantId) {
@@ -62,7 +64,7 @@ export default function ProfessionalsTeamPage() {
         variantData.variantId,
         flowQuantity,
         variantData.sellingPlanId,
-        { location: "professional_team", source: "professional_portal" }
+        { location: "professional_team", source: "professional_portal" },
       );
       openCart();
     }
@@ -71,7 +73,8 @@ export default function ProfessionalsTeamPage() {
   const handleClearAddToCart = async () => {
     const lines = getCartItems();
     const totalBoxes =
-      getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "02", clearQuantity);
+      getB2BTotalBoxes(lines) +
+      getB2BPendingBoxes("formula", "02", clearQuantity);
     const tier = getB2BTier(totalBoxes);
     const variantData = getB2BFormulaVariantId("02", tier, clearPurchaseType);
     if (variantData?.variantId) {
@@ -79,7 +82,7 @@ export default function ProfessionalsTeamPage() {
         variantData.variantId,
         clearQuantity,
         variantData.sellingPlanId,
-        { location: "professional_team", source: "professional_portal" }
+        { location: "professional_team", source: "professional_portal" },
       );
       openCart();
     }
@@ -91,6 +94,15 @@ export default function ProfessionalsTeamPage() {
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       <Navigation />
+
+      <nav aria-label="Back to portal" className="px-6 md:px-16 pt-4 pb-2">
+        <Link
+          href="/professionals"
+          className="font-clinical text-sm opacity-70 hover:opacity-100 transition-opacity underline"
+        >
+          Back to portal
+        </Link>
+      </nav>
 
       {/* Header Section */}
       <TeamPurchaseHeader />

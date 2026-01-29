@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Navigation from "../../components/navigation";
 import IndividualPurchaseHeader from "../../components/professionals/individual/IndividualPurchaseHeader";
 import ProtocolListSelector from "../../components/professionals/individual/ProtocolListSelector";
@@ -144,6 +145,15 @@ export default function ProfessionalsIndividualPage() {
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       <Navigation />
+
+      <nav aria-label="Back to portal" className="px-6 md:px-16 pt-4 pb-2">
+        <Link
+          href="/professionals"
+          className="font-clinical text-sm opacity-70 hover:opacity-100 transition-opacity underline"
+        >
+          Back to portal
+        </Link>
+      </nav>
 
       <IndividualPurchaseHeader />
 
