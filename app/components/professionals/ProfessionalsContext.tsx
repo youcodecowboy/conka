@@ -6,7 +6,7 @@ export default function ProfessionalsContext() {
       <div className="max-w-6xl mx-auto">
         {/* Heading */}
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">
-          Practitioner Portal
+          CONKA Elite Portal
         </h1>
 
         {/* Distilled copy - clinical only */}
