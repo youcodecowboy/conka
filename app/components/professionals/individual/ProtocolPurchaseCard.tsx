@@ -6,10 +6,13 @@ import {
   ProtocolId,
   PurchaseType,
   getProtocolPricing,
+  getB2BProtocolPricing,
   formatPrice,
   getBillingLabel,
   FORMULA_COLORS,
 } from "@/app/lib/productData";
+import type { B2BTier } from "@/app/lib/productData";
+import type { B2BNextTierInfo } from "@/app/components/professionals/team/types";
 import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 import { protocolContent } from "@/app/lib/productData";
 import { professionalProtocolCopy } from "./protocolCopy";
@@ -21,6 +24,9 @@ interface ProtocolPurchaseCardProps {
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onQuantityChange: (quantity: number) => void;
   onAddToCart: () => void;
+  /** When set, card uses B2B tier pricing (Starter/Squad/Elite) */
+  tier?: B2BTier;
+  nextTier?: B2BNextTierInfo | null;
 }
 
 export default function ProtocolPurchaseCard({
@@ -30,6 +36,8 @@ export default function ProtocolPurchaseCard({
   onPurchaseTypeChange,
   onQuantityChange,
   onAddToCart,
+  tier,
+  nextTier,
 }: ProtocolPurchaseCardProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
@@ -37,14 +45,20 @@ export default function ProtocolPurchaseCard({
   const protocolImage =
     getProtocolImage(protocolId) || protocolContent[protocolId]?.image || "";
 
-  const pricing = getProtocolPricing(protocolId, "max", selectedPurchaseType);
-  const oneTimePricing = getProtocolPricing(protocolId, "max", "one-time");
+  const useB2BPricing = tier !== undefined;
+  const pricing = useB2BPricing && tier !== undefined
+    ? getB2BProtocolPricing(protocolId, tier, selectedPurchaseType)
+    : getProtocolPricing(protocolId, "max", selectedPurchaseType);
+  const oneTimePricing = useB2BPricing && tier !== undefined
+    ? getB2BProtocolPricing(protocolId, tier, "one-time")
+    : getProtocolPricing(protocolId, "max", "one-time");
   const pricePerUnit = pricing?.price ?? 0;
   const totalPrice = pricePerUnit * quantity;
   const billingText =
     selectedPurchaseType === "subscription" && pricing && "billing" in pricing
       ? getBillingLabel(pricing.billing)
       : "one-time";
+  const oneTimePerBox = oneTimePricing?.price ?? 0;
 
   // Subscription is always 20% off for protocols; show that on the Subscribe button
   const subscriptionSavePercentage = 20;
@@ -155,6 +169,19 @@ export default function ProtocolPurchaseCard({
             </div>
           </div>
 
+          {useB2BPricing && tier !== undefined && (
+            <div className="flex flex-col gap-1">
+              <p className="font-clinical text-[10px] uppercase opacity-70">
+                Tier: <span className="font-semibold opacity-100 capitalize">{tier}</span>
+              </p>
+              {nextTier && (
+                <p className="font-clinical text-xs text-[var(--foreground)] opacity-90">
+                  Add {nextTier.boxesToNext} more for {nextTier.tierName}: {formatPrice(nextTier.pricePerBoxExVat)}/box ex. VAT
+                </p>
+              )}
+            </div>
+          )}
+
           {/* Quantity Selector */}
           <div>
             <p className="font-clinical text-[10px] uppercase opacity-70 mb-1">
@@ -193,6 +220,7 @@ export default function ProtocolPurchaseCard({
               </span>
               <span className="text-base font-bold">
                 {formatPrice(pricePerUnit)}
+                {useB2BPricing && <span className="font-clinical text-[10px] font-normal opacity-70 ml-1">ex. VAT</span>}
               </span>
             </div>
             <div className="flex justify-between items-baseline">
@@ -200,12 +228,11 @@ export default function ProtocolPurchaseCard({
                 Total:
               </span>
               <div className="flex flex-col items-end">
-                {selectedPurchaseType === "subscription" &&
-                  oneTimePricing?.price && (
-                    <span className="text-sm font-bold line-through opacity-50 mb-0.5">
-                      {formatPrice(oneTimePricing.price * quantity)}
-                    </span>
-                  )}
+                {selectedPurchaseType === "subscription" && oneTimePerBox > 0 && (
+                  <span className="text-sm font-bold line-through opacity-50 mb-0.5">
+                    {formatPrice(oneTimePerBox * quantity)}
+                  </span>
+                )}
                 <span
                   className="text-lg font-bold"
                   style={
