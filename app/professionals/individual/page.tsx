@@ -19,13 +19,16 @@ import {
   ProtocolId,
   PurchaseType,
   FormulaId,
+  getB2BTier,
+  getB2BNextTierInfo,
 } from "@/app/lib/productData";
 import { PROFESSIONAL_PROTOCOL_ORDER } from "@/app/components/professionals/individual/protocolCopy";
 import { useCart } from "@/app/context/CartContext";
-import { getProtocolVariantId, getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
+import { getB2BFormulaVariantId, getB2BProtocolVariantId } from "@/app/lib/shopifyProductMapping";
+import { getB2BTotalBoxes, getB2BPendingBoxes } from "@/app/lib/b2bCartTier";
 
 export default function ProfessionalsIndividualPage() {
-  const { addToCart, openCart } = useCart();
+  const { addToCart, openCart, getCartItems } = useCart();
 
   // Protocol: default to first in display order so card is visible
   const [selectedProtocol, setSelectedProtocol] = useState<ProtocolId>(
@@ -46,17 +49,37 @@ export default function ProfessionalsIndividualPage() {
   // Formula info sections (mobile toggle between Flow / Clear)
   const [selectedFormula, setSelectedFormula] = useState<FormulaId>("01");
 
+  // B2B tier from cart total + pending (for display and add-to-cart)
+  const lines = getCartItems();
+  const flowTotalBoxes =
+    getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
+  const clearTotalBoxes =
+    getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "02", clearQuantity);
+  const protocolTotalBoxes =
+    getB2BTotalBoxes(lines) +
+    getB2BPendingBoxes("protocol", selectedProtocol, protocolQuantity);
+  const flowTier = getB2BTier(flowTotalBoxes);
+  const clearTier = getB2BTier(clearTotalBoxes);
+  const protocolTier = getB2BTier(protocolTotalBoxes);
+  const flowNextTier = getB2BNextTierInfo(flowTotalBoxes);
+  const clearNextTier = getB2BNextTierInfo(clearTotalBoxes);
+  const protocolNextTier = getB2BNextTierInfo(protocolTotalBoxes);
+
   const handleProtocolSelect = (protocolId: ProtocolId) => {
     setSelectedProtocol(protocolId);
   };
 
   const handleProtocolAddToCart = async () => {
-    const variantData = getProtocolVariantId(
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) +
+      getB2BPendingBoxes("protocol", selectedProtocol, protocolQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BProtocolVariantId(
       selectedProtocol,
-      "max",
+      tier,
       protocolPurchaseType
     );
-
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
@@ -72,8 +95,11 @@ export default function ProfessionalsIndividualPage() {
   };
 
   const handleFlowAddToCart = async () => {
-    const variantData = getFormulaVariantId("01", "28", flowPurchaseType);
-
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BFormulaVariantId("01", tier, flowPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
@@ -89,8 +115,11 @@ export default function ProfessionalsIndividualPage() {
   };
 
   const handleClearAddToCart = async () => {
-    const variantData = getFormulaVariantId("02", "28", clearPurchaseType);
-
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "02", clearQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BFormulaVariantId("02", tier, clearPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
@@ -142,6 +171,8 @@ export default function ProfessionalsIndividualPage() {
                 onPurchaseTypeChange={setProtocolPurchaseType}
                 onQuantityChange={setProtocolQuantity}
                 onAddToCart={handleProtocolAddToCart}
+                tier={protocolTier}
+                nextTier={protocolNextTier}
               />
             </div>
           </div>
@@ -154,7 +185,7 @@ export default function ProfessionalsIndividualPage() {
       {/* Why this protocol works */}
       <ProtocolBenefits protocolId={selectedProtocol} />
 
-      {/* Individual formulas: two TeamFormulaCards */}
+      {/* Individual formulas: two TeamFormulaCards (B2B tier from cart total) */}
       <IndividualFormulasSection
         flowPurchaseType={flowPurchaseType}
         flowQuantity={flowQuantity}
@@ -166,6 +197,10 @@ export default function ProfessionalsIndividualPage() {
         onClearQuantityChange={setClearQuantity}
         onFlowAddToCart={handleFlowAddToCart}
         onClearAddToCart={handleClearAddToCart}
+        flowTier={flowTier}
+        flowNextTier={flowNextTier}
+        clearTier={clearTier}
+        clearNextTier={clearNextTier}
       />
 
       {/* Formula info sections (same as team: Info, Benefits, Ingredients, Taste) */}
