@@ -3,13 +3,13 @@
 import { useState } from "react";
 import Navigation from "../../components/navigation";
 import {
-  BulkPurchaseHeader,
-  BulkFormulaCard,
+  TeamPurchaseHeader,
+  TeamFormulaCard,
   InfoSection,
   BenefitsSection,
   IngredientsSection,
   TasteSection,
-} from "../../components/professionals/bulk";
+} from "../../components/professionals/team";
 import {
   FormulaId,
   PurchaseType,
@@ -17,7 +17,7 @@ import {
 import { useCart } from "@/app/context/CartContext";
 import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 
-export default function ProfessionalsBulkPage() {
+export default function ProfessionalsTeamPage() {
   const { addToCart, openCart } = useCart();
 
   // State for formula selection (mobile toggle)
@@ -43,7 +43,7 @@ export default function ProfessionalsBulkPage() {
         flowQuantity,
         variantData.sellingPlanId,
         {
-          location: "professional_bulk",
+          location: "professional_team",
           source: "professional_portal",
         }
       );
@@ -61,7 +61,7 @@ export default function ProfessionalsBulkPage() {
         clearQuantity,
         variantData.sellingPlanId,
         {
-          location: "professional_bulk",
+          location: "professional_team",
           source: "professional_portal",
         }
       );
@@ -77,14 +77,14 @@ export default function ProfessionalsBulkPage() {
       <Navigation />
 
       {/* Header Section */}
-      <BulkPurchaseHeader />
+      <TeamPurchaseHeader />
 
       {/* Formula Cards Grid */}
       <section className="px-6 md:px-16 pb-12 md:pb-16">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
             {/* CONKA Flow Card */}
-            <BulkFormulaCard
+            <TeamFormulaCard
               formulaId="01"
               selectedPurchaseType={flowPurchaseType}
               quantity={flowQuantity}
@@ -94,7 +94,7 @@ export default function ProfessionalsBulkPage() {
             />
 
             {/* CONKA Clear Card */}
-            <BulkFormulaCard
+            <TeamFormulaCard
               formulaId="02"
               selectedPurchaseType={clearPurchaseType}
               quantity={clearQuantity}
