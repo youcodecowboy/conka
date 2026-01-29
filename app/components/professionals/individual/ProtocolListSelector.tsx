@@ -35,7 +35,7 @@ function ProtocolOption({
         onClick={onSelect}
         className={`flex-shrink-0 flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-all duration-200 text-left min-w-[160px] max-w-[180px] ${
           isSelected
-            ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+            ? "bg-gray-200 text-[var(--foreground)] border-gray-300"
             : "bg-[var(--background)] text-[var(--foreground)] border-black/10 hover:border-black/20"
         }`}
       >
@@ -67,7 +67,7 @@ function ProtocolOption({
       onClick={onSelect}
       className={`w-full flex items-start gap-4 rounded-lg border-2 p-4 transition-all duration-200 text-left ${
         isSelected
-          ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+          ? "bg-gray-200 text-[var(--foreground)] border-gray-300"
           : "bg-[var(--background)] text-[var(--foreground)] border-black/10 hover:border-black/20"
       }`}
     >
