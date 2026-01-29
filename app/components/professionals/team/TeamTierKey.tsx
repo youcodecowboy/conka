@@ -43,14 +43,19 @@ export default function TeamTierKey() {
                 <span className="font-clinical text-sm font-semibold text-[var(--foreground)]">
                   {quantityRange(tier)}
                 </span>
-                <span className="mt-2 text-xl font-bold tabular-nums">
-                  {formatPrice(price)}
-                </span>
+                <div className="mt-2 flex flex-wrap items-baseline gap-2">
+                  <span className="text-xl font-bold tabular-nums">
+                    {formatPrice(price)}
+                  </span>
+                  <span
+                    className="font-clinical text-sm font-semibold tabular-nums"
+                    style={{ color: "#059669" }}
+                  >
+                    Save {save}%
+                  </span>
+                </div>
                 <span className="font-clinical text-xs opacity-70 mt-1">
-                  per box inc. VAT
-                </span>
-                <span className="font-clinical text-xs opacity-60 mt-2">
-                  Save {save}% vs RRP
+                  per box inc. VAT · vs RRP {formatPrice(RRP_28)}
                 </span>
               </div>
             );
