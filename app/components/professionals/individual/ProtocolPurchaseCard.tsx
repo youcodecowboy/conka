@@ -2,39 +2,53 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { formulas } from "@/app/components/shop/formulasShowcaseData";
 import {
-  formulaPricing,
+  ProtocolId,
+  PurchaseType,
+  getProtocolPricing,
   formatPrice,
   getBillingLabel,
   FORMULA_COLORS,
 } from "@/app/lib/productData";
-import type { TeamFormulaCardProps } from "./types";
+import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
+import { protocolContent } from "@/app/lib/productData";
+import { professionalProtocolCopy } from "./protocolCopy";
 
-export default function TeamFormulaCard({
-  formulaId,
+interface ProtocolPurchaseCardProps {
+  protocolId: ProtocolId;
+  selectedPurchaseType: PurchaseType;
+  quantity: number;
+  onPurchaseTypeChange: (type: PurchaseType) => void;
+  onQuantityChange: (quantity: number) => void;
+  onAddToCart: () => void;
+}
+
+export default function ProtocolPurchaseCard({
+  protocolId,
   selectedPurchaseType,
   quantity,
   onPurchaseTypeChange,
   onQuantityChange,
   onAddToCart,
-}: TeamFormulaCardProps) {
+}: ProtocolPurchaseCardProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const formula = formulas.find((f) => f.id === formulaId);
 
-  if (!formula) return null;
+  const copy = professionalProtocolCopy[protocolId];
+  const protocolImage =
+    getProtocolImage(protocolId) || protocolContent[protocolId]?.image || "";
 
-  const formulaImage = formula.image.src;
-  const pricing = formulaPricing[selectedPurchaseType]["28"];
-  const oneTimePricing = formulaPricing["one-time"]["28"];
-  const pricePerBox = pricing.price;
-  const totalPrice = pricePerBox * quantity;
+  const pricing = getProtocolPricing(protocolId, "max", selectedPurchaseType);
+  const oneTimePricing = getProtocolPricing(protocolId, "max", "one-time");
+  const pricePerUnit = pricing?.price ?? 0;
+  const totalPrice = pricePerUnit * quantity;
   const billingText =
-    selectedPurchaseType === "subscription" && "billing" in pricing
+    selectedPurchaseType === "subscription" && pricing && "billing" in pricing
       ? getBillingLabel(pricing.billing)
       : "one-time";
-  // Always show 20% on Subscribe button (subscription deal), not the current selection's calculated %
+
+  // Subscription is always 20% off for protocols; show that on the Subscribe button
   const subscriptionSavePercentage = 20;
+  const protocolAccentColor = FORMULA_COLORS["01"].hex;
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
@@ -55,111 +69,114 @@ export default function TeamFormulaCard({
     onQuantityChange(quantity + 1);
   };
 
+  if (!copy) return null;
+
+  const isUltimate = protocolId === "4";
+  const shotsPerBox = isUltimate ? 56 : 28;
+
   return (
     <div className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden">
-      {/* Image Container - Shorter */}
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <div className="absolute inset-0" style={{ bottom: "-30%" }}>
-          <Image
-            src={formulaImage}
-            alt={formula.image.alt}
-            fill
-            className="object-cover"
-            style={{
-              objectPosition: `${formula.image.focalX}% ${formula.image.focalY}%`,
-            }}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority
-          />
+      {/* Image Container - shorter aspect; Ultimate (4) zoomed out to fit full image */}
+      <div className="relative aspect-[5/2] overflow-hidden">
+        <div
+          className={`absolute inset-0 ${isUltimate ? "flex items-center justify-center" : ""}`}
+          style={isUltimate ? undefined : { bottom: "-20%" }}
+        >
+          {protocolImage && (
+            <Image
+              src={protocolImage}
+              alt={copy.name}
+              fill
+              className={isUltimate ? "object-contain" : "object-cover"}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+          )}
         </div>
       </div>
 
       {/* Content Section */}
-      <div className="pt-4 px-6 flex-1 flex flex-col">
-        {/* Product Name and Tagline */}
-        <div className="flex items-start gap-3 mb-3 pb-3 border-b border-black/5">
-          <div
-            className={`w-10 h-10 ${formula.bgColor} text-white rounded-md flex items-center justify-center flex-shrink-0`}
-          >
-            <span className="font-clinical text-sm font-bold">
-              {formula.id}
-            </span>
-          </div>
-          <div>
-            <h3 className="text-2xl font-bold font-primary opacity-100">
-              {formula.subtitle}
-            </h3>
-            <p className="font-primary text-lg opacity-80 mt-1">
-              {formula.name}
-            </p>
-            <p className="font-clinical text-sm opacity-70 mt-1">
-              {formula.headline}
-            </p>
-          </div>
+      <div className="pt-2 px-4 md:px-5 flex-1 flex flex-col">
+        {/* Protocol Name and Tagline (same line; tagline footer-style) */}
+        <div className="flex items-baseline gap-2 mb-2 pb-2 border-b border-black/5">
+          <h3 className="text-lg md:text-xl font-bold font-primary opacity-100">
+            {copy.name}
+          </h3>
+          <p className="font-primary text-[10px] md:text-xs text-[var(--foreground)] opacity-90">
+            {copy.tagline}
+          </p>
         </div>
 
+        {/* Protocol description (from protocolContent) */}
+        {protocolContent[protocolId]?.description && (
+          <p className="font-primary text-xs md:text-sm text-[var(--foreground)] opacity-80 mb-3">
+            {protocolContent[protocolId].description}
+          </p>
+        )}
+
         {/* Purchase Controls */}
-        <div className="space-y-3 mb-4">
+        <div className="space-y-2 mb-3">
           {/* Purchase Type Toggle */}
           <div>
-            <p className="font-clinical text-xs uppercase opacity-70 mb-2">
+            <p className="font-clinical text-[10px] uppercase opacity-70 mb-1">
               Purchase Type
             </p>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <button
                 onClick={() => onPurchaseTypeChange("subscription")}
-                className={`px-4 py-2 rounded-full border-2 transition-all flex items-center gap-2 ${
+                className={`px-3 py-1.5 rounded-full border-2 transition-all flex items-center gap-1.5 text-sm ${
                   selectedPurchaseType === "subscription"
                     ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
                     : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
                 }`}
               >
-                <span className="font-clinical text-sm font-medium">Subscribe</span>
+                <span className="font-clinical text-sm font-medium">
+                  Subscribe
+                </span>
                 <span
                   className="px-2 py-0.5 rounded-full text-white font-clinical text-xs"
-                  style={{ backgroundColor: formula.accentColor }}
+                  style={{ backgroundColor: protocolAccentColor }}
                 >
                   SAVE {subscriptionSavePercentage}%
                 </span>
               </button>
               <button
                 onClick={() => onPurchaseTypeChange("one-time")}
-                className={`px-4 py-2 rounded-full border-2 transition-all ${
+                className={`px-3 py-1.5 rounded-full border-2 transition-all text-sm ${
                   selectedPurchaseType === "one-time"
                     ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
                     : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
                 }`}
               >
-                <span className="font-clinical text-sm font-medium">One-off</span>
+                <span className="font-clinical text-sm font-medium">
+                  One-off
+                </span>
               </button>
             </div>
           </div>
 
           {/* Quantity Selector */}
           <div>
-            <p className="font-clinical text-xs uppercase opacity-70 mb-2">
+            <p className="font-clinical text-[10px] uppercase opacity-70 mb-1">
               Quantity
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <button
                 onClick={handleDecrement}
                 disabled={quantity <= 1}
-                className="w-10 h-10 md:w-12 md:h-12 border-2 border-[var(--foreground)] rounded-lg flex items-center justify-center font-bold text-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--foreground)]/10 transition-colors"
+                className="w-8 h-8 md:w-9 md:h-9 border-2 border-[var(--foreground)] rounded-lg flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--foreground)]/10 transition-colors"
               >
                 −
               </button>
               <div className="flex-1 text-center">
-                <p className="text-2xl md:text-3xl font-bold">{quantity}</p>
-                <p className="font-clinical text-xs opacity-70">
-                  {quantity === 1 ? "box" : "boxes"}
-                </p>
-                <p className="font-clinical text-xs opacity-60 mt-0.5">
-                  ({quantity * 28} shots)
+                <p className="text-xl md:text-2xl font-bold">{quantity}</p>
+                <p className="font-clinical text-[10px] opacity-70">
+                  {quantity === 1 ? "box" : "boxes"} ({shotsPerBox} shots per box)
                 </p>
               </div>
               <button
                 onClick={handleIncrement}
-                className="w-10 h-10 md:w-12 md:h-12 border-2 border-[var(--foreground)] rounded-lg flex items-center justify-center font-bold text-lg hover:bg-[var(--foreground)]/10 transition-colors"
+                className="w-8 h-8 md:w-9 md:h-9 border-2 border-[var(--foreground)] rounded-lg flex items-center justify-center font-bold text-base hover:bg-[var(--foreground)]/10 transition-colors"
               >
                 +
               </button>
@@ -167,32 +184,33 @@ export default function TeamFormulaCard({
           </div>
 
           {/* Price Display */}
-          <div className="pt-4 border-t border-black/5">
-            <div className="flex justify-between items-baseline mb-2">
-              <span className="font-clinical text-sm opacity-70">
+          <div className="pt-2 border-t border-black/5">
+            <div className="flex justify-between items-baseline mb-0.5">
+              <span className="font-clinical text-xs opacity-70">
                 Per box ({billingText}
                 {selectedPurchaseType === "subscription" && ", delivered monthly"}
                 ):
               </span>
-              <span className="text-xl font-bold">
-                {formatPrice(pricePerBox)}
+              <span className="text-base font-bold">
+                {formatPrice(pricePerUnit)}
               </span>
             </div>
             <div className="flex justify-between items-baseline">
-              <span className="font-clinical text-base font-semibold">
+              <span className="font-clinical text-sm font-semibold">
                 Total:
               </span>
               <div className="flex flex-col items-end">
-                {selectedPurchaseType === "subscription" && (
-                  <span className="text-lg font-bold line-through opacity-50 mb-1">
-                    {formatPrice(oneTimePricing.price * quantity)}
-                  </span>
-                )}
+                {selectedPurchaseType === "subscription" &&
+                  oneTimePricing?.price && (
+                    <span className="text-sm font-bold line-through opacity-50 mb-0.5">
+                      {formatPrice(oneTimePricing.price * quantity)}
+                    </span>
+                  )}
                 <span
-                  className="text-2xl font-bold"
+                  className="text-lg font-bold"
                   style={
                     selectedPurchaseType === "subscription"
-                      ? { color: formula.accentColor }
+                      ? { color: protocolAccentColor }
                       : undefined
                   }
                 >
@@ -204,11 +222,11 @@ export default function TeamFormulaCard({
         </div>
 
         {/* Add to Cart Button */}
-        <div className="mt-auto pb-4">
+        <div className="mt-auto pb-3">
           <button
             onClick={handleAddToCart}
             disabled={isAddingToCart}
-            className="neo-button px-8 py-3 rounded-full font-bold text-base inline-flex items-center gap-2 w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="neo-button px-6 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isAddingToCart ? (
               <>

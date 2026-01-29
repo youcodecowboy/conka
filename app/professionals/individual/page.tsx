@@ -1,90 +1,66 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navigation from "../../components/navigation";
 import IndividualPurchaseHeader from "../../components/professionals/individual/IndividualPurchaseHeader";
-import ProtocolSelector from "../../components/professionals/individual/ProtocolSelector";
-import ExpandedProtocolView from "../../components/professionals/individual/ExpandedProtocolView";
-import FormulaSelector from "../../components/professionals/individual/FormulaSelector";
-import ExpandedFormulaView from "../../components/professionals/individual/ExpandedFormulaView";
+import ProtocolListSelector from "../../components/professionals/individual/ProtocolListSelector";
+import ProtocolPurchaseCard from "../../components/professionals/individual/ProtocolPurchaseCard";
+import ProtocolScheduleCalendar from "../../components/professionals/individual/ProtocolScheduleCalendar";
+import IndividualFormulasSection from "../../components/professionals/individual/IndividualFormulasSection";
+import {
+  InfoSection,
+  BenefitsSection,
+  IngredientsSection,
+  TasteSection,
+} from "@/app/components/professionals/team";
+import ProtocolBenefits from "@/app/components/protocol/ProtocolBenefits";
 import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
 import {
   ProtocolId,
-  ProtocolTier,
   PurchaseType,
   FormulaId,
-  PackSize,
-  protocolContent,
 } from "@/app/lib/productData";
+import { PROFESSIONAL_PROTOCOL_ORDER } from "@/app/components/professionals/individual/protocolCopy";
 import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId, getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 
 export default function ProfessionalsIndividualPage() {
   const { addToCart, openCart } = useCart();
 
-  // Protocol state management
-  const [selectedProtocol, setSelectedProtocol] = useState<ProtocolId | null>(
-    null
+  // Protocol: default to first in display order so card is visible
+  const [selectedProtocol, setSelectedProtocol] = useState<ProtocolId>(
+    PROFESSIONAL_PROTOCOL_ORDER[0]
   );
-  const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
-  
-  // Formula state management
-  const [selectedFormula, setSelectedFormula] = useState<FormulaId | null>(
-    null
-  );
-  const [selectedPack, setSelectedPack] = useState<PackSize>("12");
-  
-  // Shared purchase type
-  const [purchaseType, setPurchaseType] =
+  const [protocolPurchaseType, setProtocolPurchaseType] =
     useState<PurchaseType>("subscription");
+  const [protocolQuantity, setProtocolQuantity] = useState(1);
 
-  // Reset tier when protocol changes (Protocol 4 doesn't have starter)
-  useEffect(() => {
-    if (selectedProtocol === "4" && selectedTier === "starter") {
-      setSelectedTier("pro");
-    }
-  }, [selectedProtocol, selectedTier]);
+  // Formulas (same pattern as team page)
+  const [flowPurchaseType, setFlowPurchaseType] =
+    useState<PurchaseType>("subscription");
+  const [flowQuantity, setFlowQuantity] = useState(1);
+  const [clearPurchaseType, setClearPurchaseType] =
+    useState<PurchaseType>("subscription");
+  const [clearQuantity, setClearQuantity] = useState(1);
 
-  // Handle protocol selection
+  // Formula info sections (mobile toggle between Flow / Clear)
+  const [selectedFormula, setSelectedFormula] = useState<FormulaId>("01");
+
   const handleProtocolSelect = (protocolId: ProtocolId) => {
-    // If clicking the same protocol, collapse it
-    if (selectedProtocol === protocolId) {
-      setSelectedProtocol(null);
-    } else {
-      setSelectedProtocol(protocolId);
-      // Reset tier to default for new protocol
-      const protocol = protocolContent[protocolId];
-      const defaultTier: ProtocolTier = protocol.availableTiers.includes("pro")
-        ? "pro"
-        : protocol.availableTiers[0];
-      setSelectedTier(defaultTier);
-    }
+    setSelectedProtocol(protocolId);
   };
 
-  // Handle formula selection
-  const handleFormulaSelect = (formulaId: FormulaId) => {
-    // If clicking the same formula, collapse it
-    if (selectedFormula === formulaId) {
-      setSelectedFormula(null);
-    } else {
-      setSelectedFormula(formulaId);
-    }
-  };
-
-  // Handle protocol add to cart
   const handleProtocolAddToCart = async () => {
-    if (!selectedProtocol) return;
-
     const variantData = getProtocolVariantId(
       selectedProtocol,
-      selectedTier,
-      purchaseType
+      "max",
+      protocolPurchaseType
     );
 
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
-        1,
+        protocolQuantity,
         variantData.sellingPlanId,
         {
           location: "professional_individual",
@@ -95,20 +71,30 @@ export default function ProfessionalsIndividualPage() {
     }
   };
 
-  // Handle formula add to cart
-  const handleFormulaAddToCart = async () => {
-    if (!selectedFormula) return;
-
-    const variantData = getFormulaVariantId(
-      selectedFormula,
-      selectedPack,
-      purchaseType
-    );
+  const handleFlowAddToCart = async () => {
+    const variantData = getFormulaVariantId("01", "28", flowPurchaseType);
 
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
-        1,
+        flowQuantity,
+        variantData.sellingPlanId,
+        {
+          location: "professional_individual",
+          source: "professional_portal",
+        }
+      );
+      openCart();
+    }
+  };
+
+  const handleClearAddToCart = async () => {
+    const variantData = getFormulaVariantId("02", "28", clearPurchaseType);
+
+    if (variantData?.variantId) {
+      await addToCart(
+        variantData.variantId,
+        clearQuantity,
         variantData.sellingPlanId,
         {
           location: "professional_individual",
@@ -126,46 +112,99 @@ export default function ProfessionalsIndividualPage() {
     >
       <Navigation />
 
-      {/* Header Section */}
       <IndividualPurchaseHeader />
 
-      {/* Protocol Selector */}
-      <ProtocolSelector
-        selectedProtocol={selectedProtocol}
-        onSelect={handleProtocolSelect}
+      {/* Protocol section: vertical list (desktop) / horizontal scroll (mobile) + purchase card */}
+      <section className="px-6 md:px-16 py-6 md:py-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-4 md:mb-6">
+            <h2 className="text-xl md:text-2xl font-bold mb-1">Protocols</h2>
+            <p className="font-clinical text-xs md:text-sm opacity-70">
+              Mixed plans combining CONKA Flow and CONKA Clear for maximum performance
+            </p>
+          </div>
+
+          <div className="flex flex-col md:grid md:grid-cols-[minmax(0,340px)_1fr] gap-6 md:gap-8">
+            {/* Left: protocol list (vertical on desktop, horizontal on mobile) */}
+            <div>
+              <ProtocolListSelector
+                selectedProtocol={selectedProtocol}
+                onSelect={handleProtocolSelect}
+              />
+            </div>
+
+            {/* Right: single protocol purchase card */}
+            <div className="min-h-[400px]">
+              <ProtocolPurchaseCard
+                protocolId={selectedProtocol}
+                selectedPurchaseType={protocolPurchaseType}
+                quantity={protocolQuantity}
+                onPurchaseTypeChange={setProtocolPurchaseType}
+                onQuantityChange={setProtocolQuantity}
+                onAddToCart={handleProtocolAddToCart}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Calendar: recommended schedule (max tier) for selected protocol */}
+      <ProtocolScheduleCalendar protocolId={selectedProtocol} />
+
+      {/* Why this protocol works */}
+      <ProtocolBenefits protocolId={selectedProtocol} />
+
+      {/* Individual formulas: two TeamFormulaCards */}
+      <IndividualFormulasSection
+        flowPurchaseType={flowPurchaseType}
+        flowQuantity={flowQuantity}
+        clearPurchaseType={clearPurchaseType}
+        clearQuantity={clearQuantity}
+        onFlowPurchaseTypeChange={setFlowPurchaseType}
+        onFlowQuantityChange={setFlowQuantity}
+        onClearPurchaseTypeChange={setClearPurchaseType}
+        onClearQuantityChange={setClearQuantity}
+        onFlowAddToCart={handleFlowAddToCart}
+        onClearAddToCart={handleClearAddToCart}
       />
 
-      {/* Expanded Protocol View (conditional) */}
-      {selectedProtocol && (
-        <ExpandedProtocolView
-          protocolId={selectedProtocol}
-          selectedTier={selectedTier}
-          onTierSelect={setSelectedTier}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleProtocolAddToCart}
-        />
-      )}
+      {/* Formula info sections (same as team: Info, Benefits, Ingredients, Taste) */}
+      <div className="md:hidden px-6 md:px-16 pb-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setSelectedFormula("01")}
+              className={`flex-1 px-4 py-3 rounded-lg border-2 transition-all ${
+                selectedFormula === "01"
+                  ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                  : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
+              }`}
+            >
+              <span className="font-clinical text-sm font-medium">
+                CONKA Flow
+              </span>
+            </button>
+            <button
+              onClick={() => setSelectedFormula("02")}
+              className={`flex-1 px-4 py-3 rounded-lg border-2 transition-all ${
+                selectedFormula === "02"
+                  ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                  : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
+              }`}
+            >
+              <span className="font-clinical text-sm font-medium">
+                CONKA Clear
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
 
-      {/* Formula Selector */}
-      <FormulaSelector
-        selectedFormula={selectedFormula}
-        onSelect={handleFormulaSelect}
-      />
+      <InfoSection selectedFormula={selectedFormula} />
+      <BenefitsSection selectedFormula={selectedFormula} />
+      <IngredientsSection selectedFormula={selectedFormula} />
+      <TasteSection selectedFormula={selectedFormula} />
 
-      {/* Expanded Formula View (conditional) */}
-      {selectedFormula && (
-        <ExpandedFormulaView
-          formulaId={selectedFormula}
-          selectedPack={selectedPack}
-          onPackSelect={setSelectedPack}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleFormulaAddToCart}
-        />
-      )}
-
-      {/* Case Studies Section - Always Visible */}
       <CaseStudiesDataDriven />
     </div>
   );
