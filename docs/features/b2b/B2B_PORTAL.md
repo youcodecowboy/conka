@@ -46,3 +46,15 @@ To support cart-total tiering we:
 4. **Add-to-cart tier** – On individual and team pages we compute tier from **current cart B2B boxes + pending quantity** and add the correct B2B variant for that tier so the first add is already right; normalization then keeps the cart consistent when quantities change.
 
 Implementation details: `docs/development/B2B_CART_TIER_PLAN.md`.
+
+---
+
+## Loop / subscriptions on B2B products
+
+For B2B subscription add-to-cart to show a **subscription** in the cart (badge, 20% off, selling plan), the **selling plan must be attached to each B2B product** in Shopify. The app sends a selling plan ID when the user selects subscription; if that plan is not attached to the B2B product, Shopify does not apply it and the line appears as one-time.
+
+**What to do in Shopify**
+
+- Attach a **Loop** (or Shopify) selling plan to every B2B variant (all 18: 2 formulas × 3 tiers + 4 protocols × 3 tiers).  
+- Either **reuse** the same 28-shot monthly plan you use for retail (`gid://shopify/SellingPlan/711429980534` is what the app uses today), or **create a B2B-specific plan** in Loop with 20% off and attach it to the B2B products only.
+- If you create a **new** B2B selling plan, get its GID from Shopify (e.g. Settings → Checkout → Selling plans or the plan URL) and share it so the app can be updated: `app/lib/shopifyProductMapping.ts` has `sellingPlanId` in `B2B_FORMULA_VARIANTS` and `B2B_PROTOCOL_VARIANTS`; replace the current plan ID with the new one for B2B subscription to work.
