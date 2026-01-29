@@ -33,9 +33,14 @@ export default function ProtocolScheduleCalendar({
         <h2 className="text-lg md:text-xl font-bold mb-1">
           Recommended weekly schedule (max tier)
         </h2>
-        <p className="font-clinical text-xs opacity-70 mb-3">
+        <p className={`font-clinical text-xs opacity-70 ${isUltimate ? "mb-1" : "mb-3"}`}>
           Repeat for the month
         </p>
+        {isUltimate && (
+          <p className="font-clinical text-xs opacity-70 mb-3">
+            CONKA Flow first thing in the morning, CONKA Clear at the end of the day/training.
+          </p>
+        )}
 
         <div className="border-2 border-black/10 rounded-lg overflow-hidden p-3 md:p-4">
           {/* Day headers + single week row */}
