@@ -4,6 +4,7 @@ import { useState } from "react";
 import Navigation from "../../components/navigation";
 import {
   TeamPurchaseHeader,
+  TeamTierKey,
   TeamFormulaCard,
   InfoSection,
   BenefitsSection,
@@ -76,6 +77,9 @@ export default function ProfessionalsTeamPage() {
 
       {/* Header Section */}
       <TeamPurchaseHeader />
+
+      {/* Tier key – volume pricing at a glance */}
+      <TeamTierKey />
 
       {/* Formula Cards Grid */}
       <section className="px-6 md:px-16 pb-12 md:pb-16">
