@@ -38,7 +38,9 @@ export default function ProfessionalsTeamPage() {
     useState<PurchaseType>("subscription");
   const [clearQuantity, setClearQuantity] = useState(1);
 
-  // B2B tier from cart total + pending (display and add-to-cart match)
+  // B2B uses one cart-wide tier (Starter/Squad/Elite) based on total B2B boxes.
+  // We compute "tier if you add Flow" and "tier if you add Clear" so each card shows
+  // the correct price and next-tier message; they often match because box bands are shared.
   const lines = getCartItems();
   const flowTotalBoxes =
     getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
