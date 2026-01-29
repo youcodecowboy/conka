@@ -4,7 +4,7 @@ import { FormulaId, PurchaseType, B2BTier } from "@/app/lib/productData";
 export interface B2BNextTierInfo {
   boxesToNext: number;
   tierName: string;
-  pricePerBoxIncVat: number;
+  pricePerBoxExVat: number;
 }
 
 /**

@@ -2,7 +2,7 @@
 
 import {
   B2B_TIER_BANDS,
-  B2B_PRICE_DISPLAY_INC_VAT,
+  b2bFormulaPricing,
   formatPrice,
 } from "@/app/lib/productData";
 import type { B2BTier } from "@/app/lib/productData";
@@ -21,7 +21,7 @@ function quantityRange(tier: B2BTier): string {
 }
 
 function savingsPercent(tier: B2BTier): number {
-  const price = B2B_PRICE_DISPLAY_INC_VAT["one-time"][tier];
+  const price = b2bFormulaPricing["one-time"][tier].price;
   return Math.round(((RRP_28 - price) / RRP_28) * 100);
 }
 
@@ -37,7 +37,7 @@ export default function TeamTierKey() {
         </h2>
         <div className="grid grid-cols-3 gap-4 md:gap-6">
           {TIER_ORDER.map((tier) => {
-            const price = B2B_PRICE_DISPLAY_INC_VAT["one-time"][tier];
+            const price = b2bFormulaPricing["one-time"][tier].price;
             const save = savingsPercent(tier);
             return (
               <div
@@ -62,7 +62,7 @@ export default function TeamTierKey() {
                   </span>
                 </div>
                 <span className="font-clinical text-xs opacity-70 mt-1">
-                  per box inc. VAT · vs RRP {formatPrice(RRP_28)}
+                  per box ex. VAT · vs RRP {formatPrice(RRP_28)}
                 </span>
               </div>
             );
