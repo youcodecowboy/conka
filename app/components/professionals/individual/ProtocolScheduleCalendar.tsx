@@ -67,11 +67,11 @@ export default function ProtocolScheduleCalendar({
           <div className="flex flex-wrap gap-4 mt-3 pt-3 border-t border-black/10">
             <div className="flex items-center gap-1">
               <div className="w-3 h-3 bg-amber-500 rounded-sm" />
-              <span className="font-clinical text-[10px]">F01</span>
+              <span className="font-clinical text-[10px]">CONKA Flow</span>
             </div>
             <div className="flex items-center gap-1">
               <div className="w-3 h-3 bg-[#AAB9BC] rounded-sm" />
-              <span className="font-clinical text-[10px]">F02</span>
+              <span className="font-clinical text-[10px]">CONKA Clear</span>
             </div>
             {isUltimate && (
               <div className="flex items-center gap-1">
