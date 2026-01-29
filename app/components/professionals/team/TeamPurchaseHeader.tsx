@@ -10,10 +10,10 @@ export default function TeamPurchaseHeader() {
         </h1>
 
         {/* Subheading */}
-        <p className="font-clinical text-base md:text-lg opacity-80">
+        <p className="font-primary text-base md:text-lg opacity-80">
           For clubs, teams, and organisations purchasing at scale
         </p>
-        <p className="font-clinical text-sm opacity-70 mt-2">
+        <p className="font-primary text-sm opacity-70 mt-2">
           Prices include VAT. Shipping calculated at checkout.
         </p>
       </div>
