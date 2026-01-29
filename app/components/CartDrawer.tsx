@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { CartLine } from "@/app/lib/shopify";
 import Image from "next/image";
@@ -24,6 +25,8 @@ function getProductFallbackImage(productTitle: string): string {
   return "/bottle2.png"; // Default fallback
 }
 
+const B2B_TIER_MESSAGE_MS = 3000;
+
 export default function CartDrawer() {
   const {
     cart,
@@ -34,9 +37,19 @@ export default function CartDrawer() {
     updateQuantity,
     removeItem,
     getCartItems,
+    b2bTierUpdatedTo,
+    b2bNormalizeError,
+    clearB2BTierMessage,
+    clearB2BNormalizeError,
   } = useCart();
 
   const cartItems = getCartItems();
+
+  useEffect(() => {
+    if (!b2bTierUpdatedTo) return;
+    const t = setTimeout(clearB2BTierMessage, B2B_TIER_MESSAGE_MS);
+    return () => clearTimeout(t);
+  }, [b2bTierUpdatedTo, clearB2BTierMessage]);
 
   // Format price from Shopify format
   const formatPrice = (amount: string, currencyCode: string = "GBP") => {
@@ -138,6 +151,30 @@ export default function CartDrawer() {
             </svg>
           </button>
         </div>
+
+        {/* B2B tier / error message */}
+        {b2bTierUpdatedTo && (
+          <div className="px-4 py-2 bg-emerald-500/10 border-b border-emerald-500/20">
+            <p className="font-clinical text-sm text-emerald-700 dark:text-emerald-400">
+              Volume pricing updated to {b2bTierUpdatedTo.charAt(0).toUpperCase() + b2bTierUpdatedTo.slice(1)}.
+            </p>
+          </div>
+        )}
+        {b2bNormalizeError && (
+          <div className="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center justify-between gap-2">
+            <p className="font-clinical text-sm text-amber-700 dark:text-amber-400">
+              {b2bNormalizeError}
+            </p>
+            <button
+              type="button"
+              onClick={clearB2BNormalizeError}
+              className="shrink-0 font-clinical text-xs underline"
+              aria-label="Dismiss"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
 
         {/* Cart Content */}
         <div className="flex-1 overflow-y-auto">
