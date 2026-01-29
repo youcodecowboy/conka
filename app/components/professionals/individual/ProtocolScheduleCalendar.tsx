@@ -10,7 +10,8 @@ interface ProtocolScheduleCalendarProps {
 export default function ProtocolScheduleCalendar({
   protocolId,
 }: ProtocolScheduleCalendarProps) {
-  const days = generateProtocolCalendarDays(protocolId, "max");
+  const allDays = generateProtocolCalendarDays(protocolId, "max");
+  const weekDays = allDays.slice(0, 7);
   const isUltimate = protocolId === "4";
 
   const getCellClassName = (formula: "01" | "02" | "rest") => {
@@ -29,13 +30,16 @@ export default function ProtocolScheduleCalendar({
   return (
     <section className="px-6 md:px-16 py-6 md:py-10">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-lg md:text-xl font-bold mb-3 md:mb-4">
-          Recommended schedule (max tier)
+        <h2 className="text-lg md:text-xl font-bold mb-1">
+          Recommended weekly schedule (max tier)
         </h2>
+        <p className="font-clinical text-xs opacity-70 mb-3">
+          Repeat for the month
+        </p>
 
         <div className="border-2 border-black/10 rounded-lg overflow-hidden p-3 md:p-4">
-          {/* Day Headers */}
-          <div className="grid grid-cols-7 gap-1 mb-2">
+          {/* Day headers + single week row */}
+          <div className="grid grid-cols-7 gap-1">
             {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
               <div
                 key={day}
@@ -44,16 +48,12 @@ export default function ProtocolScheduleCalendar({
                 {day}
               </div>
             ))}
-          </div>
-
-          {/* 4-week Calendar */}
-          <div className="grid grid-cols-7 gap-1">
-            {days.map((day, idx) => (
+            {weekDays.map((day, idx) => (
               <div
                 key={idx}
                 className={`aspect-square rounded-sm flex items-center justify-center text-[10px] font-clinical ${getCellClassName(day.formula)}`}
               >
-                {day.day}
+                {idx + 1}
               </div>
             ))}
           </div>
