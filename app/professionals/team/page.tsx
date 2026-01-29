@@ -95,8 +95,8 @@ export default function ProfessionalsTeamPage() {
       {/* Header Section */}
       <TeamPurchaseHeader />
 
-      {/* Tier key – volume pricing at a glance */}
-      <TeamTierKey />
+      {/* Tier key – volume brick scale + pricing at a glance (cart total only) */}
+      <TeamTierKey totalBoxes={getB2BTotalBoxes(lines)} />
 
       {/* Formula Cards Grid */}
       <section className="px-6 md:px-16 pb-12 md:pb-16">
