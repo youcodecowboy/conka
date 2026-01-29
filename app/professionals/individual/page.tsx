@@ -5,7 +5,9 @@ import Navigation from "../../components/navigation";
 import IndividualPurchaseHeader from "../../components/professionals/individual/IndividualPurchaseHeader";
 import ProtocolListSelector from "../../components/professionals/individual/ProtocolListSelector";
 import ProtocolPurchaseCard from "../../components/professionals/individual/ProtocolPurchaseCard";
+import ProtocolScheduleCalendar from "../../components/professionals/individual/ProtocolScheduleCalendar";
 import IndividualFormulasSection from "../../components/professionals/individual/IndividualFormulasSection";
+import ProtocolBenefits from "@/app/components/protocol/ProtocolBenefits";
 import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
 import {
   ProtocolId,
@@ -135,6 +137,12 @@ export default function ProfessionalsIndividualPage() {
           </div>
         </div>
       </section>
+
+      {/* Calendar: recommended schedule (max tier) for selected protocol */}
+      <ProtocolScheduleCalendar protocolId={selectedProtocol} />
+
+      {/* Why this protocol works */}
+      <ProtocolBenefits protocolId={selectedProtocol} />
 
       {/* Individual formulas: two TeamFormulaCards */}
       <IndividualFormulasSection
