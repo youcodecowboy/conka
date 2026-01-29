@@ -97,12 +97,12 @@ export default function ProtocolPurchaseCard({
 
       {/* Content Section */}
       <div className="pt-2 px-4 md:px-5 flex-1 flex flex-col">
-        {/* Protocol Name and Tagline (tagline as footer-style caption) */}
-        <div className="mb-2 pb-2 border-b border-black/5">
+        {/* Protocol Name and Tagline (same line; tagline footer-style) */}
+        <div className="flex items-baseline gap-2 mb-2 pb-2 border-b border-black/5">
           <h3 className="text-lg md:text-xl font-bold font-primary opacity-100">
             {copy.name}
           </h3>
-          <p className="font-clinical text-[10px] md:text-xs opacity-60 mt-1.5">
+          <p className="font-clinical text-[10px] md:text-xs opacity-60">
             {copy.tagline}
           </p>
         </div>
