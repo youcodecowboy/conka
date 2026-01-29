@@ -9,19 +9,19 @@ import {
   getBillingLabel,
   FORMULA_COLORS,
 } from "@/app/lib/productData";
-import type { BulkFormulaCardProps } from "./types";
+import type { TeamFormulaCardProps } from "./types";
 
-export default function BulkFormulaCard({
+export default function TeamFormulaCard({
   formulaId,
   selectedPurchaseType,
   quantity,
   onPurchaseTypeChange,
   onQuantityChange,
   onAddToCart,
-}: BulkFormulaCardProps) {
+}: TeamFormulaCardProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const formula = formulas.find((f) => f.id === formulaId);
-  
+
   if (!formula) return null;
 
   const formulaImage = formula.image.src;

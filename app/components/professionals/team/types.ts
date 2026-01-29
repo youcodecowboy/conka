@@ -1,9 +1,9 @@
 import { FormulaId, PurchaseType } from "@/app/lib/productData";
 
 /**
- * Props for BulkFormulaCard component
+ * Props for TeamFormulaCard component
  */
-export interface BulkFormulaCardProps {
+export interface TeamFormulaCardProps {
   formulaId: FormulaId;
   selectedPurchaseType: PurchaseType;
   quantity: number;
