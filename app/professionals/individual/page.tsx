@@ -7,11 +7,18 @@ import ProtocolListSelector from "../../components/professionals/individual/Prot
 import ProtocolPurchaseCard from "../../components/professionals/individual/ProtocolPurchaseCard";
 import ProtocolScheduleCalendar from "../../components/professionals/individual/ProtocolScheduleCalendar";
 import IndividualFormulasSection from "../../components/professionals/individual/IndividualFormulasSection";
+import {
+  InfoSection,
+  BenefitsSection,
+  IngredientsSection,
+  TasteSection,
+} from "@/app/components/professionals/team";
 import ProtocolBenefits from "@/app/components/protocol/ProtocolBenefits";
 import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
 import {
   ProtocolId,
   PurchaseType,
+  FormulaId,
 } from "@/app/lib/productData";
 import { PROFESSIONAL_PROTOCOL_ORDER } from "@/app/components/professionals/individual/protocolCopy";
 import { useCart } from "@/app/context/CartContext";
@@ -35,6 +42,9 @@ export default function ProfessionalsIndividualPage() {
   const [clearPurchaseType, setClearPurchaseType] =
     useState<PurchaseType>("subscription");
   const [clearQuantity, setClearQuantity] = useState(1);
+
+  // Formula info sections (mobile toggle between Flow / Clear)
+  const [selectedFormula, setSelectedFormula] = useState<FormulaId>("01");
 
   const handleProtocolSelect = (protocolId: ProtocolId) => {
     setSelectedProtocol(protocolId);
@@ -157,6 +167,43 @@ export default function ProfessionalsIndividualPage() {
         onFlowAddToCart={handleFlowAddToCart}
         onClearAddToCart={handleClearAddToCart}
       />
+
+      {/* Formula info sections (same as team: Info, Benefits, Ingredients, Taste) */}
+      <div className="md:hidden px-6 md:px-16 pb-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setSelectedFormula("01")}
+              className={`flex-1 px-4 py-3 rounded-lg border-2 transition-all ${
+                selectedFormula === "01"
+                  ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                  : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
+              }`}
+            >
+              <span className="font-clinical text-sm font-medium">
+                CONKA Flow
+              </span>
+            </button>
+            <button
+              onClick={() => setSelectedFormula("02")}
+              className={`flex-1 px-4 py-3 rounded-lg border-2 transition-all ${
+                selectedFormula === "02"
+                  ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                  : "bg-transparent border-[var(--foreground)]/30 text-[var(--foreground)] hover:border-[var(--foreground)]/50"
+              }`}
+            >
+              <span className="font-clinical text-sm font-medium">
+                CONKA Clear
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <InfoSection selectedFormula={selectedFormula} />
+      <BenefitsSection selectedFormula={selectedFormula} />
+      <IngredientsSection selectedFormula={selectedFormula} />
+      <TasteSection selectedFormula={selectedFormula} />
 
       <CaseStudiesDataDriven />
     </div>
