@@ -8,6 +8,7 @@ import {
   getProtocolPricing,
   formatPrice,
   getBillingLabel,
+  FORMULA_COLORS,
 } from "@/app/lib/productData";
 import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 import { protocolContent } from "@/app/lib/productData";
@@ -45,14 +46,9 @@ export default function ProtocolPurchaseCard({
       ? getBillingLabel(pricing.billing)
       : "one-time";
 
-  const saveAmount =
-    oneTimePricing?.price && pricing?.price
-      ? oneTimePricing.price - pricing.price
-      : 0;
-  const savePercentage =
-    oneTimePricing?.price && saveAmount > 0
-      ? Math.round((saveAmount / oneTimePricing.price) * 100)
-      : 0;
+  // Subscription is always 20% off for protocols; show that on the Subscribe button
+  const subscriptionSavePercentage = 20;
+  const protocolAccentColor = FORMULA_COLORS["01"].hex;
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
@@ -101,18 +97,14 @@ export default function ProtocolPurchaseCard({
 
       {/* Content Section */}
       <div className="pt-2 px-4 md:px-5 flex-1 flex flex-col">
-        {/* Protocol Name and Tagline */}
-        <div className="flex items-start gap-2 mb-2 pb-2 border-b border-black/5">
-          <div className="min-w-0">
-            <h3 className="text-lg md:text-xl font-bold font-primary opacity-100">
-              {copy.name}
-            </h3>
-          </div>
-          <div>
-            <p className="font-clinical text-xs opacity-70 mt-0.5">
-              {copy.tagline}
-            </p>
-          </div>
+        {/* Protocol Name and Tagline (tagline as footer-style caption) */}
+        <div className="mb-2 pb-2 border-b border-black/5">
+          <h3 className="text-lg md:text-xl font-bold font-primary opacity-100">
+            {copy.name}
+          </h3>
+          <p className="font-clinical text-[10px] md:text-xs opacity-60 mt-1.5">
+            {copy.tagline}
+          </p>
         </div>
 
         {/* Purchase Controls */}
@@ -134,11 +126,12 @@ export default function ProtocolPurchaseCard({
                 <span className="font-clinical text-sm font-medium">
                   Subscribe
                 </span>
-                {savePercentage > 0 && (
-                  <span className="px-2 py-0.5 rounded-full bg-black/20 text-white font-clinical text-xs">
-                    SAVE {savePercentage}%
-                  </span>
-                )}
+                <span
+                  className="px-2 py-0.5 rounded-full text-white font-clinical text-xs"
+                  style={{ backgroundColor: protocolAccentColor }}
+                >
+                  SAVE {subscriptionSavePercentage}%
+                </span>
               </button>
               <button
                 onClick={() => onPurchaseTypeChange("one-time")}
@@ -187,7 +180,9 @@ export default function ProtocolPurchaseCard({
           <div className="pt-2 border-t border-black/5">
             <div className="flex justify-between items-baseline mb-0.5">
               <span className="font-clinical text-xs opacity-70">
-                Per box ({billingText}):
+                Per box ({billingText}
+                {selectedPurchaseType === "subscription" && ", delivered monthly"}
+                ):
               </span>
               <span className="text-base font-bold">
                 {formatPrice(pricePerUnit)}
@@ -204,7 +199,14 @@ export default function ProtocolPurchaseCard({
                       {formatPrice(oneTimePricing.price * quantity)}
                     </span>
                   )}
-                <span className="text-lg font-bold">
+                <span
+                  className="text-lg font-bold"
+                  style={
+                    selectedPurchaseType === "subscription"
+                      ? { color: protocolAccentColor }
+                      : undefined
+                  }
+                >
                   {formatPrice(totalPrice)}
                 </span>
               </div>

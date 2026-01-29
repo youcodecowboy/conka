@@ -33,8 +33,8 @@ export default function TeamFormulaCard({
     selectedPurchaseType === "subscription" && "billing" in pricing
       ? getBillingLabel(pricing.billing)
       : "one-time";
-  const saveAmount = oneTimePricing.price - pricing.price;
-  const savePercentage = Math.round((saveAmount / oneTimePricing.price) * 100);
+  // Always show 20% on Subscribe button (subscription deal), not the current selection's calculated %
+  const subscriptionSavePercentage = 20;
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
@@ -119,7 +119,7 @@ export default function TeamFormulaCard({
                   className="px-2 py-0.5 rounded-full text-white font-clinical text-xs"
                   style={{ backgroundColor: formula.accentColor }}
                 >
-                  SAVE {savePercentage}%
+                  SAVE {subscriptionSavePercentage}%
                 </span>
               </button>
               <button
@@ -170,7 +170,9 @@ export default function TeamFormulaCard({
           <div className="pt-4 border-t border-black/5">
             <div className="flex justify-between items-baseline mb-2">
               <span className="font-clinical text-sm opacity-70">
-                Per box ({billingText}):
+                Per box ({billingText}
+                {selectedPurchaseType === "subscription" && ", delivered monthly"}
+                ):
               </span>
               <span className="text-xl font-bold">
                 {formatPrice(pricePerBox)}
@@ -186,7 +188,14 @@ export default function TeamFormulaCard({
                     {formatPrice(oneTimePricing.price * quantity)}
                   </span>
                 )}
-                <span className="text-2xl font-bold">
+                <span
+                  className="text-2xl font-bold"
+                  style={
+                    selectedPurchaseType === "subscription"
+                      ? { color: formula.accentColor }
+                      : undefined
+                  }
+                >
                   {formatPrice(totalPrice)}
                 </span>
               </div>
