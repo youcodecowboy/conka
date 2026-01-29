@@ -23,20 +23,39 @@
 
 **Prices (ex-VAT) for every variant:** Starter £61, Squad £55, Elite £50 per box. Subscription = 20% off (use existing 28-shot monthly plan or one new “Team” plan).
 
+**Ultimate Protocol = 2 boxes per unit:** One unit of Ultimate is 1× Flow + 1× Clear (2 physical boxes). When computing total B2B boxes for tier (Starter/Squad/Elite), count 1 unit of Ultimate as **2 boxes**. All other B2B products: 1 unit = 1 box.
+
 ---
 
-## 3. Step-by-step: what to do in Shopify
+## 3. Created B2B products (Shopify admin)
+
+Products were duplicated and renamed to end with **– B2B**. Same SKUs as source. Tier option: Starter (£61), Squad (£55), Elite (£50) ex-VAT. All drafts; sales channel: **Conka Headless** only.
+
+| Product | Admin URL | Product GID |
+|---------|-----------|-------------|
+| CONKA Flow – B2B | [admin …/products/15573230780790](https://admin.shopify.com/store/conka-6770/products/15573230780790) | `gid://shopify/Product/15573230780790` |
+| CONKA Clear – B2B | [admin …/products/15573251031414](https://admin.shopify.com/store/conka-6770/products/15573251031414) | `gid://shopify/Product/15573251031414` |
+| Resilience – B2B | [admin …/products/15573265809782](https://admin.shopify.com/store/conka-6770/products/15573265809782) | `gid://shopify/Product/15573265809782` |
+| Precision – B2B | [admin …/products/15573280293238](https://admin.shopify.com/store/conka-6770/products/15573280293238) | `gid://shopify/Product/15573280293238` |
+| Balance – B2B | [admin …/products/15573268005238](https://admin.shopify.com/store/conka-6770/products/15573268005238) | `gid://shopify/Product/15573268005238` |
+| Ultimate – B2B | [admin …/products/15573271445878](https://admin.shopify.com/store/conka-6770/products/15573271445878) | `gid://shopify/Product/15573271445878` |
+
+**What's next / still needed:** The **18 variant GIDs** (Starter, Squad, Elite for each product). Product URLs above give product IDs only; add-to-cart needs each variant's ID. See section 5 for the template to fill and send.
+
+---
+
+## 4. Step-by-step: what to do in Shopify
 
 Do the following for **each** of the 6 products (2 formulas, then 4 protocols). Use “duplicate then edit” so you keep title, description, and media; you only change name, variants, and prices.
 
-### 3.1 Duplicate the right product
+### 4.1 Duplicate the right product
 
 - **Formulas:** Duplicate your existing **CONKA Flow** (28-shot) product once, and your existing **CONKA Clear** (28-shot) product once.
 - **Protocols:** Duplicate your existing **Resilience**, **Precision**, **Balance**, and **Ultimate** products once each (use the 28-shot or main variant product as the source if you have multiple).
 
 You should now have 6 duplicated products in draft (or active).
 
-### 3.2 Rename the product
+### 4.2 Rename the product
 
 - Change the product title to the B2B name, e.g.:
   - `CONKA Flow – Team`
@@ -48,7 +67,7 @@ You should now have 6 duplicated products in draft (or active).
 
 (Optional: add “B2B” or “Volume” if you prefer; the site only needs the variant IDs.)
 
-### 3.3 Replace variants with the 3 tiers
+### 4.3 Replace variants with the 3 tiers
 
 - Open the duplicated product → **Variants**.
 - Remove all existing variants except one (or delete all and add new).
@@ -61,18 +80,18 @@ You should now have 6 duplicated products in draft (or active).
   - Elite: **£50.00**
 - **SKU:** Leave blank or set the same/different per tier depending on your accounting (see section 1). Not required for the website.
 
-### 3.4 Attach subscription (20% off)
+### 4.4 Attach subscription (20% off)
 
 - For each of the 3 variants, attach a selling plan:
   - Either your **existing 28-shot monthly** selling plan (20% off), or
   - A **new** selling plan (e.g. “Team monthly”, 20% off) and attach it to all B2B variants.
 - Ensure the plan applies 20% discount so subscription prices are £48.80 / £44 / £40 per box (ex-VAT).
 
-### 3.5 Save and repeat
+### 4.5 Save and repeat
 
 - Save the product. Repeat **3.1–3.4** for the other 5 products so all 6 B2B products have 3 variants each at £61 / £55 / £50 with subscription attached.
 
-### 3.6 Get variant IDs to send to the developer
+### 4.6 Get variant IDs to send to the developer
 
 - For each product: open it → **Variants** → click each variant (Starter, Squad, Elite).
 - In the URL you’ll see the variant ID (numeric). Format it as: `gid://shopify/ProductVariant/XXXXXXXXXX`
@@ -80,33 +99,33 @@ You should now have 6 duplicated products in draft (or active).
 
 ---
 
-## 4. Information to return to the developer
+## 5. Information to return to the developer
 
 Send a single list with **all 18 variant GIDs**, clearly labelled by product and tier. Example:
 
 ```
-CONKA Flow – Team:
+CONKA Flow – B2B:
   Starter:  gid://shopify/ProductVariant/_______
   Squad:    gid://shopify/ProductVariant/_______
   Elite:    gid://shopify/ProductVariant/_______
 
-CONKA Clear – Team:
+CONKA Clear – B2B:
   Starter:  gid://shopify/ProductVariant/_______
   Squad:    gid://shopify/ProductVariant/_______
   Elite:    gid://shopify/ProductVariant/_______
 
-Resilience Protocol – Team:
+Resilience – B2B:
   Starter:  gid://shopify/ProductVariant/_______
   Squad:    gid://shopify/ProductVariant/_______
   Elite:    gid://shopify/ProductVariant/_______
 
-Precision Protocol – Team:
+Precision – B2B:
   ... (same)
 
-Balance Protocol – Team:
+Balance – B2B:
   ... (same)
 
-Ultimate Protocol – Team:
+Ultimate – B2B:
   ... (same)
 ```
 
@@ -120,10 +139,10 @@ If you reused the existing 28-shot monthly plan, say “same as 28-shot monthly�
 
 ---
 
-## 5. What the developer does with this
+## 6. What the developer does with this
 
 - Pastes the 18 variant IDs into the codebase (formulas in `TEAM_FORMULA_VARIANTS`, protocols in a matching structure, e.g. `TEAM_PROTOCOL_VARIANTS`).
-- Implements **Option B (cart-total tier):** when the cart is opened or updated, the app (1) counts total B2B boxes (formulas + protocols), (2) picks one tier (Starter/Squad/Elite) for the whole order, (3) updates every B2B line to that tier’s variant via Shopify’s cart line update API. No discount codes; prices stay variant prices.
+- Implements **Option B (cart-total tier):** when the cart is opened or updated, the app (1) counts total B2B boxes (formulas + protocols; **1 unit of Ultimate = 2 boxes**), (2) picks one tier (Starter/Squad/Elite) for the whole order, (3) updates every B2B line to that tier’s variant via Shopify’s cart line update API. No discount codes; prices stay variant prices.
 - Switches the team B2B UI to show **ex-VAT** prices and labels.
 
 ---
@@ -134,12 +153,12 @@ Tier is determined by **total B2B boxes in the cart**; the app then updates ever
 
 ---
 
-## 7. Summary checklist
+## 8. Summary checklist
 
 | Step | Action |
 |------|--------|
 | 1 | In Shopify: Duplicate the 6 source products (Flow, Clear, Resilience, Precision, Balance, Ultimate). |
-| 2 | Rename each to “[Name] – Team”. |
+| 2 | Rename each to "[Name] – B2B". |
 | 3 | Replace variants with 3 only: Starter (£61), Squad (£55), Elite (£50) ex-VAT. |
 | 4 | Attach subscription (20% off) to all 18 variants. |
 | 5 | Collect all 18 variant GIDs (and new selling plan GID if created). |
