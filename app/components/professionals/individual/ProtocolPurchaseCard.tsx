@@ -75,17 +75,23 @@ export default function ProtocolPurchaseCard({
 
   if (!copy) return null;
 
+  const isUltimate = protocolId === "4";
+  const shotsPerBox = isUltimate ? 56 : 28;
+
   return (
     <div className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden">
-      {/* Image Container - shorter aspect */}
+      {/* Image Container - shorter aspect; Ultimate (4) zoomed out to fit full image */}
       <div className="relative aspect-[5/2] overflow-hidden">
-        <div className="absolute inset-0" style={{ bottom: "-20%" }}>
+        <div
+          className={`absolute inset-0 ${isUltimate ? "flex items-center justify-center" : ""}`}
+          style={isUltimate ? undefined : { bottom: "-20%" }}
+        >
           {protocolImage && (
             <Image
               src={protocolImage}
               alt={copy.name}
               fill
-              className="object-cover"
+              className={isUltimate ? "object-contain" : "object-cover"}
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
@@ -165,7 +171,7 @@ export default function ProtocolPurchaseCard({
               <div className="flex-1 text-center">
                 <p className="text-xl md:text-2xl font-bold">{quantity}</p>
                 <p className="font-clinical text-[10px] opacity-70">
-                  {quantity === 1 ? "box" : "boxes"} (28 shots)
+                  {quantity === 1 ? "box" : "boxes"} ({shotsPerBox} shots per box)
                 </p>
               </div>
               <button
