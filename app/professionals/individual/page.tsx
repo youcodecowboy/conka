@@ -12,6 +12,7 @@ import {
   BenefitsSection,
   IngredientsSection,
   TasteSection,
+  TeamTierKey,
 } from "@/app/components/professionals/team";
 import ProtocolBenefits from "@/app/components/protocol/ProtocolBenefits";
 import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
@@ -49,7 +50,10 @@ export default function ProfessionalsIndividualPage() {
   // Formula info sections (mobile toggle between Flow / Clear)
   const [selectedFormula, setSelectedFormula] = useState<FormulaId>("01");
 
-  // B2B tier from cart total + pending (for display and add-to-cart)
+  // B2B uses one cart-wide tier (Starter/Squad/Elite) based on total B2B boxes.
+  // We compute tier per product so each card can show: "if you add this, your tier will be X"
+  // and the correct price/next-tier message. Flow vs Clear often match because they share
+  // the same box bands; they differ only when pending quantities differ (e.g. 1 Flow vs 3 Clear).
   const lines = getCartItems();
   const flowTotalBoxes =
     getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
@@ -143,7 +147,7 @@ export default function ProfessionalsIndividualPage() {
 
       <IndividualPurchaseHeader />
 
-      {/* Protocol section: vertical list (desktop) / horizontal scroll (mobile) + purchase card */}
+      {/* Protocol section: tier key, then vertical list (desktop) / horizontal scroll (mobile) + purchase card */}
       <section className="px-6 md:px-16 py-6 md:py-10">
         <div className="max-w-6xl mx-auto">
           <div className="mb-4 md:mb-6">
@@ -153,7 +157,9 @@ export default function ProfessionalsIndividualPage() {
             </p>
           </div>
 
-          <div className="flex flex-col md:grid md:grid-cols-[minmax(0,340px)_1fr] gap-6 md:gap-8">
+          <TeamTierKey />
+
+          <div className="flex flex-col md:grid md:grid-cols-[minmax(0,340px)_1fr] gap-6 md:gap-8 mt-6 md:mt-8">
             {/* Left: protocol list (vertical on desktop, horizontal on mobile) */}
             <div>
               <ProtocolListSelector
