@@ -20,9 +20,10 @@ import {
 } from "@/app/lib/productData";
 import { useCart } from "@/app/context/CartContext";
 import { getB2BFormulaVariantId } from "@/app/lib/shopifyProductMapping";
+import { getB2BTotalBoxes, getB2BPendingBoxes } from "@/app/lib/b2bCartTier";
 
 export default function ProfessionalsTeamPage() {
-  const { addToCart, openCart } = useCart();
+  const { addToCart, openCart, getCartItems } = useCart();
 
   // State for formula selection (mobile toggle)
   const [selectedFormula, setSelectedFormula] = useState<FormulaId>("01");
@@ -37,13 +38,23 @@ export default function ProfessionalsTeamPage() {
     useState<PurchaseType>("subscription");
   const [clearQuantity, setClearQuantity] = useState(1);
 
-  const flowTier = getB2BTier(flowQuantity);
-  const clearTier = getB2BTier(clearQuantity);
-  const flowNextTier = getB2BNextTierInfo(flowQuantity);
-  const clearNextTier = getB2BNextTierInfo(clearQuantity);
+  // B2B tier from cart total + pending (display and add-to-cart match)
+  const lines = getCartItems();
+  const flowTotalBoxes =
+    getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
+  const clearTotalBoxes =
+    getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "02", clearQuantity);
+  const flowTier = getB2BTier(flowTotalBoxes);
+  const clearTier = getB2BTier(clearTotalBoxes);
+  const flowNextTier = getB2BNextTierInfo(flowTotalBoxes);
+  const clearNextTier = getB2BNextTierInfo(clearTotalBoxes);
 
   const handleFlowAddToCart = async () => {
-    const variantData = getB2BFormulaVariantId("01", flowTier, flowPurchaseType);
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BFormulaVariantId("01", tier, flowPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
@@ -56,7 +67,11 @@ export default function ProfessionalsTeamPage() {
   };
 
   const handleClearAddToCart = async () => {
-    const variantData = getB2BFormulaVariantId("02", clearTier, clearPurchaseType);
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "02", clearQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BFormulaVariantId("02", tier, clearPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
