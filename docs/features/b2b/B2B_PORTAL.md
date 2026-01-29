@@ -1,0 +1,48 @@
+# B2B Portal
+
+Concise overview of the B2B professional portal: individual vs team purchasing, tiered volume pricing, and cart upgrades.
+
+---
+
+## Summary
+
+The B2B portal (`/professionals`) lets buyers purchase for **an individual** or **for a team**. Both flows use the same volume tier (Starter / Squad / Elite) and the same B2B products. Prices are shown **ex. VAT**; tier is driven by **total B2B boxes in the cart**.
+
+- **Individual** (`/professionals/individual`): Flow, Clear, and one protocol at a time; add-to-cart uses B2B variants and current cart tier.
+- **Team** (`/professionals/team`): Flow and Clear only; same B2B tier logic and “Your volume” brick bar.
+
+---
+
+## Why 6 New B2B Products
+
+We introduced **6 new Shopify products** (2 formulas + 4 protocols), each with **3 variants** (Starter, Squad, Elite), so we can:
+
+1. **Track boxes per line** – Each B2B line is a known variant (e.g. Flow B2B – Squad). We map variant ID → product type and boxes-per-unit (Ultimate = 2 boxes, others = 1).
+2. **Apply one tier to the whole cart** – Total B2B boxes (including Ultimate × 2) determines the single tier; all B2B lines are normalized to that tier’s variant and price.
+
+Retail products are unchanged; B2B products are separate and only used under `/professionals`. See `docs/development/TEAM_B2B_SHOPIFY_INTEGRATION.md` for Shopify setup and variant IDs.
+
+---
+
+## How the Tiered System Works
+
+- **Tier bands** (from total B2B boxes in cart): **Starter** 1–10, **Squad** 11–25, **Elite** 26+.
+- **One tier for all B2B lines** – Every B2B item in the cart uses the same tier (Starter, Squad, or Elite). When total boxes cross a band (e.g. 10 → 11), all B2B lines are updated to the new tier’s variant and price.
+- **Pricing** – Per box ex-VAT: Starter £61, Squad £55, Elite £50 (one-time); subscription = 20% off.
+- **“Your volume” bar** – The TeamTierKey shows a 26-brick scale (10 Starter | 15 Squad | 1 Elite) filled by current cart B2B boxes; caption shows “26+” when at Elite.
+
+---
+
+## Cart System Upgrades
+
+To support cart-total tiering we:
+
+1. **B2B variant and box mapping** (`app/lib/b2bCartTier.ts`) – Map each B2B variant ID to product type and `boxesPerUnit`. From cart lines we compute `totalB2BBoxes` and the target `B2BTier`, and produce a list of line updates (variant + optional selling plan) so every B2B line matches that tier.
+
+2. **Cart API** – Extended the cart update path so a line update can include `merchandiseId` and `sellingPlanId` (variant/selling-plan swap), not only quantity.
+
+3. **Normalization after every cart change** (`CartContext`) – After fetch, add-to-cart, quantity update, or remove we call `normalizeB2BTier(cart)`: compute tier from current lines, and if any B2B line’s variant doesn’t match, we PATCH those lines via the cart API. Success is surfaced in the cart drawer (“Volume pricing updated to [Tier]”); failures show a short error with dismiss.
+
+4. **Add-to-cart tier** – On individual and team pages we compute tier from **current cart B2B boxes + pending quantity** and add the correct B2B variant for that tier so the first add is already right; normalization then keeps the cart consistent when quantities change.
+
+Implementation details: `docs/development/B2B_CART_TIER_PLAN.md`.
