@@ -1,7 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { FormulaId, formulaContent, FORMULA_COLORS } from "@/app/lib/productData";
+import {
+  FormulaId,
+  formulaContent,
+  FORMULA_COLORS,
+} from "@/app/lib/productData";
 
 // Info icons
 const infoIcons = [
@@ -70,31 +74,34 @@ const infoIcons = [
 ];
 
 // Info Section Component
-export function InfoSection({ selectedFormula }: { selectedFormula: FormulaId }) {
+export function InfoSection({
+  selectedFormula,
+}: {
+  selectedFormula: FormulaId;
+}) {
   const flowFormula = formulaContent["01"];
   const clearFormula = formulaContent["02"];
   const flowColor = FORMULA_COLORS["01"];
   const clearColor = FORMULA_COLORS["02"];
 
   // Get the currently selected formula's data
-  const currentFormula =
-    selectedFormula === "01" ? flowFormula : clearFormula;
+  const currentFormula = selectedFormula === "01" ? flowFormula : clearFormula;
   const currentColor = selectedFormula === "01" ? flowColor : clearColor;
 
   return (
     <section className="px-6 md:px-16 py-8 md:py-12">
       <div className="max-w-6xl mx-auto">
         <div className="bg-[var(--foreground)] text-[var(--background)] py-4 md:py-5 px-6 md:px-8 mb-6 md:mb-8 rounded-lg">
-          <h2 className="text-2xl md:text-3xl font-bold text-center">
-            Info
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-center">Info</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative">
           {/* Mobile: Show only selected formula */}
           <div className="md:hidden space-y-4">
             <div className="mb-4">
-              <h3 className="text-xl font-bold mb-2">{currentFormula.headline}</h3>
+              <h3 className="text-xl font-bold mb-2">
+                {currentFormula.headline}
+              </h3>
               <p className="font-commentary text-lg opacity-80">
                 {currentFormula.subheadline}
               </p>
@@ -120,7 +127,9 @@ export function InfoSection({ selectedFormula }: { selectedFormula: FormulaId })
                       </svg>
                     )}
                   </div>
-                  <span className="font-primary text-sm leading-relaxed">{point}</span>
+                  <span className="font-primary text-sm leading-relaxed">
+                    {point}
+                  </span>
                 </div>
               ))}
             </div>
@@ -155,7 +164,9 @@ export function InfoSection({ selectedFormula }: { selectedFormula: FormulaId })
                       </svg>
                     )}
                   </div>
-                  <span className="font-primary text-sm leading-relaxed">{point}</span>
+                  <span className="font-primary text-sm leading-relaxed">
+                    {point}
+                  </span>
                 </div>
               ))}
             </div>
@@ -167,7 +178,9 @@ export function InfoSection({ selectedFormula }: { selectedFormula: FormulaId })
           {/* Clear Column - Desktop only */}
           <div className="hidden md:block space-y-4">
             <div className="mb-4">
-              <h3 className="text-xl font-bold mb-2">{clearFormula.headline}</h3>
+              <h3 className="text-xl font-bold mb-2">
+                {clearFormula.headline}
+              </h3>
               <p className="font-commentary text-lg opacity-80">
                 {clearFormula.subheadline}
               </p>
@@ -193,7 +206,9 @@ export function InfoSection({ selectedFormula }: { selectedFormula: FormulaId })
                       </svg>
                     )}
                   </div>
-                  <span className="font-primary text-sm leading-relaxed">{point}</span>
+                  <span className="font-primary text-sm leading-relaxed">
+                    {point}
+                  </span>
                 </div>
               ))}
             </div>
@@ -205,15 +220,18 @@ export function InfoSection({ selectedFormula }: { selectedFormula: FormulaId })
 }
 
 // Benefits Section Component
-export function BenefitsSection({ selectedFormula }: { selectedFormula: FormulaId }) {
+export function BenefitsSection({
+  selectedFormula,
+}: {
+  selectedFormula: FormulaId;
+}) {
   const flowFormula = formulaContent["01"];
   const clearFormula = formulaContent["02"];
   const flowColor = FORMULA_COLORS["01"];
   const clearColor = FORMULA_COLORS["02"];
 
   // Get the currently selected formula's data
-  const currentFormula =
-    selectedFormula === "01" ? flowFormula : clearFormula;
+  const currentFormula = selectedFormula === "01" ? flowFormula : clearFormula;
   const currentColor = selectedFormula === "01" ? flowColor : clearColor;
 
   return (
@@ -300,13 +318,16 @@ export function BenefitsSection({ selectedFormula }: { selectedFormula: FormulaI
 }
 
 // Ingredients Section Component
-export function IngredientsSection({ selectedFormula }: { selectedFormula: FormulaId }) {
+export function IngredientsSection({
+  selectedFormula,
+}: {
+  selectedFormula: FormulaId;
+}) {
   const flowFormula = formulaContent["01"];
   const clearFormula = formulaContent["02"];
 
   // Get the currently selected formula's data
-  const currentFormula =
-    selectedFormula === "01" ? flowFormula : clearFormula;
+  const currentFormula = selectedFormula === "01" ? flowFormula : clearFormula;
 
   return (
     <section className="px-6 md:px-16 py-8 md:py-12">
@@ -424,13 +445,16 @@ export function IngredientsSection({ selectedFormula }: { selectedFormula: Formu
 }
 
 // Taste Section Component
-export function TasteSection({ selectedFormula }: { selectedFormula: FormulaId }) {
+export function TasteSection({
+  selectedFormula,
+}: {
+  selectedFormula: FormulaId;
+}) {
   const flowFormula = formulaContent["01"];
   const clearFormula = formulaContent["02"];
 
   // Get the currently selected formula's data
-  const currentFormula =
-    selectedFormula === "01" ? flowFormula : clearFormula;
+  const currentFormula = selectedFormula === "01" ? flowFormula : clearFormula;
 
   const characteristics = [
     {
@@ -518,9 +542,7 @@ export function TasteSection({ selectedFormula }: { selectedFormula: FormulaId }
     <section className="px-6 md:px-16 py-8 md:py-12">
       <div className="max-w-6xl mx-auto">
         <div className="bg-[var(--foreground)] text-[var(--background)] py-4 md:py-5 px-6 md:px-8 mb-6 md:mb-8 rounded-lg">
-          <h2 className="text-2xl md:text-3xl font-bold text-center">
-            Taste
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-center">Taste</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative">
           {/* Mobile: Show only selected formula */}
@@ -535,13 +557,19 @@ export function TasteSection({ selectedFormula }: { selectedFormula: FormulaId }
             </div>
             <div className="grid grid-cols-2 gap-3">
               {characteristics.map((char, idx) => (
-                <div key={idx} className="neo-box p-3 flex flex-col items-center text-center">
+                <div
+                  key={idx}
+                  className="neo-box p-3 flex flex-col items-center text-center"
+                >
                   <div className="w-10 h-10 mb-2 flex items-center justify-center opacity-60">
                     {char.icon}
                   </div>
-                  <p className="font-clinical text-xs font-medium">{char.label}</p>
+                  <p className="font-clinical text-xs font-medium">
+                    {char.label}
+                  </p>
                 </div>
               ))}
+               
             </div>
           </div>
 
@@ -557,11 +585,16 @@ export function TasteSection({ selectedFormula }: { selectedFormula: FormulaId }
             </div>
             <div className="grid grid-cols-2 gap-3">
               {characteristics.map((char, idx) => (
-                <div key={idx} className="neo-box p-3 flex flex-col items-center text-center">
+                <div
+                  key={idx}
+                  className="neo-box p-3 flex flex-col items-center text-center"
+                >
                   <div className="w-10 h-10 mb-2 flex items-center justify-center opacity-60">
                     {char.icon}
                   </div>
-                  <p className="font-clinical text-xs font-medium">{char.label}</p>
+                  <p className="font-clinical text-xs font-medium">
+                    {char.label}
+                  </p>
                 </div>
               ))}
             </div>
@@ -582,11 +615,16 @@ export function TasteSection({ selectedFormula }: { selectedFormula: FormulaId }
             </div>
             <div className="grid grid-cols-2 gap-3">
               {characteristics.map((char, idx) => (
-                <div key={idx} className="neo-box p-3 flex flex-col items-center text-center">
+                <div
+                  key={idx}
+                  className="neo-box p-3 flex flex-col items-center text-center"
+                >
                   <div className="w-10 h-10 mb-2 flex items-center justify-center opacity-60">
                     {char.icon}
                   </div>
-                  <p className="font-clinical text-xs font-medium">{char.label}</p>
+                  <p className="font-clinical text-xs font-medium">
+                    {char.label}
+                  </p>
                 </div>
               ))}
             </div>
