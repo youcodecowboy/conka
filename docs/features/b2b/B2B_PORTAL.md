@@ -28,7 +28,7 @@ Retail products are unchanged; B2B products are separate and only used under `/p
 
 - **Tier bands** (from total B2B boxes in cart): **Starter** 1–10, **Squad** 11–25, **Elite** 26+.
 - **One tier for all B2B lines** – Every B2B item in the cart uses the same tier (Starter, Squad, or Elite). When total boxes cross a band (e.g. 10 → 11), all B2B lines are updated to the new tier’s variant and price.
-- **Pricing** – Per box ex-VAT: Starter £61, Squad £55, Elite £50 (one-time); subscription = 20% off.
+- **Pricing** – We show the **subscription** (best) price per box ex-VAT: Starter £61, Squad £55, Elite £50. One-off variant prices in Shopify are £76.25 / £68.75 / £62.50 so that 20% off = £61 / £55 / £50.
 - **“Your volume” bar** – The TeamTierKey shows a 26-brick scale (10 Starter | 15 Squad | 1 Elite) filled by current cart B2B boxes; caption shows “26+” when at Elite.
 
 ---
