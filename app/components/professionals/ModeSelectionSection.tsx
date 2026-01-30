@@ -64,7 +64,7 @@ export default function ModeSelectionSection() {
           <ModeSelectionCard
             mode="team"
             heading="Team orders"
-            description="Order CONKA Flow and CONKA Clear in the quantities you need—volume pricing for teams, clubs, and organisations."
+            description="Order CONKA Flow and CONKA Clear in the quantities you need for teams, clubs, and organisations."
             ctaText="Shop for teams"
             href="/professionals/team"
             icon={teamIcon}
