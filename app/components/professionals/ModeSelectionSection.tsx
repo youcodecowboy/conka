@@ -43,15 +43,15 @@ export default function ModeSelectionSection() {
   );
 
   return (
-    <section className="px-6 md:px-16 py-12 md:py-16">
+    <section className="px-6 md:px-16 py-6 md:py-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-8">
-          {/* Individual Mode Card */}
+          {/* Individual: prescribed protocols (Resilience, Precision, etc.) */}
           <ModeSelectionCard
             mode="individual"
-            heading="Purchase for an Individual"
-            description="For practitioners working directly with athletes or clients"
-            ctaText="Shop for an Individual"
+            heading="Purchase by protocol"
+            description="Choose a prescribed protocol (Resilience, Precision, and more) and get the right mix of CONKA Flow and CONKA Clear for your athletes."
+            ctaText="Shop by protocol"
             href="/professionals/individual"
             icon={individualIcon}
             image={{
@@ -60,12 +60,12 @@ export default function ModeSelectionSection() {
             }}
           />
 
-          {/* Team Mode Card */}
+          {/* Team: formula quantities, volume pricing */}
           <ModeSelectionCard
             mode="team"
-            heading="Team Orders"
-            description="For teams, clubs, and organisations purchasing in volume"
-            ctaText="Shop for Teams"
+            heading="Team orders"
+            description="Order CONKA Flow and CONKA Clear in the quantities you need for teams, clubs, and organisations."
+            ctaText="Shop for teams"
             href="/professionals/team"
             icon={teamIcon}
             image={{

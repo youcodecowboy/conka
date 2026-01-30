@@ -21,7 +21,7 @@
 | Protocols | Resilience – B2B, Precision – B2B, Balance – B2B, Ultimate – B2B | 3 (Starter, Squad, Elite) | 12 |
 | **Total** | **6 products** | | **18 variants** |
 
-**Prices (ex-VAT) for every variant:** Starter £61, Squad £55, Elite £50 per box. Subscription = 20% off (use existing 28-shot monthly plan or one new “Team” plan).
+**Prices (ex-VAT) for every variant:** Subscription (20% off one-off) = £61 / £55 / £50 per box. Set one-off variant prices to £76.25 / £68.75 / £62.50 so 20% off gives £61/£55/£50. Subscription = 20% off (use existing 28-shot monthly plan or one new “Team” plan).
 
 **Ultimate Protocol = 2 boxes per unit:** One unit of Ultimate is 1× Flow + 1× Clear (2 physical boxes). When computing total B2B boxes for tier (Starter/Squad/Elite), count 1 unit of Ultimate as **2 boxes**. All other B2B products: 1 unit = 1 box.
 
@@ -29,7 +29,7 @@
 
 ## 3. Created B2B products (Shopify admin)
 
-Products were duplicated and renamed to end with **– B2B**. Same SKUs as source. Tier option: Starter (£61), Squad (£55), Elite (£50) ex-VAT. All drafts; sales channel: **Conka Headless** only.
+Products were duplicated and renamed to end with **– B2B**. Same SKUs as source. Tier option: Starter (£76.25 one-off → £61 subscription), Squad (£68.75 → £55), Elite (£62.50 → £50) ex-VAT. All drafts; sales channel: **Conka Headless** only.
 
 | Product | Admin URL | Product GID |
 |---------|-----------|-------------|
@@ -74,10 +74,10 @@ You should now have 6 duplicated products in draft (or active).
 - You need **exactly 3 variants** with:
   - **Option name:** e.g. `Tier` or `Volume`.
   - **Values:** `Starter`, `Squad`, `Elite`.
-- Set **Price** for each variant (ex-VAT):
-  - Starter: **£61.00**
-  - Squad: **£55.00**
-  - Elite: **£50.00**
+- Set **Price** for each variant (ex-VAT) – these are the **one-off** prices; 20% subscription discount will give £61/£55/£50:
+  - Starter: **£76.25** (0.8 × 76.25 = £61)
+  - Squad: **£68.75** (0.8 × 68.75 = £55)
+  - Elite: **£62.50** (0.8 × 62.50 = £50)
 - **SKU:** Leave blank or set the same/different per tier depending on your accounting (see section 1). Not required for the website.
 
 ### 4.4 Attach subscription (20% off) – **required for subscription in cart**
@@ -85,11 +85,11 @@ You should now have 6 duplicated products in draft (or active).
 - For each of the 3 variants, **attach a Loop/Shopify selling plan**. Until this is done, adding a B2B product as subscription will not show as a subscription in the cart (no badge, no discount).
   - Either your **existing 28-shot monthly** selling plan (20% off) – the app currently uses `gid://shopify/SellingPlan/711429980534`; attach that plan to all B2B variants, or
   - A **new** selling plan (e.g. B2B monthly, 20% off) and attach it to all B2B variants; then send the new plan GID so it can be updated in `app/lib/shopifyProductMapping.ts`.
-- Ensure the plan applies 20% discount so subscription prices are £48.80 / £44 / £40 per box (ex-VAT).
+- Ensure the plan applies 20% discount so subscription prices are £61 / £55 / £50 per box (ex-VAT).
 
 ### 4.5 Save and repeat
 
-- Save the product. Repeat **3.1–3.4** for the other 5 products so all 6 B2B products have 3 variants each at £61 / £55 / £50 with subscription attached.
+- Save the product. Repeat **3.1–3.4** for the other 5 products so all 6 B2B products have 3 variants each at £76.25 / £68.75 / £62.50 (one-off) with subscription attached (20% off → £61 / £55 / £50).
 
 ### 4.6 Get variant IDs to send to the developer
 

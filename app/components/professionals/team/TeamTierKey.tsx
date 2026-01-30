@@ -16,6 +16,13 @@ const STARTER_BRICKS = 10;   // 1–10
 const SQUAD_BRICKS = 15;     // 11–25
 const ELITE_BRICKS = 1;      // 26
 
+function brickFillClass(i: number, filled: boolean): string {
+  if (!filled) return "bg-gray-300 dark:bg-gray-600";
+  if (i < STARTER_BRICKS) return "!bg-amber-500";
+  if (i < STARTER_BRICKS + SQUAD_BRICKS) return "!bg-emerald-600";
+  return "!bg-blue-600";
+}
+
 function tierLabel(tier: B2BTier): string {
   return tier.charAt(0).toUpperCase() + tier.slice(1);
 }
@@ -27,7 +34,7 @@ function quantityRange(tier: B2BTier): string {
 }
 
 function savingsPercent(tier: B2BTier): number {
-  const price = b2bFormulaPricing["one-time"][tier].price;
+  const price = b2bFormulaPricing.subscription[tier].price;
   return Math.round(((RRP_28 - price) / RRP_28) * 100);
 }
 
@@ -52,49 +59,47 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
       aria-label="Volume pricing by quantity"
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-4">
+        <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-1 md:mb-2">
           Price per box by quantity
         </h2>
-        <div className="grid grid-cols-3 gap-4 md:gap-6">
+        <p className="font-clinical text-[10px] md:text-xs opacity-60 mb-3 md:mb-4">
+          per box ex. VAT · vs RRP {formatPrice(RRP_28)}
+        </p>
+        {/* Mobile: compact single-line rows, centred. Desktop: 3 cards, centred content. */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
           {TIER_ORDER.map((tier) => {
-            const price = b2bFormulaPricing["one-time"][tier].price;
+            const price = b2bFormulaPricing.subscription[tier].price;
             const save = savingsPercent(tier);
             return (
               <div
                 key={tier}
-                className="rounded-lg border border-black/10 bg-black/[0.02] p-4 flex flex-col"
+                className="rounded-lg border border-black/10 bg-black/[0.02] p-2.5 md:p-4 flex flex-col items-center justify-center text-center min-h-0"
               >
-                <span className="font-clinical text-xs uppercase tracking-wide opacity-70">
-                  Tier: {tierLabel(tier)}
-                </span>
-                <span className="font-clinical text-sm font-semibold text-[var(--foreground)] mt-1">
-                  {quantityRange(tier)}
-                </span>
-                <div className="mt-2 flex flex-wrap items-baseline gap-2">
-                  <span className="text-xl font-bold tabular-nums">
+                <p className="font-clinical text-[11px] md:text-xs uppercase tracking-wide opacity-70">
+                  Tier: {tierLabel(tier)} ({quantityRange(tier)})
+                </p>
+                <div className="flex flex-wrap items-baseline justify-center gap-1.5 md:gap-2 mt-1.5 md:mt-3">
+                  <span className="text-base md:text-lg font-bold tabular-nums">
                     {formatPrice(price)}
                   </span>
                   <span
-                    className="font-clinical text-2xl font-bold tabular-nums"
+                    className="font-clinical text-lg md:text-2xl font-bold tabular-nums"
                     style={{ color: "#059669" }}
                   >
                     Save {save}%
                   </span>
                 </div>
-                <span className="font-clinical text-xs opacity-70 mt-1">
-                  per box ex. VAT · vs RRP {formatPrice(RRP_28)}
-                </span>
               </div>
             );
           })}
         </div>
 
-        {/* Your volume: one bar of 26 bricks (Starter 10 | Squad 15 | Elite 1), below tier explanation */}
-        <div className="mt-6">
-          <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-2">
-            Your volume
+        {/* Boxes in cart: one bar of 26 bricks (Starter 10 | Squad 15 | Elite 1), below tier explanation */}
+        <div className="mt-4 md:mt-6">
+          <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-1.5 md:mb-2">
+            Boxes in cart
           </h2>
-          <p className="font-clinical text-sm text-[var(--foreground)] mb-2">
+          <p className="font-clinical text-sm text-[var(--foreground)] mb-1.5 md:mb-2">
             {caption}
           </p>
           <div
@@ -106,9 +111,7 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
             {Array.from({ length: NUM_BRICKS }, (_, i) => (
               <div
                 key={i}
-                className={`rounded-sm transition-colors bg-gray-300 dark:bg-gray-600 min-w-0 ${
-                  i < filledCount ? "!bg-emerald-600" : ""
-                }`}
+                className={`rounded-sm transition-colors min-w-0 ${brickFillClass(i, i < filledCount)}`}
                 style={{ aspectRatio: "4/3" }}
               />
             ))}

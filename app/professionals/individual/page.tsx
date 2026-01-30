@@ -72,6 +72,7 @@ export default function ProfessionalsIndividualPage() {
 
   const handleProtocolSelect = (protocolId: ProtocolId) => {
     setSelectedProtocol(protocolId);
+    setProtocolQuantity(1);
   };
 
   const handleProtocolAddToCart = async () => {
@@ -95,6 +96,7 @@ export default function ProfessionalsIndividualPage() {
           source: "professional_portal",
         }
       );
+      setProtocolQuantity(1);
       openCart();
     }
   };
@@ -115,6 +117,7 @@ export default function ProfessionalsIndividualPage() {
           source: "professional_portal",
         }
       );
+      setFlowQuantity(1);
       openCart();
     }
   };
@@ -135,6 +138,7 @@ export default function ProfessionalsIndividualPage() {
           source: "professional_portal",
         }
       );
+      setClearQuantity(1);
       openCart();
     }
   };
