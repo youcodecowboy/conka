@@ -69,16 +69,13 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
             return (
               <div
                 key={tier}
-                className="rounded-lg border border-black/10 bg-black/[0.02] p-4 flex flex-col"
+                className="rounded-lg border border-black/10 bg-black/[0.02] p-4 flex flex-col items-center text-center"
               >
-                <span className="font-clinical text-xs uppercase tracking-wide opacity-70">
-                  Tier: {tierLabel(tier)}
-                </span>
-                <span className="font-clinical text-sm font-semibold text-[var(--foreground)] mt-1">
-                  {quantityRange(tier)}
-                </span>
-                <div className="mt-2 flex flex-wrap items-baseline gap-2">
-                  <span className="text-xl font-bold tabular-nums">
+                <p className="font-clinical text-xs uppercase tracking-wide opacity-70">
+                  Tier: {tierLabel(tier)} ({quantityRange(tier)})
+                </p>
+                <div className="mt-3 flex flex-wrap items-baseline justify-center gap-2">
+                  <span className="text-lg font-bold tabular-nums">
                     {formatPrice(price)}
                   </span>
                   <span
@@ -88,9 +85,9 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
                     Save {save}%
                   </span>
                 </div>
-                <span className="font-clinical text-xs opacity-70 mt-1">
+                <p className="font-clinical text-xs opacity-60 mt-1.5">
                   per box ex. VAT · vs RRP {formatPrice(RRP_28)}
-                </span>
+                </p>
               </div>
             );
           })}
