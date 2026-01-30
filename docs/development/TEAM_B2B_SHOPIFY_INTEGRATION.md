@@ -80,11 +80,11 @@ You should now have 6 duplicated products in draft (or active).
   - Elite: **£50.00**
 - **SKU:** Leave blank or set the same/different per tier depending on your accounting (see section 1). Not required for the website.
 
-### 4.4 Attach subscription (20% off)
+### 4.4 Attach subscription (20% off) – **required for subscription in cart**
 
-- For each of the 3 variants, attach a selling plan:
-  - Either your **existing 28-shot monthly** selling plan (20% off), or
-  - A **new** selling plan (e.g. “Team monthly”, 20% off) and attach it to all B2B variants.
+- For each of the 3 variants, **attach a Loop/Shopify selling plan**. Until this is done, adding a B2B product as subscription will not show as a subscription in the cart (no badge, no discount).
+  - Either your **existing 28-shot monthly** selling plan (20% off) – the app currently uses `gid://shopify/SellingPlan/711429980534`; attach that plan to all B2B variants, or
+  - A **new** selling plan (e.g. B2B monthly, 20% off) and attach it to all B2B variants; then send the new plan GID so it can be updated in `app/lib/shopifyProductMapping.ts`.
 - Ensure the plan applies 20% discount so subscription prices are £48.80 / £44 / £40 per box (ex-VAT).
 
 ### 4.5 Save and repeat

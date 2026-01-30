@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Navigation from "../../components/navigation";
 import {
   TeamPurchaseHeader,
@@ -16,13 +17,13 @@ import {
   PurchaseType,
   getB2BTier,
   getB2BNextTierInfo,
-  getB2BFormulaPricing,
 } from "@/app/lib/productData";
 import { useCart } from "@/app/context/CartContext";
 import { getB2BFormulaVariantId } from "@/app/lib/shopifyProductMapping";
+import { getB2BTotalBoxes, getB2BPendingBoxes } from "@/app/lib/b2bCartTier";
 
 export default function ProfessionalsTeamPage() {
-  const { addToCart, openCart } = useCart();
+  const { addToCart, openCart, getCartItems } = useCart();
 
   // State for formula selection (mobile toggle)
   const [selectedFormula, setSelectedFormula] = useState<FormulaId>("01");
@@ -37,32 +38,51 @@ export default function ProfessionalsTeamPage() {
     useState<PurchaseType>("subscription");
   const [clearQuantity, setClearQuantity] = useState(1);
 
-  const flowTier = getB2BTier(flowQuantity);
-  const clearTier = getB2BTier(clearQuantity);
-  const flowNextTier = getB2BNextTierInfo(flowQuantity);
-  const clearNextTier = getB2BNextTierInfo(clearQuantity);
+  // B2B uses one cart-wide tier (Starter/Squad/Elite) based on total B2B boxes.
+  // We compute "tier if you add Flow" and "tier if you add Clear" so each card shows
+  // the correct price and next-tier message; they often match because box bands are shared.
+  const lines = getCartItems();
+  const flowTotalBoxes =
+    getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
+  const clearTotalBoxes =
+    getB2BTotalBoxes(lines) +
+    getB2BPendingBoxes("formula", "02", clearQuantity);
+  const flowTier = getB2BTier(flowTotalBoxes);
+  const clearTier = getB2BTier(clearTotalBoxes);
+  const flowNextTier = getB2BNextTierInfo(flowTotalBoxes);
+  const clearNextTier = getB2BNextTierInfo(clearTotalBoxes);
 
   const handleFlowAddToCart = async () => {
-    const variantData = getB2BFormulaVariantId("01", flowTier, flowPurchaseType);
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) +
+      getB2BPendingBoxes("formula", "01", flowQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BFormulaVariantId("01", tier, flowPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
         flowQuantity,
         variantData.sellingPlanId,
-        { location: "professional_team", source: "professional_portal" }
+        { location: "professional_team", source: "professional_portal" },
       );
       openCart();
     }
   };
 
   const handleClearAddToCart = async () => {
-    const variantData = getB2BFormulaVariantId("02", clearTier, clearPurchaseType);
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) +
+      getB2BPendingBoxes("formula", "02", clearQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BFormulaVariantId("02", tier, clearPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
         clearQuantity,
         variantData.sellingPlanId,
-        { location: "professional_team", source: "professional_portal" }
+        { location: "professional_team", source: "professional_portal" },
       );
       openCart();
     }
@@ -75,11 +95,20 @@ export default function ProfessionalsTeamPage() {
     >
       <Navigation />
 
+      <nav aria-label="Back to portal" className="px-6 md:px-16 pt-4 pb-2">
+        <Link
+          href="/professionals"
+          className="font-clinical text-sm opacity-70 hover:opacity-100 transition-opacity underline"
+        >
+          Back to portal
+        </Link>
+      </nav>
+
       {/* Header Section */}
       <TeamPurchaseHeader />
 
-      {/* Tier key – volume pricing at a glance */}
-      <TeamTierKey />
+      {/* Tier key – volume brick scale + pricing at a glance (cart total only) */}
+      <TeamTierKey totalBoxes={getB2BTotalBoxes(lines)} />
 
       {/* Formula Cards Grid */}
       <section className="px-6 md:px-16 pb-12 md:pb-16">

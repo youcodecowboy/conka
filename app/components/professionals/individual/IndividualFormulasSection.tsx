@@ -1,6 +1,8 @@
 "use client";
 
 import { TeamFormulaCard } from "@/app/components/professionals/team";
+import type { B2BTier } from "@/app/lib/productData";
+import type { B2BNextTierInfo } from "@/app/components/professionals/team/types";
 
 interface IndividualFormulasSectionProps {
   flowPurchaseType: "subscription" | "one-time";
@@ -13,6 +15,11 @@ interface IndividualFormulasSectionProps {
   onClearQuantityChange: (quantity: number) => void;
   onFlowAddToCart: () => void;
   onClearAddToCart: () => void;
+  /** B2B tier from cart total + pending (so formulas show correct volume pricing) */
+  flowTier?: B2BTier;
+  flowNextTier?: B2BNextTierInfo | null;
+  clearTier?: B2BTier;
+  clearNextTier?: B2BNextTierInfo | null;
 }
 
 export default function IndividualFormulasSection({
@@ -26,6 +33,10 @@ export default function IndividualFormulasSection({
   onClearQuantityChange,
   onFlowAddToCart,
   onClearAddToCart,
+  flowTier,
+  flowNextTier,
+  clearTier,
+  clearNextTier,
 }: IndividualFormulasSectionProps) {
   return (
     <section className="px-6 md:px-16 py-12 md:py-16">
@@ -44,6 +55,8 @@ export default function IndividualFormulasSection({
             formulaId="01"
             selectedPurchaseType={flowPurchaseType}
             quantity={flowQuantity}
+            tier={flowTier}
+            nextTier={flowNextTier}
             onPurchaseTypeChange={onFlowPurchaseTypeChange}
             onQuantityChange={onFlowQuantityChange}
             onAddToCart={onFlowAddToCart}
@@ -52,6 +65,8 @@ export default function IndividualFormulasSection({
             formulaId="02"
             selectedPurchaseType={clearPurchaseType}
             quantity={clearQuantity}
+            tier={clearTier}
+            nextTier={clearNextTier}
             onPurchaseTypeChange={onClearPurchaseTypeChange}
             onQuantityChange={onClearQuantityChange}
             onAddToCart={onClearAddToCart}
