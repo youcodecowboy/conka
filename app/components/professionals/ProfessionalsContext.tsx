@@ -11,10 +11,10 @@ export default function ProfessionalsContext() {
 
         {/* Distilled copy - clinical only */}
         <div className="space-y-2">
-          <p className="font-clinical text-sm md:text-base opacity-80">
+          <p className="font-primary text-base md:text-lg opacity-80">
             Trusted by elite sports teams and performance practitioners
           </p>
-          <p className="font-clinical text-sm md:text-base opacity-80">
+          <p className="font-primary text-base md:text-lg opacity-80">
             Purchase protocols for athletes, clients, and teams
           </p>
         </div>
