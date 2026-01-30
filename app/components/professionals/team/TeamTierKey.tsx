@@ -93,10 +93,10 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
           })}
         </div>
 
-        {/* Your volume: one bar of 26 bricks (Starter 10 | Squad 15 | Elite 1), below tier explanation */}
+        {/* Boxes in cart: one bar of 26 bricks (Starter 10 | Squad 15 | Elite 1), below tier explanation */}
         <div className="mt-6">
           <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-2">
-            Your volume
+            Boxes in cart
           </h2>
           <p className="font-clinical text-sm text-[var(--foreground)] mb-2">
             {caption}
