@@ -77,36 +77,44 @@ export const protocolPricing = {
   },
 } as const;
 
-// ===== TEAM (B2B) PRICING =====
+// ===== B2B PRICING =====
 // Tier bands: Starter 1–10, Squad 11–25, Elite 26+
-export type TeamTier = "starter" | "squad" | "elite";
+export type B2BTier = "starter" | "squad" | "elite";
 
 export const VAT_RATE = 1.2;
 
-export const TEAM_TIER_BANDS = {
+export const B2B_TIER_BANDS = {
   starter: { min: 1, max: 10 },
   squad: { min: 11, max: 25 },
   elite: { min: 26, max: Infinity },
 } as const;
 
-// Base prices EX-VAT: £61 / £55 / £50 per box. Cart/Shopify use these ex-VAT.
-export const teamFormulaPricing = {
+// B2B pricing ex-VAT. Subscription (20% off one-time) = £61/£55/£50 per box (displayed as best price).
+// One-time = £76.25/£68.75/£62.50 so that 0.8 × one-time = £61/£55/£50. Shopify variant prices = one-time.
+export const B2B_SUBSCRIPTION_PRICE_EX_VAT = { starter: 61, squad: 55, elite: 50 } as const;
+export const B2B_ONE_TIME_PRICE_EX_VAT = {
+  starter: 61 / 0.8,
+  squad: 55 / 0.8,
+  elite: 50 / 0.8,
+} as const;
+
+export const b2bFormulaPricing = {
   "one-time": {
-    starter: { price: 61, priceIncVat: 61 * VAT_RATE },
-    squad: { price: 55, priceIncVat: 55 * VAT_RATE },
-    elite: { price: 50, priceIncVat: 50 * VAT_RATE },
+    starter: { price: B2B_ONE_TIME_PRICE_EX_VAT.starter, priceIncVat: B2B_ONE_TIME_PRICE_EX_VAT.starter * VAT_RATE },
+    squad: { price: B2B_ONE_TIME_PRICE_EX_VAT.squad, priceIncVat: B2B_ONE_TIME_PRICE_EX_VAT.squad * VAT_RATE },
+    elite: { price: B2B_ONE_TIME_PRICE_EX_VAT.elite, priceIncVat: B2B_ONE_TIME_PRICE_EX_VAT.elite * VAT_RATE },
   },
   subscription: {
-    starter: { price: 61 * 0.8, priceIncVat: 61 * VAT_RATE * 0.8, billing: "monthly" as const, basePrice: 61 },
-    squad: { price: 55 * 0.8, priceIncVat: 55 * VAT_RATE * 0.8, billing: "monthly" as const, basePrice: 55 },
-    elite: { price: 50 * 0.8, priceIncVat: 50 * VAT_RATE * 0.8, billing: "monthly" as const, basePrice: 50 },
+    starter: { price: B2B_SUBSCRIPTION_PRICE_EX_VAT.starter, priceIncVat: B2B_SUBSCRIPTION_PRICE_EX_VAT.starter * VAT_RATE, billing: "monthly" as const, basePrice: B2B_ONE_TIME_PRICE_EX_VAT.starter },
+    squad: { price: B2B_SUBSCRIPTION_PRICE_EX_VAT.squad, priceIncVat: B2B_SUBSCRIPTION_PRICE_EX_VAT.squad * VAT_RATE, billing: "monthly" as const, basePrice: B2B_ONE_TIME_PRICE_EX_VAT.squad },
+    elite: { price: B2B_SUBSCRIPTION_PRICE_EX_VAT.elite, priceIncVat: B2B_SUBSCRIPTION_PRICE_EX_VAT.elite * VAT_RATE, billing: "monthly" as const, basePrice: B2B_ONE_TIME_PRICE_EX_VAT.elite },
   },
 } as const;
 
-/** Team (B2B) per-box prices INCLUDING 20% VAT for UI. Base ex-VAT £61/£55/£50 → inc-VAT £73.20/£66/£60. */
-export const TEAM_PRICE_DISPLAY_INC_VAT: Record<PurchaseType, Record<TeamTier, number>> = {
-  "one-time": { starter: 61 * VAT_RATE, squad: 55 * VAT_RATE, elite: 50 * VAT_RATE },
-  subscription: { starter: 61 * VAT_RATE * 0.8, squad: 55 * VAT_RATE * 0.8, elite: 50 * VAT_RATE * 0.8 },
+/** B2B per-box prices INCLUDING 20% VAT for UI. */
+export const B2B_PRICE_DISPLAY_INC_VAT: Record<PurchaseType, Record<B2BTier, number>> = {
+  "one-time": { starter: B2B_ONE_TIME_PRICE_EX_VAT.starter * VAT_RATE, squad: B2B_ONE_TIME_PRICE_EX_VAT.squad * VAT_RATE, elite: B2B_ONE_TIME_PRICE_EX_VAT.elite * VAT_RATE },
+  subscription: { starter: B2B_SUBSCRIPTION_PRICE_EX_VAT.starter * VAT_RATE, squad: B2B_SUBSCRIPTION_PRICE_EX_VAT.squad * VAT_RATE, elite: B2B_SUBSCRIPTION_PRICE_EX_VAT.elite * VAT_RATE },
 };
 
 // ===== FORMULA CONTENT =====
@@ -1509,36 +1517,45 @@ export function getBillingLabel(billing: string): string {
   }
 }
 
-/** Team (B2B): tier from quantity. Starter 1–10, Squad 11–25, Elite 26+. */
-export function getTeamTier(quantity: number): TeamTier {
-  if (quantity >= TEAM_TIER_BANDS.elite.min) return "elite";
-  if (quantity >= TEAM_TIER_BANDS.squad.min) return "squad";
+/** B2B: tier from quantity. Starter 1–10, Squad 11–25, Elite 26+. */
+export function getB2BTier(quantity: number): B2BTier {
+  if (quantity >= B2B_TIER_BANDS.elite.min) return "elite";
+  if (quantity >= B2B_TIER_BANDS.squad.min) return "squad";
   return "starter";
 }
 
-/** Team (B2B): pricing for a tier and purchase type. Same price for both formulas. */
-export function getTeamFormulaPricing(
+/** B2B: pricing for a tier and purchase type. Same price for both formulas. */
+export function getB2BFormulaPricing(
   _formulaId: FormulaId,
-  tier: TeamTier,
+  tier: B2BTier,
   purchaseType: PurchaseType,
 ) {
-  return teamFormulaPricing[purchaseType][tier];
+  return b2bFormulaPricing[purchaseType][tier];
 }
 
-/** Format price including VAT for team/B2B display. */
+/** B2B: protocol pricing uses same tier grid as formulas (Starter/Squad/Elite). */
+export function getB2BProtocolPricing(
+  _protocolId: ProtocolId,
+  tier: B2BTier,
+  purchaseType: PurchaseType,
+) {
+  return b2bFormulaPricing[purchaseType][tier];
+}
+
+/** Format price including VAT for B2B display. */
 export function formatPriceWithVAT(priceExVAT: number): string {
   return `£${(priceExVAT * VAT_RATE).toFixed(2)}`;
 }
 
-/** Team: info for "next tier" message (boxes needed, tier name, and that tier's per-box price inc VAT), or null if at max tier. */
-export function getTeamNextTierInfo(quantity: number): { boxesToNext: number; tierName: string; pricePerBoxIncVat: number } | null {
-  if (quantity >= TEAM_TIER_BANDS.elite.min) return null;
-  if (quantity >= TEAM_TIER_BANDS.squad.min) {
-    const boxesToNext = TEAM_TIER_BANDS.elite.min - quantity;
-    return { boxesToNext, tierName: "Elite", pricePerBoxIncVat: TEAM_PRICE_DISPLAY_INC_VAT["one-time"].elite };
+/** B2B: info for "next tier" message (boxes needed, tier name, and that tier's per-box price ex VAT), or null if at max tier. Uses subscription (best) price for display. */
+export function getB2BNextTierInfo(quantity: number): { boxesToNext: number; tierName: string; pricePerBoxExVat: number } | null {
+  if (quantity >= B2B_TIER_BANDS.elite.min) return null;
+  if (quantity >= B2B_TIER_BANDS.squad.min) {
+    const boxesToNext = B2B_TIER_BANDS.elite.min - quantity;
+    return { boxesToNext, tierName: "Elite", pricePerBoxExVat: b2bFormulaPricing.subscription.elite.price };
   }
-  const boxesToNext = TEAM_TIER_BANDS.squad.min - quantity;
-  return { boxesToNext, tierName: "Squad", pricePerBoxIncVat: TEAM_PRICE_DISPLAY_INC_VAT["one-time"].squad };
+  const boxesToNext = B2B_TIER_BANDS.squad.min - quantity;
+  return { boxesToNext, tierName: "Squad", pricePerBoxExVat: b2bFormulaPricing.subscription.squad.price };
 }
 
 // Generate calendar days for protocol visualization

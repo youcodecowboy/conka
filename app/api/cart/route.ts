@@ -35,7 +35,9 @@ const cartActionSchema = z.discriminatedUnion('action', [
     cartId: z.string().min(1, 'Cart ID is required'),
     lines: z.array(z.object({
       id: z.string(),
-      quantity: z.number().int().positive(),
+      quantity: z.number().int().positive().optional(),
+      merchandiseId: z.string().optional(),
+      sellingPlanId: z.string().optional(),
     })).min(1, 'Lines are required'),
   }),
   z.object({

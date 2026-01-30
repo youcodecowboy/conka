@@ -5,8 +5,7 @@ import Image from "next/image";
 import { formulas } from "@/app/components/shop/formulasShowcaseData";
 import {
   formulaPricing,
-  getTeamFormulaPricing,
-  TEAM_PRICE_DISPLAY_INC_VAT,
+  getB2BFormulaPricing,
   formatPrice,
   getBillingLabel,
 } from "@/app/lib/productData";
@@ -31,16 +30,16 @@ export default function TeamFormulaCard({
   const formulaImage = formula.image.src;
 
   const pricing = useTeamPricing && tier !== undefined
-    ? getTeamFormulaPricing(formulaId, tier, selectedPurchaseType)
+    ? getB2BFormulaPricing(formulaId, tier, selectedPurchaseType)
     : formulaPricing[selectedPurchaseType]["28"];
   const oneTimePricing = useTeamPricing && tier !== undefined
-    ? getTeamFormulaPricing(formulaId, tier, "one-time")
+    ? getB2BFormulaPricing(formulaId, tier, "one-time")
     : formulaPricing["one-time"]["28"];
 
-  // Team (B2B): display only from VAT-inclusive constant (£61/£55/£50 one-off, £48.80/£44/£40 sub)
+  // B2B: display ex-VAT (£61/£55/£50 one-off, £48.80/£44/£40 sub)
   const pricePerBox =
     useTeamPricing && tier !== undefined
-      ? TEAM_PRICE_DISPLAY_INC_VAT[selectedPurchaseType][tier]
+      ? pricing.price
       : pricing.price;
   const totalPrice = pricePerBox * quantity;
   const billingText =
@@ -49,7 +48,7 @@ export default function TeamFormulaCard({
       : "one-time";
   const oneTimePerBox =
     useTeamPricing && tier !== undefined
-      ? TEAM_PRICE_DISPLAY_INC_VAT["one-time"][tier]
+      ? oneTimePricing.price
       : oneTimePricing.price;
   const subscriptionSavePercentage = 20;
 
@@ -180,7 +179,7 @@ export default function TeamFormulaCard({
               </p>
               {nextTier && (
                 <p className="font-clinical text-sm text-[var(--foreground)] opacity-90">
-                  Add {nextTier.boxesToNext} more for {nextTier.tierName}: {formatPrice(nextTier.pricePerBoxIncVat)}/box inc. VAT
+                  Add {nextTier.boxesToNext} more for {nextTier.tierName}: {formatPrice(nextTier.pricePerBoxExVat)}/box ex. VAT
                 </p>
               )}
             </div>
@@ -200,7 +199,7 @@ export default function TeamFormulaCard({
               </span>
               <span className="text-lg font-bold">
                 {formatPrice(pricePerBox)}
-                {useTeamPricing && <span className="font-clinical text-xs font-normal opacity-70 ml-1">inc. VAT</span>}
+                {useTeamPricing && <span className="font-clinical text-xs font-normal opacity-70 ml-1">ex. VAT</span>}
               </span>
             </div>
             <div className="flex justify-between items-baseline">

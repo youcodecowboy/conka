@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Navigation from "../../components/navigation";
 import IndividualPurchaseHeader from "../../components/professionals/individual/IndividualPurchaseHeader";
 import ProtocolListSelector from "../../components/professionals/individual/ProtocolListSelector";
@@ -12,6 +13,7 @@ import {
   BenefitsSection,
   IngredientsSection,
   TasteSection,
+  TeamTierKey,
 } from "@/app/components/professionals/team";
 import ProtocolBenefits from "@/app/components/protocol/ProtocolBenefits";
 import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
@@ -19,13 +21,16 @@ import {
   ProtocolId,
   PurchaseType,
   FormulaId,
+  getB2BTier,
+  getB2BNextTierInfo,
 } from "@/app/lib/productData";
 import { PROFESSIONAL_PROTOCOL_ORDER } from "@/app/components/professionals/individual/protocolCopy";
 import { useCart } from "@/app/context/CartContext";
-import { getProtocolVariantId, getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
+import { getB2BFormulaVariantId, getB2BProtocolVariantId } from "@/app/lib/shopifyProductMapping";
+import { getB2BTotalBoxes, getB2BPendingBoxes } from "@/app/lib/b2bCartTier";
 
 export default function ProfessionalsIndividualPage() {
-  const { addToCart, openCart } = useCart();
+  const { addToCart, openCart, getCartItems } = useCart();
 
   // Protocol: default to first in display order so card is visible
   const [selectedProtocol, setSelectedProtocol] = useState<ProtocolId>(
@@ -46,17 +51,41 @@ export default function ProfessionalsIndividualPage() {
   // Formula info sections (mobile toggle between Flow / Clear)
   const [selectedFormula, setSelectedFormula] = useState<FormulaId>("01");
 
+  // B2B uses one cart-wide tier (Starter/Squad/Elite) based on total B2B boxes.
+  // We compute tier per product so each card can show: "if you add this, your tier will be X"
+  // and the correct price/next-tier message. Flow vs Clear often match because they share
+  // the same box bands; they differ only when pending quantities differ (e.g. 1 Flow vs 3 Clear).
+  const lines = getCartItems();
+  const flowTotalBoxes =
+    getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
+  const clearTotalBoxes =
+    getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "02", clearQuantity);
+  const protocolTotalBoxes =
+    getB2BTotalBoxes(lines) +
+    getB2BPendingBoxes("protocol", selectedProtocol, protocolQuantity);
+  const flowTier = getB2BTier(flowTotalBoxes);
+  const clearTier = getB2BTier(clearTotalBoxes);
+  const protocolTier = getB2BTier(protocolTotalBoxes);
+  const flowNextTier = getB2BNextTierInfo(flowTotalBoxes);
+  const clearNextTier = getB2BNextTierInfo(clearTotalBoxes);
+  const protocolNextTier = getB2BNextTierInfo(protocolTotalBoxes);
+
   const handleProtocolSelect = (protocolId: ProtocolId) => {
     setSelectedProtocol(protocolId);
+    setProtocolQuantity(1);
   };
 
   const handleProtocolAddToCart = async () => {
-    const variantData = getProtocolVariantId(
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) +
+      getB2BPendingBoxes("protocol", selectedProtocol, protocolQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BProtocolVariantId(
       selectedProtocol,
-      "max",
+      tier,
       protocolPurchaseType
     );
-
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
@@ -67,13 +96,17 @@ export default function ProfessionalsIndividualPage() {
           source: "professional_portal",
         }
       );
+      setProtocolQuantity(1);
       openCart();
     }
   };
 
   const handleFlowAddToCart = async () => {
-    const variantData = getFormulaVariantId("01", "28", flowPurchaseType);
-
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "01", flowQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BFormulaVariantId("01", tier, flowPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
@@ -84,13 +117,17 @@ export default function ProfessionalsIndividualPage() {
           source: "professional_portal",
         }
       );
+      setFlowQuantity(1);
       openCart();
     }
   };
 
   const handleClearAddToCart = async () => {
-    const variantData = getFormulaVariantId("02", "28", clearPurchaseType);
-
+    const lines = getCartItems();
+    const totalBoxes =
+      getB2BTotalBoxes(lines) + getB2BPendingBoxes("formula", "02", clearQuantity);
+    const tier = getB2BTier(totalBoxes);
+    const variantData = getB2BFormulaVariantId("02", tier, clearPurchaseType);
     if (variantData?.variantId) {
       await addToCart(
         variantData.variantId,
@@ -101,6 +138,7 @@ export default function ProfessionalsIndividualPage() {
           source: "professional_portal",
         }
       );
+      setClearQuantity(1);
       openCart();
     }
   };
@@ -112,9 +150,18 @@ export default function ProfessionalsIndividualPage() {
     >
       <Navigation />
 
+      <nav aria-label="Back to portal" className="px-6 md:px-16 pt-4 pb-2">
+        <Link
+          href="/professionals"
+          className="font-clinical text-sm opacity-70 hover:opacity-100 transition-opacity underline"
+        >
+          Back to portal
+        </Link>
+      </nav>
+
       <IndividualPurchaseHeader />
 
-      {/* Protocol section: vertical list (desktop) / horizontal scroll (mobile) + purchase card */}
+      {/* Protocol section: tier key, then vertical list (desktop) / horizontal scroll (mobile) + purchase card */}
       <section className="px-6 md:px-16 py-6 md:py-10">
         <div className="max-w-6xl mx-auto">
           <div className="mb-4 md:mb-6">
@@ -124,7 +171,9 @@ export default function ProfessionalsIndividualPage() {
             </p>
           </div>
 
-          <div className="flex flex-col md:grid md:grid-cols-[minmax(0,340px)_1fr] gap-6 md:gap-8">
+          <TeamTierKey totalBoxes={getB2BTotalBoxes(lines)} />
+
+          <div className="flex flex-col md:grid md:grid-cols-[minmax(0,340px)_1fr] gap-6 md:gap-8 mt-6 md:mt-8">
             {/* Left: protocol list (vertical on desktop, horizontal on mobile) */}
             <div>
               <ProtocolListSelector
@@ -142,6 +191,8 @@ export default function ProfessionalsIndividualPage() {
                 onPurchaseTypeChange={setProtocolPurchaseType}
                 onQuantityChange={setProtocolQuantity}
                 onAddToCart={handleProtocolAddToCart}
+                tier={protocolTier}
+                nextTier={protocolNextTier}
               />
             </div>
           </div>
@@ -154,7 +205,7 @@ export default function ProfessionalsIndividualPage() {
       {/* Why this protocol works */}
       <ProtocolBenefits protocolId={selectedProtocol} />
 
-      {/* Individual formulas: two TeamFormulaCards */}
+      {/* Individual formulas: two TeamFormulaCards (B2B tier from cart total) */}
       <IndividualFormulasSection
         flowPurchaseType={flowPurchaseType}
         flowQuantity={flowQuantity}
@@ -166,6 +217,10 @@ export default function ProfessionalsIndividualPage() {
         onClearQuantityChange={setClearQuantity}
         onFlowAddToCart={handleFlowAddToCart}
         onClearAddToCart={handleClearAddToCart}
+        flowTier={flowTier}
+        flowNextTier={flowNextTier}
+        clearTier={clearTier}
+        clearNextTier={clearNextTier}
       />
 
       {/* Formula info sections (same as team: Info, Benefits, Ingredients, Taste) */}

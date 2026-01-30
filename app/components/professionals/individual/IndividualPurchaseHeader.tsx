@@ -10,8 +10,9 @@ export default function IndividualPurchaseHeader() {
         </h1>
 
         {/* Subheading */}
-        <p className="font-clinical text-base md:text-lg opacity-80">
-          For nutritionists, S&C coaches, and performance practitioners working directly with athletes and clients
+        <p className="font-primary text-base md:text-lg opacity-80">
+          For nutritionists, S&C coaches, and performance practitioners working
+          directly with athletes and clients
         </p>
       </div>
     </section>

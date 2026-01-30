@@ -1,30 +1,22 @@
 /**
- * Team (B2B) tiered shipping – TEMPORARY.
- * Bands and amounts are placeholders until distributor confirms.
- * Update getTeamShippingEstimate and TEAM_SHIPPING_BANDS when finalised.
+ * B2B shipping: £1.30 per box.
+ * Final shipping is calculated at Shopify checkout (weight-based: 1 box = 1 kg, £1.30 per kg).
+ * This estimate matches that so the app can show "Shipping (est.): £X.XX".
  */
 
-export interface TeamShippingEstimate {
+export interface B2BShippingEstimate {
   amount: number;
   label?: string;
 }
 
-// Placeholder bands by total boxes (Flow + Clear combined). Replace with real values.
-const TEAM_SHIPPING_BANDS: { minBoxes: number; maxBoxes: number; amount: number; label: string }[] = [
-  { minBoxes: 1, maxBoxes: 10, amount: 5, label: "Standard" },
-  { minBoxes: 11, maxBoxes: 25, amount: 8, label: "Medium order" },
-  { minBoxes: 26, maxBoxes: Infinity, amount: 12, label: "Large order" },
-];
+const B2B_SHIPPING_PER_BOX = 1.3;
 
 /**
- * Get estimated shipping for team orders by total box count.
- * Values are temporary; final shipping calculated at checkout.
+ * Get estimated shipping for B2B orders by total box count.
+ * £1.30 per box; final amount calculated at checkout.
  */
-export function getTeamShippingEstimate(totalBoxes: number): TeamShippingEstimate | null {
+export function getB2BShippingEstimate(totalBoxes: number): B2BShippingEstimate | null {
   if (totalBoxes <= 0) return null;
-  const band = TEAM_SHIPPING_BANDS.find(
-    (b) => totalBoxes >= b.minBoxes && totalBoxes <= b.maxBoxes
-  );
-  if (!band) return null;
-  return { amount: band.amount, label: band.label };
+  const amount = Math.round(totalBoxes * B2B_SHIPPING_PER_BOX * 100) / 100;
+  return { amount, label: "Est." };
 }
