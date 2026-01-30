@@ -27,7 +27,7 @@ function quantityRange(tier: B2BTier): string {
 }
 
 function savingsPercent(tier: B2BTier): number {
-  const price = b2bFormulaPricing["one-time"][tier].price;
+  const price = b2bFormulaPricing.subscription[tier].price;
   return Math.round(((RRP_28 - price) / RRP_28) * 100);
 }
 
@@ -57,7 +57,7 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
         </h2>
         <div className="grid grid-cols-3 gap-4 md:gap-6">
           {TIER_ORDER.map((tier) => {
-            const price = b2bFormulaPricing["one-time"][tier].price;
+            const price = b2bFormulaPricing.subscription[tier].price;
             const save = savingsPercent(tier);
             return (
               <div
