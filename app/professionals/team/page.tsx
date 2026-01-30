@@ -66,6 +66,7 @@ export default function ProfessionalsTeamPage() {
         variantData.sellingPlanId,
         { location: "professional_team", source: "professional_portal" },
       );
+      setFlowQuantity(1);
       openCart();
     }
   };
@@ -84,6 +85,7 @@ export default function ProfessionalsTeamPage() {
         variantData.sellingPlanId,
         { location: "professional_team", source: "professional_portal" },
       );
+      setClearQuantity(1);
       openCart();
     }
   };
