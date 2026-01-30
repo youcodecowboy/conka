@@ -33,6 +33,36 @@ Retail products are unchanged; B2B products are separate and only used under `/p
 
 ---
 
+## Terms
+
+- **Line** – One cart line item: one variant × quantity (e.g. “2× CONKA Flow B2B – Squad”). `getCartItems()` returns the array of lines in the current cart. B2B logic loops over lines to sum boxes and to decide which lines need a variant/plan swap.
+- **Pending boxes** – Boxes not in the cart yet: the quantity the user has selected (e.g. “3” in the Flow selector) but not yet added. We use “cart boxes + pending boxes” so each card can show “if you add this, your tier will be X” and so add-to-cart uses the correct tier variant. The volume bar uses only what’s in the cart (no pending).
+- **quantity** (in cart API) – Number of units for that line. Optional in `updateMultiple` so we can send only variant/plan changes.
+- **merchandiseId** – Shopify’s variant ID (e.g. `gid://shopify/ProductVariant/…`). Identifies which product variant the line is. We send it in `updateMultiple` to change a line to a different variant (e.g. re-tier from Flow B2B Starter to Flow B2B Squad).
+- **sellingPlanId** – Shopify’s selling plan ID (e.g. Loop subscription). When we swap a line’s variant we also send the correct selling plan so the line stays subscription with the right plan.
+
+---
+
+## Why flow tier and clear tier
+
+There is one cart-wide tier. We compute **flow** and **clear** tier separately because we have two cards, each answering: “If I add *this* product with *this* quantity, what tier would I get?” So `flowTotalBoxes` = cart boxes + Flow quantity (e.g. 2); `clearTotalBoxes` = cart boxes + Clear quantity (e.g. 5). Flow tier and clear tier often match (same band) but can differ when the user has selected different quantities. We need both so each card shows the correct price and next-tier message for that product’s add.
+
+---
+
+## How B2B normalization works
+
+After every cart change (fetch, add, update quantity, remove), we run normalization:
+
+1. **Input** – Current cart lines (from `getCartItems()` / `cart.lines.edges`).
+2. **Compute tier** – Sum total B2B boxes from all lines (Ultimate = 2 per unit, others = 1); only lines whose variant is in our B2B map count. Call `getB2BTier(totalBoxes)` → one of Starter / Squad / Elite.
+3. **Decide updates** – For each B2B line, check if its current variant (and selling plan) already match that tier. If not, add an update: `{ lineId, merchandiseId, sellingPlanId? }` to switch that line to the correct tier variant (and plan if subscription).
+4. **Apply** – If there are updates, POST to `/api/cart` with `action: 'updateMultiple'` and those line updates. Shopify updates each line to the new variant/plan.
+5. **Feedback** – Set `b2bTierUpdatedTo` so the cart drawer shows “Volume pricing updated to [Tier]”, or `b2bNormalizeError` if the API fails.
+
+Result: all B2B lines stay on the same tier and correct subscription plan.
+
+---
+
 ## Cart System Upgrades
 
 To support cart-total tiering we:
