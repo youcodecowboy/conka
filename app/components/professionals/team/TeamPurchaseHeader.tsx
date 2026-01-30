@@ -14,7 +14,7 @@ export default function TeamPurchaseHeader() {
           For clubs, teams, and organisations purchasing at scale
         </p>
         <p className="font-primary text-sm opacity-70 mt-2">
-          Prices include VAT. Shipping calculated at checkout.
+          Shipping calculated at checkout.
         </p>
       </div>
     </section>
