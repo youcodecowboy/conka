@@ -59,46 +59,47 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
       aria-label="Volume pricing by quantity"
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-4">
+        <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-1 md:mb-2">
           Price per box by quantity
         </h2>
-        <div className="grid grid-cols-3 gap-4 md:gap-6">
+        <p className="font-clinical text-[10px] md:text-xs opacity-60 mb-3 md:mb-4">
+          per box ex. VAT · vs RRP {formatPrice(RRP_28)}
+        </p>
+        {/* Mobile: compact single-line rows, centred. Desktop: 3 cards, centred content. */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
           {TIER_ORDER.map((tier) => {
             const price = b2bFormulaPricing.subscription[tier].price;
             const save = savingsPercent(tier);
             return (
               <div
                 key={tier}
-                className="rounded-lg border border-black/10 bg-black/[0.02] p-4 flex flex-col items-center text-center"
+                className="rounded-lg border border-black/10 bg-black/[0.02] p-2.5 md:p-4 flex flex-col items-center justify-center text-center min-h-0"
               >
-                <p className="font-clinical text-xs uppercase tracking-wide opacity-70">
+                <p className="font-clinical text-[11px] md:text-xs uppercase tracking-wide opacity-70">
                   Tier: {tierLabel(tier)} ({quantityRange(tier)})
                 </p>
-                <div className="mt-3 flex flex-wrap items-baseline justify-center gap-2">
-                  <span className="text-lg font-bold tabular-nums">
+                <div className="flex flex-wrap items-baseline justify-center gap-1.5 md:gap-2 mt-1.5 md:mt-3">
+                  <span className="text-base md:text-lg font-bold tabular-nums">
                     {formatPrice(price)}
                   </span>
                   <span
-                    className="font-clinical text-2xl font-bold tabular-nums"
+                    className="font-clinical text-lg md:text-2xl font-bold tabular-nums"
                     style={{ color: "#059669" }}
                   >
                     Save {save}%
                   </span>
                 </div>
-                <p className="font-clinical text-xs opacity-60 mt-1.5">
-                  per box ex. VAT · vs RRP {formatPrice(RRP_28)}
-                </p>
               </div>
             );
           })}
         </div>
 
         {/* Boxes in cart: one bar of 26 bricks (Starter 10 | Squad 15 | Elite 1), below tier explanation */}
-        <div className="mt-6">
-          <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-2">
+        <div className="mt-4 md:mt-6">
+          <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-1.5 md:mb-2">
             Boxes in cart
           </h2>
-          <p className="font-clinical text-sm text-[var(--foreground)] mb-2">
+          <p className="font-clinical text-sm text-[var(--foreground)] mb-1.5 md:mb-2">
             {caption}
           </p>
           <div
