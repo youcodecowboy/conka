@@ -16,6 +16,13 @@ const STARTER_BRICKS = 10;   // 1–10
 const SQUAD_BRICKS = 15;     // 11–25
 const ELITE_BRICKS = 1;      // 26
 
+function brickFillClass(i: number, filled: boolean): string {
+  if (!filled) return "bg-gray-300 dark:bg-gray-600";
+  if (i < STARTER_BRICKS) return "!bg-amber-500";
+  if (i < STARTER_BRICKS + SQUAD_BRICKS) return "!bg-emerald-600";
+  return "!bg-blue-600";
+}
+
 function tierLabel(tier: B2BTier): string {
   return tier.charAt(0).toUpperCase() + tier.slice(1);
 }
@@ -106,9 +113,7 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
             {Array.from({ length: NUM_BRICKS }, (_, i) => (
               <div
                 key={i}
-                className={`rounded-sm transition-colors bg-gray-300 dark:bg-gray-600 min-w-0 ${
-                  i < filledCount ? "!bg-emerald-600" : ""
-                }`}
+                className={`rounded-sm transition-colors min-w-0 ${brickFillClass(i, i < filledCount)}`}
                 style={{ aspectRatio: "4/3" }}
               />
             ))}
