@@ -88,3 +88,53 @@ For B2B subscription add-to-cart to show a **subscription** in the cart (badge, 
 - Attach a **Loop** (or Shopify) selling plan to every B2B variant (all 18: 2 formulas × 3 tiers + 4 protocols × 3 tiers).  
 - Either **reuse** the same 28-shot monthly plan you use for retail (`gid://shopify/SellingPlan/711429980534` is what the app uses today), or **create a B2B-specific plan** in Loop with 20% off and attach it to the B2B products only.
 - If you create a **new** B2B selling plan, get its GID from Shopify (e.g. Settings → Checkout → Selling plans or the plan URL) and share it so the app can be updated: `app/lib/shopifyProductMapping.ts` has `sellingPlanId` in `B2B_FORMULA_VARIANTS` and `B2B_PROTOCOL_VARIANTS`; replace the current plan ID with the new one for B2B subscription to work.
+
+---
+
+## Checkout: VAT and shipping (Shopify / Loop)
+
+The app sends users to Shopify checkout via `cart.checkoutUrl`. VAT and shipping are **configured in Shopify Admin** (and in Loop if Loop hosts checkout). The site shows prices **ex. VAT**; clubs need VAT added at checkout and shipping (e.g. £1.30 per box) applied there too.
+
+### 1. VAT (20%) at checkout
+
+You want product prices to be **ex-VAT** and VAT added at the end in checkout.
+
+**In Shopify:**
+
+- **Settings → Taxes and duties** (or **Settings → Markets** → your market → **Duties and import taxes**).
+- For **United Kingdom** (or the market used for B2B):
+  - Ensure **VAT** is enabled and set to **20%**.
+  - Set **“Prices include tax”** to **No** for that region. Then Shopify treats your variant prices as **ex-VAT** and **adds** 20% VAT at checkout (checkout will show: Subtotal, VAT, Total).
+- Your B2B variant prices are already ex-VAT (£76.25 / £68.75 / £62.50 one-off; subscription applies 20% discount off those). So no change to product prices; just ensure the UK (or B2B) market is configured as **tax-exclusive** so VAT is added at checkout.
+
+If Loop hosts checkout, check Loop’s tax settings and ensure they are aligned (prices ex-VAT, VAT added at checkout for UK).
+
+### 2. Shipping (£1.30 per box)
+
+You want shipping to be **£1.30 per box** at checkout. Shopify does not support “per box” as a native dimension; the usual approach is **weight-based** so that “per box” becomes “per unit of weight”.
+
+**Recommended: weight-based shipping**
+
+1. **Give each B2B variant a weight** (e.g. 1 box = 1 kg):
+   - In Shopify Admin: **Products** → each B2B product → **Variants** → set **Weight** to **1 kg** (or 0.5 kg if you prefer; see below).
+2. **Create a shipping profile** (or use the default) for the region(s) where B2B ships:
+   - **Settings → Shipping and delivery** → **Manage rates** for the relevant profile.
+3. **Add a rate** that matches “£1.30 per box”:
+   - If 1 box = 1 kg: add a rate **“£1.30 per 1 kg”** (or “£1.30 per kg”). Then 5 boxes (5 kg) = £6.50 at checkout.
+   - If 1 box = 0.5 kg: use **“£2.60 per 1 kg”** so 1 box (0.5 kg) = £1.30.
+
+**Optional: B2B-only shipping**
+
+- If B2B uses a different shipping profile (e.g. a different delivery service or only certain products), create a **shipping profile** that applies only to the B2B products (or to a “B2B” tag), and add the “£1.30 per 1 kg” (or equivalent) rate there. That way retail products keep their own shipping rules.
+
+**What the app can do**
+
+- The app can show an **estimate** of shipping (e.g. “Shipping (est.): £1.30 × 5 boxes = £6.50”) in the cart drawer or on the B2B pages using `getB2BShippingEstimate` in `app/lib/teamShipping.ts`. Right now that file uses placeholder bands; you can replace them with **£1.30 × totalBoxes** so the estimate matches checkout. The **actual** charge is always calculated by Shopify at checkout based on the weight-based rate above.
+
+### Summary
+
+| Item        | Where it’s done                         | What to do |
+|------------|------------------------------------------|------------|
+| VAT 20%    | Shopify (and Loop if applicable)        | UK market: “Prices include tax” = No, VAT 20% on. Variant prices stay ex-VAT; VAT added at checkout. |
+| Shipping   | Shopify Shipping and delivery           | Set B2B variant weight (e.g. 1 kg per box). Add rate “£1.30 per 1 kg” (or equivalent) so checkout = £1.30 per box. |
+| Estimate   | Optional in app (`teamShipping.ts`)     | Use £1.30 × totalBoxes for B2B so the estimate matches checkout. |
