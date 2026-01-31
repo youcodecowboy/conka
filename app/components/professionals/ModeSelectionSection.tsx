@@ -51,11 +51,11 @@ export default function ModeSelectionSection() {
         <div className="flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-8">
           {/* Protocols: prescribed plans (Resilience, Precision, etc.) */}
           <ModeSelectionCard
-            mode="individual"
+            mode="protocol"
             heading="Shop protocols"
             description="Choose a prescribed protocol (Resilience, Precision, and more) and get the right mix of CONKA Flow and CONKA Clear for your athletes."
             ctaText="Shop protocols"
-            href="/professionals/individual"
+            href="/professionals/protocol"
             icon={protocolsIcon}
             image={{
               src: "/JoshStanton.jpg",
@@ -65,11 +65,11 @@ export default function ModeSelectionSection() {
 
           {/* Individual formulas: Flow and Clear by quantity */}
           <ModeSelectionCard
-            mode="team"
+            mode="formulas"
             heading="Shop individual formulas"
             description="Order CONKA Flow and CONKA Clear in the quantities you need for teams, clubs, and organisations."
             ctaText="Shop individual formulas"
-            href="/professionals/team"
+            href="/professionals/formulas"
             icon={formulasIcon}
             image={{
               src: "/professionals/Team.webp",
