@@ -1,6 +1,6 @@
 "use client";
 
-export default function TeamPurchaseHeader() {
+export default function FormulasPurchaseHeader() {
   return (
     <section className="px-6 md:px-16 py-6 md:py-8">
       <div className="max-w-6xl mx-auto">

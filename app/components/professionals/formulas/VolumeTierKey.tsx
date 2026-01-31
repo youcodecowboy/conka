@@ -38,12 +38,12 @@ function savingsPercent(tier: B2BTier): number {
   return Math.round(((RRP_28 - price) / RRP_28) * 100);
 }
 
-interface TeamTierKeyProps {
+interface VolumeTierKeyProps {
   /** Total B2B boxes currently in cart; scale fills this many bricks. Default 0. */
   totalBoxes?: number;
 }
 
-export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
+export default function VolumeTierKey({ totalBoxes = 0 }: VolumeTierKeyProps) {
   const currentTier = getB2BTier(totalBoxes);
   const filledCount = Math.min(totalBoxes, NUM_BRICKS);
   const caption =
