@@ -6,13 +6,12 @@ export default function IndividualPurchaseHeader() {
       <div className="max-w-6xl mx-auto">
         {/* Heading */}
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">
-          Purchase for Individuals
+          Shop protocols
         </h1>
 
         {/* Subheading */}
         <p className="font-primary text-base md:text-lg opacity-80">
-          For nutritionists, S&C coaches, and performance practitioners working
-          directly with athletes and clients
+          Choose a prescribed protocol (Resilience, Precision, and more) and get the right mix of CONKA Flow and CONKA Clear for your athletes.
         </p>
       </div>
     </section>
