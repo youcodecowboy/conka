@@ -1,15 +1,15 @@
 # B2B Portal
 
-Concise overview of the B2B professional portal: individual vs team purchasing, tiered volume pricing, and cart upgrades.
+Concise overview of the B2B professional portal: protocol vs formulas purchasing, tiered volume pricing, and cart upgrades.
 
 ---
 
 ## Summary
 
-The B2B portal (`/professionals`) lets buyers purchase for **an individual** or **for a team**. Both flows use the same volume tier (Starter / Squad / Elite) and the same B2B products. Prices are shown **ex. VAT**; tier is driven by **total B2B boxes in the cart**.
+The B2B portal (`/professionals`) lets buyers purchase **protocols** or **individual formulas**. Both flows use the same volume tier (Starter / Squad / Elite) and the same B2B products. Prices are shown **ex. VAT**; tier is driven by **total B2B boxes in the cart**.
 
-- **Individual** (`/professionals/individual`): Flow, Clear, and one protocol at a time; add-to-cart uses B2B variants and current cart tier.
-- **Team** (`/professionals/team`): Flow and Clear only; same B2B tier logic and “Your volume” brick bar.
+- **Protocol** (`/professionals/protocol`): Prescribed protocols (Resilience, Precision, etc.); add-to-cart uses B2B variants and current cart tier.
+- **Formulas** (`/professionals/formulas`): Flow and Clear only; same B2B tier logic and volume brick bar.
 
 ---
 
@@ -29,7 +29,7 @@ Retail products are unchanged; B2B products are separate and only used under `/p
 - **Tier bands** (from total B2B boxes in cart): **Starter** 1–10, **Squad** 11–25, **Elite** 26+.
 - **One tier for all B2B lines** – Every B2B item in the cart uses the same tier (Starter, Squad, or Elite). When total boxes cross a band (e.g. 10 → 11), all B2B lines are updated to the new tier’s variant and price.
 - **Pricing** – We show the **subscription** (best) price per box ex-VAT: Starter £61, Squad £55, Elite £50. One-off ex-VAT: £76.25 / £68.75 / £62.50 so that 20% off = £61 / £55 / £50. **Shopify** B2B variant prices are stored **inc-VAT** (one-off £91.50/£82.50/£75.00; subscription £73.20/£66/£60); the **portal UI** displays ex-VAT from app constants so B2B users see the ex-VAT numbers. The **cart drawer** shows line prices as inc-VAT (what they pay) and, when the cart has B2B products, a permanent message that VAT is included plus an optional breakdown (Subtotal ex-VAT · VAT 20% · Total) for the B2B portion only.
-- **“Your volume” bar** – The TeamTierKey shows a 26-brick scale (10 Starter | 15 Squad | 1 Elite) filled by current cart B2B boxes; caption shows “26+” when at Elite.
+- **“Your volume” bar** – The VolumeTierKey shows a 26-brick scale (10 Starter | 15 Squad | 1 Elite) filled by current cart B2B boxes; caption shows “26+” when at Elite.
 
 ---
 

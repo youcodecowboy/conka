@@ -107,7 +107,7 @@
 | **B2B tier logic** | New: `app/lib/b2bCartTier.ts` (or similar) |
 | **Cart state / normalization** | `app/context/CartContext.tsx` (run normalization, expose b2bTierUpdatedTo / b2bNormalizeError) |
 | **Drawer UI** | `app/components/CartDrawer.tsx` (show message and error) |
-| **Professionals pages** | `app/professionals/individual/page.tsx`, `app/professionals/team/page.tsx` (use B2B variants; optional cart-tier display) |
+| **Professionals pages** | `app/professionals/protocol/page.tsx`, `app/professionals/formulas/page.tsx` (use B2B variants; optional cart-tier display) |
 
 ---
 

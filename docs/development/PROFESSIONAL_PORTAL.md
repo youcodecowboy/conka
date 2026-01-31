@@ -86,7 +86,7 @@ Build a Professional Purchasing Portal that enables trusted professionals (nutri
         │                                       │
         ▼                                       ▼
 ┌──────────────────────────┐    ┌──────────────────────────┐
-│ /professionals/individual │    │ /professionals/bulk      │
+│ /professionals/protocol   │    │ /professionals/bulk      │
 │                          │    │                          │
 │ Protocols Section        │    │ Bulk Box Builder         │
 │ - Inline purchase cards  │    │ - 28 Flow + 28 Clear    │
@@ -256,7 +256,7 @@ app/components/professionals/
 
 #### Tasks
 
-- [x] Create `/app/professionals/individual/page.tsx`
+- [x] Create `/app/professionals/protocol/page.tsx`
 - [x] Create protocol selector component
 - [x] Build expanded protocol view with existing product sections
 - [x] Implement tier selector (Starter, Pro, Max)
@@ -363,7 +363,7 @@ app/components/professionals/
 
 #### Acceptance Criteria
 
-- [x] Page accessible at `/professionals/individual`
+- [x] Page accessible at `/professionals/protocol`
 - [x] Protocols section displays all 4 protocols
 - [x] Protocol selector shows product name and benefit lead copy
 - [x] Selected protocol expands to show Hero, Calendar, Benefits sections
@@ -433,7 +433,7 @@ Add below protocols section:
 #### Components to Create
 
 ```
-app/components/professionals/individual/
+app/components/professionals/protocol/
 ├── FormulaPurchaseCard.tsx           # Formula card with inline purchase
 └── FormulaPurchaseCardMobile.tsx    # Mobile version
 ```

@@ -25,7 +25,7 @@ Notes from B2B feedback. Each point can be expanded with more context as we work
   - Align pricing with bulk.
   - Simplify size: **28 shots per protocol** only (remove extra size options).
   - Allow incrementing **count** only.
-  - Support **subscription** or **one-off** in the same way as `TeamFormulaCard` (see `app/components/professionals/team/TeamFormulaCard.tsx`).
+  - Support **subscription** or **one-off** in the same way as `FormulaCard` (see `app/components/professionals/formulas/FormulaCard.tsx`).
 
 ---
 
