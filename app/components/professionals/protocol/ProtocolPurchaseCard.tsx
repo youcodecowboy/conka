@@ -12,7 +12,7 @@ import {
   FORMULA_COLORS,
 } from "@/app/lib/productData";
 import type { B2BTier } from "@/app/lib/productData";
-import type { B2BNextTierInfo } from "@/app/components/professionals/team/types";
+import type { B2BNextTierInfo } from "@/app/components/professionals/formulas/types";
 import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 import { protocolContent } from "@/app/lib/productData";
 import { professionalProtocolCopy } from "./protocolCopy";
