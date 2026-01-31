@@ -172,7 +172,7 @@ export default function CartDrawer() {
         {b2bTierUpdatedTo && (
           <div className="px-4 py-2 bg-emerald-500/10 border-b border-emerald-500/20">
             <p className="font-clinical text-sm text-black">
-              Volume pricing updated to {b2bTierUpdatedTo.charAt(0).toUpperCase() + b2bTierUpdatedTo.slice(1)}.
+              Pricing tier updated to {b2bTierUpdatedTo.charAt(0).toUpperCase() + b2bTierUpdatedTo.slice(1)}.
             </p>
           </div>
         )}
