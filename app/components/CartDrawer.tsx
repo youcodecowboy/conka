@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { CartLine } from "@/app/lib/shopify";
+import { cartHasB2BLines, getB2BLinesTotalIncVat } from "@/app/lib/b2bCartTier";
+import { incVatToExVat, getVatFromIncVat } from "@/app/lib/productData";
 import Image from "next/image";
 import PaymentLogos from "./PaymentLogos";
 
@@ -392,6 +394,24 @@ export default function CartDrawer() {
                   )}
                 </span>
               </div>
+
+              {/* B2B VAT message and breakdown */}
+              {cartHasB2BLines(cartItems) && (() => {
+                const currencyCode = cart.cost.subtotalAmount.currencyCode ?? "GBP";
+                const b2bTotalIncVat = getB2BLinesTotalIncVat(cartItems);
+                const b2bExVat = incVatToExVat(b2bTotalIncVat);
+                const b2bVat = getVatFromIncVat(b2bTotalIncVat);
+                return (
+                  <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2">
+                    <p className="font-clinical text-xs text-black mb-2">
+                      Prices include VAT at 20%. Please email sales@conka.io for an invoice after purchase.
+                    </p>
+                    <p className="font-clinical text-[11px] opacity-80">
+                      Breakdown: {formatPrice(b2bExVat.toFixed(2), currencyCode)} net + {formatPrice(b2bVat.toFixed(2), currencyCode)} VAT (20%) = {formatPrice(b2bTotalIncVat.toFixed(2), currencyCode)} (included in subtotal above)
+                    </p>
+                  </div>
+                );
+              })()}
 
               {/* Shipping Note */}
               <p className="font-clinical text-xs text-center opacity-60 mb-4">
