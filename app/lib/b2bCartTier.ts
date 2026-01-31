@@ -46,6 +46,29 @@ function buildB2BMap(): void {
 
 buildB2BMap();
 
+/** True if this cart line is a B2B product (formula or protocol). */
+export function isB2BLine(line: CartLine): boolean {
+  return B2B_VARIANT_META.has(line.merchandise.id);
+}
+
+/** True if the cart contains any B2B lines. */
+export function cartHasB2BLines(lines: CartLine[]): boolean {
+  return lines.some(isB2BLine);
+}
+
+/** Sum of line totals (inc-VAT) for B2B lines only. Use for cart VAT breakdown. */
+export function getB2BLinesTotalIncVat(lines: CartLine[]): number {
+  let total = 0;
+  for (const line of lines) {
+    if (!isB2BLine(line)) continue;
+    const amount = line.cost?.totalAmount?.amount
+      ? parseFloat(line.cost.totalAmount.amount)
+      : line.quantity * parseFloat(line.merchandise.price.amount);
+    total += amount;
+  }
+  return total;
+}
+
 export function getB2BTotalBoxes(
   lines: CartLine[],
   pending?: Array<{ variantId: string; quantity: number }>

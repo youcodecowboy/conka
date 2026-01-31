@@ -9,9 +9,9 @@ import {
   formatPrice,
   getBillingLabel,
 } from "@/app/lib/productData";
-import type { TeamFormulaCardProps } from "./types";
+import type { FormulaCardProps } from "./types";
 
-export default function TeamFormulaCard({
+export default function FormulaCard({
   formulaId,
   selectedPurchaseType,
   quantity,
@@ -20,7 +20,7 @@ export default function TeamFormulaCard({
   onPurchaseTypeChange,
   onQuantityChange,
   onAddToCart,
-}: TeamFormulaCardProps) {
+}: FormulaCardProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const formula = formulas.find((f) => f.id === formulaId);
 

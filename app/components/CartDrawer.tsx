@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { CartLine } from "@/app/lib/shopify";
+import { cartHasB2BLines, getB2BLinesTotalIncVat } from "@/app/lib/b2bCartTier";
+import { incVatToExVat, getVatFromIncVat } from "@/app/lib/productData";
 import Image from "next/image";
 import PaymentLogos from "./PaymentLogos";
 
@@ -44,6 +46,20 @@ export default function CartDrawer() {
   } = useCart();
 
   const cartItems = getCartItems();
+
+  const b2bTotalIncVat =
+    cart && cartItems.length > 0 && cartHasB2BLines(cartItems)
+      ? getB2BLinesTotalIncVat(cartItems)
+      : null;
+  const b2bVatBreakdown =
+    b2bTotalIncVat !== null && cart
+      ? {
+          currencyCode: cart.cost.subtotalAmount.currencyCode ?? "GBP",
+          net: incVatToExVat(b2bTotalIncVat),
+          vat: getVatFromIncVat(b2bTotalIncVat),
+          total: b2bTotalIncVat,
+        }
+      : null;
 
   useEffect(() => {
     if (!b2bTierUpdatedTo) return;
@@ -156,7 +172,7 @@ export default function CartDrawer() {
         {b2bTierUpdatedTo && (
           <div className="px-4 py-2 bg-emerald-500/10 border-b border-emerald-500/20">
             <p className="font-clinical text-sm text-black">
-              Volume pricing updated to {b2bTierUpdatedTo.charAt(0).toUpperCase() + b2bTierUpdatedTo.slice(1)}.
+              Pricing tier updated to {b2bTierUpdatedTo.charAt(0).toUpperCase() + b2bTierUpdatedTo.slice(1)}.
             </p>
           </div>
         )}
@@ -392,6 +408,18 @@ export default function CartDrawer() {
                   )}
                 </span>
               </div>
+
+              {/* B2B VAT message and breakdown */}
+              {b2bVatBreakdown && (
+                <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2">
+                  <p className="font-clinical text-xs text-black mb-2">
+                    Prices include VAT at 20%. Please email sales@conka.io for an invoice after purchase.
+                  </p>
+                  <p className="font-clinical text-[11px] opacity-80">
+                    Breakdown: {formatPrice(b2bVatBreakdown.net.toFixed(2), b2bVatBreakdown.currencyCode)} net + {formatPrice(b2bVatBreakdown.vat.toFixed(2), b2bVatBreakdown.currencyCode)} VAT (20%) = {formatPrice(b2bVatBreakdown.total.toFixed(2), b2bVatBreakdown.currencyCode)} (included in subtotal above)
+                  </p>
+                </div>
+              )}
 
               {/* Shipping Note */}
               <p className="font-clinical text-xs text-center opacity-60 mb-4">

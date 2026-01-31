@@ -4,14 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import Navigation from "../../components/navigation";
 import {
-  TeamPurchaseHeader,
-  TeamTierKey,
-  TeamFormulaCard,
+  FormulasPurchaseHeader,
+  VolumeTierKey,
+  FormulaCard,
   InfoSection,
   BenefitsSection,
   IngredientsSection,
   TasteSection,
-} from "../../components/professionals/team";
+} from "@/app/components/professionals/formulas";
 import {
   FormulaId,
   PurchaseType,
@@ -22,7 +22,7 @@ import { useCart } from "@/app/context/CartContext";
 import { getB2BFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 import { getB2BTotalBoxes, getB2BPendingBoxes } from "@/app/lib/b2bCartTier";
 
-export default function ProfessionalsTeamPage() {
+export default function ProfessionalsFormulasPage() {
   const { addToCart, openCart, getCartItems } = useCart();
 
   // State for formula selection (mobile toggle)
@@ -64,7 +64,7 @@ export default function ProfessionalsTeamPage() {
         variantData.variantId,
         flowQuantity,
         variantData.sellingPlanId,
-        { location: "professional_team", source: "professional_portal" },
+        { location: "professional_formulas", source: "professional_portal" },
       );
       setFlowQuantity(1);
       openCart();
@@ -83,7 +83,7 @@ export default function ProfessionalsTeamPage() {
         variantData.variantId,
         clearQuantity,
         variantData.sellingPlanId,
-        { location: "professional_team", source: "professional_portal" },
+        { location: "professional_formulas", source: "professional_portal" },
       );
       setClearQuantity(1);
       openCart();
@@ -107,16 +107,13 @@ export default function ProfessionalsTeamPage() {
       </nav>
 
       {/* Header Section */}
-      <TeamPurchaseHeader />
-
-      {/* Tier key – volume brick scale + pricing at a glance (cart total only) */}
-      <TeamTierKey totalBoxes={getB2BTotalBoxes(lines)} />
+      <FormulasPurchaseHeader />
 
       {/* Formula Cards Grid */}
       <section className="px-6 md:px-16 pb-12 md:pb-16">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
-            <TeamFormulaCard
+            <FormulaCard
               formulaId="01"
               selectedPurchaseType={flowPurchaseType}
               quantity={flowQuantity}
@@ -126,7 +123,7 @@ export default function ProfessionalsTeamPage() {
               onQuantityChange={setFlowQuantity}
               onAddToCart={handleFlowAddToCart}
             />
-            <TeamFormulaCard
+            <FormulaCard
               formulaId="02"
               selectedPurchaseType={clearPurchaseType}
               quantity={clearQuantity}
@@ -137,6 +134,8 @@ export default function ProfessionalsTeamPage() {
               onAddToCart={handleClearAddToCart}
             />
           </div>
+
+          <VolumeTierKey totalBoxes={getB2BTotalBoxes(lines)} className="mt-6 md:mt-8" />
         </div>
       </section>
 

@@ -38,12 +38,14 @@ function savingsPercent(tier: B2BTier): number {
   return Math.round(((RRP_28 - price) / RRP_28) * 100);
 }
 
-interface TeamTierKeyProps {
+interface VolumeTierKeyProps {
   /** Total B2B boxes currently in cart; scale fills this many bricks. Default 0. */
   totalBoxes?: number;
+  /** Optional extra class names (e.g. margin) for the section. */
+  className?: string;
 }
 
-export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
+export default function VolumeTierKey({ totalBoxes = 0, className }: VolumeTierKeyProps) {
   const currentTier = getB2BTier(totalBoxes);
   const filledCount = Math.min(totalBoxes, NUM_BRICKS);
   const caption =
@@ -55,47 +57,12 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
 
   return (
     <section
-      className="px-6 md:px-16 py-5 md:py-6"
+      className={`px-6 md:px-16 py-5 md:py-6 ${className ?? ""}`.trim()}
       aria-label="Volume pricing by quantity"
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-1 md:mb-2">
-          Price per box by quantity
-        </h2>
-        <p className="font-clinical text-[10px] md:text-xs opacity-60 mb-3 md:mb-4">
-          per box ex. VAT · vs RRP {formatPrice(RRP_28)}
-        </p>
-        {/* Mobile: compact single-line rows, centred. Desktop: 3 cards, centred content. */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
-          {TIER_ORDER.map((tier) => {
-            const price = b2bFormulaPricing.subscription[tier].price;
-            const save = savingsPercent(tier);
-            return (
-              <div
-                key={tier}
-                className="rounded-lg border border-black/10 bg-black/[0.02] p-2.5 md:p-4 flex flex-col items-center justify-center text-center min-h-0"
-              >
-                <p className="font-clinical text-[11px] md:text-xs uppercase tracking-wide opacity-70">
-                  Tier: {tierLabel(tier)} ({quantityRange(tier)})
-                </p>
-                <div className="flex flex-wrap items-baseline justify-center gap-1.5 md:gap-2 mt-1.5 md:mt-3">
-                  <span className="text-base md:text-lg font-bold tabular-nums">
-                    {formatPrice(price)}
-                  </span>
-                  <span
-                    className="font-clinical text-lg md:text-2xl font-bold tabular-nums"
-                    style={{ color: "#059669" }}
-                  >
-                    Save {save}%
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Boxes in cart: one bar of 26 bricks (Starter 10 | Squad 15 | Elite 1), below tier explanation */}
-        <div className="mt-4 md:mt-6">
+        {/* Bar first: boxes-in-cart brick strip */}
+        <div>
           <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-1.5 md:mb-2">
             Boxes in cart
           </h2>
@@ -123,6 +90,43 @@ export default function TeamTierKey({ totalBoxes = 0 }: TeamTierKeyProps) {
             <span>Starter</span>
             <span>Squad</span>
             <span>26+ Elite</span>
+          </div>
+        </div>
+
+        {/* Tier key below: price per box and tier cards */}
+        <div className="mt-4 md:mt-6">
+          <h2 className="font-clinical text-xs uppercase tracking-wide opacity-70 mb-1 md:mb-2">
+            Price per box by quantity
+          </h2>
+          <p className="font-clinical text-[10px] md:text-xs opacity-60 mb-3 md:mb-4">
+            per box ex. VAT · vs RRP {formatPrice(RRP_28)}
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
+            {TIER_ORDER.map((tier) => {
+              const price = b2bFormulaPricing.subscription[tier].price;
+              const save = savingsPercent(tier);
+              return (
+                <div
+                  key={tier}
+                  className="rounded-lg border border-black/10 bg-black/[0.02] p-2.5 md:p-4 flex flex-col items-center justify-center text-center min-h-0"
+                >
+                  <p className="font-clinical text-[11px] md:text-xs uppercase tracking-wide opacity-70">
+                    Tier: {tierLabel(tier)} ({quantityRange(tier)})
+                  </p>
+                  <div className="flex flex-wrap items-baseline justify-center gap-1.5 md:gap-2 mt-1.5 md:mt-3">
+                    <span className="text-base md:text-lg font-bold tabular-nums">
+                      {formatPrice(price)}
+                    </span>
+                    <span
+                      className="font-clinical text-lg md:text-2xl font-bold tabular-nums"
+                      style={{ color: "#059669" }}
+                    >
+                      Save {save}%
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

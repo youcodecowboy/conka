@@ -8,10 +8,10 @@ export interface B2BNextTierInfo {
 }
 
 /**
- * Props for TeamFormulaCard component.
+ * Props for FormulaCard component.
  * When tier and nextTier are provided, B2B pricing is used; otherwise retail pricing.
  */
-export interface TeamFormulaCardProps {
+export interface FormulaCardProps {
   formulaId: FormulaId;
   selectedPurchaseType: PurchaseType;
   quantity: number;

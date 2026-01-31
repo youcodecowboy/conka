@@ -1,15 +1,15 @@
 # B2B Portal
 
-Concise overview of the B2B professional portal: individual vs team purchasing, tiered volume pricing, and cart upgrades.
+Concise overview of the B2B professional portal: protocol vs formulas purchasing, tiered volume pricing, and cart upgrades.
 
 ---
 
 ## Summary
 
-The B2B portal (`/professionals`) lets buyers purchase for **an individual** or **for a team**. Both flows use the same volume tier (Starter / Squad / Elite) and the same B2B products. Prices are shown **ex. VAT**; tier is driven by **total B2B boxes in the cart**.
+The B2B portal (`/professionals`) lets buyers purchase **protocols** or **individual formulas**. Both flows use the same volume tier (Starter / Squad / Elite) and the same B2B products. Prices are shown **ex. VAT**; tier is driven by **total B2B boxes in the cart**.
 
-- **Individual** (`/professionals/individual`): Flow, Clear, and one protocol at a time; add-to-cart uses B2B variants and current cart tier.
-- **Team** (`/professionals/team`): Flow and Clear only; same B2B tier logic and “Your volume” brick bar.
+- **Protocol** (`/professionals/protocol`): Prescribed protocols (Resilience, Precision, etc.); add-to-cart uses B2B variants and current cart tier.
+- **Formulas** (`/professionals/formulas`): Flow and Clear only; same B2B tier logic and volume brick bar.
 
 ---
 
@@ -28,8 +28,8 @@ Retail products are unchanged; B2B products are separate and only used under `/p
 
 - **Tier bands** (from total B2B boxes in cart): **Starter** 1–10, **Squad** 11–25, **Elite** 26+.
 - **One tier for all B2B lines** – Every B2B item in the cart uses the same tier (Starter, Squad, or Elite). When total boxes cross a band (e.g. 10 → 11), all B2B lines are updated to the new tier’s variant and price.
-- **Pricing** – We show the **subscription** (best) price per box ex-VAT: Starter £61, Squad £55, Elite £50. One-off variant prices in Shopify are £76.25 / £68.75 / £62.50 so that 20% off = £61 / £55 / £50.
-- **“Your volume” bar** – The TeamTierKey shows a 26-brick scale (10 Starter | 15 Squad | 1 Elite) filled by current cart B2B boxes; caption shows “26+” when at Elite.
+- **Pricing** – We show the **subscription** (best) price per box ex-VAT: Starter £61, Squad £55, Elite £50. One-off ex-VAT: £76.25 / £68.75 / £62.50 so that 20% off = £61 / £55 / £50. **Shopify** B2B variant prices are stored **inc-VAT** (one-off £91.50/£82.50/£75.00; subscription £73.20/£66/£60); the **portal UI** displays ex-VAT from app constants so B2B users see the ex-VAT numbers. The **cart drawer** shows line prices as inc-VAT (what they pay) and, when the cart has B2B products, a permanent message that VAT is included plus an optional breakdown (Subtotal ex-VAT · VAT 20% · Total) for the B2B portion only.
+- **“Your volume” bar** – The VolumeTierKey shows a 26-brick scale (10 Starter | 15 Squad | 1 Elite) filled by current cart B2B boxes; caption shows “26+” when at Elite.
 
 ---
 
@@ -93,19 +93,25 @@ For B2B subscription add-to-cart to show a **subscription** in the cart (badge, 
 
 ## Checkout: VAT and shipping (Shopify / Loop)
 
-The app sends users to Shopify checkout via `cart.checkoutUrl`. VAT and shipping are **configured in Shopify Admin** (and in Loop if Loop hosts checkout). The site shows prices **ex. VAT**; clubs need VAT added at checkout and shipping (e.g. £1.30 per box) applied there too.
+The app sends users to Shopify checkout via `cart.checkoutUrl`. VAT and shipping are **configured in Shopify Admin** (and in Loop if Loop hosts checkout).
 
-### 1. VAT (20%) at checkout
+### Current VAT approach (inc-VAT in Shopify, ex-VAT in portal)
 
-You want product prices to be **ex-VAT** and VAT added at the end in checkout.
+- **Shopify B2B prices** are stored **including VAT** (one-off £91.50/£82.50/£75.00; subscription £73.20/£66/£60 per tier). Checkout uses the same market as DTC; no separate B2B market. Customers pay the inc-VAT total; Harry creates the formal invoice (e.g. in Xero) with ex-VAT + VAT breakdown.
+- **Portal UI** (TeamTierKey, formula/protocol cards) shows **ex-VAT** from app constants (`productData.ts`), so B2B users see £61/£55/£50 subscription and £76.25/£68.75/£62.50 one-off per box.
+- **Cart drawer**: When the cart contains any B2B lines, a permanent message explains that prices include VAT at 20% and shows an optional breakdown (Subtotal ex-VAT · VAT 20% · Total) for the B2B portion only. Line items display the inc-VAT price (what they pay). B2C carts are unchanged.
 
-**In Shopify:**
+Helpers: `incVatToExVat` / `getVatFromIncVat` in `productData.ts`; `isB2BLine` / `cartHasB2BLines` / `getB2BLinesTotalIncVat` in `b2bCartTier.ts`.
+
+### 1. VAT (20%) at checkout (if you later use a B2B market)
+
+If you introduce a separate B2B market with tax-exclusive pricing:
 
 - **Settings → Taxes and duties** (or **Settings → Markets** → your market → **Duties and import taxes**).
 - For **United Kingdom** (or the market used for B2B):
   - Ensure **VAT** is enabled and set to **20%**.
   - Set **“Prices include tax”** to **No** for that region. Then Shopify treats your variant prices as **ex-VAT** and **adds** 20% VAT at checkout (checkout will show: Subtotal, VAT, Total).
-- Your B2B variant prices are already ex-VAT (£76.25 / £68.75 / £62.50 one-off; subscription applies 20% discount off those). So no change to product prices; just ensure the UK (or B2B) market is configured as **tax-exclusive** so VAT is added at checkout.
+- With the **current** setup (inc-VAT prices, single market), no change to Shopify tax settings is required; the cart message and Xero invoicing handle the breakdown.
 
 If Loop hosts checkout, check Loop’s tax settings and ensure they are aligned (prices ex-VAT, VAT added at checkout for UK).
 

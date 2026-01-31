@@ -9,7 +9,7 @@ import { getB2BCartTierUpdates } from '@/app/lib/b2bCartTier';
 import type { B2BTier } from '@/app/lib/productData';
 
 const CART_ID_KEY = 'shopify_cart_id';
-const B2B_NORMALIZE_ERROR_MSG = "Couldn't update volume pricing. Please try again.";
+const B2B_NORMALIZE_ERROR_MSG = "Couldn't update pricing tier. Please try again.";
 
 interface AddToCartMetadata {
   location?: string;  // "hero", "sticky_footer", "results_page", "calendar"

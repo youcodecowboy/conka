@@ -7,9 +7,8 @@ export {
 export type { ProfessionalProtocolCopy } from "./protocolCopy";
 
 // Components
-export { default as IndividualPurchaseHeader } from "./IndividualPurchaseHeader";
+export { default as ProtocolPurchaseHeader } from "./ProtocolPurchaseHeader";
 export { default as ProtocolListSelector } from "./ProtocolListSelector";
 export { default as ProtocolPurchaseCard } from "./ProtocolPurchaseCard";
 export { default as ProtocolScheduleCalendar } from "./ProtocolScheduleCalendar";
-export { default as IndividualFormulasSection } from "./IndividualFormulasSection";
-export { default as PageHeader } from "./PageHeader";
+export type { ProtocolSelectorProps, ExpandedProtocolViewProps, FormulaPurchaseCardProps } from "./types";

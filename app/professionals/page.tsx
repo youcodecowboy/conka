@@ -19,9 +19,8 @@ export default function ProfessionalsPage() {
       <ProfessionalsContext />
       <ModeSelectionSection />
 
-      {/* Science & research – scroll down to learn more */}
       {isMobile === undefined ? (
-        <div className="min-h-[40vh] py-16 flex items-center justify-center">
+        <div className="min-h-[30vh] py-8 flex items-center justify-center">
           <div className="animate-pulse text-center">
             <p className="font-clinical text-sm opacity-50">Loading...</p>
           </div>
