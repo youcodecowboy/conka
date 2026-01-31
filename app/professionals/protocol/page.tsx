@@ -3,11 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import Navigation from "../../components/navigation";
-import IndividualPurchaseHeader from "../../components/professionals/individual/IndividualPurchaseHeader";
-import ProtocolListSelector from "../../components/professionals/individual/ProtocolListSelector";
-import ProtocolPurchaseCard from "../../components/professionals/individual/ProtocolPurchaseCard";
-import ProtocolScheduleCalendar from "../../components/professionals/individual/ProtocolScheduleCalendar";
-import { TeamTierKey } from "@/app/components/professionals/team";
+import {
+  ProtocolPurchaseHeader,
+  ProtocolListSelector,
+  ProtocolPurchaseCard,
+  ProtocolScheduleCalendar,
+  PROFESSIONAL_PROTOCOL_ORDER,
+} from "@/app/components/professionals/protocol";
+import { VolumeTierKey } from "@/app/components/professionals/formulas";
 import ProtocolBenefits from "@/app/components/protocol/ProtocolBenefits";
 import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
 import {
@@ -16,12 +19,11 @@ import {
   getB2BTier,
   getB2BNextTierInfo,
 } from "@/app/lib/productData";
-import { PROFESSIONAL_PROTOCOL_ORDER } from "@/app/components/professionals/individual/protocolCopy";
 import { useCart } from "@/app/context/CartContext";
 import { getB2BProtocolVariantId } from "@/app/lib/shopifyProductMapping";
 import { getB2BTotalBoxes, getB2BPendingBoxes } from "@/app/lib/b2bCartTier";
 
-export default function ProfessionalsIndividualPage() {
+export default function ProfessionalsProtocolPage() {
   const { addToCart, openCart, getCartItems } = useCart();
 
   // Protocol: default to first in display order so card is visible
@@ -62,7 +64,7 @@ export default function ProfessionalsIndividualPage() {
         protocolQuantity,
         variantData.sellingPlanId,
         {
-          location: "professional_individual",
+          location: "professional_protocol",
           source: "professional_portal",
         }
       );
@@ -87,7 +89,7 @@ export default function ProfessionalsIndividualPage() {
         </Link>
       </nav>
 
-      <IndividualPurchaseHeader />
+      <ProtocolPurchaseHeader />
 
       {/* Protocol section: tier key, then vertical list (desktop) / horizontal scroll (mobile) + purchase card */}
       <section className="px-6 md:px-16 py-6 md:py-10">
@@ -99,7 +101,7 @@ export default function ProfessionalsIndividualPage() {
             </p>
           </div>
 
-          <TeamTierKey totalBoxes={getB2BTotalBoxes(lines)} />
+          <VolumeTierKey totalBoxes={getB2BTotalBoxes(lines)} />
 
           <div className="flex flex-col md:grid md:grid-cols-[minmax(0,340px)_1fr] gap-6 md:gap-8 mt-6 md:mt-8">
             {/* Left: protocol list (vertical on desktop, horizontal on mobile) */}
