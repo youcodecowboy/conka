@@ -41,9 +41,11 @@ function savingsPercent(tier: B2BTier): number {
 interface VolumeTierKeyProps {
   /** Total B2B boxes currently in cart; scale fills this many bricks. Default 0. */
   totalBoxes?: number;
+  /** Optional extra class names (e.g. margin) for the section. */
+  className?: string;
 }
 
-export default function VolumeTierKey({ totalBoxes = 0 }: VolumeTierKeyProps) {
+export default function VolumeTierKey({ totalBoxes = 0, className }: VolumeTierKeyProps) {
   const currentTier = getB2BTier(totalBoxes);
   const filledCount = Math.min(totalBoxes, NUM_BRICKS);
   const caption =
@@ -55,7 +57,7 @@ export default function VolumeTierKey({ totalBoxes = 0 }: VolumeTierKeyProps) {
 
   return (
     <section
-      className="px-6 md:px-16 py-5 md:py-6"
+      className={`px-6 md:px-16 py-5 md:py-6 ${className ?? ""}`.trim()}
       aria-label="Volume pricing by quantity"
     >
       <div className="max-w-6xl mx-auto">
