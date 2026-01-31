@@ -47,6 +47,20 @@ export default function CartDrawer() {
 
   const cartItems = getCartItems();
 
+  const b2bTotalIncVat =
+    cart && cartItems.length > 0 && cartHasB2BLines(cartItems)
+      ? getB2BLinesTotalIncVat(cartItems)
+      : null;
+  const b2bVatBreakdown =
+    b2bTotalIncVat !== null && cart
+      ? {
+          currencyCode: cart.cost.subtotalAmount.currencyCode ?? "GBP",
+          net: incVatToExVat(b2bTotalIncVat),
+          vat: getVatFromIncVat(b2bTotalIncVat),
+          total: b2bTotalIncVat,
+        }
+      : null;
+
   useEffect(() => {
     if (!b2bTierUpdatedTo) return;
     const t = setTimeout(clearB2BTierMessage, B2B_TIER_MESSAGE_MS);
@@ -396,22 +410,16 @@ export default function CartDrawer() {
               </div>
 
               {/* B2B VAT message and breakdown */}
-              {cartHasB2BLines(cartItems) && (() => {
-                const currencyCode = cart.cost.subtotalAmount.currencyCode ?? "GBP";
-                const b2bTotalIncVat = getB2BLinesTotalIncVat(cartItems);
-                const b2bExVat = incVatToExVat(b2bTotalIncVat);
-                const b2bVat = getVatFromIncVat(b2bTotalIncVat);
-                return (
-                  <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2">
-                    <p className="font-clinical text-xs text-black mb-2">
-                      Prices include VAT at 20%. Please email sales@conka.io for an invoice after purchase.
-                    </p>
-                    <p className="font-clinical text-[11px] opacity-80">
-                      Breakdown: {formatPrice(b2bExVat.toFixed(2), currencyCode)} net + {formatPrice(b2bVat.toFixed(2), currencyCode)} VAT (20%) = {formatPrice(b2bTotalIncVat.toFixed(2), currencyCode)} (included in subtotal above)
-                    </p>
-                  </div>
-                );
-              })()}
+              {b2bVatBreakdown && (
+                <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2">
+                  <p className="font-clinical text-xs text-black mb-2">
+                    Prices include VAT at 20%. Please email sales@conka.io for an invoice after purchase.
+                  </p>
+                  <p className="font-clinical text-[11px] opacity-80">
+                    Breakdown: {formatPrice(b2bVatBreakdown.net.toFixed(2), b2bVatBreakdown.currencyCode)} net + {formatPrice(b2bVatBreakdown.vat.toFixed(2), b2bVatBreakdown.currencyCode)} VAT (20%) = {formatPrice(b2bVatBreakdown.total.toFixed(2), b2bVatBreakdown.currencyCode)} (included in subtotal above)
+                  </p>
+                </div>
+              )}
 
               {/* Shipping Note */}
               <p className="font-clinical text-xs text-center opacity-60 mb-4">
