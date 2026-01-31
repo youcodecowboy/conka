@@ -16,5 +16,7 @@ export interface ModeSelectionCardProps {
   image?: {
     src: string;
     alt: string;
+    /** CSS object-position e.g. "center 20%" to crop top, "center 80%" to crop bottom */
+    objectPosition?: string;
   };
 }
