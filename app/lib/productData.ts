@@ -83,6 +83,16 @@ export type B2BTier = "starter" | "squad" | "elite";
 
 export const VAT_RATE = 1.2;
 
+/** Convert inc-VAT amount to ex-VAT (e.g. for display or breakdown). */
+export function incVatToExVat(amountIncVat: number): number {
+  return amountIncVat / VAT_RATE;
+}
+
+/** VAT portion from an inc-VAT amount (20% of ex-VAT). */
+export function getVatFromIncVat(amountIncVat: number): number {
+  return amountIncVat - incVatToExVat(amountIncVat);
+}
+
 export const B2B_TIER_BANDS = {
   starter: { min: 1, max: 10 },
   squad: { min: 11, max: 25 },
