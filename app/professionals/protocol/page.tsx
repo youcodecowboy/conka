@@ -101,9 +101,7 @@ export default function ProfessionalsProtocolPage() {
             </p>
           </div>
 
-          <VolumeTierKey totalBoxes={getB2BTotalBoxes(lines)} />
-
-          <div className="flex flex-col md:grid md:grid-cols-[minmax(0,340px)_1fr] gap-6 md:gap-8 mt-6 md:mt-8">
+          <div className="flex flex-col md:grid md:grid-cols-[minmax(0,340px)_1fr] gap-6 md:gap-8">
             {/* Left: protocol list (vertical on desktop, horizontal on mobile) */}
             <div>
               <ProtocolListSelector
@@ -126,6 +124,8 @@ export default function ProfessionalsProtocolPage() {
               />
             </div>
           </div>
+
+          <VolumeTierKey totalBoxes={getB2BTotalBoxes(lines)} className="mt-6 md:mt-8" />
         </div>
       </section>
 

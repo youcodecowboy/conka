@@ -109,9 +109,6 @@ export default function ProfessionalsFormulasPage() {
       {/* Header Section */}
       <FormulasPurchaseHeader />
 
-      {/* Tier key – volume brick scale + pricing at a glance (cart total only) */}
-      <VolumeTierKey totalBoxes={getB2BTotalBoxes(lines)} />
-
       {/* Formula Cards Grid */}
       <section className="px-6 md:px-16 pb-12 md:pb-16">
         <div className="max-w-6xl mx-auto">
@@ -137,6 +134,8 @@ export default function ProfessionalsFormulasPage() {
               onAddToCart={handleClearAddToCart}
             />
           </div>
+
+          <VolumeTierKey totalBoxes={getB2BTotalBoxes(lines)} className="mt-6 md:mt-8" />
         </div>
       </section>
 
