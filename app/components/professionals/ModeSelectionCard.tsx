@@ -14,28 +14,29 @@ export default function ModeSelectionCard({
 }: ModeSelectionCardProps) {
   return (
     <Link href={href} className="neo-box overflow-hidden flex flex-col h-full block hover:opacity-90 transition-opacity">
-      {/* Image */}
+      {/* Image – shorter aspect; optional crop via object-position */}
       {image && (
-        <div className="relative w-full aspect-[4/3] overflow-hidden">
+        <div className="relative w-full aspect-[5/3] overflow-hidden">
           <Image
             src={image.src}
             alt={image.alt}
             fill
             className="object-cover"
+            style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
       )}
 
-      <div className="p-6 md:p-8 flex flex-col flex-1">
-        {/* Icon */}
-        <div className="mb-4 md:mb-6 flex-shrink-0">{icon}</div>
-
-        {/* Heading */}
-        <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">{heading}</h3>
+      <div className="p-4 md:p-5 flex flex-col flex-1">
+        {/* Title inline with icon */}
+        <div className="flex items-center gap-2 mb-2 md:mb-3 flex-shrink-0">
+          {icon}
+          <h3 className="text-lg md:text-xl font-bold">{heading}</h3>
+        </div>
 
         {/* Description */}
-        <p className="font-clinical text-sm opacity-70 mb-4 md:mb-6 flex-1">
+        <p className="font-clinical text-sm opacity-70 mb-3 md:mb-4 flex-1">
           {description}
         </p>
 
