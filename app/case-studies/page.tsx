@@ -11,24 +11,26 @@ export default function CaseStudiesPage() {
 
   return (
     <div
-      className="min-h-screen theme-conka-flow"
+      className="min-h-screen flex flex-col theme-conka-flow"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* Navigation */}
       <Navigation />
 
       {/* Main Content - wait for hydration to determine layout */}
-      {isMobile === undefined ? (
-        <div className="min-h-screen pt-32 pb-16 flex items-center justify-center">
-          <div className="animate-pulse text-center">
-            <p className="font-clinical text-sm opacity-50">Loading...</p>
+      <main className="flex-1 flex flex-col">
+        {isMobile === undefined ? (
+          <div className="min-h-screen pt-32 pb-16 flex items-center justify-center flex-1">
+            <div className="animate-pulse text-center">
+              <p className="font-clinical text-sm opacity-50">Loading...</p>
+            </div>
           </div>
-        </div>
-      ) : isMobile ? (
-        <CaseStudiesPageMobile />
-      ) : (
-        <CaseStudiesPageDesktop />
-      )}
+        ) : isMobile ? (
+          <CaseStudiesPageMobile />
+        ) : (
+          <CaseStudiesPageDesktop />
+        )}
+      </main>
 
       <Footer />
     </div>
