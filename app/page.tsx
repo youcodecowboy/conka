@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Navigation from "./components/navigation";
@@ -166,11 +166,54 @@ export default function Home() {
   const [shuffledTestimonials, setShuffledTestimonials] = useState<
     typeof testimonials
   >([]);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [newsletterError, setNewsletterError] = useState<string | null>(null);
 
   // Shuffle testimonials on client side only to avoid hydration mismatch
   useEffect(() => {
     setShuffledTestimonials(shuffleTestimonials(testimonials));
   }, []);
+
+  const handleNewsletterSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setNewsletterError(null);
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(newsletterEmail)) {
+        setNewsletterError("Please enter a valid email address");
+        return;
+      }
+      setNewsletterStatus("loading");
+      try {
+        const res = await fetch("/api/klaviyo/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: newsletterEmail.toLowerCase().trim(),
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (data.success) {
+          setNewsletterStatus("success");
+          setNewsletterEmail("");
+        } else {
+          setNewsletterStatus("error");
+          setNewsletterError(
+            data.error ||
+              data.reason ||
+              "Something went wrong. Please try again.",
+          );
+        }
+      } catch {
+        setNewsletterStatus("error");
+        setNewsletterError("Something went wrong. Please try again.");
+      }
+    },
+    [newsletterEmail],
+  );
 
   // Key Benefits Data - All stats from verified PubMed studies
   const keyBenefits: Benefit[] = [
@@ -590,105 +633,210 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="px-6 md:px-16 py-12 border-t-2 border-current border-opacity-10">
+      {/* Footer - Headstrong-style: logo + newsletter top, then mission, then link columns */}
+      <footer
+        className="px-6 md:px-16 py-12 md:py-16 border-t-2 border-current border-opacity-10"
+        role="contentinfo"
+      >
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col lg:flex-row justify-between gap-8">
-            {/* Left Side */}
-            <div className="flex flex-col gap-4">
-              <a
-                href="/"
-                className="flex items-center hover:opacity-70 transition-all"
+          {/* Row 1: Logo (left) + Newsletter (right) */}
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10 pb-10 md:pb-12">
+            <a
+              href="/"
+              className="flex items-center hover:opacity-70 transition-all w-fit shrink-0"
+              aria-label="CONKA home"
+            >
+              <img
+                src="/conka.png"
+                alt="CONKA logo"
+                className="h-14 md:h-16 w-auto"
+              />
+            </a>
+            <div className="flex-1 lg:max-w-md w-full">
+              <p className="font-clinical text-sm md:text-base font-medium mb-1">
+                Never miss out
+              </p>
+              <p className="font-commentary text-sm opacity-80 mb-4">
+                —sign up for newsletters from CONKA. Tips, research and offers.
+                No spam.
+              </p>
+              <form
+                onSubmit={handleNewsletterSubmit}
+                className="flex flex-col sm:flex-row gap-2"
+                aria-label="Newsletter signup"
               >
-                <img src="/conka.png" alt="CONKA logo" className="h-6 w-auto" />
-              </a>
-
-              {/* Mini Nav */}
-              <nav className="flex flex-wrap items-center gap-2">
-                <a
-                  href="/science"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                <label htmlFor="footer-email" className="sr-only">
+                  Email address
+                </label>
+                <input
+                  id="footer-email"
+                  type="email"
+                  value={newsletterEmail}
+                  onChange={(e) => {
+                    setNewsletterEmail(e.target.value);
+                    setNewsletterError(null);
+                  }}
+                  placeholder="Email address"
+                  className="flex-1 min-h-[48px] md:min-h-[52px] px-4 py-3 border-2 border-current rounded-lg bg-transparent font-clinical text-base focus:outline-none focus:ring-2 focus:ring-current focus:ring-offset-2 disabled:opacity-50"
+                  disabled={newsletterStatus === "loading"}
+                  required
+                  aria-invalid={!!newsletterError}
+                  aria-describedby={
+                    newsletterError
+                      ? "footer-email-error"
+                      : newsletterStatus === "success"
+                        ? "footer-email-success"
+                        : undefined
+                  }
+                />
+                <button
+                  type="submit"
+                  disabled={newsletterStatus === "loading"}
+                  className="neo-button px-6 py-3 font-semibold text-sm min-h-[48px] md:min-h-[52px] rounded-full shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  The Science
-                </a>
-                <span className="font-clinical text-xs opacity-30">•</span>
-                <a
-                  href="/ingredients"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                  {newsletterStatus === "loading" ? "Submitting..." : "Submit"}
+                </button>
+              </form>
+              {newsletterError && (
+                <p
+                  id="footer-email-error"
+                  className="font-clinical text-xs opacity-90 mt-2"
+                  role="alert"
                 >
-                  Ingredients
-                </a>
-                <span className="font-clinical text-xs opacity-30">•</span>
-                <a
-                  href="/case-studies"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
+                  {newsletterError}
+                </p>
+              )}
+              {newsletterStatus === "success" && (
+                <p
+                  id="footer-email-success"
+                  className="font-commentary text-sm opacity-90 mt-2"
+                  role="status"
+                  aria-live="polite"
                 >
-                  Results
-                </a>
-                <span className="font-clinical text-xs opacity-30">•</span>
-                <a
-                  href="/our-story"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  Our Story
-                </a>
-              </nav>
-
-              <p className="font-commentary text-xs opacity-60">
-                built with love ♥
-              </p>
+                  You&apos;re in.
+                </p>
+              )}
             </div>
+          </div>
 
-            {/* Right Side - CTAs */}
-            <div className="flex flex-col items-start lg:items-end gap-3">
-              <div className="flex gap-3">
-                <a
-                  href="/quiz"
-                  className="neo-button-outline px-5 py-2 font-semibold text-sm flex items-center gap-2"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+          {/* Link columns */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-4">
+            <nav aria-label="Discover" className="flex flex-col gap-3">
+              <h3 className="font-clinical text-xs uppercase tracking-widest opacity-70">
+                Discover
+              </h3>
+              <ul className="flex flex-col gap-2">
+                <li>
+                  <a
+                    href="/science"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
                   >
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                    <line x1="12" y1="17" x2="12.01" y2="17" />
-                  </svg>
-                  Find Your Protocol
-                </a>
-                <a
-                  href="#protocols"
-                  className="neo-button px-5 py-2 font-semibold text-sm flex items-center gap-2"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    The Science
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/ingredients"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
                   >
-                    <circle cx="9" cy="21" r="1" />
-                    <circle cx="20" cy="21" r="1" />
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                  </svg>
-                  Buy CONKA
-                </a>
-              </div>
-              <p className="font-clinical text-xs opacity-50">
-                100-day money-back guarantee
-              </p>
-            </div>
+                    Ingredients
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/case-studies"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    Case Studies
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/our-story"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    Our Story
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/why-conka"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    Why CONKA
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <nav aria-label="Shop" className="flex flex-col gap-3">
+              <h3 className="font-clinical text-xs uppercase tracking-widest opacity-70">
+                Shop
+              </h3>
+              <ul className="flex flex-col gap-2">
+                <li>
+                  <a
+                    href="/conka-flow"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    CONKA Flow
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/conka-clarity"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    CONKA Clarity
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/quiz"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    Find Your Protocol
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <nav aria-label="Company" className="flex flex-col gap-3">
+              <h3 className="font-clinical text-xs uppercase tracking-widest opacity-70">
+                Company
+              </h3>
+              <ul className="flex flex-col gap-2">
+                <li>
+                  <a
+                    href="/our-story"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    Our Story
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <nav aria-label="Support and legal" className="flex flex-col gap-3">
+              <h3 className="font-clinical text-xs uppercase tracking-widest opacity-70">
+                Support
+              </h3>
+              <ul className="flex flex-col gap-2">
+                <li>
+                  <a
+                    href="/conkaapp-privacy-policy"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/account"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    Account
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </footer>
