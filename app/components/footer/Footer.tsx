@@ -49,7 +49,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="bg-black text-white px-6 md:px-16 py-12 md:py-16 border-t-2 border-white/10"
+      className="bg-black text-white px-6 md:px-16 py-12 md:py-16 pb-24 md:pb-28 border-t-2 border-white/10"
       role="contentinfo"
     >
       <div className="max-w-6xl mx-auto">
@@ -71,8 +71,8 @@ export default function Footer() {
               Never miss out
             </p>
             <p className="font-commentary text-sm text-white/80 mb-4">
-              —sign up for newsletters from CONKA. Tips, research and offers.
-              No spam.
+              —sign up for newsletters from CONKA. Tips, research and offers. No
+              spam.
             </p>
             <form
               onSubmit={handleNewsletterSubmit}
