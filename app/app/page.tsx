@@ -1,6 +1,7 @@
 "use client";
 
 import Navigation from "@/app/components/navigation";
+import Footer from "@/app/components/footer";
 import { AppHero } from "@/app/components/app";
 import {
   CognitiveTestSection,
@@ -25,11 +26,7 @@ export default function AppPage() {
 
       {/* Cognitive Test Section */}
       {isMobile !== undefined &&
-        (isMobile ? (
-          <CognitiveTestSectionMobile />
-        ) : (
-          <CognitiveTestSection />
-        ))}
+        (isMobile ? <CognitiveTestSectionMobile /> : <CognitiveTestSection />)}
 
       {/* Evidence Section - White */}
       <section className="bg-white text-black px-6 md:px-16 py-24 md:py-32">
@@ -39,14 +36,17 @@ export default function AppPage() {
               EVIDENCE - BACKED BRAIN OPTIMISATION
             </p>
             <p className="text-lg md:text-xl mb-6 max-w-3xl mx-auto">
-              The CONKA app combines neuroscience-based testing with personalised
-              recommendations. Clinical data supports a potential{" "}
-              <span className="font-bold">16% improvement in cognitive performance</span>{" "}
-              over 30 days when following the recommended brain optimisation plan.
+              The CONKA app combines neuroscience-based testing with
+              personalised recommendations. Clinical data supports a potential{" "}
+              <span className="font-bold">
+                16% improvement in cognitive performance
+              </span>{" "}
+              over 30 days when following the recommended brain optimisation
+              plan.
             </p>
             <blockquote className="font-commentary text-xl md:text-2xl italic max-w-2xl mx-auto">
-              &ldquo;Developed by neuroscientists and tested with professional athletes
-              - your brain deserves the same precision and care.&rdquo;
+              &ldquo;Developed by neuroscientists and tested with professional
+              athletes - your brain deserves the same precision and care.&rdquo;
             </blockquote>
           </div>
         </div>
@@ -136,8 +136,8 @@ export default function AppPage() {
                 Measurable Progress Tracking
               </h3>
               <p className="opacity-80">
-                Track progress over time and see measurable improvement - up to 16%
-                in just 30 days.
+                Track progress over time and see measurable improvement - up to
+                16% in just 30 days.
               </p>
             </div>
           </div>
@@ -155,8 +155,8 @@ export default function AppPage() {
             <div className="neo-box p-6">
               <h3 className="text-xl font-bold mb-2">FDA CLEARED</h3>
               <p className="opacity-80">
-                You can&apos;t learn it or game it, the only way to get better is to
-                improve your brain power
+                You can&apos;t learn it or game it, the only way to get better
+                is to improve your brain power
               </p>
             </div>
 
@@ -189,9 +189,9 @@ export default function AppPage() {
             <div className="neo-box p-6">
               <h3 className="text-xl font-bold mb-2">COMPARE WITH THE BEST</h3>
               <p className="opacity-80">
-                Keep competitive, see how you stack up against some of the fastest
-                brains in the world from footballers to F1 drivers by posting your
-                score into the Global leaderboard.
+                Keep competitive, see how you stack up against some of the
+                fastest brains in the world from footballers to F1 drivers by
+                posting your score into the Global leaderboard.
               </p>
             </div>
           </div>
@@ -217,7 +217,8 @@ export default function AppPage() {
                 <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Purpose</td>
                   <td className="p-4">
-                    Measures and trains your brain for real performance improvement
+                    Measures and trains your brain for real performance
+                    improvement
                   </td>
                   <td className="p-4">
                     Tracks general wellness or gives broad lifestyle advice
@@ -226,8 +227,8 @@ export default function AppPage() {
                 <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Measurement</td>
                   <td className="p-4">
-                    Objective cognitive data that shows when you&apos;re actually
-                    underperforming
+                    Objective cognitive data that shows when you&apos;re
+                    actually underperforming
                   </td>
                   <td className="p-4">
                     Relies on how you feel or surface-level metrics
@@ -264,7 +265,8 @@ export default function AppPage() {
                 <tr className="border-b border-white/10">
                   <td className="p-4 font-semibold">Progress Over Time</td>
                   <td className="p-4">
-                    Shows measurable cognitive improvement without learning effects
+                    Shows measurable cognitive improvement without learning
+                    effects
                   </td>
                   <td className="p-4">
                     Score increases are often just familiarity with the test
@@ -295,112 +297,7 @@ export default function AppPage() {
         </div>
       </section>
 
-      {/* Footer - White */}
-      <footer className="bg-white text-black px-6 md:px-16 py-12 border-t-2 border-black/10">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col lg:flex-row justify-between gap-8">
-            {/* Left Side */}
-            <div className="flex flex-col gap-4">
-              <a
-                href="/"
-                className="flex items-center hover:opacity-70 transition-all"
-              >
-                <img src="/conka.png" alt="CONKA logo" className="h-6 w-auto" />
-              </a>
-              <nav className="flex flex-wrap items-center gap-2">
-                <a
-                  href="/"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  Home
-                </a>
-                <span className="font-clinical text-xs opacity-30">•</span>
-                <a
-                  href="/science"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  The Science
-                </a>
-                <span className="font-clinical text-xs opacity-30">•</span>
-                <a
-                  href="/ingredients"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  Ingredients
-                </a>
-                <span className="font-clinical text-xs opacity-30">•</span>
-                <a
-                  href="/case-studies"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  Results
-                </a>
-                <span className="font-clinical text-xs opacity-30">•</span>
-                <a
-                  href="/our-story"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  Our Story
-                </a>
-              </nav>
-              <p className="font-commentary text-xs opacity-60">
-                built with love ♥
-              </p>
-            </div>
-
-            {/* Right Side - CTAs */}
-            <div className="flex flex-col items-start lg:items-end gap-3">
-              <div className="flex gap-3">
-                <a
-                  href="/quiz"
-                  className="neo-button-outline px-5 py-2 font-semibold text-sm flex items-center gap-2"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                    <line x1="12" y1="17" x2="12.01" y2="17" />
-                  </svg>
-                  Find Your Protocol
-                </a>
-                <a
-                  href="#protocols"
-                  className="neo-button px-5 py-2 font-semibold text-sm flex items-center gap-2"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="9" cy="21" r="1" />
-                    <circle cx="20" cy="21" r="1" />
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                  </svg>
-                  Buy CONKA
-                </a>
-              </div>
-              <p className="font-clinical text-xs opacity-50">
-                100-day money-back guarantee
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

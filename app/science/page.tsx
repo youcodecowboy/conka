@@ -1,6 +1,7 @@
 "use client";
 
 import Navigation from "@/app/components/navigation";
+import Footer from "@/app/components/footer";
 import {
   SciencePageDesktop,
   SciencePageMobile,
@@ -30,6 +31,8 @@ export default function SciencePage() {
       ) : (
         <SciencePageDesktop />
       )}
+
+      <Footer />
     </div>
   );
 }
