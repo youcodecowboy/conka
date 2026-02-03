@@ -755,7 +755,7 @@ export default function Home() {
                     href="/app"
                     className="font-clinical text-sm hover:opacity-70 transition-all"
                   >
-                    CONKA App
+                    The CONKA App
                   </a>
                 </li>
               </ul>
