@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
+import Footer from "@/app/components/footer";
 import {
   QuizResultsOverview,
   QuizRecommendedSection,
@@ -80,27 +81,32 @@ export default function QuizResultsPage() {
   // Track results viewed (Phase 1A)
   useEffect(() => {
     if (!isLoaded || results.length === 0) return;
-    
+
     const sessionId = sessionStorage.getItem("quizSessionId");
     if (!sessionId) return;
-    
-    const recommendedProtocol = results[0].protocolId.replace("protocol", "") as "1" | "2" | "3" | "4";
-    
+
+    const recommendedProtocol = results[0].protocolId.replace(
+      "protocol",
+      "",
+    ) as "1" | "2" | "3" | "4";
+
     // Calculate quiz completion time
     let quizCompletionTime = 0;
     const startTime = sessionStorage.getItem("quizStartTime");
     if (startTime) {
-      quizCompletionTime = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+      quizCompletionTime = Math.floor(
+        (Date.now() - parseInt(startTime)) / 1000,
+      );
     }
-    
+
     // Store results view time for CTA click tracking
     sessionStorage.setItem("quizResultsViewTime", Date.now().toString());
-    
+
     trackQuizResultsViewed({
       recommendedProtocol,
       topMatchScore: results[0].percentage,
       sessionId,
-      allProtocolScores: results.map(r => ({
+      allProtocolScores: results.map((r) => ({
         protocolId: r.protocolId,
         percentage: r.percentage,
         totalPoints: r.totalPoints,
@@ -135,7 +141,10 @@ export default function QuizResultsPage() {
 
     // Track CTA click (Phase 1B)
     const sessionId = sessionStorage.getItem("quizSessionId");
-    const recommendedProtocol = results[0]?.protocolId.replace("protocol", "") as "1" | "2" | "3" | "4" | undefined;
+    const recommendedProtocol = results[0]?.protocolId.replace(
+      "protocol",
+      "",
+    ) as "1" | "2" | "3" | "4" | undefined;
     if (sessionId && recommendedProtocol) {
       trackQuizResultCTAClicked({
         recommendedProtocol,
@@ -153,11 +162,16 @@ export default function QuizResultsPage() {
     }, 100);
   };
 
-  const handleAddToCart = async (location: "results_page" | "sticky_footer" = "results_page") => {
+  const handleAddToCart = async (
+    location: "results_page" | "sticky_footer" = "results_page",
+  ) => {
     if (protocolId) {
       // Track CTA click (Phase 1B)
       const sessionId = sessionStorage.getItem("quizSessionId");
-      const recommendedProtocol = results[0]?.protocolId.replace("protocol", "") as "1" | "2" | "3" | "4" | undefined;
+      const recommendedProtocol = results[0]?.protocolId.replace(
+        "protocol",
+        "",
+      ) as "1" | "2" | "3" | "4" | undefined;
       if (sessionId && recommendedProtocol) {
         trackQuizResultCTAClicked({
           recommendedProtocol,
@@ -168,23 +182,18 @@ export default function QuizResultsPage() {
           topMatchScore: results[0]?.percentage || 0,
         });
       }
-      
+
       const variantData = getProtocolVariantId(
         protocolId,
         selectedTier,
         purchaseType,
       );
       if (variantData) {
-        await addToCart(
-          variantData.variantId,
-          1,
-          variantData.sellingPlanId,
-          {
-            location: location,
-            source: "quiz",
-            sessionId: getQuizSessionId(),
-          }
-        );
+        await addToCart(variantData.variantId, 1, variantData.sellingPlanId, {
+          location: location,
+          source: "quiz",
+          sessionId: getQuizSessionId(),
+        });
       } else {
         console.warn("Variant ID not configured for:", {
           protocol: protocolId,
@@ -253,7 +262,10 @@ export default function QuizResultsPage() {
             onClick={() => {
               // Track CTA click (Phase 1B)
               const sessionId = sessionStorage.getItem("quizSessionId");
-              const recommendedProtocol = results[0]?.protocolId.replace("protocol", "") as "1" | "2" | "3" | "4" | undefined;
+              const recommendedProtocol = results[0]?.protocolId.replace(
+                "protocol",
+                "",
+              ) as "1" | "2" | "3" | "4" | undefined;
               if (sessionId && recommendedProtocol) {
                 trackQuizResultCTAClicked({
                   recommendedProtocol,
@@ -263,7 +275,7 @@ export default function QuizResultsPage() {
                   topMatchScore: results[0]?.percentage || 0,
                 });
               }
-              
+
               sessionStorage.removeItem("quizAnswers");
               router.push("/quiz");
             }}
@@ -273,50 +285,7 @@ export default function QuizResultsPage() {
           </button>
         </section>
 
-        {/* Footer */}
-        <footer className="px-4 md:px-8 py-8 border-t-2 border-current/10">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="text-center md:text-left">
-                <a
-                  href="/"
-                  className="text-xl font-bold tracking-tight font-primary"
-                >
-                  conka.
-                </a>
-                <p className="font-commentary text-sm opacity-60 mt-1">
-                  unlock your cognitive potential
-                </p>
-              </div>
-              <nav className="flex flex-wrap items-center justify-center gap-4">
-                <a
-                  href="/"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  Home
-                </a>
-                <a
-                  href="/conka-flow"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  CONKA Flow
-                </a>
-                <a
-                  href="/conka-clarity"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  CONKA Clear
-                </a>
-                <a
-                  href="/protocol/1"
-                  className="font-clinical text-xs hover:opacity-70 transition-all"
-                >
-                  Protocols
-                </a>
-              </nav>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </main>
 
       {/* Sticky Purchase Footer (only when recommended section is visible) */}
