@@ -633,9 +633,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer - Headstrong-style: logo + newsletter top, then mission, then link columns */}
+      {/* Footer - Headstrong-style (inverted: black bg, white text) */}
       <footer
-        className="px-6 md:px-16 py-12 md:py-16 border-t-2 border-current border-opacity-10"
+        className="bg-black text-white px-6 md:px-16 py-12 md:py-16 border-t-2 border-white/10"
         role="contentinfo"
       >
         <div className="max-w-6xl mx-auto">
@@ -649,14 +649,14 @@ export default function Home() {
               <img
                 src="/conka.png"
                 alt="CONKA logo"
-                className="h-14 md:h-16 w-auto"
+                className="h-14 md:h-16 w-auto invert"
               />
             </a>
-            <div className="flex-1 lg:max-w-md w-full">
+            <div className="flex-1 lg:max-w-xl w-full">
               <p className="font-clinical text-sm md:text-base font-medium mb-1">
                 Never miss out
               </p>
-              <p className="font-commentary text-sm opacity-80 mb-4">
+              <p className="font-commentary text-sm text-white/80 mb-4">
                 —sign up for newsletters from CONKA. Tips, research and offers.
                 No spam.
               </p>
@@ -677,7 +677,7 @@ export default function Home() {
                     setNewsletterError(null);
                   }}
                   placeholder="Email address"
-                  className="flex-1 min-h-[48px] md:min-h-[52px] px-4 py-3 border-2 border-current rounded-lg bg-transparent font-clinical text-base focus:outline-none focus:ring-2 focus:ring-current focus:ring-offset-2 disabled:opacity-50"
+                  className="flex-1 min-h-[48px] md:min-h-[52px] px-4 py-3 border-2 border-white/30 rounded-lg bg-white/5 text-white placeholder:text-white/50 font-clinical text-base focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50"
                   disabled={newsletterStatus === "loading"}
                   required
                   aria-invalid={!!newsletterError}
@@ -692,7 +692,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={newsletterStatus === "loading"}
-                  className="neo-button px-6 py-3 font-semibold text-sm min-h-[48px] md:min-h-[52px] rounded-full shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-white text-black border-2 border-white px-6 py-3 font-semibold text-sm min-h-[48px] md:min-h-[52px] rounded-full shrink-0 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {newsletterStatus === "loading" ? "Submitting..." : "Submit"}
                 </button>
@@ -752,18 +752,10 @@ export default function Home() {
                 </li>
                 <li>
                   <a
-                    href="/our-story"
+                    href="/app"
                     className="font-clinical text-sm hover:opacity-70 transition-all"
                   >
-                    Our Story
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/why-conka"
-                    className="font-clinical text-sm hover:opacity-70 transition-all"
-                  >
-                    Why CONKA
+                    CONKA App
                   </a>
                 </li>
               </ul>
@@ -794,7 +786,7 @@ export default function Home() {
                     href="/quiz"
                     className="font-clinical text-sm hover:opacity-70 transition-all"
                   >
-                    Find Your Protocol
+                    Take the Quiz
                   </a>
                 </li>
               </ul>
@@ -810,6 +802,14 @@ export default function Home() {
                     className="font-clinical text-sm hover:opacity-70 transition-all"
                   >
                     Our Story
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/why-conka"
+                    className="font-clinical text-sm hover:opacity-70 transition-all"
+                  >
+                    Why CONKA
                   </a>
                 </li>
               </ul>
