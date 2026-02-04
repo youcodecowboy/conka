@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { ProtocolId } from "@/app/lib/productData";
 import { ProtocolSelectorData } from "./protocolSelectorData";
@@ -28,7 +27,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
   const href = `/protocol/${protocol.id}`;
 
   return (
-    <Link
+    <a
       href={href}
       className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--foreground)]"
     >
@@ -156,6 +155,6 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
           </span>
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
