@@ -30,8 +30,13 @@ export default function ProtocolCardMobile({
     return `This helps when you need ${lowerBenefit}`;
   });
 
+  const href = `/protocol/${protocol.id}`;
+
   return (
-    <div className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden bg-white">
+    <Link
+      href={href}
+      className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--foreground)]"
+    >
       {/* Protocol Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image
@@ -71,11 +76,8 @@ export default function ProtocolCardMobile({
           {protocol.startingPrice}
         </p>
 
-        {/* CTA */}
-        <Link
-          href={`/protocol/${protocol.id}`}
-          className="neo-button w-full py-3 rounded-full font-bold text-base flex items-center justify-center gap-2"
-        >
+        {/* CTA - visual only; whole card is the link */}
+        <span className="neo-button w-full py-3 rounded-full font-bold text-base flex items-center justify-center gap-2">
           View product
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -91,8 +93,8 @@ export default function ProtocolCardMobile({
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
           </svg>
-        </Link>
+        </span>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -25,8 +25,13 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
   // Limit benefits to 3 max for hover display
   const visibleBenefits = protocol.benefits.slice(0, 3);
 
+  const href = `/protocol/${protocol.id}`;
+
   return (
-    <div className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden">
+    <Link
+      href={href}
+      className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--foreground)]"
+    >
       {/* Image Container with Hover Overlay */}
       <div
         className="relative aspect-[5/2.2] overflow-hidden cursor-pointer"
@@ -131,11 +136,8 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
             {protocol.startingPrice}
           </span>
 
-          {/* CTA */}
-          <Link
-            href={`/protocol/${protocol.id}`}
-            className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2"
-          >
+          {/* CTA - visual only; whole card is the link */}
+          <span className="neo-button px-5 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2">
             View product
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -151,9 +153,9 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
               <path d="M5 12h14" />
               <path d="m12 5 7 7-7 7" />
             </svg>
-          </Link>
+          </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
