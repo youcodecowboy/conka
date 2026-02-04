@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { ProtocolId } from "@/app/lib/productData";
 import { ProtocolSelectorData } from "./protocolSelectorData";
@@ -33,7 +32,7 @@ export default function ProtocolCardMobile({
   const href = `/protocol/${protocol.id}`;
 
   return (
-    <Link
+    <a
       href={href}
       className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--foreground)]"
     >
@@ -95,6 +94,6 @@ export default function ProtocolCardMobile({
           </svg>
         </span>
       </div>
-    </Link>
+    </a>
   );
 }
