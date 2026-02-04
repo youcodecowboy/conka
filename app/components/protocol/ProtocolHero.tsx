@@ -11,6 +11,7 @@ import {
   getBillingLabel,
   FORMULA_COLORS,
 } from "@/app/lib/productData";
+import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 import PurchaseToggle from "../product/PurchaseToggle";
 import TierSelector from "./TierSelector";
 import ProtocolTabs from "./ProtocolTabs";
@@ -131,10 +132,10 @@ export default function ProtocolHero({
           {/* Left: Product Image */}
           <div className="lg:w-[60%] order-1 lg:order-1 relative z-0">
             <div className="sticky top-24 pt-12 lg:pt-16">
-              {/* Protocol images - larger size, shifted left like formula pages */}
+              {/* Protocol images - from config (coloured assets), fallback to protocol.image */}
               <div className="relative w-full aspect-[4/3] max-w-3xl lg:-ml-20 xl:-ml-28">
                 <Image
-                  src={protocol.image}
+                  src={getProtocolImage(protocolId) || protocol.image}
                   alt={`${protocol.name} - Both formulas`}
                   fill
                   className="object-contain scale-125"
