@@ -455,13 +455,14 @@ export default function ProtocolHeroMobile({
           </div>
         </div>
 
-        {/* Product Image - from config (coloured assets), fallback to protocol.image */}
-        <div className="relative w-full aspect-square bg-gradient-to-b from-transparent to-current/5 overflow-hidden">
+        {/* Product Image - reserved aspect box + placeholder so frame paints before image */}
+        <div className="relative w-full flex-shrink-0 aspect-square overflow-hidden bg-neutral-100">
           <Image
             src={getProtocolImage(protocolId) || protocol.image}
             alt={`${protocol.name} - Both formulas`}
             fill
             className="object-contain scale-125"
+            sizes="100vw"
             priority
           />
         </div>
