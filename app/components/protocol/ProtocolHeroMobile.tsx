@@ -13,6 +13,7 @@ import {
   FORMULA_COLORS,
   generateProtocolCalendarDays,
 } from "@/app/lib/productData";
+import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 import PaymentLogos from "../PaymentLogos";
 
 interface ProtocolHeroMobileProps {
@@ -454,13 +455,14 @@ export default function ProtocolHeroMobile({
           </div>
         </div>
 
-        {/* Product Image */}
-        <div className="relative w-full aspect-square bg-gradient-to-b from-transparent to-current/5 overflow-hidden">
+        {/* Product Image - reserved aspect box + placeholder so frame paints before image */}
+        <div className="relative w-full flex-shrink-0 aspect-square overflow-hidden bg-neutral-100">
           <Image
-            src={protocol.image}
+            src={getProtocolImage(protocolId) || protocol.image}
             alt={`${protocol.name} - Both formulas`}
             fill
             className="object-contain scale-125"
+            sizes="100vw"
             priority
           />
         </div>
