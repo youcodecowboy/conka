@@ -32,7 +32,7 @@ export default function ProductImageSlideshow({
     <div className="flex flex-col w-full">
       {/* Main image area */}
       <div className="relative w-full aspect-square">
-        <div className="relative w-full h-full overflow-hidden rounded-xl shadow-lg">
+        <div className="relative w-full h-full overflow-hidden rounded-xl shadow-[0_-4px_12px_-2px_rgba(0,0,0,0.08),0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
           {images.map((image, index) => (
             <div
               key={image.src}
