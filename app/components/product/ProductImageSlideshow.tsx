@@ -111,12 +111,12 @@ export default function ProductImageSlideshow({
 
       {/* Horizontal thumbnail strip */}
       {images.length > 1 && (
-        <div className="mt-3 flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-1">
+        <div className="mt-3 min-w-0 flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 px-2">
           {images.map((image, index) => (
             <button
               key={image.src}
               onClick={() => setCurrentIndex(index)}
-              className={`flex-shrink-0 w-14 h-14 snap-center rounded overflow-hidden cursor-pointer
+              className={`flex-shrink-0 w-28 h-28 snap-center rounded overflow-hidden cursor-pointer
                 transition-all duration-200 hover:opacity-90
                 ${index === currentIndex ? "ring-2 ring-offset-2 ring-gray-600" : "opacity-70"}`}
               aria-label={`Go to image ${index + 1}`}
@@ -125,10 +125,10 @@ export default function ProductImageSlideshow({
               <Image
                 src={image.src}
                 alt={`${alt} thumbnail ${index + 1}`}
-                width={56}
-                height={56}
+                width={112}
+                height={112}
                 className="object-cover w-full h-full"
-                sizes="56px"
+                sizes="112px"
               />
             </button>
           ))}
