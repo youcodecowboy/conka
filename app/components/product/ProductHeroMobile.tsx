@@ -72,8 +72,8 @@ export default function ProductHeroMobile({
   const oneTimeColor = formulaId === "01" ? "invert" : accentColor.hex;
 
   return (
-    <section className="px-4 pt-6 pb-4">
-      <div className="neo-box overflow-hidden">
+    <section className="pt-6 pb-4">
+      <div className="neo-box">
         {/* Header - product name + subtitle */}
         <div className={`p-4 ${headerBgClass}`}>
           <h1 className="text-xl font-bold">
@@ -91,7 +91,7 @@ export default function ProductHeroMobile({
           </p>
         </div>
 
-        {/* Product Image + thumbnails */}
+        {/* Product Image + thumbnails - full width edge to edge */}
         <div className="relative w-full bg-[#FAFAFA]">
           <ProductImageSlideshow
             images={
