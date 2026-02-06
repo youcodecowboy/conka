@@ -42,28 +42,27 @@ export default function ProductHero({
       ? getBillingLabel((pricing as { billing: string }).billing)
       : "one-time";
 
-  // Get image path based on formula
-  const imagePath = formulaId === "01" ? "/1.png" : "/2.png";
-
-  // Slideshow images for CONKA Flow (formula 01 - BLACK cap) with focal points
+  // Product image gallery: hero first, then new formula assets in sequence
   const flowSlideshowImages = [
-    { src: "/CONKA_01.jpg", focalX: 55, focalY: 48 }, // Front view, CONKA branding
-    { src: "/CONKA_02.jpg", focalX: 55, focalY: 48 }, // Side view with badges
-    { src: "/CONKA_03.jpg", focalX: 50, focalY: 48 }, // "1 BOTTLE DAILY" view
-    { src: "/CONKA_04.jpg", focalX: 52, focalY: 48 }, // Back label view
-    { src: "/CONKA_05.jpg", focalX: 50, focalY: 58 }, // Horizontal/angled view
+    { src: "/CONKA_01.jpg" },
+    { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
+    { src: "/formulas/conkaFlow/FlowStats.jpg" },
+    { src: "/formulas/conkaFlow/FlowReplaces.jpg" },
+    { src: "/formulas/conkaFlow/FlowEssentials.jpg" },
+    { src: "/formulas/conkaFlow/FlowSteps.jpg" },
+    { src: "/formulas/conkaFlow/FlowCertified.jpg" },
+    { src: "/formulas/conkaFlow/FlowReviews.jpg" },
   ];
 
-  // Slideshow images for CONKA Clarity (formula 02 - WHITE cap) with focal points
   const claritySlideshowImages = [
-    { src: "/CONKA_63.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
-    { src: "/CONKA_64.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
-    { src: "/CONKA_65.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
-    { src: "/CONKA_66.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
-    { src: "/CONKA_67.jpg", focalX: 50, focalY: 48 }, // Clarity bottle centered
-    { src: "/CONKA_06.jpg", focalX: 52, focalY: 50 }, // Clarity vertical, white cap
-    { src: "/CONKA_10.jpg", focalX: 45, focalY: 55 }, // Clarity horizontal
-    { src: "/CONKA_20.jpg", focalX: 50, focalY: 55 }, // Clarity with lemons
+    { src: "/CONKA_63.jpg" },
+    { src: "/formulas/conkaClear/ClearIngredients.jpg" },
+    { src: "/formulas/conkaClear/ClearStats.jpg" },
+    { src: "/formulas/conkaClear/ClearReplaces.jpg" },
+    { src: "/formulas/conkaClear/ClearEssentials.jpg" },
+    { src: "/formulas/conkaClear/ClearSteps.jpg" },
+    { src: "/formulas/conkaClear/ClearCertified.jpg" },
+    { src: "/formulas/conkaClear/ClearReviews.jpg" },
   ];
 
   // Header color based on purchase type - CONKA Flow inverts, CONKA Clarity uses teal
@@ -84,7 +83,7 @@ export default function ProductHero({
           <div className="lg:w-[55%] order-1 lg:order-1 relative z-0">
             <div className="sticky top-24">
               {/* Slideshow for both formulas - larger size, shifted left */}
-              <div className="relative w-full aspect-square max-w-2xl lg:-ml-12 xl:-ml-16 group">
+              <div className="relative w-full max-w-2xl lg:-ml-12 xl:-ml-16 group">
                 <ProductImageSlideshow
                   images={
                     formulaId === "01"
@@ -94,10 +93,6 @@ export default function ProductHero({
                   alt={`${formula.name} bottle`}
                 />
               </div>
-              {/* Annotation */}
-              <p className="font-commentary text-lg text-center lg:text-left lg:-ml-12 xl:-ml-16 mt-4 opacity-70">
-                {formula.annotation}
-              </p>
             </div>
           </div>
 
