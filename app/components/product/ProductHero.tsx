@@ -44,7 +44,7 @@ export default function ProductHero({
 
   // Product image gallery: hero first, then new formula assets in sequence
   const flowSlideshowImages = [
-    { src: "/CONKA_01.jpg" },
+    { src: "/formulas/conkaFlow/FlowBox.jpg" },
     { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
     { src: "/formulas/conkaFlow/FlowStats.jpg" },
     { src: "/formulas/conkaFlow/FlowReplaces.jpg" },
@@ -55,7 +55,7 @@ export default function ProductHero({
   ];
 
   const claritySlideshowImages = [
-    { src: "/CONKA_63.jpg" },
+    { src: "/formulas/conkaClear/ClearBox.jpg" },
     { src: "/formulas/conkaClear/ClearIngredients.jpg" },
     { src: "/formulas/conkaClear/ClearStats.jpg" },
     { src: "/formulas/conkaClear/ClearReplaces.jpg" },
