@@ -99,6 +99,7 @@ export default function ConkaClarityPage() {
         <StickyPurchaseFooterMobile
           formulaId="02"
           selectedPack={selectedPack}
+          onPackSelect={setSelectedPack}
           purchaseType={purchaseType}
           onAddToCart={handleAddToCartFromFooter}
         />

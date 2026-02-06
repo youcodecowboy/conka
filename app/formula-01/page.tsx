@@ -99,6 +99,7 @@ export default function ConkaFlowPage() {
         <StickyPurchaseFooterMobile
           formulaId="01"
           selectedPack={selectedPack}
+          onPackSelect={setSelectedPack}
           purchaseType={purchaseType}
           onAddToCart={handleAddToCartFromFooter}
         />
