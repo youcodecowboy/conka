@@ -67,7 +67,7 @@ export default function PackSelector({
             >
               {/* Pack Size Header - Inverts when selected */}
               <div
-                className="px-2 py-1"
+                className="w-full min-w-0 px-2 py-1"
                 style={{
                   backgroundColor: isSelected
                     ? "var(--background)"
