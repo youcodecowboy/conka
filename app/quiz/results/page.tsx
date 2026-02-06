@@ -295,6 +295,7 @@ export default function QuizResultsPage() {
           <StickyPurchaseFooterMobile
             protocolId={protocolId}
             selectedTier={selectedTier}
+            onTierSelect={setSelectedTier}
             purchaseType={purchaseType}
             onAddToCart={() => handleAddToCart("sticky_footer")}
           />

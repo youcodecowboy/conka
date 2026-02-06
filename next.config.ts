@@ -52,6 +52,16 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: true,
       },
+      {
+        source: '/formula-01',
+        destination: '/conka-flow',
+        permanent: true,
+      },
+      {
+        source: '/formula-02',
+        destination: '/conka-clarity',
+        permanent: true,
+      },
     ];
   },
 

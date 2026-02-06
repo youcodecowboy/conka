@@ -198,6 +198,7 @@ export default function ProtocolPage() {
         <StickyPurchaseFooterMobile
           protocolId={protocolId as ProtocolId}
           selectedTier={selectedTier}
+          onTierSelect={setSelectedTier}
           purchaseType={purchaseType}
           onAddToCart={handleAddToCartFromFooter}
         />
