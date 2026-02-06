@@ -10,9 +10,7 @@ import {
   getBillingLabel,
   FORMULA_COLORS,
 } from "@/app/lib/productData";
-import PurchaseToggle from "./PurchaseToggle";
 import PackSelector from "./PackSelector";
-import ProductTabs from "./ProductTabs";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import PaymentLogos from "../PaymentLogos";
 
@@ -65,13 +63,11 @@ export default function ProductHero({
     { src: "/formulas/conkaClear/ClearReviews.jpg" },
   ];
 
-  // Header color based on purchase type - CONKA Flow inverts, CONKA Clarity uses teal
+  // Header - fixed style, does not change with purchase type
   const headerBgClass =
-    purchaseType === "subscription"
+    formulaId === "01"
       ? "bg-[var(--foreground)] text-[var(--background)]"
-      : formulaId === "01"
-        ? "bg-[var(--background)] text-[var(--foreground)] border-2 border-[var(--foreground)]"
-        : "bg-[#AAB9BC] text-white";
+      : "bg-[#AAB9BC] text-white";
 
   const oneTimeColor = formulaId === "01" ? "invert" : accentColor.hex;
 
@@ -99,44 +95,59 @@ export default function ProductHero({
           {/* Right: Product Info Box */}
           <div className="lg:w-1/2 order-2 lg:order-2 relative z-10">
             <div className="neo-box relative z-10">
-              {/* Header with conditional color - Fixed height */}
+              {/* Header - product name + subtitle (form/dose/supply) */}
               <div
-                className={`p-4 md:p-6 flex justify-between items-center h-[100px] ${headerBgClass}`}
+                className={`p-4 md:p-6 ${headerBgClass}`}
               >
-                <div className="flex-shrink-0 flex flex-col justify-center">
-                  <h1 className="text-2xl md:text-3xl font-bold leading-tight">
-                    {formulaId === "01" ? (
-                      <>
-                        <span className="font-primary">CONKA</span>{" "}
-                        <span className="font-clinical">FL0W</span>
-                      </>
-                    ) : (
-                      formula.name
-                    )}
-                  </h1>
-                  <p className="font-commentary text-lg mt-1 leading-tight">
-                    {formula.tagline}
-                  </p>
-                </div>
-                {/* Purchase Toggle - Right aligned in header */}
-                <div className="flex-shrink-0 flex items-center">
-                  <PurchaseToggle
-                    purchaseType={purchaseType}
-                    onToggle={onPurchaseTypeChange}
-                    highlightColor={oneTimeColor}
-                  />
-                </div>
+                <h1 className="text-2xl md:text-3xl font-bold leading-tight">
+                  {formulaId === "01" ? (
+                    <>
+                      <span className="font-primary">CONKA</span>{" "}
+                      <span className="font-clinical">FL0W</span>
+                    </>
+                  ) : (
+                    formula.name
+                  )}
+                </h1>
+                <p className="font-clinical text-sm mt-1 leading-tight opacity-90">
+                  Liquid · 1 shot (30ml) daily · {selectedPack}-pack
+                </p>
               </div>
 
               {/* Content */}
               <div className="p-4 md:p-6 space-y-6">
-                {/* Product Tabs Navigation */}
-                <ProductTabs formulaId={formulaId} />
+                {/* Description (formula headline) */}
+                <p className="font-commentary text-lg opacity-90">
+                  {formula.headline}
+                </p>
+
+                {/* Benefit tiles - borderless, rounder, with stats */}
+                <div className="flex flex-wrap gap-2">
+                  {formula.benefits.slice(0, 4).map((benefit, idx) => (
+                    <div
+                      key={idx}
+                      className="flex-1 min-w-[100px] px-4 py-3 rounded-2xl bg-current/5 font-primary text-sm text-center flex flex-col items-center gap-1"
+                    >
+                      <span
+                        className="font-clinical text-base font-bold"
+                        style={{
+                          color:
+                            formulaId === "01"
+                              ? "#f59e0b"
+                              : "#AAB9BC",
+                        }}
+                      >
+                        {benefit.stat}
+                      </span>
+                      <span className="leading-tight">{benefit.title}</span>
+                    </div>
+                  ))}
+                </div>
 
                 {/* Divider */}
                 <div className="border-t-2 border-current border-opacity-10" />
 
-                {/* Pack Selector */}
+                {/* Pack Selector - quantity picker first */}
                 <PackSelector
                   selectedPack={selectedPack}
                   onSelect={onPackSelect}
@@ -147,25 +158,139 @@ export default function ProductHero({
                   }
                 />
 
+                {/* Purchase type - Subscribe / One-time cards with radio style */}
+                <div className="space-y-2">
+                  <p className="font-clinical text-xs uppercase opacity-70 mb-2">
+                    How would you like to purchase?
+                  </p>
+                  <button
+                    onClick={() => onPurchaseTypeChange("subscription")}
+                    className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-start gap-3 cursor-pointer hover:border-opacity-50 ${
+                      purchaseType === "subscription"
+                        ? "border-current border-opacity-40 bg-current/5"
+                        : "border-current border-opacity-20"
+                    }`}
+                  >
+                    <span
+                      className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
+                        purchaseType === "subscription"
+                          ? "border-current"
+                          : "border-current border-opacity-50"
+                      }`}
+                    >
+                      {purchaseType === "subscription" && (
+                        <span className="w-2.5 h-2.5 rounded-full bg-current" />
+                      )}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-bold">Subscribe</span>
+                        <span
+                          className="px-2 py-0.5 rounded-full text-xs font-clinical text-white flex-shrink-0"
+                          style={{
+                            backgroundColor:
+                              formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                          }}
+                        >
+                          20% off
+                        </span>
+                      </div>
+                      {purchaseType === "subscription" && (
+                        <ul className="mt-2 space-y-1.5 font-clinical text-xs opacity-80">
+                          <li className="flex items-center gap-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              className="flex-shrink-0"
+                            >
+                              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            100-day guarantee
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              className="flex-shrink-0"
+                            >
+                              <rect x="1" y="3" width="15" height="13" />
+                              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                              <circle cx="5.5" cy="18.5" r="2.5" />
+                              <circle cx="18.5" cy="18.5" r="2.5" />
+                            </svg>
+                            Free UK shipping
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              className="flex-shrink-0"
+                            >
+                              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                              <path d="M3 3v5h5" />
+                            </svg>
+                            Cancel anytime
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              className="flex-shrink-0"
+                            >
+                              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                              <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                            No minimum commitment
+                          </li>
+                        </ul>
+                      )}
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => onPurchaseTypeChange("one-time")}
+                    className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-center gap-3 cursor-pointer hover:border-opacity-50 ${
+                      purchaseType === "one-time"
+                        ? "border-current border-opacity-40 bg-current/5"
+                        : "border-current border-opacity-20"
+                    }`}
+                  >
+                    <span
+                      className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        purchaseType === "one-time"
+                          ? "border-current"
+                          : "border-current border-opacity-50"
+                      }`}
+                    >
+                      {purchaseType === "one-time" && (
+                        <span className="w-2.5 h-2.5 rounded-full bg-current" />
+                      )}
+                    </span>
+                    <span className="font-bold">One-time</span>
+                  </button>
+                </div>
+
                 {/* Price Display */}
-                <div
-                  className={`flex justify-between items-center p-4 rounded-lg border-2 ${
-                    purchaseType === "one-time"
-                      ? formulaId === "01"
-                        ? "bg-[var(--background)] border-[var(--foreground)]"
-                        : "border-[#AAB9BC]"
-                      : formulaId === "01"
-                        ? "bg-amber-500/10 border-amber-500"
-                        : "bg-[#AAB9BC]/10 border-[#AAB9BC]"
-                  }`}
-                  style={
-                    purchaseType === "one-time" && formulaId !== "01"
-                      ? {
-                          backgroundColor: "rgba(170, 185, 188, 0.1)",
-                        }
-                      : undefined
-                  }
-                >
+                <div className="flex justify-between items-center p-4 rounded-lg border-2 border-current border-opacity-20 bg-current/5">
                   <div>
                     <p className="font-clinical text-xs uppercase opacity-70">
                       Your Selection
@@ -184,46 +309,7 @@ export default function ProductHero({
                   </div>
                 </div>
 
-                {/* Trust Badges */}
-                <div className="flex justify-center gap-6">
-                  <span className="font-clinical text-xs opacity-70 flex items-center gap-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    </svg>
-                    100-day guarantee
-                  </span>
-                  <span className="font-clinical text-xs opacity-70 flex items-center gap-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect x="1" y="3" width="15" height="13" />
-                      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                      <circle cx="5.5" cy="18.5" r="2.5" />
-                      <circle cx="18.5" cy="18.5" r="2.5" />
-                    </svg>
-                    Free UK shipping
-                  </span>
-                </div>
-
-                {/* CTA Buttons */}
+                {/* CTA */}
                 <div className="space-y-3">
                   <button
                     onClick={onAddToCart}
@@ -233,12 +319,6 @@ export default function ProductHero({
                       ? "Subscribe Now"
                       : "Add to Cart"}
                   </button>
-                  {purchaseType === "subscription" && (
-                    <p className="text-center font-clinical text-xs opacity-70">
-                      Cancel anytime • No minimum commitment
-                    </p>
-                  )}
-                  {/* Payment Logos */}
                   <PaymentLogos size="sm" className="mt-2" />
                 </div>
               </div>
