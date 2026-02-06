@@ -92,7 +92,7 @@ export default function ProductHeroMobile({
         </div>
 
         {/* Product Image + thumbnails */}
-        <div className="relative w-full aspect-square bg-[#FAFAFA] overflow-hidden">
+        <div className="relative w-full bg-[#FAFAFA]">
           <ProductImageSlideshow
             images={
               formulaId === "01" ? flowSlideshowImages : claritySlideshowImages
