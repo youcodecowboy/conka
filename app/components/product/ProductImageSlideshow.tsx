@@ -32,7 +32,7 @@ export default function ProductImageSlideshow({
     <div className="flex flex-col w-full">
       {/* Main image area */}
       <div className="relative w-full aspect-square">
-        <div className="relative w-full h-full overflow-hidden rounded-xl shadow-[0_-4px_12px_-2px_rgba(0,0,0,0.08),0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
+        <div className="relative w-full h-full overflow-hidden rounded-none shadow-none md:rounded-xl md:shadow-[0_-4px_12px_-2px_rgba(0,0,0,0.08),0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
           {images.map((image, index) => (
             <div
               key={image.src}
@@ -116,7 +116,7 @@ export default function ProductImageSlideshow({
             <button
               key={image.src}
               onClick={() => setCurrentIndex(index)}
-              className={`flex-shrink-0 w-28 h-28 snap-center rounded overflow-hidden cursor-pointer
+              className={`flex-shrink-0 w-14 h-14 md:w-28 md:h-28 snap-center rounded overflow-hidden cursor-pointer
                 transition-all duration-200 hover:opacity-90
                 ${index === currentIndex ? "ring-2 ring-offset-2 ring-gray-600" : "opacity-70"}`}
               aria-label={`Go to image ${index + 1}`}
@@ -128,7 +128,7 @@ export default function ProductImageSlideshow({
                 width={112}
                 height={112}
                 className="object-cover w-full h-full"
-                sizes="112px"
+                sizes="(max-width: 768px) 56px, 112px"
               />
             </button>
           ))}
