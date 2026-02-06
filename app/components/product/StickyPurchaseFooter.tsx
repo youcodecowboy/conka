@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   PackSize,
   PurchaseType,
@@ -12,8 +13,8 @@ import {
   FormulaId,
   ProtocolId,
   protocolContent,
+  formulaContent,
 } from "@/app/lib/productData";
-import PaymentLogos from "../PaymentLogos";
 
 interface StickyPurchaseFooterProps {
   // For formula pages
@@ -37,9 +38,6 @@ const packLabels: Record<PackSize, string> = {
   "12": "12-pack",
   "28": "28-pack",
 };
-
-// Subscription discount percentage
-const SUBSCRIPTION_DISCOUNT = 20;
 
 export default function StickyPurchaseFooter({
   formulaId,
@@ -142,6 +140,35 @@ export default function StickyPurchaseFooter({
     max: "Max",
   };
 
+  // Product name and thumbnail for left block (im8-style)
+  let productName = "";
+  let thumbnailSrc = "";
+  if (formulaId) {
+    productName = formulaContent[formulaId].name;
+    thumbnailSrc =
+      formulaId === "01"
+        ? "/formulas/conkaFlow/FlowBox.jpg"
+        : "/formulas/conkaClear/ClearBox.jpg";
+  } else if (protocolId) {
+    const protocol = protocolContent[protocolId];
+    productName = protocol?.name ?? "";
+    thumbnailSrc = protocol?.image ?? "";
+  }
+
+  // Selector display: variant + savings, and cost per shot / price (two rows, like mobile)
+  let selectorVariantLabel = "";
+  let selectorPriceLine = "";
+  if (formulaId && selectedPack) {
+    selectorVariantLabel = packLabels[selectedPack];
+    const pricing = formulaPricing[purchaseType][selectedPack];
+    selectorPriceLine = `${formatPrice(pricing.perShot)} / serving`;
+  } else if (protocolId && selectedTier) {
+    selectorVariantLabel = tierLabels[selectedTier];
+    selectorPriceLine = formatPrice(price);
+  }
+  const selectorAccentTextClass =
+    formulaId === "01" ? "text-amber-600" : "text-teal-600";
+
   if (!isVisible) return null;
 
   return (
@@ -158,37 +185,53 @@ export default function StickyPurchaseFooter({
         <div className="max-w-6xl mx-auto lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%] px-4 md:px-6 lg:pl-0 lg:pr-16 py-3">
           <div className="flex flex-col gap-2">
             <div className="flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4">
-              {/* Left: Your Selection with Pack/Tier Selector */}
-              <div className="flex items-center gap-4 w-full md:w-auto md:flex-none">
-                <span className="font-clinical text-xs uppercase opacity-70 whitespace-nowrap">
-                  Your Selection
-                </span>
+              {/* Left: Thumbnail + Product name + Variant (im8-style) - single bordered component */}
+              <div className="flex items-center gap-3 w-fit border-2 border-black rounded-lg p-2 md:p-2.5 shrink-0">
+                {thumbnailSrc && (
+                  <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-md overflow-hidden flex-shrink-0 bg-black/5">
+                    <Image
+                      src={thumbnailSrc}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="56px"
+                    />
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="font-clinical font-bold text-sm md:text-base truncate">
+                    {productName}
+                  </p>
+                  <p className="font-clinical text-xs opacity-70 truncate">
+                    {productLabel}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right: Pack/Tier Selector + Subscribe Toggle + Add to Cart */}
+              <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-end shrink-0">
                 {(showPackSelector && selectedPack && onPackSelect) ||
                 (showTierSelector && selectedTier && onTierSelect) ? (
                   <div className="relative" ref={dropdownRef}>
                     <button
                       onClick={() => setShowPackDropdown(!showPackDropdown)}
-                      className="flex items-center gap-2 px-4 py-2 border-2 border-current rounded-full font-clinical text-sm hover:bg-current/5 transition-colors min-w-[200px]"
+                      className="flex items-center gap-2 px-4 py-2 border-2 border-current rounded-full font-clinical text-sm hover:bg-current/5 transition-colors min-w-[200px] text-left"
                     >
-                      <span className="font-bold whitespace-nowrap">
-                        {showPackSelector && selectedPack ? (
-                          <>
-                            {packLabels[selectedPack]}{" "}
-                            <span className="font-commentary">
-                              {billingText}
-                            </span>
-                          </>
-                        ) : showTierSelector && selectedTier ? (
-                          <>
-                            {tierLabels[selectedTier]}{" "}
-                            <span className="font-commentary">
-                              {billingText}
-                            </span>
-                          </>
-                        ) : (
-                          productLabel
-                        )}
-                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold whitespace-nowrap truncate">
+                          {selectorVariantLabel}
+                          {isSubscription ? " (Save 20%)" : ""}
+                        </p>
+                        <p
+                          className={`text-xs mt-0.5 whitespace-nowrap truncate ${
+                            isSubscription
+                              ? selectorAccentTextClass
+                              : "opacity-70"
+                          }`}
+                        >
+                          {selectorPriceLine}
+                        </p>
+                      </div>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="12"
@@ -234,10 +277,7 @@ export default function StickyPurchaseFooter({
                               >
                                 <div className="flex justify-between items-center gap-4">
                                   <span className="whitespace-nowrap">
-                                    {packLabels[pack]}{" "}
-                                    <span className="font-commentary">
-                                      {packBillingText}
-                                    </span>
+                                    {packLabels[pack]} {packBillingText}
                                   </span>
                                   <span className="opacity-70 whitespace-nowrap">
                                     {formatPrice(packPricing.price)}
@@ -276,10 +316,7 @@ export default function StickyPurchaseFooter({
                               >
                                 <div className="flex justify-between items-center gap-4">
                                   <span className="whitespace-nowrap">
-                                    {tierLabels[tier]}{" "}
-                                    <span className="font-commentary">
-                                      {tierBillingText}
-                                    </span>
+                                    {tierLabels[tier]} {tierBillingText}
                                   </span>
                                   <span className="opacity-70 whitespace-nowrap">
                                     {formatPrice(tierPricingData.price)}
@@ -291,24 +328,7 @@ export default function StickyPurchaseFooter({
                       </div>
                     )}
                   </div>
-                ) : (
-                  <div>
-                    <p className="font-bold text-sm md:text-base">
-                      {productLabel}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Divider */}
-              <div className="hidden md:block w-px h-8 bg-current opacity-20"></div>
-
-              {/* Right: Payment Logos, Subscribe Toggle, CTA & Price */}
-              <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-end">
-                {/* Payment Logos - Stacked vertically, desktop only */}
-                <div className="hidden md:block">
-                  <PaymentLogos size="sm" vertical />
-                </div>
+                ) : null}
 
                 {/* Subscribe Toggle */}
                 <button
@@ -339,61 +359,27 @@ export default function StickyPurchaseFooter({
                   <span className="hidden sm:inline">Subscribe</span>
                 </button>
 
-                {/* Add to Cart Button */}
+                {/* Add to Cart Button - longer CTA */}
                 <button
                   onClick={onAddToCart}
-                  className="neo-button px-4 py-2 font-bold text-sm whitespace-nowrap"
+                  className="neo-button min-w-[10rem] px-8 py-2 font-bold text-sm whitespace-nowrap"
                 >
                   Add to Cart
                 </button>
 
-                {/* Price Display */}
+                {/* Price - compact, no assurance copy */}
                 <div className="text-right">
-                  <div className="flex items-center justify-end gap-2">
-                    {isSubscription && originalPrice > 0 && (
-                      <span className="text-sm md:text-base font-clinical line-through opacity-50">
-                        {formatPrice(originalPrice)}
-                      </span>
-                    )}
-                    <span
-                      className={`text-xl md:text-2xl font-bold ${
-                        isSubscription
-                          ? formulaId === "01"
-                            ? "text-amber-600"
-                            : "text-teal-600"
-                          : ""
-                      }`}
-                    >
-                      {formatPrice(price)}
-                    </span>
-                    <span className="font-clinical text-xs opacity-70 font-normal leading-none">
-                      + Free Shipping
-                    </span>
-                  </div>
-                  {isSubscription && (
-                    <div className="flex justify-end mt-1">
-                      <span
-                        className={`inline-flex items-center gap-1 ${
-                          formulaId === "01" ? "bg-amber-500" : "bg-teal-500"
-                        } text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="10"
-                          height="10"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        SAVE {SUBSCRIPTION_DISCOUNT}%
-                      </span>
-                    </div>
-                  )}
+                  <span
+                    className={`text-lg md:text-xl font-bold ${
+                      isSubscription
+                        ? formulaId === "01"
+                          ? "text-amber-600"
+                          : "text-teal-600"
+                        : ""
+                    }`}
+                  >
+                    {formatPrice(price)}
+                  </span>
                 </div>
               </div>
             </div>
