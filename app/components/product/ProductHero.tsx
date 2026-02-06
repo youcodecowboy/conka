@@ -117,7 +117,7 @@ export default function ProductHero({
               {/* Content */}
               <div className="p-4 md:p-6 space-y-6">
                 {/* Description (formula headline) */}
-                <p className="font-commentary text-lg opacity-90">
+                <p className="text-lg opacity-90">
                   {formula.headline}
                 </p>
 
@@ -300,12 +300,55 @@ export default function ProductHero({
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-3xl font-bold">
-                      {formatPrice(pricing.price)}
-                    </p>
-                    <p className="font-clinical text-xs opacity-70">
+                    <div className="flex items-baseline justify-end gap-2">
+                      {purchaseType === "subscription" && (
+                        <span className="text-xl font-clinical line-through opacity-50">
+                          {formatPrice(
+                            formulaPricing["one-time"][selectedPack].price
+                          )}
+                        </span>
+                      )}
+                      <span
+                        className="text-3xl font-bold"
+                        style={
+                          purchaseType === "subscription"
+                            ? {
+                                color:
+                                  formulaId === "01" ? "#d97706" : "#AAB9BC",
+                              }
+                            : undefined
+                        }
+                      >
+                        {formatPrice(pricing.price)}
+                      </span>
+                    </div>
+                    <p className="font-clinical text-xs opacity-70 mt-0.5">
                       {formatPrice(pricing.perShot)}/shot
                     </p>
+                    {purchaseType === "subscription" && (
+                      <span
+                        className={`inline-flex items-center gap-1 mt-1 ${
+                          formulaId === "01"
+                            ? "bg-amber-500"
+                            : "bg-teal-500"
+                        } text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="10"
+                          height="10"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        SAVE 20%
+                      </span>
+                    )}
                   </div>
                 </div>
 
