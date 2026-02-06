@@ -72,7 +72,7 @@ export default function ProductHero({
   const oneTimeColor = formulaId === "01" ? "invert" : accentColor.hex;
 
   return (
-    <section className="px-6 md:px-16 py-8 md:py-16">
+    <section className="px-6 md:px-16 pt-4 md:pt-8 pb-8 md:pb-16">
       <div className="max-w-6xl mx-auto lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%]">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left: Product Image */}
