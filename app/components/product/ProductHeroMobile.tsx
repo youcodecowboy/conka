@@ -72,7 +72,7 @@ export default function ProductHeroMobile({
   const oneTimeColor = formulaId === "01" ? "invert" : accentColor.hex;
 
   return (
-    <section className="pt-6 pb-4">
+    <section className="pt-0 pb-4">
       <div className="neo-box">
         {/* Header - product name + subtitle */}
         <div className={`p-4 ${headerBgClass}`}>
