@@ -1,28 +1,39 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import {
   PackSize,
   PurchaseType,
   ProtocolTier,
   formulaPricing,
   protocolPricing,
+  protocolContent,
   formatPrice,
   getBillingLabel,
   FormulaId,
   ProtocolId,
 } from "@/app/lib/productData";
 
-// Subscription discount percentage
-const SUBSCRIPTION_DISCOUNT = 20;
+const packSizes: PackSize[] = ["4", "8", "12", "28"];
+const packLabels: Record<PackSize, string> = {
+  "4": "4-pack",
+  "8": "8-pack",
+  "12": "12-pack",
+  "28": "28-pack",
+};
+const tierLabels: Record<ProtocolTier, string> = {
+  starter: "Starter",
+  pro: "Pro",
+  max: "Max",
+};
 
 interface StickyPurchaseFooterMobileProps {
-  // For formula pages
   formulaId?: FormulaId;
   selectedPack?: PackSize;
-  // For protocol pages
+  onPackSelect?: (pack: PackSize) => void;
   protocolId?: ProtocolId;
   selectedTier?: ProtocolTier;
-  // Shared
+  onTierSelect?: (tier: ProtocolTier) => void;
   purchaseType: PurchaseType;
   onAddToCart: () => void;
 }
@@ -30,151 +41,208 @@ interface StickyPurchaseFooterMobileProps {
 export default function StickyPurchaseFooterMobile({
   formulaId,
   selectedPack,
+  onPackSelect,
   protocolId,
   selectedTier,
+  onTierSelect,
   purchaseType,
   onAddToCart,
 }: StickyPurchaseFooterMobileProps) {
-  // Calculate price and billing frequency
-  let price = 0;
-  let originalPrice = 0;
-  let billingText = "";
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const isSubscription = purchaseType === "subscription";
 
+  let variantLabel = "";
+  let priceLine = "";
+  let price = 0;
+  let showPackSelector = false;
+  let showTierSelector = false;
+  let availableTiers: ProtocolTier[] = [];
+
   if (formulaId && selectedPack) {
+    variantLabel = packLabels[selectedPack];
     const pricing = formulaPricing[purchaseType][selectedPack];
     price = pricing.price;
-    // Get original price for comparison
-    originalPrice = formulaPricing["one-time"][selectedPack].price;
-    if (isSubscription && "billing" in pricing) {
-      billingText = getBillingLabel(pricing.billing);
-    }
+    priceLine = `${formatPrice(pricing.perShot)} / serving`;
+    showPackSelector = !!onPackSelect;
   } else if (protocolId && selectedTier) {
+    variantLabel = tierLabels[selectedTier];
     const pricingType = protocolId === "4" ? "ultimate" : "standard";
     const tierPricing = protocolPricing[pricingType][purchaseType];
     if (selectedTier in tierPricing) {
       const pricing = tierPricing[selectedTier as keyof typeof tierPricing];
       price = pricing.price;
-      // Get original price for comparison
-      const oneTimePricing = protocolPricing[pricingType]["one-time"];
-      if (selectedTier in oneTimePricing) {
-        originalPrice =
-          (oneTimePricing as Record<string, { price: number }>)[selectedTier]
-            ?.price || 0;
-      }
-      if (isSubscription && pricing && "billing" in pricing) {
-        billingText = getBillingLabel(pricing.billing);
-      }
     }
+    priceLine = formatPrice(price);
+    const protocol = protocolContent[protocolId];
+    availableTiers = protocol?.availableTiers ?? [];
+    showTierSelector = !!onTierSelect;
   }
 
-  // Determine accent colors based on formula
+  const hasSelector = (showPackSelector && selectedPack) || (showTierSelector && selectedTier && availableTiers.length > 0);
+
   const accentBorderClass =
     formulaId === "01" ? "border-amber-500" : "border-teal-500";
   const accentTextClass =
     formulaId === "01" ? "text-amber-600" : "text-teal-600";
-  const accentBgClass = formulaId === "01" ? "bg-amber-500" : "bg-teal-500";
 
-  // Always visible - no scroll logic needed
   return (
-    <div
-      className={`fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] border-t-2 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] ${
-        isSubscription ? accentBorderClass : "border-black"
-      }`}
-    >
-      <div className="px-4 py-3">
-        <div className="flex items-center justify-between gap-4">
-          {/* Price Section */}
-          <div className="flex-1">
-            <div className="flex items-center gap-2">
-              {isSubscription && originalPrice > 0 && (
-                <span className="text-sm font-clinical line-through opacity-50">
-                  {formatPrice(originalPrice)}
-                </span>
-              )}
-              <span
-                className={`text-xl font-bold ${isSubscription ? accentTextClass : ""}`}
-              >
-                {formatPrice(price)}
-              </span>
-              <span className="font-clinical text-xs opacity-60">
-                + Free Shipping
-              </span>
-            </div>
-            <div className="flex items-center gap-2 mt-0.5">
-              <p className="font-clinical text-xs opacity-50">
-                {isSubscription && billingText
-                  ? billingText.charAt(0).toUpperCase() + billingText.slice(1)
-                  : "One-time purchase"}
-              </p>
-              {isSubscription && (
-                <span
-                  className={`inline-flex items-center gap-1 ${accentBgClass} text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="8"
-                    height="8"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+    <>
+      {showDropdown && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowDropdown(false)}
+          aria-hidden
+        />
+      )}
+      <div
+        className={`fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] border-t-2 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] ${
+          isSubscription ? accentBorderClass : "border-black"
+        }`}
+      >
+        <div className="px-5 py-3">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex-1 min-w-0 flex flex-col">
+              {hasSelector ? (
+                <div className="relative w-full min-w-0" ref={dropdownRef}>
+                  <button
+                    type="button"
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    className="w-full rounded-full border-2 border-black bg-[var(--background)] px-4 py-2 text-left flex items-center gap-2 hover:bg-black/5 transition-colors min-w-0"
                   >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                  SAVE {SUBSCRIPTION_DISCOUNT}%
-                </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-clinical text-sm font-medium truncate">
+                        {variantLabel}
+                        {isSubscription ? " (Save 20%)" : ""}
+                      </p>
+                      <p
+                        className={`font-clinical text-xs mt-0.5 ${isSubscription ? accentTextClass : "opacity-70"}`}
+                      >
+                        {priceLine}
+                      </p>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`flex-shrink-0 transition-transform ${showDropdown ? "rotate-180" : ""}`}
+                    >
+                      <polyline points="18 15 12 9 6 15" />
+                    </svg>
+                  </button>
+
+                  {showDropdown && (
+                    <div className="absolute bottom-full left-0 mb-2 w-full min-w-[200px] bg-[var(--background)] border-2 border-current rounded-lg overflow-hidden shadow-lg max-h-[60vh] overflow-y-auto">
+                    {showPackSelector &&
+                      packSizes.map((pack) => {
+                        const packPricing = formulaPricing[purchaseType][pack];
+                        const billingText =
+                          purchaseType === "subscription" && "billing" in packPricing
+                            ? getBillingLabel(packPricing.billing)
+                            : "One-time";
+                        return (
+                          <button
+                            key={pack}
+                            type="button"
+                            onClick={() => {
+                              onPackSelect?.(pack);
+                              setShowDropdown(false);
+                            }}
+                            className={`w-full px-4 py-2.5 text-left text-sm hover:bg-black/5 transition-colors flex justify-between items-center gap-3 ${
+                              selectedPack === pack ? "bg-black/5 font-semibold" : ""
+                            }`}
+                          >
+                            <span className="font-clinical">
+                              {packLabels[pack]} {billingText}
+                            </span>
+                            <span className="font-clinical text-xs opacity-70 whitespace-nowrap">
+                              {formatPrice(packPricing.price)}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    {showTierSelector &&
+                      protocolId &&
+                      availableTiers.map((tier) => {
+                        const pricingType =
+                          protocolId === "4" ? "ultimate" : "standard";
+                        const tierPricing =
+                          protocolPricing[pricingType][purchaseType];
+                        const tierData =
+                          tierPricing[tier as keyof typeof tierPricing];
+                        if (!tierData) return null;
+                        const billingText =
+                          purchaseType === "subscription" &&
+                          "billing" in tierData
+                            ? getBillingLabel(tierData.billing)
+                            : "One-time";
+                        return (
+                          <button
+                            key={tier}
+                            type="button"
+                            onClick={() => {
+                              onTierSelect?.(tier);
+                              setShowDropdown(false);
+                            }}
+                            className={`w-full px-4 py-2.5 text-left text-sm hover:bg-black/5 transition-colors flex justify-between items-center gap-3 ${
+                              selectedTier === tier ? "bg-black/5 font-semibold" : ""
+                            }`}
+                          >
+                            <span className="font-clinical">
+                              {tierLabels[tier]} {billingText}
+                            </span>
+                            <span className="font-clinical text-xs opacity-70 whitespace-nowrap">
+                              {formatPrice(tierData.price)}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <p className="font-clinical text-sm font-medium truncate">
+                    {variantLabel}
+                    {isSubscription ? " (Save 20%)" : ""}
+                  </p>
+                  <p
+                    className={`font-clinical text-xs mt-0.5 ${isSubscription ? accentTextClass : "opacity-70"}`}
+                  >
+                    {priceLine}
+                  </p>
+                </>
               )}
             </div>
-          </div>
-
-          {/* Divider */}
-          <div className="w-px h-10 bg-black/10"></div>
-
-          {/* CTA Section */}
-          <div className="flex flex-col items-center">
             <button
               onClick={onAddToCart}
-              className="neo-button px-5 py-2 font-bold text-sm whitespace-nowrap flex items-center gap-2"
+              className="neo-button px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="9" cy="21" r="1" />
-                <circle cx="20" cy="21" r="1" />
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-              </svg>
-              Add to Cart
+              Add
             </button>
-            <span className="font-clinical text-xs opacity-50 mt-1 flex items-center gap-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="10"
-                height="10"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-              100-day guarantee
-            </span>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
