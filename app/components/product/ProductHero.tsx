@@ -147,7 +147,7 @@ export default function ProductHero({
               </div>
 
               {/* Block 5: Pack Selector */}
-              <div className="px-4 md:px-6">
+              <div>
                 <PackSelectorPremium
                   selectedPack={selectedPack}
                   onSelect={onPackSelect}
@@ -159,7 +159,7 @@ export default function ProductHero({
               </div>
 
               {/* Block 6: Purchase type + price */}
-              <div className="px-4 md:px-6 flex flex-col gap-3">
+              <div className="flex flex-col gap-3">
                 <div className="space-y-2">
                   <p className="premium-data uppercase opacity-70 mb-2">
                     How would you like to purchase?
@@ -353,15 +353,13 @@ export default function ProductHero({
               </div>
 
               {/* Block 7: CTA */}
-              <div className="px-4 md:px-6 pb-4 md:pb-6">
+              <div className="pb-4 md:pb-6">
                 <button
                   onClick={onAddToCart}
                   className="w-full px-8 py-4 font-bold text-lg text-white rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px 8px_rgba(0,0,0,0.12)]"
                   style={
                     formulaId === "01"
-                      ? purchaseType === "subscription"
-                        ? { background: "linear-gradient(90deg, #ffde59 0%, #ff914d 100%)" }
-                        : { backgroundColor: "#f59e0b" }
+                      ? { background: "linear-gradient(90deg, #ffde59 0%, #ff914d 100%)" }
                       : { background: "linear-gradient(90deg, #cdffd8 0%, #94b9ff 100%)" }
                   }
                 >
