@@ -8,9 +8,8 @@ import {
   formulaPricing,
   formatPrice,
   getBillingLabel,
-  FORMULA_COLORS,
 } from "@/app/lib/productData";
-import PackSelector from "./PackSelector";
+import PackSelectorPremium from "./PackSelectorPremium";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import PaymentLogos from "../PaymentLogos";
 
@@ -61,17 +60,14 @@ export default function ProductHero({
     { src: "/formulas/conkaClear/ClearReviews.jpg" },
   ];
 
-  const oneTimeColor = formulaId === "01" ? "invert" : FORMULA_COLORS[formulaId].hex;
-
   return (
-    <section className="premium-section pt-4 md:pt-8 pb-8 md:pb-16">
-      <div className="w-full lg:w-[90vw] lg:max-w-[90vw] lg:ml-auto lg:mr-0">
-        <div className="premium-hero-layout">
+    <section className="premium-section pt-8 md:pt-10 pb-8 md:pb-16">
+      <div className="w-full lg:w-[90vw] lg:max-w-[90vw] lg:mx-auto">
+        <div className="flex flex-col lg:flex-row gap-4">
           {/* Left: Product Image */}
-          <div className="premium-hero-media order-1 lg:order-1">
-            <div className="sticky top-24">
-              <div className="relative w-full lg:-ml-8 xl:-ml-10 group">
-                <ProductImageSlideshow
+          <div className="relative z-0 lg:w-[55%] lg:sticky lg:top-24 order-1 lg:order-1">
+            <div className="relative w-full group">
+              <ProductImageSlideshow
                   images={
                     formulaId === "01"
                       ? flowSlideshowImages
@@ -79,20 +75,18 @@ export default function ProductHero({
                   }
                   alt={`${formula.name} bottle`}
                 />
-              </div>
             </div>
           </div>
 
           {/* Right: Product Info Box */}
-          <div className="premium-hero-stack order-2 lg:order-2 relative z-10">
-            <div className="premium-box relative z-10">
-              {/* Block 1: Title (no header strip) */}
+          <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 min-w-0 order-2 lg:order-2 relative z-10">
+            <div className="premium-box flex flex-col gap-2.5 lg:gap-[1.875rem] border-none relative z-10">
+              {/* Block 1: Title (primary font throughout) */}
               <div className="px-4 md:px-6 pt-4 md:pt-6">
-                <h1 className="premium-display leading-tight">
+                <h1 className="premium-display leading-tight font-primary">
                   {formulaId === "01" ? (
                     <>
-                      <span className="font-primary">CONKA</span>{" "}
-                      <span className="font-clinical">FL0W</span>
+                      CONKA <span className="font-primary">FL0W</span>
                     </>
                   ) : (
                     formula.name
@@ -100,8 +94,11 @@ export default function ProductHero({
                 </h1>
               </div>
 
-              {/* Block 2: Immediate proof */}
+              {/* Block 2: Social proof + immediate proof */}
               <div className="px-4 md:px-6">
+                <p className="premium-data opacity-90 mb-2">
+                  Over 100,000 shots sold
+                </p>
                 <div className="flex items-center gap-2 flex-wrap">
                   <div className="flex" aria-hidden>
                     {[1, 2, 3, 4, 5].map((i) => (
@@ -157,11 +154,10 @@ export default function ProductHero({
 
               {/* Block 5: Pack Selector */}
               <div className="px-4 md:px-6">
-                <PackSelector
+                <PackSelectorPremium
                   selectedPack={selectedPack}
                   onSelect={onPackSelect}
                   purchaseType={purchaseType}
-                  highlightColor={oneTimeColor}
                   subscriptionAccentColor={
                     formulaId === "01" ? "#f59e0b" : "#AAB9BC"
                   }
