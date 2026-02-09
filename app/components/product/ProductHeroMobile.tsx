@@ -10,6 +10,8 @@ import {
   getBillingLabel,
   FORMULA_COLORS,
 } from "@/app/lib/productData";
+import { testimonials } from "@/app/lib/testimonialsData";
+import Testimonials from "../testimonials/Testimonials";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import PackSelector from "./PackSelector";
 import PaymentLogos from "../PaymentLogos";
@@ -336,6 +338,15 @@ export default function ProductHeroMobile({
           </button>
         </div>
       </div>
+
+      {/* Social proof: auto-scrolling testimonials */}
+      {testimonials.length > 0 && (
+        <Testimonials
+          testimonials={testimonials}
+          maxReviews={8}
+          autoScrollOnly
+        />
+      )}
     </section>
   );
 }
