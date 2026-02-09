@@ -61,11 +61,11 @@ export default function ProductHero({
   ];
 
   return (
-    <section className="premium-section pt-8 md:pt-10 pb-8 md:pb-16">
+    <section className="premium-section pt-4 md:pt-6 pb-8 md:pb-16">
       <div className="w-full lg:w-[90vw] lg:max-w-[90vw] lg:mx-auto">
-        <div className="flex flex-col lg:flex-row gap-4">
+        <div className="flex flex-col lg:flex-row lg:justify-center gap-4">
           {/* Left: Product Image */}
-          <div className="relative z-0 lg:w-[55%] lg:sticky lg:top-24 order-1 lg:order-1">
+          <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 lg:sticky lg:top-24 order-1 lg:order-1">
             <div className="relative w-full group">
               <ProductImageSlideshow
                   images={
@@ -79,7 +79,7 @@ export default function ProductHero({
           </div>
 
           {/* Right: Product Info Box */}
-          <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 min-w-0 order-2 lg:order-2 relative z-10">
+          <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
             <div className="premium-box flex flex-col gap-2.5 lg:gap-[1.875rem] border-none relative z-10">
               {/* Block 1: Title (primary font throughout) */}
               <div className="px-4 md:px-6 pt-4 md:pt-6">
