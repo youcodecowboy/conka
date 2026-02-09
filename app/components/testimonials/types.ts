@@ -32,6 +32,10 @@ export interface TestimonialCardProps {
   showRating?: boolean;
   /** Whether this is mobile view (affects padding) */
   isMobile?: boolean;
-  /** When "productHero", card uses white bg, rounded corners, fixed min-height for equal-height strip */
+  /** When "productHero", card uses grey bg, rounded corners, fixed min-height for equal-height strip */
   variant?: "default" | "productHero";
+  /** When variant is productHero and strip is interactable: controlled expanded state */
+  isExpanded?: boolean;
+  /** When variant is productHero and strip is interactable: called when user toggles Read more/less */
+  onToggleExpand?: () => void;
 }
