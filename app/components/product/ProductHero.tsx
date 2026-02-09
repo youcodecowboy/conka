@@ -77,10 +77,9 @@ export default function ProductHero({
             </div>
           </div>
 
-          {/* Right: Product Info Box – grey base for depth */}
-          <div className="flex flex-col gap-3 flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10 bg-[#f4f6f5] rounded-2xl p-3 md:p-4 lg:p-4">
-            {/* Main content: white card floating above grey */}
-            <div className="premium-box flex flex-col gap-1.5 lg:gap-3 !border-0 bg-white rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] relative z-10 px-4 md:px-6 pt-3 md:pt-4 pb-4 md:pb-6">
+          {/* Right: Product Info Box */}
+          <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
+            <div className="premium-box flex flex-col gap-1.5 lg:gap-3 !border-0 relative z-10 px-4 md:px-6 pt-3 md:pt-4 pb-4 md:pb-6">
               {/* Top section: stars above title + title + subline bubble */}
               <div className="mb-0">
                 <div className="flex items-center gap-2 flex-wrap mb-2">
@@ -124,25 +123,27 @@ export default function ProductHero({
                 {formula.headline}
               </p>
 
-              {/* Benefit tiles – info only, not button-like */}
-              <div className="flex flex-wrap gap-2">
-                {formula.benefits.slice(0, 4).map((benefit, idx) => (
-                  <div
-                    key={idx}
-                    className="flex-1 min-w-[100px] px-3 py-2 rounded-lg bg-white/80 shadow-[0_1px 3px_rgba(0,0,0,0.05)] font-primary text-sm text-center flex flex-col items-center gap-0.5"
-                  >
-                    <span
-                      className="font-clinical text-base font-bold"
-                      style={{
-                        color:
-                          formulaId === "01" ? "#f59e0b" : "#AAB9BC",
-                      }}
+              {/* Benefit stats – flat, in grey section */}
+              <div className="bg-[#f4f6f5] rounded-xl px-4 py-3 pb-5 w-fit max-w-full">
+                <div className="flex flex-wrap gap-x-6 gap-y-1">
+                  {formula.benefits.slice(0, 4).map((benefit, idx) => (
+                    <div
+                      key={idx}
+                      className="font-primary text-sm flex flex-col items-center gap-0"
                     >
-                      {benefit.stat}
-                    </span>
-                    <span className="leading-tight text-current/90">{benefit.title}</span>
-                  </div>
-                ))}
+                      <span
+                        className="font-clinical text-base font-bold"
+                        style={{
+                          color:
+                            formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                        }}
+                      >
+                        {benefit.stat}
+                      </span>
+                      <span className="leading-tight text-current/90">{benefit.title}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Block 5: Pack Selector */}
