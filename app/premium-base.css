@@ -34,7 +34,7 @@
   --premium-container-max: 72rem;
 
   /* ----- Hero layout ----- */
-  --premium-hero-media-width: 55%;
+  --premium-hero-media-width: 50%;
   --premium-hero-column-gap: 2rem;
   --premium-hero-stack-gap-desktop: 1.875rem;
   --premium-hero-stack-gap-mobile: 0.625rem;
