@@ -86,7 +86,6 @@ export default function ConkaFlowPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          <PDPPlaceholder step={1} />
           <PDPPlaceholder step={2} />
           <PDPPlaceholder step={3} />
           <PDPPlaceholder step={4} />
