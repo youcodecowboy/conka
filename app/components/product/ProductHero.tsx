@@ -112,7 +112,7 @@ export default function ProductHero({
                   )}
                 </h1>
                 <div className="mt-4">
-                  <span className="inline-block px-4 py-1 rounded-full bg-black/[0.06] border border-black/10 premium-data text-current/90 text-sm">
+                  <span className="inline-block px-4 py-1 rounded-full bg-[#f4f6f5] border border-black/10 premium-data text-current/90 text-sm">
                     Liquid · 1 shot (30ml) daily · {selectedPack}-pack
                   </span>
                 </div>
@@ -128,7 +128,7 @@ export default function ProductHero({
                   {formula.benefits.slice(0, 4).map((benefit, idx) => (
                     <div
                       key={idx}
-                      className="flex-1 min-w-[100px] px-4 py-3 rounded-2xl bg-current/5 font-primary text-sm text-center flex flex-col items-center gap-1"
+                      className="flex-1 min-w-[100px] px-4 py-3 rounded-2xl bg-[#f4f6f5] font-primary text-sm text-center flex flex-col items-center gap-1"
                     >
                       <span
                         className="font-clinical text-base font-bold"
@@ -166,7 +166,7 @@ export default function ProductHero({
                     onClick={() => onPurchaseTypeChange("subscription")}
                     className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-start gap-3 cursor-pointer hover:border-opacity-50 ${
                       purchaseType === "subscription"
-                        ? "border-current border-opacity-40 bg-current/5"
+                        ? "border-current border-opacity-40 bg-[#f4f6f5]"
                         : "border-current border-opacity-20"
                     }`}
                   >
@@ -269,7 +269,7 @@ export default function ProductHero({
                     onClick={() => onPurchaseTypeChange("one-time")}
                     className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-center gap-3 cursor-pointer hover:border-opacity-50 ${
                       purchaseType === "one-time"
-                        ? "border-current border-opacity-40 bg-current/5"
+                        ? "border-current border-opacity-40 bg-[#f4f6f5]"
                         : "border-current border-opacity-20"
                     }`}
                   >
@@ -287,7 +287,7 @@ export default function ProductHero({
                     <span className="font-bold">One-time</span>
                   </button>
                 </div>
-                <div className="flex justify-between items-center py-4 rounded-lg border-2 border-current border-opacity-20 bg-current/5 px-4">
+                <div className="flex justify-between items-center py-4 rounded-lg border-2 border-current border-opacity-20 bg-[#f4f6f5] px-4">
                   <div>
                     <p className="premium-data uppercase opacity-70">
                       Your Selection
