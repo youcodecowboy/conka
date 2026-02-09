@@ -79,9 +79,9 @@ export default function ProductHero({
 
           {/* Right: Product Info Box */}
           <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
-            <div className="premium-box flex flex-col gap-2.5 lg:gap-[1.875rem] border-none relative z-10 px-4 md:px-6 pt-4 md:pt-6 pb-4 md:pb-6">
+            <div className="premium-box flex flex-col gap-2.5 lg:gap-[1.875rem] !border-0 relative z-10 px-4 md:px-6 pt-4 md:pt-6 pb-4 md:pb-6">
               {/* Top section: stars above title + title + subline bubble */}
-              <div className="mb-6">
+              <div className="mb-3">
                 <div className="flex items-center gap-2 flex-wrap mb-4">
                   <div className="flex" aria-hidden>
                     {[1, 2, 3, 4, 5].map((i) => (
@@ -119,7 +119,7 @@ export default function ProductHero({
               </div>
 
               {/* Headline description – critical, minimal padding above */}
-              <p className="premium-body text-current/90 font-medium text-base md:text-lg leading-snug mb-6">
+              <p className="premium-body text-current/90 font-medium text-base md:text-lg leading-snug mb-3">
                 {formula.headline}
               </p>
 
