@@ -8,7 +8,7 @@ const GAP = 24;
 
 /**
  * Auto-scrolling testimonials strip for product hero.
- * Background #f4f6f5, white rounded equal-height cards, no user interaction.
+ * White section background, grey rounded equal-height cards, no user interaction.
  * Slower scroll on mobile (via CSS media query).
  */
 export default function TestimonialsAutoScrollStrip({
@@ -20,10 +20,7 @@ export default function TestimonialsAutoScrollStrip({
   const duplicated = [...testimonials, ...testimonials];
 
   return (
-    <section
-      className="w-full py-10 md:py-14 px-4 md:px-6"
-      style={{ backgroundColor: "#f4f6f5" }}
-    >
+    <section className="w-full py-10 md:py-14 px-4 md:px-6 bg-white">
       <div className="max-w-[1400px] mx-auto">
         {/* Header */}
         <div className="text-center mb-8 md:mb-10">
