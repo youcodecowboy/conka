@@ -33,6 +33,12 @@
   /* ----- Layout ----- */
   --premium-container-max: 72rem;
 
+  /* ----- Hero layout ----- */
+  --premium-hero-media-width: 55%;
+  --premium-hero-column-gap: 2rem;
+  --premium-hero-stack-gap-desktop: 1.875rem;
+  --premium-hero-stack-gap-mobile: 0.625rem;
+
   /* ----- Border (use sparingly) ----- */
   --premium-border-width: 1px;
   --premium-border-color: rgba(0, 0, 0, 0.12);
@@ -50,6 +56,59 @@
   max-width: var(--premium-container-max);
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Hero layout: two-column desktop, single-column mobile */
+.premium-hero-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--premium-hero-column-gap);
+}
+
+@media (min-width: 1024px) {
+  .premium-hero-layout {
+    flex-direction: row;
+  }
+}
+
+.premium-hero-media {
+  position: relative;
+  z-index: 0;
+}
+
+@media (min-width: 1024px) {
+  .premium-hero-media {
+    width: var(--premium-hero-media-width);
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+.premium-hero-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--premium-hero-stack-gap-mobile);
+}
+
+@media (min-width: 1024px) {
+  .premium-hero-stack {
+    flex: 1 1 0%;
+    min-width: 0;
+    gap: var(--premium-hero-stack-gap-desktop);
+  }
+}
+
+/* Hero stack content card: one gap between all blocks */
+.premium-hero-stack .premium-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--premium-hero-stack-gap-mobile);
+}
+
+@media (min-width: 1024px) {
+  .premium-hero-stack .premium-box {
+    gap: var(--premium-hero-stack-gap-desktop);
+  }
 }
 
 /* Type roles */
