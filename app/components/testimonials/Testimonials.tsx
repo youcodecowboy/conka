@@ -1,18 +1,21 @@
 "use client";
 
 import useIsMobile from "../../hooks/useIsMobile";
+import TestimonialsAutoScrollStrip from "./TestimonialsAutoScrollStrip";
 import TestimonialsDesktop from "./TestimonialsDesktop";
 import TestimonialsMobile from "./TestimonialsMobile";
 import type { TestimonialsProps } from "./types";
 
 /**
  * Testimonials component orchestrator
- * Conditionally renders mobile or desktop version based on viewport size
+ * When autoScrollOnly: renders non-interactive auto-scrolling strip (#f4f6f5, white cards).
+ * Otherwise: conditional mobile/desktop with arrows, dots, swipe.
  */
 export default function Testimonials({
   testimonials,
   maxReviews,
   showRating = true,
+  autoScrollOnly = false,
 }: TestimonialsProps) {
   const isMobile = useIsMobile(1024); // lg breakpoint
 
@@ -20,6 +23,15 @@ export default function Testimonials({
   const displayTestimonials = maxReviews
     ? testimonials.slice(0, maxReviews)
     : testimonials;
+
+  if (autoScrollOnly) {
+    return (
+      <TestimonialsAutoScrollStrip
+        testimonials={displayTestimonials}
+        showRating={showRating}
+      />
+    );
+  }
 
   // Render mobile version on smaller viewports
   if (isMobile) {
