@@ -1,0 +1,96 @@
+# CONKA Style Guide 02 – Premium Base
+
+**Version:** 1.0  
+**Status:** Foundation (Phase 1)  
+**Use with:** Individual PDP refactor; see [PDP_PREMIUM_REFACTOR_PLAN.md](docs/development/PDP_PREMIUM_REFACTOR_PLAN.md)
+
+---
+
+## 1. Purpose and scope
+
+Premium Base is a **token-based layer** that signals trust, calm authority, and restraint. It is **additive**: it does not replace Style Guide 01. It reduces visual noise (fewer borders, one shape language, a small spacing vocabulary) and locks typography to **roles** instead of ad-hoc sizes.
+
+**When to use**
+
+- Individual product page (conka-flow first, then conka-clarity when refactored)
+- Purchase column and product hero on those pages
+- Any new PDP section built for the Phase 2 flow
+
+**When not to use**
+
+- Navigation, footer, homepage, protocols, shop, quiz, science, other pages
+- Those stay on Style Guide 01 until explicitly migrated
+
+---
+
+## 2. Token set (reference)
+
+Values live in `app/premium-base.css`. This section describes what each token is for.
+
+### Spacing scale (5 steps + section)
+
+| Token role | Use case |
+|------------|----------|
+| XS | Inline gaps (e.g. between icon and label) |
+| S | Between related items (e.g. label + value) |
+| M | Between blocks (e.g. paragraphs, cards in a row) |
+| L | Between sections |
+| XL | Between major page moments |
+| Section | Default vertical and horizontal padding for a section (page rhythm) |
+
+Use only these. No one-off values (e.g. no `gap-10` or `py-20` unless they map to a token).
+
+### Radius scale (2 values)
+
+| Token | Use |
+|-------|-----|
+| Base | Containers, cards, content boxes. Slightly rounded; no sharp corners. |
+| Interactive | Buttons, inputs, controls. More rounded; can remain pill-shaped. |
+
+Do not mix 0 radius and 9999px everywhere. One base, one interactive.
+
+### Typography roles (5)
+
+| Role | Font | Use | Rule |
+|------|------|-----|------|
+| Display | Primary (Poppins) | Hero headline only. Rare. | Do not use for section titles. |
+| Heading | Primary (Poppins) | Section titles. | One size/weight for all section headings. |
+| Body | Primary (Poppins) | Default copy. | 90% of text. |
+| Data | Clinical (IBM Plex Mono) | Stats, labels, technical. | Numbers, small labels, references. |
+| Annotation | Commentary (Caveat) | Subtext, short quotes, occasional. | Not for body copy. |
+
+**Rule:** If you cannot name the role (Display / Heading / Body / Data / Annotation), do not introduce a new size. Pick the closest role.
+
+### Layout
+
+- **Section padding:** One vertical value, one horizontal value. Default rhythm for every section so most pages need no custom layout.
+- **Container max-width:** One value. Content width for PDP content area.
+
+---
+
+## 3. Borders
+
+Use borders **sparingly**. Let spacing and typography create hierarchy.
+
+- One default border width and one border color (can alias `--foreground` with opacity).
+- Use borders for: grouping related content, or marking an interactive boundary. Not for every box.
+
+---
+
+## 4. Don’t use rules
+
+- **CTAs:** Do not stack more than 2 primary CTAs in a single block.
+- **Annotation:** Do not use Annotation (Caveat) for body copy or long paragraphs.
+- **Accent colour:** Do not use accent colours (teal, amber) for paragraph text.
+- **Mixing systems:** Do not mix premium and neo-brutalist in the same section (e.g. no `neo-box` + `premium-section` on the same container).
+- **Spacing:** Do not add new spacing values outside the defined scale.
+
+---
+
+## 5. Relationship to Style Guide 01
+
+- **Colours:** Same. Use `--background`, `--foreground`, and formula colours (teal, amber). No new colours in SG02.
+- **Fonts:** Same. Poppins, Caveat, IBM Plex Mono. SG02 only assigns them to roles and defines sizes/weights for those roles.
+- **Components:** Buttons, cards, and other UI components remain defined in Style Guide 01 until we evolve them. Premium Base is tokens and semantic layout/type classes only.
+
+Premium is an evolution: same palette and typefaces, tighter spacing vocabulary, one shape language, and role-based typography.
