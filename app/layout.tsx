@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Caveat, IBM_Plex_Mono } from "next/font/google";
+import { Poppins, Caveat, IBM_Plex_Mono, Syne, DM_Sans } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
@@ -24,6 +24,19 @@ const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
+});
+
+/* Premium PDP style guide: display + body (sharp, legible; move away from Poppins) */
+const syne = Syne({
+  variable: "--font-premium-display",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-premium-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -123,7 +136,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${poppins.variable} ${caveat.variable} ${ibmPlexMono.variable} antialiased`}
+        className={`${poppins.variable} ${caveat.variable} ${ibmPlexMono.variable} ${syne.variable} ${dmSans.variable} antialiased`}
       >
         <ConvexClientProvider>
           <AuthProvider>

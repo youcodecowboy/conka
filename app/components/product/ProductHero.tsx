@@ -8,11 +8,9 @@ import {
   formulaPricing,
   formatPrice,
   getBillingLabel,
-  FORMULA_COLORS,
 } from "@/app/lib/productData";
-import PackSelector from "./PackSelector";
+import PackSelectorPremium from "./PackSelectorPremium";
 import ProductImageSlideshow from "./ProductImageSlideshow";
-import PaymentLogos from "../PaymentLogos";
 
 interface ProductHeroProps {
   formulaId: FormulaId;
@@ -61,17 +59,14 @@ export default function ProductHero({
     { src: "/formulas/conkaClear/ClearReviews.jpg" },
   ];
 
-  const oneTimeColor = formulaId === "01" ? "invert" : FORMULA_COLORS[formulaId].hex;
-
   return (
-    <section className="premium-section pt-4 md:pt-8 pb-8 md:pb-16">
-      <div className="premium-container lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%]">
-        <div className="premium-hero-layout">
+    <section className="premium-section pt-4 md:pt-6 pb-8 md:pb-16">
+      <div className="w-full lg:w-[90vw] lg:max-w-[90vw] lg:mx-auto">
+        <div className="flex flex-col lg:flex-row lg:justify-center gap-4">
           {/* Left: Product Image */}
-          <div className="premium-hero-media order-1 lg:order-1">
-            <div className="sticky top-24">
-              <div className="relative w-full max-w-2xl lg:-ml-12 xl:-ml-16 group">
-                <ProductImageSlideshow
+          <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 lg:sticky lg:top-24 order-1 lg:order-1">
+            <div className="relative w-full group">
+              <ProductImageSlideshow
                   images={
                     formulaId === "01"
                       ? flowSlideshowImages
@@ -79,30 +74,15 @@ export default function ProductHero({
                   }
                   alt={`${formula.name} bottle`}
                 />
-              </div>
             </div>
           </div>
 
           {/* Right: Product Info Box */}
-          <div className="premium-hero-stack order-2 lg:order-2 relative z-10">
-            <div className="premium-box relative z-10">
-              {/* Block 1: Title (no header strip) */}
-              <div className="px-4 md:px-6 pt-4 md:pt-6">
-                <h1 className="premium-display leading-tight">
-                  {formulaId === "01" ? (
-                    <>
-                      <span className="font-primary">CONKA</span>{" "}
-                      <span className="font-clinical">FL0W</span>
-                    </>
-                  ) : (
-                    formula.name
-                  )}
-                </h1>
-              </div>
-
-              {/* Block 2: Immediate proof */}
-              <div className="px-4 md:px-6">
-                <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
+            <div className="premium-box flex flex-col gap-1.5 lg:gap-3 !border-0 relative z-10 px-4 md:px-6 pt-3 md:pt-4 pb-4 md:pb-6">
+              {/* Top section: stars above title + title + subline bubble */}
+              <div className="mb-0">
+                <div className="flex items-center gap-2 flex-wrap mb-2">
                   <div className="flex" aria-hidden>
                     {[1, 2, 3, 4, 5].map((i) => (
                       <svg
@@ -112,81 +92,91 @@ export default function ProductHero({
                         height="18"
                         viewBox="0 0 24 24"
                         fill="currentColor"
-                        className={formulaId === "01" ? "text-amber-500" : "text-[#AAB9BC]"}
+                        className={formulaId === "01" ? "text-amber-500" : "text-[#94b9ff]"}
                       >
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
                     ))}
                   </div>
-                  <span className="premium-data opacity-90">
-                    Trusted by 1,000+ customers
+                  <span className="premium-data text-current/90">
+                    Over 100,000 shots sold
+                  </span>
+                </div>
+                <h1 className="premium-display leading-tight font-primary text-current">
+                  {formulaId === "01" ? (
+                    <>
+                      CONKA <span className="font-primary">FL0W</span>
+                    </>
+                  ) : (
+                    formula.name
+                  )}
+                </h1>
+                <div className="mt-2">
+                  <span className="inline-block px-4 py-1 rounded-full bg-black/[0.04] premium-data text-current/90 text-sm">
+                    Liquid · 1 shot (30ml) daily · {selectedPack}-pack
                   </span>
                 </div>
               </div>
 
-              {/* Block 3: Subline */}
-              <p className="px-4 md:px-6 premium-data leading-tight opacity-90">
-                Liquid · 1 shot (30ml) daily · {selectedPack}-pack
+              {/* Headline description */}
+              <p className="premium-body text-current/90 font-medium text-base md:text-lg leading-snug mb-1.5">
+                {formula.headline}
               </p>
 
-              {/* Block 4: Description + benefit tiles */}
-              <div className="px-4 md:px-6">
-                <p className="premium-body opacity-90">
-                  {formula.headline}
-                </p>
-                <div className="flex flex-wrap gap-2 mt-2">
+              {/* Benefit stats – flat, in grey section, full width, evenly spread */}
+              <div className="bg-[#f4f6f5] rounded-xl px-4 py-3 pb-5 w-full">
+                <div className="flex w-full justify-between gap-2">
                   {formula.benefits.slice(0, 4).map((benefit, idx) => (
                     <div
                       key={idx}
-                      className="flex-1 min-w-[100px] px-4 py-3 rounded-2xl bg-current/5 font-primary text-sm text-center flex flex-col items-center gap-1"
+                      className="font-primary text-sm flex flex-1 min-w-0 flex-col items-center justify-center gap-0 text-center"
                     >
                       <span
                         className="font-clinical text-base font-bold"
                         style={{
                           color:
-                            formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                            formulaId === "01" ? "#f59e0b" : "#94b9ff",
                         }}
                       >
                         {benefit.stat}
                       </span>
-                      <span className="leading-tight">{benefit.title}</span>
+                      <span className="leading-tight text-current/90">{benefit.title}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Block 5: Pack Selector */}
-              <div className="px-4 md:px-6">
-                <PackSelector
+              <div>
+                <PackSelectorPremium
                   selectedPack={selectedPack}
                   onSelect={onPackSelect}
                   purchaseType={purchaseType}
-                  highlightColor={oneTimeColor}
                   subscriptionAccentColor={
-                    formulaId === "01" ? "#f59e0b" : "#AAB9BC"
+                    formulaId === "01" ? "#f59e0b" : "#94b9ff"
                   }
                 />
               </div>
 
               {/* Block 6: Purchase type + price */}
-              <div className="px-4 md:px-6 flex flex-col gap-3">
+              <div className="flex flex-col gap-3">
                 <div className="space-y-2">
                   <p className="premium-data uppercase opacity-70 mb-2">
                     How would you like to purchase?
                   </p>
                   <button
                     onClick={() => onPurchaseTypeChange("subscription")}
-                    className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-start gap-3 cursor-pointer hover:border-opacity-50 ${
+                    className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 cursor-pointer bg-white shadow-[0_1px 4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px 8px_rgba(0,0,0,0.08)] ${
                       purchaseType === "subscription"
-                        ? "border-current border-opacity-40 bg-current/5"
-                        : "border-current border-opacity-20"
+                        ? "ring-2 ring-black/10 shadow-[0_2px 8px_rgba(0,0,0,0.08)]"
+                        : ""
                     }`}
                   >
                     <span
                       className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
                         purchaseType === "subscription"
-                          ? "border-current"
-                          : "border-current border-opacity-50"
+                          ? "border-current bg-current/10"
+                          : "border-black/30"
                       }`}
                     >
                       {purchaseType === "subscription" && (
@@ -200,7 +190,7 @@ export default function ProductHero({
                           className="px-2 py-0.5 rounded-full text-xs font-clinical text-white flex-shrink-0"
                           style={{
                             backgroundColor:
-                              formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                              formulaId === "01" ? "#f59e0b" : "#94b9ff",
                           }}
                         >
                           20% off
@@ -279,17 +269,17 @@ export default function ProductHero({
                   </button>
                   <button
                     onClick={() => onPurchaseTypeChange("one-time")}
-                    className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-center gap-3 cursor-pointer hover:border-opacity-50 ${
+                    className={`w-full text-left p-3 rounded-xl transition-all flex items-center gap-3 cursor-pointer bg-white shadow-[0_1px 4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px 8px_rgba(0,0,0,0.08)] ${
                       purchaseType === "one-time"
-                        ? "border-current border-opacity-40 bg-current/5"
-                        : "border-current border-opacity-20"
+                        ? "ring-2 ring-black/10 shadow-[0_2px 8px_rgba(0,0,0,0.08)]"
+                        : ""
                     }`}
                   >
                     <span
                       className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                         purchaseType === "one-time"
-                          ? "border-current"
-                          : "border-current border-opacity-50"
+                          ? "border-current bg-current/10"
+                          : "border-black/30"
                       }`}
                     >
                       {purchaseType === "one-time" && (
@@ -299,7 +289,7 @@ export default function ProductHero({
                     <span className="font-bold">One-time</span>
                   </button>
                 </div>
-                <div className="flex justify-between items-center py-4 rounded-lg border-2 border-current border-opacity-20 bg-current/5 px-4">
+                <div className="flex justify-between items-center py-4 rounded-xl bg-white shadow-[0_1px 4px_rgba(0,0,0,0.06)] border border-black/[0.06] px-4">
                   <div>
                     <p className="premium-data uppercase opacity-70">
                       Your Selection
@@ -323,7 +313,7 @@ export default function ProductHero({
                           purchaseType === "subscription"
                             ? {
                                 color:
-                                  formulaId === "01" ? "#d97706" : "#AAB9BC",
+                                  formulaId === "01" ? "#d97706" : "#94b9ff",
                               }
                             : undefined
                         }
@@ -339,7 +329,7 @@ export default function ProductHero({
                         className={`inline-flex items-center gap-1 mt-1 ${
                           formulaId === "01"
                             ? "bg-amber-500"
-                            : "bg-teal-500"
+                            : "bg-[#94b9ff]"
                         } text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}
                       >
                         <svg
@@ -363,16 +353,20 @@ export default function ProductHero({
               </div>
 
               {/* Block 7: CTA */}
-              <div className="px-4 md:px-6 pb-4 md:pb-6">
+              <div className="pb-4 md:pb-6">
                 <button
                   onClick={onAddToCart}
-                  className="w-full neo-button px-8 py-4 font-bold text-lg"
+                  className="w-full px-8 py-4 font-bold text-lg text-white rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px 8px_rgba(0,0,0,0.12)]"
+                  style={
+                    formulaId === "01"
+                      ? { background: "linear-gradient(90deg, #ffde59 0%, #ff914d 100%)" }
+                      : { background: "linear-gradient(90deg, #cdffd8 0%, #94b9ff 100%)" }
+                  }
                 >
                   {purchaseType === "subscription"
                     ? "Subscribe Now"
                     : "Add to Cart"}
                 </button>
-                <PaymentLogos size="sm" className="mt-2" />
               </div>
             </div>
           </div>

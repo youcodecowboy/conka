@@ -84,41 +84,20 @@ export default function ConkaFlowPage() {
             purchaseType={purchaseType}
             onPurchaseTypeChange={setPurchaseType}
             onAddToCart={handleAddToCartFromHero}
-            usePremium
           />
 
-          {/* Step 1 — Immediate proof */}
-          <PDPPlaceholder step={1} usePremium />
+          <PDPPlaceholder step={1} />
+          <PDPPlaceholder step={2} />
+          <PDPPlaceholder step={3} />
+          <PDPPlaceholder step={4} />
 
-          {/* Step 2 — Problem */}
-          <PDPPlaceholder step={2} usePremium />
-
-          {/* Step 3 — Outcomes */}
-          <PDPPlaceholder step={3} usePremium />
-
-          {/* Step 4 — Timeline */}
-          <PDPPlaceholder step={4} usePremium />
-
-          {/* Step 5 — How it works */}
-          <HowItWorks formulaId="01" usePremium />
-
-          {/* Step 6 — Ingredients */}
-          <FormulaIngredients formulaId="01" usePremium />
-
-          {/* Step 7 — Proof and science */}
-          <FormulaBenefitsMobile formulaId="01" usePremium />
-
-          {/* Step 8 — Comparison */}
-          <PDPPlaceholder step={8} usePremium />
-
-          {/* Step 9 — Social proof */}
-          <FormulaCaseStudiesMobile formulaId="01" usePremium />
-
-          {/* Protocol CTAs (mobile-only) */}
-          <ProtocolBenefitsMobile formulaId="01" usePremium />
-
-          {/* Step 10 — FAQ */}
-          <FormulaFAQ formulaId="01" usePremium />
+          <HowItWorks formulaId="01" />
+          <FormulaIngredients formulaId="01" />
+          <FormulaBenefitsMobile formulaId="01" />
+          <PDPPlaceholder step={8} />
+          <FormulaCaseStudiesMobile formulaId="01" />
+          <ProtocolBenefitsMobile formulaId="01" />
+          <FormulaFAQ formulaId="01" />
 
           {/* Step 11 — Final CTA */}
           <StickyPurchaseFooterMobile
@@ -138,7 +117,7 @@ export default function ConkaFlowPage() {
   // Desktop version — Phase 2 flow: 0 → 1 → … → 11
   return (
     <div
-      className="min-h-screen theme-conka-flow lg:pt-20"
+      className="min-h-screen theme-conka-flow lg:pt-8"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       <Navigation />
@@ -151,38 +130,19 @@ export default function ConkaFlowPage() {
           purchaseType={purchaseType}
           onPurchaseTypeChange={setPurchaseType}
           onAddToCart={handleAddToCartFromHero}
-          usePremium
         />
 
-        {/* Step 1 — Immediate proof */}
-        <PDPPlaceholder step={1} usePremium />
+        <PDPPlaceholder step={1} />
+        <PDPPlaceholder step={2} />
+        <PDPPlaceholder step={3} />
+        <PDPPlaceholder step={4} />
 
-        {/* Step 2 — Problem */}
-        <PDPPlaceholder step={2} usePremium />
-
-        {/* Step 3 — Outcomes */}
-        <PDPPlaceholder step={3} usePremium />
-
-        {/* Step 4 — Timeline */}
-        <PDPPlaceholder step={4} usePremium />
-
-        {/* Step 5 — How it works */}
-        <HowItWorks formulaId="01" usePremium />
-
-        {/* Step 6 — Ingredients */}
-        <FormulaIngredients formulaId="01" usePremium />
-
-        {/* Step 7 — Proof and science */}
-        <FormulaBenefits formulaId="01" usePremium />
-
-        {/* Step 8 — Comparison */}
-        <PDPPlaceholder step={8} usePremium />
-
-        {/* Step 9 — Social proof */}
-        <FormulaCaseStudies formulaId="01" usePremium />
-
-        {/* Step 10 — FAQ */}
-        <FormulaFAQ formulaId="01" usePremium />
+        <HowItWorks formulaId="01" />
+        <FormulaIngredients formulaId="01" />
+        <FormulaBenefits formulaId="01" />
+        <PDPPlaceholder step={8} />
+        <FormulaCaseStudies formulaId="01" />
+        <FormulaFAQ formulaId="01" />
 
         {/* Related Products CTA */}
         <section className="premium-section">

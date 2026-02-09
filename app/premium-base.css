@@ -2,6 +2,9 @@
  * CONKA Style Guide 02 – Premium Base
  * Tokens and semantic classes for PDP premium layer.
  * Applied only inside a premium wrapper (e.g. .premium-pdp) in Phase 3.
+ *
+ * Typography: Display (Syne – geometric, premium; swap to New Haus when licensed).
+ * Body: DM Sans – sharp, legible, neutral sans.
  */
 
 :root {
@@ -18,13 +21,14 @@
   --premium-radius-base: 0.5rem;
   --premium-radius-interactive: 9999px;
 
-  /* ----- Typography (sizes in rem; families from globals) ----- */
+  /* ----- Typography: premium PDP (display + body; vars from layout.tsx) ----- */
   --premium-font-display-size: 2.5rem;
   --premium-font-display-weight: 700;
   --premium-font-heading-size: 1.5rem;
   --premium-font-heading-weight: 700;
   --premium-font-body-size: 1rem;
   --premium-font-body-weight: 400;
+  --premium-font-body-leading: 1.6;
   --premium-font-data-size: 0.875rem;
   --premium-font-data-weight: 500;
   --premium-font-annotation-size: 1.125rem;
@@ -32,12 +36,6 @@
 
   /* ----- Layout ----- */
   --premium-container-max: 72rem;
-
-  /* ----- Hero layout ----- */
-  --premium-hero-media-width: 55%;
-  --premium-hero-column-gap: 2rem;
-  --premium-hero-stack-gap-desktop: 1.875rem;
-  --premium-hero-stack-gap-mobile: 0.625rem;
 
   /* ----- Border (use sparingly) ----- */
   --premium-border-width: 1px;
@@ -58,60 +56,7 @@
   margin-right: auto;
 }
 
-/* Hero layout: two-column desktop, single-column mobile */
-.premium-hero-layout {
-  display: flex;
-  flex-direction: column;
-  gap: var(--premium-hero-column-gap);
-}
-
-@media (min-width: 1024px) {
-  .premium-hero-layout {
-    flex-direction: row;
-  }
-}
-
-.premium-hero-media {
-  position: relative;
-  z-index: 0;
-}
-
-@media (min-width: 1024px) {
-  .premium-hero-media {
-    width: var(--premium-hero-media-width);
-    position: sticky;
-    top: 6rem;
-  }
-}
-
-.premium-hero-stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--premium-hero-stack-gap-mobile);
-}
-
-@media (min-width: 1024px) {
-  .premium-hero-stack {
-    flex: 1 1 0%;
-    min-width: 0;
-    gap: var(--premium-hero-stack-gap-desktop);
-  }
-}
-
-/* Hero stack content card: one gap between all blocks */
-.premium-hero-stack .premium-box {
-  display: flex;
-  flex-direction: column;
-  gap: var(--premium-hero-stack-gap-mobile);
-}
-
-@media (min-width: 1024px) {
-  .premium-hero-stack .premium-box {
-    gap: var(--premium-hero-stack-gap-desktop);
-  }
-}
-
-/* Type roles */
+/* Type roles (global) */
 .premium-display {
   font-family: var(--font-primary), sans-serif;
   font-size: var(--premium-font-display-size);
@@ -131,6 +76,21 @@
   font-size: var(--premium-font-body-size);
   font-weight: var(--premium-font-body-weight);
   line-height: 1.5;
+}
+
+/* Premium PDP hero: display (Syne / New Haus) + body (DM Sans) from style guide */
+.premium-pdp .premium-hero-panel .premium-display-hero {
+  font-family: var(--font-premium-display), var(--font-primary), sans-serif;
+  font-size: var(--premium-font-display-size);
+  font-weight: var(--premium-font-display-weight);
+  line-height: 1.15;
+}
+
+.premium-pdp .premium-hero-panel .premium-body-hero {
+  font-family: var(--font-premium-body), sans-serif;
+  font-size: var(--premium-font-body-size);
+  font-weight: var(--premium-font-body-weight);
+  line-height: var(--premium-font-body-leading);
 }
 
 .premium-data {

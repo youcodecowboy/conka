@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
 import {
@@ -13,6 +12,7 @@ import {
   ProtocolBenefitsMobile,
   FormulaFAQ,
   HowItWorks,
+  PDPPlaceholder,
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
 } from "@/app/components/product";
@@ -31,7 +31,6 @@ export default function ConkaClarityPage() {
     useState<PurchaseType>("subscription");
   const { addToCart } = useCart();
 
-  // Hero section handler
   const handleAddToCartFromHero = async () => {
     const variantData = getFormulaVariantId("02", selectedPack, purchaseType);
     if (variantData?.variantId) {
@@ -49,7 +48,6 @@ export default function ConkaClarityPage() {
     }
   };
 
-  // Sticky footer handler
   const handleAddToCartFromFooter = async () => {
     const variantData = getFormulaVariantId("02", selectedPack, purchaseType);
     if (variantData?.variantId) {
@@ -67,7 +65,6 @@ export default function ConkaClarityPage() {
     }
   };
 
-  // Mobile version
   if (isMobile) {
     return (
       <div
@@ -75,8 +72,51 @@ export default function ConkaClarityPage() {
         style={{ background: "var(--background)", color: "var(--foreground)" }}
       >
         <Navigation />
+        <div className="premium-pdp">
+          <ProductHeroMobile
+            formulaId="02"
+            selectedPack={selectedPack}
+            onPackSelect={setSelectedPack}
+            purchaseType={purchaseType}
+            onPurchaseTypeChange={setPurchaseType}
+            onAddToCart={handleAddToCartFromHero}
+          />
 
-        <ProductHeroMobile
+          <PDPPlaceholder step={1} />
+          <PDPPlaceholder step={2} />
+          <PDPPlaceholder step={3} />
+          <PDPPlaceholder step={4} />
+
+          <HowItWorks formulaId="02" />
+          <FormulaIngredients formulaId="02" />
+          <FormulaBenefitsMobile formulaId="02" />
+          <PDPPlaceholder step={8} />
+          <FormulaCaseStudiesMobile formulaId="02" />
+          <ProtocolBenefitsMobile formulaId="02" />
+          <FormulaFAQ formulaId="02" />
+
+          <StickyPurchaseFooterMobile
+            formulaId="02"
+            selectedPack={selectedPack}
+            onPackSelect={setSelectedPack}
+            purchaseType={purchaseType}
+            onAddToCart={handleAddToCartFromFooter}
+            usePremium
+          />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="min-h-screen theme-conka-clarity lg:pt-8"
+      style={{ background: "var(--background)", color: "var(--foreground)" }}
+    >
+      <Navigation />
+      <div className="premium-pdp">
+        <ProductHero
           formulaId="02"
           selectedPack={selectedPack}
           onPackSelect={setSelectedPack}
@@ -85,98 +125,56 @@ export default function ConkaClarityPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        {/* What do you struggle with section */}
-        <FormulaBenefitsMobile formulaId="02" />
+        <PDPPlaceholder step={1} />
+        <PDPPlaceholder step={2} />
+        <PDPPlaceholder step={3} />
+        <PDPPlaceholder step={4} />
 
-        {/* Double Your Benefits - Protocol CTAs */}
-        <ProtocolBenefitsMobile formulaId="02" />
+        <HowItWorks formulaId="02" />
+        <FormulaIngredients formulaId="02" />
+        <FormulaBenefits formulaId="02" />
+        <PDPPlaceholder step={8} />
+        <FormulaCaseStudies formulaId="02" />
+        <FormulaFAQ formulaId="02" />
 
-        {/* Case Studies - Social Proof */}
-        <FormulaCaseStudiesMobile formulaId="02" />
+        <section className="premium-section">
+          <div className="premium-container">
+            <div className="premium-box p-8 md:p-12 text-center">
+              <h2 className="premium-heading mb-4">
+                Want the Complete Experience?
+              </h2>
+              <p className="premium-annotation mb-6">
+                combine CONKA Clear with CONKA Flow in a protocol
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="/conka-flow"
+                  className="neo-button-outline px-8 py-4 font-semibold text-lg"
+                >
+                  Explore CONKA Flow
+                </a>
+                <a
+                  href="/protocol/2"
+                  className="neo-button px-8 py-4 font-bold text-lg"
+                >
+                  View Protocols
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <Footer />
-
-        <StickyPurchaseFooterMobile
+        <StickyPurchaseFooter
           formulaId="02"
           selectedPack={selectedPack}
           onPackSelect={setSelectedPack}
           purchaseType={purchaseType}
+          onPurchaseTypeChange={setPurchaseType}
           onAddToCart={handleAddToCartFromFooter}
+          usePremium
         />
       </div>
-    );
-  }
-
-  // Desktop version
-  return (
-    <div
-      className="min-h-screen theme-conka-clarity lg:pt-20"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
-      {/* Navigation */}
-      <Navigation />
-
-      {/* Hero Section */}
-      <ProductHero
-        formulaId="02"
-        selectedPack={selectedPack}
-        onPackSelect={setSelectedPack}
-        purchaseType={purchaseType}
-        onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCartFromHero}
-      />
-
-      {/* Benefits Section */}
-      <FormulaBenefits formulaId="02" />
-
-      {/* Ingredients Section */}
-      <FormulaIngredients formulaId="02" />
-
-      {/* How It Works Section */}
-      <HowItWorks formulaId="02" />
-
-      {/* FAQ Section */}
-      <FormulaFAQ formulaId="02" />
-
-      {/* Related Products CTA */}
-      <section className="px-6 md:px-16 py-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="neo-box p-8 md:p-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Want the Complete Experience?
-            </h2>
-            <p className="font-commentary text-xl mb-6">
-              combine CONKA Clear with CONKA Flow in a protocol
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/conka-flow"
-                className="neo-button-outline px-8 py-4 font-semibold text-lg"
-              >
-                Explore CONKA Flow
-              </a>
-              <a
-                href="/protocol/2"
-                className="neo-button px-8 py-4 font-bold text-lg"
-              >
-                View Protocols
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <Footer />
-
-      {/* Sticky Purchase Footer */}
-      <StickyPurchaseFooter
-        formulaId="02"
-        selectedPack={selectedPack}
-        onPackSelect={setSelectedPack}
-        purchaseType={purchaseType}
-        onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCartFromFooter}
-      />
     </div>
   );
 }

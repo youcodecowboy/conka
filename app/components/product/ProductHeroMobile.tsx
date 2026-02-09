@@ -61,13 +61,14 @@ export default function ProductHeroMobile({
     { src: "/formulas/conkaClear/ClearReviews.jpg" },
   ];
 
-  const oneTimeColor = formulaId === "01" ? "invert" : FORMULA_COLORS[formulaId].hex;
+  const oneTimeColor =
+    formulaId === "01" ? "invert" : FORMULA_COLORS[formulaId].hex;
 
   return (
-    <section className="premium-section pt-0 pb-4">
-      <div className="premium-box">
+    <section className="pt-0 pb-4 px-0">
+      <div className="w-full min-w-0 px-3">
         {/* Header - product name + subtitle (premium, no colored strip) */}
-        <div className="p-4">
+        <div className="pt-3 pb-2">
           <h1 className="premium-display">
             {formulaId === "01" ? (
               <>
@@ -83,8 +84,8 @@ export default function ProductHeroMobile({
           </p>
         </div>
 
-        {/* Product Image + thumbnails */}
-        <div className="relative w-full bg-[#FAFAFA]">
+        {/* Product Image + thumbnails – full width */}
+        <div className="relative w-full bg-[#FAFAFA] -mx-3">
           <ProductImageSlideshow
             images={
               formulaId === "01" ? flowSlideshowImages : claritySlideshowImages
@@ -94,10 +95,8 @@ export default function ProductHeroMobile({
         </div>
 
         {/* Content */}
-        <div className="p-4 space-y-4">
-          <p className="premium-body opacity-90">
-            {formula.headline}
-          </p>
+        <div className="pt-3 pb-4 space-y-3">
+          <p className="premium-body opacity-90">{formula.headline}</p>
 
           <div className="flex flex-wrap gap-2">
             {formula.benefits.slice(0, 4).map((benefit, idx) => (
@@ -108,7 +107,7 @@ export default function ProductHeroMobile({
                 <span
                   className="font-clinical text-sm font-bold"
                   style={{
-                    color: formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                    color: formulaId === "01" ? "#f59e0b" : "#94b9ff",
                   }}
                 >
                   {benefit.stat}
@@ -125,9 +124,7 @@ export default function ProductHeroMobile({
             onSelect={onPackSelect}
             purchaseType={purchaseType}
             highlightColor={oneTimeColor}
-            subscriptionAccentColor={
-              formulaId === "01" ? "#f59e0b" : "#AAB9BC"
-            }
+            subscriptionAccentColor={formulaId === "01" ? "#f59e0b" : "#94b9ff"}
           />
 
           <div className="space-y-2">
@@ -160,7 +157,7 @@ export default function ProductHeroMobile({
                     className="px-2 py-0.5 rounded-full text-xs font-clinical text-white flex-shrink-0"
                     style={{
                       backgroundColor:
-                        formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                        formulaId === "01" ? "#f59e0b" : "#94b9ff",
                     }}
                   >
                     20% off
@@ -274,7 +271,7 @@ export default function ProductHeroMobile({
                 {purchaseType === "subscription" && (
                   <span className="text-base font-clinical line-through opacity-50">
                     {formatPrice(
-                      formulaPricing["one-time"][selectedPack].price
+                      formulaPricing["one-time"][selectedPack].price,
                     )}
                   </span>
                 )}
@@ -283,8 +280,7 @@ export default function ProductHeroMobile({
                   style={
                     purchaseType === "subscription"
                       ? {
-                          color:
-                            formulaId === "01" ? "#d97706" : "#AAB9BC",
+                          color: formulaId === "01" ? "#d97706" : "#94b9ff",
                         }
                       : undefined
                   }
@@ -298,7 +294,7 @@ export default function ProductHeroMobile({
               {purchaseType === "subscription" && (
                 <span
                   className={`inline-flex items-center gap-1 mt-1 ${
-                    formulaId === "01" ? "bg-amber-500" : "bg-teal-500"
+                    formulaId === "01" ? "bg-amber-500" : "bg-[#94b9ff]"
                   } text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}
                 >
                   <svg
@@ -322,13 +318,22 @@ export default function ProductHeroMobile({
 
           <button
             onClick={onAddToCart}
-            className="w-full neo-button py-4 font-bold text-base"
+            className={
+              formulaId === "01"
+                ? "w-full neo-button py-4 font-bold text-base"
+                : "w-full py-4 font-bold text-base text-white rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80"
+            }
+            style={
+              formulaId !== "01"
+                ? {
+                    background:
+                      "linear-gradient(90deg, #cdffd8 0%, #94b9ff 100%)",
+                  }
+                : undefined
+            }
           >
-            {purchaseType === "subscription"
-              ? "Subscribe Now"
-              : "Add to Cart"}
+            {purchaseType === "subscription" ? "Subscribe Now" : "Add to Cart"}
           </button>
-          <PaymentLogos size="sm" className="mt-2" />
         </div>
       </div>
     </section>

@@ -46,6 +46,7 @@ export default function ProductImageSlideshow({
                 fill
                 className="object-cover object-center"
                 priority={index === 0}
+                sizes="(max-width: 1023px) 100vw, 45vw"
               />
             </div>
           ))}
