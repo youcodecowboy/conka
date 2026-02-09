@@ -34,7 +34,7 @@ export default function PackSelectorPremium({
   className = "",
 }: PackSelectorPremiumProps) {
   return (
-    <div className={`space-y-3 ${className}`}>
+    <div className={`space-y-2 ${className}`}>
       <p className="premium-data uppercase opacity-70">Select Pack Size</p>
       <div className="grid grid-cols-4 gap-2">
         {packSizes.map((size) => {
@@ -52,10 +52,11 @@ export default function PackSelectorPremium({
               key={size}
               onClick={() => onSelect(size)}
               className={`
-                text-left transition-all overflow-hidden flex flex-col rounded-lg
+                text-left transition-all duration-200 overflow-hidden flex flex-col rounded-lg
                 border-[length:var(--premium-border-width)] border-[var(--premium-border-color)]
-                hover:border-opacity-60
-                ${isSelected ? "bg-current/10 border-opacity-40 ring-2 ring-current/30" : "bg-transparent border-opacity-20"}
+                hover:border-opacity-70 hover:shadow-md hover:scale-[1.02] active:scale-[0.99]
+                cursor-pointer
+                ${isSelected ? "bg-current/10 border-opacity-40 ring-2 ring-current/30 shadow-sm" : "bg-transparent border-opacity-20 hover:bg-black/5"}
               `}
             >
               <div
