@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./premium-base.css";
 
 :root {
   /* Color Palette - Style Guide 01 */
