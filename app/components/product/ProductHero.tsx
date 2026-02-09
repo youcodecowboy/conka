@@ -65,12 +65,12 @@ export default function ProductHero({
 
   return (
     <section className="premium-section pt-4 md:pt-8 pb-8 md:pb-16">
-      <div className="premium-container lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%]">
+      <div className="w-full lg:w-[90vw] lg:max-w-[90vw] lg:ml-auto lg:mr-0">
         <div className="premium-hero-layout">
           {/* Left: Product Image */}
           <div className="premium-hero-media order-1 lg:order-1">
             <div className="sticky top-24">
-              <div className="relative w-full max-w-2xl lg:-ml-12 xl:-ml-16 group">
+              <div className="relative w-full lg:-ml-8 xl:-ml-10 group">
                 <ProductImageSlideshow
                   images={
                     formulaId === "01"
