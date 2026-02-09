@@ -8,6 +8,7 @@ import {
   ProductHeroMobile,
   FormulaIngredients,
   FormulaBenefits,
+  FormulaBenefitsAtGlance,
   FormulaBenefitsMobile,
   ProtocolBenefitsMobile,
   FormulaFAQ,
@@ -84,12 +85,24 @@ export default function ConkaClarityPage() {
           />
 
           <PDPPlaceholder step={2} />
-          <PDPPlaceholder step={3} />
+          <FormulaBenefitsAtGlance formulaId="02" />
           <WhatToExpectTimeline formulaId="02" />
 
           <HowItWorks formulaId="02" />
           <FormulaIngredients formulaId="02" />
-          <FormulaBenefitsMobile formulaId="02" />
+          <section id="proof-and-science" className="premium-section" aria-labelledby="proof-and-science-heading">
+            <div className="premium-container">
+              <div className="text-center premium-stack-m">
+                <h2 id="proof-and-science-heading" className="premium-heading premium-stack-s">
+                  Research by benefit
+                </h2>
+                <p className="premium-annotation opacity-70">
+                  the science behind each area
+                </p>
+              </div>
+              <FormulaBenefitsMobile formulaId="02" />
+            </div>
+          </section>
           <PDPPlaceholder step={8} />
           <FormulaCaseStudiesMobile formulaId="02" />
           <ProtocolBenefitsMobile formulaId="02" />
@@ -127,12 +140,24 @@ export default function ConkaClarityPage() {
 
         <PDPPlaceholder step={1} />
         <PDPPlaceholder step={2} />
-        <PDPPlaceholder step={3} />
+        <FormulaBenefitsAtGlance formulaId="02" />
         <WhatToExpectTimeline formulaId="02" />
 
         <HowItWorks formulaId="02" />
         <FormulaIngredients formulaId="02" />
-        <FormulaBenefits formulaId="02" />
+        <section id="proof-and-science" className="premium-section" aria-labelledby="proof-and-science-heading">
+          <div className="premium-container">
+            <div className="text-center premium-stack-m">
+              <h2 id="proof-and-science-heading" className="premium-heading premium-stack-s">
+                Research by benefit
+              </h2>
+              <p className="premium-annotation opacity-70">
+                the science behind each area
+              </p>
+            </div>
+            <FormulaBenefits formulaId="02" />
+          </div>
+        </section>
         <PDPPlaceholder step={8} />
         <FormulaCaseStudies formulaId="02" />
         <FormulaFAQ formulaId="02" />
