@@ -52,19 +52,20 @@ export default function PackSelectorPremium({
               key={size}
               onClick={() => onSelect(size)}
               className={`
-                text-left transition-all duration-200 overflow-hidden flex flex-col rounded-lg
-                border-[length:var(--premium-border-width)] border-[var(--premium-border-color)]
-                hover:border-opacity-70 hover:shadow-md hover:scale-[1.02] active:scale-[0.99]
+                text-left transition-all duration-200 overflow-hidden flex flex-col rounded-xl
+                bg-white border border-black/[0.06]
+                shadow-[0_1px 4px_rgba(0,0,0,0.06)]
+                hover:shadow-[0_2px 10px_rgba(0,0,0,0.1)] hover:scale-[1.02] active:scale-[0.99]
                 cursor-pointer
-                ${isSelected ? "bg-current/10 border-opacity-40 ring-2 ring-current/30 shadow-sm" : "bg-transparent border-opacity-20 hover:bg-black/5"}
+                ${isSelected ? "ring-2 ring-black/15 shadow-[0_2px 10px_rgba(0,0,0,0.1)]" : ""}
               `}
             >
               <div
-                className="w-full min-w-0 px-2 py-1.5 rounded-t-[calc(var(--premium-radius-base)-1px)]"
+                className="w-full min-w-0 px-2 py-1.5 rounded-t-[10px]"
                 style={{
                   backgroundColor: isSelected
                     ? "var(--foreground)"
-                    : "rgba(0,0,0,0.05)",
+                    : "rgba(0,0,0,0.04)",
                   color: isSelected ? "var(--background)" : "var(--foreground)",
                 }}
               >
@@ -73,13 +74,13 @@ export default function PackSelectorPremium({
                 </p>
               </div>
               <div
-                className="px-2 py-1.5 flex-1 flex flex-col justify-end rounded-b-[calc(var(--premium-radius-base)-1px)]"
+                className="px-2 py-1.5 flex-1 flex flex-col justify-end rounded-b-[10px]"
                 style={{
                   backgroundColor: isSelected
                     ? purchaseType === "subscription"
                       ? subscriptionAccentColor
                       : "var(--foreground)"
-                    : "var(--background)",
+                    : "white",
                   color: isSelected ? "white" : "var(--foreground)",
                 }}
               >
