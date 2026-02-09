@@ -117,7 +117,7 @@ export default function ConkaFlowPage() {
   // Desktop version — Phase 2 flow: 0 → 1 → … → 11
   return (
     <div
-      className="min-h-screen theme-conka-flow lg:pt-16"
+      className="min-h-screen theme-conka-flow lg:pt-8"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       <Navigation />
