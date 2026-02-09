@@ -75,60 +75,62 @@ export default function ConkaFlowPage() {
         style={{ background: "var(--background)", color: "var(--foreground)" }}
       >
         <Navigation />
+        <div className="premium-pdp">
+          {/* Step 0 — Hero + Purchase */}
+          <ProductHeroMobile
+            formulaId="01"
+            selectedPack={selectedPack}
+            onPackSelect={setSelectedPack}
+            purchaseType={purchaseType}
+            onPurchaseTypeChange={setPurchaseType}
+            onAddToCart={handleAddToCartFromHero}
+            usePremium
+          />
 
-        {/* Step 0 — Hero + Purchase */}
-        <ProductHeroMobile
-          formulaId="01"
-          selectedPack={selectedPack}
-          onPackSelect={setSelectedPack}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCartFromHero}
-        />
+          {/* Step 1 — Immediate proof */}
+          <PDPPlaceholder step={1} usePremium />
 
-        {/* Step 1 — Immediate proof */}
-        <PDPPlaceholder step={1} />
+          {/* Step 2 — Problem */}
+          <PDPPlaceholder step={2} usePremium />
 
-        {/* Step 2 — Problem */}
-        <PDPPlaceholder step={2} />
+          {/* Step 3 — Outcomes */}
+          <PDPPlaceholder step={3} usePremium />
 
-        {/* Step 3 — Outcomes */}
-        <PDPPlaceholder step={3} />
+          {/* Step 4 — Timeline */}
+          <PDPPlaceholder step={4} usePremium />
 
-        {/* Step 4 — Timeline */}
-        <PDPPlaceholder step={4} />
+          {/* Step 5 — How it works */}
+          <HowItWorks formulaId="01" usePremium />
 
-        {/* Step 5 — How it works */}
-        <HowItWorks formulaId="01" />
+          {/* Step 6 — Ingredients */}
+          <FormulaIngredients formulaId="01" usePremium />
 
-        {/* Step 6 — Ingredients */}
-        <FormulaIngredients formulaId="01" />
+          {/* Step 7 — Proof and science */}
+          <FormulaBenefitsMobile formulaId="01" usePremium />
 
-        {/* Step 7 — Proof and science */}
-        <FormulaBenefitsMobile formulaId="01" />
+          {/* Step 8 — Comparison */}
+          <PDPPlaceholder step={8} usePremium />
 
-        {/* Step 8 — Comparison */}
-        <PDPPlaceholder step={8} />
+          {/* Step 9 — Social proof */}
+          <FormulaCaseStudiesMobile formulaId="01" usePremium />
 
-        {/* Step 9 — Social proof */}
-        <FormulaCaseStudiesMobile formulaId="01" />
+          {/* Protocol CTAs (mobile-only) */}
+          <ProtocolBenefitsMobile formulaId="01" usePremium />
 
-        {/* Protocol CTAs (mobile-only) */}
-        <ProtocolBenefitsMobile formulaId="01" />
+          {/* Step 10 — FAQ */}
+          <FormulaFAQ formulaId="01" usePremium />
 
-        {/* Step 10 — FAQ */}
-        <FormulaFAQ formulaId="01" />
-
+          {/* Step 11 — Final CTA */}
+          <StickyPurchaseFooterMobile
+            formulaId="01"
+            selectedPack={selectedPack}
+            onPackSelect={setSelectedPack}
+            purchaseType={purchaseType}
+            onAddToCart={handleAddToCartFromFooter}
+            usePremium
+          />
+        </div>
         <Footer />
-
-        {/* Step 11 — Final CTA */}
-        <StickyPurchaseFooterMobile
-          formulaId="01"
-          selectedPack={selectedPack}
-          onPackSelect={setSelectedPack}
-          purchaseType={purchaseType}
-          onAddToCart={handleAddToCartFromFooter}
-        />
       </div>
     );
   }
@@ -140,86 +142,88 @@ export default function ConkaFlowPage() {
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       <Navigation />
+      <div className="premium-pdp">
+        {/* Step 0 — Hero + Purchase */}
+        <ProductHero
+          formulaId="01"
+          selectedPack={selectedPack}
+          onPackSelect={setSelectedPack}
+          purchaseType={purchaseType}
+          onPurchaseTypeChange={setPurchaseType}
+          onAddToCart={handleAddToCartFromHero}
+          usePremium
+        />
 
-      {/* Step 0 — Hero + Purchase */}
-      <ProductHero
-        formulaId="01"
-        selectedPack={selectedPack}
-        onPackSelect={setSelectedPack}
-        purchaseType={purchaseType}
-        onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCartFromHero}
-      />
+        {/* Step 1 — Immediate proof */}
+        <PDPPlaceholder step={1} usePremium />
 
-      {/* Step 1 — Immediate proof */}
-      <PDPPlaceholder step={1} />
+        {/* Step 2 — Problem */}
+        <PDPPlaceholder step={2} usePremium />
 
-      {/* Step 2 — Problem */}
-      <PDPPlaceholder step={2} />
+        {/* Step 3 — Outcomes */}
+        <PDPPlaceholder step={3} usePremium />
 
-      {/* Step 3 — Outcomes */}
-      <PDPPlaceholder step={3} />
+        {/* Step 4 — Timeline */}
+        <PDPPlaceholder step={4} usePremium />
 
-      {/* Step 4 — Timeline */}
-      <PDPPlaceholder step={4} />
+        {/* Step 5 — How it works */}
+        <HowItWorks formulaId="01" usePremium />
 
-      {/* Step 5 — How it works */}
-      <HowItWorks formulaId="01" />
+        {/* Step 6 — Ingredients */}
+        <FormulaIngredients formulaId="01" usePremium />
 
-      {/* Step 6 — Ingredients */}
-      <FormulaIngredients formulaId="01" />
+        {/* Step 7 — Proof and science */}
+        <FormulaBenefits formulaId="01" usePremium />
 
-      {/* Step 7 — Proof and science */}
-      <FormulaBenefits formulaId="01" />
+        {/* Step 8 — Comparison */}
+        <PDPPlaceholder step={8} usePremium />
 
-      {/* Step 8 — Comparison */}
-      <PDPPlaceholder step={8} />
+        {/* Step 9 — Social proof */}
+        <FormulaCaseStudies formulaId="01" usePremium />
 
-      {/* Step 9 — Social proof */}
-      <FormulaCaseStudies formulaId="01" />
+        {/* Step 10 — FAQ */}
+        <FormulaFAQ formulaId="01" usePremium />
 
-      {/* Step 10 — FAQ */}
-      <FormulaFAQ formulaId="01" />
-
-      {/* Related Products CTA */}
-      <section className="px-6 md:px-16 py-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="neo-box p-8 md:p-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Want the Complete Experience?
-            </h2>
-            <p className="font-commentary text-xl mb-6">
-              combine CONKA Flow with CONKA Clear in a protocol
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/conka-clarity"
-                className="neo-button-outline px-8 py-4 font-semibold text-lg"
-              >
-                Explore CONKA Clear
-              </a>
-              <a
-                href="/protocol/1"
-                className="neo-button px-8 py-4 font-bold text-lg"
-              >
-                View Protocols
-              </a>
+        {/* Related Products CTA */}
+        <section className="premium-section">
+          <div className="premium-container">
+            <div className="premium-box p-8 md:p-12 text-center">
+              <h2 className="premium-heading mb-4">
+                Want the Complete Experience?
+              </h2>
+              <p className="premium-annotation mb-6">
+                combine CONKA Flow with CONKA Clear in a protocol
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="/conka-clarity"
+                  className="neo-button-outline px-8 py-4 font-semibold text-lg"
+                >
+                  Explore CONKA Clear
+                </a>
+                <a
+                  href="/protocol/1"
+                  className="neo-button px-8 py-4 font-bold text-lg"
+                >
+                  View Protocols
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
+        {/* Step 11 — Final CTA */}
+        <StickyPurchaseFooter
+          formulaId="01"
+          selectedPack={selectedPack}
+          onPackSelect={setSelectedPack}
+          purchaseType={purchaseType}
+          onPurchaseTypeChange={setPurchaseType}
+          onAddToCart={handleAddToCartFromFooter}
+          usePremium
+        />
+      </div>
       <Footer />
-
-      {/* Step 11 — Final CTA */}
-      <StickyPurchaseFooter
-        formulaId="01"
-        selectedPack={selectedPack}
-        onPackSelect={setSelectedPack}
-        purchaseType={purchaseType}
-        onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCartFromFooter}
-      />
     </div>
   );
 }

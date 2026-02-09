@@ -104,3 +104,35 @@
 .premium-stack-m:last-child {
   margin-bottom: 0;
 }
+
+/* Premium container (replaces neo-box when usePremium) */
+.premium-box {
+  border-radius: var(--premium-radius-base);
+  border: var(--premium-border-width) solid var(--premium-border-color);
+  background: var(--background);
+  padding: var(--premium-space-m) var(--premium-space-l);
+}
+
+.premium-box-inverted {
+  border-radius: var(--premium-radius-base);
+  border: var(--premium-border-width) solid var(--premium-border-color);
+  background: var(--foreground);
+  color: var(--background);
+  padding: var(--premium-space-m) var(--premium-space-l);
+}
+
+/* Scoped overrides: softer look inside .premium-pdp only */
+.premium-pdp .neo-box {
+  border-radius: var(--premium-radius-base);
+  border-width: var(--premium-border-width);
+  border-color: var(--premium-border-color);
+}
+
+.premium-pdp .neo-button,
+.premium-pdp .neo-button-outline {
+  border-width: var(--premium-border-width);
+}
+
+.premium-pdp [class*="shadow-"] {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
