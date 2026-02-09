@@ -3,14 +3,15 @@
 import Image from "next/image";
 import {
   FormulaId,
-  FORMULA_COLORS,
+  FORMULA_GRADIENTS,
+  interpolateHex,
   STRUGGLE_OPTIONS,
   formulaContent,
 } from "@/app/lib/productData";
 import { StruggleIcon } from "./StruggleIcons";
 
-/** Card background grey; section remains black. */
-const CARD_BG = "#f4f6f5";
+/** Card background grey (slightly darker); section remains black. */
+const CARD_BG = "#e5e8e6";
 
 const STATS_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   "01": {
@@ -32,7 +33,8 @@ export default function FormulaBenefitsAtGlance({
 }: FormulaBenefitsAtGlanceProps) {
   const formula = formulaContent[formulaId];
   const statsImage = STATS_IMAGE[formulaId];
-  const accentColor = FORMULA_COLORS[formulaId];
+  const gradient = FORMULA_GRADIENTS[formulaId];
+  const totalStats = STRUGGLE_OPTIONS.length;
 
   return (
     <section
@@ -72,9 +74,11 @@ export default function FormulaBenefitsAtGlance({
           </div>
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:gap-8">
-            {STRUGGLE_OPTIONS.map((struggle) => {
+            {STRUGGLE_OPTIONS.map((struggle, index) => {
               const solution = formula.struggleSolutions[struggle.id];
               if (!solution) return null;
+              const t = totalStats > 1 ? index / (totalStats - 1) : 0;
+              const statColor = interpolateHex(gradient.start, gradient.end, t);
 
               return (
                 <div
@@ -83,8 +87,11 @@ export default function FormulaBenefitsAtGlance({
                   style={{ background: CARD_BG }}
                 >
                   <span
-                    className={`font-clinical text-[60px] font-bold leading-[0.9] ${accentColor.text}`}
-                    style={{ fontVariantNumeric: "tabular-nums" }}
+                    className="font-clinical text-[60px] font-bold leading-[0.9]"
+                    style={{
+                      color: statColor,
+                      fontVariantNumeric: "tabular-nums",
+                    }}
                   >
                     {solution.stat}
                   </span>
