@@ -5,6 +5,7 @@ import { ClinicalStudy, FormulaId, FORMULA_COLORS } from "@/app/lib/productData"
 interface ClinicalStudyCardProps {
   study: ClinicalStudy;
   formulaId: FormulaId;
+  usePremium?: boolean;
 }
 
 // Icon components
@@ -65,17 +66,16 @@ const CheckCircleIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export default function ClinicalStudyCard({ study, formulaId }: ClinicalStudyCardProps) {
+export default function ClinicalStudyCard({ study, formulaId, usePremium = false }: ClinicalStudyCardProps) {
   const accentColor = FORMULA_COLORS[formulaId];
   const isDark = false; // Both formulas use light mode
 
+  const boxClass = usePremium
+    ? "premium-box overflow-hidden"
+    : `neo-box overflow-hidden ${isDark ? "bg-white/5 border-white/20" : "bg-white border-black/20"}`;
+
   return (
-    <div
-      className={`
-        neo-box overflow-hidden
-        ${isDark ? "bg-white/5 border-white/20" : "bg-white border-black/20"}
-      `}
-    >
+    <div className={boxClass}>
       {/* Header - Study Title */}
       <div
         className={`

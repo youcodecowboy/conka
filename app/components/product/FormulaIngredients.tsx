@@ -9,26 +9,35 @@ import {
 
 interface FormulaIngredientsProps {
   formulaId: FormulaId;
+  usePremium?: boolean;
 }
 
 export default function FormulaIngredients({
   formulaId,
+  usePremium = false,
 }: FormulaIngredientsProps) {
   const formula = formulaContent[formulaId];
   const accentColor = FORMULA_COLORS[formulaId];
+
+  const sectionClass = usePremium ? "premium-section" : "px-6 md:px-16 py-24";
+  const containerClass = usePremium ? "premium-container" : "max-w-6xl mx-auto";
+  const headingClass = usePremium ? "premium-heading mb-2" : "text-3xl md:text-4xl font-bold mb-2";
+  const subheadingClass = usePremium ? "premium-annotation" : "font-commentary text-xl";
+  const boxClass = usePremium ? "premium-box" : "neo-box";
+  const boxInvertedClass = usePremium ? "premium-box-inverted p-4 flex justify-between items-center" : "neo-box-inverted p-4 flex justify-between items-center";
 
   // Image path - using turmeric for CONKA Flow, CONKA_52.jpg for CONKA Clear
   const ingredientImage = formulaId === "01" ? "/tumeric.jpg" : "/CONKA_52.jpg";
 
   return (
-    <section className="px-6 md:px-16 py-24">
-      <div className="max-w-6xl mx-auto">
+    <section className={sectionClass}>
+      <div className={containerClass}>
         {/* Header */}
         <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+          <h2 className={headingClass}>
             Ingredients & Taste
           </h2>
-          <p className="font-commentary text-xl">what&apos;s inside</p>
+          <p className={subheadingClass}>what&apos;s inside</p>
         </div>
 
         <div className="flex flex-col md:flex-row gap-12 items-start">
@@ -54,8 +63,8 @@ export default function FormulaIngredients({
 
           {/* Right: Formula Box */}
           <div className="md:w-1/2">
-            <div className="neo-box">
-              <div className="neo-box-inverted p-4 flex justify-between items-center">
+            <div className={boxClass}>
+              <div className={boxInvertedClass}>
                 <h3 className="text-2xl font-bold">{formula.name}</h3>
                 {formula.patent ? (
                   <span className="font-clinical text-sm">

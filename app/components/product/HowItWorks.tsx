@@ -4,11 +4,20 @@ import { FormulaId, formulaContent, FORMULA_COLORS } from "@/app/lib/productData
 
 interface HowItWorksProps {
   formulaId: FormulaId;
+  usePremium?: boolean;
 }
 
-export default function HowItWorks({ formulaId }: HowItWorksProps) {
+export default function HowItWorks({ formulaId, usePremium = false }: HowItWorksProps) {
   const formula = formulaContent[formulaId];
   const accentColor = FORMULA_COLORS[formulaId];
+
+  const sectionClass = usePremium ? "premium-section bg-current/5" : "px-6 md:px-16 py-24 bg-current/5";
+  const containerClass = usePremium ? "premium-container" : "max-w-6xl mx-auto";
+  const boxClass = usePremium ? "premium-box p-8 mt-16" : "mt-16 neo-box p-8";
+  const headingClass = usePremium ? "premium-heading mb-2" : "text-3xl md:text-4xl font-bold mb-2";
+  const subheadingClass = usePremium ? "premium-annotation" : "font-commentary text-xl";
+  const stepTitleClass = usePremium ? "premium-heading mb-2" : "text-xl font-bold mb-2";
+  const stepBodyClass = usePremium ? "premium-body opacity-80" : "opacity-80";
 
   const steps = [
     {
@@ -29,12 +38,12 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
   ];
 
   return (
-    <section className="px-6 md:px-16 py-24 bg-current/5">
-      <div className="max-w-6xl mx-auto">
+    <section className={sectionClass}>
+      <div className={containerClass}>
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">How It Works</h2>
-          <p className="font-commentary text-xl">simple, effective, proven</p>
+          <h2 className={headingClass}>How It Works</h2>
+          <p className={subheadingClass}>simple, effective, proven</p>
         </div>
 
         {/* Steps */}
@@ -46,14 +55,14 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
               >
                 <span className="font-clinical text-xl font-bold">{step.number}</span>
               </div>
-              <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-              <p className="opacity-80">{step.description}</p>
+              <h3 className={stepTitleClass}>{step.title}</h3>
+              <p className={stepBodyClass}>{step.description}</p>
             </div>
           ))}
         </div>
 
         {/* When to Take Box */}
-        <div className="mt-16 neo-box p-8">
+        <div className={boxClass}>
           <div className="flex flex-col md:flex-row gap-8 items-center">
             <div className="md:w-1/3 text-center">
               <div
@@ -102,8 +111,8 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
               </p>
             </div>
             <div className="md:w-2/3">
-              <h3 className="text-2xl font-bold mb-4">When to Take {formula.name}</h3>
-              <p className="text-lg opacity-80 mb-4">{formula.whenToTake}</p>
+              <h3 className={usePremium ? "premium-heading mb-4" : "text-2xl font-bold mb-4"}>When to Take {formula.name}</h3>
+              <p className={usePremium ? "premium-body opacity-80 mb-4" : "text-lg opacity-80 mb-4"}>{formula.whenToTake}</p>
               <div className="flex flex-wrap gap-2">
                 {formula.keyPoints.map((point, idx) => (
                   <span

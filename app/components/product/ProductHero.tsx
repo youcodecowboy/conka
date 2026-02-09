@@ -21,6 +21,7 @@ interface ProductHeroProps {
   purchaseType: PurchaseType;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onAddToCart: () => void;
+  usePremium?: boolean;
 }
 
 export default function ProductHero({
@@ -30,6 +31,7 @@ export default function ProductHero({
   purchaseType,
   onPurchaseTypeChange,
   onAddToCart,
+  usePremium = false,
 }: ProductHeroProps) {
   const formula = formulaContent[formulaId];
   const pricing = formulaPricing[purchaseType][selectedPack];
@@ -71,9 +73,18 @@ export default function ProductHero({
 
   const oneTimeColor = formulaId === "01" ? "invert" : accentColor.hex;
 
+  const sectionClass = usePremium
+    ? "premium-section pt-4 md:pt-8 pb-8 md:pb-16"
+    : "px-6 md:px-16 pt-4 md:pt-8 pb-8 md:pb-16";
+  const containerClass = usePremium
+    ? "premium-container lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%]"
+    : "max-w-6xl mx-auto lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%]";
+  const boxClass = usePremium ? "premium-box relative z-10" : "neo-box relative z-10";
+  const headingClass = usePremium ? "premium-display leading-tight" : "text-2xl md:text-3xl font-bold leading-tight";
+
   return (
-    <section className="px-6 md:px-16 pt-4 md:pt-8 pb-8 md:pb-16">
-      <div className="max-w-6xl mx-auto lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%]">
+    <section className={sectionClass}>
+      <div className={containerClass}>
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left: Product Image */}
           <div className="lg:w-[55%] order-1 lg:order-1 relative z-0">
@@ -94,12 +105,12 @@ export default function ProductHero({
 
           {/* Right: Product Info Box */}
           <div className="lg:w-1/2 order-2 lg:order-2 relative z-10">
-            <div className="neo-box relative z-10">
+            <div className={boxClass}>
               {/* Header - product name + subtitle (form/dose/supply) */}
               <div
                 className={`p-4 md:p-6 ${headerBgClass}`}
               >
-                <h1 className="text-2xl md:text-3xl font-bold leading-tight">
+                <h1 className={headingClass}>
                   {formulaId === "01" ? (
                     <>
                       <span className="font-primary">CONKA</span>{" "}
@@ -109,7 +120,7 @@ export default function ProductHero({
                     formula.name
                   )}
                 </h1>
-                <p className="font-clinical text-sm mt-1 leading-tight opacity-90">
+                <p className={usePremium ? "premium-data mt-1 leading-tight opacity-90" : "font-clinical text-sm mt-1 leading-tight opacity-90"}>
                   Liquid · 1 shot (30ml) daily · {selectedPack}-pack
                 </p>
               </div>

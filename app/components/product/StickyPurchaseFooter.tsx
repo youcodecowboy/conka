@@ -29,6 +29,7 @@ interface StickyPurchaseFooterProps {
   purchaseType: PurchaseType;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onAddToCart: () => void;
+  usePremium?: boolean;
 }
 
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
@@ -49,6 +50,7 @@ export default function StickyPurchaseFooter({
   purchaseType,
   onPurchaseTypeChange,
   onAddToCart,
+  usePremium = false,
 }: StickyPurchaseFooterProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [showPackDropdown, setShowPackDropdown] = useState(false);
@@ -199,10 +201,10 @@ export default function StickyPurchaseFooter({
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="font-clinical font-bold text-sm md:text-base truncate">
+                  <p className={usePremium ? "premium-data font-bold truncate" : "font-clinical font-bold text-sm md:text-base truncate"}>
                     {productName}
                   </p>
-                  <p className="font-clinical text-xs opacity-70 truncate">
+                  <p className={usePremium ? "premium-data text-xs opacity-70 truncate" : "font-clinical text-xs opacity-70 truncate"}>
                     {productLabel}
                   </p>
                 </div>

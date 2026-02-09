@@ -8,9 +8,10 @@ import ClinicalStudyCard from "./ClinicalStudyCard";
 
 interface FormulaBenefitsProps {
   formulaId: FormulaId;
+  usePremium?: boolean;
 }
 
-export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
+export default function FormulaBenefits({ formulaId, usePremium = false }: FormulaBenefitsProps) {
   const formula = formulaContent[formulaId];
   const [selectedStruggle, setSelectedStruggle] = useState<StruggleId | null>(null);
   const solutionRef = useRef<HTMLDivElement>(null);
@@ -54,14 +55,14 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
       )}
 
       {/* Clinical Study Details Section */}
-      <div className="px-6 md:px-16 py-16">
-        <div className="max-w-6xl mx-auto">
+      <div className={usePremium ? "premium-section" : "px-6 md:px-16 py-16"}>
+        <div className={usePremium ? "premium-container" : "max-w-6xl mx-auto"}>
           {/* Section Header */}
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">
+            <h2 className={usePremium ? "premium-heading mb-2" : "text-2xl md:text-3xl font-bold mb-2"}>
               Clinical Study Details
             </h2>
-            <p className="font-commentary text-lg opacity-70">
+            <p className={usePremium ? "premium-annotation opacity-70" : "font-commentary text-lg opacity-70"}>
               {selectedStruggle
                 ? "the research behind this solution"
                 : "select a challenge above to see related research"}
@@ -70,14 +71,15 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
 
           {/* Clinical Study Card - Shows detailed study when a struggle is selected */}
           {currentStudy ? (
-            <ClinicalStudyCard study={currentStudy} formulaId={formulaId} />
+            <ClinicalStudyCard study={currentStudy} formulaId={formulaId} usePremium={usePremium} />
           ) : (
             // Default state - show summary stats
             <div
-              className={`
-                neo-box overflow-hidden
-                ${isDark ? "bg-white/5 border-white/20" : "bg-white border-black/20"}
-              `}
+              className={
+                usePremium
+                  ? "premium-box overflow-hidden"
+                  : `neo-box overflow-hidden ${isDark ? "bg-white/5 border-white/20" : "bg-white border-black/20"}`
+              }
             >
               <div
                 className={`

@@ -21,6 +21,7 @@ interface ProductHeroMobileProps {
   purchaseType: PurchaseType;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onAddToCart: () => void;
+  usePremium?: boolean;
 }
 
 export default function ProductHeroMobile({
@@ -30,6 +31,7 @@ export default function ProductHeroMobile({
   purchaseType,
   onPurchaseTypeChange,
   onAddToCart,
+  usePremium = false,
 }: ProductHeroMobileProps) {
   const formula = formulaContent[formulaId];
   const pricing = formulaPricing[purchaseType][selectedPack];
@@ -71,12 +73,16 @@ export default function ProductHeroMobile({
 
   const oneTimeColor = formulaId === "01" ? "invert" : accentColor.hex;
 
+  const sectionClass = usePremium ? "premium-section pt-0 pb-4" : "pt-0 pb-4";
+  const boxClass = usePremium ? "premium-box" : "neo-box";
+  const headingClass = usePremium ? "premium-display" : "text-xl font-bold";
+
   return (
-    <section className="pt-0 pb-4">
-      <div className="neo-box">
+    <section className={sectionClass}>
+      <div className={boxClass}>
         {/* Header - product name + subtitle */}
         <div className={`p-4 ${headerBgClass}`}>
-          <h1 className="text-xl font-bold">
+          <h1 className={headingClass}>
             {formulaId === "01" ? (
               <>
                 <span className="font-primary">CONKA</span>{" "}

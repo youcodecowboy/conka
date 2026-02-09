@@ -36,6 +36,7 @@ interface StickyPurchaseFooterMobileProps {
   onTierSelect?: (tier: ProtocolTier) => void;
   purchaseType: PurchaseType;
   onAddToCart: () => void;
+  usePremium?: boolean;
 }
 
 export default function StickyPurchaseFooterMobile({
@@ -47,6 +48,7 @@ export default function StickyPurchaseFooterMobile({
   onTierSelect,
   purchaseType,
   onAddToCart,
+  usePremium = false,
 }: StickyPurchaseFooterMobileProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
