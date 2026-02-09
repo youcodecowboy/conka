@@ -19,6 +19,10 @@ export interface TestimonialsProps {
   maxReviews?: number;
   /** Whether to show rating stars (default: true) */
   showRating?: boolean;
+  /** When true, render auto-scrolling strip only (no arrows/dots/swipe); slower on mobile */
+  autoScrollOnly?: boolean;
+  /** Multiplier for scroll duration on mobile (e.g. 1.5 = 50% slower). Used when autoScrollOnly. */
+  scrollSpeedMobileMultiplier?: number;
 }
 
 export interface TestimonialCardProps {
@@ -28,4 +32,10 @@ export interface TestimonialCardProps {
   showRating?: boolean;
   /** Whether this is mobile view (affects padding) */
   isMobile?: boolean;
+  /** When "productHero", card uses grey bg, rounded corners, fixed min-height for equal-height strip */
+  variant?: "default" | "productHero";
+  /** When variant is productHero and strip is interactable: controlled expanded state */
+  isExpanded?: boolean;
+  /** When variant is productHero and strip is interactable: called when user toggles Read more/less */
+  onToggleExpand?: () => void;
 }

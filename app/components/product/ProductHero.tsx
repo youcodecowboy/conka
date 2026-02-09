@@ -9,6 +9,8 @@ import {
   formatPrice,
   getBillingLabel,
 } from "@/app/lib/productData";
+import { testimonials } from "@/app/lib/testimonialsData";
+import Testimonials from "../testimonials/Testimonials";
 import PackSelectorPremium from "./PackSelectorPremium";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 
@@ -372,6 +374,15 @@ export default function ProductHero({
           </div>
         </div>
       </div>
+
+      {/* Social proof: auto-scrolling testimonials */}
+      {testimonials.length > 0 && (
+        <Testimonials
+          testimonials={testimonials}
+          maxReviews={8}
+          autoScrollOnly
+        />
+      )}
     </section>
   );
 }

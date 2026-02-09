@@ -326,3 +326,18 @@ body {
   white-space: nowrap;
   will-change: transform;
 }
+
+/* Testimonials auto-scroll strip: slower on mobile; pausable when interacting */
+.testimonials-marquee-strip {
+  animation: marquee 40s linear infinite;
+  display: flex;
+  will-change: transform;
+}
+.testimonials-marquee-strip.paused {
+  animation-play-state: paused;
+}
+@media (max-width: 1023px) {
+  .testimonials-marquee-strip {
+    animation-duration: 80s;
+  }
+}
