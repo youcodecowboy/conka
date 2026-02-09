@@ -36,14 +36,20 @@ function StarRating({ rating, isMobile = false }: { rating: number; isMobile?: b
 /**
  * Verified Customer Badge
  * Blue checkmark badge similar to Meta/X verified accounts
+ * compact: smaller for product hero cards
  */
-function VerifiedBadge() {
+function VerifiedBadge({ compact = false }: { compact?: boolean }) {
+  const size = compact ? 8 : 12;
   return (
-    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30">
+    <div
+      className={`inline-flex items-center gap-1 rounded-full bg-blue-500/10 border border-blue-500/30 ${
+        compact ? "px-1.5 py-0.5" : "px-2 py-0.5"
+      }`}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="12"
-        height="12"
+        width={size}
+        height={size}
         viewBox="0 0 24 24"
         fill="none"
         stroke="#3b82f6"
@@ -54,7 +60,9 @@ function VerifiedBadge() {
       >
         <path d="M20 6L9 17l-5-5" />
       </svg>
-      <span className="font-clinical text-[10px] text-blue-600 font-medium">
+      <span
+        className={`font-clinical text-blue-600 font-medium ${compact ? "text-[9px]" : "text-[10px]"}`}
+      >
         Verified Customer
       </span>
     </div>
@@ -78,30 +86,80 @@ function formatDate(dateString: string): string {
  * Reusable testimonial card component
  * Displays name, country, rating, headline, body, and date
  */
+const CHAR_LIMIT = 200;
+
 export default function TestimonialCard({
   testimonial,
   showRating = true,
   isMobile = false,
+  variant = "default",
+  isExpanded: controlledExpanded,
+  onToggleExpand,
 }: TestimonialCardProps) {
   const { name, country, rating, headline, body, date } = testimonial;
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [internalExpanded, setInternalExpanded] = useState(false);
+  const isProductHero = variant === "productHero";
 
-  // Character limit for truncation
-  const CHAR_LIMIT = 200;
+  // Controlled expand (strip) vs internal (default variant)
+  const isControlled = isProductHero && onToggleExpand != null;
+  const isExpanded = isControlled ? (controlledExpanded ?? false) : internalExpanded;
+  const setExpanded = isControlled ? (onToggleExpand as () => void) : () => setInternalExpanded((p) => !p);
+
   const isLongText = body.length > CHAR_LIMIT;
-  const displayText = isExpanded
-    ? body
-    : isLongText
-      ? `${body.slice(0, CHAR_LIMIT)}...`
-      : body;
+  const displayText = isExpanded ? body : isLongText ? `${body.slice(0, CHAR_LIMIT)}...` : body;
+
+  const cardClassName = isProductHero
+    ? "bg-[#f4f6f5] rounded-xl border border-black/[0.06] shadow-[0_1px_4px_rgba(0,0,0,0.06)] min-h-[300px] flex flex-col p-4 md:p-5"
+    : `border-2 ${isMobile ? "p-3" : "p-6"} flex flex-col bg-[var(--background)]`;
+
+  const cardStyle = isProductHero ? undefined : { borderColor: "rgba(0, 0, 0, 0.7)" };
+
+  if (isProductHero) {
+    return (
+      <div className={cardClassName} style={cardStyle}>
+        {/* Review title – large */}
+        <h4 className="text-lg md:text-xl font-bold mb-3 leading-snug">{headline}</h4>
+
+        {/* Body – expandable when long */}
+        <div className="flex-grow min-h-0 mb-4">
+          <p className="text-sm opacity-80 leading-relaxed whitespace-pre-line">{displayText}</p>
+          {isLongText && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setExpanded();
+              }}
+              className="font-clinical text-xs opacity-70 hover:opacity-100 transition-opacity underline mt-1"
+            >
+              {isExpanded ? "Read less" : "Read more"}
+            </button>
+          )}
+        </div>
+
+        {/* Footer: name + location (same line), verified small; stars bottom right */}
+        <div className="mt-auto flex justify-between items-end gap-3">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-bold text-sm">{name}</span>
+              <span className="font-clinical text-xs opacity-70">{country}</span>
+              <VerifiedBadge compact />
+            </div>
+            <p className="font-clinical text-[10px] opacity-60 mt-0.5">{formatDate(date)}</p>
+          </div>
+          {showRating && rating && (
+            <div className="flex-shrink-0">
+              <StarRating rating={rating} isMobile />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div
-      className={`border-2 ${isMobile ? "p-3" : "p-6"} flex flex-col bg-[var(--background)]`}
-      style={{
-        borderColor: "rgba(0, 0, 0, 0.7)",
-      }}
-    >
+    <div className={cardClassName} style={cardStyle}>
       {/* Header: Name, Verified Badge, and Country */}
       <div className={isMobile ? "mb-2" : "mb-3"}>
         <div className={`flex items-start justify-between ${isMobile ? "mb-1" : "mb-2"} gap-2`}>
@@ -126,13 +184,14 @@ export default function TestimonialCard({
       <h4 className={`font-bold ${isMobile ? "text-sm mb-2" : "text-xl mb-3"}`}>{headline}</h4>
 
       {/* Body Text - With Read More */}
-      <div className={`flex-grow ${isMobile ? "mb-2" : "mb-4"}`}>
+      <div className={`flex-grow min-h-0 ${isMobile ? "mb-2" : "mb-4"}`}>
         <p className={`${isMobile ? "text-xs" : "text-sm"} opacity-80 ${isMobile ? "leading-snug" : "leading-relaxed"} ${isMobile ? "mb-1" : "mb-2"} whitespace-pre-line`}>
           {displayText}
         </p>
         {isLongText && (
           <button
-            onClick={() => setIsExpanded(!isExpanded)}
+            type="button"
+            onClick={() => setExpanded()}
             className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-70 hover:opacity-100 transition-opacity underline`}
           >
             {isExpanded ? "Read less" : "Read more"}
