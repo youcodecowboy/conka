@@ -2,6 +2,9 @@
  * CONKA Style Guide 02 – Premium Base
  * Tokens and semantic classes for PDP premium layer.
  * Applied only inside a premium wrapper (e.g. .premium-pdp) in Phase 3.
+ *
+ * Typography: Display (Syne – geometric, premium; swap to New Haus when licensed).
+ * Body: DM Sans – sharp, legible, neutral sans.
  */
 
 :root {
@@ -18,13 +21,14 @@
   --premium-radius-base: 0.5rem;
   --premium-radius-interactive: 9999px;
 
-  /* ----- Typography (sizes in rem; families from globals) ----- */
+  /* ----- Typography: premium PDP (display + body; vars from layout.tsx) ----- */
   --premium-font-display-size: 2.5rem;
   --premium-font-display-weight: 700;
   --premium-font-heading-size: 1.5rem;
   --premium-font-heading-weight: 700;
   --premium-font-body-size: 1rem;
   --premium-font-body-weight: 400;
+  --premium-font-body-leading: 1.6;
   --premium-font-data-size: 0.875rem;
   --premium-font-data-weight: 500;
   --premium-font-annotation-size: 1.125rem;
@@ -52,7 +56,7 @@
   margin-right: auto;
 }
 
-/* Type roles */
+/* Type roles (global) */
 .premium-display {
   font-family: var(--font-primary), sans-serif;
   font-size: var(--premium-font-display-size);
@@ -72,6 +76,21 @@
   font-size: var(--premium-font-body-size);
   font-weight: var(--premium-font-body-weight);
   line-height: 1.5;
+}
+
+/* Premium PDP hero: display (Syne / New Haus) + body (DM Sans) from style guide */
+.premium-pdp .premium-hero-panel .premium-display-hero {
+  font-family: var(--font-premium-display), var(--font-primary), sans-serif;
+  font-size: var(--premium-font-display-size);
+  font-weight: var(--premium-font-display-weight);
+  line-height: 1.15;
+}
+
+.premium-pdp .premium-hero-panel .premium-body-hero {
+  font-family: var(--font-premium-body), sans-serif;
+  font-size: var(--premium-font-body-size);
+  font-weight: var(--premium-font-body-weight);
+  line-height: var(--premium-font-body-leading);
 }
 
 .premium-data {
