@@ -111,7 +111,7 @@ export default function ConkaClarityPage() {
 
   return (
     <div
-      className="min-h-screen theme-conka-clarity lg:pt-20"
+      className="min-h-screen theme-conka-clarity lg:pt-16"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       <Navigation />
