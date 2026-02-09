@@ -77,9 +77,10 @@ export default function ProductHero({
             </div>
           </div>
 
-          {/* Right: Product Info Box */}
-          <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
-            <div className="premium-box flex flex-col gap-1.5 lg:gap-3 !border-0 relative z-10 px-4 md:px-6 pt-3 md:pt-4 pb-4 md:pb-6">
+          {/* Right: Product Info Box – grey base for depth */}
+          <div className="flex flex-col gap-3 flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10 bg-[#f4f6f5] rounded-2xl p-3 md:p-4 lg:p-4">
+            {/* Main content: white card floating above grey */}
+            <div className="premium-box flex flex-col gap-1.5 lg:gap-3 !border-0 bg-white rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] relative z-10 px-4 md:px-6 pt-3 md:pt-4 pb-4 md:pb-6">
               {/* Top section: stars above title + title + subline bubble */}
               <div className="mb-0">
                 <div className="flex items-center gap-2 flex-wrap mb-2">
@@ -112,7 +113,7 @@ export default function ProductHero({
                   )}
                 </h1>
                 <div className="mt-2">
-                  <span className="inline-block px-4 py-1 rounded-full bg-[#f4f6f5] border border-black/10 premium-data text-current/90 text-sm">
+                  <span className="inline-block px-4 py-1 rounded-full bg-black/[0.04] premium-data text-current/90 text-sm">
                     Liquid · 1 shot (30ml) daily · {selectedPack}-pack
                   </span>
                 </div>
@@ -128,7 +129,7 @@ export default function ProductHero({
                 {formula.benefits.slice(0, 4).map((benefit, idx) => (
                   <div
                     key={idx}
-                    className="flex-1 min-w-[100px] px-3 py-2 rounded-lg bg-white border border-black/5 font-primary text-sm text-center flex flex-col items-center gap-0.5"
+                    className="flex-1 min-w-[100px] px-3 py-2 rounded-lg bg-white/80 shadow-[0_1px 3px_rgba(0,0,0,0.05)] font-primary text-sm text-center flex flex-col items-center gap-0.5"
                   >
                     <span
                       className="font-clinical text-base font-bold"
@@ -164,17 +165,17 @@ export default function ProductHero({
                   </p>
                   <button
                     onClick={() => onPurchaseTypeChange("subscription")}
-                    className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-start gap-3 cursor-pointer hover:border-opacity-50 ${
+                    className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 cursor-pointer bg-white shadow-[0_1px 4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px 8px_rgba(0,0,0,0.08)] ${
                       purchaseType === "subscription"
-                        ? "border-current border-opacity-40 bg-[#f4f6f5]"
-                        : "border-current border-opacity-20"
+                        ? "ring-2 ring-black/10 shadow-[0_2px 8px_rgba(0,0,0,0.08)]"
+                        : ""
                     }`}
                   >
                     <span
                       className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
                         purchaseType === "subscription"
-                          ? "border-current"
-                          : "border-current border-opacity-50"
+                          ? "border-current bg-current/10"
+                          : "border-black/30"
                       }`}
                     >
                       {purchaseType === "subscription" && (
@@ -267,17 +268,17 @@ export default function ProductHero({
                   </button>
                   <button
                     onClick={() => onPurchaseTypeChange("one-time")}
-                    className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-center gap-3 cursor-pointer hover:border-opacity-50 ${
+                    className={`w-full text-left p-3 rounded-xl transition-all flex items-center gap-3 cursor-pointer bg-white shadow-[0_1px 4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px 8px_rgba(0,0,0,0.08)] ${
                       purchaseType === "one-time"
-                        ? "border-current border-opacity-40 bg-[#f4f6f5]"
-                        : "border-current border-opacity-20"
+                        ? "ring-2 ring-black/10 shadow-[0_2px 8px_rgba(0,0,0,0.08)]"
+                        : ""
                     }`}
                   >
                     <span
                       className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                         purchaseType === "one-time"
-                          ? "border-current"
-                          : "border-current border-opacity-50"
+                          ? "border-current bg-current/10"
+                          : "border-black/30"
                       }`}
                     >
                       {purchaseType === "one-time" && (
@@ -287,7 +288,7 @@ export default function ProductHero({
                     <span className="font-bold">One-time</span>
                   </button>
                 </div>
-                <div className="flex justify-between items-center py-4 rounded-lg border-2 border-current border-opacity-20 bg-[#f4f6f5] px-4">
+                <div className="flex justify-between items-center py-4 rounded-xl bg-white shadow-[0_1px 4px_rgba(0,0,0,0.06)] border border-black/[0.06] px-4">
                   <div>
                     <p className="premium-data uppercase opacity-70">
                       Your Selection
@@ -354,11 +355,16 @@ export default function ProductHero({
               <div className="px-4 md:px-6 pb-4 md:pb-6">
                 <button
                   onClick={onAddToCart}
-                  className="w-full px-8 py-4 font-bold text-lg text-white rounded-full border-2 transition-opacity hover:opacity-90 active:opacity-80"
-                  style={{
-                    backgroundColor: formulaId === "01" ? "#f59e0b" : "#AAB9BC",
-                    borderColor: formulaId === "01" ? "#f59e0b" : "#AAB9BC",
-                  }}
+                  className="w-full px-8 py-4 font-bold text-lg text-white rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px 8px_rgba(0,0,0,0.12)]"
+                  style={
+                    purchaseType === "subscription"
+                      ? {
+                          background: "linear-gradient(90deg, #ffde59 0%, #ff914d 100%)",
+                        }
+                      : {
+                          backgroundColor: formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                        }
+                  }
                 >
                   {purchaseType === "subscription"
                     ? "Subscribe Now"
