@@ -66,6 +66,15 @@ Do not mix 0 radius and 9999px everywhere. One base, one interactive.
 - **Section padding:** One vertical value, one horizontal value. Default rhythm for every section so most pages need no custom layout.
 - **Container max-width:** One value. Content width for PDP content area.
 
+### PDP Hero
+
+- **Layout:** PDP hero uses `.premium-hero-layout`: two columns on desktop (media left, stack right), one column on mobile. Left column (media) is sticky; right column is a single vertical stack with one gap between all blocks (from `--premium-hero-stack-gap-*`).
+- **Stack order:** Title → immediate proof (stars + one short line, e.g. “X+ satisfied customers”) → subline (dose/format) → description/benefits → variant/options → price and CTA. One gap between each block.
+- **Type roles:** Title = Display; social proof line and subline = Data (or Body small); description = Body; labels = Data.
+- **Corners:** Hero content container uses `premium-radius-base` (no 0 radius).
+- **Step 1 (immediate proof):** When used, Step 1 is rendered **inside** the hero right column, directly under the title (stars + one line). It is not a separate full-width section.
+- **Don’t:** Introduce ad-hoc margins or gaps in the hero stack; use only the hero stack gap tokens. Don’t use 0 radius on hero containers.
+
 ---
 
 ## 3. Borders
