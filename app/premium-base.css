@@ -155,3 +155,15 @@
 .premium-pdp [class*="shadow-"] {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
+
+/* Inverted (dark) section – black background, light text – e.g. bento benefits */
+.premium-section-inverted {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Bento cards inside inverted section – visible border and subtle fill */
+.premium-bento-card {
+  border-radius: var(--premium-radius-base);
+  border-width: var(--premium-border-width);
+}
