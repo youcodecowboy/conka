@@ -80,26 +80,10 @@ export default function ProductHero({
 
           {/* Right: Product Info Box */}
           <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
-            <div className="premium-box flex flex-col gap-2.5 lg:gap-[1.875rem] border-none relative z-10">
-              {/* Block 1: Title (primary font throughout) */}
-              <div className="px-4 md:px-6 pt-4 md:pt-6">
-                <h1 className="premium-display leading-tight font-primary">
-                  {formulaId === "01" ? (
-                    <>
-                      CONKA <span className="font-primary">FL0W</span>
-                    </>
-                  ) : (
-                    formula.name
-                  )}
-                </h1>
-              </div>
-
-              {/* Block 2: Social proof + immediate proof */}
-              <div className="px-4 md:px-6">
-                <p className="premium-data opacity-90 mb-2">
-                  Over 100,000 shots sold
-                </p>
-                <div className="flex items-center gap-2 flex-wrap">
+            <div className="premium-box flex flex-col gap-2.5 lg:gap-[1.875rem] border-none relative z-10 px-4 md:px-6 pt-4 md:pt-6 pb-4 md:pb-6">
+              {/* Black section only: stars above title + title + subline bubble (white text) */}
+              <div className="bg-black text-white rounded-xl px-4 md:px-6 py-4 md:py-5 -mx-4 md:-mx-6 mt-0 mb-8">
+                <div className="flex items-center gap-2 flex-wrap mb-4">
                   <div className="flex" aria-hidden>
                     {[1, 2, 3, 4, 5].map((i) => (
                       <svg
@@ -109,25 +93,34 @@ export default function ProductHero({
                         height="18"
                         viewBox="0 0 24 24"
                         fill="currentColor"
-                        className={formulaId === "01" ? "text-amber-500" : "text-[#AAB9BC]"}
+                        className={formulaId === "01" ? "text-amber-400" : "text-[#AAB9BC]"}
                       >
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
                     ))}
                   </div>
-                  <span className="premium-data opacity-90">
-                    Trusted by 1,000+ customers
+                  <span className="premium-data text-white/90">
+                    Over 100,000 shots sold
+                  </span>
+                </div>
+                <h1 className="premium-display leading-tight text-white font-primary">
+                  {formulaId === "01" ? (
+                    <>
+                      CONKA <span className="font-primary">FL0W</span>
+                    </>
+                  ) : (
+                    formula.name
+                  )}
+                </h1>
+                <div className="mt-4">
+                  <span className="inline-block px-4 py-1 rounded-full bg-white/10 border border-white/20 premium-data text-white/90 text-sm">
+                    Liquid · 1 shot (30ml) daily · {selectedPack}-pack
                   </span>
                 </div>
               </div>
 
-              {/* Block 3: Subline */}
-              <p className="px-4 md:px-6 premium-data leading-tight opacity-90">
-                Liquid · 1 shot (30ml) daily · {selectedPack}-pack
-              </p>
-
-              {/* Block 4: Description + benefit tiles */}
-              <div className="px-4 md:px-6">
+              {/* Block 4: Description + benefit tiles (light background, normal text) */}
+              <div>
                 <p className="premium-body opacity-90">
                   {formula.headline}
                 </p>
