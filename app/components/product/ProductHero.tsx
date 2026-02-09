@@ -79,10 +79,10 @@ export default function ProductHero({
 
           {/* Right: Product Info Box */}
           <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
-            <div className="premium-box flex flex-col gap-2.5 lg:gap-[1.875rem] !border-0 relative z-10 px-4 md:px-6 pt-4 md:pt-6 pb-4 md:pb-6">
+            <div className="premium-box flex flex-col gap-1.5 lg:gap-3 !border-0 relative z-10 px-4 md:px-6 pt-3 md:pt-4 pb-4 md:pb-6">
               {/* Top section: stars above title + title + subline bubble */}
-              <div className="mb-3">
-                <div className="flex items-center gap-2 flex-wrap mb-4">
+              <div className="mb-0">
+                <div className="flex items-center gap-2 flex-wrap mb-2">
                   <div className="flex" aria-hidden>
                     {[1, 2, 3, 4, 5].map((i) => (
                       <svg
@@ -111,37 +111,37 @@ export default function ProductHero({
                     formula.name
                   )}
                 </h1>
-                <div className="mt-4">
+                <div className="mt-2">
                   <span className="inline-block px-4 py-1 rounded-full bg-[#f4f6f5] border border-black/10 premium-data text-current/90 text-sm">
                     Liquid · 1 shot (30ml) daily · {selectedPack}-pack
                   </span>
                 </div>
               </div>
 
-              {/* Headline description – critical, minimal padding above */}
-              <p className="premium-body text-current/90 font-medium text-base md:text-lg leading-snug mb-3">
+              {/* Headline description */}
+              <p className="premium-body text-current/90 font-medium text-base md:text-lg leading-snug mb-1.5">
                 {formula.headline}
               </p>
 
-              {/* Benefit tiles */}
+              {/* Benefit tiles – info only, not button-like */}
               <div className="flex flex-wrap gap-2">
-                  {formula.benefits.slice(0, 4).map((benefit, idx) => (
-                    <div
-                      key={idx}
-                      className="flex-1 min-w-[100px] px-4 py-3 rounded-2xl bg-[#f4f6f5] font-primary text-sm text-center flex flex-col items-center gap-1"
+                {formula.benefits.slice(0, 4).map((benefit, idx) => (
+                  <div
+                    key={idx}
+                    className="flex-1 min-w-[100px] px-3 py-2 rounded-lg bg-white border border-black/5 font-primary text-sm text-center flex flex-col items-center gap-0.5"
+                  >
+                    <span
+                      className="font-clinical text-base font-bold"
+                      style={{
+                        color:
+                          formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                      }}
                     >
-                      <span
-                        className="font-clinical text-base font-bold"
-                        style={{
-                          color:
-                            formulaId === "01" ? "#f59e0b" : "#AAB9BC",
-                        }}
-                      >
-                        {benefit.stat}
-                      </span>
-                      <span className="leading-tight">{benefit.title}</span>
-                    </div>
-                  ))}
+                      {benefit.stat}
+                    </span>
+                    <span className="leading-tight text-current/90">{benefit.title}</span>
+                  </div>
+                ))}
               </div>
 
               {/* Block 5: Pack Selector */}
@@ -354,7 +354,11 @@ export default function ProductHero({
               <div className="px-4 md:px-6 pb-4 md:pb-6">
                 <button
                   onClick={onAddToCart}
-                  className="w-full neo-button px-8 py-4 font-bold text-lg"
+                  className="w-full px-8 py-4 font-bold text-lg text-white rounded-full border-2 transition-opacity hover:opacity-90 active:opacity-80"
+                  style={{
+                    backgroundColor: formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                    borderColor: formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                  }}
                 >
                   {purchaseType === "subscription"
                     ? "Subscribe Now"
