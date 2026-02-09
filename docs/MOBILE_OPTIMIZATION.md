@@ -260,6 +260,7 @@ className = "w-48 h-auto mx-auto"; // Centered, controlled width
 | `CaseStudiesMobile.tsx`     | Single athlete view with prev/next navigation                      |
 | `ProtocolBuilderMobile.tsx` | 2x2 protocol grid, calendar view, sticky CTA footer                |
 | `TrialPacksMobile.tsx`      | Formula toggle, pack grid, collapsible sticky footer               |
+| `WhatToExpectTimelineMobile.tsx` | Tap-to-expand timeline: time + headline always visible; body + formula gradient when expanded; one card open at a time |
 
 ---
 

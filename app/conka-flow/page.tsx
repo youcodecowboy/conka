@@ -15,6 +15,7 @@ import {
   PDPPlaceholder,
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
+  WhatToExpectTimeline,
 } from "@/app/components/product";
 import { FormulaCaseStudiesMobile } from "@/app/components/FormulaCaseStudies";
 import FormulaCaseStudies from "@/app/components/FormulaCaseStudies";
@@ -88,7 +89,7 @@ export default function ConkaFlowPage() {
 
           <PDPPlaceholder step={2} />
           <PDPPlaceholder step={3} />
-          <PDPPlaceholder step={4} />
+          <WhatToExpectTimeline formulaId="01" />
 
           <HowItWorks formulaId="01" />
           <FormulaIngredients formulaId="01" />
@@ -134,7 +135,7 @@ export default function ConkaFlowPage() {
         <PDPPlaceholder step={1} />
         <PDPPlaceholder step={2} />
         <PDPPlaceholder step={3} />
-        <PDPPlaceholder step={4} />
+        <WhatToExpectTimeline formulaId="01" />
 
         <HowItWorks formulaId="01" />
         <FormulaIngredients formulaId="01" />

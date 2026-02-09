@@ -13,6 +13,7 @@ export { default as FormulaBenefitsMobile } from "./FormulaBenefitsMobile";
 export { default as ProtocolBenefitsMobile } from "./ProtocolBenefitsMobile";
 export { default as FormulaFAQ } from "./FormulaFAQ";
 export { default as HowItWorks } from "./HowItWorks";
+export { default as WhatToExpectTimeline } from "./WhatToExpectTimeline";
 export { default as PDPPlaceholder } from "./PDPPlaceholder";
 
 // Struggle Solutions components

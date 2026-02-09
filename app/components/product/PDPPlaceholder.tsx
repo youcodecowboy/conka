@@ -1,6 +1,6 @@
 "use client";
 
-type PDPPlaceholderStep = 1 | 2 | 3 | 4 | 8;
+type PDPPlaceholderStep = 1 | 2 | 3 | 8;
 
 interface PDPPlaceholderProps {
   step: PDPPlaceholderStep;
@@ -35,14 +35,6 @@ const STEP_CONFIG: Record<
         <li>Outcome placeholder 3</li>
         <li>Section coming soon.</li>
       </ul>
-    ),
-  },
-  4: {
-    defaultTitle: "What to expect over time",
-    defaultContent: (
-      <p className="font-primary">
-        Days / Week 1 / Weeks 2–4 / longer term — section coming soon.
-      </p>
     ),
   },
   8: {
