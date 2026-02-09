@@ -73,7 +73,7 @@ Do not mix 0 radius and 9999px everywhere. One base, one interactive.
 - **Type roles:** Title = Display; social proof line and subline = Data (or Body small); description = Body; labels = Data.
 - **Corners:** Hero content container uses `premium-radius-base` (no 0 radius).
 - **Step 1 (immediate proof):** When used, Step 1 is rendered **inside** the hero right column, directly under the title (stars + one line). It is not a separate full-width section.
-- **Don’t:** Introduce ad-hoc margins or gaps in the hero stack; use only the hero stack gap tokens. Don’t use 0 radius on hero containers.
+- **Don’t:** Use a full-width colored title bar (neo-brutalist header strip) in the hero; use a simple heading with Display role. Don’t introduce ad-hoc margins or gaps in the hero stack; use only the hero stack gap tokens. Don’t use 0 radius on hero containers.
 
 ---
 
