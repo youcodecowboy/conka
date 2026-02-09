@@ -92,7 +92,7 @@ export default function ProductHero({
                         height="18"
                         viewBox="0 0 24 24"
                         fill="currentColor"
-                        className={formulaId === "01" ? "text-amber-500" : "text-[#AAB9BC]"}
+                        className={formulaId === "01" ? "text-amber-500" : "text-[#94b9ff]"}
                       >
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
@@ -135,7 +135,7 @@ export default function ProductHero({
                         className="font-clinical text-base font-bold"
                         style={{
                           color:
-                            formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                            formulaId === "01" ? "#f59e0b" : "#94b9ff",
                         }}
                       >
                         {benefit.stat}
@@ -153,7 +153,7 @@ export default function ProductHero({
                   onSelect={onPackSelect}
                   purchaseType={purchaseType}
                   subscriptionAccentColor={
-                    formulaId === "01" ? "#f59e0b" : "#AAB9BC"
+                    formulaId === "01" ? "#f59e0b" : "#94b9ff"
                   }
                 />
               </div>
@@ -190,7 +190,7 @@ export default function ProductHero({
                           className="px-2 py-0.5 rounded-full text-xs font-clinical text-white flex-shrink-0"
                           style={{
                             backgroundColor:
-                              formulaId === "01" ? "#f59e0b" : "#AAB9BC",
+                              formulaId === "01" ? "#f59e0b" : "#94b9ff",
                           }}
                         >
                           20% off
@@ -313,7 +313,7 @@ export default function ProductHero({
                           purchaseType === "subscription"
                             ? {
                                 color:
-                                  formulaId === "01" ? "#d97706" : "#AAB9BC",
+                                  formulaId === "01" ? "#d97706" : "#94b9ff",
                               }
                             : undefined
                         }
@@ -329,7 +329,7 @@ export default function ProductHero({
                         className={`inline-flex items-center gap-1 mt-1 ${
                           formulaId === "01"
                             ? "bg-amber-500"
-                            : "bg-teal-500"
+                            : "bg-[#94b9ff]"
                         } text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}
                       >
                         <svg
@@ -358,13 +358,11 @@ export default function ProductHero({
                   onClick={onAddToCart}
                   className="w-full px-8 py-4 font-bold text-lg text-white rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px 8px_rgba(0,0,0,0.12)]"
                   style={
-                    purchaseType === "subscription"
-                      ? {
-                          background: "linear-gradient(90deg, #ffde59 0%, #ff914d 100%)",
-                        }
-                      : {
-                          backgroundColor: formulaId === "01" ? "#f59e0b" : "#AAB9BC",
-                        }
+                    formulaId === "01"
+                      ? purchaseType === "subscription"
+                        ? { background: "linear-gradient(90deg, #ffde59 0%, #ff914d 100%)" }
+                        : { backgroundColor: "#f59e0b" }
+                      : { background: "linear-gradient(90deg, #cdffd8 0%, #94b9ff 100%)" }
                   }
                 >
                   {purchaseType === "subscription"
