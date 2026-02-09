@@ -123,13 +123,13 @@ export default function ProductHero({
                 {formula.headline}
               </p>
 
-              {/* Benefit stats – flat, in grey section */}
-              <div className="bg-[#f4f6f5] rounded-xl px-4 py-3 pb-5 w-fit max-w-full">
-                <div className="flex flex-wrap gap-x-6 gap-y-1">
+              {/* Benefit stats – flat, in grey section, full width, evenly spread */}
+              <div className="bg-[#f4f6f5] rounded-xl px-4 py-3 pb-5 w-full">
+                <div className="flex w-full justify-between gap-2">
                   {formula.benefits.slice(0, 4).map((benefit, idx) => (
                     <div
                       key={idx}
-                      className="font-primary text-sm flex flex-col items-center gap-0"
+                      className="font-primary text-sm flex flex-1 min-w-0 flex-col items-center justify-center gap-0 text-center"
                     >
                       <span
                         className="font-clinical text-base font-bold"
