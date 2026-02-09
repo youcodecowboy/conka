@@ -9,6 +9,7 @@ export { default as StickyPurchaseFooterMobile } from "./StickyPurchaseFooterMob
 export { default as ProductTabs } from "./ProductTabs";
 export { default as FormulaIngredients } from "./FormulaIngredients";
 export { default as FormulaBenefits } from "./FormulaBenefits";
+export { default as FormulaBenefitsAtGlance } from "./FormulaBenefitsAtGlance";
 export { default as FormulaBenefitsMobile } from "./FormulaBenefitsMobile";
 export { default as ProtocolBenefitsMobile } from "./ProtocolBenefitsMobile";
 export { default as FormulaFAQ } from "./FormulaFAQ";
