@@ -91,6 +91,8 @@ export default function FormulaBenefitsAtGlance({
                     style={{
                       color: statColor,
                       fontVariantNumeric: "tabular-nums",
+                      textShadow:
+                        "0.5px 0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, -0.5px -0.5px 0 #000, 0.5px 0 0 #000, -0.5px 0 0 #000, 0 0.5px 0 #000, 0 -0.5px 0 #000",
                     }}
                   >
                     {solution.stat}
