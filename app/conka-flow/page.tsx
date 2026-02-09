@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
 import {
@@ -13,6 +12,7 @@ import {
   ProtocolBenefitsMobile,
   FormulaFAQ,
   HowItWorks,
+  PDPPlaceholder,
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
 } from "@/app/components/product";
@@ -67,7 +67,7 @@ export default function ConkaFlowPage() {
     }
   };
 
-  // Mobile version
+  // Mobile version — Phase 2 flow: 0 → 1 → … → 11
   if (isMobile) {
     return (
       <div
@@ -76,6 +76,7 @@ export default function ConkaFlowPage() {
       >
         <Navigation />
 
+        {/* Step 0 — Hero + Purchase */}
         <ProductHeroMobile
           formulaId="01"
           selectedPack={selectedPack}
@@ -85,17 +86,42 @@ export default function ConkaFlowPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        {/* What do you struggle with section */}
+        {/* Step 1 — Immediate proof */}
+        <PDPPlaceholder step={1} />
+
+        {/* Step 2 — Problem */}
+        <PDPPlaceholder step={2} />
+
+        {/* Step 3 — Outcomes */}
+        <PDPPlaceholder step={3} />
+
+        {/* Step 4 — Timeline */}
+        <PDPPlaceholder step={4} />
+
+        {/* Step 5 — How it works */}
+        <HowItWorks formulaId="01" />
+
+        {/* Step 6 — Ingredients */}
+        <FormulaIngredients formulaId="01" />
+
+        {/* Step 7 — Proof and science */}
         <FormulaBenefitsMobile formulaId="01" />
 
-        {/* Double Your Benefits - Protocol CTAs */}
+        {/* Step 8 — Comparison */}
+        <PDPPlaceholder step={8} />
+
+        {/* Step 9 — Social proof */}
+        <FormulaCaseStudiesMobile formulaId="01" />
+
+        {/* Protocol CTAs (mobile-only) */}
         <ProtocolBenefitsMobile formulaId="01" />
 
-        {/* Case Studies - Social Proof */}
-        <FormulaCaseStudiesMobile formulaId="01" />
+        {/* Step 10 — FAQ */}
+        <FormulaFAQ formulaId="01" />
 
         <Footer />
 
+        {/* Step 11 — Final CTA */}
         <StickyPurchaseFooterMobile
           formulaId="01"
           selectedPack={selectedPack}
@@ -107,16 +133,15 @@ export default function ConkaFlowPage() {
     );
   }
 
-  // Desktop version
+  // Desktop version — Phase 2 flow: 0 → 1 → … → 11
   return (
     <div
       className="min-h-screen theme-conka-flow lg:pt-20"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
-      {/* Navigation */}
       <Navigation />
 
-      {/* Hero Section */}
+      {/* Step 0 — Hero + Purchase */}
       <ProductHero
         formulaId="01"
         selectedPack={selectedPack}
@@ -126,16 +151,34 @@ export default function ConkaFlowPage() {
         onAddToCart={handleAddToCartFromHero}
       />
 
-      {/* Benefits Section */}
-      <FormulaBenefits formulaId="01" />
+      {/* Step 1 — Immediate proof */}
+      <PDPPlaceholder step={1} />
 
-      {/* Ingredients Section */}
-      <FormulaIngredients formulaId="01" />
+      {/* Step 2 — Problem */}
+      <PDPPlaceholder step={2} />
 
-      {/* How It Works Section */}
+      {/* Step 3 — Outcomes */}
+      <PDPPlaceholder step={3} />
+
+      {/* Step 4 — Timeline */}
+      <PDPPlaceholder step={4} />
+
+      {/* Step 5 — How it works */}
       <HowItWorks formulaId="01" />
 
-      {/* FAQ Section */}
+      {/* Step 6 — Ingredients */}
+      <FormulaIngredients formulaId="01" />
+
+      {/* Step 7 — Proof and science */}
+      <FormulaBenefits formulaId="01" />
+
+      {/* Step 8 — Comparison */}
+      <PDPPlaceholder step={8} />
+
+      {/* Step 9 — Social proof */}
+      <FormulaCaseStudies formulaId="01" />
+
+      {/* Step 10 — FAQ */}
       <FormulaFAQ formulaId="01" />
 
       {/* Related Products CTA */}
@@ -168,7 +211,7 @@ export default function ConkaFlowPage() {
 
       <Footer />
 
-      {/* Sticky Purchase Footer */}
+      {/* Step 11 — Final CTA */}
       <StickyPurchaseFooter
         formulaId="01"
         selectedPack={selectedPack}
