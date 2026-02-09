@@ -27,7 +27,7 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
     }
   }, [selectedStruggle]);
 
-  const handleSelectStruggle = (struggle: StruggleId) => {
+  const handleSelectStruggle = (struggle: StruggleId | null) => {
     setSelectedStruggle(struggle);
   };
 
@@ -37,8 +37,7 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
     : null;
 
   return (
-    <section>
-      {/* Struggle Selector Section */}
+    <>
       <StruggleSelector
         formulaId={formulaId}
         selectedStruggle={selectedStruggle}
@@ -196,6 +195,6 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
           )}
         </div>
       </div>
-    </section>
+    </>
   );
 }
