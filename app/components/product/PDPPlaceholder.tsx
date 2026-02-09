@@ -6,7 +6,6 @@ interface PDPPlaceholderProps {
   step: PDPPlaceholderStep;
   title?: string;
   children?: React.ReactNode;
-  usePremium?: boolean;
 }
 
 const STEP_CONFIG: Record<
@@ -58,26 +57,16 @@ export default function PDPPlaceholder({
   step,
   title,
   children,
-  usePremium = false,
 }: PDPPlaceholderProps) {
   const config = STEP_CONFIG[step];
   const heading = title ?? config.defaultTitle;
   const content = children ?? config.defaultContent;
 
-  const sectionClass = usePremium ? "premium-section" : "px-6 md:px-16 py-24";
-  const containerClass = usePremium ? "premium-container" : "max-w-6xl mx-auto";
-  const boxClass = usePremium
-    ? "premium-box p-6 md:p-8"
-    : "neo-box p-6 md:p-8";
-  const headingClass = usePremium
-    ? "premium-heading mb-4"
-    : "text-2xl md:text-3xl font-bold mb-4";
-
   return (
-    <section className={sectionClass}>
-      <div className={containerClass}>
-        <div className={boxClass}>
-          <h2 className={headingClass}>{heading}</h2>
+    <section className="premium-section">
+      <div className="premium-container">
+        <div className="premium-box p-6 md:p-8">
+          <h2 className="premium-heading mb-4">{heading}</h2>
           <div className="text-[var(--foreground)]">{content}</div>
         </div>
       </div>

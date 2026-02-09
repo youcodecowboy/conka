@@ -11,7 +11,6 @@ import {
 
 interface FormulaBenefitsMobileProps {
   formulaId: FormulaId;
-  usePremium?: boolean;
 }
 
 // Icon components for struggles
@@ -71,7 +70,7 @@ const StruggleIcon = ({ icon, className = "" }: { icon: string; className?: stri
   }
 };
 
-export default function FormulaBenefitsMobile({ formulaId, usePremium = false }: FormulaBenefitsMobileProps) {
+export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobileProps) {
   const [selectedStruggle, setSelectedStruggle] = useState<StruggleId | null>(null);
   const [showClinicalStudy, setShowClinicalStudy] = useState(false);
 
@@ -82,16 +81,11 @@ export default function FormulaBenefitsMobile({ formulaId, usePremium = false }:
     ? formula.struggleSolutions[selectedStruggle]
     : null;
 
-  const sectionClass = usePremium ? "premium-section" : "px-4 pt-6 pb-8";
-  const headingClass = usePremium ? "premium-heading mb-1" : "text-2xl font-bold mb-1";
-  const boxClass = usePremium ? "premium-box overflow-hidden animate-slide-up" : "neo-box overflow-hidden animate-slide-up";
-
   return (
-    <section className={sectionClass}>
-      {/* Header */}
+    <section className="premium-section">
       <div className="mb-5 text-center">
-        <h2 className={headingClass}>What do you struggle with?</h2>
-        <p className={usePremium ? "premium-annotation opacity-70" : "font-commentary text-base opacity-70"}>select your challenge</p>
+        <h2 className="premium-heading mb-1">What do you struggle with?</h2>
+        <p className="premium-annotation opacity-70">select your challenge</p>
       </div>
 
       {/* Struggle Selector - 2x3 Grid */}
@@ -115,9 +109,8 @@ export default function FormulaBenefitsMobile({ formulaId, usePremium = false }:
         })}
       </div>
 
-      {/* Solution Card - Shows when struggle selected */}
       {currentSolution && (
-        <div className={boxClass}>
+        <div className="premium-box overflow-hidden animate-slide-up">
           {/* Solution Header */}
           <div className={`p-4 ${accentColor.bg} text-white`}>
             <div className="flex items-center gap-2 mb-2">

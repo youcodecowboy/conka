@@ -9,22 +9,18 @@ import {
 
 interface FormulaCaseStudiesProps {
   formulaId: "01" | "02";
-  usePremium?: boolean;
 }
 
-// Compact athlete card with metrics (no emoji)
-function AthleteMetricCardCompact({ athlete, isActive, onClick, usePremium = false }: { 
+function AthleteMetricCardCompact({ athlete, isActive, onClick }: { 
   athlete: AthleteData; 
   isActive: boolean;
   onClick: () => void;
-  usePremium?: boolean;
 }) {
   const totalImprovement = athlete.improvements.find(i => i.metric === "Total Score");
-  const boxClass = usePremium ? "premium-box" : "neo-box";
 
   return (
     <div 
-      className={`${boxClass} p-4 cursor-pointer transition-all ${isActive ? 'ring-2 ring-amber-500' : 'hover:opacity-90'}`}
+      className={`premium-box p-4 cursor-pointer transition-all ${isActive ? 'ring-2 ring-amber-500' : 'hover:opacity-90'}`}
       onClick={onClick}
     >
       <div className="flex items-start gap-3">
@@ -48,11 +44,9 @@ function AthleteMetricCardCompact({ athlete, isActive, onClick, usePremium = fal
   );
 }
 
-// Detailed view panel with image
-function AthleteDetailCompact({ athlete, usePremium = false }: { athlete: AthleteData; usePremium?: boolean }) {
-  const boxClass = usePremium ? "premium-box overflow-hidden" : "neo-box overflow-hidden";
+function AthleteDetailCompact({ athlete }: { athlete: AthleteData }) {
   return (
-    <div className={boxClass}>
+    <div className="premium-box overflow-hidden">
       {/* Athlete Photo */}
       <div className="relative h-32 bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center border-b-2 border-current/10 overflow-hidden">
         {athlete.photo ? (
@@ -180,30 +174,22 @@ function AthleteDetailCompact({ athlete, usePremium = false }: { athlete: Athlet
   );
 }
 
-export default function FormulaCaseStudies({ formulaId, usePremium = false }: FormulaCaseStudiesProps) {
+export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProps) {
   const athletes = getAthletesForFormula(formulaId);
   const [activeAthlete, setActiveAthlete] = useState(athletes[0]);
 
   if (athletes.length === 0) return null;
 
-  const sectionClass = usePremium ? "premium-section" : "px-4 md:px-16 py-8 md:py-12";
-  const wrapperClass = usePremium ? "premium-container" : "";
-  const headingClass = usePremium ? "premium-heading mb-1" : "text-2xl md:text-3xl font-bold mb-1";
-  const subheadingClass = usePremium ? "premium-annotation opacity-70" : "font-commentary text-base md:text-lg opacity-70";
-
   return (
-    <section className={sectionClass}>
-      <div className={wrapperClass || undefined}>
-      {/* Header */}
+    <section className="premium-section">
+      <div className="premium-container">
       <div className="mb-6">
         <p className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-1">Verified Results</p>
-        <h2 className={headingClass}>Athlete Case Studies</h2>
-        <p className={subheadingClass}>real data, measured improvement</p>
+        <h2 className="premium-heading mb-1">Athlete Case Studies</h2>
+        <p className="premium-annotation opacity-70">real data, measured improvement</p>
       </div>
 
-      {/* Content */}
       <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-        {/* Athlete list */}
         <div className="space-y-3">
           {athletes.map((athlete) => (
             <AthleteMetricCardCompact
@@ -211,14 +197,12 @@ export default function FormulaCaseStudies({ formulaId, usePremium = false }: Fo
               athlete={athlete}
               isActive={activeAthlete.id === athlete.id}
               onClick={() => setActiveAthlete(athlete)}
-              usePremium={usePremium}
             />
           ))}
         </div>
 
-        {/* Detail view */}
         <div>
-          <AthleteDetailCompact athlete={activeAthlete} usePremium={usePremium} />
+          <AthleteDetailCompact athlete={activeAthlete} />
         </div>
       </div>
 
@@ -239,8 +223,7 @@ export default function FormulaCaseStudies({ formulaId, usePremium = false }: Fo
   );
 }
 
-// Mobile-optimized version
-export function FormulaCaseStudiesMobile({ formulaId, usePremium = false }: FormulaCaseStudiesProps) {
+export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps) {
   const athletes = getAthletesForFormula(formulaId);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -248,21 +231,16 @@ export function FormulaCaseStudiesMobile({ formulaId, usePremium = false }: Form
 
   const athlete = athletes[activeIndex];
 
-  const sectionClass = usePremium ? "premium-section" : "px-4 py-8";
-  const headingClass = usePremium ? "premium-heading mb-1" : "text-2xl font-bold mb-1";
-
   return (
-    <section className={sectionClass}>
-      {/* Header */}
+    <section className="premium-section">
       <div className="mb-5">
         <p className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-1">Verified Results</p>
-        <h2 className={headingClass}>Athlete Case Studies</h2>
-        <p className={usePremium ? "premium-annotation opacity-70" : "font-commentary text-base opacity-70"}>real data, measured improvement</p>
+        <h2 className="premium-heading mb-1">Athlete Case Studies</h2>
+        <p className="premium-annotation opacity-70">real data, measured improvement</p>
       </div>
 
-      {/* Swipeable cards */}
       <div className="relative">
-        <AthleteDetailCompact athlete={athlete} usePremium={usePremium} />
+        <AthleteDetailCompact athlete={athlete} />
 
         {/* Navigation */}
         <div className="flex items-center justify-between mt-4">

@@ -5,7 +5,6 @@ import { ClinicalStudy, FormulaId, FORMULA_COLORS } from "@/app/lib/productData"
 interface ClinicalStudyCardProps {
   study: ClinicalStudy;
   formulaId: FormulaId;
-  usePremium?: boolean;
 }
 
 // Icon components
@@ -66,31 +65,15 @@ const CheckCircleIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export default function ClinicalStudyCard({ study, formulaId, usePremium = false }: ClinicalStudyCardProps) {
+export default function ClinicalStudyCard({ study, formulaId }: ClinicalStudyCardProps) {
   const accentColor = FORMULA_COLORS[formulaId];
-  const isDark = false; // Both formulas use light mode
-
-  const boxClass = usePremium
-    ? "premium-box overflow-hidden"
-    : `neo-box overflow-hidden ${isDark ? "bg-white/5 border-white/20" : "bg-white border-black/20"}`;
 
   return (
-    <div className={boxClass}>
-      {/* Header - Study Title */}
-      <div
-        className={`
-          p-6 border-b-2
-          ${isDark ? "bg-white/10 border-white/10" : "bg-black/5 border-black/10"}
-        `}
-      >
+    <div className="premium-box overflow-hidden">
+      <div className="p-6 border-b-2 bg-black/5 border-black/10">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div
-              className={`
-                w-10 h-10 rounded-lg flex items-center justify-center
-                ${isDark ? "bg-white/10" : "bg-black/10"}
-              `}
-            >
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-black/10">
               <DocumentIcon className="w-5 h-5" />
             </div>
             <div>
@@ -111,12 +94,7 @@ export default function ClinicalStudyCard({ study, formulaId, usePremium = false
         {/* Study Info Grid */}
         <div className="grid md:grid-cols-2 gap-4">
           {/* Professor & University */}
-          <div
-            className={`
-              p-4 rounded-lg
-              ${isDark ? "bg-white/5" : "bg-black/5"}
-            `}
-          >
+          <div className="p-4 rounded-lg bg-black/5">
             <div className="flex items-center gap-2 mb-3">
               <ProfessorIcon className="w-4 h-4 opacity-60" />
               <span className="font-clinical text-xs uppercase opacity-60">Lead Researcher</span>
@@ -128,13 +106,7 @@ export default function ClinicalStudyCard({ study, formulaId, usePremium = false
             </div>
           </div>
 
-          {/* Duration */}
-          <div
-            className={`
-              p-4 rounded-lg
-              ${isDark ? "bg-white/5" : "bg-black/5"}
-            `}
-          >
+          <div className="p-4 rounded-lg bg-black/5">
             <div className="flex items-center gap-2 mb-3">
               <CalendarIcon className="w-4 h-4 opacity-60" />
               <span className="font-clinical text-xs uppercase opacity-60">Study Duration</span>
@@ -146,13 +118,7 @@ export default function ClinicalStudyCard({ study, formulaId, usePremium = false
           </div>
         </div>
 
-        {/* Participants Section */}
-        <div
-          className={`
-            p-4 rounded-lg
-            ${isDark ? "bg-white/5" : "bg-black/5"}
-          `}
-        >
+        <div className="p-4 rounded-lg bg-black/5">
           <div className="flex items-center gap-2 mb-4">
             <ParticipantsIcon className="w-4 h-4 opacity-60" />
             <span className="font-clinical text-xs uppercase opacity-60">Participant Demographics</span>
@@ -202,27 +168,18 @@ export default function ClinicalStudyCard({ study, formulaId, usePremium = false
             {study.results.map((result, idx) => (
               <div
                 key={idx}
-                className={`
-                  p-4 rounded-lg border-l-4 flex items-start justify-between gap-4
-                  ${isDark ? "bg-white/5" : "bg-black/5"}
-                `}
+                className="p-4 rounded-lg border-l-4 flex items-start justify-between gap-4 bg-black/5"
                 style={{ borderLeftColor: accentColor.hex }}
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <p className="font-semibold">{result.metric}</p>
                     <span
-                      className={`
-                        px-2 py-0.5 rounded font-clinical text-xs
-                        ${result.pValue.includes("0.001") || result.pValue.includes("0.01")
-                          ? isDark
-                            ? "bg-green-500/20 text-green-400"
-                            : "bg-green-500/20 text-green-700"
-                          : isDark
-                            ? "bg-yellow-500/20 text-yellow-400"
-                            : "bg-yellow-500/20 text-yellow-700"
-                        }
-                      `}
+                      className={`px-2 py-0.5 rounded font-clinical text-xs ${
+                        result.pValue.includes("0.001") || result.pValue.includes("0.01")
+                          ? "bg-green-500/20 text-green-700"
+                          : "bg-yellow-500/20 text-yellow-700"
+                      }`}
                     >
                       {result.pValue}
                     </span>
@@ -239,13 +196,7 @@ export default function ClinicalStudyCard({ study, formulaId, usePremium = false
           </div>
         </div>
 
-        {/* Conclusion */}
-        <div
-          className={`
-            p-4 rounded-lg border-2
-            ${isDark ? "border-white/20 bg-white/5" : "border-black/20 bg-black/5"}
-          `}
-        >
+        <div className="p-4 rounded-lg border-2 border-black/20 bg-black/5">
           <div className="flex items-center gap-2 mb-3">
             <CheckCircleIcon className={`w-5 h-5 ${accentColor.text}`} />
             <span className="font-clinical text-xs uppercase opacity-60">Conclusion</span>

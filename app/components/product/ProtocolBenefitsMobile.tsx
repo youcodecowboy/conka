@@ -27,7 +27,6 @@ const slideshowImages = [
 
 interface ProtocolBenefitsMobileProps {
   formulaId: FormulaId;
-  usePremium?: boolean;
 }
 
 // Combined benefits data
@@ -141,17 +140,11 @@ const protocols = [
   },
 ];
 
-export default function ProtocolBenefitsMobile({
-  formulaId,
-  usePremium = false,
-}: ProtocolBenefitsMobileProps) {
+export default function ProtocolBenefitsMobile({ formulaId }: ProtocolBenefitsMobileProps) {
   const otherFormula = formulaId === "01" ? "02" : "01";
 
-  const sectionClass = usePremium ? "premium-section" : "py-8";
-  const headingClass = usePremium ? "premium-heading mb-2" : "text-2xl font-bold mb-2";
-
   return (
-    <section className={sectionClass}>
+    <section className="premium-section">
       {/* Image Carousel - Edge to Edge */}
       <div className="mb-6 overflow-x-auto scrollbar-hide">
         <div className="flex gap-3 px-4">
@@ -179,8 +172,8 @@ export default function ProtocolBenefitsMobile({
         <p className="font-clinical text-xs uppercase tracking-wider opacity-60 mb-1">
           Maximize Your Results
         </p>
-        <h2 className={headingClass}>Double Your Benefits</h2>
-        <p className={usePremium ? "premium-annotation opacity-70" : "font-commentary text-base opacity-70"}>
+        <h2 className="premium-heading mb-2">Double Your Benefits</h2>
+        <p className="premium-annotation opacity-70">
           Formula {formulaId} works great alone, but combining it with Formula{" "}
           {otherFormula} unlocks even more
         </p>

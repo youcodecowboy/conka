@@ -21,7 +21,6 @@ interface ProductHeroMobileProps {
   purchaseType: PurchaseType;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onAddToCart: () => void;
-  usePremium?: boolean;
 }
 
 export default function ProductHeroMobile({
@@ -31,18 +30,15 @@ export default function ProductHeroMobile({
   purchaseType,
   onPurchaseTypeChange,
   onAddToCart,
-  usePremium = false,
 }: ProductHeroMobileProps) {
   const formula = formulaContent[formulaId];
   const pricing = formulaPricing[purchaseType][selectedPack];
-  const accentColor = FORMULA_COLORS[formulaId];
 
   const billingText =
     purchaseType === "subscription"
       ? getBillingLabel((pricing as { billing: string }).billing)
       : "one-time";
 
-  // Product image gallery (matches ProductHero)
   const flowSlideshowImages = [
     { src: "/formulas/conkaFlow/FlowBox.jpg" },
     { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
@@ -65,24 +61,14 @@ export default function ProductHeroMobile({
     { src: "/formulas/conkaClear/ClearReviews.jpg" },
   ];
 
-  // Header - fixed style, does not change with purchase type (matches desktop)
-  const headerBgClass =
-    formulaId === "01"
-      ? "bg-[var(--foreground)] text-[var(--background)]"
-      : "bg-[#AAB9BC] text-white";
-
-  const oneTimeColor = formulaId === "01" ? "invert" : accentColor.hex;
-
-  const sectionClass = usePremium ? "premium-section pt-0 pb-4" : "pt-0 pb-4";
-  const boxClass = usePremium ? "premium-box" : "neo-box";
-  const headingClass = usePremium ? "premium-display" : "text-xl font-bold";
+  const oneTimeColor = formulaId === "01" ? "invert" : FORMULA_COLORS[formulaId].hex;
 
   return (
-    <section className={sectionClass}>
-      <div className={boxClass}>
-        {/* Header - product name + subtitle */}
-        <div className={`p-4 ${headerBgClass}`}>
-          <h1 className={headingClass}>
+    <section className="premium-section pt-0 pb-4">
+      <div className="premium-box">
+        {/* Header - product name + subtitle (premium, no colored strip) */}
+        <div className="p-4">
+          <h1 className="premium-display">
             {formulaId === "01" ? (
               <>
                 <span className="font-primary">CONKA</span>{" "}
@@ -92,12 +78,12 @@ export default function ProductHeroMobile({
               formula.name
             )}
           </h1>
-          <p className="font-clinical text-sm mt-1 leading-tight opacity-90">
+          <p className="premium-data mt-1 leading-tight opacity-90">
             Liquid · 1 shot (30ml) daily · {selectedPack}-pack
           </p>
         </div>
 
-        {/* Product Image + thumbnails - full width edge to edge */}
+        {/* Product Image + thumbnails */}
         <div className="relative w-full bg-[#FAFAFA]">
           <ProductImageSlideshow
             images={
@@ -109,12 +95,10 @@ export default function ProductHeroMobile({
 
         {/* Content */}
         <div className="p-4 space-y-4">
-          {/* Description */}
-          <p className="text-base opacity-90">
+          <p className="premium-body opacity-90">
             {formula.headline}
           </p>
 
-          {/* Benefit tiles - same as desktop */}
           <div className="flex flex-wrap gap-2">
             {formula.benefits.slice(0, 4).map((benefit, idx) => (
               <div
@@ -134,10 +118,8 @@ export default function ProductHeroMobile({
             ))}
           </div>
 
-          {/* Divider */}
           <div className="border-t-2 border-current border-opacity-10" />
 
-          {/* Pack Selector */}
           <PackSelector
             selectedPack={selectedPack}
             onSelect={onPackSelect}
@@ -148,9 +130,8 @@ export default function ProductHeroMobile({
             }
           />
 
-          {/* Purchase type - Subscribe / One-time cards */}
           <div className="space-y-2">
-            <p className="font-clinical text-xs uppercase opacity-70 mb-2">
+            <p className="premium-data uppercase opacity-70 mb-2">
               How would you like to purchase?
             </p>
             <button
@@ -279,10 +260,9 @@ export default function ProductHeroMobile({
             </button>
           </div>
 
-          {/* Price Display */}
           <div className="flex justify-between items-center p-4 rounded-lg border-2 border-current border-opacity-20 bg-current/5">
             <div>
-              <p className="font-clinical text-xs uppercase opacity-70">
+              <p className="premium-data uppercase opacity-70">
                 Your Selection
               </p>
               <p className="font-bold text-sm">
@@ -340,7 +320,6 @@ export default function ProductHeroMobile({
             </div>
           </div>
 
-          {/* CTA */}
           <button
             onClick={onAddToCart}
             className="w-full neo-button py-4 font-bold text-base"

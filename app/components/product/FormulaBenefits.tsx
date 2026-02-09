@@ -8,14 +8,12 @@ import ClinicalStudyCard from "./ClinicalStudyCard";
 
 interface FormulaBenefitsProps {
   formulaId: FormulaId;
-  usePremium?: boolean;
 }
 
-export default function FormulaBenefits({ formulaId, usePremium = false }: FormulaBenefitsProps) {
+export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
   const formula = formulaContent[formulaId];
   const [selectedStruggle, setSelectedStruggle] = useState<StruggleId | null>(null);
   const solutionRef = useRef<HTMLDivElement>(null);
-  const isDark = false; // Both formulas use light mode
 
   // Scroll to solution when struggle is selected
   useEffect(() => {
@@ -55,54 +53,34 @@ export default function FormulaBenefits({ formulaId, usePremium = false }: Formu
       )}
 
       {/* Clinical Study Details Section */}
-      <div className={usePremium ? "premium-section" : "px-6 md:px-16 py-16"}>
-        <div className={usePremium ? "premium-container" : "max-w-6xl mx-auto"}>
-          {/* Section Header */}
+      <div className="premium-section">
+        <div className="premium-container">
           <div className="text-center mb-10">
-            <h2 className={usePremium ? "premium-heading mb-2" : "text-2xl md:text-3xl font-bold mb-2"}>
+            <h2 className="premium-heading mb-2">
               Clinical Study Details
             </h2>
-            <p className={usePremium ? "premium-annotation opacity-70" : "font-commentary text-lg opacity-70"}>
+            <p className="premium-annotation opacity-70">
               {selectedStruggle
                 ? "the research behind this solution"
                 : "select a challenge above to see related research"}
             </p>
           </div>
 
-          {/* Clinical Study Card - Shows detailed study when a struggle is selected */}
           {currentStudy ? (
-            <ClinicalStudyCard study={currentStudy} formulaId={formulaId} usePremium={usePremium} />
+            <ClinicalStudyCard study={currentStudy} formulaId={formulaId} />
           ) : (
-            // Default state - show summary stats
-            <div
-              className={
-                usePremium
-                  ? "premium-box overflow-hidden"
-                  : `neo-box overflow-hidden ${isDark ? "bg-white/5 border-white/20" : "bg-white border-black/20"}`
-              }
-            >
-              <div
-                className={`
-                  p-6 border-b-2
-                  ${isDark ? "bg-white/10 border-white/10" : "bg-black/5 border-black/10"}
-                `}
-              >
-                <h3 className="text-xl font-bold">Research Overview</h3>
-                <p className="font-commentary text-sm opacity-70 mt-1">
+            <div className="premium-box overflow-hidden">
+              <div className="p-6 border-b-2 bg-black/5 border-black/10">
+                <h3 className="premium-heading text-xl">Research Overview</h3>
+                <p className="premium-annotation text-sm opacity-70 mt-1">
                   our commitment to science-backed formulations
                 </p>
               </div>
 
               <div className="p-6">
-                {/* Summary Stats */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                   <div className="text-center">
-                    <div
-                      className={`
-                        w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center
-                        ${isDark ? "bg-white/10" : "bg-black/10"}
-                      `}
-                    >
+                    <div className="w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center bg-black/10">
                       <svg
                         className="w-6 h-6"
                         viewBox="0 0 24 24"
@@ -119,12 +97,7 @@ export default function FormulaBenefits({ formulaId, usePremium = false }: Formu
                     <p className="font-clinical text-xs opacity-70">Clinical Trials</p>
                   </div>
                   <div className="text-center">
-                    <div
-                      className={`
-                        w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center
-                        ${isDark ? "bg-white/10" : "bg-black/10"}
-                      `}
-                    >
+                    <div className="w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center bg-black/10">
                       <svg
                         className="w-6 h-6"
                         viewBox="0 0 24 24"
@@ -142,12 +115,7 @@ export default function FormulaBenefits({ formulaId, usePremium = false }: Formu
                     <p className="font-clinical text-xs opacity-70">Research Investment</p>
                   </div>
                   <div className="text-center">
-                    <div
-                      className={`
-                        w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center
-                        ${isDark ? "bg-white/10" : "bg-black/10"}
-                      `}
-                    >
+                    <div className="w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center bg-black/10">
                       <svg
                         className="w-6 h-6"
                         viewBox="0 0 24 24"
@@ -167,12 +135,7 @@ export default function FormulaBenefits({ formulaId, usePremium = false }: Formu
                     <p className="font-clinical text-xs opacity-70">Participants</p>
                   </div>
                   <div className="text-center">
-                    <div
-                      className={`
-                        w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center
-                        ${isDark ? "bg-white/10" : "bg-black/10"}
-                      `}
-                    >
+                    <div className="w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center bg-black/10">
                       <svg
                         className="w-6 h-6"
                         viewBox="0 0 24 24"
@@ -192,12 +155,7 @@ export default function FormulaBenefits({ formulaId, usePremium = false }: Formu
                 </div>
 
                 {/* Prompt to select */}
-                <div
-                  className={`
-                    p-6 rounded-lg text-center
-                    ${isDark ? "bg-white/5" : "bg-black/5"}
-                  `}
-                >
+                <div className="p-6 rounded-lg text-center bg-black/5">
                   <svg
                     className="w-8 h-8 mx-auto mb-3 opacity-40"
                     viewBox="0 0 24 24"
