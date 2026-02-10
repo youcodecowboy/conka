@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { FORMULA_COLORS } from "@/app/lib/productData";
 import { TestimonialCardProps } from "./types";
 
 /**
@@ -82,6 +83,28 @@ function formatDate(dateString: string): string {
   });
 }
 
+/** Small product badge; Flow and Clarity use FORMULA_COLORS from productData */
+function ProductBadge({ productLabel, productType }: { productLabel: string; productType?: "flow" | "clarity" | "protocol" }) {
+  const flowHex = FORMULA_COLORS["01"].hex;
+  const clarityHex = FORMULA_COLORS["02"].hex;
+  const style =
+    productType === "flow"
+      ? { backgroundColor: `${flowHex}26`, color: "#b45309", borderColor: `${flowHex}4d` }
+      : productType === "clarity"
+        ? { backgroundColor: `${clarityHex}33`, color: "#4a6fb8", borderColor: `${clarityHex}66` }
+        : undefined;
+  const className =
+    !style ? "bg-black/5 text-black/70 border-black/10" : "border";
+  return (
+    <span
+      className={`inline-flex items-center font-clinical text-[10px] font-medium px-1.5 py-0.5 rounded ${className}`}
+      style={style}
+    >
+      {productLabel}
+    </span>
+  );
+}
+
 /**
  * Reusable testimonial card component
  * Displays name, country, rating, headline, body, and date
@@ -96,7 +119,7 @@ export default function TestimonialCard({
   isExpanded: controlledExpanded,
   onToggleExpand,
 }: TestimonialCardProps) {
-  const { name, country, rating, headline, body, date } = testimonial;
+  const { name, country, rating, headline, body, date, productLabel, productType } = testimonial;
   const [internalExpanded, setInternalExpanded] = useState(false);
   const isProductHero = variant === "productHero";
 
@@ -114,9 +137,26 @@ export default function TestimonialCard({
 
   const cardStyle = isProductHero ? undefined : { borderColor: "rgba(0, 0, 0, 0.7)" };
 
+  const badgeContent =
+    productType === "protocol" ? (
+      <>
+        <ProductBadge productLabel="CONKA Flow" productType="flow" />
+        <ProductBadge productLabel="CONKA Clear" productType="clarity" />
+      </>
+    ) : productLabel ? (
+      <ProductBadge productLabel={productLabel} productType={productType} />
+    ) : null;
+
+  const badgeBlock = badgeContent && (
+    <div className={`flex flex-wrap gap-1.5 ${isProductHero ? "mb-2" : isMobile ? "mb-1.5" : "mb-2"}`}>
+      {badgeContent}
+    </div>
+  );
+
   if (isProductHero) {
     return (
       <div className={cardClassName} style={cardStyle}>
+        {badgeBlock}
         {/* Review title – large */}
         <h4 className="text-lg md:text-xl font-bold mb-3 leading-snug">{headline}</h4>
 
@@ -143,7 +183,7 @@ export default function TestimonialCard({
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="font-bold text-sm">{name}</span>
-              <span className="font-clinical text-xs opacity-70">{country}</span>
+              {country ? <span className="font-clinical text-xs opacity-70">{country}</span> : null}
               <VerifiedBadge compact />
             </div>
             <p className="font-clinical text-[10px] opacity-60 mt-0.5">{formatDate(date)}</p>
@@ -160,6 +200,7 @@ export default function TestimonialCard({
 
   return (
     <div className={cardClassName} style={cardStyle}>
+      {badgeBlock}
       {/* Header: Name, Verified Badge, and Country */}
       <div className={isMobile ? "mb-2" : "mb-3"}>
         <div className={`flex items-start justify-between ${isMobile ? "mb-1" : "mb-2"} gap-2`}>
@@ -168,7 +209,9 @@ export default function TestimonialCard({
               <h3 className={`font-bold ${isMobile ? "text-sm" : "text-lg"}`}>{name}</h3>
               {!isMobile && <VerifiedBadge />}
             </div>
-            <span className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-70`}>{country}</span>
+            {country ? (
+              <span className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-70`}>{country}</span>
+            ) : null}
           </div>
         </div>
 
