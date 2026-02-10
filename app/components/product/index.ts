@@ -15,7 +15,7 @@ export { default as ProtocolBenefitsMobile } from "./ProtocolBenefitsMobile";
 export { default as FormulaFAQ } from "./FormulaFAQ";
 export { default as HowItWorks } from "./HowItWorks";
 export { default as WhatToExpectTimeline } from "./WhatToExpectTimeline";
-export { default as PDPPlaceholder } from "./PDPPlaceholder";
+export { default as EditorialQuotesCarousel } from "./EditorialQuotesCarousel";
 
 // Struggle Solutions components
 export { default as StruggleSelector } from "./StruggleSelector";

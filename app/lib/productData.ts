@@ -20,12 +20,12 @@ export const FORMULA_COLORS = {
   },
 } as const;
 
-/** Gradient (start → end) for each formula. Used for CTAs and benefit stat spectrum. */
+/** Gradient (start → end) for each formula. Used for CTAs and benefit stat spectrum. Match ProductHero. */
 export const FORMULA_GRADIENTS: Record<
   FormulaId,
   { start: string; end: string }
 > = {
-  "01": { start: "#fef3c7", end: "#d97706" }, // CONKA Flow: light amber → dark amber
+  "01": { start: "#ffde59", end: "#ff914d" }, // CONKA Flow: yellow → orange
   "02": { start: "#cdffd8", end: "#94b9ff" }, // CONKA Clear: mint → soft blue
 } as const;
 
