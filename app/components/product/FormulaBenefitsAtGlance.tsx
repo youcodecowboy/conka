@@ -29,21 +29,22 @@ export default function FormulaBenefitsAtGlance({
       className="bg-black text-white"
       aria-labelledby="benefits-at-glance-heading"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 md:min-h-[480px]">
-        {/* Left: content */}
-        <div className="flex flex-col justify-center px-6 py-12 md:px-12 md:py-16 lg:px-16">
-          <h2
-            id="benefits-at-glance-heading"
-            className="premium-heading text-white mb-2"
-          >
-            {formula.headline}
-          </h2>
-          <p className="premium-annotation opacity-80 mb-8">
-            {formula.subheadline}
-          </p>
+      <div className="mx-auto w-full max-w-[90rem] px-6 py-12 md:px-12 md:py-16 lg:px-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:min-h-[480px] gap-12 md:gap-16 lg:gap-20 items-center">
+          {/* Left: content */}
+          <div className="flex flex-col justify-center">
+            <h2
+              id="benefits-at-glance-heading"
+              className="premium-display text-white mb-2 text-3xl md:text-4xl lg:text-5xl leading-tight"
+            >
+              {formula.headline}
+            </h2>
+            <p className="premium-annotation opacity-80 mb-8">
+              {formula.subheadline}
+            </p>
 
-          {/* Stat facts grid (Huel-style) */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-8">
+            {/* Stat facts grid (Huel-style) */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-8">
             {STRUGGLE_OPTIONS.map((struggle) => {
               const solution = formula.struggleSolutions[struggle.id];
               if (!solution) return null;
@@ -58,26 +59,27 @@ export default function FormulaBenefitsAtGlance({
                 </div>
               );
             })}
+            </div>
+
+            <a
+              href="#proof-and-science"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-[var(--premium-radius-interactive)] bg-white text-black font-semibold premium-body text-sm md:text-base hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black w-fit"
+            >
+              See the science
+            </a>
           </div>
 
-          <a
-            href="#proof-and-science"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-[var(--premium-radius-interactive)] bg-white text-black font-semibold premium-body text-sm md:text-base hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black w-fit"
-          >
-            See the science
-          </a>
-        </div>
-
-        {/* Right: product image — drives section height */}
-        <div className="relative min-h-[320px] md:min-h-[480px] md:h-full">
-          <Image
-            src={productImage.src}
-            alt={productImage.alt}
-            fill
-            className="object-contain object-center md:object-right"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority={false}
-          />
+          {/* Right: product image — drives section height */}
+          <div className="relative min-h-[320px] md:min-h-[480px] md:h-full">
+            <Image
+              src={productImage.src}
+              alt={productImage.alt}
+              fill
+              className="object-contain object-center"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority={false}
+            />
+          </div>
         </div>
       </div>
     </section>
