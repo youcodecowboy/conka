@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   AthleteData,
@@ -17,13 +18,14 @@ const METRIC_RING_COLORS = [
 ] as const;
 
 function AthleteCard({ athlete }: { athlete: AthleteData }) {
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const imagePosition =
     athlete.focalPoint != null
       ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%`
       : "center";
 
   return (
-    <article className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)]">
+    <article className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] text-black">
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
       <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">
         {athlete.photo ? (
@@ -57,8 +59,8 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
         )}
       </div>
 
-      {/* Card body: showcase content (white) */}
-      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white">
+      {/* Card body: showcase content (white, dark text) */}
+      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white text-black">
         <h3 className="premium-heading text-[var(--premium-font-heading-size)] font-bold leading-tight">
           {athlete.name}
         </h3>
@@ -141,9 +143,20 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
           )}
         </div>
 
-        <p className="premium-body text-sm opacity-80 leading-relaxed">
-          {athlete.description}
-        </p>
+        <div>
+          <p
+            className={`premium-body text-sm opacity-80 leading-relaxed ${!descriptionExpanded ? "line-clamp-3" : ""}`}
+          >
+            {athlete.description}
+          </p>
+          <button
+            type="button"
+            onClick={() => setDescriptionExpanded((prev) => !prev)}
+            className="premium-data text-xs font-medium mt-[var(--premium-space-xs)] text-black underline underline-offset-2 hover:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded"
+          >
+            {descriptionExpanded ? "Show less" : "Read more"}
+          </button>
+        </div>
       </div>
     </article>
   );
@@ -155,23 +168,20 @@ export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProp
   if (athletes.length === 0) return null;
 
   return (
-    <section className="premium-section">
-      <div className="bg-black text-white py-[var(--premium-section-padding-y)] -mx-[var(--premium-section-padding-x)]">
-        <div className="premium-container">
-          <header className="flex flex-col gap-[var(--premium-space-xs)]">
-            <p className="premium-data text-xs uppercase tracking-wider opacity-80">
-              Verified Results
-            </p>
-            <h2 className="premium-section-heading text-white">
-              Athlete Case Studies
-            </h2>
-            <p className="premium-annotation opacity-80">
-              real data, measured improvement
-            </p>
-          </header>
-        </div>
-      </div>
-      <div className="premium-container pt-[var(--premium-space-xl)]">
+    <section className="premium-section bg-black text-white">
+      <div className="premium-container">
+        <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)]">
+          <p className="premium-data text-xs uppercase tracking-wider opacity-80">
+            Verified Results
+          </p>
+          <h2 className="premium-section-heading text-white">
+            Athlete Case Studies
+          </h2>
+          <p className="premium-annotation opacity-80">
+            real data, measured improvement
+          </p>
+        </header>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--premium-space-m)]">
           {athletes.map((athlete) => (
             <AthleteCard key={athlete.id} athlete={athlete} />
@@ -181,7 +191,7 @@ export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProp
         <div className="mt-[var(--premium-space-xl)] text-center">
           <Link
             href="/case-studies"
-            className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-[var(--premium-border-color)] premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2"
+            className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-white text-white premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           >
             View All Case Studies
             <svg
@@ -210,51 +220,48 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
   if (athletes.length === 0) return null;
 
   return (
-    <section className="premium-section">
-      <div className="bg-black text-white py-[var(--premium-section-padding-y)] -mx-[var(--premium-section-padding-x)]">
-        <div className="premium-container">
-          <header className="flex flex-col gap-[var(--premium-space-xs)]">
-            <p className="premium-data text-xs uppercase tracking-wider opacity-80">
-              Verified Results
-            </p>
-            <h2 className="premium-section-heading text-white">
-              Athlete Case Studies
-            </h2>
-            <p className="premium-annotation opacity-80">
-              real data, measured improvement
-            </p>
-          </header>
+    <section className="premium-section bg-black text-white">
+      <div className="premium-container">
+        <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)]">
+          <p className="premium-data text-xs uppercase tracking-wider opacity-80">
+            Verified Results
+          </p>
+          <h2 className="premium-section-heading text-white">
+            Athlete Case Studies
+          </h2>
+          <p className="premium-annotation opacity-80">
+            real data, measured improvement
+          </p>
+        </header>
+
+        <div className="flex flex-col gap-[var(--premium-space-m)]">
+          {athletes.map((athlete) => (
+            <AthleteCard key={athlete.id} athlete={athlete} />
+          ))}
+        </div>
+
+        <div className="mt-[var(--premium-space-xl)] text-center">
+          <Link
+            href="/case-studies"
+            className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-white text-white premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          >
+            View All Case Studies
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
       </div>
-      <div className="premium-container pt-[var(--premium-space-xl)]">
-      <div className="flex flex-col gap-[var(--premium-space-m)]">
-        {athletes.map((athlete) => (
-          <AthleteCard key={athlete.id} athlete={athlete} />
-        ))}
-      </div>
-
-      <div className="mt-[var(--premium-space-xl)] text-center">
-        <Link
-          href="/case-studies"
-          className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-[var(--premium-border-color)] premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2"
-        >
-          View All Case Studies
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </Link>
-      </div>
-    </div>
     </section>
   );
 }
