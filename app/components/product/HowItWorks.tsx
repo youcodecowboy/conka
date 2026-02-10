@@ -110,13 +110,13 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
             ))}
           </div>
 
-          {/* Right: asset */}
-          <div className="relative w-full aspect-[4/3] md:aspect-square rounded-lg overflow-hidden">
+          {/* Right: asset - mobile: no crop, scale down, square; desktop: cover */}
+          <div className="relative w-full aspect-square rounded-lg overflow-hidden">
             <Image
               src={assetSrc}
               alt={`${formula.name} – How it works`}
               fill
-              className="object-cover"
+              className="object-contain md:object-cover"
               sizes="(max-width: 767px) 100vw, 50vw"
               priority={false}
             />
