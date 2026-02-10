@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 import { Cart, CartLine } from '@/app/lib/shopify';
 import { trackAddToCart } from '@/app/lib/tripleWhale';
 import { trackPurchaseAddToCart } from '@/app/lib/analytics';
+import { trackMetaAddToCart, toContentId } from '@/app/lib/metaPixel';
 import { extractProductMetadata } from '@/app/lib/productMetadata';
 import { getB2BCartTierUpdates } from '@/app/lib/b2bCartTier';
 import type { B2BTier } from '@/app/lib/productData';
@@ -277,6 +278,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
               sessionId: metadata?.sessionId,
             });
           }
+
+          // Meta Pixel + CAPI AddToCart (deduplicated)
+          const price = parseFloat(merchandise.price.amount);
+          const currency = merchandise.price.currencyCode ?? "GBP";
+          trackMetaAddToCart({
+            content_ids: [toContentId(merchandise.id)],
+            value: price * quantity,
+            currency,
+            num_items: quantity,
+          });
         }
       }
       
