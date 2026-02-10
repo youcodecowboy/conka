@@ -1,5 +1,7 @@
 # Loox testimonials – plan (implemented)
 
+**Quick workflow:** See [REVIEWS_WORKFLOW.md](./REVIEWS_WORKFLOW.md).
+
 ## What to do when you have new review data
 
 1. **Export** reviews from Loox (CSV).
@@ -14,10 +16,10 @@
    ```
 
    This writes:
-   - `app/lib/testimonialsFromLoox.ts` – data used by the Testimonials component (via `app/lib/testimonialsFilter.ts`).
+   - `app/lib/testimonialsFromLoox.ts` – **curated sets only** (~90 reviews: 3×30), not the full CSV. Used by `app/lib/testimonialsFilter.ts`.
    - `docs/loox-product-ids.json` – product ID counts for Shopify lookup.
 
-No other steps needed. The app reads from `testimonialsFromLoox.ts` only.
+**One-time migration:** If you already have an old `testimonialsFromLoox.ts` with the full `looxTestimonials` array (thousands of lines), run `node scripts/migrate-loox-to-curated.mjs` to shrink it to the 3×30 format. No CSV needed. After that, use `npm run build:reviews` when you have new CSV data.
 
 ---
 
