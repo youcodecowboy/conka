@@ -15,6 +15,8 @@ interface PackSelectorPremiumProps {
   purchaseType: PurchaseType;
   subscriptionAccentColor?: string;
   className?: string;
+  /** When true (mobile), hide "one-time" billing label under pack prices */
+  compact?: boolean;
 }
 
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
@@ -32,6 +34,7 @@ export default function PackSelectorPremium({
   purchaseType,
   subscriptionAccentColor = "#f59e0b",
   className = "",
+  compact = false,
 }: PackSelectorPremiumProps) {
   return (
     <div className={`space-y-2 ${className}`}>
@@ -52,7 +55,7 @@ export default function PackSelectorPremium({
               key={size}
               onClick={() => onSelect(size)}
               className={`
-                text-left transition-all duration-200 overflow-hidden flex flex-col rounded-xl
+                text-left transition-all duration-200 overflow-hidden flex flex-col rounded-xl w-full
                 bg-white border border-black/[0.06]
                 shadow-[0_1px 4px_rgba(0,0,0,0.06)]
                 hover:shadow-[0_2px 10px_rgba(0,0,0,0.1)] hover:scale-[1.02] active:scale-[0.99]
@@ -61,7 +64,7 @@ export default function PackSelectorPremium({
               `}
             >
               <div
-                className="w-full min-w-0 px-2 py-1.5 rounded-t-[10px]"
+                className="w-full min-w-0 flex-shrink-0 px-2 py-1.5 rounded-t-xl"
                 style={{
                   backgroundColor: isSelected
                     ? "var(--foreground)"
@@ -74,7 +77,7 @@ export default function PackSelectorPremium({
                 </p>
               </div>
               <div
-                className="px-2 py-1.5 flex-1 flex flex-col justify-end rounded-b-[10px]"
+                className="w-full min-w-0 flex-1 flex flex-col justify-end px-2 py-1.5 rounded-b-xl min-h-[52px]"
                 style={{
                   backgroundColor: isSelected
                     ? purchaseType === "subscription"
@@ -87,13 +90,15 @@ export default function PackSelectorPremium({
                 <p className="text-base font-bold mb-0.5">
                   {formatPrice(pricing.price)}
                 </p>
-                <p
-                  className={`premium-data text-[11px] ${
-                    isSelected ? "opacity-90" : "opacity-70"
-                  }`}
-                >
-                  {billingText}
-                </p>
+                {!(compact && purchaseType === "one-time") && (
+                  <p
+                    className={`premium-data text-[11px] ${
+                      isSelected ? "opacity-90" : "opacity-70"
+                    }`}
+                  >
+                    {billingText}
+                  </p>
+                )}
               </div>
             </button>
           );
