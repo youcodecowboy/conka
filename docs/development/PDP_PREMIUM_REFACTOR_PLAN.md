@@ -11,7 +11,7 @@
 ## Summary
 
 - **Style:** Add a *new* premium style layer (tokens + rules). Do not delete or globally replace Style Guide 01. Legacy pages stay on the current system until touched.
-- **Page:** Refactor the CONKA Flow PDP to follow the 11-step Phase 2 flow (Desire → Expectation → Justification → Proof → Detail) and apply the premium baseline only to this page (and its components) as we go.
+- **Page:** Refactor the CONKA Flow PDP to follow the 10-step Phase 2 flow (Desire → Expectation → Justification → Proof → Detail) and apply the premium baseline only to this page (and its components) as we go.
 - **Execution:** Five phases; we work through each phase step by step together.
 
 ---
@@ -32,15 +32,15 @@
 
 ## Phase 2 — Page structure & content order (Conka-flow)
 
-**Goal:** Conka-flow page follows the 11-step Phase 2 flow. Use existing Style Guide 01 styling for now.
+**Goal:** Conka-flow page follows the 10-step Phase 2 flow. Use existing Style Guide 01 styling for now.
 
 | Step | What | Outcome |
 |------|------|--------|
-| 2.1 | Reorder and wire sections in `app/conka-flow/page.tsx` | Sections appear in order: Step 0 (Hero + purchase) → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 (final CTA). Use placeholders for any missing sections. |
+| 2.1 | Reorder and wire sections in `app/conka-flow/page.tsx` | Sections appear in order: Step 0 (Hero + purchase) → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 (final CTA). Use placeholders for any missing sections. |
 | 2.2 | Map existing components to steps | Hero, FormulaBenefits, FormulaIngredients, HowItWorks, FormulaFAQ, StickyPurchaseFooter, etc. assigned to the correct step; split or rename where needed for clarity. |
-| 2.3 | Add stubs/placeholders for missing steps | Step 1 (immediate proof), Step 2 (problem), Step 3 (outcomes), Step 4 (timeline), Step 8 (comparison) — minimal content or “Section coming soon” so the flow is complete. |
+| 2.3 | Add stubs/placeholders for missing steps | Step 1 (immediate proof), Step 2 (problem), Step 3 (outcomes), Step 4 (timeline) — minimal content or “Section coming soon” so the flow is complete. |
 
-**Done when:** Conka-flow desktop and mobile render the full 11-step sequence; content and copy can be rough.
+**Done when:** Conka-flow desktop and mobile render the full 10-step sequence; content and copy can be rough.
 
 ---
 
@@ -68,10 +68,9 @@
 | 4.2 | **Step 2 — Problem** | 1–2 short paragraphs: pain, why common solutions fall short, soft bridge to CONKA. User language, not educational. |
 | 4.3 | **Step 3 — Outcomes** | 3–5 outcome bullets or tiles; plain language; no mechanisms yet. |
 | 4.4 | **Step 4 — Timeline** | Days / Week 1 → Weeks 2–4 → longer term; set expectations, reduce anxiety. |
-| 4.5 | **Step 8 — Comparison** | CONKA vs nothing, vs single ingredients, vs generic stacks; calm, factual. |
-| 4.6 | Copy and hierarchy pass | Ensure no science in hero; problem in user words; social proof echoes outcomes; FAQ before final CTA. |
+| 4.5 | Copy and hierarchy pass | Ensure no science in hero; problem in user words; social proof echoes outcomes; FAQ before final CTA. |
 
-**Done when:** All 11 steps have real content and the page reads in the order: Desire → Expectation → Justification → Proof → Detail.
+**Done when:** All 10 steps have real content and the page reads in the order: Desire → Expectation → Justification → Proof → Detail.
 
 ---
 
@@ -89,7 +88,7 @@
 
 ---
 
-## Phase 2 flow reference (11 steps)
+## Phase 2 flow reference (10 steps)
 
 | Step | Name | Job |
 |------|------|-----|
@@ -101,10 +100,9 @@
 | 5 | How it works | Simplified system logic; visual steps. |
 | 6 | Ingredients | Visual grouping; expanders for detail; no tables for persuasion. |
 | 7 | Proof & science | Optional depth; expandable; nothing essential to conversion here. |
-| 8 | Comparison | CONKA vs nothing, vs single ingredients, vs generic stacks. |
-| 9 | Social proof | Reviews by benefit; short quotes; echo outcomes. |
-| 10 | FAQ | Objection removal; before final CTA. |
-| 11 | Final CTA + risk reversal | Guarantee, commitment flexibility, clear CTA. |
+| 8 | Social proof | Reviews by benefit; short quotes; echo outcomes. |
+| 9 | FAQ | Objection removal; before final CTA. |
+| 10 | Final CTA + risk reversal | Guarantee, commitment flexibility, clear CTA. |
 
 **Governing order:** Desire → Expectation → Justification → Proof → Detail. If a section breaks that order, it moves down.
 
