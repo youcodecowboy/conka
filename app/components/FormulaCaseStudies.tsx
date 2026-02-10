@@ -23,7 +23,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
       : "center";
 
   return (
-    <article className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] bg-[var(--premium-surface)]">
+    <article className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)]">
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
       <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">
         {athlete.photo ? (
@@ -57,8 +57,8 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
         )}
       </div>
 
-      {/* Card body: showcase content */}
-      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)]">
+      {/* Card body: showcase content (white) */}
+      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white">
         <h3 className="premium-heading text-[var(--premium-font-heading-size)] font-bold leading-tight">
           {athlete.name}
         </h3>
@@ -135,13 +135,13 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
           <span>{athlete.testsCompleted} tests</span>
           <span>{athlete.testingPeriod}</span>
           {athlete.protocolUsed != null && athlete.protocolUsed !== "" && (
-            <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-800 dark:text-amber-200">
+            <span className="px-2 py-0.5 rounded-full bg-white border border-black text-black premium-data text-xs">
               {athlete.protocolUsed}
             </span>
           )}
         </div>
 
-        <p className="premium-body text-sm opacity-80 line-clamp-3">
+        <p className="premium-body text-sm opacity-80 leading-relaxed">
           {athlete.description}
         </p>
       </div>
@@ -156,19 +156,22 @@ export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProp
 
   return (
     <section className="premium-section">
-      <div className="premium-container">
-        <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)]">
-          <p className="premium-data text-xs uppercase tracking-wider opacity-60">
-            Verified Results
-          </p>
-          <h2 className="premium-section-heading">
-            Athlete Case Studies
-          </h2>
-          <p className="premium-annotation opacity-70">
-            real data, measured improvement
-          </p>
-        </header>
-
+      <div className="bg-black text-white py-[var(--premium-section-padding-y)] -mx-[var(--premium-section-padding-x)]">
+        <div className="premium-container">
+          <header className="flex flex-col gap-[var(--premium-space-xs)]">
+            <p className="premium-data text-xs uppercase tracking-wider opacity-80">
+              Verified Results
+            </p>
+            <h2 className="premium-section-heading text-white">
+              Athlete Case Studies
+            </h2>
+            <p className="premium-annotation opacity-80">
+              real data, measured improvement
+            </p>
+          </header>
+        </div>
+      </div>
+      <div className="premium-container pt-[var(--premium-space-xl)]">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--premium-space-m)]">
           {athletes.map((athlete) => (
             <AthleteCard key={athlete.id} athlete={athlete} />
@@ -208,19 +211,22 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
 
   return (
     <section className="premium-section">
-      <div className="premium-container">
-      <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)]">
-        <p className="premium-data text-xs uppercase tracking-wider opacity-60">
-          Verified Results
-        </p>
-        <h2 className="premium-section-heading">
-          Athlete Case Studies
-        </h2>
-        <p className="premium-annotation opacity-70">
-          real data, measured improvement
-        </p>
-      </header>
-
+      <div className="bg-black text-white py-[var(--premium-section-padding-y)] -mx-[var(--premium-section-padding-x)]">
+        <div className="premium-container">
+          <header className="flex flex-col gap-[var(--premium-space-xs)]">
+            <p className="premium-data text-xs uppercase tracking-wider opacity-80">
+              Verified Results
+            </p>
+            <h2 className="premium-section-heading text-white">
+              Athlete Case Studies
+            </h2>
+            <p className="premium-annotation opacity-80">
+              real data, measured improvement
+            </p>
+          </header>
+        </div>
+      </div>
+      <div className="premium-container pt-[var(--premium-space-xl)]">
       <div className="flex flex-col gap-[var(--premium-space-m)]">
         {athletes.map((athlete) => (
           <AthleteCard key={athlete.id} athlete={athlete} />
@@ -248,7 +254,7 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
           </svg>
         </Link>
       </div>
-      </div>
+    </div>
     </section>
   );
 }
