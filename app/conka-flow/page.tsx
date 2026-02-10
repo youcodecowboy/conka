@@ -104,14 +104,22 @@ export default function ConkaFlowPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          <Testimonials testimonials={testimonials} maxReviews={8} autoScrollOnly />
-
           <FormulaBenefitsStats formulaId="01" />
+          <Testimonials
+            testimonials={testimonials}
+            maxReviews={8}
+            autoScrollOnly
+          />
+
           <WhatToExpectTimeline formulaId="01" />
 
           <HowItWorks formulaId="01" />
           <FormulaIngredients formulaId="01" />
-          <section id="proof-and-science" className="premium-section" aria-labelledby="proof-and-science-heading">
+          <section
+            id="proof-and-science"
+            className="premium-section"
+            aria-labelledby="proof-and-science-heading"
+          >
             <div className="premium-container">
               <FormulaBenefitsMobile formulaId="01" />
             </div>
@@ -154,14 +162,22 @@ export default function ConkaFlowPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        <Testimonials testimonials={testimonials} maxReviews={8} autoScrollOnly />
+        <Testimonials
+          testimonials={testimonials}
+          maxReviews={8}
+          autoScrollOnly
+        />
 
         <FormulaBenefitsStats formulaId="01" />
         <WhatToExpectTimeline formulaId="01" />
 
         <HowItWorks formulaId="01" />
         <FormulaIngredients formulaId="01" />
-        <section id="proof-and-science" className="premium-section" aria-labelledby="proof-and-science-heading">
+        <section
+          id="proof-and-science"
+          className="premium-section"
+          aria-labelledby="proof-and-science-heading"
+        >
           <div className="premium-container">
             <FormulaBenefits formulaId="01" />
           </div>
