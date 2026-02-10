@@ -280,9 +280,23 @@ After testing, verify:
 
 ---
 
+## Meta Pixel & Conversions API
+
+For Meta (Facebook/Instagram) Ads and event coverage:
+
+- **PageView** – Fires once per load (with deduplication) via `MetaPageViewTracker`.
+- **ViewContent** – Fires on product/protocol pages (conka-flow, conka-clarity, protocol/[id]).
+- **AddToCart** – Fires from `CartContext` after a successful add.
+- **InitiateCheckout** – Fires when the user clicks “Checkout” in the cart drawer.
+
+To get **≥75% event coverage** in Ads Manager, set `META_CAPI_ACCESS_TOKEN` in your environment so server-side events are sent. See `docs/analytics/META_PIXEL_AND_CAPI.md` and `.env.example` for setup. **Purchase** and **AddPaymentInfo** are sent from Shopify checkout (e.g. via Shopify’s Meta channel), not from this repo.
+
+---
+
 ## Next Steps
 
 Once verified:
 1. Update components to pass metadata (location, source, sessionId)
 2. Test again to verify metadata is being captured
 3. Monitor dashboards for a few days to ensure events are consistent
+4. Configure `META_CAPI_ACCESS_TOKEN` for Meta CAPI and (optionally) Shopify’s Meta channel for Purchase events
