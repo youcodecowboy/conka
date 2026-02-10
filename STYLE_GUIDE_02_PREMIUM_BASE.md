@@ -96,9 +96,17 @@ Use borders **sparingly**. Let spacing and typography create hierarchy.
 
 ---
 
+### Surface colour
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--color-surface` | #f4f6f5 | Subtle grey for panels, selector backgrounds, card fills. Aliased as `--premium-surface` in premium-base.css. Use for light, non-white surfaces that need gentle separation from page background. |
+
+---
+
 ## 5. Relationship to Style Guide 01
 
-- **Colours:** Same. Use `--background`, `--foreground`, and formula colours (teal, amber). No new colours in SG02.
+- **Colours:** Same. Use `--background`, `--foreground`, `--color-surface`, and formula colours (teal, amber).
 - **Fonts:** Same. Poppins, Caveat, IBM Plex Mono. SG02 only assigns them to roles and defines sizes/weights for those roles.
 - **Components:** Buttons, cards, and other UI components remain defined in Style Guide 01 until we evolve them. Premium Base is tokens and semantic layout/type classes only.
 
