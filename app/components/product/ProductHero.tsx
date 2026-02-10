@@ -120,7 +120,7 @@ export default function ProductHero({
               </div>
 
               {/* Headline description */}
-              <p className="premium-body text-current/90 font-medium text-base md:text-lg leading-snug mb-1.5">
+              <p className="premium-body text-current/90 font-bold text-base md:text-lg leading-snug mb-1.5">
                 {formula.headline}
               </p>
 
