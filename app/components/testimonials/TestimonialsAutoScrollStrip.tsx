@@ -33,7 +33,7 @@ export default function TestimonialsAutoScrollStrip({
       {/* Header: constrained width + padding */}
       <div className="max-w-[1400px] mx-auto px-4 md:px-6">
         <div className="text-center mb-8 md:mb-10">
-          <h2 className="text-2xl md:text-3xl font-bold mb-2">
+          <h2 className="premium-section-heading mb-2">
             Don&apos;t just take our word for it...
           </h2>
           <p className="font-clinical text-sm md:text-base opacity-70">

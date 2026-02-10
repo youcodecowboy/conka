@@ -32,7 +32,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
     <section className="premium-section bg-current/5">
       <div className="premium-container">
         <div className="text-center mb-12">
-          <h2 className="premium-heading mb-2">How It Works</h2>
+          <h2 className="premium-section-heading mb-2">How It Works</h2>
           <p className="premium-annotation">simple, effective, proven</p>
         </div>
 

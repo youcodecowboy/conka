@@ -15,8 +15,8 @@ export default function WhatToExpectTimeline({ formulaId }: WhatToExpectTimeline
   return (
     <section className="premium-section px-4 md:px-6 lg:px-8">
       <div className="w-full max-w-full mx-auto lg:max-w-[1600px]">
-        <header className="text-center mb-8 md:mb-10">
-          <h2 className="premium-heading mb-2">What to expect</h2>
+        <header className="max-w-[75%] text-right mb-8 md:mb-10">
+          <h2 className="premium-section-heading mb-2">What to expect</h2>
           <p className="premium-annotation opacity-70">your transformation timeline</p>
         </header>
 

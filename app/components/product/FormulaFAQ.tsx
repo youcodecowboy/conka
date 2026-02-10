@@ -15,7 +15,7 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
     <section className="premium-section">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="premium-heading mb-2">
+          <h2 className="premium-section-heading mb-2">
             Common Questions
           </h2>
           <p className="premium-annotation">about {formula.name}</p>

@@ -44,7 +44,7 @@ export default function PDPPlaceholder({
     <section className="premium-section">
       <div className="premium-container">
         <div className="premium-box p-6 md:p-8">
-          <h2 className="premium-heading mb-4">{heading}</h2>
+          <h2 className="premium-section-heading mb-4">{heading}</h2>
           <div className="text-[var(--foreground)]">{content}</div>
         </div>
       </div>

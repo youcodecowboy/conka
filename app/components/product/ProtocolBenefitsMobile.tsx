@@ -172,7 +172,7 @@ export default function ProtocolBenefitsMobile({ formulaId }: ProtocolBenefitsMo
         <p className="font-clinical text-xs uppercase tracking-wider opacity-60 mb-1">
           Maximize Your Results
         </p>
-        <h2 className="premium-heading mb-2">Double Your Benefits</h2>
+        <h2 className="premium-section-heading mb-2">Double Your Benefits</h2>
         <p className="premium-annotation opacity-70">
           Formula {formulaId} works great alone, but combining it with Formula{" "}
           {otherFormula} unlocks even more
