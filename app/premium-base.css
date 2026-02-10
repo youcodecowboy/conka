@@ -40,6 +40,9 @@
   /* ----- Border (use sparingly) ----- */
   --premium-border-width: 1px;
   --premium-border-color: rgba(0, 0, 0, 0.12);
+
+  /* ----- Surface (subtle grey for panels, cards) ----- */
+  --premium-surface: var(--color-surface);
 }
 
 /* Layout */
