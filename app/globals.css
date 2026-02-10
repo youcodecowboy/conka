@@ -328,9 +328,9 @@ body {
   will-change: transform;
 }
 
-/* Testimonials auto-scroll strip: slow (2–3 min per loop); pausable when interacting */
+/* Testimonials auto-scroll strip: slow loop; pausable when interacting */
 .testimonials-marquee-strip {
-  animation: marquee 120s linear infinite;
+  animation: marquee 220s linear infinite; /* desktop: ~3.5 min per loop */
   display: flex;
   will-change: transform;
 }
