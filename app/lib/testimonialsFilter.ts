@@ -145,3 +145,13 @@ export function getSiteTestimonialsClarity(): Testimonial[] {
 export function getSiteTestimonialsProtocol(): Testimonial[] {
   return siteTestimonialsProtocol;
 }
+
+/** Shuffle array (Fisher–Yates). Use for client-side variety e.g. Home/Barry's. */
+export function shuffleTestimonials<T>(array: T[]): T[] {
+  const out = [...array];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}

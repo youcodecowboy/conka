@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { shuffleTestimonials } from "@/app/lib/testimonialsData";
-import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
+import { getSiteTestimonialsProtocol, shuffleTestimonials } from "@/app/lib/testimonialsFilter";
 import type { Testimonial } from "@/app/components/testimonials/types";
 
 const Testimonials = dynamic(

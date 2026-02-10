@@ -7,8 +7,7 @@ import Navigation from "./components/navigation";
 import Footer from "./components/footer";
 import Hero from "./components/Hero";
 import type { Benefit } from "./components/KeyBenefits";
-import { shuffleTestimonials } from "./lib/testimonialsData";
-import { getSiteTestimonialsProtocol } from "./lib/testimonialsFilter";
+import { getSiteTestimonialsProtocol, shuffleTestimonials } from "./lib/testimonialsFilter";
 import type { Testimonial } from "./components/testimonials/types";
 
 // Dynamically import heavy components to reduce initial bundle size
