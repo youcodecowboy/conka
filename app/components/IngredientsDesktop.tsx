@@ -78,7 +78,7 @@ export default function IngredientsDesktop({
             {activeFormula === "01" ? (
               <div className="relative w-full h-80 md:h-[450px]">
                 <Image
-                  src="/tumeric.jpg"
+                  src="/ingredients/flow/turmeric.jpg"
                   alt="Turmeric ingredient"
                   fill
                   className="object-contain"
