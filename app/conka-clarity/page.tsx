@@ -11,7 +11,6 @@ import {
   FormulaBenefits,
   FormulaBenefitsStats,
   FormulaBenefitsMobile,
-  ProtocolBenefitsMobile,
   FormulaFAQ,
   HowItWorks,
   StickyPurchaseFooter,
@@ -123,7 +122,6 @@ export default function ConkaClarityPage() {
             </div>
           </section>
           <FormulaCaseStudiesMobile formulaId="02" />
-          <ProtocolBenefitsMobile formulaId="02" />
           <FormulaFAQ formulaId="02" />
 
           <StickyPurchaseFooterMobile

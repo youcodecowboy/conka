@@ -11,7 +11,6 @@ import {
   FormulaBenefits,
   FormulaBenefitsStats,
   FormulaBenefitsMobile,
-  ProtocolBenefitsMobile,
   FormulaFAQ,
   HowItWorks,
   StickyPurchaseFooter,
@@ -126,7 +125,6 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <FormulaCaseStudiesMobile formulaId="01" />
-          <ProtocolBenefitsMobile formulaId="01" />
           <FormulaFAQ formulaId="01" />
 
           {/* Step 11 — Final CTA */}
