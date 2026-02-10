@@ -29,7 +29,7 @@ export default function TestimonialsAutoScrollStrip({
   const isPaused = expandedKey != null || isHovered;
 
   return (
-    <section className="w-full py-10 md:py-14 bg-white overflow-x-hidden">
+    <section className="w-full py-10 md:py-14 overflow-x-hidden" style={{ background: "var(--color-surface)" }}>
       {/* Header: constrained width + padding */}
       <div className="max-w-[1400px] mx-auto px-4 md:px-6">
         <div className="text-center mb-8 md:mb-10">

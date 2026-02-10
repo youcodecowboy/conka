@@ -8,7 +8,7 @@ import type { TestimonialsProps } from "./types";
 
 /**
  * Testimonials component orchestrator
- * When autoScrollOnly: renders non-interactive auto-scrolling strip (#f4f6f5, white cards).
+ * When autoScrollOnly: renders non-interactive auto-scrolling strip (surface bg, white cards).
  * Otherwise: conditional mobile/desktop with arrows, dots, swipe.
  */
 export default function Testimonials({
