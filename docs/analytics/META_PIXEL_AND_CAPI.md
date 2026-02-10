@@ -31,3 +31,24 @@ Until one of the above is in place, Ads Manager may show low coverage for **Purc
 - **`META_CAPI_ACCESS_TOKEN`** – Server-only; used by the CAPI route. Without it, CAPI is skipped but the site still works.
 
 See `.env.example` for a template.
+
+---
+
+## Where to get `META_CAPI_ACCESS_TOKEN`
+
+You **generate** the token in **Meta Events Manager** (you don’t get it from an external provider). Use the same Pixel you use for the site.
+
+1. Open **Events Manager**: [business.facebook.com/events_manager2](https://business.facebook.com/events_manager2) (or **Meta Business Suite** → **Events Manager**).
+2. Select the **Pixel** you use for this site (the one whose ID is in `NEXT_PUBLIC_META_PIXEL_ID`).
+3. Open the **Settings** tab for that Pixel.
+4. Find the **Conversions API** section and the **“Set up manually”** area.
+5. Click **“Generate access token”** and follow the pop-up. Copy the token and store it securely.
+6. *(Optional)* In the Pixel **Overview** tab, click **“Manage Integrations”** → **“Manage”** next to Conversions API so Meta creates the CAPI app and system user (no App Review needed).
+
+**Notes:**
+
+- Only users with **developer** access to the Business can see **“Generate access token”**.
+- This token is for **server-side** use only. Put it in `META_CAPI_ACCESS_TOKEN` in your environment (e.g. Vercel env vars) and never expose it in client code or in `NEXT_PUBLIC_*` variables.
+- If you prefer to use your own app and system user, you can generate a token in **Business Settings** → assign the Pixel to a system user → **Generate Token** for that user. Same token goes into `META_CAPI_ACCESS_TOKEN`.
+
+Official reference: [Meta Conversions API – Get Started](https://developers.facebook.com/docs/marketing-api/conversions-api/get-started).
