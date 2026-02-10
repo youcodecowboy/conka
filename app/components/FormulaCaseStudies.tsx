@@ -185,7 +185,7 @@ export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProp
       <div className="premium-container">
       <div className="mb-6">
         <p className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-1">Verified Results</p>
-        <h2 className="premium-heading mb-1">Athlete Case Studies</h2>
+        <h2 className="premium-section-heading mb-1">Athlete Case Studies</h2>
         <p className="premium-annotation opacity-70">real data, measured improvement</p>
       </div>
 
@@ -235,7 +235,7 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
     <section className="premium-section">
       <div className="mb-5">
         <p className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-1">Verified Results</p>
-        <h2 className="premium-heading mb-1">Athlete Case Studies</h2>
+        <h2 className="premium-section-heading mb-1">Athlete Case Studies</h2>
         <p className="premium-annotation opacity-70">real data, measured improvement</p>
       </div>
 
