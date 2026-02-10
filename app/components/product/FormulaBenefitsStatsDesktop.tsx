@@ -35,7 +35,7 @@ export default function FormulaBenefitsStatsDesktop({
           <div className="flex flex-col justify-center">
             <h2
               id="benefits-stats-heading"
-              className="premium-display text-white mb-2 text-3xl md:text-4xl lg:text-5xl leading-tight"
+              className="premium-section-heading text-white mb-2"
             >
               {formula.headline}
             </h2>

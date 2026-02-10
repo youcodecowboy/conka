@@ -46,7 +46,7 @@ export default function FormulaBenefitsStatsMobile({
         <div className="px-6 pt-6">
           <h2
             id="benefits-stats-heading"
-            className="premium-display text-white mb-2 text-2xl font-bold leading-tight"
+            className="premium-section-heading text-white mb-2"
           >
             {formula.headline}
           </h2>

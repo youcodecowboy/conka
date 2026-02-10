@@ -56,7 +56,7 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
         <div className="premium-section">
           <div className="premium-container">
             <div className="text-center mb-10">
-              <h2 className="premium-heading mb-2">
+              <h2 className="premium-section-heading mb-2">
                 Clinical Study Details
               </h2>
               <p className="premium-annotation opacity-70">

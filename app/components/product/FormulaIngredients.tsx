@@ -121,7 +121,7 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
       aria-labelledby="formula-ingredients-heading"
     >
       {/* Header: constrained, split in half */}
-      <div className="max-w-[72rem] mx-auto px-4 md:px-6 lg:px-8">
+      <div className="max-w-[79.2rem] mx-auto px-4 md:px-6 lg:px-8">
         <div
           id="formula-ingredients-heading"
           className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-10 md:mb-12"
@@ -155,74 +155,72 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
                 <polyline points="9 18 15 12 9 6" />
               </svg>
             </Link>
+            {/* Nav toggles – Huel-style, below CTA */}
+            <div className="flex items-center gap-2 mt-1">
+              <button
+                onClick={scrollLeft}
+                disabled={!canScrollLeft}
+                className={`w-10 h-10 flex items-center justify-center border-2 border-[var(--foreground)] transition-all ${
+                  canScrollLeft
+                    ? "bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 cursor-pointer"
+                    : "bg-transparent text-current/30 cursor-not-allowed pointer-events-none"
+                }`}
+                aria-label="Previous ingredient"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+              <button
+                onClick={scrollRight}
+                disabled={!canScrollRight}
+                className={`w-10 h-10 flex items-center justify-center border-2 border-[var(--foreground)] transition-all ${
+                  canScrollRight
+                    ? "bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 cursor-pointer"
+                    : "bg-transparent text-current/30 cursor-not-allowed pointer-events-none"
+                }`}
+                aria-label="Next ingredient"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Carousel: full width, with nav buttons */}
-      <div className="relative w-screen left-1/2 -translate-x-1/2" style={{ width: "100vw" }}>
-          {/* Left nav - positioned from container edge */}
-          <button
-            onClick={scrollLeft}
-            disabled={!canScrollLeft}
-            className={`absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center border-2 border-[var(--foreground)] transition-all ${
-              canScrollLeft
-                ? "bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 cursor-pointer"
-                : "bg-transparent text-current/30 cursor-not-allowed pointer-events-none"
-            }`}
-            aria-label="Previous ingredient"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
-
-          {/* Right nav */}
-          <button
-            onClick={scrollRight}
-            disabled={!canScrollRight}
-            className={`absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center border-2 border-[var(--foreground)] transition-all ${
-              canScrollRight
-                ? "bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 cursor-pointer"
-                : "bg-transparent text-current/30 cursor-not-allowed pointer-events-none"
-            }`}
-            aria-label="Next ingredient"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-
-          {/* Carousel */}
+      {/* Carousel: constrained width, clipped edges */}
+      <div className="max-w-[79.2rem] mx-auto px-4 md:px-6 lg:px-8 overflow-hidden">
           <div
             ref={scrollRef}
-            className="flex gap-12 md:gap-16 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth py-2 pl-32 pr-20 md:pl-40 md:pr-24"
+            className="flex gap-12 md:gap-16 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth py-2"
           >
             {ingredients.map((ingredient) => (
               <IngredientCard key={ingredient.id} ingredient={ingredient} />
             ))}
           </div>
-        </div>
+      </div>
     </section>
   );
 }

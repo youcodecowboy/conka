@@ -29,7 +29,7 @@ export default function StruggleSelector({
       <div className="mx-auto w-full max-w-[90rem] px-6 py-8 md:px-12 md:py-10">
         <div className="flex flex-col items-end gap-6">
           <div className="text-right premium-stack-s">
-            <h2 id="proof-and-science-heading" className="premium-heading text-white">
+            <h2 id="proof-and-science-heading" className="premium-section-heading text-white">
               Research by benefit
             </h2>
             <p className="premium-annotation text-white/70">
