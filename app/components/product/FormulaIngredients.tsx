@@ -16,7 +16,8 @@ const SUBHEADING =
   "Crafted using the finest ingredients in nature, we meticulously choose only the highest quality sources, never settling for anything less.";
 
 function getCarouselCaption(ingredient: IngredientData): string {
-  return ingredient.description;
+  const first = ingredient.description.split(". ")[0];
+  return first ? `${first}.` : ingredient.description;
 }
 
 interface IngredientCardProps {
@@ -24,7 +25,7 @@ interface IngredientCardProps {
 }
 
 const CARD_WIDTH = 240;
-const GAP = 40;
+const GAP = 64;
 
 function IngredientCard({ ingredient }: IngredientCardProps) {
   const caption = getCarouselCaption(ingredient);
@@ -34,8 +35,8 @@ function IngredientCard({ ingredient }: IngredientCardProps) {
       className="flex-shrink-0 w-[200px] sm:w-[240px] snap-start"
       style={{ scrollSnapAlign: "start" }}
     >
-      {/* Image: vertical pill shape (2 semicircles + short rect) */}
-      <div className="relative w-full aspect-[2/3] rounded-full overflow-hidden">
+      {/* Image: vertical pill shape (2 semicircles + short rect), 75% of card width */}
+      <div className="relative w-3/4 mx-auto aspect-[2/3] rounded-full overflow-hidden">
         {ingredient.image ? (
           <Image
             src={ingredient.image}
@@ -215,7 +216,7 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
           {/* Carousel */}
           <div
             ref={scrollRef}
-            className="flex gap-8 md:gap-10 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth py-2 pl-20 pr-20 md:pl-24 md:pr-24"
+            className="flex gap-12 md:gap-16 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth py-2 pl-20 pr-20 md:pl-24 md:pr-24"
           >
             {ingredients.map((ingredient) => (
               <IngredientCard key={ingredient.id} ingredient={ingredient} />
