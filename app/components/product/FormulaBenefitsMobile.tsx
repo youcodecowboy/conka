@@ -29,10 +29,10 @@ export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobi
     <section className="premium-section" aria-labelledby="benefits-mobile-heading">
       <div className="premium-container">
         <div className="text-center premium-stack-m">
-          <h2 id="benefits-mobile-heading" className="premium-heading premium-stack-s">
-            What do you struggle with?
+          <h2 id="proof-and-science-heading" className="premium-heading premium-stack-s">
+            Research by benefit
           </h2>
-          <p className="premium-annotation opacity-70">select your challenge</p>
+          <p className="premium-annotation opacity-70">Pick a focus to explore the research</p>
         </div>
 
         <div className="grid grid-cols-3 gap-2 mb-6">

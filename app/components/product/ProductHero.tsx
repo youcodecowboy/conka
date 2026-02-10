@@ -126,7 +126,7 @@ export default function ProductHero({
               </p>
 
               {/* Benefit stats – flat, in grey section, full width, evenly spread */}
-              <div className="bg-[#f4f6f5] rounded-xl px-4 py-3 pb-5 w-full">
+              <div className="bg-[var(--color-surface)] rounded-xl px-4 py-3 pb-5 w-full">
                 <div className="flex w-full justify-between gap-2">
                   {formula.benefits.slice(0, 4).map((benefit, idx) => (
                     <div
