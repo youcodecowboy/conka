@@ -29,7 +29,7 @@ export default function FormulaBenefitsAtGlance({
       className="bg-black text-white"
       aria-labelledby="benefits-at-glance-heading"
     >
-      <div className="mx-auto w-full max-w-[90rem] px-6 py-12 md:px-12 md:py-16 lg:px-16">
+      <div className="mx-auto w-full max-w-[90rem] px-6 pt-12 md:px-12 md:pt-16 lg:px-16 pb-0">
         <div className="grid grid-cols-1 md:grid-cols-2 md:min-h-[480px] gap-12 md:gap-16 lg:gap-20 items-center">
           {/* Left: content */}
           <div className="flex flex-col justify-center">
@@ -75,7 +75,7 @@ export default function FormulaBenefitsAtGlance({
               src={productImage.src}
               alt={productImage.alt}
               fill
-              className="object-contain object-center"
+              className="object-contain object-bottom"
               sizes="(max-width: 768px) 100vw, 50vw"
               priority={false}
             />
