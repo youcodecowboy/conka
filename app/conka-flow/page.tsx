@@ -14,7 +14,6 @@ import {
   ProtocolBenefitsMobile,
   FormulaFAQ,
   HowItWorks,
-  PDPPlaceholder,
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
   WhatToExpectTimeline,
@@ -123,7 +122,6 @@ export default function ConkaFlowPage() {
               <FormulaBenefitsMobile formulaId="01" />
             </div>
           </section>
-          <PDPPlaceholder step={8} />
           <FormulaCaseStudiesMobile formulaId="01" />
           <ProtocolBenefitsMobile formulaId="01" />
           <FormulaFAQ formulaId="01" />
@@ -180,7 +178,6 @@ export default function ConkaFlowPage() {
             <FormulaBenefits formulaId="01" />
           </div>
         </section>
-        <PDPPlaceholder step={8} />
         <FormulaCaseStudies formulaId="01" />
         <FormulaFAQ formulaId="01" />
 
