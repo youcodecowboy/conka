@@ -190,7 +190,7 @@ export default function ConkaFlowPage() {
         <section className="premium-section">
           <div className="premium-container">
             <div className="premium-box p-8 md:p-12 text-center">
-              <h2 className="premium-heading mb-4">
+              <h2 className="premium-section-heading mb-4">
                 Want the Complete Experience?
               </h2>
               <p className="premium-annotation mb-6">
