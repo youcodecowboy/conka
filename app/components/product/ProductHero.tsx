@@ -68,13 +68,13 @@ export default function ProductHero({
           <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 lg:sticky lg:top-24 order-1 lg:order-1">
             <div className="relative w-full group">
               <ProductImageSlideshow
-                  images={
-                    formulaId === "01"
-                      ? flowSlideshowImages
-                      : claritySlideshowImages
-                  }
-                  alt={`${formula.name} bottle`}
-                />
+                images={
+                  formulaId === "01"
+                    ? flowSlideshowImages
+                    : claritySlideshowImages
+                }
+                alt={`${formula.name} bottle`}
+              />
             </div>
           </div>
 
@@ -93,14 +93,20 @@ export default function ProductHero({
                         height="18"
                         viewBox="0 0 24 24"
                         fill="currentColor"
-                        className={formulaId === "01" ? "text-amber-500" : "text-[#94b9ff]"}
+                        className={
+                          formulaId === "01"
+                            ? "text-amber-500"
+                            : "text-[#94b9ff]"
+                        }
                       >
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
                     ))}
                   </div>
                   <span className="premium-data text-current/90">
-                    {formulaId === "01" ? "Over 80,000 shots sold" : "Over 20,000 shots sold"}
+                    {formulaId === "01"
+                      ? "Over 80,000 shots sold"
+                      : "Over 20,000 shots sold"}
                   </span>
                 </div>
                 <h1 className="premium-display leading-tight font-primary text-current">
@@ -120,7 +126,7 @@ export default function ProductHero({
               </div>
 
               {/* Headline description */}
-              <p className="premium-body text-current/90 font-bold text-base md:text-lg leading-snug mb-1.5">
+              <p className="premium-title text-current/90 font-bold text-base md:text-lg leading-snug mb-1.5">
                 {formula.headline}
               </p>
 
@@ -135,13 +141,14 @@ export default function ProductHero({
                       <span
                         className="font-clinical text-base font-bold"
                         style={{
-                          color:
-                            formulaId === "01" ? "#f59e0b" : "#94b9ff",
+                          color: formulaId === "01" ? "#f59e0b" : "#94b9ff",
                         }}
                       >
                         {benefit.stat}
                       </span>
-                      <span className="leading-tight text-current/90">{benefit.title}</span>
+                      <span className="leading-tight text-current/90">
+                        {benefit.title}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -304,7 +311,7 @@ export default function ProductHero({
                       {purchaseType === "subscription" && (
                         <span className="text-xl font-clinical line-through opacity-50">
                           {formatPrice(
-                            formulaPricing["one-time"][selectedPack].price
+                            formulaPricing["one-time"][selectedPack].price,
                           )}
                         </span>
                       )}
@@ -328,9 +335,7 @@ export default function ProductHero({
                     {purchaseType === "subscription" && (
                       <span
                         className={`inline-flex items-center gap-1 mt-1 ${
-                          formulaId === "01"
-                            ? "bg-amber-500"
-                            : "bg-[#94b9ff]"
+                          formulaId === "01" ? "bg-amber-500" : "bg-[#94b9ff]"
                         } text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}
                       >
                         <svg
