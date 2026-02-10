@@ -8,12 +8,10 @@ import {
   formulaPricing,
   formatPrice,
   getBillingLabel,
-  FORMULA_COLORS,
   FORMULA_GRADIENTS,
 } from "@/app/lib/productData";
 import ProductImageSlideshow from "./ProductImageSlideshow";
-import PackSelector from "./PackSelector";
-import PaymentLogos from "../PaymentLogos";
+import PackSelectorPremium from "./PackSelectorPremium";
 
 interface ProductHeroMobileProps {
   formulaId: FormulaId;
@@ -62,27 +60,45 @@ export default function ProductHeroMobile({
     { src: "/formulas/conkaClear/ClearReviews.jpg" },
   ];
 
-  const oneTimeColor =
-    formulaId === "01" ? "invert" : FORMULA_COLORS[formulaId].hex;
-
   return (
     <section className="pt-0 pb-4 px-0 overflow-x-hidden">
       <div className="w-full min-w-0 px-3">
-        {/* Header - product name + subtitle (premium, no colored strip) */}
+        {/* Header - stars + title + subline (align with desktop ProductHero) */}
         <div className="pt-3 pb-2">
-          <h1 className="premium-display">
+          <div className="flex items-center gap-2 flex-wrap mb-2">
+            <div className="flex" aria-hidden>
+              {[1, 2, 3, 4, 5].map((i) => (
+                <svg
+                  key={i}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className={formulaId === "01" ? "text-amber-500" : "text-[#94b9ff]"}
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              ))}
+            </div>
+            <span className="premium-data text-current/90">
+              {formulaId === "01" ? "Over 80,000 shots sold" : "Over 20,000 shots sold"}
+            </span>
+          </div>
+          <h1 className="premium-display leading-tight font-primary text-current">
             {formulaId === "01" ? (
               <>
-                <span className="font-primary">CONKA</span>{" "}
-                <span className="font-clinical">FL0W</span>
+                CONKA <span className="font-primary">FL0W</span>
               </>
             ) : (
               formula.name
             )}
           </h1>
-          <p className="premium-data mt-1 leading-tight opacity-90">
-            Liquid · 1 shot (30ml) daily · {selectedPack}-pack
-          </p>
+          <div className="mt-2">
+            <span className="inline-block px-4 py-1 rounded-full bg-black/[0.04] premium-data text-current/90 text-sm">
+              Liquid · 1 shot (30ml) daily · {selectedPack}-pack
+            </span>
+          </div>
         </div>
 
         {/* Product Image + thumbnails – full viewport width */}
@@ -98,35 +114,41 @@ export default function ProductHeroMobile({
 
         {/* Content */}
         <div className="pt-3 pb-4 space-y-3">
-          <p className="premium-body opacity-90">{formula.headline}</p>
+          <p className="premium-body text-current/90 font-bold text-base leading-snug mb-1.5">
+            {formula.headline}
+          </p>
 
-          <div className="flex flex-wrap gap-2">
-            {formula.benefits.slice(0, 4).map((benefit, idx) => (
-              <div
-                key={idx}
-                className="flex-1 min-w-[80px] px-3 py-2.5 rounded-2xl bg-current/5 font-primary text-xs text-center flex flex-col items-center gap-0.5"
-              >
-                <span
-                  className="font-clinical text-sm font-bold"
-                  style={{
-                    color: formulaId === "01" ? "#f59e0b" : "#94b9ff",
-                  }}
+          {/* Benefit stats – flat, in grey section (align with desktop) */}
+          <div className="bg-[var(--color-surface)] rounded-xl px-4 py-3 pb-5 w-full">
+            <div className="flex w-full justify-between gap-2">
+              {formula.benefits.slice(0, 4).map((benefit, idx) => (
+                <div
+                  key={idx}
+                  className="font-primary text-sm flex flex-1 min-w-0 flex-col items-center justify-center gap-0 text-center"
                 >
-                  {benefit.stat}
-                </span>
-                <span className="leading-tight">{benefit.title}</span>
-              </div>
-            ))}
+                  <span
+                    className="font-clinical text-base font-bold"
+                    style={{
+                      color:
+                        formulaId === "01" ? "#f59e0b" : "#94b9ff",
+                    }}
+                  >
+                    {benefit.stat}
+                  </span>
+                  <span className="leading-tight text-current/90">{benefit.title}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="border-t-2 border-current border-opacity-10" />
-
-          <PackSelector
+          <PackSelectorPremium
             selectedPack={selectedPack}
             onSelect={onPackSelect}
             purchaseType={purchaseType}
-            highlightColor={oneTimeColor}
-            subscriptionAccentColor={formulaId === "01" ? "#f59e0b" : "#94b9ff"}
+            subscriptionAccentColor={
+              formulaId === "01" ? "#f59e0b" : "#94b9ff"
+            }
+            compact
           />
 
           <div className="space-y-2">
@@ -135,17 +157,17 @@ export default function ProductHeroMobile({
             </p>
             <button
               onClick={() => onPurchaseTypeChange("subscription")}
-              className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-start gap-3 cursor-pointer ${
+              className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 cursor-pointer bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
                 purchaseType === "subscription"
-                  ? "border-current border-opacity-40 bg-current/5"
-                  : "border-current border-opacity-20"
+                  ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+                  : ""
               }`}
             >
               <span
                 className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
                   purchaseType === "subscription"
-                    ? "border-current"
-                    : "border-current border-opacity-50"
+                    ? "border-current bg-current/10"
+                    : "border-black/30"
                 }`}
               >
                 {purchaseType === "subscription" && (
@@ -154,7 +176,7 @@ export default function ProductHeroMobile({
               </span>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-bold text-sm">Subscribe</span>
+                  <span className="font-bold">Subscribe</span>
                   <span
                     className="px-2 py-0.5 rounded-full text-xs font-clinical text-white flex-shrink-0"
                     style={{
@@ -166,12 +188,12 @@ export default function ProductHeroMobile({
                   </span>
                 </div>
                 {purchaseType === "subscription" && (
-                  <ul className="mt-2 space-y-1 font-clinical text-[11px] opacity-80">
+                  <ul className="mt-2 space-y-1.5 font-clinical text-xs opacity-80">
                     <li className="flex items-center gap-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -185,8 +207,8 @@ export default function ProductHeroMobile({
                     <li className="flex items-center gap-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -203,8 +225,8 @@ export default function ProductHeroMobile({
                     <li className="flex items-center gap-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -219,8 +241,8 @@ export default function ProductHeroMobile({
                     <li className="flex items-center gap-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -238,47 +260,47 @@ export default function ProductHeroMobile({
             </button>
             <button
               onClick={() => onPurchaseTypeChange("one-time")}
-              className={`w-full text-left p-3 rounded-lg border-2 transition-all flex items-center gap-3 cursor-pointer ${
+              className={`w-full text-left p-3 rounded-xl transition-all flex items-center gap-3 cursor-pointer bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
                 purchaseType === "one-time"
-                  ? "border-current border-opacity-40 bg-current/5"
-                  : "border-current border-opacity-20"
+                  ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+                  : ""
               }`}
             >
               <span
                 className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                   purchaseType === "one-time"
-                    ? "border-current"
-                    : "border-current border-opacity-50"
+                    ? "border-current bg-current/10"
+                    : "border-black/30"
                 }`}
               >
                 {purchaseType === "one-time" && (
                   <span className="w-2.5 h-2.5 rounded-full bg-current" />
                 )}
               </span>
-              <span className="font-bold text-sm">One-time</span>
+              <span className="font-bold">One-time</span>
             </button>
           </div>
 
-          <div className="flex justify-between items-center p-4 rounded-lg border-2 border-current border-opacity-20 bg-current/5">
+          <div className="flex justify-between items-center py-4 rounded-xl bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] px-4">
             <div>
               <p className="premium-data uppercase opacity-70">
                 Your Selection
               </p>
-              <p className="font-bold text-sm">
+              <p className="font-bold">
                 {selectedPack}-pack • {billingText}
               </p>
             </div>
             <div className="text-right">
-              <div className="flex items-baseline justify-end gap-1.5">
+              <div className="flex items-baseline justify-end gap-2">
                 {purchaseType === "subscription" && (
-                  <span className="text-base font-clinical line-through opacity-50">
+                  <span className="text-xl font-clinical line-through opacity-50">
                     {formatPrice(
                       formulaPricing["one-time"][selectedPack].price,
                     )}
                   </span>
                 )}
                 <span
-                  className="text-2xl font-bold"
+                  className="text-3xl font-bold"
                   style={
                     purchaseType === "subscription"
                       ? {
@@ -320,7 +342,7 @@ export default function ProductHeroMobile({
 
           <button
             onClick={onAddToCart}
-            className="w-full py-4 font-bold text-base text-black rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80"
+            className="w-full px-8 py-4 font-bold text-lg text-black rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
             style={{
               background: `linear-gradient(90deg, ${FORMULA_GRADIENTS[formulaId].start} 0%, ${FORMULA_GRADIENTS[formulaId].end} 100%)`,
             }}
