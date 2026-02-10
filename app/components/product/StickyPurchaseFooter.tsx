@@ -14,6 +14,7 @@ import {
   ProtocolId,
   protocolContent,
   formulaContent,
+  FORMULA_COLORS,
 } from "@/app/lib/productData";
 
 interface StickyPurchaseFooterProps {
@@ -168,8 +169,8 @@ export default function StickyPurchaseFooter({
     selectorVariantLabel = tierLabels[selectedTier];
     selectorPriceLine = formatPrice(price);
   }
-  const selectorAccentTextClass =
-    formulaId === "01" ? "text-amber-600" : "text-teal-600";
+  const accentColor = formulaId ? FORMULA_COLORS[formulaId] : null;
+  const selectorAccentTextClass = accentColor ? accentColor.text : "";
 
   if (!isVisible) return null;
 
