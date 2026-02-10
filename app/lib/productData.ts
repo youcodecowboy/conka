@@ -14,9 +14,9 @@ export const FORMULA_COLORS = {
     hex: "#f59e0b", // Orange/amber accent color for CONKA Flow
   },
   "02": {
-    bg: "bg-[#AAB9BC]",
-    text: "text-[#AAB9BC]",
-    hex: "#AAB9BC", // Teal color for CONKA Clarity
+    bg: "bg-[#94b9ff]",
+    text: "text-[#94b9ff]",
+    hex: "#94b9ff", // Soft blue for CONKA Clarity
   },
 } as const;
 

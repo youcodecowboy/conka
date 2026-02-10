@@ -1,6 +1,62 @@
 "use client";
 
-import { FormulaId, formulaContent, FORMULA_COLORS } from "@/app/lib/productData";
+import Image from "next/image";
+import {
+  FormulaId,
+  formulaContent,
+  FORMULA_COLORS,
+} from "@/app/lib/productData";
+
+const FORMULA_ASSETS: Record<FormulaId, string> = {
+  "01": "/formulas/conkaFlow/FlowTaste.jpg",
+  "02": "/formulas/conkaClear/ClearTaste.jpg",
+};
+
+const STEPS: Record<
+  FormulaId,
+  Array<{ number: string; title: string; description: string }>
+> = {
+  "01": [
+    {
+      number: "01",
+      title: "Choose Your Pack",
+      description:
+        "Select between 4, 12, or 28 shots based on your usage needs.",
+    },
+    {
+      number: "02",
+      title: "Take Daily",
+      description:
+        "Best taken in the morning with or without food. Perfect as a coffee replacement for sustained energy throughout the day.",
+    },
+    {
+      number: "03",
+      title: "Feel the Difference",
+      description:
+        "Consistent use unlocks calmer focus, better resilience, and the clarity you deserve.",
+    },
+  ],
+  "02": [
+    {
+      number: "01",
+      title: "Choose Your Pack",
+      description:
+        "Select between 4, 12, or 28 shots based on your usage needs.",
+    },
+    {
+      number: "02",
+      title: "Take Daily",
+      description:
+        "Best taken 30-60 minutes before you need peak performance, or in the evening to support decision-making and recovery.",
+    },
+    {
+      number: "03",
+      title: "Feel the Difference",
+      description:
+        "Consistent use unlocks sharper focus, lasting mental clarity, and the performance edge you deserve.",
+    },
+  ],
+};
 
 interface HowItWorksProps {
   formulaId: FormulaId;
@@ -9,113 +65,64 @@ interface HowItWorksProps {
 export default function HowItWorks({ formulaId }: HowItWorksProps) {
   const formula = formulaContent[formulaId];
   const accentColor = FORMULA_COLORS[formulaId];
-
-  const steps = [
-    {
-      number: "01",
-      title: "Choose Your Pack",
-      description: "Select between 4, 12, or 28 shots based on your usage needs.",
-    },
-    {
-      number: "02",
-      title: "Take Daily",
-      description: formula.whenToTake,
-    },
-    {
-      number: "03",
-      title: "Feel the Difference",
-      description: "Most users notice improvements within the first week of consistent use.",
-    },
-  ];
+  const steps = STEPS[formulaId];
+  const assetSrc = FORMULA_ASSETS[formulaId];
 
   return (
-    <section className="premium-section bg-current/5">
+    <section
+      className="premium-section bg-black text-white"
+      aria-labelledby="how-it-works-heading"
+    >
       <div className="premium-container">
-        <div className="text-center mb-12">
-          <h2 className="premium-section-heading mb-2">How It Works</h2>
-          <p className="premium-annotation">simple, effective, proven</p>
-        </div>
+        <header className="text-center mb-12">
+          <h2
+            id="how-it-works-heading"
+            className="premium-section-heading text-white mb-2"
+          >
+            How {formula.name} Works
+          </h2>
+          <p className="premium-annotation text-white/70">
+            simple, effective, proven
+          </p>
+        </header>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {steps.map((step, idx) => (
-            <div key={idx} className="text-center">
-              <div
-                className={`w-16 h-16 mx-auto mb-4 ${accentColor.bg} text-white rounded-full flex items-center justify-center`}
-              >
-                <span className="font-clinical text-xl font-bold">{step.number}</span>
-              </div>
-              <h3 className="premium-heading mb-2">{step.title}</h3>
-              <p className="premium-body opacity-80">{step.description}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="premium-box p-8 mt-16">
-          <div className="flex flex-col md:flex-row gap-8 items-center">
-            <div className="md:w-1/3 text-center">
-              <div
-                className={`w-20 h-20 mx-auto ${accentColor.bg} text-white rounded-full flex items-center justify-center mb-4`}
-              >
-                {formulaId === "01" ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="5" />
-                    <line x1="12" y1="1" x2="12" y2="3" />
-                    <line x1="12" y1="21" x2="12" y2="23" />
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                    <line x1="1" y1="12" x2="3" y2="12" />
-                    <line x1="21" y1="12" x2="23" y2="12" />
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                  </svg>
-                )}
-              </div>
-              <p className="font-clinical text-sm uppercase opacity-70">
-                {formulaId === "01" ? "Morning Ritual" : "Evening Boost"}
-              </p>
-            </div>
-            <div className="md:w-2/3">
-              <h3 className="premium-heading mb-4">When to Take {formula.name}</h3>
-              <p className="premium-body opacity-80 mb-4">{formula.whenToTake}</p>
-              <div className="flex flex-wrap gap-2">
-                {formula.keyPoints.map((point, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 border border-current rounded-full font-clinical text-xs"
-                  >
-                    {point}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* Left: vertical 3-step section */}
+          <div className="flex flex-col gap-12">
+            {steps.map((step, idx) => (
+              <div key={idx} className="flex gap-4 items-start">
+                <div
+                  className={`w-14 h-14 shrink-0 ${accentColor.bg} text-white rounded-full flex items-center justify-center`}
+                >
+                  <span className="font-clinical text-lg font-bold">
+                    {step.number}
                   </span>
-                ))}
+                </div>
+                <div>
+                  <h3 className="premium-heading text-white mb-1 text-lg">
+                    {step.title}
+                  </h3>
+                  <p className="premium-body text-white">
+                    {step.description}
+                  </p>
+                </div>
               </div>
-            </div>
+            ))}
+          </div>
+
+          {/* Right: asset - mobile: no crop, scale down, square; desktop: cover */}
+          <div className="relative w-full aspect-square rounded-lg overflow-hidden">
+            <Image
+              src={assetSrc}
+              alt={`${formula.name} – How it works`}
+              fill
+              className="object-contain md:object-cover"
+              sizes="(max-width: 767px) 100vw, 50vw"
+              priority={false}
+            />
           </div>
         </div>
       </div>
     </section>
   );
 }
-
