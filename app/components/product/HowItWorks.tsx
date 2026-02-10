@@ -1,19 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { FormulaId, formulaContent, FORMULA_COLORS } from "@/app/lib/productData";
+import {
+  FormulaId,
+  formulaContent,
+  FORMULA_COLORS,
+} from "@/app/lib/productData";
 
 const FORMULA_ASSETS: Record<FormulaId, string> = {
   "01": "/formulas/conkaFlow/FlowTaste.jpg",
-  "02": "/formulas/conkaClear/ClearSteps.jpg",
+  "02": "/formulas/conkaClear/ClearTaste.jpg",
 };
 
-const STEPS: Record<FormulaId, Array<{ number: string; title: string; description: string }>> = {
+const STEPS: Record<
+  FormulaId,
+  Array<{ number: string; title: string; description: string }>
+> = {
   "01": [
     {
       number: "01",
       title: "Choose Your Pack",
-      description: "Select between 4, 12, or 28 shots based on your usage needs.",
+      description:
+        "Select between 4, 12, or 28 shots based on your usage needs.",
     },
     {
       number: "02",
@@ -32,7 +40,8 @@ const STEPS: Record<FormulaId, Array<{ number: string; title: string; descriptio
     {
       number: "01",
       title: "Choose Your Pack",
-      description: "Select between 4, 12, or 28 shots based on your usage needs.",
+      description:
+        "Select between 4, 12, or 28 shots based on your usage needs.",
     },
     {
       number: "02",
@@ -79,7 +88,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
 
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left: vertical 3-step section */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-12">
             {steps.map((step, idx) => (
               <div key={idx} className="flex gap-4 items-start">
                 <div
@@ -93,7 +102,9 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
                   <h3 className="premium-heading text-white mb-1 text-lg">
                     {step.title}
                   </h3>
-                  <p className="premium-body text-white/80">{step.description}</p>
+                  <p className="premium-body text-white">
+                    {step.description}
+                  </p>
                 </div>
               </div>
             ))}
