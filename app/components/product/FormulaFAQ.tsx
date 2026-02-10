@@ -12,25 +12,23 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   return (
-    <section className="px-6 md:px-16 py-24">
+    <section className="premium-section">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+          <h2 className="premium-section-heading mb-2">
             Common Questions
           </h2>
-          <p className="font-commentary text-xl">about {formula.name}</p>
+          <p className="premium-annotation">about {formula.name}</p>
         </div>
 
-        {/* FAQ Items */}
         <div className="space-y-4">
           {formula.faq.map((item, idx) => (
-            <div key={idx} className="neo-box overflow-hidden">
+            <div key={idx} className="premium-box overflow-hidden">
               <button
                 onClick={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
                 className="w-full p-6 text-left flex justify-between items-center gap-4 hover:bg-current/5 transition-colors"
               >
-                <h3 className="text-lg font-bold">{item.question}</h3>
+                <h3 className="premium-heading text-lg">{item.question}</h3>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"

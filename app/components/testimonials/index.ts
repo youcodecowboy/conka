@@ -7,6 +7,7 @@ export type {
   Testimonial,
   TestimonialsProps,
   TestimonialCardProps,
+  ProductType,
 } from "./types";
 
 // Components

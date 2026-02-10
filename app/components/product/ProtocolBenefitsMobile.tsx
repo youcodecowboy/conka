@@ -140,13 +140,11 @@ const protocols = [
   },
 ];
 
-export default function ProtocolBenefitsMobile({
-  formulaId,
-}: ProtocolBenefitsMobileProps) {
+export default function ProtocolBenefitsMobile({ formulaId }: ProtocolBenefitsMobileProps) {
   const otherFormula = formulaId === "01" ? "02" : "01";
 
   return (
-    <section className="py-8">
+    <section className="premium-section">
       {/* Image Carousel - Edge to Edge */}
       <div className="mb-6 overflow-x-auto scrollbar-hide">
         <div className="flex gap-3 px-4">
@@ -174,8 +172,8 @@ export default function ProtocolBenefitsMobile({
         <p className="font-clinical text-xs uppercase tracking-wider opacity-60 mb-1">
           Maximize Your Results
         </p>
-        <h2 className="text-2xl font-bold mb-2">Double Your Benefits</h2>
-        <p className="font-commentary text-base opacity-70">
+        <h2 className="premium-section-heading mb-2">Double Your Benefits</h2>
+        <p className="premium-annotation opacity-70">
           Formula {formulaId} works great alone, but combining it with Formula{" "}
           {otherFormula} unlocks even more
         </p>

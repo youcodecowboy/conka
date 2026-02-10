@@ -1,0 +1,189 @@
+/**
+ * CONKA Style Guide 02 – Premium Base
+ * Tokens and semantic classes for PDP premium layer.
+ * Applied only inside a premium wrapper (e.g. .premium-pdp) in Phase 3.
+ *
+ * Typography: Display (Syne – geometric, premium; swap to New Haus when licensed).
+ * Body: DM Sans – sharp, legible, neutral sans.
+ */
+
+:root {
+  /* ----- Spacing (rem) ----- */
+  --premium-space-xs: 0.25rem;
+  --premium-space-s: 0.5rem;
+  --premium-space-m: 1rem;
+  --premium-space-l: 1.5rem;
+  --premium-space-xl: 2rem;
+  --premium-section-padding-y: 3rem;
+  --premium-section-padding-x: 1rem;
+
+  /* ----- Radius ----- */
+  --premium-radius-base: 0.5rem;
+  --premium-radius-interactive: 9999px;
+
+  /* ----- Typography: premium PDP (display + body; vars from layout.tsx) ----- */
+  --premium-font-display-size: 2.5rem;
+  --premium-font-display-weight: 700;
+  --premium-font-heading-size: 1.5rem;
+  --premium-font-heading-weight: 700;
+  --premium-font-body-size: 1rem;
+  --premium-font-body-weight: 400;
+  --premium-font-body-leading: 1.6;
+  --premium-font-data-size: 0.875rem;
+  --premium-font-data-weight: 500;
+  --premium-font-annotation-size: 1.125rem;
+  --premium-font-annotation-weight: 400;
+
+  /* ----- Layout ----- */
+  --premium-container-max: 72rem;
+
+  /* ----- Border (use sparingly) ----- */
+  --premium-border-width: 1px;
+  --premium-border-color: rgba(0, 0, 0, 0.12);
+
+  /* ----- Surface (subtle grey for panels, cards) ----- */
+  --premium-surface: var(--color-surface);
+}
+
+/* Layout */
+.premium-section {
+  padding-top: var(--premium-section-padding-y);
+  padding-bottom: var(--premium-section-padding-y);
+  padding-left: var(--premium-section-padding-x);
+  padding-right: var(--premium-section-padding-x);
+}
+
+.premium-container {
+  max-width: var(--premium-container-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Type roles (global) */
+.premium-display {
+  font-family: var(--font-primary), sans-serif;
+  font-size: var(--premium-font-display-size);
+  font-weight: var(--premium-font-display-weight);
+  line-height: 1.2;
+}
+
+.premium-heading {
+  font-family: var(--font-primary), sans-serif;
+  font-size: var(--premium-font-heading-size);
+  font-weight: var(--premium-font-heading-weight);
+  line-height: 1.3;
+}
+
+/* Section title – large, consistent size across PDP sections (Huel-style scale) */
+.premium-section-heading {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 2.125rem;
+  line-height: 2.38rem;
+  letter-spacing: -0.0425rem;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+@media (min-width: 1024px) {
+  .premium-section-heading {
+    font-size: 3.375rem;
+    line-height: 3.78rem;
+    letter-spacing: -0.0675rem;
+  }
+}
+
+.premium-body {
+  font-family: var(--font-primary), sans-serif;
+  font-size: var(--premium-font-body-size);
+  font-weight: var(--premium-font-body-weight);
+  line-height: 1.5;
+}
+
+/* Premium PDP hero: display (Syne / New Haus) + body (DM Sans) from style guide */
+.premium-pdp .premium-hero-panel .premium-display-hero {
+  font-family: var(--font-premium-display), var(--font-primary), sans-serif;
+  font-size: var(--premium-font-display-size);
+  font-weight: var(--premium-font-display-weight);
+  line-height: 1.15;
+}
+
+.premium-pdp .premium-hero-panel .premium-body-hero {
+  font-family: var(--font-premium-body), sans-serif;
+  font-size: var(--premium-font-body-size);
+  font-weight: var(--premium-font-body-weight);
+  line-height: var(--premium-font-body-leading);
+}
+
+.premium-data {
+  font-family: var(--font-clinical), monospace;
+  font-size: var(--premium-font-data-size);
+  font-weight: var(--premium-font-data-weight);
+  line-height: 1.4;
+}
+
+.premium-annotation {
+  font-family: var(--font-commentary), cursive;
+  font-size: var(--premium-font-annotation-size);
+  font-weight: var(--premium-font-annotation-weight);
+  line-height: 1.4;
+}
+
+/* Spacing helpers */
+.premium-stack-s {
+  margin-bottom: var(--premium-space-s);
+}
+
+.premium-stack-s:last-child {
+  margin-bottom: 0;
+}
+
+.premium-stack-m {
+  margin-bottom: var(--premium-space-m);
+}
+
+.premium-stack-m:last-child {
+  margin-bottom: 0;
+}
+
+/* Premium container (replaces neo-box when usePremium) */
+.premium-box {
+  border-radius: var(--premium-radius-base);
+  border: var(--premium-border-width) solid var(--premium-border-color);
+  background: var(--background);
+  padding: var(--premium-space-m) var(--premium-space-l);
+}
+
+.premium-box-inverted {
+  border-radius: var(--premium-radius-base);
+  border: var(--premium-border-width) solid var(--premium-border-color);
+  background: var(--foreground);
+  color: var(--background);
+  padding: var(--premium-space-m) var(--premium-space-l);
+}
+
+/* Scoped overrides: softer look inside .premium-pdp only */
+.premium-pdp .neo-box {
+  border-radius: var(--premium-radius-base);
+  border-width: var(--premium-border-width);
+  border-color: var(--premium-border-color);
+}
+
+.premium-pdp .neo-button,
+.premium-pdp .neo-button-outline {
+  border-width: var(--premium-border-width);
+}
+
+.premium-pdp [class*="shadow-"] {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Inverted (dark) section – black background, light text – e.g. bento benefits */
+.premium-section-inverted {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Bento cards inside inverted section – visible border and subtle fill */
+.premium-bento-card {
+  border-radius: var(--premium-radius-base);
+  border-width: var(--premium-border-width);
+}

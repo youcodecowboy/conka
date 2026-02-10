@@ -9,13 +9,16 @@ import {
   ProductHeroMobile,
   FormulaIngredients,
   FormulaBenefits,
+  FormulaBenefitsStats,
   FormulaBenefitsMobile,
-  ProtocolBenefitsMobile,
   FormulaFAQ,
   HowItWorks,
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
+  WhatToExpectTimeline,
+  EditorialQuotesCarousel,
 } from "@/app/components/product";
+import { getEditorialQuotesForFormula } from "@/app/lib/editorialQuotesData";
 import { FormulaCaseStudiesMobile } from "@/app/components/FormulaCaseStudies";
 import FormulaCaseStudies from "@/app/components/FormulaCaseStudies";
 import { PackSize, PurchaseType } from "@/app/lib/productData";
@@ -24,6 +27,8 @@ import { useCart } from "@/app/context/CartContext";
 import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
+import Testimonials from "@/app/components/testimonials/Testimonials";
+import { getSiteTestimonialsFlow } from "@/app/lib/testimonialsFilter";
 
 export default function ConkaFlowPage() {
   const isMobile = useIsMobile();
@@ -80,7 +85,7 @@ export default function ConkaFlowPage() {
     }
   };
 
-  // Mobile version
+  // Mobile version — Phase 2 flow: 0 → 1 → … → 11
   if (isMobile) {
     return (
       <div
@@ -88,8 +93,65 @@ export default function ConkaFlowPage() {
         style={{ background: "var(--background)", color: "var(--foreground)" }}
       >
         <Navigation />
+        <div className="premium-pdp">
+          {/* Step 0 — Hero + Purchase */}
+          <ProductHeroMobile
+            formulaId="01"
+            selectedPack={selectedPack}
+            onPackSelect={setSelectedPack}
+            purchaseType={purchaseType}
+            onPurchaseTypeChange={setPurchaseType}
+            onAddToCart={handleAddToCartFromHero}
+          />
 
-        <ProductHeroMobile
+          <FormulaBenefitsStats formulaId="01" />
+          <Testimonials
+            testimonials={getSiteTestimonialsFlow()}
+            autoScrollOnly
+          />
+
+          <WhatToExpectTimeline formulaId="01" />
+
+          <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
+          <FormulaIngredients formulaId="01" />
+          <HowItWorks formulaId="01" />
+          <section
+            id="proof-and-science"
+            className="premium-section"
+            aria-labelledby="proof-and-science-heading"
+          >
+            <div className="premium-container">
+              <FormulaBenefitsMobile formulaId="01" />
+            </div>
+          </section>
+          <FormulaCaseStudiesMobile formulaId="01" />
+          <FormulaFAQ formulaId="01" />
+
+          {/* Step 11 — Final CTA */}
+          <StickyPurchaseFooterMobile
+            formulaId="01"
+            selectedPack={selectedPack}
+            onPackSelect={setSelectedPack}
+            purchaseType={purchaseType}
+            onAddToCart={handleAddToCartFromFooter}
+            usePremium
+          />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Desktop version — Phase 2 flow: 0 → 1 → … → 11
+  return (
+    <div
+      className="min-h-screen theme-conka-flow lg:pt-8"
+      style={{ background: "var(--background)", color: "var(--foreground)" }}
+    >
+      <Navigation />
+      <div className="premium-pdp">
+        {/* Step 0 — Hero + Purchase */}
+        <ProductHero
           formulaId="01"
           selectedPack={selectedPack}
           onPackSelect={setSelectedPack}
@@ -98,98 +160,69 @@ export default function ConkaFlowPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        {/* What do you struggle with section */}
-        <FormulaBenefitsMobile formulaId="01" />
+        <FormulaBenefitsStats formulaId="01" />
+        <Testimonials
+          testimonials={getSiteTestimonialsFlow()}
+          autoScrollOnly
+        />
 
-        {/* Double Your Benefits - Protocol CTAs */}
-        <ProtocolBenefitsMobile formulaId="01" />
+        <WhatToExpectTimeline formulaId="01" />
 
-        {/* Case Studies - Social Proof */}
-        <FormulaCaseStudiesMobile formulaId="01" />
+        <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
+        <FormulaIngredients formulaId="01" />
+        <HowItWorks formulaId="01" />
+        <section
+          id="proof-and-science"
+          className="premium-section"
+          aria-labelledby="proof-and-science-heading"
+        >
+          <div className="premium-container">
+            <FormulaBenefits formulaId="01" />
+          </div>
+        </section>
+        <FormulaCaseStudies formulaId="01" />
+        <FormulaFAQ formulaId="01" />
 
-        <Footer />
+        {/* Related Products CTA */}
+        <section className="premium-section">
+          <div className="premium-container">
+            <div className="premium-box p-8 md:p-12 text-center">
+              <h2 className="premium-section-heading mb-4">
+                Want the Complete Experience?
+              </h2>
+              <p className="premium-annotation mb-6">
+                combine CONKA Flow with CONKA Clear in a protocol
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="/conka-clarity"
+                  className="neo-button-outline px-8 py-4 font-semibold text-lg"
+                >
+                  Explore CONKA Clear
+                </a>
+                <a
+                  href="/protocol/1"
+                  className="neo-button px-8 py-4 font-bold text-lg"
+                >
+                  View Protocols
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <StickyPurchaseFooterMobile
+        {/* Step 11 — Final CTA */}
+        <StickyPurchaseFooter
           formulaId="01"
           selectedPack={selectedPack}
           onPackSelect={setSelectedPack}
           purchaseType={purchaseType}
+          onPurchaseTypeChange={setPurchaseType}
           onAddToCart={handleAddToCartFromFooter}
+          usePremium
         />
       </div>
-    );
-  }
-
-  // Desktop version
-  return (
-    <div
-      className="min-h-screen theme-conka-flow lg:pt-20"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
-      {/* Navigation */}
-      <Navigation />
-
-      {/* Hero Section */}
-      <ProductHero
-        formulaId="01"
-        selectedPack={selectedPack}
-        onPackSelect={setSelectedPack}
-        purchaseType={purchaseType}
-        onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCartFromHero}
-      />
-
-      {/* Benefits Section */}
-      <FormulaBenefits formulaId="01" />
-
-      {/* Ingredients Section */}
-      <FormulaIngredients formulaId="01" />
-
-      {/* How It Works Section */}
-      <HowItWorks formulaId="01" />
-
-      {/* FAQ Section */}
-      <FormulaFAQ formulaId="01" />
-
-      {/* Related Products CTA */}
-      <section className="px-6 md:px-16 py-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="neo-box p-8 md:p-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Want the Complete Experience?
-            </h2>
-            <p className="font-commentary text-xl mb-6">
-              combine CONKA Flow with CONKA Clear in a protocol
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/conka-clarity"
-                className="neo-button-outline px-8 py-4 font-semibold text-lg"
-              >
-                Explore CONKA Clear
-              </a>
-              <a
-                href="/protocol/1"
-                className="neo-button px-8 py-4 font-bold text-lg"
-              >
-                View Protocols
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <Footer />
-
-      {/* Sticky Purchase Footer */}
-      <StickyPurchaseFooter
-        formulaId="01"
-        selectedPack={selectedPack}
-        onPackSelect={setSelectedPack}
-        purchaseType={purchaseType}
-        onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCartFromFooter}
-      />
     </div>
   );
 }

@@ -105,8 +105,8 @@ function MiniRadarChart({
 }) {
   return (
     <div className="flex flex-col items-center overflow-visible w-full">
-      <div className="w-full aspect-square max-w-[280px] mx-auto overflow-visible">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="w-full min-w-[200px] min-h-[200px] aspect-square max-w-[280px] mx-auto overflow-visible">
+        <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={200}>
           <RechartsRadarChart 
             data={data} 
             outerRadius="60%"
