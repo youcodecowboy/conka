@@ -29,5 +29,10 @@
       "count": 1
     }
   ],
-  "generated": "2026-02-10T16:06:24.301Z"
+  "productTypeCounts": {
+    "flow": 598,
+    "clarity": 0,
+    "protocol": 1
+  },
+  "generated": "2026-02-10T16:13:29.614Z"
 }
