@@ -63,7 +63,9 @@ async function main() {
     }
 
     const handle = (row.handle || "").trim();
-    const productType = handleToProductType(handle);
+    let productType = handleToProductType(handle);
+    // Manual override: Rudh K. review shown as protocol (Flow + Clear badges)
+    if ((row.id || "").trim() === "D5SvYYNNM") productType = "protocol";
     const name = toDisplayName(row.full_name, row.nickname);
     const date = (row.date || "").trim();
     const img = (row.img || "").trim();
