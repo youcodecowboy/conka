@@ -1,84 +1,120 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { FormulaId } from "@/app/lib/productData";
+import { getIngredientsByFormula } from "@/app/lib/ingredientsData";
+import type { IngredientData } from "@/app/lib/ingredientsData";
 
-/** Asset paths: [ingredients image, secondary image (taste or essentials)] */
-const FORMULA_ASSETS: Record<
-  FormulaId,
-  [string, string]
-> = {
-  "01": [
-    "/formulas/conkaFlow/FlowIngredients.jpg",
-    "/formulas/conkaFlow/FlowTaste.jpg",
-  ],
-  "02": [
-    "/formulas/conkaClear/ClearIngredients.jpg",
-    "/formulas/conkaClear/ClearEssentials.jpg",
-  ],
+const HEADING_WORD: Record<FormulaId, string> = {
+  "01": "adaptogens",
+  "02": "nootropics",
 };
 
-const ASSET_ALTS: Record<FormulaId, [string, string]> = {
-  "01": [
-    "CONKA Flow ingredients – 6 high-quality ingredients optimised for impact",
-    "CONKA Flow taste – That's what CONKA tastes like",
-  ],
-  "02": [
-    "CONKA Clear ingredients – high-quality ingredients optimised for impact",
-    "CONKA Clear essentials – only the essentials, no unexpected extras",
-  ],
-};
+const SUBHEADING =
+  "Crafted using the finest ingredients in nature, we meticulously choose only the highest quality sources, never settling for anything less.";
+
+function getCarouselCaption(ingredient: IngredientData): string {
+  const firstSentence = ingredient.description.split(". ")[0];
+  if (firstSentence) return `${firstSentence}.`;
+  if (ingredient.benefits?.[0]?.description) {
+    return ingredient.benefits[0].description;
+  }
+  return "";
+}
+
+interface IngredientCardProps {
+  ingredient: IngredientData;
+}
+
+function IngredientCard({ ingredient }: IngredientCardProps) {
+  const caption = getCarouselCaption(ingredient);
+
+  return (
+    <div
+      className="flex-shrink-0 w-[180px] sm:w-[200px] snap-start"
+      style={{ scrollSnapAlign: "start" }}
+    >
+      <div
+        className="overflow-hidden rounded-lg"
+        style={{ borderRadius: "var(--premium-radius-base)" }}
+      >
+        {/* Oblong image container */}
+        <div className="relative w-full aspect-[4/3]">
+          {ingredient.image ? (
+            <Image
+              src={ingredient.image}
+              alt={ingredient.name}
+              fill
+              sizes="200px"
+              className="object-cover"
+            />
+          ) : (
+            <div
+              className="w-full h-full bg-current/5 flex items-center justify-center"
+              style={{ borderRadius: "var(--premium-radius-base)" }}
+            >
+              <span className="font-clinical text-xs text-center px-2 opacity-60">
+                {ingredient.name}
+              </span>
+            </div>
+          )}
+        </div>
+        {/* Name and caption */}
+        <div className="pt-2">
+          <p className="font-bold text-sm">{ingredient.name}</p>
+          <p className="font-clinical text-xs opacity-70 line-clamp-2 mt-0.5">
+            {caption}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 interface FormulaIngredientsProps {
   formulaId: FormulaId;
 }
 
 export default function FormulaIngredients({ formulaId }: FormulaIngredientsProps) {
-  const [ingredientsSrc, secondarySrc] = FORMULA_ASSETS[formulaId];
-  const [ingredientsAlt, secondaryAlt] = ASSET_ALTS[formulaId];
+  const ingredients = getIngredientsByFormula(formulaId);
+  const headingWord = HEADING_WORD[formulaId];
 
   return (
-    <section className="premium-section" aria-labelledby="ingredients-taste-heading">
+    <section
+      className="premium-section"
+      aria-labelledby="formula-ingredients-heading"
+    >
       <div className="premium-container">
-        <div className="mb-8 md:mb-10">
-          <h2 id="ingredients-taste-heading" className="premium-heading mb-2">
-            Ingredients & Taste
+        <div className="mb-6 md:mb-8">
+          <h2
+            id="formula-ingredients-heading"
+            className="premium-heading mb-2"
+          >
+            Formulated with naturally beneficial {headingWord}
           </h2>
-          <p className="premium-annotation">what&apos;s inside</p>
+          <p className="premium-annotation opacity-80 mb-4">
+            {SUBHEADING}
+          </p>
+          <Link
+            href="/ingredients"
+            className="inline-flex items-center gap-1 font-semibold text-sm underline underline-offset-2 hover:opacity-80 transition-opacity"
+          >
+            See all ingredients
+            <span aria-hidden>→</span>
+          </Link>
         </div>
 
+        {/* Horizontal scroll carousel */}
         <div
-          className="grid grid-cols-1 md:grid-cols-2 items-center"
-          style={{
-            gap: "var(--premium-space-l)",
-          }}
+          className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth -mx-4 px-4 md:-mx-6 md:px-6 pb-2"
+          role="list"
         >
-          <div
-            className="relative w-full aspect-square overflow-hidden"
-            style={{ borderRadius: "var(--premium-radius-base)" }}
-          >
-            <Image
-              src={ingredientsSrc}
-              alt={ingredientsAlt}
-              fill
-              className="object-contain object-center"
-              sizes="(max-width: 767px) 100vw, 50vw"
-              priority={false}
-            />
-          </div>
-          <div
-            className="relative w-full aspect-square overflow-hidden"
-            style={{ borderRadius: "var(--premium-radius-base)" }}
-          >
-            <Image
-              src={secondarySrc}
-              alt={secondaryAlt}
-              fill
-              className="object-contain object-center"
-              sizes="(max-width: 767px) 100vw, 50vw"
-              priority={false}
-            />
-          </div>
+          {ingredients.map((ingredient) => (
+            <div key={ingredient.id} role="listitem">
+              <IngredientCard ingredient={ingredient} />
+            </div>
+          ))}
         </div>
       </div>
     </section>
