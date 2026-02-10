@@ -143,7 +143,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
           )}
         </div>
 
-        <div>
+        <div className={!descriptionExpanded ? "min-h-[4.5rem]" : ""}>
           <p
             className={`premium-body text-sm opacity-80 leading-relaxed ${!descriptionExpanded ? "line-clamp-3" : ""}`}
           >
@@ -234,9 +234,9 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
           </p>
         </header>
 
-        {/* Swipeable horizontal carousel with horizontal padding */}
+        {/* Swipeable horizontal carousel – first card centered on mount, scroll to see more */}
         <div
-          className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory -mx-[var(--premium-section-padding-x)] px-[var(--premium-space-l)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory -mx-[var(--premium-section-padding-x)] pl-[7.5vw] pr-[7.5vw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           style={{ WebkitOverflowScrolling: "touch" }}
           role="region"
           aria-label="Athlete case studies - swipe to view all"
@@ -244,7 +244,7 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
           {athletes.map((athlete) => (
             <div
               key={athlete.id}
-              className="flex-shrink-0 w-[85vw] max-w-[320px] snap-start"
+              className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center"
             >
               <AthleteCard athlete={athlete} />
             </div>
