@@ -28,7 +28,7 @@ import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
 import Testimonials from "@/app/components/testimonials/Testimonials";
-import { testimonials } from "@/app/lib/testimonialsData";
+import { getSiteTestimonials } from "@/app/lib/testimonialsFilter";
 
 export default function ConkaFlowPage() {
   const isMobile = useIsMobile();
@@ -106,7 +106,7 @@ export default function ConkaFlowPage() {
 
           <FormulaBenefitsStats formulaId="01" />
           <Testimonials
-            testimonials={testimonials}
+            testimonials={getSiteTestimonials()}
             maxReviews={8}
             autoScrollOnly
           />
@@ -164,7 +164,7 @@ export default function ConkaFlowPage() {
 
         <FormulaBenefitsStats formulaId="01" />
         <Testimonials
-          testimonials={testimonials}
+          testimonials={getSiteTestimonials()}
           maxReviews={8}
           autoScrollOnly
         />
