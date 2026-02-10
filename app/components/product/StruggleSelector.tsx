@@ -25,14 +25,14 @@ export default function StruggleSelector({
   const accentColor = FORMULA_COLORS[formulaId];
 
   return (
-    <div className="w-full bg-black text-white">
+    <div className="w-full bg-white">
       <div className="mx-auto w-full max-w-[90rem] px-6 py-8 md:px-12 md:py-10">
         <div className="flex flex-col items-end gap-6">
           <div className="text-right premium-stack-s">
-            <h2 id="proof-and-science-heading" className="premium-section-heading text-white">
+            <h2 id="proof-and-science-heading" className="premium-section-heading text-black">
               Research by benefit
             </h2>
-            <p className="premium-annotation text-white/70">
+            <p className="premium-annotation text-black/70">
               Pick a focus to explore the research
             </p>
           </div>
@@ -48,10 +48,10 @@ export default function StruggleSelector({
                   className={`
                     group px-4 py-2.5 md:px-5 md:py-3 rounded-[var(--premium-radius-interactive)]
                     transition-all duration-200 flex items-center gap-2
-                    border
+                    border-2
                     ${isSelected
                       ? "border-transparent text-white"
-                      : "border-white/40 text-white hover:border-white/70 bg-transparent"
+                      : "bg-black text-white border-black hover:bg-black/90"
                     }
                   `}
                   style={isSelected ? { backgroundColor: accentColor.hex } : undefined}
@@ -73,7 +73,7 @@ export default function StruggleSelector({
               <button
                 type="button"
                 onClick={() => onSelectStruggle(null)}
-                className="premium-data text-sm text-white/70 underline underline-offset-2 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded"
+                className="premium-data text-sm text-black/70 underline underline-offset-2 hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded"
               >
                 Clear selection
               </button>
