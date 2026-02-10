@@ -346,10 +346,8 @@ export default function StickyPurchaseFooter({
                 >
                   <div
                     className={`w-8 h-4 rounded-full relative transition-colors ${
-                      purchaseType === "subscription"
-                        ? formulaId === "01"
-                          ? "bg-amber-500"
-                          : "bg-teal-500"
+                      purchaseType === "subscription" && accentColor
+                        ? accentColor.bg
                         : "bg-gray-300"
                     }`}
                   >
@@ -374,11 +372,7 @@ export default function StickyPurchaseFooter({
                 <div className="text-right">
                   <span
                     className={`text-lg md:text-xl font-bold ${
-                      isSubscription
-                        ? formulaId === "01"
-                          ? "text-amber-600"
-                          : "text-teal-600"
-                        : ""
+                      isSubscription && accentColor ? accentColor.text : ""
                     }`}
                   >
                     {formatPrice(price)}
