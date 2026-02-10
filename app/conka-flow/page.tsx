@@ -113,8 +113,8 @@ export default function ConkaFlowPage() {
 
           <WhatToExpectTimeline formulaId="01" />
 
-          <HowItWorks formulaId="01" />
           <FormulaIngredients formulaId="01" />
+          <HowItWorks formulaId="01" />
           <section
             id="proof-and-science"
             className="premium-section"
@@ -162,17 +162,17 @@ export default function ConkaFlowPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
+        <FormulaBenefitsStats formulaId="01" />
         <Testimonials
           testimonials={testimonials}
           maxReviews={8}
           autoScrollOnly
         />
 
-        <FormulaBenefitsStats formulaId="01" />
         <WhatToExpectTimeline formulaId="01" />
 
-        <HowItWorks formulaId="01" />
         <FormulaIngredients formulaId="01" />
+        <HowItWorks formulaId="01" />
         <section
           id="proof-and-science"
           className="premium-section"

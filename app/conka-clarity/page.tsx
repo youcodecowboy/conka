@@ -110,8 +110,8 @@ export default function ConkaClarityPage() {
 
           <WhatToExpectTimeline formulaId="02" />
 
-          <HowItWorks formulaId="02" />
           <FormulaIngredients formulaId="02" />
+          <HowItWorks formulaId="02" />
           <section
             id="proof-and-science"
             className="premium-section"
@@ -156,17 +156,17 @@ export default function ConkaClarityPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
+        <FormulaBenefitsStats formulaId="02" />
         <Testimonials
           testimonials={testimonials}
           maxReviews={8}
           autoScrollOnly
         />
 
-        <FormulaBenefitsStats formulaId="02" />
         <WhatToExpectTimeline formulaId="02" />
 
-        <HowItWorks formulaId="02" />
         <FormulaIngredients formulaId="02" />
+        <HowItWorks formulaId="02" />
         <section
           id="proof-and-science"
           className="premium-section"
