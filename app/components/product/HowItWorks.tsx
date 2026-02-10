@@ -8,47 +8,45 @@ const FORMULA_ASSETS: Record<FormulaId, string> = {
   "02": "/formulas/conkaClear/ClearSteps.jpg",
 };
 
-const FLOW_STEPS = [
-  {
-    number: "01",
-    title: "Choose Your Pack",
-    description: "Select between 4, 12, or 28 shots based on your usage needs.",
-  },
-  {
-    number: "02",
-    title: "Take Daily",
-    description:
-      "Best taken in the morning with or without food. Perfect as a coffee replacement for sustained energy throughout the day.",
-  },
-  {
-    number: "03",
-    title: "Feel the Difference",
-    description:
-      "Most users notice improvements within the first week of consistent use.",
-  },
-];
-
-const CLEAR_STEPS = [
-  {
-    number: "01",
-    title: "Grab",
-    description: "your CONKA Clear shot",
-  },
-  {
-    number: "02",
-    title: "Shake",
-    description: "give it a quick shake",
-  },
-  {
-    number: "03",
-    title: "Enjoy",
-    description: "the taste of lemon and your new mental clarity",
-  },
-];
-
-const STEPS: Record<FormulaId, typeof FLOW_STEPS> = {
-  "01": FLOW_STEPS,
-  "02": CLEAR_STEPS,
+const STEPS: Record<FormulaId, Array<{ number: string; title: string; description: string }>> = {
+  "01": [
+    {
+      number: "01",
+      title: "Choose Your Pack",
+      description: "Select between 4, 12, or 28 shots based on your usage needs.",
+    },
+    {
+      number: "02",
+      title: "Take Daily",
+      description:
+        "Best taken in the morning with or without food. Perfect as a coffee replacement for sustained energy throughout the day.",
+    },
+    {
+      number: "03",
+      title: "Feel the Difference",
+      description:
+        "Consistent use unlocks calmer focus, better resilience, and the clarity you deserve.",
+    },
+  ],
+  "02": [
+    {
+      number: "01",
+      title: "Choose Your Pack",
+      description: "Select between 4, 12, or 28 shots based on your usage needs.",
+    },
+    {
+      number: "02",
+      title: "Take Daily",
+      description:
+        "Best taken 30-60 minutes before you need peak performance, or in the evening to support decision-making and recovery.",
+    },
+    {
+      number: "03",
+      title: "Feel the Difference",
+      description:
+        "Consistent use unlocks sharper focus, lasting mental clarity, and the performance edge you deserve.",
+    },
+  ],
 };
 
 interface HowItWorksProps {
@@ -72,7 +70,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
             id="how-it-works-heading"
             className="premium-section-heading text-white mb-2"
           >
-            How It Works
+            How {formula.name} Works
           </h2>
           <p className="premium-annotation text-white/70">
             simple, effective, proven
