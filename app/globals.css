@@ -328,7 +328,7 @@ body {
   will-change: transform;
 }
 
-/* Testimonials auto-scroll strip: slower on mobile; pausable when interacting */
+/* Testimonials auto-scroll strip: pausable when interacting */
 .testimonials-marquee-strip {
   animation: marquee 40s linear infinite;
   display: flex;
