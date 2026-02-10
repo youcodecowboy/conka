@@ -24,10 +24,8 @@ export interface TestimonialsProps {
   maxReviews?: number;
   /** Whether to show rating stars (default: true) */
   showRating?: boolean;
-  /** When true, render auto-scrolling strip only (no arrows/dots/swipe); slower on mobile */
+  /** When true, render auto-scrolling strip only (no arrows/dots/swipe) */
   autoScrollOnly?: boolean;
-  /** Multiplier for scroll duration on mobile (e.g. 1.5 = 50% slower). Used when autoScrollOnly. */
-  scrollSpeedMobileMultiplier?: number;
 }
 
 export interface TestimonialCardProps {
