@@ -49,9 +49,9 @@ export default function EditorialQuotesCarousel({
       aria-label="Editorial quotes"
     >
       <div className="premium-container">
-        {/* Mobile: swipeable horizontal scroll with snap */}
+        {/* Mobile: swipeable horizontal scroll – first item centered on mount */}
         <div
-          className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory -mx-[var(--premium-section-padding-x)] px-[var(--premium-section-padding-x)] lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory -mx-[var(--premium-section-padding-x)] pl-[7.5vw] pr-[7.5vw] lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           style={{ WebkitOverflowScrolling: "touch" }}
           role="region"
           aria-label="Editorial quotes - swipe to view all"
@@ -59,7 +59,7 @@ export default function EditorialQuotesCarousel({
           {quotes.map((quote) => (
             <div
               key={quote.id}
-              className="flex-shrink-0 w-[85vw] max-w-[320px] snap-start"
+              className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center"
             >
               <QuoteCard quote={quote} />
             </div>
