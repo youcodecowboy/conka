@@ -15,16 +15,6 @@ import type { LooxTestimonial, ProductType } from "./testimonialsFromLoox";
 import { looxTestimonials } from "./testimonialsFromLoox";
 import type { Testimonial } from "@/app/components/testimonials/types";
 
-export type { ProductType };
-
-export interface TestimonialFilters {
-  productType?: ProductType | "all";
-  minRating?: number;
-  from?: string;
-  to?: string;
-  withAssets?: boolean;
-}
-
 const PRODUCT_LABELS: Record<ProductType, string> = {
   flow: "CONKA Flow",
   clarity: "CONKA Clear",
@@ -47,41 +37,8 @@ function looxToTestimonial(row: LooxTestimonial): Testimonial {
 
 const MIN_RATING = 3;
 
-function matchesFilters(
-  row: LooxTestimonial,
-  filters: TestimonialFilters,
-): boolean {
-  if (
-    filters.productType &&
-    filters.productType !== "all" &&
-    row.productType !== filters.productType
-  )
-    return false;
-  if ((filters.minRating ?? MIN_RATING) > row.rating) return false;
-  if (filters.from && row.date < filters.from) return false;
-  if (filters.to && row.date > filters.to) return false;
-  if (filters.withAssets === true && !row.hasAssets) return false;
-  return true;
-}
-
-export function getFilteredTestimonials(
-  filters: TestimonialFilters = {},
-): Testimonial[] {
-  return looxTestimonials
-    .filter((r) => matchesFilters(r, filters))
-    .map(looxToTestimonial);
-}
-
-export function getTestimonialCount(filters: TestimonialFilters = {}): number {
-  return looxTestimonials.filter((r) => matchesFilters(r, filters)).length;
-}
-
 function getPool(): LooxTestimonial[] {
   return looxTestimonials.filter((r) => r.rating >= MIN_RATING);
-}
-
-export function getSiteTestimonials(): Testimonial[] {
-  return getPool().map(looxToTestimonial);
 }
 
 const SET_SIZE = 30;
@@ -135,8 +92,6 @@ const siteTestimonialsProtocol = buildSet(
 export function getSiteTestimonialsFlow(): Testimonial[] {
   return siteTestimonialsFlow;
 }
-
-export const clarityReviewCount = clarityOnly.length;
 
 export function getSiteTestimonialsClarity(): Testimonial[] {
   return siteTestimonialsClarity;
