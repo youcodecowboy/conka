@@ -17,7 +17,9 @@ import {
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
   WhatToExpectTimeline,
+  EditorialQuotesCarousel,
 } from "@/app/components/product";
+import { getEditorialQuotesForFormula } from "@/app/lib/editorialQuotesData";
 import { FormulaCaseStudiesMobile } from "@/app/components/FormulaCaseStudies";
 import FormulaCaseStudies from "@/app/components/FormulaCaseStudies";
 import { PackSize, PurchaseType } from "@/app/lib/productData";
@@ -111,6 +113,7 @@ export default function ConkaFlowPage() {
 
           <WhatToExpectTimeline formulaId="01" />
 
+          <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
           <FormulaIngredients formulaId="01" />
           <HowItWorks formulaId="01" />
           <section
@@ -167,6 +170,7 @@ export default function ConkaFlowPage() {
 
         <WhatToExpectTimeline formulaId="01" />
 
+        <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
         <FormulaIngredients formulaId="01" />
         <HowItWorks formulaId="01" />
         <section
