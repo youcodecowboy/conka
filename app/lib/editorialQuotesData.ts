@@ -51,7 +51,8 @@ export const editorialQuotes: EditorialQuote[] = [
 ];
 
 export function getEditorialQuotesForFormula(
-  formulaId: FormulaId,
+  _formulaId: FormulaId,
 ): EditorialQuote[] {
-  return editorialQuotes.filter((q) => q.formulaIds.includes(formulaId));
+  // For now show all quotes on both product pages; filter by formulaId when we have more data
+  return editorialQuotes;
 }
