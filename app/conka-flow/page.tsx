@@ -27,6 +27,8 @@ import { useCart } from "@/app/context/CartContext";
 import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
+import Testimonials from "@/app/components/testimonials/Testimonials";
+import { testimonials } from "@/app/lib/testimonialsData";
 
 export default function ConkaFlowPage() {
   const isMobile = useIsMobile();
@@ -102,6 +104,8 @@ export default function ConkaFlowPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
+          <Testimonials testimonials={testimonials} maxReviews={8} autoScrollOnly />
+
           <FormulaBenefitsStats formulaId="01" />
           <WhatToExpectTimeline formulaId="01" />
 
@@ -149,6 +153,8 @@ export default function ConkaFlowPage() {
           onPurchaseTypeChange={setPurchaseType}
           onAddToCart={handleAddToCartFromHero}
         />
+
+        <Testimonials testimonials={testimonials} maxReviews={8} autoScrollOnly />
 
         <FormulaBenefitsStats formulaId="01" />
         <WhatToExpectTimeline formulaId="01" />
