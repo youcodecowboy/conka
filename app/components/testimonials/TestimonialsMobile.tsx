@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import TestimonialCard from "./TestimonialCard";
 import ScrollIndicator from "./ScrollIndicator";
+import TestimonialsSubtitle from "./TestimonialsSubtitle";
 import type { TestimonialsProps } from "./types";
 
 export default function TestimonialsMobile({
@@ -48,9 +49,7 @@ export default function TestimonialsMobile({
         <h2 className="text-2xl sm:text-3xl font-bold mb-2">
           Don't just take our word for it
         </h2>
-        <p className="font-clinical text-sm opacity-70">
-          see what our customers are saying
-        </p>
+        <TestimonialsSubtitle />
       </div>
 
       {/* Horizontal Scroll Cards Container */}

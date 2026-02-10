@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import TestimonialCard from "./TestimonialCard";
 import ScrollIndicator from "./ScrollIndicator";
+import TestimonialsSubtitle from "./TestimonialsSubtitle";
 import type { TestimonialsProps } from "./types";
 
 export default function TestimonialsDesktop({
@@ -84,9 +85,9 @@ export default function TestimonialsDesktop({
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
             Don't just take our word for it
           </h2>
-          <p className="font-clinical text-l opacity-70">
-            see what our customers are saying
-          </p>
+          <div className="flex justify-center">
+            <TestimonialsSubtitle />
+          </div>
         </div>
 
         {/* Carousel Container - Relative for arrow positioning and gradients */}

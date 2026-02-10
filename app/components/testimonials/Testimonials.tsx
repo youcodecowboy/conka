@@ -33,7 +33,6 @@ export default function Testimonials({
     );
   }
 
-  // Render mobile version on smaller viewports
   if (isMobile) {
     return (
       <TestimonialsMobile
@@ -43,7 +42,6 @@ export default function Testimonials({
     );
   }
 
-  // Render desktop version on larger viewports
   return (
     <TestimonialsDesktop
       testimonials={displayTestimonials}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import TestimonialCard from "./TestimonialCard";
+import TestimonialsSubtitle from "./TestimonialsSubtitle";
 import type { TestimonialsProps } from "./types";
 
 const CARD_WIDTH = 312;
@@ -36,9 +37,9 @@ export default function TestimonialsAutoScrollStrip({
           <h2 className="premium-section-heading mb-2">
             Don&apos;t just take our word for it...
           </h2>
-          <p className="font-clinical text-sm md:text-base opacity-70">
-            See what our customers are saying
-          </p>
+          <div className="flex justify-center">
+            <TestimonialsSubtitle />
+          </div>
         </div>
       </div>
 
