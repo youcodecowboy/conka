@@ -29,6 +29,7 @@ import useIsMobile from "@/app/hooks/useIsMobile";
 import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
 import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
+import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
 
 // Valid protocol IDs
 const validProtocolIds: ProtocolId[] = ["1", "2", "3", "4"];
@@ -64,6 +65,23 @@ export default function ProtocolPage() {
   if (!protocol) {
     return null; // Will redirect
   }
+
+  // Meta ViewContent (once per page view)
+  useEffect(() => {
+    if (!validProtocolIds.includes(protocolId as ProtocolId)) return;
+    const variantData = getProtocolVariantId(
+      protocolId as ProtocolId,
+      "pro",
+      "subscription"
+    );
+    if (variantData?.variantId) {
+      trackMetaViewContent({
+        content_ids: [toContentId(variantData.variantId)],
+        content_name: protocol.name,
+        content_type: "product",
+      });
+    }
+  }, [protocolId]);
 
   // Hero section handler
   const handleAddToCartFromHero = async () => {
