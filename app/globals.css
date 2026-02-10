@@ -328,9 +328,9 @@ body {
   will-change: transform;
 }
 
-/* Testimonials auto-scroll strip: pausable when interacting */
+/* Testimonials auto-scroll strip: slow (2–3 min per loop); pausable when interacting */
 .testimonials-marquee-strip {
-  animation: marquee 40s linear infinite;
+  animation: marquee 120s linear infinite;
   display: flex;
   will-change: transform;
 }
@@ -339,6 +339,6 @@ body {
 }
 @media (max-width: 1023px) {
   .testimonials-marquee-strip {
-    animation-duration: 80s;
+    animation-duration: 180s;
   }
 }
