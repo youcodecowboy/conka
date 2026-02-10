@@ -15,6 +15,7 @@ import {
   protocolContent,
   formulaContent,
   FORMULA_COLORS,
+  FORMULA_GRADIENTS,
 } from "@/app/lib/productData";
 
 interface StickyPurchaseFooterProps {
@@ -218,7 +219,7 @@ export default function StickyPurchaseFooter({
                   <div className="relative" ref={dropdownRef}>
                     <button
                       onClick={() => setShowPackDropdown(!showPackDropdown)}
-                      className="flex items-center gap-2 px-4 py-2 border-2 border-current rounded-full font-clinical text-sm hover:bg-current/5 transition-colors min-w-[200px] text-left"
+                      className="flex items-center gap-2 px-4 py-2 border-2 border-current rounded-lg font-clinical text-sm hover:bg-current/5 transition-colors min-w-[200px] text-left"
                     >
                       <div className="flex-1 min-w-0">
                         <p className="font-bold whitespace-nowrap truncate">
@@ -342,7 +343,7 @@ export default function StickyPurchaseFooter({
                         : "subscription",
                     )
                   }
-                  className="flex items-center gap-2 px-3 py-2 border-2 border-current rounded-full font-clinical text-xs hover:bg-current/5 transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 border-2 border-current rounded-lg font-clinical text-xs hover:bg-current/5 transition-colors"
                 >
                   <div
                     className={`w-8 h-4 rounded-full relative transition-colors ${
@@ -360,24 +361,26 @@ export default function StickyPurchaseFooter({
                   <span className="hidden sm:inline">Subscribe</span>
                 </button>
 
-                {/* Add to Cart Button - longer CTA */}
+                {/* Add to Cart Button: pill, no border; formula = gradient + black text, protocol = black; price inside */}
                 <button
                   onClick={onAddToCart}
-                  className="neo-button min-w-[10rem] px-8 py-2 font-bold text-sm whitespace-nowrap"
+                  className={
+                    formulaId
+                      ? "min-w-[10rem] px-6 py-2.5 font-bold text-sm whitespace-nowrap text-black rounded-full transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
+                      : "min-w-[10rem] px-6 py-2.5 font-bold text-sm whitespace-nowrap text-white bg-black rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
+                  }
+                  style={
+                    formulaId
+                      ? {
+                          background: `linear-gradient(to right, ${FORMULA_GRADIENTS[formulaId].start}, ${FORMULA_GRADIENTS[formulaId].end})`,
+                        }
+                      : undefined
+                  }
                 >
-                  Add to Cart
+                  <span>Add to Cart</span>
+                  <span className="opacity-90">·</span>
+                  <span>{formatPrice(price)}</span>
                 </button>
-
-                {/* Price - compact, no assurance copy */}
-                <div className="text-right">
-                  <span
-                    className={`text-lg md:text-xl font-bold ${
-                      isSubscription && accentColor ? accentColor.text : ""
-                    }`}
-                  >
-                    {formatPrice(price)}
-                  </span>
-                </div>
               </div>
             </div>
           </div>

@@ -12,6 +12,7 @@ import {
   getBillingLabel,
   FormulaId,
   ProtocolId,
+  FORMULA_GRADIENTS,
 } from "@/app/lib/productData";
 
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
@@ -124,7 +125,7 @@ export default function StickyPurchaseFooterMobile({
                   <button
                     type="button"
                     onClick={() => setShowDropdown(!showDropdown)}
-                    className="w-full rounded-full border-2 border-black bg-[var(--background)] px-4 py-2 text-left flex items-center gap-2 hover:bg-black/5 transition-colors min-w-0"
+                    className="w-full rounded-lg border-2 border-black bg-[var(--background)] px-4 py-2 text-left flex items-center gap-2 hover:bg-black/5 transition-colors min-w-0"
                   >
                     <div className="flex-1 min-w-0">
                       <p className="font-clinical text-sm font-medium truncate">
@@ -238,9 +239,22 @@ export default function StickyPurchaseFooterMobile({
             </div>
             <button
               onClick={onAddToCart}
-              className="neo-button px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0"
+              className={
+                formulaId
+                  ? "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-black rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
+                  : "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-white bg-black rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
+              }
+              style={
+                formulaId
+                  ? {
+                      background: `linear-gradient(to right, ${FORMULA_GRADIENTS[formulaId].start}, ${FORMULA_GRADIENTS[formulaId].end})`,
+                    }
+                  : undefined
+              }
             >
-              Add
+              <span>Add</span>
+              <span className="opacity-90">·</span>
+              <span>{formatPrice(price)}</span>
             </button>
           </div>
         </div>
