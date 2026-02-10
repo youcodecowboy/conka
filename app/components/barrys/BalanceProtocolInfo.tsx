@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { shuffleTestimonials } from "@/app/lib/testimonialsData";
-import { getSiteTestimonials } from "@/app/lib/testimonialsFilter";
+import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
 import type { Testimonial } from "@/app/components/testimonials/types";
 
 const Testimonials = dynamic(
@@ -44,9 +44,9 @@ const benefits = [
 export default function BalanceProtocolInfo() {
   const [shuffledTestimonials, setShuffledTestimonials] = useState<Testimonial[]>([]);
 
-  // Shuffle site-wide testimonials on client to avoid hydration mismatch
+  // Shuffle protocol set on client to avoid hydration mismatch
   useEffect(() => {
-    setShuffledTestimonials(shuffleTestimonials(getSiteTestimonials()));
+    setShuffledTestimonials(shuffleTestimonials(getSiteTestimonialsProtocol()));
   }, []);
 
   return (
