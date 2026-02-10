@@ -9,7 +9,7 @@ import {
   ProductHeroMobile,
   FormulaIngredients,
   FormulaBenefits,
-  FormulaBenefitsAtGlance,
+  FormulaBenefitsStats,
   FormulaBenefitsMobile,
   ProtocolBenefitsMobile,
   FormulaFAQ,
@@ -99,7 +99,7 @@ export default function ConkaClarityPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          <FormulaBenefitsAtGlance formulaId="02" />
+          <FormulaBenefitsStats formulaId="02" />
           <WhatToExpectTimeline formulaId="02" />
 
           <HowItWorks formulaId="02" />
@@ -144,7 +144,7 @@ export default function ConkaClarityPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        <FormulaBenefitsAtGlance formulaId="02" />
+        <FormulaBenefitsStats formulaId="02" />
         <WhatToExpectTimeline formulaId="02" />
 
         <HowItWorks formulaId="02" />
