@@ -80,10 +80,19 @@ export default function FormulaBenefitsAtGlance({
               const t = totalStats > 1 ? index / (totalStats - 1) : 0;
               const statColor = interpolateHex(gradient.start, gradient.end, t);
 
+              const scrollToScience = () => {
+                document.getElementById("proof-and-science")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              };
+
               return (
-                <div
+                <button
+                  type="button"
                   key={struggle.id}
-                  className="flex flex-col justify-center rounded-[var(--premium-radius-base)] p-8 text-black"
+                  onClick={scrollToScience}
+                  className="flex flex-col justify-center rounded-[var(--premium-radius-base)] p-8 text-black text-left cursor-pointer transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                   style={{ background: CARD_BG }}
                 >
                   <span
@@ -108,7 +117,7 @@ export default function FormulaBenefitsAtGlance({
                   <p className="premium-data mt-2 text-xs text-black/70">
                     {solution.statLabel}
                   </p>
-                </div>
+                </button>
               );
             })}
           </div>
