@@ -356,7 +356,7 @@ export default function ProductHero({
               <div className="pb-4 md:pb-6">
                 <button
                   onClick={onAddToCart}
-                  className="w-full px-8 py-4 font-bold text-lg text-white rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px 8px_rgba(0,0,0,0.12)]"
+                  className="w-full px-8 py-4 font-bold text-lg text-black rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px 8px_rgba(0,0,0,0.12)]"
                   style={
                     formulaId === "01"
                       ? { background: "linear-gradient(90deg, #ffde59 0%, #ff914d 100%)" }
