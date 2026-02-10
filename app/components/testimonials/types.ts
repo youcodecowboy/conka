@@ -2,14 +2,19 @@
  * TypeScript interfaces for Testimonials component
  */
 
+export type ProductType = "flow" | "clarity" | "protocol";
+
 export interface Testimonial {
   name: string;
-  country: string;
+  country?: string; // optional; Loox has no country
   rating: number; // 1-5
   date: string; // ISO date string
   headline: string;
   body: string;
-  photo?: string; // For future implementation
+  photo?: string;
+  /** When set, card can show product name or icon */
+  productType?: ProductType;
+  productLabel?: string; // e.g. "CONKA Flow", "CONKA Clear"
 }
 
 export interface TestimonialsProps {
