@@ -19,7 +19,7 @@ export const editorialQuotes: EditorialQuote[] = [
   {
     id: "gq-ashwagandha",
     quote:
-      "Research into this herbal remedy has found a whole range of benefits, mostly around blocking stress hormones... I was able to fall gently back to sleep and work out like an angry Jason Statham the next day.",
+      "Research into Ashwagandha has found a whole range of benefits, mostly around blocking stress hormones... I was able to fall gently back to sleep and work out like an angry Jason Statham the next day.",
     publicationName: "GQ",
     publicationLogoUrl: "/logos/GQ.avif",
     articleUrl: "https://www.gq-magazine.co.uk/article/fitness-supplements-benefits-1",
