@@ -22,9 +22,10 @@ export const editorialQuotes: EditorialQuote[] = [
       "Research into Ashwagandha has found a whole range of benefits, mostly around blocking stress hormones... I was able to fall gently back to sleep and work out like an angry Jason Statham the next day.",
     publicationName: "GQ",
     publicationLogoUrl: "/logos/GQ.avif",
-    articleUrl: "https://www.gq-magazine.co.uk/article/fitness-supplements-benefits-1",
+    articleUrl:
+      "https://www.gq-magazine.co.uk/article/fitness-supplements-benefits-1",
     ingredientTag: "Ashwagandha",
-    formulaIds: ["01", "02"],
+    formulaIds: ["01"],
   },
   {
     id: "forbes-rhodiola",
@@ -34,20 +35,23 @@ export const editorialQuotes: EditorialQuote[] = [
     publicationLogoUrl: "/logos/Forbes.avif",
     articleUrl: "https://www.forbes.com/health/supplements/best-nootropics/",
     ingredientTag: "Rhodiola rosea",
-    formulaIds: ["01", "02"],
+    formulaIds: ["01"],
   },
   {
-    id: "mens-health-rhodiola",
+    id: "mens-health-ginkgo",
     quote:
-      "Supplements containing extracts of ginkgo biloba and rhodiola rosea can improve the physical endurance of active young men... they were also found to recover more quickly afterwards.",
+      "Supplements containing extracts of ginkgo biloba can improve the physical endurance of active young men... they were also found to recover more quickly afterwards.",
     publicationName: "Men's Health",
     publicationLogoUrl: "/logos/MensHealth.avif",
-    articleUrl: "https://www.menshealth.com/uk/health/a36912268/biloba-and-rhodiola-rose-benefits-endurance/",
-    ingredientTag: "Rhodiola rosea",
-    formulaIds: ["01", "02"],
+    articleUrl:
+      "https://www.menshealth.com/uk/health/a36912268/biloba-and-rhodiola-rose-benefits-endurance/",
+    ingredientTag: "Ginkgo biloba",
+    formulaIds: ["02"],
   },
 ];
 
-export function getEditorialQuotesForFormula(formulaId: FormulaId): EditorialQuote[] {
+export function getEditorialQuotesForFormula(
+  formulaId: FormulaId,
+): EditorialQuote[] {
   return editorialQuotes.filter((q) => q.formulaIds.includes(formulaId));
 }
