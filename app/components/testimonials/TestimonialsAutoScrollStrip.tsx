@@ -3,6 +3,7 @@
 import { useState } from "react";
 import TestimonialCard from "./TestimonialCard";
 import TestimonialsSubtitle from "./TestimonialsSubtitle";
+import useIsMobile from "../../hooks/useIsMobile";
 import type { TestimonialsProps } from "./types";
 
 const CARD_WIDTH = 312;
@@ -23,11 +24,13 @@ export default function TestimonialsAutoScrollStrip({
 }: Pick<TestimonialsProps, "testimonials" | "showRating">) {
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const isMobile = useIsMobile(1024);
 
   const oneSetWidth = testimonials.length * (CARD_WIDTH + GAP);
   const totalWidth = 2 * oneSetWidth;
   const duplicated = [...testimonials, ...testimonials];
-  const isPaused = expandedKey != null || isHovered;
+  // On mobile, ignore hover—touch can set isHovered without mouseLeave, freezing the scroll
+  const isPaused = expandedKey != null || (isHovered && isMobile === false);
 
   return (
     <section className="w-full py-10 md:py-14 overflow-x-hidden" style={{ background: "var(--color-surface)" }}>
