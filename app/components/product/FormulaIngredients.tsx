@@ -20,15 +20,6 @@ function getCarouselCaption(ingredient: IngredientData): string {
   return first ? `${first}.` : ingredient.description;
 }
 
-/** Resolve chemical structure image URL: local asset if set, else PubChem PNG from molecularStructure. */
-function getStructureImageUrl(ingredient: IngredientData): string | null {
-  if (ingredient.structureImage) return ingredient.structureImage;
-  if (ingredient.molecularStructure) {
-    return `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/CID/${ingredient.molecularStructure.pubchemCid}/PNG`;
-  }
-  return null;
-}
-
 interface IngredientCardProps {
   ingredient: IngredientData;
 }
@@ -38,16 +29,14 @@ const GAP = 64;
 
 function IngredientCard({ ingredient }: IngredientCardProps) {
   const caption = getCarouselCaption(ingredient);
-  const structureImageUrl = getStructureImageUrl(ingredient);
-  const hasStructure = !!structureImageUrl;
 
   return (
     <figure
       className="flex-shrink-0 w-[200px] sm:w-[240px] snap-start"
       style={{ scrollSnapAlign: "start" }}
     >
-      {/* Image: vertical pill shape; hover shows chemical structure when available */}
-      <div className="group relative w-3/4 mx-auto aspect-[2/3] rounded-full overflow-hidden md:transition-transform md:duration-300 md:hover:scale-105">
+      {/* Image: vertical pill shape (2 semicircles + short rect), 75% of card width; desktop: hover scale */}
+      <div className="relative w-3/4 mx-auto aspect-[2/3] rounded-full overflow-hidden md:transition-transform md:duration-300 md:hover:scale-105">
         {ingredient.image ? (
           <Image
             src={ingredient.image}
@@ -61,27 +50,6 @@ function IngredientCard({ ingredient }: IngredientCardProps) {
             <span className="font-clinical text-xs text-center px-2 opacity-60">
               {ingredient.name}
             </span>
-          </div>
-        )}
-        {/* Hover overlay: chemical structure (from structureImage or PubChem via molecularStructure) */}
-        {hasStructure && (
-          <div
-            className="absolute inset-0 rounded-full bg-[var(--background)]/95 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-2"
-            aria-hidden
-          >
-            {ingredient.molecularStructure?.activeCompound && (
-              <span className="font-clinical text-[10px] uppercase tracking-wider text-black/60 mb-1">
-                {ingredient.molecularStructure.activeCompound}
-              </span>
-            )}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={structureImageUrl}
-              alt=""
-              className="max-w-full max-h-full w-auto h-auto object-contain rounded"
-              loading="lazy"
-              crossOrigin="anonymous"
-            />
           </div>
         )}
       </div>

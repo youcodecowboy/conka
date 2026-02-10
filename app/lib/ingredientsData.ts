@@ -52,8 +52,6 @@ export interface IngredientData {
   safetyProfile: string;
   synergies: string[];
   molecularStructure?: MolecularStructure;
-  /** Optional local path for chemical structure image (e.g. /ingredients/structure/lemon-balm.png). If unset, structure is derived from molecularStructure via PubChem. */
-  structureImage?: string;
   image?: string;
 }
 
