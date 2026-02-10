@@ -102,7 +102,6 @@ export default function ConkaFlowPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          <PDPPlaceholder step={2} />
           <FormulaBenefitsAtGlance formulaId="01" />
           <WhatToExpectTimeline formulaId="01" />
 
@@ -110,14 +109,6 @@ export default function ConkaFlowPage() {
           <FormulaIngredients formulaId="01" />
           <section id="proof-and-science" className="premium-section" aria-labelledby="proof-and-science-heading">
             <div className="premium-container">
-              <div className="text-center premium-stack-m">
-                <h2 id="proof-and-science-heading" className="premium-heading premium-stack-s">
-                  Research by benefit
-                </h2>
-                <p className="premium-annotation opacity-70">
-                  the science behind each area
-                </p>
-              </div>
               <FormulaBenefitsMobile formulaId="01" />
             </div>
           </section>
@@ -159,8 +150,6 @@ export default function ConkaFlowPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        <PDPPlaceholder step={1} />
-        <PDPPlaceholder step={2} />
         <FormulaBenefitsAtGlance formulaId="01" />
         <WhatToExpectTimeline formulaId="01" />
 
@@ -168,14 +157,6 @@ export default function ConkaFlowPage() {
         <FormulaIngredients formulaId="01" />
         <section id="proof-and-science" className="premium-section" aria-labelledby="proof-and-science-heading">
           <div className="premium-container">
-            <div className="text-center premium-stack-m">
-              <h2 id="proof-and-science-heading" className="premium-heading premium-stack-s">
-                Research by benefit
-              </h2>
-              <p className="premium-annotation opacity-70">
-                the science behind each area
-              </p>
-            </div>
             <FormulaBenefits formulaId="01" />
           </div>
         </section>

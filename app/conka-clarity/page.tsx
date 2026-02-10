@@ -99,7 +99,6 @@ export default function ConkaClarityPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          <PDPPlaceholder step={2} />
           <FormulaBenefitsAtGlance formulaId="02" />
           <WhatToExpectTimeline formulaId="02" />
 
@@ -107,14 +106,6 @@ export default function ConkaClarityPage() {
           <FormulaIngredients formulaId="02" />
           <section id="proof-and-science" className="premium-section" aria-labelledby="proof-and-science-heading">
             <div className="premium-container">
-              <div className="text-center premium-stack-m">
-                <h2 id="proof-and-science-heading" className="premium-heading premium-stack-s">
-                  Research by benefit
-                </h2>
-                <p className="premium-annotation opacity-70">
-                  the science behind each area
-                </p>
-              </div>
               <FormulaBenefitsMobile formulaId="02" />
             </div>
           </section>
@@ -153,8 +144,6 @@ export default function ConkaClarityPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        <PDPPlaceholder step={1} />
-        <PDPPlaceholder step={2} />
         <FormulaBenefitsAtGlance formulaId="02" />
         <WhatToExpectTimeline formulaId="02" />
 
@@ -162,14 +151,6 @@ export default function ConkaClarityPage() {
         <FormulaIngredients formulaId="02" />
         <section id="proof-and-science" className="premium-section" aria-labelledby="proof-and-science-heading">
           <div className="premium-container">
-            <div className="text-center premium-stack-m">
-              <h2 id="proof-and-science-heading" className="premium-heading premium-stack-s">
-                Research by benefit
-              </h2>
-              <p className="premium-annotation opacity-70">
-                the science behind each area
-              </p>
-            </div>
             <FormulaBenefits formulaId="02" />
           </div>
         </section>
