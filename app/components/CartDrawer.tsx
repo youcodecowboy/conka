@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { CartLine } from "@/app/lib/shopify";
+import { trackMetaInitiateCheckout, toContentId } from "@/app/lib/metaPixel";
 import { cartHasB2BLines, getB2BLinesTotalIncVat } from "@/app/lib/b2bCartTier";
 import { incVatToExVat, getVatFromIncVat } from "@/app/lib/productData";
 import Image from "next/image";
@@ -434,7 +435,17 @@ export default function CartDrawer() {
             onClick={(e) => {
               if (!cart?.checkoutUrl || cartItems.length === 0) {
                 e.preventDefault();
+                return;
               }
+              // Meta Pixel + CAPI InitiateCheckout (non-blocking)
+              trackMetaInitiateCheckout({
+                content_ids: cartItems.map((line) =>
+                  toContentId(line.merchandise.id)
+                ),
+                value: parseFloat(cart.cost.subtotalAmount.amount),
+                currency: cart.cost.subtotalAmount.currencyCode ?? "GBP",
+                num_items: cart.totalQuantity ?? 0,
+              });
             }}
             className={`block w-full neo-button py-3 font-semibold text-center ${
               cartItems.length === 0 ? "opacity-50 cursor-not-allowed" : ""

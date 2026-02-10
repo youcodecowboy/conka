@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
 import {
@@ -25,6 +26,7 @@ import useIsMobile from "@/app/hooks/useIsMobile";
 import { useCart } from "@/app/context/CartContext";
 import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
+import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
 
 export default function ConkaClarityPage() {
   const isMobile = useIsMobile();
@@ -33,6 +35,19 @@ export default function ConkaClarityPage() {
     useState<PurchaseType>("subscription");
   const { addToCart } = useCart();
 
+  // Meta ViewContent (once per page view; default to 12-shot subscription variant as stable product id for Meta)
+  useEffect(() => {
+    const variantData = getFormulaVariantId("02", "12", "subscription");
+    if (variantData?.variantId) {
+      trackMetaViewContent({
+        content_ids: [toContentId(variantData.variantId)],
+        content_name: "CONKA Clarity",
+        content_type: "product",
+      });
+    }
+  }, []);
+
+  // Hero section handler
   const handleAddToCartFromHero = async () => {
     const variantData = getFormulaVariantId("02", selectedPack, purchaseType);
     if (variantData?.variantId) {
