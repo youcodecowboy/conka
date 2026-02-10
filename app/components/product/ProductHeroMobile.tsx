@@ -66,7 +66,7 @@ export default function ProductHeroMobile({
     formulaId === "01" ? "invert" : FORMULA_COLORS[formulaId].hex;
 
   return (
-    <section className="pt-0 pb-4 px-0">
+    <section className="pt-0 pb-4 px-0 overflow-x-hidden">
       <div className="w-full min-w-0 px-3">
         {/* Header - product name + subtitle (premium, no colored strip) */}
         <div className="pt-3 pb-2">
@@ -85,13 +85,14 @@ export default function ProductHeroMobile({
           </p>
         </div>
 
-        {/* Product Image + thumbnails – full width */}
-        <div className="relative w-full bg-[#FAFAFA] -mx-3">
+        {/* Product Image + thumbnails – full viewport width */}
+        <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA]">
           <ProductImageSlideshow
             images={
               formulaId === "01" ? flowSlideshowImages : claritySlideshowImages
             }
             alt={`${formula.name} bottle`}
+            fullBleedThumbnails
           />
         </div>
 

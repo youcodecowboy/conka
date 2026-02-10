@@ -10,11 +10,14 @@ export interface SlideshowImage {
 interface ProductImageSlideshowProps {
   images: SlideshowImage[];
   alt: string;
+  /** When true, thumbnail strip has no horizontal padding (for full-bleed mobile hero) */
+  fullBleedThumbnails?: boolean;
 }
 
 export default function ProductImageSlideshow({
   images,
   alt,
+  fullBleedThumbnails = false,
 }: ProductImageSlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -112,7 +115,7 @@ export default function ProductImageSlideshow({
 
       {/* Horizontal thumbnail strip */}
       {images.length > 1 && (
-        <div className="mt-3 min-w-0 flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className={`mt-3 min-w-0 flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${fullBleedThumbnails ? "px-0" : "px-2"}`}>
           {images.map((image, index) => (
             <button
               key={image.src}
