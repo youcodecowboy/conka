@@ -1,26 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import {
-  FormulaId,
-  FORMULA_GRADIENTS,
-  interpolateHex,
-  STRUGGLE_OPTIONS,
-  formulaContent,
-} from "@/app/lib/productData";
-import { StruggleIcon } from "./StruggleIcons";
+import { FormulaId, STRUGGLE_OPTIONS, formulaContent } from "@/app/lib/productData";
 
-/** Card background grey (slightly darker); section remains black. */
-const CARD_BG = "#e5e8e6";
-
-const STATS_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
+const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   "01": {
-    src: "/formulas/conkaFlow/FlowStats.jpg",
-    alt: "Clinically proven benefits for CONKA Flow",
+    src: "/formulas/conkaFlow/FlowBlack.jpg",
+    alt: "CONKA Flow bottle on black background",
   },
   "02": {
-    src: "/formulas/conkaClear/ClearStats.jpg",
-    alt: "Clinically proven benefits for CONKA Clear",
+    src: "/formulas/conkaClear/ClearBlack.jpg",
+    alt: "CONKA Clear bottle on black background",
   },
 };
 
@@ -32,95 +22,62 @@ export default function FormulaBenefitsAtGlance({
   formulaId,
 }: FormulaBenefitsAtGlanceProps) {
   const formula = formulaContent[formulaId];
-  const statsImage = STATS_IMAGE[formulaId];
-  const gradient = FORMULA_GRADIENTS[formulaId];
-  const totalStats = STRUGGLE_OPTIONS.length;
+  const productImage = PRODUCT_IMAGE[formulaId];
 
   return (
     <section
-      className="premium-section bg-black text-white"
+      className="bg-black text-white"
       aria-labelledby="benefits-at-glance-heading"
     >
-      {/* Wider container: 90rem vs default 72rem */}
-      <div className="mx-auto w-full max-w-[90rem]">
-        <header className="premium-stack-m flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:min-h-[480px]">
+        {/* Left: content */}
+        <div className="flex flex-col justify-center px-6 py-12 md:px-12 md:py-16 lg:px-16">
           <h2
             id="benefits-at-glance-heading"
-            className="premium-heading text-white"
+            className="premium-heading text-white mb-2"
           >
-            Why {formula.name} works
+            {formula.headline}
           </h2>
-          <a
-            href="#proof-and-science"
-            className="premium-body font-semibold text-white underline underline-offset-2 hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded"
-          >
-            See the science
-          </a>
-        </header>
+          <p className="premium-annotation opacity-80 mb-8">
+            {formula.subheadline}
+          </p>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-8">
-          <div
-            className="relative aspect-square min-h-[280px] w-full overflow-hidden rounded-[var(--premium-radius-base)]"
-            style={{ background: CARD_BG }}
-          >
-            <Image
-              src={statsImage.src}
-              alt={statsImage.alt}
-              fill
-              className="object-cover object-center"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority={false}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:gap-8">
-            {STRUGGLE_OPTIONS.map((struggle, index) => {
+          {/* Stat facts grid (Huel-style) */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-8">
+            {STRUGGLE_OPTIONS.map((struggle) => {
               const solution = formula.struggleSolutions[struggle.id];
               if (!solution) return null;
-              const t = totalStats > 1 ? index / (totalStats - 1) : 0;
-              const statColor = interpolateHex(gradient.start, gradient.end, t);
-
-              const scrollToScience = () => {
-                document.getElementById("proof-and-science")?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
-              };
-
               return (
-                <button
-                  type="button"
-                  key={struggle.id}
-                  onClick={scrollToScience}
-                  className="flex flex-col justify-center rounded-[var(--premium-radius-base)] p-8 text-black text-left cursor-pointer transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                  style={{ background: CARD_BG }}
-                >
-                  <span
-                    className="font-clinical text-[60px] font-bold leading-[0.9]"
-                    style={{
-                      color: statColor,
-                      fontVariantNumeric: "tabular-nums",
-                      textShadow:
-                        "0.5px 0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, -0.5px -0.5px 0 #000, 0.5px 0 0 #000, -0.5px 0 0 #000, 0 0.5px 0 #000, 0 -0.5px 0 #000",
-                    }}
-                  >
+                <div key={struggle.id}>
+                  <p className="font-clinical text-2xl md:text-3xl font-bold text-white leading-tight">
                     {solution.stat}
-                  </span>
-                  <div className="mt-4 flex items-center gap-2">
-                    <span className="flex-shrink-0 text-black opacity-70">
-                      <StruggleIcon icon={struggle.icon} className="h-4 w-4" />
-                    </span>
-                    <span className="premium-body text-sm font-medium text-black/90">
-                      {struggle.label}
-                    </span>
-                  </div>
-                  <p className="premium-data mt-2 text-xs text-black/70">
+                  </p>
+                  <p className="premium-data text-sm text-white/70 mt-0.5">
                     {solution.statLabel}
                   </p>
-                </button>
+                </div>
               );
             })}
           </div>
+
+          <a
+            href="#proof-and-science"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-[var(--premium-radius-interactive)] bg-white text-black font-semibold premium-body text-sm md:text-base hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black w-fit"
+          >
+            See the science
+          </a>
+        </div>
+
+        {/* Right: product image — drives section height */}
+        <div className="relative min-h-[320px] md:min-h-[480px] md:h-full">
+          <Image
+            src={productImage.src}
+            alt={productImage.alt}
+            fill
+            className="object-contain object-center md:object-right"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={false}
+          />
         </div>
       </div>
     </section>
