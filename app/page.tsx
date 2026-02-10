@@ -7,7 +7,9 @@ import Navigation from "./components/navigation";
 import Footer from "./components/footer";
 import Hero from "./components/Hero";
 import type { Benefit } from "./components/KeyBenefits";
-import { testimonials, shuffleTestimonials } from "./lib/testimonialsData";
+import { shuffleTestimonials } from "./lib/testimonialsData";
+import { getSiteTestimonialsProtocol } from "./lib/testimonialsFilter";
+import type { Testimonial } from "./components/testimonials/types";
 
 // Dynamically import heavy components to reduce initial bundle size
 // These components are below the fold and contain heavy dependencies like recharts
@@ -164,13 +166,11 @@ const faqItems = [
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  const [shuffledTestimonials, setShuffledTestimonials] = useState<
-    typeof testimonials
-  >([]);
+  const [shuffledTestimonials, setShuffledTestimonials] = useState<Testimonial[]>([]);
 
-  // Shuffle testimonials on client side only to avoid hydration mismatch
+  // Shuffle protocol set on client to avoid hydration mismatch
   useEffect(() => {
-    setShuffledTestimonials(shuffleTestimonials(testimonials));
+    setShuffledTestimonials(shuffleTestimonials(getSiteTestimonialsProtocol()));
   }, []);
 
   // Key Benefits Data - All stats from verified PubMed studies
