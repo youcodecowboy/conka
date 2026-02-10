@@ -9,8 +9,6 @@ import {
   formatPrice,
   getBillingLabel,
 } from "@/app/lib/productData";
-import { testimonials } from "@/app/lib/testimonialsData";
-import Testimonials from "../testimonials/Testimonials";
 import PackSelectorPremium from "./PackSelectorPremium";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 
@@ -62,7 +60,7 @@ export default function ProductHero({
   ];
 
   return (
-    <section className="premium-section pt-4 md:pt-6 pb-8 md:pb-16">
+    <section className="premium-section pt-4 md:pt-6 pb-8 md:pb-12">
       <div className="w-full lg:w-[90vw] lg:max-w-[90vw] lg:mx-auto">
         <div className="flex flex-col lg:flex-row lg:justify-center gap-4">
           {/* Left: Product Image */}
@@ -374,15 +372,6 @@ export default function ProductHero({
           </div>
         </div>
       </div>
-
-      {/* Social proof: auto-scrolling testimonials */}
-      {testimonials.length > 0 && (
-        <Testimonials
-          testimonials={testimonials}
-          maxReviews={8}
-          autoScrollOnly
-        />
-      )}
     </section>
   );
 }
