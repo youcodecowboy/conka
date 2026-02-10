@@ -2,14 +2,19 @@
  * TypeScript interfaces for Testimonials component
  */
 
+export type ProductType = "flow" | "clarity" | "protocol";
+
 export interface Testimonial {
   name: string;
-  country: string;
+  country?: string; // optional; Loox has no country
   rating: number; // 1-5
   date: string; // ISO date string
   headline: string;
   body: string;
-  photo?: string; // For future implementation
+  photo?: string;
+  /** When set, card can show product name or icon */
+  productType?: ProductType;
+  productLabel?: string; // e.g. "CONKA Flow", "CONKA Clear"
 }
 
 export interface TestimonialsProps {
@@ -19,10 +24,8 @@ export interface TestimonialsProps {
   maxReviews?: number;
   /** Whether to show rating stars (default: true) */
   showRating?: boolean;
-  /** When true, render auto-scrolling strip only (no arrows/dots/swipe); slower on mobile */
+  /** When true, render auto-scrolling strip only (no arrows/dots/swipe) */
   autoScrollOnly?: boolean;
-  /** Multiplier for scroll duration on mobile (e.g. 1.5 = 50% slower). Used when autoScrollOnly. */
-  scrollSpeedMobileMultiplier?: number;
 }
 
 export interface TestimonialCardProps {

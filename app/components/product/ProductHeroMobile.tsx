@@ -11,8 +11,6 @@ import {
   FORMULA_COLORS,
   FORMULA_GRADIENTS,
 } from "@/app/lib/productData";
-import { testimonials } from "@/app/lib/testimonialsData";
-import Testimonials from "../testimonials/Testimonials";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import PackSelector from "./PackSelector";
 import PaymentLogos from "../PaymentLogos";
@@ -321,7 +319,7 @@ export default function ProductHeroMobile({
 
           <button
             onClick={onAddToCart}
-            className="w-full py-4 font-bold text-base text-white rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80"
+            className="w-full py-4 font-bold text-base text-black rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80"
             style={{
               background: `linear-gradient(90deg, ${FORMULA_GRADIENTS[formulaId].start} 0%, ${FORMULA_GRADIENTS[formulaId].end} 100%)`,
             }}
@@ -330,15 +328,6 @@ export default function ProductHeroMobile({
           </button>
         </div>
       </div>
-
-      {/* Social proof: auto-scrolling testimonials */}
-      {testimonials.length > 0 && (
-        <Testimonials
-          testimonials={testimonials}
-          maxReviews={8}
-          autoScrollOnly
-        />
-      )}
     </section>
   );
 }

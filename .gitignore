@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Loox review CSV (regenerate with npm run build:reviews when updated)
+app/lib/reviews.ly_*.csv

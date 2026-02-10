@@ -7,7 +7,8 @@
     "dev:all": "concurrently \"npm run dev\" \"npx convex dev\"",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:reviews": "node scripts/build-loox-testimonials.mjs"
   },
   "dependencies": {
     "@shopify/storefront-api-client": "^1.0.9",
@@ -26,6 +27,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "concurrently": "^9.2.1",
+    "csv-parse": "^6.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
     "tailwindcss": "^4",
