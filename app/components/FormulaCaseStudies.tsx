@@ -234,9 +234,20 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
           </p>
         </header>
 
-        <div className="flex flex-col gap-[var(--premium-space-m)]">
+        {/* Swipeable horizontal carousel with horizontal padding */}
+        <div
+          className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory -mx-[var(--premium-section-padding-x)] px-[var(--premium-space-l)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{ WebkitOverflowScrolling: "touch" }}
+          role="region"
+          aria-label="Athlete case studies - swipe to view all"
+        >
           {athletes.map((athlete) => (
-            <AthleteCard key={athlete.id} athlete={athlete} />
+            <div
+              key={athlete.id}
+              className="flex-shrink-0 w-[85vw] max-w-[320px] snap-start"
+            >
+              <AthleteCard athlete={athlete} />
+            </div>
           ))}
         </div>
 
