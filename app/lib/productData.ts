@@ -20,6 +20,37 @@ export const FORMULA_COLORS = {
   },
 } as const;
 
+/** Gradient (start → end) for each formula. Used for CTAs and benefit stat spectrum. */
+export const FORMULA_GRADIENTS: Record<
+  FormulaId,
+  { start: string; end: string }
+> = {
+  "01": { start: "#fef3c7", end: "#d97706" }, // CONKA Flow: light amber → dark amber
+  "02": { start: "#cdffd8", end: "#94b9ff" }, // CONKA Clear: mint → soft blue
+} as const;
+
+/** Interpolate between two hex colors. t in [0, 1]. */
+export function interpolateHex(
+  startHex: string,
+  endHex: string,
+  t: number
+): string {
+  const parse = (hex: string) => {
+    const n = hex.replace("#", "");
+    return [
+      parseInt(n.slice(0, 2), 16),
+      parseInt(n.slice(2, 4), 16),
+      parseInt(n.slice(4, 6), 16),
+    ];
+  };
+  const [r0, g0, b0] = parse(startHex);
+  const [r1, g1, b1] = parse(endHex);
+  const r = Math.round(r0 + (r1 - r0) * t);
+  const g = Math.round(g0 + (g1 - g0) * t);
+  const b = Math.round(b0 + (b1 - b0) * t);
+  return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("")}`;
+}
+
 // ===== PRICING =====
 // Base prices match Shopify. Subscription = 20% off base price.
 

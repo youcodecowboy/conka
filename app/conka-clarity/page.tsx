@@ -9,6 +9,7 @@ import {
   ProductHeroMobile,
   FormulaIngredients,
   FormulaBenefits,
+  FormulaBenefitsStats,
   FormulaBenefitsMobile,
   ProtocolBenefitsMobile,
   FormulaFAQ,
@@ -26,6 +27,8 @@ import { useCart } from "@/app/context/CartContext";
 import { getFormulaVariantId } from "@/app/lib/shopifyProductMapping";
 import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
+import Testimonials from "@/app/components/testimonials/Testimonials";
+import { testimonials } from "@/app/lib/testimonialsData";
 
 export default function ConkaClarityPage() {
   const isMobile = useIsMobile();
@@ -98,13 +101,26 @@ export default function ConkaClarityPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          <PDPPlaceholder step={2} />
-          <PDPPlaceholder step={3} />
+          <FormulaBenefitsStats formulaId="02" />
+          <Testimonials
+            testimonials={testimonials}
+            maxReviews={8}
+            autoScrollOnly
+          />
+
           <WhatToExpectTimeline formulaId="02" />
 
-          <HowItWorks formulaId="02" />
           <FormulaIngredients formulaId="02" />
-          <FormulaBenefitsMobile formulaId="02" />
+          <HowItWorks formulaId="02" />
+          <section
+            id="proof-and-science"
+            className="premium-section"
+            aria-labelledby="proof-and-science-heading"
+          >
+            <div className="premium-container">
+              <FormulaBenefitsMobile formulaId="02" />
+            </div>
+          </section>
           <PDPPlaceholder step={8} />
           <FormulaCaseStudiesMobile formulaId="02" />
           <ProtocolBenefitsMobile formulaId="02" />
@@ -140,14 +156,26 @@ export default function ConkaClarityPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        <PDPPlaceholder step={1} />
-        <PDPPlaceholder step={2} />
-        <PDPPlaceholder step={3} />
+        <FormulaBenefitsStats formulaId="02" />
+        <Testimonials
+          testimonials={testimonials}
+          maxReviews={8}
+          autoScrollOnly
+        />
+
         <WhatToExpectTimeline formulaId="02" />
 
-        <HowItWorks formulaId="02" />
         <FormulaIngredients formulaId="02" />
-        <FormulaBenefits formulaId="02" />
+        <HowItWorks formulaId="02" />
+        <section
+          id="proof-and-science"
+          className="premium-section"
+          aria-labelledby="proof-and-science-heading"
+        >
+          <div className="premium-container">
+            <FormulaBenefits formulaId="02" />
+          </div>
+        </section>
         <PDPPlaceholder step={8} />
         <FormulaCaseStudies formulaId="02" />
         <FormulaFAQ formulaId="02" />

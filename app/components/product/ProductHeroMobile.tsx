@@ -9,6 +9,7 @@ import {
   formatPrice,
   getBillingLabel,
   FORMULA_COLORS,
+  FORMULA_GRADIENTS,
 } from "@/app/lib/productData";
 import { testimonials } from "@/app/lib/testimonialsData";
 import Testimonials from "../testimonials/Testimonials";
@@ -320,19 +321,10 @@ export default function ProductHeroMobile({
 
           <button
             onClick={onAddToCart}
-            className={
-              formulaId === "01"
-                ? "w-full neo-button py-4 font-bold text-base"
-                : "w-full py-4 font-bold text-base text-white rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80"
-            }
-            style={
-              formulaId !== "01"
-                ? {
-                    background:
-                      "linear-gradient(90deg, #cdffd8 0%, #94b9ff 100%)",
-                  }
-                : undefined
-            }
+            className="w-full py-4 font-bold text-base text-white rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80"
+            style={{
+              background: `linear-gradient(90deg, ${FORMULA_GRADIENTS[formulaId].start} 0%, ${FORMULA_GRADIENTS[formulaId].end} 100%)`,
+            }}
           >
             {purchaseType === "subscription" ? "Subscribe Now" : "Add to Cart"}
           </button>

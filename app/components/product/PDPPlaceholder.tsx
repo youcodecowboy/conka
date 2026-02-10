@@ -1,6 +1,6 @@
 "use client";
 
-type PDPPlaceholderStep = 1 | 2 | 3 | 8;
+type PDPPlaceholderStep = 3 | 8;
 
 interface PDPPlaceholderProps {
   step: PDPPlaceholderStep;
@@ -12,20 +12,6 @@ const STEP_CONFIG: Record<
   PDPPlaceholderStep,
   { defaultTitle: string; defaultContent: React.ReactNode }
 > = {
-  1: {
-    defaultTitle: "Trusted by customers",
-    defaultContent: (
-      <p className="font-clinical text-sm opacity-70">
-        Star rating & reviews — section coming soon.
-      </p>
-    ),
-  },
-  2: {
-    defaultTitle: "The problem it solves",
-    defaultContent: (
-      <p className="font-primary">Section copy coming soon.</p>
-    ),
-  },
   3: {
     defaultTitle: "What this actually does",
     defaultContent: (
