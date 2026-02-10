@@ -35,8 +35,8 @@ function IngredientCard({ ingredient }: IngredientCardProps) {
       className="flex-shrink-0 w-[200px] sm:w-[240px] snap-start"
       style={{ scrollSnapAlign: "start" }}
     >
-      {/* Image: vertical pill shape (2 semicircles + short rect), 75% of card width */}
-      <div className="relative w-3/4 mx-auto aspect-[2/3] rounded-full overflow-hidden">
+      {/* Image: vertical pill shape (2 semicircles + short rect), 75% of card width; desktop: hover scale */}
+      <div className="relative w-3/4 mx-auto aspect-[2/3] rounded-full overflow-hidden md:transition-transform md:duration-300 md:hover:scale-105">
         {ingredient.image ? (
           <Image
             src={ingredient.image}
