@@ -51,7 +51,6 @@ export default function TestimonialsAutoScrollStrip({
         className="w-screen relative left-1/2 -translate-x-1/2 overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style={{ width: "100vw" }}
       >
         <div
           className={`testimonials-marquee-strip gap-6 ${isPaused ? "paused" : ""}`}
