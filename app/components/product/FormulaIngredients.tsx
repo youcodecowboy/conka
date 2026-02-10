@@ -53,8 +53,8 @@ function IngredientCard({ ingredient }: IngredientCardProps) {
           </div>
         )}
       </div>
-      <p className="font-bold text-sm mt-2">{ingredient.name}</p>
-      <figcaption className="text-sm text-black mt-0.5 font-normal">
+      <p className="font-bold text-sm mt-4">{ingredient.name}</p>
+      <figcaption className="text-sm text-black mt-2 font-normal">
         {caption}
       </figcaption>
     </figure>
@@ -127,12 +127,12 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
           className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-10 md:mb-12"
         >
           <div>
-            <h2 className="premium-heading text-2xl md:text-3xl lg:text-4xl">
+            <h2 className="premium-section-heading">
               Formulated with naturally beneficial{" "}
               <span className="font-semibold">{headingWord}</span>
             </h2>
           </div>
-          <div className="flex flex-col gap-4 justify-center">
+          <div className="flex flex-col gap-4 justify-center items-end text-right">
             <p className="text-sm md:text-base text-black/80 max-w-lg">
               {SUBHEADING}
             </p>
@@ -216,7 +216,7 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
           {/* Carousel */}
           <div
             ref={scrollRef}
-            className="flex gap-12 md:gap-16 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth py-2 pl-20 pr-20 md:pl-24 md:pr-24"
+            className="flex gap-12 md:gap-16 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth py-2 pl-32 pr-20 md:pl-40 md:pr-24"
           >
             {ingredients.map((ingredient) => (
               <IngredientCard key={ingredient.id} ingredient={ingredient} />
