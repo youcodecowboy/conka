@@ -99,7 +99,7 @@ export default function ProductHero({
                     ))}
                   </div>
                   <span className="premium-data text-current/90">
-                    Over 100,000 shots sold
+                    {formulaId === "01" ? "Over 80,000 shots sold" : "Over 20,000 shots sold"}
                   </span>
                 </div>
                 <h1 className="premium-display leading-tight font-primary text-current">
