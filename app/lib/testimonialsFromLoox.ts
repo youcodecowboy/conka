@@ -90,7 +90,7 @@ export const looxTestimonials: LooxTestimonial[] = [
     ],
     "productId": "15476122091894",
     "handle": "test-conka-daily-28-shots",
-    "productType": "flow",
+    "productType": "protocol",
     "hasAssets": true
   },
   {
