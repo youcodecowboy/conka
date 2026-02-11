@@ -67,7 +67,7 @@ export default function ProtocolPDPSections({
             </div>
           </div>
         </section>
-        <ProtocolProblemSection />
+        <ProtocolProblemSection protocolId={protocolId} />
         <ProtocolSolutionSection />
 
         <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
@@ -139,7 +139,7 @@ export default function ProtocolPDPSections({
           </div>
         </div>
       </section>
-      <ProtocolProblemSection />
+      <ProtocolProblemSection protocolId={protocolId} />
       <ProtocolSolutionSection />
 
       <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
