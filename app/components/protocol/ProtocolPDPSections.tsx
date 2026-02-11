@@ -10,7 +10,7 @@ import ProtocolCalendar from "./ProtocolCalendar";
 import ProtocolCalendarSectionMobile from "./ProtocolCalendarSectionMobile";
 import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
 import ProtocolProblemSection from "./ProtocolProblemSection";
-import ProtocolSolutionSection from "./ProtocolSolutionSection";
+import ProtocolSolutionInteractive from "./ProtocolSolutionInteractive";
 import ProtocolFAQ from "./ProtocolFAQ";
 import ProtocolStruggleMobile from "./ProtocolStruggleMobile";
 import ProtocolCaseStudiesMobile from "./ProtocolCaseStudiesMobile";
@@ -68,7 +68,7 @@ export default function ProtocolPDPSections({
           </div>
         </section>
         <ProtocolProblemSection protocolId={protocolId} />
-        <ProtocolSolutionSection />
+        <ProtocolSolutionInteractive protocolId={protocolId} />
 
         <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
         <ProtocolSectionPlaceholder id="expected-results" title="Expected Results" />
@@ -140,7 +140,7 @@ export default function ProtocolPDPSections({
         </div>
       </section>
       <ProtocolProblemSection protocolId={protocolId} />
-      <ProtocolSolutionSection />
+      <ProtocolSolutionInteractive protocolId={protocolId} />
 
       <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
       <ProtocolSectionPlaceholder id="expected-results" title="Expected Results" />
