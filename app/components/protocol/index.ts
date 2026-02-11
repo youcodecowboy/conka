@@ -3,6 +3,7 @@ export { default as ProtocolHero } from "./ProtocolHero";
 export { default as ProtocolHeroMobile } from "./ProtocolHeroMobile";
 export { default as ProtocolCalendar } from "./ProtocolCalendar";
 export { default as ProtocolBenefits } from "./ProtocolBenefits";
+export { default as ProtocolWhyCombination } from "./ProtocolWhyCombination";
 export { default as ProtocolFAQ } from "./ProtocolFAQ";
 export { default as ProtocolTabs } from "./ProtocolTabs";
 export { default as TierSelector } from "./TierSelector";
