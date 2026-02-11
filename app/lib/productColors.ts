@@ -29,7 +29,7 @@ export const PRODUCT_GRADIENTS: Record<
   "1": { start: "#ff914d", end: "#ff3131", solid: "#ff3131" }, // Resilience — orange to red
   "2": { start: "#ffcafb", end: "#896ebe", solid: "#896ebe" }, // Precision — pink to purple
   "3": { start: "#c9ffbe", end: "#3a9f7e", solid: "#3a9f7e" }, // Balance — green gradient
-  "4": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Ultimate — teal
+  "4": { start: "#fff7ad", end: "#ffa9f9", solid: "#ffa9f9" }, // Ultimate — yellow to pink
 } as const;
 
 /** Get product gradient (works for formulas and protocols) */

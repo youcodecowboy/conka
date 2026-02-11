@@ -9,7 +9,7 @@ export const protocolNavigationImages: Record<string, string> = {
   "1": "/protocols/ResilienceBox.jpg",
   "2": "/protocols/PrecisionPurple.jpg",
   "3": "/protocols/BalanceGreen.jpg",
-  "4": "/protocols/UltimateBox.jpg",
+  "4": "/protocols/UltimatePink.jpg",
 };
 
 // Formula navigation images (for cards, menus)
