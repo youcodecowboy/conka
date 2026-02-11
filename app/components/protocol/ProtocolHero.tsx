@@ -9,6 +9,7 @@ import {
   protocolPricing,
   formatPrice,
   getBillingLabel,
+  FORMULA_COLORS,
 } from "@/app/lib/productData";
 import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 import TierSelectorPremium from "./TierSelectorPremium";
@@ -57,16 +58,6 @@ export default function ProtocolHero({
           >
         )[selectedTier]?.price ?? 0
       : 0;
-
-  // Benefit strip items (match ProductHero layout: stat + label)
-  const protocolStripItems = tierConfig
-    ? [
-        { stat: `${tierConfig.conkaFlowCount}`, title: "Flow/week" },
-        { stat: `${tierConfig.conkaClarityCount}`, title: "Clear/week" },
-        { stat: `${tierConfig.shotsPerWeek}`, title: "shots total" },
-        { stat: "1", title: protocol.bestFor[0] ?? "Protocol" },
-      ]
-    : [];
 
   return (
     <section className="premium-section pt-4 md:pt-6 pb-8 md:pb-12">
@@ -131,27 +122,48 @@ export default function ProtocolHero({
                 {protocol.description}
               </p>
 
-              {/* Benefit stats – flat, in grey section, full width (match ProductHero) */}
-              {protocolStripItems.length > 0 && (
-                <div className="bg-[var(--color-surface)] rounded-xl px-4 py-3 pb-5 w-full">
-                  <div className="flex w-full justify-between gap-2">
-                    {protocolStripItems.map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="font-primary text-sm flex flex-1 min-w-0 flex-col items-center justify-center gap-0 text-center"
-                      >
-                        <span
-                          className="font-clinical text-base font-bold"
-                          style={{ color: PROTOCOL_ACCENT }}
-                        >
-                          {item.stat}
-                        </span>
-                        <span className="leading-tight text-current/90">
-                          {item.title}
-                        </span>
-                      </div>
-                    ))}
+              {/* What you get – Flow/Clear per week + total shots (contents, not benefit stats) */}
+              {tierConfig && (
+                <div className="bg-[var(--color-surface)] rounded-xl px-4 py-3 w-full">
+                  <p className="premium-data uppercase opacity-70 mb-3">
+                    Your weekly mix
+                  </p>
+                  <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                    <span className="flex items-center gap-1.5">
+                      <span
+                        className="w-2 h-2 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: FORMULA_COLORS["01"].hex }}
+                        aria-hidden
+                      />
+                      <span className="font-clinical text-sm">
+                        <span className="font-bold text-current">
+                          {tierConfig.conkaFlowCount}
+                        </span>{" "}
+                        Flow
+                      </span>
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <span
+                        className="w-2 h-2 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: FORMULA_COLORS["02"].hex }}
+                        aria-hidden
+                      />
+                      <span className="font-clinical text-sm">
+                        <span className="font-bold text-current">
+                          {tierConfig.conkaClarityCount}
+                        </span>{" "}
+                        Clear
+                      </span>
+                    </span>
+                    <span className="premium-data text-sm opacity-80">
+                      · {tierConfig.shotsPerWeek} shots total
+                    </span>
                   </div>
+                  {protocol.bestFor[0] && (
+                    <p className="mt-2 premium-data text-xs opacity-70">
+                      {protocol.bestFor[0]}
+                    </p>
+                  )}
                 </div>
               )}
 
