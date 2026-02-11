@@ -69,43 +69,13 @@ export default function ProtocolSolutionInteractive({
           />
         </div>
 
-        {/* Expandable Details Sections */}
+        {/* Expandable Details Sections — order matches image: Clear left, Flow right */}
         <div
           className={`grid gap-4 md:gap-6 mb-8 transition-all duration-300 ${
             expandedFlow || expandedClear ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"
           }`}
         >
-          {/* Flow Details */}
-          {expandedFlow && (
-            <div
-              className="premium-box p-6 md:p-8 overflow-hidden content-transition"
-              role="region"
-              aria-label="Flow mechanism details"
-              style={{
-                animation: "fade-in-up 0.3s ease-out forwards",
-              }}
-            >
-              <h3 className="premium-section-heading text-xl md:text-2xl font-bold mb-4">
-                {copy.mechanisms.flow.title}
-              </h3>
-              <p className="premium-body mb-4 leading-relaxed">
-                {copy.mechanisms.flow.description}
-              </p>
-              <ul className="space-y-2">
-                {copy.mechanisms.flow.keyPoints.map((point, i) => (
-                  <li
-                    key={i}
-                    className="premium-body text-sm flex items-start gap-2"
-                  >
-                    <span className="text-current opacity-60 mt-1">•</span>
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Clear Details */}
+          {/* Clear Details (left, matches left side of image) */}
           {expandedClear && (
             <div
               className="premium-box p-6 md:p-8 overflow-hidden content-transition"
@@ -123,6 +93,36 @@ export default function ProtocolSolutionInteractive({
               </p>
               <ul className="space-y-2">
                 {copy.mechanisms.clear.keyPoints.map((point, i) => (
+                  <li
+                    key={i}
+                    className="premium-body text-sm flex items-start gap-2"
+                  >
+                    <span className="text-current opacity-60 mt-1">•</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Flow Details (right, matches right side of image) */}
+          {expandedFlow && (
+            <div
+              className="premium-box p-6 md:p-8 overflow-hidden content-transition"
+              role="region"
+              aria-label="Flow mechanism details"
+              style={{
+                animation: "fade-in-up 0.3s ease-out forwards",
+              }}
+            >
+              <h3 className="premium-section-heading text-xl md:text-2xl font-bold mb-4">
+                {copy.mechanisms.flow.title}
+              </h3>
+              <p className="premium-body mb-4 leading-relaxed">
+                {copy.mechanisms.flow.description}
+              </p>
+              <ul className="space-y-2">
+                {copy.mechanisms.flow.keyPoints.map((point, i) => (
                   <li
                     key={i}
                     className="premium-body text-sm flex items-start gap-2"
