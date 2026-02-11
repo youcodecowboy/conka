@@ -62,6 +62,33 @@ export function getProtocolImage(protocolId: string): string {
   return USE_COLOR_IMAGES ? mapping.color : mapping.default;
 }
 
+/** Slideshow image shape for protocol hero */
+export interface ProtocolSlideshowImage {
+  src: string;
+}
+
+/**
+ * Get protocol hero slideshow images: protocol image first, then Flow + Clear
+ * (ingredients, stats, replaces, reviews).
+ */
+export function getProtocolSlideshowImages(
+  protocolId: string,
+  protocolImageFallback: string
+): ProtocolSlideshowImage[] {
+  const protocolSrc = getProtocolImage(protocolId) || protocolImageFallback;
+  return [
+    { src: protocolSrc },
+    { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
+    { src: "/formulas/conkaClear/ClearIngredients.jpg" },
+    { src: "/formulas/conkaFlow/FlowStats.jpg" },
+    { src: "/formulas/conkaClear/ClearStats.jpg" },
+    { src: "/formulas/conkaFlow/FlowReplaces.jpg" },
+    { src: "/formulas/conkaClear/ClearReplaces.jpg" },
+    { src: "/formulas/conkaFlow/FlowReviews.jpg" },
+    { src: "/formulas/conkaClear/ClearReviews.jpg" },
+  ];
+}
+
 /**
  * Get the formula image based on current configuration
  */
