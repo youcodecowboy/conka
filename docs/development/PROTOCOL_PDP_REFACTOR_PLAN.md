@@ -50,6 +50,15 @@
 
 **Done when:** Protocol route uses `premium-pdp` and premium sticky footer; Style Guide 02 reflects that protocol PDP is premium.
 
+### Phase 1 — Potential files to remove after work
+
+After Phase 1, the following components may be unused. **Do not delete in Phase 1;** verify no other references (e.g. professionals, quiz), then delete in a follow-up or cleanup PR.
+
+| File | Reason |
+|------|--------|
+| [app/components/protocol/TierSelector.tsx](app/components/protocol/TierSelector.tsx) | Replaced by `TierSelectorPremium` on the protocol PDP. Only referenced in `ProtocolHero`; after Phase 1 it is unused. |
+| [app/components/protocol/ProtocolTabs.tsx](app/components/protocol/ProtocolTabs.tsx) | Only used in `ProtocolHero`. Tabs were removed from the hero in Phase 1 to align with formula PDP; this component is unused. |
+
 ---
 
 ## Phase 2 — Page structure & section order
@@ -161,4 +170,4 @@ Use this as a quick reference for new work.
 
 ## Next step
 
-Start with **Phase 1, Step 1.1**: add the `premium-pdp` wrapper to `app/protocol/[id]/page.tsx` (desktop and mobile) and pass `usePremium` to the sticky footer components.
+Phase 1 complete. Next: **Phase 2, Step 2.1** — reorder sections (desktop) to match the protocol flow table.

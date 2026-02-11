@@ -15,6 +15,7 @@ import {
 } from "@/app/lib/productData";
 import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 import PaymentLogos from "../PaymentLogos";
+import TierSelectorPremium from "./TierSelectorPremium";
 
 interface ProtocolHeroMobileProps {
   protocolId: ProtocolId;
@@ -33,12 +34,6 @@ const tabs: { id: TabType; label: string }[] = [
   { id: "benefits", label: "Benefits" },
   { id: "faq", label: "FAQ" },
 ];
-
-const tierLabels: Record<ProtocolTier, string> = {
-  starter: "Starter",
-  pro: "Pro",
-  max: "Max",
-};
 
 export default function ProtocolHeroMobile({
   protocolId,
@@ -417,15 +412,15 @@ export default function ProtocolHeroMobile({
   };
 
   return (
-    <section className="px-4 pt-6 pb-4">
+    <section className="premium-section px-4 pt-6 pb-4">
       {/* Product Card */}
-      <div className="neo-box overflow-hidden">
+      <div className="premium-box overflow-hidden">
         {/* Header */}
-        <div className={`p-4 relative z-10 transition-colors ${headerBgClass}`}>
+        <div className={`p-4 relative z-10 transition-colors rounded-t-xl ${headerBgClass}`}>
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-xl font-bold">{protocol.name}</h1>
-              <p className="font-commentary text-base mt-0.5 opacity-90">
+              <h1 className="premium-display text-xl font-bold">{protocol.name}</h1>
+              <p className="premium-annotation text-base mt-0.5 opacity-90">
                 {protocol.subtitle}
               </p>
             </div>
@@ -488,93 +483,19 @@ export default function ProtocolHeroMobile({
         <div className="p-4 min-h-[180px]">{renderTabContent()}</div>
 
         {/* Divider */}
-        <div className="border-t-2 border-current/10" />
+        <div className="border-t border-current/10" />
 
         {/* Tier Selector */}
         <div className="p-4">
-          <p className="font-clinical text-xs uppercase opacity-50 mb-3">
-            Select Tier
-          </p>
-          <div className="grid grid-cols-3 gap-2">
-            {availableTiers.map((tier) => {
-              const tierPricingData =
-                tierPricing[tier as keyof typeof tierPricing];
-              if (!tierPricingData) return null;
-              // Get one-time price for showing crossed-out price
-              const pricingType = protocolId === "4" ? "ultimate" : "standard";
-              const oneTimePricingObj =
-                protocolPricing[pricingType]["one-time"];
-              const oneTimePricing =
-                tier in oneTimePricingObj
-                  ? (oneTimePricingObj as Record<string, { price: number }>)[
-                      tier
-                    ]
-                  : null;
-              const isSelected = selectedTier === tier;
-
-              return (
-                <button
-                  key={tier}
-                  onClick={() => onTierSelect(tier)}
-                  className={`overflow-hidden transition-all border-2 ${
-                    isSelected
-                      ? "border-black shadow-[3px_3px_0px_0px_#14b8a6]"
-                      : "border-black/10 hover:border-black/30"
-                  }`}
-                >
-                  {/* Tier Header */}
-                  <div
-                    className={`py-1.5 px-2 text-center ${
-                      isSelected
-                        ? purchaseType === "subscription"
-                          ? "bg-black text-white"
-                          : "bg-amber-500 text-white"
-                        : purchaseType === "subscription"
-                          ? "bg-black text-white"
-                          : "bg-amber-500/10"
-                    }`}
-                  >
-                    <p className="font-bold text-sm">{tierLabels[tier]}</p>
-                  </div>
-                  {/* Price Body */}
-                  <div
-                    className={`py-2 px-2 text-center ${
-                      isSelected
-                        ? purchaseType === "subscription"
-                          ? "bg-teal-500 text-white"
-                          : "bg-amber-500 text-white"
-                        : "bg-white"
-                    }`}
-                  >
-                    {purchaseType === "subscription" && oneTimePricing && (
-                      <p
-                        className={`font-clinical text-[10px] line-through ${isSelected ? "opacity-70" : "opacity-50"}`}
-                      >
-                        {formatPrice(oneTimePricing.price)}
-                      </p>
-                    )}
-                    <p
-                      className={`font-bold text-base ${
-                        purchaseType === "subscription" && !isSelected
-                          ? "text-amber-600"
-                          : ""
-                      }`}
-                    >
-                      {formatPrice(tierPricingData.price)}
-                    </p>
-                    <p
-                      className={`font-clinical text-[10px] ${isSelected ? "opacity-80" : "opacity-60"}`}
-                    >
-                      {purchaseType === "subscription" &&
-                      "billing" in tierPricingData
-                        ? getBillingLabel(tierPricingData.billing)
-                        : "one-time"}
-                    </p>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+          <TierSelectorPremium
+            protocolId={protocolId}
+            selectedTier={selectedTier}
+            onSelect={onTierSelect}
+            purchaseType={purchaseType}
+            availableTiers={availableTiers}
+            subscriptionAccentColor="#14b8a6"
+            compact
+          />
         </div>
 
         {/* Selection Summary */}

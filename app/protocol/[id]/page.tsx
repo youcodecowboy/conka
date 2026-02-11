@@ -135,7 +135,7 @@ export default function ProtocolPage() {
         style={{ background: "var(--background)", color: "var(--foreground)" }}
       >
         <Navigation />
-
+        <div className="premium-pdp">
         <ProtocolHeroMobile
           protocolId={protocolId as ProtocolId}
           selectedTier={selectedTier}
@@ -162,36 +162,37 @@ export default function ProtocolPage() {
         <ProtocolCaseStudiesMobile protocolId={protocolId as ProtocolId} />
 
         {/* Other Protocols - Simplified */}
-        <section className="px-4 py-8">
-          <div className="text-center mb-4">
-            <h2 className="text-lg font-bold mb-1">Explore Other Protocols</h2>
-            <p className="font-commentary text-sm opacity-70">
-              find your perfect match
-            </p>
-          </div>
+        <section className="premium-section px-4 py-8">
+          <div className="premium-container">
+            <div className="text-center mb-4">
+              <h2 className="premium-section-heading text-lg font-bold mb-1">Explore Other Protocols</h2>
+              <p className="premium-annotation text-sm opacity-70">
+                find your perfect match
+              </p>
+            </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            {validProtocolIds
-              .filter((id) => id !== protocolId)
-              .slice(0, 2)
-              .map((id) => {
-                const otherProtocol = protocolContent[id];
-                return (
-                  <a key={id} href={`/protocol/${id}`} className="neo-box p-3">
-                    <h3 className="font-bold text-sm">{otherProtocol.name}</h3>
-                    <p className="font-clinical text-xs opacity-70 mt-1">
-                      {otherProtocol.subtitle}
-                    </p>
-                  </a>
-                );
-              })}
-          </div>
+            <div className="grid grid-cols-2 gap-3">
+              {validProtocolIds
+                .filter((id) => id !== protocolId)
+                .slice(0, 2)
+                .map((id) => {
+                  const otherProtocol = protocolContent[id];
+                  return (
+                    <a key={id} href={`/protocol/${id}`} className="premium-box p-3 block">
+                      <h3 className="font-bold text-sm">{otherProtocol.name}</h3>
+                      <p className="premium-data text-xs opacity-70 mt-1">
+                        {otherProtocol.subtitle}
+                      </p>
+                    </a>
+                  );
+                })}
+            </div>
 
-          {/* Individual Formulas CTA */}
-          <div className="mt-6 neo-box p-4 text-center">
-            <h3 className="font-bold text-sm mb-2">
-              Prefer Individual Formulas?
-            </h3>
+            {/* Individual Formulas CTA */}
+            <div className="mt-6 premium-box p-4 text-center">
+              <h3 className="premium-section-heading text-sm font-bold mb-2">
+                Prefer Individual Formulas?
+              </h3>
             <div className="flex gap-3">
               <a
                 href="/conka-flow"
@@ -209,6 +210,7 @@ export default function ProtocolPage() {
               </a>
             </div>
           </div>
+          </div>
         </section>
 
         <Footer />
@@ -219,7 +221,9 @@ export default function ProtocolPage() {
           onTierSelect={setSelectedTier}
           purchaseType={purchaseType}
           onAddToCart={handleAddToCartFromFooter}
+          usePremium
         />
+        </div>
       </div>
     );
   }
@@ -227,12 +231,12 @@ export default function ProtocolPage() {
   // Desktop version
   return (
     <div
-      className="min-h-screen theme-conka-flow lg:pt-20"
+      className="min-h-screen theme-conka-flow lg:pt-8"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* Navigation */}
       <Navigation />
-
+      <div className="premium-pdp">
       {/* Hero Section */}
       <ProtocolHero
         protocolId={protocolId as ProtocolId}
@@ -244,25 +248,31 @@ export default function ProtocolPage() {
       />
 
       {/* Calendar Section */}
-      <ProtocolCalendar
-        protocolId={protocolId as ProtocolId}
-        selectedTier={selectedTier}
-      />
+      <section className="premium-section">
+        <ProtocolCalendar
+          protocolId={protocolId as ProtocolId}
+          selectedTier={selectedTier}
+        />
+      </section>
 
       {/* Benefits Section */}
-      <ProtocolBenefits protocolId={protocolId as ProtocolId} />
+      <section className="premium-section">
+        <ProtocolBenefits protocolId={protocolId as ProtocolId} />
+      </section>
 
       {/* FAQ Section */}
-      <ProtocolFAQ protocolId={protocolId as ProtocolId} />
+      <section className="premium-section">
+        <ProtocolFAQ protocolId={protocolId as ProtocolId} />
+      </section>
 
       {/* Other Protocols CTA */}
-      <section className="px-6 md:px-16 py-24">
-        <div className="max-w-6xl mx-auto">
+      <section className="premium-section px-6 md:px-16 py-24">
+        <div className="premium-container max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">
+            <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-2">
               Explore Other Protocols
             </h2>
-            <p className="font-commentary text-xl">find your perfect match</p>
+            <p className="premium-annotation text-xl">find your perfect match</p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-4">
@@ -274,17 +284,17 @@ export default function ProtocolPage() {
                   <a
                     key={id}
                     href={`/protocol/${id}`}
-                    className="neo-box p-4 hover:shadow-[4px_4px_0px_0px_var(--foreground)] transition-all"
+                    className="premium-box p-4 block transition-all hover:shadow-[0_2px_10px_rgba(0,0,0,0.08)]"
                   >
                     <h3 className="font-bold">{otherProtocol.name}</h3>
-                    <p className="font-clinical text-xs opacity-70 mt-1">
+                    <p className="premium-data text-xs opacity-70 mt-1">
                       {otherProtocol.subtitle}
                     </p>
                     <div className="flex flex-wrap gap-1 mt-3">
                       {otherProtocol.bestFor.slice(0, 2).map((tag, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-0.5 bg-current/10 rounded-full font-clinical text-xs"
+                          className="px-2 py-0.5 bg-current/10 rounded-full premium-data text-xs"
                         >
                           {tag}
                         </span>
@@ -296,11 +306,11 @@ export default function ProtocolPage() {
           </div>
 
           {/* Individual Formulas CTA */}
-          <div className="mt-12 neo-box p-8 text-center">
-            <h3 className="text-xl font-bold mb-2">
+          <div className="mt-12 premium-box p-8 text-center">
+            <h3 className="premium-section-heading text-xl font-bold mb-2">
               Prefer Individual Formulas?
             </h3>
-            <p className="font-commentary text-lg mb-6">
+            <p className="premium-annotation text-lg mb-6">
               not ready for a protocol? try our trial packs
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -333,7 +343,9 @@ export default function ProtocolPage() {
         purchaseType={purchaseType}
         onPurchaseTypeChange={setPurchaseType}
         onAddToCart={handleAddToCartFromFooter}
+        usePremium
       />
+      </div>
     </div>
   );
 }
