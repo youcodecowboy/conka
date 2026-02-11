@@ -8,7 +8,7 @@ import FormulasShowcase from "@/app/components/shop/FormulasShowcase";
 import ProtocolSectionPlaceholder from "./ProtocolSectionPlaceholder";
 import ProtocolCalendar from "./ProtocolCalendar";
 import ProtocolCalendarSectionMobile from "./ProtocolCalendarSectionMobile";
-import ProtocolBenefits from "./ProtocolBenefits";
+import ProtocolWhyCombination from "./ProtocolWhyCombination";
 import ProtocolFAQ from "./ProtocolFAQ";
 import ProtocolStruggleMobile from "./ProtocolStruggleMobile";
 import ProtocolCaseStudiesMobile from "./ProtocolCaseStudiesMobile";
@@ -51,12 +51,11 @@ export default function ProtocolPDPSections({
         </section>
 
         <section className="premium-section">
-          <ProtocolBenefits protocolId={protocolId} />
+          <ProtocolWhyCombination protocolId={protocolId} />
         </section>
 
         <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
         <ProtocolSectionPlaceholder id="expected-results" title="Expected Results" />
-        <ProtocolSectionPlaceholder id="comparison" title="Why a Protocol?" />
 
         <section className="premium-section">
           <ProtocolCaseStudiesMobile protocolId={protocolId} />
@@ -110,12 +109,11 @@ export default function ProtocolPDPSections({
       </section>
 
       <section className="premium-section">
-        <ProtocolBenefits protocolId={protocolId} />
+        <ProtocolWhyCombination protocolId={protocolId} />
       </section>
 
       <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
       <ProtocolSectionPlaceholder id="expected-results" title="Expected Results" />
-      <ProtocolSectionPlaceholder id="comparison" title="Why a Protocol?" />
       <ProtocolSectionPlaceholder id="social-proof" title="What Others Say" />
 
       <section className="premium-section">
