@@ -74,10 +74,10 @@ export const protocolSynergyCopy: ProtocolSynergyCopy = {
       "Flow reduces load while Clear improves capacity. Together, they create a system that breaks the problem cycle—reducing pressure while strengthening repair mechanisms.",
   },
   outcomeTranslation: [
-    "May support sustained mental clarity under load",
-    "Designed to support more stable energy production",
-    "Helps maintain greater resilience to demanding periods",
-    "Designed to support more efficient recovery cycles",
+    "Sustained mental clarity under pressure",
+    "Stable, consistent energy throughout the day",
+    "Greater resilience to stress and demanding periods",
+    "Faster, more efficient recovery between challenges",
   ],
   references: [
     { author: "Panossian et al.", year: "2010", journal: "Phytomedicine" },
