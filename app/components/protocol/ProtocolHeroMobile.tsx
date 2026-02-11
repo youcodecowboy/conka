@@ -12,6 +12,7 @@ import {
   getBillingLabel,
   FORMULA_COLORS,
   generateProtocolCalendarDays,
+  getProtocolAccent,
 } from "@/app/lib/productData";
 import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 import PaymentLogos from "../PaymentLogos";
@@ -493,7 +494,7 @@ export default function ProtocolHeroMobile({
             onSelect={onTierSelect}
             purchaseType={purchaseType}
             availableTiers={availableTiers}
-            subscriptionAccentColor="#14b8a6"
+            subscriptionAccentColor={getProtocolAccent(protocolId)}
             compact
           />
         </div>

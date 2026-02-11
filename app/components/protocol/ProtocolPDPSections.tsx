@@ -1,6 +1,10 @@
 "use client";
 
 import { ProtocolId, ProtocolTier, PurchaseType, protocolContent } from "@/app/lib/productData";
+import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
+import ProtocolCard from "@/app/components/shop/ProtocolCard";
+import ProtocolCardMobile from "@/app/components/shop/ProtocolCardMobile";
+import FormulasShowcase from "@/app/components/shop/FormulasShowcase";
 import ProtocolSectionPlaceholder from "./ProtocolSectionPlaceholder";
 import ProtocolCalendar from "./ProtocolCalendar";
 import ProtocolCalendarSectionMobile from "./ProtocolCalendarSectionMobile";
@@ -78,43 +82,16 @@ export default function ProtocolPDPSections({
             <div className="grid grid-cols-2 gap-3">
               {validProtocolIds
                 .filter((id) => id !== protocolId)
-                .slice(0, 2)
-                .map((id) => {
-                  const otherProtocol = protocolContent[id];
-                  return (
-                    <a
-                      key={id}
-                      href={`/protocol/${id}`}
-                      className="premium-box p-3 block"
-                    >
-                      <h3 className="font-bold text-sm">{otherProtocol.name}</h3>
-                      <p className="premium-data text-xs opacity-70 mt-1">
-                        {otherProtocol.subtitle}
-                      </p>
-                    </a>
-                  );
-                })}
+                .map((id) => (
+                  <ProtocolCardMobile
+                    key={id}
+                    protocol={protocolSelectorData[id]}
+                    isFirst={id === validProtocolIds.filter((x) => x !== protocolId)[0]}
+                  />
+                ))}
             </div>
-            <div className="mt-6 premium-box p-4 text-center">
-              <h3 className="premium-section-heading text-sm font-bold mb-2">
-                Prefer Individual Formulas?
-              </h3>
-              <div className="flex gap-3">
-                <a
-                  href="/conka-flow"
-                  className="flex-1 neo-button-outline px-3 py-2 font-semibold text-xs flex items-center justify-center gap-1"
-                >
-                  <span className="w-2 h-2 bg-[#2563eb] rounded-sm"></span>
-                  CONKA Flow
-                </a>
-                <a
-                  href="/conka-clarity"
-                  className="flex-1 neo-button-outline px-3 py-2 font-semibold text-xs flex items-center justify-center gap-1"
-                >
-                  <span className="w-2 h-2 bg-amber-500 rounded-sm"></span>
-                  CONKA Clear
-                </a>
-              </div>
+            <div className="mt-8">
+              <FormulasShowcase />
             </div>
           </div>
         </section>
@@ -128,7 +105,12 @@ export default function ProtocolPDPSections({
       <ProtocolSectionPlaceholder id="whats-included" title="What's Included" />
 
       <section className="premium-section">
-        <ProtocolCalendar protocolId={protocolId} selectedTier={selectedTier} />
+        <ProtocolCalendar
+          protocolId={protocolId}
+          selectedTier={selectedTier}
+          onTierSelect={onTierSelect}
+          availableTiers={protocolContent[protocolId].availableTiers}
+        />
       </section>
 
       <section className="premium-section">
@@ -153,58 +135,15 @@ export default function ProtocolPDPSections({
             </h2>
             <p className="premium-annotation text-xl">find your perfect match</p>
           </div>
-          <div className="grid md:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {validProtocolIds
               .filter((id) => id !== protocolId)
-              .map((id) => {
-                const otherProtocol = protocolContent[id];
-                return (
-                  <a
-                    key={id}
-                    href={`/protocol/${id}`}
-                    className="premium-box p-4 block transition-all hover:shadow-[0_2px_10px_rgba(0,0,0,0.08)]"
-                  >
-                    <h3 className="font-bold">{otherProtocol.name}</h3>
-                    <p className="premium-data text-xs opacity-70 mt-1">
-                      {otherProtocol.subtitle}
-                    </p>
-                    <div className="flex flex-wrap gap-1 mt-3">
-                      {otherProtocol.bestFor.slice(0, 2).map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-0.5 bg-current/10 rounded-full premium-data text-xs"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </a>
-                );
-              })}
+              .map((id) => (
+                <ProtocolCard key={id} protocol={protocolSelectorData[id]} />
+              ))}
           </div>
-          <div className="mt-12 premium-box p-8 text-center">
-            <h3 className="premium-section-heading text-xl font-bold mb-2">
-              Prefer Individual Formulas?
-            </h3>
-            <p className="premium-annotation text-lg mb-6">
-              not ready for a protocol? try our trial packs
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/conka-flow"
-                className="neo-button-outline px-6 py-3 font-semibold flex items-center justify-center gap-2"
-              >
-                <span className="w-3 h-3 bg-[#2563eb] rounded-sm"></span>
-                CONKA Flow
-              </a>
-              <a
-                href="/conka-clarity"
-                className="neo-button-outline px-6 py-3 font-semibold flex items-center justify-center gap-2"
-              >
-                <span className="w-3 h-3 bg-amber-500 rounded-sm"></span>
-                CONKA Clear
-              </a>
-            </div>
+          <div className="mt-12">
+            <FormulasShowcase />
           </div>
         </div>
       </section>

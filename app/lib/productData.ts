@@ -29,6 +29,26 @@ export const FORMULA_GRADIENTS: Record<
   "02": { start: "#cdffd8", end: "#94b9ff" }, // CONKA Clear: mint → soft blue
 } as const;
 
+/** Protocol colours: gradient (light → dark, left to right) and solid for single-colour use. */
+export const PROTOCOL_COLORS: Record<
+  ProtocolId,
+  { start: string; end: string; solid: string }
+> = {
+  "1": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Resilience — teal
+  "2": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Precision — teal
+  "3": { start: "#c9ffbe", end: "#3a9f7e", solid: "#3a9f7e" }, // Balance — green gradient
+  "4": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Ultimate — teal
+} as const;
+
+export function getProtocolGradient(protocolId: ProtocolId): { start: string; end: string } {
+  const c = PROTOCOL_COLORS[protocolId];
+  return { start: c.start, end: c.end };
+}
+
+export function getProtocolAccent(protocolId: ProtocolId): string {
+  return PROTOCOL_COLORS[protocolId].solid;
+}
+
 /** Interpolate between two hex colors. t in [0, 1]. */
 export function interpolateHex(
   startHex: string,
@@ -1334,6 +1354,9 @@ export interface ProtocolTierConfig {
   shotsPerWeek: number;
 }
 
+/** Optional stat + label for protocol benefits stats grid (PDP). */
+export type ProtocolBenefitStat = { stat: string; label: string };
+
 export interface ProtocolContent {
   id: ProtocolId;
   name: string;
@@ -1343,6 +1366,8 @@ export interface ProtocolContent {
   image: string; // Product image path
   bestFor: string[];
   benefits: string[];
+  /** Optional stats for protocol benefits stats grid (headline + stat grid). */
+  benefitStats?: ProtocolBenefitStat[];
   availableTiers: ProtocolTier[];
   tiers: Partial<Record<ProtocolTier, ProtocolTierConfig>>;
 }
@@ -1362,6 +1387,12 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
       "Reduced burnout & faster recovery (-28% burnout, PMID: 19016404)",
       "Improved sleep quality (+42%, PMID: 32021735)",
       "Enhanced focus when it counts (+18% memory, PMID: 12888775)",
+    ],
+    benefitStats: [
+      { stat: "-28%", label: "cortisol" },
+      { stat: "-28%", label: "burnout" },
+      { stat: "+42%", label: "sleep quality" },
+      { stat: "+18%", label: "memory" },
     ],
     availableTiers: ["starter", "pro", "max"],
     tiers: {
@@ -1403,6 +1434,12 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
       "Improved cognitive recovery (+40% GSH, PMID: 29559699)",
       "Reduced mental fatigue (-30%, PMID: 17658628)",
     ],
+    benefitStats: [
+      { stat: "+63%", label: "memory & attention" },
+      { stat: "+57%", label: "cerebral blood flow" },
+      { stat: "+40%", label: "cognitive recovery" },
+      { stat: "-30%", label: "mental fatigue" },
+    ],
     availableTiers: ["starter", "pro", "max"],
     tiers: {
       starter: {
@@ -1443,6 +1480,12 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
       "Sustained energy (+17% fitness, PMID: 10839209)",
       "Mental clarity & detox (+40% GSH, PMID: 29559699)",
     ],
+    benefitStats: [
+      { stat: "-56%", label: "stress scores" },
+      { stat: "+63%", label: "memory" },
+      { stat: "+17%", label: "fitness" },
+      { stat: "+40%", label: "GSH / clarity" },
+    ],
     availableTiers: ["starter", "pro", "max"],
     tiers: {
       starter: {
@@ -1482,6 +1525,12 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
       "Peak energy AND clarity every day",
       "Maximum neurological support",
       "The complete cognitive toolkit",
+    ],
+    benefitStats: [
+      { stat: "Daily", label: "Flow + Clear" },
+      { stat: "2×", label: "formulas per day" },
+      { stat: "Peak", label: "energy & clarity" },
+      { stat: "Full", label: "cognitive toolkit" },
     ],
     availableTiers: ["pro", "max"], // No starter for Ultimate
     tiers: {

@@ -60,17 +60,19 @@ export default function ProtocolCalendarSectionMobile({
   }
 
   return (
-    <section className="px-4 py-8">
+    <section className="w-full bg-[var(--color-surface)] px-4 py-8">
       {/* Header */}
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-1">Your Protocol Schedule</h2>
-        <p className="font-commentary text-base opacity-70">
+        <h2 className="premium-section-heading text-2xl font-bold mb-1">
+          Your Protocol Schedule
+        </h2>
+        <p className="premium-annotation text-base opacity-70">
           see your full month at a glance
         </p>
       </div>
 
       {/* Calendar Card */}
-      <div className="neo-box overflow-hidden">
+      <div className="premium-box overflow-hidden">
         {/* Tier & Purchase Selection */}
         <div className="p-4 border-b-2 border-current/10">
           <div className="flex items-center justify-between gap-2 mb-4">
@@ -141,7 +143,7 @@ export default function ProtocolCalendarSectionMobile({
                   {tierConfig.conkaClarityCount}× Clear)
                 </span>
               </p>
-              <p className="font-commentary text-sm opacity-70">
+              <p className="premium-annotation text-sm opacity-70">
                 {tierConfig.description}
               </p>
             </div>

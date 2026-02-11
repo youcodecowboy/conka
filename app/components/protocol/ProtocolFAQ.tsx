@@ -78,20 +78,20 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
   const allFAQs = [...(protocolSpecificFAQs[protocolId] || []), ...generalFAQs];
 
   return (
-    <section className="px-6 md:px-16 py-24">
-      <div className="max-w-4xl mx-auto">
+    <section className="premium-section">
+      <div className="premium-container max-w-4xl mx-auto px-6 md:px-16 py-24">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+          <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
             Common Questions
           </h2>
-          <p className="font-commentary text-xl">about {protocol.name}</p>
+          <p className="premium-annotation text-xl">about {protocol.name}</p>
         </div>
 
         {/* FAQ Items */}
         <div className="space-y-4">
           {allFAQs.map((item, idx) => (
-            <div key={idx} className="neo-box overflow-hidden">
+            <div key={idx} className="premium-box overflow-hidden">
               <button
                 onClick={() =>
                   setExpandedIndex(expandedIndex === idx ? null : idx)
@@ -127,7 +127,7 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
 
         {/* CTA */}
         <div className="mt-12 text-center">
-          <p className="font-commentary text-lg mb-4">Still have questions?</p>
+          <p className="premium-annotation text-lg mb-4">Still have questions?</p>
           <button className="neo-button-outline px-8 py-3 font-semibold">
             Contact Support
           </button>
