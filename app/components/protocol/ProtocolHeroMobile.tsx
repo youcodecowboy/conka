@@ -15,7 +15,6 @@ import {
 } from "@/app/lib/productData";
 import { getProtocolHeroImages } from "@/app/components/navigation/protocolHeroConfig";
 import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
-import PaymentLogos from "../PaymentLogos";
 import TierSelectorPremium from "./TierSelectorPremium";
 
 interface ProtocolHeroMobileProps {
@@ -615,8 +614,6 @@ export default function ProtocolHeroMobile({
                 Cancel anytime • No minimum commitment
               </p>
             )}
-            {/* Payment Logos */}
-            <PaymentLogos size="sm" className="mt-3" />
           </div>
         )}
       </div>

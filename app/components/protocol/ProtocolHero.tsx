@@ -15,7 +15,6 @@ import {
 import { getProtocolHeroImages } from "@/app/components/navigation/protocolHeroConfig";
 import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
 import TierSelectorPremium from "./TierSelectorPremium";
-import PaymentLogos from "../PaymentLogos";
 
 interface ProtocolHeroProps {
   protocolId: ProtocolId;

@@ -7,7 +7,6 @@ import {
   getTrialPackVariantId,
   getFormulaVariantId,
 } from "../lib/shopifyProductMapping";
-import PaymentLogos from "./PaymentLogos";
 
 type FormulaType = "01" | "02";
 type PackSize = "4" | "8" | "12";
@@ -250,8 +249,6 @@ export default function TrialPacksMobile() {
           <p className="font-clinical text-xs uppercase opacity-50">
             Select Pack Size
           </p>
-          {/* Payment Logos - Show when pack is selected */}
-          {selectedPack && <PaymentLogos size="sm" />}
         </div>
         <div className="grid grid-cols-3 gap-2">
           {(["4", "8", "12"] as PackSize[]).map((size) => {
@@ -508,8 +505,6 @@ export default function TrialPacksMobile() {
                 )}
               </button>
             </div>
-            {/* Payment Logos */}
-            {/* <PaymentLogos size="sm" className="mt-3" /> */}
           </div>
         </div>
       )}
