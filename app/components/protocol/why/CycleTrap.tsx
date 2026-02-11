@@ -239,10 +239,10 @@ export default function CycleTrap({
               >
                 <span
                   className="font-semibold leading-tight uppercase tracking-wider"
-                  style={{
-                    fontSize: isMobile ? "0.875rem" : "0.9375rem",
-                    letterSpacing: "0.06em",
-                  }}
+                style={{
+                  fontSize: isMobile ? "0.875rem" : "0.9375rem",
+                  letterSpacing: "0.06em",
+                }}
                 >
                   {step.label}
                 </span>
@@ -261,17 +261,17 @@ export default function CycleTrap({
       </div>
 
       {/* Left/right toggles underneath the cycle */}
-      <div className="flex items-center gap-3 w-full justify-center">
+      <div className="flex items-center gap-4 w-full justify-center">
         <button
           type="button"
           onClick={() => go(-1)}
-          className="premium-box p-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black"
-          aria-label="Previous"
+          className="premium-box px-4 py-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black flex items-center gap-2"
+          aria-label="Previous stage"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -281,17 +281,19 @@ export default function CycleTrap({
           >
             <path d="M15 18l-6-6 6-6" />
           </svg>
+          <span className="premium-data text-xs font-semibold uppercase tracking-wider">Previous stage</span>
         </button>
         <button
           type="button"
           onClick={() => go(1)}
-          className="premium-box p-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black"
-          aria-label="Next"
+          className="premium-box px-4 py-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black flex items-center gap-2"
+          aria-label="Next stage"
         >
+          <span className="premium-data text-xs font-semibold uppercase tracking-wider">Next stage</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -344,14 +346,14 @@ export default function CycleTrap({
           {sectionHeadings.trap}
         </h2>
 
-        {/* Recognize yourself - horizontal, smaller */}
+        {/* Recognize yourself - horizontal */}
         {onSelectSymptom != null && (
           <div className="mb-10">
-            <h3 className="premium-body text-sm font-semibold text-white/90 mb-3">
+            <h3 className="premium-section-heading text-white font-bold mb-2">
               {sectionHeadings.recognition}
             </h3>
-            <p className="premium-data text-xs text-white/70 mb-3">
-              Which sounds familiar? Your cycle starts there.
+            <p className="premium-data text-xs text-white mt-2 mb-3">
+              {sectionHeadings.recognitionSubline}
             </p>
             <div className="flex flex-wrap gap-2">
               {symptomEntries.map((entry) => {
@@ -378,10 +380,10 @@ export default function CycleTrap({
           </div>
         )}
 
-        {/* Cycle and explanation */}
+        {/* Cycle and explanation - 50:50 */}
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
-          <div className="flex-shrink-0 w-full lg:w-[45%] lg:max-w-[520px]">{ring}</div>
-          <div className="flex-shrink-0 min-w-0 flex justify-start w-full lg:flex-1 lg:min-w-[400px]">
+          <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0">{ring}</div>
+          <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0 flex justify-start">
             {detail}
           </div>
         </div>
