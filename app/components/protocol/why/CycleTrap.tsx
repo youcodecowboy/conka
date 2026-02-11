@@ -259,52 +259,53 @@ export default function CycleTrap({
           );
         })}
       </div>
+    </div>
+  );
 
-      {/* Left/right toggles underneath the cycle */}
-      <div className="flex items-center gap-4 w-full justify-center">
-        <button
-          type="button"
-          onClick={() => go(-1)}
-          className="premium-box min-w-[140px] w-[140px] py-4 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black flex items-center justify-center gap-2"
-          aria-label="Previous stage"
+  const stageToggles = (
+    <div className="flex items-center gap-4 w-full justify-center lg:justify-start mb-4">
+      <button
+        type="button"
+        onClick={() => go(-1)}
+        className="bg-black border-2 border-white text-white min-w-[140px] w-[140px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2"
+        aria-label="Previous stage"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-          <span className="premium-data text-xs font-semibold uppercase tracking-wider">Previous stage</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => go(1)}
-          className="premium-box min-w-[140px] w-[140px] py-4 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black flex items-center justify-center gap-2"
-          aria-label="Next stage"
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        <span className="premium-data text-xs font-semibold uppercase tracking-wider">Previous stage</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => go(1)}
+        className="bg-black border-2 border-white text-white min-w-[140px] w-[140px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2"
+        aria-label="Next stage"
+      >
+        <span className="premium-data text-xs font-semibold uppercase tracking-wider">Next stage</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <span className="premium-data text-xs font-semibold uppercase tracking-wider">Next stage</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </button>
-      </div>
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
     </div>
   );
 
@@ -349,7 +350,7 @@ export default function CycleTrap({
         {/* Recognize yourself - horizontal */}
         {onSelectSymptom != null && (
           <div className="mb-10">
-            <h3 className="text-base font-bold text-white mb-2">
+            <h3 className="text-[2rem] font-bold text-white mb-2">
               {sectionHeadings.recognition}
             </h3>
             <p className="premium-data text-xs text-white mt-2 mb-3">
@@ -384,6 +385,7 @@ export default function CycleTrap({
         <div className="flex flex-col lg:flex-row items-stretch gap-12 lg:gap-16">
           <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0">{ring}</div>
           <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0 flex flex-col justify-center">
+            {stageToggles}
             {detail}
           </div>
         </div>
