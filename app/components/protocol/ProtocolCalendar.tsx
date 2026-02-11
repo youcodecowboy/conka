@@ -6,20 +6,32 @@ import {
   protocolContent,
   generateProtocolCalendarDays,
   FORMULA_COLORS,
+  getProtocolAccent,
 } from "@/app/lib/productData";
+
+const tierLabels: Record<ProtocolTier, string> = {
+  starter: "Starter",
+  pro: "Pro",
+  max: "Max",
+};
 
 interface ProtocolCalendarProps {
   protocolId: ProtocolId;
   selectedTier: ProtocolTier;
+  onTierSelect: (tier: ProtocolTier) => void;
+  availableTiers: ProtocolTier[];
 }
 
 export default function ProtocolCalendar({
   protocolId,
   selectedTier,
+  onTierSelect,
+  availableTiers,
 }: ProtocolCalendarProps) {
   const protocol = protocolContent[protocolId];
   const tierConfig = protocol.tiers[selectedTier];
   const calendarDays = generateProtocolCalendarDays(protocolId, selectedTier);
+  const protocolAccent = getProtocolAccent(protocolId);
 
   if (!tierConfig) return null;
 
@@ -28,20 +40,47 @@ export default function ProtocolCalendar({
   const conkaClarityTotal = tierConfig.conkaClarityCount * 4;
 
   return (
-    <section className="px-6 md:px-16 py-24">
-      <div className="max-w-6xl mx-auto">
+    <section className="premium-section w-full bg-[var(--color-surface)]">
+      <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 py-24">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+        <div className="text-center mb-8">
+          <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
             Your Monthly Protocol
           </h2>
-          <p className="font-commentary text-xl">visualize your journey</p>
+          <p className="premium-annotation text-xl">visualize your journey</p>
+        </div>
+
+        {/* Inline tier selector */}
+        <div className="flex justify-center gap-2 mb-8 flex-wrap">
+          {availableTiers.map((tier) => {
+            const isSelected = selectedTier === tier;
+            const conf = protocol.tiers[tier];
+            return (
+              <button
+                key={tier}
+                onClick={() => onTierSelect(tier)}
+                className={`px-4 py-2 rounded-xl font-clinical text-sm font-semibold transition-all ${
+                  isSelected
+                    ? "text-white shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
+                    : "bg-white border border-black/10 hover:border-black/20 text-current"
+                }`}
+                style={isSelected ? { backgroundColor: protocolAccent } : undefined}
+              >
+                {tierLabels[tier]}
+                {conf && (
+                  <span className="ml-1.5 opacity-80 text-xs font-normal">
+                    {conf.shotsPerWeek}/week
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Calendar */}
           <div className="lg:w-2/3">
-            <div className="neo-box p-6">
+            <div className="premium-box p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-bold">4-Week View</h3>
                 <span className="font-clinical text-sm opacity-70">
@@ -110,7 +149,7 @@ export default function ProtocolCalendar({
           {/* Protocol Info Sidebar */}
           <div className="lg:w-1/3 space-y-6">
             {/* Tier Info */}
-            <div className="neo-box p-6">
+            <div className="premium-box p-6">
               <h3 className="text-lg font-bold mb-4">
                 {tierConfig.name} Plan Details
               </h3>
@@ -137,7 +176,7 @@ export default function ProtocolCalendar({
             </div>
 
             {/* Quick Tips */}
-            <div className="neo-box p-6">
+            <div className="premium-box p-6">
               <h3 className="text-lg font-bold mb-4">Pro Tips</h3>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
