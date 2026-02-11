@@ -267,7 +267,7 @@ export default function CycleTrap({
       <button
         type="button"
         onClick={() => go(-1)}
-        className="bg-black border-2 border-white text-white w-[160px] min-w-[160px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
+        className="bg-black border-2 border-white text-white w-[200px] min-w-[200px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
         aria-label="Previous stage"
       >
         <svg
@@ -289,7 +289,7 @@ export default function CycleTrap({
       <button
         type="button"
         onClick={() => go(1)}
-        className="bg-black border-2 border-white text-white w-[160px] min-w-[160px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
+        className="bg-black border-2 border-white text-white w-[200px] min-w-[200px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
         aria-label="Next stage"
       >
         <span className="premium-data text-xs font-semibold uppercase tracking-wider truncate">Next stage</span>
