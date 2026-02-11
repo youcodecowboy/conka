@@ -13,7 +13,7 @@ export default function ProtocolProblemSection() {
       aria-label="The problem cycle"
     >
       <div className="max-w-6xl mx-auto px-6 md:px-16">
-        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center mb-10">
+        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center mb-20 md:mb-24">
           The problem
         </h2>
         <ProtocolProblemCycle />
