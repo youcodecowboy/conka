@@ -263,11 +263,11 @@ export default function CycleTrap({
   );
 
   const stageToggles = (
-    <div className="flex items-center gap-4 w-full justify-center lg:justify-start mb-4">
+    <div className="flex items-center gap-6 w-full justify-center lg:justify-start mb-4">
       <button
         type="button"
         onClick={() => go(-1)}
-        className="bg-black border-2 border-white text-white min-w-[140px] w-[140px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2"
+        className="bg-black border-2 border-white text-white w-[160px] min-w-[160px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
         aria-label="Previous stage"
       >
         <svg
@@ -280,18 +280,19 @@ export default function CycleTrap({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className="flex-shrink-0"
         >
           <path d="M15 18l-6-6 6-6" />
         </svg>
-        <span className="premium-data text-xs font-semibold uppercase tracking-wider">Previous stage</span>
+        <span className="premium-data text-xs font-semibold uppercase tracking-wider truncate">Previous stage</span>
       </button>
       <button
         type="button"
         onClick={() => go(1)}
-        className="bg-black border-2 border-white text-white min-w-[140px] w-[140px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2"
+        className="bg-black border-2 border-white text-white w-[160px] min-w-[160px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
         aria-label="Next stage"
       >
-        <span className="premium-data text-xs font-semibold uppercase tracking-wider">Next stage</span>
+        <span className="premium-data text-xs font-semibold uppercase tracking-wider truncate">Next stage</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -302,6 +303,7 @@ export default function CycleTrap({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className="flex-shrink-0"
         >
           <path d="M9 18l6-6-6-6" />
         </svg>
