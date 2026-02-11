@@ -13,7 +13,7 @@ import {
   generateProtocolCalendarDays,
   getProtocolAccent,
 } from "@/app/lib/productData";
-import { getProtocolSlideshowImages } from "@/app/components/navigation/protocolImageConfig";
+import { getProtocolHeroImages } from "@/app/components/navigation/protocolHeroConfig";
 import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
 import PaymentLogos from "../PaymentLogos";
 import TierSelectorPremium from "./TierSelectorPremium";
@@ -454,7 +454,7 @@ export default function ProtocolHeroMobile({
         {/* Product Image + thumbnails */}
         <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA] flex-shrink-0">
           <ProductImageSlideshow
-            images={getProtocolSlideshowImages(protocolId, protocol.image)}
+            images={getProtocolHeroImages(protocolId)}
             alt={`${protocol.name} - Both formulas`}
             fullBleedThumbnails
           />

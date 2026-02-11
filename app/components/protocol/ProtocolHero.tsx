@@ -12,7 +12,7 @@ import {
   getProtocolGradient,
   getProtocolAccent,
 } from "@/app/lib/productData";
-import { getProtocolSlideshowImages } from "@/app/components/navigation/protocolImageConfig";
+import { getProtocolHeroImages } from "@/app/components/navigation/protocolHeroConfig";
 import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
 import TierSelectorPremium from "./TierSelectorPremium";
 import PaymentLogos from "../PaymentLogos";
@@ -68,10 +68,7 @@ export default function ProtocolHero({
           <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 lg:sticky lg:top-24 order-1 lg:order-1">
             <div className="relative w-full group">
               <ProductImageSlideshow
-                images={getProtocolSlideshowImages(
-                  protocolId,
-                  protocol.image
-                )}
+                images={getProtocolHeroImages(protocolId)}
                 alt={`${protocol.name} - Both formulas`}
               />
               <p className="premium-annotation text-center lg:text-left mt-2 opacity-70">
