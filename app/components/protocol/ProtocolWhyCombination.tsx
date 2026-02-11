@@ -1,19 +1,19 @@
 "use client";
 
+import { type ProtocolId } from "@/app/lib/productData";
 import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
-import ProtocolProblemSection from "./ProtocolProblemSection";
-import ProtocolSolutionInteractive from "./ProtocolSolutionInteractive";
+import ProtocolWhySection from "./why/ProtocolWhySection";
 
 interface ProtocolWhyCombinationProps {
-  protocolId?: string;
+  protocolId?: ProtocolId;
 }
 
 /**
- * "Why Two Formulas" — headline and two explicit sections.
- * No stacked layout: problem and solution are separate components.
+ * "Why Two Formulas" — headline and Protocol Why v2 flow
+ * (recognition → trap → break → transformation).
  */
 export default function ProtocolWhyCombination({
-  protocolId: _protocolId,
+  protocolId,
 }: ProtocolWhyCombinationProps) {
   const copy = protocolSynergyCopy;
 
@@ -38,9 +38,7 @@ export default function ProtocolWhyCombination({
         </div>
       </section>
 
-      <ProtocolProblemSection />
-
-      <ProtocolSolutionInteractive protocolId={protocolId as any} />
+      {protocolId ? <ProtocolWhySection protocolId={protocolId} /> : null}
     </>
   );
 }
