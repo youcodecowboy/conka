@@ -25,7 +25,7 @@ export const protocolProblemCycleSteps: ProblemCycleStep[] = [
   {
     id: "stress",
     label: "Stress ↑",
-    detailTitle: "When stress builds",
+    detailTitle: "Stress builds",
     nodeSubline: "Pressure builds",
     shortSummary:
       "The body experiences sustained pressure; hormonal and neural stress pathways are activated. This sets the stage for downstream oxidative and repair challenges.",
@@ -36,7 +36,7 @@ export const protocolProblemCycleSteps: ProblemCycleStep[] = [
   {
     id: "oxidative",
     label: "Oxidative Load ↑",
-    detailTitle: "When defences are overwhelmed",
+    detailTitle: "Defences get overwhelmed",
     nodeSubline: "Defences overwhelmed",
     shortSummary:
       "Free radicals and reactive oxygen species (ROS) accumulate when stress and metabolic demand outpace the body’s antioxidant capacity. This load can damage lipids, proteins, and DNA.",
@@ -51,7 +51,7 @@ export const protocolProblemCycleSteps: ProblemCycleStep[] = [
   {
     id: "repair",
     label: "Repair ↓",
-    detailTitle: "When repair can't keep up",
+    detailTitle: "Repair can't keep up",
     nodeSubline: "Recovery can't keep up",
     shortSummary:
       "Cellular repair mechanisms—including DNA repair, autophagy, and protein turnover—become overwhelmed or slowed when oxidative load is high and resources are diverted.",
@@ -66,7 +66,7 @@ export const protocolProblemCycleSteps: ProblemCycleStep[] = [
   {
     id: "performance",
     label: "Performance ↓",
-    detailTitle: "When performance drops",
+    detailTitle: "Performance drops",
     nodeSubline: "Output drops",
     shortSummary:
       "Physical, mental, and metabolic output drops when repair capacity is limited. Energy production, cognition, and recovery can all be affected.",
@@ -81,7 +81,7 @@ export const protocolProblemCycleSteps: ProblemCycleStep[] = [
   {
     id: "loop",
     label: "Back to Stress ↑",
-    detailTitle: "When the cycle repeats",
+    detailTitle: "The cycle repeats",
     nodeSubline: "Cycle repeats",
     shortSummary:
       "Low performance and prolonged recovery increase perceived pressure and can reactivate stress pathways, closing the loop and sustaining the cycle until something interrupts it.",
