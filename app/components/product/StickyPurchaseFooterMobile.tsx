@@ -12,7 +12,7 @@ import {
   getBillingLabel,
   FormulaId,
   ProtocolId,
-  FORMULA_GRADIENTS,
+  getProductGradient,
 } from "@/app/lib/productData";
 
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
@@ -102,6 +102,11 @@ export default function StickyPurchaseFooterMobile({
     formulaId === "01" ? "border-amber-500" : "border-teal-500";
   const accentTextClass =
     formulaId === "01" ? "text-amber-600" : "text-teal-600";
+  const productGradient = formulaId
+    ? getProductGradient(formulaId)
+    : protocolId
+      ? getProductGradient(protocolId)
+      : null;
 
   return (
     <>
@@ -240,14 +245,14 @@ export default function StickyPurchaseFooterMobile({
             <button
               onClick={onAddToCart}
               className={
-                formulaId
+                formulaId || protocolId
                   ? "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-black rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
                   : "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-white bg-black rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
               }
               style={
-                formulaId
+                productGradient
                   ? {
-                      background: `linear-gradient(to right, ${FORMULA_GRADIENTS[formulaId].start}, ${FORMULA_GRADIENTS[formulaId].end})`,
+                      background: `linear-gradient(to right, ${productGradient.start}, ${productGradient.end})`,
                     }
                   : undefined
               }

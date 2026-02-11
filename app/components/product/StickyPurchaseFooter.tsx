@@ -15,8 +15,10 @@ import {
   protocolContent,
   formulaContent,
   FORMULA_COLORS,
-  FORMULA_GRADIENTS,
+  getProductGradient,
 } from "@/app/lib/productData";
+import { getProductHeroImages } from "@/app/components/navigation/productHeroConfig";
+import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 
 interface StickyPurchaseFooterProps {
   // For formula pages
@@ -145,18 +147,16 @@ export default function StickyPurchaseFooter({
   };
 
   // Product name and thumbnail for left block (im8-style)
+  // Formula: hero product image from productHeroConfig; Protocol: navigation image from protocolImageConfig
   let productName = "";
   let thumbnailSrc = "";
   if (formulaId) {
     productName = formulaContent[formulaId].name;
-    thumbnailSrc =
-      formulaId === "01"
-        ? "/formulas/conkaFlow/FlowBox.jpg"
-        : "/formulas/conkaClear/ClearBox.jpg";
+    thumbnailSrc = getProductHeroImages(formulaId)[0]?.src ?? "";
   } else if (protocolId) {
     const protocol = protocolContent[protocolId];
     productName = protocol?.name ?? "";
-    thumbnailSrc = protocol?.image ?? "";
+    thumbnailSrc = getProtocolImage(protocolId);
   }
 
   // Selector display: variant + savings, and cost per shot / price (two rows, like mobile)
@@ -172,6 +172,11 @@ export default function StickyPurchaseFooter({
   }
   const accentColor = formulaId ? FORMULA_COLORS[formulaId] : null;
   const selectorAccentTextClass = accentColor ? accentColor.text : "";
+  const productGradient = formulaId
+    ? getProductGradient(formulaId)
+    : protocolId
+      ? getProductGradient(protocolId)
+      : null;
 
   if (!isVisible) return null;
 
@@ -349,8 +354,17 @@ export default function StickyPurchaseFooter({
                     className={`w-8 h-4 rounded-full relative transition-colors ${
                       purchaseType === "subscription" && accentColor
                         ? accentColor.bg
-                        : "bg-gray-300"
+                        : purchaseType === "subscription" && productGradient
+                          ? ""
+                          : "bg-gray-300"
                     }`}
+                    style={
+                      purchaseType === "subscription" && productGradient
+                        ? {
+                            background: `linear-gradient(to right, ${productGradient.start}, ${productGradient.end})`,
+                          }
+                        : undefined
+                    }
                   >
                     <div
                       className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${
@@ -361,18 +375,18 @@ export default function StickyPurchaseFooter({
                   <span className="hidden sm:inline">Subscribe</span>
                 </button>
 
-                {/* Add to Cart Button: pill, no border; formula = gradient + black text, protocol = black; price inside */}
+                {/* Add to Cart Button: pill, no border; formula = gradient + black text, protocol = protocol gradient + black text; price inside */}
                 <button
                   onClick={onAddToCart}
                   className={
-                    formulaId
+                    formulaId || protocolId
                       ? "min-w-[10rem] px-6 py-2.5 font-bold text-sm whitespace-nowrap text-black rounded-full transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
                       : "min-w-[10rem] px-6 py-2.5 font-bold text-sm whitespace-nowrap text-white bg-black rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
                   }
                   style={
-                    formulaId
+                    productGradient
                       ? {
-                          background: `linear-gradient(to right, ${FORMULA_GRADIENTS[formulaId].start}, ${FORMULA_GRADIENTS[formulaId].end})`,
+                          background: `linear-gradient(to right, ${productGradient.start}, ${productGradient.end})`,
                         }
                       : undefined
                   }

@@ -1,75 +1,33 @@
 /**
- * Protocol & Formula Image Configuration
- * 
- * Set USE_COLOR_IMAGES to true to use color variant images
- * Set to false to use default images
- * 
- * This only affects the shop mega menu (desktop and mobile)
+ * Navigation Image Configuration
+ * Images used in navigation menus, shop cards, and other navigation contexts.
+ * Hero images are defined separately in protocolHeroConfig.ts and productHeroConfig.ts
  */
-export const USE_COLOR_IMAGES = true;
 
-// Protocol image mappings
-export const protocolImageMap: Record<
-  string,
-  { default: string; color: string }
-> = {
-  "1": {
-    default: "/CONKA_15.jpg",
-    color: "/protocols/ResilienceColour.jpg",
-  },
-  "2": {
-    default: "/protocols/Precision.jpg",
-    color: "/protocols/PrecisionColor.jpg",
-  },
-  "3": {
-    default: "/CONKA_16.jpg",
-    color: "/protocols/BalanceColour.jpg",
-  },
-  "4": {
-    default: "/protocols/Ultimate.jpg",
-    color: "/protocols/UltimateBox.jpg",
-  },
-  // "4": {
-  //   default: "/protocols/Ultimate.jpg",
-  //   color: "/protocols/UltimateColour.jpg",
-  // },
+// Protocol navigation images (for cards, menus)
+export const protocolNavigationImages: Record<string, string> = {
+  "1": "/protocols/ResilienceRed.jpg",
+  "2": "/protocols/PrecisionPurple.jpg",
+  "3": "/protocols/BalanceGreen.jpg",
+  "4": "/protocols/UltimatePink.jpg",
 };
 
-// Formula image mappings
-export const formulaImageMap: Record<
-  string,
-  { default: string; color: string }
-> = {
-  "01": {
-    default: "/CONKA_51.jpg",
-    color: "/formulas/ConkaFlowColour.jpg",
-  },
-  "02": {
-    default: "/CONKA_52.jpg",
-    color: "/formulas/ConkaClearColour.jpg",
-  },
+// Formula navigation images (for cards, menus)
+export const formulaNavigationImages: Record<string, string> = {
+  "01": "/formulas/ConkaFlowColour.jpg",
+  "02": "/formulas/ConkaClearColour.jpg",
 };
 
 /**
- * Get the protocol image based on current configuration
+ * Get the protocol navigation image
  */
 export function getProtocolImage(protocolId: string): string {
-  const mapping = protocolImageMap[protocolId];
-  if (!mapping) {
-    // Fallback to default if mapping not found
-    return "";
-  }
-  return USE_COLOR_IMAGES ? mapping.color : mapping.default;
+  return protocolNavigationImages[protocolId] || "";
 }
 
 /**
- * Get the formula image based on current configuration
+ * Get the formula navigation image
  */
 export function getFormulaImage(formulaId: string): string {
-  const mapping = formulaImageMap[formulaId];
-  if (!mapping) {
-    // Fallback to default if mapping not found
-    return "";
-  }
-  return USE_COLOR_IMAGES ? mapping.color : mapping.default;
+  return formulaNavigationImages[formulaId] || "";
 }

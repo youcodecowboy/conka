@@ -96,7 +96,7 @@ After Phase 1, the following components may be unused. **Do not delete in Phase 
 
 | Step | What | Outcome |
 |------|------|---------|
-| 4.1 | **What’s Included** | Dedicated section with visual breakdown: what’s in the box per tier (e.g. “X Flow + Y Clear per week”). Strong visual (illustration or product shot); data from `protocolContent[].tiers`. |
+| 4.1 | **What’s Included** | Dedicated section with visual breakdown: what’s in the box per tier (e.g. “X Flow + Y Clear per week”). Strong visual (illustration or product shot); data from `protocolContent[].tiers`. See [4.1 What’s Included — design](#41-whats-included-design) below. |
 | 4.2 | **Flexibility (early)** | Short block (hero or right after What’s Included): “Change tier anytime” / “Skip days?” — 1–2 sentences + link to FAQ. |
 | 4.3 | **Expected Results / Timeline** | New section + data: e.g. `whatToExpectProtocol.ts` (or per-protocol in productData) with 3–5 steps (Week 1, Weeks 2–4, Month 2+). New component `ProtocolWhatToExpect` (desktop + mobile) following WhatToExpectTimeline pattern. Feeling-led copy, no science dump. |
 | 4.4 | **Why Combination Works — diagram** | Add a simple diagram to ProtocolBenefits (or new component): Flow + Clear → synergy → outcome for this protocol’s goal. SVG or small illustration; one per protocol or one diagram with protocol labels. |
@@ -105,6 +105,44 @@ After Phase 1, the following components may be unused. **Do not delete in Phase 
 | 4.7 | Copy and hierarchy pass | Hero = system benefit only; expected results = user language; comparison = clear justification; FAQ before final CTA. |
 
 **Done when:** All steps in the protocol flow table have real content; expected results and comparison sections exist; flexibility is addressed early.
+
+---
+
+### 4.1 What's Included — design
+
+**Pattern:** Two full-width “strips” (same layout language as [FormulaBenefitsStats](app/components/product/FormulaBenefitsStats.tsx)): content on one side, product shot on the other. Data is dynamic from `protocolContent[protocolId].tiers[selectedTier]` (e.g. `conkaFlowCount`, `conkaClarityCount`).
+
+**Layout (desktop):**
+
+1. **Strip 1 — CONKA Flow**
+   - **Left:** Large dynamic quantity (e.g. **3** or **5**) + short label (“per week” or “CONKA Flow”).
+   - **Right:** Product shot of Flow (zoomed-in top half of shot; asset cropped so it sits in the strip).
+   - Section heading above or in strip: “What’s included” / “Your weekly mix”.
+
+2. **Strip 2 — CONKA Clear**
+   - **Left:** Product shot of Clear (same style: zoomed top-half crop).
+   - **Right:** Large dynamic quantity (e.g. **1** or **2**) + short label.
+   - Alternating layout gives clear Flow / Clear separation and avoids monotony.
+
+**Backgrounds:** Use **alternating strip backgrounds** (e.g. one strip black, one white, or black / light grey). Benefits:
+- Visually separates the two formulas so each strip reads as one unit.
+- Works with the crop: a zoomed top-half shot reads as “one product” inside its strip; the background change at the strip boundary reinforces that without needing a hard graphic divider.
+- Matches the “two distinct formulas in one system” story. If both strips were the same colour, the two crops could blend; alternating keeps Flow and Clear clearly distinct.
+- Recommendation: **Strip 1 (Flow) = black** (or dark), **Strip 2 (Clear) = white** (or `--color-surface`), so the first hit is bold and the second is light — or the reverse if Clear assets look stronger on dark. Choose based on which bottle shot has better contrast on black vs white.
+
+**Data:** Read from `protocolContent[protocolId].tiers[selectedTier]`: `conkaFlowCount`, `conkaClarityCount`, optionally `shotsPerWeek`. Section must receive `protocolId` and `selectedTier` (and optionally `onTierSelect` if tier is changeable in-page here; otherwise tier comes from hero state).
+
+**Mobile:** Same two strips stacked; preserve “big number + label” and image per strip. Option A: keep left/right flip (Flow = number left, image right; Clear = image left, number right). Option B: stack to “image on top, number below” per strip for thumb-friendly scan. Decide in implementation.
+
+**Assets:** One hero-style image per formula (Flow, Clear): **zoomed-in top half of the shot** so it fits the strip height and feels product-forward. Same assets used in both strips; no per-tier images. Quantities are type-only (dynamic).
+
+**Implementation checklist (4.1):**
+- [ ] New component: `ProtocolWhatsIncluded` (desktop + mobile or responsive).
+- [ ] Props: `protocolId`, `selectedTier`; data from `protocolContent[].tiers`.
+- [ ] Strip 1: Flow count + Flow image; Strip 2: Clear image + Clear count.
+- [ ] Alternating backgrounds (e.g. black / white or black / surface).
+- [ ] Replace current “What’s Included” placeholder in `ProtocolPDPSections` with this section.
+- [ ] Optional: allow tier to be changed within section (e.g. compact tier pills) so “what’s included” updates without scrolling to hero; otherwise rely on hero tier state.
 
 ---
 

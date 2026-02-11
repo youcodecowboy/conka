@@ -28,3 +28,7 @@ High-level structure and key systems for the CONKA marketing and e-commerce fron
 - **Google Analytics / Klaviyo:** Scripts in layout; GA for page/config, Klaviyo for sign-up/onsite.
 
 See `docs/analytics/` for implementation and verification guides.
+
+## Product Data
+
+Product data (types, pricing, content, colors, helpers) is organized into focused modules with clear dependencies. See [`docs/PRODUCT_DATA.md`](./PRODUCT_DATA.md) for module structure, helper usage, and import patterns.
