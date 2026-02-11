@@ -6,7 +6,7 @@ import {
   protocolProblemCycleSteps,
   type ProblemCycleStep,
 } from "@/app/lib/protocolProblemCycleCopy";
-import { getProtocolAccent, type ProtocolId } from "@/app/lib/productData";
+import { getProtocolAccent, getProtocolGradient, type ProtocolId } from "@/app/lib/productData";
 import { sectionHeadings, symptomEntries } from "@/app/lib/protocolWhyCopy";
 
 const RADIUS = 40;
@@ -108,6 +108,7 @@ export default function CycleTrap({
   const isMobile = useIsMobile(1024);
   const selected = protocolProblemCycleSteps[selectedIndex];
   const accentHex = protocolId ? getProtocolAccent(protocolId) : DEFAULT_ACCENT;
+  const gradient = protocolId ? getProtocolGradient(protocolId) : { start: "#0d9488", end: DEFAULT_ACCENT };
 
   useEffect(() => {
     setSelectedIndex(initialNode);
@@ -141,12 +142,12 @@ export default function CycleTrap({
   // Carousel: fixed positions, data shifts. Position i shows step (selectedIndex + i) % 5; top (i=0) is active.
   const ring = (
     <div className="relative w-full flex flex-col items-center gap-6">
-      <div className="flex items-center gap-4 w-full justify-center">
+      <div className="flex items-center gap-3 w-full justify-center">
         <button
           type="button"
           onClick={() => go(-1)}
           className="premium-box p-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black"
-          aria-label="Previous step"
+          aria-label="Previous"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -162,14 +163,11 @@ export default function CycleTrap({
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
-        <span className="premium-body text-xs opacity-70">
-          Step {selectedIndex + 1} of 5
-        </span>
         <button
           type="button"
           onClick={() => go(1)}
           className="premium-box p-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black"
-          aria-label="Next step"
+          aria-label="Next"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -195,7 +193,7 @@ export default function CycleTrap({
         }}
       >
         <svg
-          className="absolute inset-0 w-full h-full text-white opacity-20"
+          className="absolute inset-0 w-full h-full"
           viewBox="0 0 100 100"
           aria-hidden
         >
@@ -207,31 +205,48 @@ export default function CycleTrap({
               x2="100%"
               y2="100%"
             >
-              <stop offset="0%" stopColor="rgba(255,255,255,0.35)" />
-              <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+              <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
+              <stop offset="100%" stopColor="rgba(255,255,255,0.08)" />
             </linearGradient>
           </defs>
+          {/* Track: full circle, subtle */}
           <circle
             cx={CENTER}
             cy={CENTER}
             r={RADIUS}
             fill="none"
             stroke="url(#trap-cycle-ring-gradient)"
-            strokeWidth="1"
+            strokeWidth="1.5"
           />
-          <path
-            d={CIRCLE_PATH}
+          {/* Full loop: first half bright accent, second half gradient (repeat lap) */}
+          <circle
+            cx={CENTER}
+            cy={CENTER}
+            r={RADIUS}
             fill="none"
             stroke={accentHex}
             strokeWidth="3"
             strokeLinecap="round"
-            strokeDasharray={`${(selectedIndex / 5) * CIRCLE_PATH_LENGTH} ${CIRCLE_PATH_LENGTH}`}
+            strokeDasharray={`${CIRCLE_PATH_LENGTH / 2} ${CIRCLE_PATH_LENGTH / 2}`}
+            strokeDashoffset={0}
             pathLength={CIRCLE_PATH_LENGTH}
             style={{
-              transition: `stroke-dasharray ${TRANSITION_MS}ms ${EASE}`,
               transform: "translateZ(0)",
-              filter: `drop-shadow(0 0 8px ${accentHex})`,
+              filter: `drop-shadow(0 0 10px ${accentHex})`,
             }}
+          />
+          <circle
+            cx={CENTER}
+            cy={CENTER}
+            r={RADIUS}
+            fill="none"
+            stroke={gradient.start}
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray={`${CIRCLE_PATH_LENGTH / 2} ${CIRCLE_PATH_LENGTH / 2}`}
+            strokeDashoffset={-CIRCLE_PATH_LENGTH / 2}
+            pathLength={CIRCLE_PATH_LENGTH}
+            style={{ transform: "translateZ(0)", opacity: 0.85 }}
           />
         </svg>
         {[0, 1, 2, 3, 4].map((slotIndex) => {
@@ -324,55 +339,48 @@ export default function CycleTrap({
         aria-hidden
       />
       <div className="relative w-[90%] max-w-7xl mx-auto px-6 md:px-16">
-        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center opacity-90 mb-12">
+        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center opacity-90 mb-8">
           {sectionHeadings.trap}
         </h2>
 
-        {/* Recognition + Cycle side by side */}
-        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-12">
-          {/* Recognition block - left */}
-          {onSelectSymptom != null && (
-            <div className="w-full lg:w-[280px] flex-shrink-0">
-              <h3 className="premium-section-heading text-lg font-bold text-white mb-2">
-                {sectionHeadings.recognition}
-              </h3>
-              <p className="premium-body text-sm text-white/80 mb-4">
-                Which sounds familiar? Your cycle starts there.
-              </p>
-              <div className="flex flex-col gap-3">
-                {symptomEntries.map((entry) => {
-                  const isSelected = selectedSymptomId === entry.id;
-                  const cycleStep = protocolProblemCycleSteps[entry.entryNode];
-                  return (
-                    <button
-                      key={entry.id}
-                      type="button"
-                      onClick={() => onSelectSymptom(entry.id)}
-                      className={`text-left p-4 rounded-xl border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
-                        isSelected
-                          ? "bg-white/15 border-white text-white"
-                          : "border-white/30 text-white/90 hover:border-white/50 hover:bg-white/5"
-                      }`}
-                      aria-pressed={isSelected}
-                    >
-                      <span className="premium-body text-sm font-medium block mb-1">
-                        {entry.label}
-                      </span>
-                      <span className="premium-data text-xs opacity-70 uppercase tracking-wider">
-                        Starts at {cycleStep.label}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+        {/* Recognize yourself - horizontal, smaller */}
+        {onSelectSymptom != null && (
+          <div className="mb-10">
+            <h3 className="premium-body text-sm font-semibold text-white/90 mb-3">
+              {sectionHeadings.recognition}
+            </h3>
+            <p className="premium-data text-xs text-white/70 mb-3">
+              Which sounds familiar? Your cycle starts there.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {symptomEntries.map((entry) => {
+                const isSelected = selectedSymptomId === entry.id;
+                return (
+                  <button
+                    key={entry.id}
+                    type="button"
+                    onClick={() => onSelectSymptom(entry.id)}
+                    className={`px-4 py-2.5 rounded-lg border transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-left ${
+                      isSelected
+                        ? "bg-white/15 border-white text-white"
+                        : "border-white/30 text-white/90 hover:border-white/50 hover:bg-white/5"
+                    }`}
+                    aria-pressed={isSelected}
+                  >
+                    <span className="premium-data text-xs font-medium">
+                      {entry.label}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Ring - center */}
-          <div className="flex-shrink-0 w-full lg:max-w-[380px]">{ring}</div>
-
-          {/* Detail - right */}
-          <div className="flex-shrink-0 min-w-0 flex justify-start w-full lg:flex-1 lg:max-w-[420px]">
+        {/* Cycle and explanation */}
+        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-12">
+          <div className="flex-shrink-0 w-full lg:max-w-[420px]">{ring}</div>
+          <div className="flex-shrink-0 min-w-0 flex justify-start w-full lg:flex-1 lg:max-w-[480px]">
             {detail}
           </div>
         </div>
