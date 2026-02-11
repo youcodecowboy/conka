@@ -39,8 +39,6 @@ export default function ProtocolPDPSections({
       <>
         <ProtocolStruggleMobile protocolId={protocolId} />
 
-        <ProtocolSectionPlaceholder id="whats-included" title="What's Included" />
-
         <section className="premium-section">
           <ProtocolCalendarSectionMobile
             protocolId={protocolId}
@@ -102,8 +100,6 @@ export default function ProtocolPDPSections({
   // Desktop
   return (
     <>
-      <ProtocolSectionPlaceholder id="whats-included" title="What's Included" />
-
       <section className="premium-section">
         <ProtocolCalendar
           protocolId={protocolId}
