@@ -14,8 +14,8 @@ export interface ProtocolHeroImage {
  * First image is the primary hero image (e.g., BalanceBox.jpg)
  */
 export const protocolHeroImages: Record<ProtocolId, string> = {
-  "1": "/protocols/Resilience.jpg", // TODO: Update when ResilienceBox.jpg is available
-  "2": "/protocols/Precision.jpg", // TODO: Update when PrecisionBox.jpg is available
+  "1": "/protocols/ResilienceBox.jpg",
+  "2": "/protocols/PrecisionBox.jpg",
   "3": "/protocols/BalanceBox.jpg",
   "4": "/protocols/UltimateBox.jpg",
 };
