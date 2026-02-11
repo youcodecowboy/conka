@@ -142,49 +142,6 @@ export default function CycleTrap({
   // Carousel: fixed positions, data shifts. Position i shows step (selectedIndex + i) % 5; top (i=0) is active.
   const ring = (
     <div className="relative w-full flex flex-col items-center gap-6">
-      <div className="flex items-center gap-3 w-full justify-center">
-        <button
-          type="button"
-          onClick={() => go(-1)}
-          className="premium-box p-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black"
-          aria-label="Previous"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          onClick={() => go(1)}
-          className="premium-box p-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black"
-          aria-label="Next"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </button>
-      </div>
-
       <div
         className="relative w-full"
         style={{
@@ -261,7 +218,7 @@ export default function CycleTrap({
               className={`cycle-node group absolute flex flex-col items-center justify-center rounded-full border-2 px-3 py-4 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
                 isActive
                   ? "active bg-white text-black border-white shadow-[0_0_32px_rgba(255,255,255,0.25)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] opacity-100"
-                  : "bg-[#141414] border-white/30 text-white/90 hover:bg-[#1a1a1a] hover:border-white/40 opacity-65"
+                  : "bg-[#2a2a2a] border-white/30 text-white/90 hover:bg-[#333] hover:border-white/50 opacity-100"
               }`}
               style={{
                 left: `${NODE_POSITIONS[slotIndex].x}%`,
@@ -302,6 +259,50 @@ export default function CycleTrap({
           );
         })}
       </div>
+
+      {/* Left/right toggles underneath the cycle */}
+      <div className="flex items-center gap-3 w-full justify-center">
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          className="premium-box p-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black"
+          aria-label="Previous"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          onClick={() => go(1)}
+          className="premium-box p-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black"
+          aria-label="Next"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 
@@ -338,7 +339,7 @@ export default function CycleTrap({
         }}
         aria-hidden
       />
-      <div className="relative w-[90%] max-w-7xl mx-auto px-6 md:px-16">
+      <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20">
         <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center opacity-90 mb-8">
           {sectionHeadings.trap}
         </h2>
@@ -378,9 +379,9 @@ export default function CycleTrap({
         )}
 
         {/* Cycle and explanation */}
-        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-12">
-          <div className="flex-shrink-0 w-full lg:max-w-[420px]">{ring}</div>
-          <div className="flex-shrink-0 min-w-0 flex justify-start w-full lg:flex-1 lg:max-w-[480px]">
+        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+          <div className="flex-shrink-0 w-full lg:w-[45%] lg:max-w-[520px]">{ring}</div>
+          <div className="flex-shrink-0 min-w-0 flex justify-start w-full lg:flex-1 lg:min-w-[400px]">
             {detail}
           </div>
         </div>
