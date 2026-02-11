@@ -8,7 +8,6 @@ import {
 } from "@/app/lib/protocolProblemCycleCopy";
 import { getProtocolAccent, type ProtocolId } from "@/app/lib/productData";
 import { sectionHeadings, symptomEntries } from "@/app/lib/protocolWhyCopy";
-import { protocolProblemCycleSteps as cycleSteps } from "@/app/lib/protocolProblemCycleCopy";
 
 const RADIUS = 40;
 const CENTER = 50;
@@ -93,11 +92,17 @@ const SecondaryTile = memo(function SecondaryTile({
 interface CycleTrapProps {
   protocolId?: ProtocolId;
   initialNode?: number;
+  selectedSymptomId?: string | null;
+  onSelectSymptom?: (symptomId: string) => void;
 }
+
+const STEP_COUNT = protocolProblemCycleSteps.length;
 
 export default function CycleTrap({
   protocolId,
   initialNode = 0,
+  selectedSymptomId = null,
+  onSelectSymptom,
 }: CycleTrapProps) {
   const [selectedIndex, setSelectedIndex] = useState(initialNode);
   const isMobile = useIsMobile(1024);
@@ -111,8 +116,8 @@ export default function CycleTrap({
   const go = useCallback((delta: number) => {
     setSelectedIndex((i) => {
       const next = i + delta;
-      if (next < 0) return protocolProblemCycleSteps.length - 1;
-      if (next >= protocolProblemCycleSteps.length) return 0;
+      if (next < 0) return STEP_COUNT - 1;
+      if (next >= STEP_COUNT) return 0;
       return next;
     });
   }, []);
@@ -132,12 +137,10 @@ export default function CycleTrap({
   }, [go]);
 
   const nodeSize = isMobile ? 128 : 140;
-  // Rotation: node 0 starts at top (-90deg), so to put node i at top, rotate by i * 72 degrees
-  const rotationDegrees = selectedIndex * 72;
 
+  // Carousel: fixed positions, data shifts. Position i shows step (selectedIndex + i) % 5; top (i=0) is active.
   const ring = (
     <div className="relative w-full flex flex-col items-center gap-6">
-      {/* Left/Right toggle buttons */}
       <div className="flex items-center gap-4 w-full justify-center">
         <button
           type="button"
@@ -184,7 +187,6 @@ export default function CycleTrap({
         </button>
       </div>
 
-      {/* Rotating ring container */}
       <div
         className="relative w-full"
         style={{
@@ -192,104 +194,98 @@ export default function CycleTrap({
           transition: `width ${TRANSITION_MS}ms ${EASE}, height ${TRANSITION_MS}ms ${EASE}`,
         }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            transform: `rotate(${rotationDegrees}deg)`,
-            transition: `transform ${TRANSITION_MS}ms ${EASE}`,
-          }}
+        <svg
+          className="absolute inset-0 w-full h-full text-white opacity-20"
+          viewBox="0 0 100 100"
+          aria-hidden
         >
-          <svg
-            className="absolute inset-0 w-full h-full text-white opacity-20"
-            viewBox="0 0 100 100"
-            aria-hidden
-          >
-            <defs>
-              <linearGradient
-                id="trap-cycle-ring-gradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="rgba(255,255,255,0.35)" />
-                <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
-              </linearGradient>
-            </defs>
-            <circle
-              cx={CENTER}
-              cy={CENTER}
-              r={RADIUS}
-              fill="none"
-              stroke="url(#trap-cycle-ring-gradient)"
-              strokeWidth="1"
-            />
-            <path
-              d={CIRCLE_PATH}
-              fill="none"
-              stroke={accentHex}
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeDasharray={`${(selectedIndex / 5) * CIRCLE_PATH_LENGTH} ${CIRCLE_PATH_LENGTH}`}
-              pathLength={CIRCLE_PATH_LENGTH}
+          <defs>
+            <linearGradient
+              id="trap-cycle-ring-gradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="rgba(255,255,255,0.35)" />
+              <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+            </linearGradient>
+          </defs>
+          <circle
+            cx={CENTER}
+            cy={CENTER}
+            r={RADIUS}
+            fill="none"
+            stroke="url(#trap-cycle-ring-gradient)"
+            strokeWidth="1"
+          />
+          <path
+            d={CIRCLE_PATH}
+            fill="none"
+            stroke={accentHex}
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray={`${(selectedIndex / 5) * CIRCLE_PATH_LENGTH} ${CIRCLE_PATH_LENGTH}`}
+            pathLength={CIRCLE_PATH_LENGTH}
+            style={{
+              transition: `stroke-dasharray ${TRANSITION_MS}ms ${EASE}`,
+              transform: "translateZ(0)",
+              filter: `drop-shadow(0 0 8px ${accentHex})`,
+            }}
+          />
+        </svg>
+        {[0, 1, 2, 3, 4].map((slotIndex) => {
+          const stepIndex = (selectedIndex + slotIndex) % STEP_COUNT;
+          const step = protocolProblemCycleSteps[stepIndex];
+          const isActive = slotIndex === 0;
+          return (
+            <button
+              key={`${step.id}-${slotIndex}`}
+              type="button"
+              onClick={() => setSelectedIndex(stepIndex)}
+              className={`cycle-node group absolute flex flex-col items-center justify-center rounded-full border-2 px-3 py-4 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
+                isActive
+                  ? "active bg-white text-black border-white shadow-[0_0_32px_rgba(255,255,255,0.25)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] opacity-100"
+                  : "bg-[#141414] border-white/30 text-white/90 hover:bg-[#1a1a1a] hover:border-white/40 opacity-65"
+              }`}
               style={{
-                transition: `stroke-dasharray ${TRANSITION_MS}ms ${EASE}`,
-                transform: "translateZ(0)",
-                filter: `drop-shadow(0 0 8px ${accentHex})`,
+                left: `${NODE_POSITIONS[slotIndex].x}%`,
+                top: `${NODE_POSITIONS[slotIndex].y}%`,
+                transform: "translate(-50%, -50%)",
+                width: nodeSize,
+                height: nodeSize,
+                willChange: "transform",
+                ...(isActive ? {} : { filter: "grayscale(0.15)" }),
               }}
-            />
-          </svg>
-          {protocolProblemCycleSteps.map((step, i) => {
-            const isActive = selectedIndex === i;
-            return (
-              <button
-                key={step.id}
-                type="button"
-                onClick={() => setSelectedIndex(i)}
-                className={`cycle-node group absolute flex flex-col items-center justify-center rounded-full border-2 px-3 py-4 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
-                  isActive
-                    ? "active bg-white text-black border-white shadow-[0_0_32px_rgba(255,255,255,0.25)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] opacity-100"
-                    : "bg-[#141414] border-white/30 text-white/90 hover:bg-[#1a1a1a] hover:border-white/40 opacity-65"
+              aria-pressed={isActive}
+              aria-label={`${step.label}: ${step.nodeSubline}. Step ${stepIndex + 1} of 5.`}
+            >
+              <span
+                className={`inline-flex flex-col items-center transition-transform duration-300 ${
+                  isActive ? "group-hover:scale-[1.02]" : "group-hover:scale-105"
                 }`}
-                style={{
-                  left: `${NODE_POSITIONS[i].x}%`,
-                  top: `${NODE_POSITIONS[i].y}%`,
-                  transform: "translate(-50%, -50%)",
-                  width: nodeSize,
-                  height: nodeSize,
-                  willChange: "transform",
-                  ...(isActive ? {} : { filter: "grayscale(0.15)" }),
-                }}
-                aria-pressed={isActive}
-                aria-label={`${step.label}: ${step.nodeSubline}. Step ${i + 1} of 5.`}
               >
                 <span
-                  className={`inline-flex flex-col items-center transition-transform duration-300 ${
-                    isActive ? "group-hover:scale-[1.02]" : "group-hover:scale-105"
-                  }`}
+                  className="font-semibold leading-tight uppercase tracking-wider"
+                  style={{
+                    fontSize: isMobile ? "0.875rem" : "0.9375rem",
+                    letterSpacing: "0.06em",
+                  }}
                 >
-                  <span
-                    className="font-semibold leading-tight uppercase tracking-wider"
-                    style={{
-                      fontSize: isMobile ? "0.875rem" : "0.9375rem",
-                      letterSpacing: "0.06em",
-                    }}
-                  >
-                    {step.label}
-                  </span>
-                  <span
-                    className={`mt-1.5 text-xs leading-tight ${
-                      isActive ? "text-black/80" : "text-white/70"
-                    }`}
-                    style={{ letterSpacing: "0.02em" }}
-                  >
-                    {step.nodeSubline}
-                  </span>
+                  {step.label}
                 </span>
-              </button>
-            );
-          })}
-        </div>
+                <span
+                  className={`mt-1.5 text-xs leading-tight ${
+                    isActive ? "text-black/80" : "text-white/70"
+                  }`}
+                  style={{ letterSpacing: "0.02em" }}
+                >
+                  {step.nodeSubline}
+                </span>
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -327,13 +323,56 @@ export default function CycleTrap({
         }}
         aria-hidden
       />
-      <div className="relative w-[80%] mx-auto px-6 md:px-16">
-        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center opacity-90">
+      <div className="relative w-[90%] max-w-7xl mx-auto px-6 md:px-16">
+        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center opacity-90 mb-12">
           {sectionHeadings.trap}
         </h2>
-        <div className="mt-20 md:mt-24 w-full flex flex-col lg:flex-row items-start gap-16 lg:gap-20">
-          <div className="flex-shrink-0 w-full lg:w-[40%]">{ring}</div>
-          <div className="flex-shrink-0 min-w-0 flex justify-start lg:w-[60%]">
+
+        {/* Recognition + Cycle side by side */}
+        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-12">
+          {/* Recognition block - left */}
+          {onSelectSymptom != null && (
+            <div className="w-full lg:w-[280px] flex-shrink-0">
+              <h3 className="premium-section-heading text-lg font-bold text-white mb-2">
+                {sectionHeadings.recognition}
+              </h3>
+              <p className="premium-body text-sm text-white/80 mb-4">
+                Which sounds familiar? Your cycle starts there.
+              </p>
+              <div className="flex flex-col gap-3">
+                {symptomEntries.map((entry) => {
+                  const isSelected = selectedSymptomId === entry.id;
+                  const cycleStep = protocolProblemCycleSteps[entry.entryNode];
+                  return (
+                    <button
+                      key={entry.id}
+                      type="button"
+                      onClick={() => onSelectSymptom(entry.id)}
+                      className={`text-left p-4 rounded-xl border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                        isSelected
+                          ? "bg-white/15 border-white text-white"
+                          : "border-white/30 text-white/90 hover:border-white/50 hover:bg-white/5"
+                      }`}
+                      aria-pressed={isSelected}
+                    >
+                      <span className="premium-body text-sm font-medium block mb-1">
+                        {entry.label}
+                      </span>
+                      <span className="premium-data text-xs opacity-70 uppercase tracking-wider">
+                        Starts at {cycleStep.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Ring - center */}
+          <div className="flex-shrink-0 w-full lg:max-w-[380px]">{ring}</div>
+
+          {/* Detail - right */}
+          <div className="flex-shrink-0 min-w-0 flex justify-start w-full lg:flex-1 lg:max-w-[420px]">
             {detail}
           </div>
         </div>

@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import { type ProtocolId } from "@/app/lib/productData";
-import CycleRecognition from "./CycleRecognition";
 import CycleTrap from "./CycleTrap";
 import CycleBreak from "./CycleBreak";
 import CycleTransformation from "./CycleTransformation";
@@ -24,11 +23,12 @@ export default function ProtocolWhySection({
 
   return (
     <>
-      <CycleRecognition
+      <CycleTrap
+        protocolId={protocolId}
+        initialNode={entryNodeIndex}
         selectedSymptomId={selectedSymptom}
-        onSelect={setSelectedSymptom}
+        onSelectSymptom={setSelectedSymptom}
       />
-      <CycleTrap protocolId={protocolId} initialNode={entryNodeIndex} />
 
       {/* Transition: dark → light */}
       <div
