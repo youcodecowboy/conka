@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   ProtocolId,
   ProtocolTier,
@@ -13,7 +12,8 @@ import {
   getProtocolGradient,
   getProtocolAccent,
 } from "@/app/lib/productData";
-import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
+import { getProtocolSlideshowImages } from "@/app/components/navigation/protocolImageConfig";
+import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
 import TierSelectorPremium from "./TierSelectorPremium";
 import PaymentLogos from "../PaymentLogos";
 
@@ -67,17 +67,14 @@ export default function ProtocolHero({
           {/* Left: Product Image */}
           <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 lg:sticky lg:top-24 order-1 lg:order-1">
             <div className="relative w-full group">
-              <div className="relative w-full aspect-[4/3] max-w-3xl lg:-ml-20 xl:-ml-28">
-                <Image
-                  src={getProtocolImage(protocolId) || protocol.image}
-                  alt={`${protocol.name} - Both formulas`}
-                  fill
-                  className="object-contain scale-125"
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  priority
-                />
-              </div>
-              <p className="premium-annotation text-center lg:text-left lg:-ml-20 xl:-ml-28 mt-2 opacity-70">
+              <ProductImageSlideshow
+                images={getProtocolSlideshowImages(
+                  protocolId,
+                  protocol.image
+                )}
+                alt={`${protocol.name} - Both formulas`}
+              />
+              <p className="premium-annotation text-center lg:text-left mt-2 opacity-70">
                 the complete cognitive stack
               </p>
             </div>

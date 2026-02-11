@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import {
   ProtocolId,
   ProtocolTier,
@@ -14,7 +13,8 @@ import {
   generateProtocolCalendarDays,
   getProtocolAccent,
 } from "@/app/lib/productData";
-import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
+import { getProtocolSlideshowImages } from "@/app/components/navigation/protocolImageConfig";
+import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
 import PaymentLogos from "../PaymentLogos";
 import TierSelectorPremium from "./TierSelectorPremium";
 
@@ -451,15 +451,12 @@ export default function ProtocolHeroMobile({
           </div>
         </div>
 
-        {/* Product Image - reserved aspect box + placeholder so frame paints before image */}
-        <div className="relative w-full flex-shrink-0 aspect-square overflow-hidden bg-neutral-100">
-          <Image
-            src={getProtocolImage(protocolId) || protocol.image}
+        {/* Product Image + thumbnails */}
+        <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA] flex-shrink-0">
+          <ProductImageSlideshow
+            images={getProtocolSlideshowImages(protocolId, protocol.image)}
             alt={`${protocol.name} - Both formulas`}
-            fill
-            className="object-contain scale-125"
-            sizes="100vw"
-            priority
+            fullBleedThumbnails
           />
         </div>
 
