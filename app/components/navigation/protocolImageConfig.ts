@@ -6,7 +6,7 @@
 
 // Protocol navigation images (for cards, menus)
 export const protocolNavigationImages: Record<string, string> = {
-  "1": "/protocols/ResilienceBox.jpg",
+  "1": "/protocols/ResilienceRed.jpg",
   "2": "/protocols/PrecisionPurple.jpg",
   "3": "/protocols/BalanceGreen.jpg",
   "4": "/protocols/UltimatePink.jpg",
