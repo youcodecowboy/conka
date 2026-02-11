@@ -2,7 +2,7 @@
 
 import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
 import ProtocolProblemSection from "./ProtocolProblemSection";
-import ProtocolSolutionSection from "./ProtocolSolutionSection";
+import ProtocolSolutionInteractive from "./ProtocolSolutionInteractive";
 
 interface ProtocolWhyCombinationProps {
   protocolId?: string;
@@ -40,7 +40,7 @@ export default function ProtocolWhyCombination({
 
       <ProtocolProblemSection />
 
-      <ProtocolSolutionSection />
+      <ProtocolSolutionInteractive protocolId={protocolId as any} />
     </>
   );
 }
