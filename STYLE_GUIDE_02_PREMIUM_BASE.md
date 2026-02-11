@@ -12,14 +12,15 @@ Premium Base is a **token-based layer** that signals trust, calm authority, and 
 
 **When to use**
 
-- Individual product page (conka-flow first, then conka-clarity when refactored)
+- Individual product page (conka-flow, conka-clarity)
+- Protocol product page (`/protocol/[id]`)
 - Purchase column and product hero on those pages
 - Any new PDP section built for the Phase 2 flow
 
 **When not to use**
 
-- Navigation, footer, homepage, protocols, shop, quiz, science, other pages
-- Those stay on Style Guide 01 until explicitly migrated
+- Navigation, footer, homepage, shop, quiz, science, other pages
+- Other protocol surfaces (e.g. professionals flow) until explicitly migrated; those stay on Style Guide 01
 
 ---
 
