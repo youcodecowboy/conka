@@ -54,17 +54,19 @@ export default function ProtocolProblemCycle() {
   );
 
   const detail = (
-    <div className="min-h-[240px] flex flex-col p-6 md:p-8 rounded-2xl border border-white/15 bg-white/[0.06]">
-      <h3 className="premium-section-heading text-xl md:text-2xl font-bold mb-4 text-white">
+    <div className="h-[320px] flex flex-col p-6 md:p-8 rounded-2xl border border-white/15 bg-white/[0.06]">
+      <h3 className="premium-section-heading text-xl md:text-2xl font-bold mb-3 text-white flex-shrink-0">
         {selected.label}
       </h3>
-      <p className="premium-body text-sm md:text-base text-white/95 leading-relaxed mb-4">
-        {selected.shortSummary}
-      </p>
-      <p className="premium-body text-sm text-white/75 leading-relaxed mb-4">
-        {selected.scientificParagraph}
-      </p>
-      <div className="premium-data text-xs text-white/65 mt-auto pt-4 border-t border-white/15">
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <p className="premium-body text-sm md:text-base text-white/95 leading-relaxed mb-3">
+          {selected.shortSummary}
+        </p>
+        <p className="premium-body text-sm text-white/75 leading-relaxed mb-3">
+          {selected.scientificParagraph}
+        </p>
+      </div>
+      <div className="premium-data text-xs text-white/65 pt-4 border-t border-white/15 flex-shrink-0">
         <span className="font-semibold">{selected.reference.author}</span> ({selected.reference.year}).{" "}
         <span className="italic">{selected.reference.journal}</span>.
       </div>
