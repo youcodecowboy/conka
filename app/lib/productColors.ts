@@ -26,8 +26,8 @@ export const PRODUCT_GRADIENTS: Record<
   "01": { start: "#ffde59", end: "#ff914d", solid: "#f59e0b" }, // CONKA Flow: yellow → orange
   "02": { start: "#cdffd8", end: "#94b9ff", solid: "#94b9ff" }, // CONKA Clear: mint → soft blue
   // Protocols
-  "1": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Resilience — teal
-  "2": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Precision — teal
+  "1": { start: "#ff914d", end: "#ff3131", solid: "#ff3131" }, // Resilience — orange to red
+  "2": { start: "#ffcafb", end: "#896ebe", solid: "#896ebe" }, // Precision — pink to purple
   "3": { start: "#c9ffbe", end: "#3a9f7e", solid: "#3a9f7e" }, // Balance — green gradient
   "4": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Ultimate — teal
 } as const;
