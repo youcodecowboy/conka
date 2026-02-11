@@ -18,6 +18,22 @@ export interface ProtocolSynergyCopy {
     introParagraph: string;
   };
   diagramImagePath: string;
+  mechanisms: {
+    flow: {
+      title: string;
+      description: string;
+      keyPoints: string[];
+    };
+    clear: {
+      title: string;
+      description: string;
+      keyPoints: string[];
+    };
+  };
+  synergy: {
+    title: string;
+    description: string;
+  };
   outcomeTranslation: string[];
   references: ScientificReference[];
 }
@@ -30,11 +46,38 @@ export const protocolSynergyCopy: ProtocolSynergyCopy = {
       "CONKA Flow supports environmental regulation—helping maintain healthy stress signalling and antioxidant pathways. CONKA Clear strengthens cellular infrastructure—supporting glutathione synthesis and mitochondrial function. Together, they create a system that reduces load while improving capacity.",
   },
   diagramImagePath: "/protocols/FlowClearSynergyDiagram.png",
+  mechanisms: {
+    flow: {
+      title: "Flow: Reduces Pressure",
+      description:
+        "CONKA Flow supports environmental regulation—helping maintain healthy stress signalling and antioxidant pathways. By reducing the load on your system, Flow creates space for repair.",
+      keyPoints: [
+        "Supports healthy stress response pathways",
+        "Helps maintain antioxidant balance",
+        "Reduces systemic pressure",
+      ],
+    },
+    clear: {
+      title: "Clear: Strengthens Repair",
+      description:
+        "CONKA Clear strengthens cellular infrastructure—supporting glutathione synthesis and mitochondrial function. Clear builds capacity for recovery.",
+      keyPoints: [
+        "Supports glutathione synthesis",
+        "Strengthens mitochondrial function",
+        "Builds cellular repair capacity",
+      ],
+    },
+  },
+  synergy: {
+    title: "Together: Break the Cycle",
+    description:
+      "Flow reduces load while Clear improves capacity. Together, they create a system that breaks the problem cycle—reducing pressure while strengthening repair mechanisms.",
+  },
   outcomeTranslation: [
-    "May support sustained mental clarity under load",
-    "Designed to support more stable energy production",
-    "Helps maintain greater resilience to demanding periods",
-    "Designed to support more efficient recovery cycles",
+    "Sustained mental clarity under pressure",
+    "Stable, consistent energy throughout the day",
+    "Greater resilience to stress and demanding periods",
+    "Faster, more efficient recovery between challenges",
   ],
   references: [
     { author: "Panossian et al.", year: "2010", journal: "Phytomedicine" },
