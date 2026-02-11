@@ -20,33 +20,53 @@ export const FORMULA_COLORS = {
   },
 } as const;
 
-/** Gradient (start → end) for each formula. Used for CTAs and benefit stat spectrum. Match ProductHero. */
-export const FORMULA_GRADIENTS: Record<
-  FormulaId,
-  { start: string; end: string }
-> = {
-  "01": { start: "#ffde59", end: "#ff914d" }, // CONKA Flow: yellow → orange
-  "02": { start: "#cdffd8", end: "#94b9ff" }, // CONKA Clear: mint → soft blue
-} as const;
+/** Product gradients: unified system for formulas and protocols */
+export type ProductId = FormulaId | ProtocolId;
 
-/** Protocol colours: gradient (light → dark, left to right) and solid for single-colour use. */
-export const PROTOCOL_COLORS: Record<
-  ProtocolId,
+export const PRODUCT_GRADIENTS: Record<
+  ProductId,
   { start: string; end: string; solid: string }
 > = {
+  // Formulas
+  "01": { start: "#ffde59", end: "#ff914d", solid: "#f59e0b" }, // CONKA Flow: yellow → orange
+  "02": { start: "#cdffd8", end: "#94b9ff", solid: "#94b9ff" }, // CONKA Clear: mint → soft blue
+  // Protocols
   "1": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Resilience — teal
   "2": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Precision — teal
   "3": { start: "#c9ffbe", end: "#3a9f7e", solid: "#3a9f7e" }, // Balance — green gradient
   "4": { start: "#0d9488", end: "#14b8a6", solid: "#14b8a6" }, // Ultimate — teal
 } as const;
 
+/** Get product gradient (works for formulas and protocols) */
+export function getProductGradient(productId: ProductId): { start: string; end: string } {
+  const gradient = PRODUCT_GRADIENTS[productId];
+  return { start: gradient.start, end: gradient.end };
+}
+
+/** Get product accent color (solid color) */
+export function getProductAccent(productId: ProductId): string {
+  return PRODUCT_GRADIENTS[productId].solid;
+}
+
+// Legacy exports for backward compatibility
+export const FORMULA_GRADIENTS: Record<FormulaId, { start: string; end: string }> = {
+  "01": { start: PRODUCT_GRADIENTS["01"].start, end: PRODUCT_GRADIENTS["01"].end },
+  "02": { start: PRODUCT_GRADIENTS["02"].start, end: PRODUCT_GRADIENTS["02"].end },
+} as const;
+
+export const PROTOCOL_COLORS: Record<ProtocolId, { start: string; end: string; solid: string }> = {
+  "1": PRODUCT_GRADIENTS["1"],
+  "2": PRODUCT_GRADIENTS["2"],
+  "3": PRODUCT_GRADIENTS["3"],
+  "4": PRODUCT_GRADIENTS["4"],
+} as const;
+
 export function getProtocolGradient(protocolId: ProtocolId): { start: string; end: string } {
-  const c = PROTOCOL_COLORS[protocolId];
-  return { start: c.start, end: c.end };
+  return getProductGradient(protocolId);
 }
 
 export function getProtocolAccent(protocolId: ProtocolId): string {
-  return PROTOCOL_COLORS[protocolId].solid;
+  return getProductAccent(protocolId);
 }
 
 /** Interpolate between two hex colors. t in [0, 1]. */
@@ -1363,7 +1383,8 @@ export interface ProtocolContent {
   subtitle: string;
   description: string;
   icon: string; // Icon identifier
-  image: string; // Product image path
+  image: string; // Navigation/thumbnail image path (used in cards, menus)
+  // Hero images are defined in protocolHeroConfig.ts
   bestFor: string[];
   benefits: string[];
   /** Optional stats for protocol benefits stats grid (headline + stat grid). */
@@ -1472,7 +1493,7 @@ export const protocolContent: Record<ProtocolId, ProtocolContent> = {
     description:
       "The best of both worlds. Alternate between CONKA Flow and CONKA Clarity for comprehensive cognitive support. Perfect for those who want the full spectrum of benefits without committing to one dominant formula.",
     icon: "balance",
-    image: "/CONKA_16.jpg",
+    image: "/protocols/BalanceGreen.jpg", // Navigation/thumbnail image
     bestFor: ["Balanced Approach", "All-Rounders", "Hybrid Athletes"],
     benefits: [
       "Stress resilience (-56% stress scores, PMID: 23439798)",
