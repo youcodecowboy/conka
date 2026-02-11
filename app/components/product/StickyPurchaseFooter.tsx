@@ -17,6 +17,8 @@ import {
   FORMULA_COLORS,
   getProductGradient,
 } from "@/app/lib/productData";
+import { getProductHeroImages } from "@/app/components/navigation/productHeroConfig";
+import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 
 interface StickyPurchaseFooterProps {
   // For formula pages
@@ -145,18 +147,16 @@ export default function StickyPurchaseFooter({
   };
 
   // Product name and thumbnail for left block (im8-style)
+  // Formula: hero product image from productHeroConfig; Protocol: navigation image from protocolImageConfig
   let productName = "";
   let thumbnailSrc = "";
   if (formulaId) {
     productName = formulaContent[formulaId].name;
-    thumbnailSrc =
-      formulaId === "01"
-        ? "/formulas/conkaFlow/FlowBox.jpg"
-        : "/formulas/conkaClear/ClearBox.jpg";
+    thumbnailSrc = getProductHeroImages(formulaId)[0]?.src ?? "";
   } else if (protocolId) {
     const protocol = protocolContent[protocolId];
     productName = protocol?.name ?? "";
-    thumbnailSrc = protocol?.image ?? "";
+    thumbnailSrc = getProtocolImage(protocolId);
   }
 
   // Selector display: variant + savings, and cost per shot / price (two rows, like mobile)
