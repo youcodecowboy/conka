@@ -18,10 +18,10 @@ export default function ProtocolSolutionSection() {
       className="premium-section"
       aria-label="The protocol solution"
     >
-      <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pt-12 pb-24">
-        <p className="premium-annotation text-lg opacity-70 text-center mb-8">
+      <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-24">
+        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-center mb-8">
           The protocol solution
-        </p>
+        </h2>
 
         <div className="relative w-full max-w-4xl mx-auto mb-12 aspect-[2/1] md:aspect-[3/1] min-h-[200px] md:min-h-[280px]">
           {copy.diagramImagePath && !diagramError ? (
