@@ -4,7 +4,7 @@ import { ProtocolId, ProtocolTier, PurchaseType, protocolContent } from "@/app/l
 import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
 import ProtocolCard from "@/app/components/shop/ProtocolCard";
 import ProtocolCardMobile from "@/app/components/shop/ProtocolCardMobile";
-import FormulaLinkCard from "@/app/components/product/FormulaLinkCard";
+import FormulasShowcase from "@/app/components/shop/FormulasShowcase";
 import ProtocolSectionPlaceholder from "./ProtocolSectionPlaceholder";
 import ProtocolCalendar from "./ProtocolCalendar";
 import ProtocolCalendarSectionMobile from "./ProtocolCalendarSectionMobile";
@@ -90,14 +90,8 @@ export default function ProtocolPDPSections({
                   />
                 ))}
             </div>
-            <div className="mt-6">
-              <h3 className="premium-section-heading text-sm font-bold mb-3 text-center">
-                Prefer Individual Formulas?
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                <FormulaLinkCard formulaId="01" />
-                <FormulaLinkCard formulaId="02" />
-              </div>
+            <div className="mt-8">
+              <FormulasShowcase />
             </div>
           </div>
         </section>
@@ -149,16 +143,7 @@ export default function ProtocolPDPSections({
               ))}
           </div>
           <div className="mt-12">
-            <h3 className="premium-section-heading text-xl font-bold mb-2 text-center">
-              Prefer Individual Formulas?
-            </h3>
-            <p className="premium-annotation text-lg mb-6 text-center">
-              not ready for a protocol? try our trial packs
-            </p>
-            <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
-              <FormulaLinkCard formulaId="01" />
-              <FormulaLinkCard formulaId="02" />
-            </div>
+            <FormulasShowcase />
           </div>
         </div>
       </section>

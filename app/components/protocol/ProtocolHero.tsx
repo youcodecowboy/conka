@@ -10,13 +10,12 @@ import {
   formatPrice,
   getBillingLabel,
   FORMULA_COLORS,
+  getProtocolGradient,
+  getProtocolAccent,
 } from "@/app/lib/productData";
 import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
 import TierSelectorPremium from "./TierSelectorPremium";
 import PaymentLogos from "../PaymentLogos";
-
-const PROTOCOL_ACCENT = "#14b8a6";
-const PROTOCOL_GRADIENT = { start: "#0d9488", end: "#14b8a6" };
 
 interface ProtocolHeroProps {
   protocolId: ProtocolId;
@@ -38,6 +37,8 @@ export default function ProtocolHero({
   const protocol = protocolContent[protocolId];
   const tierConfig = protocol.tiers[selectedTier];
   const availableTiers = protocol.availableTiers;
+  const protocolAccent = getProtocolAccent(protocolId);
+  const protocolGradient = getProtocolGradient(protocolId);
 
   // Get pricing
   const pricingType = protocolId === "4" ? "ultimate" : "standard";
@@ -97,7 +98,7 @@ export default function ProtocolHero({
                         height="18"
                         viewBox="0 0 24 24"
                         fill="currentColor"
-                        className="text-[#14b8a6]"
+                        style={{ color: protocolAccent }}
                       >
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
@@ -175,7 +176,7 @@ export default function ProtocolHero({
                   onSelect={onTierSelect}
                   purchaseType={purchaseType}
                   availableTiers={availableTiers}
-                  subscriptionAccentColor={PROTOCOL_ACCENT}
+                  subscriptionAccentColor={protocolAccent}
                 />
               </div>
 
@@ -209,7 +210,7 @@ export default function ProtocolHero({
                         <span className="font-bold">Subscribe</span>
                         <span
                           className="px-2 py-0.5 rounded-full text-xs font-clinical text-white flex-shrink-0"
-                          style={{ backgroundColor: PROTOCOL_ACCENT }}
+                          style={{ backgroundColor: protocolAccent }}
                         >
                           20% off
                         </span>
@@ -328,7 +329,7 @@ export default function ProtocolHero({
                           className="text-3xl font-bold"
                           style={
                             purchaseType === "subscription"
-                              ? { color: "#0d9488" }
+                              ? { color: protocolAccent }
                               : undefined
                           }
                         >
@@ -343,7 +344,7 @@ export default function ProtocolHero({
                       {purchaseType === "subscription" && (
                         <span
                           className="inline-flex items-center gap-1 mt-1 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
-                          style={{ backgroundColor: PROTOCOL_ACCENT }}
+                          style={{ backgroundColor: protocolAccent }}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -372,7 +373,7 @@ export default function ProtocolHero({
                   onClick={onAddToCart}
                   className="w-full px-8 py-4 font-bold text-lg text-black rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
                   style={{
-                    background: `linear-gradient(90deg, ${PROTOCOL_GRADIENT.start} 0%, ${PROTOCOL_GRADIENT.end} 100%)`,
+                    background: `linear-gradient(90deg, ${protocolGradient.start} 0%, ${protocolGradient.end} 100%)`,
                   }}
                 >
                   {purchaseType === "subscription"
