@@ -9,7 +9,7 @@ import {
 import { getProtocolAccent, getProtocolGradient, type ProtocolId } from "@/app/lib/productData";
 import { sectionHeadings, symptomEntries } from "@/app/lib/protocolWhyCopy";
 
-const RADIUS = 40;
+const RADIUS = 32; // ~20% smaller than 40
 const CENTER = 50;
 const CIRCLE_PATH_LENGTH = 2 * Math.PI * RADIUS;
 
@@ -23,7 +23,7 @@ function nodePosition(i: number) {
 }
 
 const NODE_POSITIONS = [0, 1, 2, 3, 4].map(nodePosition);
-const CIRCLE_PATH = "M 50 10 A 40 40 0 1 1 49.99 10";
+const CIRCLE_PATH = "M 50 18 A 32 32 0 1 1 49.99 18";
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 const TRANSITION_MS = 320;
 const DEFAULT_ACCENT = "#14b8a6";
@@ -173,7 +173,7 @@ export default function CycleTrap({
             r={RADIUS}
             fill="none"
             stroke="url(#trap-cycle-ring-gradient)"
-            strokeWidth="1.5"
+            strokeWidth="1"
           />
           {/* Full loop: first half bright accent, second half gradient (repeat lap) */}
           <circle
@@ -182,7 +182,7 @@ export default function CycleTrap({
             r={RADIUS}
             fill="none"
             stroke={accentHex}
-            strokeWidth="3"
+            strokeWidth="2"
             strokeLinecap="round"
             strokeDasharray={`${CIRCLE_PATH_LENGTH / 2} ${CIRCLE_PATH_LENGTH / 2}`}
             strokeDashoffset={0}
@@ -198,7 +198,7 @@ export default function CycleTrap({
             r={RADIUS}
             fill="none"
             stroke={gradient.start}
-            strokeWidth="3"
+            strokeWidth="2"
             strokeLinecap="round"
             strokeDasharray={`${CIRCLE_PATH_LENGTH / 2} ${CIRCLE_PATH_LENGTH / 2}`}
             strokeDashoffset={-CIRCLE_PATH_LENGTH / 2}
@@ -265,7 +265,7 @@ export default function CycleTrap({
         <button
           type="button"
           onClick={() => go(-1)}
-          className="premium-box px-4 py-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black flex items-center gap-2"
+          className="premium-box min-w-[140px] w-[140px] py-4 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black flex items-center justify-center gap-2"
           aria-label="Previous stage"
         >
           <svg
@@ -286,7 +286,7 @@ export default function CycleTrap({
         <button
           type="button"
           onClick={() => go(1)}
-          className="premium-box px-4 py-3 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black flex items-center gap-2"
+          className="premium-box min-w-[140px] w-[140px] py-4 rounded-full hover:bg-current/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-black flex items-center justify-center gap-2"
           aria-label="Next stage"
         >
           <span className="premium-data text-xs font-semibold uppercase tracking-wider">Next stage</span>
@@ -342,14 +342,14 @@ export default function CycleTrap({
         aria-hidden
       />
       <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20">
-        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center opacity-90 mb-8">
+        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center mb-8">
           {sectionHeadings.trap}
         </h2>
 
         {/* Recognize yourself - horizontal */}
         {onSelectSymptom != null && (
           <div className="mb-10">
-            <h3 className="premium-section-heading text-white font-bold mb-2">
+            <h3 className="text-base font-bold text-white mb-2">
               {sectionHeadings.recognition}
             </h3>
             <p className="premium-data text-xs text-white mt-2 mb-3">
@@ -381,9 +381,9 @@ export default function CycleTrap({
         )}
 
         {/* Cycle and explanation - 50:50 */}
-        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+        <div className="flex flex-col lg:flex-row items-stretch gap-12 lg:gap-16">
           <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0">{ring}</div>
-          <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0 flex justify-start">
+          <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0 flex flex-col justify-center">
             {detail}
           </div>
         </div>
