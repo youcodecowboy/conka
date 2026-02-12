@@ -193,7 +193,7 @@ export default function FormulaCaseStudies({ formulaId, productId }: FormulaCase
             Verified Results
           </p>
           <h2 className="premium-section-heading text-white">
-            Athlete Case Studies
+            CONKA Case Studies
           </h2>
           <p className="premium-annotation opacity-80">
             real data, measured improvement
@@ -263,7 +263,7 @@ export function FormulaCaseStudiesMobile({
             Verified Results
           </p>
           <h2 className="premium-section-heading text-white">
-            Athlete Case Studies
+            CONKA Case Studies
           </h2>
           <p className="premium-annotation opacity-80">
             real data, measured improvement
@@ -275,7 +275,7 @@ export function FormulaCaseStudiesMobile({
           className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory -mx-[var(--premium-section-padding-x)] pl-[7.5vw] pr-[7.5vw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           style={{ WebkitOverflowScrolling: "touch" }}
           role="region"
-          aria-label="Athlete case studies - swipe to view all"
+          aria-label="CONKA case studies - swipe to view all"
         >
           {athletes.map((athlete) => (
             <div
