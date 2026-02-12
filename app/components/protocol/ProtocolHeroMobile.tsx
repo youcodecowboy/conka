@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   ProtocolId,
   ProtocolTier,
@@ -10,7 +9,7 @@ import {
   formatPrice,
   getBillingLabel,
   FORMULA_COLORS,
-  generateProtocolCalendarDays,
+  getProtocolGradient,
   getProtocolAccent,
 } from "@/app/lib/productData";
 import { getProtocolHeroImages } from "@/app/components/navigation/protocolHeroConfig";
@@ -26,15 +25,6 @@ interface ProtocolHeroMobileProps {
   onAddToCart: () => void;
 }
 
-type TabType = "overview" | "schedule" | "benefits" | "faq";
-
-const tabs: { id: TabType; label: string }[] = [
-  { id: "overview", label: "Overview" },
-  { id: "schedule", label: "Schedule" },
-  { id: "benefits", label: "Benefits" },
-  { id: "faq", label: "FAQ" },
-];
-
 export default function ProtocolHeroMobile({
   protocolId,
   selectedTier,
@@ -43,14 +33,11 @@ export default function ProtocolHeroMobile({
   onPurchaseTypeChange,
   onAddToCart,
 }: ProtocolHeroMobileProps) {
-  const [activeTab, setActiveTab] = useState<TabType>("overview");
-  const [showFullCalendar, setShowFullCalendar] = useState(false);
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-
   const protocol = protocolContent[protocolId];
   const tierConfig = protocol.tiers[selectedTier];
   const availableTiers = protocol.availableTiers;
-  const calendarDays = generateProtocolCalendarDays(protocolId, selectedTier);
+  const protocolAccent = getProtocolAccent(protocolId);
+  const protocolGradient = getProtocolGradient(protocolId);
 
   // Get pricing
   const pricingType = protocolId === "4" ? "ultimate" : "standard";
@@ -62,396 +49,53 @@ export default function ProtocolHeroMobile({
       ? getBillingLabel(pricing.billing)
       : "one-time";
 
-  // Header color based on purchase type - protocols use amber accent
-  const headerBgClass =
-    purchaseType === "subscription"
-      ? "bg-[var(--foreground)] text-[var(--background)]"
-      : "bg-amber-500 text-white";
-
-  // Toggle button colors - always on dark/colored header
-  const toggleActiveClass = "bg-white text-black border-white";
-  const toggleInactiveClass =
-    "bg-transparent border-white/50 text-white hover:bg-white/20";
-
-  // Selection summary accent colors
-  const summaryBgClass =
-    purchaseType === "subscription"
-      ? "bg-current/5"
-      : "bg-amber-500/10 border-t-2 border-amber-500/30";
-
-  // FAQ items for this protocol
-  const faqItems = [
-    {
-      q: "How do I take the protocol?",
-      a: "Take CONKA Flow in the morning for sustained energy and focus. Take CONKA Clear before demanding tasks or in the evening for mental clarity and calm.",
-    },
-    {
-      q: "Can I switch tiers?",
-      a: "Yes! You can upgrade or downgrade your tier at any time. Changes take effect on your next billing cycle.",
-    },
-    {
-      q: "What if it doesn't work for me?",
-      a: "We offer a 100-day money-back guarantee. If you're not satisfied, we'll refund your purchase, no questions asked.",
-    },
-  ];
-
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case "overview":
-        // Ensure we have at least 4 tags for better visual balance
-        const allTags = [...protocol.bestFor];
-        if (allTags.length < 4) {
-          const extraTags = [
-            "Optimized Performance",
-            "Clinical Grade",
-            "Easy Routine",
-            "Proven Results",
-          ];
-          while (allTags.length < 4) {
-            allTags.push(extraTags[allTags.length - protocol.bestFor.length]);
-          }
-        }
-        // Icons for benefits
-        const benefitIcons = [
-          <svg
-            key="icon-0"
-            xmlns="http://www.w3.org/2000/svg"
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+  const oneTimePrice =
+    selectedTier in protocolPricing[pricingType]["one-time"]
+      ? (
+          protocolPricing[pricingType]["one-time"] as Record<
+            string,
+            { price: number }
           >
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-            <polyline points="22 4 12 14.01 9 11.01" />
-          </svg>,
-          <svg
-            key="icon-1"
-            xmlns="http://www.w3.org/2000/svg"
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>,
-          <svg
-            key="icon-2"
-            xmlns="http://www.w3.org/2000/svg"
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-          </svg>,
-          <svg
-            key="icon-3"
-            xmlns="http://www.w3.org/2000/svg"
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <circle cx="12" cy="12" r="6" />
-            <circle cx="12" cy="12" r="2" />
-          </svg>,
-        ];
-        // Accent colors for tags - alternating teal and amber
-        const tagColors = [
-          "bg-amber-500/20 text-amber-600",
-          "bg-[#AAB9BC]/20 text-[#AAB9BC]",
-          "bg-amber-500/20 text-amber-600",
-          "bg-[#AAB9BC]/20 text-[#AAB9BC]",
-        ];
-        return (
-          <div className="space-y-4">
-            <div>
-              <p className="font-clinical text-xs uppercase opacity-50 mb-2">
-                Key Benefits
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {allTags.slice(0, 4).map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className={`px-2 py-1 rounded-full font-clinical text-xs flex items-center gap-1 ${tagColors[idx]}`}
-                  >
-                    {benefitIcons[idx]}
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="font-clinical text-xs uppercase opacity-50 mb-2">
-                About this Protocol
-              </p>
-              <p className="text-sm opacity-80">{protocol.description}</p>
-            </div>
-            {tierConfig && (
-              <div className="p-3 bg-current/5 rounded-lg space-y-2">
-                <p className="font-clinical text-xs uppercase opacity-50">
-                  What&apos;s Included
-                </p>
-                <div className="flex gap-4">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={`w-6 h-6 rounded ${FORMULA_COLORS["01"].bg} flex items-center justify-center`}
-                    >
-                      <span className="text-white font-clinical text-xs">
-                        01
-                      </span>
-                    </div>
-                    <span className="text-sm font-bold">
-                      {tierConfig.conkaFlowCount}x
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={`w-6 h-6 rounded ${FORMULA_COLORS["02"].bg} flex items-center justify-center`}
-                    >
-                      <span className="text-white font-clinical text-xs">
-                        02
-                      </span>
-                    </div>
-                    <span className="text-sm font-bold">
-                      {tierConfig.conkaClarityCount}x
-                    </span>
-                  </div>
-                  <span className="text-sm opacity-70">per week</span>
-                </div>
-              </div>
-            )}
-          </div>
-        );
-
-      case "schedule":
-        // Show 1 week by default, 4 weeks if expanded
-        const daysToShow = showFullCalendar
-          ? calendarDays
-          : calendarDays.slice(0, 7);
-        const weeksToShow = showFullCalendar ? 4 : 1;
-
-        return (
-          <div className="space-y-4">
-            {/* Legend */}
-            <div className="flex justify-center gap-4">
-              <div className="flex items-center gap-1">
-                <div
-                  className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["01"].bg}`}
-                ></div>
-                <span className="font-clinical text-xs">F01</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div
-                  className={`w-3 h-3 rounded-sm ${FORMULA_COLORS["02"].bg}`}
-                ></div>
-                <span className="font-clinical text-xs">F02</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-sm border border-current opacity-30"></div>
-                <span className="font-clinical text-xs">Rest</span>
-              </div>
-            </div>
-
-            {/* Week Days Header */}
-            <div className="grid grid-cols-7 gap-1">
-              {["M", "T", "W", "T", "F", "S", "S"].map((day, idx) => (
-                <div
-                  key={idx}
-                  className="text-center font-clinical text-xs opacity-50 py-1"
-                >
-                  {day}
-                </div>
-              ))}
-            </div>
-
-            {/* Calendar Grid */}
-            <div className="grid grid-cols-7 gap-1">
-              {daysToShow.map((day, idx) => (
-                <div
-                  key={idx}
-                  className={`aspect-square flex items-center justify-center font-clinical text-xs rounded transition-all ${
-                    day.formula === "01"
-                      ? `${FORMULA_COLORS["01"].bg} text-white`
-                      : day.formula === "02"
-                        ? `${FORMULA_COLORS["02"].bg} text-white`
-                        : "border border-current/20"
-                  }`}
-                >
-                  {day.day}
-                </div>
-              ))}
-            </div>
-
-            {/* Expand/Collapse */}
-            <button
-              onClick={() => setShowFullCalendar(!showFullCalendar)}
-              className="w-full py-2 border-2 border-current/10 rounded-lg font-clinical text-xs flex items-center justify-center gap-2"
-            >
-              {showFullCalendar ? "Show 1 Week" : "View Full Month"}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={`transition-transform ${showFullCalendar ? "rotate-180" : ""}`}
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-
-            {/* Tier Description */}
-            {tierConfig && (
-              <p className="text-sm opacity-70 text-center">
-                {tierConfig.description}
-              </p>
-            )}
-          </div>
-        );
-
-      case "benefits":
-        return (
-          <div className="space-y-3">
-            {protocol.benefits?.map((benefit, idx) => (
-              <div
-                key={idx}
-                className="flex items-start gap-3 p-3 bg-current/5 rounded-lg"
-              >
-                <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-bold text-sm">{benefit}</p>
-                </div>
-              </div>
-            )) || (
-              <p className="text-sm opacity-70">
-                This protocol combines both formulas for maximum cognitive
-                enhancement.
-              </p>
-            )}
-          </div>
-        );
-
-      case "faq":
-        return (
-          <div className="space-y-2">
-            {faqItems.map((item, idx) => (
-              <div
-                key={idx}
-                className="border-b border-current/10 pb-2 last:border-0"
-              >
-                <button
-                  onClick={() =>
-                    setExpandedFaq(expandedFaq === idx ? null : idx)
-                  }
-                  className="w-full flex items-center justify-between py-2"
-                >
-                  <span className="font-bold text-sm text-left">{item.q}</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`transition-transform flex-shrink-0 ${expandedFaq === idx ? "rotate-180" : ""}`}
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
-                {expandedFaq === idx && (
-                  <p className="text-sm opacity-70 pb-2">{item.a}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        );
-
-      default:
-        return null;
-    }
-  };
+        )[selectedTier]?.price ?? 0
+      : 0;
 
   return (
-    <section className="premium-section px-4 pt-6 pb-4">
-      {/* Product Card */}
-      <div className="premium-box overflow-hidden">
-        {/* Header */}
-        <div className={`p-4 relative z-10 transition-colors rounded-t-xl ${headerBgClass}`}>
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="premium-display text-xl font-bold">{protocol.name}</h1>
-              <p className="premium-annotation text-base mt-0.5 opacity-90">
-                {protocol.subtitle}
-              </p>
+    <section className="pt-0 pb-4 px-0 overflow-x-hidden">
+      <div className="w-full min-w-0 px-3">
+        {/* Header - stars + title + subline (align with desktop ProtocolHero) */}
+        <div className="pt-3 pb-2">
+          <div className="flex items-center gap-2 flex-wrap mb-2">
+            <div className="flex" aria-hidden>
+              {[1, 2, 3, 4, 5].map((i) => (
+                <svg
+                  key={i}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  style={{ color: protocolAccent }}
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              ))}
             </div>
-            {/* Purchase Toggle */}
-            <div className="flex items-center gap-1 flex-shrink-0">
-              <button
-                onClick={() => onPurchaseTypeChange("subscription")}
-                className={`px-3 py-1.5 rounded-full border-2 font-clinical text-xs transition-all whitespace-nowrap ${
-                  purchaseType === "subscription"
-                    ? toggleActiveClass
-                    : toggleInactiveClass
-                }`}
-              >
-                Subscribe
-              </button>
-              <button
-                onClick={() => onPurchaseTypeChange("one-time")}
-                className={`px-3 py-1.5 rounded-full border-2 font-clinical text-xs transition-all whitespace-nowrap ${
-                  purchaseType === "one-time"
-                    ? toggleActiveClass
-                    : toggleInactiveClass
-                }`}
-              >
-                One-Time
-              </button>
-            </div>
+            <span className="premium-data text-current/90">
+              Over 100,000 bottles sold
+            </span>
+          </div>
+          <h1 className="premium-display leading-tight font-primary text-current">
+            {protocol.name}
+          </h1>
+          <div className="mt-2">
+            <span className="inline-block px-4 py-1 rounded-full bg-black/[0.04] premium-data text-current/90 text-sm">
+              {protocol.subtitle}
+            </span>
           </div>
         </div>
 
-        {/* Product Image + thumbnails */}
-        <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA] flex-shrink-0">
+        {/* Product Image + thumbnails – full viewport width */}
+        <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA]">
           <ProductImageSlideshow
             images={getProtocolHeroImages(protocolId)}
             alt={`${protocol.name} - Both formulas`}
@@ -459,61 +103,236 @@ export default function ProtocolHeroMobile({
           />
         </div>
 
-        {/* Tabs Navigation */}
-        <div className="flex border-b-2 border-current/10">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 py-3 font-clinical text-xs text-center transition-colors ${
-                activeTab === tab.id
-                  ? "bg-[var(--foreground)] text-[var(--background)]"
-                  : "hover:bg-current/5"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        {/* Content */}
+        <div className="pt-3 pb-4 space-y-3">
+          {/* Headline description */}
+          <p className="premium-title text-current/90 font-bold text-base leading-snug mb-1.5">
+            {protocol.description}
+          </p>
 
-        {/* Tab Content */}
-        <div className="p-4 min-h-[180px]">{renderTabContent()}</div>
+          {/* What you get – Flow/Clear per week + total shots */}
+          {tierConfig && (
+            <div className="bg-[var(--color-surface)] rounded-xl px-4 py-3 w-full">
+              <p className="premium-data uppercase opacity-70 mb-3">
+                Your weekly mix
+              </p>
+              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                <span className="flex items-center gap-1.5">
+                  <span
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: FORMULA_COLORS["01"].hex }}
+                    aria-hidden
+                  />
+                  <span className="font-clinical text-sm">
+                    <span className="font-bold text-current">
+                      {tierConfig.conkaFlowCount}
+                    </span>{" "}
+                    Flow
+                  </span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: FORMULA_COLORS["02"].hex }}
+                    aria-hidden
+                  />
+                  <span className="font-clinical text-sm">
+                    <span className="font-bold text-current">
+                      {tierConfig.conkaClarityCount}
+                    </span>{" "}
+                    Clear
+                  </span>
+                </span>
+                <span className="premium-data text-sm opacity-80">
+                  · {tierConfig.shotsPerWeek} shots total
+                </span>
+              </div>
+              {protocol.bestFor[0] && (
+                <p className="mt-2 premium-data text-xs opacity-70">
+                  {protocol.bestFor[0]}
+                </p>
+              )}
+            </div>
+          )}
 
-        {/* Divider */}
-        <div className="border-t border-current/10" />
-
-        {/* Tier Selector */}
-        <div className="p-4">
+          {/* Tier Selector */}
           <TierSelectorPremium
             protocolId={protocolId}
             selectedTier={selectedTier}
             onSelect={onTierSelect}
             purchaseType={purchaseType}
             availableTiers={availableTiers}
-            subscriptionAccentColor={getProtocolAccent(protocolId)}
+            subscriptionAccentColor={protocolAccent}
             compact
           />
-        </div>
 
-        {/* Selection Summary */}
-        {pricing && tierConfig && (
-          <div
-            className={`p-4 transition-colors ${
-              purchaseType === "subscription"
-                ? "bg-amber-500/10 border-t-2 border-amber-500/30"
-                : "bg-current/5"
-            }`}
-          >
-            <div className="flex justify-between items-center mb-4">
+          {/* Purchase type buttons */}
+          <div className="space-y-2">
+            <p className="premium-data uppercase opacity-70 mb-2">
+              How would you like to purchase?
+            </p>
+            <button
+              onClick={() => onPurchaseTypeChange("subscription")}
+              className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 cursor-pointer bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
+                purchaseType === "subscription"
+                  ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+                  : ""
+              }`}
+            >
+              <span
+                className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
+                  purchaseType === "subscription"
+                    ? "border-current bg-current/10"
+                    : "border-black/30"
+                }`}
+              >
+                {purchaseType === "subscription" && (
+                  <span className="w-2.5 h-2.5 rounded-full bg-current" />
+                )}
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-bold">Subscribe</span>
+                  <span
+                    className="px-2 py-0.5 rounded-full text-xs font-clinical text-white flex-shrink-0"
+                    style={{ backgroundColor: protocolAccent }}
+                  >
+                    20% off
+                  </span>
+                </div>
+                {purchaseType === "subscription" && (
+                  <ul className="mt-2 space-y-1.5 font-clinical text-xs opacity-80">
+                    <li className="flex items-center gap-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="flex-shrink-0"
+                      >
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      </svg>
+                      100-day guarantee
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="flex-shrink-0"
+                      >
+                        <rect x="1" y="3" width="15" height="13" />
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                        <circle cx="5.5" cy="18.5" r="2.5" />
+                        <circle cx="18.5" cy="18.5" r="2.5" />
+                      </svg>
+                      Free UK shipping
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="flex-shrink-0"
+                      >
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                        <path d="M3 3v5h5" />
+                      </svg>
+                      Cancel anytime
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="flex-shrink-0"
+                      >
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                      </svg>
+                      No minimum commitment
+                    </li>
+                  </ul>
+                )}
+              </div>
+            </button>
+            <button
+              onClick={() => onPurchaseTypeChange("one-time")}
+              className={`w-full text-left p-3 rounded-xl transition-all flex items-center gap-3 cursor-pointer bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
+                purchaseType === "one-time"
+                  ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+                  : ""
+              }`}
+            >
+              <span
+                className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                  purchaseType === "one-time"
+                    ? "border-current bg-current/10"
+                    : "border-black/30"
+                }`}
+              >
+                {purchaseType === "one-time" && (
+                  <span className="w-2.5 h-2.5 rounded-full bg-current" />
+                )}
+              </span>
+              <span className="font-bold">One-time</span>
+            </button>
+          </div>
+
+          {/* Price summary */}
+          {pricing && (
+            <div className="flex justify-between items-center py-4 rounded-xl bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] px-4">
               <div>
-                <p className="font-clinical text-xs uppercase opacity-50">
+                <p className="premium-data uppercase opacity-70">
                   Your Selection
                 </p>
-                <p className="font-bold text-sm">
-                  {tierConfig.name} • {billingText}
+                <p className="font-bold">
+                  {tierConfig?.name} • {billingText}
                 </p>
+              </div>
+              <div className="text-right">
+                <div className="flex items-baseline justify-end gap-2">
+                  {purchaseType === "subscription" && oneTimePrice > 0 && (
+                    <span className="text-xl font-clinical line-through opacity-50">
+                      {formatPrice(oneTimePrice)}
+                    </span>
+                  )}
+                  <span
+                    className="text-3xl font-bold"
+                    style={
+                      purchaseType === "subscription"
+                        ? { color: protocolAccent }
+                        : undefined
+                    }
+                  >
+                    {formatPrice(pricing.price)}
+                  </span>
+                </div>
+                {tierConfig && (
+                  <p className="font-clinical text-xs opacity-70 mt-0.5">
+                    {tierConfig.shotsPerWeek} shots/week
+                  </p>
+                )}
                 {purchaseType === "subscription" && (
-                  <span className="inline-flex items-center gap-1 mt-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  <span
+                    className="inline-flex items-center gap-1 mt-1 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: protocolAccent }}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="10"
@@ -527,95 +346,26 @@ export default function ProtocolHeroMobile({
                     >
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    Save 20%
+                    SAVE 20%
                   </span>
                 )}
               </div>
-              <div className="text-right">
-                {purchaseType === "subscription" &&
-                  (() => {
-                    const pricingTypeLocal =
-                      protocolId === "4" ? "ultimate" : "standard";
-                    const oneTimeObj =
-                      protocolPricing[pricingTypeLocal]["one-time"];
-                    const oneTimePrice =
-                      selectedTier in oneTimeObj
-                        ? (oneTimeObj as Record<string, { price: number }>)[
-                            selectedTier
-                          ]?.price || 0
-                        : 0;
-                    return (
-                      <p className="font-clinical text-xs line-through opacity-50">
-                        {formatPrice(oneTimePrice)}
-                      </p>
-                    );
-                  })()}
-                <p
-                  className={`text-2xl font-bold ${purchaseType === "subscription" ? "text-amber-600" : ""}`}
-                >
-                  {formatPrice(pricing.price)}
-                </p>
-                <p className="font-clinical text-xs opacity-70">
-                  {tierConfig.shotsPerWeek} shots/week
-                </p>
-              </div>
             </div>
+          )}
 
-            {/* Trust Badges */}
-            <div className="flex justify-center gap-4 mb-4">
-              <span className="font-clinical text-xs opacity-70 flex items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-                100-day guarantee
-              </span>
-              <span className="font-clinical text-xs opacity-70 flex items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="1" y="3" width="15" height="13" />
-                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                  <circle cx="5.5" cy="18.5" r="2.5" />
-                  <circle cx="18.5" cy="18.5" r="2.5" />
-                </svg>
-                Free shipping
-              </span>
-            </div>
-
-            {/* CTA */}
-            <button
-              onClick={onAddToCart}
-              className="w-full neo-button py-4 font-bold text-base"
-            >
-              {purchaseType === "subscription"
-                ? "Subscribe Now"
-                : "Add to Cart"}
-            </button>
-            {purchaseType === "subscription" && (
-              <p className="text-center font-clinical text-xs opacity-70 mt-2">
-                Cancel anytime • No minimum commitment
-              </p>
-            )}
-          </div>
-        )}
+          {/* CTA */}
+          <button
+            onClick={onAddToCart}
+            className="w-full px-8 py-4 font-bold text-lg text-black rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
+            style={{
+              background: `linear-gradient(90deg, ${protocolGradient.start} 0%, ${protocolGradient.end} 100%)`,
+            }}
+          >
+            {purchaseType === "subscription"
+              ? "Subscribe Now"
+              : "Add to Cart"}
+          </button>
+        </div>
       </div>
     </section>
   );
