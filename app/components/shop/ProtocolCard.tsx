@@ -31,23 +31,20 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
       href={href}
       className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--foreground)]"
     >
-      {/* Image Container with Hover Overlay */}
+      {/* Image Container — asset fills space; surface bg for non-white assets */}
       <div
-        className="relative aspect-[5/2.2] overflow-hidden cursor-pointer"
+        className="relative aspect-[4/3] overflow-hidden cursor-pointer bg-[var(--color-surface)]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Protocol Image */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Image
-            src={getProtocolImage(protocol.id)}
-            alt={`${protocol.name} - ${protocol.outcome}`}
-            fill
-            className="object-contain transition-transform duration-500 group-hover:scale-105"
-            sizes="50vw"
-            priority
-          />
-        </div>
+        <Image
+          src={getProtocolImage(protocol.id)}
+          alt={`${protocol.name} - ${protocol.outcome}`}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 50vw, 33vw"
+          priority
+        />
 
         {/* Hover Overlay */}
         <div
