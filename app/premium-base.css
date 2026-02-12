@@ -18,7 +18,7 @@
   --premium-section-padding-x: 1rem;
 
   /* ----- Radius ----- */
-  --premium-radius-base: 0.5rem;
+  --premium-radius-base: 1.5rem; /* 24px for premium feel */
   --premium-radius-interactive: 9999px;
 
   /* ----- Typography: premium PDP (display + body; vars from layout.tsx) ----- */
