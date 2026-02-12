@@ -111,7 +111,7 @@ export default function ProtocolHero({
               </div>
 
               {/* Headline description */}
-              <p className="premium-title text-current/90 font-bold text-base md:text-lg leading-snug mb-1.5">
+              <p className="premium-title text-current/90 text-base md:text-lg leading-snug mb-1.5">
                 {protocol.description}
               </p>
 
