@@ -70,9 +70,6 @@ export default function ProtocolHero({
                 images={getProtocolHeroImages(protocolId)}
                 alt={`${protocol.name} - Both formulas`}
               />
-              <p className="premium-annotation text-center lg:text-left mt-2 opacity-70">
-                the complete cognitive stack
-              </p>
             </div>
           </div>
 
