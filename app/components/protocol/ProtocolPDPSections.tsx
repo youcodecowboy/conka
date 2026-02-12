@@ -1,11 +1,15 @@
 "use client";
 
-import { ProtocolId, ProtocolTier, PurchaseType, protocolContent } from "@/app/lib/productData";
+import {
+  ProtocolId,
+  ProtocolTier,
+  PurchaseType,
+  protocolContent,
+} from "@/app/lib/productData";
 import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
 import ProtocolCard from "@/app/components/shop/ProtocolCard";
 import ProtocolCardMobile from "@/app/components/shop/ProtocolCardMobile";
 import FormulasShowcase from "@/app/components/shop/FormulasShowcase";
-import ProtocolSectionPlaceholder from "./ProtocolSectionPlaceholder";
 import ProtocolCalendar from "./ProtocolCalendar";
 import WhatToExpectTimeline from "@/app/components/product/WhatToExpectTimeline";
 import Testimonials from "@/app/components/testimonials/Testimonials";
@@ -45,18 +49,10 @@ export default function ProtocolPDPSections({
       <>
         <ProtocolStruggleMobile protocolId={protocolId} />
 
-        <section className="premium-section">
-          <ProtocolCalendarSectionMobile
-            protocolId={protocolId}
-            selectedTier={selectedTier}
-            onTierSelect={onTierSelect}
-            purchaseType={purchaseType}
-            onPurchaseTypeChange={onPurchaseTypeChange}
-            onAddToCart={onAddToCart}
-          />
-        </section>
-
-        <section className="premium-section" aria-labelledby="why-two-formulas-heading">
+        <section
+          className="premium-section bg-[var(--color-surface)]"
+          aria-labelledby="why-two-formulas-heading"
+        >
           <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-10">
             <div className="text-center">
               <h2
@@ -73,8 +69,19 @@ export default function ProtocolPDPSections({
         </section>
         <ProtocolWhySection protocolId={protocolId} />
 
-        <WhatToExpectTimeline productId={protocolId} sectionTitle="Expected results" />
-        <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
+        <ProtocolCalendarSectionMobile
+          protocolId={protocolId}
+          selectedTier={selectedTier}
+          onTierSelect={onTierSelect}
+          purchaseType={purchaseType}
+          onPurchaseTypeChange={onPurchaseTypeChange}
+          onAddToCart={onAddToCart}
+        />
+
+        <WhatToExpectTimeline
+          productId={protocolId}
+          sectionTitle="Expected results"
+        />
 
         {protocolTestimonials.length > 0 && (
           <section className="premium-section" aria-label="What others say">
@@ -108,7 +115,9 @@ export default function ProtocolPDPSections({
                   <ProtocolCardMobile
                     key={id}
                     protocol={protocolSelectorData[id]}
-                    isFirst={id === validProtocolIds.filter((x) => x !== protocolId)[0]}
+                    isFirst={
+                      id === validProtocolIds.filter((x) => x !== protocolId)[0]
+                    }
                   />
                 ))}
             </div>
@@ -124,16 +133,10 @@ export default function ProtocolPDPSections({
   // Desktop
   return (
     <>
-      <section className="premium-section">
-        <ProtocolCalendar
-          protocolId={protocolId}
-          selectedTier={selectedTier}
-          onTierSelect={onTierSelect}
-          availableTiers={protocolContent[protocolId].availableTiers}
-        />
-      </section>
-
-      <section className="premium-section" aria-labelledby="why-two-formulas-heading">
+      <section
+        className="premium-section bg-[var(--color-surface)]"
+        aria-labelledby="why-two-formulas-heading"
+      >
         <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-10">
           <div className="text-center">
             <h2
@@ -150,8 +153,17 @@ export default function ProtocolPDPSections({
       </section>
       <ProtocolWhySection protocolId={protocolId} />
 
-      <WhatToExpectTimeline productId={protocolId} sectionTitle="Expected results" />
-      <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
+      <ProtocolCalendar
+        protocolId={protocolId}
+        selectedTier={selectedTier}
+        onTierSelect={onTierSelect}
+        availableTiers={protocolContent[protocolId].availableTiers}
+      />
+
+      <WhatToExpectTimeline
+        productId={protocolId}
+        sectionTitle="Expected results"
+      />
       {protocolTestimonials.length > 0 && (
         <section className="premium-section" aria-label="What others say">
           <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
@@ -169,7 +181,9 @@ export default function ProtocolPDPSections({
             <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-2">
               Explore Other Protocols
             </h2>
-            <p className="premium-annotation text-xl">find your perfect match</p>
+            <p className="premium-annotation text-xl">
+              find your perfect match
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {validProtocolIds
