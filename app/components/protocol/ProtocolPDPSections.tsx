@@ -7,6 +7,8 @@ import ProtocolCardMobile from "@/app/components/shop/ProtocolCardMobile";
 import FormulasShowcase from "@/app/components/shop/FormulasShowcase";
 import ProtocolSectionPlaceholder from "./ProtocolSectionPlaceholder";
 import ProtocolCalendar from "./ProtocolCalendar";
+import Testimonials from "@/app/components/testimonials/Testimonials";
+import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
 import ProtocolCalendarSectionMobile from "./ProtocolCalendarSectionMobile";
 import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
 import ProtocolWhySection from "./why/ProtocolWhySection";
@@ -35,6 +37,8 @@ export default function ProtocolPDPSections({
   validProtocolIds,
   isMobile,
 }: ProtocolPDPSectionsProps) {
+  const protocolTestimonials = getSiteTestimonialsProtocol();
+
   if (isMobile) {
     return (
       <>
@@ -70,6 +74,12 @@ export default function ProtocolPDPSections({
 
         <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
         <ProtocolSectionPlaceholder id="expected-results" title="Expected Results" />
+
+        {protocolTestimonials.length > 0 && (
+          <section className="premium-section" aria-label="What others say">
+            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+          </section>
+        )}
 
         <section className="premium-section">
           <ProtocolCaseStudiesMobile protocolId={protocolId} />
@@ -141,7 +151,11 @@ export default function ProtocolPDPSections({
 
       <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
       <ProtocolSectionPlaceholder id="expected-results" title="Expected Results" />
-      <ProtocolSectionPlaceholder id="social-proof" title="What Others Say" />
+      {protocolTestimonials.length > 0 && (
+        <section className="premium-section" aria-label="What others say">
+          <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+        </section>
+      )}
 
       <section className="premium-section">
         <ProtocolFAQ protocolId={protocolId} />
