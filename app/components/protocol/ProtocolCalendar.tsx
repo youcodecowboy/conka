@@ -41,11 +41,11 @@ export default function ProtocolCalendar({
 
   return (
     <section className="premium-section w-full bg-[var(--color-surface)]">
-      <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 py-24">
+      <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 py-8 md:py-12">
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
-            Your Monthly Protocol
+            How to follow your protocol
           </h2>
           <p className="premium-annotation text-xl">visualize your journey</p>
         </div>
