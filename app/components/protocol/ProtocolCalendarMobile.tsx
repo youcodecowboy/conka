@@ -46,9 +46,9 @@ export default function ProtocolCalendarMobile({
 
   return (
     <section className="premium-section w-full bg-[var(--color-surface)]">
-      <div className="w-full px-3 py-8">
+      <div className="w-full px-3 py-4">
         {/* Header */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-4">
           <h2 className="premium-section-heading text-2xl font-bold mb-2">
             How to follow your protocol
           </h2>
