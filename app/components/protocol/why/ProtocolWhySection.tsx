@@ -30,7 +30,7 @@ export default function ProtocolWhySection({
       />
 
       {/* Header strip — full width */}
-      <div className="w-full bg-neutral-200 py-8">
+      <div className="w-full bg-surface py-8">
         <div className="max-w-4xl mx-auto text-center px-6 md:px-12">
           <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-3">
             But there's a way out.
