@@ -1,14 +1,10 @@
 "use client";
 
-import {
-  sectionHeadings,
-  beforeAfterStates,
-  transformationMicrocopy,
-} from "@/app/lib/protocolWhyCopy";
-import { getProtocolAccent } from "@/app/lib/productData";
+import { sectionHeadings, beforeAfterStates } from "@/app/lib/protocolWhyCopy";
+import { getProtocolGradient } from "@/app/lib/productData";
 import type { ProtocolId } from "@/app/lib/productData";
 
-const DEFAULT_ACCENT = "#14b8a6";
+const DEFAULT_GRADIENT = { start: "#0d9488", end: "#14b8a6" };
 
 interface CycleTransformationProps {
   protocolId?: ProtocolId;
@@ -17,7 +13,12 @@ interface CycleTransformationProps {
 export default function CycleTransformation({
   protocolId,
 }: CycleTransformationProps = {}) {
-  const accentHex = protocolId ? getProtocolAccent(protocolId) : DEFAULT_ACCENT;
+  const gradient = protocolId
+    ? getProtocolGradient(protocolId)
+    : DEFAULT_GRADIENT;
+  const rightColStyle = {
+    background: `linear-gradient(to right, ${gradient.start}, ${gradient.end})`,
+  };
 
   return (
     <section
@@ -29,28 +30,31 @@ export default function CycleTransformation({
           {sectionHeadings.transformation}
         </h2>
 
-        <div className="max-w-2xl mx-auto bg-white rounded-lg overflow-hidden">
+        <div className="max-w-2xl mx-auto mt-6 bg-white rounded-lg overflow-hidden">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-black/10">
                 <th className="premium-body text-sm font-semibold px-4 py-2.5 text-black/60">
                   Before Protocol
                 </th>
-                <th className="premium-body text-sm font-semibold px-4 py-2.5 text-white" style={{ backgroundColor: accentHex }}>
+                <th
+                  className="premium-body text-sm font-semibold px-4 py-2.5 text-black"
+                  style={rightColStyle}
+                >
                   After Protocol
                 </th>
               </tr>
             </thead>
             <tbody>
               {beforeAfterStates.map((pair, i) => (
-                <tr
-                  key={i}
-                  className="border-b border-black/10 last:border-0"
-                >
+                <tr key={i} className="border-b border-black/10 last:border-0">
                   <td className="premium-body text-sm px-4 py-2.5 text-black/60">
                     {pair.before}
                   </td>
-                  <td className="premium-body text-sm font-medium px-4 py-2.5 text-white" style={{ backgroundColor: accentHex }}>
+                  <td
+                    className="premium-body text-sm font-medium px-4 py-2.5 text-black"
+                    style={rightColStyle}
+                  >
                     {pair.after}
                   </td>
                 </tr>
@@ -58,10 +62,6 @@ export default function CycleTransformation({
             </tbody>
           </table>
         </div>
-
-        <p className="premium-data text-xs text-center text-white/50 mt-4">
-          {transformationMicrocopy}
-        </p>
       </div>
     </section>
   );
