@@ -21,7 +21,7 @@ export default function WhatToExpectTimeline({
   return (
     <section className="premium-section px-4 md:px-6 lg:px-8" aria-label={sectionTitle}>
       <div className="w-full max-w-full mx-auto lg:max-w-[1600px]">
-        <header className="max-w-[75%] text-right mb-8 md:mb-10">
+        <header className={`mb-8 md:mb-10 ${isMobile ? "text-right pr-4" : "max-w-[75%] text-right"}`}>
           <h2 className="premium-section-heading mb-2">{sectionTitle}</h2>
           <p className="premium-annotation opacity-70">{sectionSubtitle}</p>
         </header>

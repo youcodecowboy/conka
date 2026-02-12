@@ -13,6 +13,8 @@ import {
   FormulaId,
   ProtocolId,
   getProductGradient,
+  getProductAccent,
+  getGradientTextColor,
 } from "@/app/lib/productData";
 
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
@@ -98,15 +100,27 @@ export default function StickyPurchaseFooterMobile({
 
   const hasSelector = (showPackSelector && selectedPack) || (showTierSelector && selectedTier && availableTiers.length > 0);
 
-  const accentBorderClass =
-    formulaId === "01" ? "border-amber-500" : "border-teal-500";
-  const accentTextClass =
-    formulaId === "01" ? "text-amber-600" : "text-teal-600";
+  // Get accent color for border and text
+  const accentColor = formulaId
+    ? formulaId === "01"
+      ? "#f59e0b" // amber-500
+      : "#94b9ff" // Clear blue
+    : protocolId
+      ? getProductAccent(protocolId)
+      : "#14b8a6"; // fallback teal
+
   const productGradient = formulaId
     ? getProductGradient(formulaId)
     : protocolId
       ? getProductGradient(protocolId)
       : null;
+
+  const productId = formulaId ?? protocolId;
+  const gradientTextClass = productId
+    ? getGradientTextColor(productId) === "white"
+      ? "text-white"
+      : "text-black"
+    : "text-black";
 
   return (
     <>
@@ -118,9 +132,10 @@ export default function StickyPurchaseFooterMobile({
         />
       )}
       <div
-        className={`fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] border-t-2 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] ${
-          isSubscription ? accentBorderClass : "border-black"
-        }`}
+        className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] border-t-2 shadow-[0_-4px_20px_rgba(0,0,0,0.15)]"
+        style={{
+          borderColor: isSubscription ? accentColor : "#000",
+        }}
       >
         <div className="px-5 py-3">
           <div className="flex items-center justify-between gap-4">
@@ -138,7 +153,11 @@ export default function StickyPurchaseFooterMobile({
                         {isSubscription ? " (Save 20%)" : ""}
                       </p>
                       <p
-                        className={`font-clinical text-xs mt-0.5 ${isSubscription ? accentTextClass : "opacity-70"}`}
+                        className="font-clinical text-xs mt-0.5"
+                        style={{
+                          color: isSubscription ? accentColor : undefined,
+                          opacity: isSubscription ? undefined : 0.7,
+                        }}
                       >
                         {priceLine}
                       </p>
@@ -235,7 +254,11 @@ export default function StickyPurchaseFooterMobile({
                     {isSubscription ? " (Save 20%)" : ""}
                   </p>
                   <p
-                    className={`font-clinical text-xs mt-0.5 ${isSubscription ? accentTextClass : "opacity-70"}`}
+                    className="font-clinical text-xs mt-0.5"
+                    style={{
+                      color: isSubscription ? accentColor : undefined,
+                      opacity: isSubscription ? undefined : 0.7,
+                    }}
                   >
                     {priceLine}
                   </p>
@@ -246,7 +269,7 @@ export default function StickyPurchaseFooterMobile({
               onClick={onAddToCart}
               className={
                 formulaId || protocolId
-                  ? "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-black rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
+                  ? `px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5 ${gradientTextClass}`
                   : "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-white bg-black rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
               }
               style={

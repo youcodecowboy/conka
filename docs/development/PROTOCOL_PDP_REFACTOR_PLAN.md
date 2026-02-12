@@ -58,6 +58,7 @@ After Phase 1, the following components may be unused. **Do not delete in Phase 
 |------|--------|
 | [app/components/protocol/TierSelector.tsx](app/components/protocol/TierSelector.tsx) | Replaced by `TierSelectorPremium` on the protocol PDP. Only referenced in `ProtocolHero`; after Phase 1 it is unused. |
 | [app/components/protocol/ProtocolTabs.tsx](app/components/protocol/ProtocolTabs.tsx) | Only used in `ProtocolHero`. Tabs were removed from the hero in Phase 1 to align with formula PDP; this component is unused. |
+| [app/components/product/ProtocolBenefitsMobile.tsx](app/components/product/ProtocolBenefitsMobile.tsx) | Protocol benefits section for mobile; not used in protocol PDP flow. Consider removing if no other use (e.g. formula PDP or elsewhere). Candidate for deletion. |
 
 ---
 

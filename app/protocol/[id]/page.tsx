@@ -1,14 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
 import {
   ProtocolHero,
   ProtocolHeroMobile,
-  ProtocolPDPSections,
+  ProtocolCalendar,
+  ProtocolCalendarMobile,
+  ProtocolFAQ,
 } from "@/app/components/protocol";
+import FormulaCaseStudies, {
+  FormulaCaseStudiesMobile,
+} from "@/app/components/FormulaCaseStudies";
+import ProtocolWhySection from "@/app/components/protocol/why/ProtocolWhySection";
 import {
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
@@ -19,11 +25,20 @@ import {
   PurchaseType,
   protocolContent,
 } from "@/app/lib/productData";
+import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
+import ProtocolCard from "@/app/components/shop/ProtocolCard";
+import ProtocolCardMobile from "@/app/components/shop/ProtocolCardMobile";
+import FormulasShowcase from "@/app/components/shop/FormulasShowcase";
+import WhatToExpectTimeline from "@/app/components/product/WhatToExpectTimeline";
+import Testimonials from "@/app/components/testimonials/Testimonials";
+import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
+import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
 import useIsMobile from "@/app/hooks/useIsMobile";
 import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
 import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
+import { FormulasShowcaseMobile } from "@/app/components/shop";
 
 // Valid protocol IDs
 const validProtocolIds: ProtocolId[] = ["1", "2", "3", "4"];
@@ -38,6 +53,8 @@ export default function ProtocolPage() {
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
   const [purchaseType, setPurchaseType] =
     useState<PurchaseType>("subscription");
+  const protocolCarouselRef = useRef<HTMLDivElement>(null);
+  const [protocolCarouselIndex, setProtocolCarouselIndex] = useState(0);
 
   // Validate protocol ID
   useEffect(() => {
@@ -66,7 +83,7 @@ export default function ProtocolPage() {
     const variantData = getProtocolVariantId(
       protocolId as ProtocolId,
       "pro",
-      "subscription"
+      "subscription",
     );
     if (variantData?.variantId) {
       trackMetaViewContent({
@@ -121,6 +138,8 @@ export default function ProtocolPage() {
     }
   };
 
+  const protocolTestimonials = getSiteTestimonialsProtocol();
+
   // Mobile version
   if (isMobile) {
     return (
@@ -139,27 +158,122 @@ export default function ProtocolPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          <ProtocolPDPSections
+          {/* Why Two Formulas Section */}
+          <section
+            className="premium-section bg-[var(--color-surface)]"
+            aria-labelledby="why-two-formulas-heading"
+          >
+            <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-4">
+              <div className="text-center">
+                <h2
+                  id="why-two-formulas-heading"
+                  className="premium-section-heading text-3xl md:text-4xl font-bold mb-3"
+                >
+                  {protocolSynergyCopy.framing.headline}
+                </h2>
+                <p className="premium-annotation text-xl md:text-2xl opacity-80 hidden md:block">
+                  {protocolSynergyCopy.framing.subheadline}
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <ProtocolWhySection protocolId={protocolId as ProtocolId} />
+
+          <ProtocolCalendarMobile
             protocolId={protocolId as ProtocolId}
             selectedTier={selectedTier}
             onTierSelect={setSelectedTier}
-            purchaseType={purchaseType}
-            onPurchaseTypeChange={setPurchaseType}
-            onAddToCart={handleAddToCartFromHero}
-            validProtocolIds={validProtocolIds}
-            isMobile={true}
+            availableTiers={
+              protocolContent[protocolId as ProtocolId].availableTiers
+            }
           />
+
+          <WhatToExpectTimeline
+            productId={protocolId as ProtocolId}
+            sectionTitle="Expected results"
+          />
+
+          {protocolTestimonials.length > 0 && (
+            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+          )}
+
+          <FormulaCaseStudiesMobile productId={protocolId as ProtocolId} />
+
+          <ProtocolFAQ protocolId={protocolId as ProtocolId} />
+
+          {/* Cross-sell — mobile */}
+          <section className="w-full px-3 py-8">
+            <div className="w-full">
+              <div className="text-center mb-4">
+                <h2 className="premium-section-heading text-lg font-bold mb-1">
+                  Explore Other Protocols
+                </h2>
+                <p className="premium-annotation text-sm opacity-70">
+                  find your perfect match
+                </p>
+              </div>
+              <div
+                ref={protocolCarouselRef}
+                className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth -mx-3 px-3"
+                style={{ WebkitOverflowScrolling: "touch" }}
+                onScroll={() => {
+                  const el = protocolCarouselRef.current;
+                  if (!el) return;
+                  const otherIds = validProtocolIds.filter((id) => id !== protocolId);
+                  const cardWidth = el.offsetWidth * 0.8 + 16;
+                  const index = Math.min(
+                    otherIds.length - 1,
+                    Math.max(0, Math.round(el.scrollLeft / cardWidth))
+                  );
+                  setProtocolCarouselIndex(index);
+                }}
+              >
+                <div className="flex-shrink-0 w-4" aria-hidden="true" />
+                {validProtocolIds
+                  .filter((id) => id !== protocolId)
+                  .map((id, idx) => (
+                    <div
+                      key={id}
+                      className="w-[80vw] flex-shrink-0 snap-center"
+                    >
+                      <ProtocolCardMobile
+                        protocol={protocolSelectorData[id]}
+                        isFirst={idx === 0}
+                      />
+                    </div>
+                  ))}
+                <div className="flex-shrink-0 w-4" aria-hidden="true" />
+              </div>
+              <div className="flex justify-center gap-2 mt-4">
+                {validProtocolIds
+                  .filter((id) => id !== protocolId)
+                  .map((id, idx) => (
+                    <div
+                      key={id}
+                      className={`w-2 h-2 rounded-full bg-current transition-opacity ${
+                        protocolCarouselIndex === idx ? "opacity-100" : "opacity-20"
+                      }`}
+                      aria-hidden
+                    />
+                  ))}
+              </div>
+              <div className="mt-8">
+                <FormulasShowcaseMobile />
+              </div>
+            </div>
+          </section>
 
           <Footer />
 
           <StickyPurchaseFooterMobile
-          protocolId={protocolId as ProtocolId}
-          selectedTier={selectedTier}
-          onTierSelect={setSelectedTier}
-          purchaseType={purchaseType}
-          onAddToCart={handleAddToCartFromFooter}
-          usePremium
-        />
+            protocolId={protocolId as ProtocolId}
+            selectedTier={selectedTier}
+            onTierSelect={setSelectedTier}
+            purchaseType={purchaseType}
+            onAddToCart={handleAddToCartFromFooter}
+            usePremium
+          />
         </div>
       </div>
     );
@@ -183,28 +297,87 @@ export default function ProtocolPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        <ProtocolPDPSections
+        {/* Why Two Formulas Section */}
+        <section
+          className="premium-section bg-[var(--color-surface)]"
+          aria-labelledby="why-two-formulas-heading"
+        >
+          <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-4">
+            <div className="text-center">
+              <h2
+                id="why-two-formulas-heading"
+                className="premium-section-heading text-3xl md:text-4xl font-bold mb-3"
+              >
+                {protocolSynergyCopy.framing.headline}
+              </h2>
+              <p className="premium-annotation text-xl md:text-2xl opacity-80">
+                {protocolSynergyCopy.framing.subheadline}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <ProtocolWhySection protocolId={protocolId as ProtocolId} />
+
+        <ProtocolCalendar
+          protocolId={protocolId as ProtocolId}
+          selectedTier={selectedTier}
+          onTierSelect={setSelectedTier}
+          availableTiers={
+            protocolContent[protocolId as ProtocolId].availableTiers
+          }
+        />
+
+        <WhatToExpectTimeline
+          productId={protocolId as ProtocolId}
+          sectionTitle="Expected results"
+        />
+
+        {protocolTestimonials.length > 0 && (
+          <section className="premium-section" aria-label="What others say">
+            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+          </section>
+        )}
+
+        <FormulaCaseStudies productId={protocolId as ProtocolId} />
+
+        <ProtocolFAQ protocolId={protocolId as ProtocolId} />
+
+        {/* Cross-sell — desktop */}
+        <section className="premium-section px-6 md:px-16 py-24">
+          <div className="premium-container max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-2">
+                Explore Other Protocols
+              </h2>
+              <p className="premium-annotation text-xl">
+                find your perfect match
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {validProtocolIds
+                .filter((id) => id !== protocolId)
+                .map((id) => (
+                  <ProtocolCard key={id} protocol={protocolSelectorData[id]} />
+                ))}
+            </div>
+            <div className="mt-12">
+              <FormulasShowcase />
+            </div>
+          </div>
+        </section>
+
+        <Footer />
+
+        <StickyPurchaseFooter
           protocolId={protocolId as ProtocolId}
           selectedTier={selectedTier}
           onTierSelect={setSelectedTier}
           purchaseType={purchaseType}
           onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCartFromHero}
-          validProtocolIds={validProtocolIds}
-          isMobile={false}
+          onAddToCart={handleAddToCartFromFooter}
+          usePremium
         />
-
-        <Footer />
-
-        <StickyPurchaseFooter
-        protocolId={protocolId as ProtocolId}
-        selectedTier={selectedTier}
-        onTierSelect={setSelectedTier}
-        purchaseType={purchaseType}
-        onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCartFromFooter}
-        usePremium
-      />
       </div>
     </div>
   );

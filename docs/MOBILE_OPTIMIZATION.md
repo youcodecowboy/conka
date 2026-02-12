@@ -251,6 +251,29 @@ className = "w-48 h-auto mx-auto"; // Centered, controlled width
 
 ---
 
+## When to Use Explicit Mobile Files vs Responsive-in-One
+
+Use **explicit mobile components** when:
+
+- Layout is fundamentally different (e.g. full-month calendar vs one-week, or grid vs single-column).
+- Mobile has different sections or flows (e.g. calendar + pricing + CTA in one card on mobile).
+- Keeping one file would mean large `isMobile` branches and harder-to-follow logic.
+
+Use **responsive-in-one** (single component + `useIsMobile` and conditional UI) when:
+
+- Same layout with smaller tweaks (e.g. tap vs hover, condensed copy, collapsible blocks).
+- You want one source of truth and minimal duplication (e.g. CycleBreak: same two-column strip, different interaction and copy length on mobile).
+
+Protocol PDP examples:
+
+| Area | Pattern | Reason |
+|------|--------|--------|
+| Protocol calendar | Explicit: `ProtocolCalendarSectionMobile.tsx` | Mobile shows one week + “repeat for month”, inline tier/pricing/CTA; desktop shows 4-week grid + sidebar. |
+| CycleBreak (Flow/Clear reveal) | Responsive-in-one: `CycleBreak.tsx` | Same two-column strip; mobile uses tap-to-reveal, shorter copy, no title in revealed block; desktop uses hover and full copy. |
+| CycleTrap (science steps) | Responsive-in-one: `CycleTrap.tsx` | Same steps; mobile has collapsible “The science” and shorter nav labels. |
+
+---
+
 ## Mobile-Specific Components Created
 
 | Component                   | Purpose                                                            |
@@ -262,6 +285,7 @@ className = "w-48 h-auto mx-auto"; // Centered, controlled width
 | `TrialPacksMobile.tsx`      | Formula toggle, pack grid, collapsible sticky footer               |
 | `WhatToExpectTimelineMobile.tsx` | Tap-to-expand timeline: time + headline always visible; body + formula gradient when expanded; one card open at a time |
 | `FormulaBenefitsStatsMobile.tsx` | Huel-style layout: photo first, then title + subtitle, 2x3 stat grid, CTA button; wrapper uses `useIsMobile()` |
+| `ProtocolCalendarSectionMobile.tsx` | One-week protocol calendar, tier/purchase toggles, pricing + CTA in one card; “repeat this cycle weekly for the month” |
 
 ---
 
