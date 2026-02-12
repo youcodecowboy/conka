@@ -130,7 +130,7 @@ export default function BalanceProtocolInfo() {
       {/* Testimonials Section - Outside max-w-6xl to allow full width */}
       {shuffledTestimonials.length > 0 && (
         <div className="mt-8 md:mt-12 -mx-6 md:-mx-16 lg:-mx-24">
-          <Testimonials testimonials={shuffledTestimonials} />
+          <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
         </div>
       )}
     </section>
