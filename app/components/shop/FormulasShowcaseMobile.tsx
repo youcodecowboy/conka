@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { formulas, FormulaShowcaseData } from "./formulasShowcaseData";
@@ -131,11 +131,14 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
 }
 
 export default function FormulasShowcaseMobile() {
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
   return (
-    <section className="px-6 py-12 bg-white">
-      <div className="max-w-3xl mx-auto flex flex-col gap-8">
+    <section className="px-4 py-12 bg-white">
+      <div className="w-full max-w-full mx-auto">
         {/* Section Header */}
-        <div className="text-left">
+        <div className="text-left mb-6">
           <p className="font-commentary text-base opacity-80 mb-2">
             Most first-time customers start here
           </p>
@@ -145,10 +148,42 @@ export default function FormulasShowcaseMobile() {
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="flex flex-col gap-8">
+        {/* 2-page carousel */}
+        <div
+          ref={carouselRef}
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-4 px-4 pb-4 scroll-smooth"
+          style={{ WebkitOverflowScrolling: "touch" }}
+          onScroll={() => {
+            const el = carouselRef.current;
+            if (!el) return;
+            const cardWidth = el.offsetWidth * 0.85 + 16;
+            const index = Math.min(
+              formulas.length - 1,
+              Math.max(0, Math.round(el.scrollLeft / cardWidth))
+            );
+            setCarouselIndex(index);
+          }}
+        >
           {formulas.map((formula) => (
-            <FormulaCard key={formula.id} formula={formula} />
+            <div
+              key={formula.id}
+              className="flex-shrink-0 w-[85vw] max-w-[400px] snap-center"
+            >
+              <FormulaCard formula={formula} />
+            </div>
+          ))}
+        </div>
+
+        {/* Pagination dots */}
+        <div className="flex justify-center gap-2 mt-4">
+          {formulas.map((_, idx) => (
+            <div
+              key={idx}
+              className={`w-2 h-2 rounded-full bg-current transition-opacity ${
+                carouselIndex === idx ? "opacity-100" : "opacity-20"
+              }`}
+              aria-hidden
+            />
           ))}
         </div>
       </div>
