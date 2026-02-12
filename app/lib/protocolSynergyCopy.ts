@@ -48,7 +48,7 @@ export const protocolSynergyCopy: ProtocolSynergyCopy = {
   diagramImagePath: "/protocols/FlowClearSynergyDiagram.png",
   mechanisms: {
     flow: {
-      title: "Flow: Reduces Pressure",
+      title: "CONKA Flow: Reduces Pressure",
       description:
         "Most supplements try to boost performance. Flow does something counterintuitive: it stabilizes the system that performance depends on. Think of it like turning down the heat so the system can cool naturally. Stress isn't the problem—unmanaged stress is. Flow reduces the load, creating space for your body's natural recovery processes to work.",
       keyPoints: [
@@ -58,7 +58,7 @@ export const protocolSynergyCopy: ProtocolSynergyCopy = {
       ],
     },
     clear: {
-      title: "Clear: Strengthens Repair",
+      title: "CONKA Clear: Strengthens Repair",
       description:
         "Your cells already have the blueprint for recovery. What they need are the materials. Clear rebuilds the infrastructure—like repairing the foundation while the house stands. It doesn't add more complexity; it strengthens what's already there. When your cellular machinery runs efficiently, everything else follows.",
       keyPoints: [
