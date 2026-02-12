@@ -55,13 +55,13 @@ export default function CycleBreak() {
                     : "#fff",
               }}
             />
-            {/* ClearHalf.png at right edge of column; grayscale until hovered or once expanded */}
+            {/* ClearHalf.png at right edge of column; grayscale until hovered or once expanded; white glow when active */}
             <div
               className="absolute inset-0 z-[1] flex items-center justify-end transition-[filter] duration-[400ms] ease-out"
               style={{
                 filter:
                   hoveredSide === "clear" || expandedCards.has("clear")
-                    ? "none"
+                    ? "drop-shadow(0 0 32px rgba(255,255,255,0.5))"
                     : "grayscale(100%)",
               }}
             >
@@ -128,13 +128,13 @@ export default function CycleBreak() {
                     : "#fff",
               }}
             />
-            {/* FlowHalf.png at left edge of column; grayscale until hovered or once expanded */}
+            {/* FlowHalf.png at left edge of column; grayscale until hovered or once expanded; white glow when active */}
             <div
               className="absolute inset-0 z-[1] flex items-center justify-start transition-[filter] duration-[400ms] ease-out"
               style={{
                 filter:
                   hoveredSide === "flow" || expandedCards.has("flow")
-                    ? "none"
+                    ? "drop-shadow(0 0 32px rgba(255,255,255,0.5))"
                     : "grayscale(100%)",
               }}
             >
