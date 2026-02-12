@@ -85,8 +85,8 @@ export default function ProductHeroMobile({
             </div>
             <span className="premium-data text-current/90">
               {formulaId === "01"
-                ? "Over 80,000 shots sold"
-                : "Over 20,000 shots sold"}
+                ? "Over 80,000 bottles sold"
+                : "Over 20,000 bottles sold"}
             </span>
           </div>
           <h1 className="premium-display leading-tight font-primary text-current">
