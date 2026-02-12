@@ -9,6 +9,5 @@ export { default as TierSelector } from "./TierSelector";
 export { default as TierSelectorPremium } from "./TierSelectorPremium";
 export { default as ProtocolStruggleMobile } from "./ProtocolStruggleMobile";
 export { default as ProtocolCalendarMobile } from "./ProtocolCalendarMobile";
-export { default as ProtocolCaseStudiesMobile } from "./ProtocolCaseStudiesMobile";
 export { default as ProtocolSectionPlaceholder } from "./ProtocolSectionPlaceholder";
 
