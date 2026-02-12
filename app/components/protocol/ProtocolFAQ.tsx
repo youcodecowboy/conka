@@ -88,59 +88,154 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
   const allFAQs = [...(protocolSpecificFAQs[protocolId] || []), ...generalFAQs];
 
   return (
-    <section className="premium-section">
-      <div className="premium-container max-w-4xl mx-auto px-6 md:px-16 py-24">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
-            Common Questions
-          </h2>
-          <p className="premium-annotation text-xl">about {protocol.name}</p>
+    <section className="w-full overflow-hidden bg-[var(--color-surface)]">
+      {/* Desktop: [asset] | [FAQ] side by side */}
+      <div className="hidden md:grid md:grid-cols-2 md:min-h-[480px]">
+        {/* Asset column */}
+        <div className="relative w-full h-full min-h-[400px]">
+          <img
+            src="/CONKA_21.jpg"
+            alt="CONKA product"
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
         </div>
-
-        {/* FAQ Items */}
-        <div className="space-y-4">
-          {allFAQs.map((item, idx) => (
-            <div key={idx} className="premium-box overflow-hidden">
-              <button
-                onClick={() =>
-                  setExpandedIndex(expandedIndex === idx ? null : idx)
-                }
-                className="w-full p-6 text-left flex justify-between items-center gap-4 hover:bg-current/5 transition-colors"
-              >
-                <h3 className="text-lg font-bold">{item.question}</h3>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className={`flex-shrink-0 transition-transform ${
-                    expandedIndex === idx ? "rotate-180" : ""
-                  }`}
+        {/* FAQ column */}
+        <div className="flex flex-col justify-center px-8 lg:px-12 xl:px-16 py-12 lg:py-16">
+          <div className="mb-8">
+            <p className="text-3xl lg:text-4xl font-bold text-black mb-2">
+              Questions?
+            </p>
+            <p className="text-xl lg:text-2xl text-black/80">
+              We're here to help
+            </p>
+          </div>
+          <div className="space-y-3">
+            {allFAQs.map((item, idx) => {
+              const isExpanded = expandedIndex === idx;
+              return (
+                <div
+                  key={idx}
+                  className="bg-white rounded-lg overflow-hidden border border-black/10 shadow-sm"
                 >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-              {expandedIndex === idx && (
-                <div className="px-6 pb-6">
-                  <p className="opacity-80">{item.answer}</p>
+                  <button
+                    onClick={() =>
+                      setExpandedIndex(expandedIndex === idx ? null : idx)
+                    }
+                    className="w-full p-4 lg:p-5 text-left flex justify-between items-center gap-4 hover:bg-black/[0.03] transition-colors"
+                    aria-expanded={isExpanded}
+                    aria-controls={`faq-answer-${idx}`}
+                  >
+                    <h3 className="text-base lg:text-lg font-bold text-black pr-4">
+                      {item.question}
+                    </h3>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 16 16"
+                      role="img"
+                      aria-label="Collapse/Expand"
+                      className={`flex-shrink-0 w-5 h-5 text-black transition-transform ${
+                        isExpanded ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+                      />
+                    </svg>
+                  </button>
+                  {isExpanded && (
+                    <div
+                      id={`faq-answer-${idx}`}
+                      className="px-4 lg:px-5 pb-4 lg:pb-5 pt-0 border-t border-black/10"
+                    >
+                      <p className="text-sm lg:text-base text-black/80 leading-relaxed pt-4">
+                        {item.answer}
+                      </p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+              );
+            })}
+          </div>
         </div>
+      </div>
 
-        {/* CTA */}
-        <div className="mt-12 text-center">
-          <p className="premium-annotation text-lg mb-4">Still have questions?</p>
-          <button className="neo-button-outline px-8 py-3 font-semibold">
-            Contact Support
-          </button>
+      {/* Mobile: [asset - smaller] then [collapsible sections] */}
+      <div className="md:hidden flex flex-col">
+        {/* Smaller asset block */}
+        <div className="relative w-full aspect-[4/3] max-h-[220px] overflow-hidden">
+          <img
+            src="/CONKA_21.jpg"
+            alt="CONKA product"
+            className="w-full h-full object-cover object-center"
+            loading="lazy"
+          />
+        </div>
+        {/* Collapsible section */}
+        <div className="px-4 py-6">
+          <div className="mb-6">
+            <p className="text-2xl font-bold text-black mb-1">
+              Questions?
+            </p>
+            <p className="text-lg text-black/80">
+              We're here to help
+            </p>
+          </div>
+          <div className="space-y-3">
+            {allFAQs.map((item, idx) => {
+              const isExpanded = expandedIndex === idx;
+              return (
+                <div
+                  key={idx}
+                  className="bg-white rounded-lg overflow-hidden border border-black/10 shadow-sm"
+                >
+                  <button
+                    onClick={() =>
+                      setExpandedIndex(expandedIndex === idx ? null : idx)
+                    }
+                    className="w-full p-4 text-left flex justify-between items-center gap-3 hover:bg-black/[0.03] transition-colors"
+                    aria-expanded={isExpanded}
+                    aria-controls={`faq-answer-m-${idx}`}
+                  >
+                    <h3 className="text-sm font-bold text-black pr-3">
+                      {item.question}
+                    </h3>
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      strokeWidth="0"
+                      viewBox="0 0 16 16"
+                      role="img"
+                      aria-label="Collapse/Expand"
+                      className={`flex-shrink-0 w-5 h-5 text-black transition-transform ${
+                        isExpanded ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+                      />
+                    </svg>
+                  </button>
+                  {isExpanded && (
+                    <div
+                      id={`faq-answer-m-${idx}`}
+                      className="px-4 pb-4 pt-0 border-t border-black/10"
+                    >
+                      <p className="text-sm text-black/80 leading-relaxed pt-3">
+                        {item.answer}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
