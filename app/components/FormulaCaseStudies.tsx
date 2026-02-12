@@ -29,7 +29,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
       : "center";
 
   return (
-    <article className={`overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] text-black ${!descriptionExpanded ? "min-h-[400px]" : ""}`}>
+    <article className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] text-black h-full">
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
       <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">
         {athlete.photo ? (
