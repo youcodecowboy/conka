@@ -34,6 +34,16 @@ const generalFAQs = [
     answer:
       "Most users notice improvements within the first 1-2 weeks. However, the full benefits typically develop over 4-6 weeks of consistent protocol use as the compounds build up in your system.",
   },
+  {
+    question: "How flexible is the timing?",
+    answer:
+      "You can take your shots at whatever time fits your day. Many people take CONKA Flow in the morning and CONKA Clear when they need a clarity boost. The calendar is a guide—shifting a day or adjusting within the week is fine.",
+  },
+  {
+    question: "Can I pause or adjust my protocol?",
+    answer:
+      "Yes. You can change your tier, switch protocols, or pause your subscription before any billing cycle. If you're travelling or need a lighter week, missing the odd day won't undo your progress—consistency over time matters most.",
+  },
 ];
 
 const protocolSpecificFAQs: Record<
