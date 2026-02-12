@@ -5,10 +5,14 @@ import Link from "next/link";
 import {
   AthleteData,
   getAthletesForFormula,
+  getAthletesForProtocol,
 } from "@/app/lib/caseStudiesData";
+import type { ProductId, FormulaId, ProtocolId } from "@/app/lib/productData";
 
 interface FormulaCaseStudiesProps {
-  formulaId: "01" | "02";
+  formulaId?: FormulaId;
+  productId?: ProductId;
+  athletes?: AthleteData[];
 }
 
 const METRIC_RING_COLORS = [
@@ -25,7 +29,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
       : "center";
 
   return (
-    <article className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] text-black">
+    <article className={`overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] text-black ${!descriptionExpanded ? "min-h-[400px]" : ""}`}>
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
       <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">
         {athlete.photo ? (
@@ -163,6 +167,9 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
 }
 
 export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProps) {
+  if (!formulaId) {
+    throw new Error("FormulaCaseStudies requires formulaId");
+  }
   const athletes = getAthletesForFormula(formulaId);
 
   if (athletes.length === 0) return null;
@@ -214,8 +221,26 @@ export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProp
   );
 }
 
-export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps) {
-  const athletes = getAthletesForFormula(formulaId);
+export function FormulaCaseStudiesMobile({ 
+  formulaId, 
+  productId, 
+  athletes: providedAthletes 
+}: FormulaCaseStudiesProps) {
+  // Determine athletes: use provided, or compute based on productId/formulaId
+  let athletes: AthleteData[] = [];
+  
+  if (providedAthletes) {
+    athletes = providedAthletes;
+  } else if (productId) {
+    // Check if it's a protocol (1-4) or formula (01-02)
+    if (productId === "1" || productId === "2" || productId === "3" || productId === "4") {
+      athletes = getAthletesForProtocol(productId as ProtocolId);
+    } else if (productId === "01" || productId === "02") {
+      athletes = getAthletesForFormula(productId as FormulaId);
+    }
+  } else if (formulaId) {
+    athletes = getAthletesForFormula(formulaId);
+  }
 
   if (athletes.length === 0) return null;
 
