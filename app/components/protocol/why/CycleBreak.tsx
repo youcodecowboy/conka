@@ -8,22 +8,22 @@ export default function CycleBreak() {
 
   return (
     <section
-      className="premium-section"
+      className="bg-white text-black py-24"
       aria-label="How to break the cycle"
     >
-      <div className="premium-container max-w-[95%] mx-auto px-6 md:px-16 pb-24">
-        {/* Header with synergy copy */}
+      <div className="w-full max-w-full mx-auto px-6 md:px-12 lg:px-20">
+        {/* Header */}
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-4">
-            Together: Break the Cycle
+            But there's a way out.
           </h2>
-          <p className="premium-body text-lg leading-relaxed opacity-90">
-            Flow reduces load while Clear improves capacity. Together, they create a system that breaks the problem cycle—reducing pressure while strengthening repair mechanisms.
-          </p>
+          <h3 className="premium-section-heading text-xl md:text-2xl font-bold">
+            Together: Break the Cycle
+          </h3>
         </div>
 
         {/* Three-column layout: Clear | Image | Flow */}
-        <div className="grid grid-cols-3 gap-16 max-w-full mx-auto items-start">
+        <div className="grid grid-cols-3 gap-16 w-full mx-auto items-start">
           {/* Clear Card - Left */}
           <div className="premium-box h-full">
             <p className="premium-data text-xs uppercase tracking-wider opacity-70 mb-4">
@@ -45,15 +45,15 @@ export default function CycleBreak() {
             </ul>
           </div>
 
-          {/* Image - Center - Cropped 20% each side and scaled up */}
+          {/* Image - Center - Cropped 10% each side and scaled */}
           <div className="relative w-full flex items-center justify-center overflow-hidden">
             <div className="relative w-full aspect-[2/1] min-h-[650px] overflow-hidden">
               <div 
                 className="absolute inset-0"
                 style={{
-                  width: "140%",
-                  left: "-20%",
-                  transform: "scale(1.67)",
+                  width: "120%",
+                  left: "-10%",
+                  transform: "scale(1.3)",
                   transformOrigin: "center center"
                 }}
               >
