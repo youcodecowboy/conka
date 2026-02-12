@@ -17,7 +17,7 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden">
+    <div className="flex flex-col border-2 border-black/10 rounded-[var(--premium-radius-base)] overflow-hidden">
       {/* Hero Image */}
       <div className="relative w-full aspect-[4/3.5] overflow-hidden">
         <div

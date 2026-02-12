@@ -25,7 +25,7 @@ export default function FormulaPanel({ formula }: FormulaPanelProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden">
+    <div className="flex flex-col h-full border-2 border-black/10 rounded-[var(--premium-radius-base)] overflow-hidden">
       {/* Image Container with Hover Overlay */}
       <div
         className="relative aspect-[5/5] overflow-hidden group"
