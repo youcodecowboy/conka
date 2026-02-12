@@ -166,11 +166,22 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
   );
 }
 
-export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProps) {
-  if (!formulaId) {
-    throw new Error("FormulaCaseStudies requires formulaId");
+export default function FormulaCaseStudies({ formulaId, productId }: FormulaCaseStudiesProps) {
+  // Determine athletes: use productId or formulaId
+  let athletes: AthleteData[] = [];
+  
+  if (productId) {
+    // Check if it's a protocol (1-4) or formula (01-02)
+    if (productId === "1" || productId === "2" || productId === "3" || productId === "4") {
+      athletes = getAthletesForProtocol(productId as ProtocolId);
+    } else if (productId === "01" || productId === "02") {
+      athletes = getAthletesForFormula(productId as FormulaId);
+    }
+  } else if (formulaId) {
+    athletes = getAthletesForFormula(formulaId);
+  } else {
+    throw new Error("FormulaCaseStudies requires either formulaId or productId");
   }
-  const athletes = getAthletesForFormula(formulaId);
 
   if (athletes.length === 0) return null;
 
