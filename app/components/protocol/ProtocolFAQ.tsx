@@ -89,23 +89,24 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
 
   return (
     <section className="w-full overflow-hidden bg-[var(--color-surface)]">
-      {/* Desktop: [asset in rounded box] | [sticky questions] */}
+      {/* Desktop: [asset] | [questions] */}
       <div className="hidden md:block">
         <div className="grid grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto px-6 lg:px-12 py-12 lg:py-16">
-          {/* Left: asset sat in column with rounded corners */}
-          <div className="flex items-start justify-start pt-8">
-            <div className="relative w-full max-w-[380px] aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
+          {/* Left: asset in rounded box, square, ~20% cropped from top */}
+          <div className="flex items-start justify-start">
+            <div className="relative w-full max-w-[520px] aspect-square rounded-2xl overflow-hidden shadow-lg">
               <img
                 src="/CONKA_21.jpg"
                 alt="CONKA product"
                 className="w-full h-full object-cover"
+                style={{ objectPosition: "center 25%" }}
                 loading="lazy"
               />
             </div>
           </div>
 
-          {/* Right: sticky question section */}
-          <div className="sticky top-24 self-start">
+          {/* Right: questions */}
+          <div>
             <div className="mb-8">
               <p className="text-3xl lg:text-4xl font-bold text-black mb-2">
                 Questions?
@@ -175,20 +176,19 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
         </div>
       </div>
 
-      {/* Mobile: [asset - smaller] then [collapsible sections] */}
+      {/* Mobile: asset on top, then FAQ */}
       <div className="md:hidden flex flex-col">
-        {/* Smaller asset block with rounded corners */}
-        <div className="px-4 pt-4">
-          <div className="relative w-full aspect-[4/3] max-h-[200px] rounded-2xl overflow-hidden">
+        <div className="px-4 pt-6 pb-2">
+          <div className="relative w-full max-w-[280px] mx-auto aspect-square rounded-2xl overflow-hidden shadow-lg">
             <img
               src="/CONKA_21.jpg"
               alt="CONKA product"
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center 25%" }}
               loading="lazy"
             />
           </div>
         </div>
-        {/* Collapsible section - same component style as desktop */}
         <div className="px-4 py-6">
           <div className="mb-6">
             <p className="text-2xl font-bold text-black mb-1">
