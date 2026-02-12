@@ -11,5 +11,4 @@ export { default as ProtocolStruggleMobile } from "./ProtocolStruggleMobile";
 export { default as ProtocolCalendarMobile } from "./ProtocolCalendarMobile";
 export { default as ProtocolCaseStudiesMobile } from "./ProtocolCaseStudiesMobile";
 export { default as ProtocolSectionPlaceholder } from "./ProtocolSectionPlaceholder";
-export { default as ProtocolPDPSections } from "./ProtocolPDPSections";
 
