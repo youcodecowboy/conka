@@ -29,6 +29,7 @@ import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
 import Testimonials from "@/app/components/testimonials/Testimonials";
 import { getSiteTestimonialsFlow } from "@/app/lib/testimonialsFilter";
+import { CrossSell } from "@/app/components/crossSell";
 
 export default function ConkaFlowPage() {
   const isMobile = useIsMobile();
@@ -110,7 +111,7 @@ export default function ConkaFlowPage() {
             autoScrollOnly
           />
 
-          <WhatToExpectTimeline formulaId="01" />
+          <WhatToExpectTimeline productId="01" />
 
           <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
           <FormulaIngredients formulaId="01" />
@@ -126,6 +127,8 @@ export default function ConkaFlowPage() {
           </section>
           <FormulaCaseStudiesMobile formulaId="01" />
           <FormulaFAQ formulaId="01" />
+
+          <CrossSell variant="formula" currentFormulaId="01" />
 
           {/* Step 11 — Final CTA */}
           <StickyPurchaseFooterMobile
@@ -166,7 +169,7 @@ export default function ConkaFlowPage() {
           autoScrollOnly
         />
 
-        <WhatToExpectTimeline formulaId="01" />
+        <WhatToExpectTimeline productId="01" />
 
         <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
         <FormulaIngredients formulaId="01" />
@@ -183,33 +186,7 @@ export default function ConkaFlowPage() {
         <FormulaCaseStudies formulaId="01" />
         <FormulaFAQ formulaId="01" />
 
-        {/* Related Products CTA */}
-        <section className="premium-section">
-          <div className="premium-container">
-            <div className="premium-box p-8 md:p-12 text-center">
-              <h2 className="premium-section-heading mb-4">
-                Want the Complete Experience?
-              </h2>
-              <p className="premium-annotation mb-6">
-                combine CONKA Flow with CONKA Clear in a protocol
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/conka-clarity"
-                  className="neo-button-outline px-8 py-4 font-semibold text-lg"
-                >
-                  Explore CONKA Clear
-                </a>
-                <a
-                  href="/protocol/1"
-                  className="neo-button px-8 py-4 font-bold text-lg"
-                >
-                  View Protocols
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+        <CrossSell variant="formula" currentFormulaId="01" />
 
         {/* Step 11 — Final CTA */}
         <StickyPurchaseFooter

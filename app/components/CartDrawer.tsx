@@ -7,7 +7,6 @@ import { trackMetaInitiateCheckout, toContentId } from "@/app/lib/metaPixel";
 import { cartHasB2BLines, getB2BLinesTotalIncVat } from "@/app/lib/b2bCartTier";
 import { incVatToExVat, getVatFromIncVat } from "@/app/lib/productData";
 import Image from "next/image";
-import PaymentLogos from "./PaymentLogos";
 
 // Fallback product images when Shopify doesn't provide one
 const PRODUCT_FALLBACK_IMAGES: Record<string, string> = {
@@ -462,13 +461,6 @@ export default function CartDrawer() {
               "Checkout"
             )}
           </a>
-
-          {/* Payment Logos */}
-          {cartItems.length > 0 && (
-            <div className="flex justify-center md:justify-end mt-2">
-              <PaymentLogos size="sm" />
-            </div>
-          )}
         </div>
       </div>
     </div>

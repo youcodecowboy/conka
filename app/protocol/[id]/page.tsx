@@ -2,19 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
 import {
   ProtocolHero,
   ProtocolHeroMobile,
   ProtocolCalendar,
-  ProtocolBenefits,
+  ProtocolCalendarMobile,
   ProtocolFAQ,
-  ProtocolStruggleMobile,
-  ProtocolCalendarSectionMobile,
-  ProtocolCaseStudiesMobile,
 } from "@/app/components/protocol";
+import FormulaCaseStudies, {
+  FormulaCaseStudiesMobile,
+} from "@/app/components/FormulaCaseStudies";
+import ProtocolWhySection from "@/app/components/protocol/why/ProtocolWhySection";
 import {
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
@@ -25,6 +25,11 @@ import {
   PurchaseType,
   protocolContent,
 } from "@/app/lib/productData";
+import WhatToExpectTimeline from "@/app/components/product/WhatToExpectTimeline";
+import { CrossSell } from "@/app/components/crossSell";
+import Testimonials from "@/app/components/testimonials/Testimonials";
+import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
+import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
 import useIsMobile from "@/app/hooks/useIsMobile";
 import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
@@ -72,7 +77,7 @@ export default function ProtocolPage() {
     const variantData = getProtocolVariantId(
       protocolId as ProtocolId,
       "pro",
-      "subscription"
+      "subscription",
     );
     if (variantData?.variantId) {
       trackMetaViewContent({
@@ -127,6 +132,8 @@ export default function ProtocolPage() {
     }
   };
 
+  const protocolTestimonials = getSiteTestimonialsProtocol();
+
   // Mobile version
   if (isMobile) {
     return (
@@ -135,91 +142,76 @@ export default function ProtocolPage() {
         style={{ background: "var(--background)", color: "var(--foreground)" }}
       >
         <Navigation />
+        <div className="premium-pdp">
+          <ProtocolHeroMobile
+            protocolId={protocolId as ProtocolId}
+            selectedTier={selectedTier}
+            onTierSelect={setSelectedTier}
+            purchaseType={purchaseType}
+            onPurchaseTypeChange={setPurchaseType}
+            onAddToCart={handleAddToCartFromHero}
+          />
 
-        <ProtocolHeroMobile
-          protocolId={protocolId as ProtocolId}
-          selectedTier={selectedTier}
-          onTierSelect={setSelectedTier}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCartFromHero}
-        />
-
-        {/* What do you struggle with? */}
-        <ProtocolStruggleMobile protocolId={protocolId as ProtocolId} />
-
-        {/* Full Calendar Section with Buy Options */}
-        <ProtocolCalendarSectionMobile
-          protocolId={protocolId as ProtocolId}
-          selectedTier={selectedTier}
-          onTierSelect={setSelectedTier}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCartFromHero}
-        />
-
-        {/* Case Studies - Protocol Specific */}
-        <ProtocolCaseStudiesMobile protocolId={protocolId as ProtocolId} />
-
-        {/* Other Protocols - Simplified */}
-        <section className="px-4 py-8">
-          <div className="text-center mb-4">
-            <h2 className="text-lg font-bold mb-1">Explore Other Protocols</h2>
-            <p className="font-commentary text-sm opacity-70">
-              find your perfect match
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            {validProtocolIds
-              .filter((id) => id !== protocolId)
-              .slice(0, 2)
-              .map((id) => {
-                const otherProtocol = protocolContent[id];
-                return (
-                  <a key={id} href={`/protocol/${id}`} className="neo-box p-3">
-                    <h3 className="font-bold text-sm">{otherProtocol.name}</h3>
-                    <p className="font-clinical text-xs opacity-70 mt-1">
-                      {otherProtocol.subtitle}
-                    </p>
-                  </a>
-                );
-              })}
-          </div>
-
-          {/* Individual Formulas CTA */}
-          <div className="mt-6 neo-box p-4 text-center">
-            <h3 className="font-bold text-sm mb-2">
-              Prefer Individual Formulas?
-            </h3>
-            <div className="flex gap-3">
-              <a
-                href="/conka-flow"
-                className="flex-1 neo-button-outline px-3 py-2 font-semibold text-xs flex items-center justify-center gap-1"
-              >
-                <span className="w-2 h-2 bg-[#2563eb] rounded-sm"></span>
-                CONKA Flow
-              </a>
-              <a
-                href="/conka-clarity"
-                className="flex-1 neo-button-outline px-3 py-2 font-semibold text-xs flex items-center justify-center gap-1"
-              >
-                <span className="w-2 h-2 bg-amber-500 rounded-sm"></span>
-                CONKA Clear
-              </a>
+          {/* Why Two Formulas Section */}
+          <section
+            className="premium-section bg-[var(--color-surface)]"
+            aria-labelledby="why-two-formulas-heading"
+          >
+            <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-4">
+              <div className="text-center">
+                <h2
+                  id="why-two-formulas-heading"
+                  className="premium-section-heading text-3xl md:text-4xl font-bold mb-3"
+                >
+                  {protocolSynergyCopy.framing.headline}
+                </h2>
+                <p className="premium-annotation text-xl md:text-2xl opacity-80 hidden md:block">
+                  {protocolSynergyCopy.framing.subheadline}
+                </p>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <Footer />
+          <ProtocolWhySection protocolId={protocolId as ProtocolId} />
 
-        <StickyPurchaseFooterMobile
-          protocolId={protocolId as ProtocolId}
-          selectedTier={selectedTier}
-          onTierSelect={setSelectedTier}
-          purchaseType={purchaseType}
-          onAddToCart={handleAddToCartFromFooter}
-        />
+          {protocolTestimonials.length > 0 && (
+            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+          )}
+
+          <WhatToExpectTimeline
+            productId={protocolId as ProtocolId}
+            sectionTitle="Expected results"
+          />
+
+          <ProtocolCalendarMobile
+            protocolId={protocolId as ProtocolId}
+            selectedTier={selectedTier}
+            onTierSelect={setSelectedTier}
+            availableTiers={
+              protocolContent[protocolId as ProtocolId].availableTiers
+            }
+          />
+
+          <FormulaCaseStudiesMobile productId={protocolId as ProtocolId} />
+
+          <ProtocolFAQ protocolId={protocolId as ProtocolId} />
+
+          <CrossSell
+            variant="protocol"
+            currentProtocolId={protocolId as ProtocolId}
+          />
+
+          <Footer />
+
+          <StickyPurchaseFooterMobile
+            protocolId={protocolId as ProtocolId}
+            selectedTier={selectedTier}
+            onTierSelect={setSelectedTier}
+            purchaseType={purchaseType}
+            onAddToCart={handleAddToCartFromFooter}
+            usePremium
+          />
+        </div>
       </div>
     );
   }
@@ -227,113 +219,82 @@ export default function ProtocolPage() {
   // Desktop version
   return (
     <div
-      className="min-h-screen theme-conka-flow lg:pt-20"
+      className="min-h-screen theme-conka-flow lg:pt-8"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* Navigation */}
       <Navigation />
+      <div className="premium-pdp">
+        <ProtocolHero
+          protocolId={protocolId as ProtocolId}
+          selectedTier={selectedTier}
+          onTierSelect={setSelectedTier}
+          purchaseType={purchaseType}
+          onPurchaseTypeChange={setPurchaseType}
+          onAddToCart={handleAddToCartFromHero}
+        />
 
-      {/* Hero Section */}
-      <ProtocolHero
-        protocolId={protocolId as ProtocolId}
-        selectedTier={selectedTier}
-        onTierSelect={setSelectedTier}
-        purchaseType={purchaseType}
-        onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCartFromHero}
-      />
-
-      {/* Calendar Section */}
-      <ProtocolCalendar
-        protocolId={protocolId as ProtocolId}
-        selectedTier={selectedTier}
-      />
-
-      {/* Benefits Section */}
-      <ProtocolBenefits protocolId={protocolId as ProtocolId} />
-
-      {/* FAQ Section */}
-      <ProtocolFAQ protocolId={protocolId as ProtocolId} />
-
-      {/* Other Protocols CTA */}
-      <section className="px-6 md:px-16 py-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">
-              Explore Other Protocols
-            </h2>
-            <p className="font-commentary text-xl">find your perfect match</p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-4">
-            {validProtocolIds
-              .filter((id) => id !== protocolId)
-              .map((id) => {
-                const otherProtocol = protocolContent[id];
-                return (
-                  <a
-                    key={id}
-                    href={`/protocol/${id}`}
-                    className="neo-box p-4 hover:shadow-[4px_4px_0px_0px_var(--foreground)] transition-all"
-                  >
-                    <h3 className="font-bold">{otherProtocol.name}</h3>
-                    <p className="font-clinical text-xs opacity-70 mt-1">
-                      {otherProtocol.subtitle}
-                    </p>
-                    <div className="flex flex-wrap gap-1 mt-3">
-                      {otherProtocol.bestFor.slice(0, 2).map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-0.5 bg-current/10 rounded-full font-clinical text-xs"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </a>
-                );
-              })}
-          </div>
-
-          {/* Individual Formulas CTA */}
-          <div className="mt-12 neo-box p-8 text-center">
-            <h3 className="text-xl font-bold mb-2">
-              Prefer Individual Formulas?
-            </h3>
-            <p className="font-commentary text-lg mb-6">
-              not ready for a protocol? try our trial packs
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/conka-flow"
-                className="neo-button-outline px-6 py-3 font-semibold flex items-center justify-center gap-2"
+        {/* Why Two Formulas Section */}
+        <section
+          className="premium-section bg-[var(--color-surface)]"
+          aria-labelledby="why-two-formulas-heading"
+        >
+          <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-4">
+            <div className="text-center">
+              <h2
+                id="why-two-formulas-heading"
+                className="premium-section-heading text-3xl md:text-4xl font-bold mb-3"
               >
-                <span className="w-3 h-3 bg-[#2563eb] rounded-sm"></span>
-                CONKA Flow
-              </a>
-              <a
-                href="/conka-clarity"
-                className="neo-button-outline px-6 py-3 font-semibold flex items-center justify-center gap-2"
-              >
-                <span className="w-3 h-3 bg-amber-500 rounded-sm"></span>
-                CONKA Clear
-              </a>
+                {protocolSynergyCopy.framing.headline}
+              </h2>
+              <p className="premium-annotation text-xl md:text-2xl opacity-80">
+                {protocolSynergyCopy.framing.subheadline}
+              </p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <Footer />
+        <ProtocolWhySection protocolId={protocolId as ProtocolId} />
 
-      {/* Sticky Purchase Footer */}
-      <StickyPurchaseFooter
-        protocolId={protocolId as ProtocolId}
-        selectedTier={selectedTier}
-        onTierSelect={setSelectedTier}
-        purchaseType={purchaseType}
-        onPurchaseTypeChange={setPurchaseType}
-        onAddToCart={handleAddToCartFromFooter}
-      />
+        {protocolTestimonials.length > 0 && (
+          <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+        )}
+
+        <WhatToExpectTimeline
+          productId={protocolId as ProtocolId}
+          sectionTitle="Expected results"
+        />
+
+        <ProtocolCalendar
+          protocolId={protocolId as ProtocolId}
+          selectedTier={selectedTier}
+          onTierSelect={setSelectedTier}
+          availableTiers={
+            protocolContent[protocolId as ProtocolId].availableTiers
+          }
+        />
+
+        <FormulaCaseStudies productId={protocolId as ProtocolId} />
+
+        <ProtocolFAQ protocolId={protocolId as ProtocolId} />
+
+        <CrossSell
+          variant="protocol"
+          currentProtocolId={protocolId as ProtocolId}
+        />
+
+        <Footer />
+
+        <StickyPurchaseFooter
+          protocolId={protocolId as ProtocolId}
+          selectedTier={selectedTier}
+          onTierSelect={setSelectedTier}
+          purchaseType={purchaseType}
+          onPurchaseTypeChange={setPurchaseType}
+          onAddToCart={handleAddToCartFromFooter}
+          usePremium
+        />
+      </div>
     </div>
   );
 }

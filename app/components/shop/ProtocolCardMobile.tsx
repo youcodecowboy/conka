@@ -34,7 +34,7 @@ export default function ProtocolCardMobile({
   return (
     <a
       href={href}
-      className="flex flex-col h-full border-2 border-black/10 rounded-lg overflow-hidden bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--foreground)]"
+      className="flex flex-col h-full border-2 border-black/10 rounded-[var(--premium-radius-base)] overflow-hidden bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--foreground)]"
     >
       {/* Protocol Image */}
       <div className="relative aspect-[4/3] overflow-hidden">

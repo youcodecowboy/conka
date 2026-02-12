@@ -1099,12 +1099,78 @@ export function getHomepageAthletes(): AthleteData[] {
 }
 
 export function getAthletesForFormula(formulaId: "01" | "02"): AthleteData[] {
-  return athletes
+  const filtered = athletes
     .filter(
       (a) => a.productVersion === formulaId || a.productVersion === "both",
     )
-    .sort((a, b) => getAverageImprovement(b) - getAverageImprovement(a))
-    .slice(0, 3);
+    .sort((a, b) => getAverageImprovement(b) - getAverageImprovement(a));
+
+  // Fallback to default athletes if we don't have 3
+  // Append defaults one by one in order: Callum Sheedy, Jade Shekells, Finn Russell
+  if (filtered.length < 3) {
+    const defaultIds = ["callum-sheedy", "jade-shekells", "finn-russell"];
+    const combined = [...filtered];
+    
+    // Add defaults one by one until we have 3 total, avoiding duplicates
+    for (const defaultId of defaultIds) {
+      if (combined.length >= 3) break;
+      const defaultAthlete = athletes.find((a) => a.id === defaultId);
+      if (defaultAthlete && !combined.find((c) => c.id === defaultAthlete.id)) {
+        combined.push(defaultAthlete);
+      }
+    }
+    
+    return combined.slice(0, 3);
+  }
+
+  return filtered.slice(0, 3);
+}
+
+export function getAthletesForProtocol(protocolId: string): AthleteData[] {
+  const protocolToFormula: Record<string, "01" | "02" | "both"> = {
+    "1": "01",
+    "2": "02",
+    "3": "both",
+    "4": "both",
+  };
+
+  const formulaPreference = protocolToFormula[protocolId];
+  const filtered = athletes
+    .filter((a) => {
+      if (formulaPreference === "both") {
+        return a.productVersion === "both";
+      }
+      return (
+        a.productVersion === formulaPreference || a.productVersion === "both"
+      );
+    })
+    .sort((a, b) => {
+      const aTotal =
+        a.improvements.find((i) => i.metric === "Total Score")?.percentage || 0;
+      const bTotal =
+        b.improvements.find((i) => i.metric === "Total Score")?.percentage || 0;
+      return bTotal - aTotal;
+    });
+
+  // Fallback to default athletes if we don't have 3
+  // Append defaults one by one in order: Callum Sheedy, Jade Shekells, Finn Russell
+  if (filtered.length < 3) {
+    const defaultIds = ["callum-sheedy", "jade-shekells", "finn-russell"];
+    const combined = [...filtered];
+    
+    // Add defaults one by one until we have 3 total, avoiding duplicates
+    for (const defaultId of defaultIds) {
+      if (combined.length >= 3) break;
+      const defaultAthlete = athletes.find((a) => a.id === defaultId);
+      if (defaultAthlete && !combined.find((c) => c.id === defaultAthlete.id)) {
+        combined.push(defaultAthlete);
+      }
+    }
+    
+    return combined.slice(0, 3);
+  }
+
+  return filtered.slice(0, 3);
 }
 
 export function getTotalTestsCompleted(): number {

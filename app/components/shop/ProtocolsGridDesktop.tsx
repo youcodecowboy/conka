@@ -6,8 +6,8 @@ import ProtocolCard from "./ProtocolCard";
 
 export default function ProtocolsGridDesktop() {
   return (
-    <section className="px-16 pt-6 pb-12">
-      <div className="max-w-6xl mx-auto">
+    <section className="px-8 md:px-12 pt-6 pb-12">
+      <div className="max-w-4xl mx-auto">
         {/* Section Header with Quiz CTA */}
         <div className="flex items-center justify-between mb-4">
           <div className="text-left">
@@ -43,7 +43,7 @@ export default function ProtocolsGridDesktop() {
         </div>
 
         {/* 2x2 Protocol Grid */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           {protocolsArray.map((protocol) => (
             <ProtocolCard key={protocol.id} protocol={protocol} />
           ))}

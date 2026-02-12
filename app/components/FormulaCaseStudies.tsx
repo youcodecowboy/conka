@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import {
   AthleteData,
   getAthletesForFormula,
+  getAthletesForProtocol,
 } from "@/app/lib/caseStudiesData";
+import type { ProductId, FormulaId, ProtocolId } from "@/app/lib/productData";
 
 interface FormulaCaseStudiesProps {
-  formulaId: "01" | "02";
+  formulaId?: FormulaId;
+  productId?: ProductId;
+  athletes?: AthleteData[];
 }
 
 const METRIC_RING_COLORS = [
@@ -25,7 +29,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
       : "center";
 
   return (
-    <article className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] text-black">
+    <article className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] text-black h-full">
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
       <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">
         {athlete.photo ? (
@@ -162,8 +166,22 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
   );
 }
 
-export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProps) {
-  const athletes = getAthletesForFormula(formulaId);
+export default function FormulaCaseStudies({ formulaId, productId }: FormulaCaseStudiesProps) {
+  // Determine athletes: use productId or formulaId
+  let athletes: AthleteData[] = [];
+  
+  if (productId) {
+    // Check if it's a protocol (1-4) or formula (01-02)
+    if (productId === "1" || productId === "2" || productId === "3" || productId === "4") {
+      athletes = getAthletesForProtocol(productId as ProtocolId);
+    } else if (productId === "01" || productId === "02") {
+      athletes = getAthletesForFormula(productId as FormulaId);
+    }
+  } else if (formulaId) {
+    athletes = getAthletesForFormula(formulaId);
+  } else {
+    throw new Error("FormulaCaseStudies requires either formulaId or productId");
+  }
 
   if (athletes.length === 0) return null;
 
@@ -175,7 +193,7 @@ export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProp
             Verified Results
           </p>
           <h2 className="premium-section-heading text-white">
-            Athlete Case Studies
+            CONKA Case Studies
           </h2>
           <p className="premium-annotation opacity-80">
             real data, measured improvement
@@ -214,10 +232,31 @@ export default function FormulaCaseStudies({ formulaId }: FormulaCaseStudiesProp
   );
 }
 
-export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps) {
-  const athletes = getAthletesForFormula(formulaId);
+export function FormulaCaseStudiesMobile({ 
+  formulaId, 
+  productId, 
+  athletes: providedAthletes 
+}: FormulaCaseStudiesProps) {
+  // Determine athletes: use provided, or compute based on productId/formulaId
+  let athletes: AthleteData[] = [];
+  
+  if (providedAthletes) {
+    athletes = providedAthletes;
+  } else if (productId) {
+    // Check if it's a protocol (1-4) or formula (01-02)
+    if (productId === "1" || productId === "2" || productId === "3" || productId === "4") {
+      athletes = getAthletesForProtocol(productId as ProtocolId);
+    } else if (productId === "01" || productId === "02") {
+      athletes = getAthletesForFormula(productId as FormulaId);
+    }
+  } else if (formulaId) {
+    athletes = getAthletesForFormula(formulaId);
+  }
 
   if (athletes.length === 0) return null;
+
+  const caseStudiesCarouselRef = useRef<HTMLDivElement>(null);
+  const [caseStudiesCarouselIndex, setCaseStudiesCarouselIndex] = useState(0);
 
   return (
     <section className="premium-section bg-black text-white">
@@ -227,7 +266,7 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
             Verified Results
           </p>
           <h2 className="premium-section-heading text-white">
-            Athlete Case Studies
+            CONKA Case Studies
           </h2>
           <p className="premium-annotation opacity-80">
             real data, measured improvement
@@ -236,10 +275,21 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
 
         {/* Swipeable horizontal carousel – first card centered on mount, scroll to see more */}
         <div
+          ref={caseStudiesCarouselRef}
           className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory -mx-[var(--premium-section-padding-x)] pl-[7.5vw] pr-[7.5vw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           style={{ WebkitOverflowScrolling: "touch" }}
           role="region"
-          aria-label="Athlete case studies - swipe to view all"
+          aria-label="CONKA case studies - swipe to view all"
+          onScroll={() => {
+            const el = caseStudiesCarouselRef.current;
+            if (!el) return;
+            const cardWidth = el.offsetWidth * 0.85 + 24;
+            const index = Math.min(
+              athletes.length - 1,
+              Math.max(0, Math.round(el.scrollLeft / cardWidth))
+            );
+            setCaseStudiesCarouselIndex(index);
+          }}
         >
           {athletes.map((athlete) => (
             <div
@@ -248,6 +298,18 @@ export function FormulaCaseStudiesMobile({ formulaId }: FormulaCaseStudiesProps)
             >
               <AthleteCard athlete={athlete} />
             </div>
+          ))}
+        </div>
+
+        <div className="flex justify-center gap-2 mt-4">
+          {athletes.map((_, idx) => (
+            <div
+              key={idx}
+              className={`w-2 h-2 rounded-full bg-white transition-opacity ${
+                caseStudiesCarouselIndex === idx ? "opacity-100" : "opacity-30"
+              }`}
+              aria-hidden
+            />
           ))}
         </div>
 

@@ -1,17 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { FormulaId, FORMULA_COLORS } from "@/app/lib/productData";
-import { whatToExpectByFormula } from "@/app/lib/whatToExpectData";
+import { getProductAccent } from "@/app/lib/productData";
+import type { ProductId } from "@/app/lib/productData";
 import type { WhatToExpectStep } from "@/app/lib/whatToExpectData";
+import { whatToExpectByProduct } from "@/app/lib/whatToExpectData";
 
 interface WhatToExpectTimelineMobileProps {
-  formulaId: FormulaId;
+  productId: ProductId;
 }
 
-export default function WhatToExpectTimelineMobile({ formulaId }: WhatToExpectTimelineMobileProps) {
-  const steps = whatToExpectByFormula[formulaId];
-  const accentHex = FORMULA_COLORS[formulaId].hex;
+const MOBILE_STEP_INDICES = [0, 1, 3]; // Within 30 mins, 7 Days, 30 Days
+
+export default function WhatToExpectTimelineMobile({ productId }: WhatToExpectTimelineMobileProps) {
+  const allSteps = whatToExpectByProduct[productId];
+  const steps = MOBILE_STEP_INDICES.map((idx) => allSteps[idx]);
+  const accentHex = getProductAccent(productId);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   return (

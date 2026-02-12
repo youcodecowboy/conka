@@ -1,22 +1,19 @@
 "use client";
 
-import { FormulaId, FORMULA_COLORS } from "@/app/lib/productData";
-import { whatToExpectByFormula } from "@/app/lib/whatToExpectData";
+import { getProductAccent, getProductGradient } from "@/app/lib/productData";
+import type { ProductId } from "@/app/lib/productData";
+import { whatToExpectByProduct } from "@/app/lib/whatToExpectData";
 import type { WhatToExpectStep } from "@/app/lib/whatToExpectData";
 
-const FORMULA_GRADIENT: Record<FormulaId, string> = {
-  "01": "linear-gradient(90deg, #ffde59 0%, #ff914d 100%)",
-  "02": "linear-gradient(90deg, #cdffd8 0%, #94b9ff 100%)",
-};
-
 interface WhatToExpectTimelineDesktopProps {
-  formulaId: FormulaId;
+  productId: ProductId;
 }
 
-export default function WhatToExpectTimelineDesktop({ formulaId }: WhatToExpectTimelineDesktopProps) {
-  const steps = whatToExpectByFormula[formulaId];
-  const accentHex = FORMULA_COLORS[formulaId].hex;
-  const gradient = FORMULA_GRADIENT[formulaId];
+export default function WhatToExpectTimelineDesktop({ productId }: WhatToExpectTimelineDesktopProps) {
+  const steps = whatToExpectByProduct[productId];
+  const gradientConfig = getProductGradient(productId);
+  const accentHex = getProductAccent(productId);
+  const gradient = `linear-gradient(90deg, ${gradientConfig.start}, ${gradientConfig.end})`;
 
   return (
     <>
@@ -39,7 +36,7 @@ export default function WhatToExpectTimelineDesktop({ formulaId }: WhatToExpectT
         {steps.map((step: WhatToExpectStep, i: number) => (
           <div
             key={i}
-            className="rounded-xl border border-black/10 bg-white p-4 flex flex-col min-h-[200px] text-black transition-[background] duration-200"
+            className="rounded-xl bg-white p-4 flex flex-col min-h-[200px] text-black transition-[background] duration-200"
             onMouseEnter={(e) => (e.currentTarget.style.background = gradient)}
             onMouseLeave={(e) => (e.currentTarget.style.background = "white")}
           >

@@ -14,11 +14,11 @@ export default function ProtocolScheduleCalendar({
   const weekDays = allDays.slice(0, 7);
   const isUltimate = protocolId === "4";
 
-  const getCellClassName = (formula: "01" | "02" | "rest") => {
+  const getCellClassName = (formula: "01" | "02" | "rest" | "both") => {
     if (formula === "rest") {
       return "border border-current opacity-20";
     }
-    if (isUltimate) {
+    if (formula === "both") {
       return "bg-gradient-to-br from-amber-500 to-[#AAB9BC] text-white";
     }
     if (formula === "01") {

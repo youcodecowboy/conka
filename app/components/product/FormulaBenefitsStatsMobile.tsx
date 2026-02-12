@@ -48,11 +48,8 @@ export default function FormulaBenefitsStatsMobile({
             id="benefits-stats-heading"
             className="premium-section-heading text-white mb-2"
           >
-            {formula.headline}
-          </h2>
-          <p className="premium-annotation text-white/80 text-base">
             {formula.subheadline}
-          </p>
+          </h2>
         </div>
 
         {/* 3. 2 x 3 grid of data */}

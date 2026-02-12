@@ -9,7 +9,6 @@ import {
   getTrialPackVariantId,
   getFormulaVariantId,
 } from "../lib/shopifyProductMapping";
-import PaymentLogos from "./PaymentLogos";
 
 type FormulaType = "01" | "02";
 type PurchaseType = "one-time" | "subscription";
@@ -421,8 +420,6 @@ export default function TrialPacks() {
               >
                 Learn More
               </a>
-              {/* Payment Logos */}
-              <PaymentLogos size="sm" className="mt-2" />
             </div>
           </div>
         </div>

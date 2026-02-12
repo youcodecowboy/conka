@@ -9,6 +9,7 @@ import {
   formatPrice,
   getBillingLabel,
   FORMULA_GRADIENTS,
+  getGradientTextColor,
 } from "@/app/lib/productData";
 import PackSelectorPremium from "./PackSelectorPremium";
 import ProductImageSlideshow from "./ProductImageSlideshow";
@@ -32,6 +33,8 @@ export default function ProductHero({
 }: ProductHeroProps) {
   const formula = formulaContent[formulaId];
   const pricing = formulaPricing[purchaseType][selectedPack];
+  const ctaTextClass =
+    getGradientTextColor(formulaId) === "white" ? "text-white" : "text-black";
 
   const billingText =
     purchaseType === "subscription"
@@ -105,8 +108,8 @@ export default function ProductHero({
                   </div>
                   <span className="premium-data text-current/90">
                     {formulaId === "01"
-                      ? "Over 80,000 shots sold"
-                      : "Over 20,000 shots sold"}
+                      ? "Over 80,000 bottles sold"
+                      : "Over 20,000 bottles sold"}
                   </span>
                 </div>
                 <h1 className="premium-display leading-tight font-primary text-current">
@@ -126,7 +129,7 @@ export default function ProductHero({
               </div>
 
               {/* Headline description */}
-              <p className="premium-title text-current/90 font-bold text-base md:text-lg leading-snug mb-1.5">
+              <p className="premium-title text-current/90 text-base md:text-lg leading-snug mb-1.5">
                 {formula.headline}
               </p>
 
@@ -362,7 +365,7 @@ export default function ProductHero({
               <div className="pb-4 md:pb-6">
                 <button
                   onClick={onAddToCart}
-                  className="w-full px-8 py-4 font-bold text-lg text-black rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px 8px_rgba(0,0,0,0.12)]"
+                  className={`w-full px-8 py-4 font-bold text-lg rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)] ${ctaTextClass}`}
                   style={{
                     background: `linear-gradient(90deg, ${FORMULA_GRADIENTS[formulaId].start} 0%, ${FORMULA_GRADIENTS[formulaId].end} 100%)`,
                   }}

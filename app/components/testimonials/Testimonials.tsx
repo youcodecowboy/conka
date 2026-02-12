@@ -1,49 +1,23 @@
 "use client";
 
-import useIsMobile from "../../hooks/useIsMobile";
 import TestimonialsAutoScrollStrip from "./TestimonialsAutoScrollStrip";
-import TestimonialsDesktop from "./TestimonialsDesktop";
-import TestimonialsMobile from "./TestimonialsMobile";
 import type { TestimonialsProps } from "./types";
 
 /**
- * Testimonials component orchestrator
- * When autoScrollOnly: renders non-interactive auto-scrolling strip (surface bg, white cards).
- * Otherwise: conditional mobile/desktop with arrows, dots, swipe.
+ * Testimonials: auto-scrolling strip (surface bg, white cards).
+ * Pauses on hover or when a card is expanded for "Read more".
  */
 export default function Testimonials({
   testimonials,
   maxReviews,
   showRating = true,
-  autoScrollOnly = false,
 }: TestimonialsProps) {
-  const isMobile = useIsMobile(1024); // lg breakpoint
-
-  // Limit testimonials if maxReviews is specified
   const displayTestimonials = maxReviews
     ? testimonials.slice(0, maxReviews)
     : testimonials;
 
-  if (autoScrollOnly) {
-    return (
-      <TestimonialsAutoScrollStrip
-        testimonials={displayTestimonials}
-        showRating={showRating}
-      />
-    );
-  }
-
-  if (isMobile) {
-    return (
-      <TestimonialsMobile
-        testimonials={displayTestimonials}
-        showRating={showRating}
-      />
-    );
-  }
-
   return (
-    <TestimonialsDesktop
+    <TestimonialsAutoScrollStrip
       testimonials={displayTestimonials}
       showRating={showRating}
     />

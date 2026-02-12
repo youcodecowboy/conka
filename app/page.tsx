@@ -399,7 +399,7 @@ export default function Home() {
 
       {/* ===== SECTION 2.75: TESTIMONIALS ===== */}
       {shuffledTestimonials.length > 0 && (
-        <Testimonials testimonials={shuffledTestimonials} />
+        <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
       )}
 
       {/* ===== SECTION 3: INGREDIENTS ===== */}

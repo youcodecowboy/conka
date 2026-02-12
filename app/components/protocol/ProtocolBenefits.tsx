@@ -17,24 +17,44 @@ export default function ProtocolBenefits({
   const protocol = protocolContent[protocolId];
   const formula01 = formulaContent["01"];
   const formula02 = formulaContent["02"];
+  const benefitStats = protocol.benefitStats ?? [];
 
   return (
-    <section className="px-6 md:px-16 py-24">
-      <div className="max-w-6xl mx-auto">
+    <section className="premium-section">
+      <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 py-24">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+        <div className="text-center mb-10">
+          <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
             Why This Protocol Works
           </h2>
-          <p className="font-commentary text-xl">the science of synergy</p>
+          <p className="premium-annotation text-xl">the science of synergy</p>
         </div>
 
-        {/* Protocol Benefits */}
+        {/* Protocol-level stats grid (stat-led, like FormulaBenefitsStats) */}
+        {benefitStats.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
+            {benefitStats.map((item, idx) => (
+              <div key={idx} className="premium-box p-4 text-center">
+                <p className="font-clinical text-2xl md:text-3xl font-bold text-current leading-tight">
+                  {item.stat}
+                </p>
+                <p className="premium-data text-sm opacity-70 mt-0.5">
+                  {item.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Diagram placeholder for Phase 4 */}
+        <div className="mb-12" aria-hidden />
+
+        {/* Protocol Benefits (checkmark list) */}
         <div className="grid md:grid-cols-2 gap-6 mb-16">
           {protocol.benefits.map((benefit, idx) => (
             <div
               key={idx}
-              className="neo-box p-6 hover:shadow-[8px_8px_0px_0px_var(--foreground)] transition-all"
+              className="premium-box p-6 hover:shadow-[0_2px_10px_rgba(0,0,0,0.08)] transition-all"
             >
               <div className="flex items-start gap-4">
                 <svg
@@ -61,7 +81,7 @@ export default function ProtocolBenefits({
         {/* Combined Formula Benefits */}
         <div className="grid md:grid-cols-2 gap-8">
           {/* CONKA Flow Benefits */}
-          <div className="neo-box overflow-hidden">
+          <div className="premium-box overflow-hidden">
             <div className={`${FORMULA_COLORS["01"].bg} p-4 text-white`}>
               <h3 className="text-xl font-bold">CONKA Flow Benefits</h3>
               <p className="font-clinical text-sm opacity-80">
@@ -107,7 +127,7 @@ export default function ProtocolBenefits({
           </div>
 
           {/* CONKA Clear Benefits */}
-          <div className="neo-box overflow-hidden">
+          <div className="premium-box overflow-hidden">
             <div className={`${FORMULA_COLORS["02"].bg} p-4 text-white`}>
               <h3 className="text-xl font-bold">CONKA Clear Benefits</h3>
               <p className="font-clinical text-sm opacity-80">
@@ -154,9 +174,11 @@ export default function ProtocolBenefits({
         </div>
 
         {/* Synergy Explanation */}
-        <div className="mt-16 neo-box p-8 text-center">
-          <h3 className="text-2xl font-bold mb-4">The Power of Combination</h3>
-          <p className="text-lg opacity-80 max-w-2xl mx-auto">
+        <div className="mt-16 premium-box p-8 text-center">
+          <h3 className="premium-section-heading text-2xl font-bold mb-4">
+            The Power of Combination
+          </h3>
+          <p className="premium-annotation text-lg opacity-80 max-w-2xl mx-auto">
             When taken as part of a protocol, CONKA Flow and CONKA Clear work
             together synergistically. CONKA Flow&apos;s adaptogens build your
             daily foundation while CONKA Clear&apos;s nootropics enhance peak
