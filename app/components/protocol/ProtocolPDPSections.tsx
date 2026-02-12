@@ -14,7 +14,7 @@ import ProtocolCalendar from "./ProtocolCalendar";
 import WhatToExpectTimeline from "@/app/components/product/WhatToExpectTimeline";
 import Testimonials from "@/app/components/testimonials/Testimonials";
 import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
-import ProtocolCalendarSectionMobile from "./ProtocolCalendarSectionMobile";
+import ProtocolCalendarMobile from "./ProtocolCalendarMobile";
 import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
 import ProtocolWhySection from "./why/ProtocolWhySection";
 import ProtocolFAQ from "./ProtocolFAQ";
@@ -69,13 +69,11 @@ export default function ProtocolPDPSections({
         </section>
         <ProtocolWhySection protocolId={protocolId} />
 
-        <ProtocolCalendarSectionMobile
+        <ProtocolCalendarMobile
           protocolId={protocolId}
           selectedTier={selectedTier}
           onTierSelect={onTierSelect}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={onPurchaseTypeChange}
-          onAddToCart={onAddToCart}
+          availableTiers={protocolContent[protocolId].availableTiers}
         />
 
         <WhatToExpectTimeline
