@@ -107,7 +107,7 @@ export default function ConkaClarityPage() {
             autoScrollOnly
           />
 
-          <WhatToExpectTimeline formulaId="02" />
+          <WhatToExpectTimeline productId="02" />
 
           <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("02")} />
           <FormulaIngredients formulaId="02" />
@@ -160,7 +160,7 @@ export default function ConkaClarityPage() {
           autoScrollOnly
         />
 
-        <WhatToExpectTimeline formulaId="02" />
+        <WhatToExpectTimeline productId="02" />
 
         <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("02")} />
         <FormulaIngredients formulaId="02" />

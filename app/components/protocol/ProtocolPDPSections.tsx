@@ -7,6 +7,7 @@ import ProtocolCardMobile from "@/app/components/shop/ProtocolCardMobile";
 import FormulasShowcase from "@/app/components/shop/FormulasShowcase";
 import ProtocolSectionPlaceholder from "./ProtocolSectionPlaceholder";
 import ProtocolCalendar from "./ProtocolCalendar";
+import WhatToExpectTimeline from "@/app/components/product/WhatToExpectTimeline";
 import Testimonials from "@/app/components/testimonials/Testimonials";
 import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
 import ProtocolCalendarSectionMobile from "./ProtocolCalendarSectionMobile";
@@ -73,7 +74,7 @@ export default function ProtocolPDPSections({
         <ProtocolWhySection protocolId={protocolId} />
 
         <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
-        <ProtocolSectionPlaceholder id="expected-results" title="Expected Results" />
+        <WhatToExpectTimeline productId={protocolId} sectionTitle="Expected results" />
 
         {protocolTestimonials.length > 0 && (
           <section className="premium-section" aria-label="What others say">
@@ -150,7 +151,7 @@ export default function ProtocolPDPSections({
       <ProtocolWhySection protocolId={protocolId} />
 
       <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
-      <ProtocolSectionPlaceholder id="expected-results" title="Expected Results" />
+      <WhatToExpectTimeline productId={protocolId} sectionTitle="Expected results" />
       {protocolTestimonials.length > 0 && (
         <section className="premium-section" aria-label="What others say">
           <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
