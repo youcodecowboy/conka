@@ -12,7 +12,7 @@ import {
   ProtocolFAQ,
   ProtocolStruggleMobile,
 } from "@/app/components/protocol";
-import { FormulaCaseStudiesMobile, FormulaCaseStudies } from "@/app/components/FormulaCaseStudies";
+import FormulaCaseStudies, { FormulaCaseStudiesMobile } from "@/app/components/FormulaCaseStudies";
 import ProtocolWhySection from "@/app/components/protocol/why/ProtocolWhySection";
 import {
   StickyPurchaseFooter,
