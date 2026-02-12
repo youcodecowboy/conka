@@ -82,9 +82,7 @@ export default function ProtocolPDPSections({
         />
 
         {protocolTestimonials.length > 0 && (
-          <section className="premium-section" aria-label="What others say">
-            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
-          </section>
+          <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
         )}
 
         <section className="premium-section">
