@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import {
   AthleteData,
@@ -255,6 +255,9 @@ export function FormulaCaseStudiesMobile({
 
   if (athletes.length === 0) return null;
 
+  const caseStudiesCarouselRef = useRef<HTMLDivElement>(null);
+  const [caseStudiesCarouselIndex, setCaseStudiesCarouselIndex] = useState(0);
+
   return (
     <section className="premium-section bg-black text-white">
       <div className="premium-container">
@@ -272,10 +275,21 @@ export function FormulaCaseStudiesMobile({
 
         {/* Swipeable horizontal carousel – first card centered on mount, scroll to see more */}
         <div
+          ref={caseStudiesCarouselRef}
           className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory -mx-[var(--premium-section-padding-x)] pl-[7.5vw] pr-[7.5vw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           style={{ WebkitOverflowScrolling: "touch" }}
           role="region"
           aria-label="CONKA case studies - swipe to view all"
+          onScroll={() => {
+            const el = caseStudiesCarouselRef.current;
+            if (!el) return;
+            const cardWidth = el.offsetWidth * 0.85 + 24;
+            const index = Math.min(
+              athletes.length - 1,
+              Math.max(0, Math.round(el.scrollLeft / cardWidth))
+            );
+            setCaseStudiesCarouselIndex(index);
+          }}
         >
           {athletes.map((athlete) => (
             <div
@@ -284,6 +298,18 @@ export function FormulaCaseStudiesMobile({
             >
               <AthleteCard athlete={athlete} />
             </div>
+          ))}
+        </div>
+
+        <div className="flex justify-center gap-2 mt-4">
+          {athletes.map((_, idx) => (
+            <div
+              key={idx}
+              className={`w-2 h-2 rounded-full bg-white transition-opacity ${
+                caseStudiesCarouselIndex === idx ? "opacity-100" : "opacity-30"
+              }`}
+              aria-hidden
+            />
           ))}
         </div>
 
