@@ -110,7 +110,7 @@ export default function ConkaFlowPage() {
             autoScrollOnly
           />
 
-          <WhatToExpectTimeline formulaId="01" />
+          <WhatToExpectTimeline productId="01" />
 
           <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
           <FormulaIngredients formulaId="01" />
@@ -166,7 +166,7 @@ export default function ConkaFlowPage() {
           autoScrollOnly
         />
 
-        <WhatToExpectTimeline formulaId="01" />
+        <WhatToExpectTimeline productId="01" />
 
         <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
         <FormulaIngredients formulaId="01" />
