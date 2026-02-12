@@ -36,7 +36,7 @@ export default function WhatToExpectTimelineDesktop({ productId }: WhatToExpectT
         {steps.map((step: WhatToExpectStep, i: number) => (
           <div
             key={i}
-            className="rounded-xl border border-black/10 bg-white p-4 flex flex-col min-h-[200px] text-black transition-[background] duration-200"
+            className="rounded-xl bg-white p-4 flex flex-col min-h-[200px] text-black transition-[background] duration-200"
             onMouseEnter={(e) => (e.currentTarget.style.background = gradient)}
             onMouseLeave={(e) => (e.currentTarget.style.background = "white")}
           >
