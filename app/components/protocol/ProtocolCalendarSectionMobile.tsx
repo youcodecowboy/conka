@@ -52,12 +52,8 @@ export default function ProtocolCalendarSectionMobile({
       ? getBillingLabel(pricing.billing)
       : "one-time purchase";
 
-  // Render 4-week calendar
-  const weeks = [];
-  for (let week = 0; week < 4; week++) {
-    const weekDays = calendarDays.slice(week * 7, (week + 1) * 7);
-    weeks.push(weekDays);
-  }
+  // Render single week (first week only)
+  const weekDays = calendarDays.slice(0, 7);
 
   return (
     <section className="w-full bg-[var(--color-surface)] px-4 py-8">
@@ -67,7 +63,7 @@ export default function ProtocolCalendarSectionMobile({
           Your Protocol Schedule
         </h2>
         <p className="premium-annotation text-base opacity-70">
-          see your full month at a glance
+          your weekly schedule
         </p>
       </div>
 
@@ -166,7 +162,7 @@ export default function ProtocolCalendarSectionMobile({
               ></div>
               <span className="font-clinical text-xs">CONKA Clear</span>
             </div>
-            {protocolId === "4" ? (
+            {protocolId === "4" && (
               <div className="flex items-center gap-1">
                 <div
                   className="w-3 h-3 rounded-sm"
@@ -176,12 +172,11 @@ export default function ProtocolCalendarSectionMobile({
                 ></div>
                 <span className="font-clinical text-xs">Both Daily</span>
               </div>
-            ) : (
-              <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-sm bg-gray-200"></div>
-                <span className="font-clinical text-xs">Rest</span>
-              </div>
             )}
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded-sm bg-gray-200"></div>
+              <span className="font-clinical text-xs">Rest</span>
+            </div>
           </div>
 
           {/* Day Headers */}
@@ -196,58 +191,48 @@ export default function ProtocolCalendarSectionMobile({
             ))}
           </div>
 
-          {/* Weeks */}
-          <div className="space-y-1">
-            {weeks.map((week, weekIdx) => (
-              <div key={weekIdx} className="grid grid-cols-7 gap-1">
-                {week.map((day, dayIdx) => {
-                  // Protocol 4 (Ultimate) has both formulas every day - show diagonal split
-                  const isUltimate = protocolId === "4";
-
-                  if (isUltimate) {
-                    return (
-                      <div
-                        key={dayIdx}
-                        className="aspect-square rounded overflow-hidden relative flex items-center justify-center text-xs font-clinical text-white"
-                        style={{
-                          background: `linear-gradient(135deg, #f59e0b 50%, #AAB9BC 50%)`,
-                        }}
-                      >
-                        <span className="relative z-10 drop-shadow-sm">
-                          {day.day}
-                        </span>
-                      </div>
-                    );
-                  }
-
-                  const bgColor =
-                    day.formula === "01"
-                      ? FORMULA_COLORS["01"].bg
-                      : day.formula === "02"
-                        ? FORMULA_COLORS["02"].bg
-                        : "bg-gray-100";
-                  const textColor =
-                    day.formula === "rest" ? "text-black/30" : "text-white";
-                  return (
-                    <div
-                      key={dayIdx}
-                      className={`aspect-square rounded flex items-center justify-center text-xs font-clinical ${bgColor} ${textColor}`}
-                    >
+          {/* Single Week */}
+          <div className="grid grid-cols-7 gap-1">
+            {weekDays.map((day, dayIdx) => {
+              if (day.formula === "both") {
+                return (
+                  <div
+                    key={dayIdx}
+                    className="aspect-square rounded overflow-hidden relative flex items-center justify-center text-xs font-clinical text-white"
+                    style={{
+                      background: `linear-gradient(135deg, #f59e0b 50%, #AAB9BC 50%)`,
+                    }}
+                  >
+                    <span className="relative z-10 drop-shadow-sm">
                       {day.day}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
+                    </span>
+                  </div>
+                );
+              }
+
+              const bgColor =
+                day.formula === "01"
+                  ? FORMULA_COLORS["01"].bg
+                  : day.formula === "02"
+                    ? FORMULA_COLORS["02"].bg
+                    : "bg-gray-100";
+              const textColor =
+                day.formula === "rest" ? "text-black/30" : "text-white";
+              return (
+                <div
+                  key={dayIdx}
+                  className={`aspect-square rounded flex items-center justify-center text-xs font-clinical ${bgColor} ${textColor}`}
+                >
+                  {day.day}
+                </div>
+              );
+            })}
           </div>
 
-          {/* Week labels */}
-          <div className="flex justify-between mt-2 px-1">
-            <span className="font-clinical text-xs opacity-40">Week 1</span>
-            <span className="font-clinical text-xs opacity-40">Week 2</span>
-            <span className="font-clinical text-xs opacity-40">Week 3</span>
-            <span className="font-clinical text-xs opacity-40">Week 4</span>
-          </div>
+          {/* Clarifying message */}
+          <p className="premium-annotation text-sm text-center mt-4 opacity-70">
+            Repeat this cycle weekly for the month
+          </p>
         </div>
 
         {/* Pricing & Buy Section */}
