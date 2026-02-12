@@ -84,8 +84,8 @@ export default function ProtocolCalendarMobile({
           })}
         </div>
 
-        {/* Calendar - full width, no card */}
-        <div className="w-full">
+        {/* Calendar - white strip */}
+        <div className="w-full bg-white rounded-lg p-4 md:p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-bold">Weekly View</h3>
             <span className="font-clinical text-sm opacity-70">

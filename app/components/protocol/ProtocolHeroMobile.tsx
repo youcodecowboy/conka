@@ -86,7 +86,7 @@ export default function ProtocolHeroMobile({
               Over 100,000 bottles sold
             </span>
           </div>
-          <h1 className="premium-display leading-tight font-primary text-current">
+          <h1 className="premium-display leading-tight font-primary text-current text-xl md:text-2xl whitespace-nowrap overflow-hidden text-ellipsis">
             {protocol.name}
           </h1>
           <div className="mt-2">
