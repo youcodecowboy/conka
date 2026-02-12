@@ -73,8 +73,8 @@ export default function ProtocolPDPSections({
         </section>
         <ProtocolWhySection protocolId={protocolId} />
 
-        <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
         <WhatToExpectTimeline productId={protocolId} sectionTitle="Expected results" />
+        <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
 
         {protocolTestimonials.length > 0 && (
           <section className="premium-section" aria-label="What others say">
@@ -150,8 +150,8 @@ export default function ProtocolPDPSections({
       </section>
       <ProtocolWhySection protocolId={protocolId} />
 
-      <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
       <WhatToExpectTimeline productId={protocolId} sectionTitle="Expected results" />
+      <ProtocolSectionPlaceholder id="flexibility" title="Flexibility" />
       {protocolTestimonials.length > 0 && (
         <section className="premium-section" aria-label="What others say">
           <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
