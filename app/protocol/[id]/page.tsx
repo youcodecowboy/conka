@@ -196,7 +196,10 @@ export default function ProtocolPage() {
 
           <ProtocolFAQ protocolId={protocolId as ProtocolId} />
 
-          <CrossSell variant="protocol" currentProtocolId={protocolId as ProtocolId} />
+          <CrossSell
+            variant="protocol"
+            currentProtocolId={protocolId as ProtocolId}
+          />
 
           <Footer />
 
@@ -254,9 +257,7 @@ export default function ProtocolPage() {
         <ProtocolWhySection protocolId={protocolId as ProtocolId} />
 
         {protocolTestimonials.length > 0 && (
-          <section className="premium-section" aria-label="What others say">
-            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
-          </section>
+          <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
         )}
 
         <WhatToExpectTimeline
@@ -277,7 +278,10 @@ export default function ProtocolPage() {
 
         <ProtocolFAQ protocolId={protocolId as ProtocolId} />
 
-        <CrossSell variant="protocol" currentProtocolId={protocolId as ProtocolId} />
+        <CrossSell
+          variant="protocol"
+          currentProtocolId={protocolId as ProtocolId}
+        />
 
         <Footer />
 
