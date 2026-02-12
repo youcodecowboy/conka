@@ -50,21 +50,21 @@ export const protocolSynergyCopy: ProtocolSynergyCopy = {
     flow: {
       title: "Flow: Reduces Pressure",
       description:
-        "CONKA Flow supports environmental regulation—helping maintain healthy stress signalling and antioxidant pathways. By reducing the load on your system, Flow creates space for repair.",
+        "Most supplements try to boost performance. Flow does something counterintuitive: it stabilizes the system that performance depends on. Think of it like turning down the heat so the system can cool naturally. Stress isn't the problem—unmanaged stress is. Flow reduces the load, creating space for your body's natural recovery processes to work.",
       keyPoints: [
-        "Supports healthy stress response pathways",
-        "Helps maintain antioxidant balance",
+        "Modulates stress response pathways",
+        "Maintains antioxidant balance",
         "Reduces systemic pressure",
       ],
     },
     clear: {
       title: "Clear: Strengthens Repair",
       description:
-        "CONKA Clear strengthens cellular infrastructure—supporting glutathione synthesis and mitochondrial function. Clear builds capacity for recovery.",
+        "Your cells already have the blueprint for recovery. What they need are the materials. Clear rebuilds the infrastructure—like repairing the foundation while the house stands. It doesn't add more complexity; it strengthens what's already there. When your cellular machinery runs efficiently, everything else follows.",
       keyPoints: [
-        "Supports glutathione synthesis",
-        "Strengthens mitochondrial function",
-        "Builds cellular repair capacity",
+        "Replenishes glutathione reserves",
+        "Fuels mitochondrial function",
+        "Rebuilds cellular repair capacity",
       ],
     },
   },
