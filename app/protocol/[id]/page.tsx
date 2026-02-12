@@ -10,9 +10,10 @@ import {
   ProtocolCalendar,
   ProtocolCalendarMobile,
   ProtocolFAQ,
-  ProtocolStruggleMobile,
 } from "@/app/components/protocol";
-import FormulaCaseStudies, { FormulaCaseStudiesMobile } from "@/app/components/FormulaCaseStudies";
+import FormulaCaseStudies, {
+  FormulaCaseStudiesMobile,
+} from "@/app/components/FormulaCaseStudies";
 import ProtocolWhySection from "@/app/components/protocol/why/ProtocolWhySection";
 import {
   StickyPurchaseFooter,
@@ -37,6 +38,7 @@ import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
 import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
+import { FormulasShowcaseMobile } from "@/app/components/shop";
 
 // Valid protocol IDs
 const validProtocolIds: ProtocolId[] = ["1", "2", "3", "4"];
@@ -79,7 +81,7 @@ export default function ProtocolPage() {
     const variantData = getProtocolVariantId(
       protocolId as ProtocolId,
       "pro",
-      "subscription"
+      "subscription",
     );
     if (variantData?.variantId) {
       trackMetaViewContent({
@@ -154,14 +156,12 @@ export default function ProtocolPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          <ProtocolStruggleMobile protocolId={protocolId as ProtocolId} />
-
           {/* Why Two Formulas Section */}
           <section
             className="premium-section bg-[var(--color-surface)]"
             aria-labelledby="why-two-formulas-heading"
           >
-            <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-10">
+            <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-4">
               <div className="text-center">
                 <h2
                   id="why-two-formulas-heading"
@@ -169,7 +169,7 @@ export default function ProtocolPage() {
                 >
                   {protocolSynergyCopy.framing.headline}
                 </h2>
-                <p className="premium-annotation text-xl md:text-2xl opacity-80">
+                <p className="premium-annotation text-xl md:text-2xl opacity-80 hidden md:block">
                   {protocolSynergyCopy.framing.subheadline}
                 </p>
               </div>
@@ -182,7 +182,9 @@ export default function ProtocolPage() {
             protocolId={protocolId as ProtocolId}
             selectedTier={selectedTier}
             onTierSelect={setSelectedTier}
-            availableTiers={protocolContent[protocolId as ProtocolId].availableTiers}
+            availableTiers={
+              protocolContent[protocolId as ProtocolId].availableTiers
+            }
           />
 
           <WhatToExpectTimeline
@@ -209,21 +211,28 @@ export default function ProtocolPage() {
                   find your perfect match
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div
+                className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth -mx-3 px-3"
+                style={{ WebkitOverflowScrolling: "touch" }}
+              >
+                <div className="flex-shrink-0 w-4" aria-hidden="true" />
                 {validProtocolIds
                   .filter((id) => id !== protocolId)
-                  .map((id) => (
-                    <ProtocolCardMobile
+                  .map((id, idx) => (
+                    <div
                       key={id}
-                      protocol={protocolSelectorData[id]}
-                      isFirst={
-                        id === validProtocolIds.filter((x) => x !== protocolId)[0]
-                      }
-                    />
+                      className="w-[80vw] flex-shrink-0 snap-center"
+                    >
+                      <ProtocolCardMobile
+                        protocol={protocolSelectorData[id]}
+                        isFirst={idx === 0}
+                      />
+                    </div>
                   ))}
+                <div className="flex-shrink-0 w-4" aria-hidden="true" />
               </div>
               <div className="mt-8">
-                <FormulasShowcase />
+                <FormulasShowcaseMobile />
               </div>
             </div>
           </section>
@@ -266,7 +275,7 @@ export default function ProtocolPage() {
           className="premium-section bg-[var(--color-surface)]"
           aria-labelledby="why-two-formulas-heading"
         >
-          <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-10">
+          <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 pb-4">
             <div className="text-center">
               <h2
                 id="why-two-formulas-heading"
@@ -287,7 +296,9 @@ export default function ProtocolPage() {
           protocolId={protocolId as ProtocolId}
           selectedTier={selectedTier}
           onTierSelect={setSelectedTier}
-          availableTiers={protocolContent[protocolId as ProtocolId].availableTiers}
+          availableTiers={
+            protocolContent[protocolId as ProtocolId].availableTiers
+          }
         />
 
         <WhatToExpectTimeline
