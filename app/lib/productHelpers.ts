@@ -95,13 +95,13 @@ export function getB2BNextTierInfo(quantity: number): { boxesToNext: number; tie
 export function generateProtocolCalendarDays(
   protocolId: ProtocolId,
   tier: ProtocolTier,
-): Array<{ day: number; formula: "01" | "02" | "rest" }> {
+): Array<{ day: number; formula: "01" | "02" | "rest" | "both" }> {
   const protocol = protocolContent[protocolId];
   const tierConfig = protocol.tiers[tier];
 
   if (!tierConfig) return [];
 
-  const days: Array<{ day: number; formula: "01" | "02" | "rest" }> = [];
+  const days: Array<{ day: number; formula: "01" | "02" | "rest" | "both" }> = [];
 
   // Generate 4 weeks (28 days)
   for (let week = 0; week < 4; week++) {
@@ -109,9 +109,12 @@ export function generateProtocolCalendarDays(
       const dayNum = week * 7 + day + 1;
 
       if (protocolId === "4") {
-        // Ultimate: Both formulas every day, alternate display
-        // Show F01 in morning slots, F02 in evening (simplified: alternate days for viz)
-        days.push({ day: dayNum, formula: day % 2 === 0 ? "01" : "02" });
+        // Ultimate: Pro = 6+6 (6 days both, 1 rest e.g. Sunday); Max = 7+7 (both every day)
+        if (tier === "pro") {
+          days.push({ day: dayNum, formula: day === 6 ? "rest" : "both" }); // Sunday = rest
+        } else {
+          days.push({ day: dayNum, formula: "both" });
+        }
       } else if (protocolId === "3") {
         // Balanced: Alternating pattern
         const { conkaFlowCount, conkaClarityCount } = tierConfig;
