@@ -105,6 +105,7 @@ export default function CycleTrap({
   onSelectSymptom,
 }: CycleTrapProps) {
   const [selectedIndex, setSelectedIndex] = useState(initialNode);
+  const [scienceExpanded, setScienceExpanded] = useState(false);
   const isMobile = useIsMobile(1024);
   const selected = protocolProblemCycleSteps[selectedIndex];
   const accentHex = protocolId ? getProtocolAccent(protocolId) : DEFAULT_ACCENT;
@@ -113,6 +114,10 @@ export default function CycleTrap({
   useEffect(() => {
     setSelectedIndex(initialNode);
   }, [initialNode]);
+
+  useEffect(() => {
+    setScienceExpanded(false);
+  }, [selectedIndex]);
 
   const go = useCallback((delta: number) => {
     setSelectedIndex((i) => {
@@ -263,11 +268,13 @@ export default function CycleTrap({
   );
 
   const stageToggles = (
-    <div className="flex items-center gap-6 w-full justify-center lg:justify-start mb-4">
+    <div className={`flex items-center w-full justify-center lg:justify-start mb-4 ${isMobile ? "gap-3" : "gap-6"}`}>
       <button
         type="button"
         onClick={() => go(-1)}
-        className="bg-black border-2 border-white text-white w-[200px] min-w-[200px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
+        className={`bg-black border-2 border-white text-white py-3 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-1.5 shrink-0 ${
+          isMobile ? "flex-1 min-w-0 max-w-[50%] px-3" : "w-[200px] min-w-[200px] gap-2"
+        }`}
         aria-label="Previous stage"
       >
         <svg
@@ -284,15 +291,21 @@ export default function CycleTrap({
         >
           <path d="M15 18l-6-6 6-6" />
         </svg>
-        <span className="premium-data text-xs font-semibold uppercase tracking-wider truncate">Previous stage</span>
+        <span className="premium-data text-xs font-semibold uppercase tracking-wider truncate">
+          {isMobile ? "Prev" : "Previous stage"}
+        </span>
       </button>
       <button
         type="button"
         onClick={() => go(1)}
-        className="bg-black border-2 border-white text-white w-[200px] min-w-[200px] py-4 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
+        className={`bg-black border-2 border-white text-white py-3 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-1.5 shrink-0 ${
+          isMobile ? "flex-1 min-w-0 max-w-[50%] px-3" : "w-[200px] min-w-[200px] gap-2"
+        }`}
         aria-label="Next stage"
       >
-        <span className="premium-data text-xs font-semibold uppercase tracking-wider truncate">Next stage</span>
+        <span className="premium-data text-xs font-semibold uppercase tracking-wider truncate">
+          {isMobile ? "Next" : "Next stage"}
+        </span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -321,7 +334,57 @@ export default function CycleTrap({
     >
       <div key={selectedIndex} className="flex flex-col gap-5">
         <PrimaryTile selected={selected} />
-        <SecondaryTile selected={selected} />
+        {isMobile ? (
+          <div className="rounded-3xl bg-[var(--color-surface)] overflow-hidden border border-black/10">
+            <button
+              type="button"
+              onClick={() => setScienceExpanded((e) => !e)}
+              className="w-full p-4 text-left flex items-center justify-between gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50"
+              aria-expanded={scienceExpanded}
+            >
+              <span
+                className="text-sm font-semibold uppercase tracking-wider text-black/70"
+                style={{ letterSpacing: "0.12em" }}
+              >
+                The science
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={`flex-shrink-0 transition-transform ${scienceExpanded ? "rotate-180" : ""}`}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            {scienceExpanded && (
+              <div className="px-4 pb-4 pt-0 border-t border-black/10">
+                <p
+                  className="text-sm text-black/85 leading-relaxed mb-4 pt-4"
+                  style={{ lineHeight: 1.7 }}
+                >
+                  {selected.scientificParagraph}
+                </p>
+                <div
+                  className="text-xs text-black/65 pt-4 border-t border-black/10"
+                  style={{ lineHeight: 1.6 }}
+                >
+                  <span className="font-semibold">{selected.reference.author}</span> (
+                  {selected.reference.year}).{" "}
+                  <span className="italic">{selected.reference.journal}</span>.
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <SecondaryTile selected={selected} />
+        )}
       </div>
     </div>
   );
@@ -358,7 +421,7 @@ export default function CycleTrap({
             <p className="premium-data text-xs text-white mt-2 mb-3">
               {sectionHeadings.recognitionSubline}
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 min-w-0 max-w-full">
               {symptomEntries.map((entry) => {
                 const isSelected = selectedSymptomId === entry.id;
                 return (
@@ -366,7 +429,7 @@ export default function CycleTrap({
                     key={entry.id}
                     type="button"
                     onClick={() => onSelectSymptom(entry.id)}
-                    className={`px-4 py-2.5 rounded-lg border transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-left ${
+                    className={`px-3 py-2 rounded-lg border transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-left min-w-0 shrink-0 ${
                       isSelected
                         ? "bg-white/15 border-white text-white"
                         : "border-white/30 text-white/90 hover:border-white/50 hover:bg-white/5"
