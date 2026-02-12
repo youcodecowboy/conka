@@ -43,6 +43,20 @@ export function getProductAccent(productId: ProductId): string {
   return PRODUCT_GRADIENTS[productId].solid;
 }
 
+/** Font colour when text sits on the product gradient. White for dark gradients, black for light. */
+export const PRODUCT_GRADIENT_TEXT_COLOR: Record<ProductId, "white" | "black"> = {
+  "01": "white", // Flow
+  "02": "black", // Clear
+  "1": "white",  // Resilience
+  "2": "white",  // Precision
+  "3": "white",  // Balance
+  "4": "black",  // Ultimate
+} as const;
+
+export function getGradientTextColor(productId: ProductId): "white" | "black" {
+  return PRODUCT_GRADIENT_TEXT_COLOR[productId];
+}
+
 // Legacy exports for backward compatibility
 export const FORMULA_GRADIENTS: Record<FormulaId, { start: string; end: string }> = {
   "01": { start: PRODUCT_GRADIENTS["01"].start, end: PRODUCT_GRADIENTS["01"].end },

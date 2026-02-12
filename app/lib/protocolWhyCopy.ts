@@ -4,7 +4,7 @@
  */
 
 export const sectionHeadings = {
-  recognition: "Recognize yourself?",
+  recognition: "Recognise yourself?",
   recognitionSubline: "Select what sounds familiar.",
   trap: "You're in the cycle",
   break: "Here's how to break it",
