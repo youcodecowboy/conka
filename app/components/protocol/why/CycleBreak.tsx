@@ -22,20 +22,10 @@ export default function CycleBreak() {
 
   return (
     <section
-      className="bg-white text-black pt-12 pb-0"
+      className="bg-white text-black pb-0"
       aria-label="How to break the cycle"
     >
       <div className="w-full max-w-full mx-auto px-6 md:px-12 lg:px-20">
-        {/* Header */}
-        <div className="max-w-4xl mx-auto text-center mb-10">
-          <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-3">
-            But there's a way out.
-          </h2>
-          <h3 className="premium-section-heading text-xl md:text-2xl font-bold">
-            Together: Break the Cycle
-          </h3>
-        </div>
-
         {/* Two halves - full viewport width so each half goes edge-to-edge */}
         <div className="relative left-1/2 -translate-x-1/2 w-screen max-w-none">
           <div className="grid grid-cols-2 w-full">

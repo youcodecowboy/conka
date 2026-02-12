@@ -16,9 +16,8 @@ export default function ProtocolWhySection({
 }: ProtocolWhySectionProps = {}) {
   const [selectedSymptom, setSelectedSymptom] = useState<string | null>(null);
   const entryNodeIndex = useMemo(
-    () =>
-      symptomEntries.find((s) => s.id === selectedSymptom)?.entryNode ?? 0,
-    [selectedSymptom]
+    () => symptomEntries.find((s) => s.id === selectedSymptom)?.entryNode ?? 0,
+    [selectedSymptom],
   );
 
   return (
@@ -29,6 +28,18 @@ export default function ProtocolWhySection({
         selectedSymptomId={selectedSymptom}
         onSelectSymptom={setSelectedSymptom}
       />
+
+      {/* Header strip — full width */}
+      <div className="w-full bg-neutral-200 py-8">
+        <div className="max-w-4xl mx-auto text-center px-6 md:px-12">
+          <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-3">
+            But there's a way out.
+          </h2>
+          <h3 className="premium-section-heading text-xl md:text-2xl font-bold">
+            Together: Break the Cycle
+          </h3>
+        </div>
+      </div>
 
       <CycleBreak />
       <CycleTransformation protocolId={protocolId} />
