@@ -17,7 +17,7 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden">
+    <div className="flex flex-col border-2 border-black/10 rounded-[var(--premium-radius-base)] overflow-hidden">
       {/* Hero Image */}
       <div className="relative w-full aspect-[4/3.5] overflow-hidden">
         <div
@@ -139,9 +139,6 @@ export default function FormulasShowcaseMobile() {
       <div className="w-full max-w-full mx-auto">
         {/* Section Header */}
         <div className="text-left mb-6">
-          <p className="font-commentary text-base opacity-80 mb-2">
-            Most first-time customers start here
-          </p>
           <h2 className="text-3xl font-bold mb-2">Individual Formulas</h2>
           <p className="font-clinical text-base opacity-70">
             Start simple. Feel the difference.
@@ -159,7 +156,7 @@ export default function FormulasShowcaseMobile() {
             const cardWidth = el.offsetWidth * 0.85 + 16;
             const index = Math.min(
               formulas.length - 1,
-              Math.max(0, Math.round(el.scrollLeft / cardWidth))
+              Math.max(0, Math.round(el.scrollLeft / cardWidth)),
             );
             setCarouselIndex(index);
           }}

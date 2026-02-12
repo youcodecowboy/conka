@@ -32,16 +32,13 @@ export default function FormulaBenefitsStatsDesktop({
       <div className="mx-auto w-full max-w-[90rem] px-6 pt-8 md:px-12 md:pt-10 lg:px-16 pb-0">
         <div className="grid grid-cols-2 md:min-h-[480px] gap-12 md:gap-16 lg:gap-20 items-center">
           {/* Left: content */}
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center pt-6 md:pt-8">
             <h2
               id="benefits-stats-heading"
-              className="premium-section-heading text-white mb-2"
+              className="premium-section-heading text-white mb-8"
             >
-              {formula.headline}
-            </h2>
-            <p className="premium-annotation opacity-80 mb-8">
               {formula.subheadline}
-            </p>
+            </h2>
 
             {/* Stat facts grid (Huel-style) */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-8">

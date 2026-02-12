@@ -6,7 +6,11 @@ import {
   protocolProblemCycleSteps,
   type ProblemCycleStep,
 } from "@/app/lib/protocolProblemCycleCopy";
-import { getProtocolAccent, getProtocolGradient, type ProtocolId } from "@/app/lib/productData";
+import {
+  getProtocolAccent,
+  getProtocolGradient,
+  type ProtocolId,
+} from "@/app/lib/productData";
 import { sectionHeadings, symptomEntries } from "@/app/lib/protocolWhyCopy";
 
 const RADIUS = 32; // ~20% smaller than 40
@@ -23,7 +27,6 @@ function nodePosition(i: number) {
 }
 
 const NODE_POSITIONS = [0, 1, 2, 3, 4].map(nodePosition);
-const CIRCLE_PATH = "M 50 18 A 32 32 0 1 1 49.99 18";
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 const TRANSITION_MS = 320;
 const DEFAULT_ACCENT = "#14b8a6";
@@ -109,7 +112,9 @@ export default function CycleTrap({
   const isMobile = useIsMobile(1024);
   const selected = protocolProblemCycleSteps[selectedIndex];
   const accentHex = protocolId ? getProtocolAccent(protocolId) : DEFAULT_ACCENT;
-  const gradient = protocolId ? getProtocolGradient(protocolId) : { start: "#0d9488", end: DEFAULT_ACCENT };
+  const gradient = protocolId
+    ? getProtocolGradient(protocolId)
+    : { start: "#0d9488", end: DEFAULT_ACCENT };
 
   useEffect(() => {
     setSelectedIndex(initialNode);
@@ -239,15 +244,17 @@ export default function CycleTrap({
             >
               <span
                 className={`inline-flex flex-col items-center transition-transform duration-300 ${
-                  isActive ? "group-hover:scale-[1.02]" : "group-hover:scale-105"
+                  isActive
+                    ? "group-hover:scale-[1.02]"
+                    : "group-hover:scale-105"
                 }`}
               >
                 <span
                   className="font-semibold leading-tight uppercase tracking-wider"
-                style={{
-                  fontSize: isMobile ? "0.75rem" : "0.9375rem",
-                  letterSpacing: "0.06em",
-                }}
+                  style={{
+                    fontSize: isMobile ? "0.75rem" : "0.9375rem",
+                    letterSpacing: "0.06em",
+                  }}
                 >
                   {step.label}
                 </span>
@@ -270,12 +277,16 @@ export default function CycleTrap({
   );
 
   const stageToggles = (
-    <div className={`flex items-center w-full justify-center lg:justify-start mb-4 ${isMobile ? "gap-3" : "gap-6"}`}>
+    <div
+      className={`flex items-center w-full justify-center lg:justify-start mb-4 ${isMobile ? "gap-3" : "gap-6"}`}
+    >
       <button
         type="button"
         onClick={() => go(-1)}
         className={`bg-black border-2 border-white text-white py-3 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-1.5 shrink-0 ${
-          isMobile ? "flex-1 min-w-0 max-w-[50%] px-3" : "w-[200px] min-w-[200px] gap-2"
+          isMobile
+            ? "flex-1 min-w-0 max-w-[50%] px-3"
+            : "w-[200px] min-w-[200px] gap-2"
         }`}
         aria-label="Previous stage"
       >
@@ -301,7 +312,9 @@ export default function CycleTrap({
         type="button"
         onClick={() => go(1)}
         className={`bg-black border-2 border-white text-white py-3 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-1.5 shrink-0 ${
-          isMobile ? "flex-1 min-w-0 max-w-[50%] px-3" : "w-[200px] min-w-[200px] gap-2"
+          isMobile
+            ? "flex-1 min-w-0 max-w-[50%] px-3"
+            : "w-[200px] min-w-[200px] gap-2"
         }`}
         aria-label="Next stage"
       >
@@ -377,8 +390,10 @@ export default function CycleTrap({
                   className="text-xs text-black/65 pt-4 border-t border-black/10"
                   style={{ lineHeight: 1.6 }}
                 >
-                  <span className="font-semibold">{selected.reference.author}</span> (
-                  {selected.reference.year}).{" "}
+                  <span className="font-semibold">
+                    {selected.reference.author}
+                  </span>{" "}
+                  ({selected.reference.year}).{" "}
                   <span className="italic">{selected.reference.journal}</span>.
                 </div>
               </div>
@@ -410,16 +425,13 @@ export default function CycleTrap({
         aria-hidden
       />
       <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20">
-        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-center mb-8">
-          {sectionHeadings.trap}
+        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-left mb-8">
+          You're stuck in a cycle
         </h2>
 
-        {/* Recognise yourself - horizontal */}
+        {/* Symptom pills */}
         {onSelectSymptom != null && (
           <div className={`mb-10 ${isMobile ? "pt-4" : ""}`}>
-            <h3 className={`font-bold text-white mb-2 ${isMobile ? "text-lg" : "text-xl md:text-2xl"}`}>
-              {sectionHeadings.recognition}
-            </h3>
             <p className="premium-data text-xs text-white mt-2 mb-3">
               {sectionHeadings.recognitionSubline}
             </p>

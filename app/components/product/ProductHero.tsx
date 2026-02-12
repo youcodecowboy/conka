@@ -33,7 +33,8 @@ export default function ProductHero({
 }: ProductHeroProps) {
   const formula = formulaContent[formulaId];
   const pricing = formulaPricing[purchaseType][selectedPack];
-  const ctaTextClass = getGradientTextColor(formulaId) === "white" ? "text-white" : "text-black";
+  const ctaTextClass =
+    getGradientTextColor(formulaId) === "white" ? "text-white" : "text-black";
 
   const billingText =
     purchaseType === "subscription"
@@ -107,8 +108,8 @@ export default function ProductHero({
                   </div>
                   <span className="premium-data text-current/90">
                     {formulaId === "01"
-                      ? "Over 80,000 shots sold"
-                      : "Over 20,000 shots sold"}
+                      ? "Over 80,000 bottles sold"
+                      : "Over 20,000 bottles sold"}
                   </span>
                 </div>
                 <h1 className="premium-display leading-tight font-primary text-current">
@@ -128,7 +129,7 @@ export default function ProductHero({
               </div>
 
               {/* Headline description */}
-              <p className="premium-title text-current/90 font-bold text-base md:text-lg leading-snug mb-1.5">
+              <p className="premium-title text-current/90 text-base md:text-lg leading-snug mb-1.5">
                 {formula.headline}
               </p>
 

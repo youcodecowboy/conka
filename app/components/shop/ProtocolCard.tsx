@@ -29,7 +29,7 @@ export default function ProtocolCard({ protocol }: ProtocolCardProps) {
   return (
     <a
       href={href}
-      className="flex flex-col h-full group border-2 border-black/10 rounded-lg overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--foreground)]"
+      className="flex flex-col h-full group border-2 border-black/10 rounded-[var(--premium-radius-base)] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--foreground)]"
     >
       {/* Image Container — asset fills space; surface bg for non-white assets */}
       <div
