@@ -60,8 +60,8 @@ export default function ProtocolHeroMobile({
       : 0;
 
   return (
-    <section className="pt-0 pb-4 px-0 overflow-x-hidden">
-      <div className="w-full min-w-0 px-3">
+    <section className="pt-0 pb-4 px-0 overflow-x-hidden w-full">
+      <div className="w-full min-w-0 max-w-full px-3 box-border">
         {/* Header - stars + title + subline (align with desktop ProtocolHero) */}
         <div className="pt-3 pb-2">
           <div className="flex items-center gap-2 flex-wrap mb-2">
