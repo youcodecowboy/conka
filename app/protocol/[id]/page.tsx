@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
@@ -53,6 +53,8 @@ export default function ProtocolPage() {
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
   const [purchaseType, setPurchaseType] =
     useState<PurchaseType>("subscription");
+  const protocolCarouselRef = useRef<HTMLDivElement>(null);
+  const [protocolCarouselIndex, setProtocolCarouselIndex] = useState(0);
 
   // Validate protocol ID
   useEffect(() => {
@@ -212,8 +214,20 @@ export default function ProtocolPage() {
                 </p>
               </div>
               <div
+                ref={protocolCarouselRef}
                 className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth -mx-3 px-3"
                 style={{ WebkitOverflowScrolling: "touch" }}
+                onScroll={() => {
+                  const el = protocolCarouselRef.current;
+                  if (!el) return;
+                  const otherIds = validProtocolIds.filter((id) => id !== protocolId);
+                  const cardWidth = el.offsetWidth * 0.8 + 16;
+                  const index = Math.min(
+                    otherIds.length - 1,
+                    Math.max(0, Math.round(el.scrollLeft / cardWidth))
+                  );
+                  setProtocolCarouselIndex(index);
+                }}
               >
                 <div className="flex-shrink-0 w-4" aria-hidden="true" />
                 {validProtocolIds
@@ -230,6 +244,19 @@ export default function ProtocolPage() {
                     </div>
                   ))}
                 <div className="flex-shrink-0 w-4" aria-hidden="true" />
+              </div>
+              <div className="flex justify-center gap-2 mt-4">
+                {validProtocolIds
+                  .filter((id) => id !== protocolId)
+                  .map((id, idx) => (
+                    <div
+                      key={id}
+                      className={`w-2 h-2 rounded-full bg-current transition-opacity ${
+                        protocolCarouselIndex === idx ? "opacity-100" : "opacity-20"
+                      }`}
+                      aria-hidden
+                    />
+                  ))}
               </div>
               <div className="mt-8">
                 <FormulasShowcaseMobile />
