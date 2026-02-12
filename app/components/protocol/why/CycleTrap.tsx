@@ -142,7 +142,7 @@ export default function CycleTrap({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [go]);
 
-  const nodeSize = isMobile ? 128 : 140;
+  const nodeSize = isMobile ? 112 : 140;
 
   // Carousel: fixed positions, data shifts. Position i shows step (selectedIndex + i) % 5; top (i=0) is active.
   const ring = (
@@ -245,20 +245,22 @@ export default function CycleTrap({
                 <span
                   className="font-semibold leading-tight uppercase tracking-wider"
                 style={{
-                  fontSize: isMobile ? "0.875rem" : "0.9375rem",
+                  fontSize: isMobile ? "0.75rem" : "0.9375rem",
                   letterSpacing: "0.06em",
                 }}
                 >
                   {step.label}
                 </span>
-                <span
-                  className={`mt-1.5 text-xs leading-tight ${
-                    isActive ? "text-black/80" : "text-white/70"
-                  }`}
-                  style={{ letterSpacing: "0.02em" }}
-                >
-                  {step.nodeSubline}
-                </span>
+                {!isMobile && (
+                  <span
+                    className={`mt-1.5 text-xs leading-tight ${
+                      isActive ? "text-black/80" : "text-white/70"
+                    }`}
+                    style={{ letterSpacing: "0.02em" }}
+                  >
+                    {step.nodeSubline}
+                  </span>
+                )}
               </span>
             </button>
           );
@@ -354,7 +356,7 @@ export default function CycleTrap({
                 height="20"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="currentColor"
+                stroke="black"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -412,10 +414,10 @@ export default function CycleTrap({
           {sectionHeadings.trap}
         </h2>
 
-        {/* Recognize yourself - horizontal */}
+        {/* Recognise yourself - horizontal */}
         {onSelectSymptom != null && (
-          <div className="mb-10">
-            <h3 className="text-[2rem] font-bold text-white mb-2">
+          <div className={`mb-10 ${isMobile ? "pt-4" : ""}`}>
+            <h3 className={`font-bold text-white mb-2 ${isMobile ? "text-lg" : "text-xl md:text-2xl"}`}>
               {sectionHeadings.recognition}
             </h3>
             <p className="premium-data text-xs text-white mt-2 mb-3">
@@ -429,10 +431,10 @@ export default function CycleTrap({
                     key={entry.id}
                     type="button"
                     onClick={() => onSelectSymptom(entry.id)}
-                    className={`px-3 py-2 rounded-lg border transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-left min-w-0 shrink-0 ${
+                    className={`px-4 py-2 rounded-full border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-left min-w-0 shrink-0 ${
                       isSelected
-                        ? "bg-white/15 border-white text-white"
-                        : "border-white/30 text-white/90 hover:border-white/50 hover:bg-white/5"
+                        ? "bg-white border-black text-black"
+                        : "bg-gray-300 border-gray-300 text-gray-700 hover:bg-gray-400"
                     }`}
                     aria-pressed={isSelected}
                   >

@@ -4,13 +4,6 @@ import Image from "next/image";
 import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
 import { useState } from "react";
 
-// Condensed descriptions for mobile
-const condensedDescriptions = {
-  clear:
-    "Clear rebuilds cellular infrastructure—replenishing glutathione reserves and fueling mitochondrial function. When your cellular machinery runs efficiently, everything else follows.",
-  flow:
-    "Flow stabilizes the system performance depends on—modulating stress response pathways and reducing systemic pressure. This creates space for your body's natural recovery processes to work.",
-};
 
 export default function CycleBreakMobile() {
   const copy = protocolSynergyCopy;
@@ -32,7 +25,7 @@ export default function CycleBreakMobile() {
 
   return (
     <section
-      className="bg-white text-black pb-0"
+      className="bg-white text-black"
       aria-label="How to break the cycle"
     >
       <div className="w-full max-w-full mx-auto px-6 md:px-12 lg:px-20">
@@ -76,10 +69,10 @@ export default function CycleBreakMobile() {
               <div className="relative z-10 pt-4 pl-8 md:pl-12 lg:pl-16 max-w-[67%]">
                 {expandedCards.has("clear") ? (
                   <div className="text-white">
-                    <p className="premium-body text-sm leading-relaxed mb-6 pt-4 text-white">
-                      {condensedDescriptions.clear}
-                    </p>
-                    <ul className="space-y-2.5">
+                    <h3 className="premium-section-heading text-lg font-bold mb-4 pt-4 text-white">
+                      {copy.mechanisms.clear.title}
+                    </h3>
+                    <ul className="space-y-2.5 pt-2">
                       {copy.mechanisms.clear.keyPoints.map((point, idx) => (
                         <li
                           key={idx}
@@ -142,10 +135,10 @@ export default function CycleBreakMobile() {
                 <div className="max-w-[67%] text-right">
                   {expandedCards.has("flow") ? (
                     <div className="text-white text-right inline-block max-w-full">
-                      <p className="premium-body text-sm leading-relaxed mb-6 pt-4 text-white">
-                        {condensedDescriptions.flow}
-                      </p>
-                      <ul className="space-y-2.5 text-right">
+                      <h3 className="premium-section-heading text-lg font-bold mb-4 pt-4 text-white text-right">
+                        {copy.mechanisms.flow.title}
+                      </h3>
+                      <ul className="space-y-2.5 text-right pt-2">
                         {copy.mechanisms.flow.keyPoints.map((point, idx) => (
                           <li
                             key={idx}
