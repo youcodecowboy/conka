@@ -35,7 +35,7 @@ export default function CycleTransformation({
         </h2>
 
         <div className="max-w-2xl mx-auto mt-6 bg-white rounded-lg overflow-hidden">
-          <table className="w-full text-left">
+          <table className="w-full text-center">
             <thead>
               <tr className="border-b border-black/10">
                 <th className="premium-body text-sm font-semibold px-4 py-2.5 text-black/60">
