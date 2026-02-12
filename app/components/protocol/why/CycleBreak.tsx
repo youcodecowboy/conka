@@ -77,24 +77,24 @@ export default function CycleBreak() {
                 />
               </div>
             </div>
-            {/* Text - outer 45%, above image; padding on external (left) edge */}
-            <div className="relative z-10 pt-4 pl-8 md:pl-12 lg:pl-16 max-w-[45%]">
+            {/* Text - outer ~67% (1.5× former 45%), padding on external (left) edge */}
+            <div className="relative z-10 pt-4 pl-8 md:pl-12 lg:pl-16 max-w-[67%]">
               {expandedCards.has("clear") ? (
                 <div className="text-white">
-                  <h3 className="premium-section-heading text-lg md:text-xl font-bold mb-3">
+                  <h3 className="premium-section-heading text-lg md:text-xl font-bold mb-8 text-white">
                     {copy.mechanisms.clear.title}
                   </h3>
-                  <p className="premium-body text-sm leading-relaxed opacity-90 mb-6">
+                  <p className="premium-body text-sm leading-relaxed mb-6 pt-4 text-white">
                     {copy.mechanisms.clear.description}
                   </p>
                   <ul className="space-y-2.5">
                     {copy.mechanisms.clear.keyPoints.map((point, idx) => (
                       <li
                         key={idx}
-                        className="premium-body text-sm opacity-80 flex items-start gap-3"
+                        className="premium-body text-sm flex items-start gap-3 text-white"
                       >
-                        <span className="text-current mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-current opacity-50" />
-                        <span className="flex-1">{point}</span>
+                        <span className="text-white mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-current opacity-50" />
+                        <span className="flex-1 text-white">{point}</span>
                       </li>
                     ))}
                   </ul>
@@ -150,25 +150,25 @@ export default function CycleBreak() {
                 />
               </div>
             </div>
-            {/* Text - outer 45%, above image; padding on external (right) edge */}
+            {/* Text - outer ~67% (1.5× former 45%), padding on external (right) edge */}
             <div className="relative z-10 pt-4 flex justify-end pr-8 md:pr-12 lg:pr-16">
-              <div className="max-w-[45%] text-right">
+              <div className="max-w-[67%] text-right">
                 {expandedCards.has("flow") ? (
-                  <div className="text-white text-left inline-block">
-                    <h3 className="premium-section-heading text-lg md:text-xl font-bold mb-3">
+                  <div className="text-white text-right inline-block max-w-full">
+                    <h3 className="premium-section-heading text-lg md:text-xl font-bold mb-8 text-white">
                       {copy.mechanisms.flow.title}
                     </h3>
-                    <p className="premium-body text-sm leading-relaxed opacity-90 mb-6">
+                    <p className="premium-body text-sm leading-relaxed mb-6 pt-4 text-white">
                       {copy.mechanisms.flow.description}
                     </p>
-                    <ul className="space-y-2.5">
+                    <ul className="space-y-2.5 text-right">
                       {copy.mechanisms.flow.keyPoints.map((point, idx) => (
                         <li
                           key={idx}
-                          className="premium-body text-sm opacity-80 flex items-start gap-3"
+                          className="premium-body text-sm flex items-start gap-3 justify-end text-white"
                         >
-                          <span className="text-current mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-current opacity-50" />
-                          <span className="flex-1">{point}</span>
+                          <span className="text-white mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-current opacity-50 order-2" />
+                          <span className="flex-1 text-white order-1 text-right">{point}</span>
                         </li>
                       ))}
                     </ul>
