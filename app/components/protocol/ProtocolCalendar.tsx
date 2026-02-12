@@ -104,20 +104,36 @@ export default function ProtocolCalendar({
 
               {/* Calendar Grid */}
               <div className="grid grid-cols-7 gap-2">
-                {calendarDays.map((day, idx) => (
-                  <div
-                    key={idx}
-                    className={`aspect-square flex items-center justify-center font-clinical text-sm rounded-md transition-all ${
-                      day.formula === "01"
-                        ? `${FORMULA_COLORS["01"].bg} text-white`
-                        : day.formula === "02"
-                          ? `${FORMULA_COLORS["02"].bg} text-white`
-                          : "border-2 border-current opacity-20"
-                    }`}
-                  >
-                    {day.day}
-                  </div>
-                ))}
+                {calendarDays.map((day, idx) => {
+                  if (day.formula === "both") {
+                    return (
+                      <div
+                        key={idx}
+                        className="aspect-square flex items-center justify-center font-clinical text-sm rounded-md transition-all text-white"
+                        style={{
+                          background: `linear-gradient(135deg, ${FORMULA_COLORS["01"].hex} 50%, ${FORMULA_COLORS["02"].hex} 50%)`,
+                        }}
+                      >
+                        {day.day}
+                      </div>
+                    );
+                  }
+                  
+                  return (
+                    <div
+                      key={idx}
+                      className={`aspect-square flex items-center justify-center font-clinical text-sm rounded-md transition-all ${
+                        day.formula === "01"
+                          ? `${FORMULA_COLORS["01"].bg} text-white`
+                          : day.formula === "02"
+                            ? `${FORMULA_COLORS["02"].bg} text-white`
+                            : "border-2 border-current opacity-20"
+                      }`}
+                    >
+                      {day.day}
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Legend */}
@@ -138,6 +154,17 @@ export default function ProtocolCalendar({
                     CONKA Clear - Clarity
                   </span>
                 </div>
+                {protocolId === "4" && (
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-4 h-4 rounded-sm"
+                      style={{
+                        background: `linear-gradient(135deg, ${FORMULA_COLORS["01"].hex} 50%, ${FORMULA_COLORS["02"].hex} 50%)`,
+                      }}
+                    ></div>
+                    <span className="font-clinical text-xs">Both Daily</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-sm border-2 border-current opacity-30"></div>
                   <span className="font-clinical text-xs">Rest Day</span>
