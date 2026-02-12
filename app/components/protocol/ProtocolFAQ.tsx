@@ -89,93 +89,106 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
 
   return (
     <section className="w-full overflow-hidden bg-[var(--color-surface)]">
-      {/* Desktop: [asset] | [FAQ] side by side */}
-      <div className="hidden md:grid md:grid-cols-2 md:min-h-[480px]">
-        {/* Asset column */}
-        <div className="relative w-full h-full min-h-[400px]">
-          <img
-            src="/CONKA_21.jpg"
-            alt="CONKA product"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-        </div>
-        {/* FAQ column */}
-        <div className="flex flex-col justify-center px-8 lg:px-12 xl:px-16 py-12 lg:py-16">
-          <div className="mb-8">
-            <p className="text-3xl lg:text-4xl font-bold text-black mb-2">
-              Questions?
-            </p>
-            <p className="text-xl lg:text-2xl text-black/80">
-              We're here to help
-            </p>
+      {/* Desktop: [asset in rounded box] | [sticky questions] */}
+      <div className="hidden md:block">
+        <div className="grid grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto px-6 lg:px-12 py-12 lg:py-16">
+          {/* Left: asset sat in column with rounded corners */}
+          <div className="flex items-start justify-start pt-8">
+            <div className="relative w-full max-w-[380px] aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
+              <img
+                src="/CONKA_21.jpg"
+                alt="CONKA product"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
           </div>
-          <div className="space-y-3">
-            {allFAQs.map((item, idx) => {
-              const isExpanded = expandedIndex === idx;
-              return (
-                <div
-                  key={idx}
-                  className="bg-white rounded-lg overflow-hidden border border-black/10 shadow-sm"
-                >
-                  <button
-                    onClick={() =>
-                      setExpandedIndex(expandedIndex === idx ? null : idx)
-                    }
-                    className="w-full p-4 lg:p-5 text-left flex justify-between items-center gap-4 hover:bg-black/[0.03] transition-colors"
-                    aria-expanded={isExpanded}
-                    aria-controls={`faq-answer-${idx}`}
+
+          {/* Right: sticky question section */}
+          <div className="sticky top-24 self-start">
+            <div className="mb-8">
+              <p className="text-3xl lg:text-4xl font-bold text-black mb-2">
+                Questions?
+              </p>
+              <p className="text-xl lg:text-2xl text-black/80">
+                We're here to help
+              </p>
+            </div>
+            <div className="flex flex-col border-t border-black/10">
+              {allFAQs.map((item, idx) => {
+                const isExpanded = expandedIndex === idx;
+                return (
+                  <div
+                    key={idx}
+                    className="border-b border-black/10"
+                    data-state={isExpanded ? "open" : "closed"}
                   >
-                    <h3 className="text-base lg:text-lg font-bold text-black pr-4">
-                      {item.question}
-                    </h3>
-                    <svg
-                      stroke="currentColor"
-                      fill="currentColor"
-                      strokeWidth="0"
-                      viewBox="0 0 16 16"
-                      role="img"
-                      aria-label="Collapse/Expand"
-                      className={`flex-shrink-0 w-5 h-5 text-black transition-transform ${
-                        isExpanded ? "rotate-180" : ""
-                      }`}
-                      xmlns="http://www.w3.org/2000/svg"
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setExpandedIndex(expandedIndex === idx ? null : idx)
+                      }
+                      className="w-full py-4 text-left flex justify-between items-center gap-4 hover:opacity-80 transition-opacity"
+                      aria-expanded={isExpanded}
+                      aria-controls={`faq-answer-${idx}`}
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
-                      />
-                    </svg>
-                  </button>
-                  {isExpanded && (
-                    <div
-                      id={`faq-answer-${idx}`}
-                      className="px-4 lg:px-5 pb-4 lg:pb-5 pt-0 border-t border-black/10"
-                    >
-                      <p className="text-sm lg:text-base text-black/80 leading-relaxed pt-4">
-                        {item.answer}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                      <span className="flex-1 min-w-0">
+                        <p className="text-base lg:text-lg font-medium text-black">
+                          {item.question}
+                        </p>
+                      </span>
+                      <span className="flex-shrink-0" aria-hidden>
+                        <svg
+                          stroke="currentColor"
+                          fill="currentColor"
+                          strokeWidth="0"
+                          viewBox="0 0 16 16"
+                          role="img"
+                          aria-label="Collapse/Expand"
+                          className={`w-5 h-5 text-black transition-transform ${
+                            isExpanded ? "rotate-180" : ""
+                          }`}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                    {isExpanded && (
+                      <div
+                        id={`faq-answer-${idx}`}
+                        className="pb-4"
+                      >
+                        <p className="text-sm lg:text-base text-black/80 leading-relaxed pr-8">
+                          {item.answer}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Mobile: [asset - smaller] then [collapsible sections] */}
       <div className="md:hidden flex flex-col">
-        {/* Smaller asset block */}
-        <div className="relative w-full aspect-[4/3] max-h-[220px] overflow-hidden">
-          <img
-            src="/CONKA_21.jpg"
-            alt="CONKA product"
-            className="w-full h-full object-cover object-center"
-            loading="lazy"
-          />
+        {/* Smaller asset block with rounded corners */}
+        <div className="px-4 pt-4">
+          <div className="relative w-full aspect-[4/3] max-h-[200px] rounded-2xl overflow-hidden">
+            <img
+              src="/CONKA_21.jpg"
+              alt="CONKA product"
+              className="w-full h-full object-cover object-center"
+              loading="lazy"
+            />
+          </div>
         </div>
-        {/* Collapsible section */}
+        {/* Collapsible section - same component style as desktop */}
         <div className="px-4 py-6">
           <div className="mb-6">
             <p className="text-2xl font-bold text-black mb-1">
@@ -185,49 +198,55 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
               We're here to help
             </p>
           </div>
-          <div className="space-y-3">
+          <div className="flex flex-col border-t border-black/10">
             {allFAQs.map((item, idx) => {
               const isExpanded = expandedIndex === idx;
               return (
                 <div
                   key={idx}
-                  className="bg-white rounded-lg overflow-hidden border border-black/10 shadow-sm"
+                  className="border-b border-black/10"
+                  data-state={isExpanded ? "open" : "closed"}
                 >
                   <button
+                    type="button"
                     onClick={() =>
                       setExpandedIndex(expandedIndex === idx ? null : idx)
                     }
-                    className="w-full p-4 text-left flex justify-between items-center gap-3 hover:bg-black/[0.03] transition-colors"
+                    className="w-full py-4 text-left flex justify-between items-center gap-3 hover:opacity-80 transition-opacity"
                     aria-expanded={isExpanded}
                     aria-controls={`faq-answer-m-${idx}`}
                   >
-                    <h3 className="text-sm font-bold text-black pr-3">
-                      {item.question}
-                    </h3>
-                    <svg
-                      stroke="currentColor"
-                      fill="currentColor"
-                      strokeWidth="0"
-                      viewBox="0 0 16 16"
-                      role="img"
-                      aria-label="Collapse/Expand"
-                      className={`flex-shrink-0 w-5 h-5 text-black transition-transform ${
-                        isExpanded ? "rotate-180" : ""
-                      }`}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
-                      />
-                    </svg>
+                    <span className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-black">
+                        {item.question}
+                      </p>
+                    </span>
+                    <span className="flex-shrink-0" aria-hidden>
+                      <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        strokeWidth="0"
+                        viewBox="0 0 16 16"
+                        role="img"
+                        aria-label="Collapse/Expand"
+                        className={`w-5 h-5 text-black transition-transform ${
+                          isExpanded ? "rotate-180" : ""
+                        }`}
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+                        />
+                      </svg>
+                    </span>
                   </button>
                   {isExpanded && (
                     <div
                       id={`faq-answer-m-${idx}`}
-                      className="px-4 pb-4 pt-0 border-t border-black/10"
+                      className="pb-4"
                     >
-                      <p className="text-sm text-black/80 leading-relaxed pt-3">
+                      <p className="text-sm text-black/80 leading-relaxed pr-6">
                         {item.answer}
                       </p>
                     </div>
