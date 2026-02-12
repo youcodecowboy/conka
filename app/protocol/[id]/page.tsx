@@ -11,8 +11,8 @@ import {
   ProtocolCalendarMobile,
   ProtocolFAQ,
   ProtocolStruggleMobile,
-  ProtocolCaseStudiesMobile,
 } from "@/app/components/protocol";
+import { FormulaCaseStudiesMobile, FormulaCaseStudies } from "@/app/components/FormulaCaseStudies";
 import ProtocolWhySection from "@/app/components/protocol/why/ProtocolWhySection";
 import {
   StickyPurchaseFooter,
@@ -194,7 +194,7 @@ export default function ProtocolPage() {
             <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
           )}
 
-          <ProtocolCaseStudiesMobile protocolId={protocolId as ProtocolId} />
+          <FormulaCaseStudiesMobile productId={protocolId as ProtocolId} />
 
           <ProtocolFAQ protocolId={protocolId as ProtocolId} />
 
@@ -300,6 +300,8 @@ export default function ProtocolPage() {
             <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
           </section>
         )}
+
+        <FormulaCaseStudies productId={protocolId as ProtocolId} />
 
         <ProtocolFAQ protocolId={protocolId as ProtocolId} />
 
