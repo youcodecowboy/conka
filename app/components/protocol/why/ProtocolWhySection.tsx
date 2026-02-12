@@ -31,7 +31,7 @@ export default function ProtocolWhySection({
       />
 
       <CycleBreak />
-      <CycleTransformation />
+      <CycleTransformation protocolId={protocolId} />
     </>
   );
 }
