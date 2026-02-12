@@ -29,6 +29,7 @@ import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
 import Testimonials from "@/app/components/testimonials/Testimonials";
 import { getSiteTestimonialsClarity } from "@/app/lib/testimonialsFilter";
+import { CrossSell } from "@/app/components/crossSell";
 
 export default function ConkaClarityPage() {
   const isMobile = useIsMobile();
@@ -124,6 +125,8 @@ export default function ConkaClarityPage() {
           <FormulaCaseStudiesMobile formulaId="02" />
           <FormulaFAQ formulaId="02" />
 
+          <CrossSell variant="formula" currentFormulaId="02" />
+
           <StickyPurchaseFooterMobile
             formulaId="02"
             selectedPack={selectedPack}
@@ -177,32 +180,7 @@ export default function ConkaClarityPage() {
         <FormulaCaseStudies formulaId="02" />
         <FormulaFAQ formulaId="02" />
 
-        <section className="premium-section">
-          <div className="premium-container">
-            <div className="premium-box p-8 md:p-12 text-center">
-              <h2 className="premium-section-heading mb-4">
-                Want the Complete Experience?
-              </h2>
-              <p className="premium-annotation mb-6">
-                combine CONKA Clear with CONKA Flow in a protocol
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/conka-flow"
-                  className="neo-button-outline px-8 py-4 font-semibold text-lg"
-                >
-                  Explore CONKA Flow
-                </a>
-                <a
-                  href="/protocol/2"
-                  className="neo-button px-8 py-4 font-bold text-lg"
-                >
-                  View Protocols
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+        <CrossSell variant="formula" currentFormulaId="02" />
 
         <StickyPurchaseFooter
           formulaId="02"

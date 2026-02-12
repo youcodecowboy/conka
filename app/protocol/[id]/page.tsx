@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
@@ -25,11 +25,8 @@ import {
   PurchaseType,
   protocolContent,
 } from "@/app/lib/productData";
-import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
-import ProtocolCard from "@/app/components/shop/ProtocolCard";
-import ProtocolCardMobile from "@/app/components/shop/ProtocolCardMobile";
-import FormulasShowcase from "@/app/components/shop/FormulasShowcase";
 import WhatToExpectTimeline from "@/app/components/product/WhatToExpectTimeline";
+import { CrossSell } from "@/app/components/crossSell";
 import Testimonials from "@/app/components/testimonials/Testimonials";
 import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
 import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
@@ -38,7 +35,6 @@ import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
 import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
-import { FormulasShowcaseMobile } from "@/app/components/shop";
 
 // Valid protocol IDs
 const validProtocolIds: ProtocolId[] = ["1", "2", "3", "4"];
@@ -53,8 +49,6 @@ export default function ProtocolPage() {
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
   const [purchaseType, setPurchaseType] =
     useState<PurchaseType>("subscription");
-  const protocolCarouselRef = useRef<HTMLDivElement>(null);
-  const [protocolCarouselIndex, setProtocolCarouselIndex] = useState(0);
 
   // Validate protocol ID
   useEffect(() => {
@@ -202,67 +196,7 @@ export default function ProtocolPage() {
 
           <ProtocolFAQ protocolId={protocolId as ProtocolId} />
 
-          {/* Cross-sell — mobile */}
-          <section className="w-full px-3 py-8">
-            <div className="w-full">
-              <div className="text-center mb-4">
-                <h2 className="premium-section-heading text-lg font-bold mb-1">
-                  Explore Other Protocols
-                </h2>
-                <p className="premium-annotation text-sm opacity-70">
-                  find your perfect match
-                </p>
-              </div>
-              <div
-                ref={protocolCarouselRef}
-                className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth -mx-3 px-3"
-                style={{ WebkitOverflowScrolling: "touch" }}
-                onScroll={() => {
-                  const el = protocolCarouselRef.current;
-                  if (!el) return;
-                  const otherIds = validProtocolIds.filter((id) => id !== protocolId);
-                  const cardWidth = el.offsetWidth * 0.8 + 16;
-                  const index = Math.min(
-                    otherIds.length - 1,
-                    Math.max(0, Math.round(el.scrollLeft / cardWidth))
-                  );
-                  setProtocolCarouselIndex(index);
-                }}
-              >
-                <div className="flex-shrink-0 w-4" aria-hidden="true" />
-                {validProtocolIds
-                  .filter((id) => id !== protocolId)
-                  .map((id, idx) => (
-                    <div
-                      key={id}
-                      className="w-[80vw] flex-shrink-0 snap-center"
-                    >
-                      <ProtocolCardMobile
-                        protocol={protocolSelectorData[id]}
-                        isFirst={idx === 0}
-                      />
-                    </div>
-                  ))}
-                <div className="flex-shrink-0 w-4" aria-hidden="true" />
-              </div>
-              <div className="flex justify-center gap-2 mt-4">
-                {validProtocolIds
-                  .filter((id) => id !== protocolId)
-                  .map((id, idx) => (
-                    <div
-                      key={id}
-                      className={`w-2 h-2 rounded-full bg-current transition-opacity ${
-                        protocolCarouselIndex === idx ? "opacity-100" : "opacity-20"
-                      }`}
-                      aria-hidden
-                    />
-                  ))}
-              </div>
-              <div className="mt-8">
-                <FormulasShowcaseMobile />
-              </div>
-            </div>
-          </section>
+          <CrossSell variant="protocol" currentProtocolId={protocolId as ProtocolId} />
 
           <Footer />
 
@@ -343,29 +277,7 @@ export default function ProtocolPage() {
 
         <ProtocolFAQ protocolId={protocolId as ProtocolId} />
 
-        {/* Cross-sell — desktop */}
-        <section className="premium-section px-6 md:px-16 py-24">
-          <div className="premium-container max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-2">
-                Explore Other Protocols
-              </h2>
-              <p className="premium-annotation text-xl">
-                find your perfect match
-              </p>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {validProtocolIds
-                .filter((id) => id !== protocolId)
-                .map((id) => (
-                  <ProtocolCard key={id} protocol={protocolSelectorData[id]} />
-                ))}
-            </div>
-            <div className="mt-12">
-              <FormulasShowcase />
-            </div>
-          </div>
-        </section>
+        <CrossSell variant="protocol" currentProtocolId={protocolId as ProtocolId} />
 
         <Footer />
 
