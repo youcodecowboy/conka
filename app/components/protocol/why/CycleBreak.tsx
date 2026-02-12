@@ -22,7 +22,7 @@ export default function CycleBreak() {
 
   return (
     <section
-      className="bg-white text-black py-12"
+      className="bg-white text-black pt-12 pb-0"
       aria-label="How to break the cycle"
     >
       <div className="w-full max-w-full mx-auto px-6 md:px-12 lg:px-20">
