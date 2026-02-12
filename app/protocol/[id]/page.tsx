@@ -180,6 +180,15 @@ export default function ProtocolPage() {
 
           <ProtocolWhySection protocolId={protocolId as ProtocolId} />
 
+          {protocolTestimonials.length > 0 && (
+            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+          )}
+
+          <WhatToExpectTimeline
+            productId={protocolId as ProtocolId}
+            sectionTitle="Expected results"
+          />
+
           <ProtocolCalendarMobile
             protocolId={protocolId as ProtocolId}
             selectedTier={selectedTier}
@@ -188,15 +197,6 @@ export default function ProtocolPage() {
               protocolContent[protocolId as ProtocolId].availableTiers
             }
           />
-
-          <WhatToExpectTimeline
-            productId={protocolId as ProtocolId}
-            sectionTitle="Expected results"
-          />
-
-          {protocolTestimonials.length > 0 && (
-            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
-          )}
 
           <FormulaCaseStudiesMobile productId={protocolId as ProtocolId} />
 
@@ -319,6 +319,17 @@ export default function ProtocolPage() {
 
         <ProtocolWhySection protocolId={protocolId as ProtocolId} />
 
+        {protocolTestimonials.length > 0 && (
+          <section className="premium-section" aria-label="What others say">
+            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+          </section>
+        )}
+
+        <WhatToExpectTimeline
+          productId={protocolId as ProtocolId}
+          sectionTitle="Expected results"
+        />
+
         <ProtocolCalendar
           protocolId={protocolId as ProtocolId}
           selectedTier={selectedTier}
@@ -327,17 +338,6 @@ export default function ProtocolPage() {
             protocolContent[protocolId as ProtocolId].availableTiers
           }
         />
-
-        <WhatToExpectTimeline
-          productId={protocolId as ProtocolId}
-          sectionTitle="Expected results"
-        />
-
-        {protocolTestimonials.length > 0 && (
-          <section className="premium-section" aria-label="What others say">
-            <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
-          </section>
-        )}
 
         <FormulaCaseStudies productId={protocolId as ProtocolId} />
 
