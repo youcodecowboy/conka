@@ -118,7 +118,7 @@ export default function ProductHeroMobile({
 
         {/* Content */}
         <div className="pt-3 pb-4 space-y-3">
-          <p className="premium-title text-current/90 font-bold text-base leading-snug mb-1.5">
+          <p className="premium-title text-current/90 text-base leading-snug mb-1.5">
             {formula.headline}
           </p>
 
