@@ -328,7 +328,7 @@ export default function CycleTrap({
 
   return (
     <section
-      className="relative left-1/2 -translate-x-1/2 w-screen text-white pt-16 md:pt-20 pb-24 md:pb-32 overflow-x-hidden"
+      className="relative left-1/2 -translate-x-1/2 w-screen text-white pt-16 md:pt-20 pb-12 md:pb-16 overflow-x-hidden"
       style={{
         background:
           "radial-gradient(circle at center, hsl(0, 0%, 8%) 0%, hsl(0, 0%, 4%) 70%, hsl(0, 0%, 0%) 100%)",

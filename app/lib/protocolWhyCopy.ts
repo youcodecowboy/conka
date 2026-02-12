@@ -20,7 +20,6 @@ export const beforeAfterStates = [
 
 export const credibilityLine = "Backed by 9 peer-reviewed studies";
 export const whyNotAllInOne = "This is why we don't make an all-in-one";
-export const transformationMicrocopy = "Not claims. States.";
 export const transitionLine = "But there's a way out.";
 
 export const interventionPoints = {
@@ -38,8 +37,16 @@ export const interventionPoints = {
 
 // Phase 2: question-safe labels, entryNode = index into cycle (0–4)
 export const symptomEntries = [
-  { id: "mental-fog", label: "Can't think clearly under pressure", entryNode: 0 },
-  { id: "energy-crash", label: "Energy crashes in the afternoon", entryNode: 3 },
+  {
+    id: "mental-fog",
+    label: "Can't think clearly under pressure",
+    entryNode: 0,
+  },
+  {
+    id: "energy-crash",
+    label: "Energy crashes in the afternoon",
+    entryNode: 3,
+  },
   { id: "slow-recovery", label: "Takes days to bounce back", entryNode: 2 },
   { id: "always-on", label: "Can't switch off at night", entryNode: 1 },
 ] as const;
