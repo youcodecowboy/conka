@@ -4,7 +4,7 @@ import { useState } from "react";
 import { getProductAccent } from "@/app/lib/productData";
 import type { ProductId } from "@/app/lib/productData";
 import type { WhatToExpectStep } from "@/app/lib/whatToExpectData";
-import { whatToExpectByProduct } from "@/app/lib/whatToExpectProtocol";
+import { whatToExpectByProduct } from "@/app/lib/whatToExpectData";
 
 interface WhatToExpectTimelineMobileProps {
   productId: ProductId;

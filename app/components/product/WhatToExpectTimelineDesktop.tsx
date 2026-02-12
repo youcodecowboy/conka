@@ -2,7 +2,7 @@
 
 import { getProductAccent, getProductGradient } from "@/app/lib/productData";
 import type { ProductId } from "@/app/lib/productData";
-import { whatToExpectByProduct } from "@/app/lib/whatToExpectProtocol";
+import { whatToExpectByProduct } from "@/app/lib/whatToExpectData";
 import type { WhatToExpectStep } from "@/app/lib/whatToExpectData";
 
 interface WhatToExpectTimelineDesktopProps {
