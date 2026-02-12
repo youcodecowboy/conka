@@ -95,7 +95,7 @@ export default function ProtocolHero({
                     ))}
                   </div>
                   <span className="premium-data text-current/90">
-                    Flow + Clear in one protocol
+                    Over 100,000 bottles sold
                   </span>
                 </div>
                 <h1 className="premium-display leading-tight font-primary text-current">
