@@ -29,7 +29,7 @@ export default function CycleTransformation({
       className="bg-black text-white pt-0 pb-8 md:pb-10 px-6 md:px-12 lg:px-20"
       aria-label="The outcome"
     >
-      <div className="w-full max-w-full mx-auto">
+      <div className="w-full max-w-full mx-auto pt-6 md:pt-8">
         <h2 className="premium-section-heading text-xl md:text-2xl font-bold text-center text-white mb-4">
           {sectionHeadings.transformation}
         </h2>

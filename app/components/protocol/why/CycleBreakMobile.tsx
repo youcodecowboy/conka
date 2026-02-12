@@ -66,7 +66,7 @@ export default function CycleBreakMobile() {
                 </div>
               </div>
               {/* Text - outer ~67% (1.5× former 45%), padding on external (left) edge */}
-              <div className="relative z-10 pt-4 pl-8 md:pl-12 lg:pl-16 max-w-[67%]">
+              <div className="relative z-10 pt-4 pl-8 md:pl-12 lg:pl-16 max-w-[67%] flex flex-col min-h-[280px]">
                 {expandedCards.has("clear") ? (
                   <div className="text-white">
                     <h3 className="premium-section-heading text-lg font-bold mb-4 pt-4 text-white">
@@ -85,13 +85,13 @@ export default function CycleBreakMobile() {
                     </ul>
                   </div>
                 ) : (
-                  <div>
+                  <div className="flex flex-col flex-1">
                     <p className="premium-section-heading text-xl md:text-2xl font-bold text-black mb-2">
                       How does CONKA Clear help?
                     </p>
-                    <p className="premium-data text-xs uppercase tracking-wider opacity-60 text-black">
+                    <span className="mt-auto pt-4 inline-flex w-fit rounded-full border-2 border-black px-4 py-2 premium-data text-xs uppercase tracking-wider opacity-70 text-black">
                       Tap to discover
-                    </p>
+                    </span>
                   </div>
                 )}
               </div>
@@ -131,8 +131,8 @@ export default function CycleBreakMobile() {
                 </div>
               </div>
               {/* Text - outer ~67% (1.5× former 45%), padding on external (right) edge */}
-              <div className="relative z-10 pt-4 flex justify-end pr-8 md:pr-12 lg:pr-16">
-                <div className="max-w-[67%] text-right">
+              <div className="relative z-10 pt-4 flex justify-end pr-8 md:pr-12 lg:pr-16 min-h-[280px]">
+                <div className="max-w-[67%] text-right flex flex-col flex-1 items-end">
                   {expandedCards.has("flow") ? (
                     <div className="text-white text-right inline-block max-w-full">
                       <h3 className="premium-section-heading text-lg font-bold mb-4 pt-4 text-white text-right">
@@ -151,13 +151,13 @@ export default function CycleBreakMobile() {
                       </ul>
                     </div>
                   ) : (
-                    <div>
+                    <div className="flex flex-col flex-1 w-full items-end">
                       <p className="premium-section-heading text-xl md:text-2xl font-bold text-black mb-2">
                         How does CONKA Flow help?
                       </p>
-                      <p className="premium-data text-xs uppercase tracking-wider opacity-60 text-black">
+                      <span className="mt-auto pt-4 inline-flex w-fit rounded-full border-2 border-black px-4 py-2 premium-data text-xs uppercase tracking-wider opacity-70 text-black">
                         Tap to discover
-                      </p>
+                      </span>
                     </div>
                   )}
                 </div>
