@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
@@ -14,7 +14,10 @@ import {
 import FormulaCaseStudies, {
   FormulaCaseStudiesMobile,
 } from "@/app/components/FormulaCaseStudies";
-import ProtocolWhySection from "@/app/components/protocol/why/ProtocolWhySection";
+import CycleTrap from "@/app/components/protocol/why/CycleTrap";
+import CycleBreak from "@/app/components/protocol/why/CycleBreak";
+import CycleTransformation from "@/app/components/protocol/why/CycleTransformation";
+import { symptomEntries } from "@/app/lib/protocolWhyCopy";
 import {
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
@@ -49,6 +52,12 @@ export default function ProtocolPage() {
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
   const [purchaseType, setPurchaseType] =
     useState<PurchaseType>("subscription");
+  const [selectedSymptom, setSelectedSymptom] = useState<string | null>(null);
+
+  const whyEntryNodeIndex = useMemo(
+    () => symptomEntries.find((s) => s.id === selectedSymptom)?.entryNode ?? 0,
+    [selectedSymptom],
+  );
 
   // Validate protocol ID
   useEffect(() => {
@@ -164,11 +173,16 @@ export default function ProtocolPage() {
             aria-labelledby="why-two-formulas-heading"
           >
             <div className="premium-track">
-              <div className="text-center" style={{ marginBottom: "var(--space-text-gap)" }}>
+              <div
+                className="text-center"
+                style={{ marginBottom: "var(--space-text-gap)" }}
+              >
                 <h2
                   id="why-two-formulas-heading"
                   className="premium-section-heading text-3xl md:text-4xl font-bold"
-                  style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                  style={{
+                    letterSpacing: "var(--letter-spacing-premium-title)",
+                  }}
                 >
                   {protocolSynergyCopy.framing.headline}
                 </h2>
@@ -179,19 +193,57 @@ export default function ProtocolPage() {
             </div>
           </section>
 
+          <CycleTrap
+            protocolId={protocolId as ProtocolId}
+            initialNode={whyEntryNodeIndex}
+            selectedSymptomId={selectedSymptom}
+            onSelectSymptom={setSelectedSymptom}
+          />
+
           <section
-            className="premium-section-luxury premium-bg-bone"
-            aria-label="Why two formulas"
+            className="premium-section-luxury premium-bg-mid"
+            aria-label="But there's a way out"
           >
             <div className="premium-track">
-              <ProtocolWhySection protocolId={protocolId as ProtocolId} />
+              <div className="text-center">
+                <h2
+                  className="premium-section-heading text-2xl md:text-3xl font-bold mb-3"
+                  style={{
+                    letterSpacing: "var(--letter-spacing-premium-title)",
+                  }}
+                >
+                  But there's a way out.
+                </h2>
+                <h3
+                  className="premium-section-heading text-xl md:text-2xl font-bold"
+                  style={{
+                    letterSpacing: "var(--letter-spacing-premium-title)",
+                  }}
+                >
+                  Together: Break the Cycle
+                </h3>
+              </div>
+            </div>
+          </section>
+
+          <CycleBreak />
+
+          <section
+            className="premium-section-luxury premium-bg-ink"
+            aria-label="The outcome"
+          >
+            <div className="premium-track">
+              <CycleTransformation protocolId={protocolId as ProtocolId} />
             </div>
           </section>
 
           {protocolTestimonials.length > 0 && (
             <section className="premium-section-luxury premium-bg-bone">
               <div className="premium-track">
-                <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+                <Testimonials
+                  testimonials={protocolTestimonials}
+                  autoScrollOnly
+                />
               </div>
             </section>
           )}
@@ -298,7 +350,10 @@ export default function ProtocolPage() {
           aria-labelledby="why-two-formulas-heading"
         >
           <div className="premium-track">
-            <div className="text-center" style={{ marginBottom: "var(--space-text-gap)" }}>
+            <div
+              className="text-center"
+              style={{ marginBottom: "var(--space-text-gap)" }}
+            >
               <h2
                 id="why-two-formulas-heading"
                 className="premium-section-heading text-3xl md:text-4xl font-bold"
@@ -313,19 +368,57 @@ export default function ProtocolPage() {
           </div>
         </section>
 
+        <CycleTrap
+          protocolId={protocolId as ProtocolId}
+          initialNode={whyEntryNodeIndex}
+          selectedSymptomId={selectedSymptom}
+          onSelectSymptom={setSelectedSymptom}
+        />
+
         <section
-          className="premium-section-luxury premium-bg-bone"
-          aria-label="Why two formulas"
+          className="premium-section-luxury premium-bg-mid"
+          aria-label="But there's a way out"
         >
           <div className="premium-track">
-            <ProtocolWhySection protocolId={protocolId as ProtocolId} />
+            <div className="text-center">
+              <h2
+                className="premium-section-heading text-2xl md:text-3xl font-bold mb-3"
+                style={{
+                  letterSpacing: "var(--letter-spacing-premium-title)",
+                }}
+              >
+                But there's a way out.
+              </h2>
+              <h3
+                className="premium-section-heading text-xl md:text-2xl font-bold"
+                style={{
+                  letterSpacing: "var(--letter-spacing-premium-title)",
+                }}
+              >
+                Together: Break the Cycle
+              </h3>
+            </div>
+          </div>
+        </section>
+
+        <CycleBreak />
+
+        <section
+          className="premium-section-luxury premium-bg-ink"
+          aria-label="The outcome"
+        >
+          <div className="premium-track">
+            <CycleTransformation protocolId={protocolId as ProtocolId} />
           </div>
         </section>
 
         {protocolTestimonials.length > 0 && (
           <section className="premium-section-luxury premium-bg-bone">
             <div className="premium-track">
-              <Testimonials testimonials={protocolTestimonials} autoScrollOnly />
+              <Testimonials
+                testimonials={protocolTestimonials}
+                autoScrollOnly
+              />
             </div>
           </section>
         )}
