@@ -96,7 +96,7 @@ export default function ConkaFlowPage() {
         <Navigation />
         {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
         <section
-          className="premium-section-luxury bg-white"
+          className="premium-section-luxury premium-hero-first bg-white"
           aria-label="Product hero"
         >
           <div className="premium-track">
@@ -227,7 +227,7 @@ export default function ConkaFlowPage() {
       <Navigation />
       {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
       <section
-        className="premium-section-luxury bg-white"
+        className="premium-section-luxury premium-hero-first bg-white"
         aria-label="Product hero"
       >
         <div className="premium-track">
