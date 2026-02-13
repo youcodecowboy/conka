@@ -116,18 +116,18 @@ Structure:
 
 - ✅ **FormulaBenefitsStats** (Desktop + Mobile) — Stripped section logic, uses Ink background (`--color-ink`), wrapped in `.premium-section-luxury` + `.premium-track` on [conka-flow page](../app/conka-flow/page.tsx).
 - ✅ **Testimonials** (via TestimonialsAutoScrollStrip) — Stripped section logic, uses Bone background (`--color-bone`), wrapped in `.premium-section-luxury` + `.premium-track` on [conka-flow page](../app/conka-flow/page.tsx). Header aligns to track; marquee strip uses full-bleed pattern.
+- ✅ **WhatToExpectTimeline** — Migrated earlier; wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-bone` on conka-flow.
+- ✅ **EditorialQuotesCarousel** — Migrated earlier; wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-surface` on conka-flow.
+- ✅ **FormulaIngredients** — Stripped section/container and root padding; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-surface` on conka-flow (mobile + desktop).
+- ✅ **HowItWorks** — Stripped section/container and bg; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-ink` on conka-flow (mobile + desktop).
+- ✅ **FormulaBenefitsMobile** / **FormulaBenefits** (proof-and-science) — Stripped section/container; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-bone` on conka-flow (mobile + desktop).
+- ✅ **FormulaCaseStudies** / **FormulaCaseStudiesMobile** — Stripped section/container and bg; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-ink` on conka-flow (mobile + desktop).
+- ✅ **FormulaFAQ** — Stripped section and root max-width/padding; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-bone` on conka-flow (mobile + desktop).
+- ✅ **CrossSell** (CrossSellDesktop + CrossSellMobile) — Stripped section/container and padding; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-bone` on conka-flow (mobile + desktop).
 
 ### Components to migrate (conka-flow page)
 
 - ⏳ **ProductHero** / **ProductHeroMobile** — Deferred (not in scope for this phase).
-- ⏳ **WhatToExpectTimeline** — Has section wrapper and custom padding; needs refactor.
-- ⏳ **EditorialQuotesCarousel** — Needs review for section/padding removal.
-- ⏳ **FormulaIngredients** — Needs review for section/padding removal.
-- ⏳ **HowItWorks** — Needs review for section/padding removal.
-- ⏳ **FormulaBenefits** — Currently wrapped in section on page; component may need review.
-- ⏳ **FormulaCaseStudies** / **FormulaCaseStudiesMobile** — Needs review for section/padding removal.
-- ⏳ **FormulaFAQ** — Needs review for section/padding removal.
-- ⏳ **CrossSell** — Needs review for section/padding removal.
 - ⏳ **StickyPurchaseFooter** / **StickyPurchaseFooterMobile** — Footer component; may have different requirements.
 
 **Migration pattern:** For each component, follow the refactor steps: strip section tags, remove internal max-width/padding, apply soft-tech finish (radius, colors), update typography, then wrap in `.premium-section-luxury` + `.premium-track` on the page.
