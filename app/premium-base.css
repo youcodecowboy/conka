@@ -59,16 +59,18 @@
   --space-header-gap: 4rem;
   --space-text-gap: 1.5rem;
 
-  /* ----- Soft-Tech Luxury: Colors (Ink, Bone, Surface) ----- */
+  /* ----- Soft-Tech Luxury: Colors (Ink, Bone, Surface, Mid) ----- */
   --color-base-white: #F9F9F9; /* Bone */
   --color-base-black: #111111; /* Ink */
   --color-base-surface: #F4F6F5; /* Structural grey for bento/cards */
+  --color-base-mid: #D1D5D2; /* Mid-Chrome: deeper grey so white cards pop; Soft-Tech / anodized feel */
   --color-premium-bg-soft: var(--color-base-white);
   --color-premium-stroke: rgba(0, 0, 0, 0.06);
   /* Aliases for compatibility */
   --color-ink: var(--color-base-black);
   --color-bone: var(--color-base-white);
   --color-surface: var(--color-base-surface);
+  --color-mid: var(--color-base-mid);
 
   /* ----- Text on background (ensure contrast) ----- */
   /* On black (Ink) bases: white or bone text */
@@ -166,6 +168,15 @@
 .premium-bg-surface .premium-body { color: inherit; }
 .premium-bg-bone .premium-text-muted,
 .premium-bg-surface .premium-text-muted { color: var(--text-on-light-muted); }
+
+/* Mid-Chrome: deeper grey section; same text treatment as Bone/Surface (dark text) */
+.premium-bg-mid {
+  background-color: var(--color-base-mid);
+  color: var(--text-on-light);
+}
+.premium-bg-mid .premium-section-heading,
+.premium-bg-mid .premium-body { color: inherit; }
+.premium-bg-mid .premium-text-muted { color: var(--text-on-light-muted); }
 
 /* ----- Soft-Tech Luxury: Header block utility ----- */
 .premium-header-group {
