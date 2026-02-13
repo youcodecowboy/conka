@@ -94,24 +94,24 @@ export default function ConkaFlowPage() {
         style={{ background: "var(--background)", color: "var(--foreground)" }}
       >
         <Navigation />
-        <div className="premium-pdp">
-          {/* Step 0 — Hero + Purchase (bone for consistency with other sections) */}
-          <section
-            className="premium-section-luxury bg-white overflow-x-hidden"
-            aria-label="Product hero"
-          >
-            <div className="premium-track">
-              <ProductHeroMobile
-                formulaId="01"
-                selectedPack={selectedPack}
-                onPackSelect={setSelectedPack}
-                purchaseType={purchaseType}
-                onPurchaseTypeChange={setPurchaseType}
-                onAddToCart={handleAddToCartFromHero}
-              />
-            </div>
-          </section>
+        {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
+        <section
+          className="premium-section-luxury bg-white"
+          aria-label="Product hero"
+        >
+          <div className="premium-track">
+            <ProductHeroMobile
+              formulaId="01"
+              selectedPack={selectedPack}
+              onPackSelect={setSelectedPack}
+              purchaseType={purchaseType}
+              onPurchaseTypeChange={setPurchaseType}
+              onAddToCart={handleAddToCartFromHero}
+            />
+          </div>
+        </section>
 
+        <div className="premium-pdp">
           {/* Dark section for high-impact stats (Ink: white/bone text) */}
           <section
             className="premium-section-luxury premium-bg-ink"
@@ -225,24 +225,24 @@ export default function ConkaFlowPage() {
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       <Navigation />
-      <div className="premium-pdp">
-        {/* Step 0 — Hero + Purchase (bone for consistency with other sections) */}
-        <section
-          className="premium-section-luxury bg-white overflow-x-hidden"
-          aria-label="Product hero"
-        >
-          <div className="premium-track">
-            <ProductHero
-              formulaId="01"
-              selectedPack={selectedPack}
-              onPackSelect={setSelectedPack}
-              purchaseType={purchaseType}
-              onPurchaseTypeChange={setPurchaseType}
-              onAddToCart={handleAddToCartFromHero}
-            />
-          </div>
-        </section>
+      {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
+      <section
+        className="premium-section-luxury bg-white"
+        aria-label="Product hero"
+      >
+        <div className="premium-track">
+          <ProductHero
+            formulaId="01"
+            selectedPack={selectedPack}
+            onPackSelect={setSelectedPack}
+            purchaseType={purchaseType}
+            onPurchaseTypeChange={setPurchaseType}
+            onAddToCart={handleAddToCartFromHero}
+          />
+        </div>
+      </section>
 
+      <div className="premium-pdp">
         {/* Dark section for high-impact stats (Ink: white/bone text) */}
         <section
           className="premium-section-luxury premium-bg-ink"

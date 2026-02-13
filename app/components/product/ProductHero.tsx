@@ -64,9 +64,9 @@ export default function ProductHero({
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-center gap-[var(--premium-space-m)]">
-          {/* Left: Product Image */}
-          <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 order-1 lg:order-1">
+    <div className="flex flex-col lg:flex-row lg:justify-center lg:items-start gap-[var(--premium-space-m)]">
+          {/* Left: Product Image – sticky on desktop so it stays visible while right column scrolls */}
+          <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 order-1 lg:order-1 lg:sticky lg:top-24 lg:self-start">
             <div className="relative w-full group">
               <ProductImageSlideshow
                 images={
