@@ -34,7 +34,7 @@ export default function CycleTransformation({
       </h2>
 
       <div
-        className="max-w-2xl mx-auto mt-6 bg-white overflow-hidden"
+        className="premium-card-dark-text max-w-2xl mx-auto mt-6 bg-white overflow-hidden"
         style={{ borderRadius: "var(--premium-radius-card)" }}
       >
         <table className="w-full text-center">
