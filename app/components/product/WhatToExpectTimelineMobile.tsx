@@ -57,7 +57,7 @@ export default function WhatToExpectTimelineMobile({ productId }: WhatToExpectTi
                   isExpanded ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0"
                 }`}
               >
-                <p className="premium-body text-sm leading-relaxed opacity-90">{step.body}</p>
+                <p className="premium-body-sm leading-relaxed opacity-90">{step.body}</p>
               </div>
               <span className="premium-data text-[10px] uppercase tracking-wider opacity-50 mt-2 block">
                 {isExpanded ? "Tap to close" : "Tap for more"}

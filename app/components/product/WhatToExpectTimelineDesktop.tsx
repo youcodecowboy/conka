@@ -50,7 +50,7 @@ export default function WhatToExpectTimelineDesktop({ productId }: WhatToExpectT
             <h3 className="premium-heading text-base md:text-lg leading-snug mb-2">
               {step.heading}
             </h3>
-            <p className="premium-body text-sm leading-relaxed opacity-90">{step.body}</p>
+            <p className="premium-body-sm leading-relaxed opacity-90">{step.body}</p>
           </div>
         ))}
       </div>

@@ -15,7 +15,7 @@ function QuoteCard({ quote }: { quote: EditorialQuote }) {
     >
       {/* Text section: quote centered vertically */}
       <div className="flex-1 min-h-0 flex flex-col justify-center">
-        <p className="premium-body text-lg md:text-xl leading-relaxed">
+        <p className="premium-body-sm leading-relaxed">
           &ldquo;{quote.quote}&rdquo;
         </p>
       </div>
