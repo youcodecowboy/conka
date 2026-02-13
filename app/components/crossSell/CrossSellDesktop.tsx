@@ -16,15 +16,14 @@ export default function CrossSellDesktop(props: CrossSellProps) {
   if (props.variant === "protocol") {
     const otherIds = VALID_PROTOCOL_IDS.filter((id) => id !== props.currentProtocolId);
     return (
-      <section
-        className="premium-section px-6 md:px-16 py-24"
-        aria-label="Explore other protocols and formulas"
-      >
-        <div className="premium-container max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-2">
-              Explore Other Protocols
-            </h2>
+      <>
+        <div className="text-center mb-12" style={{ marginBottom: "var(--premium-space-xl)" }}>
+          <h2
+            className="premium-section-heading text-2xl md:text-3xl font-bold mb-2"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
+            Explore Other Protocols
+          </h2>
             <p className="premium-annotation text-xl">
               find your perfect match
             </p>
@@ -36,17 +35,16 @@ export default function CrossSellDesktop(props: CrossSellProps) {
                 Take the Quiz
               </Link>
             </div>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4" style={{ gap: "var(--premium-space-m)" }}>
             {otherIds.map((id) => (
               <ProtocolCard key={id} protocol={protocolSelectorData[id]} />
             ))}
           </div>
-          <div className="mt-12">
+          <div className="mt-12" style={{ marginTop: "var(--premium-space-xl)" }}>
             <FormulasShowcase />
           </div>
-        </div>
-      </section>
+      </>
     );
   }
 
@@ -58,13 +56,12 @@ export default function CrossSellDesktop(props: CrossSellProps) {
       : "combine CONKA Clear with CONKA Flow in a protocol";
 
   return (
-    <section
-      className="premium-section px-6 md:px-16 py-24"
-      aria-label="Explore protocols and other formulas"
-    >
-      <div className="premium-container max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="premium-section-heading text-2xl md:text-3xl font-bold mb-2">
+    <>
+        <div className="text-center mb-12" style={{ marginBottom: "var(--premium-space-xl)" }}>
+          <h2
+            className="premium-section-heading text-2xl md:text-3xl font-bold mb-2"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
             Want the Complete Experience?
           </h2>
           <p className="premium-annotation text-xl mb-6">{subtext}</p>
@@ -77,15 +74,14 @@ export default function CrossSellDesktop(props: CrossSellProps) {
             </Link>
           )}
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4" style={{ gap: "var(--premium-space-m)" }}>
           {VALID_PROTOCOL_IDS.map((id) => (
             <ProtocolCard key={id} protocol={protocolSelectorData[id]} />
           ))}
         </div>
-        <div className="mt-12">
+        <div className="mt-12" style={{ marginTop: "var(--premium-space-xl)" }}>
           <FormulasShowcase />
         </div>
-      </div>
-    </section>
+    </>
   );
 }

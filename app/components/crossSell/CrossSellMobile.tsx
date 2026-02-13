@@ -20,13 +20,12 @@ export default function CrossSellMobile(props: CrossSellProps) {
   if (props.variant === "protocol") {
     const otherIds = VALID_PROTOCOL_IDS.filter((id) => id !== props.currentProtocolId);
     return (
-      <section
-        className="w-full px-3 py-8"
-        aria-label="Explore other protocols and formulas"
-      >
-        <div className="w-full">
-          <div className="text-center mb-4">
-            <h2 className="premium-section-heading text-lg font-bold mb-1">
+      <>
+          <div className="text-center mb-4" style={{ marginBottom: "var(--premium-space-m)" }}>
+            <h2
+              className="premium-section-heading text-lg font-bold mb-1"
+              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            >
               Explore Other Protocols
             </h2>
             <p className="premium-annotation text-sm opacity-70">
@@ -43,8 +42,8 @@ export default function CrossSellMobile(props: CrossSellProps) {
           </div>
           <div
             ref={carouselRef}
-            className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth -mx-3 px-3 mt-4"
-            style={{ WebkitOverflowScrolling: "touch" }}
+            className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth mt-4"
+            style={{ gap: "var(--premium-space-m)", marginTop: "var(--premium-space-m)", WebkitOverflowScrolling: "touch" }}
             onScroll={() => {
               const el = carouselRef.current;
               if (!el) return;
@@ -78,11 +77,10 @@ export default function CrossSellMobile(props: CrossSellProps) {
               />
             ))}
           </div>
-          <div className="mt-8">
+          <div className="mt-8" style={{ marginTop: "var(--premium-space-l)" }}>
             <FormulasShowcaseMobile />
           </div>
-        </div>
-      </section>
+      </>
     );
   }
 
@@ -94,13 +92,12 @@ export default function CrossSellMobile(props: CrossSellProps) {
       : "combine CONKA Clear with CONKA Flow in a protocol";
 
   return (
-    <section
-      className="w-full px-3 py-8"
-      aria-label="Explore protocols and other formulas"
-    >
-      <div className="w-full">
-        <div className="text-center mb-4">
-          <h2 className="premium-section-heading text-lg font-bold mb-1">
+    <>
+        <div className="text-center mb-4" style={{ marginBottom: "var(--premium-space-m)" }}>
+          <h2
+            className="premium-section-heading text-lg font-bold mb-1"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
             Want the Complete Experience?
           </h2>
           <p className="premium-annotation text-sm opacity-70 mb-4">
@@ -117,8 +114,8 @@ export default function CrossSellMobile(props: CrossSellProps) {
         </div>
         <div
           ref={carouselRef}
-          className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth -mx-3 px-3 mt-4"
-          style={{ WebkitOverflowScrolling: "touch" }}
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth mt-4"
+          style={{ gap: "var(--premium-space-m)", marginTop: "var(--premium-space-m)", WebkitOverflowScrolling: "touch" }}
           onScroll={() => {
             const el = carouselRef.current;
             if (!el) return;
@@ -152,10 +149,9 @@ export default function CrossSellMobile(props: CrossSellProps) {
             />
           ))}
         </div>
-        <div className="mt-8">
+        <div className="mt-8" style={{ marginTop: "var(--premium-space-l)" }}>
           <FormulasShowcaseMobile />
         </div>
-      </div>
-    </section>
+    </>
   );
 }
