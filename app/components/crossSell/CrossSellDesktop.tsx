@@ -7,11 +7,6 @@ import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData
 import ProtocolCard from "@/app/components/shop/ProtocolCard";
 import FormulasShowcase from "@/app/components/shop/FormulasShowcase";
 
-const OTHER_FORMULA: Record<string, { href: string; label: string }> = {
-  "01": { href: "/conka-clarity", label: "Explore CONKA Clear" },
-  "02": { href: "/conka-flow", label: "Explore CONKA Flow" },
-};
-
 export default function CrossSellDesktop(props: CrossSellProps) {
   if (props.variant === "protocol") {
     const otherIds = VALID_PROTOCOL_IDS.filter((id) => id !== props.currentProtocolId);
@@ -48,9 +43,7 @@ export default function CrossSellDesktop(props: CrossSellProps) {
     );
   }
 
-  // formula variant: primary CTA = Take the Quiz (same as protocol); secondary = Explore other formula
-  const other = OTHER_FORMULA[props.currentFormulaId];
-
+  // formula variant: same CTA as protocol — Take the Quiz
   return (
     <>
         <div className="text-center mb-12" style={{ marginBottom: "var(--premium-space-xl)" }}>
@@ -71,17 +64,6 @@ export default function CrossSellDesktop(props: CrossSellProps) {
               Take the Quiz
             </Link>
           </div>
-          {other && (
-            <p className="premium-annotation text-base mt-4">
-              Want the complete experience?{" "}
-              <Link
-                href={other.href}
-                className="underline hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded"
-              >
-                {other.label}
-              </Link>
-            </p>
-          )}
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4" style={{ gap: "var(--premium-space-m)" }}>
           {VALID_PROTOCOL_IDS.map((id) => (
@@ -89,7 +71,7 @@ export default function CrossSellDesktop(props: CrossSellProps) {
           ))}
         </div>
         <div className="mt-12" style={{ marginTop: "var(--premium-space-xl)" }}>
-          <FormulasShowcase />
+          <FormulasShowcase excludeFormulaId={props.currentFormulaId} />
         </div>
     </>
   );

@@ -8,11 +8,6 @@ import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData
 import ProtocolCardMobile from "@/app/components/shop/ProtocolCardMobile";
 import { FormulasShowcaseMobile } from "@/app/components/shop";
 
-const OTHER_FORMULA: Record<string, { href: string; label: string }> = {
-  "01": { href: "/conka-clarity", label: "Explore CONKA Clear" },
-  "02": { href: "/conka-flow", label: "Explore CONKA Flow" },
-};
-
 export default function CrossSellMobile(props: CrossSellProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -84,9 +79,7 @@ export default function CrossSellMobile(props: CrossSellProps) {
     );
   }
 
-  // formula variant: primary CTA = Take the Quiz (same as protocol); secondary = Explore other formula
-  const other = OTHER_FORMULA[props.currentFormulaId];
-
+  // formula variant: same CTA as protocol — Take the Quiz
   return (
     <>
         <div className="text-center mb-4" style={{ marginBottom: "var(--premium-space-m)" }}>
@@ -107,17 +100,6 @@ export default function CrossSellMobile(props: CrossSellProps) {
               Take the Quiz
             </Link>
           </div>
-          {other && (
-            <p className="premium-annotation text-sm opacity-70 mt-3">
-              Want the complete experience?{" "}
-              <Link
-                href={other.href}
-                className="underline hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded"
-              >
-                {other.label}
-              </Link>
-            </p>
-          )}
         </div>
         <div
           ref={carouselRef}
@@ -157,7 +139,7 @@ export default function CrossSellMobile(props: CrossSellProps) {
           ))}
         </div>
         <div className="mt-8" style={{ marginTop: "var(--premium-space-l)" }}>
-          <FormulasShowcaseMobile />
+          <FormulasShowcaseMobile excludeFormulaId={props.currentFormulaId} />
         </div>
     </>
   );
