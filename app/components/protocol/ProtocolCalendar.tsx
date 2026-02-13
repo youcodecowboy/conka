@@ -40,32 +40,35 @@ export default function ProtocolCalendar({
   const conkaClarityTotal = tierConfig.conkaClarityCount * 4;
 
   return (
-    <section className="premium-section w-full bg-[var(--color-surface)]">
-      <div className="premium-container max-w-6xl mx-auto px-6 md:px-16 py-8 md:py-12">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
-            How to follow your protocol
-          </h2>
-          <p className="premium-annotation text-xl">visualize your journey</p>
-        </div>
+    <>
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
+          How to follow your protocol
+        </h2>
+        <p className="premium-annotation text-xl">visualize your journey</p>
+      </div>
 
-        {/* Inline tier selector */}
-        <div className="flex justify-center gap-2 mb-8 flex-wrap">
-          {availableTiers.map((tier) => {
-            const isSelected = selectedTier === tier;
-            const conf = protocol.tiers[tier];
-            return (
-              <button
-                key={tier}
-                onClick={() => onTierSelect(tier)}
-                className={`px-4 py-2 rounded-xl font-clinical text-sm font-semibold transition-all ${
-                  isSelected
-                    ? "text-white shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
-                    : "bg-white border border-black/10 hover:border-black/20 text-current"
-                }`}
-                style={isSelected ? { backgroundColor: protocolAccent } : undefined}
-              >
+      {/* Inline tier selector */}
+      <div className="flex justify-center gap-2 mb-8 flex-wrap">
+        {availableTiers.map((tier) => {
+          const isSelected = selectedTier === tier;
+          const conf = protocol.tiers[tier];
+          return (
+            <button
+              key={tier}
+              onClick={() => onTierSelect(tier)}
+              className={`px-4 py-2 font-clinical text-sm font-semibold transition-all ${
+                isSelected
+                  ? "text-white shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
+                  : "bg-white border border-black/10 hover:border-black/20 text-current"
+              }`}
+              style={
+                isSelected
+                  ? { backgroundColor: protocolAccent, borderRadius: "var(--premium-radius-nested)" }
+                  : { borderRadius: "var(--premium-radius-nested)" }
+              }
+            >
                 {tierLabels[tier]}
                 {conf && (
                   <span className="ml-1.5 opacity-80 text-xs font-normal">
@@ -230,7 +233,6 @@ export default function ProtocolCalendar({
             </div>
           </div>
         </div>
-      </div>
-    </section>
+    </>
   );
 }

@@ -45,34 +45,37 @@ export default function ProtocolCalendarMobile({
   const weekDays = calendarDays.slice(0, 7);
 
   return (
-    <section className="premium-section w-full bg-[var(--color-surface)]">
-      <div className="w-full px-3 py-4">
-        {/* Header */}
-        <div className="text-center mb-4">
-          <h2 className="premium-section-heading text-2xl font-bold mb-2">
-            How to follow your protocol
-          </h2>
-          <p className="premium-annotation text-base opacity-70">
-            visualize your journey
-          </p>
-        </div>
+    <>
+      {/* Header */}
+      <div className="text-center mb-4">
+        <h2 className="premium-section-heading text-2xl font-bold mb-2">
+          How to follow your protocol
+        </h2>
+        <p className="premium-annotation text-base opacity-70">
+          visualize your journey
+        </p>
+      </div>
 
-        {/* Inline tier selector */}
-        <div className="flex justify-center gap-2 mb-6 flex-wrap">
-          {availableTiers.map((tier) => {
-            const isSelected = selectedTier === tier;
-            const conf = protocol.tiers[tier];
-            return (
-              <button
-                key={tier}
-                onClick={() => onTierSelect(tier)}
-                className={`px-4 py-2 rounded-xl font-clinical text-sm font-semibold transition-all ${
-                  isSelected
-                    ? "text-white shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
-                    : "bg-white border border-black/10 hover:border-black/20 text-current"
-                }`}
-                style={isSelected ? { backgroundColor: protocolAccent } : undefined}
-              >
+      {/* Inline tier selector */}
+      <div className="flex justify-center gap-2 mb-6 flex-wrap">
+        {availableTiers.map((tier) => {
+          const isSelected = selectedTier === tier;
+          const conf = protocol.tiers[tier];
+          return (
+            <button
+              key={tier}
+              onClick={() => onTierSelect(tier)}
+              className={`px-4 py-2 font-clinical text-sm font-semibold transition-all ${
+                isSelected
+                  ? "text-white shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
+                  : "bg-white border border-black/10 hover:border-black/20 text-current"
+              }`}
+              style={
+                isSelected
+                  ? { backgroundColor: protocolAccent, borderRadius: "var(--premium-radius-nested)" }
+                  : { borderRadius: "var(--premium-radius-nested)" }
+              }
+            >
                 {tierLabels[tier]}
                 {conf && (
                   <span className="ml-1.5 opacity-80 text-xs font-normal">
@@ -206,7 +209,6 @@ export default function ProtocolCalendarMobile({
             </div>
           </div>
         </div>
-      </div>
-    </section>
+    </>
   );
 }
