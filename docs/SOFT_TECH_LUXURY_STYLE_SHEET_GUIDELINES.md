@@ -134,7 +134,170 @@ Structure:
 
 ---
 
-## 9. Checklist for new sections
+## 9. Migration best practices
+
+**Purpose:** Step-by-step guide for refactoring existing components to the Soft-Tech Luxury system.
+
+### Step-by-step migration process
+
+1. **Strip section logic from component**
+   - Remove `<section>` tags and `aria-labelledby` attributes (page wrapper provides these).
+   - Remove outer containers with `max-w-[XXrem]`, `mx-auto`, or arbitrary max-widths.
+   - Remove horizontal padding classes (`px-*`, `md:px-*`, `lg:px-*`). Gutters come from the page wrapper.
+
+2. **Remove internal padding and spacing**
+   - Strip all `px-*` classes from component root and major containers.
+   - Keep internal spacing for content hierarchy (e.g., gaps between grid items, margins between title and body).
+   - Use spacing variables (`--premium-space-*`) for internal component spacing, not layout gutters.
+
+3. **Update backgrounds**
+   - Remove `bg-black`, `bg-white`, or `style={{ background: "..." }}` from components.
+   - Components should not set their own background colors; the page wrapper handles section backgrounds.
+   - Exception: Cards and nested surfaces can use `var(--color-premium-bg-soft)` for their own backgrounds.
+
+4. **Apply soft-tech finish**
+   - Update border radius: replace `rounded-lg`, `rounded-xl`, etc. with `var(--premium-radius-card)` (40px) for cards/boxes.
+   - Update borders: remove heavy borders (`border-2`, `border-black`); use `none` or `1px solid var(--color-premium-stroke)` if needed.
+   - Update button radius: use `var(--premium-radius-interactive)` (pill) for buttons.
+
+5. **Update typography**
+   - Ensure headings use `var(--letter-spacing-premium-title)` (can be applied via inline style: `style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}`).
+   - Ensure body text uses `line-height: 1.6` (`var(--premium-font-body-leading)`).
+   - For long prose blocks, add `max-width: var(--premium-body-max-width)` (65ch).
+
+6. **Component structure after migration**
+   - Component should return only its content structure (grids, cards, text).
+   - No section tags, no max-width containers, no horizontal padding.
+   - Component is a "modular piece" ready to be wrapped by the page.
+
+7. **Update page wrapper**
+   - Wrap component in `<section className="premium-section-luxury bg-[var(--color-ink)]">` (or `--color-bone` for light sections).
+   - Add `aria-labelledby` if the section needs a heading ID.
+   - Wrap component content in `<div className="premium-track">` for track alignment.
+
+### Common pitfalls to avoid
+
+- **Don't** keep section tags "just in case" — the page wrapper provides them.
+- **Don't** add "safety" padding — trust the system's gutter variables.
+- **Don't** mix old and new patterns — fully commit to the new system.
+- **Don't** hard-code colors — use CSS variables (`--color-ink`, `--color-bone`).
+- **Don't** create component-specific max-widths — use `.premium-track` instead.
+
+### Example: Before and after
+
+**Before (component manages its own section):**
+```tsx
+<section className="bg-black text-white">
+  <div className="mx-auto max-w-[90rem] px-6 md:px-12">
+    <div className="grid grid-cols-2 gap-12">
+      {/* content */}
+    </div>
+  </div>
+</section>
+```
+
+**After (component is modular, page orchestrates):**
+```tsx
+// Component (FormulaBenefitsStatsDesktop.tsx)
+<div className="grid grid-cols-2 gap-12">
+  {/* content */}
+</div>
+
+// Page (conka-flow/page.tsx)
+<section className="premium-section-luxury bg-[var(--color-ink)] text-white">
+  <div className="premium-track">
+    <FormulaBenefitsStats formulaId="01" />
+  </div>
+</section>
+```
+
+---
+
+## 10. Page-level color orchestration
+
+**Purpose:** How parent pages control section backgrounds and color transitions to create visual rhythm.
+
+### The principle: page controls color, component controls content
+
+In the Soft-Tech Luxury system, **the page is the orchestrator** of visual rhythm. Components are content-only; pages decide when sections are dark (Ink) or light (Bone), creating intentional transitions that feel calm and premium.
+
+### Color palette
+
+- **`--color-ink: #111111`** — Charcoal (not pure black). Use for high-impact, dark sections.
+- **`--color-bone: #F9F9F9`** — Off-white. Use for light sections and "palate cleanser" transitions.
+
+### How to orchestrate colors on a page
+
+1. **Define section purpose**
+   - High-impact sections (stats, hero content) → `bg-[var(--color-ink)]` with `text-white`.
+   - Light, readable sections (testimonials, details) → `bg-[var(--color-bone)]` with default text color.
+   - Alternating pattern creates visual rhythm and prevents "frantic" transitions.
+
+2. **Apply at page level**
+   ```tsx
+   {/* Dark section for high-impact stats */}
+   <section className="premium-section-luxury bg-[var(--color-ink)] text-white">
+     <div className="premium-track">
+       <FormulaBenefitsStats formulaId="01" />
+     </div>
+   </section>
+
+   {/* Light "palate cleanser" section for testimonials */}
+   <section className="premium-section-luxury bg-[var(--color-bone)]">
+     <div className="premium-track">
+       <Testimonials testimonials={testimonials} />
+     </div>
+   </section>
+   ```
+
+3. **Leverage the "air" system**
+   - The large vertical padding (`--space-section-padding`) between sections creates a "palate cleanser" effect.
+   - When transitioning from Ink to Bone (or vice versa), the generous spacing prevents the eye from feeling a "collision."
+   - This spacing is built into `.premium-section-luxury`, so color transitions automatically feel calm.
+
+4. **Component independence**
+   - Components should **never** set their own background colors (except for nested cards/surfaces).
+   - Components should **never** assume they're in a dark or light section.
+   - Use semantic color classes (e.g., `text-white` for text that must be white) only when the component is wrapped in a dark section.
+
+### Color transition patterns
+
+**Effective patterns:**
+- Ink → Bone → Ink (creates rhythm, prevents monotony).
+- Bone → Ink → Bone (highlights important sections).
+- Consistent Bone sections (for long-form content, details).
+
+**Avoid:**
+- Rapid Ink → Bone → Ink → Bone (feels frantic without proper spacing).
+- Components that change their own backgrounds based on context (breaks the system).
+
+### Full-bleed elements and color orchestration
+
+Some components have full-bleed elements (e.g., marquee strips) that intentionally break out of the track. These should still respect the section's background color:
+
+```tsx
+<section className="premium-section-luxury bg-[var(--color-bone)]">
+  <div className="premium-track">
+    {/* Header aligns to track */}
+    <TestimonialsHeader />
+  </div>
+  {/* Full-bleed marquee inherits section background */}
+  <TestimonialsMarquee />
+</section>
+```
+
+The full-bleed element inherits the section's background, maintaining visual consistency while breaking out of the track for impact.
+
+### Benefits of page-level orchestration
+
+- **Consistency:** All pages using the system have predictable color patterns.
+- **Maintainability:** Change section colors in one place (the page), not in every component.
+- **Flexibility:** Same component can appear in dark or light sections without modification.
+- **Visual rhythm:** Page-level control enables intentional pacing and transitions.
+
+---
+
+## 11. Checklist for new sections
 
 Use this when adding or refactoring a premium section so it fits the system:
 
