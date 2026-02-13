@@ -48,12 +48,8 @@ export default function CrossSellDesktop(props: CrossSellProps) {
     );
   }
 
-  // formula variant
+  // formula variant: primary CTA = Take the Quiz (same as protocol); secondary = Explore other formula
   const other = OTHER_FORMULA[props.currentFormulaId];
-  const subtext =
-    props.currentFormulaId === "01"
-      ? "combine CONKA Flow with CONKA Clear in a protocol"
-      : "combine CONKA Clear with CONKA Flow in a protocol";
 
   return (
     <>
@@ -62,16 +58,29 @@ export default function CrossSellDesktop(props: CrossSellProps) {
             className="premium-section-heading text-2xl md:text-3xl font-bold mb-2"
             style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
           >
-            Want the Complete Experience?
+            Explore Other Protocols
           </h2>
-          <p className="premium-annotation text-xl mb-6">{subtext}</p>
-          {other && (
+          <p className="premium-annotation text-xl">
+            find your perfect match
+          </p>
+          <div className="mt-6">
             <Link
-              href={other.href}
-              className="inline-block px-8 py-4 rounded-full border-2 border-black font-semibold text-lg hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+              href="/quiz"
+              className="inline-block px-6 py-3 rounded-full bg-black text-white font-semibold text-base hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
             >
-              {other.label}
+              Take the Quiz
             </Link>
+          </div>
+          {other && (
+            <p className="premium-annotation text-base mt-4">
+              Want the complete experience?{" "}
+              <Link
+                href={other.href}
+                className="underline hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded"
+              >
+                {other.label}
+              </Link>
+            </p>
           )}
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4" style={{ gap: "var(--premium-space-m)" }}>

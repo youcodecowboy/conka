@@ -84,12 +84,8 @@ export default function CrossSellMobile(props: CrossSellProps) {
     );
   }
 
-  // formula variant
+  // formula variant: primary CTA = Take the Quiz (same as protocol); secondary = Explore other formula
   const other = OTHER_FORMULA[props.currentFormulaId];
-  const subtext =
-    props.currentFormulaId === "01"
-      ? "combine CONKA Flow with CONKA Clear in a protocol"
-      : "combine CONKA Clear with CONKA Flow in a protocol";
 
   return (
     <>
@@ -98,18 +94,29 @@ export default function CrossSellMobile(props: CrossSellProps) {
             className="premium-section-heading text-lg font-bold mb-1"
             style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
           >
-            Want the Complete Experience?
+            Explore Other Protocols
           </h2>
-          <p className="premium-annotation text-sm opacity-70 mb-4">
-            {subtext}
+          <p className="premium-annotation text-sm opacity-70">
+            find your perfect match
           </p>
-          {other && (
+          <div className="mt-4">
             <Link
-              href={other.href}
-              className="inline-block px-6 py-3 rounded-full border-2 border-black font-semibold text-sm hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+              href="/quiz"
+              className="inline-block px-6 py-3 rounded-full bg-black text-white font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
             >
-              {other.label}
+              Take the Quiz
             </Link>
+          </div>
+          {other && (
+            <p className="premium-annotation text-sm opacity-70 mt-3">
+              Want the complete experience?{" "}
+              <Link
+                href={other.href}
+                className="underline hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded"
+              >
+                {other.label}
+              </Link>
+            </p>
           )}
         </div>
         <div
