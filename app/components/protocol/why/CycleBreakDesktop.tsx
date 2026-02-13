@@ -77,7 +77,7 @@ export default function CycleBreakDesktop() {
                     <p className="premium-body text-sm leading-relaxed mb-6 pt-4 text-white">
                       {copy.mechanisms.clear.description}
                     </p>
-                    <ul className="space-y-2.5">
+                    <ul className="space-y-2.5 mt-6">
                       {copy.mechanisms.clear.keyPoints.map((point, idx) => (
                         <li
                           key={idx}
@@ -151,7 +151,7 @@ export default function CycleBreakDesktop() {
                       <p className="premium-body text-sm leading-relaxed mb-6 pt-4 text-white">
                         {copy.mechanisms.flow.description}
                       </p>
-                      <ul className="space-y-2.5 text-right">
+                      <ul className="space-y-2.5 text-right mt-6">
                         {copy.mechanisms.flow.keyPoints.map((point, idx) => (
                           <li
                             key={idx}

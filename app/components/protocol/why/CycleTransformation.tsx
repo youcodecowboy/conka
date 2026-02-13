@@ -25,17 +25,19 @@ export default function CycleTransformation({
   const textClass = gradientTextColor === "white" ? "text-white" : "text-black";
 
   return (
-    <section
-      className="bg-black text-white pt-0 pb-8 md:pb-10 px-6 md:px-12 lg:px-20"
-      aria-label="The outcome"
-    >
-      <div className="w-full max-w-full mx-auto pt-6 md:pt-8">
-        <h2 className="premium-section-heading text-xl md:text-2xl font-bold text-center text-white mb-4">
-          {sectionHeadings.transformation}
-        </h2>
+    <div className="pt-6 md:pt-8">
+      <h2
+        className="premium-section-heading text-xl md:text-2xl font-bold text-center mb-4"
+        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+      >
+        {sectionHeadings.transformation}
+      </h2>
 
-        <div className="max-w-2xl mx-auto mt-6 bg-white rounded-lg overflow-hidden">
-          <table className="w-full text-center">
+      <div
+        className="max-w-2xl mx-auto mt-6 bg-white overflow-hidden"
+        style={{ borderRadius: "var(--premium-radius-card)" }}
+      >
+        <table className="w-full text-center">
             <thead>
               <tr className="border-b border-black/10">
                 <th className="premium-body text-sm font-semibold px-4 py-2.5 text-black/60">
@@ -66,7 +68,6 @@ export default function CycleTransformation({
             </tbody>
           </table>
         </div>
-      </div>
-    </section>
+    </div>
   );
 }
