@@ -346,9 +346,9 @@ export default function NavigationMobile({
                                 {formula.name}
                               </p>
 
-                              {/* Headline - Always Visible */}
+                              {/* Subheadline - Always Visible */}
                               <h3 className="text-lg font-bold leading-tight mb-3">
-                                {formula.headline}
+                                {formula.subheadline}
                               </h3>
 
                               {/* CTA Button */}

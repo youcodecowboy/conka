@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import ShopMegaMenuContent from "./ShopMegaMenuContent";
-import type { ShopMegaMenuProps, HoveredSection } from "./types";
+import type { ShopMegaMenuProps } from "./types";
 
 export default function ShopMegaMenu({
   isOpen,

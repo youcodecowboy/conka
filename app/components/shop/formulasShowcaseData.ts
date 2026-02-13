@@ -10,6 +10,7 @@ export interface FormulaShowcaseData {
   id: FormulaId;
   name: string;
   subtitle: string;
+  subheadline: string;
   description: string;
   headline: string;
   positioning: string;
@@ -90,6 +91,7 @@ export const formulas: FormulaShowcaseData[] = (
     id,
     name: content.name,
     subtitle: content.tagline,
+    subheadline: content.subheadline,
     description: content.subheadline,
     headline: content.headline,
     positioning: meta.positioning,
