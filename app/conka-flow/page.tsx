@@ -105,11 +105,25 @@ export default function ConkaFlowPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          <FormulaBenefitsStats formulaId="01" />
-          <Testimonials
-            testimonials={getSiteTestimonialsFlow()}
-            autoScrollOnly
-          />
+          {/* Dark section for high-impact stats */}
+          <section
+            className="premium-section-luxury bg-[var(--color-ink)] text-white"
+            aria-labelledby="benefits-stats-heading"
+          >
+            <div className="premium-track">
+              <FormulaBenefitsStats formulaId="01" />
+            </div>
+          </section>
+
+          {/* Light "palate cleanser" section for testimonials */}
+          <section className="premium-section-luxury bg-[var(--color-bone)]">
+            <div className="premium-track">
+              <Testimonials
+                testimonials={getSiteTestimonialsFlow()}
+                autoScrollOnly
+              />
+            </div>
+          </section>
 
           <WhatToExpectTimeline productId="01" />
 
@@ -163,11 +177,25 @@ export default function ConkaFlowPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        <FormulaBenefitsStats formulaId="01" />
-        <Testimonials
-          testimonials={getSiteTestimonialsFlow()}
-          autoScrollOnly
-        />
+        {/* Dark section for high-impact stats */}
+        <section
+          className="premium-section-luxury bg-[var(--color-ink)] text-white"
+          aria-labelledby="benefits-stats-heading"
+        >
+          <div className="premium-track">
+            <FormulaBenefitsStats formulaId="01" />
+          </div>
+        </section>
+
+        {/* Light "palate cleanser" section for testimonials */}
+        <section className="premium-section-luxury bg-[var(--color-bone)]">
+          <div className="premium-track">
+            <Testimonials
+              testimonials={getSiteTestimonialsFlow()}
+              autoScrollOnly
+            />
+          </div>
+        </section>
 
         <WhatToExpectTimeline productId="01" />
 
