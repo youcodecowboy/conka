@@ -26,7 +26,8 @@ export default function WhatToExpectTimelineMobile({ productId }: WhatToExpectTi
           <button
             key={i}
             type="button"
-            className="w-full text-left flex gap-4 rounded-xl border border-black/10 bg-white p-4 min-h-[44px] transition-colors duration-200"
+            className="w-full text-left flex gap-4 border border-black/10 bg-white p-4 min-h-[44px] transition-colors duration-200"
+            style={{ borderRadius: "var(--premium-radius-card)" }}
             onClick={() => setExpandedIndex((prev) => (prev === i ? null : i))}
             aria-expanded={isExpanded}
           >
