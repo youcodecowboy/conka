@@ -30,8 +30,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
 
   return (
     <article
-      className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] h-full"
-      style={{ color: "var(--color-base-black)" }}
+      className="premium-card-dark-text overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] h-full"
     >
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
       <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">
@@ -67,10 +66,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
       </div>
 
       {/* Card body: showcase content (white, dark text) */}
-      <div
-        className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white"
-        style={{ color: "var(--color-base-black)" }}
-      >
+      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white">
         <h3 className="premium-heading text-[var(--premium-font-heading-size)] font-bold leading-tight">
           {athlete.name}
         </h3>
@@ -148,10 +144,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
           <span>{athlete.testsCompleted} tests</span>
           <span>{athlete.testingPeriod}</span>
           {athlete.protocolUsed != null && athlete.protocolUsed !== "" && (
-            <span
-              className="px-2 py-0.5 rounded-full bg-white border border-[var(--color-base-black)] premium-data text-xs"
-              style={{ color: "var(--color-base-black)" }}
-            >
+            <span className="px-2 py-0.5 rounded-full bg-white border border-[var(--color-base-black)] premium-data text-xs">
               {athlete.protocolUsed}
             </span>
           )}
@@ -167,7 +160,6 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
             type="button"
             onClick={() => setDescriptionExpanded((prev) => !prev)}
             className="premium-data text-xs font-medium mt-[var(--premium-space-xs)] underline underline-offset-2 hover:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-base-black)] focus-visible:ring-offset-1 rounded"
-            style={{ color: "var(--color-base-black)" }}
           >
             {descriptionExpanded ? "Show less" : "Read more"}
           </button>
