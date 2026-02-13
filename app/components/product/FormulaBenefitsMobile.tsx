@@ -26,27 +26,31 @@ export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobi
     : null;
 
   return (
-    <section className="premium-section" aria-labelledby="benefits-mobile-heading">
-      <div className="premium-container">
-        <div className="text-center premium-stack-m">
-          <h2 id="proof-and-science-heading" className="premium-section-heading premium-stack-s">
-            Research by benefit
-          </h2>
-          <p className="premium-annotation opacity-70">Pick a focus to explore the research</p>
-        </div>
+    <>
+      <div className="text-center premium-stack-m">
+        <h2
+          id="proof-and-science-heading"
+          className="premium-section-heading premium-stack-s"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          Research by benefit
+        </h2>
+        <p className="premium-annotation opacity-70">Pick a focus to explore the research</p>
+      </div>
 
-        <div className="grid grid-cols-3 gap-2 mb-6">
+      <div className="grid grid-cols-3 gap-2 mb-6">
         {STRUGGLE_OPTIONS.map((struggle) => {
           const isSelected = selectedStruggle === struggle.id;
           return (
             <button
               key={struggle.id}
               onClick={() => setSelectedStruggle(isSelected ? null : struggle.id)}
-              className={`py-3 px-2 rounded-[var(--premium-radius-base)] flex flex-col items-center gap-1 transition-all ${
+              className={`py-3 px-2 flex flex-col items-center gap-1 transition-all ${
                 isSelected
                   ? "bg-black text-white"
                   : "border-2 border-[var(--premium-border-color)] hover:border-black/30"
               }`}
+              style={{ borderRadius: "var(--premium-radius-card)" }}
             >
               <StruggleIcon icon={struggle.icon} className="w-[18px] h-[18px]" />
               <span className="premium-data text-xs">{struggle.label}</span>
@@ -149,13 +153,12 @@ export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobi
         </div>
       )}
 
-        {!selectedStruggle && (
-          <p className="text-center premium-data text-sm opacity-50 mt-4">
-            Tap a challenge above to see how we can help
-          </p>
-        )}
-      </div>
-    </section>
+      {!selectedStruggle && (
+        <p className="text-center premium-data text-sm opacity-50 mt-4">
+          Tap a challenge above to see how we can help
+        </p>
+      )}
+    </>
   );
 }
 
