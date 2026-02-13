@@ -62,6 +62,8 @@
   /* ----- Soft-Tech Luxury: Finish (colors) ----- */
   --color-premium-bg-soft: #F9F9F9;
   --color-premium-stroke: rgba(0, 0, 0, 0.06);
+  --color-ink: #111111; /* Charcoal – replaces pure black for smoother transitions */
+  --color-bone: #F9F9F9; /* Off-white – physical material feel, reduces glare */
 
   /* ----- Soft-Tech Luxury: Typography ----- */
   --letter-spacing-premium-title: -0.03em;
