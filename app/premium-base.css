@@ -132,12 +132,19 @@
   padding-right: var(--premium-gutter-desktop);
   transition: background-color 0.4s ease;
 }
+/* Hero as first section: minimal top padding so it mounts at the top of the page */
+.premium-section-luxury.premium-hero-first {
+  padding-top: var(--premium-space-m);
+}
 @media (max-width: 768px) {
   .premium-section-luxury {
     padding-top: var(--space-section-padding-mobile);
     padding-bottom: var(--space-section-padding-mobile);
     padding-left: var(--premium-gutter-mobile);
     padding-right: var(--premium-gutter-mobile);
+  }
+  .premium-section-luxury.premium-hero-first {
+    padding-top: var(--premium-space-m);
   }
 }
 
