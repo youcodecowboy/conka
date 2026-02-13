@@ -95,15 +95,22 @@ export default function ConkaFlowPage() {
       >
         <Navigation />
         <div className="premium-pdp">
-          {/* Step 0 — Hero + Purchase */}
-          <ProductHeroMobile
-            formulaId="01"
-            selectedPack={selectedPack}
-            onPackSelect={setSelectedPack}
-            purchaseType={purchaseType}
-            onPurchaseTypeChange={setPurchaseType}
-            onAddToCart={handleAddToCartFromHero}
-          />
+          {/* Step 0 — Hero + Purchase (bone for consistency with other sections) */}
+          <section
+            className="premium-section-luxury bg-white overflow-x-hidden"
+            aria-label="Product hero"
+          >
+            <div className="premium-track">
+              <ProductHeroMobile
+                formulaId="01"
+                selectedPack={selectedPack}
+                onPackSelect={setSelectedPack}
+                purchaseType={purchaseType}
+                onPurchaseTypeChange={setPurchaseType}
+                onAddToCart={handleAddToCartFromHero}
+              />
+            </div>
+          </section>
 
           {/* Dark section for high-impact stats (Ink: white/bone text) */}
           <section
@@ -219,15 +226,22 @@ export default function ConkaFlowPage() {
     >
       <Navigation />
       <div className="premium-pdp">
-        {/* Step 0 — Hero + Purchase */}
-        <ProductHero
-          formulaId="01"
-          selectedPack={selectedPack}
-          onPackSelect={setSelectedPack}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCartFromHero}
-        />
+        {/* Step 0 — Hero + Purchase (bone for consistency with other sections) */}
+        <section
+          className="premium-section-luxury bg-white overflow-x-hidden"
+          aria-label="Product hero"
+        >
+          <div className="premium-track">
+            <ProductHero
+              formulaId="01"
+              selectedPack={selectedPack}
+              onPackSelect={setSelectedPack}
+              purchaseType={purchaseType}
+              onPurchaseTypeChange={setPurchaseType}
+              onAddToCart={handleAddToCartFromHero}
+            />
+          </div>
+        </section>
 
         {/* Dark section for high-impact stats (Ink: white/bone text) */}
         <section
