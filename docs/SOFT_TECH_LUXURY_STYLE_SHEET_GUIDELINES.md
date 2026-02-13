@@ -134,7 +134,24 @@ Structure:
 
 ---
 
-## 9. Migration best practices
+## 9. Creating a new premium component
+
+**Purpose:** What the component owns vs what the page owns.
+
+**Component is responsible for:**
+- **Content only** — No `<section>`, no root background, no `max-w` or `px-*` at the outer level. Return a fragment or a single content wrapper (e.g. header + grid).
+- **Internal layout** — Grids, stacks, carousels; use `--premium-space-*` for gaps and internal rhythm.
+- **Card/surface styling** — Radius `var(--premium-radius-card)`, soft bg `var(--color-premium-bg-soft)` or `bg-white` where needed; borders `var(--color-premium-stroke)`.
+- **Typography** — Section headings with `letterSpacing: var(--letter-spacing-premium-title)`; body/annotation classes (`.premium-body`, `.premium-annotation`). If the component renders a card that sits on a dark section and must keep dark text, add the class `.premium-card-dark-text` to that card so text stays `var(--color-base-black)`.
+
+**Page is responsible for:**
+- **Section wrapper** — `<section className="premium-section-luxury premium-bg-{ink|bone|surface}" aria-label="…">`.
+- **Track** — `<div className="premium-track">` around the component so content aligns to the system rail.
+- **Background and color** — Section background and default text color (Ink = light text, Bone/Surface = dark text) come from the page; the component does not set them.
+
+---
+
+## 10. Migration best practices
 
 **Purpose:** Step-by-step guide for refactoring existing components to the Soft-Tech Luxury system.
 
@@ -213,7 +230,7 @@ Structure:
 
 ---
 
-## 10. Page-level color orchestration
+## 11. Page-level color orchestration
 
 **Purpose:** How parent pages control section backgrounds and color transitions to create visual rhythm.
 
@@ -305,7 +322,7 @@ The full-bleed element inherits the section's background, maintaining visual con
 
 ---
 
-## 11. Checklist for new sections
+## 12. Checklist for new sections
 
 Use this when adding or refactoring a premium section so it fits the system:
 
