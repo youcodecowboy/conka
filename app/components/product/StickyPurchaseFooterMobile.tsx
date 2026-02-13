@@ -10,6 +10,7 @@ import {
   protocolContent,
   formatPrice,
   getBillingLabel,
+  getProtocolTierPackLabel,
   FormulaId,
   ProtocolId,
   getProductGradient,
@@ -24,12 +25,6 @@ const packLabels: Record<PackSize, string> = {
   "12": "12-pack",
   "28": "28-pack",
 };
-const tierLabels: Record<ProtocolTier, string> = {
-  starter: "Starter",
-  pro: "Pro",
-  max: "Max",
-};
-
 interface StickyPurchaseFooterMobileProps {
   formulaId?: FormulaId;
   selectedPack?: PackSize;
@@ -85,7 +80,7 @@ export default function StickyPurchaseFooterMobile({
     priceLine = `${formatPrice(pricing.perShot)} / serving`;
     showPackSelector = !!onPackSelect;
   } else if (protocolId && selectedTier) {
-    variantLabel = tierLabels[selectedTier];
+    variantLabel = getProtocolTierPackLabel(protocolId, selectedTier);
     const pricingType = protocolId === "4" ? "ultimate" : "standard";
     const tierPricing = protocolPricing[pricingType][purchaseType];
     if (selectedTier in tierPricing) {
@@ -262,7 +257,7 @@ export default function StickyPurchaseFooterMobile({
                               }`}
                             >
                               <span className="font-clinical">
-                                {tierLabels[tier]} {billingText}
+                                {getProtocolTierPackLabel(protocolId!, tier)} {billingText}
                               </span>
                               <span className="font-clinical text-xs opacity-70 whitespace-nowrap">
                                 {formatPrice(tierData.price)}
