@@ -197,10 +197,7 @@ export default function CycleTrap({
             strokeDasharray={`${CIRCLE_PATH_LENGTH / 2} ${CIRCLE_PATH_LENGTH / 2}`}
             strokeDashoffset={0}
             pathLength={CIRCLE_PATH_LENGTH}
-            style={{
-              transform: "translateZ(0)",
-              filter: `drop-shadow(0 0 10px ${accentHex})`,
-            }}
+            style={{ transform: "translateZ(0)" }}
           />
           <circle
             cx={CENTER}
@@ -227,7 +224,7 @@ export default function CycleTrap({
               onClick={() => setSelectedIndex(stepIndex)}
               className={`cycle-node group absolute flex flex-col items-center justify-center rounded-full border-2 px-3 py-4 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
                 isActive
-                  ? "active bg-white text-black border-white shadow-[0_2px_8px_rgba(0,0,0,0.12)] opacity-100"
+                  ? "active bg-white text-black border-white opacity-100"
                   : "bg-[#2a2a2a] border-white/30 text-white/90 hover:bg-[#333] hover:border-white/50 opacity-100"
               }`}
               style={{
