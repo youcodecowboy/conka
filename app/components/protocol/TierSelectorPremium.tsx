@@ -8,31 +8,8 @@ import {
   protocolPricing,
   formatPrice,
   getBillingLabel,
+  getProtocolTierPackLabel,
 } from "@/app/lib/productData";
-
-/**
- * Premium tier selector for protocol PDP. Same visual pattern as PackSelectorPremium
- * (label, grid of cards, price + billing, selected ring), but uses protocol tiers
- * and protocolPricing. Labels use shot count like PackSelectorPremium:
- * - Standard (protocols 1–3): Starter = 4-pack, Pro = 12-pack, Max = 28-pack
- * - Ultimate (protocol 4): Pro = 24-pack, Max = 48-pack
- */
-function getTierLabel(protocolId: ProtocolId, tier: ProtocolTier): string {
-  if (protocolId === "4") {
-    const ultimateLabels: Record<ProtocolTier, string> = {
-      starter: "4-pack",
-      pro: "24-pack",
-      max: "48-pack",
-    };
-    return ultimateLabels[tier];
-  }
-  const standardLabels: Record<ProtocolTier, string> = {
-    starter: "4-pack",
-    pro: "12-pack",
-    max: "28-pack",
-  };
-  return standardLabels[tier];
-}
 
 interface TierSelectorPremiumProps {
   protocolId: ProtocolId;
@@ -98,7 +75,7 @@ export default function TierSelectorPremium({
                 }}
               >
                 <p className="text-sm font-bold premium-data">
-                  {getTierLabel(protocolId, tier)}
+                  {getProtocolTierPackLabel(protocolId, tier)}
                 </p>
               </div>
               <div
