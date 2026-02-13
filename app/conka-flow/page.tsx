@@ -115,8 +115,8 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* Testimonials — surface (alternates with ink/bone) */}
-          <section className="premium-section-luxury premium-bg-surface">
+          {/* Testimonials — mid (alternates with ink/bone) */}
+          <section className="premium-section-luxury premium-bg-bone">
             <div className="premium-track">
               <Testimonials
                 testimonials={getSiteTestimonialsFlow()}
@@ -126,20 +126,28 @@ export default function ConkaFlowPage() {
           </section>
 
           {/* What to expect — mid (deeper grey so white cards pop) */}
-          <section className="premium-section-luxury premium-bg-mid" aria-label="What to expect">
+          <section
+            className="premium-section-luxury premium-bg-mid"
+            aria-label="What to expect"
+          >
             <div className="premium-track">
               <WhatToExpectTimeline productId="01" />
             </div>
           </section>
 
           {/* Editorial quotes — ink */}
-          <section className="premium-section-luxury premium-bg-ink" aria-label="Editorial quotes">
+          <section
+            className="premium-section-luxury premium-bg-ink"
+            aria-label="Editorial quotes"
+          >
             <div className="premium-track">
-              <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
+              <EditorialQuotesCarousel
+                quotes={getEditorialQuotesForFormula("01")}
+              />
             </div>
           </section>
           <section
-            className="premium-section-luxury premium-bg-surface"
+            className="premium-section-luxury premium-bg-bone"
             aria-label="Formula ingredients"
           >
             <div className="premium-track">
@@ -172,7 +180,7 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <section
-            className="premium-section-luxury premium-bg-surface"
+            className="premium-section-luxury premium-bg-mid"
             aria-label="FAQ"
           >
             <div className="premium-track">
@@ -231,8 +239,8 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* Testimonials — surface */}
-        <section className="premium-section-luxury premium-bg-surface">
+        {/* Testimonials — mid */}
+        <section className="premium-section-luxury premium-bg-bone">
           <div className="premium-track">
             <Testimonials
               testimonials={getSiteTestimonialsFlow()}
@@ -242,20 +250,28 @@ export default function ConkaFlowPage() {
         </section>
 
         {/* What to expect — mid (deeper grey so white cards pop) */}
-        <section className="premium-section-luxury premium-bg-mid" aria-label="What to expect">
+        <section
+          className="premium-section-luxury premium-bg-mid"
+          aria-label="What to expect"
+        >
           <div className="premium-track">
             <WhatToExpectTimeline productId="01" />
           </div>
         </section>
 
         {/* Editorial quotes — ink */}
-        <section className="premium-section-luxury premium-bg-ink" aria-label="Editorial quotes">
+        <section
+          className="premium-section-luxury premium-bg-ink"
+          aria-label="Editorial quotes"
+        >
           <div className="premium-track">
-            <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
+            <EditorialQuotesCarousel
+              quotes={getEditorialQuotesForFormula("01")}
+            />
           </div>
         </section>
         <section
-          className="premium-section-luxury premium-bg-surface"
+          className="premium-section-luxury premium-bg-bone"
           aria-label="Formula ingredients"
         >
           <div className="premium-track">
@@ -288,7 +304,7 @@ export default function ConkaFlowPage() {
           </div>
         </section>
         <section
-          className="premium-section-luxury premium-bg-surface"
+          className="premium-section-luxury premium-bg-mid"
           aria-label="FAQ"
         >
           <div className="premium-track">
