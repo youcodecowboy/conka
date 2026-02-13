@@ -64,6 +64,7 @@
   --color-premium-stroke: rgba(0, 0, 0, 0.06);
   --color-ink: #111111; /* Charcoal – replaces pure black for smoother transitions */
   --color-bone: #F9F9F9; /* Off-white – physical material feel, reduces glare */
+  --color-surface: #F4F6F5; /* Grey – structural grey for bento grids, cards, containers */
 
   /* ----- Soft-Tech Luxury: Typography ----- */
   --letter-spacing-premium-title: -0.03em;
