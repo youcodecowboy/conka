@@ -46,6 +46,13 @@
 }
 
 /* Layout */
+
+/* Prevent horizontal scroll from full-bleed (w-screen) content; 100vw can exceed viewport when scrollbar is present */
+.premium-pdp {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 .premium-section {
   padding-top: var(--premium-section-padding-y);
   padding-bottom: var(--premium-section-padding-y);
