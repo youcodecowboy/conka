@@ -9,6 +9,7 @@ import {
   formatPrice,
   getBillingLabel,
   getProtocolTierPackLabel,
+  getProtocolTierTotalShots,
   FORMULA_COLORS,
   getProtocolGradient,
   getProtocolAccent,
@@ -372,11 +373,13 @@ export default function ProtocolHero({
                       {formatPrice(pricing.price)}
                     </span>
                   </div>
-                  {tierConfig && (
-                    <p className="font-clinical text-xs opacity-70 mt-0.5">
-                      {tierConfig.shotsPerWeek} shots/week
-                    </p>
-                  )}
+                  <p className="font-clinical text-xs opacity-70 mt-0.5">
+                    {formatPrice(
+                      pricing.price /
+                        getProtocolTierTotalShots(protocolId, selectedTier),
+                    )}
+                    /shot
+                  </p>
                   {purchaseType === "subscription" && (
                     <span
                       className="inline-flex items-center gap-1 mt-1 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
