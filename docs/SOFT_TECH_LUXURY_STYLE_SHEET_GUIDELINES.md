@@ -108,7 +108,33 @@ Structure:
 
 ---
 
-## 8. Checklist for new sections
+## 8. Component migration status
+
+**Purpose:** Track which components have been refactored to the Soft-Tech Luxury system and which remain to be migrated.
+
+### Migrated components
+
+- ✅ **FormulaBenefitsStats** (Desktop + Mobile) — Stripped section logic, uses Ink background (`--color-ink`), wrapped in `.premium-section-luxury` + `.premium-track` on [conka-flow page](../app/conka-flow/page.tsx).
+- ✅ **Testimonials** (via TestimonialsAutoScrollStrip) — Stripped section logic, uses Bone background (`--color-bone`), wrapped in `.premium-section-luxury` + `.premium-track` on [conka-flow page](../app/conka-flow/page.tsx). Header aligns to track; marquee strip uses full-bleed pattern.
+
+### Components to migrate (conka-flow page)
+
+- ⏳ **ProductHero** / **ProductHeroMobile** — Deferred (not in scope for this phase).
+- ⏳ **WhatToExpectTimeline** — Has section wrapper and custom padding; needs refactor.
+- ⏳ **EditorialQuotesCarousel** — Needs review for section/padding removal.
+- ⏳ **FormulaIngredients** — Needs review for section/padding removal.
+- ⏳ **HowItWorks** — Needs review for section/padding removal.
+- ⏳ **FormulaBenefits** — Currently wrapped in section on page; component may need review.
+- ⏳ **FormulaCaseStudies** / **FormulaCaseStudiesMobile** — Needs review for section/padding removal.
+- ⏳ **FormulaFAQ** — Needs review for section/padding removal.
+- ⏳ **CrossSell** — Needs review for section/padding removal.
+- ⏳ **StickyPurchaseFooter** / **StickyPurchaseFooterMobile** — Footer component; may have different requirements.
+
+**Migration pattern:** For each component, follow the refactor steps: strip section tags, remove internal max-width/padding, apply soft-tech finish (radius, colors), update typography, then wrap in `.premium-section-luxury` + `.premium-track` on the page.
+
+---
+
+## 9. Checklist for new sections
 
 Use this when adding or refactoring a premium section so it fits the system:
 
