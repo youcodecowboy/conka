@@ -71,6 +71,27 @@ export function getProtocolTierPackLabel(
   return standardLabels[tier];
 }
 
+/** Total shots (pack size) for protocol tier – used for per-shot price. Standard 4/12/28; Ultimate 4/24/48. */
+export function getProtocolTierTotalShots(
+  protocolId: ProtocolId,
+  tier: ProtocolTier,
+): number {
+  if (protocolId === "4") {
+    const ultimate: Record<ProtocolTier, number> = {
+      starter: 4,
+      pro: 24,
+      max: 48,
+    };
+    return ultimate[tier];
+  }
+  const standard: Record<ProtocolTier, number> = {
+    starter: 4,
+    pro: 12,
+    max: 28,
+  };
+  return standard[tier];
+}
+
 /** B2B: tier from quantity. Starter 1–10, Squad 11–25, Elite 26+. */
 export function getB2BTier(quantity: number): B2BTier {
   if (quantity >= B2B_TIER_BANDS.elite.min) return "elite";
