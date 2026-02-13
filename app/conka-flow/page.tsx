@@ -138,21 +138,55 @@ export default function ConkaFlowPage() {
               <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
             </div>
           </section>
-          <FormulaIngredients formulaId="01" />
-          <HowItWorks formulaId="01" />
+          <section
+            className="premium-section-luxury premium-bg-surface"
+            aria-label="Formula ingredients"
+          >
+            <div className="premium-track">
+              <FormulaIngredients formulaId="01" />
+            </div>
+          </section>
+          <section
+            className="premium-section-luxury premium-bg-ink"
+            aria-labelledby="how-it-works-heading"
+          >
+            <div className="premium-track">
+              <HowItWorks formulaId="01" />
+            </div>
+          </section>
           <section
             id="proof-and-science"
-            className="premium-section"
+            className="premium-section-luxury premium-bg-bone"
             aria-labelledby="proof-and-science-heading"
           >
-            <div className="premium-container">
+            <div className="premium-track">
               <FormulaBenefitsMobile formulaId="01" />
             </div>
           </section>
-          <FormulaCaseStudiesMobile formulaId="01" />
-          <FormulaFAQ formulaId="01" />
-
-          <CrossSell variant="formula" currentFormulaId="01" />
+          <section
+            className="premium-section-luxury premium-bg-ink"
+            aria-label="CONKA Case Studies"
+          >
+            <div className="premium-track">
+              <FormulaCaseStudiesMobile formulaId="01" />
+            </div>
+          </section>
+          <section
+            className="premium-section-luxury premium-bg-bone"
+            aria-label="FAQ"
+          >
+            <div className="premium-track">
+              <FormulaFAQ formulaId="01" />
+            </div>
+          </section>
+          <section
+            className="premium-section-luxury premium-bg-bone"
+            aria-label="Explore other protocols and formulas"
+          >
+            <div className="premium-track">
+              <CrossSell variant="formula" currentFormulaId="01" />
+            </div>
+          </section>
 
           {/* Step 11 — Final CTA */}
           <StickyPurchaseFooterMobile
@@ -220,21 +254,55 @@ export default function ConkaFlowPage() {
             <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
           </div>
         </section>
-        <FormulaIngredients formulaId="01" />
-        <HowItWorks formulaId="01" />
+        <section
+          className="premium-section-luxury premium-bg-surface"
+          aria-label="Formula ingredients"
+        >
+          <div className="premium-track">
+            <FormulaIngredients formulaId="01" />
+          </div>
+        </section>
+        <section
+          className="premium-section-luxury premium-bg-ink"
+          aria-labelledby="how-it-works-heading"
+        >
+          <div className="premium-track">
+            <HowItWorks formulaId="01" />
+          </div>
+        </section>
         <section
           id="proof-and-science"
-          className="premium-section"
+          className="premium-section-luxury premium-bg-bone"
           aria-labelledby="proof-and-science-heading"
         >
-          <div className="premium-container">
+          <div className="premium-track">
             <FormulaBenefits formulaId="01" />
           </div>
         </section>
-        <FormulaCaseStudies formulaId="01" />
-        <FormulaFAQ formulaId="01" />
-
-        <CrossSell variant="formula" currentFormulaId="01" />
+        <section
+          className="premium-section-luxury premium-bg-ink"
+          aria-label="CONKA Case Studies"
+        >
+          <div className="premium-track">
+            <FormulaCaseStudies formulaId="01" />
+          </div>
+        </section>
+        <section
+          className="premium-section-luxury premium-bg-bone"
+          aria-label="FAQ"
+        >
+          <div className="premium-track">
+            <FormulaFAQ formulaId="01" />
+          </div>
+        </section>
+        <section
+          className="premium-section-luxury premium-bg-bone"
+          aria-label="Explore other protocols and formulas"
+        >
+          <div className="premium-track">
+            <CrossSell variant="formula" currentFormulaId="01" />
+          </div>
+        </section>
 
         {/* Step 11 — Final CTA */}
         <StickyPurchaseFooter
