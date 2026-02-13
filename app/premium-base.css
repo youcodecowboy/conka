@@ -70,6 +70,14 @@
   --color-bone: var(--color-base-white);
   --color-surface: var(--color-base-surface);
 
+  /* ----- Text on background (ensure contrast) ----- */
+  /* On black (Ink) bases: white or bone text */
+  --text-on-ink: #FFFFFF;
+  --text-on-ink-muted: var(--color-base-white);
+  /* On Bone or Surface bases: black or bone text */
+  --text-on-light: var(--color-base-black);
+  --text-on-light-muted: #444444;
+
   /* ----- Soft-Tech Luxury: Typography scale ----- */
   --letter-spacing-premium-title: -0.03em;
   --premium-body-max-width: 65ch;
@@ -130,6 +138,34 @@
     padding-right: var(--premium-gutter-mobile);
   }
 }
+
+/* ----- Soft-Tech Luxury: Section background + text (use with .premium-section-luxury) ----- */
+/* Black (Ink) base: white or bone text only */
+.premium-bg-ink {
+  background-color: var(--color-base-black);
+  color: var(--text-on-ink);
+}
+.premium-bg-ink .premium-section-heading,
+.premium-bg-ink .premium-body,
+.premium-bg-ink .premium-data,
+.premium-bg-ink .premium-annotation { color: var(--text-on-ink); }
+.premium-bg-ink .premium-text-muted { color: var(--text-on-ink-muted); }
+
+/* Bone or Surface base: black or bone text only */
+.premium-bg-bone {
+  background-color: var(--color-base-white);
+  color: var(--text-on-light);
+}
+.premium-bg-surface {
+  background-color: var(--color-base-surface);
+  color: var(--text-on-light);
+}
+.premium-bg-bone .premium-section-heading,
+.premium-bg-bone .premium-body,
+.premium-bg-surface .premium-section-heading,
+.premium-bg-surface .premium-body { color: inherit; }
+.premium-bg-bone .premium-text-muted,
+.premium-bg-surface .premium-text-muted { color: var(--text-on-light-muted); }
 
 /* ----- Soft-Tech Luxury: Header block utility ----- */
 .premium-header-group {

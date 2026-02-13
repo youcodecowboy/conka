@@ -223,8 +223,16 @@ In the Soft-Tech Luxury system, **the page is the orchestrator** of visual rhyth
 
 ### Color palette
 
-- **`--color-ink: #111111`** — Charcoal (not pure black). Use for high-impact, dark sections.
-- **`--color-bone: #F9F9F9`** — Off-white. Use for light sections and "palate cleanser" transitions.
+- **`--color-base-black` (Ink)** — Charcoal (#111111). Use for high-impact, dark sections.
+- **`--color-base-white` (Bone)** — Off-white (#F9F9F9). Use for light sections and "palate cleanser" transitions.
+- **`--color-base-surface`** — Structural grey (#F4F6F5). Use for bento grids, comparison tables.
+
+### Text on background (required contrast)
+
+- **On black (Ink) bases:** Use **white** or **bone** text only. Use class `premium-bg-ink` so `--text-on-ink` (white) and `--text-on-ink-muted` (bone) apply.
+- **On Bone or Surface bases:** Use **black** or **bone** text only. Use `premium-bg-bone` or `premium-bg-surface` so `--text-on-light` (black) and `--text-on-light-muted` (#444) apply.
+
+Use the utility classes `premium-bg-ink`, `premium-bg-bone`, and `premium-bg-surface` with `premium-section-luxury` so both background and text color are set correctly.
 
 ### How to orchestrate colors on a page
 
