@@ -63,6 +63,8 @@ All tokens are defined in [app/premium-base.css](../app/premium-base.css).
 | **Finish** | `--color-premium-bg-soft` | Soft background for cards (#F9F9F9). |
 | | `--color-premium-stroke` | Very light border when needed (rgba 0,0,0,0.06). |
 | **Typography** | `--letter-spacing-premium-title` | Section and title letter-spacing (-0.03em). |
+| | `--premium-font-body-size` | Body copy (1rem). Use `.premium-body`. |
+| | `--premium-font-data-size` | Small copy (0.875rem). Use `.premium-body-sm` for supporting text or `.premium-data` for labels. |
 | | `--premium-font-body-leading` | Body line-height (1.6). |
 | | `--premium-body-max-width` | Max width for long copy (65ch). |
 
@@ -96,7 +98,8 @@ Structure:
 ## 6. Typography
 
 - **Section titles:** Use the existing `.premium-section-heading` class and ensure letter-spacing uses `var(--letter-spacing-premium-title)` where the Soft-Tech system is adopted.
-- **Body and description:** Use `line-height: 1.6` (e.g. `var(--premium-font-body-leading)`) and, for long prose, `max-width: var(--premium-body-max-width)` (65ch) so lines do not become too long.
+- **Body and description:** Use `.premium-body` for main copy (1rem) and `line-height: 1.6`; for long prose, `max-width: var(--premium-body-max-width)` (65ch).
+- **Smaller supporting text:** Use `.premium-body-sm` for timeline steps, quotes, or any body-like copy that should be smaller (0.875rem, reuses `--premium-font-data-size`). Keeps one clear step down from body without extra scale tokens.
 
 ---
 
