@@ -10,13 +10,16 @@ import type { ProtocolCardProps } from "./types";
 export default function ProtocolCard({
   protocolId,
   onClick,
+  compactHover = false,
 }: ProtocolCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const protocol = protocolContent[protocolId];
   const selectorData = protocolSelectorData[protocolId];
 
-  // Limit benefits to 3 max for hover display
-  const visibleBenefits = selectorData.benefits.slice(0, 3);
+  // In compact mode (mega menu) show only 1 benefit to avoid clipping on small desktop
+  const visibleBenefits = compactHover
+    ? selectorData.benefits.slice(0, 1)
+    : selectorData.benefits.slice(0, 3);
   
   // Get image based on config
   const imageSrc = getProtocolImage(protocolId) || protocol.image;
@@ -27,10 +30,10 @@ export default function ProtocolCard({
       className="group block"
       onClick={onClick}
     >
-      <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3 h-full">
+      <div className="flex flex-col border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] overflow-hidden bg-white p-3 h-full">
         {/* Image Container with Hover Overlay */}
         <div
-          className="relative aspect-square mb-4 rounded-lg overflow-hidden"
+          className="relative aspect-square mb-4 rounded-[var(--premium-radius-nested)] overflow-hidden"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -48,11 +51,12 @@ export default function ProtocolCard({
             }`}
           >
             {/* Situation / Outcome */}
-            <p className="text-base font-bold mb-3 leading-snug text-center">
+            <p className={`font-bold leading-snug text-center ${compactHover ? "text-sm mb-0" : "text-base mb-3"}`}>
               For those who {selectorData.forPeopleWho}
             </p>
 
-            {/* Key Benefits */}
+            {/* Key Benefits - hidden in compact mode to avoid clipping */}
+            {!compactHover && (
             <ul className="space-y-1.5 mb-4">
               {visibleBenefits.map((benefit, idx) => (
                 <li
@@ -78,6 +82,7 @@ export default function ProtocolCard({
                 </li>
               ))}
             </ul>
+            )}
           </div>
         </div>
 
