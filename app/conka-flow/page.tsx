@@ -125,9 +125,19 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          <WhatToExpectTimeline productId="01" />
+          {/* Light section for timeline info */}
+          <section className="premium-section-luxury bg-[var(--color-bone)]" aria-label="What to expect">
+            <div className="premium-track">
+              <WhatToExpectTimeline productId="01" />
+            </div>
+          </section>
 
-          <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
+          {/* Surface section for editorial quotes grid */}
+          <section className="premium-section-luxury bg-[var(--color-surface)]" aria-label="Editorial quotes">
+            <div className="premium-track">
+              <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
+            </div>
+          </section>
           <FormulaIngredients formulaId="01" />
           <HowItWorks formulaId="01" />
           <section
@@ -197,9 +207,19 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        <WhatToExpectTimeline productId="01" />
+        {/* Light section for timeline info */}
+        <section className="premium-section-luxury bg-[var(--color-bone)]" aria-label="What to expect">
+          <div className="premium-track">
+            <WhatToExpectTimeline productId="01" />
+          </div>
+        </section>
 
-        <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
+        {/* Surface section for editorial quotes grid */}
+        <section className="premium-section-luxury bg-[var(--color-surface)]" aria-label="Editorial quotes">
+          <div className="premium-track">
+            <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
+          </div>
+        </section>
         <FormulaIngredients formulaId="01" />
         <HowItWorks formulaId="01" />
         <section
