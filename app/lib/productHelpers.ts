@@ -50,6 +50,48 @@ export function getBillingLabel(billing: string): string {
   }
 }
 
+/** Pack-count label for protocol tier (e.g. "4-pack", "12-pack"). Standard protocols 1–3; Ultimate protocol 4. */
+export function getProtocolTierPackLabel(
+  protocolId: ProtocolId,
+  tier: ProtocolTier,
+): string {
+  if (protocolId === "4") {
+    const ultimateLabels: Record<ProtocolTier, string> = {
+      starter: "4-pack",
+      pro: "24-pack",
+      max: "48-pack",
+    };
+    return ultimateLabels[tier];
+  }
+  const standardLabels: Record<ProtocolTier, string> = {
+    starter: "4-pack",
+    pro: "12-pack",
+    max: "28-pack",
+  };
+  return standardLabels[tier];
+}
+
+/** Total shots (pack size) for protocol tier – used for per-shot price. Standard 4/12/28; Ultimate 4/24/48. */
+export function getProtocolTierTotalShots(
+  protocolId: ProtocolId,
+  tier: ProtocolTier,
+): number {
+  if (protocolId === "4") {
+    const ultimate: Record<ProtocolTier, number> = {
+      starter: 4,
+      pro: 24,
+      max: 48,
+    };
+    return ultimate[tier];
+  }
+  const standard: Record<ProtocolTier, number> = {
+    starter: 4,
+    pro: 12,
+    max: 28,
+  };
+  return standard[tier];
+}
+
 /** B2B: tier from quantity. Starter 1–10, Squad 11–25, Elite 26+. */
 export function getB2BTier(quantity: number): B2BTier {
   if (quantity >= B2B_TIER_BANDS.elite.min) return "elite";

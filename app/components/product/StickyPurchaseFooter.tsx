@@ -10,6 +10,7 @@ import {
   protocolPricing,
   formatPrice,
   getBillingLabel,
+  getProtocolTierPackLabel,
   FormulaId,
   ProtocolId,
   protocolContent,
@@ -140,12 +141,6 @@ export default function StickyPurchaseFooter({
     availableTiers = protocol?.availableTiers || [];
   }
 
-  const tierLabels: Record<ProtocolTier, string> = {
-    starter: "Starter",
-    pro: "Pro",
-    max: "Max",
-  };
-
   // Product name and thumbnail for left block (im8-style)
   // Formula: hero product image from productHeroConfig; Protocol: navigation image from protocolImageConfig
   let productName = "";
@@ -167,7 +162,7 @@ export default function StickyPurchaseFooter({
     const pricing = formulaPricing[purchaseType][selectedPack];
     selectorPriceLine = `${formatPrice(pricing.perShot)} / serving`;
   } else if (protocolId && selectedTier) {
-    selectorVariantLabel = tierLabels[selectedTier];
+    selectorVariantLabel = getProtocolTierPackLabel(protocolId, selectedTier);
     selectorPriceLine = formatPrice(price);
   }
   const accentColor = formulaId ? FORMULA_COLORS[formulaId] : null;
@@ -357,7 +352,7 @@ export default function StickyPurchaseFooter({
                               >
                                 <div className="flex justify-between items-center gap-4">
                                   <span className="whitespace-nowrap">
-                                    {tierLabels[tier]} {tierBillingText}
+                                    {getProtocolTierPackLabel(protocolId, tier)} {tierBillingText}
                                   </span>
                                   <span className="opacity-70 whitespace-nowrap">
                                     {formatPrice(tierPricingData.price)}

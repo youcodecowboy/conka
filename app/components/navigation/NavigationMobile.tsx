@@ -28,9 +28,9 @@ export default function NavigationMobile({
       {/* Founding Member Banner */}
       {!hideBanner && bannerConfig && <Banner config={bannerConfig} />}
 
-      {/* Mobile Header - Always visible */}
-      <header className="relative w-full bg-[var(--background)] border-b-2 border-current border-opacity-10">
-        <div className="px-6 md:px-16 py-1 flex items-center justify-between min-h-[4.5rem]">
+      {/* Mobile Header - Always visible; tight gutter on mobile */}
+      <header className="relative w-full bg-[var(--background)] border-b border-[var(--color-premium-stroke)]">
+        <div className="px-[var(--premium-gutter-mobile-tight)] md:px-16 py-1 flex items-center justify-between min-h-[4.5rem]">
           {/* Left: Hamburger - fixed width so logo center is true viewport center */}
           <div className="lg:hidden w-10 flex-shrink-0 flex items-center justify-start">
             <button
@@ -180,7 +180,7 @@ export default function NavigationMobile({
             {/* Content - With top spacing */}
             <div className="mt-4">
               {/* Quiz CTA - Prominent with RECOMMENDED tag - FIRST */}
-              <div className="block p-3 pb-4 mb-4 border-b-8 border-gray-200 bg-black text-white rounded-lg">
+              <div className="block p-3 pb-4 mb-4 border border-[var(--color-premium-stroke)] bg-black text-white rounded-[var(--premium-radius-card)]">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                     <svg
@@ -213,7 +213,7 @@ export default function NavigationMobile({
                 </div>
                 <a
                   href="/quiz"
-                  className="block w-full py-2 bg-white text-black text-center font-bold text-sm rounded-lg hover:opacity-90 transition-opacity"
+                  className="block w-full py-2 bg-white text-black text-center font-bold text-sm rounded-[var(--premium-radius-nested)] hover:opacity-90 transition-opacity"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Take the Quiz
@@ -221,7 +221,7 @@ export default function NavigationMobile({
               </div>
 
               {/* Shop Toggle */}
-              <div className="flex gap-0 mb-4 bg-gray-100 p-1 rounded-full border-2 border-current">
+              <div className="flex gap-0 mb-4 bg-[var(--color-base-surface)] p-1 rounded-full border border-[var(--color-premium-stroke)]">
                 <button
                   onClick={() => setShopView("protocols")}
                   className={`flex-1 px-4 py-2 rounded-full transition-all ${
@@ -261,14 +261,14 @@ export default function NavigationMobile({
                       return (
                         <div
                           key={protocolId}
-                          className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3"
+                          className="flex flex-col border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] overflow-hidden bg-white p-3"
                         >
                           <a
                             href={`/protocol/${protocolId}`}
                             className="block mb-2"
                             onClick={() => setMobileMenuOpen(false)}
                           >
-                            <div className="relative aspect-square mb-3 rounded-lg overflow-hidden">
+                            <div className="relative aspect-square mb-3 rounded-[var(--premium-radius-nested)] overflow-hidden">
                               <Image
                                 src={imageSrc}
                                 alt={protocol.name}
@@ -327,8 +327,8 @@ export default function NavigationMobile({
                           className="block"
                           onClick={() => setMobileMenuOpen(false)}
                         >
-                          <div className="flex flex-col border-2 border-black/10 rounded-lg overflow-hidden bg-white p-3">
-                            <div className="relative aspect-[3/2] mb-3 rounded-lg overflow-hidden">
+                          <div className="flex flex-col border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] overflow-hidden bg-white p-3">
+                            <div className="relative aspect-[3/2] mb-3 rounded-[var(--premium-radius-nested)] overflow-hidden">
                               <Image
                                 src={imageSrc}
                                 alt={formula.image.alt}
@@ -425,7 +425,7 @@ export default function NavigationMobile({
                 <nav className="flex flex-col gap-2">
                   <a
                     href="/science"
-                    className="flex items-center gap-2 py-2 px-3 bg-white border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
+                    className="flex items-center gap-2 py-2 px-3 bg-white border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] hover:border-black/20 transition-all"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <svg
@@ -448,7 +448,7 @@ export default function NavigationMobile({
                   </a>
                   <a
                     href="/ingredients"
-                    className="flex items-center gap-2 py-2 px-3 bg-white border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
+                    className="flex items-center gap-2 py-2 px-3 bg-white border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] hover:border-black/20 transition-all"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <CiBeaker1 size={16} className="opacity-60 flex-shrink-0" />
@@ -458,7 +458,7 @@ export default function NavigationMobile({
                   </a>
                   <a
                     href="/case-studies"
-                    className="flex items-center gap-2 py-2 px-3 bg-white border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
+                    className="flex items-center gap-2 py-2 px-3 bg-white border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] hover:border-black/20 transition-all"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <svg
@@ -482,7 +482,7 @@ export default function NavigationMobile({
                   </a>
                   <a
                     href="/our-story"
-                    className="flex items-center gap-2 py-2 px-3 bg-white border-2 border-black/10 rounded-lg hover:border-black/30 transition-all"
+                    className="flex items-center gap-2 py-2 px-3 bg-white border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] hover:border-black/20 transition-all"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <svg

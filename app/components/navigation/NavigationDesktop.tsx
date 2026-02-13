@@ -31,8 +31,8 @@ export default function NavigationDesktop({
       {/* Founding Member Banner */}
       {!hideBanner && bannerConfig && <Banner config={bannerConfig} />}
 
-      {/* Header - Edge to edge */}
-      <header className="w-full bg-[var(--background)] border-b-2 border-current border-opacity-10">
+      {/* Header - Edge to edge (nav does not use premium gutter/track) */}
+      <header className="w-full bg-[var(--background)] border-b border-[var(--color-premium-stroke)]">
         <div className="px-6 md:px-16 py-1 flex items-center relative">
           {/* Logo - Left */}
           <a href="/" className="flex items-center">
@@ -56,7 +56,7 @@ export default function NavigationDesktop({
             >
               <button
                 onClick={() => setShopDropdownOpen(!shopDropdownOpen)}
-                className="px-6 py-1.5 rounded-full bg-transparent font-clinical text-sm border-2 border-current hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all flex items-center gap-2"
+                className="px-6 py-1.5 rounded-full bg-transparent font-clinical text-sm border border-[var(--color-premium-stroke)] hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)] transition-all flex items-center gap-2"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -26,6 +26,7 @@ export default function ShopMegaMenuContent({
                 key={protocolId}
                 protocolId={protocolId}
                 onClick={onNavigate}
+                compactHover
               />
             ))}
           </div>
@@ -62,7 +63,7 @@ export default function ShopMegaMenuContent({
           <div className="grid grid-cols-2 gap-8 min-h-[225px]">
             {/* Left: Quiz Section */}
             <div className="flex items-center pr-8 min-h-[225px]">
-            <div className="w-full h-full p-8 bg-[var(--foreground)] text-[var(--background)] rounded-lg flex flex-col">
+            <div className="w-full h-full p-8 bg-[var(--foreground)] text-[var(--background)] rounded-[var(--premium-radius-card)] flex flex-col">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                   <svg
@@ -111,14 +112,14 @@ export default function ShopMegaMenuContent({
                 <a
                   href="/ingredients"
                   onClick={onNavigate}
-                  className="font-clinical text-sm py-2 px-4 border-2 border-current/20 rounded-lg hover:border-current hover:bg-current/5 transition-all"
+                  className="font-clinical text-sm py-2 px-4 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] hover:border-current hover:bg-current/5 transition-all"
                 >
                   What is in CONKA Flow and CONKA Clear?
                 </a>
                 <a
                   href="/why-conka"
                   onClick={onNavigate}
-                  className="font-clinical text-sm py-2 px-4 border-2 border-current/20 rounded-lg hover:border-current hover:bg-current/5 transition-all"
+                  className="font-clinical text-sm py-2 px-4 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] hover:border-current hover:bg-current/5 transition-all"
                 >
                   Why CONKA?
                 </a>
