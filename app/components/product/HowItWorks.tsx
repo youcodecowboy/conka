@@ -69,24 +69,21 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
   const assetSrc = FORMULA_ASSETS[formulaId];
 
   return (
-    <section
-      className="premium-section bg-black text-white"
-      aria-labelledby="how-it-works-heading"
-    >
-      <div className="premium-container">
-        <header className="text-center mb-12">
-          <h2
-            id="how-it-works-heading"
-            className="premium-section-heading text-white mb-2"
-          >
-            How {formula.name} Works
-          </h2>
-          <p className="premium-annotation text-white/70">
-            simple, effective, proven
-          </p>
-        </header>
+    <>
+      <header className="text-center mb-12">
+        <h2
+          id="how-it-works-heading"
+          className="premium-section-heading mb-2"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          How {formula.name} Works
+        </h2>
+        <p className="premium-annotation premium-text-muted">
+          simple, effective, proven
+        </p>
+      </header>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left: vertical 3-step section */}
           <div className="flex flex-col gap-12">
             {steps.map((step, idx) => (
@@ -99,10 +96,10 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
                   </span>
                 </div>
                 <div>
-                  <h3 className="premium-heading text-white mb-1 text-lg">
+                  <h3 className="premium-heading mb-1 text-lg">
                     {step.title}
                   </h3>
-                  <p className="premium-body text-white">
+                  <p className="premium-body">
                     {step.description}
                   </p>
                 </div>
@@ -111,7 +108,10 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
           </div>
 
           {/* Right: asset - mobile: no crop, scale down, square; desktop: cover */}
-          <div className="relative w-full aspect-square rounded-lg overflow-hidden">
+          <div
+            className="relative w-full aspect-square overflow-hidden"
+            style={{ borderRadius: "var(--premium-radius-card)" }}
+          >
             <Image
               src={assetSrc}
               alt={`${formula.name} – How it works`}
@@ -122,7 +122,6 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
             />
           </div>
         </div>
-      </div>
-    </section>
+    </>
   );
 }
