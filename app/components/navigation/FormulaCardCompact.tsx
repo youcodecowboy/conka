@@ -73,9 +73,9 @@ export default function FormulaCardCompact({
             {formula.name}
           </p>
           
-          {/* Headline - Always Visible */}
+          {/* Subheadline - Always Visible */}
           <h3 className="text-lg font-bold leading-tight mb-3 flex-1">
-            {formula.headline}
+            {formula.subheadline}
           </h3>
 
           {/* CTA Button */}
