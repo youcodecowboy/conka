@@ -39,9 +39,12 @@ const CaseStudiesDataDriven = dynamic(
   },
 );
 
-const Ingredients = dynamic(() => import("./components/Ingredients"), {
-  loading: () => <div className="h-[400px]" />,
-});
+const FormulaIngredientsWithToggle = dynamic(
+  () => import("./components/product/FormulaIngredientsWithToggle"),
+  {
+    loading: () => <div className="h-[400px]" />,
+  },
+);
 
 const Testimonials = dynamic(
   () => import("./components/testimonials/Testimonials"),
@@ -403,7 +406,14 @@ export default function Home() {
       )}
 
       {/* ===== SECTION 3: INGREDIENTS ===== */}
-      <Ingredients />
+      <section
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="Formula ingredients"
+      >
+        <div className="premium-track">
+          <FormulaIngredientsWithToggle />
+        </div>
+      </section>
 
       {/* ===== SECTION 5: CASE STUDIES ===== */}
       <CaseStudiesDataDriven />
