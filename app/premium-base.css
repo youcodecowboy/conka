@@ -43,6 +43,29 @@
 
   /* ----- Surface (subtle grey for panels, cards) ----- */
   --premium-surface: var(--color-surface);
+
+  /* ----- Soft-Tech Luxury: Track (horizontal consistency) ----- */
+  --premium-max-width: 1280px;
+  --premium-gutter-mobile: 1.25rem;
+  --premium-gutter-desktop: 5vw;
+
+  /* ----- Soft-Tech Luxury: Curve (soft shapes) ----- */
+  --premium-radius-card: 2.5rem; /* 40px – primary "pebble" for cards/boxes */
+  --premium-radius-nested: 1.25rem; /* 20px – inside cards */
+
+  /* ----- Soft-Tech Luxury: Breath (vertical rhythm) ----- */
+  --space-section-padding: clamp(5rem, 10vh, 10rem);
+  --space-section-padding-mobile: 5rem;
+  --space-header-gap: 4rem;
+  --space-text-gap: 1.5rem;
+
+  /* ----- Soft-Tech Luxury: Finish (colors) ----- */
+  --color-premium-bg-soft: #F9F9F9;
+  --color-premium-stroke: rgba(0, 0, 0, 0.06);
+
+  /* ----- Soft-Tech Luxury: Typography ----- */
+  --letter-spacing-premium-title: -0.03em;
+  --premium-body-max-width: 65ch;
 }
 
 /* Layout */
@@ -64,6 +87,43 @@
   max-width: var(--premium-container-max);
   margin-left: auto;
   margin-right: auto;
+}
+
+/* ----- Soft-Tech Luxury: Single Track ----- */
+/* Use .premium-track inside .premium-section (or .premium-section-luxury) for content that must align to the single horizontal rail. Parent provides gutters. */
+.premium-track {
+  max-width: var(--premium-max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ----- Soft-Tech Luxury: Section with "air" ----- */
+/* Opt-in luxury section: large vertical padding and track gutters. Use for new premium sections; existing .premium-section keeps current padding. */
+.premium-section-luxury {
+  padding-top: var(--space-section-padding);
+  padding-bottom: var(--space-section-padding);
+  padding-left: var(--premium-gutter-desktop);
+  padding-right: var(--premium-gutter-desktop);
+}
+@media (max-width: 768px) {
+  .premium-section-luxury {
+    padding-top: var(--space-section-padding-mobile);
+    padding-bottom: var(--space-section-padding-mobile);
+    padding-left: var(--premium-gutter-mobile);
+    padding-right: var(--premium-gutter-mobile);
+  }
+}
+
+/* ----- Soft-Tech Luxury: Card/box upgrade ----- */
+/* Apply to cards, case study blocks, bento cells for pebble shape and soft background. Adopt in component refactors. */
+.premium-card-soft {
+  border-radius: var(--premium-radius-card);
+  background-color: var(--color-premium-bg-soft);
+  border: none;
+  padding: 3rem;
+}
+.premium-card-soft.premium-card-soft-stroke {
+  border: 1px solid var(--color-premium-stroke);
 }
 
 /* Type roles (global) */
