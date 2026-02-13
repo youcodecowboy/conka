@@ -59,16 +59,29 @@
   --space-header-gap: 4rem;
   --space-text-gap: 1.5rem;
 
-  /* ----- Soft-Tech Luxury: Finish (colors) ----- */
-  --color-premium-bg-soft: #F9F9F9;
+  /* ----- Soft-Tech Luxury: Colors (Ink, Bone, Surface) ----- */
+  --color-base-white: #F9F9F9; /* Bone */
+  --color-base-black: #111111; /* Ink */
+  --color-base-surface: #F4F6F5; /* Structural grey for bento/cards */
+  --color-premium-bg-soft: var(--color-base-white);
   --color-premium-stroke: rgba(0, 0, 0, 0.06);
-  --color-ink: #111111; /* Charcoal – replaces pure black for smoother transitions */
-  --color-bone: #F9F9F9; /* Off-white – physical material feel, reduces glare */
-  --color-surface: #F4F6F5; /* Grey – structural grey for bento grids, cards, containers */
+  /* Aliases for compatibility */
+  --color-ink: var(--color-base-black);
+  --color-bone: var(--color-base-white);
+  --color-surface: var(--color-base-surface);
 
-  /* ----- Soft-Tech Luxury: Typography ----- */
+  /* ----- Soft-Tech Luxury: Typography scale ----- */
   --letter-spacing-premium-title: -0.03em;
   --premium-body-max-width: 65ch;
+  --text-section-title: clamp(2.25rem, 6vw, 3.5rem);
+  --text-card-title: 1.75rem;
+  --text-stat-large: clamp(3rem, 8vw, 4.5rem);
+  --text-body-premium: 1.125rem;
+  --text-label-caps: 0.75rem;
+  --leading-tight: 1.1;
+  --leading-relaxed: 1.6;
+  --tracking-tight: -0.03em;
+  --tracking-wide: 0.05em;
 }
 
 /* Layout */
@@ -101,12 +114,13 @@
 }
 
 /* ----- Soft-Tech Luxury: Section with "air" ----- */
-/* Opt-in luxury section: large vertical padding and track gutters. Use for new premium sections; existing .premium-section keeps current padding. */
+/* Symmetrical section wrapper; transition for color changes. */
 .premium-section-luxury {
   padding-top: var(--space-section-padding);
   padding-bottom: var(--space-section-padding);
   padding-left: var(--premium-gutter-desktop);
   padding-right: var(--premium-gutter-desktop);
+  transition: background-color 0.4s ease;
 }
 @media (max-width: 768px) {
   .premium-section-luxury {
@@ -115,6 +129,15 @@
     padding-left: var(--premium-gutter-mobile);
     padding-right: var(--premium-gutter-mobile);
   }
+}
+
+/* ----- Soft-Tech Luxury: Header block utility ----- */
+.premium-header-group {
+  margin-bottom: var(--space-header-gap);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* ----- Soft-Tech Luxury: Card/box upgrade ----- */
@@ -144,28 +167,24 @@
   line-height: 1.3;
 }
 
-/* Section title – large, consistent size across PDP sections (Huel-style scale) */
+/* Section title – fluid scale, tight tracking (Soft-Tech Luxury) */
 .premium-section-heading {
   font-family: var(--font-primary), sans-serif;
-  font-size: 2.125rem;
-  line-height: 2.38rem;
-  letter-spacing: -0.0425rem;
+  font-size: var(--text-section-title);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-text-gap);
   font-weight: 500;
-  margin-bottom: 0;
-}
-@media (min-width: 1024px) {
-  .premium-section-heading {
-    font-size: 3.375rem;
-    line-height: 3.78rem;
-    letter-spacing: -0.0675rem;
-  }
 }
 
 .premium-body {
   font-family: var(--font-primary), sans-serif;
-  font-size: var(--premium-font-body-size);
+  font-size: var(--text-body-premium);
+  line-height: var(--leading-relaxed);
+  max-width: var(--premium-body-max-width);
+  margin-bottom: 0;
+  color: #444;
   font-weight: var(--premium-font-body-weight);
-  line-height: 1.5;
 }
 
 /* Premium PDP hero: display (Syne / New Haus) + body (DM Sans) from style guide */
