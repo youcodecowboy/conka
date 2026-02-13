@@ -64,11 +64,9 @@ export default function ProductHero({
   ];
 
   return (
-    <section className="premium-section-luxury" aria-label="Product hero">
-      <div className="premium-track">
-        <div className="flex flex-col lg:flex-row lg:justify-center gap-[var(--premium-space-m)]">
+    <div className="flex flex-col lg:flex-row lg:justify-center gap-[var(--premium-space-m)]">
           {/* Left: Product Image */}
-          <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 lg:sticky lg:top-24 order-1 lg:order-1">
+          <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 order-1 lg:order-1">
             <div className="relative w-full group">
               <ProductImageSlideshow
                 images={
@@ -81,7 +79,7 @@ export default function ProductHero({
             </div>
           </div>
 
-          {/* Right: Product Info Box */}
+          {/* Right: Product Info Box (bone background so it doesn’t feel like a white card) */}
           <div className="flex flex-col gap-[var(--premium-space-s)] lg:gap-[var(--premium-space-l)] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
             <div
               className="premium-box flex flex-col gap-[var(--premium-space-s)] lg:gap-[var(--premium-space-m)] !border-0 relative z-10"
@@ -90,6 +88,7 @@ export default function ProductHero({
                 paddingRight: "var(--premium-space-m)",
                 paddingTop: "var(--premium-space-s)",
                 paddingBottom: "var(--premium-space-m)",
+                backgroundColor: "#fff",
               }}
             >
               {/* Top section: stars above title + title + subline bubble */}
@@ -427,7 +426,5 @@ export default function ProductHero({
             </div>
           </div>
         </div>
-      </div>
-    </section>
   );
 }
