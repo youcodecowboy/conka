@@ -26,8 +26,11 @@ export default function WhatToExpectTimelineMobile({ productId }: WhatToExpectTi
           <button
             key={i}
             type="button"
-            className="w-full text-left flex gap-4 border border-black/10 bg-white p-4 min-h-[44px] transition-colors duration-200"
-            style={{ borderRadius: "var(--premium-radius-card)" }}
+            className="relative w-full text-left flex gap-4 bg-white p-4 min-h-[44px] transition-colors duration-200"
+            style={{
+              borderRadius: "var(--premium-radius-card)",
+              border: `2px solid ${accentHex}`,
+            }}
             onClick={() => setExpandedIndex((prev) => (prev === i ? null : i))}
             aria-expanded={isExpanded}
           >
@@ -57,7 +60,7 @@ export default function WhatToExpectTimelineMobile({ productId }: WhatToExpectTi
                   isExpanded ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0"
                 }`}
               >
-                <p className="premium-body-sm leading-relaxed opacity-90">{step.body}</p>
+                <p className="premium-body-sm text-xs leading-relaxed opacity-90">{step.body}</p>
               </div>
               <span className="premium-data text-[10px] uppercase tracking-wider opacity-50 mt-2 block">
                 {isExpanded ? "Tap to close" : "Tap for more"}
