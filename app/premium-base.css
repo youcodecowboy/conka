@@ -48,6 +48,8 @@
   --premium-max-width: 1280px;
   --premium-gutter-mobile: 1.25rem;
   --premium-gutter-desktop: 5vw;
+  /** Tight mobile gutter for hero and other space-constrained blocks */
+  --premium-gutter-mobile-tight: 0.25rem;
 
   /* ----- Soft-Tech Luxury: Curve (soft shapes) ----- */
   --premium-radius-card: 2.5rem; /* 40px – primary "pebble" for cards/boxes */

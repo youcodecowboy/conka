@@ -62,12 +62,12 @@ export default function ProductHeroMobile({
 
   return (
     <>
-      {/* Header – in track, premium tokens */}
+      {/* Header – tight mobile gutter (premium token) */}
       <div
         className="w-full min-w-0 pt-3 pb-2"
         style={{
-          paddingLeft: "var(--premium-gutter-mobile)",
-          paddingRight: "var(--premium-gutter-mobile)",
+          paddingLeft: "var(--premium-gutter-mobile-tight)",
+          paddingRight: "var(--premium-gutter-mobile-tight)",
         }}
       >
           <div className="flex items-center gap-2 flex-wrap mb-2">
@@ -132,12 +132,12 @@ export default function ProductHeroMobile({
           />
       </div>
 
-      {/* Content – in track, premium tokens */}
+      {/* Content – tight mobile gutter (premium token) */}
       <div
         className="pt-3 pb-4 space-y-3"
         style={{
-          paddingLeft: "var(--premium-gutter-mobile)",
-          paddingRight: "var(--premium-gutter-mobile)",
+          paddingLeft: "var(--premium-gutter-mobile-tight)",
+          paddingRight: "var(--premium-gutter-mobile-tight)",
         }}
       >
           <p className="premium-title text-current/90 text-base leading-snug mb-1.5">
