@@ -112,8 +112,14 @@ export default function ProtocolHeroMobile({
         </div>
       </div>
 
-      {/* Product Image + thumbnails – full viewport width */}
-      <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA]">
+      {/* Product Image + thumbnails – tight mobile gutter */}
+      <div
+        className="relative w-full bg-[#FAFAFA]"
+        style={{
+          paddingLeft: "var(--premium-gutter-mobile-tight)",
+          paddingRight: "var(--premium-gutter-mobile-tight)",
+        }}
+      >
         <ProductImageSlideshow
           images={getProtocolHeroImages(protocolId)}
           alt={`${protocol.name} - Both formulas`}

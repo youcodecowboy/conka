@@ -115,7 +115,17 @@ export default function ProductImageSlideshow({
 
       {/* Horizontal thumbnail strip */}
       {images.length > 1 && (
-        <div className={`mt-3 min-w-0 flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${fullBleedThumbnails ? "px-0" : "px-2"}`}>
+        <div
+          className={`mt-3 min-w-0 flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${!fullBleedThumbnails ? "px-2" : ""}`}
+          style={
+            fullBleedThumbnails
+              ? {
+                  paddingLeft: "var(--premium-gutter-mobile-tight)",
+                  paddingRight: "var(--premium-gutter-mobile-tight)",
+                }
+              : undefined
+          }
+        >
           {images.map((image, index) => (
             <button
               key={image.src}
