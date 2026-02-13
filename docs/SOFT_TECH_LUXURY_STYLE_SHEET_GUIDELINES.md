@@ -142,7 +142,7 @@ Structure:
 - **Content only** — No `<section>`, no root background, no `max-w` or `px-*` at the outer level. Return a fragment or a single content wrapper (e.g. header + grid).
 - **Internal layout** — Grids, stacks, carousels; use `--premium-space-*` for gaps and internal rhythm.
 - **Card/surface styling** — Radius `var(--premium-radius-card)`, soft bg `var(--color-premium-bg-soft)` or `bg-white` where needed; borders `var(--color-premium-stroke)`.
-- **Typography** — Section headings with `letterSpacing: var(--letter-spacing-premium-title)`; body/annotation classes (`.premium-body`, `.premium-annotation`). If the component renders a card that sits on a dark section and must keep dark text, add the class `.premium-card-dark-text` to that card so text stays `var(--color-base-black)`.
+- **Typography** — Section headings with `letterSpacing: var(--letter-spacing-premium-title)`; body/annotation classes (`.premium-body`, `.premium-annotation`). If the component renders a card that sits on a dark section and must keep dark text, add the class `.premium-card-dark-text` to that card. For buttons, pills, or any element with its own light background on an Ink section, add `.premium-own-surface` so text stays dark (section typography rules would otherwise override).
 
 **Page is responsible for:**
 - **Section wrapper** — `<section className="premium-section-luxury premium-bg-{ink|bone|surface}" aria-label="…">`.

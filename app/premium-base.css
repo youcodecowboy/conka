@@ -197,6 +197,11 @@
   color: var(--color-base-black);
 }
 
+/* Own-surface: use on buttons, pills, or any element with its own background on a dark (Ink) section so text stays dark. Placed after .premium-bg-ink typography so it wins. */
+.premium-bg-ink .premium-own-surface {
+  color: var(--color-base-black);
+}
+
 /* Type roles (global) */
 .premium-display {
   font-family: var(--font-primary), sans-serif;
