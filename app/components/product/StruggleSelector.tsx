@@ -25,7 +25,7 @@ export default function StruggleSelector({
   const accentColor = FORMULA_COLORS[formulaId];
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full">
       <div className="mx-auto w-full max-w-[90rem] px-6 py-8 md:px-12 md:py-10">
         <div className="flex flex-col items-end gap-6">
           <div className="text-right premium-stack-s">
