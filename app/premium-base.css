@@ -237,6 +237,14 @@
   font-weight: var(--premium-font-body-weight);
 }
 
+/* Small body: supporting copy, timeline/quote text. Reuses data size (0.875rem). */
+.premium-body-sm {
+  font-family: var(--font-primary), sans-serif;
+  font-size: var(--premium-font-data-size);
+  line-height: var(--premium-font-body-leading);
+  font-weight: var(--premium-font-body-weight);
+}
+
 /* Premium PDP hero: display (Syne / New Haus) + body (DM Sans) from style guide */
 .premium-pdp .premium-hero-panel .premium-display-hero {
   font-family: var(--font-premium-display), var(--font-primary), sans-serif;
