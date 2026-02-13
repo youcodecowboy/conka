@@ -460,7 +460,7 @@ export default function CycleTrap({
         {/* Cycle and explanation - 50:50 */}
         <div className="flex flex-col lg:flex-row items-stretch gap-12 lg:gap-16">
           <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0">{ring}</div>
-          <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0 flex flex-col justify-center">
+          <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0 flex flex-col justify-start">
             {stageToggles}
             {detail}
           </div>
