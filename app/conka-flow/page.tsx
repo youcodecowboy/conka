@@ -115,8 +115,8 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* Light section for testimonials (Bone: black/bone text) */}
-          <section className="premium-section-luxury premium-bg-bone">
+          {/* Testimonials — surface (alternates with ink/bone) */}
+          <section className="premium-section-luxury premium-bg-surface">
             <div className="premium-track">
               <Testimonials
                 testimonials={getSiteTestimonialsFlow()}
@@ -125,15 +125,15 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* Light section for timeline info (Bone: black/bone text) */}
-          <section className="premium-section-luxury premium-bg-bone" aria-label="What to expect">
+          {/* What to expect — mid (deeper grey so white cards pop) */}
+          <section className="premium-section-luxury premium-bg-mid" aria-label="What to expect">
             <div className="premium-track">
               <WhatToExpectTimeline productId="01" />
             </div>
           </section>
 
-          {/* Surface section for editorial quotes (black/bone text) */}
-          <section className="premium-section-luxury premium-bg-surface" aria-label="Editorial quotes">
+          {/* Editorial quotes — ink */}
+          <section className="premium-section-luxury premium-bg-ink" aria-label="Editorial quotes">
             <div className="premium-track">
               <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
             </div>
@@ -172,7 +172,7 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <section
-            className="premium-section-luxury premium-bg-bone"
+            className="premium-section-luxury premium-bg-surface"
             aria-label="FAQ"
           >
             <div className="premium-track">
@@ -231,8 +231,8 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* Light section for testimonials (Bone: black/bone text) */}
-        <section className="premium-section-luxury premium-bg-bone">
+        {/* Testimonials — surface */}
+        <section className="premium-section-luxury premium-bg-surface">
           <div className="premium-track">
             <Testimonials
               testimonials={getSiteTestimonialsFlow()}
@@ -241,15 +241,15 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* Light section for timeline info (Bone: black/bone text) */}
-        <section className="premium-section-luxury premium-bg-bone" aria-label="What to expect">
+        {/* What to expect — mid (deeper grey so white cards pop) */}
+        <section className="premium-section-luxury premium-bg-mid" aria-label="What to expect">
           <div className="premium-track">
             <WhatToExpectTimeline productId="01" />
           </div>
         </section>
 
-        {/* Surface section for editorial quotes (black/bone text) */}
-        <section className="premium-section-luxury premium-bg-surface" aria-label="Editorial quotes">
+        {/* Editorial quotes — ink */}
+        <section className="premium-section-luxury premium-bg-ink" aria-label="Editorial quotes">
           <div className="premium-track">
             <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
           </div>
@@ -288,7 +288,7 @@ export default function ConkaFlowPage() {
           </div>
         </section>
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury premium-bg-surface"
           aria-label="FAQ"
         >
           <div className="premium-track">
