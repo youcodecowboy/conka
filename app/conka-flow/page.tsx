@@ -105,9 +105,9 @@ export default function ConkaFlowPage() {
             onAddToCart={handleAddToCartFromHero}
           />
 
-          {/* Dark section for high-impact stats */}
+          {/* Dark section for high-impact stats (Ink) */}
           <section
-            className="premium-section-luxury bg-[var(--color-ink)] text-white"
+            className="premium-section-luxury bg-[var(--color-base-black)] text-white"
             aria-labelledby="benefits-stats-heading"
           >
             <div className="premium-track">
@@ -115,8 +115,8 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* Light "palate cleanser" section for testimonials */}
-          <section className="premium-section-luxury bg-[var(--color-bone)]">
+          {/* Light "palate cleanser" section for testimonials (Bone) */}
+          <section className="premium-section-luxury bg-[var(--color-base-white)]">
             <div className="premium-track">
               <Testimonials
                 testimonials={getSiteTestimonialsFlow()}
@@ -125,15 +125,15 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* Light section for timeline info */}
-          <section className="premium-section-luxury bg-[var(--color-bone)]" aria-label="What to expect">
+          {/* Light section for timeline info (Bone) */}
+          <section className="premium-section-luxury bg-[var(--color-base-white)]" aria-label="What to expect">
             <div className="premium-track">
               <WhatToExpectTimeline productId="01" />
             </div>
           </section>
 
           {/* Surface section for editorial quotes grid */}
-          <section className="premium-section-luxury bg-[var(--color-surface)]" aria-label="Editorial quotes">
+          <section className="premium-section-luxury bg-[var(--color-base-surface)]" aria-label="Editorial quotes">
             <div className="premium-track">
               <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
             </div>
@@ -187,9 +187,9 @@ export default function ConkaFlowPage() {
           onAddToCart={handleAddToCartFromHero}
         />
 
-        {/* Dark section for high-impact stats */}
+        {/* Dark section for high-impact stats (Ink) */}
         <section
-          className="premium-section-luxury bg-[var(--color-ink)] text-white"
+          className="premium-section-luxury bg-[var(--color-base-black)] text-white"
           aria-labelledby="benefits-stats-heading"
         >
           <div className="premium-track">
@@ -197,8 +197,8 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* Light "palate cleanser" section for testimonials */}
-        <section className="premium-section-luxury bg-[var(--color-bone)]">
+        {/* Light "palate cleanser" section for testimonials (Bone) */}
+        <section className="premium-section-luxury bg-[var(--color-base-white)]">
           <div className="premium-track">
             <Testimonials
               testimonials={getSiteTestimonialsFlow()}
@@ -207,15 +207,15 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* Light section for timeline info */}
-        <section className="premium-section-luxury bg-[var(--color-bone)]" aria-label="What to expect">
+        {/* Light section for timeline info (Bone) */}
+        <section className="premium-section-luxury bg-[var(--color-base-white)]" aria-label="What to expect">
           <div className="premium-track">
             <WhatToExpectTimeline productId="01" />
           </div>
         </section>
 
         {/* Surface section for editorial quotes grid */}
-        <section className="premium-section-luxury bg-[var(--color-surface)]" aria-label="Editorial quotes">
+        <section className="premium-section-luxury bg-[var(--color-base-surface)]" aria-label="Editorial quotes">
           <div className="premium-track">
             <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("01")} />
           </div>
