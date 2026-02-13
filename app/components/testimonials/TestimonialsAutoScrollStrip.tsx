@@ -33,16 +33,17 @@ export default function TestimonialsAutoScrollStrip({
   const isPaused = expandedKey != null || (isHovered && isMobile === false);
 
   return (
-    <section className="w-full py-10 md:py-14 overflow-x-hidden" style={{ background: "var(--color-surface)" }}>
-      {/* Header: constrained width + padding */}
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6">
-        <div className="text-center mb-8 md:mb-10">
-          <h2 className="premium-section-heading mb-2">
-            Don&apos;t just take our word for it...
-          </h2>
-          <div className="flex justify-center">
-            <TestimonialsSubtitle />
-          </div>
+    <>
+      {/* Header: will be wrapped in .premium-track by page wrapper */}
+      <div className="text-center mb-8 md:mb-10">
+        <h2
+          className="premium-section-heading mb-2"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          Don&apos;t just take our word for it...
+        </h2>
+        <div className="flex justify-center">
+          <TestimonialsSubtitle />
         </div>
       </div>
 
@@ -79,6 +80,6 @@ export default function TestimonialsAutoScrollStrip({
           })}
         </div>
       </div>
-    </section>
+    </>
   );
 }
