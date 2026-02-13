@@ -13,13 +13,16 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
   const faqs = formula.faq;
 
   return (
-    <section className="w-full overflow-hidden bg-[var(--color-surface)]">
+    <>
       {/* Desktop: [asset] | [questions] */}
       <div className="hidden md:block">
-        <div className="grid grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto px-6 lg:px-12 py-12 lg:py-16">
+        <div className="grid grid-cols-2 gap-8 lg:gap-12 py-12 lg:py-16">
           {/* Left: asset in rounded box, square, ~20% cropped from top */}
           <div className="flex items-start justify-start">
-            <div className="relative w-full max-w-[520px] aspect-square rounded-2xl overflow-hidden shadow-lg">
+            <div
+              className="relative w-full max-w-[520px] aspect-square overflow-hidden shadow-lg"
+              style={{ borderRadius: "var(--premium-radius-card)" }}
+            >
               <img
                 src="/CONKA_21.jpg"
                 alt="CONKA product"
@@ -33,10 +36,13 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
           {/* Right: questions */}
           <div>
             <div className="mb-8">
-              <p className="text-3xl lg:text-4xl font-bold text-black mb-2">
+              <p
+                className="text-3xl lg:text-4xl font-bold text-black mb-2"
+                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+              >
                 Questions?
               </p>
-              <p className="text-xl lg:text-2xl text-black/80">
+              <p className="text-xl lg:text-2xl text-black/80 premium-body">
                 We're here to help
               </p>
             </div>
@@ -103,8 +109,11 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
 
       {/* Mobile: asset on top, then FAQ */}
       <div className="md:hidden flex flex-col">
-        <div className="px-4 pt-6 pb-2">
-          <div className="relative w-full max-w-[280px] mx-auto aspect-square rounded-2xl overflow-hidden shadow-lg">
+        <div className="pt-6 pb-2">
+          <div
+            className="relative w-full max-w-[280px] mx-auto aspect-square overflow-hidden shadow-lg"
+            style={{ borderRadius: "var(--premium-radius-card)" }}
+          >
             <img
               src="/CONKA_21.jpg"
               alt="CONKA product"
@@ -114,12 +123,15 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
             />
           </div>
         </div>
-        <div className="px-4 py-6">
+        <div className="py-6">
           <div className="mb-6">
-            <p className="text-2xl font-bold text-black mb-1">
+            <p
+              className="text-2xl font-bold text-black mb-1"
+              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            >
               Questions?
             </p>
-            <p className="text-lg text-black/80">
+            <p className="text-lg text-black/80 premium-body">
               We're here to help
             </p>
           </div>
@@ -182,6 +194,6 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 }

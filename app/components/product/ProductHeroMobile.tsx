@@ -61,10 +61,15 @@ export default function ProductHeroMobile({
   ];
 
   return (
-    <section className="pt-0 pb-4 px-0 overflow-x-hidden">
-      <div className="w-full min-w-0 px-3">
-        {/* Header - stars + title + subline (align with desktop ProductHero) */}
-        <div className="pt-3 pb-2">
+    <>
+      {/* Header – tight mobile gutter (premium token) */}
+      <div
+        className="w-full min-w-0 pt-3 pb-2"
+        style={{
+          paddingLeft: "var(--premium-gutter-mobile-tight)",
+          paddingRight: "var(--premium-gutter-mobile-tight)",
+        }}
+      >
           <div className="flex items-center gap-2 flex-wrap mb-2">
             <div className="flex" aria-hidden>
               {[1, 2, 3, 4, 5].map((i) => (
@@ -89,7 +94,10 @@ export default function ProductHeroMobile({
                 : "Over 20,000 bottles sold"}
             </span>
           </div>
-          <h1 className="premium-display leading-tight font-primary text-current">
+          <h1
+            className="premium-display leading-tight font-primary text-current"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
             {formulaId === "01" ? (
               <>
                 CONKA <span className="font-primary">FL0W</span>
@@ -99,14 +107,22 @@ export default function ProductHeroMobile({
             )}
           </h1>
           <div className="mt-2">
-            <span className="inline-block px-4 py-1 rounded-full bg-black/[0.04] premium-data text-current/90 text-sm">
+            <span
+              className="inline-block py-1 premium-data text-current/90 text-sm"
+              style={{
+                paddingLeft: "var(--premium-space-m)",
+                paddingRight: "var(--premium-space-m)",
+                borderRadius: "var(--premium-radius-interactive)",
+                background: "rgba(0,0,0,0.04)",
+              }}
+            >
               Liquid · 1 shot (30ml) daily · {selectedPack}-pack
             </span>
           </div>
-        </div>
+      </div>
 
-        {/* Product Image + thumbnails – full viewport width */}
-        <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA]">
+      {/* Product Image + thumbnails – full viewport width (unchanged) */}
+      <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA]">
           <ProductImageSlideshow
             images={
               formulaId === "01" ? flowSlideshowImages : claritySlideshowImages
@@ -114,16 +130,29 @@ export default function ProductHeroMobile({
             alt={`${formula.name} bottle`}
             fullBleedThumbnails
           />
-        </div>
+      </div>
 
-        {/* Content */}
-        <div className="pt-3 pb-4 space-y-3">
+      {/* Content – tight mobile gutter (premium token) */}
+      <div
+        className="pt-3 pb-4 space-y-3"
+        style={{
+          paddingLeft: "var(--premium-gutter-mobile-tight)",
+          paddingRight: "var(--premium-gutter-mobile-tight)",
+        }}
+      >
           <p className="premium-title text-current/90 text-base leading-snug mb-1.5">
             {formula.headline}
           </p>
 
           {/* Benefit stats – flat, in grey section (align with desktop) */}
-          <div className="bg-[var(--color-surface)] rounded-xl px-4 py-3 pb-5 w-full">
+          <div
+            className="w-full"
+            style={{
+              background: "var(--color-surface)",
+              borderRadius: "var(--premium-radius-nested)",
+              padding: "var(--premium-space-m) var(--premium-space-m) var(--premium-space-l)",
+            }}
+          >
             <div className="flex w-full justify-between gap-2">
               {formula.benefits.slice(0, 4).map((benefit, idx) => (
                 <div
@@ -160,11 +189,16 @@ export default function ProductHeroMobile({
             </p>
             <button
               onClick={() => onPurchaseTypeChange("subscription")}
-              className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 cursor-pointer bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
+              className={`w-full text-left p-3 transition-all flex items-start gap-3 cursor-pointer bg-white hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
                 purchaseType === "subscription"
                   ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                  : ""
+                  : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
               }`}
+              style={{
+                borderRadius: "var(--premium-radius-nested)",
+                borderWidth: 1,
+                borderColor: "var(--premium-border-color)",
+              }}
             >
               <span
                 className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
@@ -263,11 +297,16 @@ export default function ProductHeroMobile({
             </button>
             <button
               onClick={() => onPurchaseTypeChange("one-time")}
-              className={`w-full text-left p-3 rounded-xl transition-all flex items-center gap-3 cursor-pointer bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
+              className={`w-full text-left p-3 transition-all flex items-center gap-3 cursor-pointer bg-white hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
                 purchaseType === "one-time"
                   ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                  : ""
+                  : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
               }`}
+              style={{
+                borderRadius: "var(--premium-radius-nested)",
+                borderWidth: 1,
+                borderColor: "var(--premium-border-color)",
+              }}
             >
               <span
                 className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
@@ -284,7 +323,14 @@ export default function ProductHeroMobile({
             </button>
           </div>
 
-          <div className="flex justify-between items-center py-4 rounded-xl bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] px-4">
+          <div
+            className="flex justify-between items-center py-4 bg-white px-4"
+            style={{
+              borderRadius: "var(--premium-radius-nested)",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+              border: "1px solid var(--premium-border-color)",
+            }}
+          >
             <div>
               <p className="premium-data uppercase opacity-70">
                 Your Selection
@@ -345,15 +391,15 @@ export default function ProductHeroMobile({
 
           <button
             onClick={onAddToCart}
-            className="w-full px-8 py-4 font-bold text-lg text-black rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
+            className="w-full px-8 py-4 font-bold text-lg text-black border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
             style={{
               background: `linear-gradient(90deg, ${FORMULA_GRADIENTS[formulaId].start} 0%, ${FORMULA_GRADIENTS[formulaId].end} 100%)`,
+              borderRadius: "var(--premium-radius-interactive)",
             }}
           >
             {purchaseType === "subscription" ? "Subscribe Now" : "Add to Cart"}
           </button>
-        </div>
       </div>
-    </section>
+    </>
   );
 }

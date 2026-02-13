@@ -197,10 +197,7 @@ export default function CycleTrap({
             strokeDasharray={`${CIRCLE_PATH_LENGTH / 2} ${CIRCLE_PATH_LENGTH / 2}`}
             strokeDashoffset={0}
             pathLength={CIRCLE_PATH_LENGTH}
-            style={{
-              transform: "translateZ(0)",
-              filter: `drop-shadow(0 0 10px ${accentHex})`,
-            }}
+            style={{ transform: "translateZ(0)" }}
           />
           <circle
             cx={CENTER}
@@ -227,7 +224,7 @@ export default function CycleTrap({
               onClick={() => setSelectedIndex(stepIndex)}
               className={`cycle-node group absolute flex flex-col items-center justify-center rounded-full border-2 px-3 py-4 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
                 isActive
-                  ? "active bg-white text-black border-white shadow-[0_0_32px_rgba(255,255,255,0.25)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] opacity-100"
+                  ? "active bg-white text-black border-white opacity-100"
                   : "bg-[#2a2a2a] border-white/30 text-white/90 hover:bg-[#333] hover:border-white/50 opacity-100"
               }`}
               style={{
@@ -463,7 +460,7 @@ export default function CycleTrap({
         {/* Cycle and explanation - 50:50 */}
         <div className="flex flex-col lg:flex-row items-stretch gap-12 lg:gap-16">
           <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0">{ring}</div>
-          <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0 flex flex-col justify-center">
+          <div className="flex-shrink-0 w-full lg:w-1/2 min-w-0 flex flex-col justify-start">
             {stageToggles}
             {detail}
           </div>

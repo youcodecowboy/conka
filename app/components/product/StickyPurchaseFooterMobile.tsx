@@ -98,7 +98,9 @@ export default function StickyPurchaseFooterMobile({
     showTierSelector = !!onTierSelect;
   }
 
-  const hasSelector = (showPackSelector && selectedPack) || (showTierSelector && selectedTier && availableTiers.length > 0);
+  const hasSelector =
+    (showPackSelector && selectedPack) ||
+    (showTierSelector && selectedTier && availableTiers.length > 0);
 
   // Get accent color for border and text
   const accentColor = formulaId
@@ -132,9 +134,13 @@ export default function StickyPurchaseFooterMobile({
         />
       )}
       <div
-        className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] border-t-2 shadow-[0_-4px_20px_rgba(0,0,0,0.15)]"
+        className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] shadow-[0_-4px_20px_rgba(0,0,0,0.15)]"
         style={{
-          borderColor: isSubscription ? accentColor : "#000",
+          borderTopWidth: "var(--premium-border-width)",
+          borderTopStyle: "solid",
+          borderTopColor: isSubscription
+            ? accentColor
+            : "var(--premium-border-color)",
         }}
       >
         <div className="px-5 py-3">
@@ -145,7 +151,13 @@ export default function StickyPurchaseFooterMobile({
                   <button
                     type="button"
                     onClick={() => setShowDropdown(!showDropdown)}
-                    className="w-full rounded-lg border-2 border-black bg-[var(--background)] px-4 py-2 text-left flex items-center gap-2 hover:bg-black/5 transition-colors min-w-0"
+                    className="w-full bg-[var(--background)] px-4 py-2 text-left flex items-center gap-2 hover:bg-black/5 transition-colors min-w-0"
+                    style={{
+                      borderWidth: "var(--premium-border-width)",
+                      borderStyle: "solid",
+                      borderColor: "var(--premium-border-color)",
+                      borderRadius: "var(--premium-radius-nested)",
+                    }}
                   >
                     <div className="flex-1 min-w-0">
                       <p className="font-clinical text-sm font-medium truncate">
@@ -179,71 +191,85 @@ export default function StickyPurchaseFooterMobile({
                   </button>
 
                   {showDropdown && (
-                    <div className="absolute bottom-full left-0 mb-2 w-full min-w-[200px] bg-[var(--background)] border-2 border-current rounded-lg overflow-hidden shadow-lg max-h-[60vh] overflow-y-auto">
-                    {showPackSelector &&
-                      packSizes.map((pack) => {
-                        const packPricing = formulaPricing[purchaseType][pack];
-                        const billingText =
-                          purchaseType === "subscription" && "billing" in packPricing
-                            ? getBillingLabel(packPricing.billing)
-                            : "One-time";
-                        return (
-                          <button
-                            key={pack}
-                            type="button"
-                            onClick={() => {
-                              onPackSelect?.(pack);
-                              setShowDropdown(false);
-                            }}
-                            className={`w-full px-4 py-2.5 text-left text-sm hover:bg-black/5 transition-colors flex justify-between items-center gap-3 ${
-                              selectedPack === pack ? "bg-black/5 font-semibold" : ""
-                            }`}
-                          >
-                            <span className="font-clinical">
-                              {packLabels[pack]} {billingText}
-                            </span>
-                            <span className="font-clinical text-xs opacity-70 whitespace-nowrap">
-                              {formatPrice(packPricing.price)}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    {showTierSelector &&
-                      protocolId &&
-                      availableTiers.map((tier) => {
-                        const pricingType =
-                          protocolId === "4" ? "ultimate" : "standard";
-                        const tierPricing =
-                          protocolPricing[pricingType][purchaseType];
-                        const tierData =
-                          tierPricing[tier as keyof typeof tierPricing];
-                        if (!tierData) return null;
-                        const billingText =
-                          purchaseType === "subscription" &&
-                          "billing" in tierData
-                            ? getBillingLabel(tierData.billing)
-                            : "One-time";
-                        return (
-                          <button
-                            key={tier}
-                            type="button"
-                            onClick={() => {
-                              onTierSelect?.(tier);
-                              setShowDropdown(false);
-                            }}
-                            className={`w-full px-4 py-2.5 text-left text-sm hover:bg-black/5 transition-colors flex justify-between items-center gap-3 ${
-                              selectedTier === tier ? "bg-black/5 font-semibold" : ""
-                            }`}
-                          >
-                            <span className="font-clinical">
-                              {tierLabels[tier]} {billingText}
-                            </span>
-                            <span className="font-clinical text-xs opacity-70 whitespace-nowrap">
-                              {formatPrice(tierData.price)}
-                            </span>
-                          </button>
-                        );
-                      })}
+                    <div
+                      className="absolute bottom-full left-0 mb-2 w-full min-w-[200px] bg-[var(--background)] overflow-hidden shadow-lg max-h-[60vh] overflow-y-auto"
+                      style={{
+                        borderWidth: "var(--premium-border-width)",
+                        borderStyle: "solid",
+                        borderColor: "var(--premium-border-color)",
+                        borderRadius: "var(--premium-radius-nested)",
+                      }}
+                    >
+                      {showPackSelector &&
+                        packSizes.map((pack) => {
+                          const packPricing =
+                            formulaPricing[purchaseType][pack];
+                          const billingText =
+                            purchaseType === "subscription" &&
+                            "billing" in packPricing
+                              ? getBillingLabel(packPricing.billing)
+                              : "One-time";
+                          return (
+                            <button
+                              key={pack}
+                              type="button"
+                              onClick={() => {
+                                onPackSelect?.(pack);
+                                setShowDropdown(false);
+                              }}
+                              className={`w-full px-4 py-2.5 text-left text-sm hover:bg-black/5 transition-colors flex justify-between items-center gap-3 ${
+                                selectedPack === pack
+                                  ? "bg-black/5 font-semibold"
+                                  : ""
+                              }`}
+                            >
+                              <span className="font-clinical">
+                                {packLabels[pack]} {billingText}
+                              </span>
+                              <span className="font-clinical text-xs opacity-70 whitespace-nowrap">
+                                {formatPrice(packPricing.price)}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      {showTierSelector &&
+                        protocolId &&
+                        availableTiers.map((tier) => {
+                          const pricingType =
+                            protocolId === "4" ? "ultimate" : "standard";
+                          const tierPricing =
+                            protocolPricing[pricingType][purchaseType];
+                          const tierData =
+                            tierPricing[tier as keyof typeof tierPricing];
+                          if (!tierData) return null;
+                          const billingText =
+                            purchaseType === "subscription" &&
+                            "billing" in tierData
+                              ? getBillingLabel(tierData.billing)
+                              : "One-time";
+                          return (
+                            <button
+                              key={tier}
+                              type="button"
+                              onClick={() => {
+                                onTierSelect?.(tier);
+                                setShowDropdown(false);
+                              }}
+                              className={`w-full px-4 py-2.5 text-left text-sm hover:bg-black/5 transition-colors flex justify-between items-center gap-3 ${
+                                selectedTier === tier
+                                  ? "bg-black/5 font-semibold"
+                                  : ""
+                              }`}
+                            >
+                              <span className="font-clinical">
+                                {tierLabels[tier]} {billingText}
+                              </span>
+                              <span className="font-clinical text-xs opacity-70 whitespace-nowrap">
+                                {formatPrice(tierData.price)}
+                              </span>
+                            </button>
+                          );
+                        })}
                     </div>
                   )}
                 </div>
@@ -269,16 +295,17 @@ export default function StickyPurchaseFooterMobile({
               onClick={onAddToCart}
               className={
                 formulaId || protocolId
-                  ? `px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5 ${gradientTextClass}`
-                  : "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-white bg-black rounded-full border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
+                  ? `px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5 ${gradientTextClass}`
+                  : "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-white bg-black border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
               }
-              style={
-                productGradient
+              style={{
+                borderRadius: "var(--premium-radius-interactive)",
+                ...(productGradient
                   ? {
                       background: `linear-gradient(to right, ${productGradient.start}, ${productGradient.end})`,
                     }
-                  : undefined
-              }
+                  : {}),
+              }}
             >
               <span>Add</span>
               <span className="opacity-90">·</span>

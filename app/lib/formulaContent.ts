@@ -3,7 +3,6 @@
  */
 import type { FormulaId } from "./productTypes";
 
-
 export interface Ingredient {
   name: string;
   part: string;
@@ -107,7 +106,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
     accentColor: "teal",
     patent: "Patented: GB2629279",
     headline:
-      "Daily support for your nervous system and focus. CONKA Flow uses adaptogens like Ashwagandha and Rhodiola to build stress resilience and steady energy, so you can stay sharp without the jitters or the crash.",
+      "Daily support for your nervous system and focus, so you can stay sharp without the jitters or the crash.",
     subheadline: "Designed for daily cognitive enhancement",
     annotation: "your daily foundation",
     positioning: "ENERGY",
@@ -605,7 +604,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
     theme: "light",
     accentColor: "amber",
     headline:
-      "When you need your brain at its best, CONKA Clear delivers. Targeted nootropics boost cerebral blood flow and key neurotransmitters for memory and attention, so you think clearly under pressure.",
+      "When you need your brain at its best, CONKA Clear boosts cerebral blood flow and key neurotransmitters, so you think clearly under pressure.",
     subheadline: "Strategic enhancement for high-stakes moments",
     annotation: "your competitive edge",
     positioning: "CLARITY",

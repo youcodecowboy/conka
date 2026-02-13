@@ -115,23 +115,21 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
   };
 
   return (
-    <section
-      className="w-full py-12 md:py-16 overflow-x-hidden"
-      style={{ background: "var(--color-surface)" }}
-      aria-labelledby="formula-ingredients-heading"
-    >
-      {/* Header: constrained, split in half */}
-      <div className="max-w-[79.2rem] mx-auto px-4 md:px-6 lg:px-8">
-        <div
-          id="formula-ingredients-heading"
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-10 md:mb-12"
-        >
-          <div>
-            <h2 className="premium-section-heading">
-              Formulated with naturally beneficial{" "}
-              <span className="font-semibold">{headingWord}</span>
-            </h2>
-          </div>
+    <>
+      {/* Header: split in half */}
+      <div
+        id="formula-ingredients-heading"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-10 md:mb-12"
+      >
+        <div>
+          <h2
+            className="premium-section-heading"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
+            Formulated with naturally beneficial{" "}
+            <span className="font-semibold">{headingWord}</span>
+          </h2>
+        </div>
           <div className="flex flex-col gap-4 justify-center items-end text-right">
             <p className="text-sm md:text-base text-black/80 max-w-lg">
               {SUBHEADING}
@@ -207,20 +205,19 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
               </button>
             </div>
           </div>
-        </div>
       </div>
 
-      {/* Carousel: constrained width, clipped edges */}
-      <div className="max-w-[79.2rem] mx-auto px-4 md:px-6 lg:px-8 overflow-hidden">
-          <div
-            ref={scrollRef}
-            className="flex gap-12 md:gap-16 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth py-2"
-          >
-            {ingredients.map((ingredient) => (
-              <IngredientCard key={ingredient.id} ingredient={ingredient} />
-            ))}
-          </div>
+      {/* Carousel */}
+      <div className="overflow-hidden">
+        <div
+          ref={scrollRef}
+          className="flex gap-12 md:gap-16 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth py-2"
+        >
+          {ingredients.map((ingredient) => (
+            <IngredientCard key={ingredient.id} ingredient={ingredient} />
+          ))}
+        </div>
       </div>
-    </section>
+    </>
   );
 }

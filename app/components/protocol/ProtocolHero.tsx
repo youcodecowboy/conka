@@ -62,62 +62,87 @@ export default function ProtocolHero({
       : 0;
 
   return (
-    <section className="premium-section pt-4 md:pt-6 pb-8 md:pb-12">
-      <div className="w-full lg:w-[90vw] lg:max-w-[90vw] lg:mx-auto">
-        <div className="flex flex-col lg:flex-row lg:justify-center gap-4">
-          {/* Left: Product Image */}
-          <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 lg:sticky lg:top-24 order-1 lg:order-1">
-            <div className="relative w-full group">
-              <ProductImageSlideshow
-                images={getProtocolHeroImages(protocolId)}
-                alt={`${protocol.name} - Both formulas`}
-              />
+    <div className="flex flex-col lg:flex-row lg:justify-center lg:items-start gap-[var(--premium-space-m)]">
+      {/* Left: Product Image */}
+      <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 order-1 lg:order-1 lg:sticky lg:top-24 lg:self-start">
+        <div className="relative w-full group">
+          <ProductImageSlideshow
+            images={getProtocolHeroImages(protocolId)}
+            alt={`${protocol.name} - Both formulas`}
+          />
+        </div>
+      </div>
+
+      {/* Right: Product Info Box — structure matches ProductHero */}
+      <div className="flex flex-col gap-[var(--premium-space-s)] lg:gap-[var(--premium-space-l)] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
+        <div
+          className="premium-box flex flex-col gap-[var(--premium-space-s)] lg:gap-[var(--premium-space-m)] !border-0 relative z-10"
+          style={{
+            paddingLeft: "var(--premium-space-m)",
+            paddingRight: "var(--premium-space-m)",
+            paddingTop: "var(--premium-space-s)",
+            paddingBottom: "var(--premium-space-m)",
+            backgroundColor: "#fff",
+          }}
+        >
+          {/* Top section: stars above title + title + subline bubble */}
+          <div className="mb-0">
+            <div className="flex items-center gap-2 flex-wrap mb-2">
+              <div className="flex" aria-hidden>
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <svg
+                    key={i}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    style={{ color: protocolAccent }}
+                  >
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                ))}
+              </div>
+              <span className="premium-data text-current/90">
+                Over 100,000 bottles sold
+              </span>
+            </div>
+            <h1
+              className="premium-display leading-tight font-primary text-current"
+              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            >
+              {protocol.name}
+            </h1>
+            <div className="mt-2">
+              <span
+                className="inline-block py-1 premium-data text-current/90 text-sm"
+                style={{
+                  paddingLeft: "var(--premium-space-m)",
+                  paddingRight: "var(--premium-space-m)",
+                  borderRadius: "var(--premium-radius-interactive)",
+                  background: "rgba(0,0,0,0.04)",
+                }}
+              >
+                {protocol.subtitle}
+              </span>
             </div>
           </div>
 
-          {/* Right: Product Info Box — structure matches ProductHero */}
-          <div className="flex flex-col gap-2.5 lg:gap-[1.875rem] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
-            <div className="premium-box flex flex-col gap-1.5 lg:gap-3 !border-0 relative z-10 px-4 md:px-6 pt-3 md:pt-4 pb-4 md:pb-6">
-              {/* Top section: stars above title + title + subline bubble */}
-              <div className="mb-0">
-                <div className="flex items-center gap-2 flex-wrap mb-2">
-                  <div className="flex" aria-hidden>
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <svg
-                        key={i}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        style={{ color: protocolAccent }}
-                      >
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="premium-data text-current/90">
-                    Over 100,000 bottles sold
-                  </span>
-                </div>
-                <h1 className="premium-display leading-tight font-primary text-current">
-                  {protocol.name}
-                </h1>
-                <div className="mt-2">
-                  <span className="inline-block px-4 py-1 rounded-full bg-black/[0.04] premium-data text-current/90 text-sm">
-                    {protocol.subtitle}
-                  </span>
-                </div>
-              </div>
+          {/* Headline description */}
+          <p className="premium-title text-current/90 text-base md:text-lg leading-snug mb-1.5">
+            {protocol.description}
+          </p>
 
-              {/* Headline description */}
-              <p className="premium-title text-current/90 text-base md:text-lg leading-snug mb-1.5">
-                {protocol.description}
-              </p>
-
-              {/* What you get – Flow/Clear per week + total shots (contents, not benefit stats) */}
-              {tierConfig && (
-                <div className="bg-[var(--color-surface)] rounded-xl px-4 py-3 w-full">
+          {/* What you get – Flow/Clear per week + total shots (contents, not benefit stats) */}
+          {tierConfig && (
+            <div
+              className="w-full"
+              style={{
+                background: "var(--color-surface)",
+                borderRadius: "var(--premium-radius-nested)",
+                padding: "var(--premium-space-m)",
+              }}
+            >
                   <p className="premium-data uppercase opacity-70 mb-3">
                     Your weekly mix
                   </p>
@@ -180,11 +205,16 @@ export default function ProtocolHero({
                   </p>
                   <button
                     onClick={() => onPurchaseTypeChange("subscription")}
-                    className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 cursor-pointer bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
+                    className={`w-full text-left p-3 transition-all flex items-start gap-3 cursor-pointer bg-white hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
                       purchaseType === "subscription"
                         ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                        : ""
+                        : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
                     }`}
+                    style={{
+                      borderRadius: "var(--premium-radius-nested)",
+                      borderWidth: 1,
+                      borderColor: "var(--premium-border-color)",
+                    }}
                   >
                     <span
                       className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
@@ -280,11 +310,16 @@ export default function ProtocolHero({
                   </button>
                   <button
                     onClick={() => onPurchaseTypeChange("one-time")}
-                    className={`w-full text-left p-3 rounded-xl transition-all flex items-center gap-3 cursor-pointer bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
+                    className={`w-full text-left p-3 transition-all flex items-center gap-3 cursor-pointer bg-white hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
                       purchaseType === "one-time"
                         ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                        : ""
+                        : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
                     }`}
+                    style={{
+                      borderRadius: "var(--premium-radius-nested)",
+                      borderWidth: 1,
+                      borderColor: "var(--premium-border-color)",
+                    }}
                   >
                     <span
                       className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
@@ -301,7 +336,14 @@ export default function ProtocolHero({
                   </button>
                 </div>
                 {pricing && (
-                  <div className="flex justify-between items-center py-4 rounded-xl bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] px-4">
+                  <div
+                    className="flex justify-between items-center py-4 bg-white px-4"
+                    style={{
+                      borderRadius: "var(--premium-radius-nested)",
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+                      border: "1px solid var(--premium-border-color)",
+                    }}
+                  >
                     <div>
                       <p className="premium-data uppercase opacity-70">
                         Your Selection
@@ -360,12 +402,17 @@ export default function ProtocolHero({
               </div>
 
               {/* Block 7: CTA (match ProductHero) */}
-              <div className="pb-4 md:pb-6">
+              <div
+                style={{
+                  paddingBottom: "var(--premium-space-m)",
+                }}
+              >
                 <button
                   onClick={onAddToCart}
-                  className={`w-full px-8 py-4 font-bold text-lg rounded-full border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)] ${ctaTextClass}`}
+                  className={`w-full px-8 py-4 font-bold text-lg border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)] ${ctaTextClass}`}
                   style={{
                     background: `linear-gradient(90deg, ${protocolGradient.start} 0%, ${protocolGradient.end} 100%)`,
+                    borderRadius: "var(--premium-radius-interactive)",
                   }}
                 >
                   {purchaseType === "subscription"
@@ -376,7 +423,5 @@ export default function ProtocolHero({
             </div>
           </div>
         </div>
-      </div>
-    </section>
   );
 }

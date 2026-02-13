@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { formulas, FormulaShowcaseData } from "./formulasShowcaseData";
-import { FormulaId } from "@/app/lib/productData";
+import type { FormulaId } from "@/app/lib/productData";
 
 // Combined Microcopy
 const microcopy: Record<FormulaId, string> = {
@@ -18,8 +18,11 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
 
   return (
     <div className="flex flex-col border-2 border-black/10 rounded-[var(--premium-radius-base)] overflow-hidden">
-      {/* Hero Image */}
-      <div className="relative w-full aspect-[4/3.5] overflow-hidden">
+      {/* Hero Image — clickable asset */}
+      <Link
+        href={formula.href}
+        className="relative w-full aspect-[4/3.5] overflow-hidden block cursor-pointer"
+      >
         <div
           className="absolute inset-0"
           style={{ top: "-10%", bottom: "-20%" }}
@@ -37,7 +40,7 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
             loading="lazy"
           />
         </div>
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="p-6 flex flex-col gap-4 bg-white/50">
@@ -130,9 +133,17 @@ function FormulaCard({ formula }: { formula: FormulaShowcaseData }) {
   );
 }
 
-export default function FormulasShowcaseMobile() {
+export interface FormulasShowcaseMobileProps {
+  excludeFormulaId?: FormulaId;
+}
+
+export default function FormulasShowcaseMobile({ excludeFormulaId }: FormulasShowcaseMobileProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
+
+  const formulasToShow = excludeFormulaId
+    ? formulas.filter((f) => f.id !== excludeFormulaId)
+    : formulas;
 
   return (
     <section className="px-4 py-12 bg-white">
@@ -155,13 +166,13 @@ export default function FormulasShowcaseMobile() {
             if (!el) return;
             const cardWidth = el.offsetWidth * 0.85 + 16;
             const index = Math.min(
-              formulas.length - 1,
+              formulasToShow.length - 1,
               Math.max(0, Math.round(el.scrollLeft / cardWidth)),
             );
             setCarouselIndex(index);
           }}
         >
-          {formulas.map((formula) => (
+          {formulasToShow.map((formula) => (
             <div
               key={formula.id}
               className="flex-shrink-0 w-[85vw] max-w-[400px] snap-center"
@@ -173,7 +184,7 @@ export default function FormulasShowcaseMobile() {
 
         {/* Pagination dots */}
         <div className="flex justify-center gap-2 mt-4">
-          {formulas.map((_, idx) => (
+          {formulasToShow.map((_, idx) => (
             <div
               key={idx}
               className={`w-2 h-2 rounded-full bg-current transition-opacity ${

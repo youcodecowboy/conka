@@ -74,10 +74,13 @@ export default function CycleBreakDesktop() {
                     <h3 className="premium-section-heading text-lg md:text-xl font-bold mb-8 text-white">
                       {copy.mechanisms.clear.title}
                     </h3>
-                    <p className="premium-body text-sm leading-relaxed mb-6 pt-4 text-white">
+                    <p
+                      className="premium-body text-sm leading-relaxed mb-6 pt-4"
+                      style={{ color: "#fff" }}
+                    >
                       {copy.mechanisms.clear.description}
                     </p>
-                    <ul className="space-y-2.5">
+                    <ul className="space-y-2.5 mt-6">
                       {copy.mechanisms.clear.keyPoints.map((point, idx) => (
                         <li
                           key={idx}
@@ -148,10 +151,13 @@ export default function CycleBreakDesktop() {
                       <h3 className="premium-section-heading text-lg md:text-xl font-bold mb-8 text-white">
                         {copy.mechanisms.flow.title}
                       </h3>
-                      <p className="premium-body text-sm leading-relaxed mb-6 pt-4 text-white">
+                      <p
+                        className="premium-body text-sm leading-relaxed mb-6 pt-4"
+                        style={{ color: "#fff" }}
+                      >
                         {copy.mechanisms.flow.description}
                       </p>
-                      <ul className="space-y-2.5 text-right">
+                      <ul className="space-y-2.5 text-right mt-6">
                         {copy.mechanisms.flow.keyPoints.map((point, idx) => (
                           <li
                             key={idx}

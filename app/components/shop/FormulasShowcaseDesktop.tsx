@@ -2,16 +2,22 @@
 
 import { formulas } from "./formulasShowcaseData";
 import FormulaPanel from "./FormulaPanel";
+import type { FormulaId } from "@/app/lib/productData";
 
-export default function FormulasShowcaseDesktop() {
+export interface FormulasShowcaseDesktopProps {
+  excludeFormulaId?: FormulaId;
+}
+
+export default function FormulasShowcaseDesktop({ excludeFormulaId }: FormulasShowcaseDesktopProps) {
+  const formulasToShow = excludeFormulaId
+    ? formulas.filter((f) => f.id !== excludeFormulaId)
+    : formulas;
+
   return (
     <section className="px-16 pt-12 pb-24">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="mb-10 text-left">
-          <p className="font-commentary text-lg opacity-80 mb-3">
-            Most first-time customers start here
-          </p>
           <h2 className="text-4xl lg:text-5xl font-bold mb-3">
             Individual Formulas
           </h2>
@@ -22,16 +28,9 @@ export default function FormulasShowcaseDesktop() {
 
         {/* Split Screen Grid */}
         <div className="grid grid-cols-2 gap-12">
-          {formulas.map((formula) => (
+          {formulasToShow.map((formula) => (
             <FormulaPanel key={formula.id} formula={formula} />
           ))}
-        </div>
-
-        {/* Comparison note */}
-        <div className="mt-12 text-center">
-          <p className="font-commentary text-lg opacity-70">
-            both formulas work together synergistically
-          </p>
         </div>
       </div>
     </section>

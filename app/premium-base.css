@@ -43,6 +43,57 @@
 
   /* ----- Surface (subtle grey for panels, cards) ----- */
   --premium-surface: var(--color-surface);
+
+  /* ----- Soft-Tech Luxury: Track (horizontal consistency) ----- */
+  --premium-max-width: 1280px;
+  --premium-gutter-mobile: 1.25rem;
+  --premium-gutter-desktop: 5vw;
+  /** Tight mobile gutter for hero and other space-constrained blocks */
+  --premium-gutter-mobile-tight: 0.25rem;
+
+  /* ----- Soft-Tech Luxury: Curve (soft shapes) ----- */
+  --premium-radius-card: 2.5rem; /* 40px – primary "pebble" for cards/boxes */
+  --premium-radius-nested: 1.25rem; /* 20px – inside cards */
+
+  /* ----- Soft-Tech Luxury: Breath (vertical rhythm) ----- */
+  --space-section-padding: clamp(5rem, 10vh, 10rem);
+  --space-section-padding-mobile: 5rem;
+  --space-header-gap: 4rem;
+  --space-text-gap: 1.5rem;
+
+  /* ----- Soft-Tech Luxury: Colors (Ink, Bone, Surface, Mid) ----- */
+  --color-base-white: #f9f9f9; /* Bone */
+  --color-base-black: #111111; /* Ink */
+  --color-base-surface: #f4f6f5; /* Structural grey for bento/cards */
+  --color-base-mid: #d1d5d2; /* Mid-Chrome: deeper grey so white cards pop; Soft-Tech / anodized feel */
+  --color-premium-bg-soft: var(--color-base-white);
+  --color-premium-stroke: rgba(0, 0, 0, 0.06);
+  /* Aliases for compatibility */
+  --color-ink: var(--color-base-black);
+  --color-bone: var(--color-base-white);
+  --color-surface: var(--color-base-surface);
+  --color-mid: var(--color-base-mid);
+
+  /* ----- Text on background (ensure contrast) ----- */
+  /* On black (Ink) bases: white or bone text */
+  --text-on-ink: #ffffff;
+  --text-on-ink-muted: var(--color-base-white);
+  /* On Bone or Surface bases: black or bone text */
+  --text-on-light: var(--color-base-black);
+  --text-on-light-muted: #444444;
+
+  /* ----- Soft-Tech Luxury: Typography scale ----- */
+  --letter-spacing-premium-title: -0.03em;
+  --premium-body-max-width: 65ch;
+  --text-section-title: clamp(2.25rem, 6vw, 3.5rem);
+  --text-card-title: 1.75rem;
+  --text-stat-large: clamp(3rem, 8vw, 4.5rem);
+  --text-body-premium: 1.125rem;
+  --text-label-caps: 0.75rem;
+  --leading-tight: 1.1;
+  --leading-relaxed: 1.6;
+  --tracking-tight: -0.03em;
+  --tracking-wide: 0.05em;
 }
 
 /* Layout */
@@ -66,6 +117,123 @@
   margin-right: auto;
 }
 
+/* ----- Soft-Tech Luxury: Single Track ----- */
+/* Use .premium-track inside .premium-section (or .premium-section-luxury) for content that must align to the single horizontal rail. Parent provides gutters. */
+.premium-track {
+  max-width: var(--premium-max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ----- Soft-Tech Luxury: Section with "air" ----- */
+/* Symmetrical section wrapper; transition for color changes. */
+.premium-section-luxury {
+  padding-top: var(--space-section-padding);
+  padding-bottom: var(--space-section-padding);
+  padding-left: var(--premium-gutter-desktop);
+  padding-right: var(--premium-gutter-desktop);
+  transition: background-color 0.4s ease;
+}
+/* Hero as first section: minimal top padding so it mounts at the top of the page */
+.premium-section-luxury.premium-hero-first {
+  padding-top: var(--premium-space-m);
+}
+@media (max-width: 768px) {
+  .premium-section-luxury {
+    padding-top: var(--space-section-padding-mobile);
+    padding-bottom: var(--space-section-padding-mobile);
+    padding-left: var(--premium-gutter-mobile);
+    padding-right: var(--premium-gutter-mobile);
+  }
+  .premium-section-luxury.premium-hero-first {
+    padding-top: var(--premium-space-m);
+  }
+}
+
+/* ----- Soft-Tech Luxury: Section background + text (use with .premium-section-luxury) ----- */
+/* Black (Ink) base: white or bone text only */
+.premium-bg-ink {
+  background-color: var(--color-base-black);
+  color: var(--text-on-ink);
+}
+.premium-bg-ink .premium-section-heading,
+.premium-bg-ink .premium-body,
+.premium-bg-ink .premium-data,
+.premium-bg-ink .premium-annotation {
+  color: var(--text-on-ink);
+}
+.premium-bg-ink .premium-text-muted {
+  color: var(--text-on-ink-muted);
+}
+
+/* Bone or Surface base: black or bone text only */
+.premium-bg-bone {
+  background-color: var(--color-base-white);
+  color: var(--text-on-light);
+}
+.premium-bg-surface {
+  background-color: var(--color-base-surface);
+  color: var(--text-on-light);
+}
+.premium-bg-bone .premium-section-heading,
+.premium-bg-bone .premium-body,
+.premium-bg-surface .premium-section-heading,
+.premium-bg-surface .premium-body {
+  color: inherit;
+}
+.premium-bg-bone .premium-text-muted,
+.premium-bg-surface .premium-text-muted {
+  color: var(--text-on-light-muted);
+}
+
+/* Mid-Chrome: deeper grey section; same text treatment as Bone/Surface (dark text) */
+.premium-bg-mid {
+  background-color: var(--color-base-mid);
+  color: var(--text-on-light);
+}
+.premium-bg-mid .premium-section-heading,
+.premium-bg-mid .premium-body {
+  color: inherit;
+}
+.premium-bg-mid .premium-text-muted {
+  color: var(--text-on-light-muted);
+}
+
+/* ----- Soft-Tech Luxury: Header block utility ----- */
+.premium-header-group {
+  margin-bottom: var(--space-header-gap);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ----- Soft-Tech Luxury: Card/box upgrade ----- */
+/* Apply to cards, case study blocks, bento cells for pebble shape and soft background. Adopt in component refactors. */
+.premium-card-soft {
+  border-radius: var(--premium-radius-card);
+  background-color: var(--color-premium-bg-soft);
+  border: none;
+  padding: 3rem;
+}
+.premium-card-soft.premium-card-soft-stroke {
+  border: 1px solid var(--color-premium-stroke);
+}
+
+/* Card on dark section: force dark text so content stays readable (e.g. case study cards on .premium-bg-ink) */
+.premium-card-dark-text,
+.premium-card-dark-text .premium-heading,
+.premium-card-dark-text .premium-body,
+.premium-card-dark-text .premium-data,
+.premium-card-dark-text .premium-annotation {
+  color: var(--color-base-black);
+}
+
+/* Own-surface: use on buttons, pills, or any element with its own background on a dark (Ink) section so text stays dark. Placed after .premium-bg-ink typography so it wins. */
+.premium-bg-ink .premium-own-surface {
+  color: var(--color-base-black);
+}
+
 /* Type roles (global) */
 .premium-display {
   font-family: var(--font-primary), sans-serif;
@@ -81,28 +249,32 @@
   line-height: 1.3;
 }
 
-/* Section title – large, consistent size across PDP sections (Huel-style scale) */
+/* Section title – fluid scale, tight tracking (Soft-Tech Luxury) */
 .premium-section-heading {
   font-family: var(--font-primary), sans-serif;
-  font-size: 2.125rem;
-  line-height: 2.38rem;
-  letter-spacing: -0.0425rem;
+  font-size: var(--text-section-title);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-text-gap);
   font-weight: 500;
-  margin-bottom: 0;
-}
-@media (min-width: 1024px) {
-  .premium-section-heading {
-    font-size: 3.375rem;
-    line-height: 3.78rem;
-    letter-spacing: -0.0675rem;
-  }
 }
 
 .premium-body {
   font-family: var(--font-primary), sans-serif;
-  font-size: var(--premium-font-body-size);
+  font-size: var(--text-body-premium);
+  line-height: var(--leading-relaxed);
+  max-width: var(--premium-body-max-width);
+  margin-bottom: 0;
+  color: #444;
   font-weight: var(--premium-font-body-weight);
-  line-height: 1.5;
+}
+
+/* Small body: supporting copy, timeline/quote text. Reuses data size (0.875rem). */
+.premium-body-sm {
+  font-family: var(--font-primary), sans-serif;
+  font-size: var(--premium-font-data-size);
+  line-height: var(--premium-font-body-leading);
+  font-weight: var(--premium-font-body-weight);
 }
 
 /* Premium PDP hero: display (Syne / New Haus) + body (DM Sans) from style guide */

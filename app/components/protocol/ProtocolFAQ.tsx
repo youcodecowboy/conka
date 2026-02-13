@@ -88,13 +88,16 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
   const allFAQs = [...(protocolSpecificFAQs[protocolId] || []), ...generalFAQs];
 
   return (
-    <section className="w-full overflow-hidden bg-[var(--color-surface)]">
+    <>
       {/* Desktop: [asset] | [questions] */}
       <div className="hidden md:block">
-        <div className="grid grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto px-6 lg:px-12 py-12 lg:py-16">
+        <div className="grid grid-cols-2 gap-8 lg:gap-12">
           {/* Left: asset in rounded box, square, ~20% cropped from top */}
           <div className="flex items-start justify-start">
-            <div className="relative w-full max-w-[520px] aspect-square rounded-2xl overflow-hidden shadow-lg">
+            <div
+              className="relative w-full max-w-[520px] aspect-square overflow-hidden shadow-lg"
+              style={{ borderRadius: "var(--premium-radius-card)" }}
+            >
               <img
                 src="/CONKA_21.jpg"
                 alt="CONKA product"
@@ -178,8 +181,11 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
 
       {/* Mobile: asset on top, then FAQ */}
       <div className="md:hidden flex flex-col">
-        <div className="px-4 pt-6 pb-2">
-          <div className="relative w-full max-w-[280px] mx-auto aspect-square rounded-2xl overflow-hidden shadow-lg">
+        <div className="pt-6 pb-2">
+          <div
+            className="relative w-full max-w-[280px] mx-auto aspect-square overflow-hidden shadow-lg"
+            style={{ borderRadius: "var(--premium-radius-card)" }}
+          >
             <img
               src="/CONKA_21.jpg"
               alt="CONKA product"
@@ -189,7 +195,7 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
             />
           </div>
         </div>
-        <div className="px-4 py-6">
+        <div className="py-6">
           <div className="mb-6">
             <p className="text-2xl font-bold text-black mb-1">
               Questions?
@@ -257,6 +263,6 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 }

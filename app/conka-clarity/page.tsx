@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
 import {
@@ -92,40 +91,114 @@ export default function ConkaClarityPage() {
         style={{ background: "var(--background)", color: "var(--foreground)" }}
       >
         <Navigation />
+        {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
+        <section
+          className="premium-section-luxury premium-hero-first bg-white"
+          aria-label="Product hero"
+        >
+          <div className="premium-track">
+            <ProductHeroMobile
+              formulaId="02"
+              selectedPack={selectedPack}
+              onPackSelect={setSelectedPack}
+              purchaseType={purchaseType}
+              onPurchaseTypeChange={setPurchaseType}
+              onAddToCart={handleAddToCartFromHero}
+            />
+          </div>
+        </section>
+
         <div className="premium-pdp">
-          <ProductHeroMobile
-            formulaId="02"
-            selectedPack={selectedPack}
-            onPackSelect={setSelectedPack}
-            purchaseType={purchaseType}
-            onPurchaseTypeChange={setPurchaseType}
-            onAddToCart={handleAddToCartFromHero}
-          />
+          <section
+            className="premium-section-luxury premium-bg-ink"
+            aria-labelledby="benefits-stats-heading"
+          >
+            <div className="premium-track">
+              <FormulaBenefitsStats formulaId="02" />
+            </div>
+          </section>
 
-          <FormulaBenefitsStats formulaId="02" />
-          <Testimonials
-            testimonials={getSiteTestimonialsClarity()}
-            autoScrollOnly
-          />
+          <section className="premium-section-luxury premium-bg-bone">
+            <div className="premium-track">
+              <Testimonials
+                testimonials={getSiteTestimonialsClarity()}
+                autoScrollOnly
+              />
+            </div>
+          </section>
 
-          <WhatToExpectTimeline productId="02" />
+          <section
+            className="premium-section-luxury premium-bg-mid"
+            aria-label="What to expect"
+          >
+            <div className="premium-track">
+              <WhatToExpectTimeline productId="02" />
+            </div>
+          </section>
 
-          <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("02")} />
-          <FormulaIngredients formulaId="02" />
-          <HowItWorks formulaId="02" />
+          <section
+            className="premium-section-luxury premium-bg-ink"
+            aria-label="Editorial quotes"
+          >
+            <div className="premium-track">
+              <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("02")} />
+            </div>
+          </section>
+
+          <section
+            className="premium-section-luxury premium-bg-bone"
+            aria-label="Formula ingredients"
+          >
+            <div className="premium-track">
+              <FormulaIngredients formulaId="02" />
+            </div>
+          </section>
+
+          <section
+            className="premium-section-luxury premium-bg-ink"
+            aria-labelledby="how-it-works-heading"
+          >
+            <div className="premium-track">
+              <HowItWorks formulaId="02" />
+            </div>
+          </section>
+
           <section
             id="proof-and-science"
-            className="premium-section"
+            className="premium-section-luxury premium-bg-bone"
             aria-labelledby="proof-and-science-heading"
           >
-            <div className="premium-container">
+            <div className="premium-track">
               <FormulaBenefitsMobile formulaId="02" />
             </div>
           </section>
-          <FormulaCaseStudiesMobile formulaId="02" />
-          <FormulaFAQ formulaId="02" />
 
-          <CrossSell variant="formula" currentFormulaId="02" />
+          <section
+            className="premium-section-luxury premium-bg-ink"
+            aria-label="CONKA Case Studies"
+          >
+            <div className="premium-track">
+              <FormulaCaseStudiesMobile formulaId="02" />
+            </div>
+          </section>
+
+          <section
+            className="premium-section-luxury premium-bg-mid"
+            aria-label="FAQ"
+          >
+            <div className="premium-track">
+              <FormulaFAQ formulaId="02" />
+            </div>
+          </section>
+
+          <section
+            className="premium-section-luxury premium-bg-bone"
+            aria-label="Explore other protocols and formulas"
+          >
+            <div className="premium-track">
+              <CrossSell variant="formula" currentFormulaId="02" />
+            </div>
+          </section>
 
           <StickyPurchaseFooterMobile
             formulaId="02"
@@ -147,40 +220,114 @@ export default function ConkaClarityPage() {
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       <Navigation />
+      {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
+      <section
+        className="premium-section-luxury premium-hero-first bg-white"
+        aria-label="Product hero"
+      >
+        <div className="premium-track">
+          <ProductHero
+            formulaId="02"
+            selectedPack={selectedPack}
+            onPackSelect={setSelectedPack}
+            purchaseType={purchaseType}
+            onPurchaseTypeChange={setPurchaseType}
+            onAddToCart={handleAddToCartFromHero}
+          />
+        </div>
+      </section>
+
       <div className="premium-pdp">
-        <ProductHero
-          formulaId="02"
-          selectedPack={selectedPack}
-          onPackSelect={setSelectedPack}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCartFromHero}
-        />
+        <section
+          className="premium-section-luxury premium-bg-ink"
+          aria-labelledby="benefits-stats-heading"
+        >
+          <div className="premium-track">
+            <FormulaBenefitsStats formulaId="02" />
+          </div>
+        </section>
 
-        <FormulaBenefitsStats formulaId="02" />
-        <Testimonials
-          testimonials={getSiteTestimonialsClarity()}
-          autoScrollOnly
-        />
+        <section className="premium-section-luxury premium-bg-bone">
+          <div className="premium-track">
+            <Testimonials
+              testimonials={getSiteTestimonialsClarity()}
+              autoScrollOnly
+            />
+          </div>
+        </section>
 
-        <WhatToExpectTimeline productId="02" />
+        <section
+          className="premium-section-luxury premium-bg-mid"
+          aria-label="What to expect"
+        >
+          <div className="premium-track">
+            <WhatToExpectTimeline productId="02" />
+          </div>
+        </section>
 
-        <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("02")} />
-        <FormulaIngredients formulaId="02" />
-        <HowItWorks formulaId="02" />
+        <section
+          className="premium-section-luxury premium-bg-ink"
+          aria-label="Editorial quotes"
+        >
+          <div className="premium-track">
+            <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("02")} />
+          </div>
+        </section>
+
+        <section
+          className="premium-section-luxury premium-bg-bone"
+          aria-label="Formula ingredients"
+        >
+          <div className="premium-track">
+            <FormulaIngredients formulaId="02" />
+          </div>
+        </section>
+
+        <section
+          className="premium-section-luxury premium-bg-ink"
+          aria-labelledby="how-it-works-heading"
+        >
+          <div className="premium-track">
+            <HowItWorks formulaId="02" />
+          </div>
+        </section>
+
         <section
           id="proof-and-science"
-          className="premium-section"
+          className="premium-section-luxury premium-bg-bone"
           aria-labelledby="proof-and-science-heading"
         >
-          <div className="premium-container">
+          <div className="premium-track">
             <FormulaBenefits formulaId="02" />
           </div>
         </section>
-        <FormulaCaseStudies formulaId="02" />
-        <FormulaFAQ formulaId="02" />
 
-        <CrossSell variant="formula" currentFormulaId="02" />
+        <section
+          className="premium-section-luxury premium-bg-ink"
+          aria-label="CONKA Case Studies"
+        >
+          <div className="premium-track">
+            <FormulaCaseStudies formulaId="02" />
+          </div>
+        </section>
+
+        <section
+          className="premium-section-luxury premium-bg-mid"
+          aria-label="FAQ"
+        >
+          <div className="premium-track">
+            <FormulaFAQ formulaId="02" />
+          </div>
+        </section>
+
+        <section
+          className="premium-section-luxury premium-bg-bone"
+          aria-label="Explore other protocols and formulas"
+        >
+          <div className="premium-track">
+            <CrossSell variant="formula" currentFormulaId="02" />
+          </div>
+        </section>
 
         <StickyPurchaseFooter
           formulaId="02"

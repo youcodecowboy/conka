@@ -72,7 +72,7 @@ export default function CycleBreakMobile() {
                     <h3 className="premium-section-heading text-lg font-bold mb-4 pt-4 text-white">
                       {copy.mechanisms.clear.title}
                     </h3>
-                    <ul className="space-y-2.5 pt-2">
+                    <ul className="space-y-2.5 mt-4">
                       {copy.mechanisms.clear.keyPoints.map((point, idx) => (
                         <li
                           key={idx}
@@ -138,7 +138,7 @@ export default function CycleBreakMobile() {
                       <h3 className="premium-section-heading text-lg font-bold mb-4 pt-4 text-white text-right">
                         {copy.mechanisms.flow.title}
                       </h3>
-                      <ul className="space-y-2.5 text-right pt-2">
+                      <ul className="space-y-2.5 text-right mt-4">
                         {copy.mechanisms.flow.keyPoints.map((point, idx) => (
                           <li
                             key={idx}

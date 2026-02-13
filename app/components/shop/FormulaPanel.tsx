@@ -26,9 +26,10 @@ export default function FormulaPanel({ formula }: FormulaPanelProps) {
 
   return (
     <div className="flex flex-col h-full border-2 border-black/10 rounded-[var(--premium-radius-base)] overflow-hidden">
-      {/* Image Container with Hover Overlay */}
-      <div
-        className="relative aspect-[5/5] overflow-hidden group"
+      {/* Image Container with Hover Overlay — clickable asset */}
+      <Link
+        href={formula.href}
+        className="relative aspect-[5/5] overflow-hidden group block cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -132,7 +133,7 @@ export default function FormulaPanel({ formula }: FormulaPanelProps) {
             ))}
           </ul>
         </div>
-      </div>
+      </Link>
 
       {/* Content Section (Always Visible) */}
       <div className="pt-6 px-6 flex-1 flex flex-col">
