@@ -60,10 +60,10 @@
   --space-text-gap: 1.5rem;
 
   /* ----- Soft-Tech Luxury: Colors (Ink, Bone, Surface, Mid) ----- */
-  --color-base-white: #F9F9F9; /* Bone */
+  --color-base-white: #f9f9f9; /* Bone */
   --color-base-black: #111111; /* Ink */
-  --color-base-surface: #F4F6F5; /* Structural grey for bento/cards */
-  --color-base-mid: #D1D5D2; /* Mid-Chrome: deeper grey so white cards pop; Soft-Tech / anodized feel */
+  --color-base-surface: #f4f6f5; /* Structural grey for bento/cards */
+  --color-base-mid: #d1d5d2; /* Mid-Chrome: deeper grey so white cards pop; Soft-Tech / anodized feel */
   --color-premium-bg-soft: var(--color-base-white);
   --color-premium-stroke: rgba(0, 0, 0, 0.06);
   /* Aliases for compatibility */
@@ -74,7 +74,7 @@
 
   /* ----- Text on background (ensure contrast) ----- */
   /* On black (Ink) bases: white or bone text */
-  --text-on-ink: #FFFFFF;
+  --text-on-ink: #ffffff;
   --text-on-ink-muted: var(--color-base-white);
   /* On Bone or Surface bases: black or bone text */
   --text-on-light: var(--color-base-black);
@@ -150,8 +150,12 @@
 .premium-bg-ink .premium-section-heading,
 .premium-bg-ink .premium-body,
 .premium-bg-ink .premium-data,
-.premium-bg-ink .premium-annotation { color: var(--text-on-ink); }
-.premium-bg-ink .premium-text-muted { color: var(--text-on-ink-muted); }
+.premium-bg-ink .premium-annotation {
+  color: var(--text-on-ink);
+}
+.premium-bg-ink .premium-text-muted {
+  color: var(--text-on-ink-muted);
+}
 
 /* Bone or Surface base: black or bone text only */
 .premium-bg-bone {
@@ -165,9 +169,13 @@
 .premium-bg-bone .premium-section-heading,
 .premium-bg-bone .premium-body,
 .premium-bg-surface .premium-section-heading,
-.premium-bg-surface .premium-body { color: inherit; }
+.premium-bg-surface .premium-body {
+  color: inherit;
+}
 .premium-bg-bone .premium-text-muted,
-.premium-bg-surface .premium-text-muted { color: var(--text-on-light-muted); }
+.premium-bg-surface .premium-text-muted {
+  color: var(--text-on-light-muted);
+}
 
 /* Mid-Chrome: deeper grey section; same text treatment as Bone/Surface (dark text) */
 .premium-bg-mid {
@@ -175,8 +183,12 @@
   color: var(--text-on-light);
 }
 .premium-bg-mid .premium-section-heading,
-.premium-bg-mid .premium-body { color: inherit; }
-.premium-bg-mid .premium-text-muted { color: var(--text-on-light-muted); }
+.premium-bg-mid .premium-body {
+  color: inherit;
+}
+.premium-bg-mid .premium-text-muted {
+  color: var(--text-on-light-muted);
+}
 
 /* ----- Soft-Tech Luxury: Header block utility ----- */
 .premium-header-group {
