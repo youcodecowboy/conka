@@ -387,7 +387,7 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen theme-conka-flow lg:pt-20"
+      className="min-h-screen theme-conka-flow"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* ===== SECTION 1: HERO ===== */}
