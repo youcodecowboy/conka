@@ -10,8 +10,7 @@ const FADE_DURATION_MS = 500;
 function HeroTrustBadges() {
   return (
     <div
-      className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-center md:justify-start"
-      style={{ fontSize: "var(--premium-font-data-size)" }}
+      className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-start text-[0.7rem] md:text-[var(--premium-font-data-size)]"
     >
       <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)]">
         <span className="inline-flex shrink-0" aria-hidden>
@@ -66,7 +65,7 @@ function HeroTrustBadges() {
             <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
           </svg>
         </span>
-        60-Day Guarantee
+        100-Day Guarantee
       </span>
     </div>
   );
@@ -103,28 +102,22 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="relative w-full min-h-[70vh] md:min-h-[85vh] flex flex-col md:grid md:grid-cols-[1fr_2fr] overflow-hidden bg-[var(--color-bone)]">
-      {/* Left: content column */}
+    <div className="relative w-full min-h-[70vh] md:min-h-[85vh] flex flex-col md:grid md:grid-cols-[1fr_2fr] overflow-hidden bg-[#f5f5f4] md:bg-[var(--color-bone)]">
+      {/* Left: content column - light white on mobile, bone on desktop */}
       <div
-        className="relative z-10 flex flex-col justify-center py-6 px-8 md:py-16 md:px-16 md:max-w-[500px] text-center md:text-left transition-opacity duration-500"
+        className="relative z-10 flex flex-col justify-center py-4 px-8 md:py-16 md:px-16 md:max-w-[500px] text-left transition-opacity duration-500 bg-[#f5f5f4] md:bg-[var(--color-bone)]"
         style={{ opacity: mounted ? 1 : 0 }}
       >
-        <div className="flex flex-col gap-4 md:gap-[var(--space-text-gap)]">
-          {/* Social proof - single line on desktop, no wrapping of segments */}
+        <div className="flex flex-col gap-2 md:gap-[var(--space-text-gap)]">
+          {/* Social proof: 5 stars + Over 100,000 bottles sold */}
           <div
-            className="flex flex-wrap md:flex-nowrap items-center justify-center md:justify-start gap-x-3 gap-y-1 text-[var(--text-on-light-muted)] shrink-0"
+            className="flex flex-wrap md:flex-nowrap items-center justify-start gap-x-2 text-[var(--text-on-light-muted)] shrink-0"
             style={{ fontSize: "var(--premium-font-data-size)" }}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
-              <span aria-hidden className="text-yellow-500">
-                ★★★★★
-              </span>{" "}
-              4.9/5
+              <span aria-hidden className="text-yellow-500">★★★★★</span>
             </span>
-            <span aria-hidden>|</span>
-            <span className="whitespace-nowrap">500+ reviews</span>
-            <span aria-hidden>|</span>
-            <span className="whitespace-nowrap">100,000 bottles sold</span>
+            <span className="whitespace-nowrap">Over 100,000 bottles sold</span>
           </div>
 
           <h1
@@ -152,7 +145,7 @@ export default function Hero() {
           </h1>
 
           <p
-            className="text-[var(--text-on-light-muted)]"
+            className="text-left text-[var(--text-on-light-muted)] mb-0"
             style={{
               fontSize: "var(--text-body-premium)",
               lineHeight: "var(--premium-font-body-leading)",
@@ -161,7 +154,7 @@ export default function Hero() {
             Science-backed nootropic shots trusted by professional athletes.
           </p>
 
-          <div style={{ marginTop: "var(--premium-space-xl)" }}>
+          <div className="mt-2 md:mt-[var(--premium-space-xl)]">
             <button
               type="button"
               onClick={scrollToProductGrid}
@@ -175,37 +168,37 @@ export default function Hero() {
             </button>
           </div>
 
-          <div style={{ marginTop: "var(--premium-space-l)" }}>
+          <div className="mt-2 md:mt-[var(--premium-space-l)]">
             <HeroTrustBadges />
           </div>
         </div>
       </div>
 
-      {/* Right: hero image (desktop: 2/3; mobile: full width on top) */}
-      <div className="relative order-first md:order-none w-full min-h-[40vh] md:min-h-0 md:h-full">
-        {/* Mobile: lighter overlay */}
-        <div
-          className="absolute inset-0 z-[1] pointer-events-none md:hidden"
-          style={{
-            background:
-              "linear-gradient(to bottom, var(--color-bone) 0%, rgba(249, 249, 249, 0.5) 30%, transparent 60%)",
-          }}
-        />
-        {/* Desktop: overlay stops earlier horizontally */}
+      {/* Right: hero image - desktop only: short bottom-up overlay; mobile: no overlay */}
+      <div className="relative order-first md:order-none w-full min-h-[35vh] md:min-h-0 md:h-full">
+        {/* Overlay only on desktop */}
         <div
           className="hidden md:block absolute inset-0 z-[1] pointer-events-none"
           style={{
             background:
-              "linear-gradient(to right, var(--color-bone) 0%, rgba(249, 249, 249, 0.6) 12%, rgba(249, 249, 249, 0.2) 22%, transparent 30%)",
+              "linear-gradient(to top, #cfd3cf 0%, rgba(207, 211, 207, 0.85) 12%, rgba(207, 211, 207, 0.4) 22%, transparent 35%)",
           }}
+        />
+        <Image
+          src="/hero/Hero.jpg"
+          alt="Athlete holding CONKA Flow and Clear bottles"
+          fill
+          priority
+          sizes="(max-width: 767px) 100vw, 66.67vw"
+          className="object-cover object-center md:hidden"
         />
         <Image
           src="/hero/HeroBanner.jpg"
           alt="Athlete holding CONKA Flow and Clear bottles"
           fill
           priority
-          sizes="(max-width: 767px) 100vw, 66.67vw"
-          className="object-cover object-center md:object-right"
+          sizes="66.67vw"
+          className="hidden md:block object-cover object-right"
         />
       </div>
     </div>
