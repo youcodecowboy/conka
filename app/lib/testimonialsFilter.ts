@@ -15,7 +15,43 @@ const PRODUCT_LABELS: Record<ProductType, string> = {
   flow: "CONKA Flow",
   clarity: "CONKA Clear",
   protocol: "Protocol",
+  "Resilience Protocol": "Resilience Protocol",
+  "Precision Protocol": "Precision Protocol",
+  "Balance Protocol": "Balance Protocol",
+  "Ultimate Protocol": "Ultimate Protocol",
 };
+
+/** Ordered ids for landing page: 10 hero reviews + 18 compelling from flow/clarity/protocol. */
+const GENERAL_TESTIMONIAL_IDS: string[] = [
+  "fhdUuRxSokK", // Tom B. (Flow)
+  "bg-OKcJO-H", // Issy G. (Protocol)
+  "'-LAf650-j8", // Dan N. (Flow)
+  "LL12b0zyZ1", // Will G. (Flow)
+  "eqdrKzH9g85", // Aditya P. (Protocol)
+  "aUOT0qfh818", // Giovanni (Protocol)
+  "IOKf6QzUWlo", // Ed C. (Flow)
+  "zyCZaQ_nkFE", // Sienna (Protocol)
+  "iJhveWz8Sqc", // Tanya (Protocol)
+  "DFO63f4Kzv", // Imran S. (Protocol)
+  "hJvXUSLEiC6", // Julian B. (Flow)
+  "HaCq_XaIE3q", // Sam W. (Flow)
+  "lCsXET1L5ar", // Matt D. (Flow)
+  "V-NdmPRvR0M", // Lucas W. (Flow)
+  "KvprgaS-ThY", // Ella C. (Flow)
+  "iUxTyg29hNm", // Luke M. (Flow)
+  "xezwVPMWfeQ", // Charlie C. (Clarity)
+  "n0W5tnrilfa", // Ethan A. (Clarity)
+  "VLPOcLV3YZ", // Clara G. (Clarity)
+  "a1EMOV2ONNp", // Tom W. (Clarity)
+  "jfPPdtxQOAU", // Theo W. (Clarity)
+  "5mPkbHnF8TL", // Hugo (Clarity)
+  "UtoF_SMA-Cb", // Harry W. (Protocol)
+  "_fGp5vfy2lq", // Tom W. (Protocol)
+  "T06OiUpBmUs", // Oscar W. (Protocol)
+  "d5MWXqzAir7", // Finn (Protocol)
+  "RoRl_w8Y_eg", // Max J. (Protocol)
+  "CXhkIm1RRIr", // Grace W. (Protocol)
+];
 
 function toTestimonial(row: LooxTestimonial): Testimonial {
   return {
@@ -41,6 +77,21 @@ export function getSiteTestimonialsClarity(): Testimonial[] {
 
 export function getSiteTestimonialsProtocol(): Testimonial[] {
   return siteTestimonialsProtocol.map(toTestimonial);
+}
+
+const ALL_TESTIMONIALS_BY_ID = new Map<string, LooxTestimonial>(
+  [
+    ...siteTestimonialsFlow,
+    ...siteTestimonialsClarity,
+    ...siteTestimonialsProtocol,
+  ].map((t) => [t.id, t])
+);
+
+/** Landing page reviews: 10 hero + 18 compelling, in fixed order. */
+export function getSiteTestimonialsGeneral(): Testimonial[] {
+  return GENERAL_TESTIMONIAL_IDS.map((id) => ALL_TESTIMONIALS_BY_ID.get(id))
+    .filter((t): t is LooxTestimonial => t != null)
+    .map(toTestimonial);
 }
 
 /** Shuffle array (Fisher–Yates). Use for client-side variety e.g. Home/Barry's. */
