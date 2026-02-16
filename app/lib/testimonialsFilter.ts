@@ -75,8 +75,40 @@ export function getSiteTestimonialsClarity(): Testimonial[] {
   return siteTestimonialsClarity.map(toTestimonial);
 }
 
+/** Protocol variant order for round-robin interleaving (avoids chunks of one type in the carousel). */
+const PROTOCOL_VARIANT_ORDER: (LooxTestimonial["productType"])[] = [
+  "Resilience Protocol",
+  "Precision Protocol",
+  "Balance Protocol",
+  "Ultimate Protocol",
+];
+
+/** Interleave protocol testimonials by product type so the carousel shows a mix, not chunks. */
+function interleaveProtocolTestimonials(rows: LooxTestimonial[]): LooxTestimonial[] {
+  const byType = new Map<LooxTestimonial["productType"], LooxTestimonial[]>();
+  for (const variant of PROTOCOL_VARIANT_ORDER) {
+    byType.set(variant, []);
+  }
+  for (const row of rows) {
+    const t = row.productType;
+    if (byType.has(t)) {
+      byType.get(t)!.push(row);
+    }
+  }
+  const queues = PROTOCOL_VARIANT_ORDER.map((v) => byType.get(v)!);
+  const out: LooxTestimonial[] = [];
+  let i = 0;
+  while (queues.some((q) => q.length > 0)) {
+    const q = queues[i % queues.length];
+    if (q.length > 0) out.push(q.shift()!);
+    i++;
+  }
+  return out;
+}
+
 export function getSiteTestimonialsProtocol(): Testimonial[] {
-  return siteTestimonialsProtocol.map(toTestimonial);
+  const interleaved = interleaveProtocolTestimonials(siteTestimonialsProtocol);
+  return interleaved.map(toTestimonial);
 }
 
 const ALL_TESTIMONIALS_BY_ID = new Map<string, LooxTestimonial>(
