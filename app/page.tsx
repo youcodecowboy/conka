@@ -392,7 +392,9 @@ export default function Home() {
     >
       {/* ===== SECTION 1: HERO ===== */}
       <Navigation />
-      <Hero />
+      <section aria-label="Homepage hero">
+        <Hero />
+      </section>
 
       {/* ===== SECTION 2: WHAT IS CONKA ===== */}
       <WhatIsConka />
@@ -423,10 +425,12 @@ export default function Home() {
         <ProtocolBuilder />
       </div> */}
 
-      {/* ===== SECTION 4: PROTOCOLS ===== */}
-      <section id="protocols" className="scroll-mt-20">
-        <ProtocolsGrid />
-      </section>
+      {/* ===== SECTION 4: PROTOCOLS (product grid scroll target for hero CTA) ===== */}
+      <div id="product-grid" className="scroll-mt-20">
+        <section id="protocols">
+          <ProtocolsGrid />
+        </section>
+      </div>
 
       {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
       <div id="trial-packs" className="scroll-mt-32 lg:scroll-mt-24">
