@@ -10,7 +10,7 @@ const FADE_DURATION_MS = 500;
 function HeroTrustBadges() {
   return (
     <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 gap-y-2 justify-start text-[0.7rem] md:text-[var(--premium-font-data-size)]">
-      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)]">
+      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)] md:whitespace-nowrap md:shrink-0">
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
             width="14"
@@ -27,7 +27,7 @@ function HeroTrustBadges() {
         </span>
         Informed Sport Certified
       </span>
-      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)]">
+      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)] md:whitespace-nowrap md:shrink-0">
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
             width="14"
@@ -47,7 +47,7 @@ function HeroTrustBadges() {
         </span>
         Made in UK
       </span>
-      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)]">
+      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)] md:whitespace-nowrap md:shrink-0">
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
             width="14"
