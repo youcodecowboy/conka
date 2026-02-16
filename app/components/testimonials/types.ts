@@ -2,7 +2,14 @@
  * TypeScript interfaces for Testimonials component
  */
 
-export type ProductType = "flow" | "clarity" | "protocol";
+export type ProductType =
+  | "flow"
+  | "clarity"
+  | "protocol"
+  | "Resilience Protocol"
+  | "Precision Protocol"
+  | "Balance Protocol"
+  | "Ultimate Protocol";
 
 export interface Testimonial {
   name: string;
