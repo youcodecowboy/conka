@@ -8,7 +8,7 @@ import Footer from "./components/footer";
 import Hero from "./components/Hero";
 import type { Benefit } from "./components/KeyBenefits";
 import {
-  getSiteTestimonialsProtocol,
+  getSiteTestimonialsGeneral,
   shuffleTestimonials,
 } from "./lib/testimonialsFilter";
 import type { Testimonial } from "./components/testimonials/types";
@@ -175,9 +175,9 @@ export default function Home() {
     Testimonial[]
   >([]);
 
-  // Shuffle protocol set on client to avoid hydration mismatch
+  // Shuffle landing page set (Flow + Clarity + Protocol mix) on client to avoid hydration mismatch
   useEffect(() => {
-    setShuffledTestimonials(shuffleTestimonials(getSiteTestimonialsProtocol()));
+    setShuffledTestimonials(shuffleTestimonials(getSiteTestimonialsGeneral()));
   }, []);
 
   // Key Benefits Data - All stats from verified PubMed studies
@@ -401,16 +401,23 @@ export default function Home() {
         <Hero variant="default" />
       </section>
 
+      {/* ===== SECTION 1.5: TESTIMONIALS (landing page mix: Flow, Clarity, Protocol) ===== */}
+      {shuffledTestimonials.length > 0 && (
+        <section
+          className="premium-section-luxury premium-bg-bone"
+          aria-label="Customer reviews"
+        >
+          <div className="premium-track">
+            <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
+          </div>
+        </section>
+      )}
+
       {/* ===== SECTION 2: WHAT IS CONKA ===== */}
       <WhatIsConka />
 
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
       <KeyBenefits benefits={keyBenefits} />
-
-      {/* ===== SECTION 2.75: TESTIMONIALS ===== */}
-      {shuffledTestimonials.length > 0 && (
-        <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
-      )}
 
       {/* ===== SECTION 3: INGREDIENTS ===== */}
       <section
