@@ -1,68 +1,213 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
-export default function Hero() {
+const ROTATING_WORDS = ["sharper", "longer", "deeper", "better"];
+const ROTATION_INTERVAL_MS = 3000;
+const FADE_DURATION_MS = 500;
+
+function HeroTrustBadges() {
   return (
-    <section className="min-h-0 md:min-h-0 px-4 sm:px-6 md:px-16 pt-2 sm:pt-5 md:pt-12 lg:pt-5 xl:pt-6 pb-2 mb-2 md:pb-12 md:mb-0 flex flex-col">
-      {/* Hero Content - Product Centered */}
-      <div className="flex flex-col items-center justify-start md:justify-start pt-2 sm:pt-2 md:pt-0 lg:pt-1">
-        {/* Top Section: Headlines */}
-        <div className="w-full mb-1 sm:mb-3 md:mb-2">
-          <h1 className="text-2xl sm:text-4xl md:text-4xl lg:text-5xl font-bold mb-1 sm:mb-3 md:mb-2 text-center">
-            Sustainable Energy. Unstoppable Clarity.
-          </h1>
-          <p className="font-clinical text-xs sm:text-base md:text-lg mb-0 sm:mb-2 md:mb-1 text-center">
-            Clinically designed to optimize your{" "}
-            <span className="underline decoration-amber-500">brain</span>.
-          </p>
-        </div>
+    <div
+      className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-center md:justify-start"
+      style={{ fontSize: "var(--premium-font-data-size)" }}
+    >
+      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)]">
+        <span className="inline-flex shrink-0" aria-hidden>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </span>
+        Informed Sport Certified
+      </span>
+      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)]">
+        <span className="inline-flex shrink-0" aria-hidden>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <rect x="2" y="4" width="20" height="14" rx="2" />
+            <path d="M2 10h20" />
+            <path d="M2 8v8" strokeWidth="0.5" />
+            <path d="M22 8v8" strokeWidth="0.5" />
+            <path d="M12 10v4" />
+            <path d="M9 12h6" />
+          </svg>
+        </span>
+        Made in UK
+      </span>
+      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)]">
+        <span className="inline-flex shrink-0" aria-hidden>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M9 11l3 3L22 4" />
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+          </svg>
+        </span>
+        60-Day Guarantee
+      </span>
+    </div>
+  );
+}
 
-        {/* Center: Product Image - Scales proportionally across viewports */}
-        <div className="relative flex items-center justify-center w-full my-0.5 sm:my-2 md:my-1">
-          <Image
-            src="/HeroImage.jpg"
-            alt="CONKA nootropic shot"
-            width={500}
-            height={625}
-            className="w-[300px] sm:w-[396px] md:w-[380px] lg:w-[400px] xl:w-[450px] h-auto md:h-auto max-h-[260px] md:max-h-none object-cover object-center max-w-[85vw] sm:max-w-[80vw] md:max-w-none"
-            priority
-            sizes="(max-width: 640px) 300px, (max-width: 768px) 396px, (max-width: 1024px) 380px, (max-width: 1280px) 400px, 450px"
-          />
-        </div>
+export default function Hero() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [wordFading, setWordFading] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-        {/* Benefits Section - Tighter spacing */}
-        <div className="flex flex-col items-center w-full max-w-2xl px-4 mb-1 sm:mb-4 md:mb-4 text-center">
-          {/* <p className="font-clinical text-sm md:text-base mb-1 sm:mb-2 md:mb-1">
-            backed by 250+ clinical studies
-          </p> */}
-          <p className="font-clinical text-sm sm:text-lg md:text-xl lg:text-2xl leading-tight">
-            Upgrade Focus + Reduce Stress + Eliminate Brain Fog + Boost Mental
-            Clarity
-          </p>
-        </div>
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-        {/* CTA Button - Single decision - Reduced top margin */}
-        <div className="flex flex-col items-center w-full max-w-md sm:max-w-lg md:max-w-md px-4 mt-2 sm:mt-6 md:mt-4 mb-0 sm:mb-6 md:mb-6">
-          <div className="w-full max-w-[280px] sm:max-w-none mb-2 sm:mb-5 md:mb-3">
-            <a
-              href="#trial-packs"
-              className="block w-full px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-2.5 rounded-full bg-amber-500 text-black font-semibold text-base md:text-lg border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all text-center"
-            >
-              Buy CONKA
-            </a>
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    const id = setInterval(() => {
+      setWordFading(true);
+      timeoutId = setTimeout(() => {
+        setWordIndex((i) => (i + 1) % ROTATING_WORDS.length);
+        setWordFading(false);
+      }, FADE_DURATION_MS);
+    }, ROTATION_INTERVAL_MS);
+    return () => {
+      clearInterval(id);
+      clearTimeout(timeoutId!);
+    };
+  }, []);
+
+  const scrollToProductGrid = useCallback(() => {
+    document
+      .getElementById("product-grid")
+      ?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  return (
+    <div className="relative w-full min-h-[70vh] md:min-h-[85vh] flex flex-col md:grid md:grid-cols-[1fr_2fr] overflow-hidden bg-[var(--color-bone)]">
+      {/* Left: content column */}
+      <div
+        className="relative z-10 flex flex-col justify-center py-6 px-8 md:py-16 md:px-16 md:max-w-[500px] text-center md:text-left transition-opacity duration-500"
+        style={{ opacity: mounted ? 1 : 0 }}
+      >
+        <div className="flex flex-col gap-4 md:gap-[var(--space-text-gap)]">
+          {/* Social proof - single line on desktop, no wrapping of segments */}
+          <div
+            className="flex flex-wrap md:flex-nowrap items-center justify-center md:justify-start gap-x-3 gap-y-1 text-[var(--text-on-light-muted)] shrink-0"
+            style={{ fontSize: "var(--premium-font-data-size)" }}
+          >
+            <span className="flex items-center gap-1 whitespace-nowrap">
+              <span aria-hidden className="text-yellow-500">
+                ★★★★★
+              </span>{" "}
+              4.9/5
+            </span>
+            <span aria-hidden>|</span>
+            <span className="whitespace-nowrap">500+ reviews</span>
+            <span aria-hidden>|</span>
+            <span className="whitespace-nowrap">100,000 bottles sold</span>
           </div>
-          {/* Scroll indicator - smaller on mobile */}
-          <div className="text-center">
-            <p className="font-commentary text-sm md:text-lg">
-              scroll to explore
-            </p>
-            <div className="mt-0.5 sm:mt-2 md:mt-2 animate-bounce text-lg md:text-xl">
-              ↓
-            </div>
+
+          <h1
+            className="font-bold text-[var(--text-on-light)] leading-tight md:whitespace-nowrap"
+            style={{
+              letterSpacing: "var(--letter-spacing-premium-title)",
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
+              lineHeight: "var(--leading-tight)",
+            }}
+          >
+            Choose to perform{" "}
+            <span
+              className="inline-block min-w-[4ch] transition-opacity duration-500"
+              style={{
+                opacity: wordFading ? 0 : 1,
+                background: "linear-gradient(to right, #4BA5FA, #0556A3)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+              }}
+              aria-live="polite"
+            >
+              {ROTATING_WORDS[wordIndex]}
+            </span>
+          </h1>
+
+          <p
+            className="text-[var(--text-on-light-muted)]"
+            style={{
+              fontSize: "var(--text-body-premium)",
+              lineHeight: "var(--premium-font-body-leading)",
+            }}
+          >
+            Science-backed nootropic shots trusted by professional athletes.
+          </p>
+
+          <div style={{ marginTop: "var(--premium-space-xl)" }}>
+            <button
+              type="button"
+              onClick={scrollToProductGrid}
+              className="w-full md:w-[200px] min-h-[48px] md:min-h-[56px] rounded-[var(--premium-radius-interactive)] font-semibold text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4BA5FA] focus:ring-offset-[var(--color-bone)]"
+              style={{
+                background: "linear-gradient(to right, #4BA5FA, #0556A3)",
+                fontSize: "var(--premium-font-body-size)",
+              }}
+            >
+              Find Your Formula
+            </button>
+          </div>
+
+          <div style={{ marginTop: "var(--premium-space-l)" }}>
+            <HeroTrustBadges />
           </div>
         </div>
       </div>
-    </section>
+
+      {/* Right: hero image (desktop: 2/3; mobile: full width on top) */}
+      <div className="relative order-first md:order-none w-full min-h-[40vh] md:min-h-0 md:h-full">
+        {/* Mobile: lighter overlay */}
+        <div
+          className="absolute inset-0 z-[1] pointer-events-none md:hidden"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--color-bone) 0%, rgba(249, 249, 249, 0.5) 30%, transparent 60%)",
+          }}
+        />
+        {/* Desktop: overlay stops earlier horizontally */}
+        <div
+          className="hidden md:block absolute inset-0 z-[1] pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to right, var(--color-bone) 0%, rgba(249, 249, 249, 0.6) 12%, rgba(249, 249, 249, 0.2) 22%, transparent 30%)",
+          }}
+        />
+        <Image
+          src="/hero/HeroBanner.jpg"
+          alt="Athlete holding CONKA Flow and Clear bottles"
+          fill
+          priority
+          sizes="(max-width: 767px) 100vw, 66.67vw"
+          className="object-cover object-center md:object-right"
+        />
+      </div>
+    </div>
   );
 }
