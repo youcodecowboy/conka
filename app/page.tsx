@@ -420,12 +420,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* ===== SECTION 2: WHAT IS CONKA ===== */}
-      <WhatIsConka />
-
-      {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
-      <KeyBenefits benefits={keyBenefits} />
-
       {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
       <section
         className="premium-section-luxury premium-bg-surface"
@@ -435,6 +429,12 @@ export default function Home() {
           <AthleteCredibilityCarousel />
         </div>
       </section>
+
+      {/* ===== SECTION 2: WHAT IS CONKA ===== */}
+      <WhatIsConka />
+
+      {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
+      <KeyBenefits benefits={keyBenefits} />
 
       {/* ===== SECTION 3: INGREDIENTS ===== */}
       <section
