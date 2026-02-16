@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FORMULA_COLORS } from "@/app/lib/productData";
+import { getProductAccent } from "@/app/lib/productColors";
 import { TestimonialCardProps } from "./types";
 
 /**
@@ -9,7 +9,13 @@ import { TestimonialCardProps } from "./types";
  * Displays 5 stars, filled based on rating value (1-5)
  * Uses amber accent color for filled stars
  */
-function StarRating({ rating, isMobile = false }: { rating: number; isMobile?: boolean }) {
+function StarRating({
+  rating,
+  isMobile = false,
+}: {
+  rating: number;
+  isMobile?: boolean;
+}) {
   const starSize = isMobile ? 12 : 16;
   return (
     <div className="flex items-center gap-0.5">
@@ -83,22 +89,26 @@ function formatDate(dateString: string): string {
   });
 }
 
-/** Small product badge; Flow and Clarity use FORMULA_COLORS from productData */
-function ProductBadge({ productLabel, productType }: { productLabel: string; productType?: "flow" | "clarity" | "protocol" }) {
-  const flowHex = FORMULA_COLORS["01"].hex;
-  const clarityHex = FORMULA_COLORS["02"].hex;
-  const style =
-    productType === "flow"
-      ? { backgroundColor: `${flowHex}26`, color: "#b45309", borderColor: `${flowHex}4d` }
-      : productType === "clarity"
-        ? { backgroundColor: `${clarityHex}33`, color: "#4a6fb8", borderColor: `${clarityHex}66` }
-        : undefined;
-  const className =
-    !style ? "bg-black/5 text-black/70 border-black/10" : "border";
+/** Small product badge; uses product accent from productColors (Flow, Clarity, or protocol). */
+function ProductBadge({
+  productLabel,
+  accentHex,
+}: {
+  productLabel: string;
+  accentHex: string;
+}) {
+  const bgAlpha = "20";
+  const borderAlpha = "4d";
+  const bg = `${accentHex}${bgAlpha}`;
+  const border = `${accentHex}${borderAlpha}`;
   return (
     <span
-      className={`inline-flex items-center font-clinical text-[10px] font-medium px-1.5 py-0.5 rounded ${className}`}
-      style={style}
+      className="inline-flex items-center font-clinical text-[10px] font-medium px-1.5 py-0.5 rounded border"
+      style={{
+        backgroundColor: bg,
+        color: accentHex,
+        borderColor: border,
+      }}
     >
       {productLabel}
     </span>
@@ -119,36 +129,61 @@ export default function TestimonialCard({
   isExpanded: controlledExpanded,
   onToggleExpand,
 }: TestimonialCardProps) {
-  const { name, country, rating, headline, body, date, productLabel, productType } = testimonial;
+  const {
+    name,
+    country,
+    rating,
+    headline,
+    body,
+    date,
+    productLabel,
+    productType,
+  } = testimonial;
   const [internalExpanded, setInternalExpanded] = useState(false);
   const isProductHero = variant === "productHero";
 
   // Controlled expand (strip) vs internal (default variant)
   const isControlled = isProductHero && onToggleExpand != null;
-  const isExpanded = isControlled ? (controlledExpanded ?? false) : internalExpanded;
-  const setExpanded = isControlled ? (onToggleExpand as () => void) : () => setInternalExpanded((p) => !p);
+  const isExpanded = isControlled
+    ? (controlledExpanded ?? false)
+    : internalExpanded;
+  const setExpanded = isControlled
+    ? (onToggleExpand as () => void)
+    : () => setInternalExpanded((p) => !p);
 
   const isLongText = body.length > CHAR_LIMIT;
-  const displayText = isExpanded ? body : isLongText ? `${body.slice(0, CHAR_LIMIT)}...` : body;
+  const displayText = isExpanded
+    ? body
+    : isLongText
+      ? `${body.slice(0, CHAR_LIMIT)}...`
+      : body;
 
   const cardClassName = isProductHero
     ? "bg-white rounded-xl border border-black/[0.06] shadow-[0_1px_4px_rgba(0,0,0,0.06)] min-h-[300px] flex flex-col p-4 md:p-5"
     : `border-2 ${isMobile ? "p-3" : "p-6"} flex flex-col bg-[var(--background)]`;
 
-  const cardStyle = isProductHero ? undefined : { borderColor: "rgba(0, 0, 0, 0.7)" };
+  const cardStyle = isProductHero
+    ? undefined
+    : { borderColor: "rgba(0, 0, 0, 0.7)" };
+
+  const flowAccent = getProductAccent("01")!;
+  const clarityAccent = getProductAccent("02")!;
+  const singleAccent = productType ? getProductAccent(productType) : undefined;
 
   const badgeContent =
-    productType === "protocol" ? (
+    singleAccent && productLabel ? (
+      <ProductBadge productLabel={productLabel} accentHex={singleAccent} />
+    ) : productType === "protocol" ? (
       <>
-        <ProductBadge productLabel="CONKA Flow" productType="flow" />
-        <ProductBadge productLabel="CONKA Clear" productType="clarity" />
+        <ProductBadge productLabel="CONKA Flow" accentHex={flowAccent} />
+        <ProductBadge productLabel="CONKA Clear" accentHex={clarityAccent} />
       </>
-    ) : productLabel ? (
-      <ProductBadge productLabel={productLabel} productType={productType} />
     ) : null;
 
   const badgeBlock = badgeContent && (
-    <div className={`flex flex-wrap gap-1.5 ${isProductHero ? "mb-2" : isMobile ? "mb-1.5" : "mb-2"}`}>
+    <div
+      className={`flex flex-wrap gap-1.5 ${isProductHero ? "mb-2" : isMobile ? "mb-1.5" : "mb-2"}`}
+    >
       {badgeContent}
     </div>
   );
@@ -158,11 +193,15 @@ export default function TestimonialCard({
       <div className={cardClassName} style={cardStyle}>
         {badgeBlock}
         {/* Review title – large */}
-        <h4 className="text-lg md:text-xl font-bold mb-3 leading-snug">{headline}</h4>
+        <h4 className="text-lg md:text-xl font-bold mb-3 leading-snug">
+          {headline}
+        </h4>
 
         {/* Body – expandable when long */}
         <div className="flex-grow min-h-0 mb-4">
-          <p className="text-sm opacity-80 leading-relaxed whitespace-pre-line">{displayText}</p>
+          <p className="text-sm opacity-80 leading-relaxed whitespace-pre-line">
+            {displayText}
+          </p>
           {isLongText && (
             <button
               type="button"
@@ -183,10 +222,16 @@ export default function TestimonialCard({
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="font-bold text-sm">{name}</span>
-              {country ? <span className="font-clinical text-xs opacity-70">{country}</span> : null}
+              {country ? (
+                <span className="font-clinical text-xs opacity-70">
+                  {country}
+                </span>
+              ) : null}
               <VerifiedBadge compact />
             </div>
-            <p className="font-clinical text-[10px] opacity-60 mt-0.5">{formatDate(date)}</p>
+            <p className="font-clinical text-[10px] opacity-60 mt-0.5">
+              {formatDate(date)}
+            </p>
           </div>
           {showRating && rating && (
             <div className="flex-shrink-0">
@@ -203,14 +248,24 @@ export default function TestimonialCard({
       {badgeBlock}
       {/* Header: Name, Verified Badge, and Country */}
       <div className={isMobile ? "mb-2" : "mb-3"}>
-        <div className={`flex items-start justify-between ${isMobile ? "mb-1" : "mb-2"} gap-2`}>
+        <div
+          className={`flex items-start justify-between ${isMobile ? "mb-1" : "mb-2"} gap-2`}
+        >
           <div className="flex-1 min-w-0">
-            <div className={`flex items-center gap-1.5 ${isMobile ? "mb-1" : "mb-1.5"}`}>
-              <h3 className={`font-bold ${isMobile ? "text-sm" : "text-lg"}`}>{name}</h3>
+            <div
+              className={`flex items-center gap-1.5 ${isMobile ? "mb-1" : "mb-1.5"}`}
+            >
+              <h3 className={`font-bold ${isMobile ? "text-sm" : "text-lg"}`}>
+                {name}
+              </h3>
               {!isMobile && <VerifiedBadge />}
             </div>
             {country ? (
-              <span className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-70`}>{country}</span>
+              <span
+                className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-70`}
+              >
+                {country}
+              </span>
             ) : null}
           </div>
         </div>
@@ -224,11 +279,15 @@ export default function TestimonialCard({
       </div>
 
       {/* Headline */}
-      <h4 className={`font-bold ${isMobile ? "text-sm mb-2" : "text-xl mb-3"}`}>{headline}</h4>
+      <h4 className={`font-bold ${isMobile ? "text-sm mb-2" : "text-xl mb-3"}`}>
+        {headline}
+      </h4>
 
       {/* Body Text - With Read More */}
       <div className={`flex-grow min-h-0 ${isMobile ? "mb-2" : "mb-4"}`}>
-        <p className={`${isMobile ? "text-xs" : "text-sm"} opacity-80 ${isMobile ? "leading-snug" : "leading-relaxed"} ${isMobile ? "mb-1" : "mb-2"} whitespace-pre-line`}>
+        <p
+          className={`${isMobile ? "text-xs" : "text-sm"} opacity-80 ${isMobile ? "leading-snug" : "leading-relaxed"} ${isMobile ? "mb-1" : "mb-2"} whitespace-pre-line`}
+        >
           {displayText}
         </p>
         {isLongText && (
@@ -244,7 +303,11 @@ export default function TestimonialCard({
 
       {/* Date */}
       <div className="mt-auto">
-        <p className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-60`}>{formatDate(date)}</p>
+        <p
+          className={`font-clinical ${isMobile ? "text-[10px]" : "text-xs"} opacity-60`}
+        >
+          {formatDate(date)}
+        </p>
       </div>
     </div>
   );

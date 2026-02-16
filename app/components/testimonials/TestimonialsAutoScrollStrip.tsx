@@ -9,7 +9,10 @@ import type { TestimonialsProps } from "./types";
 const CARD_WIDTH = 312;
 const GAP = 24;
 
-function cardKey(testimonial: { name: string; date: string; headline: string }, idx: number) {
+function cardKey(
+  testimonial: { name: string; date: string; headline: string },
+  idx: number,
+) {
   return `${testimonial.name}-${testimonial.date}-${testimonial.headline}-${idx}`;
 }
 
@@ -40,7 +43,7 @@ export default function TestimonialsAutoScrollStrip({
           className="premium-section-heading mb-2"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          Don&apos;t just take our word for it...
+          Real People. Real Results
         </h2>
         <div className="flex justify-center">
           <TestimonialsSubtitle />
