@@ -28,6 +28,33 @@ This document captures the lessons learned and preferences established during th
 
 ---
 
+## Homepage Hero (Mobile vs Desktop)
+
+The hero has **different behavior and content** on mobile and desktop. Do not apply mobile-only changes to desktop or vice versa.
+
+### Hero — Mobile
+
+- **Asset:** `Hero.jpg` (zoomed-in crop). Crop ~10% from bottom (`object-position: center 45%`).
+- **Overlay:** None on the image.
+- **Background:** Content area `#f5f5f4` (light white).
+- **Alignment:** All text and social proof left-aligned.
+- **Social proof:** Simplified — **★★★★★** and **Over 100,000 bottles sold** only (no 4.9/5, no 500+ reviews).
+- **Trust badges:** Informed Sport Certified, Made in UK, 100-Day Guarantee — **smaller size** (`text-[0.7rem]`), may wrap; placed below CTA.
+- **Layout:** Image on top, content below. Tight spacing so CTA stays above the fold.
+- **CTA:** Full-width, above trust badges.
+
+### Hero — Desktop
+
+- **Asset:** `HeroBanner.jpg`. Content column left 1/3, image right 2/3.
+- **Overlay:** **Left-to-right gradient** on the image (bone/white from left fading to transparent) so content area reads clearly; overlay only on the image, not on the content column.
+- **Background:** Content column and section use `var(--color-bone)`.
+- **Alignment:** Content column left-aligned.
+- **Social proof:** Full line — **★★★★★ 4.9/5 | 500+ reviews | 100,000 bottles sold** (single line, no wrapping).
+- **Trust badges:** Informed Sport Certified, Made in UK, 100-Day Guarantee — **full size**, **all on one line** (`flex-nowrap`), no wrapping.
+- **CTA:** Fixed width (~200px), above trust badges.
+
+---
+
 ## Component Patterns
 
 ### Sticky Purchase Footers
@@ -157,8 +184,7 @@ className = "bg-black text-white border-current";
 
 ### Headers
 
-- Left-aligned on mobile (not centered) for most sections
-- Exception: Hero section can remain centered
+- Left-aligned on mobile (not centered) for most sections, including the Hero
 - Use `text-2xl font-bold` for section headings on mobile
 
 ### Subtext
