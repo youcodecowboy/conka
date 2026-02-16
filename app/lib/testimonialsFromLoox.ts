@@ -394,7 +394,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "I feel a real change in my brain feels more alert and responsive which makes a huge difference.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -406,7 +406,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Since taking CONKA, I've noticed my memory recall has become sharper.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -418,7 +418,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Since taking CONKA, I've noticed my productivity has increased and it's amazing.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -430,7 +430,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Since taking CONKA, I've noticed my productivity has increased making my routine smoother.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -442,7 +442,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Since taking CONKA, I've noticed my reaction time feels faster without any crashes. I’ll certainly be purchasing again in the future!",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -454,7 +454,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Using CONKA has made my productivity has increased which is noticeable daily.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -466,7 +466,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Since taking CONKA, I've noticed my productivity has increased which is noticeable daily.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -478,7 +478,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "CONKA has helped me achieve my productivity has increased which makes a huge difference.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -490,7 +490,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Every day with CONKA, I experience my cognitive performance is at its best which makes a huge difference.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -502,7 +502,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "After starting CONKA, I feel my cognitive performance is at its best which is noticeable daily.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -514,7 +514,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "The effects of CONKA are my focus and clarity improve significantly giving me a clear advantage.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -526,7 +526,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "I feel a real change in my brain feels more alert and responsive, I can really tell the difference.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -538,7 +538,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Using CONKA has made my energy levels stay high throughout the day giving me a clear advantage.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -550,7 +550,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "The effects of CONKA are my brain feels more alert and responsive which makes a huge difference.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -562,7 +562,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "CONKA has helped me achieve my mental fatigue is reduced and it's amazing.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -574,7 +574,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Using CONKA has made my focus and clarity improve significantly, I can really tell the difference.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -586,7 +586,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "I truly appreciate how my cognitive performance is at its best without any crashes.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -598,7 +598,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "The effects of CONKA are my mental fatigue is reduced and I feel more in control.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -610,7 +610,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "After starting CONKA, I feel my productivity has increased which is noticeable daily.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -622,7 +622,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Using CONKA has made my energy levels stay high throughout the day and it's amazing.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -634,7 +634,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "My energy levels have been so much higher since taking CONKA",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
@@ -646,7 +646,7 @@ export const siteTestimonialsClarity: LooxTestimonial[] = [
     "body": "Since taking CONKA, I've noticed my memory recall has become sharper and it's amazing.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "clarity",
     "hasAssets": false
   },
   {
