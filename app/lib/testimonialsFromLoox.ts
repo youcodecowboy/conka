@@ -4,7 +4,14 @@
  * Do not edit by hand; re-run the script after CSV updates.
  */
 
-export type ProductType = "flow" | "clarity" | "protocol";
+export type ProductType =
+  | "flow"
+  | "clarity"
+  | "protocol"
+  | "Resilience Protocol"
+  | "Precision Protocol"
+  | "Balance Protocol"
+  | "Ultimate Protocol";
 
 export interface LooxTestimonial {
   id: string;
@@ -757,7 +764,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "Mine and my kids ADHD symptoms have dramitcally reduced",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Resilience Protocol",
     "hasAssets": false
   },
   {
@@ -769,7 +776,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "Since I started, my focus and clarity have improved a lot. It's made a real difference to how I work.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Resilience Protocol",
     "hasAssets": false
   },
   {
@@ -781,7 +788,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My productivity has gone up. I notice it week to week.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Resilience Protocol",
     "hasAssets": false
   },
   {
@@ -793,7 +800,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My energy levels stay high from morning to evening. No crash, just steady.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Resilience Protocol",
     "hasAssets": false
   },
   {
@@ -805,7 +812,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "I've noticed my memory recall is sharper. Names and details stick better. Really helpful.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Resilience Protocol",
     "hasAssets": false
   },
   {
@@ -817,7 +824,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "CONKA has genuinely improved my day-to-day performance. The morning shot gives me sharper focus, clearer thinking, and sustained energy without the crash I’d usually get from coffee. I’m able to concentrate for longer, get through work faster, and stay mentally switched on throughout the day.\n\nIn the evenings, the recovery shot helps me wind down and recharge properly so I wake up feeling fresh and ready to go again. I love that it’s all backed by science, and I can really feel the difference in my memory, focus, and energy levels. It’s been a total game-changer for my productivity and wellbeing.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Resilience Protocol",
     "hasAssets": false
   },
   {
@@ -829,7 +836,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My energy levels stay high throughout the day. I feel the difference.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -841,7 +848,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My reaction time feels faster. I highly recommend it to anyone who needs that edge.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -853,7 +860,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "I feel a real difference when taking CONKA",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -865,7 +872,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "I didn't think I would feel the effects when I bought CONKA, but even after the first shot I felt more focussed",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -877,7 +884,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My energy stays high through the day. I notice it every day. Does what it says.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -889,7 +896,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My reaction time feels faster and I feel more in control. Clean and consistent.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -901,7 +908,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My memory recall has become sharper since I started. It's made a huge difference to my day.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -913,7 +920,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "A great supplement, improved my energy levels, focus & memory after I started taking it. Very easy to take/fit into daily life. Highly recommend!",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -925,7 +932,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My mental fatigue is reduced and I can really tell the difference. Worth it.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -937,7 +944,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "I've noticed my cognitive performance is at its best. I highly recommend it. Really impressed by the quality and attention to detail. Feels premium and delivers consistent results.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -949,7 +956,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "I feel a real change. My focus and clarity have improved and it's noticeable every day.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -961,7 +968,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My reaction time feels faster. I highly recommend it. Does the job.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -973,7 +980,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My focus and clarity have improved a lot. It gives me a clear advantage when I need to perform.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Precision Protocol",
     "hasAssets": false
   },
   {
@@ -985,7 +992,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My focus and clarity have improved and there's no crash. Clean and effective.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Balance Protocol",
     "hasAssets": false
   },
   {
@@ -997,7 +1004,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "I've noticed my energy stays high throughout the day. I notice it every day. Really helps.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Balance Protocol",
     "hasAssets": false
   },
   {
@@ -1009,7 +1016,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My reaction time feels faster and I'm really impressed. Genuinely happy with it. Feels premium and delivers consistent results. Think others will be too.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Balance Protocol",
     "hasAssets": false
   },
   {
@@ -1021,7 +1028,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My productivity has increased since I started. It gives me a clear advantage at work.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Balance Protocol",
     "hasAssets": false
   },
   {
@@ -1033,7 +1040,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "\"I've noticed a huge improvement in my focus and concentration.\"",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Balance Protocol",
     "hasAssets": false
   },
   {
@@ -1045,7 +1052,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My reaction time feels faster. Gives me a clear advantage when I need it.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Balance Protocol",
     "hasAssets": false
   },
   {
@@ -1057,7 +1064,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "Playing rugby, this has given me an extra edge. I feel like I am also looking after my brain for years down the line",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Balance Protocol",
     "hasAssets": false
   },
   {
@@ -1069,7 +1076,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "I feel a real change. My reaction time feels faster. Notice it in training and day to day.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Balance Protocol",
     "hasAssets": false
   },
   {
@@ -1081,7 +1088,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My cognitive performance is at its best. I notice it every day. Really pleased.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Ultimate Protocol",
     "hasAssets": false
   },
   {
@@ -1093,7 +1100,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "My focus and clarity have improved a lot. My routine runs smoother. Really helps.",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Ultimate Protocol",
     "hasAssets": false
   },
   {
@@ -1105,7 +1112,7 @@ export const siteTestimonialsProtocol: LooxTestimonial[] = [
     "body": "Great customer service, sweet packaging, tasty, helps minimise distractions, fast delivery, a company worth looking out for!",
     "productId": "15406133936502",
     "handle": "conka-shots",
-    "productType": "flow",
+    "productType": "Ultimate Protocol",
     "hasAssets": false
   }
 ];
