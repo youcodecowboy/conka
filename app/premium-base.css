@@ -82,6 +82,11 @@
   --text-on-light: var(--color-base-black);
   --text-on-light-muted: #444444;
 
+  /* ----- Neuro Blue (v1 accent gradient) ----- */
+  --color-neuro-blue-start: #c8d0ea;
+  --color-neuro-blue-end: #4058bb;
+  --gradient-neuro-blue-accent: linear-gradient(to right, var(--color-neuro-blue-start), var(--color-neuro-blue-end));
+
   /* ----- Soft-Tech Luxury: Typography scale ----- */
   --letter-spacing-premium-title: -0.03em;
   --premium-body-max-width: 65ch;
