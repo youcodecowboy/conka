@@ -75,9 +75,14 @@ export default function AthleteCredibilityCarousel() {
     };
   }, [isPaused]);
 
+  const goPrev = () =>
+    setCurrentIndex((i) => (i - 1 + ATHLETE_SLIDES.length) % ATHLETE_SLIDES.length);
+  const goNext = () =>
+    setCurrentIndex((i) => (i + 1) % ATHLETE_SLIDES.length);
+
   return (
     <div
-      className="grid grid-cols-1 md:grid-cols-[0.6fr_0.4fr] gap-8 md:gap-12 items-center"
+      className="grid grid-cols-1 md:grid-cols-[0.55fr_0.45fr] gap-8 md:gap-12 items-center"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -90,7 +95,7 @@ export default function AthleteCredibilityCarousel() {
           <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1 opacity-80">
             {slide.sport}
           </p>
-          <blockquote className="premium-body mt-4 text-[var(--text-on-light)] leading-relaxed max-w-xl">
+          <blockquote className="premium-body mt-4 text-[var(--text-on-light)] text-lg md:text-xl font-semibold leading-relaxed max-w-xl">
             &ldquo;{slide.quote}&rdquo;
           </blockquote>
         </div>
@@ -104,26 +109,48 @@ export default function AthleteCredibilityCarousel() {
         </div>
       </div>
 
-      {/* Right column: image + dots */}
+      {/* Right column: image + controls + dots */}
       <div className="flex flex-col gap-4 order-first md:order-none">
-        <div className="relative w-full aspect-[4/3] rounded-[var(--premium-radius-card)] overflow-hidden bg-black/5">
-          {ATHLETE_SLIDES.map((s, i) => (
-            <div
-              key={s.image}
-              className={`absolute inset-0 transition-opacity duration-300 ${
-                i === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
-              }`}
-            >
-              <Image
-                src={s.image}
-                alt={`${s.name} in action`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 40vw"
-                priority={i === 0}
-              />
-            </div>
-          ))}
+        <div className="relative flex items-center gap-2 md:gap-4">
+          <button
+            type="button"
+            onClick={goPrev}
+            aria-label="Previous athlete"
+            className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[var(--color-ink)] bg-white text-[var(--color-ink)] flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)] focus:ring-offset-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <div className="relative w-full aspect-square max-w-lg md:max-w-xl mx-auto rounded-[var(--premium-radius-card)] overflow-hidden bg-black/5 flex items-center justify-center">
+            {ATHLETE_SLIDES.map((s, i) => (
+              <div
+                key={s.image}
+                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+                  i === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+                }`}
+              >
+                <Image
+                  src={s.image}
+                  alt={`${s.name} in action`}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw, 45vw"
+                  priority={i === 0}
+                />
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={goNext}
+            aria-label="Next athlete"
+            className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[var(--color-ink)] bg-white text-[var(--color-ink)] flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)] focus:ring-offset-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
         </div>
         <div
           className="flex justify-center gap-2"
