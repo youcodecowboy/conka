@@ -3,15 +3,13 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
-const ROTATING_WORDS = ["sharper", "longer", "deeper", "better"];
+const ROTATING_WORDS = ["sharper", "longer", "deeper", "better", "smarter"];
 const ROTATION_INTERVAL_MS = 3000;
 const FADE_DURATION_MS = 500;
 
 function HeroTrustBadges() {
   return (
-    <div
-      className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-start text-[0.7rem] md:text-[var(--premium-font-data-size)]"
-    >
+    <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 gap-y-2 justify-start text-[0.7rem] md:text-[var(--premium-font-data-size)]">
       <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)]">
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
@@ -109,15 +107,27 @@ export default function Hero() {
         style={{ opacity: mounted ? 1 : 0 }}
       >
         <div className="flex flex-col gap-2 md:gap-[var(--space-text-gap)]">
-          {/* Social proof: 5 stars + Over 100,000 bottles sold */}
+          {/* Social proof — mobile: simplified; desktop: full line */}
           <div
-            className="flex flex-wrap md:flex-nowrap items-center justify-start gap-x-2 text-[var(--text-on-light-muted)] shrink-0"
+            className="flex flex-wrap items-center justify-start gap-x-2 text-[var(--text-on-light-muted)] shrink-0 md:hidden"
             style={{ fontSize: "var(--premium-font-data-size)" }}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
               <span aria-hidden className="text-yellow-500">★★★★★</span>
             </span>
             <span className="whitespace-nowrap">Over 100,000 bottles sold</span>
+          </div>
+          <div
+            className="hidden md:flex flex-nowrap items-center justify-start gap-x-3 text-[var(--text-on-light-muted)] shrink-0"
+            style={{ fontSize: "var(--premium-font-data-size)" }}
+          >
+            <span className="flex items-center gap-1 whitespace-nowrap">
+              <span aria-hidden className="text-yellow-500">★★★★★</span> 4.9/5
+            </span>
+            <span aria-hidden>|</span>
+            <span className="whitespace-nowrap">500+ reviews</span>
+            <span aria-hidden>|</span>
+            <span className="whitespace-nowrap">100,000 bottles sold</span>
           </div>
 
           <h1
@@ -133,7 +143,8 @@ export default function Hero() {
               className="inline-block min-w-[4ch] transition-opacity duration-500"
               style={{
                 opacity: wordFading ? 0 : 1,
-                background: "linear-gradient(to right, #4BA5FA, #0556A3)",
+                backgroundImage: "var(--gradient-neuro-blue-accent)",
+                backgroundSize: "100% 100%",
                 WebkitBackgroundClip: "text",
                 backgroundClip: "text",
                 color: "transparent",
@@ -158,9 +169,9 @@ export default function Hero() {
             <button
               type="button"
               onClick={scrollToProductGrid}
-              className="w-full md:w-[200px] min-h-[48px] md:min-h-[56px] rounded-[var(--premium-radius-interactive)] font-semibold text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4BA5FA] focus:ring-offset-[var(--color-bone)]"
+              className="w-full md:w-[200px] min-h-[48px] md:min-h-[56px] rounded-[var(--premium-radius-interactive)] font-semibold text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-neuro-blue-end)] focus:ring-offset-[var(--color-bone)]"
               style={{
-                background: "linear-gradient(to right, #4BA5FA, #0556A3)",
+                background: "var(--gradient-neuro-blue-accent)",
                 fontSize: "var(--premium-font-body-size)",
               }}
             >
@@ -174,14 +185,14 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Right: hero image - desktop only: short bottom-up overlay; mobile: no overlay */}
+      {/* Right: hero image — mobile: no overlay; desktop: left-to-right overlay */}
       <div className="relative order-first md:order-none w-full min-h-[35vh] md:min-h-0 md:h-full">
-        {/* Overlay only on desktop */}
+        {/* Desktop only: left-to-right gradient (bone → transparent) */}
         <div
           className="hidden md:block absolute inset-0 z-[1] pointer-events-none"
           style={{
             background:
-              "linear-gradient(to top, #cfd3cf 0%, rgba(207, 211, 207, 0.85) 12%, rgba(207, 211, 207, 0.4) 22%, transparent 35%)",
+              "linear-gradient(to right, var(--color-bone) 0%, rgba(249, 249, 249, 0.7) 18%, rgba(249, 249, 249, 0.25) 32%, transparent 45%)",
           }}
         />
         <Image
@@ -190,7 +201,8 @@ export default function Hero() {
           fill
           priority
           sizes="(max-width: 767px) 100vw, 66.67vw"
-          className="object-cover object-center md:hidden"
+          className="object-cover md:hidden"
+          style={{ objectPosition: "center 45%" }}
         />
         <Image
           src="/hero/HeroBanner.jpg"
