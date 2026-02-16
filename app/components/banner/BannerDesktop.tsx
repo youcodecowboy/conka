@@ -93,7 +93,8 @@ export default function BannerDesktop({ config }: BannerDesktopProps) {
               (config.content.button.copyText ? (
                 <button
                   onClick={handleButtonClick}
-                  className="ml-6 px-3 py-1.5 md:px-4 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap bg-amber-500 text-black border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all rounded-full flex-shrink-0 flex items-center justify-center gap-2"
+                  className="ml-6 px-3 py-1.5 md:px-4 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap text-white border-2 border-transparent hover:opacity-90 transition-all rounded-full flex-shrink-0 flex items-center justify-center gap-2"
+                  style={{ background: "var(--color-neuro-blue-end)" }}
                 >
                   {copied ? (
                     <>
@@ -167,7 +168,8 @@ export default function BannerDesktop({ config }: BannerDesktopProps) {
               (config.content.button.copyText ? (
                 <button
                   onClick={handleButtonClick}
-                  className="ml-6 px-3 py-1.5 md:px-4 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap bg-amber-500 text-black border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all rounded-full flex-shrink-0 flex items-center justify-center gap-2"
+                  className="ml-6 px-3 py-1.5 md:px-4 md:py-2 font-semibold text-xs md:text-sm whitespace-nowrap text-white border-2 border-transparent hover:opacity-90 transition-all rounded-full flex-shrink-0 flex items-center justify-center gap-2"
+                  style={{ background: "var(--color-neuro-blue-end)" }}
                 >
                   {copied ? (
                     <>
