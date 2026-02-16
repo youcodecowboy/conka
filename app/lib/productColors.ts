@@ -38,9 +38,26 @@ export function getProductGradient(productId: ProductId): { start: string; end: 
   return { start: gradient.start, end: gradient.end };
 }
 
-/** Get product accent color (solid color) */
-export function getProductAccent(productId: ProductId): string {
-  return PRODUCT_GRADIENTS[productId].solid;
+/**
+ * Get product accent color (solid hex).
+ * Accepts product IDs ("01", "02", "1", "2", "3", "4") or product type names
+ * ("flow", "clarity", "Resilience Protocol", etc.). Returns undefined for
+ * generic "protocol" or unknown keys.
+ */
+export function getProductAccent(typeOrId: ProductId): string;
+export function getProductAccent(typeOrId: string): string | undefined;
+export function getProductAccent(typeOrId: string): string | undefined {
+  const idMap: Record<string, ProductId> = {
+    flow: "01",
+    clarity: "02",
+    "Resilience Protocol": "1",
+    "Precision Protocol": "2",
+    "Balance Protocol": "3",
+    "Ultimate Protocol": "4",
+  };
+  const id = idMap[typeOrId] ?? (typeOrId as ProductId);
+  const gradient = PRODUCT_GRADIENTS[id];
+  return gradient?.solid;
 }
 
 /** Font colour when text sits on the product gradient. White for dark gradients, black for light. */
