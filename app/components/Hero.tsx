@@ -7,10 +7,14 @@ const ROTATING_WORDS = ["sharper", "longer", "deeper", "better", "smarter"];
 const ROTATION_INTERVAL_MS = 3000;
 const FADE_DURATION_MS = 500;
 
-function HeroTrustBadges() {
+function HeroTrustBadges({
+  textClass = "text-[var(--text-on-light-muted)]",
+}: {
+  textClass?: string;
+}) {
   return (
     <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 gap-y-2 justify-start text-[0.7rem] md:text-[var(--premium-font-data-size)]">
-      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)] md:whitespace-nowrap md:shrink-0">
+      <span className={`flex items-center gap-1.5 ${textClass} md:whitespace-nowrap md:shrink-0`}>
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
             width="14"
@@ -27,7 +31,7 @@ function HeroTrustBadges() {
         </span>
         Informed Sport Certified
       </span>
-      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)] md:whitespace-nowrap md:shrink-0">
+      <span className={`flex items-center gap-1.5 ${textClass} md:whitespace-nowrap md:shrink-0`}>
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
             width="14"
@@ -47,7 +51,7 @@ function HeroTrustBadges() {
         </span>
         Made in UK
       </span>
-      <span className="flex items-center gap-1.5 text-[var(--text-on-light-muted)] md:whitespace-nowrap md:shrink-0">
+      <span className={`flex items-center gap-1.5 ${textClass} md:whitespace-nowrap md:shrink-0`}>
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
             width="14"
@@ -69,10 +73,13 @@ function HeroTrustBadges() {
   );
 }
 
-export default function Hero() {
+type HeroVariant = "default" | "dark";
+
+export default function Hero({ variant = "default" }: { variant?: HeroVariant }) {
   const [wordIndex, setWordIndex] = useState(0);
   const [wordFading, setWordFading] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const isDark = variant === "dark";
 
   useEffect(() => {
     setMounted(true);
@@ -99,17 +106,35 @@ export default function Hero() {
       ?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
+  const contentBg = isDark
+    ? "bg-[var(--color-ink)]"
+    : "bg-[#f5f5f4] md:bg-[var(--color-bone)]";
+  const rootBg = isDark
+    ? "bg-[var(--color-ink)]"
+    : "bg-[#f5f5f4] md:bg-[var(--color-bone)]";
+  const textMuted = isDark
+    ? "text-[var(--text-on-ink-muted)]"
+    : "text-[var(--text-on-light-muted)]";
+  const textPrimary = isDark
+    ? "text-[var(--text-on-ink)]"
+    : "text-[var(--text-on-light)]";
+  const focusRingOffset = isDark
+    ? "focus:ring-offset-[var(--color-ink)]"
+    : "focus:ring-offset-[var(--color-bone)]";
+
   return (
-    <div className="relative w-full min-h-[70vh] md:min-h-[85vh] flex flex-col md:grid md:grid-cols-[1fr_2fr] overflow-hidden bg-[#f5f5f4] md:bg-[var(--color-bone)]">
-      {/* Left: content column - light white on mobile, bone on desktop */}
+    <div
+      className={`relative w-full min-h-[70vh] md:min-h-[85vh] flex flex-col md:grid md:grid-cols-[1fr_2fr] overflow-hidden ${rootBg}`}
+    >
+      {/* Left: content column */}
       <div
-        className="relative z-10 flex flex-col justify-center py-4 px-8 md:py-16 md:px-16 md:max-w-[500px] text-left transition-opacity duration-500 bg-[#f5f5f4] md:bg-[var(--color-bone)]"
+        className={`relative z-10 flex flex-col justify-center py-4 px-8 md:py-16 md:px-16 md:max-w-[500px] text-left transition-opacity duration-500 ${contentBg}`}
         style={{ opacity: mounted ? 1 : 0 }}
       >
         <div className="flex flex-col gap-2 md:gap-[var(--space-text-gap)]">
           {/* Social proof — mobile: simplified; desktop: full line */}
           <div
-            className="flex flex-wrap items-center justify-start gap-x-2 text-[var(--text-on-light-muted)] shrink-0 md:hidden"
+            className={`flex flex-wrap items-center justify-start gap-x-2 shrink-0 md:hidden ${textMuted}`}
             style={{ fontSize: "var(--premium-font-data-size)" }}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
@@ -118,7 +143,7 @@ export default function Hero() {
             <span className="whitespace-nowrap">Over 100,000 bottles sold</span>
           </div>
           <div
-            className="hidden md:flex flex-nowrap items-center justify-start gap-x-3 text-[var(--text-on-light-muted)] shrink-0"
+            className={`hidden md:flex flex-nowrap items-center justify-start gap-x-3 shrink-0 ${textMuted}`}
             style={{ fontSize: "var(--premium-font-data-size)" }}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
@@ -131,7 +156,7 @@ export default function Hero() {
           </div>
 
           <h1
-            className="font-bold text-[var(--text-on-light)] leading-tight md:whitespace-nowrap"
+            className={`font-bold ${textPrimary} leading-tight md:whitespace-nowrap`}
             style={{
               letterSpacing: "var(--letter-spacing-premium-title)",
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
@@ -156,7 +181,7 @@ export default function Hero() {
           </h1>
 
           <p
-            className="text-left text-[var(--text-on-light-muted)] mb-0"
+            className={`text-left mb-0 ${textMuted}`}
             style={{
               fontSize: "var(--text-body-premium)",
               lineHeight: "var(--premium-font-body-leading)",
@@ -169,7 +194,7 @@ export default function Hero() {
             <button
               type="button"
               onClick={scrollToProductGrid}
-              className="w-full md:w-[200px] min-h-[48px] md:min-h-[56px] rounded-[var(--premium-radius-interactive)] font-semibold text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-neuro-blue-end)] focus:ring-offset-[var(--color-bone)]"
+              className={`w-full md:w-[200px] min-h-[48px] md:min-h-[56px] rounded-[var(--premium-radius-interactive)] font-semibold text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-neuro-blue-end)] ${focusRingOffset}`}
               style={{
                 background: "var(--gradient-neuro-blue-accent)",
                 fontSize: "var(--premium-font-body-size)",
@@ -180,21 +205,32 @@ export default function Hero() {
           </div>
 
           <div className="mt-2 md:mt-[var(--premium-space-l)]">
-            <HeroTrustBadges />
+            <HeroTrustBadges textClass={textMuted} />
           </div>
         </div>
       </div>
 
-      {/* Right: hero image — mobile: no overlay; desktop: left-to-right overlay */}
+      {/* Right: hero image — overlay: light (default) or dark (ink) left-to-right on desktop */}
       <div className="relative order-first md:order-none w-full min-h-[35vh] md:min-h-0 md:h-full">
-        {/* Desktop only: left-to-right gradient (bone → transparent) */}
+        {/* Desktop only: left-to-right gradient — bone (default) or ink (dark) → transparent */}
         <div
           className="hidden md:block absolute inset-0 z-[1] pointer-events-none"
           style={{
-            background:
-              "linear-gradient(to right, var(--color-bone) 0%, rgba(249, 249, 249, 0.7) 18%, rgba(249, 249, 249, 0.25) 32%, transparent 45%)",
+            background: isDark
+              ? "linear-gradient(to right, var(--color-ink) 0%, rgba(17, 17, 17, 0.9) 10%, rgba(17, 17, 17, 0.35) 18%, transparent 28%)"
+              : "linear-gradient(to right, var(--color-bone) 0%, rgba(249, 249, 249, 0.75) 10%, rgba(249, 249, 249, 0.2) 20%, transparent 30%)",
           }}
         />
+        {/* Mobile: dark variant gets a subtle bottom-up ink gradient so content area reads; default no overlay */}
+        {isDark && (
+          <div
+            className="absolute inset-0 z-[1] pointer-events-none md:hidden"
+            style={{
+              background:
+                "linear-gradient(to top, var(--color-ink) 0%, rgba(17, 17, 17, 0.6) 25%, transparent 55%)",
+            }}
+          />
+        )}
         <Image
           src="/hero/Hero.jpg"
           alt="Athlete holding CONKA Flow and Clear bottles"

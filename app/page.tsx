@@ -7,7 +7,10 @@ import Navigation from "./components/navigation";
 import Footer from "./components/footer";
 import Hero from "./components/Hero";
 import type { Benefit } from "./components/KeyBenefits";
-import { getSiteTestimonialsProtocol, shuffleTestimonials } from "./lib/testimonialsFilter";
+import {
+  getSiteTestimonialsProtocol,
+  shuffleTestimonials,
+} from "./lib/testimonialsFilter";
 import type { Testimonial } from "./components/testimonials/types";
 
 // Dynamically import heavy components to reduce initial bundle size
@@ -168,7 +171,9 @@ const faqItems = [
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  const [shuffledTestimonials, setShuffledTestimonials] = useState<Testimonial[]>([]);
+  const [shuffledTestimonials, setShuffledTestimonials] = useState<
+    Testimonial[]
+  >([]);
 
   // Shuffle protocol set on client to avoid hydration mismatch
   useEffect(() => {
@@ -393,7 +398,7 @@ export default function Home() {
       {/* ===== SECTION 1: HERO ===== */}
       <Navigation />
       <section aria-label="Homepage hero">
-        <Hero />
+        <Hero variant="default" />
       </section>
 
       {/* ===== SECTION 2: WHAT IS CONKA ===== */}
