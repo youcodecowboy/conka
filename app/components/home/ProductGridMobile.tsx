@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import ProductCard from "./ProductCard";
+import PremiumDotIndicator from "../premium/PremiumDotIndicator";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
@@ -96,15 +97,15 @@ export default function ProductGridMobile() {
         </p>
       </div>
 
-      {/* Assurance Banner - Mobile 2x2 layout */}
+      {/* Assurance Banner - Mobile compact layout */}
       <div className="mb-6 px-4">
-        <div className="bg-[var(--color-ink)] py-4 px-6 rounded-[var(--premium-radius-nested)]">
-          <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-xs text-white justify-items-center">
-            <span className="flex items-center gap-1.5 whitespace-nowrap">
+        <div className="bg-[var(--color-ink)] py-3 px-4 rounded-[var(--premium-radius-nested)]">
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[0.7rem] text-white">
+            <span className="flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
+                width="12"
+                height="12"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -116,13 +117,13 @@ export default function ProductGridMobile() {
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                 <polyline points="22 4 12 14.01 9 11.01" />
               </svg>
-              60-Day Money-Back Guarantee
+              60-Day Guarantee
             </span>
-            <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <span className="flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
+                width="12"
+                height="12"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -134,13 +135,13 @@ export default function ProductGridMobile() {
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                 <polyline points="22 4 12 14.01 9 11.01" />
               </svg>
-              Free UK Shipping
+              Free Shipping
             </span>
-            <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <span className="flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
+                width="12"
+                height="12"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -154,11 +155,11 @@ export default function ProductGridMobile() {
               </svg>
               Cancel Anytime
             </span>
-            <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <span className="flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
+                width="12"
+                height="12"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -170,10 +171,21 @@ export default function ProductGridMobile() {
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                 <polyline points="22 4 12 14.01 9 11.01" />
               </svg>
-              Informed Sport Certified
+              Informed Sport
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Dot Indicators */}
+      <div className="mb-4 px-4">
+        <PremiumDotIndicator
+          total={CARDS.length}
+          currentIndex={currentIndex}
+          onDotClick={(index) => goToCard(index as 0 | 1 | 2)}
+          ariaLabel="Product options"
+          getDotAriaLabel={(i) => `Go to ${CARDS[i].name}`}
+        />
       </div>
 
       {/* Carousel Container */}
@@ -199,14 +211,14 @@ export default function ProductGridMobile() {
           {/* Flow Card */}
           <div className="w-full flex-shrink-0 px-4">
             <div className="flex flex-col items-center">
-              <div className="relative w-[55%] mx-auto aspect-square mb-[-12px] z-10">
+              <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                   <Image
                     src={getFormulaImage("01")}
                     alt="CONKA Flow"
                     fill
                     className="object-cover"
-                    sizes="55vw"
+                    sizes="100vw"
                   />
                 </div>
               </div>
@@ -220,14 +232,14 @@ export default function ProductGridMobile() {
           {/* Clear Card */}
           <div className="w-full flex-shrink-0 px-4">
             <div className="flex flex-col items-center">
-              <div className="relative w-[55%] mx-auto aspect-square mb-[-12px] z-10">
+              <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                   <Image
                     src={getFormulaImage("02")}
                     alt="CONKA Clear"
                     fill
                     className="object-cover"
-                    sizes="55vw"
+                    sizes="100vw"
                   />
                 </div>
               </div>
@@ -241,7 +253,7 @@ export default function ProductGridMobile() {
           {/* Protocol Card */}
           <div className="w-full flex-shrink-0 px-4">
             <div className="flex flex-col items-center">
-              <div className="relative w-[55%] mx-auto aspect-square mb-[-12px] z-10">
+              <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                   <Image
                     key={protocolVariant}
@@ -249,7 +261,7 @@ export default function ProductGridMobile() {
                     alt="CONKA Protocol"
                     fill
                     className="object-cover transition-opacity duration-300"
-                    sizes="55vw"
+                    sizes="100vw"
                   />
                   <div
                     className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
@@ -270,23 +282,6 @@ export default function ProductGridMobile() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Dot Indicators */}
-      <div className="flex justify-center items-center gap-2 mt-5 mb-4">
-        {CARDS.map((card, index) => (
-          <button
-            key={card.productType}
-            onClick={() => goToCard(index as 0 | 1 | 2)}
-            aria-label={`Go to ${card.name}`}
-            className={`transition-all duration-200 rounded-full ${
-              currentIndex === index
-                ? "w-[10px] h-[10px] bg-[#111]"
-                : "w-2 h-2 bg-black/20"
-            }`}
-            aria-current={currentIndex === index ? "page" : undefined}
-          />
-        ))}
       </div>
 
       {/* Trial Pack Anchor Link */}
