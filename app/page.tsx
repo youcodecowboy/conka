@@ -408,6 +408,24 @@ export default function Home() {
         <Hero variant="default" />
       </section>
 
+      {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
+      <section
+        className="premium-section-luxury premium-bg-surface"
+        aria-label="Athletes who use CONKA"
+      >
+        <div className="premium-track">
+          <div className="mb-8 md:mb-12 text-center">
+            <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
+              Performing at the Highest Level
+            </h2>
+            <p className="premium-body-sm text-[var(--text-on-light-muted)] opacity-80">
+              Trusted by elite athletes across sport
+            </p>
+          </div>
+          <AthleteCredibilityCarousel />
+        </div>
+      </section>
+
       {/* ===== SECTION 1.5: TESTIMONIALS (landing page mix: Flow, Clarity, Protocol) ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
@@ -419,16 +437,6 @@ export default function Home() {
           </div>
         </section>
       )}
-
-      {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
-      <section
-        className="premium-section-luxury premium-bg-surface"
-        aria-label="Athletes who use CONKA"
-      >
-        <div className="premium-track">
-          <AthleteCredibilityCarousel />
-        </div>
-      </section>
 
       {/* ===== SECTION 2: WHAT IS CONKA ===== */}
       <WhatIsConka />
