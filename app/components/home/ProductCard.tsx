@@ -228,7 +228,7 @@ export default function ProductCard({
     : (accentColor ?? "#111");
 
   return (
-    <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden p-0">
+    <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden" style={{ padding: '1rem' }}>
       {/* Product Info */}
       <div
         className={`flex-1 flex flex-col px-0 pb-0 ${isProtocol && onProtocolVariantChange ? "pt-0" : "pt-4"}`}

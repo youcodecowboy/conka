@@ -410,8 +410,7 @@ export default function Home() {
 
       {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-base-mid)" }}
+        className="premium-section-luxury premium-bg-bone"
         aria-label="Athletes who use CONKA"
       >
         <div className="premium-track">
@@ -422,7 +421,8 @@ export default function Home() {
       {/* ===== PRODUCT GRID (scroll target for hero CTA) ===== */}
       <div id="product-grid" className="scroll-mt-20">
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-base-mid)" }}
           aria-label="Find Your Formula"
         >
           <div className="premium-track">
