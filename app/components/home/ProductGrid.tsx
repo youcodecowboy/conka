@@ -5,6 +5,7 @@ import Image from "next/image";
 import AssuranceBanner from "./AssuranceBanner";
 import ProductCard from "./ProductCard";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
+import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
 
 // Get protocol image based on variant (same logic as ProductCard)
@@ -39,7 +40,7 @@ export default function ProductGrid() {
   return (
     <>
       {/* Section Header */}
-      <div className="mb-8 md:mb-12 text-center">
+      <div className="mb-8 md:mb-12 text-left">
         <h2 className="premium-section-heading">
           Find Your Formula
         </h2>
@@ -54,8 +55,8 @@ export default function ProductGrid() {
       {/* Product Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
         {/* Flow Card */}
-        <div className="product-card-wrapper relative">
-          <div className="relative w-[65%] mx-auto aspect-square mb-[-24px] z-10">
+        <div className="product-card-wrapper flex flex-col items-center">
+          <div className="relative w-full aspect-square mb-4">
             <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.10)]">
               <Image
                 src={getFormulaImage("01")}
@@ -73,8 +74,8 @@ export default function ProductGrid() {
         </div>
 
         {/* Clear Card */}
-        <div className="product-card-wrapper relative">
-          <div className="relative w-[65%] mx-auto aspect-square mb-[-24px] z-10">
+        <div className="product-card-wrapper flex flex-col items-center">
+          <div className="relative w-full aspect-square mb-4">
             <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.10)]">
               <Image
                 src={getFormulaImage("02")}
@@ -92,8 +93,8 @@ export default function ProductGrid() {
         </div>
 
         {/* Protocol Card */}
-        <div className="product-card-wrapper relative">
-          <div className="relative w-[65%] mx-auto aspect-square mb-[-24px] z-10">
+        <div className="product-card-wrapper flex flex-col items-center">
+          <div className="relative w-full aspect-square mb-4">
             <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.10)]">
               <Image
                 key={protocolVariant}
@@ -103,6 +104,14 @@ export default function ProductGrid() {
                 className="object-cover transition-opacity duration-300"
                 sizes="(max-width: 768px) 100vw, 33vw"
               />
+              <div
+                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                style={{ 
+                  backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                }}
+              >
+                Most Popular
+              </div>
             </div>
           </div>
           <ProductCard

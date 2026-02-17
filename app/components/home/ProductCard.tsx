@@ -136,6 +136,15 @@ const getProtocolVariantGradient = (variant: ProtocolVariant): { start: string; 
   }
 };
 
+// Export badge info for use in wrapper
+export function getProductBadge(productType: "flow" | "clear" | "protocol"): string | null {
+  if (productType === "protocol") {
+    return "Most Popular";
+  }
+  return null;
+}
+
+
 export default function ProductCard({
   productType,
   protocolVariant = "balance",
@@ -205,19 +214,9 @@ export default function ProductCard({
     : (accentColor ?? "#111");
 
   return (
-    <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden p-0 pt-24">
-      {/* Most Popular Badge */}
-      {product.badge && (
-        <div
-          className="w-full py-2 rounded-t-[var(--premium-radius-card)] text-xs font-semibold text-white text-center"
-          style={{ backgroundColor: accentColor || "#3a9f7e" }}
-        >
-          {product.badge}
-        </div>
-      )}
-
+    <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden p-0">
       {/* Product Info */}
-      <div className={`flex-1 flex flex-col px-6 pb-6 ${isProtocol && onProtocolVariantChange ? 'pt-0' : 'pt-4'}`}>
+      <div className={`flex-1 flex flex-col px-4 pb-6 ${isProtocol && onProtocolVariantChange ? 'pt-0' : 'pt-4'}`}>
         {/* Product Name */}
         <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-1">
           {product.name}
