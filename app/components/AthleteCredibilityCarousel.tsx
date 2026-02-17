@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import PremiumDotIndicator from "./premium/PremiumDotIndicator";
 
 export type AthleteSlide = {
   name: string;
@@ -160,27 +161,13 @@ export default function AthleteCredibilityCarousel() {
               </svg>
             </button>
           </div>
-          <div
-            className="flex justify-center gap-2"
-            role="tablist"
-            aria-label="Athlete testimonials"
-          >
-            {ATHLETE_SLIDES.map((s, i) => (
-              <button
-                key={s.name}
-                type="button"
-                role="tab"
-                aria-label={`Go to slide, ${s.name}`}
-                aria-selected={i === currentIndex}
-                onClick={() => setCurrentIndex(i)}
-                className={`h-2 rounded-full transition-all ${
-                  i === currentIndex
-                    ? "w-8 bg-[var(--color-ink)]"
-                    : "w-2 bg-black/20 hover:bg-black/40"
-                }`}
-              />
-            ))}
-          </div>
+          <PremiumDotIndicator
+            total={ATHLETE_SLIDES.length}
+            currentIndex={currentIndex}
+            onDotClick={setCurrentIndex}
+            ariaLabel="Athlete testimonials"
+            getDotAriaLabel={(i) => `Go to slide, ${ATHLETE_SLIDES[i].name}`}
+          />
         </div>
       </div>
     </div>
