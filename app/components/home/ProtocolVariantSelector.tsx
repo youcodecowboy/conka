@@ -12,7 +12,7 @@ export default function ProtocolVariantSelector({
   onVariantChange,
 }: ProtocolVariantSelectorProps) {
   return (
-    <div className="flex gap-2 mb-4">
+    <div className="flex gap-2 justify-center w-full">
       <button
         onClick={() => onVariantChange("flow-heavy")}
         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
@@ -21,7 +21,7 @@ export default function ProtocolVariantSelector({
             : "bg-white text-[var(--text-on-light-muted)] border border-black/10 hover:bg-black/5"
         }`}
       >
-        Flow Heavy
+        Resilience
       </button>
       <button
         onClick={() => onVariantChange("balance")}
@@ -41,7 +41,7 @@ export default function ProtocolVariantSelector({
             : "bg-white text-[var(--text-on-light-muted)] border border-black/10 hover:bg-black/5"
         }`}
       >
-        Clear Heavy
+        Precision
       </button>
     </div>
   );

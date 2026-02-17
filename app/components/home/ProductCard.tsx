@@ -221,17 +221,19 @@ export default function ProductCard({
     : product.bestFor;
 
   // Button background color
-  const buttonBg = isProtocol
-    ? buttonGradient
-      ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
-      : (accentColor ?? "#000")
-    : (accentColor ?? "#111");
+  const buttonBg = isSubscribe
+    ? (isProtocol
+        ? (buttonGradient
+            ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
+            : (accentColor ?? "#000"))
+        : (accentColor ?? "#111"))
+    : "var(--color-ink)"; // One-time purchase: use ink/black
 
   return (
-    <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden" style={{ padding: '1rem', backgroundColor: 'white' }}>
+    <div className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden" style={{ padding: '1rem', backgroundColor: 'white' }}>
       {/* Product Info */}
       <div
-        className={`flex-1 flex flex-col px-0 pb-0 ${isProtocol && onProtocolVariantChange ? "pt-0" : "pt-4"}`}
+        className="flex-1 flex flex-col px-0 pb-0 pt-4"
       >
         {/* Product Name */}
         <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-1">
@@ -253,7 +255,7 @@ export default function ProductCard({
 
         {/* Protocol Variant Selector */}
         {isProtocol && onProtocolVariantChange && (
-          <div className="mb-4">
+          <div className="mb-4 flex justify-center">
             <ProtocolVariantSelector
               variant={protocolVariant}
               onVariantChange={onProtocolVariantChange}
@@ -299,16 +301,6 @@ export default function ProductCard({
 
         {/* Divider */}
         <div className="mt-auto pt-4 border-t border-[var(--color-premium-stroke)] pb-6 -mx-0 w-full">
-          {/* Protocol Savings */}
-          {isProtocol && savings !== null && savings > 0 && (
-            <p
-              className="premium-body-sm font-medium mb-3"
-              style={{ color: accentColor || "#3a9f7e" }}
-            >
-              Save £{savings.toFixed(2)} vs buying separately
-            </p>
-          )}
-
           {/* Subscribe / One-time Option Cards */}
           <div className="space-y-2 mb-4 w-full">
             {/* Subscribe Option */}
@@ -329,7 +321,7 @@ export default function ProductCard({
                 className="sr-only"
               />
               <div className="flex-1">
-                <div className="font-semibold text-[13px] mb-0.5">
+                <div className="font-semibold text-[13px] mb-0.5 text-[var(--color-ink)]">
                   Subscribe & Save 20%
                 </div>
                 <div className="text-[11px] text-[var(--text-on-light-muted)]">
@@ -377,9 +369,11 @@ export default function ProductCard({
           {/* CTA Button with Price */}
           <button
             onClick={onAddToCart}
-            className="w-full py-3 px-4 rounded-[var(--premium-radius-interactive)] text-white transition-all hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-[13px] font-semibold"
+            className="w-full py-6 rounded-[var(--premium-radius-interactive)] text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-base font-semibold"
             style={{
               background: buttonBg,
+              paddingLeft: '2rem',
+              paddingRight: '2rem',
             }}
           >
             <span>Add to Cart</span>
