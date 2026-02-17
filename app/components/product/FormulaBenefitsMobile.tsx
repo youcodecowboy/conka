@@ -95,7 +95,7 @@ function AccordionRow({
           strokeLinecap="round"
           strokeLinejoin="round"
           className={`shrink-0 transition-all duration-300 ${
-            isOpen ? "rotate-180 text-[var(--color-bone)]" : "rotate-0 opacity-40"
+            isOpen ? "rotate-180 text-[var(--color-bone)]" : "rotate-0 text-[var(--color-ink)]"
           }`}
         >
           <polyline points="6 9 12 15 18 9" />
@@ -117,14 +117,14 @@ function AccordionRow({
         >
           {/* 1. Struggle question */}
           <p
-            className="premium-body-sm opacity-50 uppercase tracking-wider mb-3"
+            className="premium-body-sm uppercase tracking-wider mb-3"
             style={{ color: "var(--color-bone)" }}
           >
             {solution.question}
           </p>
 
           {/* 2. Big stat + label */}
-          <div className="flex items-baseline gap-2 mb-4">
+          <div className="flex items-start gap-2 mb-4">
             <span
               className={`font-bold ${accentColor.text}`}
               style={{
@@ -136,7 +136,7 @@ function AccordionRow({
               {solution.stat}
             </span>
             <span
-              className="premium-body-sm opacity-60"
+              className="premium-body-sm"
               style={{ color: "var(--color-bone)" }}
             >
               {solution.statLabel}
@@ -145,7 +145,7 @@ function AccordionRow({
 
           {/* 3. Outcome description */}
           <p
-            className="premium-body leading-relaxed mb-5 opacity-80"
+            className="premium-body leading-relaxed mb-5"
             style={{ color: "var(--color-bone)" }}
           >
             {solution.description}
@@ -168,13 +168,13 @@ function AccordionRow({
                   </p>
                   <p
                     className="premium-body-sm leading-tight"
-                    style={{ color: "var(--color-bone)", opacity: 0.7 }}
+                    style={{ color: "var(--color-bone)" }}
                   >
                     {result.metric}
                   </p>
                   <p
                     className="premium-body-sm mt-1"
-                    style={{ color: "var(--color-bone)", opacity: 0.35 }}
+                    style={{ color: "var(--color-bone)" }}
                   >
                     {result.pValue}
                   </p>
@@ -186,18 +186,10 @@ function AccordionRow({
           {/* 5. Study footnote */}
           <p
             className="premium-body-sm"
-            style={{ color: "var(--color-bone)", opacity: 0.35 }}
+            style={{ color: "var(--color-bone)" }}
           >
             {solution.clinicalStudy.name} — {solution.clinicalStudy.university},{" "}
             {solution.clinicalStudy.year}
-            {" · "}
-            <a
-              href="#"
-              className={`underline ${accentColor.text}`}
-              style={{ opacity: 0.8 }}
-            >
-              Read the full study →
-            </a>
           </p>
         </div>
       )}
@@ -216,19 +208,20 @@ function AccordionRow({
 }
 
 export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobileProps) {
-  const [openStruggle, setOpenStruggle] = useState<StruggleId>("focus");
+  const [openStruggle, setOpenStruggle] = useState<StruggleId | null>("focus");
 
   const formula = formulaContent[formulaId];
   const accentColor = FORMULA_COLORS[formulaId];
 
   const handleTap = (id: StruggleId) => {
-    if (id !== openStruggle) setOpenStruggle(id);
+    // Toggle: if clicking the open one, close it; otherwise open the clicked one
+    setOpenStruggle(id === openStruggle ? null : id);
   };
 
   return (
     <div>
       {/* Heading block */}
-      <div className="text-center mb-8">
+      <div className="text-left md:text-center mb-8">
         <h2
           className="premium-section-heading"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
@@ -240,10 +233,12 @@ export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobi
         </p>
       </div>
 
-      {/* Accordion list */}
+      {/* Accordion list - breaks out of gutter, full width */}
       <div
-        className="rounded-[40px] overflow-hidden"
-        style={{ border: "1px solid var(--color-premium-stroke)" }}
+        className="overflow-hidden -mx-5 md:-mx-[5vw]"
+        style={{
+          border: "1px solid var(--color-premium-stroke)",
+        }}
       >
         {STRUGGLE_OPTIONS.map((struggle, index) => (
           <AccordionRow
