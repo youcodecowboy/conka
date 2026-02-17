@@ -209,8 +209,6 @@ export default function Home() {
       annotation: "PMID: 12888775 — Lemon Balm",
       description:
         "Balance alertness with tranquility for sustained concentration",
-      image: "/CONKA_06.jpg",
-      focalPoint: { x: 55, y: 45 },
       clinicalBreakdown: {
         study: "Kennedy et al. 2003, Neuropsychopharmacology",
         participants: "20 healthy young adults",
@@ -221,11 +219,6 @@ export default function Home() {
           "Enhanced acetylcholine receptor activity",
           "P<0.05 statistical significance",
         ],
-      },
-      testimonial: {
-        quote: "World-class playmaker with +28.96% cognitive improvement",
-        author: "Finn Russell",
-        role: "Bath Rugby — Fly-Half",
       },
     },
     {
@@ -249,8 +242,6 @@ export default function Home() {
       stat: "+42%",
       annotation: "PMID: 32021735 — Ashwagandha",
       description: "Improved sleep quality and reduced time to fall asleep",
-      image: "/CONKA_04.jpg",
-      focalPoint: { x: 52, y: 48 },
       clinicalBreakdown: {
         study: "Salve et al. 2019, Cureus",
         participants: "58 healthy adults",
@@ -261,11 +252,6 @@ export default function Home() {
           "Improved stress resistance",
           "Enhanced quality of life scores",
         ],
-      },
-      testimonial: {
-        quote: "GB7 Rugby 7s athlete with +36.72% total improvement",
-        author: "Jade Shekells",
-        role: "GB7 Womens Rugby 7s — Paris 2024 Olympian",
       },
     },
     {
@@ -289,8 +275,6 @@ export default function Home() {
       stat: "+40%",
       annotation: "PMID: 29559699 — Glutathione",
       description: "Clear cellular waste and keep your mind responsive",
-      image: "/CONKA_01.jpg",
-      focalPoint: { x: 50, y: 45 },
       clinicalBreakdown: {
         study: "Sinha et al. 2018, European Journal of Clinical Nutrition",
         participants: "12 healthy adults",
@@ -301,11 +285,6 @@ export default function Home() {
           "Improved lymphocyte proliferation",
           "Enhanced immune function markers",
         ],
-      },
-      testimonial: {
-        quote: "Bank of America C-Suite with +24.68% improvement over 73 tests",
-        author: "Nimisha Kurup",
-        role: "Managing Director, CFO Data Management — Bank of America",
       },
     },
     {
@@ -329,8 +308,6 @@ export default function Home() {
       stat: "-56%",
       annotation: "PMID: 23439798 — Ashwagandha",
       description: "Reduce cortisol and build natural stress resistance",
-      image: "/CONKA_02.jpg",
-      focalPoint: { x: 50, y: 45 },
       clinicalBreakdown: {
         study:
           "Chandrasekhar et al. 2012, Indian Journal of Psychological Medicine",
@@ -443,7 +420,14 @@ export default function Home() {
       <WhatIsConka />
 
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
-      <KeyBenefits benefits={keyBenefits} />
+      <section
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="Key Benefits"
+      >
+        <div className="premium-track">
+          <KeyBenefits benefits={keyBenefits} />
+        </div>
+      </section>
 
       {/* ===== SECTION 5: CASE STUDIES ===== */}
       <CaseStudiesDataDriven />
