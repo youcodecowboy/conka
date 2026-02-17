@@ -8,6 +8,12 @@ interface KeyBenefitsDesktopProps {
   benefits: Benefit[];
 }
 
+// Neural blue accent color (similar to CONKA Clarity)
+const NEURAL_BLUE = {
+  text: "text-[#94b9ff]",
+  hex: "#94b9ff",
+};
+
 export default function KeyBenefitsDesktop({
   benefits,
 }: KeyBenefitsDesktopProps) {
@@ -159,7 +165,7 @@ export default function KeyBenefitsDesktop({
                   >
                     {/* Icon */}
                     {benefit.icon && (
-                      <span className={`w-5 h-5 shrink-0 flex items-center justify-center ${isActive ? "opacity-100" : "opacity-60"}`}>
+                      <span className={`w-5 h-5 shrink-0 flex items-center justify-center ${isActive ? NEURAL_BLUE.text : "opacity-60"}`}>
                         {benefit.icon}
                       </span>
                     )}
@@ -177,7 +183,7 @@ export default function KeyBenefitsDesktop({
                       className={`text-sm font-bold mr-3 ${
                         isActive
                           ? "text-[var(--color-bone)]"
-                          : "text-[var(--color-ink)]"
+                          : NEURAL_BLUE.text
                       }`}
                     >
                       {benefit.stat}
@@ -215,7 +221,7 @@ export default function KeyBenefitsDesktop({
             {/* Stat + annotation */}
             <div className="flex items-baseline gap-3 mb-2">
               <span
-                className="text-6xl lg:text-7xl font-bold tracking-tight text-[var(--color-ink)]"
+                className={`text-6xl lg:text-7xl font-bold tracking-tight ${NEURAL_BLUE.text}`}
                 style={{
                   letterSpacing: "var(--letter-spacing-premium-title)",
                 }}
