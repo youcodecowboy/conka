@@ -236,9 +236,22 @@ export default function ProductCard({
         className="flex-1 flex flex-col px-0 pb-0 pt-4"
       >
         {/* Product Name */}
-        <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-1">
-          {product.name}
-        </p>
+        <div className="mb-1">
+          <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-2">
+            {product.name}
+          </p>
+          <span
+            className="inline-block py-1 premium-data text-current/90 text-sm"
+            style={{
+              paddingLeft: "var(--premium-space-m)",
+              paddingRight: "var(--premium-space-m)",
+              borderRadius: "var(--premium-radius-interactive)",
+              background: "rgba(0,0,0,0.04)",
+            }}
+          >
+            Liquid · 1 shot (30ml) daily · 28-pack
+          </span>
+        </div>
 
         {/* Benefit Headline */}
         <h3
