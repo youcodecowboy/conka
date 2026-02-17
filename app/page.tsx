@@ -56,6 +56,13 @@ const Testimonials = dynamic(
   },
 );
 
+const AthleteCredibilityCarousel = dynamic(
+  () => import("./components/AthleteCredibilityCarousel"),
+  {
+    loading: () => <div className="h-[400px]" />,
+  },
+);
+
 const faqItems = [
   {
     icon: (
@@ -399,6 +406,16 @@ export default function Home() {
       <Navigation />
       <section aria-label="Homepage hero">
         <Hero variant="default" />
+      </section>
+
+      {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
+      <section
+        className="premium-section-luxury premium-bg-surface"
+        aria-label="Athletes who use CONKA"
+      >
+        <div className="premium-track">
+          <AthleteCredibilityCarousel />
+        </div>
       </section>
 
       {/* ===== SECTION 1.5: TESTIMONIALS (landing page mix: Flow, Clarity, Protocol) ===== */}

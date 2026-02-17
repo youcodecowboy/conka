@@ -98,6 +98,7 @@ Structure:
 ## 6. Typography
 
 - **Section titles:** Use the existing `.premium-section-heading` class and ensure letter-spacing uses `var(--letter-spacing-premium-title)` where the Soft-Tech system is adopted.
+- **Section subtitles:** Use `.premium-section-subtitle` for section subtitles. Uses regular body font (`var(--text-body-premium)`) and automatically adapts color to ink/bone backgrounds via the existing color system.
 - **Body and description:** Use `.premium-body` for main copy (1rem) and `line-height: 1.6`; for long prose, `max-width: var(--premium-body-max-width)` (65ch).
 - **Smaller supporting text:** Use `.premium-body-sm` for timeline steps, quotes, or any body-like copy that should be smaller (0.875rem, reuses `--premium-font-data-size`). Keeps one clear step down from body without extra scale tokens.
 
