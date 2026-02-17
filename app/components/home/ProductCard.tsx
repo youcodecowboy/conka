@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { useState } from "react";
 import Link from "next/link";
 import { PurchaseType, formulaContent, protocolContent } from "@/app/lib/productData";
 import { formulaPricing, protocolPricing } from "@/app/lib/productPricing";
@@ -14,7 +14,6 @@ import ProtocolVariantSelector, {
 
 interface ProductCardProps {
   productType: "flow" | "clear" | "protocol";
-  purchaseType: PurchaseType;
   protocolVariant?: ProtocolVariant;
   onProtocolVariantChange?: (variant: ProtocolVariant) => void;
   onAddToCart?: () => void;
@@ -139,19 +138,14 @@ const getProtocolVariantGradient = (variant: ProtocolVariant): { start: string; 
 
 export default function ProductCard({
   productType,
-  purchaseType,
   protocolVariant = "balance",
   onProtocolVariantChange,
   onAddToCart,
 }: ProductCardProps) {
+  const [purchaseType, setPurchaseType] = useState<PurchaseType>("subscription");
   const product = getProductData(productType);
   const isProtocol = productType === "protocol";
   const isSubscribe = purchaseType === "subscription";
-
-  // Get protocol image based on variant
-  const protocolImage = isProtocol
-    ? getProtocolVariantImage(protocolVariant)
-    : product.image;
 
   // Get accent color/gradient for buttons and badge
   const buttonGradient = isProtocol
@@ -200,47 +194,42 @@ export default function ProductCard({
     perShotText = "28-shot supply";
   }
 
-  // CTA text based on purchase type
-  const ctaText = isSubscribe ? "Subscribe & Save 20%" : "Add to Cart";
-
   // Best for text
   const bestForText = isProtocol
     ? getProtocolBestFor(protocolVariant)
     : product.bestFor;
 
+  // Button background color
+  const buttonBg = isProtocol
+    ? (buttonGradient ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})` : (accentColor ?? "#000"))
+    : (accentColor ?? "#111");
+
   return (
-    <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col">
+    <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden p-0 pt-24">
       {/* Most Popular Badge */}
       {product.badge && (
         <div
-          className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold text-white z-10"
+          className="w-full py-2 rounded-t-[var(--premium-radius-card)] text-xs font-semibold text-white text-center"
           style={{ backgroundColor: accentColor || "#3a9f7e" }}
         >
           {product.badge}
         </div>
       )}
 
-      {/* Product Image */}
-      <div className="relative w-full aspect-square mb-4 rounded-t-[var(--premium-radius-nested)] overflow-hidden bg-black/5">
-        <Image
-          key={isProtocol ? protocolVariant : product.id}
-          src={protocolImage}
-          alt={product.name}
-          fill
-          className="object-cover transition-opacity duration-300"
-          sizes="(max-width: 768px) 100vw, 33vw"
-        />
-      </div>
-
       {/* Product Info */}
-      <div className="flex-1 flex flex-col">
+      <div className={`flex-1 flex flex-col px-6 pb-6 ${isProtocol && onProtocolVariantChange ? 'pt-0' : 'pt-4'}`}>
         {/* Product Name */}
-        <h3 className="premium-heading text-xl md:text-2xl font-bold mb-2">
+        <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-1">
           {product.name}
-        </h3>
+        </p>
 
         {/* Benefit Headline */}
-        <p className="premium-body font-semibold mb-2">{product.benefitHeadline}</p>
+        <h3 
+          className="premium-heading text-2xl md:text-3xl font-bold mb-2"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          {product.benefitHeadline}
+        </h3>
 
         {/* Body Copy */}
         <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
@@ -249,10 +238,12 @@ export default function ProductCard({
 
         {/* Protocol Variant Selector */}
         {isProtocol && onProtocolVariantChange && (
-          <ProtocolVariantSelector
-            variant={protocolVariant}
-            onVariantChange={onProtocolVariantChange}
-          />
+          <div className="mb-4">
+            <ProtocolVariantSelector
+              variant={protocolVariant}
+              onVariantChange={onProtocolVariantChange}
+            />
+          </div>
         )}
 
         {/* Best For */}
@@ -291,75 +282,99 @@ export default function ProductCard({
           )}
         </div>
 
-        {/* Pricing */}
-        <div className="mt-auto pt-4 border-t border-black/10">
-          <div className="mb-2">
-            {/* Daily Price */}
-            {isSubscribe && originalDailyPrice ? (
-              <div className="flex items-baseline gap-2 mb-1">
-                <span className="premium-heading text-xl font-bold">
-                  {dailyPrice}
-                </span>
-                <span className="premium-body-sm text-[var(--text-on-light-muted)] line-through">
-                  {originalDailyPrice}
-                </span>
-                <span className="premium-body-sm text-[var(--text-on-light-muted)]">
-                  /day
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-baseline gap-2 mb-1">
-                <span className="premium-heading text-xl font-bold">
-                  {dailyPrice}
-                </span>
-                <span className="premium-body-sm text-[var(--text-on-light-muted)]">
-                  /day
-                </span>
-              </div>
-            )}
-            
-            {/* Monthly Total */}
-            {isSubscribe && originalMonthlyPrice ? (
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] opacity-70">
-                <span className="line-through">{originalMonthlyPrice}</span>{" "}
-                <span>{monthlyPrice}</span>/month
-              </p>
-            ) : (
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] opacity-70">
-                {monthlyPrice}/month
-              </p>
-            )}
-            
-            {/* Pack Size */}
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] opacity-60 mt-1 text-xs">
-              {perShotText}
+        {/* Divider */}
+        <div className="mt-auto pt-4 border-t border-[var(--color-premium-stroke)]">
+          {/* Protocol Savings */}
+          {isProtocol && savings !== null && savings > 0 && (
+            <p className="premium-body-sm font-medium mb-3" style={{ color: accentColor || "#3a9f7e" }}>
+              Save £{savings.toFixed(2)} vs buying separately
             </p>
-            
-            {/* Protocol Savings */}
-            {isProtocol && savings !== null && savings > 0 && (
-              <p className="premium-body-sm mt-2" style={{ color: "#3a9f7e" }}>
-                Save £{savings.toFixed(2)} vs buying separately
-              </p>
-            )}
-            
-            {isSubscribe && (
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1 opacity-70 text-xs">
-                Cancel anytime
-              </p>
-            )}
+          )}
+
+          {/* Subscribe / One-time Option Cards */}
+          <div className="space-y-2 mb-4">
+            {/* Subscribe Option */}
+            <label
+              className={`flex items-center justify-between p-3 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all ${
+                isSubscribe
+                  ? "border border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
+                  : "border border-black/8 bg-white"
+              }`}
+            >
+              <input
+                type="radio"
+                name={`purchase-${productType}`}
+                value="subscription"
+                checked={isSubscribe}
+                onChange={() => setPurchaseType("subscription")}
+                className="sr-only"
+              />
+              <div className="flex-1">
+                <div className="font-semibold text-[13px] mb-0.5">
+                  Subscribe & Save 20%
+                </div>
+                <div className="text-[11px] text-[var(--text-on-light-muted)]">
+                  Cancel anytime · Delivery every 28 days
+                </div>
+              </div>
+              <div className="text-right">
+                {isSubscribe && originalMonthlyPrice && (
+                  <div className="text-[12px] text-[var(--text-on-light-muted)] line-through mb-0.5">
+                    {originalMonthlyPrice}
+                  </div>
+                )}
+                <div className="font-semibold text-[13px]">
+                  {monthlyPrice}
+                </div>
+              </div>
+            </label>
+
+            {/* One-time Option */}
+            <label
+              className={`flex items-center justify-between p-3 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all ${
+                !isSubscribe
+                  ? "border border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
+                  : "border border-black/8 bg-white"
+              }`}
+            >
+              <input
+                type="radio"
+                name={`purchase-${productType}`}
+                value="one-time"
+                checked={!isSubscribe}
+                onChange={() => setPurchaseType("one-time")}
+                className="sr-only"
+              />
+              <div className="flex-1">
+                <div className="font-semibold text-[13px]">
+                  One-time purchase
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="font-semibold text-[13px]">
+                  {monthlyPrice}
+                </div>
+              </div>
+            </label>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button with Price */}
           <button
             onClick={onAddToCart}
-            className="w-full py-3 rounded-[var(--premium-radius-interactive)] font-semibold text-white transition-all hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3"
+            className="w-full py-3 px-4 rounded-[var(--premium-radius-interactive)] text-white transition-all hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-[13px] font-semibold"
             style={{
-              background: buttonGradient
-                ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
-                : (accentColor ?? "#000"),
+              background: buttonBg,
             }}
           >
-            {ctaText}
+            <span>Add to Cart</span>
+            <div className="flex items-baseline gap-1.5">
+              {isSubscribe && originalMonthlyPrice && (
+                <span className="text-[12px] line-through opacity-70">
+                  {originalMonthlyPrice}
+                </span>
+              )}
+              <span>{monthlyPrice}</span>
+            </div>
           </button>
 
           {/* View All Link */}

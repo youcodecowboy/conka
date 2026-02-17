@@ -1,20 +1,33 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { PurchaseType } from "@/app/lib/productData";
-import GlobalPurchaseToggle from "./GlobalPurchaseToggle";
+import Image from "next/image";
 import AssuranceBanner from "./AssuranceBanner";
 import ProductCard from "./ProductCard";
+import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
 
+// Get protocol image based on variant (same logic as ProductCard)
+const getProtocolVariantImage = (variant: ProtocolVariant): string => {
+  switch (variant) {
+    case "flow-heavy":
+      return getProtocolImage("1");
+    case "balance":
+      return getProtocolImage("3");
+    case "clear-heavy":
+      return getProtocolImage("2");
+    default:
+      return getProtocolImage("3");
+  }
+};
+
 export default function ProductGrid() {
-  const [purchaseType, setPurchaseType] = useState<PurchaseType>("subscription");
   const [protocolVariant, setProtocolVariant] = useState<ProtocolVariant>("balance");
 
   const handleAddToCart = useCallback((productType: "flow" | "clear" | "protocol") => {
     // TODO: Implement add to cart logic
-    console.log(`Add to cart: ${productType}`, { purchaseType, protocolVariant });
-  }, [purchaseType, protocolVariant]);
+    console.log(`Add to cart: ${productType}`, { protocolVariant });
+  }, [protocolVariant]);
 
   const scrollToTrialPacks = useCallback(() => {
     const element = document.getElementById("trial-packs");
@@ -38,33 +51,67 @@ export default function ProductGrid() {
       {/* Assurance Banner */}
       <AssuranceBanner />
 
-      {/* Global Purchase Toggle */}
-      <div className="mb-8">
-        <GlobalPurchaseToggle
-          purchaseType={purchaseType}
-          onToggle={setPurchaseType}
-        />
-      </div>
-
       {/* Product Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
-        <ProductCard
-          productType="flow"
-          purchaseType={purchaseType}
-          onAddToCart={() => handleAddToCart("flow")}
-        />
-        <ProductCard
-          productType="clear"
-          purchaseType={purchaseType}
-          onAddToCart={() => handleAddToCart("clear")}
-        />
-        <ProductCard
-          productType="protocol"
-          purchaseType={purchaseType}
-          protocolVariant={protocolVariant}
-          onProtocolVariantChange={setProtocolVariant}
-          onAddToCart={() => handleAddToCart("protocol")}
-        />
+        {/* Flow Card */}
+        <div className="product-card-wrapper relative">
+          <div className="relative w-[65%] mx-auto aspect-square mb-[-24px] z-10">
+            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.10)]">
+              <Image
+                src={getFormulaImage("01")}
+                alt="CONKA Flow"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+            </div>
+          </div>
+          <ProductCard
+            productType="flow"
+            onAddToCart={() => handleAddToCart("flow")}
+          />
+        </div>
+
+        {/* Clear Card */}
+        <div className="product-card-wrapper relative">
+          <div className="relative w-[65%] mx-auto aspect-square mb-[-24px] z-10">
+            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.10)]">
+              <Image
+                src={getFormulaImage("02")}
+                alt="CONKA Clear"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+            </div>
+          </div>
+          <ProductCard
+            productType="clear"
+            onAddToCart={() => handleAddToCart("clear")}
+          />
+        </div>
+
+        {/* Protocol Card */}
+        <div className="product-card-wrapper relative">
+          <div className="relative w-[65%] mx-auto aspect-square mb-[-24px] z-10">
+            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.10)]">
+              <Image
+                key={protocolVariant}
+                src={getProtocolVariantImage(protocolVariant)}
+                alt="CONKA Protocol"
+                fill
+                className="object-cover transition-opacity duration-300"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+            </div>
+          </div>
+          <ProductCard
+            productType="protocol"
+            protocolVariant={protocolVariant}
+            onProtocolVariantChange={setProtocolVariant}
+            onAddToCart={() => handleAddToCart("protocol")}
+          />
+        </div>
       </div>
 
       {/* Trial Pack Anchor Link */}
