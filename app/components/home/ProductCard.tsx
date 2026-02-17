@@ -221,12 +221,15 @@ export default function ProductCard({
     : product.bestFor;
 
   // Button background color
+  const formulaGradient = !isProtocol ? getProductGradient(product.id) : null;
   const buttonBg = isSubscribe
     ? (isProtocol
         ? (buttonGradient
             ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
             : (accentColor ?? "#000"))
-        : (accentColor ?? "#111"))
+        : (formulaGradient
+            ? `linear-gradient(to right, ${formulaGradient.start}, ${formulaGradient.end})`
+            : (accentColor ?? "#111")))
     : "var(--color-ink)"; // One-time purchase: use ink/black
 
   return (

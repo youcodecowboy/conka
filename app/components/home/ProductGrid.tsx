@@ -53,17 +53,17 @@ export default function ProductGrid() {
       <AssuranceBanner />
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
+      <div className="product-grid-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-4 lg:gap-8 mb-8">
         {/* Flow Card */}
-        <div className="product-card-wrapper flex flex-col items-center">
-          <div className="relative w-full aspect-square mb-4">
+        <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+          <div className="relative w-full mx-auto aspect-square mb-4">
             <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
               <Image
                 src={getFormulaImage("01")}
                 alt="CONKA Flow"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1023px) 50vw, 33vw"
               />
             </div>
           </div>
@@ -74,15 +74,15 @@ export default function ProductGrid() {
         </div>
 
         {/* Clear Card */}
-        <div className="product-card-wrapper flex flex-col items-center">
-          <div className="relative w-full aspect-square mb-4">
+        <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+          <div className="relative w-full mx-auto aspect-square mb-4">
             <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
               <Image
                 src={getFormulaImage("02")}
                 alt="CONKA Clear"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1023px) 50vw, 33vw"
               />
             </div>
           </div>
@@ -93,33 +93,72 @@ export default function ProductGrid() {
         </div>
 
         {/* Protocol Card */}
-        <div className="product-card-wrapper flex flex-col items-center">
-          <div className="relative w-full aspect-square mb-4">
-            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
-              <Image
-                key={protocolVariant}
-                src={getProtocolVariantImage(protocolVariant)}
-                alt="CONKA Protocol"
-                fill
-                className="object-cover transition-opacity duration-300"
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
-              <div
-                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
-                style={{ 
-                  color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
-                }}
-              >
-                Most Popular
+        <div className="product-card-wrapper product-card-protocol">
+          {/* Desktop/Mobile: Floating image above card */}
+          <div className="product-card-protocol-image-float md:hidden lg:flex flex-col items-center">
+            <div className="relative w-full mx-auto aspect-square mb-4 z-10">
+              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                <Image
+                  key={protocolVariant}
+                  src={getProtocolVariantImage(protocolVariant)}
+                  alt="CONKA Protocol"
+                  fill
+                  className="object-cover transition-opacity duration-300"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+                <div
+                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
+                  style={{ 
+                    color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                  }}
+                >
+                  Most Popular
+                </div>
               </div>
             </div>
+            <ProductCard
+              productType="protocol"
+              protocolVariant={protocolVariant}
+              onProtocolVariantChange={setProtocolVariant}
+              onAddToCart={() => handleAddToCart("protocol")}
+            />
           </div>
-          <ProductCard
-            productType="protocol"
-            protocolVariant={protocolVariant}
-            onProtocolVariantChange={setProtocolVariant}
-            onAddToCart={() => handleAddToCart("protocol")}
-          />
+          
+          {/* Tablet: Image left, card right */}
+          <div className="product-card-protocol-tablet hidden md:flex lg:hidden gap-4">
+            {/* Image - left side, vertically centered */}
+            <div className="flex items-center justify-center flex-shrink-0 w-1/2">
+              <div className="relative w-full aspect-square">
+                <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                  <Image
+                    key={protocolVariant}
+                    src={getProtocolVariantImage(protocolVariant)}
+                    alt="CONKA Protocol"
+                    fill
+                    className="object-cover transition-opacity duration-300"
+                    sizes="50vw"
+                  />
+                  <div
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
+                    style={{ 
+                      color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                    }}
+                  >
+                    Most Popular
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Card - right side */}
+            <div className="flex-1">
+              <ProductCard
+                productType="protocol"
+                protocolVariant={protocolVariant}
+                onProtocolVariantChange={setProtocolVariant}
+                onAddToCart={() => handleAddToCart("protocol")}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
