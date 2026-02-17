@@ -94,7 +94,7 @@ export default function AthleteCredibilityCarousel() {
       </div>
 
       {/* Carousel Content */}
-      <div className="grid grid-cols-1 md:grid-cols-[0.55fr_0.45fr] gap-8 md:gap-12 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-8 md:gap-12 items-center">
         {/* Left column: text (order-first on mobile) */}
         <div className="flex flex-col gap-4 md:gap-6 min-w-0">
           <div key={currentIndex} className="animate-fade-in-scale">
@@ -131,7 +131,7 @@ export default function AthleteCredibilityCarousel() {
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </button>
-            <div className="relative w-full aspect-square max-w-lg md:max-w-xl mx-auto rounded-[var(--premium-radius-card)] overflow-hidden bg-black/5 flex items-center justify-center">
+            <div className="relative w-full aspect-square max-w-lg md:max-w-none mx-auto rounded-[var(--premium-radius-card)] overflow-hidden bg-black/5 flex items-center justify-center">
               {ATHLETE_SLIDES.map((s, i) => (
                 <div
                   key={s.image}
@@ -144,7 +144,7 @@ export default function AthleteCredibilityCarousel() {
                     alt={`${s.name} in action`}
                     fill
                     className="object-contain"
-                    sizes="(max-width: 768px) 100vw, 45vw"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     priority={i === 0}
                   />
                 </div>
