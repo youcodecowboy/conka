@@ -27,12 +27,12 @@ const WhatIsConka = dynamic(() => import("./components/WhatIsConka"), {
 //   loading: () => <div className="h-[600px]" />,
 // });
 
-const ProtocolsGrid = dynamic(() => import("./components/shop/ProtocolsGrid"), {
+const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
   loading: () => <div className="h-[600px]" />,
 });
 
-const TrialPacks = dynamic(() => import("./components/TrialPacks"), {
-  loading: () => <div className="h-[500px]" />,
+const TrialPackStrip = dynamic(() => import("./components/home/TrialPackStrip"), {
+  loading: () => <div className="h-[400px]" />,
 });
 
 const CaseStudiesDataDriven = dynamic(
@@ -454,17 +454,13 @@ export default function Home() {
         <ProtocolBuilder />
       </div> */}
 
-      {/* ===== SECTION 4: PROTOCOLS (product grid scroll target for hero CTA) ===== */}
+      {/* ===== SECTION 4: PRODUCT GRID (scroll target for hero CTA) ===== */}
       <div id="product-grid" className="scroll-mt-20">
-        <section id="protocols">
-          <ProtocolsGrid />
-        </section>
+        <ProductGrid />
       </div>
 
       {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
-      <div id="trial-packs" className="scroll-mt-32 lg:scroll-mt-24">
-        <TrialPacks />
-      </div>
+      <TrialPackStrip />
 
       {/* ===== SECTION 7: OUR STORY TEASER ===== */}
       <section className="px-6 md:px-16 py-24">
