@@ -179,7 +179,7 @@ export default function BenefitDetail({
     <div aria-live="polite">
       <div 
         key={struggleId} 
-        className="premium-card-soft p-8 rounded-[var(--premium-radius-card)] bg-white [animation:fadeIn_0.3s_ease]"
+        className="premium-card-soft !bg-white p-8 [animation:fadeIn_0.3s_ease]"
       >
         {/* Struggle question */}
         <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-2">
