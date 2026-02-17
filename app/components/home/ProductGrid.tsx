@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import AssuranceBanner from "./AssuranceBanner";
 import ProductCard from "./ProductCard";
+import ProductGridMobile from "./ProductGridMobile";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
@@ -24,6 +25,16 @@ const getProtocolVariantImage = (variant: ProtocolVariant): string => {
 
 export default function ProductGrid() {
   const [protocolVariant, setProtocolVariant] = useState<ProtocolVariant>("balance");
+  const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleAddToCart = useCallback((productType: "flow" | "clear" | "protocol") => {
     // TODO: Implement add to cart logic
@@ -37,8 +48,15 @@ export default function ProductGrid() {
     }
   }, []);
 
-  return (
-    <>
+  // Render mobile carousel if on mobile
+  if (isMobile === true) {
+    return <ProductGridMobile />;
+  }
+
+  // Render desktop/tablet grid
+  if (isMobile === false) {
+    return (
+      <>
       {/* Section Header */}
       <div className="mb-8 md:mb-12 text-left">
         <h2 className="premium-section-heading">
@@ -171,6 +189,10 @@ export default function ProductGrid() {
           New to CONKA? → Try a 4-pack trial
         </button>
       </div>
-    </>
-  );
+      </>
+    );
+  }
+
+  // Loading state during SSR/hydration
+  return null;
 }
