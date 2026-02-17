@@ -31,9 +31,12 @@ const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
   loading: () => <div className="h-[600px]" />,
 });
 
-const TrialPackStrip = dynamic(() => import("./components/home/TrialPackStrip"), {
-  loading: () => <div className="h-[400px]" />,
-});
+const TrialPackStrip = dynamic(
+  () => import("./components/home/TrialPackStrip"),
+  {
+    loading: () => <div className="h-[400px]" />,
+  },
+);
 
 const CaseStudiesDataDriven = dynamic(
   () => import("./components/CaseStudiesDataDriven"),
@@ -410,7 +413,8 @@ export default function Home() {
 
       {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-base-mid)" }}
         aria-label="Athletes who use CONKA"
       >
         <div className="premium-track">
@@ -421,8 +425,7 @@ export default function Home() {
       {/* ===== PRODUCT GRID (scroll target for hero CTA) ===== */}
       <div id="product-grid" className="scroll-mt-20">
         <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-base-mid)" }}
+          className="premium-section-luxury premium-bg-bone"
           aria-label="Find Your Formula"
         >
           <div className="premium-track">
