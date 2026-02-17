@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ProtocolId } from "@/app/lib/productData";
-import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
+import { getProtocolImage } from "@/app/lib/productImageConfig";
 import { protocolContent } from "@/app/lib/productData";
 import {
   getProfessionalProtocolsOrdered,

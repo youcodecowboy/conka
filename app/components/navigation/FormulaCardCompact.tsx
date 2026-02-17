@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FormulaShowcaseData } from "@/app/components/shop/formulasShowcaseData";
-import { getFormulaImage } from "./protocolImageConfig";
+import { getFormulaImage } from "@/app/lib/productImageConfig";
 
 interface FormulaCardCompactProps {
   formula: FormulaShowcaseData;

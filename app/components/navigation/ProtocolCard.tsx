@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { protocolContent } from "@/app/lib/productData";
 import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
-import { getProtocolImage } from "./protocolImageConfig";
+import { getProtocolImage } from "@/app/lib/productImageConfig";
 import type { ProtocolCardProps } from "./types";
 
 export default function ProtocolCard({

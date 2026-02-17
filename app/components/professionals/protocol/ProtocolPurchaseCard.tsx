@@ -13,7 +13,7 @@ import {
 } from "@/app/lib/productData";
 import type { B2BTier } from "@/app/lib/productData";
 import type { B2BNextTierInfo } from "@/app/components/professionals/formulas/types";
-import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
+import { getProtocolImage } from "@/app/lib/productImageConfig";
 import { protocolContent } from "@/app/lib/productData";
 import { professionalProtocolCopy } from "./protocolCopy";
 
