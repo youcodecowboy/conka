@@ -57,7 +57,7 @@ export default function ProductGrid() {
         {/* Flow Card */}
         <div className="product-card-wrapper flex flex-col items-center">
           <div className="relative w-full aspect-square mb-4">
-            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.10)]">
+            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
               <Image
                 src={getFormulaImage("01")}
                 alt="CONKA Flow"
@@ -76,7 +76,7 @@ export default function ProductGrid() {
         {/* Clear Card */}
         <div className="product-card-wrapper flex flex-col items-center">
           <div className="relative w-full aspect-square mb-4">
-            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.10)]">
+            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
               <Image
                 src={getFormulaImage("02")}
                 alt="CONKA Clear"
@@ -95,7 +95,7 @@ export default function ProductGrid() {
         {/* Protocol Card */}
         <div className="product-card-wrapper flex flex-col items-center">
           <div className="relative w-full aspect-square mb-4">
-            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.10)]">
+            <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
               <Image
                 key={protocolVariant}
                 src={getProtocolVariantImage(protocolVariant)}
@@ -105,9 +105,9 @@ export default function ProductGrid() {
                 sizes="(max-width: 768px) 100vw, 33vw"
               />
               <div
-                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
                 style={{ 
-                  backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                  color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
                 }}
               >
                 Most Popular
