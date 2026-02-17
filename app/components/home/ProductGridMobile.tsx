@@ -209,7 +209,7 @@ export default function ProductGridMobile() {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {/* Flow Card */}
-          <div className="w-full flex-shrink-0 px-4">
+          <div className="w-full flex-shrink-0" style={{ paddingLeft: "var(--premium-gutter-mobile-tight)", paddingRight: "var(--premium-gutter-mobile-tight)" }}>
             <div className="flex flex-col items-center">
               <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
@@ -230,7 +230,7 @@ export default function ProductGridMobile() {
           </div>
 
           {/* Clear Card */}
-          <div className="w-full flex-shrink-0 px-4">
+          <div className="w-full flex-shrink-0" style={{ paddingLeft: "var(--premium-gutter-mobile-tight)", paddingRight: "var(--premium-gutter-mobile-tight)" }}>
             <div className="flex flex-col items-center">
               <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
@@ -251,7 +251,7 @@ export default function ProductGridMobile() {
           </div>
 
           {/* Protocol Card */}
-          <div className="w-full flex-shrink-0 px-4">
+          <div className="w-full flex-shrink-0" style={{ paddingLeft: "var(--premium-gutter-mobile-tight)", paddingRight: "var(--premium-gutter-mobile-tight)" }}>
             <div className="flex flex-col items-center">
               <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
