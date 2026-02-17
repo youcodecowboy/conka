@@ -24,63 +24,58 @@ export default function ProductGrid() {
   }, []);
 
   return (
-    <section
-      className="premium-section-luxury premium-bg-surface"
-      aria-label="Find Your Formula"
-    >
-      <div className="premium-track">
-        {/* Section Header */}
-        <div className="mb-8 md:mb-12 text-center">
-          <h2 className="premium-section-heading">
-            Find Your Formula
-          </h2>
-          <p className="premium-section-subtitle">
-            Individual formulas for specific needs, or protocols for complete performance.
-          </p>
-        </div>
-
-        {/* Assurance Banner */}
-        <AssuranceBanner />
-
-        {/* Global Purchase Toggle */}
-        <div className="mb-8">
-          <GlobalPurchaseToggle
-            purchaseType={purchaseType}
-            onToggle={setPurchaseType}
-          />
-        </div>
-
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
-          <ProductCard
-            productType="flow"
-            purchaseType={purchaseType}
-            onAddToCart={() => handleAddToCart("flow")}
-          />
-          <ProductCard
-            productType="clear"
-            purchaseType={purchaseType}
-            onAddToCart={() => handleAddToCart("clear")}
-          />
-          <ProductCard
-            productType="protocol"
-            purchaseType={purchaseType}
-            protocolVariant={protocolVariant}
-            onProtocolVariantChange={setProtocolVariant}
-            onAddToCart={() => handleAddToCart("protocol")}
-          />
-        </div>
-
-        {/* Trial Pack Anchor Link */}
-        <div className="text-center">
-          <button
-            onClick={scrollToTrialPacks}
-            className="premium-body-sm text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] transition-colors inline-flex items-center gap-1"
-          >
-            New to CONKA? → Try a 4-pack trial
-          </button>
-        </div>
+    <>
+      {/* Section Header */}
+      <div className="mb-8 md:mb-12 text-center">
+        <h2 className="premium-section-heading">
+          Find Your Formula
+        </h2>
+        <p className="premium-section-subtitle">
+          Individual formulas for specific needs, or protocols for complete performance.
+        </p>
       </div>
-    </section>
+
+      {/* Assurance Banner */}
+      <AssuranceBanner />
+
+      {/* Global Purchase Toggle */}
+      <div className="mb-8">
+        <GlobalPurchaseToggle
+          purchaseType={purchaseType}
+          onToggle={setPurchaseType}
+        />
+      </div>
+
+      {/* Product Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
+        <ProductCard
+          productType="flow"
+          purchaseType={purchaseType}
+          onAddToCart={() => handleAddToCart("flow")}
+        />
+        <ProductCard
+          productType="clear"
+          purchaseType={purchaseType}
+          onAddToCart={() => handleAddToCart("clear")}
+        />
+        <ProductCard
+          productType="protocol"
+          purchaseType={purchaseType}
+          protocolVariant={protocolVariant}
+          onProtocolVariantChange={setProtocolVariant}
+          onAddToCart={() => handleAddToCart("protocol")}
+        />
+      </div>
+
+      {/* Trial Pack Anchor Link */}
+      <div className="text-center">
+        <button
+          onClick={scrollToTrialPacks}
+          className="premium-body-sm text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] transition-colors inline-flex items-center gap-1"
+        >
+          New to CONKA? → Try a 4-pack trial
+        </button>
+      </div>
+    </>
   );
 }

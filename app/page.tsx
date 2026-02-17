@@ -418,6 +418,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== PRODUCT GRID (scroll target for hero CTA) ===== */}
+      <div id="product-grid" className="scroll-mt-20">
+        <section
+          className="premium-section-luxury premium-bg-surface"
+          aria-label="Find Your Formula"
+        >
+          <div className="premium-track">
+            <ProductGrid />
+          </div>
+        </section>
+      </div>
+
       {/* ===== SECTION 1.5: TESTIMONIALS (landing page mix: Flow, Clarity, Protocol) ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
@@ -453,11 +465,6 @@ export default function Home() {
       {/* <div id="protocols">
         <ProtocolBuilder />
       </div> */}
-
-      {/* ===== SECTION 4: PRODUCT GRID (scroll target for hero CTA) ===== */}
-      <div id="product-grid" className="scroll-mt-20">
-        <ProductGrid />
-      </div>
 
       {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
       <TrialPackStrip />
