@@ -13,12 +13,12 @@ function HeroTrustBadges({
   textClass?: string;
 }) {
   return (
-    <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 gap-y-2 justify-start text-[0.7rem] md:text-[var(--premium-font-data-size)]">
-      <span className={`flex items-center gap-1.5 ${textClass} md:whitespace-nowrap md:shrink-0`}>
+    <div className="flex flex-wrap md:flex-nowrap items-center gap-x-5 gap-y-2 justify-start text-sm md:text-base font-bold">
+      <span className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}>
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
-            width="14"
-            height="14"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -31,11 +31,11 @@ function HeroTrustBadges({
         </span>
         Informed Sport Certified
       </span>
-      <span className={`flex items-center gap-1.5 ${textClass} md:whitespace-nowrap md:shrink-0`}>
+      <span className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}>
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
-            width="14"
-            height="14"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -51,11 +51,11 @@ function HeroTrustBadges({
         </span>
         Made in UK
       </span>
-      <span className={`flex items-center gap-1.5 ${textClass} md:whitespace-nowrap md:shrink-0`}>
+      <span className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}>
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
-            width="14"
-            height="14"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -134,8 +134,7 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
         <div className="flex flex-col gap-2 md:gap-[var(--space-text-gap)]">
           {/* Social proof — mobile: simplified; desktop: full line */}
           <div
-            className={`flex flex-wrap items-center justify-start gap-x-2 shrink-0 md:hidden ${textMuted}`}
-            style={{ fontSize: "var(--premium-font-data-size)" }}
+            className={`flex flex-wrap items-center justify-start gap-x-2 shrink-0 md:hidden text-sm md:text-base font-bold ${textMuted}`}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
               <span aria-hidden className="text-yellow-500">★★★★★</span>
@@ -143,8 +142,7 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
             <span className="whitespace-nowrap">Over 100,000 bottles sold</span>
           </div>
           <div
-            className={`hidden md:flex flex-nowrap items-center justify-start gap-x-3 shrink-0 ${textMuted}`}
-            style={{ fontSize: "var(--premium-font-data-size)" }}
+            className={`hidden md:flex flex-nowrap items-center justify-start gap-x-3 shrink-0 text-sm md:text-base font-bold ${textMuted}`}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
               <span aria-hidden className="text-yellow-500">★★★★★</span> 4.9/5
@@ -159,7 +157,7 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
             className={`font-bold ${textPrimary} leading-tight md:whitespace-nowrap`}
             style={{
               letterSpacing: "var(--letter-spacing-premium-title)",
-              fontSize: "clamp(2rem, 5vw, 3.5rem)",
+              fontSize: "clamp(2.5rem, 6.5vw, 4.5rem)",
               lineHeight: "var(--leading-tight)",
             }}
           >
@@ -181,9 +179,8 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
           </h1>
 
           <p
-            className={`text-left mb-0 ${textMuted}`}
+            className={`text-left mb-0 text-lg md:text-xl ${textMuted}`}
             style={{
-              fontSize: "var(--text-body-premium)",
               lineHeight: "var(--premium-font-body-leading)",
             }}
           >
@@ -194,10 +191,9 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
             <button
               type="button"
               onClick={scrollToProductGrid}
-              className={`w-full md:w-[200px] min-h-[48px] md:min-h-[56px] rounded-[var(--premium-radius-interactive)] font-semibold text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-neuro-blue-end)] ${focusRingOffset}`}
+              className={`w-full md:w-[200px] min-h-[48px] md:min-h-[56px] rounded-[var(--premium-radius-interactive)] font-semibold text-white text-base md:text-lg transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-neuro-blue-end)] ${focusRingOffset}`}
               style={{
                 background: "var(--gradient-neuro-blue-accent)",
-                fontSize: "var(--premium-font-body-size)",
               }}
             >
               Find Your Formula
