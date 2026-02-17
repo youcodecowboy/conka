@@ -435,3 +435,13 @@
     grid-template-areas: none;
   }
 }
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
