@@ -2,11 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { PurchaseType, formulaContent, protocolContent } from "@/app/lib/productData";
+import {
+  PurchaseType,
+  formulaContent,
+  protocolContent,
+} from "@/app/lib/productData";
 import { formulaPricing, protocolPricing } from "@/app/lib/productPricing";
 import { getProductAccent, getProductGradient } from "@/app/lib/productColors";
 import { getProtocolTierTotalShots } from "@/app/lib/productHelpers";
-import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
+import {
+  getFormulaImage,
+  getProtocolImage,
+} from "@/app/lib/productImageConfig";
 import type { FormulaId, ProtocolId } from "@/app/lib/productTypes";
 import ProtocolVariantSelector, {
   type ProtocolVariant,
@@ -40,13 +47,13 @@ const calculateProtocolSavings = (
 ): number | null => {
   // Protocol max tier (28 shots) pricing
   const protocolPrice = protocolPricing.standard[purchaseType].max.price;
-  
+
   // Two 28-shot formulas (Flow + Clear) - both use same pricing
   const formula28Price = formulaPricing[purchaseType]["28"].price;
-  
+
   const separateTotal = formula28Price + formula28Price; // Flow + Clear
   const savings = separateTotal - protocolPrice;
-  
+
   return savings > 0 ? savings : null;
 };
 
@@ -58,12 +65,9 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       id: "01" as FormulaId,
       name: flow.name,
       benefitHeadline: "Energy without the crash",
-      bodyCopy: "Sustained focus for training and work — no caffeine, no crash.",
-      bestFor: [
-        "Morning training",
-        "Long workdays",
-        "Clean mental stamina",
-      ],
+      bodyCopy:
+        "Sustained focus for training and work — no caffeine, no crash.",
+      bestFor: ["Morning training", "Long workdays", "Clean mental stamina"],
       image: getFormulaImage("01"),
       link: "/formula/01",
       linkText: "View all sizes →",
@@ -77,12 +81,9 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       id: "02" as FormulaId,
       name: clear.name,
       benefitHeadline: "Deeper recovery, better sleep",
-      bodyCopy: "Wind down and recharge properly. Wake up ready to perform again.",
-      bestFor: [
-        "Post-training recovery",
-        "Evening wind-down",
-        "Sleep quality",
-      ],
+      bodyCopy:
+        "Wind down and recharge properly. Wake up ready to perform again.",
+      bestFor: ["Post-training recovery", "Evening wind-down", "Sleep quality"],
       image: getFormulaImage("02"),
       link: "/formula/02",
       linkText: "View all sizes →",
@@ -96,7 +97,8 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     id: "3" as ProtocolId,
     name: "CONKA Protocol",
     benefitHeadline: "Complete daily performance",
-    bodyCopy: "Flow and Clear in precise ratios. All-day performance, fully covered.",
+    bodyCopy:
+      "Flow and Clear in precise ratios. All-day performance, fully covered.",
     bestFor: [
       "All-day energy & focus",
       "Full recovery & sleep",
@@ -123,7 +125,9 @@ const getProtocolVariantImage = (variant: ProtocolVariant): string => {
   }
 };
 
-const getProtocolVariantGradient = (variant: ProtocolVariant): { start: string; end: string } => {
+const getProtocolVariantGradient = (
+  variant: ProtocolVariant,
+): { start: string; end: string } => {
   switch (variant) {
     case "flow-heavy":
       return getProductGradient("1"); // Resilience: orange to red
@@ -137,13 +141,14 @@ const getProtocolVariantGradient = (variant: ProtocolVariant): { start: string; 
 };
 
 // Export badge info for use in wrapper
-export function getProductBadge(productType: "flow" | "clear" | "protocol"): string | null {
+export function getProductBadge(
+  productType: "flow" | "clear" | "protocol",
+): string | null {
   if (productType === "protocol") {
     return "Most Popular";
   }
   return null;
 }
-
 
 export default function ProductCard({
   productType,
@@ -151,7 +156,8 @@ export default function ProductCard({
   onProtocolVariantChange,
   onAddToCart,
 }: ProductCardProps) {
-  const [purchaseType, setPurchaseType] = useState<PurchaseType>("subscription");
+  const [purchaseType, setPurchaseType] =
+    useState<PurchaseType>("subscription");
   const product = getProductData(productType);
   const isProtocol = productType === "protocol";
   const isSubscribe = purchaseType === "subscription";
@@ -161,7 +167,13 @@ export default function ProductCard({
     ? getProtocolVariantGradient(protocolVariant)
     : null;
   const accentColor = isProtocol
-    ? getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3")
+    ? getProductAccent(
+        protocolVariant === "flow-heavy"
+          ? "1"
+          : protocolVariant === "clear-heavy"
+            ? "2"
+            : "3",
+      )
     : getProductAccent(product.id);
 
   // Get pricing - use max tier (28 shots) for protocol
@@ -179,13 +191,13 @@ export default function ProductCard({
     const perShot = pricing.price / totalShots;
     dailyPrice = `£${perShot.toFixed(2)}`;
     monthlyPrice = `£${pricing.price.toFixed(2)}`;
-    
+
     if (isSubscribe && "basePrice" in pricing) {
       const originalPerShot = pricing.basePrice / totalShots;
       originalDailyPrice = `£${originalPerShot.toFixed(2)}`;
       originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
-    
+
     perShotText = "28-shot supply (Flow + Clear)";
     savings = calculateProtocolSavings(purchaseType);
   } else {
@@ -193,13 +205,13 @@ export default function ProductCard({
     const pricing = formulaPricing[purchaseType]["28"];
     dailyPrice = `£${pricing.perShot.toFixed(2)}`;
     monthlyPrice = `£${pricing.price.toFixed(2)}`;
-    
+
     if (isSubscribe && "basePrice" in pricing) {
       const originalPerShot = pricing.basePrice / 28;
       originalDailyPrice = `£${originalPerShot.toFixed(2)}`;
       originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
-    
+
     perShotText = "28-shot supply";
   }
 
@@ -210,20 +222,24 @@ export default function ProductCard({
 
   // Button background color
   const buttonBg = isProtocol
-    ? (buttonGradient ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})` : (accentColor ?? "#000"))
+    ? buttonGradient
+      ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
+      : (accentColor ?? "#000")
     : (accentColor ?? "#111");
 
   return (
     <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden p-0">
       {/* Product Info */}
-      <div className={`flex-1 flex flex-col px-4 pb-6 ${isProtocol && onProtocolVariantChange ? 'pt-0' : 'pt-4'}`}>
+      <div
+        className={`flex-1 flex flex-col px-0 pb-6 ${isProtocol && onProtocolVariantChange ? "pt-0" : "pt-4"}`}
+      >
         {/* Product Name */}
         <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-1">
           {product.name}
         </p>
 
         {/* Benefit Headline */}
-        <h3 
+        <h3
           className="premium-heading text-2xl md:text-3xl font-bold mb-2"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
@@ -285,7 +301,10 @@ export default function ProductCard({
         <div className="mt-auto pt-4 border-t border-[var(--color-premium-stroke)]">
           {/* Protocol Savings */}
           {isProtocol && savings !== null && savings > 0 && (
-            <p className="premium-body-sm font-medium mb-3" style={{ color: accentColor || "#3a9f7e" }}>
+            <p
+              className="premium-body-sm font-medium mb-3"
+              style={{ color: accentColor || "#3a9f7e" }}
+            >
               Save £{savings.toFixed(2)} vs buying separately
             </p>
           )}
@@ -322,9 +341,7 @@ export default function ProductCard({
                     {originalMonthlyPrice}
                   </div>
                 )}
-                <div className="font-semibold text-[13px]">
-                  {monthlyPrice}
-                </div>
+                <div className="font-semibold text-[13px]">{monthlyPrice}</div>
               </div>
             </label>
 
@@ -350,9 +367,7 @@ export default function ProductCard({
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-semibold text-[13px]">
-                  {monthlyPrice}
-                </div>
+                <div className="font-semibold text-[13px]">{monthlyPrice}</div>
               </div>
             </label>
           </div>
