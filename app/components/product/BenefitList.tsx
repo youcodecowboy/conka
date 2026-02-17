@@ -29,7 +29,7 @@ export default function BenefitList({
 
   // Desktop: Vertical list
   const desktopList = (
-    <div className="hidden lg:block space-y-2">
+    <div className="hidden lg:block space-y-2 rounded-[var(--premium-radius-card)]" style={{ border: "1px solid var(--color-premium-stroke)", padding: "2em" }}>
       {STRUGGLE_OPTIONS.map((struggle) => {
         const isSelected = selectedStruggle === struggle.id;
         const solution = formula.struggleSolutions[struggle.id];
@@ -48,7 +48,7 @@ export default function BenefitList({
               transition-all duration-200 w-full text-left
               ${isSelected
                 ? "bg-[var(--color-ink)] text-[var(--color-bone)]"
-                : "hover:bg-[var(--color-premium-bg-soft)]"
+                : "bg-white border border-[var(--color-premium-stroke)] hover:bg-[var(--color-premium-bg-soft)]"
               }
             `}
           >
