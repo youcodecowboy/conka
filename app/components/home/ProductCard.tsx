@@ -69,8 +69,8 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
         "Sustained focus for training and work — no caffeine, no crash.",
       bestFor: ["Morning training", "Long workdays", "Clean mental stamina"],
       image: getFormulaImage("01"),
-      link: "/formula/01",
-      linkText: "View all sizes →",
+      link: "/conka-flow",
+      linkText: "View Product",
       badge: null,
     };
   }
@@ -85,8 +85,8 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
         "Wind down and recharge properly. Wake up ready to perform again.",
       bestFor: ["Post-training recovery", "Evening wind-down", "Sleep quality"],
       image: getFormulaImage("02"),
-      link: "/formula/02",
-      linkText: "View all sizes →",
+      link: "/conka-clarity",
+      linkText: "View Product",
       badge: null,
     };
   }
@@ -106,7 +106,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     ],
     image: getProtocolImage("3"), // Default, will be overridden by variant
     link: "/protocol/3",
-    linkText: "View all protocols →",
+    linkText: null,
     badge: "Most Popular",
   };
 };
@@ -228,7 +228,7 @@ export default function ProductCard({
     : (accentColor ?? "#111");
 
   return (
-    <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden" style={{ padding: '1rem' }}>
+    <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden" style={{ padding: '1rem', backgroundColor: 'white' }}>
       {/* Product Info */}
       <div
         className={`flex-1 flex flex-col px-0 pb-0 ${isProtocol && onProtocolVariantChange ? "pt-0" : "pt-4"}`}
@@ -315,9 +315,10 @@ export default function ProductCard({
             <label
               className={`flex items-center justify-between py-3 px-4 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all w-full ${
                 isSubscribe
-                  ? "border border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
-                  : "border border-black/8 bg-white"
+                  ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
+                  : "border border-black/8"
               }`}
+              style={!isSubscribe ? { backgroundColor: 'var(--color-bone)' } : {}}
             >
               <input
                 type="radio"
@@ -349,9 +350,10 @@ export default function ProductCard({
             <label
               className={`flex items-center justify-between py-3 px-4 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all w-full ${
                 !isSubscribe
-                  ? "border border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
-                  : "border border-black/8 bg-white"
+                  ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
+                  : "border border-black/8"
               }`}
+              style={isSubscribe ? { backgroundColor: 'var(--color-bone)' } : {}}
             >
               <input
                 type="radio"
@@ -392,12 +394,14 @@ export default function ProductCard({
           </button>
 
           {/* View All Link */}
-          <Link
-            href={product.link}
-            className="premium-body-sm text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] transition-colors text-center block"
-          >
-            {product.linkText}
-          </Link>
+          {product.linkText && (
+            <Link
+              href={product.link}
+              className="premium-body-sm text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] transition-colors text-center block"
+            >
+              {product.linkText}
+            </Link>
+          )}
         </div>
       </div>
     </div>
