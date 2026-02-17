@@ -31,13 +31,6 @@ const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
   loading: () => <div className="h-[600px]" />,
 });
 
-const TrialPackStrip = dynamic(
-  () => import("./components/home/TrialPackStrip"),
-  {
-    loading: () => <div className="h-[400px]" />,
-  },
-);
-
 const CaseStudiesDataDriven = dynamic(
   () => import("./components/CaseStudiesDataDriven"),
   {
@@ -425,9 +418,6 @@ export default function Home() {
       {/* <div id="protocols">
         <ProtocolBuilder />
       </div> */}
-
-      {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
-      <TrialPackStrip />
 
       {/* ===== SECTION 7: OUR STORY TEASER ===== */}
       <section className="px-6 md:px-16 py-24">
