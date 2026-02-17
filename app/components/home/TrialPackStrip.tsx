@@ -147,6 +147,11 @@ export default function TrialPackStrip() {
                 >
                   {isAdding ? "Adding..." : "Add to Cart"}
                 </button>
+
+                {/* Assurance Message */}
+                <p className="mt-4 text-center premium-body-sm text-[var(--text-on-light-muted)]">
+                  🔒 60-day money-back guarantee — even on trial packs
+                </p>
               </div>
             </div>
           </div>
@@ -245,6 +250,11 @@ export default function TrialPackStrip() {
                 >
                   {isAdding ? "Adding..." : "Add to Cart"}
                 </button>
+
+                {/* Assurance Message */}
+                <p className="mt-4 text-center premium-body-sm text-[var(--text-on-light-muted)]">
+                  🔒 60-day money-back guarantee — even on trial packs
+                </p>
               </div>
             </div>
           </div>
