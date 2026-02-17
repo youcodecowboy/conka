@@ -125,12 +125,12 @@ export default function KeyBenefitsDesktop({
       {/* Heading block */}
       <div className="text-center mb-10">
         <h2
-          className="premium-section-heading"
+          className="premium-section-heading text-[var(--color-ink)]"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
           What you'll actually feel.
         </h2>
-        <p className="premium-section-subtitle mt-2">
+        <p className="premium-section-subtitle mt-2 text-[var(--color-ink)]">
           Select a benefit to see the evidence behind it.
         </p>
       </div>
@@ -141,7 +141,10 @@ export default function KeyBenefitsDesktop({
         <div className="lg:sticky lg:top-8">
           <div
             className="rounded-[40px] overflow-hidden"
-            style={{ border: "1px solid var(--color-premium-stroke)" }}
+            style={{ 
+              border: "1px solid var(--color-premium-stroke)",
+              background: "var(--color-bone)"
+            }}
           >
             <div style={{ padding: "2em" }} className="space-y-2">
               {benefits.map((benefit, idx) => {
@@ -158,20 +161,20 @@ export default function KeyBenefitsDesktop({
                       flex items-center gap-3 px-4 py-3.5 rounded-[20px] cursor-pointer 
                       transition-all duration-200 w-full text-left
                       ${isActive
-                        ? "bg-[var(--color-ink)] text-[var(--color-bone)]"
+                        ? "bg-[var(--color-ink)] text-white"
                         : "bg-white border border-[var(--color-premium-stroke)] hover:bg-[var(--color-premium-bg-soft)]"
                       }
                     `}
                   >
                     {/* Icon */}
                     {benefit.icon && (
-                      <span className={`w-5 h-5 shrink-0 flex items-center justify-center ${isActive ? NEURAL_BLUE.text : "opacity-60"}`}>
+                      <div className={`w-5 h-5 flex-shrink-0 ${isActive ? "text-white" : "opacity-60"}`}>
                         {benefit.icon}
-                      </span>
+                      </div>
                     )}
 
                     {/* Benefit title */}
-                    <span className="premium-body font-medium flex-1">
+                    <span className={`premium-body font-medium flex-1 ${isActive ? "text-white" : "text-[var(--color-ink)]"}`}>
                       {benefit.title}
                     </span>
 
@@ -179,13 +182,7 @@ export default function KeyBenefitsDesktop({
                     <span className="flex-1" />
 
                     {/* Stat */}
-                    <span
-                      className={`text-sm font-bold mr-3 ${
-                        isActive
-                          ? "text-[var(--color-bone)]"
-                          : NEURAL_BLUE.text
-                      }`}
-                    >
+                    <span className={`font-bold ${isActive ? "text-white" : NEURAL_BLUE.text}`}>
                       {benefit.stat}
                     </span>
 
@@ -200,7 +197,7 @@ export default function KeyBenefitsDesktop({
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       className={`shrink-0 transition-opacity duration-200 ${
-                        isActive ? "opacity-60" : "opacity-30"
+                        isActive ? "text-white opacity-90" : "opacity-30"
                       }`}
                     >
                       <polyline points="9 18 15 12 9 6" />
@@ -214,12 +211,12 @@ export default function KeyBenefitsDesktop({
 
         {/* Right: Benefit Detail (updates in-place) */}
         <div aria-live="polite">
-          <div
-            key={activeBenefit}
-            style={{ animation: "fadeIn 0.3s ease forwards" }}
+          <div 
+            key={activeBenefit} 
+            className="premium-card-soft !bg-white p-8 [animation:fadeIn_0.3s_ease]"
           >
             {/* Stat + annotation */}
-            <div className="flex items-baseline gap-3 mb-2">
+            <div className="flex items-baseline gap-3 mb-4">
               <span
                 className={`text-6xl lg:text-7xl font-bold tracking-tight ${NEURAL_BLUE.text}`}
                 style={{
@@ -228,26 +225,23 @@ export default function KeyBenefitsDesktop({
               >
                 {currentBenefit.stat}
               </span>
-              <span className="premium-body-sm opacity-60">
+              <span className="premium-body-sm opacity-60 text-[var(--color-ink)]">
                 {currentBenefit.annotation}
               </span>
             </div>
 
             {/* Description */}
-            <p className="premium-body opacity-80 leading-relaxed mb-6">
+            <p className="premium-body opacity-80 leading-relaxed mb-6 text-[var(--color-ink)]">
               {currentBenefit.description}
             </p>
 
             {/* Radar chart */}
-            <div
-              className="premium-card-soft p-6 rounded-[20px] mb-6"
-              aria-hidden="true"
-            >
-              <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-4">
+            <div className="premium-card-soft p-6 rounded-[20px] mb-6" aria-hidden="true">
+              <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-4 text-[var(--color-ink)]">
                 Performance impact
               </p>
               <div className="w-full max-w-[360px] mx-auto">
-                <RadarChart data={chartData} mainValue={mainStatValue} />
+                <RadarChart data={chartData} mainValue={mainStatValue} accentColor={NEURAL_BLUE.hex} />
               </div>
             </div>
 
@@ -265,16 +259,16 @@ export default function KeyBenefitsDesktop({
                     borderBottom: "1px solid var(--color-premium-stroke)",
                   }}
                 >
-                  <p className="premium-body-sm uppercase tracking-wider opacity-50">
+                  <p className="premium-body-sm uppercase tracking-wider opacity-50 text-[var(--color-ink)]">
                     Clinical study
                   </p>
-                  <p className="premium-body-sm opacity-40">
+                  <p className="premium-body-sm opacity-40 text-[var(--color-ink)]">
                     vs. baseline human performance
                   </p>
                 </div>
 
                 {/* Study details */}
-                <div className="px-5 py-4 space-y-2 premium-body-sm">
+                <div className="px-5 py-4 space-y-2 premium-body-sm text-[var(--color-ink)]">
                   <p>
                     <span className="opacity-50">Study: </span>
                     <span className="opacity-80">
@@ -296,8 +290,8 @@ export default function KeyBenefitsDesktop({
                 </div>
 
                 {/* Results */}
-                <div className="px-5 pb-5">
-                  <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3">
+                <div className="px-5 pb-5 text-[var(--color-ink)]">
+                  <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3 text-[var(--color-ink)]">
                     Key results
                   </p>
                   <ul className="space-y-2">

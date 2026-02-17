@@ -93,7 +93,7 @@ export default function ConkaClarityPage() {
         <Navigation />
         {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
         <section
-          className="premium-section-luxury premium-hero-first bg-white"
+          className="premium-section-luxury premium-hero-first premium-bg-bone"
           aria-label="Product hero"
         >
           <div className="premium-track">

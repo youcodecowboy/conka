@@ -30,7 +30,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
 
   return (
     <article
-      className="premium-card-dark-text overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] h-full"
+      className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] h-full text-[var(--color-ink)]"
     >
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
       <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">

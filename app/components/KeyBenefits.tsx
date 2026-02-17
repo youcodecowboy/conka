@@ -26,11 +26,22 @@ interface KeyBenefitsProps {
 export default function KeyBenefits({ benefits }: KeyBenefitsProps) {
   const isMobile = useIsMobile(1024); // lg breakpoint
 
+  // Own text color so section/body defaults don't cascade into mixed-context areas (e.g. selected tile).
+  const contentClass = "text-[var(--color-ink)]";
+
   // Render mobile version on smaller viewports
   if (isMobile) {
-    return <KeyBenefitsMobile benefits={benefits} />;
+    return (
+      <div className={contentClass}>
+        <KeyBenefitsMobile benefits={benefits} />
+      </div>
+    );
   }
 
   // Render desktop version on larger viewports
-  return <KeyBenefitsDesktop benefits={benefits} />;
+  return (
+    <div className={contentClass}>
+      <KeyBenefitsDesktop benefits={benefits} />
+    </div>
+  );
 }

@@ -409,7 +409,8 @@ export default function Home() {
 
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "#eeeff2" }}
         aria-label="Key Benefits"
       >
         <div className="premium-track">
