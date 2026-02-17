@@ -231,7 +231,7 @@ export default function ProductCard({
     <div className="premium-card-soft premium-card-soft-stroke relative group transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden p-0">
       {/* Product Info */}
       <div
-        className={`flex-1 flex flex-col px-0 pb-6 ${isProtocol && onProtocolVariantChange ? "pt-0" : "pt-4"}`}
+        className={`flex-1 flex flex-col px-0 pb-0 ${isProtocol && onProtocolVariantChange ? "pt-0" : "pt-4"}`}
       >
         {/* Product Name */}
         <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-1">
@@ -298,7 +298,7 @@ export default function ProductCard({
         </div>
 
         {/* Divider */}
-        <div className="mt-auto pt-4 border-t border-[var(--color-premium-stroke)]">
+        <div className="mt-auto pt-4 border-t border-[var(--color-premium-stroke)] pb-6 -mx-0 w-full">
           {/* Protocol Savings */}
           {isProtocol && savings !== null && savings > 0 && (
             <p
@@ -310,10 +310,10 @@ export default function ProductCard({
           )}
 
           {/* Subscribe / One-time Option Cards */}
-          <div className="space-y-2 mb-4">
+          <div className="space-y-2 mb-4 w-full">
             {/* Subscribe Option */}
             <label
-              className={`flex items-center justify-between p-3 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all ${
+              className={`flex items-center justify-between py-3 px-4 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all w-full ${
                 isSubscribe
                   ? "border border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
                   : "border border-black/8 bg-white"
@@ -347,7 +347,7 @@ export default function ProductCard({
 
             {/* One-time Option */}
             <label
-              className={`flex items-center justify-between p-3 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all ${
+              className={`flex items-center justify-between py-3 px-4 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all w-full ${
                 !isSubscribe
                   ? "border border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
                   : "border border-black/8 bg-white"
