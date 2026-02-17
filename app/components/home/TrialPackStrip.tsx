@@ -74,7 +74,7 @@ export default function TrialPackStrip() {
               </div>
             </div>
             {/* Card */}
-            <div className="premium-card-soft premium-card-soft-stroke">
+            <div className="premium-card-soft premium-card-soft-stroke" style={{ backgroundColor: 'white' }}>
               <div className="px-6 py-8 flex flex-col">
                 {/* Product Name */}
                 <div className="mb-1">
@@ -172,7 +172,7 @@ export default function TrialPackStrip() {
               </div>
             </div>
             {/* Card - Right side */}
-            <div className="flex-1 premium-card-soft premium-card-soft-stroke">
+            <div className="flex-1 premium-card-soft premium-card-soft-stroke" style={{ backgroundColor: 'white' }}>
               <div className="px-6 py-8 flex flex-col">
                 {/* Product Name */}
                 <div className="mb-1">
