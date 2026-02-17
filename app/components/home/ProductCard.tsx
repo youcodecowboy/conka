@@ -5,6 +5,8 @@ import Link from "next/link";
 import { PurchaseType, formulaContent, protocolContent } from "@/app/lib/productData";
 import { formulaPricing, protocolPricing } from "@/app/lib/productPricing";
 import { getProductAccent, getProductGradient } from "@/app/lib/productColors";
+import { getProtocolTierTotalShots } from "@/app/lib/productHelpers";
+import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import type { FormulaId, ProtocolId } from "@/app/lib/productTypes";
 import ProtocolVariantSelector, {
   type ProtocolVariant,
@@ -20,20 +22,33 @@ interface ProductCardProps {
 
 // Protocol variant-specific best for descriptions
 const getProtocolBestFor = (variant: ProtocolVariant): string => {
-  const flowContent = formulaContent["01"];
-  const clearContent = formulaContent["02"];
-  const protocolContentData = protocolContent["3"];
-
   switch (variant) {
     case "flow-heavy":
-      return "Athletes with high training loads needing maximum energy and focus";
+      return "Maximum energy and focus for athletes with high training loads.";
     case "balance":
-      return protocolContentData.description;
+      return "Full-spectrum daily performance — energy, focus, and recovery covered.";
     case "clear-heavy":
-      return "High-intensity athletes prioritising recovery and sleep quality";
+      return "Recovery and sleep prioritised for high-intensity training blocks.";
     default:
-      return protocolContentData.description;
+      return "Full-spectrum daily performance — energy, focus, and recovery covered.";
   }
+};
+
+// Calculate protocol savings vs buying Flow + Clear separately
+// TODO: Create helper function in productHelpers.ts to calculate this properly
+const calculateProtocolSavings = (
+  purchaseType: PurchaseType,
+): number | null => {
+  // Protocol max tier (28 shots) pricing
+  const protocolPrice = protocolPricing.standard[purchaseType].max.price;
+  
+  // Two 28-shot formulas (Flow + Clear) - both use same pricing
+  const formula28Price = formulaPricing[purchaseType]["28"].price;
+  
+  const separateTotal = formula28Price + formula28Price; // Flow + Clear
+  const savings = separateTotal - protocolPrice;
+  
+  return savings > 0 ? savings : null;
 };
 
 // Get product data from productData.ts
@@ -43,16 +58,14 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     return {
       id: "01" as FormulaId,
       name: flow.name,
-      formulaLabel: "Formula 01 — Energy & Focus",
       benefitHeadline: "Energy without the crash",
-      bodyCopy:
-        "Sustained focus for training and work. Adaptogenic and nootropic compounds that build mental stamina without caffeine crashes.",
+      bodyCopy: "Sustained focus for training and work — no caffeine, no crash.",
       bestFor: [
-        "Morning training & long workdays",
-        "Sustained energy & mental stamina",
-        "Focus without caffeine",
+        "Morning training",
+        "Long workdays",
+        "Clean mental stamina",
       ],
-      image: "/products/flow-bottle.png",
+      image: getFormulaImage("01"),
       link: "/formula/01",
       linkText: "View all sizes →",
       badge: null,
@@ -64,16 +77,14 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     return {
       id: "02" as FormulaId,
       name: clear.name,
-      formulaLabel: "Formula 02 — Recovery & Sleep",
       benefitHeadline: "Deeper recovery, better sleep",
-      bodyCopy:
-        "Wind down and recharge properly. Nootropic compounds that support cognitive recovery and sleep quality so you wake up ready to go again.",
+      bodyCopy: "Wind down and recharge properly. Wake up ready to perform again.",
       bestFor: [
         "Post-training recovery",
-        "Evening wind-down routine",
-        "Sleep quality & morning readiness",
+        "Evening wind-down",
+        "Sleep quality",
       ],
-      image: "/products/clear-bottle.png",
+      image: getFormulaImage("02"),
       link: "/formula/02",
       linkText: "View all sizes →",
       badge: null,
@@ -85,12 +96,14 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
   return {
     id: "3" as ProtocolId,
     name: "CONKA Protocol",
-    formulaLabel: "Complete Performance System",
     benefitHeadline: "Complete daily performance",
-    bodyCopy:
-      "Morning energy, sustained focus, evening recovery. Flow and Clear working together in precise ratios for all-day performance.",
-    bestFor: null, // Will be determined by variant
-    image: "/products/protocol-bottles.png",
+    bodyCopy: "Flow and Clear in precise ratios. All-day performance, fully covered.",
+    bestFor: [
+      "All-day energy & focus",
+      "Full recovery & sleep",
+      "Optimised for training load",
+    ],
+    image: getProtocolImage("3"),
     link: "/protocol/3",
     linkText: "View all protocols →",
     badge: "Most Popular",
@@ -114,36 +127,47 @@ export default function ProductCard({
       ? "#3a9f7e" // Balance Protocol accent
       : getProductAccent(product.id);
 
-  // Get pricing
-  let priceDisplay: string;
-  let originalPrice: string | null = null;
+  // Get pricing - use max tier (28 shots) for protocol
+  let dailyPrice: string;
+  let monthlyPrice: string;
+  let originalDailyPrice: string | null = null;
+  let originalMonthlyPrice: string | null = null;
   let perShotText: string;
+  let savings: number | null = null;
 
   if (isProtocol) {
-    const pricing = protocolPricing.standard[purchaseType].starter;
-    const price = pricing.price;
-    // Calculate per day (starter tier = 4 shots per week = ~0.57 shots per day)
-    // For simplicity, show total price divided by 28 days
-    const perDay = (price / 28).toFixed(2);
-    priceDisplay = `£${perDay}`;
+    // Protocol: Use max tier (28 shots)
+    const pricing = protocolPricing.standard[purchaseType].max;
+    const totalShots = getProtocolTierTotalShots("3", "max"); // 28 shots
+    const perShot = pricing.price / totalShots;
+    dailyPrice = `£${perShot.toFixed(2)}`;
+    monthlyPrice = `£${pricing.price.toFixed(2)}`;
+    
     if (isSubscribe && "basePrice" in pricing) {
-      const originalPerDay = (pricing.basePrice / 28).toFixed(2);
-      originalPrice = `£${originalPerDay}`;
+      const originalPerShot = pricing.basePrice / totalShots;
+      originalDailyPrice = `£${originalPerShot.toFixed(2)}`;
+      originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
+    
     perShotText = "28-shot supply (Flow + Clear)";
+    savings = calculateProtocolSavings(purchaseType);
   } else {
+    // Formula: Use 28-pack
     const pricing = formulaPricing[purchaseType]["28"];
-    const perShot = pricing.perShot;
-    priceDisplay = `£${perShot.toFixed(2)}`;
+    dailyPrice = `£${pricing.perShot.toFixed(2)}`;
+    monthlyPrice = `£${pricing.price.toFixed(2)}`;
+    
     if (isSubscribe && "basePrice" in pricing) {
-      const originalPerShot = (pricing.basePrice / 28).toFixed(2);
-      originalPrice = `£${originalPerShot}`;
+      const originalPerShot = pricing.basePrice / 28;
+      originalDailyPrice = `£${originalPerShot.toFixed(2)}`;
+      originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
-    perShotText = `28-shot supply`;
+    
+    perShotText = "28-shot supply";
   }
 
   // CTA text based on purchase type
-  const ctaText = isSubscribe ? "Subscribe & Save" : "Buy Once";
+  const ctaText = isSubscribe ? "Subscribe & Save 20%" : "Add to Cart";
 
   // Best for text
   const bestForText = isProtocol
@@ -163,23 +187,18 @@ export default function ProductCard({
       )}
 
       {/* Product Image */}
-      <div className="relative w-full aspect-square mb-4 rounded-[var(--premium-radius-nested)] overflow-hidden bg-black/5">
+      <div className="relative w-full aspect-square mb-4 rounded-t-[var(--premium-radius-nested)] overflow-hidden bg-black/5">
         <Image
           src={product.image}
           alt={product.name}
           fill
-          className="object-contain"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
       </div>
 
       {/* Product Info */}
       <div className="flex-1 flex flex-col">
-        {/* Formula Label */}
-        <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-1">
-          {product.formulaLabel}
-        </p>
-
         {/* Product Name */}
         <h3 className="premium-heading text-xl md:text-2xl font-bold mb-2">
           {product.name}
@@ -209,7 +228,7 @@ export default function ProductCard({
             </p>
           ) : (
             <ul className="space-y-2">
-              {(bestForText as string[]).map((item, idx) => (
+              {(product.bestFor as string[]).map((item, idx) => (
                 <li
                   key={idx}
                   className="flex items-start gap-2 premium-body-sm text-[var(--text-on-light-muted)]"
@@ -240,33 +259,56 @@ export default function ProductCard({
         {/* Pricing */}
         <div className="mt-auto pt-4 border-t border-black/10">
           <div className="mb-2">
-            {isSubscribe && originalPrice ? (
-              <div className="flex items-baseline gap-2">
+            {/* Daily Price */}
+            {isSubscribe && originalDailyPrice ? (
+              <div className="flex items-baseline gap-2 mb-1">
                 <span className="premium-heading text-xl font-bold">
-                  {priceDisplay}
+                  {dailyPrice}
                 </span>
                 <span className="premium-body-sm text-[var(--text-on-light-muted)] line-through">
-                  {originalPrice}
+                  {originalDailyPrice}
                 </span>
                 <span className="premium-body-sm text-[var(--text-on-light-muted)]">
                   /day
                 </span>
               </div>
             ) : (
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-2 mb-1">
                 <span className="premium-heading text-xl font-bold">
-                  {priceDisplay}
+                  {dailyPrice}
                 </span>
                 <span className="premium-body-sm text-[var(--text-on-light-muted)]">
                   /day
                 </span>
               </div>
             )}
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+            
+            {/* Monthly Total */}
+            {isSubscribe && originalMonthlyPrice ? (
+              <p className="premium-body-sm text-[var(--text-on-light-muted)] opacity-70">
+                <span className="line-through">{originalMonthlyPrice}</span>{" "}
+                <span>{monthlyPrice}</span>/month
+              </p>
+            ) : (
+              <p className="premium-body-sm text-[var(--text-on-light-muted)] opacity-70">
+                {monthlyPrice}/month
+              </p>
+            )}
+            
+            {/* Pack Size */}
+            <p className="premium-body-sm text-[var(--text-on-light-muted)] opacity-60 mt-1 text-xs">
               {perShotText}
             </p>
+            
+            {/* Protocol Savings */}
+            {isProtocol && savings !== null && savings > 0 && (
+              <p className="premium-body-sm mt-2" style={{ color: "#3a9f7e" }}>
+                Save £{savings.toFixed(2)} vs buying separately
+              </p>
+            )}
+            
             {isSubscribe && (
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1 opacity-70 text-xs">
                 Cancel anytime
               </p>
             )}
