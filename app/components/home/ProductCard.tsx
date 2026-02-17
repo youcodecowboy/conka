@@ -91,7 +91,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     };
   }
 
-  // Protocol
+  // Protocol - will be updated based on variant
   const protocol = protocolContent["3"];
   return {
     id: "3" as ProtocolId,
@@ -103,11 +103,38 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       "Full recovery & sleep",
       "Optimised for training load",
     ],
-    image: getProtocolImage("3"),
+    image: getProtocolImage("3"), // Default, will be overridden by variant
     link: "/protocol/3",
     linkText: "View all protocols →",
     badge: "Most Popular",
   };
+};
+
+// Get protocol image and gradient based on variant
+const getProtocolVariantImage = (variant: ProtocolVariant): string => {
+  switch (variant) {
+    case "flow-heavy":
+      return getProtocolImage("1"); // Resilience Protocol (Flow-heavy)
+    case "balance":
+      return getProtocolImage("3"); // Balance Protocol
+    case "clear-heavy":
+      return getProtocolImage("2"); // Precision Protocol (Clear-heavy)
+    default:
+      return getProtocolImage("3");
+  }
+};
+
+const getProtocolVariantGradient = (variant: ProtocolVariant): { start: string; end: string } => {
+  switch (variant) {
+    case "flow-heavy":
+      return getProductGradient("1"); // Resilience: orange to red
+    case "balance":
+      return getProductGradient("3"); // Balance: green gradient
+    case "clear-heavy":
+      return getProductGradient("2"); // Precision: pink to purple
+    default:
+      return getProductGradient("3");
+  }
 };
 
 export default function ProductCard({
@@ -121,11 +148,18 @@ export default function ProductCard({
   const isProtocol = productType === "protocol";
   const isSubscribe = purchaseType === "subscription";
 
-  // Get accent color for buttons
-  const accentColor =
-    productType === "protocol"
-      ? "#3a9f7e" // Balance Protocol accent
-      : getProductAccent(product.id);
+  // Get protocol image based on variant
+  const protocolImage = isProtocol
+    ? getProtocolVariantImage(protocolVariant)
+    : product.image;
+
+  // Get accent color/gradient for buttons and badge
+  const buttonGradient = isProtocol
+    ? getProtocolVariantGradient(protocolVariant)
+    : null;
+  const accentColor = isProtocol
+    ? getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3")
+    : getProductAccent(product.id);
 
   // Get pricing - use max tier (28 shots) for protocol
   let dailyPrice: string;
@@ -180,7 +214,7 @@ export default function ProductCard({
       {product.badge && (
         <div
           className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold text-white z-10"
-          style={{ backgroundColor: accentColor }}
+          style={{ backgroundColor: accentColor || "#3a9f7e" }}
         >
           {product.badge}
         </div>
@@ -189,10 +223,11 @@ export default function ProductCard({
       {/* Product Image */}
       <div className="relative w-full aspect-square mb-4 rounded-t-[var(--premium-radius-nested)] overflow-hidden bg-black/5">
         <Image
-          src={product.image}
+          key={isProtocol ? protocolVariant : product.id}
+          src={protocolImage}
           alt={product.name}
           fill
-          className="object-cover"
+          className="object-cover transition-opacity duration-300"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
       </div>
@@ -319,10 +354,9 @@ export default function ProductCard({
             onClick={onAddToCart}
             className="w-full py-3 rounded-[var(--premium-radius-interactive)] font-semibold text-white transition-all hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3"
             style={{
-              background:
-                productType === "protocol"
-                  ? `linear-gradient(to right, ${getProductGradient(product.id).start}, ${getProductGradient(product.id).end})`
-                  : accentColor,
+              background: buttonGradient
+                ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
+                : (accentColor ?? "#000"),
             }}
           >
             {ctaText}
