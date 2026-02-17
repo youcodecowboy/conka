@@ -320,11 +320,6 @@ export default function Home() {
           "Improved quality of life measures",
         ],
       },
-      testimonial: {
-        quote: "Top 14 Player of the Year with +20.51% cognitive improvement",
-        author: "Jack Willis",
-        role: "Stade Toulousain — Flanker",
-      },
     },
     {
       id: "memory",
@@ -348,8 +343,6 @@ export default function Home() {
       stat: "+63%",
       annotation: "PMID: 29246725 — Turmeric",
       description: "Enhanced neuroplasticity and memory formation",
-      image: "/CONKA_03.jpg",
-      focalPoint: { x: 50, y: 45 },
       clinicalBreakdown: {
         study:
           "Small et al. 2018, American Journal of Geriatric Psychiatry (UCLA)",
@@ -361,11 +354,6 @@ export default function Home() {
           "Reduced brain amyloid and tau accumulation",
           "P<0.0001 statistical significance",
         ],
-      },
-      testimonial: {
-        quote: "Leeds United forward with +27.93% total improvement",
-        author: "Patrick Bamford",
-        role: "Leeds United — Forward",
       },
     },
   ];
