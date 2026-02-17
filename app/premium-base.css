@@ -156,19 +156,12 @@
 }
 
 /* ----- Soft-Tech Luxury: Section background + text (use with .premium-section-luxury) ----- */
+/* Sections set background and a single default color on the section element only.
+   Components own their text color - no descendant color rules. */
 /* Black (Ink) base: white or bone text only */
 .premium-bg-ink {
   background-color: var(--color-base-black);
   color: var(--text-on-ink);
-}
-.premium-bg-ink .premium-section-heading,
-.premium-bg-ink .premium-body,
-.premium-bg-ink .premium-data,
-.premium-bg-ink .premium-annotation {
-  color: var(--text-on-ink);
-}
-.premium-bg-ink .premium-text-muted {
-  color: var(--text-on-ink-muted);
 }
 
 /* Bone or Surface base: black or bone text only */
@@ -180,28 +173,11 @@
   background-color: var(--color-base-surface);
   color: var(--text-on-light);
 }
-.premium-bg-bone .premium-section-heading,
-.premium-bg-bone .premium-body,
-.premium-bg-surface .premium-section-heading,
-.premium-bg-surface .premium-body {
-  color: inherit;
-}
-.premium-bg-bone .premium-text-muted,
-.premium-bg-surface .premium-text-muted {
-  color: var(--text-on-light-muted);
-}
 
 /* Mid-Chrome: deeper grey section; same text treatment as Bone/Surface (dark text) */
 .premium-bg-mid {
   background-color: var(--color-base-mid);
   color: var(--text-on-light);
-}
-.premium-bg-mid .premium-section-heading,
-.premium-bg-mid .premium-body {
-  color: inherit;
-}
-.premium-bg-mid .premium-text-muted {
-  color: var(--text-on-light-muted);
 }
 
 /* ----- Soft-Tech Luxury: Header block utility ----- */
@@ -225,19 +201,8 @@
   border: 1px solid var(--color-premium-stroke);
 }
 
-/* Card on dark section: force dark text so content stays readable (e.g. case study cards on .premium-bg-ink) */
-.premium-card-dark-text,
-.premium-card-dark-text .premium-heading,
-.premium-card-dark-text .premium-body,
-.premium-card-dark-text .premium-data,
-.premium-card-dark-text .premium-annotation {
-  color: var(--color-base-black);
-}
-
-/* Own-surface: use on buttons, pills, or any element with its own background on a dark (Ink) section so text stays dark. Placed after .premium-bg-ink typography so it wins. */
-.premium-bg-ink .premium-own-surface {
-  color: var(--color-base-black);
-}
+/* Note: Components that render a different surface (e.g. white card on ink section)
+   should set their own text color on that element. No override utilities needed. */
 
 /* Type roles (global) */
 .premium-display {
@@ -271,13 +236,7 @@
   line-height: var(--leading-relaxed);
   font-weight: var(--premium-font-body-weight);
   margin-bottom: 0;
-}
-.premium-bg-ink .premium-section-subtitle {
-  color: var(--text-on-ink);
-}
-.premium-bg-bone .premium-section-subtitle,
-.premium-bg-surface .premium-section-subtitle {
-  color: var(--text-on-light);
+  /* Color inherits from section or component */
 }
 
 .premium-body {
@@ -286,7 +245,7 @@
   line-height: var(--leading-relaxed);
   max-width: var(--premium-body-max-width);
   margin-bottom: 0;
-  color: #444;
+  color: inherit; /* Inherits from section or component */
   font-weight: var(--premium-font-body-weight);
 }
 
