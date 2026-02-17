@@ -39,13 +39,6 @@ export default function ProductGridMobile() {
     console.log(`Add to cart: ${productType}`, { protocolVariant });
   }, [protocolVariant]);
 
-  const scrollToTrialPacks = useCallback(() => {
-    const element = document.getElementById("trial-packs");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, []);
-
   const goToCard = useCallback((index: 0 | 1 | 2) => {
     setCurrentIndex(index);
   }, []);
@@ -282,16 +275,6 @@ export default function ProductGridMobile() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Trial Pack Button */}
-      <div className="text-center px-4">
-        <button
-          onClick={scrollToTrialPacks}
-          className="premium-body-sm px-4 py-2 rounded-full border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)] text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] hover:bg-white transition-all inline-flex items-center gap-1"
-        >
-          New to CONKA? → Try a 4-pack trial
-        </button>
       </div>
     </>
   );
