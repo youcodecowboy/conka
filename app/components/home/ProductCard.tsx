@@ -244,21 +244,22 @@ export default function ProductCard({
   // Button background color
   const formulaGradient = !isProtocol ? getProductGradient(product.id) : null;
   const buttonBg = isSubscribe
-    ? (isProtocol
-        ? (buttonGradient
-            ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
-            : (accentColor ?? "#000"))
-        : (formulaGradient
-            ? `linear-gradient(to right, ${formulaGradient.start}, ${formulaGradient.end})`
-            : (accentColor ?? "#111")))
+    ? isProtocol
+      ? buttonGradient
+        ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
+        : (accentColor ?? "#000")
+      : formulaGradient
+        ? `linear-gradient(to right, ${formulaGradient.start}, ${formulaGradient.end})`
+        : (accentColor ?? "#111")
     : "var(--color-ink)"; // One-time purchase: use ink/black
 
   return (
-    <div className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden" style={{ padding: '1rem', backgroundColor: 'white' }}>
+    <div
+      className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden"
+      style={{ padding: "1rem", backgroundColor: "white" }}
+    >
       {/* Product Info */}
-      <div
-        className="flex-1 flex flex-col px-0 pb-0 pt-4"
-      >
+      <div className="flex-1 flex flex-col px-0 pb-0 pt-4">
         {/* Product Name */}
         <div className="mb-1">
           <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-2">
@@ -292,7 +293,10 @@ export default function ProductCard({
 
         {/* Protocol Variant Selector */}
         {isProtocol && onProtocolVariantChange && (
-          <div className="mb-4 flex justify-center">
+          <div className="mb-5 flex flex-col items-center gap-2">
+            <span className="premium-body-sm font-medium text-[var(--text-on-light-muted)]">
+              Choose your ratio
+            </span>
             <ProtocolVariantSelector
               variant={protocolVariant}
               onVariantChange={onProtocolVariantChange}
@@ -347,7 +351,9 @@ export default function ProductCard({
                   ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
                   : "border border-black/8"
               }`}
-              style={!isSubscribe ? { backgroundColor: 'var(--color-bone)' } : {}}
+              style={
+                !isSubscribe ? { backgroundColor: "var(--color-bone)" } : {}
+              }
             >
               <input
                 type="radio"
@@ -385,7 +391,9 @@ export default function ProductCard({
                   ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
                   : "border border-black/8"
               }`}
-              style={isSubscribe ? { backgroundColor: 'var(--color-bone)' } : {}}
+              style={
+                isSubscribe ? { backgroundColor: "var(--color-bone)" } : {}
+              }
             >
               <input
                 type="radio"
@@ -412,8 +420,8 @@ export default function ProductCard({
             className="w-full py-6 rounded-[var(--premium-radius-interactive)] text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-base font-semibold"
             style={{
               background: buttonBg,
-              paddingLeft: '2rem',
-              paddingRight: '2rem',
+              paddingLeft: "2rem",
+              paddingRight: "2rem",
             }}
           >
             <span>Add to Cart</span>
@@ -431,9 +439,7 @@ export default function ProductCard({
           {product.linkText && (
             <Link
               href={
-                isProtocol
-                  ? getProtocolLink(protocolVariant)
-                  : product.link
+                isProtocol ? getProtocolLink(protocolVariant) : product.link
               }
               className="premium-body-sm text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] transition-colors text-center block"
             >

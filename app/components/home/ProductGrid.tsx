@@ -77,8 +77,8 @@ export default function ProductGrid() {
                 sizes="(max-width: 768px) 100vw, (max-width: 1023px) 50vw, 33vw"
               />
               <div
-                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
-                style={{ color: getProductAccent("01") || "#111" }}
+                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                style={{ backgroundColor: getProductAccent("01") || "#111" }}
               >
                 Energy
               </div>
@@ -102,8 +102,8 @@ export default function ProductGrid() {
                 sizes="(max-width: 768px) 100vw, (max-width: 1023px) 50vw, 33vw"
               />
               <div
-                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
-                style={{ color: getProductAccent("02") || "#111" }}
+                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                style={{ backgroundColor: getProductAccent("02") || "#111" }}
               >
                 Recovery
               </div>
@@ -130,9 +130,9 @@ export default function ProductGrid() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
+                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
                   style={{ 
-                    color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                    backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
                   }}
                 >
                   Most Popular
@@ -162,9 +162,9 @@ export default function ProductGrid() {
                     sizes="50vw"
                   />
                   <div
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
                     style={{ 
-                      color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                      backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
                     }}
                   >
                     Most Popular

@@ -257,9 +257,9 @@ export default function ProductGridMobile() {
                     sizes="100vw"
                   />
                   <div
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
                     style={{ 
-                      color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                      backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
                     }}
                   >
                     Most Popular
