@@ -2,8 +2,8 @@
 
 export default function AssuranceBanner() {
   return (
-    <div className="bg-[var(--color-premium-bg-soft)] py-4 px-6 rounded-[var(--premium-radius-nested)] mb-6 border-b border-black/5">
-      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs md:text-sm text-[var(--text-on-light-muted)]">
+    <div className="bg-[var(--color-ink)] py-4 px-6 rounded-[var(--premium-radius-nested)] mb-6">
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs md:text-sm text-white">
         <span className="flex items-center gap-1.5 whitespace-nowrap">
           <svg
             xmlns="http://www.w3.org/2000/svg"
