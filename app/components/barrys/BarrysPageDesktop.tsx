@@ -3,7 +3,7 @@
 import Image from "next/image";
 import BarrysEmailForm from "./BarrysEmailForm";
 import BalanceProtocolInfo from "./BalanceProtocolInfo";
-import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
+import { getProtocolImage } from "@/app/lib/productImageConfig";
 
 interface BarrysPageDesktopProps {
   contestId: string;

@@ -387,3 +387,51 @@
   border-radius: var(--premium-radius-base);
   border-width: var(--premium-border-width);
 }
+
+/* Product Grid Responsive Layout - Tablet breakpoint only */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .product-grid-container {
+    grid-template-areas:
+      "protocol protocol"
+      "flow clear";
+  }
+  
+  .product-card-protocol {
+    grid-area: protocol;
+    max-width: 70%;
+    margin: 0 auto;
+  }
+  
+  .product-card-wrapper:nth-child(1) {
+    grid-area: flow;
+  }
+  
+  .product-card-wrapper:nth-child(2) {
+    grid-area: clear;
+  }
+  
+  .product-card-wrapper:nth-child(3) {
+    grid-area: protocol;
+  }
+  
+  /* Protocol tablet layout - image left, card right */
+  .product-card-protocol-tablet {
+    align-items: stretch;
+  }
+  
+  /* Image container takes half width and centers content vertically */
+  .product-card-protocol-tablet > div:first-child {
+    height: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-card-protocol {
+    max-width: 100%;
+  }
+  
+  /* Reset grid areas at desktop - use natural order */
+  .product-grid-container {
+    grid-template-areas: none;
+  }
+}

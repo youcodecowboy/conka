@@ -9,7 +9,7 @@ import { Banner } from "@/app/components/banner";
 import { protocolContent } from "@/app/lib/productData";
 import { protocolSelectorData } from "@/app/components/shop/protocolSelectorData";
 import { formulas } from "@/app/components/shop/formulasShowcaseData";
-import { getProtocolImage, getFormulaImage } from "./protocolImageConfig";
+import { getProtocolImage, getFormulaImage } from "@/app/lib/productImageConfig";
 import type { NavigationMobileProps } from "./types";
 
 export default function NavigationMobile({

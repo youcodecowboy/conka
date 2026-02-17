@@ -360,6 +360,47 @@ Protocol PDP examples:
 
 ---
 
+## Tablet / Mid-Breakpoint (768–1023px)
+
+Most components do not need a distinct tablet layout — the desktop layout scales down gracefully, or the mobile layout scales up. Only add a tablet breakpoint when neither desktop nor mobile layout works at this width.
+
+### When a third layout IS needed
+
+- 3-column grids (3 cards side by side becomes too cramped at ~768px)
+- Components where desktop has multi-column and mobile is single column, but a 2-column tablet layout is genuinely better (not just smaller desktop)
+- Featured/hero cards that benefit from a horizontal layout at mid-width
+
+### When a third layout is NOT needed
+
+- 2-column grids (scale fine to tablet)
+- Single-column components (already mobile-first)
+- Text-heavy sections (responsive type handles this)
+- Carousels (full-width at any breakpoint)
+
+### Established pattern: Featured card + 2-column grid
+
+Used by: ProductGrid
+
+When a 3-card grid can't fit at tablet:
+- Promoted/featured card renders full-width on row 1
+- Remaining two cards render in a 2-column grid on row 2
+- Featured card switches to horizontal layout (image left, content right) rather than the floating-image-above pattern used at desktop/mobile
+- Flow and Clear retain floating image above card at tablet
+
+Breakpoint implementation: CSS grid-template-areas, no JS required.
+Do not use useIsMobile() for tablet-only layout shifts — use CSS only.
+
+### Floating image behaviour by breakpoint
+
+| Breakpoint | Overlap | Image width | Notes |
+|---|---|---|---|
+| Desktop >1024px | 24px | 65% card width | Standard floating image |
+| Tablet 768-1023px | 16px | 65% card width | Reduced overlap |
+| Mobile <768px | 12px | 55% card width | Minimal overlap |
+| Tablet — Protocol only | n/a | 40% card width | Horizontal layout, image is left panel inside card |
+
+---
+
 ## Product Page Optimization Notes
 
 When applying these patterns to product pages:

@@ -2,7 +2,6 @@
 
 import Navigation from "../components/navigation";
 import ShopHero from "../components/shop/ShopHero";
-import ProtocolsGrid from "../components/shop/ProtocolsGrid";
 import FormulasShowcase from "../components/shop/FormulasShowcase";
 import TrialPacks from "../components/TrialPacks";
 
@@ -27,11 +26,6 @@ export default function ShopPage() {
       {/* ===== SECTION 3: TRIAL PACKS ===== */}
       <section id="trial-packs" className="scroll-mt-20">
         <TrialPacks />
-      </section>
-
-      {/* ===== SECTION 4: PROTOCOLS ===== */}
-      <section id="protocols" className="scroll-mt-20">
-        <ProtocolsGrid />
       </section>
     </div>
   );

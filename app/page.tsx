@@ -27,23 +27,19 @@ const WhatIsConka = dynamic(() => import("./components/WhatIsConka"), {
 //   loading: () => <div className="h-[600px]" />,
 // });
 
-const ProtocolsGrid = dynamic(() => import("./components/shop/ProtocolsGrid"), {
+const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
   loading: () => <div className="h-[600px]" />,
 });
 
-const TrialPacks = dynamic(() => import("./components/TrialPacks"), {
-  loading: () => <div className="h-[500px]" />,
-});
-
-const CaseStudiesDataDriven = dynamic(
-  () => import("./components/CaseStudiesDataDriven"),
+const TrialPackStrip = dynamic(
+  () => import("./components/home/TrialPackStrip"),
   {
     loading: () => <div className="h-[400px]" />,
   },
 );
 
-const FormulaIngredientsWithToggle = dynamic(
-  () => import("./components/product/FormulaIngredientsWithToggle"),
+const CaseStudiesDataDriven = dynamic(
+  () => import("./components/CaseStudiesDataDriven"),
   {
     loading: () => <div className="h-[400px]" />,
   },
@@ -410,13 +406,26 @@ export default function Home() {
 
       {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
       <section
-        className="premium-section-luxury premium-bg-surface"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-base-mid)" }}
         aria-label="Athletes who use CONKA"
       >
         <div className="premium-track">
           <AthleteCredibilityCarousel />
         </div>
       </section>
+
+      {/* ===== PRODUCT GRID (scroll target for hero CTA) ===== */}
+      <div id="product-grid" className="scroll-mt-20">
+        <section
+          className="premium-section-luxury premium-bg-bone"
+          aria-label="Find Your Formula"
+        >
+          <div className="premium-track">
+            <ProductGrid />
+          </div>
+        </section>
+      </div>
 
       {/* ===== SECTION 1.5: TESTIMONIALS (landing page mix: Flow, Clarity, Protocol) ===== */}
       {shuffledTestimonials.length > 0 && (
@@ -436,16 +445,6 @@ export default function Home() {
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
       <KeyBenefits benefits={keyBenefits} />
 
-      {/* ===== SECTION 3: INGREDIENTS ===== */}
-      <section
-        className="premium-section-luxury premium-bg-bone"
-        aria-label="Formula ingredients"
-      >
-        <div className="premium-track">
-          <FormulaIngredientsWithToggle />
-        </div>
-      </section>
-
       {/* ===== SECTION 5: CASE STUDIES ===== */}
       <CaseStudiesDataDriven />
 
@@ -454,17 +453,8 @@ export default function Home() {
         <ProtocolBuilder />
       </div> */}
 
-      {/* ===== SECTION 4: PROTOCOLS (product grid scroll target for hero CTA) ===== */}
-      <div id="product-grid" className="scroll-mt-20">
-        <section id="protocols">
-          <ProtocolsGrid />
-        </section>
-      </div>
-
       {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
-      <div id="trial-packs" className="scroll-mt-32 lg:scroll-mt-24">
-        <TrialPacks />
-      </div>
+      <TrialPackStrip />
 
       {/* ===== SECTION 7: OUR STORY TEASER ===== */}
       <section className="px-6 md:px-16 py-24">

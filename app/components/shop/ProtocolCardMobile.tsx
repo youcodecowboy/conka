@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ProtocolId } from "@/app/lib/productData";
 import { ProtocolSelectorData } from "./protocolSelectorData";
-import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
+import { getProtocolImage } from "@/app/lib/productImageConfig";
 
 // Situational cues mapping
 const situationalCues: Record<ProtocolId, string> = {

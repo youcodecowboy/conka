@@ -326,7 +326,61 @@ The full-bleed element inherits the section's background, maintaining visual con
 
 ---
 
-## 12. Checklist for new sections
+## 12. Premium Components
+
+**Purpose:** Reusable components that follow the Soft-Tech Luxury design system. Use these components instead of creating custom implementations to maintain consistency across the site.
+
+### PremiumDotIndicator
+
+**Location:** `app/components/premium/PremiumDotIndicator.tsx`
+
+**Purpose:** Premium dot indicator component for carousels and pagination. Features expanding active dot (pill shape), smooth transitions, and full accessibility support.
+
+**When to use:**
+- Carousels with multiple slides/items
+- Pagination indicators
+- Any navigation that needs visual position indicators
+
+**Features:**
+- Active dot expands to wider pill shape (`w-8`) with ink color
+- Inactive dots are smaller (`w-2`) with subtle opacity
+- Hover states on inactive dots
+- Smooth transitions
+- Full ARIA support (tablist, tab roles, aria-selected)
+- Customizable aria-labels
+
+**Usage:**
+```tsx
+import PremiumDotIndicator from "@/app/components/premium/PremiumDotIndicator";
+
+<PremiumDotIndicator
+  total={5}
+  currentIndex={currentIndex}
+  onDotClick={(index) => setCurrentIndex(index)}
+  ariaLabel="Product carousel"
+  getDotAriaLabel={(i) => `Go to product ${i + 1}`}
+/>
+```
+
+**Props:**
+- `total` (number): Total number of dots
+- `currentIndex` (number): Current active index (0-based)
+- `onDotClick` (function): Callback when a dot is clicked
+- `ariaLabel` (string, optional): ARIA label for the tablist
+- `getDotAriaLabel` (function, optional): Function to generate ARIA label for each dot
+- `className` (string, optional): Additional className for the container
+
+**Styling:**
+- Active: `w-8 bg-[var(--color-ink)]` (expanded pill)
+- Inactive: `w-2 bg-black/20 hover:bg-black/40` (small circle with hover)
+- Height: `h-2`
+- Gap: `gap-2`
+- Transition: `transition-all`
+- Rounded: `rounded-full`
+
+---
+
+## 13. Checklist for new sections
 
 Use this when adding or refactoring a premium section so it fits the system:
 
