@@ -264,6 +264,22 @@
   font-weight: 500;
 }
 
+/* Section subtitle – regular body font, adapts to background (Soft-Tech Luxury) */
+.premium-section-subtitle {
+  font-family: var(--font-primary), sans-serif;
+  font-size: var(--text-body-premium);
+  line-height: var(--leading-relaxed);
+  font-weight: var(--premium-font-body-weight);
+  margin-bottom: 0;
+}
+.premium-bg-ink .premium-section-subtitle {
+  color: var(--text-on-ink);
+}
+.premium-bg-bone .premium-section-subtitle,
+.premium-bg-surface .premium-section-subtitle {
+  color: var(--text-on-light);
+}
+
 .premium-body {
   font-family: var(--font-primary), sans-serif;
   font-size: var(--text-body-premium);
