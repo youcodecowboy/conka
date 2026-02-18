@@ -46,8 +46,8 @@ function StatBar({ stat, index }: { stat: ImprovementStat; index: number }) {
   );
 }
 
-// Baseline vs Results comparison
-function ComparisonChart({ athlete }: { athlete: AthleteData }) {
+// Baseline vs Results comparison (exported for use in CaseStudiesPageDesktop)
+export function ComparisonChart({ athlete }: { athlete: AthleteData }) {
   const metrics = Object.keys(athlete.baseline) as (keyof typeof athlete.baseline)[];
   
   const formatMetricName = (key: string): string => {
