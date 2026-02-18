@@ -8,6 +8,7 @@ import {
   getFeaturedAthletes,
   getTotalTestsCompleted,
   getAverageImprovementAcrossAll,
+  SPORT_INFO,
 } from "@/app/lib/caseStudiesData";
 import AthleteSidebar from "./AthleteSidebar";
 import { ComparisonChart } from "./AthleteStats";
@@ -85,28 +86,54 @@ export default function CaseStudiesPageDesktop() {
           </div>
         </div>
 
-        {/* Featured Athletes - Horizontal Pills */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        {/* Featured Athletes - Small photo tiles in a row */}
+        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide mb-6">
           {featuredAthletes.map((athlete) => {
             const improvement = athlete.improvements.find(
               (i) => i.metric === "Total Score",
             );
+            const photoSrc =
+              getCaseStudyPhotoPath(athlete.id) || athlete.photo || "";
+            const focalPoint = athlete.focalPoint ?? { x: 50, y: 50 };
+            const isActive = activeAthleteId === athlete.id;
+
             return (
               <button
                 key={athlete.id}
+                type="button"
                 onClick={() => handleSelectFeaturedAthlete(athlete.id)}
-                className={`px-4 py-2 rounded-full border transition-all premium-body-sm font-medium ${
-                  activeAthleteId === athlete.id
-                    ? "bg-[var(--color-ink)] text-white border-[var(--color-ink)]"
-                    : "bg-white border-[var(--color-premium-stroke)] hover:border-[var(--color-ink)] text-[var(--text-on-light)]"
+                className={`relative flex-shrink-0 w-[140px] aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden text-left transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)] focus:ring-offset-2 ${
+                  isActive
+                    ? "ring-2 ring-[var(--color-ink)] ring-offset-2"
+                    : "hover:opacity-95"
                 }`}
+                aria-pressed={isActive}
+                aria-label={`View case study: ${athlete.name}, ${improvement?.value ?? "+0%"} improvement`}
               >
-                {athlete.name}
-                {improvement && (
-                  <span className="ml-2 text-emerald-600">
-                    {improvement.value}
-                  </span>
+                {photoSrc ? (
+                  <img
+                    src={photoSrc}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{
+                      objectPosition: `${focalPoint.x}% ${focalPoint.y}%`,
+                    }}
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-[var(--color-premium-bg-soft)]" />
                 )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
+                  <p className="text-xs font-semibold truncate mb-0.5">
+                    {athlete.name}
+                  </p>
+                  <p className="text-lg font-bold font-clinical text-emerald-400">
+                    {improvement?.value ?? "+0%"}
+                  </p>
+                  <p className="text-[10px] uppercase tracking-wide opacity-80">
+                    {SPORT_INFO[athlete.sport]?.name ?? athlete.sport}
+                  </p>
+                </div>
               </button>
             );
           })}
