@@ -36,7 +36,7 @@ export default function PremiumCarouselToggle({
   const overlayClasses =
     "p-3 border-0 bg-black/20 hover:bg-black/40 text-white focus:ring-white focus:ring-offset-0";
   const overlayLightClasses =
-    "p-3 border-0 bg-white/25 hover:bg-white/45 text-[var(--color-ink)] focus:ring-black/30 focus:ring-offset-0";
+    "p-3 border-0 bg-white/50 hover:bg-white/70 text-[var(--color-ink)] focus:outline-none focus:ring-0 focus-visible:ring-2 focus-visible:ring-white/90 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent active:ring-2 active:ring-white/90 active:ring-offset-2 active:ring-offset-transparent";
 
   const buttonClass =
     variant === "overlay"

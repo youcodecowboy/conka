@@ -136,7 +136,7 @@ export default function CaseStudiesPageMobile() {
 
       {/* 3. Trading-card: photo tile with gradient + all info on card + overlay toggles */}
       {activeAthlete ? (
-        <div className="relative w-full aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden">
+        <div className="relative w-full aspect-[9/16] rounded-[var(--premium-radius-card)] overflow-hidden">
           {(() => {
             const photoSrc =
               getCaseStudyPhotoPath(activeAthlete.id) || activeAthlete.photo;
@@ -165,9 +165,9 @@ export default function CaseStudiesPageMobile() {
               />
             );
           })()}
-          {/* Dark gradient from bottom (same as CaseStudiesDataDriven) */}
+          {/* Dark gradient from bottom — darker near bottom for legibility */}
           <div
-            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+            className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/50 to-transparent"
             aria-hidden
           />
           {/* Chevrons: white transparent circle, black icons */}
@@ -188,16 +188,19 @@ export default function CaseStudiesPageMobile() {
             />
           </div>
           {/* Info overlay — bottom of card, white text */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 pt-8 text-white">
-            <p className="font-bold text-[15px] mb-0.5">
-              {activeAthlete.name}
-            </p>
-            <p className="text-xs opacity-90 mb-1">
-              {SPORT_INFO[activeAthlete.sport].name}
-            </p>
-            <div className="mb-2">
+          <div className="absolute bottom-0 left-0 right-0 p-4 pt-10 text-white">
+            {/* Row 1: name, sport, product on one line */}
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-1">
+              <span className="font-bold text-[15px]">{activeAthlete.name}</span>
+              <span className="text-xs opacity-90">
+                {SPORT_INFO[activeAthlete.sport].name}
+              </span>
               <ProductBadge version={activeAthlete.productVersion} />
             </div>
+            {/* Row 2: one-line description/detail (achievement or profession) */}
+            <p className="text-xs opacity-85 mb-2 line-clamp-1">
+              {activeAthlete.achievement ?? activeAthlete.profession}
+            </p>
             <div className="border-t border-white/30 my-2" />
             <div className="grid grid-cols-3 text-center gap-1">
               {[0, 1, 2].map((i) => {
