@@ -22,15 +22,16 @@ const getProtocolVariantImage = (variant: ProtocolVariant): string => {
 };
 
 const CARDS = [
-  { productType: "flow" as const, name: "CONKA Flow" },
-  { productType: "clear" as const, name: "CONKA Clear" },
-  { productType: "protocol" as const, name: "CONKA Protocol" },
+  { productType: "flow" as const, name: "CONKA Flow", accentId: "01" as const },
+  { productType: "clear" as const, name: "CONKA Clear", accentId: "02" as const },
+  { productType: "protocol" as const, name: "CONKA Protocol", accentId: "3" as const },
 ];
 
 export default function ProductGridMobile() {
   const [currentIndex, setCurrentIndex] = useState<0 | 1 | 2>(0);
   const [protocolVariant, setProtocolVariant] = useState<ProtocolVariant>("balance");
   const carouselRef = useRef<HTMLDivElement>(null);
+  const isScrollingProgrammaticallyRef = useRef(false);
 
   const handleAddToCart = useCallback((productType: "flow" | "clear" | "protocol") => {
     // TODO: Implement add to cart logic
@@ -38,7 +39,7 @@ export default function ProductGridMobile() {
   }, [protocolVariant]);
 
   const handleScroll = useCallback(() => {
-    if (!carouselRef.current) return;
+    if (isScrollingProgrammaticallyRef.current || !carouselRef.current) return;
 
     const el = carouselRef.current;
     const gapPx = 16; // var(--premium-space-m) = 1rem
@@ -49,10 +50,8 @@ export default function ProductGridMobile() {
     );
     const clampedIndex = index as 0 | 1 | 2;
 
-    if (clampedIndex !== currentIndex) {
-      setCurrentIndex(clampedIndex);
-    }
-  }, [currentIndex]);
+    setCurrentIndex(clampedIndex);
+  }, []);
 
   const goToCard = useCallback((index: 0 | 1 | 2) => {
     if (!carouselRef.current) return;
@@ -61,12 +60,17 @@ export default function ProductGridMobile() {
     const gapPx = 16; // var(--premium-space-m) = 1rem
     const cardWidth = el.offsetWidth * 0.85 + gapPx;
 
+    isScrollingProgrammaticallyRef.current = true;
+    setCurrentIndex(index);
+
     el.scrollTo({
       left: index * cardWidth,
       behavior: "smooth",
     });
 
-    setCurrentIndex(index);
+    setTimeout(() => {
+      isScrollingProgrammaticallyRef.current = false;
+    }, 400);
   }, []);
 
   const handleKeyDown = useCallback(
@@ -185,6 +189,30 @@ export default function ProductGridMobile() {
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Formula toggles — scroll carousel to selected card */}
+      <div className="px-4 mb-4 flex items-center gap-2 flex-wrap">
+        {CARDS.map((card, idx) => {
+          const accent = getProductAccent(card.accentId);
+          const isActive = currentIndex === idx;
+          return (
+            <button
+              key={card.productType}
+              type="button"
+              onClick={() => goToCard(idx as 0 | 1 | 2)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all"
+              style={{
+                borderColor: isActive ? accent : "var(--foreground)",
+                opacity: isActive ? 1 : 0.4,
+                backgroundColor: isActive ? accent ?? "transparent" : "transparent",
+                color: isActive ? "white" : "var(--foreground)",
+              }}
+            >
+              <span className="font-clinical text-xs">{card.name}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Carousel Container */}
