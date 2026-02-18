@@ -32,46 +32,41 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
         onKeyDown={handleKeyDown}
         aria-expanded={isOpen}
         aria-controls={`benefit-panel-${benefit.id}`}
-        className="w-full flex items-center gap-3 px-5 py-4 transition-colors duration-200"
+        className={`w-full flex items-center gap-3 px-5 transition-colors duration-200 ${
+          isOpen ? "py-5" : "py-4"
+        }`}
         style={{
-          background: isOpen ? "var(--color-ink)" : "transparent",
+          background: isOpen ? "var(--color-neuro-blue-dark)" : "transparent",
         }}
       >
         {/* Icon */}
         {benefit.icon && (
           <span
             className={`w-5 h-5 shrink-0 flex items-center justify-center transition-colors duration-200 ${
-              isOpen ? "opacity-100" : "opacity-50"
+              isOpen ? "opacity-100" : "opacity-30"
             }`}
           >
             {benefit.icon}
           </span>
         )}
 
-        {/* Benefit title + struggle subtitle */}
-        <div className="flex flex-col gap-0.5 flex-1 text-left">
-          <span
-            className={`premium-body font-medium transition-colors duration-200 ${
-              isOpen ? "text-[var(--color-bone)]" : "text-[var(--color-ink)]"
-            }`}
-          >
-            {benefit.title}
-          </span>
-          <span
-            className={`premium-body-sm italic leading-snug transition-colors duration-200 ${
-              isOpen ? "text-[var(--color-bone)] opacity-70" : "text-[var(--color-ink)] opacity-50"
-            }`}
-          >
-            {benefit.struggle}
-          </span>
-        </div>
+        {/* Benefit title */}
+        <span
+          className={`premium-body flex-1 text-left transition-colors duration-200 ${
+            isOpen
+              ? "text-[var(--color-bone)] font-semibold"
+              : "text-[var(--color-ink)] font-medium"
+          }`}
+        >
+          {benefit.title}
+        </span>
 
         {/* Spacer */}
         <span className="flex-1 min-w-2" />
 
-        {/* Stat — always visible, never hidden */}
+        {/* Stat — always visible, strongest visual element */}
         <span
-          className={`text-base font-bold mr-3 transition-colors duration-200 ${
+          className={`text-xl font-extrabold mr-3 transition-colors duration-200 ${
             isOpen ? "text-[var(--color-bone)]" : "text-[var(--color-ink)]"
           }`}
         >
@@ -90,8 +85,8 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
           strokeLinejoin="round"
           className={`shrink-0 transition-all duration-300 ${
             isOpen
-              ? "rotate-180 text-[var(--color-bone)]"
-              : "rotate-0 text-[var(--color-ink)]"
+              ? "rotate-180 text-[var(--color-bone)] opacity-100"
+              : "rotate-0 text-[var(--color-ink)] opacity-30"
           }`}
         >
           <polyline points="6 9 12 15 18 9" />
@@ -107,20 +102,20 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
           key={benefit.id}
           className="px-5 pb-6"
           style={{
-            background: "var(--color-ink)",
+            background: "var(--color-neuro-blue-dark)",
             animation: "fadeSlideDown 0.3s ease forwards",
           }}
         >
           {/* 1. Annotation (question equivalent) */}
           <p
-            className="premium-body-sm uppercase tracking-wider mb-3"
+            className="premium-body-sm uppercase tracking-wider mb-2"
             style={{ color: "var(--color-bone)" }}
           >
             {benefit.annotation}
           </p>
 
-          {/* 2. Big stat + label */}
-          <div className="flex items-start gap-2 mb-4">
+          {/* 2. Hero Stat (ONLY occurrence) */}
+          <div className="flex items-start gap-2 mb-6">
             <span
               className="font-bold text-[var(--color-bone)]"
               style={{
@@ -133,17 +128,25 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
             </span>
           </div>
 
-          {/* 3. Outcome description */}
+          {/* 3. Outcome headline */}
+          <h3
+            className="text-xl font-bold mb-2 leading-tight"
+            style={{ color: "var(--color-bone)" }}
+          >
+            {benefit.outcome}
+          </h3>
+
+          {/* 4. Mechanism description */}
           <p
-            className="premium-body leading-relaxed mb-5"
+            className="premium-body-sm opacity-70 leading-relaxed mb-6"
             style={{ color: "var(--color-bone)" }}
           >
             {benefit.description}
           </p>
 
-          {/* 4. Two-stat strip (replaces radar chart on mobile) */}
+          {/* 5. Evidence strip (supporting proof, no stat repetition) */}
           {breakdown && breakdown.results.length >= 2 && (
-            <div className="grid grid-cols-2 gap-3 mb-5">
+            <div className="grid grid-cols-2 gap-3 mb-6">
               {breakdown.results.slice(0, 2).map((result, idx) => (
                 <div
                   key={idx}
@@ -154,13 +157,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
                   }}
                 >
                   <p
-                    className="text-2xl font-bold mb-0.5"
-                    style={{ color: "var(--color-bone)" }}
-                  >
-                    {benefit.stat}
-                  </p>
-                  <p
-                    className="premium-body-sm leading-tight opacity-70"
+                    className="text-sm leading-tight opacity-80"
                     style={{ color: "var(--color-bone)" }}
                   >
                     {result}
@@ -170,7 +167,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
             </div>
           )}
 
-          {/* 5. Study footnote */}
+          {/* 6. Study footnote */}
           {breakdown && (
             <p
               className="premium-body-sm mt-4"
@@ -202,7 +199,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
 export default function KeyBenefitsMobile({
   benefits,
 }: KeyBenefitsMobileProps) {
-  const [openBenefit, setOpenBenefit] = useState<number | null>(0);
+  const [openBenefit, setOpenBenefit] = useState<number | null>(null);
 
   const handleTap = (idx: number) => {
     // Toggle: if clicking the open one, close it; otherwise open the clicked one
