@@ -66,16 +66,28 @@ export default function WhyConkaWorks() {
       {/* Stats Bar */}
       <div className="grid grid-cols-3 gap-4 mb-8 md:mb-12 p-6 rounded-2xl bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
         <div className="text-center">
-          <p className="text-3xl md:text-4xl font-bold font-clinical text-[var(--color-ink)]">280+</p>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">Substances Tested</p>
+          <p className="text-3xl md:text-4xl font-bold font-clinical text-[var(--color-ink)]">
+            280+
+          </p>
+          <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+            Substances Tested
+          </p>
         </div>
         <div className="text-center border-l border-r border-[var(--color-premium-stroke)]">
-          <p className="text-3xl md:text-4xl font-bold font-clinical text-[var(--color-ink)]">2</p>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">University Partners</p>
+          <p className="text-3xl md:text-4xl font-bold font-clinical text-[var(--color-ink)]">
+            2
+          </p>
+          <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+            University Partners
+          </p>
         </div>
         <div className="text-center">
-          <p className="text-3xl md:text-4xl font-bold font-clinical text-[var(--color-ink)]">100%</p>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">Batch Verified</p>
+          <p className="text-3xl md:text-4xl font-bold font-clinical text-[var(--color-ink)]">
+            100%
+          </p>
+          <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+            Batch Verified
+          </p>
         </div>
       </div>
 
@@ -109,19 +121,40 @@ export default function WhyConkaWorks() {
             aria-hidden="true"
           >
             <span className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg
+                className="w-3 h-3 text-emerald-600 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden="true"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Banned substance tested
             </span>
             <span className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg
+                className="w-3 h-3 text-emerald-600 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden="true"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Heavy metal tested
             </span>
             <span className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg
+                className="w-3 h-3 text-emerald-600 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden="true"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Batch verified
@@ -158,30 +191,45 @@ export default function WhyConkaWorks() {
             aria-hidden="true"
           >
             <span className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg
+                className="w-3 h-3 text-emerald-600 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden="true"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Clinical dosing
             </span>
             <span className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg
+                className="w-3 h-3 text-emerald-600 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden="true"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Peer-reviewed
             </span>
             <span className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg
+                className="w-3 h-3 text-emerald-600 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden="true"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               University-backed
             </span>
           </div>
-          <Link
-            href="/research"
-            className="premium-body-sm text-[var(--color-ink)] font-medium hover:underline mt-auto pt-4"
-          >
-            View Research →
-          </Link>
         </div>
 
         {/* Pillar 3: Made in UK to GMP Standards */}
@@ -212,19 +260,40 @@ export default function WhyConkaWorks() {
             aria-hidden="true"
           >
             <span className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg
+                className="w-3 h-3 text-emerald-600 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden="true"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               GMP certified
             </span>
             <span className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg
+                className="w-3 h-3 text-emerald-600 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden="true"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Batch tested
             </span>
             <span className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg
+                className="w-3 h-3 text-emerald-600 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden="true"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Made in England
