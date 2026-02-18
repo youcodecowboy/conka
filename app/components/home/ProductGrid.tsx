@@ -41,13 +41,6 @@ export default function ProductGrid() {
     console.log(`Add to cart: ${productType}`, { protocolVariant });
   }, [protocolVariant]);
 
-  const scrollToTrialPacks = useCallback(() => {
-    const element = document.getElementById("trial-packs");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, []);
-
   // Render mobile carousel if on mobile
   if (isMobile === true) {
     return <ProductGridMobile />;
@@ -58,7 +51,7 @@ export default function ProductGrid() {
     return (
       <>
       {/* Section Header */}
-      <div className="mb-8 md:mb-12 text-left">
+      <div className="mb-8 md:mb-12 text-left text-[var(--color-ink)]">
         <h2 className="premium-section-heading">
           Find Your Formula
         </h2>
@@ -83,6 +76,12 @@ export default function ProductGrid() {
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1023px) 50vw, 33vw"
               />
+              <div
+                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                style={{ backgroundColor: getProductAccent("01") || "#111" }}
+              >
+                Energy
+              </div>
             </div>
           </div>
           <ProductCard
@@ -102,6 +101,12 @@ export default function ProductGrid() {
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1023px) 50vw, 33vw"
               />
+              <div
+                className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                style={{ backgroundColor: getProductAccent("02") || "#111" }}
+              >
+                Recovery
+              </div>
             </div>
           </div>
           <ProductCard
@@ -125,9 +130,9 @@ export default function ProductGrid() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
+                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
                   style={{ 
-                    color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                    backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
                   }}
                 >
                   Most Popular
@@ -157,9 +162,9 @@ export default function ProductGrid() {
                     sizes="50vw"
                   />
                   <div
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
                     style={{ 
-                      color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                      backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
                     }}
                   >
                     Most Popular
@@ -178,16 +183,6 @@ export default function ProductGrid() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Trial Pack Button */}
-      <div className="text-center">
-        <button
-          onClick={scrollToTrialPacks}
-          className="premium-body-sm px-4 py-2 rounded-full border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)] text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] hover:bg-white transition-all inline-flex items-center gap-1"
-        >
-          New to CONKA? → Try a 4-pack trial
-        </button>
       </div>
       </>
     );

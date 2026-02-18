@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import ProductCard from "./ProductCard";
-import PremiumDotIndicator from "../premium/PremiumDotIndicator";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
@@ -31,64 +30,75 @@ const CARDS = [
 export default function ProductGridMobile() {
   const [currentIndex, setCurrentIndex] = useState<0 | 1 | 2>(0);
   const [protocolVariant, setProtocolVariant] = useState<ProtocolVariant>("balance");
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const handleAddToCart = useCallback((productType: "flow" | "clear" | "protocol") => {
     // TODO: Implement add to cart logic
     console.log(`Add to cart: ${productType}`, { protocolVariant });
   }, [protocolVariant]);
 
-  const scrollToTrialPacks = useCallback(() => {
-    const element = document.getElementById("trial-packs");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+  const handleScroll = useCallback(() => {
+    if (!carouselRef.current) return;
+
+    const el = carouselRef.current;
+    const gapPx = 16; // var(--premium-space-m) = 1rem
+    const cardWidth = el.offsetWidth * 0.85 + gapPx;
+    const index = Math.min(
+      2,
+      Math.max(0, Math.round(el.scrollLeft / cardWidth))
+    );
+    const clampedIndex = index as 0 | 1 | 2;
+
+    if (clampedIndex !== currentIndex) {
+      setCurrentIndex(clampedIndex);
     }
-  }, []);
+  }, [currentIndex]);
 
   const goToCard = useCallback((index: 0 | 1 | 2) => {
+    if (!carouselRef.current) return;
+
+    const el = carouselRef.current;
+    const gapPx = 16; // var(--premium-space-m) = 1rem
+    const cardWidth = el.offsetWidth * 0.85 + gapPx;
+
+    el.scrollTo({
+      left: index * cardWidth,
+      behavior: "smooth",
+    });
+
     setCurrentIndex(index);
   }, []);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  }, []);
-
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    touchEndX.current = e.changedTouches[0].clientX;
-    
-    if (touchStartX.current === null || touchEndX.current === null) return;
-    
-    const swipeDistance = touchStartX.current - touchEndX.current;
-    
-    if (Math.abs(swipeDistance) > 50) {
-      if (swipeDistance > 0) {
-        // Swipe left - go to next
-        setCurrentIndex((prev) => Math.min(2, prev + 1) as 0 | 1 | 2);
-      } else {
-        // Swipe right - go to previous
-        setCurrentIndex((prev) => Math.max(0, prev - 1) as 0 | 1 | 2);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        const newIndex = Math.max(0, currentIndex - 1) as 0 | 1 | 2;
+        goToCard(newIndex);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        const newIndex = Math.min(2, currentIndex + 1) as 0 | 1 | 2;
+        goToCard(newIndex);
       }
-    }
-    
-    touchStartX.current = null;
-    touchEndX.current = null;
-  }, []);
+    },
+    [currentIndex, goToCard],
+  );
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") {
-      setCurrentIndex((prev) => Math.max(0, prev - 1) as 0 | 1 | 2);
-    } else if (e.key === "ArrowRight") {
-      setCurrentIndex((prev) => Math.min(2, prev + 1) as 0 | 1 | 2);
+  useEffect(() => {
+    if (carouselRef.current && currentIndex !== 0) {
+      const el = carouselRef.current;
+      const gapPx = 16;
+      const cardWidth = el.offsetWidth * 0.85 + gapPx;
+      el.scrollLeft = currentIndex * cardWidth;
     }
-  }, []);
+  }, [currentIndex]);
 
   const currentCard = CARDS[currentIndex];
 
   return (
     <>
       {/* Section Header */}
-      <div className="mb-8 text-left px-4">
+      <div className="mb-8 text-left px-4 text-[var(--color-ink)]">
         <h2 className="premium-section-heading">
           Find Your Formula
         </h2>
@@ -177,24 +187,14 @@ export default function ProductGridMobile() {
         </div>
       </div>
 
-      {/* Dot Indicators */}
-      <div className="mb-4 px-4">
-        <PremiumDotIndicator
-          total={CARDS.length}
-          currentIndex={currentIndex}
-          onDotClick={(index) => goToCard(index as 0 | 1 | 2)}
-          ariaLabel="Product options"
-          getDotAriaLabel={(i) => `Go to ${CARDS[i].name}`}
-        />
-      </div>
-
       {/* Carousel Container */}
       <div
+        ref={carouselRef}
         role="region"
         aria-label="Product options"
-        className="relative w-full overflow-hidden mb-8"
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
+        className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ WebkitOverflowScrolling: "touch" }}
+        onScroll={handleScroll}
         onKeyDown={handleKeyDown}
         tabIndex={0}
       >
@@ -203,15 +203,10 @@ export default function ProductGridMobile() {
           Showing {currentCard.name}
         </div>
 
-        {/* Card Track */}
-        <div
-          className="flex transition-transform duration-[350ms] ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {/* Flow Card */}
-          <div className="w-full flex-shrink-0 px-4">
-            <div className="flex flex-col items-center">
-              <div className="relative w-full mx-auto aspect-square mb-4">
+        {/* Flow Card */}
+        <div className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
+            <div className="flex flex-col items-center w-full">
+              <div className="relative w-full mx-auto aspect-[4/3] mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                   <Image
                     src={getFormulaImage("01")}
@@ -230,9 +225,9 @@ export default function ProductGridMobile() {
           </div>
 
           {/* Clear Card */}
-          <div className="w-full flex-shrink-0 px-4">
-            <div className="flex flex-col items-center">
-              <div className="relative w-full mx-auto aspect-square mb-4">
+          <div className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
+            <div className="flex flex-col items-center w-full">
+              <div className="relative w-full mx-auto aspect-[4/3] mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                   <Image
                     src={getFormulaImage("02")}
@@ -251,9 +246,9 @@ export default function ProductGridMobile() {
           </div>
 
           {/* Protocol Card */}
-          <div className="w-full flex-shrink-0 px-4">
-            <div className="flex flex-col items-center">
-              <div className="relative w-full mx-auto aspect-square mb-4">
+          <div className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
+            <div className="flex flex-col items-center w-full">
+              <div className="relative w-full mx-auto aspect-[4/3] mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                   <Image
                     key={protocolVariant}
@@ -264,9 +259,9 @@ export default function ProductGridMobile() {
                     sizes="100vw"
                   />
                   <div
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-bone)]"
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
                     style={{ 
-                      color: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                      backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
                     }}
                   >
                     Most Popular
@@ -281,17 +276,6 @@ export default function ProductGridMobile() {
               />
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Trial Pack Button */}
-      <div className="text-center px-4">
-        <button
-          onClick={scrollToTrialPacks}
-          className="premium-body-sm px-4 py-2 rounded-full border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)] text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] hover:bg-white transition-all inline-flex items-center gap-1"
-        >
-          New to CONKA? → Try a 4-pack trial
-        </button>
       </div>
     </>
   );

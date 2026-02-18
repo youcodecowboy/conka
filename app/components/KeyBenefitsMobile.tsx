@@ -1,266 +1,250 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import RadarChart from "./RadarChart";
+import { useState } from "react";
 import { Benefit } from "./KeyBenefits";
 
 interface KeyBenefitsMobileProps {
   benefits: Benefit[];
 }
 
+interface AccordionRowProps {
+  benefit: Benefit;
+  isOpen: boolean;
+  isLast: boolean;
+  onTap: () => void;
+}
+
+function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onTap();
+    }
+  };
+
+  const breakdown = benefit.clinicalBreakdown;
+
+  return (
+    <div>
+      {/* Collapsed header (always visible, tappable) */}
+      <button
+        onClick={onTap}
+        onKeyDown={handleKeyDown}
+        aria-expanded={isOpen}
+        aria-controls={`benefit-panel-${benefit.id}`}
+        className={`w-full flex items-center gap-3 px-5 transition-colors duration-200 ${
+          isOpen ? "py-5" : "py-4"
+        }`}
+        style={{
+          background: isOpen ? "var(--color-neuro-blue-dark)" : "transparent",
+          color: isOpen ? "#ffffff" : undefined,
+        }}
+      >
+        {/* Icon */}
+        {benefit.icon && (
+          <span
+            className={`w-5 h-5 shrink-0 flex items-center justify-center transition-colors duration-200 ${
+              isOpen ? "opacity-100 text-white" : "opacity-30 text-[var(--color-ink)]"
+            }`}
+          >
+            {benefit.icon}
+          </span>
+        )}
+
+        {/* Benefit title */}
+        <span
+          className={`premium-body flex-1 text-left transition-colors duration-200 ${
+            isOpen
+              ? "text-white font-semibold"
+              : "text-[var(--color-ink)] font-medium"
+          }`}
+        >
+          {benefit.title}
+        </span>
+
+        {/* Spacer */}
+        <span className="flex-1 min-w-2" />
+
+        {/* Stat — always visible, strongest visual element */}
+        <span
+          className={`text-xl font-extrabold mr-3 transition-colors duration-200 ${
+            isOpen ? "text-[var(--color-bone)]" : "text-[var(--color-ink)]"
+          }`}
+        >
+          {benefit.stat}
+        </span>
+
+        {/* Chevron */}
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={`shrink-0 transition-all duration-300 ${
+            isOpen
+              ? "rotate-180 text-[var(--color-bone)] opacity-100"
+              : "rotate-0 text-[var(--color-ink)] opacity-30"
+          }`}
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      {/* Expanded panel — explicit light text on dark (no inherited colour) */}
+      {isOpen && (
+        <div
+          id={`benefit-panel-${benefit.id}`}
+          role="region"
+          aria-live="polite"
+          key={benefit.id}
+          className="px-5 pb-6"
+          style={{
+            background: "var(--color-neuro-blue-dark)",
+            color: "#ffffff",
+            animation: "fadeSlideDown 0.3s ease forwards",
+          }}
+        >
+          {/* 1. Annotation (question equivalent) */}
+          <p
+            className="premium-body-sm uppercase tracking-wider mb-2"
+            style={{ color: "var(--color-bone)" }}
+          >
+            {benefit.annotation}
+          </p>
+
+          {/* 2. Hero Stat (ONLY occurrence) */}
+          <div className="flex items-start gap-2 mb-6">
+            <span
+              className="font-bold text-[var(--color-bone)]"
+              style={{
+                fontSize: "clamp(3rem, 12vw, 4rem)",
+                letterSpacing: "var(--letter-spacing-premium-title)",
+                lineHeight: 1,
+              }}
+            >
+              {benefit.stat}
+            </span>
+          </div>
+
+          {/* 3. Outcome headline */}
+          <h3
+            className="text-xl font-bold mb-2 leading-tight"
+            style={{ color: "var(--color-bone)" }}
+          >
+            {benefit.outcome}
+          </h3>
+
+          {/* 4. Mechanism description */}
+          <p
+            className="premium-body-sm opacity-70 leading-relaxed mb-6"
+            style={{ color: "var(--color-bone)" }}
+          >
+            {benefit.description}
+          </p>
+
+          {/* 5. Evidence strip (supporting proof, no stat repetition) */}
+          {breakdown && breakdown.results.length >= 2 && (
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              {breakdown.results.slice(0, 2).map((result, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-[20px] px-4 py-3"
+                  style={{
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                  }}
+                >
+                  <p
+                    className="text-sm leading-tight opacity-80"
+                    style={{ color: "var(--color-bone)" }}
+                  >
+                    {result}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* 6. Study footnote */}
+          {breakdown && (
+            <p
+              className="premium-body-sm mt-4"
+              style={{ color: "var(--color-bone)", opacity: 0.35 }}
+            >
+              {breakdown.study}
+              {" · "}
+              <a
+                href="#"
+                className="underline opacity-80"
+                style={{ color: "var(--color-bone)" }}
+              >
+                Read the full study →
+              </a>
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Divider between rows (omit on last row) */}
+      {!isLast && (
+        <div
+          style={{
+            height: "1px",
+            background: "var(--color-premium-stroke)",
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
 export default function KeyBenefitsMobile({
   benefits,
 }: KeyBenefitsMobileProps) {
-  const [activeBenefit, setActiveBenefit] = useState(0);
-  const [clinicalExpanded, setClinicalExpanded] = useState(false);
+  const [openBenefit, setOpenBenefit] = useState<number | null>(null);
 
-  const currentBenefit = benefits[activeBenefit];
-
-  // Generate chart data showing baseline vs improved performance
-  const chartData = useMemo(() => {
-    const statMatch = currentBenefit.stat.match(/(\d+\.?\d*)/);
-    const improvementValue = statMatch ? parseFloat(statMatch[1]) : 0;
-
-    const baseline = 12;
-
-    const benefitCategoryMap: { [key: string]: string } = {
-      focus: "Focus",
-      sleep: "Energy",
-      "brain-fog": "Clarity",
-      stress: "Recovery",
-      memory: "Memory",
-    };
-
-    const primaryCategory =
-      benefitCategoryMap[currentBenefit.id] || "Performance";
-
-    const categories = [
-      {
-        category: "Focus",
-        baseline,
-        improved:
-          baseline +
-          (primaryCategory === "Focus"
-            ? improvementValue
-            : improvementValue * 0.3),
-      },
-      {
-        category: "Memory",
-        baseline,
-        improved:
-          baseline +
-          (primaryCategory === "Memory"
-            ? improvementValue
-            : improvementValue * 0.3),
-      },
-      {
-        category: "Energy",
-        baseline,
-        improved:
-          baseline +
-          (primaryCategory === "Energy"
-            ? improvementValue
-            : improvementValue * 0.3),
-      },
-      {
-        category: "Clarity",
-        baseline,
-        improved:
-          baseline +
-          (primaryCategory === "Clarity"
-            ? improvementValue
-            : improvementValue * 0.3),
-      },
-      {
-        category: "Recovery",
-        baseline,
-        improved:
-          baseline +
-          (primaryCategory === "Recovery"
-            ? improvementValue
-            : improvementValue * 0.3),
-      },
-      {
-        category: "Performance",
-        baseline,
-        improved:
-          baseline +
-          (primaryCategory === "Performance"
-            ? improvementValue
-            : improvementValue * 0.4),
-      },
-    ];
-
-    return categories;
-  }, [currentBenefit.stat, currentBenefit.id]);
-
-  const mainStatValue = useMemo(() => {
-    const statMatch = currentBenefit.stat.match(/(\d+\.?\d*)/);
-    return statMatch ? parseFloat(statMatch[1]) : 0;
-  }, [currentBenefit.stat]);
+  const handleTap = (idx: number) => {
+    // Toggle: if clicking the open one, close it; otherwise open the clicked one
+    setOpenBenefit(idx === openBenefit ? null : idx);
+  };
 
   return (
-    <section className="w-full pt-2 pb-8">
-      {/* Header Section - Left Aligned */}
-      <div className="px-6 mb-4">
-        <div className="text-left">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-1">Key Benefits</h2>
-          <p className="font-clinical text-sm font-clinical opacity-70 sm:text-xl">
-            backed by real science, tap to explore
-          </p>
-        </div>
-      </div>
-
-      {/* Brick-laying Pills Layout */}
-      <div className="px-6 mb-5">
-        {/* Flex-wrap container - pills wrap naturally to fit screen */}
-        <div className="flex flex-wrap gap-2.5">
-          {benefits.map((benefit, idx) => {
-            const isActive = idx === activeBenefit;
-
-            return (
-              <button
-                key={benefit.id}
-                onClick={() => setActiveBenefit(idx)}
-                className={`px-3.5 py-1.5 rounded-full border-2 border-black transition-all flex items-center gap-2 min-h-[36px] active:opacity-80 ${
-                  isActive ? "bg-black text-white" : "bg-transparent text-black"
-                }`}
-              >
-                {benefit.icon && (
-                  <span
-                    className={`w-4 h-4 flex-shrink-0 ${
-                      isActive ? "text-white" : "text-black"
-                    }`}
-                  >
-                    {benefit.icon}
-                  </span>
-                )}
-                <span className="font-primary font-medium text-sm whitespace-nowrap">
-                  {benefit.title}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Main Content Area */}
-      <div className="px-6">
-        {/* Stat Display - Right Aligned */}
-        <div className="text-right mb-2 mt-4">
-          <p className="font-clinical text-5xl sm:text-6xl font-bold mb-1">
-            {currentBenefit.stat}
-          </p>
-          <h3 className="text-2xl sm:text-3xl font-bold mb-1">
-            {currentBenefit.title}
-          </h3>
-          <p className="font-commentary text-base sm:text-lg opacity-80">
-            {currentBenefit.annotation}
-          </p>
-        </div>
-
-        {/* Description - Right Aligned */}
-        <p className="text-sm sm:text-base opacity-80 text-right mb-2">
-          {currentBenefit.description}
+    <div>
+      {/* Heading block */}
+      <div className="text-center mb-8 text-[var(--color-ink)]">
+        <h2
+          className="premium-section-heading"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          What you'll actually feel.
+        </h2>
+        <p className="premium-section-subtitle mt-2">
+          Tap a benefit to see the evidence behind it.
         </p>
-
-        {/* Radar Chart - Large and Prominent */}
-        <div className="flex items-center justify-center mb-4">
-          <div className="w-full max-w-[340px] sm:max-w-[380px]">
-            <RadarChart data={chartData} mainValue={mainStatValue} />
-          </div>
-        </div>
-
-        {/* Collapsible Clinical Studies */}
-        {currentBenefit.clinicalBreakdown && (
-          <div className="mb-5">
-            <button
-              onClick={() => setClinicalExpanded(!clinicalExpanded)}
-              className="w-full flex items-center justify-between px-4 py-3 neo-box transition-all active:opacity-80"
-            >
-              <span className="font-clinical text-sm uppercase">
-                {clinicalExpanded
-                  ? "Hide Clinical Details"
-                  : "View Clinical Study Details"}
-              </span>
-              <svg
-                className={`w-5 h-5 transition-transform duration-300 ${
-                  clinicalExpanded ? "rotate-180" : ""
-                }`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-
-            {/* Expandable Content */}
-            <div
-              className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                clinicalExpanded
-                  ? "max-h-[500px] opacity-100 mt-3"
-                  : "max-h-0 opacity-0"
-              }`}
-            >
-              <div className="neo-box p-4">
-                <div className="flex justify-between items-center mb-3">
-                  <p className="font-clinical text-xs uppercase opacity-70">
-                    Clinical Study Details
-                  </p>
-                  <p className="font-clinical text-xs opacity-50">
-                    vs. baseline
-                  </p>
-                </div>
-                <div className="space-y-2 font-clinical text-sm">
-                  <div>
-                    <span className="opacity-70">Study:</span>{" "}
-                    <span className="text-xs sm:text-sm">
-                      {currentBenefit.clinicalBreakdown.study}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="opacity-70">Participants:</span>{" "}
-                    <span>{currentBenefit.clinicalBreakdown.participants}</span>
-                  </div>
-                  <div>
-                    <span className="opacity-70">Duration:</span>{" "}
-                    <span>{currentBenefit.clinicalBreakdown.duration}</span>
-                  </div>
-                  <div className="mt-3 pt-3 border-t-2 border-current border-opacity-20">
-                    <p className="opacity-70 mb-2 text-xs">Key Results:</p>
-                    <ul className="space-y-1 text-xs sm:text-sm">
-                      {currentBenefit.clinicalBreakdown.results.map(
-                        (result, idx) => (
-                          <li key={idx}>• {result}</li>
-                        ),
-                      )}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Testimonial */}
-        {currentBenefit.testimonial && (
-          <div className="neo-box p-4">
-            <p className="font-commentary text-base mb-2">
-              &quot;{currentBenefit.testimonial.quote}&quot;
-            </p>
-            <p className="font-clinical text-xs opacity-70">
-              — {currentBenefit.testimonial.author},{" "}
-              {currentBenefit.testimonial.role}
-            </p>
-          </div>
-        )}
       </div>
-    </section>
+
+      {/* Accordion list */}
+      <div
+        className="overflow-hidden -mx-5 md:-mx-[5vw]"
+        style={{
+          border: "1px solid var(--color-premium-stroke)",
+          background: "var(--color-bone)",
+        }}
+      >
+        {benefits.map((benefit, index) => (
+          <AccordionRow
+            key={benefit.id}
+            benefit={benefit}
+            isOpen={openBenefit === index}
+            isLast={index === benefits.length - 1}
+            onTap={() => handleTap(index)}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

@@ -96,7 +96,7 @@ export default function ConkaFlowPage() {
         <Navigation />
         {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
         <section
-          className="premium-section-luxury premium-hero-first bg-white"
+          className="premium-section-luxury premium-hero-first premium-bg-bone"
           aria-label="Product hero"
         >
           <div className="premium-track">
@@ -122,8 +122,8 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* Testimonials — mid (alternates with ink/bone) */}
-          <section className="premium-section-luxury premium-bg-bone">
+          {/* Testimonials — mid (deeper grey so white cards pop) */}
+          <section className="premium-section-luxury premium-bg-mid">
             <div className="premium-track">
               <Testimonials
                 testimonials={getSiteTestimonialsFlow()}
@@ -132,13 +132,14 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* What to expect — mid (deeper grey so white cards pop) */}
+          {/* Formula Benefits — bone (alternates with ink/mid) */}
           <section
-            className="premium-section-luxury premium-bg-mid"
-            aria-label="What to expect"
+            id="proof-and-science"
+            className="premium-section-luxury premium-bg-bone"
+            aria-labelledby="proof-and-science-heading"
           >
             <div className="premium-track">
-              <WhatToExpectTimeline productId="01" />
+              <FormulaBenefitsMobile formulaId="01" />
             </div>
           </section>
 
@@ -169,13 +170,14 @@ export default function ConkaFlowPage() {
               <HowItWorks formulaId="01" />
             </div>
           </section>
+
+          {/* What to expect — mid (deeper grey so white cards pop) */}
           <section
-            id="proof-and-science"
-            className="premium-section-luxury premium-bg-bone"
-            aria-labelledby="proof-and-science-heading"
+            className="premium-section-luxury premium-bg-mid"
+            aria-label="What to expect"
           >
             <div className="premium-track">
-              <FormulaBenefitsMobile formulaId="01" />
+              <WhatToExpectTimeline productId="01" />
             </div>
           </section>
           <section
@@ -253,8 +255,8 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* Testimonials — mid */}
-        <section className="premium-section-luxury premium-bg-bone">
+        {/* Testimonials — mid (deeper grey so white cards pop) */}
+        <section className="premium-section-luxury premium-bg-mid">
           <div className="premium-track">
             <Testimonials
               testimonials={getSiteTestimonialsFlow()}
@@ -263,13 +265,14 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* What to expect — mid (deeper grey so white cards pop) */}
+        {/* Formula Benefits — bone (alternates with ink/mid) */}
         <section
-          className="premium-section-luxury premium-bg-mid"
-          aria-label="What to expect"
+          id="proof-and-science"
+          className="premium-section-luxury premium-bg-bone"
+          aria-labelledby="proof-and-science-heading"
         >
           <div className="premium-track">
-            <WhatToExpectTimeline productId="01" />
+            <FormulaBenefits formulaId="01" />
           </div>
         </section>
 
@@ -300,13 +303,14 @@ export default function ConkaFlowPage() {
             <HowItWorks formulaId="01" />
           </div>
         </section>
+
+        {/* What to expect — mid (deeper grey so white cards pop) */}
         <section
-          id="proof-and-science"
-          className="premium-section-luxury premium-bg-bone"
-          aria-labelledby="proof-and-science-heading"
+          className="premium-section-luxury premium-bg-mid"
+          aria-label="What to expect"
         >
           <div className="premium-track">
-            <FormulaBenefits formulaId="01" />
+            <WhatToExpectTimeline productId="01" />
           </div>
         </section>
         <section

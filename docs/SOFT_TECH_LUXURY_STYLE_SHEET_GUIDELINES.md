@@ -42,6 +42,12 @@ A **consistent, repeatable system**. New sections and components "drop in" witho
 - **Cards and boxes:** 40px radius (`--premium-radius-card`), soft off-white background (`--color-premium-bg-soft`), and minimal or no heavy borders. Use a very light stroke (`--color-premium-stroke`) only when a border is needed.
 - **Rule:** All cards, bento cells, case study blocks, and similar surfaces use these tokens so the site has a "pebble" or soft-tech feel.
 
+### 2.4 Section vs component color
+
+- **Sections** set **background** and **one default `color`** on the section element only. Use `.premium-section-luxury` for padding; use `.premium-bg-bone`, `.premium-bg-ink`, `.premium-bg-mid`, or `.premium-bg-surface` for background + default text color. Sections do **not** set color on descendant elements (no descendant color rules)—components inherit from the section's single `color` or set their own.
+- **Components own their text color**. Typography classes (`.premium-section-heading`, `.premium-body`, `.premium-section-subtitle`) inherit color from their parent (section or component). Components that render a **different surface** (e.g. white card on ink section, white button on ink section) must set text color explicitly on that element (e.g. `text-[var(--color-ink)]` on the card/button). No override utilities needed.
+- **Rule:** Sections provide background and a default inherited color. Components set explicit text color on any element that needs to differ from the section default (e.g. white card on dark section = card sets dark text). For sections with custom background only (inline `style={{ backgroundColor }}` without a `.premium-bg-*` class), the component fully owns its text color.
+
 ---
 
 ## 3. Token reference
@@ -69,6 +75,40 @@ All tokens are defined in [app/premium-base.css](../app/premium-base.css).
 | | `--premium-body-max-width` | Max width for long copy (65ch). |
 
 Use these variables in CSS or via utilities; avoid hard-coded values for layout and soft-tech finish.
+
+### 2.5 Sticky positioning (scroll behavior)
+
+**Sticky positioning** (CSS `position: sticky`) creates a "sticky sidebar" effect where an element scrolls normally until it reaches a specified offset from the viewport top, then "sticks" in place while the rest of the content continues scrolling. This is commonly used for two-column layouts where a navigation list stays visible while the detail panel scrolls.
+
+**Implementation pattern:**
+
+```tsx
+<div className="grid lg:grid-cols-[38%_1fr] gap-8 items-start">
+  {/* Left: Sticky navigation/list */}
+  <div className="lg:sticky lg:top-8">
+    {/* Navigation list content */}
+  </div>
+  
+  {/* Right: Scrollable detail panel */}
+  <div>
+    {/* Detail content that scrolls */}
+  </div>
+</div>
+```
+
+**Key points:**
+- Use `lg:sticky lg:top-8` (or similar offset) on the left column wrapper
+- The parent grid must have `items-start` to prevent vertical centering
+- The sticky element will scroll normally until it reaches `top-8` from the viewport top, then stick
+- The sticky element will "unstick" when its parent container scrolls out of view
+- This pattern works best with a two-column grid where the left column is narrower (e.g., `grid-cols-[38%_1fr]`)
+
+**When to use:**
+- Two-column layouts with a navigation/list on the left and detail content on the right
+- Benefits sections (FormulaBenefits, KeyBenefits)
+- Any scenario where keeping navigation visible improves UX while browsing long-form content
+
+**Example:** See `FormulaBenefits.tsx` and `KeyBenefitsDesktop.tsx` for reference implementations.
 
 ---
 
@@ -146,12 +186,12 @@ Structure:
 - **Content only** — No `<section>`, no root background, no `max-w` or `px-*` at the outer level. Return a fragment or a single content wrapper (e.g. header + grid).
 - **Internal layout** — Grids, stacks, carousels; use `--premium-space-*` for gaps and internal rhythm.
 - **Card/surface styling** — Radius `var(--premium-radius-card)`, soft bg `var(--color-premium-bg-soft)` or `bg-white` where needed; borders `var(--color-premium-stroke)`.
-- **Typography** — Section headings with `letterSpacing: var(--letter-spacing-premium-title)`; body/annotation classes (`.premium-body`, `.premium-annotation`). If the component renders a card that sits on a dark section and must keep dark text, add the class `.premium-card-dark-text` to that card. For buttons, pills, or any element with its own light background on an Ink section, add `.premium-own-surface` so text stays dark (section typography rules would otherwise override).
+- **Typography** — Section headings with `letterSpacing: var(--letter-spacing-premium-title)`; body/annotation classes (`.premium-body`, `.premium-annotation`). Components set their own text color. If a component renders a card/button with a different surface (e.g. white card on dark section), set text color explicitly on that element (e.g. `text-[var(--color-ink)]` on the card). Typography classes inherit color from their parent, so components control color by setting it on their root or specific elements.
 
 **Page is responsible for:**
 - **Section wrapper** — `<section className="premium-section-luxury premium-bg-{ink|bone|surface}" aria-label="…">`.
 - **Track** — `<div className="premium-track">` around the component so content aligns to the system rail.
-- **Background and color** — Section background and default text color (Ink = light text, Bone/Surface = dark text) come from the page; the component does not set them.
+- **Background and default color** — Section background and a single default `color` (Ink = light text, Bone/Surface/Mid = dark text) come from the page via `.premium-bg-*` classes. Components inherit this color or set their own on elements that need different colors (e.g. white card on dark section sets dark text on the card).
 
 ---
 

@@ -12,9 +12,16 @@ import {
 interface RadarChartProps {
   data: { category: string; baseline: number; improved: number }[];
   mainValue: number;
+  accentColor?: string; // Optional accent color for the improved line (defaults to currentColor)
 }
 
-export default function RadarChart({ data, mainValue }: RadarChartProps) {
+export default function RadarChart({ data, mainValue, accentColor }: RadarChartProps) {
+  // Use black for grid, labels, and baseline; accent color only for improved line
+  const gridColor = "rgba(0, 0, 0, 0.15)";
+  const labelColor = "rgba(0, 0, 0, 0.7)";
+  const baselineColor = "rgba(0, 0, 0, 0.4)";
+  const improvedColor = accentColor || "rgba(0, 0, 0, 0.8)";
+
   return (
     <div className="w-full overflow-visible">
       <div className="w-full aspect-square overflow-visible">
@@ -25,14 +32,14 @@ export default function RadarChart({ data, mainValue }: RadarChartProps) {
             margin={{ top: 40, right: 60, bottom: 40, left: 60 }}
           >
             <PolarGrid
-              stroke="currentColor"
+              stroke={gridColor}
               strokeWidth={1}
-              strokeOpacity={0.15}
+              strokeOpacity={1}
             />
             <PolarAngleAxis
               dataKey="category"
               tick={{
-                fill: "currentColor",
+                fill: labelColor,
                 fontSize: 11,
                 fontFamily: "var(--font-ibm-plex-mono)",
               }}
@@ -49,19 +56,19 @@ export default function RadarChart({ data, mainValue }: RadarChartProps) {
             <Radar
               name="Baseline"
               dataKey="baseline"
-              stroke="currentColor"
-              fill="currentColor"
+              stroke={baselineColor}
+              fill={baselineColor}
               fillOpacity={0.05}
               strokeWidth={1}
               strokeDasharray="5 5"
-              strokeOpacity={0.4}
+              strokeOpacity={1}
             />
             {/* Improved (with CONKA) */}
             <Radar
               name="With CONKA"
               dataKey="improved"
-              stroke="currentColor"
-              fill="currentColor"
+              stroke={improvedColor}
+              fill={improvedColor}
               fillOpacity={0.15}
               strokeWidth={2}
             />

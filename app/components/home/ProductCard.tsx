@@ -9,7 +9,10 @@ import {
 } from "@/app/lib/productData";
 import { formulaPricing, protocolPricing } from "@/app/lib/productPricing";
 import { getProductAccent, getProductGradient } from "@/app/lib/productColors";
-import { getProtocolTierTotalShots } from "@/app/lib/productHelpers";
+import {
+  getProtocolTierTotalShots,
+  getBillingLabel,
+} from "@/app/lib/productHelpers";
 import {
   getFormulaImage,
   getProtocolImage,
@@ -40,20 +43,14 @@ const getProtocolBestFor = (variant: ProtocolVariant): string => {
   }
 };
 
-// Calculate protocol savings vs buying Flow + Clear separately
-// TODO: Create helper function in productHelpers.ts to calculate this properly
+// Calculate protocol savings vs buying Flow + Clear 4-packs separately
 const calculateProtocolSavings = (
   purchaseType: PurchaseType,
 ): number | null => {
-  // Protocol max tier (28 shots) pricing
-  const protocolPrice = protocolPricing.standard[purchaseType].max.price;
-
-  // Two 28-shot formulas (Flow + Clear) - both use same pricing
-  const formula28Price = formulaPricing[purchaseType]["28"].price;
-
-  const separateTotal = formula28Price + formula28Price; // Flow + Clear
+  const protocolPrice = protocolPricing.standard[purchaseType].starter.price;
+  const formula4Price = formulaPricing[purchaseType]["4"].price;
+  const separateTotal = formula4Price + formula4Price; // Flow + Clear
   const savings = separateTotal - protocolPrice;
-
   return savings > 0 ? savings : null;
 };
 
@@ -70,7 +67,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       bestFor: ["Morning training", "Long workdays", "Clean mental stamina"],
       image: getFormulaImage("01"),
       link: "/conka-flow",
-      linkText: "View Product",
+      linkText: "View Product →",
       badge: null,
     };
   }
@@ -86,7 +83,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       bestFor: ["Post-training recovery", "Evening wind-down", "Sleep quality"],
       image: getFormulaImage("02"),
       link: "/conka-clarity",
-      linkText: "View Product",
+      linkText: "View Product →",
       badge: null,
     };
   }
@@ -105,8 +102,8 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       "Optimised for training load",
     ],
     image: getProtocolImage("3"), // Default, will be overridden by variant
-    link: "/protocol/3",
-    linkText: null,
+    link: "/protocol/3", // Overridden in render from protocolVariant
+    linkText: "View Product →",
     badge: "Most Popular",
   };
 };
@@ -137,6 +134,19 @@ const getProtocolVariantGradient = (
       return getProductGradient("2"); // Precision: pink to purple
     default:
       return getProductGradient("3");
+  }
+};
+
+// Protocol variant → protocol page path (for View Product link)
+const getProtocolLink = (variant: ProtocolVariant): string => {
+  switch (variant) {
+    case "flow-heavy":
+      return "/protocol/1";
+    case "clear-heavy":
+      return "/protocol/2";
+    case "balance":
+    default:
+      return "/protocol/3";
   }
 };
 
@@ -176,18 +186,21 @@ export default function ProductCard({
       )
     : getProductAccent(product.id);
 
-  // Get pricing - use max tier (28 shots) for protocol
+  // Get pricing - all 4-pack on landing grid (customer acquisition)
   let dailyPrice: string;
   let monthlyPrice: string;
   let originalDailyPrice: string | null = null;
   let originalMonthlyPrice: string | null = null;
   let perShotText: string;
   let savings: number | null = null;
+  let subscriptionBillingLabel: string | null = null;
+  const formulaPackSize = "4" as const;
+  const formulaShotCount = 4;
 
   if (isProtocol) {
-    // Protocol: Use max tier (28 shots)
-    const pricing = protocolPricing.standard[purchaseType].max;
-    const totalShots = getProtocolTierTotalShots("3", "max"); // 28 shots
+    // Protocol: Use starter tier (4-pack)
+    const pricing = protocolPricing.standard[purchaseType].starter;
+    const totalShots = getProtocolTierTotalShots("3", "starter"); // 4 shots
     const perShot = pricing.price / totalShots;
     dailyPrice = `£${perShot.toFixed(2)}`;
     monthlyPrice = `£${pricing.price.toFixed(2)}`;
@@ -197,22 +210,30 @@ export default function ProductCard({
       originalDailyPrice = `£${originalPerShot.toFixed(2)}`;
       originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
-
-    perShotText = "28-shot supply (Flow + Clear)";
+    if (isSubscribe && "billing" in pricing) {
+      subscriptionBillingLabel = getBillingLabel(
+        (pricing as { billing: string }).billing,
+      );
+    }
+    perShotText = "4-shot supply (Flow + Clear)";
     savings = calculateProtocolSavings(purchaseType);
   } else {
-    // Formula: Use 28-pack
-    const pricing = formulaPricing[purchaseType]["28"];
+    // Formula: Use 4-pack
+    const pricing = formulaPricing[purchaseType][formulaPackSize];
     dailyPrice = `£${pricing.perShot.toFixed(2)}`;
     monthlyPrice = `£${pricing.price.toFixed(2)}`;
 
     if (isSubscribe && "basePrice" in pricing) {
-      const originalPerShot = pricing.basePrice / 28;
+      const originalPerShot = pricing.basePrice / formulaShotCount;
       originalDailyPrice = `£${originalPerShot.toFixed(2)}`;
       originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
-
-    perShotText = "28-shot supply";
+    if (isSubscribe && "billing" in pricing) {
+      subscriptionBillingLabel = getBillingLabel(
+        (pricing as { billing: string }).billing,
+      );
+    }
+    perShotText = "4-shot supply";
   }
 
   // Best for text
@@ -223,21 +244,22 @@ export default function ProductCard({
   // Button background color
   const formulaGradient = !isProtocol ? getProductGradient(product.id) : null;
   const buttonBg = isSubscribe
-    ? (isProtocol
-        ? (buttonGradient
-            ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
-            : (accentColor ?? "#000"))
-        : (formulaGradient
-            ? `linear-gradient(to right, ${formulaGradient.start}, ${formulaGradient.end})`
-            : (accentColor ?? "#111")))
+    ? isProtocol
+      ? buttonGradient
+        ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
+        : (accentColor ?? "#000")
+      : formulaGradient
+        ? `linear-gradient(to right, ${formulaGradient.start}, ${formulaGradient.end})`
+        : (accentColor ?? "#111")
     : "var(--color-ink)"; // One-time purchase: use ink/black
 
   return (
-    <div className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden" style={{ padding: '1rem', backgroundColor: 'white' }}>
+    <div
+      className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden text-[var(--text-on-light)]"
+      style={{ padding: "1rem", backgroundColor: "white" }}
+    >
       {/* Product Info */}
-      <div
-        className="flex-1 flex flex-col px-0 pb-0 pt-4"
-      >
+      <div className="flex-1 flex flex-col px-0 pb-0 pt-4">
         {/* Product Name */}
         <div className="mb-1">
           <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-2">
@@ -252,7 +274,7 @@ export default function ProductCard({
               background: "rgba(0,0,0,0.04)",
             }}
           >
-            Liquid · 1 shot (30ml) daily · 28-pack
+            Liquid · 1 shot (30ml) daily · 4-pack
           </span>
         </div>
 
@@ -271,7 +293,10 @@ export default function ProductCard({
 
         {/* Protocol Variant Selector */}
         {isProtocol && onProtocolVariantChange && (
-          <div className="mb-4 flex justify-center">
+          <div className="mb-5 flex flex-col items-center gap-2">
+            <span className="premium-body-sm font-medium text-[var(--text-on-light-muted)]">
+              Choose your ratio
+            </span>
             <ProtocolVariantSelector
               variant={protocolVariant}
               onVariantChange={onProtocolVariantChange}
@@ -326,7 +351,9 @@ export default function ProductCard({
                   ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
                   : "border border-black/8"
               }`}
-              style={!isSubscribe ? { backgroundColor: 'var(--color-bone)' } : {}}
+              style={
+                !isSubscribe ? { backgroundColor: "var(--color-bone)" } : {}
+              }
             >
               <input
                 type="radio"
@@ -341,7 +368,10 @@ export default function ProductCard({
                   Subscribe & Save 20%
                 </div>
                 <div className="text-[11px] text-[var(--text-on-light-muted)]">
-                  Cancel anytime · Delivery every 28 days
+                  Cancel anytime
+                  {subscriptionBillingLabel != null
+                    ? ` · ${subscriptionBillingLabel}`
+                    : ""}
                 </div>
               </div>
               <div className="text-right">
@@ -361,7 +391,9 @@ export default function ProductCard({
                   ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
                   : "border border-black/8"
               }`}
-              style={isSubscribe ? { backgroundColor: 'var(--color-bone)' } : {}}
+              style={
+                isSubscribe ? { backgroundColor: "var(--color-bone)" } : {}
+              }
             >
               <input
                 type="radio"
@@ -388,8 +420,8 @@ export default function ProductCard({
             className="w-full py-6 rounded-[var(--premium-radius-interactive)] text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-base font-semibold"
             style={{
               background: buttonBg,
-              paddingLeft: '2rem',
-              paddingRight: '2rem',
+              paddingLeft: "2rem",
+              paddingRight: "2rem",
             }}
           >
             <span>Add to Cart</span>
@@ -403,10 +435,12 @@ export default function ProductCard({
             </div>
           </button>
 
-          {/* View All Link */}
+          {/* View Product link */}
           {product.linkText && (
             <Link
-              href={product.link}
+              href={
+                isProtocol ? getProtocolLink(protocolVariant) : product.link
+              }
               className="premium-body-sm text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] transition-colors text-center block"
             >
               {product.linkText}

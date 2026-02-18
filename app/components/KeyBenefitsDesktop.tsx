@@ -2,12 +2,17 @@
 
 import { useState, useMemo } from "react";
 import RadarChart from "./RadarChart";
-import FocalImage from "./FocalImage";
 import { Benefit } from "./KeyBenefits";
 
 interface KeyBenefitsDesktopProps {
   benefits: Benefit[];
 }
+
+// Neural blue accent color (similar to CONKA Clarity)
+const NEURAL_BLUE = {
+  text: "text-[#94b9ff]",
+  hex: "#94b9ff",
+};
 
 export default function KeyBenefitsDesktop({
   benefits,
@@ -15,6 +20,17 @@ export default function KeyBenefitsDesktop({
   const [activeBenefit, setActiveBenefit] = useState(0);
 
   const currentBenefit = benefits[activeBenefit];
+
+  const handleSelect = (idx: number) => {
+    if (idx !== activeBenefit) setActiveBenefit(idx);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleSelect(idx);
+    }
+  };
 
   // Generate chart data showing baseline vs improved performance
   const chartData = useMemo(() => {
@@ -105,168 +121,231 @@ export default function KeyBenefitsDesktop({
   }, [currentBenefit.stat]);
 
   return (
-    <section className="w-full">
-      {/* Navigation - Edge to edge, centered */}
-      <div className="w-full bg-[var(--background)]">
-        <div className="px-6 md:px-16 py-6">
-          <div className="flex flex-col items-center gap-4">
-            <div className="text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">
-                Key Benefits
-              </h2>
-              <p className="font-clinical opacity-70 text-lg">
-                backed by real science, tap to explore
-              </p>
-            </div>
+    <div>
+      {/* Heading block */}
+      <div className="text-center mb-10">
+        <h2
+          className="premium-section-heading text-[var(--color-ink)]"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          What you'll actually feel.
+        </h2>
+        <p className="premium-section-subtitle mt-2 text-[var(--color-ink)]">
+          Select a benefit to see the evidence behind it.
+        </p>
+      </div>
 
-            {/* Benefit Navigation Buttons - Pill shaped */}
-            <div className="flex flex-wrap gap-3 justify-center">
+      {/* Two-column grid layout */}
+      <div className="grid lg:grid-cols-[38%_1fr] gap-8 items-start">
+        {/* Left: Benefit List (sticky on desktop) */}
+        <div className="lg:sticky lg:top-8">
+          <div
+            className="rounded-[40px] overflow-hidden"
+            style={{ 
+              border: "1px solid var(--color-premium-stroke)",
+              background: "var(--color-bone)"
+            }}
+          >
+            <div style={{ padding: "2em" }} className="space-y-2">
               {benefits.map((benefit, idx) => {
                 const isActive = idx === activeBenefit;
                 return (
                   <button
                     key={benefit.id}
-                    onClick={() => setActiveBenefit(idx)}
-                    className={`px-5 md:px-7 lg:px-8 py-2 md:py-3.5 lg:py-4 rounded-full border-2 border-black transition-all flex items-center justify-center gap-2 md:gap-2.5 lg:gap-3 ${
-                      isActive
-                        ? "bg-black text-white"
-                        : "bg-transparent text-black hover:bg-black/10"
-                    }`}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={isActive}
+                    onClick={() => handleSelect(idx)}
+                    onKeyDown={(e) => handleKeyDown(e, idx)}
+                    className={`
+                      flex items-center gap-3 px-4 py-3.5 rounded-[20px] cursor-pointer 
+                      transition-all duration-200 w-full text-left
+                      ${isActive
+                        ? "bg-[var(--color-ink)] text-white"
+                        : "bg-white border border-[var(--color-premium-stroke)] hover:bg-[var(--color-premium-bg-soft)]"
+                      }
+                    `}
                   >
+                    {/* Icon */}
                     {benefit.icon && (
-                      <span
-                        className={`w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 flex-shrink-0 flex items-center justify-center ${isActive ? "text-white" : "text-black"}`}
-                      >
+                      <div className={`w-5 h-5 flex-shrink-0 ${isActive ? "text-white" : "opacity-60"}`}>
                         {benefit.icon}
-                      </span>
+                      </div>
                     )}
-                    <span className="font-primary font-medium text-sm md:text-base lg:text-lg whitespace-nowrap flex items-center">
+
+                    {/* Benefit title */}
+                    <span className={`premium-body font-medium flex-1 ${isActive ? "text-white" : "text-[var(--color-ink)]"}`}>
                       {benefit.title}
                     </span>
+
+                    {/* Spacer */}
+                    <span className="flex-1" />
+
+                    {/* Stat */}
+                    <span className={`font-bold ${isActive ? "text-white" : NEURAL_BLUE.text}`}>
+                      {benefit.stat}
+                    </span>
+
+                    {/* Chevron */}
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`shrink-0 transition-opacity duration-200 ${
+                        isActive ? "text-white opacity-90" : "opacity-30"
+                      }`}
+                    >
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
                   </button>
                 );
               })}
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Detailed Content Section - Edge to edge */}
-      <div className="w-full bg-[var(--background)]">
-        <div className="px-6 md:px-16 pt-16 pb-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Left: Main Content */}
-              <div className="space-y-6">
-                {/* Title Section with Radar Chart - 2 Column Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                  {/* Left Column: Stat, Title, Annotation, Description */}
-                  <div>
-                    <p className="font-clinical text-6xl font-bold mb-2">
-                      {currentBenefit.stat}
-                    </p>
-                    <h3 className="text-3xl font-bold mb-2">
-                      {currentBenefit.title}
-                    </h3>
-                    <p className="font-commentary text-xl mb-4">
-                      {currentBenefit.annotation}
-                    </p>
-                    <p className="text-lg opacity-80">
-                      {currentBenefit.description}
-                    </p>
-                  </div>
+          {/* Ingredient asset card — updates with active benefit */}
+          <div
+            key={`ingredient-${activeBenefit}`}
+            className="mt-4 rounded-[24px] overflow-hidden [animation:fadeIn_0.3s_ease]"
+            style={{ border: "1px solid var(--color-premium-stroke)" }}
+          >
+            {/* Square image */}
+            <div className="relative w-full aspect-[2/1] bg-[var(--color-premium-bg-soft)]">
+              <img
+                src={currentBenefit.ingredientAsset.image}
+                alt={currentBenefit.ingredientAsset.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
 
-                  {/* Right Column: Radar Chart */}
-                  <div className="w-full flex items-center justify-center overflow-visible">
-                    <div className="w-[280px] md:w-[320px] overflow-visible">
-                      <RadarChart data={chartData} mainValue={mainStatValue} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Clinical Breakdown */}
-                {currentBenefit.clinicalBreakdown && (
-                  <div className="mt-4">
-                    {/* Clinical Study Details */}
-                    <div className="neo-box p-6">
-                      <div className="flex justify-between items-center mb-4">
-                        <p className="font-clinical text-sm uppercase opacity-70">
-                          Clinical Study Details
-                        </p>
-                        <p className="font-clinical text-xs opacity-50">
-                          vs. baseline human performance
-                        </p>
-                      </div>
-                      <div className="space-y-3 font-clinical text-sm">
-                        <div>
-                          <span className="opacity-70">Study:</span>{" "}
-                          <span>{currentBenefit.clinicalBreakdown.study}</span>
-                        </div>
-                        <div>
-                          <span className="opacity-70">Participants:</span>{" "}
-                          <span>
-                            {currentBenefit.clinicalBreakdown.participants}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="opacity-70">Duration:</span>{" "}
-                          <span>
-                            {currentBenefit.clinicalBreakdown.duration}
-                          </span>
-                        </div>
-                        <div className="mt-4 pt-4 border-t-2 border-current border-opacity-20">
-                          <p className="opacity-70 mb-2">Key Results:</p>
-                          <ul className="space-y-1">
-                            {currentBenefit.clinicalBreakdown.results.map(
-                              (result, idx) => (
-                                <li key={idx}>• {result}</li>
-                              ),
-                            )}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Testimonial */}
-                {currentBenefit.testimonial && (
-                  <div className="neo-box p-6 mt-6">
-                    <p className="font-commentary text-lg mb-2">
-                      &quot;{currentBenefit.testimonial.quote}&quot;
-                    </p>
-                    <p className="font-clinical text-sm opacity-70">
-                      — {currentBenefit.testimonial.author},{" "}
-                      {currentBenefit.testimonial.role}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Right: Image/Visual */}
-              <div className="flex items-center justify-center">
-                {currentBenefit.image ? (
-                  <div className="w-full h-[500px] md:h-[600px] rounded-lg overflow-hidden">
-                    <FocalImage
-                      src={currentBenefit.image}
-                      alt={currentBenefit.title}
-                      focalX={currentBenefit.focalPoint?.x ?? 50}
-                      focalY={currentBenefit.focalPoint?.y ?? 50}
-                      priority
-                    />
-                  </div>
-                ) : (
-                  <div className="placeholder-box w-full h-[400px] md:h-[500px]">
-                    <span className="font-clinical text-sm opacity-50">
-                      [BENEFIT IMAGE]
-                    </span>
-                  </div>
-                )}
-              </div>
+            {/* Label strip */}
+            <div
+              className="px-4 py-3"
+              style={{ background: "var(--color-bone)" }}
+            >
+              <p className="premium-body-sm font-medium text-[var(--color-ink)]">
+                {currentBenefit.ingredientAsset.name}
+              </p>
+              <p className="premium-body-sm opacity-50 text-[var(--color-ink)]">
+                {currentBenefit.ingredientAsset.dosage}
+              </p>
             </div>
           </div>
         </div>
+
+        {/* Right: Benefit Detail (updates in-place) */}
+        <div aria-live="polite">
+          <div
+            key={activeBenefit}
+            className="premium-card-soft !bg-white p-8 [animation:fadeIn_0.3s_ease]"
+          >
+            {/* 1. Struggle statement — small, muted, italic */}
+            <p className="premium-body-sm italic opacity-50 mb-2 text-[var(--color-ink)]">
+              {currentBenefit.struggle}
+            </p>
+
+            {/* 2. Outcome headline — large, bold, hero text */}
+            <h3 className="text-2xl lg:text-3xl font-bold mb-6 leading-tight text-[var(--color-ink)]">
+              {currentBenefit.outcome}
+            </h3>
+
+            {/* 3. Stat + annotation — moved down, slightly smaller than before */}
+            <div className="flex items-baseline gap-3 mb-4">
+              <span
+                className={`text-4xl lg:text-5xl font-bold tracking-tight ${NEURAL_BLUE.text}`}
+                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+              >
+                {currentBenefit.stat}
+              </span>
+              <span className="premium-body-sm opacity-60 text-[var(--color-ink)]">
+                {currentBenefit.annotation}
+              </span>
+            </div>
+
+            {/* 4. Mechanism (description) — smaller, more muted */}
+            <p className="premium-body-sm opacity-60 leading-relaxed mb-6 text-[var(--color-ink)]">
+              {currentBenefit.description}
+            </p>
+
+            {/* 5. Radar chart — keep as-is, add explainer line above */}
+            <div className="premium-card-soft p-6 rounded-[20px] mb-6" aria-hidden="true">
+              <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-1 text-[var(--color-ink)]">
+                Performance impact
+              </p>
+              <p className="premium-body-sm opacity-70 mb-4 text-[var(--color-ink)]">
+                How this benefit impacts your overall cognitive performance
+              </p>
+              <div className="w-full max-w-[360px] mx-auto">
+                <RadarChart
+                  data={chartData}
+                  mainValue={mainStatValue}
+                  accentColor={NEURAL_BLUE.hex}
+                />
+              </div>
+            </div>
+
+            {/* 6. Clinical breakdown — keep entirely as-is */}
+            {currentBenefit.clinicalBreakdown && (
+              <div
+                className="rounded-[20px] overflow-hidden mb-2"
+                style={{ border: "1px solid var(--color-premium-stroke)" }}
+              >
+                {/* Header row */}
+                <div
+                  className="flex items-center justify-between px-5 py-3"
+                  style={{
+                    background: "var(--color-premium-bg-soft)",
+                    borderBottom: "1px solid var(--color-premium-stroke)",
+                  }}
+                >
+                  <p className="premium-body-sm uppercase tracking-wider opacity-50 text-[var(--color-ink)]">
+                    Clinical study
+                  </p>
+                  <p className="premium-body-sm opacity-40 text-[var(--color-ink)]">
+                    vs. baseline human performance
+                  </p>
+                </div>
+
+                {/* Study details */}
+                <div className="px-5 py-4 space-y-2 premium-body-sm text-[var(--color-ink)]">
+                  <p>
+                    <span className="opacity-50">Study: </span>
+                    <span className="opacity-80">{currentBenefit.clinicalBreakdown.study}</span>
+                  </p>
+                  <p>
+                    <span className="opacity-50">Participants: </span>
+                    <span className="opacity-80">{currentBenefit.clinicalBreakdown.participants}</span>
+                  </p>
+                  <p>
+                    <span className="opacity-50">Duration: </span>
+                    <span className="opacity-80">{currentBenefit.clinicalBreakdown.duration}</span>
+                  </p>
+                </div>
+
+                {/* Results */}
+                <div className="px-5 pb-5 text-[var(--color-ink)]">
+                  <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3">
+                    Key results
+                  </p>
+                  <ul className="space-y-2">
+                    {currentBenefit.clinicalBreakdown.results.map((result, idx) => (
+                      <li key={idx} className="flex items-start gap-2 premium-body-sm opacity-80">
+                        <span className="opacity-40 shrink-0 mt-0.5">—</span>
+                        <span>{result}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

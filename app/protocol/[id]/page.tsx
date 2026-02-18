@@ -152,7 +152,7 @@ export default function ProtocolPage() {
       >
         <Navigation />
         <section
-          className="premium-section-luxury premium-hero-first bg-white"
+          className="premium-section-luxury premium-hero-first premium-bg-bone"
           aria-label="Product hero"
         >
           <div className="premium-track">

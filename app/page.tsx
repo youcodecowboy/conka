@@ -6,7 +6,7 @@ import Image from "next/image";
 import Navigation from "./components/navigation";
 import Footer from "./components/footer";
 import Hero from "./components/Hero";
-import type { Benefit } from "./components/KeyBenefits";
+import { keyBenefits } from "./components/KeyBenefits";
 import {
   getSiteTestimonialsGeneral,
   shuffleTestimonials,
@@ -30,13 +30,6 @@ const WhatIsConka = dynamic(() => import("./components/WhatIsConka"), {
 const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
   loading: () => <div className="h-[600px]" />,
 });
-
-const TrialPackStrip = dynamic(
-  () => import("./components/home/TrialPackStrip"),
-  {
-    loading: () => <div className="h-[400px]" />,
-  },
-);
 
 const CaseStudiesDataDriven = dynamic(
   () => import("./components/CaseStudiesDataDriven"),
@@ -183,216 +176,6 @@ export default function Home() {
     setShuffledTestimonials(shuffleTestimonials(getSiteTestimonialsGeneral()));
   }, []);
 
-  // Key Benefits Data - All stats from verified PubMed studies
-  const keyBenefits: Benefit[] = [
-    {
-      id: "focus",
-      title: "Improved Focus",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <circle cx="12" cy="12" r="6" />
-          <circle cx="12" cy="12" r="2" />
-        </svg>
-      ),
-      stat: "+18%",
-      annotation: "PMID: 12888775 — Lemon Balm",
-      description:
-        "Balance alertness with tranquility for sustained concentration",
-      image: "/CONKA_06.jpg",
-      focalPoint: { x: 55, y: 45 },
-      clinicalBreakdown: {
-        study: "Kennedy et al. 2003, Neuropsychopharmacology",
-        participants: "20 healthy young adults",
-        duration: "Single doses with 7-day intervals",
-        results: [
-          "+18% improvement in memory performance",
-          "+15% increase in calmness scores",
-          "Enhanced acetylcholine receptor activity",
-          "P<0.05 statistical significance",
-        ],
-      },
-      testimonial: {
-        quote: "World-class playmaker with +28.96% cognitive improvement",
-        author: "Finn Russell",
-        role: "Bath Rugby — Fly-Half",
-      },
-    },
-    {
-      id: "sleep",
-      title: "Better Sleep Quality",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-        </svg>
-      ),
-      stat: "+42%",
-      annotation: "PMID: 32021735 — Ashwagandha",
-      description: "Improved sleep quality and reduced time to fall asleep",
-      image: "/CONKA_04.jpg",
-      focalPoint: { x: 52, y: 48 },
-      clinicalBreakdown: {
-        study: "Salve et al. 2019, Cureus",
-        participants: "58 healthy adults",
-        duration: "8 weeks",
-        results: [
-          "+42% improvement in sleep quality",
-          "Reduced morning cortisol levels",
-          "Improved stress resistance",
-          "Enhanced quality of life scores",
-        ],
-      },
-      testimonial: {
-        quote: "GB7 Rugby 7s athlete with +36.72% total improvement",
-        author: "Jade Shekells",
-        role: "GB7 Womens Rugby 7s — Paris 2024 Olympian",
-      },
-    },
-    {
-      id: "brain-fog",
-      title: "Reduced Brain Fog",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 1 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-        </svg>
-      ),
-      stat: "+40%",
-      annotation: "PMID: 29559699 — Glutathione",
-      description: "Clear cellular waste and keep your mind responsive",
-      image: "/CONKA_01.jpg",
-      focalPoint: { x: 50, y: 45 },
-      clinicalBreakdown: {
-        study: "Sinha et al. 2018, European Journal of Clinical Nutrition",
-        participants: "12 healthy adults",
-        duration: "4 weeks",
-        results: [
-          "+40% increase in blood glutathione levels",
-          "2x enhancement in NK cell activity",
-          "Improved lymphocyte proliferation",
-          "Enhanced immune function markers",
-        ],
-      },
-      testimonial: {
-        quote: "Bank of America C-Suite with +24.68% improvement over 73 tests",
-        author: "Nimisha Kurup",
-        role: "Managing Director, CFO Data Management — Bank of America",
-      },
-    },
-    {
-      id: "stress",
-      title: "Stress Resilience",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        </svg>
-      ),
-      stat: "-56%",
-      annotation: "PMID: 23439798 — Ashwagandha",
-      description: "Reduce cortisol and build natural stress resistance",
-      image: "/CONKA_02.jpg",
-      focalPoint: { x: 50, y: 45 },
-      clinicalBreakdown: {
-        study:
-          "Chandrasekhar et al. 2012, Indian Journal of Psychological Medicine",
-        participants: "64 subjects with chronic stress",
-        duration: "60 days",
-        results: [
-          "-56% reduction in stress assessment scores",
-          "-28% decrease in serum cortisol levels",
-          "P<0.0001 statistical significance",
-          "Improved quality of life measures",
-        ],
-      },
-      testimonial: {
-        quote: "Top 14 Player of the Year with +20.51% cognitive improvement",
-        author: "Jack Willis",
-        role: "Stade Toulousain — Flanker",
-      },
-    },
-    {
-      id: "memory",
-      title: "Improve Memory",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M9 11l3 3L22 4" />
-          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-        </svg>
-      ),
-      stat: "+63%",
-      annotation: "PMID: 29246725 — Turmeric",
-      description: "Enhanced neuroplasticity and memory formation",
-      image: "/CONKA_03.jpg",
-      focalPoint: { x: 50, y: 45 },
-      clinicalBreakdown: {
-        study:
-          "Small et al. 2018, American Journal of Geriatric Psychiatry (UCLA)",
-        participants: "40 non-demented adults aged 51-84",
-        duration: "18 months",
-        results: [
-          "+63% improvement in memory (SRT)",
-          "+96% improvement in attention",
-          "Reduced brain amyloid and tau accumulation",
-          "P<0.0001 statistical significance",
-        ],
-      },
-      testimonial: {
-        quote: "Leeds United forward with +27.93% total improvement",
-        author: "Patrick Bamford",
-        role: "Leeds United — Forward",
-      },
-    },
-  ];
-
   return (
     <div
       className="min-h-screen theme-conka-flow"
@@ -407,7 +190,7 @@ export default function Home() {
       {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
       <section
         className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-base-mid)" }}
+        style={{ backgroundColor: "white" }}
         aria-label="Athletes who use CONKA"
       >
         <div className="premium-track">
@@ -418,7 +201,8 @@ export default function Home() {
       {/* ===== PRODUCT GRID (scroll target for hero CTA) ===== */}
       <div id="product-grid" className="scroll-mt-20">
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
           aria-label="Find Your Formula"
         >
           <div className="premium-track">
@@ -443,7 +227,15 @@ export default function Home() {
       <WhatIsConka />
 
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
-      <KeyBenefits benefits={keyBenefits} />
+      <section
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        aria-label="Key Benefits"
+      >
+        <div className="premium-track">
+          <KeyBenefits benefits={keyBenefits} />
+        </div>
+      </section>
 
       {/* ===== SECTION 5: CASE STUDIES ===== */}
       <CaseStudiesDataDriven />
@@ -452,9 +244,6 @@ export default function Home() {
       {/* <div id="protocols">
         <ProtocolBuilder />
       </div> */}
-
-      {/* ===== SECTION 6.5: TRIAL PACKS ===== */}
-      <TrialPackStrip />
 
       {/* ===== SECTION 7: OUR STORY TEASER ===== */}
       <section className="px-6 md:px-16 py-24">
