@@ -26,6 +26,10 @@ const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
   loading: () => <div className="min-h-[900px]" />,
 });
 
+const WhyConkaWorks = dynamic(() => import("./components/WhyConkaWorks"), {
+  loading: () => <div className="min-h-[600px]" />,
+});
+
 const CaseStudiesDataDriven = dynamic(
   () => import("./components/CaseStudiesDataDriven"),
   { loading: () => <div className="min-h-[1200px]" /> },
@@ -223,6 +227,16 @@ export default function Home() {
       >
         <div className="premium-track">
           <KeyBenefits benefits={keyBenefits} />
+        </div>
+      </section>
+
+      {/* ===== SECTION: WHY CONKA WORKS ===== */}
+      <section
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="Why CONKA Works"
+      >
+        <div className="premium-track">
+          <WhyConkaWorks />
         </div>
       </section>
 
