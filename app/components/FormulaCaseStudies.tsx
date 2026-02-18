@@ -6,6 +6,7 @@ import {
   AthleteData,
   getAthletesForFormula,
   getAthletesForProtocol,
+  getCaseStudyPhotoPath,
 } from "@/app/lib/caseStudiesData";
 import type { ProductId, FormulaId, ProtocolId } from "@/app/lib/productData";
 
@@ -27,6 +28,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
     athlete.focalPoint != null
       ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%`
       : "center";
+  const photoSrc = getCaseStudyPhotoPath(athlete.id) || athlete.photo || "";
 
   return (
     <article
@@ -34,9 +36,9 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
     >
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
       <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">
-        {athlete.photo ? (
+        {photoSrc ? (
           <img
-            src={athlete.photo}
+            src={photoSrc}
             alt={athlete.name}
             className="w-full h-full object-cover rounded-t-[var(--premium-radius-base)]"
             style={{ objectPosition: imagePosition }}
@@ -199,9 +201,12 @@ export default function FormulaCaseStudies({
   if (athletes.length === 0) return null;
 
   return (
-    <>
-      <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)]">
-        <p className="premium-data text-xs uppercase tracking-wider premium-text-muted">
+    <section
+      className="premium-section rounded-[var(--premium-radius-card)]"
+      style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+    >
+      <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)] text-[var(--color-bone)]">
+        <p className="premium-data text-xs uppercase tracking-wider">
           Verified Results
         </p>
         <h2
@@ -210,7 +215,7 @@ export default function FormulaCaseStudies({
         >
           CONKA Case Studies
         </h2>
-        <p className="premium-annotation premium-text-muted">
+        <p className="premium-annotation opacity-90">
           real data, measured improvement
         </p>
       </header>
@@ -224,7 +229,7 @@ export default function FormulaCaseStudies({
       <div className="mt-[var(--premium-space-xl)] text-center">
         <Link
           href="/case-studies"
-          className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-white text-white premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-[var(--color-bone)] text-[var(--color-bone)] premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-bone)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-neuro-blue-dark)]"
         >
           View All Case Studies
           <svg
@@ -242,7 +247,7 @@ export default function FormulaCaseStudies({
           </svg>
         </Link>
       </div>
-    </>
+    </section>
   );
 }
 
@@ -278,9 +283,12 @@ export function FormulaCaseStudiesMobile({
   const [caseStudiesCarouselIndex, setCaseStudiesCarouselIndex] = useState(0);
 
   return (
-    <>
-      <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)]">
-        <p className="premium-data text-xs uppercase tracking-wider premium-text-muted">
+    <section
+      className="premium-section rounded-[var(--premium-radius-card)]"
+      style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+    >
+      <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)] text-[var(--color-bone)]">
+        <p className="premium-data text-xs uppercase tracking-wider">
           Verified Results
         </p>
         <h2
@@ -289,7 +297,7 @@ export function FormulaCaseStudiesMobile({
         >
           CONKA Case Studies
         </h2>
-        <p className="premium-annotation premium-text-muted">
+        <p className="premium-annotation opacity-90">
           real data, measured improvement
         </p>
       </header>
@@ -326,7 +334,7 @@ export function FormulaCaseStudiesMobile({
         {athletes.map((_, idx) => (
           <div
             key={idx}
-            className={`w-2 h-2 rounded-full bg-white transition-opacity ${
+            className={`w-2 h-2 rounded-full bg-[var(--color-bone)] transition-opacity ${
               caseStudiesCarouselIndex === idx ? "opacity-100" : "opacity-30"
             }`}
             aria-hidden
@@ -337,7 +345,7 @@ export function FormulaCaseStudiesMobile({
       <div className="mt-[var(--premium-space-xl)] text-center">
         <Link
           href="/case-studies"
-          className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-white text-white premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-[var(--color-bone)] text-[var(--color-bone)] premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-bone)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-neuro-blue-dark)]"
         >
           View All Case Studies
           <svg
@@ -355,6 +363,6 @@ export function FormulaCaseStudiesMobile({
           </svg>
         </Link>
       </div>
-    </>
+    </section>
   );
 }
