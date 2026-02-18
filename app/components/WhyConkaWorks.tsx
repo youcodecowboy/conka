@@ -54,10 +54,10 @@ export default function WhyConkaWorks() {
     <>
       {/* Section Header */}
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="premium-section-heading">
+        <h2 className="premium-section-heading text-[var(--color-bone)]">
           Built for Athletes. Verified for Performance.
         </h2>
-        <p className="premium-section-subtitle text-[var(--text-on-light-muted)]">
+        <p className="premium-section-subtitle text-[var(--color-bone)] opacity-90">
           Every formula is third-party tested, university-trialled, and
           manufactured to the highest standards.
         </p>

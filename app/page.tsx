@@ -232,7 +232,8 @@ export default function Home() {
 
       {/* ===== SECTION: WHY CONKA WORKS ===== */}
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
         aria-label="Why CONKA Works"
       >
         <div className="premium-track">
