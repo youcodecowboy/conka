@@ -304,7 +304,7 @@ export function FormulaCaseStudiesMobile({
         onScroll={() => {
           const el = caseStudiesCarouselRef.current;
           if (!el) return;
-          const cardWidth = el.offsetWidth * 0.85 + 24;
+          const cardWidth = el.offsetWidth * 0.85 + 16; // 16px = 1rem = --premium-space-m (carousel gap)
           const index = Math.min(
             athletes.length - 1,
             Math.max(0, Math.round(el.scrollLeft / cardWidth)),
