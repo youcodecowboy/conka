@@ -36,7 +36,7 @@ export default function AthleteSidebar({
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => onSelectSport("all")}
-            className={`px-3 py-1.5 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs ${
+            className={`px-2.5 py-1 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs ${
               selectedSport === "all"
                 ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
                 : "bg-transparent hover:bg-black/5 text-[var(--text-on-light)]"
@@ -51,7 +51,7 @@ export default function AthleteSidebar({
               <button
                 key={sport}
                 onClick={() => onSelectSport(sport)}
-                className={`px-3 py-1.5 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
+                className={`px-2.5 py-1 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
                   selectedSport === sport
                     ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
                     : "bg-transparent hover:bg-black/5 text-[var(--text-on-light)]"
@@ -84,15 +84,15 @@ export default function AthleteSidebar({
                 className={`w-full text-left p-3 rounded-[var(--premium-radius-nested)] border-2 transition-all ${
                   isActive
                     ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-[var(--text-on-ink)]"
-                    : "border-[var(--color-premium-stroke)] hover:border-black/20 bg-transparent text-[var(--text-on-light)]"
+                    : "border-[var(--color-premium-stroke)] hover:border-black/20 hover:bg-black/5 bg-transparent text-[var(--text-on-light)]"
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
                     isActive ? "bg-white/20" : "bg-black/10"
                   }`}>
                     {showPhotoPlaceholder ? (
-                      <SportIcon sport={athlete.sport} size={18} className={isActive ? "opacity-80" : "opacity-50"} />
+                      <SportIcon sport={athlete.sport} size={20} className={isActive ? "opacity-80" : "opacity-50"} />
                     ) : (
                       <img
                         src={photoSrc}

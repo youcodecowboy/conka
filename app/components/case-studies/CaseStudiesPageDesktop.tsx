@@ -44,7 +44,7 @@ export default function CaseStudiesPageDesktop() {
   };
 
   return (
-    <div className="min-h-screen pt-16 pb-8 md:pt-12 md:pb-6">
+    <div className="min-h-screen pt-8 pb-8 md:pt-6 md:pb-6">
       {/* Header Section */}
       <div style={{ marginBottom: "2rem" }}>
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-6">
@@ -135,105 +135,75 @@ export default function CaseStudiesPageDesktop() {
           {activeAthlete ? (
             <div className="premium-card-soft premium-card-soft-stroke">
               <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-8 p-6">
-                {/* LEFT COLUMN: Photo */}
-                <div className="relative aspect-square rounded-[var(--premium-radius-card)] overflow-hidden bg-[var(--color-premium-bg-soft)]">
-                  {(() => {
-                    const photoSrc =
-                      getCaseStudyPhotoPath(activeAthlete.id) ||
-                      activeAthlete.photo;
-                    const showPlaceholder = !photoSrc || photoError;
-                    if (showPlaceholder) {
+                {/* LEFT COLUMN: Photo + stacked stat cards */}
+                <div className="flex flex-col gap-4">
+                  <div className="relative aspect-square rounded-[var(--premium-radius-card)] overflow-hidden bg-[var(--color-premium-bg-soft)]">
+                    {(() => {
+                      const photoSrc =
+                        getCaseStudyPhotoPath(activeAthlete.id) ||
+                        activeAthlete.photo;
+                      const showPlaceholder = !photoSrc || photoError;
+                      if (showPlaceholder) {
+                        return (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+                              {activeAthlete.name || "No photo available"}
+                            </p>
+                          </div>
+                        );
+                      }
                       return (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-                            {activeAthlete.name || "No photo available"}
-                          </p>
-                        </div>
+                        <img
+                          src={photoSrc}
+                          alt={activeAthlete.name}
+                          className="w-full h-full object-cover"
+                          style={{
+                            objectPosition: activeAthlete.focalPoint
+                              ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
+                              : "center center",
+                          }}
+                          onError={() => setPhotoError(true)}
+                        />
                       );
-                    }
-                    return (
-                      <img
-                        src={photoSrc}
-                        alt={activeAthlete.name}
-                        className="w-full h-full object-cover"
-                        style={{
-                          objectPosition: activeAthlete.focalPoint
-                            ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
-                            : "center center",
-                        }}
-                        onError={() => setPhotoError(true)}
-                      />
-                    );
-                  })()}
+                    })()}
+                  </div>
+                  {/* Three stat cards stacked (premium, number-dominant) */}
+                  {[
+                    {
+                      label: "Total Improvement",
+                      value: activeAthlete.improvements[0]?.value || "+0%",
+                      color: "text-emerald-600",
+                    },
+                    {
+                      label: "Accuracy",
+                      value: activeAthlete.improvements[1]?.value || "+0%",
+                      color: "text-blue-600",
+                    },
+                    {
+                      label: "Speed",
+                      value: activeAthlete.improvements[2]?.value || "+0%",
+                      color: "text-amber-600",
+                    },
+                  ].map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="premium-card-soft premium-card-soft-stroke text-center py-6 px-5"
+                    >
+                      <p
+                        className={`text-4xl md:text-5xl font-bold font-clinical ${stat.color} mb-2`}
+                      >
+                        {stat.value}
+                      </p>
+                      <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wider">
+                        {stat.label}
+                      </p>
+                    </div>
+                  ))}
                 </div>
 
-                {/* RIGHT COLUMN: Stats first, then name/bio */}
+                {/* RIGHT COLUMN: Name first, then comparison, pills, bio */}
                 <div className="flex flex-col">
-                  {/* 1. Hero Stats Block */}
-                  <div className="grid grid-cols-3 gap-3 mb-6">
-                    {[
-                      {
-                        label: "Total",
-                        value:
-                          activeAthlete.improvements[0]?.value || "+0%",
-                        color: "text-emerald-600",
-                      },
-                      {
-                        label: "Accuracy",
-                        value:
-                          activeAthlete.improvements[1]?.value || "+0%",
-                        color: "text-blue-600",
-                      },
-                      {
-                        label: "Speed",
-                        value:
-                          activeAthlete.improvements[2]?.value || "+0%",
-                        color: "text-amber-600",
-                      },
-                    ].map((stat) => (
-                      <div
-                        key={stat.label}
-                        className="premium-card-soft-mobile premium-card-soft-stroke text-center p-4"
-                      >
-                        <p
-                          className={`text-3xl md:text-4xl font-bold font-clinical ${stat.color} mb-1`}
-                        >
-                          {stat.value}
-                        </p>
-                        <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-                          {stat.label}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* 2. Comparison Bars */}
-                  <div className="mb-6">
-                    <p className="premium-body-sm font-medium text-[var(--text-on-light)] mb-3">
-                      Baseline vs Results
-                    </p>
-                    <ComparisonChart athlete={activeAthlete} />
-                  </div>
-
-                  {/* 3. Test Info Pills */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--text-on-light)]">
-                      {activeAthlete.testsCompleted} tests
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--text-on-light)]">
-                      {activeAthlete.testingPeriod}
-                    </span>
-                    {activeAthlete.protocolUsed && (
-                      <span className="px-3 py-1 rounded-full bg-[var(--color-ink)] text-white premium-body-sm font-medium">
-                        {activeAthlete.protocolUsed}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Divider */}
-                  <div className="border-t border-[var(--color-premium-stroke)] mb-6" />
-
-                  {/* 4. Name + Org + Achievement */}
+                  {/* 1. Name + Org + Achievement */}
                   <div className="mb-6">
                     <h2 className="text-2xl font-bold mb-1 text-[var(--text-on-light)]">
                       {activeAthlete.name}
@@ -250,7 +220,36 @@ export default function CaseStudiesPageDesktop() {
                     )}
                   </div>
 
-                  {/* 5. Bio - Collapsible */}
+                  <div className="border-t border-[var(--color-premium-stroke)] mb-6" />
+
+                  {/* 2. Baseline vs Results */}
+                  <div className="mb-6">
+                    <p className="premium-body-sm font-medium text-[var(--text-on-light)] mb-3">
+                      Baseline vs Results
+                    </p>
+                    <ComparisonChart athlete={activeAthlete} />
+                  </div>
+
+                  <div className="border-t border-[var(--color-premium-stroke)] mb-6" />
+
+                  {/* 3. Test Info Pills */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--text-on-light-muted)]">
+                      {activeAthlete.testsCompleted} tests
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--text-on-light-muted)]">
+                      {activeAthlete.testingPeriod}
+                    </span>
+                    {activeAthlete.protocolUsed && (
+                      <span className="px-3 py-1 rounded-full bg-[var(--color-ink)] text-white premium-body-sm font-medium">
+                        {activeAthlete.protocolUsed}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="border-t border-[var(--color-premium-stroke)] mb-6" />
+
+                  {/* 4. Bio - Collapsible */}
                   <div>
                     <p
                       className={`premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed ${

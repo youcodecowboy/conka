@@ -46,51 +46,76 @@ function StatBar({ stat, index }: { stat: ImprovementStat; index: number }) {
   );
 }
 
+// Map baseline key to improvement metric name for % display
+const METRIC_TO_IMPROVEMENT_LABEL: Record<string, string> = {
+  totalScore: "Total Score",
+  accuracy: "Accuracy",
+  speed: "Speed",
+};
+
 // Baseline vs Results comparison (exported for use in CaseStudiesPageDesktop)
 export function ComparisonChart({ athlete }: { athlete: AthleteData }) {
   const metrics = Object.keys(athlete.baseline) as (keyof typeof athlete.baseline)[];
-  
+
   const formatMetricName = (key: string): string => {
     return key
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/^./, str => str.toUpperCase())
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase())
       .trim();
+  };
+
+  const getImprovementForMetric = (metricKey: string): string | null => {
+    const label = METRIC_TO_IMPROVEMENT_LABEL[metricKey];
+    if (!label) return null;
+    const imp = athlete.improvements.find((i) => i.metric === label);
+    return imp?.value ?? null;
   };
 
   return (
     <div className="space-y-3">
-      {metrics.map((metric, idx) => {
+      {metrics.map((metric) => {
         const baselineVal = athlete.baseline[metric];
         const resultVal = athlete.results[metric];
-        
+
         if (baselineVal === undefined || resultVal === undefined) return null;
-        
-        // For reaction/decision time, lower is better
-        const isTimeMetric = metric.toLowerCase().includes('time') || metric.toLowerCase().includes('speed');
-        const maxVal = isTimeMetric 
+
+        const isTimeMetric =
+          metric.toLowerCase().includes("time") ||
+          metric.toLowerCase().includes("speed");
+        const maxVal = isTimeMetric
           ? Math.max(baselineVal, resultVal) * 1.1
           : 100;
-        
+        const improvementStr = getImprovementForMetric(metric);
+
         return (
           <div key={metric} className="space-y-1">
-            <div className="flex justify-between items-center">
-              <span className="premium-body-sm text-[var(--text-on-light-muted)]">{formatMetricName(metric)}</span>
-              <span className="premium-body-sm text-[var(--text-on-light)]">
-                {baselineVal}{isTimeMetric ? "ms" : ""} → {resultVal}{isTimeMetric ? "ms" : ""}
+            <div className="flex justify-between items-center gap-2">
+              <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                {formatMetricName(metric)}
+              </span>
+              <span className="premium-body-sm text-[var(--text-on-light)] shrink-0">
+                {baselineVal}
+                {isTimeMetric ? "ms" : ""} → {resultVal}
+                {isTimeMetric ? "ms" : ""}
+                {improvementStr != null && (
+                  <span className="ml-2 text-emerald-600 font-medium">
+                    {improvementStr}
+                  </span>
+                )}
               </span>
             </div>
             <div className="relative h-4 flex gap-1">
-              {/* Baseline bar */}
-              <div className="flex-1 h-full bg-current/10 rounded overflow-hidden">
-                <div 
-                  className="h-full bg-current/30 rounded"
+              {/* Baseline bar - muted grey */}
+              <div className="flex-1 h-full bg-black/10 rounded overflow-hidden">
+                <div
+                  className="h-full bg-black/20 rounded"
                   style={{ width: `${(baselineVal / maxVal) * 100}%` }}
                 />
               </div>
-              {/* Result bar */}
-              <div className="flex-1 h-full bg-current/10 rounded overflow-hidden">
-                <div 
-                  className={`h-full rounded ${isTimeMetric && resultVal < baselineVal ? 'bg-emerald-500' : !isTimeMetric && resultVal > baselineVal ? 'bg-emerald-500' : 'bg-amber-500'}`}
+              {/* Result bar - always green */}
+              <div className="flex-1 h-full bg-black/10 rounded overflow-hidden">
+                <div
+                  className="h-full rounded bg-emerald-500"
                   style={{ width: `${(resultVal / maxVal) * 100}%` }}
                 />
               </div>
@@ -98,16 +123,20 @@ export function ComparisonChart({ athlete }: { athlete: AthleteData }) {
           </div>
         );
       })}
-      
+
       {/* Legend */}
       <div className="flex justify-center gap-6 pt-2 border-t border-[var(--color-premium-stroke)]">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded bg-black/20" />
-          <span className="premium-body-sm text-[var(--text-on-light-muted)]">Baseline</span>
+          <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+            Baseline
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded bg-emerald-500" />
-          <span className="premium-body-sm text-[var(--text-on-light-muted)]">Results</span>
+          <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+            Results
+          </span>
         </div>
       </div>
     </div>
