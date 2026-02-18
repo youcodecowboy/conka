@@ -114,7 +114,7 @@ export default function CaseStudiesDataDriven() {
     <section className="premium-section-luxury premium-bg-bone">
       <div className="premium-track">
         {/* Section Header */}
-        <div className="text-center mb-8 md:mb-12">
+        <div className="text-left mb-8 md:mb-12">
           <h2 className="premium-section-heading">Verified Performance Data</h2>
           <p className="premium-section-subtitle text-[var(--text-on-light-muted)]">
             Real athletes. Real tests. Real improvements.
@@ -124,39 +124,31 @@ export default function CaseStudiesDataDriven() {
         </div>
 
         {/* Hero Stats Block */}
-        <div className="grid grid-cols-3 gap-4 md:gap-6 mb-4">
-          <div className="premium-card-soft px-4 py-4 md:px-6 md:py-8 text-center">
-            <p className="text-3xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)]">
+        <div className="grid grid-cols-3 gap-1 sm:gap-2 md:gap-6 mb-6">
+          <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
+            <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)] leading-tight">
               {totalTests.toLocaleString()}
             </p>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-2">
+            <p className="text-[10px] sm:text-xs premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-1 sm:mt-2">
               Total Tests
             </p>
           </div>
-          <div className="premium-card-soft px-4 py-4 md:px-6 md:py-8 text-center">
-            <p className="text-3xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)]">
+          <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
+            <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)] leading-tight">
               {athletes.length}
             </p>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-2">
+            <p className="text-[10px] sm:text-xs premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-1 sm:mt-2">
               Total Athletes
             </p>
           </div>
-          <div className="premium-card-soft px-4 py-4 md:px-6 md:py-8 text-center">
-            <p className="text-3xl md:text-5xl lg:text-6xl font-bold font-clinical text-emerald-600">
+          <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
+            <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-emerald-600 leading-tight">
               +{avgImprovement.toFixed(1)}%
             </p>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-2">
+            <p className="text-[10px] sm:text-xs premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-1 sm:mt-2">
               Average Improvement
             </p>
           </div>
-        </div>
-
-        {/* Verification Banner */}
-        <div className="text-center mb-8">
-          <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-            Measured via CONKA cognitive testing app • Informed Sport certified
-            athletes • Independently verified data
-          </p>
         </div>
 
         {/* Desktop/Tablet: Photo Grid */}

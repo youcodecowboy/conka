@@ -153,7 +153,7 @@ export default function KeyBenefitsDesktop({
   return (
     <div>
       {/* Heading block */}
-      <div className="text-center mb-10">
+      <div className="text-right mb-10">
         <h2
           className="premium-section-heading text-[var(--color-ink)]"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
