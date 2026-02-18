@@ -3,7 +3,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import ProductCard from "./ProductCard";
-import PremiumDotIndicator from "../premium/PremiumDotIndicator";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
@@ -41,13 +40,13 @@ export default function ProductGridMobile() {
   const handleScroll = useCallback(() => {
     if (!carouselRef.current) return;
 
-    const scrollLeft = carouselRef.current.scrollLeft;
-    const cardWidth = carouselRef.current.offsetWidth * 0.85;
-    const gap = carouselRef.current.offsetWidth * 0.03;
-    const scrollPerCard = cardWidth + gap;
-
-    const newIndex = Math.round(scrollLeft / scrollPerCard);
-    const clampedIndex = Math.max(0, Math.min(2, newIndex)) as 0 | 1 | 2;
+    const el = carouselRef.current;
+    const cardWidth = el.offsetWidth * 0.85 + 24; // 85vw + 24px gap
+    const index = Math.min(
+      2,
+      Math.max(0, Math.round(el.scrollLeft / cardWidth))
+    );
+    const clampedIndex = index as 0 | 1 | 2;
 
     if (clampedIndex !== currentIndex) {
       setCurrentIndex(clampedIndex);
@@ -57,12 +56,11 @@ export default function ProductGridMobile() {
   const goToCard = useCallback((index: 0 | 1 | 2) => {
     if (!carouselRef.current) return;
 
-    const cardWidth = carouselRef.current.offsetWidth * 0.85;
-    const gap = carouselRef.current.offsetWidth * 0.03;
-    const scrollPerCard = cardWidth + gap;
+    const el = carouselRef.current;
+    const cardWidth = el.offsetWidth * 0.85 + 24; // 85vw + 24px gap
 
-    carouselRef.current.scrollTo({
-      left: index * scrollPerCard,
+    el.scrollTo({
+      left: index * cardWidth,
       behavior: "smooth",
     });
 
@@ -86,13 +84,11 @@ export default function ProductGridMobile() {
 
   useEffect(() => {
     if (carouselRef.current && currentIndex !== 0) {
-      const cardWidth = carouselRef.current.offsetWidth * 0.85;
-      const gap = carouselRef.current.offsetWidth * 0.03;
-      const scrollPerCard = cardWidth + gap;
-
-      carouselRef.current.scrollLeft = currentIndex * scrollPerCard;
+      const el = carouselRef.current;
+      const cardWidth = el.offsetWidth * 0.85 + 24;
+      el.scrollLeft = currentIndex * cardWidth;
     }
-  }, []);
+  }, [currentIndex]);
 
   const currentCard = CARDS[currentIndex];
 
@@ -188,30 +184,13 @@ export default function ProductGridMobile() {
         </div>
       </div>
 
-      {/* Dot Indicators */}
-      <div className="mb-4 px-4">
-        <PremiumDotIndicator
-          total={CARDS.length}
-          currentIndex={currentIndex}
-          onDotClick={(index) => goToCard(index as 0 | 1 | 2)}
-          ariaLabel="Product options"
-          getDotAriaLabel={(i) => `Go to ${CARDS[i].name}`}
-        />
-      </div>
-
       {/* Carousel Container */}
       <div
         ref={carouselRef}
         role="region"
         aria-label="Product options"
-        className="relative w-full mb-8 overflow-x-auto snap-x snap-mandatory flex gap-[3vw] scrollbar-hide"
-        style={{
-          paddingLeft: "5vw",
-          paddingRight: "5vw",
-          scrollPaddingLeft: "5vw",
-          scrollPaddingRight: "5vw",
-          WebkitOverflowScrolling: "touch",
-        }}
+        className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ WebkitOverflowScrolling: "touch" }}
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
         tabIndex={0}
@@ -222,7 +201,7 @@ export default function ProductGridMobile() {
         </div>
 
         {/* Flow Card */}
-        <div className="snap-start shrink-0" style={{ width: "85vw" }}>
+        <div className="flex-shrink-0 w-[85vw] max-w-[400px] snap-center">
             <div className="flex flex-col items-center">
               <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
@@ -243,7 +222,7 @@ export default function ProductGridMobile() {
           </div>
 
           {/* Clear Card */}
-          <div className="snap-start shrink-0" style={{ width: "85vw" }}>
+          <div className="flex-shrink-0 w-[85vw] max-w-[400px] snap-center">
             <div className="flex flex-col items-center">
               <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
@@ -264,7 +243,7 @@ export default function ProductGridMobile() {
           </div>
 
           {/* Protocol Card */}
-          <div className="snap-start shrink-0" style={{ width: "85vw" }}>
+          <div className="flex-shrink-0 w-[85vw] max-w-[400px] snap-center">
             <div className="flex flex-col items-center">
               <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
@@ -294,6 +273,22 @@ export default function ProductGridMobile() {
               />
             </div>
           </div>
+      </div>
+
+      {/* Dot Indicators */}
+      <div className="flex justify-center gap-2 mt-4">
+        {CARDS.map((card, idx) => (
+          <button
+            key={idx}
+            onClick={() => goToCard(idx as 0 | 1 | 2)}
+            className={`w-2 h-2 rounded-full transition-opacity ${
+              currentIndex === idx
+                ? "bg-[var(--color-ink)] opacity-100"
+                : "bg-[var(--color-ink)] opacity-30"
+            }`}
+            aria-label={`Go to ${card.name}`}
+          />
+        ))}
       </div>
     </>
   );
