@@ -207,6 +207,35 @@ export default function KeyBenefitsDesktop({
               })}
             </div>
           </div>
+
+          {/* Ingredient asset card — updates with active benefit */}
+          <div
+            key={`ingredient-${activeBenefit}`}
+            className="mt-4 rounded-[24px] overflow-hidden [animation:fadeIn_0.3s_ease]"
+            style={{ border: "1px solid var(--color-premium-stroke)" }}
+          >
+            {/* Square image */}
+            <div className="relative w-full aspect-[2/1] bg-[var(--color-premium-bg-soft)]">
+              <img
+                src={currentBenefit.ingredientAsset.image}
+                alt={currentBenefit.ingredientAsset.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Label strip */}
+            <div
+              className="px-4 py-3"
+              style={{ background: "var(--color-bone)" }}
+            >
+              <p className="premium-body-sm font-medium text-[var(--color-ink)]">
+                {currentBenefit.ingredientAsset.name}
+              </p>
+              <p className="premium-body-sm opacity-50 text-[var(--color-ink)]">
+                {currentBenefit.ingredientAsset.dosage}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Right: Benefit Detail (updates in-place) */}
