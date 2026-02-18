@@ -14,6 +14,31 @@ const NEURAL_BLUE = {
   hex: "#94b9ff",
 };
 
+// Parse clinical results into stats (with values like +18%, -56%) and text-only items
+function parseResults(results: string[]): {
+  stats: { value: string; label: string }[];
+  textOnly: string[];
+} {
+  const stats: { value: string; label: string }[] = [];
+  const textOnly: string[] = [];
+
+  results.forEach((result) => {
+    // Match patterns like "+18%", "-56%", "2x", etc. at start of string
+    const statMatch = result.match(/^([+\-]?\d+\.?\d*[%x]?)\s+(.+)$/i);
+
+    if (statMatch) {
+      stats.push({
+        value: statMatch[1], // e.g. "+18%"
+        label: statMatch[2], // e.g. "improvement in memory performance"
+      });
+    } else {
+      textOnly.push(result);
+    }
+  });
+
+  return { stats, textOnly };
+}
+
 export default function KeyBenefitsDesktop({
   benefits,
 }: KeyBenefitsDesktopProps) {
@@ -119,6 +144,11 @@ export default function KeyBenefitsDesktop({
     const statMatch = currentBenefit.stat.match(/(\d+\.?\d*)/);
     return statMatch ? parseFloat(statMatch[1]) : 0;
   }, [currentBenefit.stat]);
+
+  const parsedResults = useMemo(() => {
+    if (!currentBenefit.clinicalBreakdown) return { stats: [], textOnly: [] };
+    return parseResults(currentBenefit.clinicalBreakdown.results);
+  }, [currentBenefit.clinicalBreakdown]);
 
   return (
     <div>
@@ -254,23 +284,36 @@ export default function KeyBenefitsDesktop({
               {currentBenefit.outcome}
             </h3>
 
-            {/* 3. Stat + annotation — moved down, slightly smaller than before */}
-            <div className="flex items-baseline gap-3 mb-4">
-              <span
-                className={`text-4xl lg:text-5xl font-bold tracking-tight ${NEURAL_BLUE.text}`}
-                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-              >
-                {currentBenefit.stat}
-              </span>
-              <span className="premium-body-sm opacity-60 text-[var(--color-ink)]">
-                {currentBenefit.annotation}
-              </span>
-            </div>
-
-            {/* 4. Mechanism (description) — smaller, more muted */}
+            {/* 3. Mechanism (description) — smaller, more muted */}
             <p className="premium-body-sm opacity-60 leading-relaxed mb-6 text-[var(--color-ink)]">
               {currentBenefit.description}
             </p>
+
+            {/* Stat tiles grid — only render if there are parsed stats */}
+            {parsedResults.stats.length > 0 && (
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                {parsedResults.stats.map((stat, idx) => (
+                  <div
+                    key={idx}
+                    className="rounded-[20px] p-4"
+                    style={{
+                      background: "var(--color-premium-bg-soft)",
+                      border: "1px solid var(--color-premium-stroke)",
+                    }}
+                  >
+                    <p
+                      className={`text-3xl font-bold mb-1 ${NEURAL_BLUE.text}`}
+                      style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                    >
+                      {stat.value}
+                    </p>
+                    <p className="premium-body-sm opacity-70 text-[var(--color-ink)] leading-tight">
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* 5. Radar chart — keep as-is, add explainer line above */}
             <div className="premium-card-soft p-6 rounded-[20px] mb-6" aria-hidden="true">
@@ -297,17 +340,22 @@ export default function KeyBenefitsDesktop({
               >
                 {/* Header row */}
                 <div
-                  className="flex items-center justify-between px-5 py-3"
+                  className="px-5 py-3 space-y-1"
                   style={{
                     background: "var(--color-premium-bg-soft)",
                     borderBottom: "1px solid var(--color-premium-stroke)",
                   }}
                 >
-                  <p className="premium-body-sm uppercase tracking-wider opacity-50 text-[var(--color-ink)]">
-                    Clinical study
-                  </p>
-                  <p className="premium-body-sm opacity-40 text-[var(--color-ink)]">
-                    vs. baseline human performance
+                  <div className="flex items-center justify-between">
+                    <p className="premium-body-sm uppercase tracking-wider opacity-50 text-[var(--color-ink)]">
+                      Clinical study
+                    </p>
+                    <p className="premium-body-sm opacity-40 text-[var(--color-ink)]">
+                      {currentBenefit.annotation}
+                    </p>
+                  </div>
+                  <p className="premium-body-sm opacity-60 text-[var(--color-ink)]">
+                    {currentBenefit.ingredientAsset.name} • {currentBenefit.ingredientAsset.dosage}
                   </p>
                 </div>
 
@@ -327,20 +375,22 @@ export default function KeyBenefitsDesktop({
                   </p>
                 </div>
 
-                {/* Results */}
-                <div className="px-5 pb-5 text-[var(--color-ink)]">
-                  <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3">
-                    Key results
-                  </p>
-                  <ul className="space-y-2">
-                    {currentBenefit.clinicalBreakdown.results.map((result, idx) => (
-                      <li key={idx} className="flex items-start gap-2 premium-body-sm opacity-80">
-                        <span className="opacity-40 shrink-0 mt-0.5">—</span>
-                        <span>{result}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {/* Only render this section if there are text-only results */}
+                {parsedResults.textOnly.length > 0 && (
+                  <div className="px-5 pb-5 text-[var(--color-ink)]">
+                    <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3">
+                      Additional findings
+                    </p>
+                    <ul className="space-y-2">
+                      {parsedResults.textOnly.map((result, idx) => (
+                        <li key={idx} className="flex items-start gap-2 premium-body-sm opacity-80">
+                          <span className="opacity-40 shrink-0 mt-0.5">—</span>
+                          <span>{result}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>
