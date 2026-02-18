@@ -13,67 +13,32 @@ function HeroTrustBadges({
   textClass?: string;
 }) {
   return (
-    <div className="flex flex-wrap md:flex-nowrap items-center gap-x-5 gap-y-2 justify-start text-sm md:text-base font-bold">
+    <div className="flex flex-wrap md:flex-nowrap items-center gap-x-5 gap-y-3 justify-start text-sm md:text-base font-bold">
       <span
         className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}
       >
-        <span className="inline-flex shrink-0" aria-hidden>
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
-        </span>
-        Informed Sport Certified
+        <Image
+          src="/logos/InformedSportLogo.png"
+          alt="Informed Sport certified"
+          width={240}
+          height={240}
+          className="h-16 w-auto md:h-20 object-contain"
+          aria-hidden
+        />
+        <span className="sr-only">Informed Sport Certified</span>
       </span>
       <span
         className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}
       >
-        <span className="inline-flex shrink-0" aria-hidden>
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <rect x="2" y="4" width="20" height="14" rx="2" />
-            <path d="M2 10h20" />
-            <path d="M2 8v8" strokeWidth="0.5" />
-            <path d="M22 8v8" strokeWidth="0.5" />
-            <path d="M12 10v4" />
-            <path d="M9 12h6" />
-          </svg>
-        </span>
-        Made in UK
-      </span>
-      <span
-        className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}
-      >
-        <span className="inline-flex shrink-0" aria-hidden>
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M9 11l3 3L22 4" />
-            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-          </svg>
-        </span>
-        100-Day Guarantee
+        <Image
+          src="/logos/MadeInBritain.png"
+          alt="Made in Britain"
+          width={360}
+          height={180}
+          className="h-14 w-auto md:h-16 object-contain"
+          aria-hidden
+        />
+        <span className="sr-only">Made in Britain</span>
       </span>
     </div>
   );

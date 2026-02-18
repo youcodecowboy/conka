@@ -40,7 +40,7 @@ export default function WhyConkaWorksMobile() {
     <>
       <div className="text-center mb-6">
         <h2 className="premium-section-heading text-[var(--color-bone)] text-2xl">
-          Built for Athletes. Verified for Performance.
+          Certified for Performance.
         </h2>
         <p className="premium-section-subtitle text-[var(--color-bone)] opacity-90 text-sm mt-2">
           Every formula is third-party tested, university-trialled, and
