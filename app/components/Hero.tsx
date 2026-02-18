@@ -103,14 +103,14 @@ export default function Hero({
 
   return (
     <div
-      className={`relative w-full min-h-[70vh] md:min-h-[85vh] flex flex-col md:grid md:grid-cols-[1fr_2fr] overflow-hidden ${rootBg}`}
+      className={`relative w-full min-h-[70vh] md:min-h-[85vh] flex flex-col lg:grid lg:grid-cols-[1fr_2fr] overflow-hidden ${rootBg}`}
     >
       {/* Left: content column */}
       <div
-        className={`relative z-10 flex flex-col justify-center py-4 px-8 md:py-16 md:px-16 md:max-w-[500px] text-left ${contentBg}`}
+        className={`relative z-10 flex flex-col justify-center py-4 px-8 md:px-12 md:py-10 lg:max-w-[500px] lg:py-16 lg:px-16 text-left ${contentBg}`}
       >
         <div className="flex flex-col gap-2 md:gap-[var(--space-text-gap)]">
-          {/* Social proof — mobile: simplified; desktop: full line */}
+          {/* Social proof — mobile: simplified; tablet + desktop: full line */}
           <div
             className={`flex flex-wrap items-center justify-start gap-x-2 shrink-0 md:hidden text-sm md:text-base font-bold ${textMuted}`}
           >
@@ -189,21 +189,21 @@ export default function Hero({
         </div>
       </div>
 
-      {/* Right: hero image — overlay: light (default) or dark (ink) left-to-right on desktop */}
-      <div className="relative order-first md:order-none w-full min-h-[35vh] md:min-h-0 md:h-full">
+      {/* Right: hero image — overlay: light (default) or dark (ink) left-to-right on desktop only */}
+      <div className="relative order-first lg:order-none w-full min-h-[35vh] md:min-h-[45vh] lg:min-h-0 lg:h-full">
         {/* Desktop only: left-to-right gradient — bone (default) or ink (dark) → transparent */}
         <div
-          className="hidden md:block absolute inset-0 z-[1] pointer-events-none"
+          className="hidden lg:block absolute inset-0 z-[1] pointer-events-none"
           style={{
             background: isDark
               ? "linear-gradient(to right, var(--color-ink) 0%, rgba(17, 17, 17, 0.9) 10%, rgba(17, 17, 17, 0.35) 18%, transparent 28%)"
               : "linear-gradient(to right, var(--color-bone) 0%, rgba(249, 249, 249, 0.75) 10%, rgba(249, 249, 249, 0.2) 20%, transparent 30%)",
           }}
         />
-        {/* Mobile: dark variant gets a subtle bottom-up ink gradient so content area reads; default no overlay */}
+        {/* Mobile + tablet: dark variant gets a subtle bottom-up ink gradient; default no overlay */}
         {isDark && (
           <div
-            className="absolute inset-0 z-[1] pointer-events-none md:hidden"
+            className="absolute inset-0 z-[1] pointer-events-none lg:hidden"
             style={{
               background:
                 "linear-gradient(to top, var(--color-ink) 0%, rgba(17, 17, 17, 0.6) 25%, transparent 55%)",
@@ -224,7 +224,7 @@ export default function Hero({
           alt="Athlete holding CONKA Flow and Clear bottles"
           fill
           priority
-          sizes="66.67vw"
+          sizes="(max-width: 1023px) 100vw, 66.67vw"
           className="hidden md:block object-cover object-right"
         />
       </div>
