@@ -67,7 +67,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       bestFor: ["Morning training", "Long workdays", "Clean mental stamina"],
       image: getFormulaImage("01"),
       link: "/conka-flow",
-      linkText: "View Product →",
+      linkText: "More pack sizes (4, 8, 12 or 28) →",
       badge: null,
     };
   }
@@ -83,7 +83,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       bestFor: ["Post-training recovery", "Evening wind-down", "Sleep quality"],
       image: getFormulaImage("02"),
       link: "/conka-clarity",
-      linkText: "View Product →",
+      linkText: "More pack sizes (4, 8, 12 or 28) →",
       badge: null,
     };
   }
@@ -103,7 +103,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     ],
     image: getProtocolImage("3"), // Default, will be overridden by variant
     link: "/protocol/3", // Overridden in render from protocolVariant
-    linkText: "View Product →",
+    linkText: "More pack sizes (4, 8, 12 or 28) →",
     badge: "Most Popular",
   };
 };
