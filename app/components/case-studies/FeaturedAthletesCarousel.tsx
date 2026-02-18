@@ -18,7 +18,7 @@ export default function FeaturedAthletesCarousel({
   onSelectAthlete,
 }: FeaturedAthletesCarouselProps) {
   return (
-    <div className="flex gap-4 overflow-x-auto overflow-y-visible pb-2 pt-2 scrollbar-hide">
+    <div className="flex gap-4 overflow-x-auto overflow-y-visible px-4 pb-2 pt-2 scrollbar-hide">
       {athletes.map((athlete) => {
         const improvement = athlete.improvements.find(
           (i) => i.metric === "Total Score",
