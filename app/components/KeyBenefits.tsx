@@ -10,7 +10,9 @@ export interface Benefit {
   icon?: React.ReactNode; // SVG icon component
   stat: string;
   annotation: string;
-  description: string;
+  struggle: string; // the felt problem (1–2 sentences)
+  outcome: string; // the felt result in plain English
+  description: string; // mechanism/how it works
   clinicalBreakdown?: {
     study: string;
     participants: string;

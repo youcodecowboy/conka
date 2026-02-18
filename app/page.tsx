@@ -200,6 +200,10 @@ export default function Home() {
       ),
       stat: "+18%",
       annotation: "PMID: 12888775 — Lemon Balm",
+      struggle:
+        "Can't stay locked in for more than 20 minutes? Your brain needs fuel, not stimulants.",
+      outcome:
+        "Sustained concentration without the jittery edge. Think clearly under pressure. Remember what you read the first time.",
       description:
         "Balance alertness with tranquility for sustained concentration",
       clinicalBreakdown: {
@@ -234,6 +238,10 @@ export default function Home() {
       ),
       stat: "+42%",
       annotation: "PMID: 32021735 — Ashwagandha",
+      struggle:
+        "Lying awake replaying your day? Your nervous system won't switch off.",
+      outcome:
+        "Fall asleep faster. Stay asleep longer. Wake up actually rested, not just less tired.",
       description: "Improved sleep quality and reduced time to fall asleep",
       clinicalBreakdown: {
         study: "Salve et al. 2019, Cureus",
@@ -267,6 +275,10 @@ export default function Home() {
       ),
       stat: "+40%",
       annotation: "PMID: 29559699 — Glutathione",
+      struggle:
+        "Feeling like you're thinking through fog? That's oxidative stress slowing you down.",
+      outcome:
+        "Sharp mornings. Clear afternoons. No 3pm wall. Your brain clears, your words come faster.",
       description: "Clear cellular waste and keep your mind responsive",
       clinicalBreakdown: {
         study: "Sinha et al. 2018, European Journal of Clinical Nutrition",
@@ -300,6 +312,10 @@ export default function Home() {
       ),
       stat: "-56%",
       annotation: "PMID: 23439798 — Ashwagandha",
+      struggle:
+        "One bad email ruins your whole morning? Stress shouldn't control your day.",
+      outcome:
+        "Pressure doesn't rattle you. Deadlines don't drain you. You respond, you don't react.",
       description: "Reduce cortisol and build natural stress resistance",
       clinicalBreakdown: {
         study:
@@ -335,6 +351,10 @@ export default function Home() {
       ),
       stat: "+63%",
       annotation: "PMID: 29246725 — Turmeric",
+      struggle:
+        "Forgetting names two minutes after hearing them? Your brain isn't broken — it's under-resourced.",
+      outcome:
+        "Retain what you learn. Recall it when you need it. Connect ideas faster. Your brain works for you, not against you.",
       description: "Enhanced neuroplasticity and memory formation",
       clinicalBreakdown: {
         study:
