@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import PremiumDotIndicator from "./premium/PremiumDotIndicator";
+import useIsMobile from "../hooks/useIsMobile";
 
 export type AthleteSlide = {
   name: string;
@@ -55,10 +56,20 @@ export default function AthleteCredibilityCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isMobile = useIsMobile(768); // md breakpoint
 
   const slide = ATHLETE_SLIDES[currentIndex];
 
   useEffect(() => {
+    // Disable auto-rotate on mobile
+    if (isMobile === true) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      return;
+    }
+
     if (isPaused) {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -74,7 +85,7 @@ export default function AthleteCredibilityCarousel() {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isPaused]);
+  }, [isPaused, isMobile]);
 
   const goPrev = () =>
     setCurrentIndex((i) => (i - 1 + ATHLETE_SLIDES.length) % ATHLETE_SLIDES.length);
