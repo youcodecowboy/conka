@@ -202,6 +202,16 @@
 .premium-card-soft.premium-card-soft-stroke {
   border: 1px solid var(--color-premium-stroke);
 }
+/* Mobile variant with tighter padding for compact layouts */
+.premium-card-soft-mobile {
+  border-radius: var(--premium-radius-card);
+  background-color: var(--color-premium-bg-soft);
+  border: none;
+  padding: 1.25rem;
+}
+.premium-card-soft-mobile.premium-card-soft-stroke {
+  border: 1px solid var(--color-premium-stroke);
+}
 
 /* Note: Components that render a different surface (e.g. white card on ink section)
    should set their own text color on that element. No override utilities needed. */
