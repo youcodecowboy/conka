@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import {
   PurchaseType,
@@ -21,6 +21,11 @@ import type { FormulaId, ProtocolId } from "@/app/lib/productTypes";
 import ProtocolVariantSelector, {
   type ProtocolVariant,
 } from "./ProtocolVariantSelector";
+import { useCart } from "@/app/context/CartContext";
+import {
+  getFormulaVariantId,
+  getProtocolVariantId,
+} from "@/app/lib/shopifyProductMapping";
 
 interface ProductCardProps {
   productType: "flow" | "clear" | "protocol";
@@ -160,17 +165,76 @@ export function getProductBadge(
   return null;
 }
 
+// Map ProtocolVariant to Shopify ProtocolId for variant lookup
+function protocolVariantToId(v: ProtocolVariant): ProtocolId {
+  switch (v) {
+    case "flow-heavy":
+      return "1";
+    case "clear-heavy":
+      return "2";
+    case "balance":
+    default:
+      return "3";
+  }
+}
+
 export default function ProductCard({
   productType,
   protocolVariant = "balance",
   onProtocolVariantChange,
-  onAddToCart,
+  onAddToCart: onAddToCartProp,
 }: ProductCardProps) {
+  const { addToCart, loading } = useCart();
   const [purchaseType, setPurchaseType] =
     useState<PurchaseType>("subscription");
   const product = getProductData(productType);
   const isProtocol = productType === "protocol";
   const isSubscribe = purchaseType === "subscription";
+
+  const handleAddToCart = useCallback(async () => {
+    const packSize = "4" as const;
+    const protocolTier = "starter" as const;
+
+    if (isProtocol) {
+      const protocolId = protocolVariantToId(protocolVariant);
+      const variantData = getProtocolVariantId(
+        protocolId,
+        protocolTier,
+        purchaseType,
+      );
+      if (variantData?.variantId) {
+        await addToCart(
+          variantData.variantId,
+          1,
+          variantData.sellingPlanId,
+          { location: "product_grid", source: "direct" },
+        );
+      }
+    } else {
+      const formulaId = product.id as FormulaId;
+      const variantData = getFormulaVariantId(
+        formulaId,
+        packSize,
+        purchaseType,
+      );
+      if (variantData?.variantId) {
+        await addToCart(
+          variantData.variantId,
+          1,
+          variantData.sellingPlanId,
+          { location: "product_grid", source: "direct" },
+        );
+      }
+    }
+    onAddToCartProp?.();
+  }, [
+    isProtocol,
+    protocolVariant,
+    product.id,
+    purchaseType,
+    addToCart,
+    onAddToCartProp,
+  ]);
 
   // Get accent color/gradient for buttons and badge
   const buttonGradient = isProtocol
@@ -188,50 +252,57 @@ export default function ProductCard({
 
   // Get pricing - all 4-pack on landing grid (customer acquisition)
   let dailyPrice: string;
-  let monthlyPrice: string;
+  let monthlyPrice: string; // Selected option price (for main button)
   let originalDailyPrice: string | null = null;
-  let originalMonthlyPrice: string | null = null;
+  let originalMonthlyPrice: string | null = null; // Strikethrough when subscribe selected
   let perShotText: string;
   let savings: number | null = null;
   let subscriptionBillingLabel: string | null = null;
   const formulaPackSize = "4" as const;
   const formulaShotCount = 4;
 
+  // Prices for each option card (always show correct price per option, not selected state)
+  let subscriptionPrice: string; // Discounted price for Subscribe option
+  let subscriptionOriginalPrice: string | null = null; // Full price strikethrough on Subscribe
+  let oneTimePrice: string; // One-time price for One-time option
+
   if (isProtocol) {
-    // Protocol: Use starter tier (4-pack)
+    const subPricing = protocolPricing.standard.subscription.starter;
+    const oneTimePricing = protocolPricing.standard["one-time"].starter;
+    const totalShots = getProtocolTierTotalShots("3", "starter");
+    subscriptionPrice = `£${subPricing.price.toFixed(2)}`;
+    subscriptionOriginalPrice = "basePrice" in subPricing ? `£${subPricing.basePrice.toFixed(2)}` : null;
+    oneTimePrice = `£${oneTimePricing.price.toFixed(2)}`;
+
     const pricing = protocolPricing.standard[purchaseType].starter;
-    const totalShots = getProtocolTierTotalShots("3", "starter"); // 4 shots
     const perShot = pricing.price / totalShots;
     dailyPrice = `£${perShot.toFixed(2)}`;
     monthlyPrice = `£${pricing.price.toFixed(2)}`;
-
     if (isSubscribe && "basePrice" in pricing) {
-      const originalPerShot = pricing.basePrice / totalShots;
-      originalDailyPrice = `£${originalPerShot.toFixed(2)}`;
+      originalDailyPrice = `£${(pricing.basePrice / totalShots).toFixed(2)}`;
       originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
-    if (isSubscribe && "billing" in pricing) {
-      subscriptionBillingLabel = getBillingLabel(
-        (pricing as { billing: string }).billing,
-      );
+    if (isSubscribe && "billing" in subPricing) {
+      subscriptionBillingLabel = getBillingLabel((subPricing as { billing: string }).billing);
     }
     perShotText = "4-shot supply (Flow + Clear)";
     savings = calculateProtocolSavings(purchaseType);
   } else {
-    // Formula: Use 4-pack
+    const subPricing = formulaPricing.subscription[formulaPackSize];
+    const oneTimePricing = formulaPricing["one-time"][formulaPackSize];
+    subscriptionPrice = `£${subPricing.price.toFixed(2)}`;
+    subscriptionOriginalPrice = `£${subPricing.basePrice.toFixed(2)}`;
+    oneTimePrice = `£${oneTimePricing.price.toFixed(2)}`;
+
     const pricing = formulaPricing[purchaseType][formulaPackSize];
     dailyPrice = `£${pricing.perShot.toFixed(2)}`;
     monthlyPrice = `£${pricing.price.toFixed(2)}`;
-
     if (isSubscribe && "basePrice" in pricing) {
-      const originalPerShot = pricing.basePrice / formulaShotCount;
-      originalDailyPrice = `£${originalPerShot.toFixed(2)}`;
+      originalDailyPrice = `£${(pricing.basePrice / formulaShotCount).toFixed(2)}`;
       originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
     if (isSubscribe && "billing" in pricing) {
-      subscriptionBillingLabel = getBillingLabel(
-        (pricing as { billing: string }).billing,
-      );
+      subscriptionBillingLabel = getBillingLabel((pricing as { billing: string }).billing);
     }
     perShotText = "4-shot supply";
   }
@@ -375,12 +446,12 @@ export default function ProductCard({
                 </div>
               </div>
               <div className="text-right">
-                {isSubscribe && originalMonthlyPrice && (
+                {subscriptionOriginalPrice && (
                   <div className="text-[12px] text-[var(--text-on-light-muted)] line-through mb-0.5">
-                    {originalMonthlyPrice}
+                    {subscriptionOriginalPrice}
                   </div>
                 )}
-                <div className="font-semibold text-[13px]">{monthlyPrice}</div>
+                <div className="font-semibold text-[13px]">{subscriptionPrice}</div>
               </div>
             </label>
 
@@ -409,22 +480,24 @@ export default function ProductCard({
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-semibold text-[13px]">{monthlyPrice}</div>
+                <div className="font-semibold text-[13px]">{oneTimePrice}</div>
               </div>
             </label>
           </div>
 
           {/* CTA Button with Price */}
           <button
-            onClick={onAddToCart}
-            className="w-full py-6 rounded-[var(--premium-radius-interactive)] text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-base font-semibold"
+            type="button"
+            onClick={handleAddToCart}
+            disabled={loading}
+            className="w-full py-6 rounded-[var(--premium-radius-interactive)] text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-base font-semibold disabled:opacity-70 disabled:pointer-events-none"
             style={{
               background: buttonBg,
               paddingLeft: "2rem",
               paddingRight: "2rem",
             }}
           >
-            <span>Add to Cart</span>
+            <span>{loading ? "Adding…" : "Add to Cart"}</span>
             <div className="flex items-baseline gap-1.5">
               {isSubscribe && originalMonthlyPrice && (
                 <span className="text-[12px] line-through opacity-70">
