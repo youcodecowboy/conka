@@ -281,28 +281,32 @@ export default function CartDrawer() {
                             </svg>
                             SUBSCRIPTION
                           </span>
-                          {/* Price display - show original price crossed out + subscription price */}
+                          {/* Price display - Shopify already returns discounted price for subscription lines */}
                           <div className="flex items-center gap-2">
-                            {/* Original price (crossed out) - base price before 20% discount */}
-                            <span className="text-xs line-through opacity-50">
-                              {formatPrice(
-                                item.merchandise.price.amount,
-                                item.merchandise.price.currencyCode,
-                              )}
-                            </span>
-                            {/* Subscription price (20% off) */}
-                            <span className="font-bold text-sm text-amber-600">
-                              {formatPrice(
-                                (
-                                  parseFloat(item.merchandise.price.amount) *
-                                  (1 - SUBSCRIPTION_DISCOUNT)
-                                ).toFixed(2),
-                                item.merchandise.price.currencyCode,
-                              )}
-                            </span>
-                            <span className="text-[10px] font-bold text-green-600 bg-green-100 px-1 py-0.5 rounded">
-                              SAVE 20%
-                            </span>
+                            {(() => {
+                              const compareAt = getCompareAtPrice(item);
+                              const currentAmount = item.merchandise.price.amount;
+                              const currentNum = parseFloat(currentAmount);
+                              // getCompareAtPrice returns original (or derived: current/0.8) for subscriptions
+                              const showCompare = compareAt && parseFloat(compareAt.amount) > currentNum;
+                              return (
+                                <>
+                                  {showCompare && (
+                                    <span className="text-xs line-through opacity-50">
+                                      {formatPrice(compareAt.amount, compareAt.currencyCode)}
+                                    </span>
+                                  )}
+                                  <span className="font-bold text-sm text-amber-600">
+                                    {formatPrice(currentAmount, item.merchandise.price.currencyCode)}
+                                  </span>
+                                  {showCompare && (
+                                    <span className="text-[10px] font-bold text-green-600 bg-green-100 px-1 py-0.5 rounded">
+                                      SAVE 20%
+                                    </span>
+                                  )}
+                                </>
+                              );
+                            })()}
                           </div>
                         </div>
                       ) : (
