@@ -37,13 +37,14 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
         }`}
         style={{
           background: isOpen ? "var(--color-neuro-blue-dark)" : "transparent",
+          color: isOpen ? "#ffffff" : undefined,
         }}
       >
         {/* Icon */}
         {benefit.icon && (
           <span
             className={`w-5 h-5 shrink-0 flex items-center justify-center transition-colors duration-200 ${
-              isOpen ? "opacity-100" : "opacity-30"
+              isOpen ? "opacity-100 text-white" : "opacity-30 text-[var(--color-ink)]"
             }`}
           >
             {benefit.icon}
@@ -54,7 +55,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
         <span
           className={`premium-body flex-1 text-left transition-colors duration-200 ${
             isOpen
-              ? "text-[var(--color-bone)] font-semibold"
+              ? "text-white font-semibold"
               : "text-[var(--color-ink)] font-medium"
           }`}
         >
@@ -93,7 +94,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
         </svg>
       </button>
 
-      {/* Expanded panel */}
+      {/* Expanded panel — explicit light text on dark (no inherited colour) */}
       {isOpen && (
         <div
           id={`benefit-panel-${benefit.id}`}
@@ -103,6 +104,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
           className="px-5 pb-6"
           style={{
             background: "var(--color-neuro-blue-dark)",
+            color: "#ffffff",
             animation: "fadeSlideDown 0.3s ease forwards",
           }}
         >
@@ -175,7 +177,11 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
             >
               {breakdown.study}
               {" · "}
-              <a href="#" className="underline opacity-80" style={{ color: "var(--color-bone)" }}>
+              <a
+                href="#"
+                className="underline opacity-80"
+                style={{ color: "var(--color-bone)" }}
+              >
                 Read the full study →
               </a>
             </p>
@@ -226,6 +232,7 @@ export default function KeyBenefitsMobile({
         className="overflow-hidden -mx-5 md:-mx-[5vw]"
         style={{
           border: "1px solid var(--color-premium-stroke)",
+          background: "var(--color-bone)",
         }}
       >
         {benefits.map((benefit, index) => (
