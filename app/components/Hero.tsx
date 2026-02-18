@@ -78,11 +78,15 @@ type HeroVariant = "default" | "dark";
 export default function Hero({ variant = "default" }: { variant?: HeroVariant }) {
   const [wordIndex, setWordIndex] = useState(0);
   const [wordFading, setWordFading] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [wordMounted, setWordMounted] = useState(false);
   const isDark = variant === "dark";
 
+  // Slight delay for dynamic word to appear after initial content
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => {
+      setWordMounted(true);
+    }, 200); // 200ms delay - subtle but noticeable
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -128,8 +132,7 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
     >
       {/* Left: content column */}
       <div
-        className={`relative z-10 flex flex-col justify-center py-4 px-8 md:py-16 md:px-16 md:max-w-[500px] text-left transition-opacity duration-500 ${contentBg}`}
-        style={{ opacity: mounted ? 1 : 0 }}
+        className={`relative z-10 flex flex-col justify-center py-4 px-8 md:py-16 md:px-16 md:max-w-[500px] text-left ${contentBg}`}
       >
         <div className="flex flex-col gap-2 md:gap-[var(--space-text-gap)]">
           {/* Social proof — mobile: simplified; desktop: full line */}
@@ -165,7 +168,7 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
             <span
               className="inline-block min-w-[4ch] transition-opacity duration-500"
               style={{
-                opacity: wordFading ? 0 : 1,
+                opacity: wordMounted && !wordFading ? 1 : 0,
                 backgroundImage: "var(--gradient-neuro-blue-accent)",
                 backgroundSize: "100% 100%",
                 WebkitBackgroundClip: "text",
