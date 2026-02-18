@@ -426,3 +426,12 @@
     transform: translateY(0);
   }
 }
+
+/* Hide scrollbar on scroll-snap carousels (ProductGridMobile) */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
