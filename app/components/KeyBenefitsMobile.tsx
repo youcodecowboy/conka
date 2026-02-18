@@ -215,7 +215,7 @@ export default function KeyBenefitsMobile({
   return (
     <div>
       {/* Heading block */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 text-[var(--color-ink)]">
         <h2
           className="premium-section-heading"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}

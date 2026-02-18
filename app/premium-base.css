@@ -207,6 +207,7 @@
    should set their own text color on that element. No override utilities needed. */
 
 /* Type roles (global) */
+/* Typography classes do not set color. Color must be set on the component or container (section, card, panel) so each context has the correct text color. Nested surfaces (cards, panels) must set their own color. */
 .premium-display {
   font-family: var(--font-primary), sans-serif;
   font-size: var(--premium-font-display-size);
@@ -238,7 +239,6 @@
   line-height: var(--leading-relaxed);
   font-weight: var(--premium-font-body-weight);
   margin-bottom: 0;
-  /* Color inherits from section or component */
 }
 
 .premium-body {
@@ -247,7 +247,6 @@
   line-height: var(--leading-relaxed);
   max-width: var(--premium-body-max-width);
   margin-bottom: 0;
-  color: inherit; /* Inherits from section or component */
   font-weight: var(--premium-font-body-weight);
 }
 

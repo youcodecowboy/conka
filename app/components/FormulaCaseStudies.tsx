@@ -66,7 +66,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
       </div>
 
       {/* Card body: showcase content (white, dark text) */}
-      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white">
+      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white text-[var(--color-ink)]">
         <h3 className="premium-heading text-[var(--premium-font-heading-size)] font-bold leading-tight">
           {athlete.name}
         </h3>
