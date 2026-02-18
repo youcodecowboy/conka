@@ -28,6 +28,95 @@ function getProductFallbackImage(productTitle: string): string {
 }
 
 const B2B_TIER_MESSAGE_MS = 8000;
+const SUBSCRIPTION_DISCOUNT = 0.2;
+
+/** Price to display for one line (matches what the customer pays and what subtotal uses). */
+function getLineDisplayPrice(
+  item: CartLine,
+): { amount: string; currencyCode: string } {
+  const isSub = !!item.sellingPlanAllocation;
+  const adjustment = item.sellingPlanAllocation?.priceAdjustments?.[0];
+
+  if (isSub && adjustment?.price) {
+    return {
+      amount: adjustment.price.amount,
+      currencyCode: adjustment.price.currencyCode,
+    };
+  }
+  if (isSub && item.cost?.totalAmount?.amount && item.quantity > 0) {
+    const perUnit = parseFloat(item.cost.totalAmount.amount) / item.quantity;
+    return {
+      amount: perUnit.toFixed(2),
+      currencyCode: item.cost.totalAmount.currencyCode,
+    };
+  }
+  return {
+    amount: item.merchandise.price.amount,
+    currencyCode: item.merchandise.price.currencyCode,
+  };
+}
+
+/** Compare-at / original price for strikethrough. Uses currentDisplayAmount when deriving for subscriptions. */
+function getCompareAtPrice(
+  item: CartLine,
+  currentDisplayAmount?: string,
+): { amount: string; currencyCode: string } | null {
+  if (item.sellingPlanAllocation?.priceAdjustments?.[0]?.compareAtPrice) {
+    return item.sellingPlanAllocation.priceAdjustments[0].compareAtPrice;
+  }
+  if (item.merchandise.compareAtPrice) return item.merchandise.compareAtPrice;
+  if (item.cost?.compareAtAmountPerQuantity) return item.cost.compareAtAmountPerQuantity;
+
+  if (item.sellingPlanAllocation) {
+    const discounted = parseFloat(
+      currentDisplayAmount ?? item.merchandise.price.amount,
+    );
+    const original = discounted / (1 - SUBSCRIPTION_DISCOUNT);
+    return {
+      amount: original.toFixed(2),
+      currencyCode: item.merchandise.price.currencyCode,
+    };
+  }
+  return null;
+}
+
+/** Everything needed to render a line item's price (subscription or one-time). */
+function getLinePriceInfo(item: CartLine) {
+  const display = getLineDisplayPrice(item);
+  const compareAt = getCompareAtPrice(item, display.amount);
+  const showCompare =
+    compareAt != null && parseFloat(compareAt.amount) > parseFloat(display.amount);
+  return { display, compareAt, showCompare };
+}
+
+function LineItemPrice({
+  item,
+  formatPrice,
+}: {
+  item: CartLine;
+  formatPrice: (amount: string, currencyCode: string) => string;
+}) {
+  const { display, compareAt, showCompare } = getLinePriceInfo(item);
+  return (
+    <div className="flex items-center gap-2">
+      {showCompare && compareAt && (
+        <span className="text-xs line-through opacity-50">
+          {formatPrice(compareAt.amount, compareAt.currencyCode)}
+        </span>
+      )}
+      <span
+        className={`font-bold text-sm ${showCompare ? "text-amber-600" : ""}`}
+      >
+        {formatPrice(display.amount, display.currencyCode)}
+      </span>
+      {showCompare && (
+        <span className="text-[10px] font-bold text-green-600 bg-green-100 px-1 py-0.5 rounded">
+          SAVE 20%
+        </span>
+      )}
+    </div>
+  );
+}
 
 export default function CartDrawer() {
   const {
@@ -69,57 +158,20 @@ export default function CartDrawer() {
 
   // Format price from Shopify format
   const formatPrice = (amount: string, currencyCode: string = "GBP") => {
-    const num = parseFloat(amount);
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
       currency: currencyCode,
-    }).format(num);
+    }).format(parseFloat(amount));
   };
 
-  // Check if item is a subscription
   const isSubscription = (item: CartLine) => !!item.sellingPlanAllocation;
 
-  // Subscription discount percentage (Loop subscriptions are 20% off)
-  const SUBSCRIPTION_DISCOUNT = 0.2;
-
-  // Get the original/compare price for subscriptions
-  const getCompareAtPrice = (
-    item: CartLine,
-  ): { amount: string; currencyCode: string } | null => {
-    // Try to get compare price from selling plan allocation first
-    if (item.sellingPlanAllocation?.priceAdjustments?.[0]?.compareAtPrice) {
-      return item.sellingPlanAllocation.priceAdjustments[0].compareAtPrice;
-    }
-    // Fall back to variant compare price
-    if (item.merchandise.compareAtPrice) {
-      return item.merchandise.compareAtPrice;
-    }
-    // Fall back to cost compare at price
-    if (item.cost?.compareAtAmountPerQuantity) {
-      return item.cost.compareAtAmountPerQuantity;
-    }
-    // For subscriptions without a stored compare price, calculate original from discounted price
-    // If price is £31.99 with 20% off, original = £31.99 / 0.8 = £39.99
-    if (isSubscription(item)) {
-      const discountedPrice = parseFloat(item.merchandise.price.amount);
-      const originalPrice = discountedPrice / (1 - SUBSCRIPTION_DISCOUNT);
-      return {
-        amount: originalPrice.toFixed(2),
-        currencyCode: item.merchandise.price.currencyCode,
-      };
-    }
-    return null;
-  };
-
-  // Calculate savings percentage
   const getSavingsPercentage = (item: CartLine) => {
-    // For subscriptions, we know it's always 20%
     if (isSubscription(item)) return 20;
-
-    const compareAtPrice = getCompareAtPrice(item);
-    if (!compareAtPrice) return 0;
-    const original = parseFloat(compareAtPrice.amount);
-    const current = parseFloat(item.merchandise.price.amount);
+    const compareAt = getCompareAtPrice(item);
+    if (!compareAt) return 0;
+    const original = parseFloat(compareAt.amount);
+    const current = parseFloat(getLineDisplayPrice(item).amount);
     if (original <= 0) return 0;
     return Math.round(((original - current) / original) * 100);
   };
@@ -259,64 +311,27 @@ export default function CartDrawer() {
                       {item.merchandise.title}
                     </p>
 
-                    {/* Price with subscription savings */}
                     <div className="mt-1">
-                      {isSubscription(item) ? (
-                        <div className="space-y-1">
-                          {/* Subscription badge */}
-                          <span className="inline-flex items-center gap-1 bg-amber-500/10 text-amber-600 text-[10px] font-bold px-1.5 py-0.5 rounded">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="10"
-                              height="10"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-                              <path d="m9 12 2 2 4-4" />
-                            </svg>
-                            SUBSCRIPTION
-                          </span>
-                          {/* Price display - Shopify already returns discounted price for subscription lines */}
-                          <div className="flex items-center gap-2">
-                            {(() => {
-                              const compareAt = getCompareAtPrice(item);
-                              const currentAmount = item.merchandise.price.amount;
-                              const currentNum = parseFloat(currentAmount);
-                              // getCompareAtPrice returns original (or derived: current/0.8) for subscriptions
-                              const showCompare = compareAt && parseFloat(compareAt.amount) > currentNum;
-                              return (
-                                <>
-                                  {showCompare && (
-                                    <span className="text-xs line-through opacity-50">
-                                      {formatPrice(compareAt.amount, compareAt.currencyCode)}
-                                    </span>
-                                  )}
-                                  <span className="font-bold text-sm text-amber-600">
-                                    {formatPrice(currentAmount, item.merchandise.price.currencyCode)}
-                                  </span>
-                                  {showCompare && (
-                                    <span className="text-[10px] font-bold text-green-600 bg-green-100 px-1 py-0.5 rounded">
-                                      SAVE 20%
-                                    </span>
-                                  )}
-                                </>
-                              );
-                            })()}
-                          </div>
-                        </div>
-                      ) : (
-                        <p className="font-bold text-sm">
-                          {formatPrice(
-                            item.merchandise.price.amount,
-                            item.merchandise.price.currencyCode,
-                          )}
-                        </p>
+                      {isSubscription(item) && (
+                        <span className="inline-flex items-center gap-1 bg-amber-500/10 text-amber-600 text-[10px] font-bold px-1.5 py-0.5 rounded mb-1">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="10"
+                            height="10"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                            <path d="m9 12 2 2 4-4" />
+                          </svg>
+                          SUBSCRIPTION
+                        </span>
                       )}
+                      <LineItemPrice item={item} formatPrice={formatPrice} />
                     </div>
 
                     {/* Quantity Controls */}
