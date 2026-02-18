@@ -56,7 +56,7 @@ export default function WhyConkaWorksDesktop() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Pillar 1 */}
         <div className="premium-card-soft premium-card-soft-stroke border-t-4 border-t-[#3a9f7e] p-6 md:p-8 flex flex-col items-center text-center md:min-h-[400px]">
           <div className="mb-6 h-24 md:h-32 flex items-center justify-center rounded-2xl bg-[var(--color-premium-bg-soft)] p-8">
