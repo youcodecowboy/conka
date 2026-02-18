@@ -17,7 +17,6 @@ export default function CaseStudiesPageDesktop() {
   const [selectedSport, setSelectedSport] = useState<SportCategory | "all">(
     "all",
   );
-  const [bioExpanded, setBioExpanded] = useState(false);
   const [photoError, setPhotoError] = useState(false);
 
   const activeAthlete =
@@ -29,10 +28,9 @@ export default function CaseStudiesPageDesktop() {
       ? athletes
       : athletes.filter((a) => a.sport === selectedSport);
 
-  // Reset photo error and bio expanded when switching athlete
+  // Reset photo error when switching athlete
   useEffect(() => {
     setPhotoError(false);
-    setBioExpanded(false);
   }, [activeAthleteId]);
 
   const handleSelectFeaturedAthlete = (id: string) => {
@@ -249,24 +247,11 @@ export default function CaseStudiesPageDesktop() {
 
                   <div className="border-t border-[var(--color-premium-stroke)] mb-6" />
 
-                  {/* 4. Bio - Collapsible */}
+                  {/* 4. Bio */}
                   <div>
-                    <p
-                      className={`premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed ${
-                        !bioExpanded ? "line-clamp-3" : ""
-                      }`}
-                    >
+                    <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed">
                       {activeAthlete.description}
                     </p>
-                    {activeAthlete.description.length > 200 && (
-                      <button
-                        type="button"
-                        onClick={() => setBioExpanded(!bioExpanded)}
-                        className="premium-body-sm font-medium text-blue-600 hover:underline mt-2"
-                      >
-                        {bioExpanded ? "Show less" : "Read more"}
-                      </button>
-                    )}
                   </div>
                 </div>
               </div>
