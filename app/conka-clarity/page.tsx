@@ -15,9 +15,7 @@ import {
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
   WhatToExpectTimeline,
-  EditorialQuotesCarousel,
 } from "@/app/components/product";
-import { getEditorialQuotesForFormula } from "@/app/lib/editorialQuotesData";
 import { FormulaCaseStudiesMobile } from "@/app/components/FormulaCaseStudies";
 import FormulaCaseStudies from "@/app/components/FormulaCaseStudies";
 import { PackSize, PurchaseType } from "@/app/lib/productData";
@@ -140,15 +138,6 @@ export default function ConkaClarityPage() {
           </section>
 
         <section
-          className="premium-section-luxury premium-bg-ink"
-          aria-label="Editorial quotes"
-        >
-          <div className="premium-track">
-            <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("02")} />
-          </div>
-        </section>
-
-        <section
           className="premium-section-luxury premium-bg-bone"
           aria-label="Formula ingredients"
         >
@@ -268,15 +257,6 @@ export default function ConkaClarityPage() {
         >
           <div className="premium-track">
             <FormulaBenefits formulaId="02" />
-          </div>
-        </section>
-
-        <section
-          className="premium-section-luxury premium-bg-ink"
-          aria-label="Editorial quotes"
-        >
-          <div className="premium-track">
-            <EditorialQuotesCarousel quotes={getEditorialQuotesForFormula("02")} />
           </div>
         </section>
 
