@@ -14,7 +14,9 @@ function HeroTrustBadges({
 }) {
   return (
     <div className="flex flex-wrap md:flex-nowrap items-center gap-x-5 gap-y-2 justify-start text-sm md:text-base font-bold">
-      <span className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}>
+      <span
+        className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}
+      >
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
             width="18"
@@ -31,7 +33,9 @@ function HeroTrustBadges({
         </span>
         Informed Sport Certified
       </span>
-      <span className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}>
+      <span
+        className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}
+      >
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
             width="18"
@@ -51,7 +55,9 @@ function HeroTrustBadges({
         </span>
         Made in UK
       </span>
-      <span className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}>
+      <span
+        className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}
+      >
         <span className="inline-flex shrink-0" aria-hidden>
           <svg
             width="18"
@@ -75,7 +81,11 @@ function HeroTrustBadges({
 
 type HeroVariant = "default" | "dark";
 
-export default function Hero({ variant = "default" }: { variant?: HeroVariant }) {
+export default function Hero({
+  variant = "default",
+}: {
+  variant?: HeroVariant;
+}) {
   const [wordIndex, setWordIndex] = useState(0);
   const [wordFading, setWordFading] = useState(false);
   const [wordMounted, setWordMounted] = useState(false);
@@ -140,7 +150,9 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
             className={`flex flex-wrap items-center justify-start gap-x-2 shrink-0 md:hidden text-sm md:text-base font-bold ${textMuted}`}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
-              <span aria-hidden className="text-yellow-500">★★★★★</span>
+              <span aria-hidden className="text-yellow-500">
+                ★★★★★
+              </span>
             </span>
             <span className="whitespace-nowrap">Over 100,000 bottles sold</span>
           </div>
@@ -148,12 +160,15 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
             className={`hidden md:flex flex-nowrap items-center justify-start gap-x-3 shrink-0 text-sm md:text-base font-bold ${textMuted}`}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
-              <span aria-hidden className="text-yellow-500">★★★★★</span> 4.9/5
+              <span aria-hidden className="text-yellow-500">
+                ★★★★★
+              </span>{" "}
+              4.7/5
             </span>
             <span aria-hidden>|</span>
             <span className="whitespace-nowrap">500+ reviews</span>
             <span aria-hidden>|</span>
-            <span className="whitespace-nowrap">100,000 bottles sold</span>
+            <span className="whitespace-nowrap">150,000 bottles sold</span>
           </div>
 
           <h1
