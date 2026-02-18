@@ -28,6 +28,49 @@ This document captures the lessons learned and preferences established during th
 
 ---
 
+## Homepage Hero (Mobile vs Desktop)
+
+The hero has **different behavior and content** on mobile and desktop. Do not apply mobile-only changes to desktop or vice versa.
+
+### Hero — Mobile
+
+- **Asset:** `Hero.jpg` (zoomed-in crop). Crop ~10% from bottom (`object-position: center 45%`).
+- **Overlay:** None on the image.
+- **Background:** Content area `#f5f5f4` (light white).
+- **Alignment:** All text and social proof left-aligned.
+- **Social proof:** Simplified — **★★★★★** and **Over 100,000 bottles sold** only (no 4.9/5, no 500+ reviews).
+- **Trust badges:** Informed Sport Certified, Made in UK, 100-Day Guarantee — **smaller size** (`text-[0.7rem]`), may wrap; placed below CTA.
+- **Layout:** Image on top, content below. Tight spacing so CTA stays above the fold.
+- **CTA:** Full-width, above trust badges.
+
+### Hero — Desktop
+
+- **Asset:** `HeroBanner.jpg`. Content column left 1/3, image right 2/3.
+- **Overlay:** **Left-to-right gradient** on the image (bone/white from left fading to transparent) so content area reads clearly; overlay only on the image, not on the content column.
+- **Background:** Content column and section use `var(--color-bone)`.
+- **Alignment:** Content column left-aligned.
+- **Social proof:** Full line — **★★★★★ 4.9/5 | 500+ reviews | 100,000 bottles sold** (single line, no wrapping).
+- **Trust badges:** Informed Sport Certified, Made in UK, 100-Day Guarantee — **full size**, **all on one line** (`flex-nowrap`), no wrapping.
+- **CTA:** Fixed width (~200px), above trust badges.
+
+### Hero — Tablet (768–1023px)
+
+- **Layout:** Vertically stacked — image on top, content below (same as mobile, scaled up). No two-column grid.
+- **Asset:** `HeroBanner.jpg`. Content area uses `var(--color-bone)`.
+- **Social proof:** Full desktop line (★★★★★ 4.7/5 | 500+ reviews | 150,000 bottles sold). Trust badges at full size. CTA fixed width (~200px).
+- **Overlay:** No left-to-right gradient on the image (only used for desktop side-by-side layout).
+
+---
+
+## Tablet (768–1023px)
+
+Homepage sections that share the tablet breakpoint (Tailwind `md:` = 768px, `lg:` = 1024px):
+
+- **Product Grid:** Uses dedicated `ProductGridTablet` component (based on mobile card structure). Stacked layout — row 1: Protocol card (full width), row 2: Flow and Clear side by side. All three cards use the same structure (image on top, ProductCard below).
+- **Why CONKA Works:** Stats strip (280+ / 2 / 100%) stays as a single row at tablet. Only the three pillar cards are vertically stacked at tablet; 3-column layout for pillars at desktop (`lg:`).
+
+---
+
 ## Component Patterns
 
 ### Sticky Purchase Footers
@@ -157,8 +200,7 @@ className = "bg-black text-white border-current";
 
 ### Headers
 
-- Left-aligned on mobile (not centered) for most sections
-- Exception: Hero section can remain centered
+- Left-aligned on mobile (not centered) for most sections, including the Hero
 - Use `text-2xl font-bold` for section headings on mobile
 
 ### Subtext
@@ -331,6 +373,47 @@ Protocol PDP examples:
 - [ ] Test on actual mobile viewport (not just resize)
 - [ ] Ensure tap targets are 44px+ for accessibility
 - [ ] Add to changelog after implementation
+
+---
+
+## Tablet / Mid-Breakpoint (768–1023px)
+
+Most components do not need a distinct tablet layout — the desktop layout scales down gracefully, or the mobile layout scales up. Only add a tablet breakpoint when neither desktop nor mobile layout works at this width.
+
+### When a third layout IS needed
+
+- 3-column grids (3 cards side by side becomes too cramped at ~768px)
+- Components where desktop has multi-column and mobile is single column, but a 2-column tablet layout is genuinely better (not just smaller desktop)
+- Featured/hero cards that benefit from a horizontal layout at mid-width
+
+### When a third layout is NOT needed
+
+- 2-column grids (scale fine to tablet)
+- Single-column components (already mobile-first)
+- Text-heavy sections (responsive type handles this)
+- Carousels (full-width at any breakpoint)
+
+### Established pattern: Featured card + 2-column grid
+
+Used by: ProductGrid
+
+When a 3-card grid can't fit at tablet:
+- Promoted/featured card renders full-width on row 1
+- Remaining two cards render in a 2-column grid on row 2
+- Featured card switches to horizontal layout (image left, content right) rather than the floating-image-above pattern used at desktop/mobile
+- Flow and Clear retain floating image above card at tablet
+
+Breakpoint implementation: CSS grid-template-areas, no JS required.
+Do not use useIsMobile() for tablet-only layout shifts — use CSS only.
+
+### Floating image behaviour by breakpoint
+
+| Breakpoint | Overlap | Image width | Notes |
+|---|---|---|---|
+| Desktop >1024px | 24px | 65% card width | Standard floating image |
+| Tablet 768-1023px | 16px | 65% card width | Reduced overlap |
+| Mobile <768px | 12px | 55% card width | Minimal overlap |
+| Tablet — Protocol only | n/a | 40% card width | Horizontal layout, image is left panel inside card |
 
 ---
 

@@ -56,7 +56,7 @@ export default function FormulaBenefitsStatsDesktop({
 
         <a
           href="#proof-and-science"
-          className="premium-own-surface inline-flex items-center justify-center px-6 py-3 rounded-[var(--premium-radius-interactive)] bg-white font-semibold premium-body text-sm md:text-base hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black w-fit"
+          className="inline-flex items-center justify-center px-6 py-3 rounded-[var(--premium-radius-interactive)] bg-white text-[var(--color-ink)] font-semibold premium-body text-sm md:text-base hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black w-fit"
         >
           See the science
         </a>

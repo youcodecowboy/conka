@@ -1,72 +1,43 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { FormulaId, formulaContent, StruggleId } from "@/app/lib/productData";
-import StruggleSelector from "./StruggleSelector";
-import SolutionSlide from "./SolutionSlide";
-import ClinicalStudyCard from "./ClinicalStudyCard";
+import { useState } from "react";
+import { FormulaId, StruggleId } from "@/app/lib/productData";
+import BenefitList from "./BenefitList";
+import BenefitDetail from "./BenefitDetail";
 
 interface FormulaBenefitsProps {
   formulaId: FormulaId;
 }
 
 export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
-  const formula = formulaContent[formulaId];
-  const [selectedStruggle, setSelectedStruggle] = useState<StruggleId | null>(null);
-  const solutionRef = useRef<HTMLDivElement>(null);
-
-  // Scroll to solution when struggle is selected
-  useEffect(() => {
-    if (selectedStruggle && solutionRef.current) {
-      setTimeout(() => {
-        solutionRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 100);
-    }
-  }, [selectedStruggle]);
-
-  const handleSelectStruggle = (struggle: StruggleId | null) => {
-    setSelectedStruggle(struggle);
-  };
-
-  // Get the current solution's clinical study if a struggle is selected
-  const currentStudy = selectedStruggle
-    ? formula.struggleSolutions[selectedStruggle].clinicalStudy
-    : null;
+  const [selectedStruggle, setSelectedStruggle] = useState<StruggleId>("focus");
 
   return (
     <>
-      <StruggleSelector
-        formulaId={formulaId}
-        selectedStruggle={selectedStruggle}
-        onSelectStruggle={handleSelectStruggle}
-      />
+      {/* Section Header */}
+      <div className="mb-8">
+        <h2 className="premium-section-heading">What you'll actually feel.</h2>
+        <p className="premium-section-subtitle">
+          Select a benefit to see the evidence behind it.
+        </p>
+      </div>
 
-      {/* Solution Slide - Shows when a struggle is selected */}
-      {selectedStruggle && (
-        <div ref={solutionRef}>
-          <SolutionSlide formulaId={formulaId} struggleId={selectedStruggle} />
+      {/* Two-column grid layout */}
+      <div className="grid lg:grid-cols-[38%_1fr] gap-8 items-start">
+        {/* Left: Benefit List (sticky on desktop) */}
+        <div className="lg:sticky lg:top-8">
+          <BenefitList
+            formulaId={formulaId}
+            selectedStruggle={selectedStruggle}
+            onSelect={setSelectedStruggle}
+          />
         </div>
-      )}
 
-      {/* Clinical Study Details - only when a struggle is selected */}
-      {selectedStruggle && currentStudy && (
-        <div className="premium-section">
-          <div className="premium-container">
-            <div className="text-center mb-10">
-              <h2 className="premium-section-heading mb-2">
-                Clinical Study Details
-              </h2>
-              <p className="premium-annotation opacity-70">
-                the research behind this solution
-              </p>
-            </div>
-            <ClinicalStudyCard study={currentStudy} formulaId={formulaId} />
-          </div>
+        {/* Right: Benefit Detail (updates in-place) */}
+        <div>
+          <BenefitDetail formulaId={formulaId} struggleId={selectedStruggle} />
         </div>
-      )}
+      </div>
     </>
   );
 }

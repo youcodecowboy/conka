@@ -18,7 +18,5 @@ export { default as WhatToExpectTimeline } from "./WhatToExpectTimeline";
 export { default as EditorialQuotesCarousel } from "./EditorialQuotesCarousel";
 
 // Struggle Solutions components
-export { default as StruggleSelector } from "./StruggleSelector";
-export { default as SolutionSlide } from "./SolutionSlide";
 export { default as ClinicalStudyCard } from "./ClinicalStudyCard";
 

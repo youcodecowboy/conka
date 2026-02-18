@@ -82,6 +82,13 @@
   --text-on-light: var(--color-base-black);
   --text-on-light-muted: #444444;
 
+  /* ----- Neuro Blue (v1 accent gradient) ----- */
+  --color-neuro-blue-start: #c8d0ea;
+  --color-neuro-blue-end: #4058bb;
+  --color-neuro-blue-light: #eeeff2;
+  --color-neuro-blue-dark: #0e1f3f;
+  --gradient-neuro-blue-accent: linear-gradient(to right, var(--color-neuro-blue-start), var(--color-neuro-blue-end));
+
   /* ----- Soft-Tech Luxury: Typography scale ----- */
   --letter-spacing-premium-title: -0.03em;
   --premium-body-max-width: 65ch;
@@ -150,53 +157,29 @@
   }
 }
 
-/* ----- Soft-Tech Luxury: Section background + text (use with .premium-section-luxury) ----- */
-/* Black (Ink) base: white or bone text only */
+/* ----- Soft-Tech Luxury: Section background only (use with .premium-section-luxury) ----- */
+/* Sections set background only. Font and text color are defined in components. */
 .premium-bg-ink {
   background-color: var(--color-base-black);
-  color: var(--text-on-ink);
-}
-.premium-bg-ink .premium-section-heading,
-.premium-bg-ink .premium-body,
-.premium-bg-ink .premium-data,
-.premium-bg-ink .premium-annotation {
-  color: var(--text-on-ink);
-}
-.premium-bg-ink .premium-text-muted {
-  color: var(--text-on-ink-muted);
 }
 
-/* Bone or Surface base: black or bone text only */
 .premium-bg-bone {
   background-color: var(--color-base-white);
-  color: var(--text-on-light);
-}
-.premium-bg-surface {
-  background-color: var(--color-base-surface);
-  color: var(--text-on-light);
-}
-.premium-bg-bone .premium-section-heading,
-.premium-bg-bone .premium-body,
-.premium-bg-surface .premium-section-heading,
-.premium-bg-surface .premium-body {
-  color: inherit;
-}
-.premium-bg-bone .premium-text-muted,
-.premium-bg-surface .premium-text-muted {
-  color: var(--text-on-light-muted);
 }
 
-/* Mid-Chrome: deeper grey section; same text treatment as Bone/Surface (dark text) */
+.premium-bg-surface {
+  background-color: var(--color-base-surface);
+}
+
 .premium-bg-mid {
   background-color: var(--color-base-mid);
-  color: var(--text-on-light);
 }
-.premium-bg-mid .premium-section-heading,
-.premium-bg-mid .premium-body {
-  color: inherit;
-}
-.premium-bg-mid .premium-text-muted {
-  color: var(--text-on-light-muted);
+
+/* Reduced top padding for non-hero sections (desktop only) */
+@media (min-width: 769px) {
+  .premium-section-luxury.premium-section-reduced-top {
+    padding-top: clamp(2rem, 5vh, 4rem);
+  }
 }
 
 /* ----- Soft-Tech Luxury: Header block utility ----- */
@@ -219,22 +202,22 @@
 .premium-card-soft.premium-card-soft-stroke {
   border: 1px solid var(--color-premium-stroke);
 }
-
-/* Card on dark section: force dark text so content stays readable (e.g. case study cards on .premium-bg-ink) */
-.premium-card-dark-text,
-.premium-card-dark-text .premium-heading,
-.premium-card-dark-text .premium-body,
-.premium-card-dark-text .premium-data,
-.premium-card-dark-text .premium-annotation {
-  color: var(--color-base-black);
+/* Mobile variant with tighter padding for compact layouts */
+.premium-card-soft-mobile {
+  border-radius: var(--premium-radius-card);
+  background-color: var(--color-premium-bg-soft);
+  border: none;
+  padding: 1.25rem;
+}
+.premium-card-soft-mobile.premium-card-soft-stroke {
+  border: 1px solid var(--color-premium-stroke);
 }
 
-/* Own-surface: use on buttons, pills, or any element with its own background on a dark (Ink) section so text stays dark. Placed after .premium-bg-ink typography so it wins. */
-.premium-bg-ink .premium-own-surface {
-  color: var(--color-base-black);
-}
+/* Note: Components that render a different surface (e.g. white card on ink section)
+   should set their own text color on that element. No override utilities needed. */
 
 /* Type roles (global) */
+/* Typography classes do not set color. Color must be set on the component or container (section, card, panel) so each context has the correct text color. Nested surfaces (cards, panels) must set their own color. */
 .premium-display {
   font-family: var(--font-primary), sans-serif;
   font-size: var(--premium-font-display-size);
@@ -259,13 +242,21 @@
   font-weight: 500;
 }
 
+/* Section subtitle – regular body font, adapts to background (Soft-Tech Luxury) */
+.premium-section-subtitle {
+  font-family: var(--font-primary), sans-serif;
+  font-size: var(--text-body-premium);
+  line-height: var(--leading-relaxed);
+  font-weight: var(--premium-font-body-weight);
+  margin-bottom: 0;
+}
+
 .premium-body {
   font-family: var(--font-primary), sans-serif;
   font-size: var(--text-body-premium);
   line-height: var(--leading-relaxed);
   max-width: var(--premium-body-max-width);
   margin-bottom: 0;
-  color: #444;
   font-weight: var(--premium-font-body-weight);
 }
 
@@ -365,4 +356,93 @@
 .premium-bento-card {
   border-radius: var(--premium-radius-base);
   border-width: var(--premium-border-width);
+}
+
+/* Product Grid Responsive Layout - Tablet breakpoint only */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .product-grid-container {
+    grid-template-areas:
+      "protocol protocol"
+      "flow clear";
+  }
+  
+  .product-card-protocol {
+    grid-area: protocol;
+    max-width: 70%;
+    margin: 0 auto;
+  }
+  
+  .product-card-wrapper:nth-child(1) {
+    grid-area: flow;
+  }
+  
+  .product-card-wrapper:nth-child(2) {
+    grid-area: clear;
+  }
+  
+  .product-card-wrapper:nth-child(3) {
+    grid-area: protocol;
+  }
+  
+  /* Protocol tablet layout - image left, card right */
+  .product-card-protocol-tablet {
+    align-items: stretch;
+  }
+  
+  /* Image container takes half width and centers content vertically */
+  .product-card-protocol-tablet > div:first-child {
+    height: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-card-protocol {
+    max-width: 100%;
+  }
+  
+  /* Reset grid areas at desktop - use natural order */
+  .product-grid-container {
+    grid-template-areas: none;
+  }
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hide scrollbar on scroll-snap carousels (ProductGridMobile) */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

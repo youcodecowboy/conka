@@ -19,7 +19,7 @@ import {
   getProductGradient,
 } from "@/app/lib/productData";
 import { getProductHeroImages } from "@/app/components/navigation/productHeroConfig";
-import { getProtocolImage } from "@/app/components/navigation/protocolImageConfig";
+import { getProtocolImage } from "@/app/lib/productImageConfig";
 
 interface StickyPurchaseFooterProps {
   // For formula pages
@@ -142,7 +142,7 @@ export default function StickyPurchaseFooter({
   }
 
   // Product name and thumbnail for left block (im8-style)
-  // Formula: hero product image from productHeroConfig; Protocol: navigation image from protocolImageConfig
+  // Formula: hero product image from productHeroConfig; Protocol: navigation image from productImageConfig
   let productName = "";
   let thumbnailSrc = "";
   if (formulaId) {

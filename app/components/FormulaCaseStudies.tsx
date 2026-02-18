@@ -30,7 +30,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
 
   return (
     <article
-      className="premium-card-dark-text overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] h-full"
+      className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] h-full text-[var(--color-ink)]"
     >
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
       <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">
@@ -66,7 +66,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
       </div>
 
       {/* Card body: showcase content (white, dark text) */}
-      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white">
+      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white text-[var(--color-ink)]">
         <h3 className="premium-heading text-[var(--premium-font-heading-size)] font-bold leading-tight">
           {athlete.name}
         </h3>
@@ -304,7 +304,7 @@ export function FormulaCaseStudiesMobile({
         onScroll={() => {
           const el = caseStudiesCarouselRef.current;
           if (!el) return;
-          const cardWidth = el.offsetWidth * 0.85 + 24;
+          const cardWidth = el.offsetWidth * 0.85 + 16; // 16px = 1rem = --premium-space-m (carousel gap)
           const index = Math.min(
             athletes.length - 1,
             Math.max(0, Math.round(el.scrollLeft / cardWidth)),
