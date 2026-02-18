@@ -35,7 +35,6 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
         className="w-full flex items-center gap-3 px-5 py-4 transition-colors duration-200"
         style={{
           background: isOpen ? "var(--color-ink)" : "transparent",
-          minHeight: "44px",
         }}
       >
         {/* Icon */}
@@ -49,17 +48,26 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
           </span>
         )}
 
-        {/* Benefit title */}
-        <span
-          className={`premium-body font-medium transition-colors duration-200 ${
-            isOpen ? "text-[var(--color-bone)]" : "text-[var(--color-ink)]"
-          }`}
-        >
-          {benefit.title}
-        </span>
+        {/* Benefit title + struggle subtitle */}
+        <div className="flex flex-col gap-0.5 flex-1 text-left">
+          <span
+            className={`premium-body font-medium transition-colors duration-200 ${
+              isOpen ? "text-[var(--color-bone)]" : "text-[var(--color-ink)]"
+            }`}
+          >
+            {benefit.title}
+          </span>
+          <span
+            className={`premium-body-sm italic leading-snug transition-colors duration-200 ${
+              isOpen ? "text-[var(--color-bone)] opacity-70" : "text-[var(--color-ink)] opacity-50"
+            }`}
+          >
+            {benefit.struggle}
+          </span>
+        </div>
 
         {/* Spacer */}
-        <span className="flex-1" />
+        <span className="flex-1 min-w-2" />
 
         {/* Stat — always visible, never hidden */}
         <span
