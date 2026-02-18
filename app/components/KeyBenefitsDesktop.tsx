@@ -211,17 +211,25 @@ export default function KeyBenefitsDesktop({
 
         {/* Right: Benefit Detail (updates in-place) */}
         <div aria-live="polite">
-          <div 
-            key={activeBenefit} 
+          <div
+            key={activeBenefit}
             className="premium-card-soft !bg-white p-8 [animation:fadeIn_0.3s_ease]"
           >
-            {/* Stat + annotation */}
+            {/* 1. Struggle statement — small, muted, italic */}
+            <p className="premium-body-sm italic opacity-50 mb-2 text-[var(--color-ink)]">
+              {currentBenefit.struggle}
+            </p>
+
+            {/* 2. Outcome headline — large, bold, hero text */}
+            <h3 className="text-2xl lg:text-3xl font-bold mb-6 leading-tight text-[var(--color-ink)]">
+              {currentBenefit.outcome}
+            </h3>
+
+            {/* 3. Stat + annotation — moved down, slightly smaller than before */}
             <div className="flex items-baseline gap-3 mb-4">
               <span
-                className={`text-6xl lg:text-7xl font-bold tracking-tight ${NEURAL_BLUE.text}`}
-                style={{
-                  letterSpacing: "var(--letter-spacing-premium-title)",
-                }}
+                className={`text-4xl lg:text-5xl font-bold tracking-tight ${NEURAL_BLUE.text}`}
+                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
               >
                 {currentBenefit.stat}
               </span>
@@ -230,22 +238,29 @@ export default function KeyBenefitsDesktop({
               </span>
             </div>
 
-            {/* Description */}
-            <p className="premium-body opacity-80 leading-relaxed mb-6 text-[var(--color-ink)]">
+            {/* 4. Mechanism (description) — smaller, more muted */}
+            <p className="premium-body-sm opacity-60 leading-relaxed mb-6 text-[var(--color-ink)]">
               {currentBenefit.description}
             </p>
 
-            {/* Radar chart */}
+            {/* 5. Radar chart — keep as-is, add explainer line above */}
             <div className="premium-card-soft p-6 rounded-[20px] mb-6" aria-hidden="true">
-              <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-4 text-[var(--color-ink)]">
+              <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-1 text-[var(--color-ink)]">
                 Performance impact
               </p>
+              <p className="premium-body-sm opacity-70 mb-4 text-[var(--color-ink)]">
+                How this benefit impacts your overall cognitive performance
+              </p>
               <div className="w-full max-w-[360px] mx-auto">
-                <RadarChart data={chartData} mainValue={mainStatValue} accentColor={NEURAL_BLUE.hex} />
+                <RadarChart
+                  data={chartData}
+                  mainValue={mainStatValue}
+                  accentColor={NEURAL_BLUE.hex}
+                />
               </div>
             </div>
 
-            {/* Clinical breakdown */}
+            {/* 6. Clinical breakdown — keep entirely as-is */}
             {currentBenefit.clinicalBreakdown && (
               <div
                 className="rounded-[20px] overflow-hidden mb-2"
@@ -271,41 +286,30 @@ export default function KeyBenefitsDesktop({
                 <div className="px-5 py-4 space-y-2 premium-body-sm text-[var(--color-ink)]">
                   <p>
                     <span className="opacity-50">Study: </span>
-                    <span className="opacity-80">
-                      {currentBenefit.clinicalBreakdown.study}
-                    </span>
+                    <span className="opacity-80">{currentBenefit.clinicalBreakdown.study}</span>
                   </p>
                   <p>
                     <span className="opacity-50">Participants: </span>
-                    <span className="opacity-80">
-                      {currentBenefit.clinicalBreakdown.participants}
-                    </span>
+                    <span className="opacity-80">{currentBenefit.clinicalBreakdown.participants}</span>
                   </p>
                   <p>
                     <span className="opacity-50">Duration: </span>
-                    <span className="opacity-80">
-                      {currentBenefit.clinicalBreakdown.duration}
-                    </span>
+                    <span className="opacity-80">{currentBenefit.clinicalBreakdown.duration}</span>
                   </p>
                 </div>
 
                 {/* Results */}
                 <div className="px-5 pb-5 text-[var(--color-ink)]">
-                  <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3 text-[var(--color-ink)]">
+                  <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3">
                     Key results
                   </p>
                   <ul className="space-y-2">
-                    {currentBenefit.clinicalBreakdown.results.map(
-                      (result, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-start gap-2 premium-body-sm opacity-80"
-                        >
-                          <span className="opacity-40 shrink-0 mt-0.5">—</span>
-                          <span>{result}</span>
-                        </li>
-                      ),
-                    )}
+                    {currentBenefit.clinicalBreakdown.results.map((result, idx) => (
+                      <li key={idx} className="flex items-start gap-2 premium-body-sm opacity-80">
+                        <span className="opacity-40 shrink-0 mt-0.5">—</span>
+                        <span>{result}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
