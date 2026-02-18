@@ -255,7 +255,7 @@ export default function ProductCard({
 
   return (
     <div
-      className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden"
+      className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden text-[var(--text-on-light)]"
       style={{ padding: "1rem", backgroundColor: "white" }}
     >
       {/* Product Info */}

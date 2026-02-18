@@ -51,7 +51,7 @@ export default function ProductGrid() {
     return (
       <>
       {/* Section Header */}
-      <div className="mb-8 md:mb-12 text-left">
+      <div className="mb-8 md:mb-12 text-left text-[var(--color-ink)]">
         <h2 className="premium-section-heading">
           Find Your Formula
         </h2>

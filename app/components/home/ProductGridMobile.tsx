@@ -98,7 +98,7 @@ export default function ProductGridMobile() {
   return (
     <>
       {/* Section Header */}
-      <div className="mb-8 text-left px-4">
+      <div className="mb-8 text-left px-4 text-[var(--color-ink)]">
         <h2 className="premium-section-heading">
           Find Your Formula
         </h2>

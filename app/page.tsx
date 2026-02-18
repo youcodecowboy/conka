@@ -376,7 +376,7 @@ export default function Home() {
       {/* ===== PRODUCT GRID (scroll target for hero CTA) ===== */}
       <div id="product-grid" className="scroll-mt-20">
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury premium-bg-mid"
           aria-label="Find Your Formula"
         >
           <div className="premium-track">
