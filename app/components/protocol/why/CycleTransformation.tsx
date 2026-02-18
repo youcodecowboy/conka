@@ -27,7 +27,7 @@ export default function CycleTransformation({
   return (
     <div className="pt-6 md:pt-8">
       <h2
-        className="premium-section-heading text-xl md:text-2xl font-bold text-center mb-4"
+        className="premium-section-heading text-xl md:text-2xl font-bold text-center mb-4 text-[var(--color-bone)]"
         style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
       >
         {sectionHeadings.transformation}

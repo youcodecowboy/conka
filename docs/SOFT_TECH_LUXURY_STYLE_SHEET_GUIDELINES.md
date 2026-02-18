@@ -161,7 +161,6 @@ Structure:
 - ✅ **FormulaBenefitsStats** (Desktop + Mobile) — Stripped section logic, uses Ink background (`--color-ink`), wrapped in `.premium-section-luxury` + `.premium-track` on [conka-flow page](../app/conka-flow/page.tsx).
 - ✅ **Testimonials** (via TestimonialsAutoScrollStrip) — Stripped section logic, uses Bone background (`--color-bone`), wrapped in `.premium-section-luxury` + `.premium-track` on [conka-flow page](../app/conka-flow/page.tsx). Header aligns to track; marquee strip uses full-bleed pattern.
 - ✅ **WhatToExpectTimeline** — Migrated earlier; wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-bone` on conka-flow.
-- ✅ **EditorialQuotesCarousel** — Migrated earlier; wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-surface` on conka-flow.
 - ✅ **FormulaIngredients** — Stripped section/container and root padding; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-surface` on conka-flow (mobile + desktop).
 - ✅ **HowItWorks** — Stripped section/container and bg; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-ink` on conka-flow (mobile + desktop).
 - ✅ **FormulaBenefitsMobile** / **FormulaBenefits** (proof-and-science) — Stripped section/container; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-bone` on conka-flow (mobile + desktop).

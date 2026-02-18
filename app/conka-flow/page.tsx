@@ -16,9 +16,7 @@ import {
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
   WhatToExpectTimeline,
-  EditorialQuotesCarousel,
 } from "@/app/components/product";
-import { getEditorialQuotesForFormula } from "@/app/lib/editorialQuotesData";
 import { FormulaCaseStudiesMobile } from "@/app/components/FormulaCaseStudies";
 import FormulaCaseStudies from "@/app/components/FormulaCaseStudies";
 import { PackSize, PurchaseType } from "@/app/lib/productData";
@@ -143,17 +141,6 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* Editorial quotes — ink */}
-          <section
-            className="premium-section-luxury premium-bg-ink"
-            aria-label="Editorial quotes"
-          >
-            <div className="premium-track">
-              <EditorialQuotesCarousel
-                quotes={getEditorialQuotesForFormula("01")}
-              />
-            </div>
-          </section>
           <section
             className="premium-section-luxury premium-bg-bone"
             aria-label="Formula ingredients"
@@ -181,7 +168,8 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <section
-            className="premium-section-luxury premium-bg-ink"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
             aria-label="CONKA Case Studies"
           >
             <div className="premium-track">
@@ -276,17 +264,6 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* Editorial quotes — ink */}
-        <section
-          className="premium-section-luxury premium-bg-ink"
-          aria-label="Editorial quotes"
-        >
-          <div className="premium-track">
-            <EditorialQuotesCarousel
-              quotes={getEditorialQuotesForFormula("01")}
-            />
-          </div>
-        </section>
         <section
           className="premium-section-luxury premium-bg-bone"
           aria-label="Formula ingredients"
@@ -314,7 +291,8 @@ export default function ConkaFlowPage() {
           </div>
         </section>
         <section
-          className="premium-section-luxury premium-bg-ink"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
           aria-label="CONKA Case Studies"
         >
           <div className="premium-track">

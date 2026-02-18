@@ -70,7 +70,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
 
   return (
     <>
-      <header className="text-center mb-12">
+      <header className="text-center mb-12 text-[var(--color-bone)]">
         <h2
           id="how-it-works-heading"
           className="premium-section-heading mb-2"
@@ -78,12 +78,12 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
         >
           How {formula.name} Works
         </h2>
-        <p className="premium-annotation premium-text-muted">
+        <p className="premium-annotation opacity-90">
           simple, effective, proven
         </p>
       </header>
 
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center text-[var(--color-bone)]">
           {/* Left: vertical 3-step section */}
           <div className="flex flex-col gap-12">
             {steps.map((step, idx) => (
@@ -99,7 +99,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
                   <h3 className="premium-heading mb-1 text-lg">
                     {step.title}
                   </h3>
-                  <p className="premium-body">
+                  <p className="premium-body opacity-90">
                     {step.description}
                   </p>
                 </div>
