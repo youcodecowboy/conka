@@ -114,77 +114,40 @@ export default function CaseStudiesPageDesktop() {
         {/* Right Side - Active Athlete Detail (horizontal layout) */}
         <div className="flex-1 min-w-0">
           {activeAthlete ? (
-            <div className="premium-card-soft premium-card-soft-stroke">
-              <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-8 p-6">
-                {/* LEFT COLUMN: Photo + stacked stat cards */}
-                <div className="flex flex-col gap-4">
-                  <div className="relative aspect-square rounded-[var(--premium-radius-card)] overflow-hidden bg-[var(--color-premium-bg-soft)]">
-                    {(() => {
-                      const photoSrc =
-                        getCaseStudyPhotoPath(activeAthlete.id) ||
-                        activeAthlete.photo;
-                      const showPlaceholder = !photoSrc || photoError;
-                      if (showPlaceholder) {
-                        return (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-                              {activeAthlete.name || "No photo available"}
-                            </p>
-                          </div>
-                        );
-                      }
+            <div className="premium-card-soft premium-card-soft-stroke p-6">
+              {/* Row 1: [asset] [high level info / bars] */}
+              <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-8 mb-8">
+                <div className="relative aspect-square rounded-[var(--premium-radius-card)] overflow-hidden bg-[var(--color-premium-bg-soft)]">
+                  {(() => {
+                    const photoSrc =
+                      getCaseStudyPhotoPath(activeAthlete.id) ||
+                      activeAthlete.photo;
+                    const showPlaceholder = !photoSrc || photoError;
+                    if (showPlaceholder) {
                       return (
-                        <img
-                          src={photoSrc}
-                          alt={activeAthlete.name}
-                          className="w-full h-full object-cover"
-                          style={{
-                            objectPosition: activeAthlete.focalPoint
-                              ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
-                              : "center center",
-                          }}
-                          onError={() => setPhotoError(true)}
-                        />
+                        <div className="w-full h-full flex items-center justify-center">
+                          <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+                            {activeAthlete.name || "No photo available"}
+                          </p>
+                        </div>
                       );
-                    })()}
-                  </div>
-                  {/* Three stat cards stacked (premium, number-dominant) */}
-                  {[
-                    {
-                      label: "Total Improvement",
-                      value: activeAthlete.improvements[0]?.value || "+0%",
-                      color: "text-emerald-600",
-                    },
-                    {
-                      label: "Accuracy",
-                      value: activeAthlete.improvements[1]?.value || "+0%",
-                      color: "text-blue-600",
-                    },
-                    {
-                      label: "Speed",
-                      value: activeAthlete.improvements[2]?.value || "+0%",
-                      color: "text-amber-600",
-                    },
-                  ].map((stat) => (
-                    <div
-                      key={stat.label}
-                      className="premium-card-soft premium-card-soft-stroke text-center py-6 px-5"
-                    >
-                      <p
-                        className={`text-4xl md:text-5xl font-bold font-clinical ${stat.color} mb-2`}
-                      >
-                        {stat.value}
-                      </p>
-                      <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wider">
-                        {stat.label}
-                      </p>
-                    </div>
-                  ))}
+                    }
+                    return (
+                      <img
+                        src={photoSrc}
+                        alt={activeAthlete.name}
+                        className="w-full h-full object-cover"
+                        style={{
+                          objectPosition: activeAthlete.focalPoint
+                            ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
+                            : "center center",
+                        }}
+                        onError={() => setPhotoError(true)}
+                      />
+                    );
+                  })()}
                 </div>
-
-                {/* RIGHT COLUMN: Name first, then comparison, pills, bio */}
                 <div className="flex flex-col">
-                  {/* 1. Name + Org + Achievement */}
                   <div className="mb-6">
                     <h2 className="text-2xl font-bold mb-1 text-[var(--text-on-light)]">
                       {activeAthlete.name}
@@ -200,43 +163,66 @@ export default function CaseStudiesPageDesktop() {
                       </p>
                     )}
                   </div>
-
                   <div className="border-t border-[var(--color-premium-stroke)] mb-6" />
-
-                  {/* 2. Baseline vs Results */}
-                  <div className="mb-6">
+                  <div>
                     <p className="premium-body-sm font-medium text-[var(--text-on-light)] mb-3">
                       Baseline vs Results
                     </p>
                     <ComparisonChart athlete={activeAthlete} />
                   </div>
+                </div>
+              </div>
 
-                  <div className="border-t border-[var(--color-premium-stroke)] mb-6" />
-
-                  {/* 3. Test Info Pills */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--text-on-light-muted)]">
-                      {activeAthlete.testsCompleted} tests
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--text-on-light-muted)]">
-                      {activeAthlete.testingPeriod}
-                    </span>
-                    {activeAthlete.protocolUsed && (
-                      <span className="px-3 py-1 rounded-full bg-[var(--color-ink)] text-white premium-body-sm font-medium">
-                        {activeAthlete.protocolUsed}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="border-t border-[var(--color-premium-stroke)] mb-6" />
-
-                  {/* 4. Bio */}
-                  <div>
-                    <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed">
-                      {activeAthlete.description}
+              {/* Row 2: [stat][stat][stat] */}
+              <div className="grid grid-cols-3 gap-4 mb-8">
+                {[
+                  {
+                    label: "Total Improvement",
+                    value: activeAthlete.improvements[0]?.value || "+0%",
+                  },
+                  {
+                    label: "Accuracy",
+                    value: activeAthlete.improvements[1]?.value || "+0%",
+                  },
+                  {
+                    label: "Speed",
+                    value: activeAthlete.improvements[2]?.value || "+0%",
+                  },
+                ].map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="premium-card-soft premium-card-soft-stroke text-center py-6 px-5"
+                  >
+                    <p className="text-4xl md:text-5xl font-bold font-clinical text-emerald-600 mb-2">
+                      {stat.value}
+                    </p>
+                    <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wider">
+                      {stat.label}
                     </p>
                   </div>
-                </div>
+                ))}
+              </div>
+
+              {/* Row 3: [test count][date][product] */}
+              <div className="flex flex-wrap gap-2 mb-8">
+                <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--text-on-light-muted)]">
+                  {activeAthlete.testsCompleted} tests
+                </span>
+                <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--text-on-light-muted)]">
+                  {activeAthlete.testingPeriod}
+                </span>
+                {activeAthlete.protocolUsed && (
+                  <span className="px-3 py-1 rounded-full bg-[var(--color-ink)] text-white premium-body-sm font-medium">
+                    {activeAthlete.protocolUsed}
+                  </span>
+                )}
+              </div>
+
+              {/* Row 4: description */}
+              <div>
+                <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed">
+                  {activeAthlete.description}
+                </p>
               </div>
             </div>
           ) : (
