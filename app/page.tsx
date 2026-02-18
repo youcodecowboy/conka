@@ -202,7 +202,7 @@ export default function Home() {
       <div id="product-grid" className="scroll-mt-20">
         <section
           className="premium-section-luxury"
-          style={{ backgroundColor: "#eeeff2" }}
+          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
           aria-label="Find Your Formula"
         >
           <div className="premium-track">
@@ -229,7 +229,7 @@ export default function Home() {
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
       <section
         className="premium-section-luxury"
-        style={{ backgroundColor: "#eeeff2" }}
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
         aria-label="Key Benefits"
       >
         <div className="premium-track">
