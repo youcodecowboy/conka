@@ -21,9 +21,9 @@
 | # | Section Name | Purpose | Key Content Requirements |
 |---|--------------|---------|-------------------------|
 | **1** | **Hero** | Immediate trust + outcome promise + direct action | Outcome-led headline, stats (500+ reviews, 100k bottles), trust badges (Informed Sport, Made in UK, 60-day guarantee), single primary CTA |
-| **2** | **Social Proof Carousel** | Early credibility through real user experiences | 8-12 review cards with benefit-led quotes, filters by benefit/product, UGC images/videos optional |
 | **3** | **Industry/Sport Credibility** | Authority through unnamed athlete/club usage | Sport category icons, single paragraph explaining usage across Premier League, rugby, Olympic sports, boxing, motorsport |
 | **4** | **Product Grid (Orientation)** | Help users self-identify and choose quickly | 3-4 product cards with benefit-led headlines, "best for" use cases, daily pricing, format options, assurance banner |
+| **2** | **Social Proof Carousel** | Early credibility through real user experiences | 8-12 review cards with benefit-led quotes, filters by benefit/product, UGC images/videos optional |
 | **5** | **High-Level Benefits** | Communicate outcomes before science | 3-4 benefit cards (Focus, Energy, Recovery, Sleep) with icons, outcome-focused copy, NO ingredient lists |
 | **6** | **Why CONKA Works (Science + Certification)** | Credibility through formulation, testing, certification | 3 sub-sections: Formulation (athlete-backed, clinical dosing), Informed Sport Certification (prominent badge), Made in UK (GMP standards) |
 | **7** | **Timeline/What to Expect** | Set realistic expectations | Week 1 → Weeks 2-4 → Month 2-3 timeline with specific outcomes per stage, product-specific toggles optional |
