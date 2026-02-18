@@ -70,6 +70,54 @@ export const SPORT_INFO: Record<
   other: { name: "Other", emoji: "🏆" },
 };
 
+/**
+ * Mapping: athlete id (kebab-case) → asset path in /public/caseStudies/.
+ * All assets are JPG, camelCase filenames (e.g. JoshStanton.jpg).
+ * Exception: Charlotte Simpson → DrCharlotteSimpson.jpg (title: Dr).
+ */
+export const CASE_STUDY_PHOTO_PATHS: Record<string, string> = {
+  "jade-shekells": "/caseStudies/JadeShekells.jpg",
+  "finn-russell": "/caseStudies/FinnRussell.jpg",
+  "jack-willis": "/caseStudies/JackWillis.jpg",
+  "pierre-louis-barassi": "/caseStudies/PierreLouisBarassi.jpg",
+  "patrick-bamford": "/caseStudies/PatrickBamford.jpg",
+  "nimisha-kurup": "/caseStudies/NimishaKurup.jpg",
+  "callum-sheedy": "/caseStudies/CallumSheedy.jpg",
+  "will-stuart": "/caseStudies/WillStuart.jpg",
+  "daniel-james": "/caseStudies/DanielJames.jpg",
+  "josh-stanton": "/caseStudies/JoshStanton.jpg",
+  "shane-corstorphine": "/caseStudies/ShaneCorstorphine.jpg",
+  "aaron-hope": "/caseStudies/AaronHope.jpg",
+  "matt-davidson": "/caseStudies/MattDavidson.jpg",
+  "juan-cruz-mallia": "/caseStudies/JuanCruzMallia.jpg",
+  "francois-cros": "/caseStudies/FrancoisCros.jpg",
+  "tom-williams": "/caseStudies/TomWilliams.jpg",
+  "will-homer": "/caseStudies/WillHomer.jpg",
+  "max-lahiff": "/caseStudies/MaxLahiff.jpg",
+  "ollie-lawrence": "/caseStudies/OllieLawrence.jpg",
+  "telusa-veainu": "/caseStudies/TelusaVeainu.jpg",
+  "alex-dombrandt": "/caseStudies/AlexDombrandt.jpg",
+  "pita-ahki": "/caseStudies/PitaAhki.jpg",
+  "michael-olise": "/caseStudies/MichaelOlise.jpg",
+  "ao-tanaka": "/caseStudies/AoTanaka.jpg",
+  "fin-baxter": "/caseStudies/FinBaxter.jpg",
+  "george-pratt": "/caseStudies/GeorgePratt.jpg",
+  "louis-lynagh": "/caseStudies/LouisLynagh.jpg",
+  "blair-kinghorn": "/caseStudies/BlairKinghorn.jpg",
+  "emma-uren": "/caseStudies/EmmaUren.jpg",
+  "luke-northmore": "/caseStudies/LukeNorthmore.jpg",
+  "millie-hammond": "/caseStudies/MillieHammond.jpg",
+  "lennox-anyanwu": "/caseStudies/LennoxAnyanwu.jpg",
+  "charlotte-simpson": "/caseStudies/DrCharlotteSimpson.jpg",
+  "will-muir": "/caseStudies/WillMuir.jpg",
+  "alex-lowe": "/caseStudies/AlexLowe.jpg",
+};
+
+/** New square assets in /public/caseStudies/ (2000×2000). Returns "" for unknown IDs so callers use athlete.photo. */
+export function getCaseStudyPhotoPath(athleteId: string): string {
+  return CASE_STUDY_PHOTO_PATHS[athleteId] ?? "";
+}
+
 // ===== ALL ATHLETE DATA FROM CSV =====
 
 export const athletes: AthleteData[] = [
@@ -966,7 +1014,7 @@ export const athletes: AthleteData[] = [
   },
   {
     id: "charlotte-simpson",
-    name: "Charlotte Simpson",
+    name: "Dr Charlotte Simpson",
     photo: "/Charlotte SIMPSON.jpg",
     sport: "business",
     profession: "PhD Researcher",
