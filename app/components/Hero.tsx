@@ -13,61 +13,32 @@ function HeroTrustBadges({
   textClass?: string;
 }) {
   return (
-    <div className="flex flex-wrap md:flex-nowrap items-center gap-x-5 gap-y-2 justify-start text-sm md:text-base font-bold">
-      <span className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}>
-        <span className="inline-flex shrink-0" aria-hidden>
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
-        </span>
-        Informed Sport Certified
+    <div className="flex flex-wrap md:flex-nowrap items-center gap-x-5 gap-y-3 justify-start text-sm md:text-base font-bold">
+      <span
+        className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}
+      >
+        <Image
+          src="/logos/InformedSportLogo.png"
+          alt="Informed Sport certified"
+          width={240}
+          height={240}
+          className="h-16 w-auto md:h-20 object-contain"
+          aria-hidden
+        />
+        <span className="sr-only">Informed Sport Certified</span>
       </span>
-      <span className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}>
-        <span className="inline-flex shrink-0" aria-hidden>
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <rect x="2" y="4" width="20" height="14" rx="2" />
-            <path d="M2 10h20" />
-            <path d="M2 8v8" strokeWidth="0.5" />
-            <path d="M22 8v8" strokeWidth="0.5" />
-            <path d="M12 10v4" />
-            <path d="M9 12h6" />
-          </svg>
-        </span>
-        Made in UK
-      </span>
-      <span className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}>
-        <span className="inline-flex shrink-0" aria-hidden>
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M9 11l3 3L22 4" />
-            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-          </svg>
-        </span>
-        100-Day Guarantee
+      <span
+        className={`flex items-center gap-2 ${textClass} md:whitespace-nowrap md:shrink-0`}
+      >
+        <Image
+          src="/logos/MadeInBritain.png"
+          alt="Made in Britain"
+          width={360}
+          height={180}
+          className="h-14 w-auto md:h-16 object-contain"
+          aria-hidden
+        />
+        <span className="sr-only">Made in Britain</span>
       </span>
     </div>
   );
@@ -75,7 +46,11 @@ function HeroTrustBadges({
 
 type HeroVariant = "default" | "dark";
 
-export default function Hero({ variant = "default" }: { variant?: HeroVariant }) {
+export default function Hero({
+  variant = "default",
+}: {
+  variant?: HeroVariant;
+}) {
   const [wordIndex, setWordIndex] = useState(0);
   const [wordFading, setWordFading] = useState(false);
   const [wordMounted, setWordMounted] = useState(false);
@@ -128,19 +103,21 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
 
   return (
     <div
-      className={`relative w-full min-h-[70vh] md:min-h-[85vh] flex flex-col md:grid md:grid-cols-[1fr_2fr] overflow-hidden ${rootBg}`}
+      className={`relative w-full min-h-[70vh] md:min-h-[85vh] flex flex-col lg:grid lg:grid-cols-[1fr_2fr] overflow-hidden ${rootBg}`}
     >
       {/* Left: content column */}
       <div
-        className={`relative z-10 flex flex-col justify-center py-4 px-8 md:py-16 md:px-16 md:max-w-[500px] text-left ${contentBg}`}
+        className={`relative z-10 flex flex-col justify-center py-4 px-8 md:px-12 md:py-10 lg:max-w-[500px] lg:py-16 lg:px-16 text-left ${contentBg}`}
       >
         <div className="flex flex-col gap-2 md:gap-[var(--space-text-gap)]">
-          {/* Social proof — mobile: simplified; desktop: full line */}
+          {/* Social proof — mobile: simplified; tablet + desktop: full line */}
           <div
             className={`flex flex-wrap items-center justify-start gap-x-2 shrink-0 md:hidden text-sm md:text-base font-bold ${textMuted}`}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
-              <span aria-hidden className="text-yellow-500">★★★★★</span>
+              <span aria-hidden className="text-yellow-500">
+                ★★★★★
+              </span>
             </span>
             <span className="whitespace-nowrap">Over 100,000 bottles sold</span>
           </div>
@@ -148,12 +125,15 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
             className={`hidden md:flex flex-nowrap items-center justify-start gap-x-3 shrink-0 text-sm md:text-base font-bold ${textMuted}`}
           >
             <span className="flex items-center gap-1 whitespace-nowrap">
-              <span aria-hidden className="text-yellow-500">★★★★★</span> 4.9/5
+              <span aria-hidden className="text-yellow-500">
+                ★★★★★
+              </span>{" "}
+              4.7/5
             </span>
             <span aria-hidden>|</span>
             <span className="whitespace-nowrap">500+ reviews</span>
             <span aria-hidden>|</span>
-            <span className="whitespace-nowrap">100,000 bottles sold</span>
+            <span className="whitespace-nowrap">150,000 bottles sold</span>
           </div>
 
           <h1
@@ -209,21 +189,21 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
         </div>
       </div>
 
-      {/* Right: hero image — overlay: light (default) or dark (ink) left-to-right on desktop */}
-      <div className="relative order-first md:order-none w-full min-h-[35vh] md:min-h-0 md:h-full">
+      {/* Right: hero image — overlay: light (default) or dark (ink) left-to-right on desktop only */}
+      <div className="relative order-first lg:order-none w-full min-h-[35vh] md:min-h-[45vh] lg:min-h-0 lg:h-full">
         {/* Desktop only: left-to-right gradient — bone (default) or ink (dark) → transparent */}
         <div
-          className="hidden md:block absolute inset-0 z-[1] pointer-events-none"
+          className="hidden lg:block absolute inset-0 z-[1] pointer-events-none"
           style={{
             background: isDark
               ? "linear-gradient(to right, var(--color-ink) 0%, rgba(17, 17, 17, 0.9) 10%, rgba(17, 17, 17, 0.35) 18%, transparent 28%)"
               : "linear-gradient(to right, var(--color-bone) 0%, rgba(249, 249, 249, 0.75) 10%, rgba(249, 249, 249, 0.2) 20%, transparent 30%)",
           }}
         />
-        {/* Mobile: dark variant gets a subtle bottom-up ink gradient so content area reads; default no overlay */}
+        {/* Mobile + tablet: dark variant gets a subtle bottom-up ink gradient; default no overlay */}
         {isDark && (
           <div
-            className="absolute inset-0 z-[1] pointer-events-none md:hidden"
+            className="absolute inset-0 z-[1] pointer-events-none lg:hidden"
             style={{
               background:
                 "linear-gradient(to top, var(--color-ink) 0%, rgba(17, 17, 17, 0.6) 25%, transparent 55%)",
@@ -244,7 +224,7 @@ export default function Hero({ variant = "default" }: { variant?: HeroVariant })
           alt="Athlete holding CONKA Flow and Clear bottles"
           fill
           priority
-          sizes="66.67vw"
+          sizes="(max-width: 1023px) 100vw, 66.67vw"
           className="hidden md:block object-cover object-right"
         />
       </div>

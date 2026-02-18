@@ -5,9 +5,9 @@ import {
   SportCategory,
   SPORT_INFO,
   athletes,
+  getCaseStudyPhotoPath,
   getFeaturedAthletes,
   getAllSports,
-  getTotalTestsCompleted,
   getAverageImprovementAcrossAll,
 } from "@/app/lib/caseStudiesData";
 import SportIcon from "./SportIcon";
@@ -18,6 +18,9 @@ export default function CaseStudiesPageMobile() {
     "all",
   );
   const [activeAthleteIndex, setActiveAthleteIndex] = useState(0);
+  const [photoErrorIds, setPhotoErrorIds] = useState<Set<string>>(new Set());
+  const addPhotoError = (id: string) =>
+    setPhotoErrorIds((prev) => new Set(prev).add(id));
 
   const featuredAthletes = getFeaturedAthletes();
   const availableSports = getAllSports();
@@ -99,187 +102,183 @@ export default function CaseStudiesPageMobile() {
 
   return (
     <div className="min-h-screen pt-4 pb-8">
-      <div className="px-6">
-        {/* Header - Larger title with inline stats */}
-        <div className="mb-8">
-          <p className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-2">
-            Research & Results
-          </p>
-          <h1 className="text-4xl font-bold mb-1">Case Studies</h1>
-          <p className="font-commentary text-xl mb-4">
-            real athletes, measurable results
-          </p>
+      {/* Header - Larger title with inline stats */}
+      <div className="mb-8">
+        <p className="premium-body-sm uppercase tracking-wider text-[var(--text-on-light-muted)] mb-2">
+          Research & Results
+        </p>
+        <h1 className="premium-section-heading mb-1">Case Studies</h1>
+        <p className="premium-section-subtitle mb-4">
+          real athletes, measurable results
+        </p>
 
-          {/* Inline stats - like desktop */}
-          <div className="flex items-center gap-5">
-            <div className="flex items-center gap-2">
-              <span className="font-clinical font-bold text-2xl">
-                {athletes.length}
-              </span>
-              <span className="font-clinical text-sm opacity-60">Athletes</span>
-            </div>
-            <span className="opacity-20 text-xl">•</span>
-            <div className="flex items-center gap-2">
-              <span className="font-clinical font-bold text-2xl">
-                {athletes.reduce((sum, a) => sum + a.testsCompleted, 0)}
-              </span>
-              <span className="font-clinical text-sm opacity-60">Tests</span>
-            </div>
-            <span className="opacity-20 text-xl">•</span>
-            <div className="flex items-center gap-2">
-              <span className="font-clinical font-bold text-2xl text-emerald-600">
-                +26%
-              </span>
-              <span className="font-clinical text-sm opacity-60">Avg</span>
-            </div>
+        {/* Inline stats - like desktop */}
+        <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2">
+            <span className="font-clinical font-bold text-2xl text-[var(--text-on-light)]">
+              {athletes.length}
+            </span>
+            <span className="premium-body-sm text-[var(--text-on-light-muted)]">Athletes</span>
+          </div>
+          <span className="opacity-20 text-xl">•</span>
+          <div className="flex items-center gap-2">
+            <span className="font-clinical font-bold text-2xl text-[var(--text-on-light)]">
+              {athletes.reduce((sum, a) => sum + a.testsCompleted, 0)}
+            </span>
+            <span className="premium-body-sm text-[var(--text-on-light-muted)]">Tests</span>
+          </div>
+          <span className="opacity-20 text-xl">•</span>
+          <div className="flex items-center gap-2">
+            <span className="font-clinical font-bold text-2xl text-emerald-600">
+              +{getAverageImprovementAcrossAll().toFixed(1)}%
+            </span>
+            <span className="premium-body-sm text-[var(--text-on-light-muted)]">Avg</span>
           </div>
         </div>
+      </div>
 
-        {/* Featured Athletes (Horizontal Scroll) */}
-        {featuredAthletes.length > 0 && (
-          <div className="mb-6">
-            <p className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-3 flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-              Featured
-            </p>
-            <div className="flex gap-3 overflow-x-auto scrollbar-hide -mx-6 px-6 pb-2">
-              {featuredAthletes.map((athlete) => {
-                return (
-                  <button
-                    key={athlete.id}
-                    onClick={() => handleSelectFeatured(athlete.id)}
-                    className="neo-box flex-shrink-0 w-36 overflow-hidden text-left"
-                  >
-                    <div className="h-32 w-full border-0 border-b-2 border-current overflow-hidden bg-neutral-100">
-                      {athlete.photo ? (
-                        <img
-                          src={athlete.photo}
-                          alt={athlete.name}
-                          className="w-full h-full object-cover"
-                          style={{
-                            objectPosition: athlete.focalPoint
-                              ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%`
-                              : "center",
-                          }}
-                        />
-                      ) : (
-                        <div className="placeholder-box h-full w-full border-0">
-                          <span className="font-clinical text-[10px]">
-                            [PHOTO]
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-3">
-                      <div className="flex items-center gap-1 mb-1">
-                        <SportIcon
-                          sport={athlete.sport}
-                          size={12}
-                          className="opacity-50"
-                        />
-                        <p className="font-bold text-xs truncate">
-                          {athlete.name}
-                        </p>
-                      </div>
-                      <p className="font-clinical text-[10px] opacity-60 truncate mb-2">
-                        {athlete.profession}
-                      </p>
-                      {athlete.improvements[0] && (
-                        <p className="font-clinical text-sm font-bold text-emerald-600">
-                          {athlete.improvements[0].value}
-                        </p>
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Sport Filter Bar with scroll indicator */}
+      {/* Featured Athletes (Horizontal Scroll) */}
+      {featuredAthletes.length > 0 && (
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <p className="font-clinical text-xs uppercase tracking-wider opacity-50">
-              Filter by Sport
-            </p>
-            <div className="flex items-center gap-1 opacity-40">
-              <span className="font-clinical text-[10px]">swipe</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
+          <p className="premium-body-sm uppercase tracking-wider text-[var(--text-on-light-muted)] mb-3 flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+            Featured
+          </p>
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide -mx-[var(--premium-gutter-mobile)] px-[var(--premium-gutter-mobile)] md:-mx-[var(--premium-gutter-desktop)] md:px-[var(--premium-gutter-desktop)] pb-2">
+            {featuredAthletes.map((athlete) => {
+              const photoSrc = getCaseStudyPhotoPath(athlete.id) || athlete.photo;
+              const showPlaceholder = !photoSrc || photoErrorIds.has(athlete.id);
+              return (
+                <button
+                  key={athlete.id}
+                  onClick={() => handleSelectFeatured(athlete.id)}
+                  className="premium-card-soft premium-card-soft-stroke flex-shrink-0 w-36 overflow-hidden text-left p-0"
+                >
+                  <div className="h-32 w-full border-0 border-b border-[var(--color-premium-stroke)] overflow-hidden bg-neutral-100">
+                    {showPlaceholder ? (
+                      <div className="h-full w-full flex items-center justify-center">
+                        <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                          {athlete.name || "Photo"}
+                        </span>
+                      </div>
+                    ) : (
+                      <img
+                        src={photoSrc}
+                        alt={athlete.name}
+                        className="w-full h-full object-cover"
+                        style={{
+                          objectPosition: athlete.focalPoint
+                            ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%`
+                            : "center",
+                        }}
+                        onError={() => addPhotoError(athlete.id)}
+                      />
+                    )}
+                  </div>
+                  <div className="p-3">
+                    <div className="flex items-center gap-1 mb-1">
+                      <SportIcon
+                        sport={athlete.sport}
+                        size={12}
+                        className="opacity-50"
+                      />
+                      <p className="font-bold text-xs truncate text-[var(--text-on-light)]">
+                        {athlete.name}
+                      </p>
+                    </div>
+                    <p className="premium-body-sm text-[var(--text-on-light-muted)] truncate mb-2">
+                      {athlete.profession}
+                    </p>
+                    {athlete.improvements[0] && (
+                      <p className="font-clinical text-sm font-bold text-emerald-600">
+                        {athlete.improvements[0].value}
+                      </p>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
           </div>
-          <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
-            <div className="flex gap-2 pb-2">
-              {/* All filter */}
-              <button
-                onClick={() => setSelectedSport("all")}
-                className={`flex-shrink-0 px-3 py-1.5 rounded-full border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
-                  selectedSport === "all"
-                    ? "bg-[var(--foreground)] text-[var(--background)]"
-                    : "bg-transparent"
-                }`}
-              >
-                All
-              </button>
+        </div>
+      )}
 
-              {/* Sport filters */}
-              {availableSports.map((sport) => {
-                const info = SPORT_INFO[sport];
-
-                return (
-                  <button
-                    key={sport}
-                    onClick={() => setSelectedSport(sport)}
-                    className={`flex-shrink-0 px-3 py-1.5 rounded-full border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
-                      selectedSport === sport
-                        ? "bg-[var(--foreground)] text-[var(--background)]"
-                        : "bg-transparent"
-                    }`}
-                  >
-                    <SportIcon sport={sport} size={12} />
-                    <span>{info.name}</span>
-                  </button>
-                );
-              })}
-            </div>
+      {/* Sport Filter Bar with scroll indicator */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <p className="premium-body-sm uppercase tracking-wider text-[var(--text-on-light-muted)]">
+            Filter by Sport
+          </p>
+          <div className="flex items-center gap-1 opacity-40">
+            <span className="premium-body-sm">swipe</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+        <div className="overflow-x-auto scrollbar-hide -mx-[var(--premium-gutter-mobile)] px-[var(--premium-gutter-mobile)] md:-mx-[var(--premium-gutter-desktop)] md:px-[var(--premium-gutter-desktop)]">
+          <div className="flex gap-2 pb-2">
+            <button
+              onClick={() => setSelectedSport("all")}
+              className={`flex-shrink-0 px-3 py-1.5 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
+                selectedSport === "all"
+                  ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
+                  : "bg-transparent text-[var(--text-on-light)]"
+              }`}
+            >
+              All
+            </button>
+            {availableSports.map((sport) => {
+              const info = SPORT_INFO[sport];
+              return (
+                <button
+                  key={sport}
+                  onClick={() => setSelectedSport(sport)}
+                  className={`flex-shrink-0 px-3 py-1.5 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
+                    selectedSport === sport
+                      ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
+                      : "bg-transparent text-[var(--text-on-light)]"
+                  }`}
+                >
+                  <SportIcon sport={sport} size={12} />
+                  <span>{info.name}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
 
       {/* Case Study View - Full Detail */}
       {activeAthlete ? (
-        <div className="px-6">
+        <div>
           {/* Navigation Header */}
-          <div className="neo-box-inverted p-4 mb-0 rounded-t-lg rounded-b-none">
+          <div className="premium-bg-ink text-[var(--text-on-ink)] p-4 mb-0 rounded-t-[var(--premium-radius-card)] rounded-b-none">
             <div className="flex items-center justify-between">
-              {/* Prev Arrow */}
               <button
                 onClick={handlePrev}
-                className="flex items-center gap-1 hover:opacity-70 transition-opacity"
+                className="flex items-center gap-1 hover:opacity-70 transition-opacity text-[var(--text-on-ink)]"
                 aria-label="Previous athlete"
               >
                 <svg
@@ -295,31 +294,22 @@ export default function CaseStudiesPageMobile() {
                 >
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
-                <span className="font-clinical text-xs hidden xs:inline">
-                  Prev
-                </span>
+                <span className="font-clinical text-xs hidden xs:inline">Prev</span>
               </button>
-
-              {/* Center - Name & Counter */}
               <div className="text-center flex-1 px-2">
-                <p className="font-bold text-sm truncate">
+                <p className="font-bold text-sm truncate text-[var(--text-on-ink)]">
                   {activeAthlete.name}
                 </p>
-                <p className="font-clinical text-xs opacity-70">
-                  Case Study {activeAthleteIndex + 1} of{" "}
-                  {filteredAthletes.length}
+                <p className="font-clinical text-xs text-[var(--text-on-ink-muted)]">
+                  Case Study {activeAthleteIndex + 1} of {filteredAthletes.length}
                 </p>
               </div>
-
-              {/* Next Arrow */}
               <button
                 onClick={handleNext}
-                className="flex items-center gap-1 hover:opacity-70 transition-opacity"
+                className="flex items-center gap-1 hover:opacity-70 transition-opacity text-[var(--text-on-ink)]"
                 aria-label="Next athlete"
               >
-                <span className="font-clinical text-xs hidden xs:inline">
-                  Next
-                </span>
+                <span className="font-clinical text-xs hidden xs:inline">Next</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -338,43 +328,48 @@ export default function CaseStudiesPageMobile() {
           </div>
 
           {/* Photo */}
-          <div className="h-72 w-full border-2 border-current border-t-0 overflow-hidden bg-neutral-100">
-            {activeAthlete.photo ? (
-              <img
-                src={activeAthlete.photo}
-                alt={activeAthlete.name}
-                className="w-full h-full object-cover"
-                style={{
-                  objectPosition: activeAthlete.focalPoint
-                    ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
-                    : "center",
-                }}
-              />
-            ) : (
-              <div className="placeholder-box h-full w-full border-0 flex items-center justify-center">
-                <span className="font-clinical text-sm">[ATHLETE PHOTO]</span>
-              </div>
-            )}
+          <div className="h-72 w-full border border-t-0 border-[var(--color-premium-stroke)] overflow-hidden bg-neutral-100 rounded-b-none">
+            {(() => {
+              const photoSrc = getCaseStudyPhotoPath(activeAthlete.id) || activeAthlete.photo;
+              const showPlaceholder = !photoSrc || photoErrorIds.has(activeAthlete.id);
+              if (showPlaceholder) {
+                return (
+                  <div className="h-full w-full flex items-center justify-center">
+                    <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                      {activeAthlete.name || "Photo"}
+                    </span>
+                  </div>
+                );
+              }
+              return (
+                <img
+                  src={photoSrc}
+                  alt={activeAthlete.name}
+                  className="w-full h-full object-cover"
+                  style={{
+                    objectPosition: activeAthlete.focalPoint
+                      ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
+                      : "center",
+                  }}
+                  onError={() => addPhotoError(activeAthlete.id)}
+                />
+              );
+            })()}
           </div>
 
           {/* Content Card */}
-          <div className="neo-box border-t-0 rounded-t-none">
-            {/* Header Info */}
-            <div className="p-5 border-b-2 border-current/10">
+          <div className="premium-card-soft premium-card-soft-stroke rounded-t-none p-0">
+            <div className="p-5 border-b border-[var(--color-premium-stroke)]">
               <div className="flex items-start justify-between gap-3 mb-2">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <SportIcon
-                      sport={activeAthlete.sport}
-                      size={16}
-                      className="opacity-60"
-                    />
-                    <p className="font-clinical text-sm opacity-70">
+                    <SportIcon sport={activeAthlete.sport} size={16} className="opacity-60" />
+                    <p className="premium-body-sm text-[var(--text-on-light-muted)]">
                       {activeAthlete.profession}
                     </p>
                   </div>
                   {activeAthlete.achievement && (
-                    <p className="font-clinical text-xs opacity-50">
+                    <p className="premium-body-sm text-[var(--text-on-light-muted)] opacity-80">
                       {activeAthlete.achievement}
                     </p>
                   )}
@@ -382,28 +377,23 @@ export default function CaseStudiesPageMobile() {
                 <div className="flex flex-wrap gap-1 justify-end">
                   <ProductBadge version={activeAthlete.productVersion} />
                   {activeAthlete.featured && (
-                    <span className="px-2 py-0.5 rounded-full bg-current/10 text-[10px] font-clinical">
+                    <span className="px-2 py-0.5 rounded-full bg-black/10 text-[10px] font-clinical text-[var(--text-on-light)]">
                       ★ Featured
                     </span>
                   )}
                 </div>
               </div>
-
               {activeAthlete.protocolUsed && (
-                <p className="font-clinical text-xs opacity-60 mt-2">
+                <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-2">
                   Protocol: {activeAthlete.protocolUsed}
                 </p>
               )}
             </div>
-
-            {/* Description */}
-            <div className="p-5 border-b-2 border-current/10">
-              <p className="text-sm leading-relaxed">
+            <div className="p-5 border-b border-[var(--color-premium-stroke)]">
+              <p className="premium-body text-[var(--text-on-light)] leading-relaxed">
                 {activeAthlete.description}
               </p>
             </div>
-
-            {/* Stats Section */}
             <div className="p-5">
               <AthleteStats athlete={activeAthlete} />
             </div>
@@ -418,14 +408,14 @@ export default function CaseStudiesPageMobile() {
                   onClick={() => setActiveAthleteIndex(idx)}
                   className={`w-2 h-2 rounded-full transition-all ${
                     idx === activeAthleteIndex
-                      ? "bg-[var(--foreground)] w-5"
-                      : "bg-[var(--foreground)]/30"
+                      ? "bg-[var(--color-ink)] w-5"
+                      : "bg-[var(--color-ink)]/30"
                   }`}
                   aria-label={`Go to athlete ${idx + 1}`}
                 />
               ))}
               {filteredAthletes.length > 10 && (
-                <span className="font-clinical text-xs opacity-50 ml-1">
+                <span className="premium-body-sm text-[var(--text-on-light-muted)] ml-1">
                   +{filteredAthletes.length - 10}
                 </span>
               )}
@@ -433,32 +423,30 @@ export default function CaseStudiesPageMobile() {
           )}
         </div>
       ) : (
-        <div className="px-6">
-          <div className="neo-box p-8 text-center">
-            <p className="font-commentary text-lg opacity-50">
-              No athletes found for this filter
-            </p>
-          </div>
+        <div className="premium-card-soft premium-card-soft-stroke p-8 text-center">
+          <p className="premium-body text-[var(--text-on-light-muted)]">
+            No athletes found for this filter
+          </p>
         </div>
       )}
 
       {/* Bottom CTA */}
-      <div className="px-6 mt-8">
-        <div className="neo-box p-5 text-center">
-          <h3 className="font-bold mb-2">Start your journey</h3>
-          <p className="font-commentary text-sm opacity-70 mb-4">
+      <div className="mt-8">
+        <div className="premium-card-soft premium-card-soft-stroke p-5 text-center">
+          <h3 className="font-bold mb-2 text-[var(--text-on-light)]">Start your journey</h3>
+          <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
             Join hundreds of athletes
           </p>
           <div className="flex gap-2">
             <a
               href="/conka-flow"
-              className="flex-1 neo-button-outline px-4 py-2 font-semibold text-xs text-center"
+              className="flex-1 neo-button-outline px-4 py-2 font-semibold text-xs text-center rounded-[var(--premium-radius-interactive)]"
             >
               CONKA Flow
             </a>
             <a
               href="/conka-clarity"
-              className="flex-1 neo-button px-4 py-2 font-semibold text-xs text-center"
+              className="flex-1 neo-button px-4 py-2 font-semibold text-xs text-center rounded-[var(--premium-radius-interactive)]"
             >
               CONKA Clear
             </a>

@@ -53,6 +53,22 @@ The hero has **different behavior and content** on mobile and desktop. Do not ap
 - **Trust badges:** Informed Sport Certified, Made in UK, 100-Day Guarantee — **full size**, **all on one line** (`flex-nowrap`), no wrapping.
 - **CTA:** Fixed width (~200px), above trust badges.
 
+### Hero — Tablet (768–1023px)
+
+- **Layout:** Vertically stacked — image on top, content below (same as mobile, scaled up). No two-column grid.
+- **Asset:** `HeroBanner.jpg`. Content area uses `var(--color-bone)`.
+- **Social proof:** Full desktop line (★★★★★ 4.7/5 | 500+ reviews | 150,000 bottles sold). Trust badges at full size. CTA fixed width (~200px).
+- **Overlay:** No left-to-right gradient on the image (only used for desktop side-by-side layout).
+
+---
+
+## Tablet (768–1023px)
+
+Homepage sections that share the tablet breakpoint (Tailwind `md:` = 768px, `lg:` = 1024px):
+
+- **Product Grid:** Uses dedicated `ProductGridTablet` component (based on mobile card structure). Stacked layout — row 1: Protocol card (full width), row 2: Flow and Clear side by side. All three cards use the same structure (image on top, ProductCard below).
+- **Why CONKA Works:** Stats strip (280+ / 2 / 100%) stays as a single row at tablet. Only the three pillar cards are vertically stacked at tablet; 3-column layout for pillars at desktop (`lg:`).
+
 ---
 
 ## Component Patterns
