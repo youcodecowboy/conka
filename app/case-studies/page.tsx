@@ -11,7 +11,7 @@ export default function CaseStudiesPage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col theme-conka-flow"
+      className="min-h-screen flex flex-col theme-conka-flow premium-pdp"
       style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* Navigation */}
@@ -25,10 +25,16 @@ export default function CaseStudiesPage() {
               <p className="font-clinical text-sm opacity-50">Loading...</p>
             </div>
           </div>
-        ) : isMobile ? (
-          <CaseStudiesPageMobile />
         ) : (
-          <CaseStudiesPageDesktop />
+          <section className="premium-section-luxury premium-bg-bone" aria-label="Case Studies">
+            <div className="premium-track">
+              {isMobile ? (
+                <CaseStudiesPageMobile />
+              ) : (
+                <CaseStudiesPageDesktop />
+              )}
+            </div>
+          </section>
         )}
       </main>
 
