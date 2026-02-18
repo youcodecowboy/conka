@@ -123,8 +123,8 @@ export default function CaseStudiesDataDriven() {
           </p>
         </div>
 
-        {/* Hero Stats Block */}
-        <div className="grid grid-cols-3 gap-1 sm:gap-2 md:gap-6 mb-6">
+        {/* Hero Stats Block — desktop/tablet only */}
+        <div className="hidden md:grid grid-cols-3 gap-1 sm:gap-2 md:gap-6 mb-6">
           <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
             <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)] leading-tight">
               {totalTests.toLocaleString()}
