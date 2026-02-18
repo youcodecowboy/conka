@@ -134,78 +134,72 @@ export default function CaseStudiesPageMobile() {
         </div>
       </div>
 
-      {/* 3. Photo tile + overlaid chevrons */}
+      {/* 3. Trading-card: photo tile with gradient + all info on card + overlay toggles */}
       {activeAthlete ? (
-        <>
-          <div className="relative w-full aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden">
-            {(() => {
-              const photoSrc =
-                getCaseStudyPhotoPath(activeAthlete.id) || activeAthlete.photo;
-              const showPlaceholder =
-                !photoSrc || photoErrorIds.has(activeAthlete.id);
-              if (showPlaceholder) {
-                return (
-                  <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-neutral-200">
-                    <span className="premium-body-sm text-[var(--text-on-light-muted)]">
-                      {activeAthlete.name || "Photo"}
-                    </span>
-                  </div>
-                );
-              }
+        <div className="relative w-full aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden">
+          {(() => {
+            const photoSrc =
+              getCaseStudyPhotoPath(activeAthlete.id) || activeAthlete.photo;
+            const showPlaceholder =
+              !photoSrc || photoErrorIds.has(activeAthlete.id);
+            if (showPlaceholder) {
               return (
-                <img
-                  src={photoSrc}
-                  alt={activeAthlete.name}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{
-                    objectPosition: activeAthlete.focalPoint
-                      ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
-                      : "center",
-                  }}
-                  onError={() => addPhotoError(activeAthlete.id)}
-                />
+                <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-neutral-200">
+                  <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                    {activeAthlete.name || "Photo"}
+                  </span>
+                </div>
               );
-            })()}
-            <div
-              className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"
-              aria-hidden
+            }
+            return (
+              <img
+                src={photoSrc}
+                alt={activeAthlete.name}
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  objectPosition: activeAthlete.focalPoint
+                    ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
+                    : "center",
+                }}
+                onError={() => addPhotoError(activeAthlete.id)}
+              />
+            );
+          })()}
+          {/* Dark gradient from bottom (same as CaseStudiesDataDriven) */}
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+            aria-hidden
+          />
+          {/* Chevrons: white transparent circle, black icons */}
+          <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
+            <PremiumCarouselToggle
+              variant="overlayLight"
+              direction="prev"
+              onClick={handlePrev}
+              ariaLabel="Previous athlete"
             />
-            <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
-              <PremiumCarouselToggle
-                variant="overlay"
-                direction="prev"
-                onClick={handlePrev}
-                ariaLabel="Previous athlete"
-              />
-            </div>
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
-              <PremiumCarouselToggle
-                variant="overlay"
-                direction="next"
-                onClick={handleNext}
-                ariaLabel="Next athlete"
-              />
-            </div>
           </div>
-
-          {/* 4. Info block — no card, minimal chrome */}
-          <div className="px-1 pt-3 pb-2">
-            {/* Row 1 — Identity */}
-            <p className="font-bold text-[15px] text-[var(--text-on-light)]">
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
+            <PremiumCarouselToggle
+              variant="overlayLight"
+              direction="next"
+              onClick={handleNext}
+              ariaLabel="Next athlete"
+            />
+          </div>
+          {/* Info overlay — bottom of card, white text */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 pt-8 text-white">
+            <p className="font-bold text-[15px] mb-0.5">
               {activeAthlete.name}
             </p>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+            <p className="text-xs opacity-90 mb-1">
               {SPORT_INFO[activeAthlete.sport].name}
             </p>
-            <div className="mt-1">
+            <div className="mb-2">
               <ProductBadge version={activeAthlete.productVersion} />
             </div>
-
-            {/* Row 2 — divider */}
-            <div className="border-t border-[var(--color-premium-stroke)] my-2" />
-
-            {/* Row 3 — Stats strip */}
-            <div className="grid grid-cols-3 text-center">
+            <div className="border-t border-white/30 my-2" />
+            <div className="grid grid-cols-3 text-center gap-1">
               {[0, 1, 2].map((i) => {
                 const stat = activeAthlete.improvements[i];
                 const label = stat
@@ -214,32 +208,25 @@ export default function CaseStudiesPageMobile() {
                 const value = stat?.value ?? "—";
                 return (
                   <div key={i}>
-                    <div className="text-xl font-bold font-clinical text-emerald-600">
+                    <div className="text-xl font-bold font-clinical text-emerald-300">
                       {value}
                     </div>
-                    <div className="text-[9px] uppercase tracking-wider text-[var(--text-on-light-muted)]">
+                    <div className="text-[9px] uppercase tracking-wider opacity-85">
                       {label}
                     </div>
                   </div>
                 );
               })}
             </div>
-
-            {/* Row 4 — divider */}
-            <div className="border-t border-[var(--color-premium-stroke)] my-2" />
-
-            {/* Row 5 — Meta */}
-            <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-              {activeAthlete.testingPeriod} • {activeAthlete.testsCompleted}{" "}
-              tests
+            <div className="border-t border-white/30 my-2" />
+            <p className="text-[11px] opacity-85">
+              {activeAthlete.testingPeriod} • {activeAthlete.testsCompleted} tests
             </p>
-
-            {/* Row 6 — Counter */}
-            <p className="font-clinical text-xs text-[var(--text-on-light-muted)] text-center mt-2">
+            <p className="font-clinical text-xs opacity-80 text-center mt-1.5">
               {activeAthleteIndex + 1} of {filteredAthletes.length}
             </p>
           </div>
-        </>
+        </div>
       ) : (
         <div className="premium-card-soft premium-card-soft-stroke p-6 text-center rounded-[var(--premium-radius-card)] mt-2">
           <p className="premium-body text-[var(--text-on-light-muted)]">
