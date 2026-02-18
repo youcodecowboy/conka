@@ -201,10 +201,7 @@ export default function FormulaCaseStudies({
   if (athletes.length === 0) return null;
 
   return (
-    <section
-      className="premium-section rounded-[var(--premium-radius-card)]"
-      style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-    >
+    <>
       <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)] text-[var(--color-bone)]">
         <p className="premium-data text-xs uppercase tracking-wider">
           Verified Results
@@ -247,7 +244,7 @@ export default function FormulaCaseStudies({
           </svg>
         </Link>
       </div>
-    </section>
+    </>
   );
 }
 
@@ -283,10 +280,7 @@ export function FormulaCaseStudiesMobile({
   const [caseStudiesCarouselIndex, setCaseStudiesCarouselIndex] = useState(0);
 
   return (
-    <section
-      className="premium-section rounded-[var(--premium-radius-card)]"
-      style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-    >
+    <>
       <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)] text-[var(--color-bone)]">
         <p className="premium-data text-xs uppercase tracking-wider">
           Verified Results
@@ -363,6 +357,6 @@ export function FormulaCaseStudiesMobile({
           </svg>
         </Link>
       </div>
-    </section>
+    </>
   );
 }

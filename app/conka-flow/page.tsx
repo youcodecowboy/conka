@@ -168,7 +168,8 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <section
-            className="premium-section-luxury premium-bg-ink"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
             aria-label="CONKA Case Studies"
           >
             <div className="premium-track">
@@ -290,7 +291,8 @@ export default function ConkaFlowPage() {
           </div>
         </section>
         <section
-          className="premium-section-luxury premium-bg-ink"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
           aria-label="CONKA Case Studies"
         >
           <div className="premium-track">
