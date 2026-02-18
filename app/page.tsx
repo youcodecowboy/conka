@@ -15,34 +15,34 @@ import type { Testimonial } from "./components/testimonials/types";
 
 // Dynamically import heavy components to reduce initial bundle size
 const KeyBenefits = dynamic(() => import("./components/KeyBenefits"), {
-  loading: () => <div className="min-h-[500px]" />,
+  loading: () => <div className="h-[500px]" />,
 });
 
 const WhatIsConka = dynamic(() => import("./components/WhatIsConka"), {
-  loading: () => <div className="min-h-[400px]" />,
+  loading: () => <div className="h-[400px]" />,
 });
 
 const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
-  loading: () => <div className="min-h-[900px]" />,
+  loading: () => <div className="h-[900px]" />,
 });
 
 const WhyConkaWorks = dynamic(() => import("./components/WhyConkaWorks"), {
-  loading: () => <div className="min-h-[600px]" />,
+  loading: () => <div className="h-[600px]" />,
 });
 
 const CaseStudiesDataDriven = dynamic(
   () => import("./components/CaseStudiesDataDriven"),
-  { loading: () => <div className="min-h-[1200px]" /> },
+  { loading: () => <div className="h-[1200px]" /> },
 );
 
 const Testimonials = dynamic(
   () => import("./components/testimonials/Testimonials"),
-  { loading: () => <div className="min-h-[450px]" /> },
+  { loading: () => <div className="h-[450px]" /> },
 );
 
 const AthleteCredibilityCarousel = dynamic(
   () => import("./components/AthleteCredibilityCarousel"),
-  { loading: () => <div className="min-h-[350px]" /> },
+  { loading: () => <div className="h-[350px]" /> },
 );
 
 const faqItems = [
