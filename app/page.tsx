@@ -14,42 +14,35 @@ import {
 import type { Testimonial } from "./components/testimonials/types";
 
 // Dynamically import heavy components to reduce initial bundle size
-// These components are below the fold and contain heavy dependencies like recharts
 const KeyBenefits = dynamic(() => import("./components/KeyBenefits"), {
-  loading: () => <div className="h-[600px]" />, // Placeholder to prevent layout shift
+  loading: () => <div className="min-h-[500px]" />,
 });
 
 const WhatIsConka = dynamic(() => import("./components/WhatIsConka"), {
-  loading: () => <div className="h-[400px]" />,
+  loading: () => <div className="min-h-[400px]" />,
 });
 
-// const ProtocolBuilder = dynamic(() => import("./components/ProtocolBuilder"), {
-//   loading: () => <div className="h-[600px]" />,
-// });
-
 const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
-  loading: () => <div className="h-[600px]" />,
+  loading: () => <div className="min-h-[900px]" />,
+});
+
+const WhyConkaWorks = dynamic(() => import("./components/WhyConkaWorks"), {
+  loading: () => <div className="min-h-[600px]" />,
 });
 
 const CaseStudiesDataDriven = dynamic(
   () => import("./components/CaseStudiesDataDriven"),
-  {
-    loading: () => <div className="h-[400px]" />,
-  },
+  { loading: () => <div className="min-h-[1200px]" /> },
 );
 
 const Testimonials = dynamic(
   () => import("./components/testimonials/Testimonials"),
-  {
-    loading: () => <div className="h-[500px]" />,
-  },
+  { loading: () => <div className="min-h-[450px]" /> },
 );
 
 const AthleteCredibilityCarousel = dynamic(
   () => import("./components/AthleteCredibilityCarousel"),
-  {
-    loading: () => <div className="h-[400px]" />,
-  },
+  { loading: () => <div className="min-h-[350px]" /> },
 );
 
 const faqItems = [
@@ -234,6 +227,17 @@ export default function Home() {
       >
         <div className="premium-track">
           <KeyBenefits benefits={keyBenefits} />
+        </div>
+      </section>
+
+      {/* ===== SECTION: WHY CONKA WORKS ===== */}
+      <section
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+        aria-label="Why CONKA Works"
+      >
+        <div className="premium-track">
+          <WhyConkaWorks />
         </div>
       </section>
 
