@@ -26,7 +26,11 @@ export default function CaseStudiesPage() {
             </div>
           </div>
         ) : (
-          <section className="premium-section-luxury premium-bg-bone" aria-label="Case Studies">
+          <section
+            className="premium-section-luxury premium-section-reduced-top"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+            aria-label="Case Studies"
+          >
             <div className="premium-track">
               {isMobile ? (
                 <CaseStudiesPageMobile />
