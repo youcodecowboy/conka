@@ -83,8 +83,13 @@ function AthletePhotoTile({ athlete }: { athlete: AthleteData }) {
       {/* Text overlay */}
       <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
         <p className="text-sm font-semibold mb-1">{athlete.name}</p>
-        <p className="text-3xl font-bold font-clinical mb-1">
+        <p className="text-3xl font-bold font-clinical mb-0.5">
           {totalImprovement?.value || "+0%"}
+        </p>
+        <p className="text-[10px] uppercase tracking-wide opacity-80 mb-1">
+          {totalImprovement?.metric === "Total Score"
+            ? "Cognitive improvement"
+            : (totalImprovement?.metric ?? "Improvement")}
         </p>
         <p className="text-xs opacity-80">{getSportLabel(athlete.sport)}</p>
       </div>
