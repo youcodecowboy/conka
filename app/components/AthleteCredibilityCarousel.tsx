@@ -97,14 +97,14 @@ export default function AthleteCredibilityCarousel() {
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-8 md:gap-12 items-center">
         {/* Left column: text (order-first on mobile) */}
         <div className="flex flex-col gap-4 md:gap-6 min-w-0">
-          <div key={currentIndex} className="animate-fade-in-scale">
+          <div key={currentIndex} className="animate-fade-in-scale flex flex-col h-full">
             <h3 className="premium-heading text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--text-on-light)]">
               {slide.name}
             </h3>
             <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1 opacity-80">
               {slide.sport}
             </p>
-            <blockquote className="premium-body mt-4 text-[var(--text-on-light)] text-xl md:text-2xl font-semibold leading-relaxed max-w-xl">
+            <blockquote className="premium-body mt-4 text-[var(--text-on-light)] text-base md:text-2xl font-semibold leading-relaxed max-w-xl">
               &ldquo;{slide.quote}&rdquo;
             </blockquote>
           </div>
@@ -131,7 +131,7 @@ export default function AthleteCredibilityCarousel() {
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </button>
-            <div className="relative w-full aspect-square max-w-lg md:max-w-none mx-auto rounded-[var(--premium-radius-card)] overflow-hidden bg-black/5 flex items-center justify-center">
+            <div className="relative w-full aspect-square max-w-[85vw] md:max-w-none mx-auto rounded-[var(--premium-radius-card)] overflow-hidden bg-black/5 flex items-center justify-center">
               {ATHLETE_SLIDES.map((s, i) => (
                 <div
                   key={s.image}
