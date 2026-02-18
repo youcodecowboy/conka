@@ -1,14 +1,14 @@
 "use client";
 
 type Direction = "prev" | "next";
-type Variant = "default" | "overlay";
+type Variant = "default" | "overlay" | "overlayLight";
 
 interface PremiumCarouselToggleProps {
   direction: Direction;
   onClick: () => void;
   ariaLabel?: string;
   className?: string;
-  /** Overlay: semi-transparent on dark (e.g. over photo), 22px icon, no border */
+  /** Overlay: semi-transparent dark circle, white chevrons. overlayLight: white transparent circle, black chevrons (trading-card style). */
   variant?: Variant;
 }
 
@@ -17,7 +17,7 @@ const defaultAriaLabels: Record<Direction, string> = {
   next: "Next",
 };
 
-const iconSize = { default: 20, overlay: 22 } as const;
+const iconSize = { default: 20, overlay: 22, overlayLight: 22 } as const;
 
 export default function PremiumCarouselToggle({
   direction,
@@ -35,11 +35,15 @@ export default function PremiumCarouselToggle({
     "shrink-0 w-10 h-10 md:w-12 md:h-12 border-2 border-[var(--color-ink)] bg-white text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-white focus:ring-[var(--color-ink)]";
   const overlayClasses =
     "p-3 border-0 bg-black/20 hover:bg-black/40 text-white focus:ring-white focus:ring-offset-0";
+  const overlayLightClasses =
+    "p-3 border-0 bg-white/25 hover:bg-white/45 text-[var(--color-ink)] focus:ring-black/30 focus:ring-offset-0";
 
   const buttonClass =
     variant === "overlay"
       ? `${base} ${overlayClasses} ${className}`
-      : `${base} ${defaultClasses} ${className}`;
+      : variant === "overlayLight"
+        ? `${base} ${overlayLightClasses} ${className}`
+        : `${base} ${defaultClasses} ${className}`;
 
   return (
     <button
