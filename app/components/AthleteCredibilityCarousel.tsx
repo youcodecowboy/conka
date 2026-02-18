@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import PremiumDotIndicator from "./premium/PremiumDotIndicator";
+import PremiumCarouselToggle from "./premium/PremiumCarouselToggle";
 import useIsMobile from "../hooks/useIsMobile";
 
 export type AthleteSlide = {
@@ -149,27 +150,11 @@ export default function AthleteCredibilityCarousel() {
         {/* Right column: image + controls + dots */}
         <div className="flex flex-col gap-4 order-first md:order-none">
           <div className="relative flex items-center gap-2 md:gap-4">
-            <button
-              type="button"
+            <PremiumCarouselToggle
+              direction="prev"
               onClick={goPrev}
-              aria-label="Previous athlete"
-              className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[var(--color-ink)] bg-white text-[var(--color-ink)] flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)] focus:ring-offset-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
-              >
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
+              ariaLabel="Previous athlete"
+            />
             <div className="relative w-full aspect-square max-w-[85vw] md:max-w-none mx-auto rounded-[var(--premium-radius-card)] overflow-hidden bg-black/5 flex items-center justify-center">
               {ATHLETE_SLIDES.map((s, i) => (
                 <div
@@ -189,27 +174,11 @@ export default function AthleteCredibilityCarousel() {
                 </div>
               ))}
             </div>
-            <button
-              type="button"
+            <PremiumCarouselToggle
+              direction="next"
               onClick={goNext}
-              aria-label="Next athlete"
-              className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[var(--color-ink)] bg-white text-[var(--color-ink)] flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)] focus:ring-offset-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
-              >
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
+              ariaLabel="Next athlete"
+            />
           </div>
           <PremiumDotIndicator
             total={ATHLETE_SLIDES.length}
