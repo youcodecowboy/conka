@@ -184,7 +184,7 @@ export default function WhyConkaWorks() {
           <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed mb-6">
             Formulated in partnership with Durham and Exeter universities. Every
             ingredient is dosed at clinically effective levels based on
-            peer-reviewed research. Not pixie-dusted—real science, real results.
+            peer-reviewed research. Not pixie-dusted real science, real results.
           </p>
           <div
             className="flex flex-wrap justify-center gap-2"
@@ -252,7 +252,7 @@ export default function WhyConkaWorks() {
           <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed mb-6">
             Made in England to Good Manufacturing Practice (GMP) standards.
             Every batch is tested for purity, potency, and consistency. No
-            cutting corners, no outsourcing—just rigorous British quality
+            cutting corners, no outsourcing, just rigorous British quality
             control.
           </p>
           <div
