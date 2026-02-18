@@ -365,7 +365,7 @@ export default function Home() {
       {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
       <section
         className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-base-mid)" }}
+        style={{ backgroundColor: "white" }}
         aria-label="Athletes who use CONKA"
       >
         <div className="premium-track">
