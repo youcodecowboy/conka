@@ -41,7 +41,8 @@ export default function ProductGridMobile() {
     if (!carouselRef.current) return;
 
     const el = carouselRef.current;
-    const cardWidth = el.offsetWidth * 0.85 + 24; // 85vw + 24px gap
+    const gapPx = 16; // var(--premium-space-m) = 1rem
+    const cardWidth = el.offsetWidth * 0.85 + gapPx;
     const index = Math.min(
       2,
       Math.max(0, Math.round(el.scrollLeft / cardWidth))
@@ -57,7 +58,8 @@ export default function ProductGridMobile() {
     if (!carouselRef.current) return;
 
     const el = carouselRef.current;
-    const cardWidth = el.offsetWidth * 0.85 + 24; // 85vw + 24px gap
+    const gapPx = 16; // var(--premium-space-m) = 1rem
+    const cardWidth = el.offsetWidth * 0.85 + gapPx;
 
     el.scrollTo({
       left: index * cardWidth,
@@ -85,7 +87,8 @@ export default function ProductGridMobile() {
   useEffect(() => {
     if (carouselRef.current && currentIndex !== 0) {
       const el = carouselRef.current;
-      const cardWidth = el.offsetWidth * 0.85 + 24;
+      const gapPx = 16;
+      const cardWidth = el.offsetWidth * 0.85 + gapPx;
       el.scrollLeft = currentIndex * cardWidth;
     }
   }, [currentIndex]);
@@ -189,7 +192,7 @@ export default function ProductGridMobile() {
         ref={carouselRef}
         role="region"
         aria-label="Product options"
-        className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ WebkitOverflowScrolling: "touch" }}
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
@@ -201,9 +204,9 @@ export default function ProductGridMobile() {
         </div>
 
         {/* Flow Card */}
-        <div className="flex-shrink-0 w-[85vw] max-w-[400px] snap-center">
-            <div className="flex flex-col items-center">
-              <div className="relative w-full mx-auto aspect-square mb-4">
+        <div className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
+            <div className="flex flex-col items-center w-full">
+              <div className="relative w-full mx-auto aspect-[4/3] mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                   <Image
                     src={getFormulaImage("01")}
@@ -222,9 +225,9 @@ export default function ProductGridMobile() {
           </div>
 
           {/* Clear Card */}
-          <div className="flex-shrink-0 w-[85vw] max-w-[400px] snap-center">
-            <div className="flex flex-col items-center">
-              <div className="relative w-full mx-auto aspect-square mb-4">
+          <div className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
+            <div className="flex flex-col items-center w-full">
+              <div className="relative w-full mx-auto aspect-[4/3] mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                   <Image
                     src={getFormulaImage("02")}
@@ -243,9 +246,9 @@ export default function ProductGridMobile() {
           </div>
 
           {/* Protocol Card */}
-          <div className="flex-shrink-0 w-[85vw] max-w-[400px] snap-center">
-            <div className="flex flex-col items-center">
-              <div className="relative w-full mx-auto aspect-square mb-4">
+          <div className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
+            <div className="flex flex-col items-center w-full">
+              <div className="relative w-full mx-auto aspect-[4/3] mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                   <Image
                     key={protocolVariant}
@@ -273,22 +276,6 @@ export default function ProductGridMobile() {
               />
             </div>
           </div>
-      </div>
-
-      {/* Dot Indicators */}
-      <div className="flex justify-center gap-2 mt-4">
-        {CARDS.map((card, idx) => (
-          <button
-            key={idx}
-            onClick={() => goToCard(idx as 0 | 1 | 2)}
-            className={`w-2 h-2 rounded-full transition-opacity ${
-              currentIndex === idx
-                ? "bg-[var(--color-ink)] opacity-100"
-                : "bg-[var(--color-ink)] opacity-30"
-            }`}
-            aria-label={`Go to ${card.name}`}
-          />
-        ))}
       </div>
     </>
   );
