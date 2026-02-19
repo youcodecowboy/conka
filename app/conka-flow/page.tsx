@@ -238,6 +238,17 @@ export default function ConkaFlowPage() {
         </div>
       </section>
 
+      {/* Formula Benefits outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
+      <section
+        id="proof-and-science"
+        className="premium-section-luxury premium-bg-bone"
+        aria-labelledby="proof-and-science-heading"
+      >
+        <div className="premium-track">
+          <FormulaBenefits formulaId="01" />
+        </div>
+      </section>
+
       <div className="premium-pdp">
         {/* Dark section for high-impact stats */}
         <section
@@ -260,17 +271,6 @@ export default function ConkaFlowPage() {
               testimonials={getSiteTestimonialsFlow()}
               autoScrollOnly
             />
-          </div>
-        </section>
-
-        {/* Formula Benefits — bone (alternates with ink/mid) */}
-        <section
-          id="proof-and-science"
-          className="premium-section-luxury premium-bg-bone"
-          aria-labelledby="proof-and-science-heading"
-        >
-          <div className="premium-track">
-            <FormulaBenefits formulaId="01" />
           </div>
         </section>
 

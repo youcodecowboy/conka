@@ -236,6 +236,17 @@ export default function ConkaClarityPage() {
         </div>
       </section>
 
+      {/* Formula Benefits outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
+      <section
+        id="proof-and-science"
+        className="premium-section-luxury premium-bg-bone"
+        aria-labelledby="proof-and-science-heading"
+      >
+        <div className="premium-track">
+          <FormulaBenefits formulaId="02" />
+        </div>
+      </section>
+
       <div className="premium-pdp">
         <section
           className="premium-section-luxury"
@@ -257,17 +268,6 @@ export default function ConkaClarityPage() {
               testimonials={getSiteTestimonialsClarity()}
               autoScrollOnly
             />
-          </div>
-        </section>
-
-        {/* Formula Benefits */}
-        <section
-          id="proof-and-science"
-          className="premium-section-luxury premium-bg-bone"
-          aria-labelledby="proof-and-science-heading"
-        >
-          <div className="premium-track">
-            <FormulaBenefits formulaId="02" />
           </div>
         </section>
 
