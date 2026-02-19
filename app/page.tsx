@@ -106,7 +106,6 @@ export default function Home() {
         </section>
       )}
 
-
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
       <section
         className="premium-section-luxury"
@@ -139,7 +138,8 @@ export default function Home() {
 
       {/* ===== SECTION 7: OUR STORY / FOUNDERS ===== */}
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
         aria-label="Our Story"
       >
         <div className="premium-track">
@@ -149,8 +149,7 @@ export default function Home() {
 
       {/* ===== SECTION 8: FAQ ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        className="premium-section-luxury premium-bg-bone"
         aria-label="FAQ"
       >
         <div className="premium-track">
