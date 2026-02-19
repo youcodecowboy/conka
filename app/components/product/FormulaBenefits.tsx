@@ -13,11 +13,16 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
   const [selectedStruggle, setSelectedStruggle] = useState<StruggleId>("focus");
 
   return (
-    <>
-      {/* Section Header */}
-      <div className="mb-8">
-        <h2 className="premium-section-heading">What you'll actually feel.</h2>
-        <p className="premium-section-subtitle">
+    <div>
+      {/* Heading block */}
+      <div className="text-right mb-10">
+        <h2
+          className="premium-section-heading text-[var(--color-ink)]"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          What you'll actually feel.
+        </h2>
+        <p className="premium-section-subtitle mt-2 text-[var(--color-ink)]">
           Select a benefit to see the evidence behind it.
         </p>
       </div>
@@ -34,10 +39,10 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
         </div>
 
         {/* Right: Benefit Detail (updates in-place) */}
-        <div>
+        <div aria-live="polite">
           <BenefitDetail formulaId={formulaId} struggleId={selectedStruggle} />
         </div>
       </div>
-    </>
+    </div>
   );
 }

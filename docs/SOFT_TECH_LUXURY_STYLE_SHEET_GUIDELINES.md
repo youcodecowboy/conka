@@ -103,6 +103,46 @@ Use these variables in CSS or via utilities; avoid hard-coded values for layout 
 - The sticky element will "unstick" when its parent container scrolls out of view
 - This pattern works best with a two-column grid where the left column is narrower (e.g., `grid-cols-[38%_1fr]`)
 
+**Common pitfalls and solutions:**
+
+**Problem: Sticky doesn't work — element scrolls normally instead of sticking**
+
+This is almost always caused by an ancestor element having `overflow` set (including `overflow-x: hidden`, `overflow-y: auto`, etc.). CSS `position: sticky` requires that **no ancestor between the sticky element and the scrolling container has overflow set**. If any ancestor has overflow, it becomes the containing block, and sticky behavior breaks.
+
+**Solution: Move the sticky section outside the overflow container**
+
+If your sticky element is inside `.premium-pdp` (which has `overflow-x: hidden`), move the entire section outside:
+
+```tsx
+// ❌ WRONG - Sticky won't work
+<div className="premium-pdp">
+  <section className="premium-section-luxury">
+    <div className="premium-track">
+      <ComponentWithSticky />
+    </div>
+  </section>
+</div>
+
+// ✅ CORRECT - Move section outside premium-pdp
+<section className="premium-section-luxury">
+  <div className="premium-track">
+    <ComponentWithSticky />
+  </div>
+</section>
+
+<div className="premium-pdp">
+  {/* Other sections */}
+</div>
+```
+
+**Real-world example:** On product pages (`conka-flow`, `conka-clarity`), both the Hero and Formula Benefits sections are placed **outside** `.premium-pdp` to allow sticky positioning to work. See the comments in those files: *"Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden"*.
+
+**How to debug:**
+1. Inspect the sticky element in DevTools
+2. Check all ancestor elements up to the document root
+3. Look for any element with `overflow`, `overflow-x`, or `overflow-y` set (even `hidden`)
+4. If found, either remove the overflow or move your sticky section outside that ancestor
+
 **When to use:**
 - Two-column layouts with a navigation/list on the left and detail content on the right
 - Benefits sections (FormulaBenefits, KeyBenefits)

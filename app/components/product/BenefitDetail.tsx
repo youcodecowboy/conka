@@ -175,36 +175,82 @@ export default function BenefitDetail({
   // Get first result for display
   const firstResult = study.results[0];
 
+  // Parse clinical results into stats (with values like +18%, -56%) and text-only items
+  const parsedResults = (() => {
+    const stats: { value: string; label: string }[] = [];
+    const textOnly: string[] = [];
+
+    study.results.forEach((result) => {
+      // Match patterns like "+18%", "-56%", "2x", etc. at start of value
+      const statMatch = result.value.match(/^([+\-]?\d+\.?\d*[%x]?)\s*(.*)$/i);
+
+      if (statMatch && result.value.match(/^[+\-]?\d/)) {
+        stats.push({
+          value: result.value, // e.g. "+18%"
+          label: result.metric, // e.g. "Memory Performance"
+        });
+      } else {
+        textOnly.push(`${result.metric}: ${result.value}`);
+      }
+    });
+
+    return { stats, textOnly };
+  })();
+
   return (
     <div aria-live="polite">
       <div 
         key={struggleId} 
         className="premium-card-soft !bg-white p-8 [animation:fadeIn_0.3s_ease]"
       >
-        {/* Struggle question */}
-        <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-2">
-          {solution.question}
+        {/* 1. Struggle statement — small, muted, italic */}
+        <p className="premium-body-sm italic opacity-50 mb-2 text-[var(--color-ink)]">
+          {solution.struggle}
         </p>
 
-        {/* Stat + label */}
-        <div className="flex items-baseline gap-3 mb-4">
-          <span
-            className={`text-6xl lg:text-7xl font-bold tracking-tight ${accentColor.text}`}
-          >
-            {solution.stat}
-          </span>
-          <span className="premium-body-sm opacity-60">{solution.statLabel}</span>
-        </div>
+        {/* 2. Outcome headline — large, bold, hero text */}
+        <h3 className="text-2xl lg:text-3xl font-bold mb-6 leading-tight text-[var(--color-ink)]">
+          {solution.outcome}
+        </h3>
 
-        {/* Outcome description */}
-        <p className="premium-body opacity-80 leading-relaxed mb-6">
+        {/* 3. Mechanism (description) — smaller, more muted */}
+        <p className="premium-body-sm opacity-60 leading-relaxed mb-6 text-[var(--color-ink)]">
           {solution.description}
         </p>
 
-        {/* Radar charts - 2 only (Before + After) */}
-        <div className="premium-card-soft p-6 rounded-[20px] mb-6">
-          <p className="premium-body-sm opacity-50 mb-4 uppercase tracking-wider">
-            Performance over time
+        {/* Stat tiles grid — only render if there are parsed stats */}
+        {parsedResults.stats.length > 0 && (
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            {parsedResults.stats.map((stat, idx) => (
+              <div
+                key={idx}
+                className="rounded-[20px] p-4"
+                style={{
+                  background: "var(--color-premium-bg-soft)",
+                  border: "1px solid var(--color-premium-stroke)",
+                }}
+              >
+                <p
+                  className={`text-3xl font-bold mb-1 ${accentColor.text}`}
+                  style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                >
+                  {stat.value}
+                </p>
+                <p className="premium-body-sm opacity-70 text-[var(--color-ink)] leading-tight">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 5. Radar chart — keep as-is, add explainer line above */}
+        <div className="premium-card-soft p-6 rounded-[20px] mb-6" aria-hidden="true">
+          <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-1 text-[var(--color-ink)]">
+            Performance impact
+          </p>
+          <p className="premium-body-sm opacity-70 mb-4 text-[var(--color-ink)]">
+            How this benefit impacts your overall cognitive performance
           </p>
           <div className="grid grid-cols-2 gap-4">
             <MiniRadarChart
@@ -224,30 +270,67 @@ export default function BenefitDetail({
           </div>
         </div>
 
-        {/* Single result row */}
-        {firstResult && (
+        {/* 6. Clinical breakdown — keep entirely as-is */}
+        <div
+          className="rounded-[20px] overflow-hidden mb-2"
+          style={{ border: "1px solid var(--color-premium-stroke)" }}
+        >
+          {/* Header row */}
           <div
-            className="flex items-center justify-between px-5 py-4 rounded-[20px] mb-6"
+            className="px-5 py-3 space-y-1"
             style={{
               background: "var(--color-premium-bg-soft)",
-              border: "1px solid var(--color-premium-stroke)",
+              borderBottom: "1px solid var(--color-premium-stroke)",
             }}
           >
-            <div>
-              <p className="premium-body font-semibold">{firstResult.metric}</p>
-              <p className="premium-body-sm opacity-50">{firstResult.description}</p>
+            <div className="flex items-center justify-between">
+              <p className="premium-body-sm uppercase tracking-wider opacity-50 text-[var(--color-ink)]">
+                Clinical study
+              </p>
+              <p className="premium-body-sm opacity-40 text-[var(--color-ink)]">
+                {study.year}
+              </p>
             </div>
-            <div className="text-right">
-              <p className={`text-2xl font-bold ${accentColor.text}`}>{firstResult.value}</p>
-              <p className="premium-body-sm opacity-40">{firstResult.pValue}</p>
-            </div>
+            <p className="premium-body-sm opacity-60 text-[var(--color-ink)]">
+              {solution.ingredientAsset?.name} • {solution.ingredientAsset?.dosage}
+            </p>
           </div>
-        )}
 
-        {/* Study footnote */}
-        <p className="premium-body-sm opacity-40">
-          {study.name} — {study.university}, {study.year}
-        </p>
+          {/* Study details */}
+          <div className="px-5 py-4 space-y-2 premium-body-sm text-[var(--color-ink)]">
+            <p>
+              <span className="opacity-50">Study: </span>
+              <span className="opacity-80">{study.name}</span>
+            </p>
+            <p>
+              <span className="opacity-50">Participants: </span>
+              <span className="opacity-80">{study.participants.total} ({study.participants.ageRange})</span>
+            </p>
+            <p>
+              <span className="opacity-50">Duration: </span>
+              <span className="opacity-80">{study.duration}</span>
+            </p>
+          </div>
+
+          {/* Results list */}
+          {study.results.length > 0 && (
+            <div className="px-5 pb-5 text-[var(--color-ink)]">
+              <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3">
+                Key findings
+              </p>
+              <ul className="space-y-2">
+                {study.results.map((result, idx) => (
+                  <li key={idx} className="flex items-start gap-2 premium-body-sm opacity-80">
+                    <span className="opacity-40 shrink-0 mt-0.5">—</span>
+                    <span>
+                      <span className="font-semibold">{result.metric}:</span> {result.value} ({result.pValue})
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

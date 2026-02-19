@@ -49,57 +49,71 @@ function AccordionRow({
         onKeyDown={handleKeyDown}
         aria-expanded={isOpen}
         aria-controls={`benefit-panel-${struggle.id}`}
-        className="w-full flex items-center gap-3 px-5 py-4 transition-colors duration-200"
+        className={`w-full flex flex-col px-5 transition-colors duration-200 ${
+          isOpen ? "py-5" : "py-4"
+        }`}
         style={{
-          background: isOpen ? "var(--color-ink)" : "transparent",
-          minHeight: "44px",
+          background: isOpen ? "var(--color-neuro-blue-dark)" : "transparent",
+          color: isOpen ? "#ffffff" : undefined,
         }}
       >
-        {/* Icon */}
-        <StruggleIcon
-          icon={struggle.icon}
-          className={`w-5 h-5 shrink-0 transition-colors duration-200 ${
-            isOpen ? accentColor.text : "opacity-50"
-          }`}
-        />
+        {/* Row 1: icon + title + stat inline */}
+        <div className="flex items-center gap-2 w-full">
+          <StruggleIcon
+            icon={struggle.icon}
+            className={`w-5 h-5 shrink-0 flex items-center justify-center transition-colors duration-200 ${
+              isOpen
+                ? "opacity-100 text-white"
+                : "opacity-30 text-[var(--color-ink)]"
+            }`}
+          />
+          <span
+            className={`flex-1 premium-body text-left transition-colors duration-200 ${
+              isOpen
+                ? "text-white font-semibold"
+                : "text-[var(--color-ink)] font-medium"
+            }`}
+          >
+            {struggle.label}
+          </span>
+          <span
+            className={`text-xl font-extrabold shrink-0 transition-colors duration-200 ${
+              isOpen ? "text-[var(--color-bone)]" : "text-[var(--color-ink)]"
+            }`}
+          >
+            {solution.stat}
+          </span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={`shrink-0 transition-all duration-300 ${
+              isOpen
+                ? "rotate-180 text-[var(--color-bone)] opacity-100"
+                : "rotate-0 text-[var(--color-ink)] opacity-30"
+            }`}
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </div>
 
-        {/* Benefit name */}
-        <span
-          className={`premium-body font-medium transition-colors duration-200 ${
-            isOpen ? "text-[var(--color-bone)]" : "text-[var(--color-ink)]"
-          }`}
-        >
-          {struggle.label}
-        </span>
-
-        {/* Spacer */}
-        <span className="flex-1" />
-
-        {/* Stat — always visible, never hidden */}
-        <span
-          className={`text-base font-bold mr-3 transition-colors duration-200 ${
-            isOpen ? accentColor.text : accentColor.text
-          }`}
-        >
-          {solution.stat}
-        </span>
-
-        {/* Chevron */}
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className={`shrink-0 transition-all duration-300 ${
-            isOpen ? "rotate-180 text-[var(--color-bone)]" : "rotate-0 text-[var(--color-ink)]"
-          }`}
-        >
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
+        {/* Row 2: struggle text — full width */}
+        {solution.struggle && (
+          <p
+            className={`w-full text-left premium-body-sm mt-1 font-normal transition-colors duration-200 ${
+              isOpen
+                ? "text-white opacity-60"
+                : "opacity-50 text-[var(--color-ink)]"
+            }`}
+          >
+            {solution.struggle}
+          </p>
+        )}
       </button>
 
       {/* Expanded panel */}
@@ -111,47 +125,71 @@ function AccordionRow({
           key={struggle.id}
           className="px-5 pb-6"
           style={{
-            background: "var(--color-ink)",
+            background: "var(--color-neuro-blue-dark)",
+            color: "#ffffff",
             animation: "fadeSlideDown 0.3s ease forwards",
           }}
         >
-          {/* 1. Struggle question */}
-          <p
-            className="premium-body-sm uppercase tracking-wider mb-3"
+          {/* 1. Outcome headline — first thing read */}
+          <h3
+            className="text-lg font-bold leading-tight mb-3"
             style={{ color: "var(--color-bone)" }}
           >
-            {solution.question}
-          </p>
+            {solution.outcome}
+          </h3>
 
-          {/* 2. Big stat + label */}
-          <div className="flex items-start gap-2 mb-4">
-            <span
-              className={`font-bold ${accentColor.text}`}
-              style={{
-                fontSize: "clamp(3rem, 12vw, 4rem)",
-                letterSpacing: "var(--letter-spacing-premium-title)",
-                lineHeight: 1,
-              }}
-            >
-              {solution.stat}
-            </span>
-            <span
-              className="premium-body-sm"
-              style={{ color: "var(--color-bone)" }}
-            >
-              {solution.statLabel}
-            </span>
+          {/* 2. Hero stat — large, immediate */}
+          <div
+            className="font-bold font-clinical mb-4"
+            style={{
+              fontSize: "clamp(2.8rem, 14vw, 3.8rem)",
+              lineHeight: 1,
+              letterSpacing: "var(--letter-spacing-premium-title)",
+              color: "var(--color-bone)",
+            }}
+          >
+            {solution.stat}
           </div>
 
-          {/* 3. Outcome description */}
+          {/* 3. One-line mechanism — muted, capped via line clamp */}
           <p
-            className="premium-body leading-relaxed mb-5"
-            style={{ color: "var(--color-bone)" }}
+            className="premium-body-sm leading-relaxed mb-4 line-clamp-3"
+            style={{ color: "var(--color-bone)", opacity: 0.65 }}
           >
             {solution.description}
           </p>
 
-          {/* 4. Two-stat strip (replaces radar chart on mobile) */}
+          {/* 4. Ingredient pill */}
+          {solution.ingredientAsset && (
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5"
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.12)",
+              }}
+            >
+              <span
+                className="premium-body-sm font-medium"
+                style={{ color: "var(--color-bone)", opacity: 0.9 }}
+              >
+                {solution.ingredientAsset.name}
+              </span>
+              <span
+                className="premium-body-sm"
+                style={{ color: "var(--color-bone)", opacity: 0.4 }}
+              >
+                ·
+              </span>
+              <span
+                className="premium-body-sm"
+                style={{ color: "var(--color-bone)", opacity: 0.5 }}
+              >
+                {solution.ingredientAsset.dosage}
+              </span>
+            </div>
+          )}
+
+          {/* 5. Two-stat strip (replaces radar chart on mobile) */}
           {solution.clinicalStudy.results.length >= 2 && (
             <div className="grid grid-cols-2 gap-3 mb-5">
               {solution.clinicalStudy.results.slice(0, 2).map((result, idx) => (
@@ -183,7 +221,7 @@ function AccordionRow({
             </div>
           )}
 
-          {/* 5. Study footnote */}
+          {/* 6. Study footnote */}
           <p
             className="premium-body-sm"
             style={{ color: "var(--color-bone)" }}
@@ -208,7 +246,7 @@ function AccordionRow({
 }
 
 export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobileProps) {
-  const [openStruggle, setOpenStruggle] = useState<StruggleId | null>("focus");
+  const [openStruggle, setOpenStruggle] = useState<StruggleId | null>(null);
 
   const formula = formulaContent[formulaId];
   const accentColor = FORMULA_COLORS[formulaId];
