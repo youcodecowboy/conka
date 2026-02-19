@@ -94,7 +94,7 @@ export default function ConkaFlowPage() {
         <Navigation />
         {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
         <section
-          className="premium-section-luxury premium-hero-first premium-bg-bone"
+          className="premium-section-luxury premium-hero-first bg-white"
           aria-label="Product hero"
         >
           <div className="premium-track">
@@ -110,9 +110,10 @@ export default function ConkaFlowPage() {
         </section>
 
         <div className="premium-pdp">
-          {/* Dark section for high-impact stats (Ink: white/bone text) */}
+          {/* Dark section for high-impact stats */}
           <section
-            className="premium-section-luxury premium-bg-ink"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
             aria-labelledby="benefits-stats-heading"
           >
             <div className="premium-track">
@@ -120,8 +121,11 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* Testimonials — mid (deeper grey so white cards pop) */}
-          <section className="premium-section-luxury premium-bg-mid">
+          {/* Testimonials */}
+          <section
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+          >
             <div className="premium-track">
               <Testimonials
                 testimonials={getSiteTestimonialsFlow()}
@@ -142,7 +146,8 @@ export default function ConkaFlowPage() {
           </section>
 
           <section
-            className="premium-section-luxury premium-bg-bone"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
             aria-label="Formula ingredients"
           >
             <div className="premium-track">
@@ -150,7 +155,7 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <section
-            className="premium-section-luxury premium-bg-ink"
+            className="premium-section-luxury premium-bg-bone"
             aria-labelledby="how-it-works-heading"
           >
             <div className="premium-track">
@@ -158,9 +163,10 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* What to expect — mid (deeper grey so white cards pop) */}
+          {/* What to expect */}
           <section
-            className="premium-section-luxury premium-bg-mid"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
             aria-label="What to expect"
           >
             <div className="premium-track">
@@ -177,7 +183,7 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <section
-            className="premium-section-luxury premium-bg-mid"
+            className="premium-section-luxury premium-bg-bone"
             aria-label="FAQ"
           >
             <div className="premium-track">
@@ -185,7 +191,7 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <section
-            className="premium-section-luxury premium-bg-bone"
+            className="premium-section-luxury bg-white"
             aria-label="Explore other protocols and formulas"
           >
             <div className="premium-track">
@@ -233,9 +239,10 @@ export default function ConkaFlowPage() {
       </section>
 
       <div className="premium-pdp">
-        {/* Dark section for high-impact stats (Ink: white/bone text) */}
+        {/* Dark section for high-impact stats */}
         <section
-          className="premium-section-luxury premium-bg-ink"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
           aria-labelledby="benefits-stats-heading"
         >
           <div className="premium-track">
@@ -243,8 +250,11 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* Testimonials — mid (deeper grey so white cards pop) */}
-        <section className="premium-section-luxury premium-bg-mid">
+        {/* Testimonials */}
+        <section
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        >
           <div className="premium-track">
             <Testimonials
               testimonials={getSiteTestimonialsFlow()}
@@ -265,7 +275,8 @@ export default function ConkaFlowPage() {
         </section>
 
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
           aria-label="Formula ingredients"
         >
           <div className="premium-track">
@@ -273,7 +284,7 @@ export default function ConkaFlowPage() {
           </div>
         </section>
         <section
-          className="premium-section-luxury premium-bg-ink"
+          className="premium-section-luxury premium-bg-bone"
           aria-labelledby="how-it-works-heading"
         >
           <div className="premium-track">
@@ -281,9 +292,10 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* What to expect — mid (deeper grey so white cards pop) */}
+        {/* What to expect */}
         <section
-          className="premium-section-luxury premium-bg-mid"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
           aria-label="What to expect"
         >
           <div className="premium-track">
@@ -300,7 +312,7 @@ export default function ConkaFlowPage() {
           </div>
         </section>
         <section
-          className="premium-section-luxury premium-bg-mid"
+          className="premium-section-luxury premium-bg-bone"
           aria-label="FAQ"
         >
           <div className="premium-track">
@@ -308,7 +320,7 @@ export default function ConkaFlowPage() {
           </div>
         </section>
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury bg-white"
           aria-label="Explore other protocols and formulas"
         >
           <div className="premium-track">
