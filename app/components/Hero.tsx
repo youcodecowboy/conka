@@ -20,46 +20,95 @@ function HeroBannerCarousel({ isDark }: { isDark: boolean }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const autoPlayTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Auto-play: slow rotation, pauses on hover
-  useEffect(() => {
-    if (isHovered || HERO_BANNER_IMAGES.length <= 1) return;
-
+  // Helper to start auto-play
+  const startAutoPlay = useCallback(() => {
+    if (HERO_BANNER_IMAGES.length <= 1) return;
+    
+    // Clear any existing timer
+    if (autoPlayTimerRef.current) {
+      clearInterval(autoPlayTimerRef.current);
+    }
+    
     autoPlayTimerRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % HERO_BANNER_IMAGES.length);
     }, HERO_CAROUSEL_AUTO_PLAY_INTERVAL);
+  }, []);
+
+  // Helper to stop auto-play
+  const stopAutoPlay = useCallback(() => {
+    if (autoPlayTimerRef.current) {
+      clearInterval(autoPlayTimerRef.current);
+      autoPlayTimerRef.current = null;
+    }
+  }, []);
+
+  // Auto-play: slow rotation, pauses on hover
+  useEffect(() => {
+    if (isHovered || HERO_BANNER_IMAGES.length <= 1) {
+      stopAutoPlay();
+      return;
+    }
+
+    startAutoPlay();
 
     return () => {
-      if (autoPlayTimerRef.current) {
-        clearInterval(autoPlayTimerRef.current);
-      }
+      stopAutoPlay();
     };
-  }, [isHovered]);
+  }, [isHovered, startAutoPlay, stopAutoPlay]);
 
-  // Keyboard navigation
+  // Keyboard navigation — only when carousel is in viewport
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Only handle if carousel is visible in viewport
+      if (!carouselRef.current) return;
+      const rect = carouselRef.current.getBoundingClientRect();
+      const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (!isInViewport) return;
+
       if (e.key === "ArrowLeft") {
+        e.preventDefault();
         setCurrentIndex((prev) => (prev - 1 + HERO_BANNER_IMAGES.length) % HERO_BANNER_IMAGES.length);
+        stopAutoPlay();
+        // Restart auto-play after delay
+        setTimeout(() => {
+          if (!isHovered) startAutoPlay();
+        }, HERO_CAROUSEL_AUTO_PLAY_INTERVAL);
       } else if (e.key === "ArrowRight") {
+        e.preventDefault();
         setCurrentIndex((prev) => (prev + 1) % HERO_BANNER_IMAGES.length);
+        stopAutoPlay();
+        // Restart auto-play after delay
+        setTimeout(() => {
+          if (!isHovered) startAutoPlay();
+        }, HERO_CAROUSEL_AUTO_PLAY_INTERVAL);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [isHovered, startAutoPlay, stopAutoPlay]);
 
   const goToSlide = useCallback((index: number) => {
+    // Validate index bounds
+    if (index < 0 || index >= HERO_BANNER_IMAGES.length) return;
+    
     setCurrentIndex(index);
-    // Reset auto-play timer when manually navigating
-    if (autoPlayTimerRef.current) {
-      clearInterval(autoPlayTimerRef.current);
-    }
-  }, []);
+    stopAutoPlay();
+    // Restart auto-play after delay (gives user time to see the change)
+    setTimeout(() => {
+      if (!isHovered) startAutoPlay();
+    }, HERO_CAROUSEL_AUTO_PLAY_INTERVAL);
+  }, [isHovered, startAutoPlay, stopAutoPlay]);
+
+  // Early return if no images
+  if (HERO_BANNER_IMAGES.length === 0) return null;
 
   return (
     <div
+      ref={carouselRef}
       className="relative order-first lg:order-none w-full min-h-[35vh] md:min-h-[45vh] lg:min-h-0 lg:h-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
