@@ -6,7 +6,7 @@ const landingFaqItems = [
   {
     question: "How long until I feel results?",
     answer:
-      "Within 30 minutes you'll notice a clearer mind and calm focus. The full benefits — improved stress resilience, sleep quality, and sustained performance — compound over 2–4 weeks of daily use.",
+      "Within 30 minutes you'll notice a clearer mind and calm focus. The full benefits include improved stress resilience, sleep quality, and sustained performance. These compound over 2–4 weeks of daily use.",
   },
   {
     question: "How does it work?",
@@ -31,17 +31,17 @@ const landingFaqItems = [
   {
     question: "Are the ingredients natural?",
     answer:
-      "All ingredients are naturally derived — adaptogens, nootropics, and antioxidants with no artificial additives or fillers. Both formulas are Informed Sport certified, meaning every batch is third-party tested for banned substances.",
+      "All ingredients are naturally derived, adaptogens, nootropics, and antioxidants with no artificial additives or fillers. Both formulas are Informed Sport certified, meaning every batch is third-party tested for banned substances.",
   },
   {
     question: "What does it taste like?",
     answer:
-      "CONKA Flow is honey and citrus with a hint of turmeric. CONKA Clear is a fresh citrus taste. Both are 30ml liquid shots — smooth and easy to take.",
+      "CONKA Flow is honey and citrus with a hint of turmeric. CONKA Clear is a fresh citrus taste. Both are 30ml liquid shots, smooth and easy to take.",
   },
   {
     question: "Can I cancel my subscription anytime?",
     answer:
-      "Yes. Pause, modify, or cancel at any time — no contracts, no commitments. We believe in the product, so we don't lock you in.",
+      "Yes. Pause, modify, or cancel at any time. No contracts, no commitments. We believe in the product, so we don't lock you in.",
   },
 ];
 
