@@ -18,9 +18,6 @@ const KeyBenefits = dynamic(() => import("./components/KeyBenefits"), {
   loading: () => <div className="h-[500px]" />,
 });
 
-const WhatIsConka = dynamic(() => import("./components/WhatIsConka"), {
-  loading: () => <div className="h-[400px]" />,
-});
 
 const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
   loading: () => <div className="h-[900px]" />,
@@ -216,8 +213,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* ===== SECTION 2: WHAT IS CONKA ===== */}
-      <WhatIsConka />
 
       {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
       <section

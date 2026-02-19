@@ -30,16 +30,16 @@ export default function ProductGridTablet() {
 
   return (
     <>
-      <div className="mb-8 md:mb-12 text-left text-[var(--color-ink)]">
-        <h2 className="premium-section-heading">
+      <div className="text-left mb-8">
+        <h2 className="premium-section-heading mb-3">
           Find Your Formula
         </h2>
-        <p className="premium-section-subtitle">
-          Individual formulas for specific needs, or protocols for complete performance.
+        <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
+          <span className="font-bold">Two formulas, one system.</span>
+          <br />
+          CONKA Flow for daytime energy and focus. CONKA Clear for clarity and recovery. Use separately or combine as a Protocol.
         </p>
       </div>
-
-      <AssuranceBanner />
 
       {/* Tablet: [Protocol] full width, then [Flow][Clear] side by side */}
       <div className="grid grid-cols-2 gap-6 mb-8">
@@ -123,6 +123,8 @@ export default function ProductGridTablet() {
           />
         </div>
       </div>
+
+      <AssuranceBanner />
     </>
   );
 }
