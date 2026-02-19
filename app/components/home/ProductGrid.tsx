@@ -49,74 +49,16 @@ export default function ProductGrid() {
   if (width !== undefined && width >= 1024) {
     return (
       <>
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="premium-section-heading mb-4">
+        <div className="text-left mb-8">
+          <h2 className="premium-section-heading mb-3">
             Find Your Formula
           </h2>
-          
-          {/* Orientation copy - premium layout */}
-          <div className="max-w-3xl mx-auto space-y-3">
-            <p className="premium-body text-[var(--text-on-light)]">
-              Two formulas, one system.
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 text-left">
-              {/* Flow */}
-              <div className="premium-card-soft-mobile p-4 border border-[var(--color-premium-stroke)]">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #AAB9BC, #7A9CA5)' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
-                      viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" 
-                      strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10"/>
-                      <path d="M12 6v6l4 2"/>
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-base mb-1 text-[var(--text-on-light)]">
-                      CONKA Flow
-                    </h3>
-                    <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-                      Caffeine-free energy and focus throughout your day. 
-                      Built on adaptogens for stress resilience.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Clear */}
-              <div className="premium-card-soft-mobile p-4 border border-[var(--color-premium-stroke)]">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
-                      viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" 
-                      strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-base mb-1 text-[var(--text-on-light)]">
-                      CONKA Clear
-                    </h3>
-                    <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-                      Peak mental performance and complete recovery. 
-                      Nootropics for clarity, antioxidants for repair.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] pt-2">
-              Use individually for targeted support, or combine them as Protocols 
-              for complete cognitive performance.
-            </p>
-          </div>
+          <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
+            <span className="font-bold">Two formulas, one system.</span>
+            <br />
+            CONKA Flow for daytime energy and focus. CONKA Clear for clarity and recovery. Use separately or combine as a Protocol.
+          </p>
         </div>
-
-        <AssuranceBanner />
 
         <div className="product-grid-container grid grid-cols-3 gap-8 mb-8">
           <div className="product-card-wrapper product-card-formula flex flex-col items-center">
@@ -196,6 +138,8 @@ export default function ProductGrid() {
             />
           </div>
         </div>
+
+        <AssuranceBanner />
       </>
     );
   }
