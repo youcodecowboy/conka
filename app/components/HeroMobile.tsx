@@ -8,7 +8,7 @@ import { HeroTrustBadges, ROTATING_WORDS, FADE_DURATION_MS, ROTATION_INTERVAL_MS
 const HERO_BANNER_IMAGES_MOBILE = [
   { src: "/hero/HeroBannerMobileH.jpg", alt: "Person with CONKA on the go" },
   { src: "/hero/HeroBannerW.jpg", alt: "Athlete holding CONKA Flow and Clear bottles" },
-  { src: "/hero/HeroBanner.jpg", alt: "Athlete holding CONKA Flow and Clear bottles" },
+  { src: "/hero/Hero.jpg", alt: "Person holding CONKA Flow and Clear bottles" },
 ];
 
 export type HeroVariant = "default" | "dark";
