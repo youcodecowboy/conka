@@ -37,11 +37,11 @@ export default function CycleBreakMobile() {
               className="relative min-h-[500px] cursor-pointer"
               onClick={() => handleSideClick("clear")}
             >
-              {/* Background: white by default, black when expanded */}
+              {/* Background: white by default, dark neuro-blue when expanded */}
               <div
                 className="absolute inset-0 z-0 transition-colors duration-[400ms] ease-out"
                 style={{
-                  backgroundColor: expandedCards.has("clear") ? "#000" : "#fff",
+                  backgroundColor: expandedCards.has("clear") ? "var(--color-neuro-blue-dark)" : "#fff",
                 }}
               />
               {/* ClearHalf.png at right edge of column; grayscale until expanded; white glow when active */}
@@ -102,11 +102,11 @@ export default function CycleBreakMobile() {
               className="relative min-h-[500px] cursor-pointer"
               onClick={() => handleSideClick("flow")}
             >
-              {/* Background: white by default, black when expanded */}
+              {/* Background: white by default, dark neuro-blue when expanded */}
               <div
                 className="absolute inset-0 z-0 transition-colors duration-[400ms] ease-out"
                 style={{
-                  backgroundColor: expandedCards.has("flow") ? "#000" : "#fff",
+                  backgroundColor: expandedCards.has("flow") ? "var(--color-neuro-blue-dark)" : "#fff",
                 }}
               />
               {/* FlowHalf.png at left edge of column; grayscale until expanded; white glow when active */}

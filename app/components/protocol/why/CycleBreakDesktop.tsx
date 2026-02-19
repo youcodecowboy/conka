@@ -35,13 +35,13 @@ export default function CycleBreakDesktop() {
               onMouseEnter={() => handleSideEnter("clear")}
               onMouseLeave={() => handleSideLeave("clear")}
             >
-              {/* Background: white by default, black when hovered or expanded */}
+              {/* Background: white by default, dark neuro-blue when hovered or expanded */}
               <div
                 className="absolute inset-0 z-0 transition-colors duration-[400ms] ease-out"
                 style={{
                   backgroundColor:
                     hoveredSide === "clear" || expandedCards.has("clear")
-                      ? "#000"
+                      ? "var(--color-neuro-blue-dark)"
                       : "#fff",
                 }}
               />
@@ -111,13 +111,13 @@ export default function CycleBreakDesktop() {
               onMouseEnter={() => handleSideEnter("flow")}
               onMouseLeave={() => handleSideLeave("flow")}
             >
-              {/* Background: white by default, black when hovered or expanded */}
+              {/* Background: white by default, dark neuro-blue when hovered or expanded */}
               <div
                 className="absolute inset-0 z-0 transition-colors duration-[400ms] ease-out"
                 style={{
                   backgroundColor:
                     hoveredSide === "flow" || expandedCards.has("flow")
-                      ? "#000"
+                      ? "var(--color-neuro-blue-dark)"
                       : "#fff",
                 }}
               />
