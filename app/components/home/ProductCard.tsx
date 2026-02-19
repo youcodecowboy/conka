@@ -77,7 +77,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       ],
       image: getFormulaImage("01"),
       link: "/conka-flow",
-      linkText: "More pack sizes (4, 8, 12 or 28) →",
+      linkText: "View More Packs →",
       badge: null,
     };
   }
@@ -98,7 +98,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       ],
       image: getFormulaImage("02"),
       link: "/conka-clarity",
-      linkText: "More pack sizes (4, 8, 12 or 28) →",
+      linkText: "View More Packs →",
       badge: null,
     };
   }
@@ -119,7 +119,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     stats: [], // No stats for protocol card (it's a combination)
     image: getProtocolImage("3"), // Default, will be overridden by variant
     link: "/protocol/3", // Overridden in render from protocolVariant
-    linkText: "More pack sizes (4, 8, 12 or 28) →",
+    linkText: "View More Packs →",
     badge: "Most Popular",
   };
 };
@@ -540,14 +540,16 @@ export default function ProductCard({
 
           {/* View Product link */}
           {product.linkText && (
-            <Link
-              href={
-                isProtocol ? getProtocolLink(protocolVariant) : product.link
-              }
-              className="premium-body-sm text-[var(--text-on-light-muted)] hover:text-[var(--text-on-light)] transition-colors text-center block"
-            >
-              {product.linkText}
-            </Link>
+            <div className="mt-6 flex justify-center">
+              <Link
+                href={
+                  isProtocol ? getProtocolLink(protocolVariant) : product.link
+                }
+                className="premium-body-sm inline-block text-center px-5 py-2.5 rounded-full border border-gray-200 text-black hover:bg-black hover:text-white hover:border-black transition-colors"
+              >
+                {product.linkText}
+              </Link>
+            </div>
           )}
         </div>
       </div>
