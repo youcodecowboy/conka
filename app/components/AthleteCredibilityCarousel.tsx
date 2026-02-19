@@ -115,12 +115,9 @@ export default function AthleteCredibilityCarousel() {
     >
       {/* Section Header */}
       <div className="mb-8 md:mb-12 text-center">
-        <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
-          Performing at the Highest Level
+        <h2 className="premium-section-heading text-3xl md:text-4xl font-bold">
+          Why Athletes Trust CONKA
         </h2>
-        <p className="text-[var(--text-on-light-muted)] opacity-80">
-          Trusted by elite athletes across sport
-        </p>
       </div>
 
       {/* Carousel Content */}
