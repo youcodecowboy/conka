@@ -70,6 +70,11 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       bodyCopy:
         "Sustained focus for training and work — no caffeine, no crash.",
       bestFor: ["Morning training", "Long workdays", "Clean mental stamina"],
+      stats: [
+        { value: "-56%", label: "Stress" },
+        { value: "+18%", label: "Memory" },
+        { value: "+42%", label: "Sleep Quality" },
+      ],
       image: getFormulaImage("01"),
       link: "/conka-flow",
       linkText: "More pack sizes (4, 8, 12 or 28) →",
@@ -82,10 +87,15 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     return {
       id: "02" as FormulaId,
       name: clear.name,
-      benefitHeadline: "Deeper recovery, better sleep",
+      benefitHeadline: "Mental clarity and complete recovery",
       bodyCopy:
-        "Wind down and recharge properly. Wake up ready to perform again.",
+        "Sharpen performance when you need it. Support recovery when you're done.",
       bestFor: ["Post-training recovery", "Evening wind-down", "Sleep quality"],
+      stats: [
+        { value: "+63%", label: "Memory & Attention" },
+        { value: "+57%", label: "Brain Blood Flow" },
+        { value: "-42%", label: "Anxiety" },
+      ],
       image: getFormulaImage("02"),
       link: "/conka-clarity",
       linkText: "More pack sizes (4, 8, 12 or 28) →",
@@ -106,6 +116,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       "Full recovery & sleep",
       "Optimised for training load",
     ],
+    stats: [], // No stats for protocol card (it's a combination)
     image: getProtocolImage("3"), // Default, will be overridden by variant
     link: "/protocol/3", // Overridden in render from protocolVariant
     linkText: "More pack sizes (4, 8, 12 or 28) →",
@@ -358,9 +369,28 @@ export default function ProductCard({
         </h3>
 
         {/* Body Copy */}
-        <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
+        <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-3">
           {product.bodyCopy}
         </p>
+
+        {/* Clinical Stats */}
+        {product.stats && product.stats.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {product.stats.map((stat, idx) => (
+              <span
+                key={idx}
+                className="inline-flex items-baseline gap-1 px-2 py-1 rounded-full text-[10px] font-clinical font-medium border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]"
+              >
+                <span style={{ color: accentColor }} className="font-bold">
+                  {stat.value}
+                </span>
+                <span className="text-[var(--text-on-light-muted)]">
+                  {stat.label}
+                </span>
+              </span>
+            ))}
+          </div>
+        )}
 
         {/* Protocol Variant Selector */}
         {isProtocol && onProtocolVariantChange && (
