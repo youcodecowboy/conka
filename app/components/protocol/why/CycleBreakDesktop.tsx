@@ -22,7 +22,7 @@ export default function CycleBreakDesktop() {
 
   return (
     <section
-      className="bg-white text-black pb-0"
+      className="premium-bg-bone text-black pb-0"
       aria-label="How to break the cycle"
     >
       <div className="w-full max-w-full mx-auto px-6 md:px-12 lg:px-20">

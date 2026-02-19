@@ -25,7 +25,7 @@ export default function CycleBreakMobile() {
 
   return (
     <section
-      className="bg-white text-black"
+      className="premium-bg-bone text-black"
       aria-label="How to break the cycle"
     >
       <div className="w-full max-w-full mx-auto px-6 md:px-12 lg:px-20">
