@@ -363,6 +363,94 @@ The full-bleed element inherits the section's background, maintaining visual con
 - **Flexibility:** Same component can appear in dark or light sections without modification.
 - **Visual rhythm:** Page-level control enables intentional pacing and transitions.
 
+### 11.1 Cohesive color scheme pattern
+
+**Purpose:** Create a unified, rhythmic page experience using a limited color palette that feels intentional and premium.
+
+**The 3-color system:**
+
+Use a **limited palette** of 3-4 colors to create visual rhythm without feeling chaotic:
+
+- **`var(--color-neuro-blue-light)`** — Light blue-grey (#eeeff2). Use for readable, content-heavy sections (testimonials, ingredients, timelines).
+- **`var(--color-neuro-blue-dark)`** — Dark navy (#0e1f3f). Use sparingly for high-impact sections (stats, case studies). Creates emphasis.
+- **`premium-bg-bone`** — Warm off-white (#F9F9F9). Use as neutral transitions between light and dark sections.
+- **`bg-white`** — Pure white. Use for hero and final sections (clean bookends).
+
+**Rhythm pattern:**
+
+Create an **alternating rhythm** that guides the eye without feeling repetitive:
+
+```
+White (Hero)
+  ↓
+Dark (Stats - impact)
+  ↓
+Light (Testimonials - readable)
+  ↓
+Bone (Benefits - neutral)
+  ↓
+Light (Ingredients - readable)
+  ↓
+Bone (How It Works - neutral)
+  ↓
+Light (Timeline - readable)
+  ↓
+Dark (Case Studies - impact)
+  ↓
+Bone (FAQ - neutral)
+  ↓
+White (CrossSell - clean end)
+```
+
+**Guidelines:**
+
+1. **Use light sections (neuro-blue-light) 3-4 times** — Creates consistency and matches landing page patterns.
+2. **Use dark sections (neuro-blue-dark) 2 times maximum** — Reserve for high-impact moments (stats, case studies).
+3. **Use bone sections 2-3 times** — Provides warm neutral transitions.
+4. **Use white for bookends** — Hero and final section create clean start/end.
+5. **Avoid rapid alternation** — Don't alternate dark/light/dark/light without spacing; use bone or light sections as buffers.
+
+**When to use each:**
+
+- **Dark (`neuro-blue-dark`):** High-impact stats, case studies, sections that need emphasis.
+- **Light (`neuro-blue-light`):** Testimonials, ingredients, timelines, any content-heavy section that benefits from readability.
+- **Bone (`premium-bg-bone`):** Benefits, how-it-works, FAQ — neutral sections that bridge light and dark.
+- **White (`bg-white`):** Hero sections, final cross-sell sections — clean bookends.
+
+**Example implementation:**
+
+```tsx
+{/* Hero - clean start */}
+<section className="premium-section-luxury bg-white">
+  <div className="premium-track">
+    <ProductHero />
+  </div>
+</section>
+
+{/* Stats - dark impact */}
+<section className="premium-section-luxury" style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}>
+  <div className="premium-track">
+    <FormulaBenefitsStats />
+  </div>
+</section>
+
+{/* Testimonials - light readable */}
+<section className="premium-section-luxury" style={{ backgroundColor: "var(--color-neuro-blue-light)" }}>
+  <div className="premium-track">
+    <Testimonials />
+  </div>
+</section>
+
+{/* Benefits - bone neutral */}
+<section className="premium-section-luxury premium-bg-bone">
+  <div className="premium-track">
+    <FormulaBenefits />
+  </div>
+</section>
+```
+
+**Result:** A cohesive page that feels intentional, rhythmic, and premium — not a collection of random sections, but a unified experience.
+
 ---
 
 ## 12. Premium Components

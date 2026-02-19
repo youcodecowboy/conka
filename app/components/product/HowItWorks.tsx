@@ -70,7 +70,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
 
   return (
     <>
-      <header className="text-center mb-12 text-[var(--color-bone)]">
+      <header className="text-center mb-12 text-[var(--text-on-light)]">
         <h2
           id="how-it-works-heading"
           className="premium-section-heading mb-2"
@@ -83,7 +83,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
         </p>
       </header>
 
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center text-[var(--color-bone)]">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center text-[var(--text-on-light)]">
           {/* Left: vertical 3-step section */}
           <div className="flex flex-col gap-12">
             {steps.map((step, idx) => (

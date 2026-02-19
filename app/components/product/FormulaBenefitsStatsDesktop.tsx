@@ -5,12 +5,12 @@ import { FormulaId, STRUGGLE_OPTIONS, formulaContent } from "@/app/lib/productDa
 
 const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   "01": {
-    src: "/formulas/conkaFlow/FlowBlack.jpg",
-    alt: "CONKA Flow bottle on black background",
+    src: "/CONKA_01x.jpg",
+    alt: "CONKA Flow bottle",
   },
   "02": {
-    src: "/formulas/conkaClear/ClearBlack.jpg",
-    alt: "CONKA Clear bottle on black background",
+    src: "/CONKA_06.jpg",
+    alt: "CONKA Clear bottle",
   },
 };
 
@@ -62,13 +62,17 @@ export default function FormulaBenefitsStatsDesktop({
         </a>
       </div>
 
-      {/* Right: product image — drives section height */}
-      <div className="relative min-h-[480px] h-full">
+      {/* Right: product image — square with rounded corners, 90% size, zoomed in */}
+      <div className="relative w-[90%] aspect-square overflow-hidden mx-auto" style={{ borderRadius: "var(--premium-radius-card)" }}>
         <Image
           src={productImage.src}
           alt={productImage.alt}
           fill
-          className="object-contain object-bottom"
+          className="object-cover"
+          style={{ 
+            objectPosition: "center center",
+            transform: formulaId === "02" ? "scale(1.3)" : "scale(1)",
+          }}
           sizes="50vw"
           priority={false}
         />
