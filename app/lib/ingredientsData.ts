@@ -1428,6 +1428,91 @@ export function getIngredientCategories(formulaId: FormulaId): IngredientCategor
   return Array.from(categories);
 }
 
+/**
+ * Maps ingredient name to branded display name
+ */
+function getBrandedIngredientName(ingredientName: string): string {
+  const brandMap: Record<string, string> = {
+    "Ashwagandha": "KSM-66® Ashwagandha",
+    "Turmeric": "Longvida® Curcumin",
+    "Lemon Balm": "Lemon Balm Extract",
+    "Glutathione": "Reduced Glutathione",
+    "Rhodiola rosea": "Rhodiola rosea",
+    "Bilberry": "Bilberry Extract",
+    "Black Pepper": "Black Pepper Extract",
+    "Alpha GPC": "Alpha GPC",
+    "N-Acetyl Cysteine": "N-Acetyl Cysteine",
+    "Acetyl-L-Carnitine": "Acetyl-L-Carnitine",
+    "Vitamin C": "Vitamin C",
+    "Ginkgo Biloba": "Ginkgo Biloba",
+    "Lecithin": "Lecithin",
+    "Lemon Oil": "Lemon Essential Oil",
+    "Alpha Lipoic Acid": "Alpha Lipoic Acid",
+    "Vitamin B12": "Vitamin B12",
+  };
+  return brandMap[ingredientName] || ingredientName;
+}
+
+/**
+ * Extracts dosage from ingredient keyStats
+ */
+function extractDosage(ingredient: IngredientData): string {
+  // Look for "Daily Dose" or "Effective Dose" in keyStats
+  const doseStat = ingredient.keyStats.find(
+    (stat) =>
+      stat.label.toLowerCase().includes("dose") ||
+      stat.label.toLowerCase().includes("serving")
+  );
+  
+  if (doseStat) {
+    return `${doseStat.value} per serving`;
+  }
+  
+  // Fallback: use percentage if available
+  if (ingredient.percentage) {
+    return `${ingredient.percentage} of formula`;
+  }
+  
+  return "Per serving";
+}
+
+/**
+ * Creates an ingredientAsset object from an ingredient name and formula
+ */
+export function getIngredientAsset(
+  ingredientName: string,
+  formulaId: FormulaId
+): {
+  image: string;
+  name: string;
+  dosage: string;
+} | null {
+  const ingredients = getIngredientsByFormula(formulaId);
+  
+  // Try exact match first
+  let ingredient = ingredients.find(
+    (ing) => ing.name.toLowerCase() === ingredientName.toLowerCase()
+  );
+  
+  // Try partial match (e.g., "Turmeric (Curcumin)" → "Turmeric")
+  if (!ingredient) {
+    const normalizedName = ingredientName.split("(")[0].trim();
+    ingredient = ingredients.find(
+      (ing) => ing.name.toLowerCase() === normalizedName.toLowerCase()
+    );
+  }
+  
+  if (!ingredient || !ingredient.image) {
+    return null;
+  }
+  
+  return {
+    image: ingredient.image,
+    name: getBrandedIngredientName(ingredient.name),
+    dosage: extractDosage(ingredient),
+  };
+}
+
 // Category display names and colors
 export const CATEGORY_INFO: Record<IngredientCategory, { name: string; color: string }> = {
   "adaptogen": { name: "Adaptogen", color: "bg-emerald-500" },
