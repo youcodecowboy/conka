@@ -67,12 +67,19 @@ export interface StruggleSolution {
   id: StruggleId;
   title: string;
   question: string;
-  description: string;
+  struggle: string; // The felt problem (1–2 sentences)
+  outcome: string; // The felt result in plain English
+  description: string; // Mechanism/how it works
   researchExplanation: string;
   stat: string;
   statLabel: string;
   radarData: RadarDataPoint[];
   keyIngredients: string[];
+  ingredientAsset: {
+    image: string; // path e.g. "/ingredients/flow/lemon-balm.webp"
+    name: string; // e.g. "Lemon Balm Extract" or "KSM-66® Ashwagandha"
+    dosage: string; // e.g. "300mg per serving"
+  };
   clinicalStudy: ClinicalStudy;
 }
 
@@ -213,8 +220,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "sleep",
         title: "Better Sleep Quality",
         question: "Struggling with sleep?",
-        description:
-          "Soothe an overactive nervous system. Ashwagandha reduces the anxiety and hyperarousal that often accompany poor sleep, helping you feel grounded whilst supporting natural sleep cycles.",
+        struggle: "Lying awake replaying your day? Your nervous system won't switch off.",
+        outcome: "Fall asleep faster. Stay asleep longer. Wake up actually rested, not just less tired.",
+        description: "Reduce cortisol levels and calm the nervous system for improved sleep quality",
         researchExplanation:
           "Ashwagandha and Lemon Balm work synergistically to reduce cortisol levels and calm the nervous system. Clinical trials show Ashwagandha root extract significantly improved stress resistance, self-assessed quality of life, and reduced serum cortisol levels, leading to improved sleep quality.",
         stat: "+42%",
@@ -228,6 +236,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           { category: "Recovery", before: 12, during: 22, after: 36 },
         ],
         keyIngredients: ["Ashwagandha", "Lemon Balm", "Rhodiola rosea"],
+        ingredientAsset: {
+          image: "/ingredients/flow/ashwagandha.webp",
+          name: "KSM-66® Ashwagandha",
+          dosage: "600mg per serving",
+        },
         clinicalStudy: {
           id: "sleep-ashwagandha-2019",
           name: "Adaptogenic and Anxiolytic Effects of Ashwagandha Root Extract in Healthy Adults",
@@ -277,8 +290,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "energy",
         title: "Sustained Energy",
         question: "Need more energy?",
-        description:
-          "Overcome mental fatigue naturally. Rhodiola rosea enhances your resilience to stress whilst improving focus and mental endurance, helping you stay productive even during demanding periods.",
+        struggle: "Hitting a wall by 2pm? Your body's energy systems are running on empty.",
+        outcome: "Sustained focus without crashes. Power through demanding periods. Your energy works for you, not against you.",
+        description: "Optimize energy production at the cellular level without stimulants",
         researchExplanation:
           "Rather than stimulating your nervous system like caffeine, adaptogens like Rhodiola rosea optimize your body's energy production at the cellular level. Clinical trials show it exerts an anti-fatigue effect that increases mental performance and decreases cortisol response to awakening stress.",
         stat: "+17%",
@@ -292,6 +306,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           { category: "Vitality", before: 12, during: 23, after: 36 },
         ],
         keyIngredients: ["Rhodiola rosea", "Ashwagandha", "Turmeric"],
+        ingredientAsset: {
+          image: "/ingredients/flow/rhodiola.webp",
+          name: "Rhodiola rosea",
+          dosage: "576mg per serving",
+        },
         clinicalStudy: {
           id: "energy-rhodiola-2000",
           name: "Stimulating and Adaptogenic Effect of Rhodiola rosea SHR-5 Extract on Student Fatigue",
@@ -342,8 +361,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "crashing",
         title: "No More Crashes",
         question: "Crashing mid-day?",
-        description:
-          "Buffer your brain against chronic stress. Rhodiola helps regulate cortisol levels, protecting neurons from stress-induced damage and the energy crashes that come with cortisol dysregulation.",
+        struggle: "That 3pm wall hits hard? Your cortisol and blood sugar are out of sync.",
+        outcome: "Steady energy all day. No afternoon crashes. Your body maintains balance, not chaos.",
+        description: "Regulate cortisol levels and support healthy insulin sensitivity",
         researchExplanation:
           "The afternoon crash is often caused by cortisol dysregulation and blood sugar instability. Rhodiola rosea exerts an anti-fatigue effect that increases mental performance and decreases cortisol response. Ashwagandha helps normalize cortisol patterns while Turmeric supports healthy insulin sensitivity.",
         stat: "-28%",
@@ -357,6 +377,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           { category: "Mood Stability", before: 12, during: 23, after: 36 },
         ],
         keyIngredients: ["Ashwagandha", "Turmeric", "Rhodiola rosea"],
+        ingredientAsset: {
+          image: "/ingredients/flow/ashwagandha.webp",
+          name: "KSM-66® Ashwagandha",
+          dosage: "600mg per serving",
+        },
         clinicalStudy: {
           id: "crash-rhodiola-2009",
           name: "Rhodiola rosea in the Treatment of Stress-Related Fatigue",
@@ -406,8 +431,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "stress",
         title: "Stress Resilience",
         question: "Feeling stressed?",
-        description:
-          "Achieve calm, focused productivity. By reducing anxiety and cortisol without sedation, Ashwagandha helps you maintain composure and concentration during high-pressure situations.",
+        struggle: "One bad email ruins your whole morning? Stress shouldn't control your day.",
+        outcome: "Pressure doesn't rattle you. Deadlines don't drain you. You respond, you don't react.",
+        description: "Reduce cortisol and build natural stress resistance",
         researchExplanation:
           "Adaptogens work by modulating the HPA axis—your body's stress response system. A prospective, randomized double-blind, placebo-controlled study showed Ashwagandha significantly reduces stress scores and serum cortisol levels in chronically stressed adults.",
         stat: "-56%",
@@ -421,6 +447,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           { category: "Emotional Balance", before: 12, during: 23, after: 37 },
         ],
         keyIngredients: ["Ashwagandha", "Rhodiola rosea", "Lemon Balm"],
+        ingredientAsset: {
+          image: "/ingredients/flow/ashwagandha.webp",
+          name: "KSM-66® Ashwagandha",
+          dosage: "600mg per serving",
+        },
         clinicalStudy: {
           id: "stress-ashwagandha-2012",
           name: "Safety and Efficacy of Ashwagandha Root Extract in Reducing Stress and Anxiety",
@@ -470,8 +501,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "anxiety",
         title: "Reduced Anxiety",
         question: "Dealing with anxiety?",
-        description:
-          "Quiet the mental chaos. Lemon Balm provides gentle, natural support for attention and emotional regulation without harsh side effects, acting on GABA receptors to promote calm without sedation.",
+        struggle: "Mind racing, can't settle? Your nervous system is stuck in overdrive.",
+        outcome: "Quiet the mental chaos. Feel grounded, not wired. Calm without sedation, clarity without fog.",
+        description: "Act on GABA receptors to promote calm without sedation",
         researchExplanation:
           "Lemon Balm acts on GABA receptors to promote calm without sedation. In a randomized, double-blind, placebo-controlled crossover study, the 600mg dose ameliorated negative effects of stress on anxiety ratings in healthy volunteers.",
         stat: "-28%",
@@ -485,6 +517,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           { category: "Focus", before: 12, during: 21, after: 34 },
         ],
         keyIngredients: ["Lemon Balm", "Ashwagandha", "Rhodiola rosea"],
+        ingredientAsset: {
+          image: "/ingredients/flow/lemon-balm.webp",
+          name: "Lemon Balm Extract",
+          dosage: "300mg per serving",
+        },
         clinicalStudy: {
           id: "anxiety-lemonbalm-2006",
           name: "Anxiolytic Effects of Melissa officinalis During Laboratory Induced Stress",
@@ -534,8 +571,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "focus",
         title: "Enhanced Focus",
         question: "Can't concentrate?",
-        description:
-          "Balance alertness with tranquility. Lemon Balm reduces mental restlessness without drowsiness, creating the ideal state for sustained focus, learning, and creative problem-solving.",
+        struggle: "Can't stay locked in for more than 20 minutes? Your brain needs fuel, not stimulants.",
+        outcome: "Sustained concentration without the jittery edge. Think clearly under pressure. Remember what you read the first time.",
+        description: "Balance alertness with tranquility for sustained concentration",
         researchExplanation:
           "Lemon Balm modulates mood and cognitive performance through CNS nicotinic and muscarinic receptor-binding properties. Turmeric's curcumin improves cerebral blood flow and enhances neuroplasticity through BDNF production.",
         stat: "+18%",
@@ -549,6 +587,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           { category: "Processing Speed", before: 12, during: 26, after: 42 },
         ],
         keyIngredients: ["Lemon Balm", "Turmeric", "Bilberry"],
+        ingredientAsset: {
+          image: "/ingredients/flow/lemon-balm.webp",
+          name: "Lemon Balm Extract",
+          dosage: "300mg per serving",
+        },
         clinicalStudy: {
           id: "focus-lemonbalm-2003",
           name: "Modulation of Mood and Cognitive Performance Following Acute Lemon Balm Administration",
@@ -727,8 +770,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "sleep",
         title: "Recovery Sleep",
         question: "Need better recovery?",
-        description:
-          "Clear cellular waste and keep your brain responsive. Glutathione's detoxifying power supports the brain's glymphatic system—its nighttime cleaning process—ensuring you wake up with a clear head.",
+        struggle: "Waking up foggy despite sleeping? Your brain's cleanup system isn't working.",
+        outcome: "Wake up with a clear head. Deep recovery sleep. Your brain cleans house while you rest.",
+        description: "Clear cellular waste and keep your brain responsive",
         researchExplanation:
           "Quality sleep requires efficient neural repair and detoxification. Oral glutathione supplementation enhances systemic glutathione levels and supports immune function, both critical for restorative sleep and cognitive recovery.",
         stat: "+40%",
@@ -747,6 +791,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           },
         ],
         keyIngredients: ["Glutathione", "N-Acetyl Cysteine", "Alpha GPC"],
+        ingredientAsset: {
+          image: "/ingredients/clear/glutathione.webp",
+          name: "Reduced Glutathione",
+          dosage: "250mg per serving",
+        },
         clinicalStudy: {
           id: "sleep-glutathione-2018",
           name: "Effect of Oral Glutathione Supplementation on Body Stores",
@@ -797,8 +846,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "energy",
         title: "Mental Energy",
         question: "Need mental energy?",
-        description:
-          "Optimize your brain's fuel supply. Ginkgo Biloba increases cerebral blood flow, ensuring oxygen and glucose reach neurons efficiently for sustained mental energy without stimulant side effects.",
+        struggle: "Brain feels drained before you even start? Your neurons aren't getting enough fuel.",
+        outcome: "Sharp mental energy without crashes. Your brain gets the oxygen and nutrients it needs. Think clearly, work longer.",
+        description: "Increase cerebral blood flow to deliver oxygen and glucose efficiently",
         researchExplanation:
           "Your brain consumes 20% of your body's energy. Ginkgo biloba significantly increases regional cerebral blood flow in an EEG-controlled, double-blind, placebo-controlled study—boosting the delivery of oxygen and nutrients to the brain.",
         stat: "+57%",
@@ -821,6 +871,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           "Acetyl-L-Carnitine",
           "Alpha Lipoic Acid",
         ],
+        ingredientAsset: {
+          image: "/ingredients/clear/ginkgo-biloba.webp",
+          name: "Ginkgo Biloba",
+          dosage: "120mg per serving",
+        },
         clinicalStudy: {
           id: "mental-energy-ginkgo-2003",
           name: "Regional Cerebral Blood Flow After Administration of Ginkgo Biloba",
@@ -871,8 +926,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "crashing",
         title: "Sustained Performance",
         question: "Losing steam mid-task?",
-        description:
-          "Build your brain's core memory machinery. Alpha GPC provides the raw material for acetylcholine—the neurotransmitter essential for learning and memory consolidation.",
+        struggle: "Mental performance drops halfway through? Your neurotransmitters are depleting.",
+        outcome: "Sustained performance from start to finish. No mid-task crashes. Your brain maintains peak output.",
+        description: "Build your brain's core memory machinery with acetylcholine support",
         researchExplanation:
           "Mental crashes often result from acetylcholine depletion. Alpha GPC supplementation increases plasma choline levels within 60 minutes and has been shown to enhance memory performance in cognitive testing.",
         stat: "+18%",
@@ -906,6 +962,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           { category: "Focus Consistency", before: 12, during: 24, after: 38 },
         ],
         keyIngredients: ["Alpha GPC", "Glutathione", "Vitamin C"],
+        ingredientAsset: {
+          image: "/ingredients/clear/alpha-gpc.webp",
+          name: "Alpha GPC",
+          dosage: "300mg per serving",
+        },
         clinicalStudy: {
           id: "sustained-alphagpc-2023",
           name: "Choline Alphoscerate in Cognitive Decline",
@@ -955,8 +1016,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "stress",
         title: "Performance Under Pressure",
         question: "Performing under pressure?",
-        description:
-          "Power through demanding tasks. Acetyl-L-Carnitine enhances mitochondrial efficiency, helping maintain cognitive performance even during prolonged mental exertion and high-pressure situations.",
+        struggle: "Pressure makes you crumble? Your brain's energy systems can't keep up.",
+        outcome: "Perform your best when it matters most. Maintain clarity under pressure. Your brain works efficiently, not frantically.",
+        description: "Enhance mitochondrial efficiency for sustained cognitive performance",
         researchExplanation:
           "High-pressure situations increase oxidative stress and deplete brain energy. Acetyl-L-carnitine optimizes mitochondrial function and provides neuroprotection, maintaining cognitive performance under demanding conditions.",
         stat: "+30%",
@@ -975,6 +1037,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           { category: "Error Rate", before: 12, during: 24, after: 38 },
         ],
         keyIngredients: ["Acetyl-L-Carnitine", "Alpha GPC", "Glutathione"],
+        ingredientAsset: {
+          image: "/ingredients/clear/acetyl-l-carnitine.webp",
+          name: "Acetyl-L-Carnitine",
+          dosage: "500mg per serving",
+        },
         clinicalStudy: {
           id: "pressure-alcar-2007",
           name: "Acetyl-L-Carnitine and Chronic Fatigue Syndrome",
@@ -1025,8 +1092,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "anxiety",
         title: "Calm Clarity",
         question: "Anxious thoughts affecting focus?",
-        description:
-          "Strengthen your neuroprotective shield. Vitamin C works synergistically with other antioxidants to protect brain cells from the oxidative damage that can impair cognitive clarity during stressful moments.",
+        struggle: "Anxiety fogging your thinking? Stress is damaging your prefrontal cortex.",
+        outcome: "Think clearly under pressure. Anxiety doesn't cloud your judgment. Your brain stays sharp, not scrambled.",
+        description: "Protect brain cells from oxidative damage during stressful moments",
         researchExplanation:
           "Anxiety-related oxidative stress can impair the prefrontal cortex. Vitamin C at higher doses has been shown to significantly reduce anxiety levels in clinical settings, supporting clearer thinking under pressure.",
         stat: "-42%",
@@ -1055,6 +1123,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           },
         ],
         keyIngredients: ["Vitamin C", "Glutathione", "Alpha GPC"],
+        ingredientAsset: {
+          image: "/ingredients/clear/vitamin-c.webp",
+          name: "Vitamin C",
+          dosage: "1000mg per serving",
+        },
         clinicalStudy: {
           id: "clarity-vitc-2015",
           name: "High-Dose Vitamin C Supplementation and Anxiety Reduction",
@@ -1104,8 +1177,9 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         id: "focus",
         title: "Laser Focus",
         question: "Need sharper focus?",
-        description:
-          "Enhance memory and protect neurons. Curcumin's neuroprotective properties support long-term brain health while improving memory and attention through enhanced BDNF production.",
+        struggle: "Can't stay locked in for more than 20 minutes? Your brain needs fuel, not stimulants.",
+        outcome: "Sustained concentration without the jittery edge. Think clearly under pressure. Remember what you read the first time.",
+        description: "Enhance memory and protect neurons through enhanced BDNF production",
         researchExplanation:
           "Deep focus requires optimal neurotransmitter levels and healthy neural structures. Curcumin significantly improved memory and attention in non-demented adults, with imaging showing reduced amyloid and tau accumulation in brain regions.",
         stat: "+63%",
@@ -1119,6 +1193,11 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           { category: "Mental Acuity", before: 12, during: 26, after: 42 },
         ],
         keyIngredients: ["Turmeric (Curcumin)", "Ginkgo Biloba", "Alpha GPC"],
+        ingredientAsset: {
+          image: "/ingredients/flow/turmeric.jpg",
+          name: "Longvida® Curcumin",
+          dosage: "400mg per serving",
+        },
         clinicalStudy: {
           id: "focus-curcumin-2018",
           name: "Memory and Brain Amyloid and Tau Effects of Bioavailable Curcumin",
