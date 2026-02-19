@@ -6,8 +6,6 @@ import Navigation from "./components/navigation";
 import Footer from "./components/footer";
 import Hero from "./components/Hero";
 import { keyBenefits } from "./components/KeyBenefits";
-import FoundersSection from "./components/home/FoundersSection";
-import LandingFAQ from "./components/home/LandingFAQ";
 import {
   getSiteTestimonialsGeneral,
   shuffleTestimonials,
@@ -16,9 +14,8 @@ import type { Testimonial } from "./components/testimonials/types";
 
 // Dynamically import heavy components to reduce initial bundle size
 const KeyBenefits = dynamic(() => import("./components/KeyBenefits"), {
-  loading: () => <div className="h-[500px]" />,
+  loading: () => <div className="h-[800px]" />,
 });
-
 
 const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
   loading: () => <div className="h-[900px]" />,
@@ -42,6 +39,15 @@ const AthleteCredibilityCarousel = dynamic(
   () => import("./components/AthleteCredibilityCarousel"),
   { loading: () => <div className="h-[350px]" /> },
 );
+
+const FoundersSection = dynamic(
+  () => import("./components/home/FoundersSection"),
+  { loading: () => <div className="h-[350px]" /> },
+);
+
+const LandingFAQ = dynamic(() => import("./components/home/LandingFAQ"), {
+  loading: () => <div className="h-[350px]" />,
+});
 
 export default function Home() {
   const [shuffledTestimonials, setShuffledTestimonials] = useState<
@@ -132,11 +138,22 @@ export default function Home() {
       </div> */}
 
       {/* ===== SECTION 7: OUR STORY / FOUNDERS ===== */}
-      <FoundersSection />
+      <section
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="Our Story"
+      >
+        <div className="premium-track">
+          <FoundersSection />
+        </div>
+      </section>
 
       {/* ===== SECTION 8: FAQ ===== */}
-      <section className="px-6 md:px-16 py-24" aria-label="FAQ">
-        <div className="max-w-6xl mx-auto">
+      <section
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        aria-label="FAQ"
+      >
+        <div className="premium-track">
           <LandingFAQ />
         </div>
       </section>
