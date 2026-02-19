@@ -172,8 +172,8 @@ export default function CycleTrap({
               x2="100%"
               y2="100%"
             >
-              <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
-              <stop offset="100%" stopColor="rgba(255,255,255,0.08)" />
+              <stop offset="0%" stopColor="rgba(0,0,0,0.15)" />
+              <stop offset="100%" stopColor="rgba(0,0,0,0.08)" />
             </linearGradient>
           </defs>
           {/* Track: full circle, subtle */}
@@ -222,10 +222,10 @@ export default function CycleTrap({
               key={`${step.id}-${slotIndex}`}
               type="button"
               onClick={() => setSelectedIndex(stepIndex)}
-              className={`cycle-node group absolute flex flex-col items-center justify-center rounded-full border-2 px-3 py-4 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
+              className={`cycle-node group absolute flex flex-col items-center justify-center rounded-full border-2 px-3 py-4 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ink)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-neuro-blue-light)] ${
                 isActive
-                  ? "active bg-white text-black border-white opacity-100"
-                  : "bg-[#2a2a2a] border-white/30 text-white/90 hover:bg-[#333] hover:border-white/50 opacity-100"
+                  ? "active bg-white text-black border-[var(--color-ink)] opacity-100"
+                  : "bg-white/80 border-black/20 text-black/70 hover:bg-white hover:border-black/40 opacity-100"
               }`}
               style={{
                 left: `${NODE_POSITIONS[slotIndex].x}%`,
@@ -258,7 +258,7 @@ export default function CycleTrap({
                 {!isMobile && (
                   <span
                     className={`mt-1.5 text-xs leading-tight ${
-                      isActive ? "text-black/80" : "text-white/70"
+                      isActive ? "text-black/80" : "text-black/60"
                     }`}
                     style={{ letterSpacing: "0.02em" }}
                   >
@@ -280,7 +280,7 @@ export default function CycleTrap({
       <button
         type="button"
         onClick={() => go(-1)}
-        className={`bg-black border-2 border-white text-white py-3 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-1.5 shrink-0 ${
+        className={`bg-[var(--color-ink)] border-2 border-[var(--color-ink)] text-white py-3 rounded-full hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ink)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-neuro-blue-light)] flex items-center justify-center gap-1.5 shrink-0 ${
           isMobile
             ? "flex-1 min-w-0 max-w-[50%] px-3"
             : "w-[200px] min-w-[200px] gap-2"
@@ -308,7 +308,7 @@ export default function CycleTrap({
       <button
         type="button"
         onClick={() => go(1)}
-        className={`bg-black border-2 border-white text-white py-3 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black flex items-center justify-center gap-1.5 shrink-0 ${
+        className={`bg-[var(--color-ink)] border-2 border-[var(--color-ink)] text-white py-3 rounded-full hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ink)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-neuro-blue-light)] flex items-center justify-center gap-1.5 shrink-0 ${
           isMobile
             ? "flex-1 min-w-0 max-w-[50%] px-3"
             : "w-[200px] min-w-[200px] gap-2"
@@ -351,7 +351,7 @@ export default function CycleTrap({
             <button
               type="button"
               onClick={() => setScienceExpanded((e) => !e)}
-              className="w-full p-4 text-left flex items-center justify-between gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50"
+              className="w-full p-4 text-left flex items-center justify-between gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-ink)]/50"
               aria-expanded={scienceExpanded}
             >
               <span
@@ -405,31 +405,21 @@ export default function CycleTrap({
 
   return (
     <section
-      className="relative left-1/2 -translate-x-1/2 w-screen text-white pt-16 md:pt-20 pb-12 md:pb-16 overflow-x-hidden"
+      className="relative left-1/2 -translate-x-1/2 w-screen text-[var(--text-on-light)] pt-16 md:pt-20 pb-12 md:pb-16 overflow-x-hidden"
       style={{
-        background:
-          "radial-gradient(circle at center, hsl(0, 0%, 8%) 0%, hsl(0, 0%, 4%) 70%, hsl(0, 0%, 0%) 100%)",
+        backgroundColor: "var(--color-neuro-blue-light)",
       }}
       aria-label="The problem cycle"
     >
-      {/* Vignette overlay */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%)",
-        }}
-        aria-hidden
-      />
       <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20">
-        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-white text-left mb-8">
+        <h2 className="premium-section-heading text-2xl md:text-3xl font-bold text-[var(--text-on-light)] text-left mb-8">
           You're stuck in a cycle
         </h2>
 
         {/* Symptom pills */}
         {onSelectSymptom != null && (
           <div className={`mb-10 ${isMobile ? "pt-4" : ""}`}>
-            <p className="premium-data text-xs text-white mt-2 mb-3">
+            <p className="premium-data text-xs text-[var(--text-on-light-muted)] mt-2 mb-3">
               {sectionHeadings.recognitionSubline}
             </p>
             <div className="flex flex-wrap gap-2 min-w-0 max-w-full">
@@ -440,10 +430,10 @@ export default function CycleTrap({
                     key={entry.id}
                     type="button"
                     onClick={() => onSelectSymptom(entry.id)}
-                    className={`px-4 py-2 rounded-full border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-left min-w-0 shrink-0 ${
+                    className={`px-4 py-2 rounded-full border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ink)] text-left min-w-0 shrink-0 ${
                       isSelected
-                        ? "bg-white border-black text-black"
-                        : "bg-gray-300 border-gray-300 text-gray-700 hover:bg-gray-400"
+                        ? "bg-[var(--color-ink)] border-[var(--color-ink)] text-white"
+                        : "bg-white border-black/20 text-black/70 hover:bg-white/90 hover:border-black/40"
                     }`}
                     aria-pressed={isSelected}
                   >

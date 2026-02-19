@@ -152,7 +152,7 @@ export default function ProtocolPage() {
       >
         <Navigation />
         <section
-          className="premium-section-luxury premium-hero-first premium-bg-bone"
+          className="premium-section-luxury premium-hero-first bg-white"
           aria-label="Product hero"
         >
           <div className="premium-track">
@@ -201,7 +201,8 @@ export default function ProtocolPage() {
           />
 
           <section
-            className="premium-section-luxury premium-bg-mid"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
             aria-label="But there's a way out"
           >
             <div className="premium-track">
@@ -229,7 +230,8 @@ export default function ProtocolPage() {
           <CycleBreak />
 
           <section
-            className="premium-section-luxury premium-bg-ink"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
             aria-label="The outcome"
           >
             <div className="premium-track">
@@ -238,7 +240,10 @@ export default function ProtocolPage() {
           </section>
 
           {protocolTestimonials.length > 0 && (
-            <section className="premium-section-luxury premium-bg-bone">
+            <section
+              className="premium-section-luxury"
+              style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+            >
               <div className="premium-track">
                 <Testimonials
                   testimonials={protocolTestimonials}
@@ -249,7 +254,7 @@ export default function ProtocolPage() {
           )}
 
           <section
-            className="premium-section-luxury premium-bg-mid"
+            className="premium-section-luxury premium-bg-bone"
             aria-label="Expected results"
           >
             <div className="premium-track">
@@ -261,7 +266,8 @@ export default function ProtocolPage() {
           </section>
 
           <section
-            className="premium-section-luxury premium-bg-surface"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
             aria-label="How to follow your protocol"
           >
             <div className="premium-track">
@@ -287,7 +293,7 @@ export default function ProtocolPage() {
           </section>
 
           <section
-            className="premium-section-luxury premium-bg-mid"
+            className="premium-section-luxury premium-bg-bone"
             aria-label="FAQ"
           >
             <div className="premium-track">
@@ -296,7 +302,7 @@ export default function ProtocolPage() {
           </section>
 
           <section
-            className="premium-section-luxury premium-bg-bone"
+            className="premium-section-luxury bg-white"
             aria-label="Explore other protocols and formulas"
           >
             <div className="premium-track">
@@ -377,7 +383,8 @@ export default function ProtocolPage() {
         />
 
         <section
-          className="premium-section-luxury premium-bg-mid"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
           aria-label="But there's a way out"
         >
           <div className="premium-track">
@@ -405,7 +412,8 @@ export default function ProtocolPage() {
         <CycleBreak />
 
         <section
-          className="premium-section-luxury premium-bg-ink"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
           aria-label="The outcome"
         >
           <div className="premium-track">
@@ -414,7 +422,10 @@ export default function ProtocolPage() {
         </section>
 
         {protocolTestimonials.length > 0 && (
-          <section className="premium-section-luxury premium-bg-bone">
+          <section
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+          >
             <div className="premium-track">
               <Testimonials
                 testimonials={protocolTestimonials}
@@ -425,7 +436,7 @@ export default function ProtocolPage() {
         )}
 
         <section
-          className="premium-section-luxury premium-bg-mid"
+          className="premium-section-luxury premium-bg-bone"
           aria-label="Expected results"
         >
           <div className="premium-track">
@@ -437,7 +448,8 @@ export default function ProtocolPage() {
         </section>
 
         <section
-          className="premium-section-luxury premium-bg-surface"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
           aria-label="How to follow your protocol"
         >
           <div className="premium-track">
@@ -463,7 +475,7 @@ export default function ProtocolPage() {
         </section>
 
         <section
-          className="premium-section-luxury premium-bg-mid"
+          className="premium-section-luxury premium-bg-bone"
           aria-label="FAQ"
         >
           <div className="premium-track">
@@ -472,7 +484,7 @@ export default function ProtocolPage() {
         </section>
 
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury bg-white"
           aria-label="Explore other protocols and formulas"
         >
           <div className="premium-track">
