@@ -91,7 +91,7 @@ export default function ProtocolHeroMobile({
             ))}
           </div>
           <span className="premium-data text-current/90">
-            Over 100,000 bottles sold
+            Over 150,000 bottles sold
           </span>
         </div>
         <h1
@@ -359,7 +359,8 @@ export default function ProtocolHeroMobile({
                 Your Selection
               </p>
               <p className="font-bold">
-                {getProtocolTierPackLabel(protocolId, selectedTier)} • {billingText}
+                {getProtocolTierPackLabel(protocolId, selectedTier)} •{" "}
+                {billingText}
               </p>
             </div>
             <div className="text-right">
