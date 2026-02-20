@@ -107,6 +107,7 @@ export default function HeroDesktop({
               className="block transition-opacity duration-500"
               style={{
                 fontSize: "clamp(2.75rem, 7.5vw, 5.25rem)",
+                lineHeight: 1,
                 opacity: wordMounted && !wordFading ? 1 : 0,
                 backgroundImage: "var(--gradient-neuro-blue-accent)",
                 backgroundSize: "100% 100%",
@@ -119,7 +120,7 @@ export default function HeroDesktop({
               {ROTATING_WORDS[wordIndex]}
             </span>
             <span
-              className="block mt-0.5 whitespace-nowrap"
+              className="block mt-0 whitespace-nowrap"
               style={{ fontSize: "clamp(2.5rem, 6.5vw, 4.5rem)" }}
             >
               Brain Performance
