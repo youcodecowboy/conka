@@ -130,10 +130,20 @@ export default function ConkaClarityPage() {
             </div>
           </section>
 
-          {/* Formula Benefits */}
+          <section
+            className="premium-section-luxury premium-bg-bone"
+            aria-label="Formula ingredients"
+          >
+            <div className="premium-track">
+              <FormulaIngredients formulaId="02" />
+            </div>
+          </section>
+
+          {/* Formula Benefits — after ingredients */}
           <section
             id="proof-and-science"
-            className="premium-section-luxury premium-bg-bone"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
             aria-labelledby="proof-and-science-heading"
           >
             <div className="premium-track">
@@ -141,35 +151,25 @@ export default function ConkaClarityPage() {
             </div>
           </section>
 
-        <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-          aria-label="Formula ingredients"
-        >
-          <div className="premium-track">
-            <FormulaIngredients formulaId="02" />
-          </div>
-        </section>
+          <section
+            className="premium-section-luxury premium-bg-bone"
+            aria-labelledby="how-it-works-heading"
+          >
+            <div className="premium-track">
+              <HowItWorks formulaId="02" />
+            </div>
+          </section>
 
-        <section
-          className="premium-section-luxury premium-bg-bone"
-          aria-labelledby="how-it-works-heading"
-        >
-          <div className="premium-track">
-            <HowItWorks formulaId="02" />
-          </div>
-        </section>
-
-        {/* What to expect */}
-        <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-          aria-label="What to expect"
-        >
-          <div className="premium-track">
-            <WhatToExpectTimeline productId="02" />
-          </div>
-        </section>
+          {/* What to expect */}
+          <section
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+            aria-label="What to expect"
+          >
+            <div className="premium-track">
+              <WhatToExpectTimeline productId="02" />
+            </div>
+          </section>
 
           <section
             className="premium-section-luxury"
@@ -236,17 +236,6 @@ export default function ConkaClarityPage() {
         </div>
       </section>
 
-      {/* Formula Benefits outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
-      <section
-        id="proof-and-science"
-        className="premium-section-luxury premium-bg-bone"
-        aria-labelledby="proof-and-science-heading"
-      >
-        <div className="premium-track">
-          <FormulaBenefits formulaId="02" />
-        </div>
-      </section>
-
       <div className="premium-pdp">
         <section
           className="premium-section-luxury"
@@ -272,15 +261,28 @@ export default function ConkaClarityPage() {
         </section>
 
         <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+          className="premium-section-luxury premium-bg-bone"
           aria-label="Formula ingredients"
         >
           <div className="premium-track">
             <FormulaIngredients formulaId="02" />
           </div>
         </section>
+      </div>
 
+      {/* Formula Benefits outside premium-pdp so sticky left column works (no overflow-x) */}
+      <section
+        id="proof-and-science"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        aria-labelledby="proof-and-science-heading"
+      >
+        <div className="premium-track">
+          <FormulaBenefits formulaId="02" />
+        </div>
+      </section>
+
+      <div className="premium-pdp">
         <section
           className="premium-section-luxury premium-bg-bone"
           aria-labelledby="how-it-works-heading"

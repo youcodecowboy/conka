@@ -49,6 +49,10 @@ const LandingFAQ = dynamic(() => import("./components/home/LandingFAQ"), {
   loading: () => <div className="h-[350px]" />,
 });
 
+const WhatToExpect = dynamic(() => import("./components/home/WhatToExpect"), {
+  loading: () => <div className="h-[450px]" />,
+});
+
 export default function Home() {
   const [shuffledTestimonials, setShuffledTestimonials] = useState<
     Testimonial[]
@@ -125,6 +129,17 @@ export default function Home() {
       >
         <div className="premium-track">
           <WhyConkaWorks />
+        </div>
+      </section>
+
+      {/* ===== WHAT TO EXPECT (timeline + Flow/Clear toggle + How to Use) ===== */}
+      <section
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        aria-label="What to Expect with CONKA"
+      >
+        <div className="premium-track">
+          <WhatToExpect />
         </div>
       </section>
 

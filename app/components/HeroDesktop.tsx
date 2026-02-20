@@ -2,17 +2,32 @@
 
 import { useState, useEffect, useCallback } from "react";
 import HeroBannerCarousel from "./HeroBannerCarousel";
-import { HeroTrustBadges, ROTATING_WORDS, FADE_DURATION_MS, ROTATION_INTERVAL_MS } from "./HeroShared";
+import {
+  HeroTrustBadges,
+  ROTATING_WORDS,
+  FADE_DURATION_MS,
+  ROTATION_INTERVAL_MS,
+} from "./HeroShared";
 
 // Desktop (md and up): two images only
 const HERO_BANNER_IMAGES_DESKTOP = [
-  { src: "/hero/HeroBannerW.jpg", alt: "Athlete holding CONKA Flow and Clear bottles" },
-  { src: "/hero/HeroBanner.jpg", alt: "Athlete holding CONKA Flow and Clear bottles" },
+  {
+    src: "/hero/HeroBannerW.jpg",
+    alt: "Athlete holding CONKA Flow and Clear bottles",
+  },
+  {
+    src: "/hero/HeroBanner.jpg",
+    alt: "Athlete holding CONKA Flow and Clear bottles",
+  },
 ];
 
 export type HeroVariant = "default" | "dark";
 
-export default function HeroDesktop({ variant = "default" }: { variant?: HeroVariant }) {
+export default function HeroDesktop({
+  variant = "default",
+}: {
+  variant?: HeroVariant;
+}) {
   const isDark = variant === "dark";
   const [wordIndex, setWordIndex] = useState(0);
   const [wordFading, setWordFading] = useState(false);
@@ -39,24 +54,39 @@ export default function HeroDesktop({ variant = "default" }: { variant?: HeroVar
   }, []);
 
   const scrollToProductGrid = useCallback(() => {
-    document.getElementById("product-grid")?.scrollIntoView({ behavior: "smooth" });
+    document
+      .getElementById("product-grid")
+      ?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
   const contentBg = isDark ? "bg-[var(--color-ink)]" : "bg-[var(--color-bone)]";
   const rootBg = isDark ? "bg-[var(--color-ink)]" : "bg-[var(--color-bone)]";
-  const textMuted = isDark ? "text-[var(--text-on-ink-muted)]" : "text-[var(--text-on-light-muted)]";
-  const textPrimary = isDark ? "text-[var(--text-on-ink)]" : "text-[var(--text-on-light)]";
-  const focusRingOffset = isDark ? "focus:ring-offset-[var(--color-ink)]" : "focus:ring-offset-[var(--color-bone)]";
+  const textMuted = isDark
+    ? "text-[var(--text-on-ink-muted)]"
+    : "text-[var(--text-on-light-muted)]";
+  const textPrimary = isDark
+    ? "text-[var(--text-on-ink)]"
+    : "text-[var(--text-on-light)]";
+  const focusRingOffset = isDark
+    ? "focus:ring-offset-[var(--color-ink)]"
+    : "focus:ring-offset-[var(--color-bone)]";
 
   return (
-    <div className={`relative w-full min-h-[85vh] flex flex-col lg:grid lg:grid-cols-[1fr_2fr] overflow-hidden ${rootBg}`}>
+    <div
+      className={`relative w-full min-h-[85vh] flex flex-col lg:grid lg:grid-cols-[1fr_2fr] overflow-hidden ${rootBg}`}
+    >
       <div
         className={`relative z-10 flex flex-col justify-center md:py-10 lg:max-w-[500px] lg:py-16 px-8 md:px-12 lg:px-16 text-left ${contentBg}`}
       >
         <div className="flex flex-col gap-2 md:gap-[var(--space-text-gap)]">
-          <div className={`hidden md:flex flex-nowrap items-center justify-start gap-x-3 shrink-0 text-sm md:text-base font-bold ${textMuted}`}>
+          <div
+            className={`hidden md:flex flex-nowrap items-center justify-start gap-x-3 shrink-0 text-sm md:text-base font-bold ${textMuted}`}
+          >
             <span className="flex items-center gap-1 whitespace-nowrap">
-              <span aria-hidden className="text-yellow-500">★★★★★</span> 4.7/5
+              <span aria-hidden className="text-yellow-500">
+                ★★★★★
+              </span>{" "}
+              4.7/5
             </span>
             <span aria-hidden>|</span>
             <span className="whitespace-nowrap">500+ reviews</span>
@@ -89,8 +119,11 @@ export default function HeroDesktop({ variant = "default" }: { variant?: HeroVar
             </span>
           </h1>
 
-          <p className={`text-left mb-0 text-lg md:text-xl ${textMuted}`} style={{ lineHeight: "var(--premium-font-body-leading)" }}>
-            Science-backed nootropic shots trusted by professional athletes.
+          <p
+            className={`text-left mb-0 text-lg md:text-xl ${textMuted}`}
+            style={{ lineHeight: "var(--premium-font-body-leading)" }}
+          >
+            Science-backed brain performance shots. Trusted by high performers.
           </p>
 
           <div className="mt-2 md:mt-[var(--premium-space-xl)]">
@@ -110,7 +143,11 @@ export default function HeroDesktop({ variant = "default" }: { variant?: HeroVar
         </div>
       </div>
 
-      <HeroBannerCarousel images={HERO_BANNER_IMAGES_DESKTOP} isDark={isDark} variant="desktop" />
+      <HeroBannerCarousel
+        images={HERO_BANNER_IMAGES_DESKTOP}
+        isDark={isDark}
+        variant="desktop"
+      />
     </div>
   );
 }

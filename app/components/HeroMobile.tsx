@@ -2,18 +2,30 @@
 
 import { useState, useEffect, useCallback } from "react";
 import HeroBannerCarousel from "./HeroBannerCarousel";
-import { HeroTrustBadges, ROTATING_WORDS, FADE_DURATION_MS, ROTATION_INTERVAL_MS } from "./HeroShared";
+import {
+  HeroTrustBadges,
+  ROTATING_WORDS,
+  FADE_DURATION_MS,
+  ROTATION_INTERVAL_MS,
+} from "./HeroShared";
 
 // Tablet + mobile (below md): three images, mobile hero primary (first)
 const HERO_BANNER_IMAGES_MOBILE = [
   { src: "/hero/HeroBannerMobileH.jpg", alt: "Person with CONKA on the go" },
-  { src: "/hero/HeroBannerW.jpg", alt: "Athlete holding CONKA Flow and Clear bottles" },
+  {
+    src: "/hero/HeroBannerW.jpg",
+    alt: "Athlete holding CONKA Flow and Clear bottles",
+  },
   { src: "/hero/Hero.jpg", alt: "Person holding CONKA Flow and Clear bottles" },
 ];
 
 export type HeroVariant = "default" | "dark";
 
-export default function HeroMobile({ variant = "default" }: { variant?: HeroVariant }) {
+export default function HeroMobile({
+  variant = "default",
+}: {
+  variant?: HeroVariant;
+}) {
   const isDark = variant === "dark";
   const [wordIndex, setWordIndex] = useState(0);
   const [wordFading, setWordFading] = useState(false);
@@ -40,24 +52,44 @@ export default function HeroMobile({ variant = "default" }: { variant?: HeroVari
   }, []);
 
   const scrollToProductGrid = useCallback(() => {
-    document.getElementById("product-grid")?.scrollIntoView({ behavior: "smooth" });
+    document
+      .getElementById("product-grid")
+      ?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
   const contentBg = isDark ? "bg-[var(--color-ink)]" : "bg-[#f5f5f4]";
   const rootBg = isDark ? "bg-[var(--color-ink)]" : "bg-[#f5f5f4]";
-  const textMuted = isDark ? "text-[var(--text-on-ink-muted)]" : "text-[var(--text-on-light-muted)]";
-  const textPrimary = isDark ? "text-[var(--text-on-ink)]" : "text-[var(--text-on-light)]";
-  const focusRingOffset = isDark ? "focus:ring-offset-[var(--color-ink)]" : "focus:ring-offset-[var(--color-bone)]";
+  const textMuted = isDark
+    ? "text-[var(--text-on-ink-muted)]"
+    : "text-[var(--text-on-light-muted)]";
+  const textPrimary = isDark
+    ? "text-[var(--text-on-ink)]"
+    : "text-[var(--text-on-light)]";
+  const focusRingOffset = isDark
+    ? "focus:ring-offset-[var(--color-ink)]"
+    : "focus:ring-offset-[var(--color-bone)]";
 
   return (
-    <div className={`relative w-full min-h-[70vh] flex flex-col overflow-hidden ${rootBg}`}>
+    <div
+      className={`relative w-full min-h-[70vh] flex flex-col overflow-hidden ${rootBg}`}
+    >
       {/* Image on top (order-first), content below */}
-      <HeroBannerCarousel images={HERO_BANNER_IMAGES_MOBILE} isDark={isDark} variant="mobile" />
-      <div className={`relative z-10 flex flex-col justify-center py-4 px-8 text-left ${contentBg}`}>
+      <HeroBannerCarousel
+        images={HERO_BANNER_IMAGES_MOBILE}
+        isDark={isDark}
+        variant="mobile"
+      />
+      <div
+        className={`relative z-10 flex flex-col justify-center py-4 px-8 text-left ${contentBg}`}
+      >
         <div className="flex flex-col gap-2">
-          <div className={`flex flex-wrap items-center justify-start gap-x-2 shrink-0 text-sm font-bold ${textMuted}`}>
+          <div
+            className={`flex flex-wrap items-center justify-start gap-x-2 shrink-0 text-sm font-bold ${textMuted}`}
+          >
             <span className="flex items-center gap-1 whitespace-nowrap">
-              <span aria-hidden className="text-yellow-500">★★★★★</span>
+              <span aria-hidden className="text-yellow-500">
+                ★★★★★
+              </span>
             </span>
             <span className="whitespace-nowrap">Over 100,000 bottles sold</span>
           </div>
@@ -87,8 +119,11 @@ export default function HeroMobile({ variant = "default" }: { variant?: HeroVari
             </span>
           </h1>
 
-          <p className={`text-left mb-0 text-lg ${textMuted}`} style={{ lineHeight: "var(--premium-font-body-leading)" }}>
-            Science-backed nootropic shots trusted by professional athletes.
+          <p
+            className={`text-left mb-0 text-lg ${textMuted}`}
+            style={{ lineHeight: "var(--premium-font-body-leading)" }}
+          >
+            Science-backed brain performance shots. Trusted by high performers.
           </p>
 
           <div className="mt-2">

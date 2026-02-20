@@ -21,18 +21,20 @@
 | # | Section Name | Purpose | Key Content Requirements |
 |---|--------------|---------|-------------------------|
 | **1** | **Hero** | Immediate trust + outcome promise + direct action | Outcome-led headline, stats (500+ reviews, 100k bottles), trust badges (Informed Sport, Made in UK, 60-day guarantee), single primary CTA |
-| **3** | **Industry/Sport Credibility** | Authority through unnamed athlete/club usage | Sport category icons, single paragraph explaining usage across Premier League, rugby, Olympic sports, boxing, motorsport |
-| **4** | **Product Grid (Orientation)** | Help users self-identify and choose quickly | 3-4 product cards with benefit-led headlines, "best for" use cases, daily pricing, format options, assurance banner |
-| **2** | **Social Proof Carousel** | Early credibility through real user experiences | 8-12 review cards with benefit-led quotes, filters by benefit/product, UGC images/videos optional |
+| **2** | **Industry/Sport Credibility** | Authority through unnamed athlete/club usage | Sport category icons, single paragraph explaining usage across Premier League, rugby, Olympic sports, boxing, motorsport |
+| **3** | **Product Grid (Orientation)** | Help users self-identify and choose quickly | 3-4 product cards with benefit-led headlines, "best for" use cases, daily pricing, format options, assurance banner |
+| **4** | **Social Proof Carousel** | Early credibility through real user experiences | 8-12 review cards with benefit-led quotes, filters by benefit/product, UGC images/videos optional |
+
+? what is conka section?
 | **5** | **High-Level Benefits** | Communicate outcomes before science | 3-4 benefit cards (Focus, Energy, Recovery, Sleep) with icons, outcome-focused copy, NO ingredient lists |
 | **6** | **Why CONKA Works (Science + Certification)** | Credibility through formulation, testing, certification | 3 sub-sections: Formulation (athlete-backed, clinical dosing), Informed Sport Certification (prominent badge), Made in UK (GMP standards) |
-| **7** | **Timeline/What to Expect** | Set realistic expectations | Week 1 → Weeks 2-4 → Month 2-3 timeline with specific outcomes per stage, product-specific toggles optional |
-| **8** | **How to Use** | Make it approachable, remove friction | 3-step visual: When (timing), How (straight or mix), Track (feel the difference) |
+| **7** | **Timeline/What to Expect** TO DO| Set realistic expectations | Week 1 → Weeks 2-4 → Month 2-3 timeline with specific outcomes per stage, product-specific toggles optional |
+| **8** | **How to Use** TO DO | Make it approachable, remove friction | 3-step visual: When (timing), How (straight or mix), Track (feel the difference) |
 | **9** | **Athlete Case Study** | Proof through real data and stories | Featured case study with before/after data (reaction time, sleep, HRV), quote, data visualization, CTA to full study |
-| **10** | **Cost Breakdown (Protocols Only)** | Justify protocol pricing vs buying individually | Comparison table: Individual products vs Protocol, daily pricing, savings calculation, additional benefits beyond cost |
-| **11** | **Community/UGC** | Show product in real contexts | Grid/carousel of 8-12 UGC images/videos (pre-workout, unboxing, recovery, routines), Instagram integration |
-| **12** | **Risk Reversal (Guarantee)** | Remove purchase friction | Prominent 60-day money-back guarantee banner, sub-points (95% success rate, keep what you've used), CTA |
-| **13** | **FAQ** | Address objections, reduce friction | 5-7 expandable questions: benefits, results timeline, athlete safety, subscription, guarantee, product differences, using both together |
+| **10** | **Cost Breakdown (Protocols Only)** TO DO| Justify protocol pricing vs buying individually | Comparison table: Individual products vs Protocol, daily pricing, savings calculation, additional benefits beyond cost |
+| **11** | **Community/UGC** TO DO| Show product in real contexts | Grid/carousel of 8-12 UGC images/videos (pre-workout, unboxing, recovery, routines), Instagram integration |
+| **12** | **Risk Reversal (Guarantee)** TO DO| Remove purchase friction | Prominent 60-day money-back guarantee banner, sub-points (95% success rate, keep what you've used), CTA |
+| **13** | **FAQ** TO UPGRADE| Address objections, reduce friction | 5-7 expandable questions: benefits, results timeline, athlete safety, subscription, guarantee, product differences, using both together |
 | **14** | **Footer (CTA + Newsletter)** | Final conversion + email capture | Newsletter signup (15% off), standard footer links, trust badges, social icons, legal disclaimers |
 
 ---
