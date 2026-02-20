@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import AssuranceBanner from "./AssuranceBanner";
 import ProductCard from "./ProductCard";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
@@ -20,6 +21,18 @@ const getProtocolVariantImage = (variant: ProtocolVariant): string => {
       return getProtocolImage("2");
     default:
       return getProtocolImage("3");
+  }
+};
+
+const getProtocolLink = (variant: ProtocolVariant): string => {
+  switch (variant) {
+    case "flow-heavy":
+      return "/protocol/1";
+    case "clear-heavy":
+      return "/protocol/2";
+    case "balance":
+    default:
+      return "/protocol/3";
   }
 };
 
@@ -53,8 +66,11 @@ export default function ProductGridTablet(props?: ProductGridProps) {
         {/* Column 1: Flow or empty — always 3 columns so card size matches 3-card layout */}
         {showFlow ? (
           <div className="flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+            <Link
+              href="/conka-flow"
+              className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+            >
+              <div className="relative w-full h-full">
                 <Image
                   src={getFormulaImage("01")}
                   alt="CONKA Flow"
@@ -69,7 +85,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
                   Energy
                 </div>
               </div>
-            </div>
+            </Link>
             <ProductCard
               productType="flow"
               onAddToCart={() => handleAddToCart("flow")}
@@ -81,8 +97,11 @@ export default function ProductGridTablet(props?: ProductGridProps) {
 
         {showClear ? (
           <div className="flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+            <Link
+              href="/conka-clarity"
+              className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+            >
+              <div className="relative w-full h-full">
                 <Image
                   src={getFormulaImage("02")}
                   alt="CONKA Clear"
@@ -97,7 +116,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
                   Recovery
                 </div>
               </div>
-            </div>
+            </Link>
             <ProductCard
               productType="clear"
               onAddToCart={() => handleAddToCart("clear")}
@@ -109,8 +128,11 @@ export default function ProductGridTablet(props?: ProductGridProps) {
 
         {showProtocol ? (
           <div className="flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+            <Link
+              href={getProtocolLink(protocolVariant)}
+              className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+            >
+              <div className="relative w-full h-full">
                 <Image
                   key={protocolVariant}
                   src={getProtocolVariantImage(protocolVariant)}
@@ -128,7 +150,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
                   Most Popular
                 </div>
               </div>
-            </div>
+            </Link>
             <ProductCard
               productType="protocol"
               protocolVariant={protocolVariant}
