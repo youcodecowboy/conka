@@ -10,6 +10,11 @@ import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig"
 import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
 
+export interface ProductGridProps {
+  exclude?: ("flow" | "clear" | "protocol")[];
+  disabledProtocolVariants?: ProtocolVariant[];
+}
+
 const getProtocolVariantImage = (variant: ProtocolVariant): string => {
   switch (variant) {
     case "flow-heavy":
@@ -23,7 +28,8 @@ const getProtocolVariantImage = (variant: ProtocolVariant): string => {
   }
 };
 
-export default function ProductGrid() {
+export default function ProductGrid(props?: ProductGridProps) {
+  const { exclude = [], disabledProtocolVariants } = props ?? {};
   const [protocolVariant, setProtocolVariant] = useState<ProtocolVariant>("balance");
   const [width, setWidth] = useState<number | undefined>(undefined);
 
@@ -38,12 +44,28 @@ export default function ProductGrid() {
     console.log(`Add to cart: ${productType}`, { protocolVariant });
   }, [protocolVariant]);
 
+  const showFlow = !exclude.includes("flow");
+  const showClear = !exclude.includes("clear");
+  const showProtocol = !exclude.includes("protocol");
+  const colCount = [showFlow, showClear, showProtocol].filter(Boolean).length;
+  const gridCols = colCount === 2 ? "grid-cols-2" : "grid-cols-3";
+
   if (width !== undefined && width < 768) {
-    return <ProductGridMobile />;
+    return (
+      <ProductGridMobile
+        exclude={exclude}
+        disabledProtocolVariants={disabledProtocolVariants}
+      />
+    );
   }
 
   if (width !== undefined && width < 1024) {
-    return <ProductGridTablet />;
+    return (
+      <ProductGridTablet
+        exclude={exclude}
+        disabledProtocolVariants={disabledProtocolVariants}
+      />
+    );
   }
 
   if (width !== undefined && width >= 1024) {
@@ -60,83 +82,90 @@ export default function ProductGrid() {
           </p>
         </div>
 
-        <div className="product-grid-container grid grid-cols-3 gap-8 mb-8">
-          <div className="product-card-wrapper product-card-formula flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
-                <Image
-                  src={getFormulaImage("01")}
-                  alt="CONKA Flow"
-                  fill
-                  className="object-cover"
-                  sizes="33vw"
-                />
-                <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                  style={{ backgroundColor: getProductAccent("01") || "#111" }}
-                >
-                  Energy
+        <div className={`product-grid-container grid ${gridCols} gap-8 mb-8`}>
+          {showFlow && (
+            <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+              <div className="relative w-full mx-auto aspect-square mb-4">
+                <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                  <Image
+                    src={getFormulaImage("01")}
+                    alt="CONKA Flow"
+                    fill
+                    className="object-cover"
+                    sizes="33vw"
+                  />
+                  <div
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                    style={{ backgroundColor: getProductAccent("01") || "#111" }}
+                  >
+                    Energy
+                  </div>
                 </div>
               </div>
+              <ProductCard
+                productType="flow"
+                onAddToCart={() => handleAddToCart("flow")}
+              />
             </div>
-            <ProductCard
-              productType="flow"
-              onAddToCart={() => handleAddToCart("flow")}
-            />
-          </div>
+          )}
 
-          <div className="product-card-wrapper product-card-formula flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
-                <Image
-                  src={getFormulaImage("02")}
-                  alt="CONKA Clear"
-                  fill
-                  className="object-cover"
-                  sizes="33vw"
-                />
-                <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                  style={{ backgroundColor: getProductAccent("02") || "#111" }}
-                >
-                  Recovery
+          {showClear && (
+            <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+              <div className="relative w-full mx-auto aspect-square mb-4">
+                <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                  <Image
+                    src={getFormulaImage("02")}
+                    alt="CONKA Clear"
+                    fill
+                    className="object-cover"
+                    sizes="33vw"
+                  />
+                  <div
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                    style={{ backgroundColor: getProductAccent("02") || "#111" }}
+                  >
+                    Recovery
+                  </div>
                 </div>
               </div>
+              <ProductCard
+                productType="clear"
+                onAddToCart={() => handleAddToCart("clear")}
+              />
             </div>
-            <ProductCard
-              productType="clear"
-              onAddToCart={() => handleAddToCart("clear")}
-            />
-          </div>
+          )}
 
-          <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
-                <Image
-                  key={protocolVariant}
-                  src={getProtocolVariantImage(protocolVariant)}
-                  alt="CONKA Protocol"
-                  fill
-                  className="object-cover transition-opacity duration-300"
-                  sizes="33vw"
-                />
-                <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                  style={{
-                    backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
-                  }}
-                >
-                  Most Popular
+          {showProtocol && (
+            <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-center">
+              <div className="relative w-full mx-auto aspect-square mb-4">
+                <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                  <Image
+                    key={protocolVariant}
+                    src={getProtocolVariantImage(protocolVariant)}
+                    alt="CONKA Protocol"
+                    fill
+                    className="object-cover transition-opacity duration-300"
+                    sizes="33vw"
+                  />
+                  <div
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                    style={{
+                      backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                    }}
+                  >
+                    Most Popular
+                  </div>
                 </div>
               </div>
+              <ProductCard
+                productType="protocol"
+                protocolVariant={protocolVariant}
+                onProtocolVariantChange={setProtocolVariant}
+                onAddToCart={() => handleAddToCart("protocol")}
+                disabledProtocolVariants={disabledProtocolVariants}
+              />
             </div>
-            <ProductCard
-              productType="protocol"
-              protocolVariant={protocolVariant}
-              onProtocolVariantChange={setProtocolVariant}
-              onAddToCart={() => handleAddToCart("protocol")}
-            />
-          </div>
+          )}
         </div>
 
         <AssuranceBanner />
