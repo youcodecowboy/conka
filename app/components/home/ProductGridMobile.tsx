@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import AssuranceBanner from "./AssuranceBanner";
 import ProductCard from "./ProductCard";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
@@ -20,6 +21,18 @@ const getProtocolVariantImage = (variant: ProtocolVariant): string => {
       return getProtocolImage("2");
     default:
       return getProtocolImage("3");
+  }
+};
+
+const getProtocolLink = (variant: ProtocolVariant): string => {
+  switch (variant) {
+    case "flow-heavy":
+      return "/protocol/1";
+    case "clear-heavy":
+      return "/protocol/2";
+    case "balance":
+    default:
+      return "/protocol/3";
   }
 };
 
@@ -147,11 +160,14 @@ export default function ProductGridMobile(props?: ProductGridProps) {
             return (
               <div key="flow" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
                 <div className="flex flex-col items-center w-full">
-                  <div className="relative w-full mx-auto aspect-[4/3] mb-4">
-                    <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                  <Link
+                    href="/conka-flow"
+                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                  >
+                    <div className="relative w-full h-full">
                       <Image src={getFormulaImage("01")} alt="CONKA Flow" fill className="object-cover" sizes="100vw" />
                     </div>
-                  </div>
+                  </Link>
                   <ProductCard productType="flow" onAddToCart={() => handleAddToCart("flow")} />
                 </div>
               </div>
@@ -161,11 +177,14 @@ export default function ProductGridMobile(props?: ProductGridProps) {
             return (
               <div key="clear" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
                 <div className="flex flex-col items-center w-full">
-                  <div className="relative w-full mx-auto aspect-[4/3] mb-4">
-                    <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                  <Link
+                    href="/conka-clarity"
+                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                  >
+                    <div className="relative w-full h-full">
                       <Image src={getFormulaImage("02")} alt="CONKA Clear" fill className="object-cover" sizes="100vw" />
                     </div>
-                  </div>
+                  </Link>
                   <ProductCard productType="clear" onAddToCart={() => handleAddToCart("clear")} />
                 </div>
               </div>
@@ -174,8 +193,11 @@ export default function ProductGridMobile(props?: ProductGridProps) {
           return (
             <div key="protocol" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
               <div className="flex flex-col items-center w-full">
-                <div className="relative w-full mx-auto aspect-[4/3] mb-4">
-                  <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                <Link
+                  href={getProtocolLink(protocolVariant)}
+                  className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                >
+                  <div className="relative w-full h-full">
                     <Image
                       key={protocolVariant}
                       src={getProtocolVariantImage(protocolVariant)}
@@ -193,7 +215,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
                       Most Popular
                     </div>
                   </div>
-                </div>
+                </Link>
                 <ProductCard
                   productType="protocol"
                   protocolVariant={protocolVariant}
