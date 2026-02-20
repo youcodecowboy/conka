@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 interface TimelineStage {
   subheading: string;
@@ -135,22 +136,61 @@ export default function WhatToExpect() {
             ))}
           </div>
 
-          {/* Right: Visual placeholder (desktop: sticky; mobile: below timeline) */}
+          {/* Right: Visual assets (desktop: sticky; mobile: below timeline) */}
           <div className="lg:sticky lg:top-24">
-            <div
-              className="relative aspect-[4/3] lg:aspect-square rounded-[var(--premium-radius-card)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
-              aria-hidden
-            >
-              <div className="w-full h-full flex items-center justify-center">
-                <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-                  Product lifestyle image
-                </p>
+            <div className="space-y-4">
+              {/* Main lifestyle image */}
+              <div className="relative aspect-[4/3] rounded-[var(--premium-radius-card)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-center px-4">
+                    <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-1">
+                      Main lifestyle image
+                    </p>
+                    <p className="premium-data text-xs text-[var(--text-on-light-muted)] opacity-60">
+                      {selectedFormula === "01"
+                        ? "Morning routine with Flow"
+                        : "Performance moment with Clear"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Two supporting images — left: science b-roll; right: placeholder */}
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
+                <div className="relative aspect-square rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+                  <Image
+                    src={
+                      selectedFormula === "01"
+                        ? "/science/NeuronsConnection.jpg"
+                        : "/science/OxidativeStress.webp"
+                    }
+                    alt={
+                      selectedFormula === "01"
+                        ? "Neural connections and synaptic activity"
+                        : "Oxidative stress and cellular protection"
+                    }
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                  />
+                </div>
+                <div className="relative aspect-square rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+                  <div className="w-full h-full flex items-center justify-center p-2">
+                    <p className="premium-data text-xs text-[var(--text-on-light-muted)] text-center">
+                      {selectedFormula === "01"
+                        ? "Sustained energy"
+                        : "Recovery mode"}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Caption */}
             <p className="premium-body-sm text-center text-[var(--text-on-light-muted)] mt-4">
               {selectedFormula === "01"
-                ? "Morning ritual with CONKA Flow"
-                : "Peak performance with CONKA Clear"}
+                ? "CONKA Flow throughout your day"
+                : "CONKA Clear for peak performance"}
             </p>
           </div>
         </div>
@@ -189,7 +229,6 @@ export default function WhatToExpect() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }
