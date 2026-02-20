@@ -60,7 +60,7 @@ export default function WhatToExpect() {
 
   return (
     <section
-      className="premium-section-luxury premium-bg-bone"
+      className="premium-section-luxury premium-bg-bone [animation:none] [&_*]:!animate-none"
       aria-label="What to Expect with CONKA"
     >
       <div className="premium-track">
@@ -77,7 +77,7 @@ export default function WhatToExpect() {
             <button
               type="button"
               onClick={() => setSelectedFormula("01")}
-              className={`px-6 py-2 rounded-full transition-all font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
+              className={`px-6 py-2 rounded-full font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
                 selectedFormula === "01"
                   ? "bg-[var(--color-ink)] text-white"
                   : "bg-white border border-[var(--color-premium-stroke)] text-[var(--text-on-light)] hover:border-[var(--color-ink)]"
@@ -88,7 +88,7 @@ export default function WhatToExpect() {
             <button
               type="button"
               onClick={() => setSelectedFormula("02")}
-              className={`px-6 py-2 rounded-full transition-all font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
+              className={`px-6 py-2 rounded-full font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
                 selectedFormula === "02"
                   ? "bg-[var(--color-ink)] text-white"
                   : "bg-white border border-[var(--color-premium-stroke)] text-[var(--text-on-light)] hover:border-[var(--color-ink)]"
@@ -108,23 +108,26 @@ export default function WhatToExpect() {
                 key={index}
                 className="relative flex gap-4 lg:gap-6 pb-8 lg:pb-12 last:pb-0"
               >
-                {/* Dot + connecting line */}
+                {/* Dot + connecting line (neuro blue accent) */}
                 <div className="flex flex-col items-center flex-shrink-0">
                   <div
-                    className="w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full bg-[var(--color-ink)] flex-shrink-0"
+                    className="w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full bg-[var(--color-neuro-blue-end)] flex-shrink-0"
                     aria-hidden
                   />
                   <div
-                    className="w-0.5 flex-1 min-h-[1rem] bg-[var(--color-premium-stroke)] mt-2"
+                    className="w-0.5 flex-1 min-h-[1rem] bg-[var(--color-neuro-blue-end)] mt-2"
                     aria-hidden
                   />
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 -mt-1 min-w-0">
-                  <p className="premium-data text-xs uppercase tracking-wider text-[var(--text-on-light-muted)] mb-2">
+                  <span
+                    className="inline-block premium-data text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[var(--color-neuro-blue-end)] text-[var(--color-bone)] mb-2"
+                    aria-hidden
+                  >
                     {stage.subheading}
-                  </p>
+                  </span>
                   <h3 className="text-lg lg:text-xl font-bold mb-2 text-[var(--text-on-light)]">
                     {stage.heading}
                   </h3>
