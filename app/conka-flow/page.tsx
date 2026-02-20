@@ -155,8 +155,19 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
+          {/* What to expect */}
           <section
             className="premium-section-luxury premium-bg-bone"
+            aria-label="What to expect"
+          >
+            <div className="premium-track">
+              <WhatToExpect productId="01" />
+            </div>
+          </section>
+
+          <section
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
             aria-labelledby="how-it-works-heading"
           >
             <div className="premium-track">
@@ -164,16 +175,6 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* What to expect */}
-          <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-            aria-label="What to expect"
-          >
-            <div className="premium-track">
-              <WhatToExpect productId="01" />
-            </div>
-          </section>
           <section
             className="premium-section-luxury"
             style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
@@ -286,9 +287,20 @@ export default function ConkaFlowPage() {
         </div>
       </section>
 
+      {/* What to expect */}
+      <section
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="What to expect"
+      >
+        <div className="premium-track">
+          <WhatToExpect productId="01" />
+        </div>
+      </section>
+
       <div className="premium-pdp">
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
           aria-labelledby="how-it-works-heading"
         >
           <div className="premium-track">
@@ -296,16 +308,6 @@ export default function ConkaFlowPage() {
           </div>
         </section>
 
-        {/* What to expect */}
-        <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-          aria-label="What to expect"
-        >
-          <div className="premium-track">
-            <WhatToExpect productId="01" />
-          </div>
-        </section>
         <section
           className="premium-section-luxury"
           style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
