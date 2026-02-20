@@ -135,8 +135,7 @@ export default function ConkaFlowPage() {
           </section>
 
           <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+            className="premium-section-luxury premium-bg-bone"
             aria-label="Formula ingredients"
           >
             <div className="premium-track">
@@ -147,7 +146,8 @@ export default function ConkaFlowPage() {
           {/* Formula Benefits — after ingredients */}
           <section
             id="proof-and-science"
-            className="premium-section-luxury premium-bg-bone"
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
             aria-labelledby="proof-and-science-heading"
           >
             <div className="premium-track">
@@ -265,8 +265,7 @@ export default function ConkaFlowPage() {
         </section>
 
         <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+          className="premium-section-luxury premium-bg-bone"
           aria-label="Formula ingredients"
         >
           <div className="premium-track">
@@ -278,7 +277,8 @@ export default function ConkaFlowPage() {
       {/* Formula Benefits outside premium-pdp so sticky left column works (no overflow-x) */}
       <section
         id="proof-and-science"
-        className="premium-section-luxury premium-bg-bone"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
         aria-labelledby="proof-and-science-heading"
       >
         <div className="premium-track">
