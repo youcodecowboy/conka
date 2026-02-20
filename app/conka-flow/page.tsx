@@ -134,7 +134,17 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          {/* Formula Benefits — bone (alternates with ink/mid) */}
+          <section
+            className="premium-section-luxury"
+            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+            aria-label="Formula ingredients"
+          >
+            <div className="premium-track">
+              <FormulaIngredients formulaId="01" />
+            </div>
+          </section>
+
+          {/* Formula Benefits — after ingredients */}
           <section
             id="proof-and-science"
             className="premium-section-luxury premium-bg-bone"
@@ -145,15 +155,6 @@ export default function ConkaFlowPage() {
             </div>
           </section>
 
-          <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-            aria-label="Formula ingredients"
-          >
-            <div className="premium-track">
-              <FormulaIngredients formulaId="01" />
-            </div>
-          </section>
           <section
             className="premium-section-luxury premium-bg-bone"
             aria-labelledby="how-it-works-heading"
@@ -238,17 +239,6 @@ export default function ConkaFlowPage() {
         </div>
       </section>
 
-      {/* Formula Benefits outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
-      <section
-        id="proof-and-science"
-        className="premium-section-luxury premium-bg-bone"
-        aria-labelledby="proof-and-science-heading"
-      >
-        <div className="premium-track">
-          <FormulaBenefits formulaId="01" />
-        </div>
-      </section>
-
       <div className="premium-pdp">
         {/* Dark section for high-impact stats */}
         <section
@@ -283,6 +273,20 @@ export default function ConkaFlowPage() {
             <FormulaIngredients formulaId="01" />
           </div>
         </section>
+      </div>
+
+      {/* Formula Benefits outside premium-pdp so sticky left column works (no overflow-x) */}
+      <section
+        id="proof-and-science"
+        className="premium-section-luxury premium-bg-bone"
+        aria-labelledby="proof-and-science-heading"
+      >
+        <div className="premium-track">
+          <FormulaBenefits formulaId="01" />
+        </div>
+      </section>
+
+      <div className="premium-pdp">
         <section
           className="premium-section-luxury premium-bg-bone"
           aria-labelledby="how-it-works-heading"
