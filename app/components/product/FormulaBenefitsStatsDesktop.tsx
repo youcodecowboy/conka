@@ -5,7 +5,7 @@ import { FormulaId, STRUGGLE_OPTIONS, formulaContent } from "@/app/lib/productDa
 
 const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   "01": {
-    src: "/CONKA_01x.jpg",
+    src: "/CONKA_01.jpg",
     alt: "CONKA Flow bottle",
   },
   "02": {
@@ -71,7 +71,7 @@ export default function FormulaBenefitsStatsDesktop({
 
       {/* Right: Seed-style — primary rectangular asset + 3 small square placeholders (desktop only) */}
       <div className="space-y-4">
-        {/* Primary: short rectangular asset, zoomed out */}
+        {/* Primary: same width as the row of three below; image fills the frame */}
         <div
           className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
           style={{ borderRadius: "var(--premium-radius-card)" }}
@@ -80,17 +80,13 @@ export default function FormulaBenefitsStatsDesktop({
             src={productImage.src}
             alt={productImage.alt}
             fill
-            className="object-cover"
-            style={{
-              objectPosition: "center center",
-              transform: formulaId === "02" ? "scale(1)" : "scale(0.88)",
-            }}
+            className="object-cover object-center"
             sizes="50vw"
             priority={false}
           />
         </div>
-        {/* Three supporting lifestyle assets — smaller row */}
-        <div className="grid grid-cols-3 gap-3 max-w-[78%] mx-auto">
+        {/* Three supporting assets — full width to match primary above */}
+        <div className="grid grid-cols-3 gap-3 w-full">
           {SUPPORTING_ASSETS.map((asset, idx) => (
             <div
               key={idx}
