@@ -93,6 +93,29 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
         <p className="premium-annotation opacity-90">
           simple, effective, proven
         </p>
+        {/* Mobile: square asset + circle asset in a row under header */}
+        <div className="mt-6 flex justify-center gap-4 lg:hidden">
+          <div
+            className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] sm:h-40 sm:w-40"
+          >
+            <Image
+              src={squareAsset.src}
+              alt={squareAsset.alt}
+              fill
+              className="object-cover"
+              sizes="160px"
+            />
+          </div>
+          <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] sm:h-40 sm:w-40">
+            <Image
+              src={circleAsset.src}
+              alt={circleAsset.alt}
+              fill
+              className="object-cover"
+              sizes="160px"
+            />
+          </div>
+        </div>
       </header>
 
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start text-[var(--text-on-light)]">
