@@ -35,6 +35,6 @@ export function getProductGridCopy(props?: ProductGridCopyProps): ProductGridCop
   const crossSell = isCrossSell(props);
   return {
     title: crossSell ? CROSS_SELL_TITLE : LANDING_TITLE,
-    subtitleNode: crossSell ? null : LANDING_SUBTITLE,
+    subtitleNode: LANDING_SUBTITLE,
   };
 }
