@@ -9,8 +9,9 @@ import {
   ROTATION_INTERVAL_MS,
 } from "./HeroShared";
 
-// Tablet + mobile (below md): three images, mobile hero primary (first)
+// Tablet + mobile (below md): four images, mobile hero primary (first)
 const HERO_BANNER_IMAGES_MOBILE = [
+  { src: "/lifestyle/FlowHold.jpg", alt: "Person with CONKA bottle outdoors" },
   { src: "/hero/HeroBannerMobileH.jpg", alt: "Person with CONKA on the go" },
   {
     src: "/hero/HeroBannerW.jpg",
