@@ -27,7 +27,7 @@ import { getAddToCartSource, getQuizSessionId } from "@/app/lib/analytics";
 import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
 import Testimonials from "@/app/components/testimonials/Testimonials";
 import { getSiteTestimonialsFlow } from "@/app/lib/testimonialsFilter";
-import { CrossSell } from "@/app/components/crossSell";
+import ProductGrid from "@/app/components/home/ProductGrid";
 
 export default function ConkaFlowPage() {
   const isMobile = useIsMobile();
@@ -197,7 +197,7 @@ export default function ConkaFlowPage() {
             aria-label="Explore other protocols and formulas"
           >
             <div className="premium-track">
-              <CrossSell variant="formula" currentFormulaId="01" />
+              <ProductGrid exclude={["flow"]} />
             </div>
           </section>
 
@@ -330,7 +330,7 @@ export default function ConkaFlowPage() {
           aria-label="Explore other protocols and formulas"
         >
           <div className="premium-track">
-            <CrossSell variant="formula" currentFormulaId="01" />
+            <ProductGrid exclude={["flow"]} />
           </div>
         </section>
 
