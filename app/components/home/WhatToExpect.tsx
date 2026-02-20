@@ -12,7 +12,7 @@ const timelineFlow: TimelineStage[] = [
   {
     subheading: "Within 30 minutes",
     heading: "Calmer head, sharper focus",
-    body: "Lemon balm supports GABA receptors—you'll feel less mental chatter and easier concentration within 30 minutes.",
+    body: "Lemon balm supports GABA receptors. You'll feel less mental chatter and easier concentration within 30 minutes.",
   },
   {
     subheading: "Week 1-2",
@@ -22,12 +22,12 @@ const timelineFlow: TimelineStage[] = [
   {
     subheading: "Month 1",
     heading: "Energy and focus compound",
-    body: "Neuroprotection and resilience build—you'll feel steadier energy, clearer thinking, and fewer afternoon dips.",
+    body: "Neuroprotection and resilience build. You'll feel steadier energy, clearer thinking, and fewer afternoon dips.",
   },
   {
     subheading: "2+ Months",
     heading: "Sustainable daily strength",
-    body: "You're supporting your system for the long run. Focus, resilience, and balance maintained as a habit—not a spike.",
+    body: "You're supporting your system for the long run. Focus, resilience, and balance maintained as a habit, not a spike.",
   },
 ];
 
@@ -45,12 +45,12 @@ const timelineClear: TimelineStage[] = [
   {
     subheading: "Month 1",
     heading: "Cognitive clarity established",
-    body: "The antioxidant and nootropic stack compounds. You'll feel mental clarity and focus reliably there—not just a short-lived boost.",
+    body: "The antioxidant and nootropic stack compounds. You'll feel mental clarity and focus reliably there, not just a short-lived boost.",
   },
   {
     subheading: "2+ Months",
     heading: "Long-term cognitive support",
-    body: "You're supporting clarity and brain health for the long term. Sharp thinking and balance maintained—not a quick fix.",
+    body: "You're supporting clarity and brain health for the long term. Sharp thinking and balance maintained, not a quick fix.",
   },
 ];
 
@@ -70,7 +70,7 @@ export default function WhatToExpect() {
             What to Expect with CONKA
           </h2>
           <p className="premium-body text-[var(--text-on-light-muted)] mb-6 max-w-2xl mx-auto">
-            Real benefits that build over time—not overnight promises.
+            Real benefits that build over time, not overnight promises.
           </p>
 
           <div className="flex items-center justify-center gap-2">
@@ -156,7 +156,7 @@ export default function WhatToExpect() {
           </div>
         </div>
 
-        {/* How to Use — below main grid */}
+        {/* How to Use: below main grid */}
         <div className="mt-12 premium-card-soft premium-card-soft-stroke p-6 max-w-3xl mx-auto">
           <div className="flex items-start gap-4 lg:gap-6">
             <div className="flex-shrink-0">
