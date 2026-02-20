@@ -15,8 +15,8 @@ import {
   HowItWorks,
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
-  WhatToExpectTimeline,
 } from "@/app/components/product";
+import WhatToExpect from "@/app/components/home/WhatToExpect";
 import { FormulaCaseStudiesMobile } from "@/app/components/FormulaCaseStudies";
 import FormulaCaseStudies from "@/app/components/FormulaCaseStudies";
 import { PackSize, PurchaseType } from "@/app/lib/productData";
@@ -171,7 +171,7 @@ export default function ConkaFlowPage() {
             aria-label="What to expect"
           >
             <div className="premium-track">
-              <WhatToExpectTimeline productId="01" />
+              <WhatToExpect productId="01" />
             </div>
           </section>
           <section
@@ -303,7 +303,7 @@ export default function ConkaFlowPage() {
           aria-label="What to expect"
         >
           <div className="premium-track">
-            <WhatToExpectTimeline productId="01" />
+            <WhatToExpect productId="01" />
           </div>
         </section>
         <section
