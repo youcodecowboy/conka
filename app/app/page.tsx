@@ -19,10 +19,7 @@ export default function AppPage() {
     >
       <Navigation />
 
-      {/* Hero Section - Black */}
-      <section className="bg-black text-white px-6 md:px-16 py-12 md:py-16">
-        <AppHero />
-      </section>
+      <AppHero />
 
       {/* Cognitive Test Section */}
       {isMobile !== undefined &&
