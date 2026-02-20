@@ -80,7 +80,7 @@ export default function HeroMobile({
         variant="mobile"
       />
       <div
-        className={`relative z-10 flex flex-col justify-center py-4 px-8 text-left ${contentBg}`}
+        className={`relative z-10 flex flex-col justify-center py-4 pl-6 pr-8 text-left ${contentBg}`}
       >
         <div className="flex flex-col gap-2">
           <div
@@ -98,14 +98,13 @@ export default function HeroMobile({
             className={`font-bold ${textPrimary} leading-tight`}
             style={{
               letterSpacing: "var(--letter-spacing-premium-title)",
-              fontSize: "clamp(2.5rem, 6.5vw, 4.5rem)",
               lineHeight: "var(--leading-tight)",
             }}
           >
-            Choose to perform{" "}
             <span
-              className="inline-block min-w-[4ch] transition-opacity duration-500"
+              className="block transition-opacity duration-500"
               style={{
+                fontSize: "clamp(2.75rem, 7.5vw, 5.25rem)",
                 opacity: wordMounted && !wordFading ? 1 : 0,
                 backgroundImage: "var(--gradient-neuro-blue-accent)",
                 backgroundSize: "100% 100%",
@@ -116,6 +115,12 @@ export default function HeroMobile({
               aria-live="polite"
             >
               {ROTATING_WORDS[wordIndex]}
+            </span>
+            <span
+              className="block mt-1 whitespace-nowrap"
+              style={{ fontSize: "clamp(2.5rem, 6.5vw, 4.5rem)" }}
+            >
+              Brain Performance
             </span>
           </h1>
 

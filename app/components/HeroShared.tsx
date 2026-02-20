@@ -2,7 +2,17 @@
 
 import Image from "next/image";
 
-export const ROTATING_WORDS = ["sharper", "longer", "deeper", "better", "smarter"];
+/** Capitalised words for "[Word] Brain Performance" hero headline. */
+export const ROTATING_WORDS = [
+  "Clearer",
+  "Calmer",
+  "Focused",
+  "Sharper",
+  "Steadier",
+  "Sustained",
+  "Confident",
+];
+
 export const ROTATION_INTERVAL_MS = 3000;
 export const FADE_DURATION_MS = 500;
 
