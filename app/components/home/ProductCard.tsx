@@ -32,6 +32,7 @@ interface ProductCardProps {
   protocolVariant?: ProtocolVariant;
   onProtocolVariantChange?: (variant: ProtocolVariant) => void;
   onAddToCart?: () => void;
+  disabledProtocolVariants?: ProtocolVariant[];
 }
 
 // Protocol variant-specific best for descriptions
@@ -194,6 +195,7 @@ export default function ProductCard({
   protocolVariant = "balance",
   onProtocolVariantChange,
   onAddToCart: onAddToCartProp,
+  disabledProtocolVariants,
 }: ProductCardProps) {
   const { addToCart, loading } = useCart();
   const [purchaseType, setPurchaseType] =
@@ -401,6 +403,7 @@ export default function ProductCard({
             <ProtocolVariantSelector
               variant={protocolVariant}
               onVariantChange={onProtocolVariantChange}
+              disabledVariants={disabledProtocolVariants}
             />
           </div>
         )}

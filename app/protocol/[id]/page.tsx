@@ -29,7 +29,8 @@ import {
   protocolContent,
 } from "@/app/lib/productData";
 import WhatToExpectTimeline from "@/app/components/product/WhatToExpectTimeline";
-import { CrossSell } from "@/app/components/crossSell";
+import ProductGrid from "@/app/components/home/ProductGrid";
+import type { ProtocolVariant } from "@/app/components/home/ProtocolVariantSelector";
 import Testimonials from "@/app/components/testimonials/Testimonials";
 import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
 import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
@@ -41,6 +42,21 @@ import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
 
 // Valid protocol IDs
 const validProtocolIds: ProtocolId[] = ["1", "2", "3", "4"];
+
+// Disable the current protocol variant in the ProductGrid cross-sell so we don't show the same card
+function getDisabledProtocolVariantsForPage(protocolId: string): ProtocolVariant[] {
+  switch (protocolId) {
+    case "1":
+      return ["flow-heavy"];
+    case "2":
+      return ["clear-heavy"];
+    case "3":
+    case "4":
+      return ["balance"];
+    default:
+      return [];
+  }
+}
 
 export default function ProtocolPage() {
   const params = useParams();
@@ -306,10 +322,7 @@ export default function ProtocolPage() {
             aria-label="Explore other protocols and formulas"
           >
             <div className="premium-track">
-              <CrossSell
-                variant="protocol"
-                currentProtocolId={protocolId as ProtocolId}
-              />
+              <ProductGrid disabledProtocolVariants={getDisabledProtocolVariantsForPage(protocolId)} />
             </div>
           </section>
 
@@ -488,10 +501,7 @@ export default function ProtocolPage() {
           aria-label="Explore other protocols and formulas"
         >
           <div className="premium-track">
-            <CrossSell
-              variant="protocol"
-              currentProtocolId={protocolId as ProtocolId}
-            />
+            <ProductGrid disabledProtocolVariants={getDisabledProtocolVariantsForPage(protocolId)} />
           </div>
         </section>
 

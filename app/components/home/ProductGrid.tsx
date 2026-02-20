@@ -9,6 +9,12 @@ import ProductGridTablet from "./ProductGridTablet";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
+import { getProductGridCopy } from "./productGridCopy";
+
+export interface ProductGridProps {
+  exclude?: ("flow" | "clear" | "protocol")[];
+  disabledProtocolVariants?: ProtocolVariant[];
+}
 
 const getProtocolVariantImage = (variant: ProtocolVariant): string => {
   switch (variant) {
@@ -23,7 +29,8 @@ const getProtocolVariantImage = (variant: ProtocolVariant): string => {
   }
 };
 
-export default function ProductGrid() {
+export default function ProductGrid(props?: ProductGridProps) {
+  const { exclude = [], disabledProtocolVariants } = props ?? {};
   const [protocolVariant, setProtocolVariant] = useState<ProtocolVariant>("balance");
   const [width, setWidth] = useState<number | undefined>(undefined);
 
@@ -38,12 +45,27 @@ export default function ProductGrid() {
     console.log(`Add to cart: ${productType}`, { protocolVariant });
   }, [protocolVariant]);
 
+  const showFlow = !exclude.includes("flow");
+  const showClear = !exclude.includes("clear");
+  const showProtocol = !exclude.includes("protocol");
+  const copy = getProductGridCopy({ exclude, disabledProtocolVariants });
+
   if (width !== undefined && width < 768) {
-    return <ProductGridMobile />;
+    return (
+      <ProductGridMobile
+        exclude={exclude}
+        disabledProtocolVariants={disabledProtocolVariants}
+      />
+    );
   }
 
   if (width !== undefined && width < 1024) {
-    return <ProductGridTablet />;
+    return (
+      <ProductGridTablet
+        exclude={exclude}
+        disabledProtocolVariants={disabledProtocolVariants}
+      />
+    );
   }
 
   if (width !== undefined && width >= 1024) {
@@ -51,92 +73,108 @@ export default function ProductGrid() {
       <>
         <div className="text-left mb-8">
           <h2 className="premium-section-heading mb-3">
-            Find Your Formula
+            {copy.title}
           </h2>
-          <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
-            <span className="font-bold">Two formulas, one system.</span>
-            <br />
-            CONKA Flow for daytime energy and focus. CONKA Clear for clarity and recovery. Use separately or combine as a Protocol.
-          </p>
+          {copy.subtitleNode && (
+            <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
+              {copy.subtitleNode}
+            </p>
+          )}
         </div>
 
         <div className="product-grid-container grid grid-cols-3 gap-8 mb-8">
-          <div className="product-card-wrapper product-card-formula flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
-                <Image
-                  src={getFormulaImage("01")}
-                  alt="CONKA Flow"
-                  fill
-                  className="object-cover"
-                  sizes="33vw"
-                />
-                <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                  style={{ backgroundColor: getProductAccent("01") || "#111" }}
-                >
-                  Energy
+          {/* Column 1: Flow or empty — always 3 columns so card size stays same with 2 cards */}
+          {showFlow ? (
+            <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+              <div className="relative w-full mx-auto aspect-square mb-4">
+                <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                  <Image
+                    src={getFormulaImage("01")}
+                    alt="CONKA Flow"
+                    fill
+                    className="object-cover"
+                    sizes="33vw"
+                  />
+                  <div
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                    style={{ backgroundColor: getProductAccent("01") || "#111" }}
+                  >
+                    Energy
+                  </div>
                 </div>
               </div>
+              <ProductCard
+                productType="flow"
+                onAddToCart={() => handleAddToCart("flow")}
+              />
             </div>
-            <ProductCard
-              productType="flow"
-              onAddToCart={() => handleAddToCart("flow")}
-            />
-          </div>
+          ) : (
+            <div aria-hidden="true" />
+          )}
 
-          <div className="product-card-wrapper product-card-formula flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
-                <Image
-                  src={getFormulaImage("02")}
-                  alt="CONKA Clear"
-                  fill
-                  className="object-cover"
-                  sizes="33vw"
-                />
-                <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                  style={{ backgroundColor: getProductAccent("02") || "#111" }}
-                >
-                  Recovery
+          {/* Column 2: Clear or empty */}
+          {showClear ? (
+            <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+              <div className="relative w-full mx-auto aspect-square mb-4">
+                <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                  <Image
+                    src={getFormulaImage("02")}
+                    alt="CONKA Clear"
+                    fill
+                    className="object-cover"
+                    sizes="33vw"
+                  />
+                  <div
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                    style={{ backgroundColor: getProductAccent("02") || "#111" }}
+                  >
+                    Recovery
+                  </div>
                 </div>
               </div>
+              <ProductCard
+                productType="clear"
+                onAddToCart={() => handleAddToCart("clear")}
+              />
             </div>
-            <ProductCard
-              productType="clear"
-              onAddToCart={() => handleAddToCart("clear")}
-            />
-          </div>
+          ) : (
+            <div aria-hidden="true" />
+          )}
 
-          <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
-                <Image
-                  key={protocolVariant}
-                  src={getProtocolVariantImage(protocolVariant)}
-                  alt="CONKA Protocol"
-                  fill
-                  className="object-cover transition-opacity duration-300"
-                  sizes="33vw"
-                />
-                <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                  style={{
-                    backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
-                  }}
-                >
-                  Most Popular
+          {/* Column 3: Protocol or empty */}
+          {showProtocol ? (
+            <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-center">
+              <div className="relative w-full mx-auto aspect-square mb-4">
+                <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                  <Image
+                    key={protocolVariant}
+                    src={getProtocolVariantImage(protocolVariant)}
+                    alt="CONKA Protocol"
+                    fill
+                    className="object-cover transition-opacity duration-300"
+                    sizes="33vw"
+                  />
+                  <div
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                    style={{
+                      backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
+                    }}
+                  >
+                    Most Popular
+                  </div>
                 </div>
               </div>
+              <ProductCard
+                productType="protocol"
+                protocolVariant={protocolVariant}
+                onProtocolVariantChange={setProtocolVariant}
+                onAddToCart={() => handleAddToCart("protocol")}
+                disabledProtocolVariants={disabledProtocolVariants}
+              />
             </div>
-            <ProductCard
-              productType="protocol"
-              protocolVariant={protocolVariant}
-              onProtocolVariantChange={setProtocolVariant}
-              onAddToCart={() => handleAddToCart("protocol")}
-            />
-          </div>
+          ) : (
+            <div aria-hidden="true" />
+          )}
         </div>
 
         <AssuranceBanner />
