@@ -8,14 +8,21 @@ import {
   type TimelineStage,
 } from "@/app/lib/whatToExpectLanding";
 
-export default function WhatToExpectDesktop() {
-  const [selectedFormula, setSelectedFormula] = useState<"01" | "02">("01");
+interface WhatToExpectDesktopProps {
+  /** When set (PDP), show single product only and hide the toggle. */
+  productId?: "01" | "02";
+}
+
+export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopProps) {
+  const [toggleFormula, setToggleFormula] = useState<"01" | "02">("01");
+  const selectedFormula = productId ?? toggleFormula;
   const timeline: TimelineStage[] =
     selectedFormula === "01" ? timelineFlow : timelineClear;
+  const showToggle = productId == null;
 
   return (
     <div className="[animation:none] [&_*]:!animate-none">
-      {/* Section Header + Toggle */}
+      {/* Section Header (+ Toggle only when landing) */}
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-12">
         <div className="text-left">
           <h2 className="premium-section-heading mb-3">
@@ -26,60 +33,62 @@ export default function WhatToExpectDesktop() {
           </p>
         </div>
 
-        <div className="flex gap-3 flex-shrink-0">
-          <div className="flex flex-col items-center">
-            <button
-              type="button"
-              onClick={() => setSelectedFormula("01")}
-              className={`flex items-center justify-center w-24 h-24 rounded-[var(--premium-radius-nested)] bg-white border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-all ${
-                selectedFormula === "01"
-                  ? "border-[var(--color-ink)] opacity-100"
-                  : "border-[var(--color-premium-stroke)] opacity-60 hover:opacity-80"
-              }`}
-              aria-pressed={selectedFormula === "01"}
-            >
-              <span className="relative w-14 h-16 flex-shrink-0">
-                <Image
-                  src="/formulas/conkaFlow/FlowNoBackground.png"
-                  alt=""
-                  fill
-                  className="object-contain object-center scale-110"
-                  sizes="56px"
-                  aria-hidden
-                />
+        {showToggle && (
+          <div className="flex gap-3 flex-shrink-0">
+            <div className="flex flex-col items-center">
+              <button
+                type="button"
+                onClick={() => setToggleFormula("01")}
+                className={`flex items-center justify-center w-24 h-24 rounded-[var(--premium-radius-nested)] bg-white border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-all ${
+                  selectedFormula === "01"
+                    ? "border-[var(--color-ink)] opacity-100"
+                    : "border-[var(--color-premium-stroke)] opacity-60 hover:opacity-80"
+                }`}
+                aria-pressed={selectedFormula === "01"}
+              >
+                <span className="relative w-14 h-16 flex-shrink-0">
+                  <Image
+                    src="/formulas/conkaFlow/FlowNoBackground.png"
+                    alt=""
+                    fill
+                    className="object-contain object-center scale-110"
+                    sizes="56px"
+                    aria-hidden
+                  />
+                </span>
+              </button>
+              <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+                CONKA Flow
               </span>
-            </button>
-            <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
-              CONKA Flow
-            </span>
-          </div>
-          <div className="flex flex-col items-center">
-            <button
-              type="button"
-              onClick={() => setSelectedFormula("02")}
-              className={`flex items-center justify-center w-24 h-24 rounded-[var(--premium-radius-nested)] bg-white border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-all ${
-                selectedFormula === "02"
-                  ? "border-[var(--color-ink)] opacity-100"
-                  : "border-[var(--color-premium-stroke)] opacity-60 hover:opacity-80"
-              }`}
-              aria-pressed={selectedFormula === "02"}
-            >
-              <span className="relative w-14 h-16 flex-shrink-0">
-                <Image
-                  src="/formulas/conkaClear/ClearNoBackground.png"
-                  alt=""
-                  fill
-                  className="object-contain object-center scale-110"
-                  sizes="56px"
-                  aria-hidden
-                />
+            </div>
+            <div className="flex flex-col items-center">
+              <button
+                type="button"
+                onClick={() => setToggleFormula("02")}
+                className={`flex items-center justify-center w-24 h-24 rounded-[var(--premium-radius-nested)] bg-white border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-all ${
+                  selectedFormula === "02"
+                    ? "border-[var(--color-ink)] opacity-100"
+                    : "border-[var(--color-premium-stroke)] opacity-60 hover:opacity-80"
+                }`}
+                aria-pressed={selectedFormula === "02"}
+              >
+                <span className="relative w-14 h-16 flex-shrink-0">
+                  <Image
+                    src="/formulas/conkaClear/ClearNoBackground.png"
+                    alt=""
+                    fill
+                    className="object-contain object-center scale-110"
+                    sizes="56px"
+                    aria-hidden
+                  />
+                </span>
+              </button>
+              <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+                CONKA Clear
               </span>
-            </button>
-            <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
-              CONKA Clear
-            </span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Main 2-column layout: timeline left, visual right */}
