@@ -118,7 +118,7 @@ export default function HeroMobile({
               {ROTATING_WORDS[wordIndex]}
             </span>
             <span
-              className="block mt-1 whitespace-nowrap"
+              className="block mt-0.5 whitespace-nowrap"
               style={{ fontSize: "clamp(2.5rem, 6.5vw, 4.5rem)" }}
             >
               Brain Performance
