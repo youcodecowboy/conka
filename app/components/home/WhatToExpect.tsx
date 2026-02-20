@@ -4,12 +4,17 @@ import useIsMobile from "@/app/hooks/useIsMobile";
 import WhatToExpectDesktop from "./WhatToExpectDesktop";
 import WhatToExpectMobile from "./WhatToExpectMobile";
 
-export default function WhatToExpect() {
+interface WhatToExpectProps {
+  /** When set (PDP), show single product only and hide the Flow/Clear toggle. */
+  productId?: "01" | "02";
+}
+
+export default function WhatToExpect({ productId }: WhatToExpectProps) {
   const isMobile = useIsMobile(1024);
 
   if (isMobile) {
-    return <WhatToExpectMobile />;
+    return <WhatToExpectMobile productId={productId} />;
   }
 
-  return <WhatToExpectDesktop />;
+  return <WhatToExpectDesktop productId={productId} />;
 }
