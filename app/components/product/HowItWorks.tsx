@@ -83,7 +83,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
         </p>
       </header>
 
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center text-[var(--text-on-light)]">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start text-[var(--text-on-light)]">
           {/* Left: vertical 3-step section */}
           <div className="flex flex-col gap-12">
             {steps.map((step, idx) => (
@@ -107,9 +107,10 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
             ))}
           </div>
 
-          {/* Right: asset - mobile: no crop, scale down, square; desktop: cover */}
+          {/* Right: assets — mobile/tablet: single square; desktop (lg): sticky column with primary + 2 placeholders (WhatToExpectDesktop-style) */}
+          {/* Mobile/tablet: single square image */}
           <div
-            className="relative w-full aspect-square overflow-hidden"
+            className="relative w-full aspect-square overflow-hidden lg:hidden"
             style={{ borderRadius: "var(--premium-radius-card)" }}
           >
             <Image
@@ -120,6 +121,34 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
               sizes="(max-width: 767px) 100vw, 50vw"
               priority={false}
             />
+          </div>
+
+          {/* Desktop (lg): sticky column — primary rectangular + 2 placeholders */}
+          <div className="hidden lg:block lg:sticky lg:top-24">
+            <div className="space-y-4">
+              <div
+                className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+              >
+                <Image
+                  src={assetSrc}
+                  alt={`${formula.name} – How it works`}
+                  fill
+                  className="object-cover"
+                  sizes="50vw"
+                  priority={false}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
+                <div
+                  className="relative aspect-square overflow-hidden rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+                  aria-hidden
+                />
+                <div
+                  className="relative aspect-square overflow-hidden rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+                  aria-hidden
+                />
+              </div>
+            </div>
           </div>
         </div>
     </>

@@ -14,6 +14,13 @@ const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   },
 };
 
+/** Shared lifestyle assets for benefits stats (Flow and Clear) */
+const SUPPORTING_ASSETS = [
+  { src: "/lifestyle/FlowBoxOpen.jpg", alt: "Unboxing CONKA" },
+  { src: "/lifestyle/HoldingBottle.jpg", alt: "Holding CONKA bottle" },
+  { src: "/lifestyle/HoldBoth.jpg", alt: "CONKA Flow and Clear bottles" },
+];
+
 interface FormulaBenefitsStatsDesktopProps {
   formulaId: FormulaId;
 }
@@ -62,20 +69,44 @@ export default function FormulaBenefitsStatsDesktop({
         </a>
       </div>
 
-      {/* Right: product image — square with rounded corners, 90% size, zoomed in */}
-      <div className="relative w-[90%] aspect-square overflow-hidden mx-auto" style={{ borderRadius: "var(--premium-radius-card)" }}>
-        <Image
-          src={productImage.src}
-          alt={productImage.alt}
-          fill
-          className="object-cover"
-          style={{ 
-            objectPosition: "center center",
-            transform: formulaId === "02" ? "scale(1.3)" : "scale(1)",
-          }}
-          sizes="50vw"
-          priority={false}
-        />
+      {/* Right: Seed-style — primary rectangular asset + 3 small square placeholders (desktop only) */}
+      <div className="space-y-4">
+        {/* Primary: shorter rectangular asset, zoomed out */}
+        <div
+          className="relative aspect-[3/2] w-full overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+          style={{ borderRadius: "var(--premium-radius-card)" }}
+        >
+          <Image
+            src={productImage.src}
+            alt={productImage.alt}
+            fill
+            className="object-cover"
+            style={{
+              objectPosition: "center center",
+              transform: formulaId === "02" ? "scale(1.1)" : "scale(0.95)",
+            }}
+            sizes="50vw"
+            priority={false}
+          />
+        </div>
+        {/* Three supporting lifestyle assets — same for Flow and Clear */}
+        <div className="grid grid-cols-3 gap-3">
+          {SUPPORTING_ASSETS.map((asset, idx) => (
+            <div
+              key={idx}
+              className="relative aspect-square overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+              style={{ borderRadius: "var(--premium-radius-card)" }}
+            >
+              <Image
+                src={asset.src}
+                alt={asset.alt}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 33vw, 16vw"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
