@@ -8,6 +8,7 @@ import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig"
 import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
 import type { ProductGridProps } from "./ProductGrid";
+import { getProductGridCopy } from "./productGridCopy";
 
 const getProtocolVariantImage = (variant: ProtocolVariant): string => {
   switch (variant) {
@@ -32,6 +33,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
   const { exclude = [], disabledProtocolVariants } = props ?? {};
   const visibleCards = ALL_CARDS.filter((c) => !exclude.includes(c.productType));
   const maxIndex = Math.max(0, visibleCards.length - 1);
+  const copy = getProductGridCopy({ exclude, disabledProtocolVariants });
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [protocolVariant, setProtocolVariant] = useState<ProtocolVariant>("balance");
@@ -93,12 +95,12 @@ export default function ProductGridMobile(props?: ProductGridProps) {
   return (
     <>
       <div className="text-left mb-8 px-4">
-        <h2 className="premium-section-heading mb-3">Find Your Formula</h2>
-        <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
-          <span className="font-bold">Two formulas, one system.</span>
-          <br />
-          CONKA Flow for daytime energy and focus. CONKA Clear for clarity and recovery. Use separately or combine as a Protocol.
-        </p>
+        <h2 className="premium-section-heading mb-3">{copy.title}</h2>
+        {copy.subtitleNode && (
+          <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
+            {copy.subtitleNode}
+          </p>
+        )}
       </div>
 
       {visibleCards.length > 1 && (

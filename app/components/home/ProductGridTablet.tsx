@@ -8,6 +8,7 @@ import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig"
 import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
 import type { ProductGridProps } from "./ProductGrid";
+import { getProductGridCopy } from "./productGridCopy";
 
 const getProtocolVariantImage = (variant: ProtocolVariant): string => {
   switch (variant) {
@@ -33,23 +34,81 @@ export default function ProductGridTablet(props?: ProductGridProps) {
   const showFlow = !exclude.includes("flow");
   const showClear = !exclude.includes("clear");
   const showProtocol = !exclude.includes("protocol");
+  const copy = getProductGridCopy({ exclude, disabledProtocolVariants });
 
   return (
     <>
       <div className="text-left mb-8">
         <h2 className="premium-section-heading mb-3">
-          Find Your Formula
+          {copy.title}
         </h2>
-        <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
-          <span className="font-bold">Two formulas, one system.</span>
-          <br />
-          CONKA Flow for daytime energy and focus. CONKA Clear for clarity and recovery. Use separately or combine as a Protocol.
-        </p>
+        {copy.subtitleNode && (
+          <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
+            {copy.subtitleNode}
+          </p>
+        )}
       </div>
 
-      <div className={`grid gap-6 mb-8 ${showProtocol && (showFlow || showClear) ? "grid-cols-2" : "grid-cols-1"}`}>
-        {showProtocol && (
-          <div className={showFlow || showClear ? "col-span-2 flex flex-col items-center max-w-[480px] mx-auto w-full" : "flex flex-col items-center max-w-[480px] mx-auto w-full"}>
+      <div className="grid grid-cols-3 gap-6 mb-8">
+        {/* Column 1: Flow or empty — always 3 columns so card size matches 3-card layout */}
+        {showFlow ? (
+          <div className="flex flex-col items-center">
+            <div className="relative w-full mx-auto aspect-square mb-4">
+              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                <Image
+                  src={getFormulaImage("01")}
+                  alt="CONKA Flow"
+                  fill
+                  className="object-cover"
+                  sizes="33vw"
+                />
+                <div
+                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                  style={{ backgroundColor: getProductAccent("01") || "#111" }}
+                >
+                  Energy
+                </div>
+              </div>
+            </div>
+            <ProductCard
+              productType="flow"
+              onAddToCart={() => handleAddToCart("flow")}
+            />
+          </div>
+        ) : (
+          <div aria-hidden="true" />
+        )}
+
+        {showClear ? (
+          <div className="flex flex-col items-center">
+            <div className="relative w-full mx-auto aspect-square mb-4">
+              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
+                <Image
+                  src={getFormulaImage("02")}
+                  alt="CONKA Clear"
+                  fill
+                  className="object-cover"
+                  sizes="33vw"
+                />
+                <div
+                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                  style={{ backgroundColor: getProductAccent("02") || "#111" }}
+                >
+                  Recovery
+                </div>
+              </div>
+            </div>
+            <ProductCard
+              productType="clear"
+              onAddToCart={() => handleAddToCart("clear")}
+            />
+          </div>
+        ) : (
+          <div aria-hidden="true" />
+        )}
+
+        {showProtocol ? (
+          <div className="flex flex-col items-center">
             <div className="relative w-full mx-auto aspect-square mb-4">
               <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
                 <Image
@@ -58,7 +117,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
                   alt="CONKA Protocol"
                   fill
                   className="object-cover transition-opacity duration-300"
-                  sizes="100vw"
+                  sizes="33vw"
                 />
                 <div
                   className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
@@ -78,58 +137,8 @@ export default function ProductGridTablet(props?: ProductGridProps) {
               disabledProtocolVariants={disabledProtocolVariants}
             />
           </div>
-        )}
-
-        {showFlow && (
-          <div className="flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
-                <Image
-                  src={getFormulaImage("01")}
-                  alt="CONKA Flow"
-                  fill
-                  className="object-cover"
-                  sizes="50vw"
-                />
-                <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                  style={{ backgroundColor: getProductAccent("01") || "#111" }}
-                >
-                  Energy
-                </div>
-              </div>
-            </div>
-            <ProductCard
-              productType="flow"
-              onAddToCart={() => handleAddToCart("flow")}
-            />
-          </div>
-        )}
-
-        {showClear && (
-          <div className="flex flex-col items-center">
-            <div className="relative w-full mx-auto aspect-square mb-4">
-              <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
-                <Image
-                  src={getFormulaImage("02")}
-                  alt="CONKA Clear"
-                  fill
-                  className="object-cover"
-                  sizes="50vw"
-                />
-                <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                  style={{ backgroundColor: getProductAccent("02") || "#111" }}
-                >
-                  Recovery
-                </div>
-              </div>
-            </div>
-            <ProductCard
-              productType="clear"
-              onAddToCart={() => handleAddToCart("clear")}
-            />
-          </div>
+        ) : (
+          <div aria-hidden="true" />
         )}
       </div>
 

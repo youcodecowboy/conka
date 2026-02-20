@@ -9,6 +9,7 @@ import ProductGridTablet from "./ProductGridTablet";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
 import type { ProtocolVariant } from "./ProtocolVariantSelector";
+import { getProductGridCopy } from "./productGridCopy";
 
 export interface ProductGridProps {
   exclude?: ("flow" | "clear" | "protocol")[];
@@ -47,8 +48,7 @@ export default function ProductGrid(props?: ProductGridProps) {
   const showFlow = !exclude.includes("flow");
   const showClear = !exclude.includes("clear");
   const showProtocol = !exclude.includes("protocol");
-  const colCount = [showFlow, showClear, showProtocol].filter(Boolean).length;
-  const gridCols = colCount === 2 ? "grid-cols-2" : "grid-cols-3";
+  const copy = getProductGridCopy({ exclude, disabledProtocolVariants });
 
   if (width !== undefined && width < 768) {
     return (
@@ -73,17 +73,18 @@ export default function ProductGrid(props?: ProductGridProps) {
       <>
         <div className="text-left mb-8">
           <h2 className="premium-section-heading mb-3">
-            Find Your Formula
+            {copy.title}
           </h2>
-          <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
-            <span className="font-bold">Two formulas, one system.</span>
-            <br />
-            CONKA Flow for daytime energy and focus. CONKA Clear for clarity and recovery. Use separately or combine as a Protocol.
-          </p>
+          {copy.subtitleNode && (
+            <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
+              {copy.subtitleNode}
+            </p>
+          )}
         </div>
 
-        <div className={`product-grid-container grid ${gridCols} gap-8 mb-8`}>
-          {showFlow && (
+        <div className="product-grid-container grid grid-cols-3 gap-8 mb-8">
+          {/* Column 1: Flow or empty — always 3 columns so card size stays same with 2 cards */}
+          {showFlow ? (
             <div className="product-card-wrapper product-card-formula flex flex-col items-center">
               <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
@@ -107,9 +108,12 @@ export default function ProductGrid(props?: ProductGridProps) {
                 onAddToCart={() => handleAddToCart("flow")}
               />
             </div>
+          ) : (
+            <div aria-hidden="true" />
           )}
 
-          {showClear && (
+          {/* Column 2: Clear or empty */}
+          {showClear ? (
             <div className="product-card-wrapper product-card-formula flex flex-col items-center">
               <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
@@ -133,9 +137,12 @@ export default function ProductGrid(props?: ProductGridProps) {
                 onAddToCart={() => handleAddToCart("clear")}
               />
             </div>
+          ) : (
+            <div aria-hidden="true" />
           )}
 
-          {showProtocol && (
+          {/* Column 3: Protocol or empty */}
+          {showProtocol ? (
             <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-center">
               <div className="relative w-full mx-auto aspect-square mb-4">
                 <div className="relative w-full h-full rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10">
@@ -165,6 +172,8 @@ export default function ProductGrid(props?: ProductGridProps) {
                 disabledProtocolVariants={disabledProtocolVariants}
               />
             </div>
+          ) : (
+            <div aria-hidden="true" />
           )}
         </div>
 
