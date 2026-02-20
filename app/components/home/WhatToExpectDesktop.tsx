@@ -151,36 +151,46 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                 <h3 className="font-bold text-base mb-2 text-[var(--text-on-light)]">
                   How to Use
                 </h3>
-                <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
+                <p
+                  className={
+                    showToggle
+                      ? "premium-body-sm text-[var(--text-on-light-muted)] mb-4"
+                      : "premium-body-sm text-[var(--text-on-light-muted)]"
+                  }
+                >
                   {selectedFormula === "01"
                     ? "Take one 30ml shot of CONKA Flow in the morning with or without food. Best as part of your morning routine for sustained energy throughout the day."
                     : "Take one 30ml shot of CONKA Clear 30-60 minutes before peak performance, or in the evening to support recovery and sleep quality."}
                 </p>
-                <a
-                  href={
-                    selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"
-                  }
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--premium-radius-interactive)] font-semibold text-sm bg-[var(--color-ink)] text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-opacity"
-                >
-                  {selectedFormula === "01"
-                    ? "View CONKA Flow"
-                    : "View CONKA Clear"}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
+                {showToggle && (
+                  <a
+                    href={
+                      selectedFormula === "01"
+                        ? "/conka-flow"
+                        : "/conka-clarity"
+                    }
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--premium-radius-interactive)] font-semibold text-sm bg-[var(--color-ink)] text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-opacity"
                   >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
-                </a>
+                    {selectedFormula === "01"
+                      ? "View CONKA Flow"
+                      : "View CONKA Clear"}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                )}
               </div>
             </div>
           </div>
