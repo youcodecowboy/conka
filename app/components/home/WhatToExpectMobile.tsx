@@ -8,10 +8,17 @@ import {
   type TimelineStage,
 } from "@/app/lib/whatToExpectLanding";
 
-export default function WhatToExpectMobile() {
-  const [selectedFormula, setSelectedFormula] = useState<"01" | "02">("01");
+interface WhatToExpectMobileProps {
+  /** When set (PDP), show single product only and hide the toggle. */
+  productId?: "01" | "02";
+}
+
+export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProps) {
+  const [toggleFormula, setToggleFormula] = useState<"01" | "02">("01");
+  const selectedFormula = productId ?? toggleFormula;
   const timeline: TimelineStage[] =
     selectedFormula === "01" ? timelineFlow : timelineClear;
+  const showToggle = productId == null;
 
   return (
     <div className="[animation:none] [&_*]:!animate-none">
@@ -25,62 +32,64 @@ export default function WhatToExpectMobile() {
         </p>
       </div>
 
-      {/* 2. Product toggle — image buttons */}
-      <div className="flex gap-3 justify-center mb-6">
-        <div className="flex flex-col items-center">
-          <button
-            type="button"
-            onClick={() => setSelectedFormula("01")}
-            className={`flex items-center justify-center w-20 h-20 rounded-[var(--premium-radius-nested)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
-              selectedFormula === "01"
-                ? "border-[var(--color-ink)] opacity-100"
-                : "border-[var(--color-premium-stroke)] opacity-60"
-            }`}
-            aria-pressed={selectedFormula === "01"}
-          >
-            <span className="relative w-12 h-14 flex-shrink-0 block">
-              <Image
-                src="/formulas/conkaFlow/FlowNoBackground.png"
-                alt=""
-                fill
-                className="object-contain scale-110"
-                sizes="48px"
-                aria-hidden
-              />
+      {/* 2. Product toggle — image buttons (only when landing) */}
+      {showToggle && (
+        <div className="flex gap-3 justify-center mb-6">
+          <div className="flex flex-col items-center">
+            <button
+              type="button"
+              onClick={() => setToggleFormula("01")}
+              className={`flex items-center justify-center w-20 h-20 rounded-[var(--premium-radius-nested)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
+                selectedFormula === "01"
+                  ? "border-[var(--color-ink)] opacity-100"
+                  : "border-[var(--color-premium-stroke)] opacity-60"
+              }`}
+              aria-pressed={selectedFormula === "01"}
+            >
+              <span className="relative w-12 h-14 flex-shrink-0 block">
+                <Image
+                  src="/formulas/conkaFlow/FlowNoBackground.png"
+                  alt=""
+                  fill
+                  className="object-contain scale-110"
+                  sizes="48px"
+                  aria-hidden
+                />
+              </span>
+            </button>
+            <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+              Flow
             </span>
-          </button>
-          <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
-            Flow
-          </span>
-        </div>
+          </div>
 
-        <div className="flex flex-col items-center">
-          <button
-            type="button"
-            onClick={() => setSelectedFormula("02")}
-            className={`flex items-center justify-center w-20 h-20 rounded-[var(--premium-radius-nested)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
-              selectedFormula === "02"
-                ? "border-[var(--color-ink)] opacity-100"
-                : "border-[var(--color-premium-stroke)] opacity-60"
-            }`}
-            aria-pressed={selectedFormula === "02"}
-          >
-            <span className="relative w-12 h-14 flex-shrink-0 block">
-              <Image
-                src="/formulas/conkaClear/ClearNoBackground.png"
-                alt=""
-                fill
-                className="object-contain scale-110"
-                sizes="48px"
-                aria-hidden
-              />
+          <div className="flex flex-col items-center">
+            <button
+              type="button"
+              onClick={() => setToggleFormula("02")}
+              className={`flex items-center justify-center w-20 h-20 rounded-[var(--premium-radius-nested)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
+                selectedFormula === "02"
+                  ? "border-[var(--color-ink)] opacity-100"
+                  : "border-[var(--color-premium-stroke)] opacity-60"
+              }`}
+              aria-pressed={selectedFormula === "02"}
+            >
+              <span className="relative w-12 h-14 flex-shrink-0 block">
+                <Image
+                  src="/formulas/conkaClear/ClearNoBackground.png"
+                  alt=""
+                  fill
+                  className="object-contain scale-110"
+                  sizes="48px"
+                  aria-hidden
+                />
+              </span>
+            </button>
+            <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+              Clear
             </span>
-          </button>
-          <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
-            Clear
-          </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 3. Main lifestyle image */}
       <div className="mb-8">
@@ -167,33 +176,45 @@ export default function WhatToExpectMobile() {
             <h3 className="font-bold text-base mb-2 text-[var(--text-on-light)]">
               How to Use
             </h3>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
+            <p
+              className={
+                showToggle
+                  ? "premium-body-sm text-[var(--text-on-light-muted)] mb-4"
+                  : "premium-body-sm text-[var(--text-on-light-muted)]"
+              }
+            >
               {selectedFormula === "01"
                 ? "Take one 30ml shot of CONKA Flow in the morning with or without food. Best as part of your morning routine for sustained energy throughout the day."
                 : "Take one 30ml shot of CONKA Clear 30-60 minutes before peak performance, or in the evening to support recovery and sleep quality."}
             </p>
 
-            <a
-              href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--premium-radius-interactive)] font-semibold text-sm bg-[var(--color-ink)] text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)]"
-            >
-              {selectedFormula === "01" ? "View CONKA Flow" : "View CONKA Clear"}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
+            {showToggle && (
+              <a
+                href={
+                  selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"
+                }
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--premium-radius-interactive)] font-semibold text-sm bg-[var(--color-ink)] text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)]"
               >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </a>
+                {selectedFormula === "01"
+                  ? "View CONKA Flow"
+                  : "View CONKA Clear"}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            )}
           </div>
         </div>
       </div>
