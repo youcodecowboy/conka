@@ -62,37 +62,69 @@ export default function WhatToExpect() {
   return (
     <div className="[animation:none] [&_*]:!animate-none">
       {/* Section Header + Toggle */}
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="premium-section-heading mb-3">
-            What to Expect with CONKA
-          </h2>
-          <p className="premium-body text-[var(--text-on-light-muted)] mb-6 max-w-2xl mx-auto">
-            Real benefits that build over time, not overnight promises.
-          </p>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-12">
+          <div className="text-left">
+            <h2 className="premium-section-heading mb-3">
+              What to Expect with CONKA
+            </h2>
+            <p className="premium-body text-[var(--text-on-light-muted)] max-w-2xl">
+              Real benefits that build over time, not overnight promises.
+            </p>
+          </div>
 
-          <div className="flex items-center justify-center gap-2">
-            <button
-              type="button"
-              onClick={() => setSelectedFormula("01")}
-              className={`px-6 py-2 rounded-full font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
-                selectedFormula === "01"
-                  ? "bg-[var(--color-ink)] text-white"
-                  : "bg-white border border-[var(--color-premium-stroke)] text-[var(--text-on-light)] hover:border-[var(--color-ink)]"
-              }`}
-            >
-              CONKA Flow
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedFormula("02")}
-              className={`px-6 py-2 rounded-full font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
-                selectedFormula === "02"
-                  ? "bg-[var(--color-ink)] text-white"
-                  : "bg-white border border-[var(--color-premium-stroke)] text-[var(--text-on-light)] hover:border-[var(--color-ink)]"
-              }`}
-            >
-              CONKA Clear
-            </button>
+          <div className="flex gap-3 flex-shrink-0">
+            <div className="flex flex-col items-center">
+              <button
+                type="button"
+                onClick={() => setSelectedFormula("01")}
+                className={`flex items-center justify-center w-24 h-24 rounded-[var(--premium-radius-nested)] bg-white border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-all ${
+                  selectedFormula === "01"
+                    ? "border-[var(--color-ink)] opacity-100"
+                    : "border-[var(--color-premium-stroke)] opacity-60 hover:opacity-80"
+                }`}
+                aria-pressed={selectedFormula === "01"}
+              >
+                <span className="relative w-14 h-16 flex-shrink-0">
+                  <Image
+                    src="/formulas/conkaFlow/FlowNoBackground.png"
+                    alt=""
+                    fill
+                    className="object-contain object-center scale-110"
+                    sizes="56px"
+                    aria-hidden
+                  />
+                </span>
+              </button>
+              <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+                CONKA Flow
+              </span>
+            </div>
+            <div className="flex flex-col items-center">
+              <button
+                type="button"
+                onClick={() => setSelectedFormula("02")}
+                className={`flex items-center justify-center w-24 h-24 rounded-[var(--premium-radius-nested)] bg-white border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-all ${
+                  selectedFormula === "02"
+                    ? "border-[var(--color-ink)] opacity-100"
+                    : "border-[var(--color-premium-stroke)] opacity-60 hover:opacity-80"
+                }`}
+                aria-pressed={selectedFormula === "02"}
+              >
+                <span className="relative w-14 h-16 flex-shrink-0">
+                  <Image
+                    src="/formulas/conkaClear/ClearNoBackground.png"
+                    alt=""
+                    fill
+                    className="object-contain object-center scale-110"
+                    sizes="56px"
+                    aria-hidden
+                  />
+                </span>
+              </button>
+              <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+                CONKA Clear
+              </span>
+            </div>
           </div>
         </div>
 
@@ -201,24 +233,19 @@ export default function WhatToExpect() {
         {/* How to Use: below main grid */}
         <div className="mt-12 premium-card-soft premium-card-soft-stroke p-6 max-w-3xl mx-auto">
           <div className="flex items-start gap-4 lg:gap-6">
-            <div className="flex-shrink-0">
-              <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] flex items-center justify-center overflow-hidden">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-[var(--text-on-light-muted)]"
-                  aria-hidden
-                >
-                  <path d="M12 2v20M2 12h20" />
-                </svg>
-              </div>
+            <div className="flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] overflow-hidden flex items-center justify-center p-1">
+              <Image
+                src={
+                  selectedFormula === "01"
+                    ? "/formulas/conkaFlow/FlowNoBackground.png"
+                    : "/formulas/conkaClear/ClearNoBackground.png"
+                }
+                alt=""
+                fill
+                className="object-contain object-center"
+                sizes="80px"
+                aria-hidden
+              />
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-bold text-base mb-2 text-[var(--text-on-light)]">
