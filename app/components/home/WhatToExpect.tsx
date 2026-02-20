@@ -59,12 +59,8 @@ export default function WhatToExpect() {
   const timeline = selectedFormula === "01" ? timelineFlow : timelineClear;
 
   return (
-    <section
-      className="premium-section-luxury premium-bg-bone [animation:none] [&_*]:!animate-none"
-      aria-label="What to Expect with CONKA"
-    >
-      <div className="premium-track">
-        {/* Section Header + Toggle */}
+    <div className="[animation:none] [&_*]:!animate-none">
+      {/* Section Header + Toggle */}
         <div className="text-center mb-8 md:mb-12">
           <h2 className="premium-section-heading mb-3">
             What to Expect with CONKA
@@ -193,7 +189,6 @@ export default function WhatToExpect() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+    </div>
   );
 }

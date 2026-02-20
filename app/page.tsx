@@ -133,7 +133,15 @@ export default function Home() {
       </section>
 
       {/* ===== WHAT TO EXPECT (timeline + Flow/Clear toggle + How to Use) ===== */}
-      <WhatToExpect />
+      <section
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        aria-label="What to Expect with CONKA"
+      >
+        <div className="premium-track">
+          <WhatToExpect />
+        </div>
+      </section>
 
       {/* ===== SECTION 5: CASE STUDIES ===== */}
       <CaseStudiesDataDriven />
