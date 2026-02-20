@@ -141,18 +141,21 @@ export default function WhatToExpect() {
             <div className="space-y-4">
               {/* Main lifestyle image */}
               <div className="relative aspect-[4/3] rounded-[var(--premium-radius-card)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center px-4">
-                    <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-1">
-                      Main lifestyle image
-                    </p>
-                    <p className="premium-data text-xs text-[var(--text-on-light-muted)] opacity-60">
-                      {selectedFormula === "01"
-                        ? "Morning routine with Flow"
-                        : "Performance moment with Clear"}
-                    </p>
-                  </div>
-                </div>
+                <Image
+                  src={
+                    selectedFormula === "01"
+                      ? "/lifestyle/WomanPink.jpg"
+                      : "/lifestyle/SatWoman.jpg"
+                  }
+                  alt={
+                    selectedFormula === "01"
+                      ? "Morning routine with CONKA Flow"
+                      : "Peak performance with CONKA Clear"
+                  }
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
               </div>
 
               {/* Two supporting images — left: science b-roll; right: placeholder */}
