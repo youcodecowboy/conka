@@ -166,6 +166,46 @@ export default function WhatToExpect() {
                 </div>
               </div>
             ))}
+
+            {/* How to Use — under last step, left column */}
+            <div className="mt-8 premium-card-soft premium-card-soft-stroke p-6">
+              <div className="flex items-start gap-4 lg:gap-6">
+                <div className="flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] overflow-hidden flex items-center justify-center p-1">
+                  <Image
+                    src={
+                      selectedFormula === "01"
+                        ? "/formulas/conkaFlow/FlowNoBackground.png"
+                        : "/formulas/conkaClear/ClearNoBackground.png"
+                    }
+                    alt=""
+                    fill
+                    className="object-contain object-center"
+                    sizes="80px"
+                    aria-hidden
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-base mb-2 text-[var(--text-on-light)]">
+                    How to Use
+                  </h3>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
+                    {selectedFormula === "01"
+                      ? "Take one 30ml shot of CONKA Flow in the morning with or without food. Best as part of your morning routine for sustained energy throughout the day."
+                      : "Take one 30ml shot of CONKA Clear 30-60 minutes before peak performance, or in the evening to support recovery and sleep quality."}
+                  </p>
+                  <a
+                    href={selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--premium-radius-interactive)] font-semibold text-sm bg-[var(--color-ink)] text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-opacity"
+                  >
+                    {selectedFormula === "01" ? "View CONKA Flow" : "View CONKA Clear"}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right: Visual assets (desktop: sticky; mobile: below timeline) */}
@@ -209,14 +249,22 @@ export default function WhatToExpect() {
                     sizes="(max-width: 1024px) 50vw, 25vw"
                   />
                 </div>
-                <div className="relative aspect-square rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
-                  <div className="w-full h-full flex items-center justify-center p-2">
-                    <p className="premium-data text-xs text-[var(--text-on-light-muted)] text-center">
-                      {selectedFormula === "01"
-                        ? "Sustained energy"
-                        : "Recovery mode"}
-                    </p>
-                  </div>
+                <div className="relative aspect-square rounded-full overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+                  <Image
+                    src={
+                      selectedFormula === "01"
+                        ? "/vibe/water.jpg"
+                        : "/vibe/sky.jpg"
+                    }
+                    alt={
+                      selectedFormula === "01"
+                        ? "Water flow"
+                        : "Clear sky"
+                    }
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                  />
                 </div>
               </div>
             </div>
@@ -227,36 +275,6 @@ export default function WhatToExpect() {
                 ? "CONKA Flow throughout your day"
                 : "CONKA Clear for peak performance"}
             </p>
-          </div>
-        </div>
-
-        {/* How to Use: below main grid */}
-        <div className="mt-12 premium-card-soft premium-card-soft-stroke p-6 max-w-3xl mx-auto">
-          <div className="flex items-start gap-4 lg:gap-6">
-            <div className="flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] overflow-hidden flex items-center justify-center p-1">
-              <Image
-                src={
-                  selectedFormula === "01"
-                    ? "/formulas/conkaFlow/FlowNoBackground.png"
-                    : "/formulas/conkaClear/ClearNoBackground.png"
-                }
-                alt=""
-                fill
-                className="object-contain object-center"
-                sizes="80px"
-                aria-hidden
-              />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-bold text-base mb-2 text-[var(--text-on-light)]">
-                How to Use
-              </h3>
-              <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-                {selectedFormula === "01"
-                  ? "Take one 30ml shot of CONKA Flow in the morning with or without food. Best as part of your morning routine for sustained energy throughout the day."
-                  : "Take one 30ml shot of CONKA Clear 30-60 minutes before peak performance, or in the evening to support recovery and sleep quality."}
-              </p>
-            </div>
           </div>
         </div>
     </div>
