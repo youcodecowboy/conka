@@ -71,9 +71,9 @@ export default function FormulaBenefitsStatsDesktop({
 
       {/* Right: Seed-style — primary rectangular asset + 3 small square placeholders (desktop only) */}
       <div className="space-y-4">
-        {/* Primary: shorter rectangular asset, zoomed out */}
+        {/* Primary: short rectangular asset, zoomed out */}
         <div
-          className="relative aspect-[3/2] w-full overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+          className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
           style={{ borderRadius: "var(--premium-radius-card)" }}
         >
           <Image
@@ -83,14 +83,14 @@ export default function FormulaBenefitsStatsDesktop({
             className="object-cover"
             style={{
               objectPosition: "center center",
-              transform: formulaId === "02" ? "scale(1.1)" : "scale(0.95)",
+              transform: formulaId === "02" ? "scale(1)" : "scale(0.88)",
             }}
             sizes="50vw"
             priority={false}
           />
         </div>
-        {/* Three supporting lifestyle assets — same for Flow and Clear */}
-        <div className="grid grid-cols-3 gap-3">
+        {/* Three supporting lifestyle assets — smaller row */}
+        <div className="grid grid-cols-3 gap-3 max-w-[78%] mx-auto">
           {SUPPORTING_ASSETS.map((asset, idx) => (
             <div
               key={idx}
