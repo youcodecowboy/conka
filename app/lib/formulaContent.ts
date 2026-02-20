@@ -872,7 +872,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
           "Alpha Lipoic Acid",
         ],
         ingredientAsset: {
-          image: "/ingredients/clear/ginkgo-biloba.webp",
+          image: "/ingredients/clear/ginkgo.webp",
           name: "Ginkgo Biloba",
           dosage: "120mg per serving",
         },
@@ -1038,7 +1038,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         ],
         keyIngredients: ["Acetyl-L-Carnitine", "Alpha GPC", "Glutathione"],
         ingredientAsset: {
-          image: "/ingredients/clear/acetyl-l-carnitine.webp",
+          image: "/ingredients/clear/alcar.webp",
           name: "Acetyl-L-Carnitine",
           dosage: "500mg per serving",
         },
