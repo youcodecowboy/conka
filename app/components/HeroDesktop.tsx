@@ -11,11 +11,11 @@ import {
 
 // Desktop (md and up): four images in carousel order
 const HERO_BANNER_IMAGES_DESKTOP = [
-  { src: "/hero/SamHero.jpg", alt: "Person with CONKA bottle outdoors" },
   {
     src: "/hero/HeroBannerW.jpg",
     alt: "Athlete holding CONKA Flow and Clear bottles",
   },
+  { src: "/hero/SamHero.jpg", alt: "Person with CONKA bottle outdoors" },
   { src: "/hero/ClearHero.jpg", alt: "CONKA bottle in hand, lifestyle" },
   {
     src: "/hero/HeroBanner.jpg",
