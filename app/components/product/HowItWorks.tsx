@@ -12,6 +12,16 @@ const FORMULA_ASSETS: Record<FormulaId, string> = {
   "02": "/formulas/conkaClear/ClearTaste.jpg",
 };
 
+/** Desktop supporting assets: square (lifestyle) and circle (vibe/taste) */
+const SUPPORTING_SQUARE: Record<FormulaId, { src: string; alt: string }> = {
+  "01": { src: "/lifestyle/FlowDrink.jpg", alt: "Drinking CONKA Flow" },
+  "02": { src: "/lifestyle/ClearDrink.jpg", alt: "Drinking CONKA Clear" },
+};
+const SUPPORTING_CIRCLE: Record<FormulaId, { src: string; alt: string }> = {
+  "01": { src: "/vibe/HoneyTaste.jpg", alt: "Honey taste" },
+  "02": { src: "/vibe/CitrusTaste.jpg", alt: "Citrus taste" },
+};
+
 const STEPS: Record<
   FormulaId,
   Array<{ number: string; title: string; description: string }>
@@ -67,6 +77,8 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
   const accentColor = FORMULA_COLORS[formulaId];
   const steps = STEPS[formulaId];
   const assetSrc = FORMULA_ASSETS[formulaId];
+  const squareAsset = SUPPORTING_SQUARE[formulaId];
+  const circleAsset = SUPPORTING_CIRCLE[formulaId];
 
   return (
     <>
@@ -123,31 +135,41 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
             />
           </div>
 
-          {/* Desktop (lg): sticky column — primary rectangular + 2 placeholders */}
-          <div className="hidden lg:block lg:sticky lg:top-24">
-            <div className="space-y-4">
-              <div
-                className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
-              >
-                <Image
-                  src={assetSrc}
-                  alt={`${formula.name} – How it works`}
-                  fill
-                  className="object-cover"
-                  sizes="50vw"
-                  priority={false}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-3 md:gap-4">
-                <div
-                  className="relative aspect-square overflow-hidden rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
-                  aria-hidden
-                />
-                <div
-                  className="relative aspect-square overflow-hidden rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
-                  aria-hidden
-                />
-              </div>
+          {/* Desktop (lg): left = primary (2× width, height matches right stack), right = [square], [circle] */}
+          <div className="hidden lg:grid lg:sticky lg:top-24 w-full grid-cols-[2fr_1fr] grid-rows-[auto_auto] gap-3 md:gap-4">
+            {/* Left: primary asset — spans both rows, height matches stacked support assets */}
+            <div
+              className="relative row-span-2 h-full min-h-0 overflow-hidden rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+            >
+              <Image
+                src={assetSrc}
+                alt={`${formula.name} – How it works`}
+                fill
+                className="object-cover"
+                sizes="50vw"
+                priority={false}
+              />
+            </div>
+            {/* Right: square then circle — row heights from aspect-square */}
+            <div
+              className="relative aspect-square w-full overflow-hidden rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+            >
+              <Image
+                src={squareAsset.src}
+                alt={squareAsset.alt}
+                fill
+                className="object-cover"
+                sizes="16vw"
+              />
+            </div>
+            <div className="relative aspect-square w-full overflow-hidden rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+              <Image
+                src={circleAsset.src}
+                alt={circleAsset.alt}
+                fill
+                className="object-cover"
+                sizes="16vw"
+              />
             </div>
           </div>
         </div>
