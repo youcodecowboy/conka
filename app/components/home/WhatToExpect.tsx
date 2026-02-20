@@ -189,6 +189,7 @@ export default function WhatToExpect() {
             </div>
           </div>
         </div>
+      </div>
     </div>
   );
 }
