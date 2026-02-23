@@ -2,7 +2,7 @@
 
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
-import { AppHero } from "@/app/components/app";
+import { AppHero, AppStickyPhoneBlock } from "@/app/components/app";
 import {
   CognitiveTestSection,
   CognitiveTestSectionMobile,
@@ -19,10 +19,9 @@ export default function AppPage() {
     >
       <Navigation />
 
-      {/* Hero Section - Black */}
-      <section className="bg-black text-white px-6 md:px-16 py-12 md:py-16">
-        <AppHero />
-      </section>
+      <AppHero />
+
+      <AppStickyPhoneBlock />
 
       {/* Cognitive Test Section */}
       {isMobile !== undefined &&

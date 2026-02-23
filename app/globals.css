@@ -280,6 +280,20 @@ body {
   animation: fade-in-up 0.8s ease-out forwards;
 }
 
+/* Sticky phone screen swap crossfade */
+@keyframes sticky-phone-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-sticky-phone-fade {
+  animation: sticky-phone-fade 0.35s ease-out forwards;
+}
+
 /* Staggered animation delays for children */
 .stagger-1 {
   animation-delay: 0.1s;

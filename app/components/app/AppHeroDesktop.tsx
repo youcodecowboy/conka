@@ -1,323 +1,150 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
-import Image from "next/image";
 import { AppInstallButtons } from "@/app/components/AppInstallButtons";
 
-// Screenshot paths in order
-const SCREENSHOTS = [
-  "/app/1.png",
-  "/app/2.png",
-  "/app/3.png",
-  "/app/4.png",
-  "/app/5.png",
-];
-
-// Fixed dimensions
-const ACTIVE_WIDTH = 360;  // 300 * 1.2
-const ACTIVE_HEIGHT = 780;
-const INACTIVE_SCALE = 0.55;
-
-// Calculate actual inactive dimensions
-const INACTIVE_WIDTH = ACTIVE_WIDTH * INACTIVE_SCALE;
-const INACTIVE_HEIGHT = ACTIVE_HEIGHT * INACTIVE_SCALE;
+const GRAIN_DATA_URI =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" /></filter><rect width="100%" height="100%" filter="url(%23n)" /></svg>`
+  );
 
 export function AppHeroDesktop() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const isScrollingProgrammatically = useRef(false);
-
-  const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % SCREENSHOTS.length);
-  }, []);
-
-  const goToPrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + SCREENSHOTS.length) % SCREENSHOTS.length);
-  }, []);
-
-  // Find which image is closest to center
-  const findCenteredImage = useCallback((): number => {
-    const container = scrollContainerRef.current;
-    if (!container) return 0;
-
-    const containerRect = container.getBoundingClientRect();
-    const containerCenter = containerRect.left + containerRect.width / 2;
-
-    let closestIndex = 0;
-    let closestDistance = Infinity;
-
-    imageRefs.current.forEach((image, index) => {
-      if (!image) return;
-      const imageRect = image.getBoundingClientRect();
-      const imageCenter = imageRect.left + imageRect.width / 2;
-      const distance = Math.abs(containerCenter - imageCenter);
-
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = index;
-      }
-    });
-
-    return closestIndex;
-  }, []);
-
-  // Handle scroll to detect centered image
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      if (isScrollingProgrammatically.current) return;
-
-      const centeredIndex = findCenteredImage();
-      if (centeredIndex !== currentIndex) {
-        setCurrentIndex(centeredIndex);
-      }
-    };
-
-    container.addEventListener('scroll', handleScroll, { passive: true });
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, [currentIndex, findCenteredImage]);
-
-  // Auto-scroll to center active image
-  useEffect(() => {
-    const activeImage = imageRefs.current[currentIndex];
-    const container = scrollContainerRef.current;
-    if (!activeImage || !container) return;
-
-    isScrollingProgrammatically.current = true;
-    
-    const containerWidth = container.clientWidth;
-    const containerCenter = containerWidth / 2;
-    
-    const imageLeft = activeImage.offsetLeft;
-    const imageWidth = activeImage.offsetWidth;
-    const imageCenter = imageLeft + imageWidth / 2;
-    
-    const scrollLeft = imageCenter - containerCenter;
-    
-    container.scrollTo({
-      left: scrollLeft,
-      behavior: 'smooth',
-    });
-
-    const timeoutId = setTimeout(() => {
-      isScrollingProgrammatically.current = false;
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [currentIndex]);
-
-  // Center first image on mount
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    const firstImage = imageRefs.current[0];
-    
-    if (!container || !firstImage) return;
-
-    // Wait for layout to be ready
-    const timeoutId = setTimeout(() => {
-      isScrollingProgrammatically.current = true;
-      
-      const containerWidth = container.clientWidth;
-      const containerCenter = containerWidth / 2;
-      
-      const imageLeft = firstImage.offsetLeft;
-      const imageWidth = firstImage.offsetWidth;
-      const imageCenter = imageLeft + imageWidth / 2;
-      
-      const scrollLeft = imageCenter - containerCenter;
-      
-      container.scrollTo({
-        left: scrollLeft,
-        behavior: 'auto',
-      });
-
-      setTimeout(() => {
-        isScrollingProgrammatically.current = false;
-      }, 100);
-    }, 50);
-
-    return () => clearTimeout(timeoutId);
-  }, []);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        goToPrev();
-      } else if (e.key === "ArrowRight") {
-        goToNext();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [goToPrev, goToNext]);
-
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-6">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">
-          Discover How Your Brain Performs Today
-        </h1>
-      </div>
+    <section
+      className="relative flex min-h-[100svh] w-full flex-col text-white lg:flex-row lg:items-center px-[var(--premium-gutter-mobile)] lg:px-[var(--premium-gutter-desktop)] py-[clamp(2rem,6vw,4rem)]"
+      style={{ background: "var(--color-ink)" }}
+    >
+      {/* Section-level radial glow behind mockup (right side) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-1/2 hidden h-[70%] w-[50%] -translate-y-1/2 lg:block"
+        style={{
+          background:
+            "radial-gradient(circle at 70% 50%, rgba(64,88,187,0.18) 0%, transparent 60%)",
+          filter: "blur(32px)",
+        }}
+      />
 
-      {/* Carousel Container - Horizontal Scroll View */}
-      <div className="relative mb-6">
-        <div 
-          className="relative" 
-          style={{ 
-            height: `${ACTIVE_HEIGHT}px`,
-          }}
-        >
-          {/* Left fade gradient */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none z-30" />
-          
-          {/* Right fade gradient */}
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent pointer-events-none z-30" />
-          
-          <div 
-            ref={scrollContainerRef}
-            className="overflow-x-auto overflow-y-hidden h-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-            style={{ 
-              height: `${ACTIVE_HEIGHT}px`,
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
+      {/* Grain overlay */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.03]"
+        style={{
+          backgroundImage: `url("${GRAIN_DATA_URI}")`,
+          backgroundRepeat: "repeat",
+        }}
+      />
+
+      <div className="relative z-[2] mx-auto flex w-full max-w-[var(--premium-max-width)] flex-1 flex-col gap-10 lg:flex-row lg:items-center lg:gap-12">
+        {/* Left column — copy */}
+        <div className="hero-mount-left flex flex-1 flex-col items-center text-center lg:w-1/2 lg:items-start lg:text-left">
+          {/* Eyebrow pill */}
+          <div
+            className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest"
+            style={{
+              backgroundColor: "rgba(255,255,255,0.07)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              color: "var(--color-bone)",
             }}
           >
-            <div 
-              className="flex items-center gap-6 h-full" 
-              style={{ 
-                width: 'max-content',
-                height: `${ACTIVE_HEIGHT}px`,
-                paddingLeft: '50%',
-                paddingRight: '50%',
+            <span
+              className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full"
+              style={{ backgroundColor: "#4058bb" }}
+            />
+            Free · iOS &amp; Android
+          </div>
+
+          <h1
+            className="mb-6 max-w-[14ch] font-bold leading-[1.08] text-white"
+            style={{
+              fontSize: "clamp(2.6rem, 5.5vw, 4.25rem)",
+              letterSpacing: "-0.035em",
+            }}
+          >
+            The only supplement you can{" "}
+            <span
+              style={{
+                background: "var(--gradient-neuro-blue-accent)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
               }}
             >
-              {SCREENSHOTS.map((src, index) => {
-                const distance = Math.abs(index - currentIndex);
-                const isActive = index === currentIndex;
-                const isVisible = distance <= 2;
+              measure working.
+            </span>
+          </h1>
 
-                // Actual dimensions based on active state
-                const width = isActive ? ACTIVE_WIDTH : INACTIVE_WIDTH;
-                const height = isActive ? ACTIVE_HEIGHT : INACTIVE_HEIGHT;
-                
-                return (
-                  <div
-                    key={src}
-                    ref={(el) => { imageRefs.current[index] = el; }}
-                    className={`flex-shrink-0 transition-all duration-500 ease-out ${
-                      isActive
-                        ? "opacity-100 z-10"
-                        : isVisible
-                        ? "opacity-60 z-0"
-                        : "opacity-0 z-0 pointer-events-none"
-                    }`}
-                    style={{
-                      // Actual dimensions change based on active state
-                      width: `${width}px`,
-                      height: `${height}px`,
-                      cursor: isActive ? 'default' : 'pointer',
-                    }}
-                    onClick={() => !isActive && setCurrentIndex(index)}
-                  >
-                    <div 
-                      className="relative w-full h-full rounded-3xl overflow-hidden"
-                      style={{
-                        width: `${width}px`,
-                        height: `${height}px`,
-                      }}
-                    >
-                      <Image
-                        src={src}
-                        alt={`CONKA App screenshot ${index + 1}`}
-                        fill
-                        className="object-contain rounded-3xl"
-                        priority={index === 0}
-                        loading={index === 0 ? undefined : "lazy"}
-                        sizes={`${width}px`}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
+          <p
+            className="mb-8 max-w-[38ch] leading-[1.65]"
+            style={{
+              color: "var(--color-bone)",
+              fontSize: "clamp(1rem, 1.8vw, 1.2rem)",
+            }}
+          >
+            3-minute cognitive test. Wellness tracking. Measurable progress —
+            tracked against your own data over time.
+          </p>
+
+          {/* Stats row */}
+          <div className="mb-8 flex flex-wrap justify-center gap-8 lg:justify-start">
+            <div>
+              <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
+                800+
+              </div>
+              <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
+                Active users
+              </div>
+            </div>
+            <div>
+              <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
+                16%
+              </div>
+              <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
+                Avg. improvement in 30 days
+              </div>
+            </div>
+            <div>
+              <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
+                Free
+              </div>
+              <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
+                Always
+              </div>
             </div>
           </div>
+
+          <AppInstallButtons inverted={false} />
+
+          <p
+            className="mt-8 max-w-[36ch] text-[0.75rem]"
+            style={{ color: "var(--color-bone)" }}
+          >
+            Powered by clinically validated cognitive assessment technology
+            developed from Cambridge University research. FDA cleared.
+          </p>
         </div>
 
-        {/* Navigation Arrows - Positioned relative to outer container, always visible */}
-        {SCREENSHOTS.length > 1 && (
-          <>
-            <button
-              onClick={goToPrev}
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-white/30 hover:bg-white/40 backdrop-blur-md transition-all duration-200 z-50 touch-manipulation shadow-lg"
-              aria-label="Previous screenshot"
-              style={{ top: `${ACTIVE_HEIGHT / 2}px` }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
-              >
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-
-            <button
-              onClick={goToNext}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-white/30 hover:bg-white/40 backdrop-blur-md transition-all duration-200 z-50 touch-manipulation shadow-lg"
-              aria-label="Next screenshot"
-              style={{ top: `${ACTIVE_HEIGHT / 2}px` }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
-              >
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
-          </>
-        )}
-
-        {/* Dot Indicators - moved outside container to avoid overlap */}
-        {SCREENSHOTS.length > 1 && (
-          <div className="flex justify-center gap-2 mt-6">
-            {SCREENSHOTS.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`rounded-full transition-all duration-200 ${
-                  index === currentIndex
-                    ? "w-3 h-3 bg-white"
-                    : "w-2 h-2 bg-white/40 hover:bg-white/60"
-                }`}
-                aria-label={`Go to screenshot ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
+        {/* Right column — mockup */}
+        <div className="hero-mount-right relative flex flex-1 justify-center lg:w-1/2 lg:justify-end">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              width: "60%",
+              height: "60%",
+              background:
+                "radial-gradient(circle, rgba(64,88,187,0.25) 0%, transparent 70%)",
+              filter: "blur(48px)",
+            }}
+          />
+          <img
+            src="/app/AppConkaRing.png"
+            alt="CONKA app on iPhone"
+            className="relative z-[1] h-auto w-[clamp(208px,30.4vw,384px)]"
+            style={{ animation: "floatPhone 5s ease-in-out infinite" }}
+          />
+        </div>
       </div>
-
-      {/* Install Buttons */}
-      <div className="text-center">
-        <AppInstallButtons inverted={true} />
-      </div>
-    </div>
+    </section>
   );
 }
-
-export default AppHeroDesktop;
