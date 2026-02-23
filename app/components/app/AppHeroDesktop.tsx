@@ -140,7 +140,7 @@ export function AppHeroDesktop() {
           <img
             src="/app/AppConkaRing.png"
             alt="CONKA app on iPhone"
-            className="relative z-[1] h-auto w-[clamp(260px,38vw,480px)]"
+            className="relative z-[1] h-auto w-[clamp(208px,30.4vw,384px)]"
             style={{ animation: "floatPhone 5s ease-in-out infinite" }}
           />
         </div>
