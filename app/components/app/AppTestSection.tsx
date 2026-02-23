@@ -214,7 +214,7 @@ export function AppTestSection() {
                     backgroundClip: "text",
                   }}
                 >
-                  5 min
+                  2 min
                 </div>
                 <p
                   className="mt-1 leading-[1.4]"
