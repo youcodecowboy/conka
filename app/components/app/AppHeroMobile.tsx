@@ -31,7 +31,7 @@ export function AppHeroMobile() {
           style={{
             backgroundColor: "rgba(255,255,255,0.07)",
             border: "1px solid rgba(255,255,255,0.1)",
-            color: "rgba(255,255,255,0.55)",
+            color: "var(--color-bone)",
           }}
         >
           <span
@@ -87,7 +87,7 @@ export function AppHeroMobile() {
         <p
           className="max-w-[38ch] leading-[1.65]"
           style={{
-            color: "rgba(255,255,255,0.55)",
+            color: "var(--color-bone)",
             fontSize: "clamp(1rem, 1.8vw, 1.2rem)",
           }}
         >
@@ -101,7 +101,7 @@ export function AppHeroMobile() {
             <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
               800+
             </div>
-            <div className="text-[0.75rem]" style={{ color: "rgba(255,255,255,0.4)" }}>
+            <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
               Active users
             </div>
           </div>
@@ -109,7 +109,7 @@ export function AppHeroMobile() {
             <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
               16%
             </div>
-            <div className="text-[0.75rem]" style={{ color: "rgba(255,255,255,0.4)" }}>
+            <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
               Avg. improvement in 30 days
             </div>
           </div>
@@ -117,7 +117,7 @@ export function AppHeroMobile() {
             <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
               Free
             </div>
-            <div className="text-[0.75rem]" style={{ color: "rgba(255,255,255,0.4)" }}>
+            <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
               Always
             </div>
           </div>
@@ -129,7 +129,7 @@ export function AppHeroMobile() {
         {/* 7. Credibility line */}
         <p
           className="max-w-[36ch] text-[0.75rem]"
-          style={{ color: "rgba(255,255,255,0.28)" }}
+          style={{ color: "var(--color-bone)" }}
         >
           Powered by clinically validated cognitive assessment technology
           developed from Cambridge University research. FDA cleared.

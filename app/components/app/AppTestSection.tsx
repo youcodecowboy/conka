@@ -27,7 +27,7 @@ export function AppTestSection() {
             style={{
               backgroundColor: "rgba(255,255,255,0.07)",
               border: "1px solid rgba(255,255,255,0.1)",
-              color: "rgba(255,255,255,0.55)",
+              color: "var(--color-bone)",
             }}
           >
             Not an intelligence test. A processing speed test.
@@ -57,7 +57,7 @@ export function AppTestSection() {
           <p
             className="mb-4 max-w-[52ch] leading-[1.7]"
             style={{
-              color: "rgba(255,255,255,0.55)",
+              color: "var(--color-bone)",
               fontSize: "clamp(1rem, 1.6vw, 1.15rem)",
             }}
           >
@@ -71,7 +71,7 @@ export function AppTestSection() {
           <p
             className="max-w-[52ch] text-center italic"
             style={{
-              color: "rgba(255,255,255,0.35)",
+              color: "var(--color-bone)",
               fontSize: "0.85rem",
             }}
           >
@@ -109,14 +109,14 @@ export function AppTestSection() {
                   className="mt-1 leading-[1.4]"
                   style={{
                     fontSize: "0.85rem",
-                    color: "rgba(255,255,255,0.5)",
+                    color: "var(--color-bone)",
                   }}
                 >
                   Sensitivity detecting cognitive impairment
                 </p>
                 <p
                   className="mt-2 text-[0.65rem] italic"
-                  style={{ color: "rgba(255,255,255,0.3)" }}
+                  style={{ color: "var(--color-bone)" }}
                 >
                   ADePT Study, PMC10533908
                 </p>
@@ -146,14 +146,14 @@ export function AppTestSection() {
                   className="mt-1 leading-[1.4]"
                   style={{
                     fontSize: "0.85rem",
-                    color: "rgba(255,255,255,0.5)",
+                    color: "var(--color-bone)",
                   }}
                 >
                   Test-retest reliability
                 </p>
                 <p
                   className="mt-2 text-[0.65rem] italic"
-                  style={{ color: "rgba(255,255,255,0.3)" }}
+                  style={{ color: "var(--color-bone)" }}
                 >
                   ADePT Study, PMC10533908
                 </p>
@@ -183,14 +183,14 @@ export function AppTestSection() {
                   className="mt-1 leading-[1.4]"
                   style={{
                     fontSize: "0.85rem",
-                    color: "rgba(255,255,255,0.5)",
+                    color: "var(--color-bone)",
                   }}
                 >
                   NHS Trusts in clinical validation trials
                 </p>
                 <p
                   className="mt-2 text-[0.65rem] italic"
-                  style={{ color: "rgba(255,255,255,0.3)" }}
+                  style={{ color: "var(--color-bone)" }}
                 >
                   HRA validation study, ISRCTN95636074
                 </p>
@@ -220,7 +220,7 @@ export function AppTestSection() {
                   className="mt-1 leading-[1.4]"
                   style={{
                     fontSize: "0.85rem",
-                    color: "rgba(255,255,255,0.5)",
+                    color: "var(--color-bone)",
                   }}
                 >
                   That&apos;s all it takes
@@ -232,7 +232,7 @@ export function AppTestSection() {
               className="mt-6 max-w-[42ch] italic"
               style={{
                 fontSize: "0.7rem",
-                color: "rgba(255,255,255,0.25)",
+                color: "var(--color-bone)",
               }}
             >
               Validated across NHS Memory Clinics. Developed from Cambridge
@@ -256,7 +256,7 @@ export function AppTestSection() {
               />
               {/* Placeholder when asset missing */}
               <div
-                className="hidden flex-shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-xs text-white/25"
+                className="hidden flex-shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-xs text-[var(--color-bone)]"
                 style={{
                   width: "clamp(120px,22vw,180px)",
                   aspectRatio: "9/19",
@@ -267,7 +267,7 @@ export function AppTestSection() {
               </div>
               <span
                 className="text-center text-[0.75rem] uppercase tracking-widest"
-                style={{ color: "rgba(255,255,255,0.35)" }}
+                style={{ color: "var(--color-bone)" }}
               >
                 Ready
               </span>
@@ -285,7 +285,7 @@ export function AppTestSection() {
                 }}
               />
               <div
-                className="hidden flex-shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-xs text-white/25"
+                className="hidden flex-shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-xs text-[var(--color-bone)]"
                 style={{
                   width: "clamp(120px,22vw,180px)",
                   aspectRatio: "9/19",
@@ -296,7 +296,7 @@ export function AppTestSection() {
               </div>
               <span
                 className="text-center text-[0.75rem] uppercase tracking-widest"
-                style={{ color: "rgba(255,255,255,0.35)" }}
+                style={{ color: "var(--color-bone)" }}
               >
                 Processing
               </span>
