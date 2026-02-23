@@ -2,7 +2,7 @@
 
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
-import { AppHero } from "@/app/components/app";
+import { AppHero, AppTestSection } from "@/app/components/app";
 import {
   CognitiveTestSection,
   CognitiveTestSectionMobile,
@@ -20,6 +20,8 @@ export default function AppPage() {
       <Navigation />
 
       <AppHero />
+
+      <AppTestSection />
 
       {/* Cognitive Test Section */}
       {isMobile !== undefined &&
