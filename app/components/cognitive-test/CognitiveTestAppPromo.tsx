@@ -6,73 +6,63 @@
  * Promotes the full CONKA app experience with benefits list
  * and download information.
  */
+function CheckIcon() {
+  return (
+    <div
+      className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+      style={{ background: "var(--gradient-neuro-blue-accent)" }}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="10"
+        height="10"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    </div>
+  );
+}
+
 export default function CognitiveTestAppPromo() {
   return (
-    <div className="neo-box p-4 lg:p-6 bg-current/5">
-      <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-3">
+    <div
+      className="premium-card-soft premium-card-soft-stroke p-4 lg:p-6"
+      style={{ color: "var(--color-ink)", background: "rgba(0,0,0,0.03)" }}
+    >
+      <p
+        className="text-xs uppercase tracking-widest mb-3 opacity-70"
+        style={{ fontSize: "var(--premium-font-data-size)" }}
+      >
         Get the Full Experience
       </p>
-      <p className="text-sm opacity-70 mb-4">
+      <p
+        className="text-sm mb-4 opacity-80"
+        style={{ lineHeight: "var(--premium-font-body-leading)" }}
+      >
         This was a 30-second snapshot. The full Speed of Processing game in the
         CONKA app gives you detailed insights and tracks how your performance
         changes with lifestyle factors.
       </p>
       <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-teal-500 flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="10"
-              height="10"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </div>
-          <span className="text-xs opacity-70">Full validated test</span>
+          <CheckIcon />
+          <span className="text-xs opacity-80" style={{ fontSize: "var(--premium-font-data-size)" }}>Full validated test</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-teal-500 flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="10"
-              height="10"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </div>
-          <span className="text-xs opacity-70">
+          <CheckIcon />
+          <span className="text-xs opacity-80" style={{ fontSize: "var(--premium-font-data-size)" }}>
             Sleep &amp; exercise tracking
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-teal-500 flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="10"
-              height="10"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </div>
-          <span className="text-xs opacity-70">Personalized insights</span>
+          <CheckIcon />
+          <span className="text-xs opacity-80" style={{ fontSize: "var(--premium-font-data-size)" }}>Personalized insights</span>
         </div>
       </div>
       {/* App Store Links */}
@@ -81,7 +71,7 @@ export default function CognitiveTestAppPromo() {
           href="https://apps.apple.com/gb/app/conka-app/id6450399391"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-[var(--premium-radius-interactive)] text-sm font-medium hover:opacity-90 transition-opacity bg-[var(--color-ink)] text-[var(--color-bone)]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +88,7 @@ export default function CognitiveTestAppPromo() {
           href="https://play.google.com/store/apps/details?id=com.conka.conkaApp"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-[var(--premium-radius-interactive)] text-sm font-medium hover:opacity-90 transition-opacity bg-[var(--color-ink)] text-[var(--color-bone)]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

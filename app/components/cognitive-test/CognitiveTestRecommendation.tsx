@@ -51,22 +51,38 @@ export default function CognitiveTestRecommendation({
   const recommendation = getRecommendation();
 
   return (
-    <div className="neo-box p-4 lg:p-6 border-l-4 border-amber-500">
-      <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-3">
+    <div
+      className="premium-card-soft premium-card-soft-stroke p-4 lg:p-6 border-l-4"
+      style={{
+        color: "var(--color-ink)",
+        borderLeftColor: "var(--color-neuro-blue-end)",
+      }}
+    >
+      <p
+        className="text-xs uppercase tracking-widest mb-3 opacity-70"
+        style={{ fontSize: "var(--premium-font-data-size)" }}
+      >
         Based on Your Performance
       </p>
-      <h4 className="font-bold text-lg mb-2">{recommendation.headline}</h4>
-      <p className="text-sm opacity-70 mb-4">{recommendation.description}</p>
+      <h4 className="font-bold text-lg mb-2" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
+        {recommendation.headline}
+      </h4>
+      <p
+        className="text-sm mb-4 opacity-80"
+        style={{ lineHeight: "var(--premium-font-body-leading)" }}
+      >
+        {recommendation.description}
+      </p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <a
           href={recommendation.href}
-          className="neo-button px-5 py-2 text-sm font-bold inline-flex items-center justify-center"
+          className="px-5 py-2 text-sm font-bold inline-flex items-center justify-center rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-[var(--color-ink)] text-[var(--color-bone)] hover:opacity-90"
         >
           {recommendation.buttonText}
         </a>
         <a
           href="/quiz"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full bg-amber-500 text-black font-semibold text-sm border-2 border-amber-500 hover:bg-amber-600 hover:border-amber-600 transition-all"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-[var(--premium-radius-interactive)] font-semibold text-sm border border-[var(--color-premium-stroke)] bg-[var(--color-ink)] text-[var(--color-bone)] hover:opacity-90 transition-opacity"
         >
           Take the Quiz
           <svg

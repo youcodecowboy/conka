@@ -12,7 +12,10 @@ export default function CognitiveTestIdleCard({
   onStart,
 }: CognitiveTestIdleCardProps) {
   return (
-    <div className="neo-box p-6 lg:p-10 flex flex-col items-center text-center">
+    <div
+      className="premium-card-soft premium-card-soft-stroke flex flex-col items-center text-center p-6 lg:p-10"
+      style={{ color: "var(--color-ink)" }}
+    >
       {/* Brain Icon */}
       <div className="w-16 h-16 lg:w-24 lg:h-24 mb-6 lg:mb-8 flex items-center justify-center">
         <svg
@@ -39,24 +42,32 @@ export default function CognitiveTestIdleCard({
         </svg>
       </div>
 
-      <h3 className="text-xl lg:text-2xl font-bold mb-3">
+      <h3
+        className="text-xl lg:text-2xl font-bold mb-3"
+        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+      >
         Try the Speed of Processing Game
       </h3>
-      <p className="text-base opacity-70 mb-8">
+      <p
+        className="text-base mb-8 opacity-80"
+        style={{
+          lineHeight: "var(--premium-font-body-leading)",
+          maxWidth: "var(--premium-body-max-width)",
+        }}
+      >
         A 30-second clinical-grade assessment used in real research trials.
         Unlike typical brain games, you can&apos;t improve through practice
         alone—only by genuinely enhancing your cognitive function.
       </p>
 
-      {/* Large prominent button */}
       <button
         onClick={onStart}
-        className="neo-button px-12 py-5 font-bold text-xl w-full transition-transform hover:scale-[1.02] active:scale-[0.98]"
+        className="w-full px-12 py-5 font-bold text-xl transition-transform hover:scale-[1.02] active:scale-[0.98] rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-[var(--color-ink)] text-[var(--color-bone)] hover:opacity-90"
       >
         Start Game
       </button>
 
-      <p className="font-clinical text-sm opacity-50 mt-6">
+      <p className="text-sm mt-6 opacity-70" style={{ fontSize: "var(--premium-font-data-size)" }}>
         Full test with personalized insights available in the CONKA app
       </p>
     </div>

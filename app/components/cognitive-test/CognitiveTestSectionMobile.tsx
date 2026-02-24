@@ -25,7 +25,10 @@ function BenefitsRowMobile() {
       {["Clinically-validated", "Instant results", "Personalized"].map(
         (benefit) => (
           <div key={benefit} className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
+            <div
+              className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{ background: "var(--gradient-neuro-blue-accent)" }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="10"
@@ -40,7 +43,7 @@ function BenefitsRowMobile() {
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <span className="text-xs opacity-70">{benefit}</span>
+            <span className="text-xs opacity-80" style={{ color: "var(--color-ink)" }}>{benefit}</span>
           </div>
         ),
       )}
@@ -122,16 +125,26 @@ export default function CognitiveTestSectionMobile({
   }, []);
 
   return (
-    <section className={`px-6 py-12 ${className}`}>
+    <div className={className}>
       {/* Header Area - Mobile optimized */}
       <div className="mb-8">
-        <p className="font-clinical text-xs uppercase tracking-widest opacity-50 mb-2">
+        <p
+          className="text-xs uppercase tracking-widest mb-2 opacity-70"
+          style={{ color: "var(--color-ink)", fontSize: "var(--premium-font-data-size)" }}
+        >
           Test Your Brain
         </p>
-        <h2 className="text-2xl font-bold mb-2">
+        <h2
+          id="cognitive-test-heading"
+          className="text-2xl font-bold mb-2"
+          style={{ color: "var(--color-ink)", letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
           Measure Your Cognitive Performance
         </h2>
-        <p className="font-commentary text-lg opacity-80">
+        <p
+          className="text-lg opacity-80"
+          style={{ color: "var(--color-ink)", lineHeight: "var(--premium-font-body-leading)" }}
+        >
           based on a decade of neuroscience research
         </p>
       </div>
@@ -149,7 +162,7 @@ export default function CognitiveTestSectionMobile({
         {/* EMAIL STATE */}
         {testState === "email" && (
           <div className="w-full">
-            <div className="neo-box p-6">
+            <div className="premium-card-soft premium-card-soft-stroke p-6" style={{ color: "var(--color-ink)" }}>
               <EmailCaptureForm
                 onSubmit={handleEmailSubmit}
                 onBack={handleBackToIdle}
@@ -162,13 +175,16 @@ export default function CognitiveTestSectionMobile({
         {/* TESTING STATE */}
         {testState === "testing" && (
           <div className="w-full">
-            <div className="neo-box p-0 min-h-[500px] overflow-hidden">
+            <div
+              className="p-0 min-h-[500px] overflow-hidden rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)]"
+              style={{ background: "var(--color-premium-bg-soft)" }}
+            >
               <CognicaSDK
                 onComplete={handleTestComplete}
                 subjectId={subjectId}
               />
             </div>
-            <div className="flex flex-col items-center gap-2 mt-4 text-xs opacity-60">
+            <div className="flex flex-col items-center gap-2 mt-4 text-xs opacity-70" style={{ color: "var(--color-ink)" }}>
               <span>Tap right for animals</span>
               <span>Tap left for anything else</span>
               <span>Speed and accuracy both count</span>
@@ -195,7 +211,8 @@ export default function CognitiveTestSectionMobile({
             <div className="flex justify-center">
               <button
                 onClick={handleRetakeTest}
-                className="neo-button-outline px-6 py-3 font-bold text-sm"
+                className="px-6 py-3 font-bold text-sm rounded-[var(--premium-radius-interactive)] border border-[var(--color-ink)] bg-transparent hover:bg-[var(--color-ink)] hover:text-[var(--color-bone)] transition-colors"
+                style={{ color: "var(--color-ink)" }}
               >
                 Play Again
               </button>
@@ -203,6 +220,6 @@ export default function CognitiveTestSectionMobile({
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }
