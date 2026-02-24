@@ -57,6 +57,11 @@ const nextConfig: NextConfig = {
         destination: '/conka-clarity',
         permanent: true,
       },
+      {
+        source: '/help',
+        destination: '/account/login',
+        permanent: true,
+      },
     ];
   },
 
