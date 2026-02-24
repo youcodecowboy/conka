@@ -28,269 +28,150 @@ export default function AppPage() {
       <AppDownloadSection />
 
       {/* Cognitive Test Section */}
-      {isMobile !== undefined &&
-        (isMobile ? <CognitiveTestSectionMobile /> : <CognitiveTestSection />)}
+      <section
+        className="premium-section-luxury premium-bg-bone"
+        style={{ color: "var(--color-ink)" }}
+        aria-labelledby="cognitive-test-heading"
+      >
+        <div className="premium-track">
+          {isMobile !== undefined &&
+            (isMobile ? <CognitiveTestSectionMobile /> : <CognitiveTestSection />)}
+        </div>
+      </section>
 
-      {/* Evidence Section - White */}
-      <section className="bg-white text-black px-6 md:px-16 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8">
-            <p className="font-clinical text-xs uppercase tracking-widest opacity-70 mb-4">
-              EVIDENCE - BACKED BRAIN OPTIMISATION
+      {/* Evidence Section */}
+      <section className="premium-section-luxury premium-bg-bone" style={{ color: "var(--color-ink)" }}>
+        <div className="premium-track">
+          <div className="text-center">
+            <p
+              className="text-xs uppercase tracking-widest mb-4 opacity-70"
+              style={{ fontSize: "var(--premium-font-data-size)" }}
+            >
+              Evidence-backed brain optimisation
             </p>
-            <p className="text-lg md:text-xl mb-6 max-w-3xl mx-auto">
+            <p
+              className="mb-6 mx-auto max-w-[65ch]"
+              style={{
+                fontSize: "clamp(1rem, 1.8vw, 1.2rem)",
+                lineHeight: "var(--premium-font-body-leading)",
+              }}
+            >
               The CONKA app combines neuroscience-based testing with
               personalised recommendations. Clinical data supports a potential{" "}
-              <span className="font-bold">
-                16% improvement in cognitive performance
-              </span>{" "}
-              over 30 days when following the recommended brain optimisation
-              plan.
+              <span className="font-bold">16% improvement in cognitive performance</span>{" "}
+              over 30 days when following the recommended brain optimisation plan.
             </p>
-            <blockquote className="font-commentary text-xl md:text-2xl italic max-w-2xl mx-auto">
+            <blockquote
+              className="text-xl md:text-2xl italic mx-auto max-w-[52ch] opacity-90"
+              style={{
+                letterSpacing: "var(--letter-spacing-premium-title)",
+                lineHeight: "var(--premium-font-body-leading)",
+              }}
+            >
               &ldquo;Developed by neuroscientists and tested with professional
-              athletes - your brain deserves the same precision and care.&rdquo;
+              athletes — your brain deserves the same precision and care.&rdquo;
             </blockquote>
           </div>
         </div>
       </section>
 
-      {/* Key Features Section - Black */}
-      <section className="bg-black text-white px-6 md:px-16 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-            The App Features
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Feature 1 */}
-            <div className="border-2 border-white/20 rounded-lg bg-white/5 p-6">
-              <div className="mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-white"
-                >
-                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-3">
-                Personalised Performance Plan
-              </h3>
-              <p className="opacity-80">
-                Personalised recommendations and actionable steps to boost your
-                performance.
-              </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="border-2 border-white/20 rounded-lg bg-white/5 p-6">
-              <div className="mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-white"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-3">
-                Instant Cognitive Insight
-              </h3>
-              <p className="opacity-80">
-                Immediate insights into your brains processing speed.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="border-2 border-white/20 rounded-lg bg-white/5 p-6">
-              <div className="mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-white"
-                >
-                  <path d="M3 3v18h18" />
-                  <path d="M18 7l-5 5-4-4-3 3" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-3">
-                Measurable Progress Tracking
-              </h3>
-              <p className="opacity-80">
-                Track progress over time and see measurable improvement - up to
-                16% in just 30 days.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* App Features List Section - White */}
-      <section className="bg-white text-black px-6 md:px-16 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-            The App Features
-          </h2>
-          <div className="space-y-6">
-            {/* FDA Cleared */}
-            <div className="neo-box p-6">
-              <h3 className="text-xl font-bold mb-2">FDA CLEARED</h3>
-              <p className="opacity-80">
-                You can&apos;t learn it or game it, the only way to get better
-                is to improve your brain power
-              </p>
-            </div>
-
-            {/* Seamless Formula */}
-            <div className="neo-box p-6">
-              <h3 className="text-xl font-bold mb-2">SEAMLESS FORMULA</h3>
-              <p className="opacity-80">
-                Integration with CONKA brain shots to maximise improvement.
-              </p>
-            </div>
-
-            {/* Measurable Proof */}
-            <div className="neo-box p-6">
-              <h3 className="text-xl font-bold mb-2">MEASURABLE PROOF</h3>
-              <p className="opacity-80">
-                Track daily progress and see measurable gain, the only brain
-                supplement you can measure working.
-              </p>
-            </div>
-
-            {/* Habit Building */}
-            <div className="neo-box p-6">
-              <h3 className="text-xl font-bold mb-2">HABIT BUILDING</h3>
-              <p className="opacity-80">
-                Science-backed strategies and nudges to keep you accountable.
-              </p>
-            </div>
-
-            {/* Compare with the Best */}
-            <div className="neo-box p-6">
-              <h3 className="text-xl font-bold mb-2">COMPARE WITH THE BEST</h3>
-              <p className="opacity-80">
-                Keep competitive, see how you stack up against some of the
-                fastest brains in the world from footballers to F1 drivers by
-                posting your score into the Global leaderboard.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Comparison Table Section - Black */}
-      <section className="bg-black text-white px-6 md:px-16 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+      {/* Comparison Table Section */}
+      <section
+        className="premium-section-luxury premium-bg-ink"
+        style={{ color: "var(--text-on-ink)" }}
+      >
+        <div className="premium-track">
+          <h2
+            className="text-3xl md:text-4xl font-bold mb-12 text-center"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
             Why our App has the best functionality
           </h2>
-          <div className="border-2 border-white/20 rounded-lg bg-white/5 p-6 overflow-x-auto">
+          <div
+            className="overflow-x-auto rounded-[var(--premium-radius-card)] p-6"
+            style={{
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(255,255,255,0.04)",
+            }}
+          >
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b-2 border-white/30">
-                  <th className="text-left p-4 font-bold">Feature</th>
-                  <th className="text-left p-4 font-bold">Us</th>
-                  <th className="text-left p-4 font-bold">Them</th>
+                <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
+                  <th className="text-left p-4 font-bold" style={{ padding: "var(--premium-space-m)" }}>Feature</th>
+                  <th className="text-left p-4 font-bold" style={{ padding: "var(--premium-space-m)" }}>Us</th>
+                  <th className="text-left p-4 font-bold" style={{ padding: "var(--premium-space-m)" }}>Them</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-white/10">
-                  <td className="p-4 font-semibold">Purpose</td>
-                  <td className="p-4">
-                    Measures and trains your brain for real performance
-                    improvement
+                <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Purpose</td>
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
+                    Measures and trains your brain for real performance improvement
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     Tracks general wellness or gives broad lifestyle advice
                   </td>
                 </tr>
-                <tr className="border-b border-white/10">
-                  <td className="p-4 font-semibold">Measurement</td>
-                  <td className="p-4">
-                    Objective cognitive data that shows when you&apos;re
-                    actually underperforming
+                <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Measurement</td>
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
+                    Objective cognitive data that shows when you&apos;re actually underperforming
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     Relies on how you feel or surface-level metrics
                   </td>
                 </tr>
-                <tr className="border-b border-white/10">
-                  <td className="p-4 font-semibold">Focus</td>
-                  <td className="p-4">
+                <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Focus</td>
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     Brain-first. The organ that drives everything
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     Mostly heart rate, steps, sleep or mood tracking
                   </td>
                 </tr>
-                <tr className="border-b border-white/10">
-                  <td className="p-4 font-semibold">Scientific Backing</td>
-                  <td className="p-4">
+                <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Scientific Backing</td>
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     FDA cleared medical device with clinical grounding
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     Often unverified or loosely science-informed
                   </td>
                 </tr>
-                <tr className="border-b border-white/10">
-                  <td className="p-4 font-semibold">Testing Method</td>
-                  <td className="p-4">
-                    Uses visual tests (animals) to avoid learning, language or
-                    education bias
+                <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Testing Method</td>
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
+                    Uses visual tests (animals) to avoid learning, language or education bias
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     Many tests are affected by prior knowledge or IQ factors
                   </td>
                 </tr>
-                <tr className="border-b border-white/10">
-                  <td className="p-4 font-semibold">Progress Over Time</td>
-                  <td className="p-4">
-                    Shows measurable cognitive improvement without learning
-                    effects
+                <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Progress Over Time</td>
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
+                    Shows measurable cognitive improvement without learning effects
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     Score increases are often just familiarity with the test
                   </td>
                 </tr>
-                <tr className="border-b border-white/10">
-                  <td className="p-4 font-semibold">Guidance</td>
-                  <td className="p-4">
-                    Pairs data with the CONKA formula to actively improve
-                    performance
+                <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Guidance</td>
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
+                    Pairs data with the CONKA formula to actively improve performance
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     Gives numbers with little direction or actionable change
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-4 font-semibold">Motivation</td>
-                  <td className="p-4">
+                  <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Motivation</td>
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     Keeps you competitive by benchmarking against pro athletes
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
                     No high-performance comparison or motivational challenge
                   </td>
                 </tr>
