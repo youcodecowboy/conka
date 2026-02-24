@@ -43,6 +43,15 @@ export default function AppPage() {
       <section className="premium-section-luxury premium-bg-surface" style={{ color: "var(--color-ink)" }}>
         <div className="premium-track">
           <div className="text-center">
+            {/* Placeholder: replace with brain + graph or 16% / 30-day data visual */}
+            <div
+              className="mx-auto mb-8 flex aspect-[2/1] max-w-md items-center justify-center rounded-[var(--premium-radius-card)] border-2 border-dashed border-[var(--color-mid)] bg-[var(--color-surface)]"
+              aria-hidden
+            >
+              <p className="px-4 text-center text-sm opacity-70" style={{ color: "var(--color-ink)" }}>
+                Asset: Brain + upward graph or 16% / 30-day data visual. Replace with final image.
+              </p>
+            </div>
             <p
               className="text-xs uppercase tracking-widest mb-4 opacity-70"
               style={{ fontSize: "var(--premium-font-data-size)" }}

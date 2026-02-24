@@ -8,11 +8,20 @@ export function AppComparisonTable() {
   return (
     <>
       <h2
-        className="text-3xl md:text-4xl font-bold mb-12 text-center"
+        className="text-3xl md:text-4xl font-bold mb-8 text-center"
         style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
       >
         Why our App has the best functionality
       </h2>
+      {/* Placeholder: replace with Us vs Them device silhouettes or icon strip */}
+      <div
+        className="mb-8 flex aspect-[4/1] max-w-xl items-center justify-center rounded-[var(--premium-radius-nested)] border border-dashed border-white/20 bg-white/5 mx-auto"
+        aria-hidden
+      >
+        <p className="px-4 text-center text-xs opacity-60">
+          Asset: Us vs Them — two device silhouettes or icons. Replace with final image.
+        </p>
+      </div>
       <div
         className="overflow-x-auto rounded-[var(--premium-radius-card)] p-6"
         style={{
