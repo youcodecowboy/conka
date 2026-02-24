@@ -2,7 +2,7 @@
 
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
-import { AppHero, AppStickyPhoneBlock, AppSubscribersSection } from "@/app/components/app";
+import { AppHero, AppStickyPhoneBlock, AppSubscribersSection, AppDownloadSection } from "@/app/components/app";
 import {
   CognitiveTestSection,
   CognitiveTestSectionMobile,
@@ -24,6 +24,8 @@ export default function AppPage() {
       <AppStickyPhoneBlock />
 
       <AppSubscribersSection />
+
+      <AppDownloadSection />
 
       {/* Cognitive Test Section */}
       {isMobile !== undefined &&
