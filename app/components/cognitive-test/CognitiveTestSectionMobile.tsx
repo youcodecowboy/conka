@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, type ReactNode } from "react";
 import type {
   TestState,
   TestResult,
@@ -16,37 +16,49 @@ import CognitiveTestRecommendation from "./CognitiveTestRecommendation";
 import CognitiveTestAppPromo from "./CognitiveTestAppPromo";
 import { trackCognitiveTest } from "@/app/lib/klaviyo";
 
-/**
- * Benefits row component - mobile optimized
- */
+/** Same benefit items as desktop with distinct icons */
+const BENEFIT_ITEMS_MOBILE: { label: string; icon: ReactNode }[] = [
+  {
+    label: "Clinically-validated",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Instant results",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </svg>
+    ),
+  },
+  {
+    label: "Personalized",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+    ),
+  },
+];
+
 function BenefitsRowMobile() {
   return (
     <div className="flex flex-wrap justify-center gap-4 mt-6">
-      {["Clinically-validated", "Instant results", "Personalized"].map(
-        (benefit) => (
-          <div key={benefit} className="flex items-center gap-2">
-            <div
-              className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ background: "var(--gradient-neuro-blue-accent)" }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="10"
-                height="10"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
-            <span className="text-xs opacity-80" style={{ color: "var(--color-ink)" }}>{benefit}</span>
+      {BENEFIT_ITEMS_MOBILE.map(({ label, icon }) => (
+        <div key={label} className="flex items-center gap-2">
+          <div
+            className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+            style={{ background: "var(--gradient-neuro-blue-accent)" }}
+          >
+            {icon}
           </div>
-        ),
-      )}
+          <span className="text-xs opacity-80" style={{ color: "var(--color-ink)" }}>{label}</span>
+        </div>
+      ))}
     </div>
   );
 }
