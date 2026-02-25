@@ -46,7 +46,7 @@ export default function CognitiveTestIdleCard({
         className="text-xl lg:text-2xl font-bold mb-3"
         style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
       >
-        Try the Speed of Processing Game
+        Give it a go, see how your brain is performing
       </h3>
       <p
         className="text-base mb-8 opacity-80"
@@ -55,20 +55,24 @@ export default function CognitiveTestIdleCard({
           maxWidth: "var(--premium-body-max-width)",
         }}
       >
-        A 30-second clinical-grade assessment used in real research trials.
-        Unlike typical brain games, you can&apos;t improve through practice
-        alone—only by genuinely enhancing your cognitive function.
+        This is a short version of the full cognitive test in the CONKA app.
+        Take about 30 seconds to get a snapshot of your processing speed. The
+        full test in the app gives you detailed insights and tracks how you
+        improve over time.
       </p>
 
       <button
         onClick={onStart}
         className="w-full px-12 py-5 font-bold text-xl transition-transform hover:scale-[1.02] active:scale-[0.98] rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-[var(--color-ink)] text-[var(--color-bone)] hover:opacity-90"
       >
-        Start Game
+        Start short test
       </button>
 
-      <p className="text-sm mt-6 opacity-70" style={{ fontSize: "var(--premium-font-data-size)" }}>
-        Full test with personalized insights available in the CONKA app
+      <p
+        className="text-sm mt-6 opacity-70"
+        style={{ fontSize: "var(--premium-font-data-size)" }}
+      >
+        Full test with personalised insights available in the CONKA app
       </p>
     </div>
   );
