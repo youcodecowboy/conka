@@ -44,9 +44,8 @@ export function AppHero() {
         <section
           className="flex min-h-[100svh] w-full items-center justify-center px-[var(--premium-gutter-mobile)] py-12"
           style={{ background: "var(--color-ink)" }}
-        >
-          <div className="h-12 w-48 animate-pulse rounded bg-white/10" />
-        </section>
+          aria-hidden
+        />
       ) : isMobile ? (
         <AppHeroMobile />
       ) : (
