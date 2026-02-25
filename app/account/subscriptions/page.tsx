@@ -17,6 +17,9 @@ import {
   getProtocolFromSubscription,
   getCurrentPlan,
   getTierDisplayInfo,
+  getSubscriptionType,
+  getCurrentFormulaId,
+  getCurrentPackSizeForFormula,
 } from "@/app/account/subscriptions/utils";
 
 type SubscriptionTier = "starter" | "pro" | "max";
@@ -235,14 +238,16 @@ export default function SubscriptionsPage() {
         onClose={() => setShowEditModal(null)}
         onSave={handleChangePlan}
         subscriptionName={showEditModal?.product.title || "Subscription"}
+        subscriptionType={showEditModal ? getSubscriptionType(showEditModal) : "protocol"}
         currentProtocolId={
           showEditModal ? getProtocolFromSubscription(showEditModal) : "1"
         }
         currentTier={showEditModal ? getCurrentPlan(showEditModal) : "pro"}
+        currentFormulaId={showEditModal ? getCurrentFormulaId(showEditModal) : undefined}
+        currentPackSize={showEditModal ? getCurrentPackSizeForFormula(showEditModal) : undefined}
         nextBillingDate={showEditModal?.nextBillingDate}
         loading={actionLoading === showEditModal?.id}
         hasUnfulfilledFirstOrder={showEditModal?.hasUnfulfilledOrder ?? false}
-        samePlanOnly={true}
       />
     </div>
   );
