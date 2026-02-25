@@ -170,10 +170,12 @@ export default function AccountPage() {
               href="/account/orders"
               className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
             >
-              <span className="flex h-36 w-full items-center justify-center bg-[var(--color-premium-stroke)]/40 text-[var(--color-ink)]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
-                  <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
-                </svg>
+              <span className="flex h-36 w-full shrink-0 overflow-hidden bg-[var(--color-premium-stroke)]/30">
+                <img
+                  src="/lifestyle/HoldingBottle.jpg"
+                  alt=""
+                  className="h-full w-full object-cover object-center"
+                />
               </span>
               <div className="flex items-center justify-between gap-3 p-4">
                 <div className="min-w-0 flex-1">

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import type { Subscription } from "@/app/hooks/useSubscriptions";
 import type { TierDisplayInfo } from "@/app/account/subscriptions/utils";
 import { formatDate, getStatusColor, getProtocolFromSubscription } from "@/app/account/subscriptions/utils";
@@ -33,6 +36,8 @@ export function SubscriptionCard({
     quantity: subscription.quantity ?? 1,
   }];
   const productImage = subscription.product.image || getProtocolImage(getProtocolFromSubscription(subscription)) || "";
+  const [showContactSupportModal, setShowContactSupportModal] = useState(false);
+  const contactSupportHref = `mailto:support@conka.io?subject=${encodeURIComponent(`Multi-product subscription: ${subscription.id}`)}&body=${encodeURIComponent(`Hi, I'd like to change my subscription plan. Subscription ID: ${subscription.id}`)}`;
   return (
     <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-6 md:p-8 space-y-6">
       <div className="space-y-6">
@@ -326,26 +331,62 @@ export function SubscriptionCard({
 
       <div className="flex flex-wrap gap-3 pt-2">
         {isMultiLine ? (
-          <a
-            href={`mailto:support@conka.io?subject=${encodeURIComponent(`Multi-product subscription: ${subscription.id}`)}&body=${encodeURIComponent(`Hi, I'd like to change my subscription plan. Subscription ID: ${subscription.id}`)}`}
-            className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 flex items-center gap-2 transition-opacity no-underline"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          <>
+            <button
+              type="button"
+              onClick={() => setShowContactSupportModal(true)}
+              className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 flex items-center gap-2 transition-opacity"
             >
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-              <polyline points="22,6 12,13 2,6" />
-            </svg>
-            Contact support to change plan
-          </a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact support to change plan
+            </button>
+            {showContactSupportModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" aria-modal="true" role="dialog">
+                <div
+                  className="absolute inset-0"
+                  onClick={() => setShowContactSupportModal(false)}
+                  aria-hidden="true"
+                />
+                <div className="relative rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-lg p-6 max-w-md w-full">
+                  <h3 className="font-semibold text-lg text-[var(--color-ink)] mb-3" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
+                    Change your plan
+                  </h3>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-5">
+                    Because you have more than one item in your subscription, contact support and we can help adjust your order for you.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <a
+                      href={contactSupportHref}
+                      className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 no-underline inline-flex items-center gap-2"
+                      onClick={() => setShowContactSupportModal(false)}
+                    >
+                      Contact support
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setShowContactSupportModal(false)}
+                      className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-ink)]/40 bg-[var(--color-bone)] px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)]"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         ) : (
         <button
           onClick={onEdit}
