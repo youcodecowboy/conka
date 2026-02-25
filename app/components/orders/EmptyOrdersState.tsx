@@ -1,6 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
+import { getFormulaImage } from "@/app/lib/productImageConfig";
 
 export function EmptyOrdersState() {
+  const flowImage = getFormulaImage("01");
+  const clearImage = getFormulaImage("02");
   return (
     <div className="premium-card-soft premium-card-soft-stroke p-12 text-center">
       <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[var(--color-premium-stroke)] flex items-center justify-center">
@@ -40,9 +44,15 @@ export function EmptyOrdersState() {
         <div className="grid grid-cols-2 gap-4 max-w-md mx-auto mb-8">
           <Link
             href="/conka-flow"
-            className="premium-card-soft premium-card-soft-stroke p-4 hover:bg-[var(--color-premium-stroke)]/30 transition-colors text-left rounded-[var(--premium-radius-nested)]"
+            className="premium-card-soft premium-card-soft-stroke p-4 hover:bg-[var(--color-premium-stroke)]/30 transition-colors text-left rounded-[var(--premium-radius-nested)] overflow-hidden"
           >
-            <div className="w-8 h-8 bg-amber-500/20 rounded-[var(--premium-radius-nested)] mb-3" />
+            {flowImage ? (
+              <div className="w-full aspect-square max-w-[120px] rounded-[var(--premium-radius-nested)] overflow-hidden mb-3 bg-[var(--color-premium-stroke)]">
+                <Image src={flowImage} alt="CONKA Flow" width={120} height={120} className="w-full h-full object-cover" />
+              </div>
+            ) : (
+              <div className="w-8 h-8 bg-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] mb-3" />
+            )}
             <p className="font-semibold text-sm text-[var(--color-ink)]">
               CONKA Flow
             </p>
@@ -52,9 +62,15 @@ export function EmptyOrdersState() {
           </Link>
           <Link
             href="/conka-clarity"
-            className="premium-card-soft premium-card-soft-stroke p-4 hover:bg-[var(--color-premium-stroke)]/30 transition-colors text-left rounded-[var(--premium-radius-nested)]"
+            className="premium-card-soft premium-card-soft-stroke p-4 hover:bg-[var(--color-premium-stroke)]/30 transition-colors text-left rounded-[var(--premium-radius-nested)] overflow-hidden"
           >
-            <div className="w-8 h-8 bg-[#AAB9BC]/30 rounded-[var(--premium-radius-nested)] mb-3" />
+            {clearImage ? (
+              <div className="w-full aspect-square max-w-[120px] rounded-[var(--premium-radius-nested)] overflow-hidden mb-3 bg-[var(--color-premium-stroke)]">
+                <Image src={clearImage} alt="CONKA Clear" width={120} height={120} className="w-full h-full object-cover" />
+              </div>
+            ) : (
+              <div className="w-8 h-8 bg-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] mb-3" />
+            )}
             <p className="font-semibold text-sm text-[var(--color-ink)]">
               CONKA Clear
             </p>
