@@ -144,7 +144,11 @@ export default function Home() {
       </section>
 
       {/* ===== SECTION 5: CASE STUDIES ===== */}
-      <CaseStudiesDataDriven />
+      <section className="premium-section-luxury premium-bg-bone">
+        <div className="premium-track">
+          <CaseStudiesDataDriven />
+        </div>
+      </section>
 
       {/* ===== SECTION 6: PROTOCOL BUILDER ===== */}
       {/* <div id="protocols">
