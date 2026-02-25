@@ -20,34 +20,48 @@ const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 // These must match the selling plans and variants configured in Shopify
 // From shopifyProductMapping.ts
 
-// Variant IDs by protocol and tier (just the numeric Shopify ID)
+// Variant IDs by protocol/formula and tier — verified against Shopify
 const PROTOCOL_VARIANTS: Record<string, Record<string, number>> = {
-  // Protocol 1 (Resilience)
+  // Protocol 1: Protocol: CONKA Resilience (Product: 15528618951030)
   '1': {
-    starter: 56999240597878,  // RESILIANCE_STARTER_4
-    pro: 56999240630646,      // RESILIANCE_PRO_12
-    max: 56999240663414,      // RESILIANCE_MAX_28
+    starter: 56999240597878,  // RESILIANCE_STARTER_4 - Starter - 4
+    pro:     56999240630646,  // RESILIANCE_PRO_12 - Pro - 12
+    max:     56999240663414,  // RESILIANCE_MAX_28 - Max - 28
   },
-  // Protocol 2 (Precision)
+  // Protocol 2: Protocol: CONKA Precision (Product: 15528617804150)
   '2': {
-    starter: 56999234503030,  // PRECISION_STARTER_4
-    pro: 56999234535798,      // PRECISION_PRO_12
-    max: 56999234568566,      // PRECISION_MAX_28
+    starter: 56999234503030,  // PRECISION_STARTER_4 - Starter - 4
+    pro:     56999234535798,  // PRECISION_PRO_12 - Pro - 12
+    max:     56999234568566,  // PRECISION_MAX_28 - Max - 28
   },
-  // Protocol 3 (Balance)
+  // Protocol 3: Protocol: Conka Balance (Product: 15528510423414)
   '3': {
-    starter: 56998884573558,  // BALANCED_STARTER_4
-    pro: 56998884606326,      // BALANCED_PRO_12
-    max: 56998884639094,      // BALANCED_MAX_28
+    starter: 56998884573558,  // BALANCED_STARTER_4 - Starter - 4
+    pro:     56998884606326,  // BALANCED_PRO_12 - Pro - 12
+    max:     56998884639094,  // BALANCED_MAX_28 - Max - 28
   },
-  // Protocol 4 (Ultimate) - no starter tier
+  // Protocol 4: Protocol: CONKA Ultimate (Product: 15528620589430)
   '4': {
-    pro: 56999249478006,      // ULTAMATE_PRO_28
-    max: 56999249510774,      // ULTAMATE_MAX_56
+    pro: 56999249478006,      // ULTAMATE_PRO_28 - Pro - 28
+    max: 56999249510774,      // ULTAMATE_MAX_56 - Max - 56
+  },
+  // Formula: CONKA Flow (Product: 15528722170230)
+  'flow': {
+    starter: 57000187363702,  // FLOW_TRIAL_4 - Flow - 4 Shots
+    pro_8:   56999967785334,  // FLOW_TRIAL_8 - Flow - 8 Shots
+    pro:     56999967752566,  // FLOW_TRIAL_12 - Flow - 12 Shots
+    max:     56999967818102,  // FLOW_TRIAL_28 - Flow - 28 Shots
+  },
+  // Formula: CONKA Clear (Product: 15528796291446)
+  'clear': {
+    starter: 57000418607478,  // CLEATR_TRIAL_4 - Clear - 4 Shots
+    pro_8:   57000418640246,  // CLEAR_TRIAL_8 - Clear - 8 Shots
+    pro:     57000418673014,  // CLEAR_TRIAL_12 - Clear - 12 Shots
+    max:     57000418705782,  // CLEAR_TRIAL_28 - Clear - 28 Shots
   },
 };
 
-// Reverse lookup: variant ID -> protocol ID
+// Reverse lookup: variant ID -> protocol/formula ID
 const VARIANT_TO_PROTOCOL: Record<number, string> = {};
 for (const [protocolId, variants] of Object.entries(PROTOCOL_VARIANTS)) {
   for (const variantId of Object.values(variants)) {
@@ -55,26 +69,31 @@ for (const [protocolId, variants] of Object.entries(PROTOCOL_VARIANTS)) {
   }
 }
 
+// Selling plan group IDs and billing intervals verified against Shopify
+// SellingPlanGroup numeric IDs extracted from GIDs
 const PLAN_CONFIGURATIONS = {
   starter: {
     name: 'Starter (Weekly)',
-    interval: 'WEEK',
+    interval: 'WEEK',       // Verified: WEEK x 1
     intervalCount: 1,
-    sellingPlanId: '711429882230',
+    sellingPlanId: '711429882230',        // SellingPlan: 711429882230
+    sellingPlanGroupId: '98722480502',    // SellingPlanGroup: 98722480502
     quantity: 1,
   },
   pro: {
     name: 'Pro (Bi-Weekly)',
-    interval: 'DAY',
-    intervalCount: 14,
-    sellingPlanId: '711429947766',
+    interval: 'WEEK',       // Verified: WEEK x 2 (NOT DAY x 14 — this was the bug)
+    intervalCount: 2,
+    sellingPlanId: '711429947766',        // SellingPlan: 711429947766
+    sellingPlanGroupId: '98722546038',    // SellingPlanGroup: 98722546038
     quantity: 1,
   },
   max: {
     name: 'Max (Monthly)',
-    interval: 'MONTH',
+    interval: 'MONTH',      // Verified: MONTH x 1
     intervalCount: 1,
-    sellingPlanId: '711429980534',
+    sellingPlanId: '711429980534',        // SellingPlan: 711429980534
+    sellingPlanGroupId: '98722578806',    // SellingPlanGroup: 98722578806
     quantity: 1,
   },
 };
@@ -336,11 +355,8 @@ export async function POST(
             }, { status: 400 });
           }
           
-          // We pass sellingPlanGroupId as parseInt(planConfig.sellingPlanId, 10) because the Loop API
-          // expects a number. NOTE: Loop treats "selling plan group" vs "selling plan" (single plan) differently.
-          // TODO: Verify in Loop's dashboard whether PLAN_CONFIGURATIONS.sellingPlanId is a group ID or a
-          // single plan ID; use the correct one for the swap call.
-          const sellingPlanGroupIdSent = parseInt(planConfig.sellingPlanId, 10);
+          // Use sellingPlanGroupId (not sellingPlanId) — Loop swap expects the group ID
+          const sellingPlanGroupIdSent = parseInt(planConfig.sellingPlanGroupId, 10);
           console.log(`${logPrefix} sellingPlanGroupId sent:`, sellingPlanGroupIdSent);
           
           console.log(`${logPrefix} Step 2: PUT swap line`, { targetVariantId, plan });
@@ -360,9 +376,8 @@ export async function POST(
           // Uses PUT /subscription/{loopInternalId}/frequency with Loop's internal ID (not shopify-{id}).
           // If this fails, we do NOT return success — subscription may be in a partial state.
           if (result.response.ok && loopInternalId != null) {
-            // Map plan interval to Loop's required WEEK | MONTH | YEAR (Loop does not accept DAY)
-            const intervalUnit = planConfig.interval === 'DAY' ? 'WEEK' : planConfig.interval;
-            const intervalCount = planConfig.interval === 'DAY' ? 2 : planConfig.intervalCount; // bi-weekly = every 2 weeks
+            const intervalUnit = planConfig.interval;
+            const intervalCount = planConfig.intervalCount;
             const nextBillingDateRaw = subscriptionData?.nextBillingDate;
             const nextBillingDateEpoch = nextBillingDateRaw
               ? Math.floor(new Date(nextBillingDateRaw).getTime() / 1000)
