@@ -165,10 +165,12 @@ export default function SubscriptionsPage() {
               <EmptySubscriptionsState />
             ) : (
               <div className="space-y-6">
-                {activeSubscriptions.length > 0 && (
+                {activeSubscriptions.length > 0 ? (
                   <div>
                     <h2 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-6">
-                      Active & paused
+                      {activeSubscriptions.length === 1
+                        ? "Active & paused"
+                        : `Active & paused (${activeSubscriptions.length} subscriptions)`}
                     </h2>
                     <div className="space-y-6">
                       {activeSubscriptions.map((subscription) => (
@@ -190,6 +192,8 @@ export default function SubscriptionsPage() {
                       ))}
                     </div>
                   </div>
+                ) : (
+                  <EmptySubscriptionsState />
                 )}
 
                 {inactiveSubscriptions.length > 0 && (

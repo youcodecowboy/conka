@@ -72,11 +72,11 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         setError(data.error || 'Failed to fetch subscriptions');
         setSubscriptions([]);
       } else {
-        // Transform Shopify format to our Subscription type
+        // Transform API response to Subscription type — preserve all fields so multiple subscriptions render correctly
         const transformed = (data.subscriptions || []).map((sub: any) => ({
           id: sub.id,
-          customerId: '', // Not provided by Shopify's customer API
-          email: '', // Not provided by Shopify's customer API
+          customerId: sub.customerId ?? '',
+          email: sub.email ?? '',
           status: sub.status as 'active' | 'paused' | 'cancelled' | 'expired',
           nextBillingDate: sub.nextBillingDate || '',
           createdAt: sub.createdAt || '',
@@ -84,21 +84,27 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           product: sub.product ? {
             id: sub.product.id || '',
             title: sub.product.title || 'Subscription',
-            variantTitle: sub.product.variantId ? `Variant ${sub.product.variantId}` : undefined,
+            variantTitle: sub.product.variantTitle,
             image: sub.product.image,
           } : {
             id: '',
             title: 'Subscription',
           },
           price: sub.price ? {
-            amount: sub.price.amount || '0',
+            amount: String(sub.price.amount ?? '0'),
             currencyCode: sub.price.currencyCode || 'GBP',
           } : {
             amount: '0',
             currencyCode: 'GBP',
           },
-          quantity: sub.product?.quantity || 1,
+          quantity: sub.product?.quantity ?? sub.quantity ?? 1,
           interval: sub.interval || { value: 1, unit: 'month' as const },
+          completedOrdersCount: sub.completedOrdersCount ?? null,
+          totalOrdersPlaced: sub.totalOrdersPlaced ?? null,
+          pendingOrdersCount: sub.pendingOrdersCount ?? null,
+          hasUnfulfilledOrder: sub.hasUnfulfilledOrder ?? false,
+          unfulfilledOrdersCount: sub.unfulfilledOrdersCount ?? undefined,
+          originOrderId: sub.originOrderId ?? null,
         }));
         setSubscriptions(transformed);
       }

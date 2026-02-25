@@ -167,11 +167,9 @@ export async function GET(request: NextRequest) {
     
     console.log(`[Subscriptions] Found ${shopifySubscriptions.length} subscriptions from Shopify`);
 
-    // Step 2: For each subscription, fetch current state from Loop
-    const subscriptions = await Promise.all(
-      shopifySubscriptions
-        .filter((sub: any) => ['ACTIVE', 'PAUSED'].includes(sub.status?.toUpperCase()))
-        .map(async (sub: any) => {
+    // Step 2: For each subscription contract, fetch current state from Loop (all contracts, not just active/paused)
+    const rawSubscriptions = await Promise.all(
+      shopifySubscriptions.map(async (sub: any) => {
           // Extract the numeric Shopify ID from the GID
           // Format: gid://shopify/SubscriptionContract/126077600118 -> 126077600118
           const shopifyNumericId = sub.id.split('/').pop();
@@ -279,7 +277,7 @@ export async function GET(request: NextRequest) {
                 // Loop provides 'name' which is "Product - Variant" format
                 title: loopLine.name || loopLine.productTitle || shopifyFirstLine.title || shopifyFirstLine.name || 'Subscription',
                 variantTitle: loopLine.variantTitle || '',
-                quantity: loopLine.quantity || shopifyFirstLine.quantity || 1,
+                quantity: loopLine.quantity ?? shopifyFirstLine.quantity ?? 1,
                 image: loopLine.variantImage || loopLine.image || shopifyFirstLine.variantImage?.url,
               },
               
@@ -324,23 +322,23 @@ export async function GET(request: NextRequest) {
             currencyCode: sub.currencyCode || 'GBP',
             lastPaymentStatus: sub.lastPaymentStatus,
             
-            // Without Loop data, we can't determine fulfillment status
-            // Default to false (don't show warning) when falling back
-            completedOrdersCount: null,
-            totalOrdersPlaced: null,
-            pendingOrdersCount: null,
-            hasUnfulfilledOrder: false,
-            unfulfilledOrdersCount: 0,
-            originOrderId: null,
-            
-            // Product info from Shopify
-            product: {
-              id: shopifyFirstLine.id || '',
-              title: shopifyFirstLine.title || shopifyFirstLine.name || 'Subscription',
-              variantTitle: '',
-              quantity: shopifyFirstLine.quantity || 1,
-              image: shopifyFirstLine.variantImage?.url,
-            },
+          // Without Loop data, we can't determine fulfillment status
+          // Default to false (don't show warning) when falling back
+          completedOrdersCount: null,
+          totalOrdersPlaced: null,
+          pendingOrdersCount: null,
+          hasUnfulfilledOrder: false,
+          unfulfilledOrdersCount: 0,
+          originOrderId: null,
+          
+          // Product info from Shopify
+          product: {
+            id: shopifyFirstLine.id || '',
+            title: shopifyFirstLine.title || shopifyFirstLine.name || 'Subscription',
+            variantTitle: shopifyFirstLine.title || '',
+            quantity: shopifyFirstLine.quantity ?? 1,
+            image: shopifyFirstLine.variantImage?.url,
+          },
             
             // Price info
             price: {
@@ -369,12 +367,25 @@ export async function GET(request: NextRequest) {
         })
     );
 
+    // Order: ACTIVE first, then PAUSED, then cancelled/expired; within each group by createdAt descending
+    const statusOrder: Record<string, number> = { active: 0, paused: 1, cancelled: 2, expired: 3 };
+    const subscriptions = (rawSubscriptions as any[]).sort((a, b) => {
+      const aStatus = (a.status || '').toLowerCase();
+      const bStatus = (b.status || '').toLowerCase();
+      const aOrder = statusOrder[aStatus] ?? 4;
+      const bOrder = statusOrder[bStatus] ?? 4;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      const aCreated = new Date(a.createdAt || 0).getTime();
+      const bCreated = new Date(b.createdAt || 0).getTime();
+      return bCreated - aCreated; // newest first
+    });
+
     return NextResponse.json({ 
       subscriptions,
       debug: {
         source: 'hybrid-shopify-loop',
         totalFromShopify: shopifySubscriptions.length,
-        activeAndPaused: subscriptions.length,
+        returned: subscriptions.length,
         loopDataCount: subscriptions.filter((s: any) => s.dataSource === 'loop').length,
         shopifyFallbackCount: subscriptions.filter((s: any) => s.dataSource === 'shopify-fallback').length,
       }
