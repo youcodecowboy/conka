@@ -150,7 +150,7 @@ export default function CognitiveTestSection({
           className="text-xl lg:text-2xl opacity-80"
           style={{ color: "var(--color-ink)", lineHeight: "var(--premium-font-body-leading)" }}
         >
-          based on a decade of neuroscience research
+          A short version of the full cognitive test in the CONKA app
         </p>
       </div>
 
