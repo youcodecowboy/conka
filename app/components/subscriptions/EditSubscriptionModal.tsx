@@ -308,7 +308,7 @@ const Icon = ({
   }
 };
 
-// Formula breakdown component
+// Formula breakdown component — Flow dot = amber accent, Clear dot = teal accent
 const FormulaBreakdown = ({
   flowCount,
   clarityCount,
@@ -327,14 +327,14 @@ const FormulaBreakdown = ({
     >
       <div className="flex items-center gap-1">
         <div
-          className={`w-3 h-3 rounded-full ${isSelected ? "bg-white/90" : "bg-[var(--color-ink)] opacity-80"}`}
+          className={`w-3 h-3 rounded-full ${isSelected ? "bg-white/90" : "bg-amber-500"}`}
         />
         <span className="premium-body-sm">{flowCount}x Flow</span>
       </div>
       <span className={isSelected ? "opacity-50" : "opacity-30"}>+</span>
       <div className="flex items-center gap-1">
         <div
-          className={`w-3 h-3 rounded-full ${isSelected ? "bg-white/60" : "bg-[var(--color-mid)]"}`}
+          className={`w-3 h-3 rounded-full ${isSelected ? "bg-white/60" : "bg-teal-500"}`}
         />
         <span className="premium-body-sm">{clarityCount}x Clear</span>
       </div>
@@ -518,14 +518,14 @@ export function EditSubscriptionModal({
 
         {/* Content */}
         <div className="flex flex-1 overflow-hidden">
-          {/* Left: Protocol or Formula selector with product images */}
-          <div className="w-2/5 border-r border-[var(--color-premium-stroke)] p-6 overflow-y-auto bg-[var(--color-bone)]">
+          {/* Left: Protocol or Formula selector — neuro-blue-light background to separate */}
+          <div className="w-2/5 border-r border-[var(--color-neuro-blue-start)] p-6 overflow-y-auto" style={{ backgroundColor: "var(--color-neuro-blue-light)" }}>
             {isProtocol ? (
               <>
                 <h3 className="premium-body-sm text-[var(--color-neuro-blue-dark)] uppercase tracking-wide mb-3 font-semibold">
                   Switch protocol
                 </h3>
-                <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
+                <p className="premium-body-sm text-[var(--color-neuro-blue-dark)]/80 mb-4">
                   Same pack size, same price. Pick the mix that suits you.
                 </p>
                 <div className="space-y-3">
@@ -570,17 +570,24 @@ export function EditSubscriptionModal({
                               {protocol.subtitle}
                             </p>
                           </div>
-                          {isSelected && <Icon name="check" className="w-5 h-5 flex-shrink-0 text-white" />}
                         </div>
                       </button>
                     );
                   })}
                 </div>
-                {/* Callout: single formulas require new subscription */}
-                <div className="mt-6 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]">
-                  <p className="premium-body-sm font-medium text-[var(--color-ink)] mb-1">
+                {/* Callout: single formulas — with product assets */}
+                <div className="mt-6 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-neuro-blue-start)] bg-[var(--color-bone)]">
+                  <p className="premium-body-sm font-medium text-[var(--color-ink)] mb-2">
                     Want CONKA Flow only or CONKA Clear only?
                   </p>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-12 h-12 rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)] flex-shrink-0">
+                      {getFormulaImage("01") && <Image src={getFormulaImage("01")} alt="CONKA Flow" width={48} height={48} className="w-full h-full object-cover" />}
+                    </div>
+                    <div className="w-12 h-12 rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)] flex-shrink-0">
+                      {getFormulaImage("02") && <Image src={getFormulaImage("02")} alt="CONKA Clear" width={48} height={48} className="w-full h-full object-cover" />}
+                    </div>
+                  </div>
                   <p className="premium-body-sm text-[var(--text-on-light-muted)]">
                     Cancel this subscription and start a new one from the shop.
                   </p>
@@ -633,14 +640,13 @@ export function EditSubscriptionModal({
                               {formula.subtitle}
                             </p>
                           </div>
-                          {isSelected && <Icon name="check" className="w-5 h-5 flex-shrink-0 text-white" />}
                         </div>
                       </button>
                     );
                   })}
                 </div>
                 {/* Callout: protocol bundles require new subscription */}
-                <div className="mt-6 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]">
+                <div className="mt-6 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-neuro-blue-start)] bg-[var(--color-bone)]">
                   <p className="premium-body-sm font-medium text-[var(--color-ink)] mb-1">
                     Want a protocol bundle (Resilience, Precision, Balance)?
                   </p>
@@ -921,14 +927,21 @@ export function EditSubscriptionModal({
                               </div>
                               <p className={`premium-body-sm mt-0.5 ${isSelected ? "opacity-90" : "text-[var(--text-on-light-muted)]"}`}>{protocol.subtitle}</p>
                             </div>
-                            {isSelected && <Icon name="check" className="w-4 h-4 text-white flex-shrink-0" />}
                           </div>
                         </button>
                       );
                     })}
                   </div>
-                  <div className="mt-4 p-3 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]">
-                    <p className="premium-body-sm font-medium text-[var(--color-ink)]">Want CONKA Flow only or CONKA Clear only?</p>
+                  <div className="mt-4 p-3 rounded-[var(--premium-radius-nested)] border border-[var(--color-neuro-blue-start)] bg-[var(--color-bone)]">
+                    <p className="premium-body-sm font-medium text-[var(--color-ink)] mb-2">Want CONKA Flow only or CONKA Clear only?</p>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-10 h-10 rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)] flex-shrink-0">
+                        {getFormulaImage("01") && <Image src={getFormulaImage("01")} alt="CONKA Flow" width={40} height={40} className="w-full h-full object-cover" />}
+                      </div>
+                      <div className="w-10 h-10 rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)] flex-shrink-0">
+                        {getFormulaImage("02") && <Image src={getFormulaImage("02")} alt="CONKA Clear" width={40} height={40} className="w-full h-full object-cover" />}
+                      </div>
+                    </div>
                     <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-0.5">Cancel this subscription and start a new one from the shop.</p>
                   </div>
                 </>
@@ -961,7 +974,6 @@ export function EditSubscriptionModal({
                               </div>
                               <p className={`premium-body-sm mt-0.5 ${isSelected ? "opacity-90" : "text-[var(--text-on-light-muted)]"}`}>{formula.subtitle}</p>
                             </div>
-                            {isSelected && <Icon name="check" className="w-4 h-4 text-white flex-shrink-0" />}
                           </div>
                         </button>
                       );

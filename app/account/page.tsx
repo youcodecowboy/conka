@@ -170,7 +170,7 @@ export default function AccountPage() {
               href="/account/orders"
               className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
             >
-              <span className="flex h-28 w-full items-center justify-center bg-[var(--color-premium-stroke)]/40 text-[var(--color-ink)]">
+              <span className="flex h-36 w-full items-center justify-center bg-[var(--color-premium-stroke)]/40 text-[var(--color-ink)]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
                   <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
                 </svg>
@@ -189,7 +189,7 @@ export default function AccountPage() {
               className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
             >
               {activeSubscriptions.length > 0 && getProtocolImage(getProtocolFromSubscription(activeSubscriptions[0])) ? (
-                <span className="flex h-28 w-full shrink-0 overflow-hidden bg-[var(--color-premium-stroke)]/30">
+                <span className="flex h-36 w-full shrink-0 overflow-hidden bg-[var(--color-premium-stroke)]/30">
                   <img
                     src={getProtocolImage(getProtocolFromSubscription(activeSubscriptions[0]))}
                     alt=""
@@ -197,7 +197,7 @@ export default function AccountPage() {
                   />
                 </span>
               ) : (
-                <span className="flex h-28 w-full items-center justify-center bg-[var(--color-premium-stroke)]/40 text-[var(--color-ink)]">
+                <span className="flex h-36 w-full items-center justify-center bg-[var(--color-premium-stroke)]/40 text-[var(--color-ink)]">
                   <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
                     <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>
                   </svg>
@@ -218,7 +218,7 @@ export default function AccountPage() {
               href="/quiz"
               className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
             >
-              <span className="flex h-28 w-full items-center justify-center bg-[var(--color-ink)]/10 text-[var(--color-ink)]">
+              <span className="flex h-36 w-full items-center justify-center bg-[var(--color-ink)]/10 text-[var(--color-ink)]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
                   <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
