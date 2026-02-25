@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navigation from '@/app/components/navigation';
 import { useAuth } from '@/app/context/AuthContext';
-import LoginBenefits from '@/app/components/account/LoginBenefits';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,83 +29,53 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[var(--color-bone)] text-[var(--color-ink)]">
       <Navigation />
 
-      <main className="pt-24 pb-24 lg:pt-32">
-        {/* Sign-in section: reduced top padding, narrow card */}
-        <section
-          className="premium-section-luxury premium-bg-bone pt-8 lg:pt-12"
-          aria-label="Sign in"
-        >
-          <div className="premium-track">
-            <div className="mx-auto max-w-[28rem]">
-              <div className="premium-header-group mb-8 text-left">
-                <h1
-                  className="premium-section-heading mb-2"
-                  style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}
-                >
-                  Welcome
-                </h1>
-                <p className="premium-section-subtitle opacity-80">
-                  Sign in to your account
-                </p>
+      <main className="pt-24 pb-24 px-4 lg:px-[5vw]">
+        <div className="mx-auto max-w-[28rem]">
+          <h1
+            className="text-2xl font-bold mb-1"
+            style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}
+          >
+            Account
+          </h1>
+          <p className="text-[var(--text-on-light-muted)] text-sm mb-6">
+            Sign in to view orders, manage subscriptions, and update your details.
+          </p>
+
+          <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-6">
+            {error && (
+              <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                {error}
               </div>
+            )}
 
-              <div className="premium-card-soft premium-card-soft-stroke">
-                {error && (
-                  <div className="mb-6 rounded-[var(--premium-radius-nested)] border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-                    {error}
-                  </div>
-                )}
+            <p className="text-[var(--text-on-light-muted)] text-sm mb-4">
+              We&apos;ll send a one-time code to your email. No password.
+            </p>
 
-                <p className="premium-body mb-6 text-center opacity-80" style={{ maxWidth: 'var(--premium-body-max-width)', marginLeft: 'auto', marginRight: 'auto' }}>
-                  We&apos;ll send you a secure one-time code to your email address.
-                  No password needed.
-                </p>
+            <button
+              type="button"
+              onClick={handleLogin}
+              disabled={loading}
+              className="w-full rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] py-3.5 font-semibold text-white text-sm hover:opacity-90 disabled:opacity-50"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="h-4 w-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  Loading...
+                </span>
+              ) : (
+                'Continue with Email'
+              )}
+            </button>
 
-                <button
-                  type="button"
-                  onClick={handleLogin}
-                  disabled={loading}
-                  className="w-full rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] py-4 font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50 mb-6"
-                >
-                  {loading ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <span className="h-5 w-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                      Loading...
-                    </span>
-                  ) : (
-                    'Continue with Email'
-                  )}
-                </button>
-
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex-1 h-px bg-[var(--color-premium-stroke)]" />
-                  <span className="premium-body-sm text-[var(--text-on-light-muted)]">or</span>
-                  <div className="flex-1 h-px bg-[var(--color-premium-stroke)]" />
-                </div>
-
-                <p className="premium-body text-center text-[var(--text-on-light-muted)]">
-                  <Link
-                    href="/"
-                    className="font-semibold text-[var(--color-ink)] underline hover:opacity-70 transition-opacity"
-                  >
-                    Continue as guest
-                  </Link>{' '}
-                  and checkout without an account.
-                </p>
-              </div>
-            </div>
+            <p className="mt-4 text-center text-[var(--text-on-light-muted)] text-sm">
+              <Link href="/" className="font-medium text-[var(--color-ink)] underline hover:opacity-70">
+                Continue as guest
+              </Link>{' '}
+              to checkout without an account.
+            </p>
           </div>
-        </section>
-
-        {/* Benefits section: own section + track, full width grid */}
-        <section
-          className="premium-section-luxury premium-bg-bone"
-          aria-labelledby="login-benefits-heading"
-        >
-          <div className="premium-track">
-            <LoginBenefits />
-          </div>
-        </section>
+        </div>
       </main>
     </div>
   );
