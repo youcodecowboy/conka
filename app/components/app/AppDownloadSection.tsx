@@ -7,7 +7,7 @@ export function AppDownloadSection() {
     <section
       className="w-full px-[var(--premium-gutter-mobile)] py-[var(--space-section-padding)] text-center md:px-[var(--premium-gutter-desktop)]"
       style={{
-        background: "var(--color-bone)",
+        background: "var(--color-neuro-blue-light)",
         color: "var(--color-ink)",
       }}
     >
