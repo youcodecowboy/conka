@@ -136,7 +136,7 @@ export default function SubscriptionsPage() {
     <div className="min-h-screen bg-[var(--color-bone)] text-[var(--color-ink)]">
       <Navigation />
 
-      <main className="pt-24 pb-24 lg:pt-32">
+      <main className="pt-3 pb-24 lg:pt-4">
         <section
           className="premium-section-luxury premium-bg-bone"
           aria-labelledby="subscriptions-heading"
