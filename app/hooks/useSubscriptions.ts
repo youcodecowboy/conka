@@ -29,6 +29,7 @@ interface UseSubscriptionsReturn {
   changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', protocolId?: string) => Promise<ChangePlanResult>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
   updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
+  sendPaymentUpdateEmail: (subscriptionId: string, paymentMethodId: number) => Promise<{ success: boolean; message: string }>;
 }
 
 /**
@@ -103,6 +104,8 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           interval: sub.interval || { value: 1, unit: 'month' as const },
           lines: sub.lines ?? [],
           isMultiLine: sub.isMultiLine ?? (sub.lines?.length ?? 0) > 1,
+          paymentMethodId: sub.paymentMethodId ?? null,
+          paymentMethod: sub.paymentMethod ?? null,
           completedOrdersCount: sub.completedOrdersCount ?? null,
           totalOrdersPlaced: sub.totalOrdersPlaced ?? null,
           pendingOrdersCount: sub.pendingOrdersCount ?? null,
@@ -376,6 +379,27 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     [changePlan]
   );
 
+  const sendPaymentUpdateEmail = useCallback(
+    async (
+      subscriptionId: string,
+      paymentMethodId: number
+    ): Promise<{ success: boolean; message: string }> => {
+      const id = extractShopifyId(subscriptionId);
+      const res = await fetch(`/api/auth/subscriptions/${id}/payment-method`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentMethodId }),
+      });
+      const data = await res.json();
+      return {
+        success: res.ok && !!data.success,
+        message: data.message ?? (data.error ?? ''),
+      };
+    },
+    []
+  );
+
   return {
     subscriptions,
     loading,
@@ -388,5 +412,6 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     changePlan,
     updateFrequency,
     updateQuantity,
+    sendPaymentUpdateEmail,
   };
 }
