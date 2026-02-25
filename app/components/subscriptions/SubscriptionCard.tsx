@@ -26,12 +26,12 @@ export function SubscriptionCard({
 }: SubscriptionCardProps) {
   const productImage = subscription.product.image || getProtocolImage(getProtocolFromSubscription(subscription)) || "";
   return (
-    <div className="premium-card-soft premium-card-soft-stroke p-6 md:p-8 space-y-6">
+    <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-6 md:p-8 space-y-6">
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div className="flex gap-5 min-w-0">
             {productImage ? (
-              <div className="w-24 h-24 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 overflow-hidden">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 overflow-hidden">
                 <img
                   src={productImage}
                   alt={subscription.product.title}
@@ -39,7 +39,7 @@ export function SubscriptionCard({
                 />
               </div>
             ) : (
-              <div className="w-24 h-24 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 flex items-center justify-center">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"

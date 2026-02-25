@@ -668,7 +668,9 @@ export function EditSubscriptionModal({
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <span className={`font-bold ${!isSelected ? "text-[var(--color-ink)]" : ""}`}>{tierInfo.name}</span>
+                          <span className={`font-bold ${!isSelected ? "text-[var(--color-ink)]" : ""}`}>
+                            {tierInfo.deliveryShots} shots per delivery
+                          </span>
                           {isCurrent && (
                             <span
                               className={`text-xs font-bold px-2 py-0.5 rounded-[var(--premium-radius-nested)] ${
@@ -704,8 +706,7 @@ export function EditSubscriptionModal({
                         <div
                           className={`premium-body-sm mt-1 ${isSelected ? "opacity-90" : "text-[var(--text-on-light-muted)]"}`}
                         >
-                          {tierInfo.frequency} · {tierInfo.deliveryShots} shots
-                          per delivery
+                          {tierInfo.name} · {tierInfo.frequency}
                         </div>
 
                         {/* Formula Breakdown */}
@@ -796,7 +797,10 @@ export function EditSubscriptionModal({
               {hasChanges ? (
                 <span className="text-[var(--color-ink)] font-medium">
                   → {PROTOCOLS.find((p) => p.id === effectiveProtocol)?.name} ·{" "}
-                  {getTierInfo(effectiveProtocol, selectedTier)?.name}
+                  {(() => {
+                    const t = getTierInfo(effectiveProtocol, selectedTier);
+                    return t ? `${t.deliveryShots} shots per delivery` : "";
+                  })()}
                 </span>
               ) : (
                 "No changes"
@@ -1017,7 +1021,9 @@ export function EditSubscriptionModal({
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className={`font-bold text-sm ${!isSelected ? "text-[var(--color-ink)]" : ""}`}>{tierInfo.name}</span>
+                          <span className={`font-bold text-sm ${!isSelected ? "text-[var(--color-ink)]" : ""}`}>
+                            {tierInfo.deliveryShots} shots per delivery
+                          </span>
                           {isCurrent && (
                             <span
                               className={`text-xs font-bold px-1.5 py-0.5 rounded-[var(--premium-radius-nested)] ${
@@ -1040,7 +1046,7 @@ export function EditSubscriptionModal({
                           )}
                         </div>
                         <div className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
-                          {tierInfo.frequency} · {tierInfo.deliveryShots} shots
+                          {tierInfo.name} · {tierInfo.frequency}
                         </div>
                         <FormulaBreakdown
                           flowCount={formulaBreakdown.flowCount}
@@ -1109,7 +1115,11 @@ export function EditSubscriptionModal({
             {saving
               ? "Updating..."
               : hasChanges
-                ? `Save: ${PROTOCOLS.find((p) => p.id === effectiveProtocol)?.name} · ${getTierInfo(effectiveProtocol, selectedTier)?.name}`
+                ? (() => {
+                    const t = getTierInfo(effectiveProtocol, selectedTier);
+                    const protocolName = PROTOCOLS.find((p) => p.id === effectiveProtocol)?.name;
+                    return t && protocolName ? `Save: ${protocolName} · ${t.deliveryShots} shots per delivery` : "Save changes";
+                  })()
                 : "No changes"}
           </button>
         </div>

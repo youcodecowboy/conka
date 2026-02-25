@@ -102,7 +102,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
   const itemCount = order.lineItems.reduce((acc, i) => acc + i.quantity, 0);
 
   return (
-    <div className="premium-card-soft premium-card-soft-stroke overflow-hidden">
+    <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden">
       <button
         type="button"
         onClick={onToggle}
@@ -111,7 +111,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
           <div className="flex items-start gap-4 min-w-0">
             {firstItemImage?.url ? (
-              <div className="w-16 h-16 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 overflow-hidden">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 overflow-hidden">
                 <img
                   src={firstItemImage.url}
                   alt={firstItemImage.altText || "Order item"}
@@ -119,7 +119,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                 />
               </div>
             ) : (
-              <div className="w-16 h-16 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 flex items-center justify-center">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 flex items-center justify-center">
                 <OrderStatusIcon status={displayStatus} />
               </div>
             )}

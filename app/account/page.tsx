@@ -119,7 +119,7 @@ export default function AccountPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--color-bone)] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--color-surface)] flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-ink)]/20 border-t-[var(--color-ink)] rounded-full animate-spin mx-auto mb-3" />
           <p className="text-sm text-[var(--text-on-light-muted)]">Loading...</p>
@@ -131,7 +131,7 @@ export default function AccountPage() {
   if (!isAuthenticated || !customer) return null;
 
   return (
-    <div className="min-h-screen bg-[var(--color-bone)] text-[var(--color-ink)]">
+    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)]">
       <Navigation />
 
       <main className="pt-3 pb-16 px-4 lg:pt-4 lg:px-[5vw]">
@@ -165,29 +165,31 @@ export default function AccountPage() {
           <p className="text-sm text-[var(--text-on-light-muted)] mb-4">
             View orders, manage subscriptions, or find your protocol.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             <Link
               href="/account/orders"
-              className="flex items-center gap-4 rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4 hover:border-[var(--color-neuro-blue-light)] transition-colors"
+              className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] text-[var(--color-ink)] shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <span className="flex h-28 w-full items-center justify-center bg-[var(--color-premium-stroke)]/40 text-[var(--color-ink)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
                   <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
                 </svg>
               </span>
-              <div className="min-w-0 flex-1">
-                <span className="font-semibold text-[var(--color-ink)]">Orders</span>
-                <p className="text-sm text-[var(--text-on-light-muted)]">View history & track</p>
+              <div className="flex items-center justify-between gap-3 p-4">
+                <div className="min-w-0 flex-1">
+                  <span className="font-semibold text-[var(--color-ink)]">Orders</span>
+                  <p className="text-sm text-[var(--text-on-light-muted)]">View history & track</p>
+                </div>
+                <span className="shrink-0 text-[var(--text-on-light-muted)] group-hover:text-[var(--color-ink)]">→</span>
               </div>
-              <span className="shrink-0 text-[var(--text-on-light-muted)]">→</span>
             </Link>
 
             <Link
               href="/account/subscriptions"
-              className="flex items-center gap-4 rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4 hover:border-[var(--color-neuro-blue-light)] transition-colors"
+              className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
             >
               {activeSubscriptions.length > 0 && getProtocolImage(getProtocolFromSubscription(activeSubscriptions[0])) ? (
-                <span className="flex h-10 w-10 shrink-0 overflow-hidden rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)]">
+                <span className="flex h-28 w-full shrink-0 overflow-hidden bg-[var(--color-premium-stroke)]/30">
                   <img
                     src={getProtocolImage(getProtocolFromSubscription(activeSubscriptions[0]))}
                     alt=""
@@ -195,35 +197,39 @@ export default function AccountPage() {
                   />
                 </span>
               ) : (
-                <span className="flex h-10 w-10 items-center justify-center rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] text-[var(--color-ink)] shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <span className="flex h-28 w-full items-center justify-center bg-[var(--color-premium-stroke)]/40 text-[var(--color-ink)]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
                     <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>
                   </svg>
                 </span>
               )}
-              <div className="min-w-0 flex-1">
-                <span className="font-semibold text-[var(--color-ink)]">Subscriptions</span>
-                <p className="text-sm text-[var(--text-on-light-muted)]">
-                  {subsLoading ? '…' : `${activeSubscriptions.length} active`}
-                </p>
+              <div className="flex items-center justify-between gap-3 p-4">
+                <div className="min-w-0 flex-1">
+                  <span className="font-semibold text-[var(--color-ink)]">Subscriptions</span>
+                  <p className="text-sm text-[var(--text-on-light-muted)]">
+                    {subsLoading ? '…' : `${activeSubscriptions.length} active`}
+                  </p>
+                </div>
+                <span className="shrink-0 text-[var(--text-on-light-muted)] group-hover:text-[var(--color-ink)]">→</span>
               </div>
-              <span className="shrink-0 text-[var(--text-on-light-muted)]">→</span>
             </Link>
 
             <Link
               href="/quiz"
-              className="flex items-center gap-4 rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4 hover:border-[var(--color-neuro-blue-light)] transition-colors"
+              className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-[var(--premium-radius-nested)] bg-[var(--color-ink)]/10 text-[var(--color-ink)] shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <span className="flex h-28 w-full items-center justify-center bg-[var(--color-ink)]/10 text-[var(--color-ink)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
                   <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
               </span>
-              <div className="min-w-0 flex-1">
-                <span className="font-semibold text-[var(--color-ink)]">Find your protocol</span>
-                <p className="text-sm text-[var(--text-on-light-muted)]">Take the quiz</p>
+              <div className="flex items-center justify-between gap-3 p-4">
+                <div className="min-w-0 flex-1">
+                  <span className="font-semibold text-[var(--color-ink)]">Find your protocol</span>
+                  <p className="text-sm text-[var(--text-on-light-muted)]">Take the quiz</p>
+                </div>
+                <span className="shrink-0 text-[var(--text-on-light-muted)] group-hover:text-[var(--color-ink)]">→</span>
               </div>
-              <span className="shrink-0 text-[var(--text-on-light-muted)]">→</span>
             </Link>
           </div>
 
@@ -234,7 +240,7 @@ export default function AccountPage() {
                 {activeSubscriptions.slice(0, 3).map((s: Subscription) => {
                   const img = getProtocolImage(getProtocolFromSubscription(s));
                   return img ? (
-                    <span key={s.id} className="flex h-8 w-8 shrink-0 overflow-hidden rounded-[var(--premium-radius-nested)] border border-white/20">
+                    <span key={s.id} className="flex h-10 w-10 shrink-0 overflow-hidden rounded-[var(--premium-radius-nested)] border border-white/20">
                       <img src={img} alt="" className="h-full w-full object-cover" />
                     </span>
                   ) : null;
@@ -262,7 +268,7 @@ export default function AccountPage() {
           <p className="text-sm text-[var(--text-on-light-muted)] mb-4">
             Update your name, email, and delivery address.
           </p>
-          <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4">
+          <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-5">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold text-[var(--color-ink)]">Contact & address</h3>
               <button
