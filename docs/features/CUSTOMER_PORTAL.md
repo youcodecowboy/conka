@@ -48,6 +48,16 @@ sequenceDiagram
 
 - [`app/context/AuthContext.tsx`](../app/context/AuthContext.tsx) — `checkSession()` calls `/api/auth/session`; `login()` redirects to `/api/auth/authorize`; `logout()` redirects to `/api/auth/logout`. Exposes `customer`, `loading`, `isAuthenticated`, `logout`, `login`, `checkSession`.
 
+### Local / preview and redirect URI
+
+Shopify Customer Account API **does not allow** `localhost` or any `http` URL in the callback allowlist (Headless → storefront → Customer Account API → Application setup → Callback URI(s)). Only HTTPS URLs (e.g. production, or an ngrok URL) can be added.
+
+- **Production:** Use your live domain (e.g. `https://conka.io/api/auth/callback`, `https://www.conka.io/api/auth/callback`) in the allowlist. No env needed.
+- **Local dev:** To get login working from localhost, use a tunnel (e.g. ngrok) and add the tunnel’s HTTPS callback URL in Shopify. Then set **`SHOPIFY_REDIRECT_URI`** (or **`NEXT_PUBLIC_APP_URL`**) in `.env.local` to that base URL (e.g. `https://abc123.ngrok.io`). The app will send this as the `redirect_uri` to Shopify so the OAuth callback goes to your tunnel (which forwards to localhost).
+- **Preview (Vercel):** Each preview deploy gets a new URL. You can add that URL once in Shopify when you need to test that deploy, or use a **stable preview domain** (Vercel → Project → Settings → Domains) and add that single URL in Shopify.
+
+If login “used to work” locally and then stopped, the app was likely previously using a single env-based redirect (e.g. production URL). That meant the callback was hitting production, not localhost. The code was changed to send the actual request origin so production/preview use the correct URL; that exposed that localhost isn’t allowed. The env override above restores the ability to point `redirect_uri` at an allowed URL (production or ngrok) when running in non-production.
+
 ## Subscription data flow
 
 ### Reading subscriptions
