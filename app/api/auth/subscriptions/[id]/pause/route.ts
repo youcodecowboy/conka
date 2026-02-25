@@ -285,6 +285,9 @@ export async function POST(
         const subscriptionData = subDetailsResult.data.data;
         const lines = subscriptionData?.lines || [];
         
+        // Loop's internal numeric ID — required for PUT /frequency (not the shopify-{id} format)
+        const loopInternalId = subscriptionData?.id;
+        
         if (lines.length === 0) {
           return NextResponse.json({
             success: false,
@@ -354,25 +357,31 @@ export async function POST(
             }
           );
           // Step 5: If swap succeeded, update billing/delivery interval (required for correct billing).
-          // If change-frequency fails, we do NOT return success — subscription may be in a partial state
-          // (variant/price updated but interval still old). Support must check Loop dashboard and fix manually.
-          // Loop does not support rollback of swap via API; document partial state for support.
-          if (result.response.ok) {
-            console.log(`${logPrefix} Step 3: POST change-frequency`, { billingInterval: planConfig.interval, billingIntervalCount: planConfig.intervalCount });
+          // Uses PUT /subscription/{loopInternalId}/frequency with Loop's internal ID (not shopify-{id}).
+          // If this fails, we do NOT return success — subscription may be in a partial state.
+          if (result.response.ok && loopInternalId != null) {
+            // Map plan interval to Loop's required WEEK | MONTH | YEAR (Loop does not accept DAY)
+            const intervalUnit = planConfig.interval === 'DAY' ? 'WEEK' : planConfig.interval;
+            const intervalCount = planConfig.interval === 'DAY' ? 2 : planConfig.intervalCount; // bi-weekly = every 2 weeks
+            const nextBillingDateRaw = subscriptionData?.nextBillingDate;
+            const nextBillingDateEpoch = nextBillingDateRaw
+              ? Math.floor(new Date(nextBillingDateRaw).getTime() / 1000)
+              : Math.floor(Date.now() / 1000) + 86400; // fallback: tomorrow
+            
+            console.log(`${logPrefix} Step 3: PUT frequency using Loop internal ID:`, loopInternalId);
             const freqResult = await loopRequest(
-              `/subscription/${loopSubscriptionId}/change-frequency`,
+              `/subscription/${loopInternalId}/frequency`,
               loopToken,
-              'POST',
+              'PUT',
               {
-                billingInterval: planConfig.interval,
-                billingIntervalCount: planConfig.intervalCount,
-                deliveryInterval: planConfig.interval,
-                deliveryIntervalCount: planConfig.intervalCount,
+                billingPolicy: { interval: intervalUnit, intervalCount },
+                deliveryPolicy: { interval: intervalUnit, intervalCount },
+                nextBillingDateEpoch,
+                discountType: 'OLD',
               }
             );
             if (!freqResult.response.ok) {
-              // Fix 1: Treat as hard failure — do not return success. Log full details for debugging.
-              console.error(`${logPrefix} Swap succeeded but change-frequency failed. Full error:`, JSON.stringify(freqResult.data));
+              console.error(`${logPrefix} Swap succeeded but PUT frequency failed. Full error:`, JSON.stringify(freqResult.data));
               return NextResponse.json(
                 {
                   success: false,
@@ -385,7 +394,19 @@ export async function POST(
                 { status: 503 }
               );
             }
-            console.log(`${logPrefix} change-frequency OK`);
+            console.log(`${logPrefix} PUT frequency OK`);
+          } else if (result.response.ok && loopInternalId == null) {
+            console.error(`${logPrefix} Swap succeeded but Loop internal ID missing from GET response; cannot call PUT frequency`);
+            return NextResponse.json(
+              {
+                success: false,
+                partial: true,
+                error: 'Plan product was updated but we could not update your billing schedule. Please contact support so we can fix this for you.',
+                message: 'Missing subscription ID for frequency update',
+                loopSubscriptionId,
+              },
+              { status: 503 }
+            );
           }
         }
         

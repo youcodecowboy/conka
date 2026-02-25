@@ -181,23 +181,41 @@ export async function skipNextOrder(
   );
 }
 
-// Update subscription frequency (change billing/delivery interval)
-// https://developer.loopwork.co/reference/update-frequency
-// Note: Changing frequency may require using the "change-frequency" endpoint
+// Update subscription frequency (billing/delivery interval)
+// Loop API: PUT /subscription/{subscriptionId}/frequency (subscriptionId must be Loop's internal numeric ID)
+// Body: billingPolicy, deliveryPolicy, nextBillingDateEpoch, discountType (all required)
 export async function updateSubscriptionFrequency(
   subscriptionId: string,
-  interval: SubscriptionInterval
+  interval: SubscriptionInterval,
+  options?: { nextBillingDateEpoch?: number }
 ): Promise<LoopApiResponse<LoopSubscription>> {
-  // Map our interval format to Loop's expected format
-  const intervalUnit = interval.unit.toUpperCase(); // Loop uses WEEK, MONTH, etc.
-  
-  return loopFetch<LoopSubscription>(`/subscription/${subscriptionId}/change-frequency`, {
-    method: 'POST',
-    body: JSON.stringify({ 
-      billingInterval: intervalUnit,
-      billingIntervalCount: interval.value,
-      deliveryInterval: intervalUnit,
-      deliveryIntervalCount: interval.value,
+  const subResult = await getSubscription(subscriptionId);
+  if (subResult.error || !subResult.data) {
+    return subResult as LoopApiResponse<LoopSubscription>;
+  }
+  const sub = subResult.data as any;
+  const loopInternalId = sub.id;
+  if (!loopInternalId) {
+    return {
+      error: {
+        code: 'MISSING_LOOP_ID',
+        message: 'Subscription response missing internal ID for frequency update',
+      },
+    };
+  }
+  const intervalUnit = interval.unit === 'day' ? 'WEEK' : interval.unit.toUpperCase();
+  const intervalCount = interval.unit === 'day' ? Math.max(1, Math.round(interval.value / 7)) : interval.value;
+  const nextBillingDateEpoch = options?.nextBillingDateEpoch ?? (sub.nextBillingDate
+    ? Math.floor(new Date(sub.nextBillingDate).getTime() / 1000)
+    : Math.floor(Date.now() / 1000) + 86400);
+
+  return loopFetch<LoopSubscription>(`/subscription/${loopInternalId}/frequency`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      billingPolicy: { interval: intervalUnit, intervalCount },
+      deliveryPolicy: { interval: intervalUnit, intervalCount },
+      nextBillingDateEpoch,
+      discountType: 'OLD',
     }),
   });
 }

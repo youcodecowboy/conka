@@ -121,10 +121,10 @@ So the **target** plan’s selling plan ID is sent. Variant and selling plan are
 
 The modal behaviour is driven by **subscription type** (derived from the subscription’s product title):
 
-| Subscription type | What the user can change | What is shown |
-|-------------------|--------------------------|---------------|
-| **Protocol** (Resilience, Precision, Balance, Ultimate) | **Protocol** (switch between Resilience, Precision, Balance; Ultimate shown when on Max tier or already on Ultimate) and **pack size** (4, 12, or 28 shots per delivery — same price for 1/2/3, Ultimate has different pricing). | Left: protocol cards with **product images**. Right: pack size (tier). Callout: “Want CONKA Flow only or CONKA Clear only? Cancel this subscription and start a new one from the shop.” |
-| **Flow** or **Clear** (single formula) | **Formula** (switch between Flow and Clear) and **pack size** (4, 8, 12, or 28 shots). | Left: formula cards with **product images**. Right: pack size grid. Callout: “Want a protocol bundle (Resilience, Precision, Balance)? Cancel this subscription and start a new one from the shop.” |
+| Subscription type                                       | What the user can change                                                                                                                                                                                                         | What is shown                                                                                                                                                                                       |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Protocol** (Resilience, Precision, Balance, Ultimate) | **Protocol** (switch between Resilience, Precision, Balance; Ultimate shown when on Max tier or already on Ultimate) and **pack size** (4, 12, or 28 shots per delivery — same price for 1/2/3, Ultimate has different pricing). | Left: protocol cards with **product images**. Right: pack size (tier). Callout: “Want CONKA Flow only or CONKA Clear only? Cancel this subscription and start a new one from the shop.”             |
+| **Flow** or **Clear** (single formula)                  | **Formula** (switch between Flow and Clear) and **pack size** (4, 8, 12, or 28 shots).                                                                                                                                           | Left: formula cards with **product images**. Right: pack size grid. Callout: “Want a protocol bundle (Resilience, Precision, Balance)? Cancel this subscription and start a new one from the shop.” |
 
 **Same “plan” = same pack size (and same family).** Within protocol subscriptions you can switch between Resilience, Precision, and Balance (and Ultimate when on Max) without changing pack size — same Loop plan, same price for 1/2/3. Within single-formula subscriptions you can switch between Flow and Clear at the same pack size. **Crossing the boundary** (protocol ↔ single formula) is not supported in this modal: the user must cancel and start a new subscription from the shop. The UI states this clearly in the callouts.
 
@@ -180,15 +180,14 @@ You are on a **headless** site (this repo); the **old Shopify theme is still liv
 
 Comparison of what our new account portal does vs what Loop's model and API support:
 
-| Layer | What we do | What we don't do |
-|-------|------------|------------------|
-| **EditSubscriptionModal** | Lets user pick protocol (1-4) and tier (starter / pro / max). UI labels tier as "Select Frequency" (Weekly / Bi-Weekly / Monthly). On Save it only calls `onSave(selectedProtocol, selectedTier)` — i.e. it sends protocolId and plan (tier) only. | No distinction between "change product/variant" and "change billing/delivery schedule". The modal conflates tier with frequency in one selection. |
-| **useSubscriptions.changePlan** | Sends one request: `POST .../pause` with body `{ action: 'change-frequency', plan, protocolId? }`. | Does not call any other endpoint (e.g. no separate "update frequency" or "change plan" call). |
+| Layer                              | What we do                                                                                                                                                                                                                                                                                                                      | What we don't do                                                                                                                                                                                                                     |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **EditSubscriptionModal**          | Lets user pick protocol (1-4) and tier (starter / pro / max). UI labels tier as "Select Frequency" (Weekly / Bi-Weekly / Monthly). On Save it only calls `onSave(selectedProtocol, selectedTier)` — i.e. it sends protocolId and plan (tier) only.                                                                              | No distinction between "change product/variant" and "change billing/delivery schedule". The modal conflates tier with frequency in one selection.                                                                                    |
+| **useSubscriptions.changePlan**    | Sends one request: `POST .../pause` with body `{ action: 'change-frequency', plan, protocolId? }`.                                                                                                                                                                                                                              | Does not call any other endpoint (e.g. no separate "update frequency" or "change plan" call).                                                                                                                                        |
 | **Pause route (change-frequency)** | GET subscription from Loop; resolve target variant from PROTOCOL_VARIANTS and plan config (sellingPlanId) from PLAN_CONFIGURATIONS; call **only** Loop `PUT .../line/{lineId}/swap` with variantShopifyId, quantity, pricingType, sellingPlanGroupId. Fallback when variant unknown: `POST .../change-plan` with sellingPlanId. | For the normal path (known variant), we **never** call Loop's **Update frequency** or **Change subscription plan** APIs. We assume swap line with sellingPlanGroupId is enough to change both product and billing/delivery schedule. |
-| **app/lib/loop.ts** | Defines `updateSubscriptionFrequency(subscriptionId, interval)` which calls Loop `POST /subscription/{id}/change-frequency` with billingInterval, deliveryInterval, etc. | This function is **never used** by the pause route or any account-portal flow. |
+| **app/lib/loop.ts**                | Defines `updateSubscriptionFrequency(subscriptionId, interval)` which calls Loop `POST /subscription/{id}/change-frequency` with billingInterval, deliveryInterval, etc.                                                                                                                                                        | This function is **never used** by the pause route or any account-portal flow.                                                                                                                                                       |
 
 Loop admin preferences distinguish **Edit billing/delivery schedule** (recalculate discount per updated interval) from **Edit/Remove products**. So in Loop's model, editing the billing/delivery schedule is a **separate** action. We only do a **product swap** and do not perform that step. Loop may leave the subscription's billing interval (e.g. weekly) unchanged when we only swap the line. The fix is to align with Loop: call **update frequency** (or equivalent) after a successful swap so the subscription's billing/delivery schedule matches the new tier, or use Loop's **change subscription plan** API instead of or in addition to swap.
-
 
 ### Problem 2: Update payment method
 
@@ -204,7 +203,6 @@ The portal has no “Update payment method” or “Update card” flow. Users c
 1. **Quick win — link from the new site to Loop's portal for payment update only:** Add an "Update payment method" or "Update card" link on the account or subscriptions page that opens `https://conka-6770.myshopify.com/a/loop_subscriptions/customer-portal` in a new tab (or same tab with a return link). The customer logs in on the old theme if needed. This restores the ability to update the card without building a custom flow. Label it clearly (e.g. "Update payment method (opens subscription manager)").
 2. **Loop Admin API:** Check [Loop's API docs](https://developer.loopwork.co/reference/) (or Loop support) for an **update payment method** endpoint (e.g. per customer or per subscription). If they expose a hosted "update payment" URL (e.g. a tokenized link per customer/subscription), you could link to that from the new site so the experience stays on-brand while still using Loop for PCI.
 3. **Shopify headless:** If you need payment update to stay entirely on the new domain, confirm with Shopify whether the Customer Account API (or a hosted account page) supports opening the subscription payment method flow from a headless app (e.g. redirect or iframe to Shopify with the subscription contract ID and `field=paymentMethod`).
-
 
 ---
 
@@ -230,17 +228,70 @@ To confirm that changing plan or frequency in the Edit Plan modal triggers the c
    Replace `<CONTRACT_ID>` with the Shopify subscription contract ID (numeric or GID) and use a real session cookie from the browser. Then check server logs for the same `[Loop plan-update]` lines.
 4. **Confirm in Loop/Shopify:** After a successful save, check the subscription in Loop's dashboard (or Shopify admin) and confirm the product/variant and billing interval match the new selection.
 
+````markdown
+## Testing Shopify auth on a preview branch
+
+Shopify Customer Account API does not allow `localhost` or `http` URLs as callback URIs — only HTTPS. This means you cannot test the OAuth login flow on a local dev server directly.
+
+**The solution: use your Vercel branch preview URL.**
+
+Every branch you push to Vercel gets a stable URL in the format:
+
+```
+https://{project}-git-{branch-name}-{team}.vercel.app
+```
+
+This URL stays the same for the lifetime of the branch regardless of how many times you push to it. Use this — not the per-deployment URL (which changes on every push).
+
+### Steps
+
+**1. Find your branch URL**
+
+In Vercel → Deployments, find your branch deployment and look under **Domains** for the URL containing your branch name, e.g.:
+
+```
+conka-shopify-git-your-branch-name-conka.vercel.app
+```
+
+**2. Add it to Shopify**
+
+In Shopify → Headless → Customer Account API → Application setup:
+
+- **Callback URI(s):** `https://{your-branch-url}/api/auth/callback`
+- **Javascript origin(s):** `https://{your-branch-url}`
+
+Hit **Save**.
+
+**3. Set the environment variable in Vercel**
+
+In Vercel → Settings → Environment Variables, add:
+
+| Key                   | Value                       | Environment |
+| --------------------- | --------------------------- | ----------- |
+| `NEXT_PUBLIC_APP_URL` | `https://{your-branch-url}` | Preview     |
+
+Scope it to your specific branch if possible. Trigger a redeploy so the variable is picked up.
+
+**4. Test**
+
+Open `https://{your-branch-url}/account` in your browser. Login will complete via Shopify OAuth and redirect back to your preview URL. From there you can test any auth-dependent flows (subscriptions, plan changes, etc.) and monitor live in Vercel → Deployments → Functions logs.
+
+### Cleanup
+
+When the branch is merged, remove the callback URI from Shopify to keep the allowlist clean.
+````
+
 ## Key file reference
 
-| Area | File |
-|------|------|
-| Auth context | [`app/context/AuthContext.tsx`](../app/context/AuthContext.tsx) |
-| Subscriptions hook | [`app/hooks/useSubscriptions.ts`](../app/hooks/useSubscriptions.ts) |
-| Account dashboard | [`app/account/page.tsx`](../app/account/page.tsx) |
-| Subscriptions list & actions | [`app/account/subscriptions/page.tsx`](../app/account/subscriptions/page.tsx) |
-| Edit plan modal | [`app/components/subscriptions/EditSubscriptionModal.tsx`](../app/components/subscriptions/EditSubscriptionModal.tsx) |
-| GET subscriptions (hybrid) | [`app/api/auth/subscriptions/route.ts`](../app/api/auth/subscriptions/route.ts) |
-| All subscription actions | [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts) |
-| Loop API client | [`app/lib/loop.ts`](../app/lib/loop.ts) |
-| Plan/variant config (pause route) | `PROTOCOL_VARIANTS`, `PLAN_CONFIGURATIONS` in pause route above |
-| Subscription types | [`app/types/subscription.ts`](../app/types/subscription.ts) |
+| Area                              | File                                                                                                                  |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Auth context                      | [`app/context/AuthContext.tsx`](../app/context/AuthContext.tsx)                                                       |
+| Subscriptions hook                | [`app/hooks/useSubscriptions.ts`](../app/hooks/useSubscriptions.ts)                                                   |
+| Account dashboard                 | [`app/account/page.tsx`](../app/account/page.tsx)                                                                     |
+| Subscriptions list & actions      | [`app/account/subscriptions/page.tsx`](../app/account/subscriptions/page.tsx)                                         |
+| Edit plan modal                   | [`app/components/subscriptions/EditSubscriptionModal.tsx`](../app/components/subscriptions/EditSubscriptionModal.tsx) |
+| GET subscriptions (hybrid)        | [`app/api/auth/subscriptions/route.ts`](../app/api/auth/subscriptions/route.ts)                                       |
+| All subscription actions          | [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts)                 |
+| Loop API client                   | [`app/lib/loop.ts`](../app/lib/loop.ts)                                                                               |
+| Plan/variant config (pause route) | `PROTOCOL_VARIANTS`, `PLAN_CONFIGURATIONS` in pause route above                                                       |
+| Subscription types                | [`app/types/subscription.ts`](../app/types/subscription.ts)                                                           |
