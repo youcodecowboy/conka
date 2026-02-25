@@ -1,8 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
+import { getFormulaImage } from "@/app/lib/productImageConfig";
 
 export function EmptySubscriptionsState() {
+  const flowImage = getFormulaImage("01");
+  const clearImage = getFormulaImage("02");
   return (
-    <div className="premium-card-soft premium-card-soft-stroke p-12 text-center">
+    <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-10 md:p-12 text-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="48"
@@ -28,6 +32,34 @@ export function EmptySubscriptionsState() {
         Subscribe to your favorite protocols for automatic deliveries and
         savings.
       </p>
+      {(flowImage || clearImage) && (
+        <div className="grid grid-cols-2 gap-6 max-w-lg mx-auto mb-8">
+          {flowImage && (
+            <Link
+              href="/conka-flow"
+              className="rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-5 hover:border-[var(--color-neuro-blue-light)] transition-colors text-left overflow-hidden"
+            >
+              <div className="w-full aspect-square max-w-[180px] mx-auto rounded-[var(--premium-radius-nested)] overflow-hidden mb-4 bg-[var(--color-premium-stroke)]">
+                <Image src={flowImage} alt="CONKA Flow" width={180} height={180} className="w-full h-full object-cover" />
+              </div>
+              <p className="font-semibold text-[var(--color-ink)]">CONKA Flow</p>
+              <p className="premium-body-sm text-[var(--text-on-light-muted)]">Caffeine-Free Focus</p>
+            </Link>
+          )}
+          {clearImage && (
+            <Link
+              href="/conka-clarity"
+              className="rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-5 hover:border-[var(--color-neuro-blue-light)] transition-colors text-left overflow-hidden"
+            >
+              <div className="w-full aspect-square max-w-[180px] mx-auto rounded-[var(--premium-radius-nested)] overflow-hidden mb-4 bg-[var(--color-premium-stroke)]">
+                <Image src={clearImage} alt="CONKA Clear" width={180} height={180} className="w-full h-full object-cover" />
+              </div>
+              <p className="font-semibold text-[var(--color-ink)]">CONKA Clear</p>
+              <p className="premium-body-sm text-[var(--text-on-light-muted)]">Peak Performance</p>
+            </Link>
+          )}
+        </div>
+      )}
       <Link
         href="/quiz"
         className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] px-8 py-3 font-semibold text-white text-sm hover:opacity-90 transition-opacity"

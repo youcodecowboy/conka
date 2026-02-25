@@ -335,19 +335,19 @@ const FormulaBreakdown = ({
     >
       <div className="flex items-center gap-1">
         <div
-          className={`w-3 h-3 rounded-full ${isSelected ? "bg-amber-400" : "bg-amber-500"}`}
+          className={`w-3 h-3 rounded-full bg-[var(--color-ink)] opacity-80`}
         />
-        <span className="font-clinical text-xs">{flowCount}x Flow</span>
+        <span className="premium-body-sm">{flowCount}x Flow</span>
       </div>
       <span className={isSelected ? "opacity-50" : "opacity-30"}>+</span>
       <div className="flex items-center gap-1">
         <div
-          className={`w-3 h-3 rounded-full ${isSelected ? "bg-[#AAB9BC]" : "bg-[#AAB9BC]"}`}
+          className={`w-3 h-3 rounded-full bg-[var(--color-mid)]`}
         />
-        <span className="font-clinical text-xs">{clarityCount}x Clear</span>
+        <span className="premium-body-sm">{clarityCount}x Clear</span>
       </div>
       <span
-        className={`font-clinical text-xs ${isSelected ? "opacity-50" : "opacity-40"}`}
+        className={`premium-body-sm ${isSelected ? "opacity-50" : "opacity-40"}`}
       >
         {perDeliveryText}
       </span>
@@ -451,26 +451,36 @@ export function EditSubscriptionModal({
   // Get selected protocol data (use effective for display)
   const selectedProtocolData = PROTOCOLS.find((p) => p.id === effectiveProtocol);
 
+  const currentTierInfo = getTierInfo(currentProtocolId, currentTier);
+  const currentPlanShots = currentTierInfo?.deliveryShots;
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       {/* Modal - Desktop */}
-      <div className="relative bg-white neo-box w-full max-w-4xl max-h-[90vh] overflow-hidden hidden md:flex flex-col">
+      <div className="relative bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] w-full max-w-4xl max-h-[90vh] overflow-hidden hidden md:flex flex-col shadow-xl">
         {/* Header */}
-        <div className="border-b-2 border-current px-6 py-4 flex items-center justify-between">
+        <div className="border-b border-[var(--color-premium-stroke)] px-6 py-4 flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold">Edit Plan</h2>
-            <p className="font-clinical text-sm opacity-60">
+            <h2 className="text-xl font-bold text-[var(--color-ink)]" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
+              Edit Plan
+            </h2>
+            <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-0.5">
               {subscriptionName}
             </p>
+            {currentPlanShots != null && (
+              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+                Your current plan: {currentPlanShots} shots per delivery
+              </p>
+            )}
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:opacity-70 transition-opacity"
+            className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] transition-colors text-[var(--color-ink)]"
           >
             <Icon name="close" className="w-5 h-5" />
           </button>
@@ -480,10 +490,10 @@ export function EditSubscriptionModal({
         <div className="flex flex-1 overflow-hidden">
           {/* Left Column - Protocol Selection (hidden when same-plan-only) */}
           {!samePlanOnly && (
-          <div className="w-1/2 border-r-2 border-current p-6 overflow-y-auto">
+          <div className="w-1/2 border-r border-[var(--color-premium-stroke)] p-6 overflow-y-auto bg-[var(--color-premium-bg-soft)]">
             {/* Protocols Section */}
             <div className="mb-6">
-              <h3 className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-3">
+              <h3 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-3">
                 Protocols
               </h3>
               <div className="space-y-2">
@@ -494,21 +504,21 @@ export function EditSubscriptionModal({
                     <button
                       key={protocol.id}
                       onClick={() => setSelectedProtocol(protocol.id)}
-                      className={`w-full p-4 text-left transition-all ${
+                      className={`w-full p-4 text-left transition-all rounded-[var(--premium-radius-nested)] border ${
                         isSelected
-                          ? "neo-box-inverted"
-                          : "neo-box hover:bg-gray-50"
+                          ? "bg-[var(--color-ink)] text-[var(--text-on-ink)] border-[var(--color-ink)]"
+                          : "premium-card-soft premium-card-soft-stroke hover:bg-[var(--color-premium-stroke)]/20"
                       }`}
                     >
                       <div className="flex items-start gap-3">
                         <div
                           className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                            isSelected ? "bg-white/20" : "bg-gray-100"
+                            isSelected ? "bg-white/20" : "bg-[var(--color-premium-stroke)]"
                           }`}
                         >
                           <Icon
                             name={protocol.icon}
-                            className={`w-5 h-5 ${isSelected ? "text-white" : ""}`}
+                            className={`w-5 h-5 ${isSelected ? "text-white" : "text-[var(--color-ink)]"}`}
                           />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -516,8 +526,8 @@ export function EditSubscriptionModal({
                             <span className="font-bold">{protocol.name}</span>
                             {isCurrent && (
                               <span
-                                className={`text-xs font-bold px-2 py-0.5 ${
-                                  isSelected ? "bg-white/20" : "bg-gray-200"
+                                className={`text-xs font-bold px-2 py-0.5 rounded-[var(--premium-radius-nested)] ${
+                                  isSelected ? "bg-white/20" : "bg-[var(--color-premium-stroke)] text-[var(--color-ink)]"
                                 }`}
                               >
                                 CURRENT
@@ -525,12 +535,12 @@ export function EditSubscriptionModal({
                             )}
                           </div>
                           <div
-                            className={`font-clinical text-xs ${isSelected ? "opacity-70" : "opacity-50"}`}
+                            className={`premium-body-sm mt-0.5 ${isSelected ? "opacity-80" : "text-[var(--text-on-light-muted)]"}`}
                           >
                             {protocol.subtitle}
                           </div>
                           <div
-                            className={`text-xs mt-1 ${isSelected ? "opacity-60" : "opacity-40"}`}
+                            className={`premium-body-sm mt-1 ${isSelected ? "opacity-70" : "text-[var(--text-on-light-muted)]"}`}
                           >
                             {protocol.description}
                           </div>
@@ -538,7 +548,7 @@ export function EditSubscriptionModal({
                         {isSelected && (
                           <Icon
                             name="check"
-                            className="w-5 h-5 flex-shrink-0 mt-1"
+                            className="w-5 h-5 flex-shrink-0 mt-1 text-white"
                           />
                         )}
                       </div>
@@ -549,45 +559,41 @@ export function EditSubscriptionModal({
             </div>
 
             {/* Divider */}
-            <div className="border-t-2 border-dashed border-gray-200 my-6" />
+            <div className="border-t border-[var(--color-premium-stroke)] my-6" />
 
             {/* Individual Formulas Section - Not swappable */}
             <div>
-              <h3 className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-3">
+              <h3 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-3">
                 Individual Formulas
               </h3>
-              <p className="text-xs font-clinical opacity-50 mb-3">
+              <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-3">
                 Switching to individual formulas requires a new subscription
               </p>
               <div className="space-y-2 opacity-60">
                 {FORMULAS.map((formula) => (
                   <div
                     key={formula.id}
-                    className="w-full p-4 text-left neo-box bg-gray-50 cursor-not-allowed"
+                    className="w-full p-4 text-left rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)]/30 border border-[var(--color-premium-stroke)] cursor-not-allowed"
                   >
                     <div className="flex items-center gap-3">
                       <div
                         className={`w-10 h-10 rounded-full flex items-center justify-center ${
                           formula.color === "amber"
-                            ? "bg-amber-100"
-                            : "bg-[#AAB9BC]/20"
+                            ? "bg-[var(--color-premium-stroke)]"
+                            : "bg-[var(--color-premium-stroke)]"
                         }`}
                       >
                         <Icon
                           name="beaker"
-                          className={`w-5 h-5 ${
-                            formula.color === "amber"
-                              ? "text-amber-600"
-                              : "text-[#AAB9BC]"
-                          }`}
+                          className={`w-5 h-5 text-[var(--color-ink)]`}
                         />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold">{formula.name}</span>
-                          <Icon name="lock" className="w-3 h-3 opacity-50" />
+                          <span className="font-bold text-[var(--color-ink)]">{formula.name}</span>
+                          <Icon name="lock" className="w-3 h-3 text-[var(--text-on-light-muted)]" />
                         </div>
-                        <div className="font-clinical text-xs opacity-50">
+                        <div className="premium-body-sm text-[var(--text-on-light-muted)]">
                           {formula.subtitle}
                         </div>
                       </div>
@@ -600,46 +606,40 @@ export function EditSubscriptionModal({
           )}
 
           {/* Right Column - Tier Selection */}
-          <div className={`p-6 overflow-y-auto bg-gray-50 ${samePlanOnly ? "w-full" : "w-1/2"}`}>
-            {/* Same-plan-only note */}
+          <div className={`p-6 overflow-y-auto ${samePlanOnly ? "w-full" : "w-1/2"} bg-[var(--color-premium-bg-soft)]`}>
             {samePlanOnly && (
-              <p className="font-clinical text-sm opacity-70 mb-4">
+              <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
                 You can change delivery frequency (weekly, bi-weekly, monthly) for your current plan.
               </p>
             )}
-            {/* Protocol Summary */}
             {selectedProtocolData && (
-              <div className="mb-4 p-4 bg-white neo-box">
+              <div className="mb-4 p-4 rounded-[var(--premium-radius-nested)] premium-card-soft premium-card-soft-stroke">
                 <div className="flex items-center gap-3 mb-2">
-                  <Icon name={selectedProtocolData.icon} className="w-5 h-5" />
-                  <span className="font-bold">
+                  <Icon name={selectedProtocolData.icon} className="w-5 h-5 text-[var(--color-ink)]" />
+                  <span className="font-bold text-[var(--color-ink)]">
                     {selectedProtocolData.name} Protocol
                   </span>
                 </div>
-                <p className="text-xs opacity-60">
+                <p className="premium-body-sm text-[var(--text-on-light-muted)]">
                   {selectedProtocolData.description}
                 </p>
               </div>
             )}
 
-            <h3 className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-3">
+            <h3 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-3">
               Select Frequency
             </h3>
 
-            {/* Next Billing Info */}
             {formattedNextBilling && (
-              <div className="mb-4 p-3 bg-white neo-box">
-                <div className="flex items-center gap-2 text-sm">
-                  <Icon name="calendar" className="w-4 h-4 opacity-50" />
-                  <span className="font-clinical opacity-70">
-                    Next billing:
-                  </span>
-                  <span className="font-bold">{formattedNextBilling}</span>
+              <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+                <div className="flex items-center gap-2 premium-body-sm">
+                  <Icon name="calendar" className="w-4 h-4 text-[var(--text-on-light-muted)]" />
+                  <span className="text-[var(--text-on-light-muted)]">Next billing:</span>
+                  <span className="font-semibold text-[var(--color-ink)]">{formattedNextBilling}</span>
                 </div>
               </div>
             )}
 
-            {/* Protocol Tiers */}
             <div className="space-y-3">
               {availableTiers.map((tier) => {
                 const tierInfo = getTierInfo(effectiveProtocol, tier);
@@ -659,20 +659,22 @@ export function EditSubscriptionModal({
                   <button
                     key={tier}
                     onClick={() => setSelectedTier(tier)}
-                    className={`w-full p-4 text-left transition-all ${
+                    className={`w-full p-4 text-left transition-all rounded-[var(--premium-radius-nested)] border ${
                       isSelected
-                        ? "neo-box-inverted"
-                        : "neo-box bg-white hover:bg-gray-50"
+                        ? "bg-[var(--color-ink)] text-[var(--text-on-ink)] border-[var(--color-ink)]"
+                        : "premium-card-soft premium-card-soft-stroke hover:bg-[var(--color-premium-stroke)]/20"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-bold">{tierInfo.name}</span>
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <span className={`font-bold ${!isSelected ? "text-[var(--color-ink)]" : ""}`}>
+                            {tierInfo.deliveryShots} shots per delivery
+                          </span>
                           {isCurrent && (
                             <span
-                              className={`text-xs font-bold px-2 py-0.5 ${
-                                isSelected ? "bg-white/20" : "bg-gray-200"
+                              className={`text-xs font-bold px-2 py-0.5 rounded-[var(--premium-radius-nested)] ${
+                                isSelected ? "bg-white/20" : "bg-[var(--color-premium-stroke)] text-[var(--color-ink)]"
                               }`}
                             >
                               CURRENT
@@ -680,10 +682,10 @@ export function EditSubscriptionModal({
                           )}
                           {tier === "pro" && !isCurrent && (
                             <span
-                              className={`text-xs font-bold px-2 py-0.5 ${
+                              className={`text-xs font-bold px-2 py-0.5 rounded-[var(--premium-radius-nested)] ${
                                 isSelected
                                   ? "bg-white/20"
-                                  : "bg-amber-100 text-amber-800"
+                                  : "bg-[var(--color-neuro-blue-light)] text-[var(--color-neuro-blue-dark)]"
                               }`}
                             >
                               POPULAR
@@ -691,10 +693,10 @@ export function EditSubscriptionModal({
                           )}
                           {tier === "max" && !isCurrent && (
                             <span
-                              className={`text-xs font-bold px-2 py-0.5 ${
+                              className={`text-xs font-bold px-2 py-0.5 rounded-[var(--premium-radius-nested)] ${
                                 isSelected
                                   ? "bg-white/20"
-                                  : "bg-green-100 text-green-800"
+                                  : "bg-[var(--color-premium-stroke)] text-[var(--color-ink)]"
                               }`}
                             >
                               BEST VALUE
@@ -702,10 +704,9 @@ export function EditSubscriptionModal({
                           )}
                         </div>
                         <div
-                          className={`font-clinical text-sm mt-1 ${isSelected ? "opacity-80" : "opacity-60"}`}
+                          className={`premium-body-sm mt-1 ${isSelected ? "opacity-90" : "text-[var(--text-on-light-muted)]"}`}
                         >
-                          {tierInfo.frequency} · {tierInfo.deliveryShots} shots
-                          per delivery
+                          {tierInfo.name} · {tierInfo.frequency}
                         </div>
 
                         {/* Formula Breakdown */}
@@ -717,17 +718,17 @@ export function EditSubscriptionModal({
                         />
 
                         <div
-                          className={`font-clinical text-xs mt-2 ${isSelected ? "opacity-60" : "opacity-40"}`}
+                          className={`premium-body-sm mt-2 ${isSelected ? "opacity-80" : "text-[var(--text-on-light-muted)]"}`}
                         >
                           {tierInfo.billing}
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold text-lg">
+                        <div className={`font-bold text-lg ${!isSelected ? "text-[var(--color-ink)]" : ""}`}>
                           £{tierInfo.price.toFixed(2)}
                         </div>
                         <div
-                          className={`font-clinical text-xs ${isSelected ? "opacity-70" : "opacity-50"}`}
+                          className={`premium-body-sm ${isSelected ? "opacity-80" : "text-[var(--text-on-light-muted)]"}`}
                         >
                           £{tierInfo.pricePerShot.toFixed(2)}/shot
                         </div>
@@ -735,14 +736,12 @@ export function EditSubscriptionModal({
                     </div>
                     {isSelected && (
                       <div
-                        className={`mt-3 pt-3 border-t flex items-center gap-2 text-sm ${
-                          isSelected ? "border-white/20" : "border-gray-200"
+                        className={`mt-3 pt-3 border-t flex items-center gap-2 premium-body-sm ${
+                          isSelected ? "border-white/20" : "border-[var(--color-premium-stroke)]"
                         }`}
                       >
                         <Icon name="check" className="w-4 h-4" />
-                        <span className="font-clinical">
-                          20% subscription discount applied
-                        </span>
+                        <span>20% subscription discount applied</span>
                       </div>
                     )}
                   </button>
@@ -753,10 +752,9 @@ export function EditSubscriptionModal({
         </div>
 
         {/* Footer */}
-        <div className="border-t-2 border-current p-6">
-          {/* Warning for unfulfilled first order */}
+        <div className="border-t border-[var(--color-premium-stroke)] p-6 bg-[var(--color-bone)]">
           {hasUnfulfilledFirstOrder && hasChanges && (
-            <div className="mb-4 p-3 bg-blue-50 border-2 border-blue-200 rounded-lg">
+            <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] bg-[var(--color-neuro-blue-light)] border border-[var(--color-neuro-blue-start)]">
               <div className="flex items-start gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -768,13 +766,13 @@ export function EditSubscriptionModal({
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-blue-600 flex-shrink-0 mt-0.5"
+                  className="text-[var(--color-neuro-blue-dark)] flex-shrink-0 mt-0.5"
                 >
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 16v-4" />
                   <path d="M12 8h.01" />
                 </svg>
-                <p className="font-clinical text-xs text-blue-800">
+                <p className="premium-body-sm text-[var(--color-neuro-blue-dark)]">
                   This change will take effect on your{" "}
                   <strong>next delivery</strong>. Your first order is already
                   being prepared. Need to adjust it?{" "}
@@ -790,16 +788,19 @@ export function EditSubscriptionModal({
             </div>
           )}
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border-2 border-red-200 text-red-700 text-sm font-clinical">
+            <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] border border-red-200 bg-red-50 text-red-700 premium-body-sm">
               {error}
             </div>
           )}
           <div className="flex items-center justify-between">
-            <div className="font-clinical text-sm opacity-60">
+            <div className="premium-body-sm text-[var(--text-on-light-muted)]">
               {hasChanges ? (
-                <span className="text-green-700 font-medium">
+                <span className="text-[var(--color-ink)] font-medium">
                   → {PROTOCOLS.find((p) => p.id === effectiveProtocol)?.name} ·{" "}
-                  {getTierInfo(effectiveProtocol, selectedTier)?.name}
+                  {(() => {
+                    const t = getTierInfo(effectiveProtocol, selectedTier);
+                    return t ? `${t.deliveryShots} shots per delivery` : "";
+                  })()}
                 </span>
               ) : (
                 "No changes"
@@ -808,14 +809,14 @@ export function EditSubscriptionModal({
             <div className="flex gap-3">
               <button
                 onClick={onClose}
-                className="neo-button-outline px-6 py-2.5 font-semibold"
+                className="rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] px-6 py-2.5 font-semibold premium-body-sm text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={!hasChanges || saving || loading}
-                className="neo-button px-6 py-2.5 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                className="rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] px-6 py-2.5 font-semibold premium-body-sm text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? (
                   <span className="flex items-center gap-2">
@@ -832,35 +833,40 @@ export function EditSubscriptionModal({
       </div>
 
       {/* Modal - Mobile */}
-      <div className="relative bg-white neo-box w-full max-h-[90vh] overflow-hidden flex flex-col md:hidden">
+      <div className="relative bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] w-full max-h-[90vh] overflow-hidden flex flex-col md:hidden shadow-xl">
         {/* Header */}
-        <div className="border-b-2 border-current px-4 py-3 flex items-center justify-between">
-          <div>
-            <h2 className="font-bold">Edit Plan</h2>
-            <p className="font-clinical text-xs opacity-60 truncate">
+        <div className="border-b border-[var(--color-premium-stroke)] px-4 py-3 flex items-center justify-between">
+          <div className="min-w-0">
+            <h2 className="font-bold text-[var(--color-ink)]" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>Edit Plan</h2>
+            <p className="premium-body-sm text-[var(--text-on-light-muted)] truncate mt-0.5">
               {subscriptionName}
             </p>
+            {currentPlanShots != null && (
+              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+                Your current plan: {currentPlanShots} shots per delivery
+              </p>
+            )}
           </div>
-          <button onClick={onClose} className="p-2">
+          <button onClick={onClose} className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] text-[var(--color-ink)]">
             <Icon name="close" className="w-5 h-5" />
           </button>
         </div>
 
         {/* Mobile Steps */}
         {!samePlanOnly && (
-        <div className="flex border-b-2 border-current">
+        <div className="flex border-b border-[var(--color-premium-stroke)]">
           <button
             onClick={() => setMobileStep("product")}
-            className={`flex-1 py-3 text-sm font-semibold transition-colors ${
-              mobileStep === "product" ? "bg-black text-white" : ""
+            className={`flex-1 py-3 premium-body-sm font-semibold transition-colors ${
+              mobileStep === "product" ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]" : "text-[var(--color-ink)] bg-[var(--color-premium-bg-soft)]"
             }`}
           >
             1. Protocol
           </button>
           <button
             onClick={() => setMobileStep("tier")}
-            className={`flex-1 py-3 text-sm font-semibold border-l-2 border-current transition-colors ${
-              mobileStep === "tier" ? "bg-black text-white" : ""
+            className={`flex-1 py-3 premium-body-sm font-semibold border-l border-[var(--color-premium-stroke)] transition-colors ${
+              mobileStep === "tier" ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]" : "text-[var(--color-ink)] bg-[var(--color-premium-bg-soft)]"
             }`}
           >
             2. Frequency
@@ -872,9 +878,8 @@ export function EditSubscriptionModal({
         <div className="flex-1 overflow-y-auto p-4">
           {!samePlanOnly && mobileStep === "product" ? (
             <div className="space-y-4">
-              {/* Protocols */}
               <div>
-                <h3 className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-2">
+                <h3 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-2">
                   Protocols
                 </h3>
                 <div className="space-y-2">
@@ -889,33 +894,33 @@ export function EditSubscriptionModal({
                           setSelectedProtocol(protocol.id);
                           setMobileStep("tier");
                         }}
-                        className={`w-full p-3 text-left transition-all ${
-                          isSelected ? "neo-box-inverted" : "neo-box"
+                        className={`w-full p-3 text-left transition-all rounded-[var(--premium-radius-nested)] border ${
+                          isSelected ? "bg-[var(--color-ink)] text-[var(--text-on-ink)] border-[var(--color-ink)]" : "premium-card-soft premium-card-soft-stroke"
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <Icon name={protocol.icon} className="w-5 h-5" />
-                          <div className="flex-1">
+                          <Icon name={protocol.icon} className={`w-5 h-5 ${isSelected ? "text-white" : "text-[var(--color-ink)]"}`} />
+                          <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
                               <span className="font-bold text-sm">
                                 {protocol.name}
                               </span>
                               {isCurrent && (
                                 <span
-                                  className={`text-xs font-bold px-1.5 py-0.5 ${
-                                    isSelected ? "bg-white/20" : "bg-gray-200"
+                                  className={`text-xs font-bold px-1.5 py-0.5 rounded-[var(--premium-radius-nested)] ${
+                                    isSelected ? "bg-white/20" : "bg-[var(--color-premium-stroke)] text-[var(--color-ink)]"
                                   }`}
                                 >
                                   CURRENT
                                 </span>
                               )}
                             </div>
-                            <div className="font-clinical text-xs opacity-60">
+                            <div className="premium-body-sm text-[var(--text-on-light-muted)]">
                               {protocol.subtitle}
                             </div>
                           </div>
                           {isSelected && (
-                            <Icon name="check" className="w-4 h-4" />
+                            <Icon name="check" className="w-4 h-4 text-white" />
                           )}
                         </div>
                       </button>
@@ -924,33 +929,31 @@ export function EditSubscriptionModal({
                 </div>
               </div>
 
-              {/* Divider */}
-              <div className="border-t-2 border-dashed border-gray-200 my-4" />
+              <div className="border-t border-[var(--color-premium-stroke)] my-4" />
 
-              {/* Formulas - Locked */}
               <div className="opacity-60">
-                <h3 className="font-clinical text-xs uppercase tracking-wider opacity-50 mb-2">
+                <h3 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-2">
                   Individual Formulas
                 </h3>
-                <p className="text-xs font-clinical opacity-50 mb-2">
+                <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-2">
                   Requires new subscription
                 </p>
                 <div className="space-y-2">
                   {FORMULAS.map((formula) => (
                     <div
                       key={formula.id}
-                      className="w-full p-3 text-left neo-box bg-gray-50 cursor-not-allowed"
+                      className="w-full p-3 text-left rounded-[var(--premium-radius-nested)] premium-card-soft premium-card-soft-stroke cursor-not-allowed"
                     >
                       <div className="flex items-center gap-3">
-                        <Icon name="beaker" className="w-5 h-5" />
-                        <div className="flex-1">
+                        <Icon name="beaker" className="w-5 h-5 text-[var(--color-ink)]" />
+                        <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-sm">
+                            <span className="font-bold text-sm text-[var(--color-ink)]">
                               {formula.name}
                             </span>
-                            <Icon name="lock" className="w-3 h-3 opacity-50" />
+                            <Icon name="lock" className="w-3 h-3 text-[var(--text-on-light-muted)]" />
                           </div>
-                          <div className="font-clinical text-xs opacity-60">
+                          <div className="premium-body-sm text-[var(--text-on-light-muted)]">
                             {formula.subtitle}
                           </div>
                         </div>
@@ -963,41 +966,36 @@ export function EditSubscriptionModal({
           ) : (
             <div className="space-y-3">
               {samePlanOnly && (
-                <p className="font-clinical text-sm opacity-70 mb-2">
+                <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-2">
                   You can change delivery frequency (weekly, bi-weekly, monthly) for your current plan.
                 </p>
               )}
-              {/* Selected Protocol Summary */}
               {selectedProtocolData && (
-                <div className="p-3 bg-gray-100 neo-box mb-4">
+                <div className="p-3 rounded-[var(--premium-radius-nested)] premium-card-soft premium-card-soft-stroke mb-4">
                   <div className="flex items-center gap-2">
                     <Icon
                       name={selectedProtocolData.icon}
-                      className="w-4 h-4"
+                      className="w-4 h-4 text-[var(--color-ink)]"
                     />
-                    <span className="font-bold text-sm">
+                    <span className="font-bold text-sm text-[var(--color-ink)]">
                       {selectedProtocolData.name}
                     </span>
                   </div>
-                  <p className="text-xs opacity-60 mt-1">
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
                     {selectedProtocolData.subtitle}
                   </p>
                 </div>
               )}
 
-              {/* Next Billing */}
               {formattedNextBilling && (
-                <div className="p-3 bg-white neo-box mb-4">
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className="font-clinical opacity-70">
-                      Next billing:
-                    </span>
-                    <span className="font-bold">{formattedNextBilling}</span>
+                <div className="p-3 rounded-[var(--premium-radius-nested)] premium-card-soft premium-card-soft-stroke mb-4">
+                  <div className="flex items-center gap-2 premium-body-sm">
+                    <span className="text-[var(--text-on-light-muted)]">Next billing:</span>
+                    <span className="font-bold text-[var(--color-ink)]">{formattedNextBilling}</span>
                   </div>
                 </div>
               )}
 
-              {/* Protocol Tiers */}
               {availableTiers.map((tier) => {
                 const tierInfo = getTierInfo(effectiveProtocol, tier);
                 const formulaBreakdown = getFormulaBreakdown(
@@ -1016,18 +1014,20 @@ export function EditSubscriptionModal({
                   <button
                     key={tier}
                     onClick={() => setSelectedTier(tier)}
-                    className={`w-full p-4 text-left transition-all ${
-                      isSelected ? "neo-box-inverted" : "neo-box bg-white"
+                    className={`w-full p-4 text-left transition-all rounded-[var(--premium-radius-nested)] border ${
+                      isSelected ? "bg-[var(--color-ink)] text-[var(--text-on-ink)] border-[var(--color-ink)]" : "premium-card-soft premium-card-soft-stroke"
                     }`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-bold">{tierInfo.name}</span>
+                          <span className={`font-bold text-sm ${!isSelected ? "text-[var(--color-ink)]" : ""}`}>
+                            {tierInfo.deliveryShots} shots per delivery
+                          </span>
                           {isCurrent && (
                             <span
-                              className={`text-xs font-bold px-1.5 py-0.5 ${
-                                isSelected ? "bg-white/20" : "bg-gray-200"
+                              className={`text-xs font-bold px-1.5 py-0.5 rounded-[var(--premium-radius-nested)] ${
+                                isSelected ? "bg-white/20" : "bg-[var(--color-premium-stroke)] text-[var(--color-ink)]"
                               }`}
                             >
                               CURRENT
@@ -1035,18 +1035,18 @@ export function EditSubscriptionModal({
                           )}
                           {tier === "pro" && !isCurrent && (
                             <span
-                              className={`text-xs font-bold px-1.5 py-0.5 ${
+                              className={`text-xs font-bold px-1.5 py-0.5 rounded-[var(--premium-radius-nested)] ${
                                 isSelected
                                   ? "bg-white/20"
-                                  : "bg-amber-100 text-amber-800"
+                                  : "bg-[var(--color-neuro-blue-light)] text-[var(--color-neuro-blue-dark)]"
                               }`}
                             >
                               POPULAR
                             </span>
                           )}
                         </div>
-                        <div className="font-clinical text-xs opacity-70 mt-1">
-                          {tierInfo.frequency} · {tierInfo.deliveryShots} shots
+                        <div className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+                          {tierInfo.name} · {tierInfo.frequency}
                         </div>
                         <FormulaBreakdown
                           flowCount={formulaBreakdown.flowCount}
@@ -1056,10 +1056,10 @@ export function EditSubscriptionModal({
                         />
                       </div>
                       <div className="text-right">
-                        <div className="font-bold">
+                        <div className={`font-bold ${!isSelected ? "text-[var(--color-ink)]" : ""}`}>
                           £{tierInfo.price.toFixed(2)}
                         </div>
-                        <div className="font-clinical text-xs opacity-60">
+                        <div className="premium-body-sm text-[var(--text-on-light-muted)]">
                           £{tierInfo.pricePerShot.toFixed(2)}/shot
                         </div>
                       </div>
@@ -1072,10 +1072,9 @@ export function EditSubscriptionModal({
         </div>
 
         {/* Mobile Footer */}
-        <div className="border-t-2 border-current p-4">
-          {/* Warning for unfulfilled first order */}
+        <div className="border-t border-[var(--color-premium-stroke)] p-4 bg-[var(--color-bone)]">
           {hasUnfulfilledFirstOrder && hasChanges && (
-            <div className="mb-3 p-2 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="mb-3 p-2 rounded-[var(--premium-radius-nested)] bg-[var(--color-neuro-blue-light)] border border-[var(--color-neuro-blue-start)]">
               <div className="flex items-start gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1087,13 +1086,13 @@ export function EditSubscriptionModal({
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-blue-600 flex-shrink-0 mt-0.5"
+                  className="text-[var(--color-neuro-blue-dark)] flex-shrink-0 mt-0.5"
                 >
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 16v-4" />
                   <path d="M12 8h.01" />
                 </svg>
-                <p className="font-clinical text-xs text-blue-800">
+                <p className="premium-body-sm text-[var(--color-neuro-blue-dark)]">
                   Changes apply to your <strong>next delivery</strong>.
                   <a href="mailto:support@conka.io" className="underline ml-1">
                     Contact support
@@ -1104,19 +1103,23 @@ export function EditSubscriptionModal({
             </div>
           )}
           {error && (
-            <div className="mb-3 p-2 bg-red-50 border border-red-200 text-red-700 text-sm">
+            <div className="mb-3 p-2 rounded-[var(--premium-radius-nested)] border border-red-200 bg-red-50 text-red-700 premium-body-sm">
               {error}
             </div>
           )}
           <button
             onClick={handleSave}
             disabled={!hasChanges || saving || loading}
-            className="w-full neo-button py-3 font-semibold disabled:opacity-50"
+            className="w-full rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] py-3 font-semibold premium-body-sm text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving
               ? "Updating..."
               : hasChanges
-                ? `Save: ${PROTOCOLS.find((p) => p.id === effectiveProtocol)?.name} · ${getTierInfo(effectiveProtocol, selectedTier)?.name}`
+                ? (() => {
+                    const t = getTierInfo(effectiveProtocol, selectedTier);
+                    const protocolName = PROTOCOLS.find((p) => p.id === effectiveProtocol)?.name;
+                    return t && protocolName ? `Save: ${protocolName} · ${t.deliveryShots} shots per delivery` : "Save changes";
+                  })()
                 : "No changes"}
           </button>
         </div>

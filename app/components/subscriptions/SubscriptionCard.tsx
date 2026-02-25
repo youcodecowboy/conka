@@ -1,6 +1,7 @@
 import type { Subscription } from "@/app/hooks/useSubscriptions";
 import type { TierDisplayInfo } from "@/app/account/subscriptions/utils";
-import { formatDate, getStatusColor } from "@/app/account/subscriptions/utils";
+import { formatDate, getStatusColor, getProtocolFromSubscription } from "@/app/account/subscriptions/utils";
+import { getProtocolImage } from "@/app/lib/productImageConfig";
 
 interface SubscriptionCardProps {
   subscription: Subscription;
@@ -23,21 +24,22 @@ export function SubscriptionCard({
   onCancel,
   onDismissSuccess,
 }: SubscriptionCardProps) {
+  const productImage = subscription.product.image || getProtocolImage(getProtocolFromSubscription(subscription)) || "";
   return (
-    <div className="premium-card-soft premium-card-soft-stroke p-6 md:p-8 space-y-6">
+    <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-6 md:p-8 space-y-6">
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div className="flex gap-5 min-w-0">
-            {subscription.product.image ? (
-              <div className="w-24 h-24 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 overflow-hidden">
+            {productImage ? (
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 overflow-hidden">
                 <img
-                  src={subscription.product.image}
+                  src={productImage}
                   alt={subscription.product.title}
                   className="w-full h-full object-cover"
                 />
               </div>
             ) : (
-              <div className="w-24 h-24 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 flex items-center justify-center">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -126,7 +128,7 @@ export function SubscriptionCard({
           </span>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-amber-500" />
+              <div className="w-3 h-3 rounded-full bg-[var(--color-ink)] opacity-80" />
               <span className="premium-body-sm text-[var(--color-ink)]">
                 {info.flowCount}× Flow
               </span>
@@ -219,7 +221,7 @@ export function SubscriptionCard({
       )}
 
       {subscription.status === "paused" && (
-        <div className="rounded-[var(--premium-radius-nested)] border border-amber-200 bg-amber-50/80 p-4">
+        <div className="rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)] p-4">
           <div className="flex items-center gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -231,13 +233,13 @@ export function SubscriptionCard({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-amber-600 flex-shrink-0"
+              className="text-[var(--color-ink)] flex-shrink-0"
             >
               <circle cx="12" cy="12" r="10" />
               <line x1="10" y1="15" x2="10" y2="9" />
               <line x1="14" y1="15" x2="14" y2="9" />
             </svg>
-            <p className="premium-body-sm text-amber-800">
+            <p className="premium-body-sm text-[var(--color-ink)]">
               This subscription is paused. Resume to continue deliveries.
             </p>
           </div>
@@ -245,7 +247,7 @@ export function SubscriptionCard({
       )}
 
       {subscription.hasUnfulfilledOrder && subscription.status === "active" && (
-        <div className="rounded-[var(--premium-radius-nested)] border border-blue-200 bg-blue-50/80 p-4">
+        <div className="rounded-[var(--premium-radius-nested)] border border-[var(--color-neuro-blue-light)] bg-[var(--color-neuro-blue-light)]/30 p-4">
           <div className="flex items-start gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -257,14 +259,14 @@ export function SubscriptionCard({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-blue-600 flex-shrink-0 mt-0.5"
+              className="text-[var(--color-neuro-blue-dark)] flex-shrink-0 mt-0.5"
             >
               <circle cx="12" cy="12" r="10" />
               <path d="M12 16v-4" />
               <path d="M12 8h.01" />
             </svg>
             <div className="min-w-0">
-              <p className="premium-body-sm font-medium text-blue-800 mb-1">
+              <p className="premium-body-sm font-medium text-[var(--color-neuro-blue-dark)] mb-1">
                 {subscription.unfulfilledOrdersCount === 1 ||
                 !subscription.unfulfilledOrdersCount
                   ? "You have an order being prepared"

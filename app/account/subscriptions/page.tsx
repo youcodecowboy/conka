@@ -110,7 +110,7 @@ export default function SubscriptionsPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-[var(--color-bone)] text-[var(--color-ink)] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)] flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-ink)]/20 border-t-[var(--color-ink)] rounded-full animate-spin mx-auto mb-4" />
           <p className="premium-body-sm text-[var(--text-on-light-muted)]">
@@ -133,7 +133,7 @@ export default function SubscriptionsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[var(--color-bone)] text-[var(--color-ink)]">
+    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)]">
       <Navigation />
 
       <main className="pt-3 pb-24 lg:pt-4">
