@@ -5,22 +5,54 @@ import { AppHeroDesktop } from "./AppHeroDesktop";
 import { AppHeroMobile } from "./AppHeroMobile";
 
 export function AppHero() {
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(1024);
 
-  // Show loading state during SSR/hydration
-  if (isMobile === undefined) {
-    return (
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <div className="h-12 bg-white/10 rounded mb-6 animate-pulse" />
-          <div className="h-6 bg-white/10 rounded mb-8 max-w-2xl mx-auto animate-pulse" />
-        </div>
-        <div className="relative w-full aspect-[9/16] bg-white/10 rounded-3xl animate-pulse" />
-      </div>
-    );
-  }
-
-  return isMobile ? <AppHeroMobile /> : <AppHeroDesktop />;
+  return (
+    <>
+      <style jsx global>{`
+        @keyframes floatPhone {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        @keyframes heroMount {
+          from {
+            opacity: 0;
+            transform: translateY(16px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+      <style jsx>{`
+        .hero-mount-left {
+          animation: heroMount 0.7s ease-out forwards;
+          opacity: 0;
+        }
+        .hero-mount-right {
+          animation: heroMount 0.7s ease-out 0.12s forwards;
+          opacity: 0;
+        }
+      `}</style>
+      {isMobile === undefined ? (
+        <section
+          className="flex min-h-[100svh] w-full items-center justify-center px-[var(--premium-gutter-mobile)] py-12"
+          style={{ background: "var(--color-ink)" }}
+          aria-hidden
+        />
+      ) : isMobile ? (
+        <AppHeroMobile />
+      ) : (
+        <AppHeroDesktop />
+      )}
+    </>
+  );
 }
 
 export default AppHero;

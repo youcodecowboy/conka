@@ -111,19 +111,18 @@ export default function CaseStudiesDataDriven() {
   };
 
   return (
-    <section className="premium-section-luxury premium-bg-bone">
-      <div className="premium-track">
-        {/* Section Header */}
-        <div className="text-left mb-8 md:mb-12">
-          <h2 className="premium-section-heading">Verified Performance Data</h2>
-          <p className="premium-section-subtitle text-[var(--text-on-light-muted)]">
-            Real athletes. Real tests. Real improvements.
-            <br />
-            All measured via the CONKA cognitive testing app.
-          </p>
-        </div>
+    <>
+      {/* Section Header */}
+      <div className="text-left mb-8 md:mb-12">
+        <h2 className="premium-section-heading">Verified Performance Data</h2>
+        <p className="premium-section-subtitle text-[var(--text-on-light-muted)]">
+          Real athletes. Real tests. Real improvements.
+          <br />
+          All measured via the CONKA cognitive testing app.
+        </p>
+      </div>
 
-        {/* Hero Stats Block — desktop/tablet only */}
+      {/* Hero Stats Block — desktop/tablet only */}
         <div className="hidden md:grid grid-cols-3 gap-1 sm:gap-2 md:gap-6 mb-6">
           <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
             <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)] leading-tight">
@@ -219,7 +218,6 @@ export default function CaseStudiesDataDriven() {
             </svg>
           </Link>
         </div>
-      </div>
-    </section>
+    </>
   );
 }

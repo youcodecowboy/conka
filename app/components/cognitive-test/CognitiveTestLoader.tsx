@@ -49,7 +49,10 @@ export default function CognitiveTestLoader({
   }, [progress]);
 
   return (
-    <div className="neo-box p-12 flex flex-col items-center text-center">
+    <div
+      className="premium-card-soft premium-card-soft-stroke p-12 flex flex-col items-center text-center"
+      style={{ color: "var(--color-ink)" }}
+    >
       {/* Animated Progress Ring */}
       <div className="relative w-24 h-24 mb-8">
         {/* Outer ring */}
@@ -65,7 +68,7 @@ export default function CognitiveTestLoader({
             cy="50"
             r="46"
             fill="none"
-            stroke="#14b8a6"
+            stroke="var(--color-neuro-blue-end)"
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={`${progress * 2.89} 289`}
@@ -109,16 +112,17 @@ export default function CognitiveTestLoader({
       </div>
 
       {/* Progress Percentage */}
-      <p className="font-clinical text-sm opacity-60">{progress}%</p>
+      <p className="text-sm opacity-70" style={{ fontSize: "var(--premium-font-data-size)" }}>{progress}%</p>
 
       {/* Stage dots */}
       <div className="flex gap-1.5 mt-6">
         {[0, 1, 2].map((dot) => (
           <div
             key={dot}
-            className={`w-2 h-2 rounded-full transition-colors ${
-              stage >= dot ? "bg-teal-500" : "bg-current/20"
-            }`}
+            className="w-2 h-2 rounded-full transition-colors"
+            style={{
+              background: stage >= dot ? "var(--color-neuro-blue-end)" : "rgba(0,0,0,0.2)",
+            }}
           />
         ))}
       </div>

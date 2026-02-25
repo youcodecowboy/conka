@@ -125,9 +125,9 @@ export default function EmailCaptureForm({
               setEmail(e.target.value);
               if (emailError) setEmailError("");
             }}
-            className={`w-full border-2 ${
-              emailError ? "border-red-500" : "border-current"
-            } p-3 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-current/20`}
+            className={`w-full border p-3 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-current/20 rounded-[var(--premium-radius-nested)] ${
+              emailError ? "border-red-500" : "border-[var(--color-premium-stroke)]"
+            }`}
             placeholder="you@example.com"
             autoComplete="email"
           />
@@ -152,10 +152,10 @@ export default function EmailCaptureForm({
                 className="sr-only"
               />
               <div
-                className={`w-5 h-5 border-2 ${
-                  consentError ? "border-red-500" : "border-current"
+                className={`w-5 h-5 border rounded ${
+                  consentError ? "border-red-500" : "border-[var(--color-premium-stroke)]"
                 } flex items-center justify-center transition-all ${
-                  consent ? "bg-[var(--foreground)]" : "bg-transparent"
+                  consent ? "bg-[var(--color-ink)]" : "bg-transparent"
                 }`}
               >
                 {consent && (
@@ -165,7 +165,7 @@ export default function EmailCaptureForm({
                     height="14"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="var(--background)"
+                    stroke="var(--color-bone)"
                     strokeWidth="3"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -193,7 +193,7 @@ export default function EmailCaptureForm({
         <button
           type="submit"
           disabled={!isFormValid}
-          className={`neo-button px-8 py-4 font-bold text-base w-full transition-opacity ${
+          className={`px-8 py-4 font-bold text-base w-full transition-opacity rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-[var(--color-ink)] text-[var(--color-bone)] hover:opacity-90 ${
             !isFormValid ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >

@@ -1,127 +1,140 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
-import Image from "next/image";
 import { AppInstallButtons } from "@/app/components/AppInstallButtons";
 
-// Screenshot paths in order
-const SCREENSHOTS = [
-  "/app/1.png",
-  "/app/2.png",
-  "/app/3.png",
-  "/app/4.png",
-  "/app/5.png",
-];
+const GRAIN_DATA_URI =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" /></filter><rect width="100%" height="100%" filter="url(%23n)" /></svg>`
+  );
 
 export function AppHeroMobile() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
-
-  const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % SCREENSHOTS.length);
-  }, []);
-
-  const goToPrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + SCREENSHOTS.length) % SCREENSHOTS.length);
-  }, []);
-
-  // Touch handlers for swipe
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  }, []);
-
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  }, []);
-
-  const handleTouchEnd = useCallback(() => {
-    if (!touchStartX.current || !touchEndX.current) return;
-
-    const distance = touchStartX.current - touchEndX.current;
-    const minSwipeDistance = 50;
-
-    if (distance > minSwipeDistance) {
-      // Swipe left - next
-      goToNext();
-    } else if (distance < -minSwipeDistance) {
-      // Swipe right - previous
-      goToPrev();
-    }
-
-    touchStartX.current = null;
-    touchEndX.current = null;
-  }, [goToNext, goToPrev]);
-
   return (
-    <div className="w-full">
-      <div className="text-center mb-4">
-        <h1 className="text-2xl font-bold mb-4">
-          Discover How Your Brain Performs Today
-        </h1>
-      </div>
+    <section
+      className="relative flex min-h-[100svh] w-full flex-col text-white px-[var(--premium-gutter-mobile)] py-[clamp(2rem,6vw,4rem)]"
+      style={{ background: "var(--color-ink)" }}
+    >
+      {/* Grain overlay */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.03]"
+        style={{
+          backgroundImage: `url("${GRAIN_DATA_URI}")`,
+          backgroundRepeat: "repeat",
+        }}
+      />
 
-      {/* Carousel Container */}
-      <div className="relative w-full mx-auto mb-4" style={{ maxWidth: '403px' }}>
+      <div className="relative z-[2] mx-auto flex w-full max-w-[var(--premium-max-width)] flex-1 flex-col items-center gap-8 text-center">
+        {/* 1. Eyebrow pill */}
         <div
-          className="relative w-full overflow-hidden rounded-3xl pb-12"
-          style={{ 
-            aspectRatio: '806/1748'
+          className="hero-mount-left inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest"
+          style={{
+            backgroundColor: "rgba(255,255,255,0.07)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            color: "var(--color-bone)",
           }}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
         >
-          {/* Screenshot Images */}
-          <div
-            className="flex transition-transform duration-300 ease-out h-full"
+          <span
+            className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full"
+            style={{ backgroundColor: "#4058bb" }}
+          />
+          Free · iOS &amp; Android
+        </div>
+
+        {/* 2. Title */}
+        <h1
+          className="hero-mount-left max-w-[14ch] font-bold leading-[1.08] text-white"
+          style={{
+            fontSize: "clamp(2.6rem, 5.5vw, 4.25rem)",
+            letterSpacing: "-0.035em",
+          }}
+        >
+          The only supplement you can{" "}
+          <span
             style={{
-              transform: `translateX(-${currentIndex * 100}%)`,
+              background: "var(--gradient-neuro-blue-accent)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
             }}
           >
-            {SCREENSHOTS.map((src, index) => (
-              <div
-                key={src}
-                className="relative flex-shrink-0 w-full h-full"
-              >
-                <Image
-                  src={src}
-                  alt={`CONKA App screenshot ${index + 1}`}
-                  fill
-                  className="object-contain rounded-3xl"
-                  priority={index === 0}
-                  sizes="403px"
-                />
-              </div>
-            ))}
-          </div>
+            measure working.
+          </span>
+        </h1>
 
-          {/* Dot Indicators */}
-          {SCREENSHOTS.length > 1 && (
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-2 z-10 pb-2">
-              {SCREENSHOTS.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`rounded-full transition-all duration-200 ${
-                    index === currentIndex
-                      ? "w-3 h-3 bg-white"
-                      : "w-2 h-2 bg-white/40"
-                  }`}
-                  aria-label={`Go to screenshot ${index + 1}`}
-                />
-              ))}
-            </div>
-          )}
+        {/* 3. Image under title */}
+        <div className="hero-mount-right relative flex justify-center">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              width: "60%",
+              height: "60%",
+              background:
+                "radial-gradient(circle, rgba(64,88,187,0.25) 0%, transparent 70%)",
+              filter: "blur(48px)",
+            }}
+          />
+          <img
+            src="/app/AppConkaRing.png"
+            alt="CONKA app on iPhone"
+            className="relative z-[1] h-auto w-[clamp(220px,70vw,320px)]"
+            style={{ animation: "floatPhone 5s ease-in-out infinite" }}
+          />
         </div>
-      </div>
 
-      {/* Install Buttons */}
-      <div className="text-center">
-        <AppInstallButtons inverted={true} iconSize={18} buttonClassName="px-6 py-3 text-sm" />
+        {/* 4. Subheadline */}
+        <p
+          className="max-w-[38ch] leading-[1.65]"
+          style={{
+            color: "var(--color-bone)",
+            fontSize: "clamp(1rem, 1.8vw, 1.2rem)",
+          }}
+        >
+          3-minute cognitive test. Wellness tracking. Measurable progress —
+          tracked against your own data over time.
+        </p>
+
+        {/* 5. Stats row */}
+        <div className="flex flex-wrap justify-center gap-8">
+          <div>
+            <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
+              800+
+            </div>
+            <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
+              Active users
+            </div>
+          </div>
+          <div>
+            <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
+              16%
+            </div>
+            <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
+              Avg. improvement in 30 days
+            </div>
+          </div>
+          <div>
+            <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
+              Free
+            </div>
+            <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
+              Always
+            </div>
+          </div>
+        </div>
+
+        {/* 6. CTA */}
+        <AppInstallButtons inverted={false} />
+
+        {/* 7. Credibility line */}
+        <p
+          className="max-w-[36ch] text-[0.75rem]"
+          style={{ color: "var(--color-bone)" }}
+        >
+          Powered by clinically validated cognitive assessment technology
+          developed from Cambridge University research. FDA cleared.
+        </p>
       </div>
-    </div>
+    </section>
   );
 }
-
-export default AppHeroMobile;
