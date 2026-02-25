@@ -299,10 +299,19 @@ export async function POST(
         // Step 2: Determine which protocol to use
         // If protocolId is provided, use that (user wants to change protocol)
         // Otherwise, detect from current variant (just changing tier)
+        const currentProtocolFromVariant = VARIANT_TO_PROTOCOL[currentVariantId] as ProtocolIdType | undefined;
         let targetProtocolId = protocolId;
         
         if (!targetProtocolId) {
-          targetProtocolId = VARIANT_TO_PROTOCOL[currentVariantId] as ProtocolIdType;
+          targetProtocolId = currentProtocolFromVariant;
+        }
+        
+        // Same-plan-only: reject if request asks for a different protocol than current subscription
+        if (protocolId != null && currentProtocolFromVariant != null && protocolId !== currentProtocolFromVariant) {
+          return NextResponse.json({
+            success: false,
+            error: 'Only frequency changes within the same plan are allowed.',
+          }, { status: 400 });
         }
         
         if (!targetProtocolId) {

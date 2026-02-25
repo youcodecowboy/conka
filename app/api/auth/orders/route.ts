@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 interface Fulfillment {
   status: string;
@@ -140,21 +140,30 @@ export async function GET(request: NextRequest) {
   const shopId = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
 
   if (!shopId) {
-    console.error('Orders API: SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID not configured');
+    console.error(
+      "Orders API: SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID not configured",
+    );
     return NextResponse.json(
-      { error: 'Customer Account API not configured', orders: [] },
-      { status: 200 }
+      { error: "Customer Account API not configured", orders: [] },
+      { status: 200 },
     );
   }
 
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get('customer_access_token')?.value;
+  const accessToken = cookieStore.get("customer_access_token")?.value;
+  const mockCookie = cookieStore.get("dev_mock_auth")?.value;
+  const isDev = process.env.NODE_ENV === "development";
+  const mockAuthEnabled = process.env.DEV_MOCK_AUTH === "true";
+
+  if (isDev && mockAuthEnabled && mockCookie === "1") {
+    return NextResponse.json({ orders: [] });
+  }
 
   if (!accessToken) {
-    console.error('Orders API: No access token in cookies');
+    console.error("Orders API: No access token in cookies");
     return NextResponse.json(
-      { error: 'Not authenticated', orders: [] },
-      { status: 401 }
+      { error: "Not authenticated", orders: [] },
+      { status: 401 },
     );
   }
 
@@ -163,10 +172,10 @@ export async function GET(request: NextRequest) {
     const apiUrl = `https://shopify.com/${shopId}/account/customer/api/2024-10/graphql`;
 
     const response = await fetch(apiUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': accessToken,
+        "Content-Type": "application/json",
+        Authorization: accessToken,
       },
       body: JSON.stringify({
         query: CUSTOMER_ORDERS_QUERY,
@@ -176,10 +185,14 @@ export async function GET(request: NextRequest) {
     const responseText = await response.text();
 
     if (!response.ok) {
-      console.error('Orders API: HTTP error', response.status, responseText.substring(0, 500));
+      console.error(
+        "Orders API: HTTP error",
+        response.status,
+        responseText.substring(0, 500),
+      );
       return NextResponse.json(
         { error: `API error: ${response.status}`, orders: [] },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -187,18 +200,25 @@ export async function GET(request: NextRequest) {
     try {
       data = JSON.parse(responseText);
     } catch (e) {
-      console.error('Orders API: Failed to parse JSON');
+      console.error("Orders API: Failed to parse JSON");
       return NextResponse.json(
-        { error: 'Invalid response from Shopify', orders: [] },
-        { status: 500 }
+        { error: "Invalid response from Shopify", orders: [] },
+        { status: 500 },
       );
     }
 
     if (data.errors && data.errors.length > 0) {
-      console.error('Orders API: GraphQL errors:', JSON.stringify(data.errors, null, 2));
+      console.error(
+        "Orders API: GraphQL errors:",
+        JSON.stringify(data.errors, null, 2),
+      );
       return NextResponse.json(
-        { error: data.errors[0].message, orders: [], graphqlErrors: data.errors },
-        { status: 400 }
+        {
+          error: data.errors[0].message,
+          orders: [],
+          graphqlErrors: data.errors,
+        },
+        { status: 400 },
       );
     }
 
@@ -208,8 +228,8 @@ export async function GET(request: NextRequest) {
     const transformedOrders = orders.map((order) => {
       // Get fulfillment status from first fulfillment
       const fulfillments = order.fulfillments?.nodes || [];
-      const fulfillmentStatus = fulfillments[0]?.status || 'UNFULFILLED';
-      
+      const fulfillmentStatus = fulfillments[0]?.status || "UNFULFILLED";
+
       return {
         id: order.id,
         orderNumber: String(order.number),
@@ -218,34 +238,37 @@ export async function GET(request: NextRequest) {
         cancelledAt: order.cancelledAt,
         cancelReason: order.cancelReason,
         fulfillmentStatus: fulfillmentStatus,
-        financialStatus: order.financialStatus || 'PENDING',
+        financialStatus: order.financialStatus || "PENDING",
         totalPrice: order.totalPrice,
         subtotal: order.subtotal,
         totalShipping: order.totalShipping,
         totalTax: order.totalTax,
-        shippingAddress: order.shippingAddress ? {
-          address1: order.shippingAddress.address1,
-          address2: order.shippingAddress.address2,
-          city: order.shippingAddress.city,
-          province: order.shippingAddress.province,
-          country: order.shippingAddress.country,
-          zip: order.shippingAddress.zip,
-        } : null,
-        lineItems: order.lineItems?.nodes?.map((item) => ({
-          title: item.name,
-          quantity: item.quantity,
-          image: item.image,
-          price: item.totalPrice,
-        })) || [],
+        shippingAddress: order.shippingAddress
+          ? {
+              address1: order.shippingAddress.address1,
+              address2: order.shippingAddress.address2,
+              city: order.shippingAddress.city,
+              province: order.shippingAddress.province,
+              country: order.shippingAddress.country,
+              zip: order.shippingAddress.zip,
+            }
+          : null,
+        lineItems:
+          order.lineItems?.nodes?.map((item) => ({
+            title: item.name,
+            quantity: item.quantity,
+            image: item.image,
+            price: item.totalPrice,
+          })) || [],
       };
     });
 
     return NextResponse.json({ orders: transformedOrders });
   } catch (error) {
-    console.error('Orders API: Caught error:', error);
+    console.error("Orders API: Caught error:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch orders', orders: [] },
-      { status: 500 }
+      { error: "Failed to fetch orders", orders: [] },
+      { status: 500 },
     );
   }
 }
