@@ -28,17 +28,25 @@ const packLabels: Record<PackSize, string> = {
   "28": "28-pack",
 };
 
+/** Tier name for protocol mapping (4=Starter, 12=Pro, 28=Max; 8 has no tier) */
+const packTierLabel: Partial<Record<PackSize, string>> = {
+  "4": "Starter",
+  "12": "Pro",
+  "28": "Max",
+};
+
 export default function PackSelectorPremium({
   selectedPack,
   onSelect,
   purchaseType,
-  subscriptionAccentColor = "#f59e0b",
+  subscriptionAccentColor,
   className = "",
   compact = false,
 }: PackSelectorPremiumProps) {
+  const accent = subscriptionAccentColor ?? "var(--color-neuro-blue-dark)";
   return (
     <div className={`space-y-2 ${className}`}>
-      <p className="premium-data uppercase opacity-70">Select Pack Size</p>
+      <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">Select Pack Size</p>
       <div className="grid grid-cols-4 gap-2">
         {packSizes.map((size) => {
           const pricing = formulaPricing[purchaseType][size];
@@ -49,42 +57,46 @@ export default function PackSelectorPremium({
             purchaseType === "subscription"
               ? getBillingLabel((pricing as { billing: string }).billing)
               : "one-time";
+          const tierLabel = packTierLabel[size as PackSize];
 
           return (
             <button
               key={size}
               onClick={() => onSelect(size)}
               className={`
-                text-left transition-all duration-200 overflow-hidden flex flex-col rounded-xl w-full
-                bg-white border border-black/[0.06]
-                shadow-[0_1px 4px_rgba(0,0,0,0.06)]
-                hover:shadow-[0_2px 10px_rgba(0,0,0,0.1)] hover:scale-[1.02] active:scale-[0.99]
-                cursor-pointer
-                ${isSelected ? "ring-2 ring-black/15 shadow-[0_2px 10px_rgba(0,0,0,0.1)]" : ""}
+                text-left transition-all duration-200 overflow-hidden flex flex-col rounded-[var(--premium-radius-nested)] w-full
+                border cursor-pointer
+                ${isSelected
+                  ? "bg-[var(--color-ink)] border-[var(--color-ink)] ring-2 ring-[var(--color-ink)]/20"
+                  : "bg-[var(--color-premium-bg-soft)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-light)] hover:bg-[var(--color-premium-stroke)]/20"
+                }
               `}
             >
               <div
-                className="w-full min-w-0 flex-shrink-0 px-2 py-1.5 rounded-t-xl"
-                style={{
-                  backgroundColor: isSelected
-                    ? "var(--foreground)"
-                    : "rgba(0,0,0,0.04)",
-                  color: isSelected ? "var(--background)" : "var(--foreground)",
-                }}
+                className={`w-full min-w-0 flex-shrink-0 px-2 py-1.5 rounded-t-[var(--premium-radius-nested)] ${
+                  isSelected
+                    ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
+                    : "bg-[var(--color-premium-stroke)] text-[var(--color-ink)]"
+                }`}
               >
-                <p className="text-sm font-bold premium-data">
+                <p className="text-sm font-bold" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
                   {packLabels[size]}
                 </p>
+                {tierLabel && (
+                  <p className={`text-[10px] font-semibold uppercase tracking-wide ${isSelected ? "text-[var(--text-on-ink)] opacity-90" : "text-[var(--text-on-light-muted)]"}`}>
+                    {tierLabel}
+                  </p>
+                )}
               </div>
               <div
-                className="w-full min-w-0 flex-1 flex flex-col justify-end px-2 py-1.5 rounded-b-xl min-h-[52px]"
+                className="w-full min-w-0 flex-1 flex flex-col justify-end px-2 py-1.5 rounded-b-[var(--premium-radius-nested)] min-h-[52px]"
                 style={{
                   backgroundColor: isSelected
                     ? purchaseType === "subscription"
-                      ? subscriptionAccentColor
-                      : "var(--foreground)"
-                    : "white",
-                  color: isSelected ? "white" : "var(--foreground)",
+                      ? accent
+                      : "var(--color-ink)"
+                    : "var(--color-premium-bg-soft)",
+                  color: isSelected ? "var(--text-on-ink)" : "var(--color-ink)",
                 }}
               >
                 <p className="text-base font-bold mb-0.5">
@@ -92,9 +104,7 @@ export default function PackSelectorPremium({
                 </p>
                 {!(compact && purchaseType === "one-time") && (
                   <p
-                    className={`premium-data text-[11px] ${
-                      isSelected ? "opacity-90" : "opacity-70"
-                    }`}
+                    className={`premium-body-sm ${isSelected ? "opacity-90" : "text-[var(--text-on-light-muted)]"}`}
                   >
                     {billingText}
                   </p>
