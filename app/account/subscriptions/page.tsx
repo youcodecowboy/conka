@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 import { useSubscriptions, Subscription } from "@/app/hooks/useSubscriptions";
+import { usePaymentMethods } from "@/app/hooks/usePaymentMethods";
 import { CancellationModal } from "@/app/components/subscriptions/CancellationModal";
 import { EditSubscriptionModal } from "@/app/components/subscriptions/EditSubscriptionModal";
 import { SubscriptionsPageHeader } from "@/app/components/subscriptions/SubscriptionsPageHeader";
@@ -37,6 +38,14 @@ export default function SubscriptionsPage() {
     cancelSubscription,
     changePlan,
   } = useSubscriptions();
+
+  const {
+    primaryMethod,
+    triggerUpdateEmail,
+    updateLoading: paymentUpdateLoading,
+    updateMessage: paymentUpdateMessage,
+    cooldownUntil: paymentCooldownUntil,
+  } = usePaymentMethods(!!customer);
 
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [showCancelModal, setShowCancelModal] = useState<string | null>(null);
@@ -188,6 +197,11 @@ export default function SubscriptionsPage() {
                           onTogglePause={() => handleTogglePause(subscription)}
                           onCancel={() => setShowCancelModal(subscription.id)}
                           onDismissSuccess={() => setSuccessMessage(null)}
+                          primaryMethod={primaryMethod}
+                          onTriggerUpdateEmail={(id) => triggerUpdateEmail(id)}
+                          paymentUpdateLoading={paymentUpdateLoading}
+                          paymentUpdateMessage={paymentUpdateMessage}
+                          paymentCooldownUntil={paymentCooldownUntil}
                         />
                       ))}
                     </div>
