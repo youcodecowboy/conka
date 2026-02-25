@@ -2,7 +2,7 @@
 
 /**
  * AppComparisonTable — Us vs Them differentiation table.
- * Content only; page wraps in premium-section-luxury + premium-bg-ink + premium-track.
+ * Content only; page wraps in premium-section-luxury + premium-track and sets section background/color.
  */
 export function AppComparisonTable() {
   return (
@@ -13,13 +13,7 @@ export function AppComparisonTable() {
       >
         Why our App has the best functionality
       </h2>
-      <div
-        className="overflow-x-auto rounded-[var(--premium-radius-card)] p-6"
-        style={{
-          border: "1px solid rgba(255,255,255,0.08)",
-          background: "rgba(255,255,255,0.04)",
-        }}
-      >
+      <div className="overflow-x-auto rounded-[var(--premium-radius-card)] p-6" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
