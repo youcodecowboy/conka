@@ -174,6 +174,8 @@ You are on a **headless** site (this repo); the **old Shopify theme is still liv
 
 **Next steps:** (1) In Loop's Admin API, verify whether swap line updates billing interval or only variant/price, and whether a change-frequency endpoint exists. (2) If needed, add a second API call after swap to update billing interval. (3) Confirm with Loop whether `sellingPlanGroupId` on swap is a group vs a single plan.
 
+**Implementation update:** The pause route now (a) allows switching protocol (e.g. Resilience → Precision) by using the requested `protocolId` as the target; (b) after a successful line swap, calls Loop `POST /subscription/{id}/change-frequency` with the new plan’s interval so the billing/delivery schedule matches the selected tier. If change-frequency fails, the swap is still considered successful and a warning is logged.
+
 **Where we go wrong (edit-order / plan-change flow)**
 
 Comparison of what our new account portal does vs what Loop's model and API support:
@@ -205,6 +207,28 @@ The portal has no “Update payment method” or “Update card” flow. Users c
 
 
 ---
+
+## Verifying the plan update (Loop) API flow
+
+To confirm that changing plan or frequency in the Edit Plan modal triggers the correct Loop API calls:
+
+1. **Use the UI:** Log in, open a subscription, click **Edit**, change protocol and/or pack size (e.g. Resilience → Precision, or Starter → Pro), then click **Save Changes**.
+2. **Check server logs:** The pause route logs each step with the tag `[Loop plan-update]`. In your terminal (or log aggregator), search for:
+   - `[Loop plan-update] Step 1: GET subscription` — fetch current subscription from Loop.
+   - `[Loop plan-update] Current line:` — line ID and current variant.
+   - `[Loop plan-update] Step 2: PUT swap line` — swap request (target variant, plan, sellingPlanGroupId).
+   - `[Loop API] PUT .../line/.../swap` — raw request/response from Loop.
+   - `[Loop plan-update] Step 3: POST change-frequency` — interval update (billingInterval, billingIntervalCount).
+   - `[Loop plan-update] change-frequency OK` — frequency call succeeded; or `Swap succeeded but change-frequency failed` if the second call failed.
+3. **Optional — call the API directly:** With a valid session cookie, you can trigger the same flow via curl:
+   ```bash
+   curl -X POST 'https://your-domain.com/api/auth/subscriptions/<CONTRACT_ID>/pause' \
+     -H 'Content-Type: application/json' \
+     -b 'customer_access_token=YOUR_COOKIE' \
+     -d '{"action":"change-frequency","plan":"pro","protocolId":"2"}'
+   ```
+   Replace `<CONTRACT_ID>` with the Shopify subscription contract ID (numeric or GID) and use a real session cookie from the browser. Then check server logs for the same `[Loop plan-update]` lines.
+4. **Confirm in Loop/Shopify:** After a successful save, check the subscription in Loop's dashboard (or Shopify admin) and confirm the product/variant and billing interval match the new selection.
 
 ## Key file reference
 
