@@ -304,6 +304,20 @@ export async function GET(request: NextRequest) {
               })),
               isMultiLine: (loopData.lines?.length ?? 0) > 1,
               
+              // Payment method from Loop (for display and update-email trigger)
+              paymentMethodId: loopData?.paymentMethodId ?? null,
+              paymentMethod: loopData?.paymentMethod
+                ? {
+                    id: loopData.paymentMethod.id,
+                    brand: loopData.paymentMethod.card?.brand ?? null,
+                    lastDigits: loopData.paymentMethod.card?.lastDigits != null ? String(loopData.paymentMethod.card.lastDigits) : null,
+                    expiryMonth: loopData.paymentMethod.card?.expiryMonth ?? null,
+                    expiryYear: loopData.paymentMethod.card?.expiryYear ?? null,
+                    type: loopData.paymentMethod.type ?? null,
+                    status: loopData.paymentMethod.status ?? null,
+                  }
+                : null,
+              
               // Legacy lineItems shape (kept for compatibility)
               lineItems: (loopData.lines || []).map((line: any) => ({
                 id: line.id,
@@ -373,6 +387,9 @@ export async function GET(request: NextRequest) {
               variantShopifyId: undefined,
             })),
             isMultiLine: (sub.lines?.nodes?.length ?? 0) > 1,
+            
+            paymentMethodId: null,
+            paymentMethod: null,
             
             // Legacy lineItems shape
             lineItems: (sub.lines?.nodes || []).map((line: any) => ({
