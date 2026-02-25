@@ -18,7 +18,7 @@ const PHONE_SOURCES = [
   "/app/AppLeaderboard.png",
 ] as const;
 
-const SCROLL_MULTIPLIER = 1.2;
+const SCROLL_MULTIPLIER = 0.85;
 
 // ─── Section data ────────────────────────────────────────────────────────────
 
@@ -164,21 +164,29 @@ function StatCard({
   value,
   label,
   source,
+  compact,
 }: {
   value: string;
   label: string;
   source?: string;
+  compact?: boolean;
 }) {
   return (
-    <div className="rounded-[var(--premium-radius-nested)] p-6" style={styles.card}>
-      <div className="font-bold" style={styles.valueGradient}>
+    <div
+      className={`rounded-[var(--premium-radius-nested)] ${compact ? "p-3" : "p-6"}`}
+      style={styles.card}
+    >
+      <div
+        className="font-bold"
+        style={compact ? { ...styles.valueGradient, fontSize: "clamp(1.25rem, 2.5vw, 1.5rem)" } : styles.valueGradient}
+      >
         {value}
       </div>
-      <p className="mt-1 leading-[1.4]" style={styles.bodySmall}>
+      <p className={`leading-[1.4] ${compact ? "mt-0.5" : "mt-1"}`} style={{ ...styles.bodySmall, fontSize: compact ? "0.7rem" : undefined }}>
         {label}
       </p>
       {source && (
-        <p className="mt-2 text-[0.65rem] italic opacity-60" style={{ color: "var(--color-bone)" }}>
+        <p className={`italic opacity-60 ${compact ? "mt-1 text-[0.55rem]" : "mt-2 text-[0.65rem]"}`} style={{ color: "var(--color-bone)" }}>
           {source}
         </p>
       )}
@@ -188,19 +196,22 @@ function StatCard({
 
 // ─── SectionContent (data-driven) ─────────────────────────────────────────────
 
-function SectionContent({ data }: { data: SectionData }) {
+function SectionContent({ data, compact: compactMode }: { data: SectionData; compact?: boolean }) {
   const headingParts = data.heading.split("<br/>").filter(Boolean);
   return (
     <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
       {data.eyebrow && (
         <div
-          className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest"
+          className={`inline-flex items-center gap-2 rounded-full px-4 py-2 uppercase tracking-widest ${compactMode ? "mb-3 text-[0.65rem]" : "mb-6 text-xs"}`}
           style={styles.eyebrow}
         >
           {data.eyebrow}
         </div>
       )}
-      <h2 className="mb-6 max-w-[22ch] font-bold leading-[1.08] text-white" style={styles.h2}>
+      <h2
+        className={`max-w-[22ch] font-bold leading-[1.08] text-white ${compactMode ? "mb-3" : "mb-6"}`}
+        style={compactMode ? { ...styles.h2, fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)" } : styles.h2}
+      >
         {headingParts.map((line, i) => (
           <span key={i}>
             {line}
@@ -214,22 +225,25 @@ function SectionContent({ data }: { data: SectionData }) {
           </>
         )}
       </h2>
-      <p className="mb-4 max-w-[52ch] leading-[1.7]" style={styles.body}>
+      <p
+        className={`max-w-[52ch] leading-[1.7] ${compactMode ? "mb-2 text-sm" : "mb-4"}`}
+        style={compactMode ? { ...styles.body, fontSize: "0.875rem" } : styles.body}
+      >
         {data.body}
       </p>
       {data.footnote && (
-        <p className="max-w-[52ch] italic" style={styles.bodySmall}>
+        <p className={`max-w-[52ch] italic ${compactMode ? "text-[0.7rem]" : ""}`} style={styles.bodySmall}>
           {data.footnote}
         </p>
       )}
       {data.stats && data.stats.length > 0 && (
         <>
-          <div className="mt-10 w-full grid grid-cols-2 gap-4">
+          <div className={`w-full grid grid-cols-2 gap-2 ${compactMode ? "mt-5" : "mt-10 gap-4"}`}>
             {data.stats.map((s, i) => (
-              <StatCard key={i} value={s.value} label={s.label} source={s.source} />
+              <StatCard key={i} value={s.value} label={s.label} source={s.source} compact={compactMode} />
             ))}
           </div>
-          <p className="mt-6 max-w-[42ch] italic opacity-60" style={{ fontSize: "0.7rem", color: "var(--color-bone)" }}>
+          <p className={`max-w-[42ch] italic opacity-60 ${compactMode ? "mt-3 text-[0.6rem]" : "mt-6 text-[0.7rem]"}`} style={{ color: "var(--color-bone)" }}>
             Validated across NHS Memory Clinics. Developed from Cambridge University research. FDA cleared.
           </p>
         </>
@@ -277,11 +291,11 @@ export function PhoneFrame({
         }}
       />
       <div
-        className="relative z-[1] overflow-hidden rounded-[2rem]"
+        className="relative z-[1] overflow-hidden rounded-xl"
         style={{
           width: "clamp(240px, 18vw, 300px)",
           aspectRatio: "9/19",
-          boxShadow: "0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)",
+          boxShadow: "0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06)",
         }}
       >
         {sources.map((src, i) => {
@@ -318,21 +332,6 @@ function GrainOverlay() {
         backgroundRepeat: "repeat",
       }}
     />
-  );
-}
-
-function ScrollChevron() {
-  return (
-    <svg
-      width="16"
-      height="20"
-      viewBox="0 0 16 20"
-      fill="none"
-      className="animate-bounce"
-      aria-hidden
-    >
-      <path d="M8 0v16M1 9l7 7 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }
 
@@ -449,7 +448,7 @@ export function AppStickyPhoneBlock() {
                 transition: "opacity 0.35s ease, transform 0.35s ease",
               }}
             >
-              <SectionContent data={SECTIONS_DATA[activeIndex]} />
+              <SectionContent data={SECTIONS_DATA[activeIndex]} compact={activeIndex === 0} />
             </div>
           </div>
 
@@ -494,20 +493,6 @@ export function AppStickyPhoneBlock() {
               />
             </div>
           </div>
-        </div>
-
-        <div
-          className="absolute bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          style={{
-            opacity: activeIndex === 0 ? 0.5 : 0,
-            transition: "opacity 0.5s ease",
-            pointerEvents: "none",
-          }}
-        >
-          <p className="text-[0.65rem] uppercase tracking-widest" style={{ color: "var(--color-bone)" }}>
-            Scroll to explore
-          </p>
-          <ScrollChevron />
         </div>
       </div>
     </div>
