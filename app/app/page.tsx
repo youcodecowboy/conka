@@ -42,10 +42,10 @@ export default function AppPage() {
 
       <CaseStudiesDataDriven />
 
-      {/* Comparison Table Section */}
+      {/* Comparison Table Section — bone for rhythm (guide: dark max 2x) */}
       <section
-        className="premium-section-luxury premium-bg-ink"
-        style={{ color: "var(--text-on-ink)" }}
+        className="premium-section-luxury premium-bg-bone"
+        style={{ color: "var(--color-ink)" }}
       >
         <div className="premium-track">
           <AppComparisonTable />
