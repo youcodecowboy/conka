@@ -117,6 +117,19 @@ Backend flow:
 
 So the **target** plan’s selling plan ID is sent. Variant and selling plan are both updated in one swap call.
 
+### Edit plan modal — what you can change
+
+The modal is controlled by **`samePlanOnly`** (default `true` when opened from the subscriptions page):
+
+| `samePlanOnly` | What the user can change | What is shown |
+|----------------|--------------------------|---------------|
+| **`true`** (default) | **Pack size / frequency only** (e.g. 4 → 12 → 28 shots per delivery). Protocol is fixed. | Single column: “Your protocol” (e.g. Resilience) is shown at the top; only tier (pack size) options are listed. |
+| **`false`** | **Protocol and pack size.** User can switch between Resilience, Precision, Balance, Ultimate and then pick a tier. | Two columns (desktop) or two steps (mobile): protocol list + tier list. |
+
+**Why protocol is often locked:** The subscriptions page passes `samePlanOnly={true}` so that in the current flow we only allow changing **how often** they receive the same protocol (Loop plan / pack quantity). Changing protocol would mean a different product mix (e.g. Resilience → Precision) and is treated as a bigger change; the API supports it via `protocolId` in the change-frequency payload, but the UI currently restricts it by default.
+
+**Why you can’t select a single product:** The modal only offers **protocols** (bundles: Resilience, Precision, Balance, Ultimate). **Individual formulas** (CONKA Flow only, CONKA Clear only) are shown as disabled with “Requires new subscription” — switching to a single formula is not supported in this edit flow; the customer would need to start a new subscription from the shop.
+
 ## Profile and orders
 
 - **Profile:** The account dashboard ([`app/account/page.tsx`](../app/account/page.tsx)) has an “Edit Profile” modal. On save it POSTs to `/api/auth/customer/update` with JSON body (firstName, lastName, email, phone, address). **Note:** The update route [`app/api/auth/customer/update/route.ts`](../app/api/auth/customer/update/route.ts) currently expects `Authorization: Bearer <token>`. The account page uses `credentials: 'include'` and does not send the token in the header; other auth routes in this app read the access token from the **cookie** server-side. If profile update fails with 401, the update route may need to be aligned to read the token from the same cookie.
