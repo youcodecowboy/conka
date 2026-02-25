@@ -1020,6 +1020,7 @@ export default function SubscriptionsPage() {
         nextBillingDate={showEditModal?.nextBillingDate}
         loading={actionLoading === showEditModal?.id}
         hasUnfulfilledFirstOrder={showEditModal?.hasUnfulfilledOrder ?? false}
+        samePlanOnly={true}
       />
     </div>
   );
