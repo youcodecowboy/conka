@@ -363,12 +363,12 @@ interface EditSubscriptionModalProps {
   onSave: (
     protocolId: string,
     tier: TierType,
-  ) => Promise<{ success: boolean; message?: string }>;
+  ) => Promise<{ success: boolean; message?: string; partial?: boolean }>;
   /** Called when user saves a formula change (Flow/Clear + pack size). Optional until API supports it. */
   onSaveFormula?: (
     formulaId: FormulaId,
     packSize: PackSize,
-  ) => Promise<{ success: boolean; message?: string }>;
+  ) => Promise<{ success: boolean; message?: string; partial?: boolean }>;
   /** "protocol" = bundle subscription (can switch Resilience/Precision/Balance); "flow"|"clear" = single formula (can switch Flow/Clear) */
   subscriptionType: "protocol" | "flow" | "clear";
   currentProtocolId?: string;
@@ -378,6 +378,8 @@ interface EditSubscriptionModalProps {
   /** For formula subscriptions: 4, 8, 12, or 28 */
   currentPackSize?: PackSize;
   subscriptionName: string;
+  /** Optional: subscription contract ID for contact-support email subject */
+  subscriptionId?: string;
   nextBillingDate?: string;
   loading?: boolean;
   hasUnfulfilledFirstOrder?: boolean;
@@ -394,6 +396,7 @@ export function EditSubscriptionModal({
   currentFormulaId = "01",
   currentPackSize = 4,
   subscriptionName,
+  subscriptionId,
   nextBillingDate,
   loading = false,
   hasUnfulfilledFirstOrder = false,
@@ -405,6 +408,7 @@ export function EditSubscriptionModal({
   const [selectedFormulaId, setSelectedFormulaId] = useState<FormulaId>(currentFormulaId);
   const [selectedPackSize, setSelectedPackSize] = useState<PackSize>(currentPackSize);
   const [error, setError] = useState<string | null>(null);
+  const [errorPartial, setErrorPartial] = useState(false);
   const [saving, setSaving] = useState(false);
   const [mobileStep, setMobileStep] = useState<"product" | "tier">("product");
 
@@ -420,6 +424,7 @@ export function EditSubscriptionModal({
       setSelectedFormulaId(currentFormulaId);
       setSelectedPackSize(currentPackSize);
       setError(null);
+      setErrorPartial(false);
       setMobileStep("product");
       initialProtocolRef.current = currentProtocolId;
       initialTierRef.current = currentTier;
@@ -439,18 +444,27 @@ export function EditSubscriptionModal({
   const handleSave = async () => {
     setSaving(true);
     setError(null);
+    setErrorPartial(false);
     try {
       if (isProtocol) {
         const result = await onSave(selectedProtocol, selectedTier);
-        if (!result.success) setError(result.message || "Failed to update");
+        if (!result.success) {
+          setError(result.message || "Failed to update");
+          setErrorPartial(result.partial === true);
+        }
       } else if (onSaveFormula) {
         const result = await onSaveFormula(selectedFormulaId, selectedPackSize);
-        if (!result.success) setError(result.message || "Failed to update");
+        if (!result.success) {
+          setError(result.message || "Failed to update");
+          setErrorPartial(result.partial === true);
+        }
       } else {
         setError("Formula changes are not yet supported. Contact support.");
+        setErrorPartial(false);
       }
     } catch {
       setError("Something went wrong. Please try again.");
+      setErrorPartial(false);
     } finally {
       setSaving(false);
     }
@@ -810,14 +824,33 @@ export function EditSubscriptionModal({
             </div>
           )}
           {error && (
-            <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] border border-red-200 bg-red-50 text-red-700 premium-body-sm">
-              {error}
+            <div className={`mb-4 p-4 rounded-[var(--premium-radius-nested)] border-2 ${errorPartial ? "border-amber-500 bg-amber-50 text-amber-900" : "border-red-300 bg-red-50 text-red-800"}`}>
+              <p className="font-semibold mb-2">
+                {errorPartial
+                  ? "Your plan was partially updated"
+                  : "Something went wrong"}
+              </p>
+              <p className="premium-body-sm mb-4">
+                {errorPartial
+                  ? "We updated your product and pack size, but we couldn't update your billing schedule. Please contact support so we can fix this for you."
+                  : "We couldn't update your plan. Please try again or contact support."}
+              </p>
+              <a
+                href={`mailto:support@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}${subscriptionId ? ` (${subscriptionId})` : ""}`)}`}
+                className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                Contact support
+              </a>
             </div>
           )}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 flex-wrap">
               <a
-                href={`mailto:sales@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}`)}`}
+                href={`mailto:support@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}${subscriptionId ? ` (${subscriptionId})` : ""}`)}`}
                 className="premium-body-sm text-[var(--color-neuro-blue-dark)] font-medium hover:underline inline-flex items-center gap-1.5"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1115,12 +1148,29 @@ export function EditSubscriptionModal({
             </div>
           )}
           {error && (
-            <div className="mb-3 p-2 rounded-[var(--premium-radius-nested)] border border-red-200 bg-red-50 text-red-700 premium-body-sm">
-              {error}
+            <div className={`mb-3 p-4 rounded-[var(--premium-radius-nested)] border-2 ${errorPartial ? "border-amber-500 bg-amber-50 text-amber-900" : "border-red-300 bg-red-50 text-red-800"}`}>
+              <p className="font-semibold mb-2">
+                {errorPartial ? "Your plan was partially updated" : "Something went wrong"}
+              </p>
+              <p className="premium-body-sm mb-3">
+                {errorPartial
+                  ? "We updated your product and pack size, but we couldn't update your billing schedule. Please contact support so we can fix this for you."
+                  : "We couldn't update your plan. Please try again or contact support."}
+              </p>
+              <a
+                href={`mailto:support@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}${subscriptionId ? ` (${subscriptionId})` : ""}`)}`}
+                className="inline-flex items-center justify-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-4 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity w-full"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                Contact support
+              </a>
             </div>
           )}
           <a
-            href={`mailto:sales@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}`)}`}
+            href={`mailto:support@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}${subscriptionId ? ` (${subscriptionId})` : ""}`)}`}
             className="mb-3 w-full inline-flex items-center justify-center gap-2 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
