@@ -119,16 +119,16 @@ So the **target** plan’s selling plan ID is sent. Variant and selling plan are
 
 ### Edit plan modal — what you can change
 
-The modal is controlled by **`samePlanOnly`** (default `true` when opened from the subscriptions page):
+The modal behaviour is driven by **subscription type** (derived from the subscription’s product title):
 
-| `samePlanOnly` | What the user can change | What is shown |
-|----------------|--------------------------|---------------|
-| **`true`** (default) | **Pack size / frequency only** (e.g. 4 → 12 → 28 shots per delivery). Protocol is fixed. | Single column: “Your protocol” (e.g. Resilience) is shown at the top; only tier (pack size) options are listed. |
-| **`false`** | **Protocol and pack size.** User can switch between Resilience, Precision, Balance, Ultimate and then pick a tier. | Two columns (desktop) or two steps (mobile): protocol list + tier list. |
+| Subscription type | What the user can change | What is shown |
+|-------------------|--------------------------|---------------|
+| **Protocol** (Resilience, Precision, Balance, Ultimate) | **Protocol** (switch between Resilience, Precision, Balance; Ultimate shown when on Max tier or already on Ultimate) and **pack size** (4, 12, or 28 shots per delivery — same price for 1/2/3, Ultimate has different pricing). | Left: protocol cards with **product images**. Right: pack size (tier). Callout: “Want CONKA Flow only or CONKA Clear only? Cancel this subscription and start a new one from the shop.” |
+| **Flow** or **Clear** (single formula) | **Formula** (switch between Flow and Clear) and **pack size** (4, 8, 12, or 28 shots). | Left: formula cards with **product images**. Right: pack size grid. Callout: “Want a protocol bundle (Resilience, Precision, Balance)? Cancel this subscription and start a new one from the shop.” |
 
-**Why protocol is often locked:** The subscriptions page passes `samePlanOnly={true}` so that in the current flow we only allow changing **how often** they receive the same protocol (Loop plan / pack quantity). Changing protocol would mean a different product mix (e.g. Resilience → Precision) and is treated as a bigger change; the API supports it via `protocolId` in the change-frequency payload, but the UI currently restricts it by default.
+**Same “plan” = same pack size (and same family).** Within protocol subscriptions you can switch between Resilience, Precision, and Balance (and Ultimate when on Max) without changing pack size — same Loop plan, same price for 1/2/3. Within single-formula subscriptions you can switch between Flow and Clear at the same pack size. **Crossing the boundary** (protocol ↔ single formula) is not supported in this modal: the user must cancel and start a new subscription from the shop. The UI states this clearly in the callouts.
 
-**Why you can’t select a single product:** The modal only offers **protocols** (bundles: Resilience, Precision, Balance, Ultimate). **Individual formulas** (CONKA Flow only, CONKA Clear only) are shown as disabled with “Requires new subscription” — switching to a single formula is not supported in this edit flow; the customer would need to start a new subscription from the shop.
+**Formula change (Flow ↔ Clear) and pack size:** The modal supports selecting formula and pack size for single-formula subscriptions. Saving uses an optional `onSaveFormula(formulaId, packSize)` callback; if the API does not yet support formula/plan changes for single-formula products, the page can omit this callback and the modal will show “Formula changes are not yet supported. Contact support.” when the user tries to save.
 
 ## Profile and orders
 
