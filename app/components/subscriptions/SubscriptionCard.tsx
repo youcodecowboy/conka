@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Subscription } from "@/app/hooks/useSubscriptions";
+import type { PaymentMethod } from "@/app/types/paymentMethod";
 import type { TierDisplayInfo } from "@/app/account/subscriptions/utils";
 import { formatDate, getStatusColor, getProtocolFromSubscription } from "@/app/account/subscriptions/utils";
 import { getProtocolImage } from "@/app/lib/productImageConfig";
@@ -15,6 +16,13 @@ interface SubscriptionCardProps {
   onTogglePause: () => void;
   onCancel: () => void;
   onDismissSuccess: () => void;
+  /** Primary (first safe) payment method from usePaymentMethods — per customer, fetch once. */
+  primaryMethod?: PaymentMethod | null;
+  onTriggerUpdateEmail?: (paymentMethodId: number) => void;
+  paymentUpdateLoading?: boolean;
+  paymentUpdateMessage?: string | null;
+  /** Disable update button until this timestamp (ms). */
+  paymentCooldownUntil?: number;
 }
 
 export function SubscriptionCard({
@@ -26,7 +34,15 @@ export function SubscriptionCard({
   onTogglePause,
   onCancel,
   onDismissSuccess,
+  primaryMethod = null,
+  onTriggerUpdateEmail,
+  paymentUpdateLoading = false,
+  paymentUpdateMessage = null,
+  paymentCooldownUntil = 0,
 }: SubscriptionCardProps) {
+  const [showContactSupportModal, setShowContactSupportModal] = useState(false);
+  const contactSupportHref = `mailto:support@conka.io?subject=${encodeURIComponent(`Multi-product subscription: ${subscription.id}`)}&body=${encodeURIComponent(`Hi, I'd like to change my subscription plan. Subscription ID: ${subscription.id}`)}`;
+
   const isMultiLine = subscription.isMultiLine ?? (subscription.lines?.length ?? 0) > 1;
   const lines = subscription.lines?.length ? subscription.lines : [{
     id: subscription.product?.id || '0',
@@ -36,8 +52,6 @@ export function SubscriptionCard({
     quantity: subscription.quantity ?? 1,
   }];
   const productImage = subscription.product.image || getProtocolImage(getProtocolFromSubscription(subscription)) || "";
-  const [showContactSupportModal, setShowContactSupportModal] = useState(false);
-  const contactSupportHref = `mailto:support@conka.io?subject=${encodeURIComponent(`Multi-product subscription: ${subscription.id}`)}&body=${encodeURIComponent(`Hi, I'd like to change my subscription plan. Subscription ID: ${subscription.id}`)}`;
   return (
     <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-6 md:p-8 space-y-6">
       <div className="space-y-6">
@@ -326,6 +340,97 @@ export function SubscriptionCard({
               </p>
             </div>
           </div>
+        </div>
+      )}
+
+      {(subscription.status === "active" || subscription.status === "paused") &&
+        primaryMethod != null && (
+        <div className="rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-3 min-w-0">
+              {(() => {
+                const pm = primaryMethod;
+                const brand = (pm.brand || '').toLowerCase();
+                const brandLabel = brand ? brand.charAt(0).toUpperCase() + brand.slice(1) : 'Card';
+                const last4 = pm.lastDigits != null ? String(pm.lastDigits).slice(-4) : '';
+                const y = pm.expiryYear != null ? (pm.expiryYear < 100 ? 2000 + pm.expiryYear : pm.expiryYear) : null;
+                const expiry =
+                  pm.expiryMonth != null && y != null
+                    ? `${String(pm.expiryMonth).padStart(2, '0')}/${String(y).slice(-2)}`
+                    : '';
+                const status = pm.status === 'safe' || pm.status === 'expiring_soon' || pm.status === 'expired' ? pm.status : 'safe';
+                return (
+                  <>
+                    <span className="flex items-center gap-2 premium-body-sm font-medium text-[var(--color-ink)]">
+                      <span className="text-[var(--text-on-light-muted)]" aria-hidden="true">
+                        💳
+                      </span>
+                      {brandLabel}
+                      {last4 && (
+                        <>
+                          <span className="text-[var(--text-on-light-muted)]">····</span>
+                          <span>{last4}</span>
+                        </>
+                      )}
+                    </span>
+                    {expiry && (
+                      <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                        Expires {expiry}
+                      </span>
+                    )}
+                    {status === 'safe' && (
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" aria-hidden="true" />
+                        <span className="premium-body-sm text-[var(--text-on-light-muted)]">Safe</span>
+                      </span>
+                    )}
+                    {status === 'expiring_soon' && (
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" aria-hidden="true" />
+                        <span className="px-2 py-0.5 rounded-[var(--premium-radius-nested)] premium-body-sm font-medium bg-amber-100 text-amber-800">
+                          Expiring soon
+                        </span>
+                      </span>
+                    )}
+                    {status === 'expired' && (
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" aria-hidden="true" />
+                        <span className="px-2 py-0.5 rounded-[var(--premium-radius-nested)] premium-body-sm font-medium bg-red-100 text-red-800">
+                          Expired — please update
+                        </span>
+                      </span>
+                    )}
+                  </>
+                );
+              })()}
+            </div>
+            {paymentUpdateMessage != null && !paymentUpdateMessage.includes('support') ? (
+              <p className="premium-body-sm text-green-700 shrink-0 max-w-[240px]">
+                {paymentUpdateMessage}
+              </p>
+            ) : onTriggerUpdateEmail ? (
+              <button
+                type="button"
+                onClick={() => onTriggerUpdateEmail(primaryMethod.id)}
+                disabled={paymentUpdateLoading || Date.now() < (paymentCooldownUntil ?? 0)}
+                className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-4 py-2 premium-body-sm font-semibold text-white hover:opacity-90 disabled:opacity-50 flex items-center gap-2 transition-opacity shrink-0"
+              >
+                {paymentUpdateLoading ? (
+                  <>
+                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending…
+                  </>
+                ) : (
+                  'Update payment method'
+                )}
+              </button>
+            ) : null}
+          </div>
+          {paymentUpdateMessage != null && paymentUpdateMessage.includes('support') && (
+            <p className="premium-body-sm mt-3 text-red-600">
+              {paymentUpdateMessage}
+            </p>
+          )}
         </div>
       )}
 
