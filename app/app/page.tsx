@@ -3,6 +3,7 @@
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
 import { AppHero, AppStickyPhoneBlock, AppSubscribersSection, AppDownloadSection, AppComparisonTable } from "@/app/components/app";
+import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
 import {
   CognitiveTestSection,
   CognitiveTestSectionMobile,
@@ -39,50 +40,7 @@ export default function AppPage() {
         </div>
       </section>
 
-      {/* Evidence Section — surface to break up bone run per style guide */}
-      <section className="premium-section-luxury premium-bg-surface" style={{ color: "var(--color-ink)" }}>
-        <div className="premium-track">
-          <div className="text-center">
-            {/* Placeholder: replace with brain + graph or 16% / 30-day data visual */}
-            <div
-              className="mx-auto mb-8 flex aspect-[2/1] max-w-md items-center justify-center rounded-[var(--premium-radius-card)] border-2 border-dashed border-[var(--color-mid)] bg-[var(--color-surface)]"
-              aria-hidden
-            >
-              <p className="px-4 text-center text-sm opacity-70" style={{ color: "var(--color-ink)" }}>
-                Asset: Brain + upward graph or 16% / 30-day data visual. Replace with final image.
-              </p>
-            </div>
-            <p
-              className="text-xs uppercase tracking-widest mb-4 opacity-70"
-              style={{ fontSize: "var(--premium-font-data-size)" }}
-            >
-              Evidence-backed brain optimisation
-            </p>
-            <p
-              className="mb-6 mx-auto max-w-[65ch]"
-              style={{
-                fontSize: "clamp(1rem, 1.8vw, 1.2rem)",
-                lineHeight: "var(--premium-font-body-leading)",
-              }}
-            >
-              The CONKA app combines neuroscience-based testing with
-              personalised recommendations. Clinical data supports a potential{" "}
-              <span className="font-bold">16% improvement in cognitive performance</span>{" "}
-              over 30 days when following the recommended brain optimisation plan.
-            </p>
-            <blockquote
-              className="text-xl md:text-2xl italic mx-auto max-w-[52ch] opacity-90"
-              style={{
-                letterSpacing: "var(--letter-spacing-premium-title)",
-                lineHeight: "var(--premium-font-body-leading)",
-              }}
-            >
-              &ldquo;Developed by neuroscientists and tested with professional
-              athletes — your brain deserves the same precision and care.&rdquo;
-            </blockquote>
-          </div>
-        </div>
-      </section>
+      <CaseStudiesDataDriven />
 
       {/* Comparison Table Section */}
       <section
