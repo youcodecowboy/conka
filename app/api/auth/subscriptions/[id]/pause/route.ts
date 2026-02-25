@@ -263,8 +263,11 @@ export async function POST(
 
         const planConfig = PLAN_CONFIGURATIONS[plan];
         
+        // Log prefix for Vercel log tracing (Fix 4)
+        const logPrefix = `[Loop plan-update][${loopSubscriptionId}]`;
+        
         // Step 1: Fetch subscription details from Loop to get lineId and current variant
-        console.log('[CHANGE-FREQUENCY] Fetching subscription details...');
+        console.log(`${logPrefix} Step 1: GET subscription`);
         const subDetailsResult = await loopRequest(
           `/subscription/${loopSubscriptionId}`,
           loopToken,
@@ -294,28 +297,15 @@ export async function POST(
         const lineId = line.id;
         const currentVariantId = line.variantShopifyId || line.variant?.shopifyId;
         
-        console.log('[CHANGE-FREQUENCY] Current line:', { lineId, currentVariantId });
+        console.log(`${logPrefix} Current line:`, { lineId, currentVariantId });
         
-        // Step 2: Determine which protocol to use
-        // If protocolId is provided, use that (user wants to change protocol)
-        // Otherwise, detect from current variant (just changing tier)
+        // Step 2: Determine target protocol
+        // If protocolId is provided, use it (user may be switching protocol or tier)
+        // Otherwise, infer from current variant (tier-only change)
         const currentProtocolFromVariant = VARIANT_TO_PROTOCOL[currentVariantId] as ProtocolIdType | undefined;
-        let targetProtocolId = protocolId;
-        
+        const targetProtocolId = protocolId ?? currentProtocolFromVariant;
         if (!targetProtocolId) {
-          targetProtocolId = currentProtocolFromVariant;
-        }
-        
-        // Same-plan-only: reject if request asks for a different protocol than current subscription
-        if (protocolId != null && currentProtocolFromVariant != null && protocolId !== currentProtocolFromVariant) {
-          return NextResponse.json({
-            success: false,
-            error: 'Only frequency changes within the same plan are allowed.',
-          }, { status: 400 });
-        }
-        
-        if (!targetProtocolId) {
-          console.log('[CHANGE-FREQUENCY] Unknown variant, trying direct approach...');
+          console.log(`${logPrefix} Unknown variant, fallback: POST change-plan`, { sellingPlanId: planConfig.sellingPlanId });
           // If we can't identify the protocol, try the change-plan endpoint as fallback
           result = await loopRequest(
             `/subscription/${loopSubscriptionId}/change-plan`, 
@@ -343,17 +333,15 @@ export async function POST(
             }, { status: 400 });
           }
           
-          console.log('[CHANGE-FREQUENCY] Swapping to variant:', { 
-            currentProtocol: VARIANT_TO_PROTOCOL[currentVariantId],
-            targetProtocol: targetProtocolId,
-            plan, 
-            targetVariantId,
-            lineId 
-          });
+          // We pass sellingPlanGroupId as parseInt(planConfig.sellingPlanId, 10) because the Loop API
+          // expects a number. NOTE: Loop treats "selling plan group" vs "selling plan" (single plan) differently.
+          // TODO: Verify in Loop's dashboard whether PLAN_CONFIGURATIONS.sellingPlanId is a group ID or a
+          // single plan ID; use the correct one for the swap call.
+          const sellingPlanGroupIdSent = parseInt(planConfig.sellingPlanId, 10);
+          console.log(`${logPrefix} sellingPlanGroupId sent:`, sellingPlanGroupIdSent);
           
+          console.log(`${logPrefix} Step 2: PUT swap line`, { targetVariantId, plan });
           // Step 4: Call swap-line endpoint to change the variant AND selling plan
-          // Including sellingPlanGroupId ensures Shopify subscription contract is updated
-          // Note: Loop API expects sellingPlanGroupId as a number, not string
           result = await loopRequest(
             `/subscription/${loopSubscriptionId}/line/${lineId}/swap`,
             loopToken,
@@ -362,9 +350,43 @@ export async function POST(
               variantShopifyId: targetVariantId,
               quantity: planConfig.quantity,
               pricingType: 'OLD', // Keep existing discount
-              sellingPlanGroupId: parseInt(planConfig.sellingPlanId, 10), // Parse as number for Loop API
+              sellingPlanGroupId: sellingPlanGroupIdSent,
             }
           );
+          // Step 5: If swap succeeded, update billing/delivery interval (required for correct billing).
+          // If change-frequency fails, we do NOT return success — subscription may be in a partial state
+          // (variant/price updated but interval still old). Support must check Loop dashboard and fix manually.
+          // Loop does not support rollback of swap via API; document partial state for support.
+          if (result.response.ok) {
+            console.log(`${logPrefix} Step 3: POST change-frequency`, { billingInterval: planConfig.interval, billingIntervalCount: planConfig.intervalCount });
+            const freqResult = await loopRequest(
+              `/subscription/${loopSubscriptionId}/change-frequency`,
+              loopToken,
+              'POST',
+              {
+                billingInterval: planConfig.interval,
+                billingIntervalCount: planConfig.intervalCount,
+                deliveryInterval: planConfig.interval,
+                deliveryIntervalCount: planConfig.intervalCount,
+              }
+            );
+            if (!freqResult.response.ok) {
+              // Fix 1: Treat as hard failure — do not return success. Log full details for debugging.
+              console.error(`${logPrefix} Swap succeeded but change-frequency failed. Full error:`, JSON.stringify(freqResult.data));
+              return NextResponse.json(
+                {
+                  success: false,
+                  partial: true,
+                  error: 'Plan product was updated but we could not update your billing schedule. Please contact support so we can fix this for you.',
+                  message: freqResult.data?.message || 'Billing interval update failed',
+                  loopResponse: freqResult.data,
+                  loopSubscriptionId,
+                },
+                { status: 503 }
+              );
+            }
+            console.log(`${logPrefix} change-frequency OK`);
+          }
         }
         
         successMessage = `Plan updated to ${planConfig.name} successfully`;
