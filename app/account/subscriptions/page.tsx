@@ -238,6 +238,7 @@ export default function SubscriptionsPage() {
         onClose={() => setShowEditModal(null)}
         onSave={handleChangePlan}
         subscriptionName={showEditModal?.product.title || "Subscription"}
+        subscriptionId={showEditModal?.id}
         subscriptionType={showEditModal ? getSubscriptionType(showEditModal) : "protocol"}
         currentProtocolId={
           showEditModal ? getProtocolFromSubscription(showEditModal) : "1"
