@@ -141,7 +141,7 @@ export default function SubscriptionsPage() {
 
       <main className="pt-3 pb-24 lg:pt-4">
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury bg-[var(--color-surface)]"
           aria-labelledby="subscriptions-heading"
         >
           <div className="premium-track">
