@@ -58,6 +58,21 @@ Shopify Customer Account API **does not allow** `localhost` or any `http` URL in
 
 If login “used to work” locally and then stopped, the app was likely previously using a single env-based redirect (e.g. production URL). That meant the callback was hitting production, not localhost. The code was changed to send the actual request origin so production/preview use the correct URL; that exposed that localhost isn’t allowed. The env override above restores the ability to point `redirect_uri` at an allowed URL (production or ngrok) when running in non-production.
 
+### Dev mock sign-in (local refactors)
+
+To work on the account portal UI without Shopify OAuth (e.g. no ngrok, no real login):
+
+1. In `.env.local` set:
+   - `DEV_MOCK_AUTH=true` (server: enables mock session and protected-route bypass)
+   - `NEXT_PUBLIC_DEV_MOCK_AUTH=true` (client: shows "Use mock account" on the login page)
+2. Restart the dev server.
+3. Open `/account/login` and click **Use mock account (dev)**. The app sets a `dev_mock_auth` cookie and redirects to `/account`. Session and protected routes (`/api/auth/session`, `/api/auth/subscriptions`, `/api/auth/orders`) treat the request as authenticated and return mock/empty data (no Shopify or Loop calls).
+4. Sign out clears the mock cookie; you can use mock again from the login page.
+
+Mock is only active when `NODE_ENV === 'development'` and `DEV_MOCK_AUTH === 'true'`. Do not set these in production.
+
+**API:** `POST /api/auth/dev-mock` sets the cookie; `DELETE /api/auth/dev-mock` clears it. Both return 403 when mock auth is not enabled.
+
 ## Subscription data flow
 
 ### Reading subscriptions
