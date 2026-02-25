@@ -134,7 +134,7 @@ export default function AccountPage() {
     <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)]">
       <Navigation />
 
-      <main className="pt-3 pb-16 px-4 lg:pt-4 lg:px-[5vw]">
+      <main className="pt-8 pb-16 px-4 lg:pt-10 lg:px-[5vw]">
         <div className="mx-auto max-w-5xl">
           {/* Header */}
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
