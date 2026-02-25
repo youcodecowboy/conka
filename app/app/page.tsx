@@ -28,17 +28,18 @@ export default function AppPage() {
 
       <AppDownloadSection />
 
-      {/* Cognitive Test Section */}
-      <section
-        className="premium-section-luxury premium-bg-bone"
-        style={{ color: "var(--color-ink)" }}
-        aria-labelledby="cognitive-test-heading"
-      >
-        <div className="premium-track">
-          {isMobile !== undefined &&
-            (isMobile ? <CognitiveTestSectionMobile /> : <CognitiveTestSection />)}
-        </div>
-      </section>
+      {/* Cognitive Test Section — only mount when we know breakpoint to avoid grey flash */}
+      {isMobile !== undefined && (
+        <section
+          className="premium-section-luxury premium-bg-bone"
+          style={{ color: "var(--color-ink)" }}
+          aria-labelledby="cognitive-test-heading"
+        >
+          <div className="premium-track">
+            {isMobile ? <CognitiveTestSectionMobile /> : <CognitiveTestSection />}
+          </div>
+        </section>
+      )}
 
       <section
         className="premium-section-luxury"
