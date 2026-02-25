@@ -1,14 +1,17 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navigation from '@/app/components/navigation';
 import { useAuth } from '@/app/context/AuthContext';
 
+const DEV_MOCK_ENABLED = process.env.NEXT_PUBLIC_DEV_MOCK_AUTH === 'true';
+
 export default function LoginPage() {
   const router = useRouter();
-  const { login, loading, error, clearError, isAuthenticated } = useAuth();
+  const { login, loading, error, clearError, isAuthenticated, checkSession } = useAuth();
+  const [mockLoading, setMockLoading] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -19,6 +22,21 @@ export default function LoginPage() {
   const handleLogin = () => {
     clearError();
     login();
+  };
+
+  const handleMockLogin = async () => {
+    if (!DEV_MOCK_ENABLED) return;
+    setMockLoading(true);
+    clearError();
+    try {
+      const res = await fetch('/api/auth/dev-mock', { method: 'POST' });
+      if (res.ok) {
+        await checkSession();
+        router.push('/account');
+      }
+    } finally {
+      setMockLoading(false);
+    }
   };
 
   if (isAuthenticated) {
@@ -67,6 +85,17 @@ export default function LoginPage() {
                 'Continue with Email'
               )}
             </button>
+
+            {DEV_MOCK_ENABLED && (
+              <button
+                type="button"
+                onClick={handleMockLogin}
+                disabled={mockLoading}
+                className="w-full mt-3 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] py-3.5 font-semibold text-[var(--color-ink)] text-sm hover:bg-black/5 disabled:opacity-50"
+              >
+                {mockLoading ? 'Loading...' : 'Use mock account (dev)'}
+              </button>
+            )}
 
             <p className="mt-4 text-center text-[var(--text-on-light-muted)] text-sm">
               <Link href="/" className="font-medium text-[var(--color-ink)] underline hover:opacity-70">
