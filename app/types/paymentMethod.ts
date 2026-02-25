@@ -1,10 +1,9 @@
 export interface PaymentMethod {
   id: number;
-  type: 'card' | 'paypal' | 'other';
-  brand?: string;
-  lastDigits?: string;
-  expiryMonth?: number;
-  expiryYear?: number;
-  status: 'safe' | 'expired' | 'expiring_soon';
-  isDefault?: boolean;
+  type: string;
+  brand: string | null;
+  lastDigits: string | null;
+  expiryMonth: number | null;
+  expiryYear: number | null;
+  status: 'safe' | 'expired' | 'expiring_soon' | string;
 }
