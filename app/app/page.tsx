@@ -40,12 +40,25 @@ export default function AppPage() {
         </div>
       </section>
 
-      <CaseStudiesDataDriven />
-
-      {/* Comparison Table Section — bone for rhythm (guide: dark max 2x) */}
       <section
-        className="premium-section-luxury premium-bg-bone"
-        style={{ color: "var(--color-ink)" }}
+        className="premium-section-luxury"
+        style={{
+          background: "var(--color-neuro-blue-light)",
+          color: "var(--color-ink)",
+        }}
+      >
+        <div className="premium-track">
+          <CaseStudiesDataDriven />
+        </div>
+      </section>
+
+      {/* Comparison Table Section — dark neuro blue + bone text (page owns section styling) */}
+      <section
+        className="premium-section-luxury"
+        style={{
+          background: "var(--color-neuro-blue-dark)",
+          color: "var(--color-bone)",
+        }}
       >
         <div className="premium-track">
           <AppComparisonTable />
