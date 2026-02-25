@@ -368,6 +368,8 @@ interface EditSubscriptionModalProps {
   nextBillingDate?: string;
   loading?: boolean;
   hasUnfulfilledFirstOrder?: boolean;
+  /** When true, only tier (frequency) can be changed within the current protocol. Default true. */
+  samePlanOnly?: boolean;
 }
 
 export function EditSubscriptionModal({
@@ -380,12 +382,16 @@ export function EditSubscriptionModal({
   nextBillingDate,
   loading = false,
   hasUnfulfilledFirstOrder = false,
+  samePlanOnly = true,
 }: EditSubscriptionModalProps) {
   const [selectedProtocol, setSelectedProtocol] = useState(currentProtocolId);
   const [selectedTier, setSelectedTier] = useState<TierType>(currentTier);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-  const [mobileStep, setMobileStep] = useState<"product" | "tier">("product");
+  const [mobileStep, setMobileStep] = useState<"product" | "tier">("tier");
+
+  // When samePlanOnly, lock protocol to current
+  const effectiveProtocol = samePlanOnly ? currentProtocolId : selectedProtocol;
 
   // Track initial values to show "Current" badge
   const initialProtocolRef = useRef(currentProtocolId);
@@ -397,14 +403,14 @@ export function EditSubscriptionModal({
       setSelectedProtocol(currentProtocolId);
       setSelectedTier(currentTier);
       setError(null);
-      setMobileStep("product");
+      setMobileStep(samePlanOnly ? "tier" : "product");
       initialProtocolRef.current = currentProtocolId;
       initialTierRef.current = currentTier;
     }
-  }, [isOpen, currentProtocolId, currentTier]);
+  }, [isOpen, currentProtocolId, currentTier, samePlanOnly]);
 
-  // Get available tiers for selected protocol
-  const availableTiers = getAvailableTiers(selectedProtocol);
+  // Get available tiers for selected protocol (use effective when same-plan-only)
+  const availableTiers = getAvailableTiers(effectiveProtocol);
 
   // Adjust tier if not available
   useEffect(() => {
@@ -417,7 +423,7 @@ export function EditSubscriptionModal({
     setSaving(true);
     setError(null);
     try {
-      const result = await onSave(selectedProtocol, selectedTier);
+      const result = await onSave(effectiveProtocol, selectedTier);
       if (!result.success) {
         setError(result.message || "Failed to update subscription");
       }
@@ -428,8 +434,8 @@ export function EditSubscriptionModal({
     }
   };
 
-  // Check if anything changed
-  const isProtocolChanged = selectedProtocol !== initialProtocolRef.current;
+  // Check if anything changed (protocol only when not samePlanOnly)
+  const isProtocolChanged = !samePlanOnly && selectedProtocol !== initialProtocolRef.current;
   const isTierChanged = selectedTier !== initialTierRef.current;
   const hasChanges = isProtocolChanged || isTierChanged;
 
@@ -442,8 +448,8 @@ export function EditSubscriptionModal({
       })
     : null;
 
-  // Get selected protocol data
-  const selectedProtocolData = PROTOCOLS.find((p) => p.id === selectedProtocol);
+  // Get selected protocol data (use effective for display)
+  const selectedProtocolData = PROTOCOLS.find((p) => p.id === effectiveProtocol);
 
   if (!isOpen) return null;
 
@@ -472,7 +478,8 @@ export function EditSubscriptionModal({
 
         {/* Content */}
         <div className="flex flex-1 overflow-hidden">
-          {/* Left Column - Protocol Selection */}
+          {/* Left Column - Protocol Selection (hidden when same-plan-only) */}
+          {!samePlanOnly && (
           <div className="w-1/2 border-r-2 border-current p-6 overflow-y-auto">
             {/* Protocols Section */}
             <div className="mb-6">
@@ -590,9 +597,16 @@ export function EditSubscriptionModal({
               </div>
             </div>
           </div>
+          )}
 
           {/* Right Column - Tier Selection */}
-          <div className="w-1/2 p-6 overflow-y-auto bg-gray-50">
+          <div className={`p-6 overflow-y-auto bg-gray-50 ${samePlanOnly ? "w-full" : "w-1/2"}`}>
+            {/* Same-plan-only note */}
+            {samePlanOnly && (
+              <p className="font-clinical text-sm opacity-70 mb-4">
+                You can change delivery frequency (weekly, bi-weekly, monthly) for your current plan.
+              </p>
+            )}
             {/* Protocol Summary */}
             {selectedProtocolData && (
               <div className="mb-4 p-4 bg-white neo-box">
@@ -628,9 +642,9 @@ export function EditSubscriptionModal({
             {/* Protocol Tiers */}
             <div className="space-y-3">
               {availableTiers.map((tier) => {
-                const tierInfo = getTierInfo(selectedProtocol, tier);
+                const tierInfo = getTierInfo(effectiveProtocol, tier);
                 const formulaBreakdown = getFormulaBreakdown(
-                  selectedProtocol,
+                  effectiveProtocol,
                   tier,
                 );
                 if (!tierInfo || !formulaBreakdown) return null;
@@ -638,8 +652,8 @@ export function EditSubscriptionModal({
                 const isSelected = selectedTier === tier;
                 const isCurrent =
                   tier === initialTierRef.current &&
-                  selectedProtocol === initialProtocolRef.current;
-                const isUltimate = selectedProtocol === "4";
+                  effectiveProtocol === initialProtocolRef.current;
+                const isUltimate = effectiveProtocol === "4";
 
                 return (
                   <button
@@ -784,8 +798,8 @@ export function EditSubscriptionModal({
             <div className="font-clinical text-sm opacity-60">
               {hasChanges ? (
                 <span className="text-green-700 font-medium">
-                  → {PROTOCOLS.find((p) => p.id === selectedProtocol)?.name} ·{" "}
-                  {getTierInfo(selectedProtocol, selectedTier)?.name}
+                  → {PROTOCOLS.find((p) => p.id === effectiveProtocol)?.name} ·{" "}
+                  {getTierInfo(effectiveProtocol, selectedTier)?.name}
                 </span>
               ) : (
                 "No changes"
@@ -833,6 +847,7 @@ export function EditSubscriptionModal({
         </div>
 
         {/* Mobile Steps */}
+        {!samePlanOnly && (
         <div className="flex border-b-2 border-current">
           <button
             onClick={() => setMobileStep("product")}
@@ -851,10 +866,11 @@ export function EditSubscriptionModal({
             2. Frequency
           </button>
         </div>
+        )}
 
         {/* Mobile Content */}
         <div className="flex-1 overflow-y-auto p-4">
-          {mobileStep === "product" ? (
+          {!samePlanOnly && mobileStep === "product" ? (
             <div className="space-y-4">
               {/* Protocols */}
               <div>
@@ -946,6 +962,11 @@ export function EditSubscriptionModal({
             </div>
           ) : (
             <div className="space-y-3">
+              {samePlanOnly && (
+                <p className="font-clinical text-sm opacity-70 mb-2">
+                  You can change delivery frequency (weekly, bi-weekly, monthly) for your current plan.
+                </p>
+              )}
               {/* Selected Protocol Summary */}
               {selectedProtocolData && (
                 <div className="p-3 bg-gray-100 neo-box mb-4">
@@ -978,9 +999,9 @@ export function EditSubscriptionModal({
 
               {/* Protocol Tiers */}
               {availableTiers.map((tier) => {
-                const tierInfo = getTierInfo(selectedProtocol, tier);
+                const tierInfo = getTierInfo(effectiveProtocol, tier);
                 const formulaBreakdown = getFormulaBreakdown(
-                  selectedProtocol,
+                  effectiveProtocol,
                   tier,
                 );
                 if (!tierInfo || !formulaBreakdown) return null;
@@ -988,8 +1009,8 @@ export function EditSubscriptionModal({
                 const isSelected = selectedTier === tier;
                 const isCurrent =
                   tier === initialTierRef.current &&
-                  selectedProtocol === initialProtocolRef.current;
-                const isUltimate = selectedProtocol === "4";
+                  effectiveProtocol === initialProtocolRef.current;
+                const isUltimate = effectiveProtocol === "4";
 
                 return (
                   <button
@@ -1095,7 +1116,7 @@ export function EditSubscriptionModal({
             {saving
               ? "Updating..."
               : hasChanges
-                ? `Save: ${PROTOCOLS.find((p) => p.id === selectedProtocol)?.name} · ${getTierInfo(selectedProtocol, selectedTier)?.name}`
+                ? `Save: ${PROTOCOLS.find((p) => p.id === effectiveProtocol)?.name} · ${getTierInfo(effectiveProtocol, selectedTier)?.name}`
                 : "No changes"}
           </button>
         </div>

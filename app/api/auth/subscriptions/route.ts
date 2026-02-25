@@ -52,6 +52,13 @@ async function fetchFromLoop(subscriptionId: string): Promise<any> {
 export async function GET(request: NextRequest) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('customer_access_token')?.value;
+  const mockCookie = cookieStore.get('dev_mock_auth')?.value;
+  const isDev = process.env.NODE_ENV === 'development';
+  const mockAuthEnabled = process.env.DEV_MOCK_AUTH === 'true';
+
+  if (isDev && mockAuthEnabled && mockCookie === '1') {
+    return NextResponse.json({ subscriptions: [] });
+  }
 
   if (!accessToken) {
     return NextResponse.json(

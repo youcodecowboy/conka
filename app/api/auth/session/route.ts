@@ -57,10 +57,31 @@ const CUSTOMER_QUERY = `
  * 
  * Returns the current customer session info from the Customer Account API.
  * Used by the client to check authentication status and get customer details.
+ * In development, when DEV_MOCK_AUTH=true and dev_mock_auth cookie is set, returns a mock customer.
  */
 export async function GET(request: NextRequest) {
-  const shopId = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
   const cookieStore = await cookies();
+  const isDev = process.env.NODE_ENV === 'development';
+  const mockAuthEnabled = process.env.DEV_MOCK_AUTH === 'true';
+  const mockCookie = cookieStore.get('dev_mock_auth')?.value;
+
+  if (isDev && mockAuthEnabled && mockCookie === '1') {
+    return NextResponse.json({
+      authenticated: true,
+      customer: {
+        id: 'dev-mock',
+        email: 'dev@localhost',
+        firstName: 'Dev',
+        lastName: 'User',
+        displayName: 'Dev User',
+        phone: '',
+        defaultAddress: null,
+      },
+      expiresAt: null,
+    });
+  }
+
+  const shopId = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
   const accessToken = cookieStore.get('customer_access_token')?.value;
   const idToken = cookieStore.get('customer_id_token')?.value;
   const expiresAt = cookieStore.get('customer_token_expires')?.value;

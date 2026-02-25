@@ -10,7 +10,7 @@ High-level structure and key systems for the CONKA marketing and e-commerce fron
 
 ## Rough structure
 
-- **Routes:** Home (`/`), product pages (`/conka-flow`, `/conka-clarity`), protocols (`/protocol/[id]`), quiz (`/quiz`, `/quiz/results`), shop (`/shop`), professionals portal, account, static/content pages.
+- **Routes:** Home (`/`), product pages (`/conka-flow`, `/conka-clarity`), protocols (`/protocol/[id]`), quiz (`/quiz`, `/quiz/results`), shop (`/shop`), professionals portal, account, static/content pages. Account portal: see [docs/features/CUSTOMER_PORTAL.md](features/CUSTOMER_PORTAL.md).
 - **Layout:** Single root layout with global nav, footer, cart drawer, and analytics scripts (GA, Meta Pixel, Triple Pixel, Klaviyo).
 - **State:** Cart and auth are global (CartContext, AuthContext). Cart is persisted by Shopify cart ID in `localStorage`.
 
