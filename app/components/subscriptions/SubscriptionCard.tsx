@@ -24,6 +24,14 @@ export function SubscriptionCard({
   onCancel,
   onDismissSuccess,
 }: SubscriptionCardProps) {
+  const isMultiLine = subscription.isMultiLine ?? (subscription.lines?.length ?? 0) > 1;
+  const lines = subscription.lines?.length ? subscription.lines : [{
+    id: subscription.product?.id || '0',
+    productTitle: subscription.product?.title || 'Subscription',
+    variantTitle: subscription.product?.variantTitle ?? '',
+    price: subscription.price?.amount ?? '0',
+    quantity: subscription.quantity ?? 1,
+  }];
   const productImage = subscription.product.image || getProtocolImage(getProtocolFromSubscription(subscription)) || "";
   return (
     <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-6 md:p-8 space-y-6">
@@ -58,23 +66,48 @@ export function SubscriptionCard({
               </div>
             )}
             <div className="min-w-0">
-              <h3
-                className="font-semibold text-lg text-[var(--color-ink)] mb-1.5"
-                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-              >
-                {subscription.product.title}
-              </h3>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="px-2.5 py-1 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] premium-body-sm font-medium text-[var(--color-ink)]">
-                  {info.tierName}
-                </span>
-                <span className="premium-body-sm text-[var(--text-on-light-muted)]">
-                  {info.protocolSubtitle}
-                </span>
-              </div>
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] max-w-[50ch]">
-                {info.protocolDescription}
-              </p>
+              {isMultiLine ? (
+                <>
+                  <h3
+                    className="font-semibold text-lg text-[var(--color-ink)] mb-2"
+                    style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                  >
+                    {lines.length} products
+                  </h3>
+                  <ul className="space-y-2">
+                    {lines.map((line, idx) => (
+                      <li key={line.id ?? idx} className="premium-body-sm flex items-baseline justify-between gap-2">
+                        <span className="text-[var(--color-ink)]">
+                          {line.productTitle}{line.variantTitle ? ` · ${line.variantTitle}` : ''}
+                        </span>
+                        <span className="text-[var(--text-on-light-muted)] shrink-0">
+                          £{typeof line.price === 'number' ? line.price.toFixed(2) : line.price} × {line.quantity}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <>
+                  <h3
+                    className="font-semibold text-lg text-[var(--color-ink)] mb-1.5"
+                    style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                  >
+                    {subscription.product.title}
+                  </h3>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="px-2.5 py-1 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] premium-body-sm font-medium text-[var(--color-ink)]">
+                      {info.tierName}
+                    </span>
+                    <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                      {info.protocolSubtitle}
+                    </span>
+                  </div>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] max-w-[50ch]">
+                    {info.protocolDescription}
+                  </p>
+                </>
+              )}
             </div>
           </div>
           <span
@@ -122,6 +155,7 @@ export function SubscriptionCard({
           </div>
         </div>
 
+        {!isMultiLine && (
         <div className="flex flex-wrap items-center gap-4 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]">
           <span className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">
             Formula mix
@@ -145,6 +179,8 @@ export function SubscriptionCard({
             {info.isUltimate ? "per delivery" : "per week"}
           </span>
         </div>
+        )}
+
       </div>
 
       {successMessage && (
@@ -289,6 +325,28 @@ export function SubscriptionCard({
       )}
 
       <div className="flex flex-wrap gap-3 pt-2">
+        {isMultiLine ? (
+          <a
+            href={`mailto:support@conka.io?subject=${encodeURIComponent(`Multi-product subscription: ${subscription.id}`)}&body=${encodeURIComponent(`Hi, I'd like to change my subscription plan. Subscription ID: ${subscription.id}`)}`}
+            className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 flex items-center gap-2 transition-opacity no-underline"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            Contact support to change plan
+          </a>
+        ) : (
         <button
           onClick={onEdit}
           disabled={isActionLoading}
@@ -310,6 +368,7 @@ export function SubscriptionCard({
           </svg>
           Edit
         </button>
+        )}
         <button
           onClick={onTogglePause}
           disabled={isActionLoading}

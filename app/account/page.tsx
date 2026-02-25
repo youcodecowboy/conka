@@ -248,7 +248,13 @@ export default function AccountPage() {
                 <p className="text-sm">
                   {activeSubscriptions.length} active subscription{activeSubscriptions.length !== 1 ? 's' : ''}
                   {' — '}
-                  {activeSubscriptions.slice(0, 2).map((s: Subscription) => s.product.title).join(', ')}
+                  {activeSubscriptions.slice(0, 2)
+                    .map((s: Subscription) =>
+                      s.isMultiLine && s.lines?.length
+                        ? `${s.lines.length} products · ${s.lines.map((l) => l.productTitle).join(' + ')}`
+                        : s.product.title
+                    )
+                    .join(', ')}
                   {activeSubscriptions.length > 2 ? ` +${activeSubscriptions.length - 2} more` : ''}
                 </p>
               </div>

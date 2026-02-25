@@ -101,6 +101,8 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           },
           quantity: sub.product?.quantity ?? sub.quantity ?? 1,
           interval: sub.interval || { value: 1, unit: 'month' as const },
+          lines: sub.lines ?? [],
+          isMultiLine: sub.isMultiLine ?? (sub.lines?.length ?? 0) > 1,
           completedOrdersCount: sub.completedOrdersCount ?? null,
           totalOrdersPlaced: sub.totalOrdersPlaced ?? null,
           pendingOrdersCount: sub.pendingOrdersCount ?? null,

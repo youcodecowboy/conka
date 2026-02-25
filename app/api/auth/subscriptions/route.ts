@@ -293,7 +293,18 @@ export async function GET(request: NextRequest) {
                 unit: (loopInterval || 'month').toLowerCase(),
               },
               
-              // All line items from Loop
+              // All line items from Loop (for display and multi-line detection)
+              lines: (loopData.lines || []).map((line: any) => ({
+                id: line.id,
+                productTitle: line.productTitle ?? line.name ?? '',
+                variantTitle: line.variantTitle ?? '',
+                price: line.price ?? line.currentPrice ?? 0,
+                quantity: line.quantity ?? 1,
+                variantShopifyId: line.variantShopifyId ?? line.variant?.shopifyId,
+              })),
+              isMultiLine: (loopData.lines?.length ?? 0) > 1,
+              
+              // Legacy lineItems shape (kept for compatibility)
               lineItems: (loopData.lines || []).map((line: any) => ({
                 id: line.id,
                 title: line.productTitle || line.variantTitle,
@@ -352,7 +363,18 @@ export async function GET(request: NextRequest) {
               unit: shopifyInterval.toLowerCase(),
             },
             
-            // All line items
+            // All line items from Shopify (for display and multi-line detection)
+            lines: (sub.lines?.nodes || []).map((line: any) => ({
+              id: line.id,
+              productTitle: line.title ?? line.name ?? '',
+              variantTitle: line.title ?? line.name ?? '',
+              price: line.currentPrice?.amount ?? 0,
+              quantity: line.quantity ?? 1,
+              variantShopifyId: undefined,
+            })),
+            isMultiLine: (sub.lines?.nodes?.length ?? 0) > 1,
+            
+            // Legacy lineItems shape
             lineItems: (sub.lines?.nodes || []).map((line: any) => ({
               id: line.id,
               title: line.title || line.name,
