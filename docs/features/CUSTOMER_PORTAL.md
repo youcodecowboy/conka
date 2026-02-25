@@ -103,35 +103,68 @@ So the **target** plan’s selling plan ID is sent. Variant and selling plan are
 
 ---
 
+## Old theme and two portals
+
+You are on a **headless** site (this repo); the **old Shopify theme is still live** on your myshopify.com domain (e.g. `conka-6770.myshopify.com`). That creates two “customer portal” surfaces:
+
+1. **Shopify customer account** — Orders, profile, addresses. In headless we replicate this via Customer Account API (login, session, profile, orders).
+2. **Loop customer portal** — Subscription management (pause, skip, change plan, **change payment method**). Loop’s portal is served at `https://conka-6770.myshopify.com/a/loop_subscriptions/customer-portal`, so it runs **on the old theme**. Users who open it see the legacy theme, not the new headless site.
+
+**Is the old theme being live an issue?**
+
+- **Confusion:** Customers can end up in two places (new site account vs Loop portal on old theme). Logs may show “via Customer Portal” when they used the Loop portal on the old theme (e.g. “Order skipped via Customer Portal”).
+- **Brand/UX:** The old theme is off-brand compared to the new site; you already removed redirects to the Loop portal from the new site for that reason.
+- **Redirects:** If you redirect `*.myshopify.com` → conka.io, you must **exclude** `/a/loop_subscriptions/` so Loop’s portal still loads; otherwise subscription management (and payment update) on the old URL would break.
+
+**Recommendation:**
+
+- **Goal:** Make the **new website account section the single place** for both “Shopify account” and “Loop subscription” actions (one login, one UI).
+- **Short term:** Keep the old theme live only if you still need it for Loop’s portal (e.g. payment method update) until you implement that on the new site or link to Loop in a controlled way (see “Update payment method — where it lives” below). You can discourage or remove links to the old theme from the new site so most traffic is on headless.
+- **Once parity is achieved:** Implement or link “Update payment method” from the new site and fix the plan-change billing bug so the new site fully replaces the need for the Loop portal on the old theme. Then you can consider **unpublishing or redirecting the old theme** so only the headless site serves the brand; Loop’s backend will still work because it’s API-driven and does not depend on the theme being live.
+
+---
+
 ## Known issues / solution angles
 
 ### Problem 1: Weekly → monthly upgrade charged at weekly rate
 
 **Reported behaviour:** A customer upgraded their subscription from a weekly plan to a monthly plan. In Shopify/Loop, the **Loop weekly subscription** was still applied to the now larger monthly cost — i.e. it was treated as if it were still the small trial/weekly pack (wrong amount).
 
-**Current implementation:** The change-frequency flow sends the **target** plan’s selling plan ID (e.g. `711429980534` for Max/monthly) as `sellingPlanGroupId` in the Loop swap request, and the correct target **variant** for the new tier. So the backend intends to switch both variant and selling plan to the new tier.
+**Evidence from Shopify admin logs:** The line was successfully swapped (e.g. "Protocol: Conka Balance - Starter - 4 x 1 @ £11.99 was swapped with Protocol: Conka Balance - Max - 28 x 1 @ £63.99 via API"). So the **variant and price** did update. Despite that, the **Loop plan** (billing interval / selling plan) effectively remained the same for billing.
 
-**Possible causes to investigate:**
+**Likely cause:** Loop may not be applying the `sellingPlanGroupId` from the swap to the contract's billing interval. A separate "change frequency" or "change plan" call may be required after (or instead of) swap.
 
-1. **Loop or Shopify applying the original contract’s selling plan** to the new variant after swap (e.g. contract-level selling plan not updated, or first charge after swap still using old plan).
-2. **`sellingPlanGroupId` vs specific `sellingPlanId`** — Loop API semantics: whether “group” means the billing interval group or a specific plan within it, and whether the correct plan is being selected for the new variant.
-3. **Timing / sync** — Next billing run might still use the previous plan if Loop/Shopify sync is delayed or if “effective date” is next cycle without updating the selling plan on the contract.
-4. **Variant–selling-plan association in Shopify** — The monthly variant must be tied to the monthly selling plan in Shopify; if the variant is only associated with weekly plans, Loop might fall back to the contract’s existing plan.
+**Next steps:** (1) In Loop's Admin API, verify whether swap line updates billing interval or only variant/price, and whether a change-frequency endpoint exists. (2) If needed, add a second API call after swap to update billing interval. (3) Confirm with Loop whether `sellingPlanGroupId` on swap is a group vs a single plan.
 
-No code change is made here; this section is to focus follow-up investigation and fixes.
+**Where we go wrong (edit-order / plan-change flow)**
+
+Comparison of what our new account portal does vs what Loop's model and API support:
+
+| Layer | What we do | What we don't do |
+|-------|------------|------------------|
+| **EditSubscriptionModal** | Lets user pick protocol (1-4) and tier (starter / pro / max). UI labels tier as "Select Frequency" (Weekly / Bi-Weekly / Monthly). On Save it only calls `onSave(selectedProtocol, selectedTier)` — i.e. it sends protocolId and plan (tier) only. | No distinction between "change product/variant" and "change billing/delivery schedule". The modal conflates tier with frequency in one selection. |
+| **useSubscriptions.changePlan** | Sends one request: `POST .../pause` with body `{ action: 'change-frequency', plan, protocolId? }`. | Does not call any other endpoint (e.g. no separate "update frequency" or "change plan" call). |
+| **Pause route (change-frequency)** | GET subscription from Loop; resolve target variant from PROTOCOL_VARIANTS and plan config (sellingPlanId) from PLAN_CONFIGURATIONS; call **only** Loop `PUT .../line/{lineId}/swap` with variantShopifyId, quantity, pricingType, sellingPlanGroupId. Fallback when variant unknown: `POST .../change-plan` with sellingPlanId. | For the normal path (known variant), we **never** call Loop's **Update frequency** or **Change subscription plan** APIs. We assume swap line with sellingPlanGroupId is enough to change both product and billing/delivery schedule. |
+| **app/lib/loop.ts** | Defines `updateSubscriptionFrequency(subscriptionId, interval)` which calls Loop `POST /subscription/{id}/change-frequency` with billingInterval, deliveryInterval, etc. | This function is **never used** by the pause route or any account-portal flow. |
+
+Loop admin preferences distinguish **Edit billing/delivery schedule** (recalculate discount per updated interval) from **Edit/Remove products**. So in Loop's model, editing the billing/delivery schedule is a **separate** action. We only do a **product swap** and do not perform that step. Loop may leave the subscription's billing interval (e.g. weekly) unchanged when we only swap the line. The fix is to align with Loop: call **update frequency** (or equivalent) after a successful swap so the subscription's billing/delivery schedule matches the new tier, or use Loop's **change subscription plan** API instead of or in addition to swap.
+
 
 ### Problem 2: Update payment method
 
 The portal has no “Update payment method” or “Update card” flow. Users cannot change the payment details attached to their account/subscription from this site.
 
-**Options for future implementation:**
+**Update payment method — where it lives**
 
-1. **Shopify Customer Account API / Storefront API** — Confirm whether Shopify exposes any mutation or hosted URL for updating the payment method on a subscription or customer account.
-2. **Loop** — Check if Loop provides a customer-facing portal or Admin API for updating payment method; some subscription platforms expose a hosted “update payment” link or tokenized form.
-3. **Redirect to Shopify-hosted manage page** — If Shopify has a hosted “manage subscription” or “account” page that supports card update, add a link from the portal that opens that page (same login/session).
-4. **Link to Loop customer portal** — If Loop offers a customer portal with payment update, link to it from the account or subscription section (with appropriate auth or token).
+- **Loop (Loop Work):** Loop's **customer portal** supports "Change payment methods" and "Update payment method from customer portal" (see [Loop Help: Customer portal](https://help.loopwork.co/en/collections/16281691-customer-portal)). That portal is at `https://conka-6770.myshopify.com/a/loop_subscriptions/customer-portal` (served on your **old theme**). So today, **payment method update is a Loop feature**, available when the customer uses Loop's portal on the old theme.
+- **Shopify:** The Customer Account UI Extensions have an **intent** to open the subscription payment method flow: `open:shopify/SubscriptionContract,{id}?field=paymentMethod` (see [Shopify Intents](https://shopify.dev/docs/api/customer-account-ui-extensions/latest/apis/intents)). That is for apps running inside Shopify's customer account UI. For a headless site, you would need either a hosted page that uses that intent or an API that supports updating the payment method.
 
-No implementation in this doc; listing options for when you add the feature.
+**Concrete next steps**
+
+1. **Quick win — link from the new site to Loop's portal for payment update only:** Add an "Update payment method" or "Update card" link on the account or subscriptions page that opens `https://conka-6770.myshopify.com/a/loop_subscriptions/customer-portal` in a new tab (or same tab with a return link). The customer logs in on the old theme if needed. This restores the ability to update the card without building a custom flow. Label it clearly (e.g. "Update payment method (opens subscription manager)").
+2. **Loop Admin API:** Check [Loop's API docs](https://developer.loopwork.co/reference/) (or Loop support) for an **update payment method** endpoint (e.g. per customer or per subscription). If they expose a hosted "update payment" URL (e.g. a tokenized link per customer/subscription), you could link to that from the new site so the experience stays on-brand while still using Loop for PCI.
+3. **Shopify headless:** If you need payment update to stay entirely on the new domain, confirm with Shopify whether the Customer Account API (or a hosted account page) supports opening the subscription payment method flow from a headless app (e.g. redirect or iframe to Shopify with the subscription contract ID and `field=paymentMethod`).
+
 
 ---
 
