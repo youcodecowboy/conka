@@ -538,10 +538,12 @@ export function EditSubscriptionModal({
                         key={protocol.id}
                         type="button"
                         onClick={() => setSelectedProtocol(protocol.id)}
-                        className={`w-full text-left rounded-[var(--premium-radius-nested)] border overflow-hidden ${
+                        className={`w-full text-left rounded-[var(--premium-radius-nested)] border-2 overflow-hidden ${
                           isSelected
                             ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]"
-                            : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]"
+                            : isCurrent
+                              ? "bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)] hover:border-[var(--color-neuro-blue-dark)]"
+                              : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]"
                         }`}
                       >
                         <div className="flex gap-4 p-3">
@@ -611,10 +613,12 @@ export function EditSubscriptionModal({
                         key={formula.id}
                         type="button"
                         onClick={() => setSelectedFormulaId(formula.id)}
-                        className={`w-full text-left rounded-[var(--premium-radius-nested)] border overflow-hidden ${
+                        className={`w-full text-left rounded-[var(--premium-radius-nested)] border-2 overflow-hidden ${
                           isSelected
                             ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]"
-                            : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]"
+                            : isCurrent
+                              ? "bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)] hover:border-[var(--color-neuro-blue-dark)]"
+                              : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]"
                         }`}
                       >
                         <div className="flex gap-4 p-3">
@@ -688,10 +692,12 @@ export function EditSubscriptionModal({
                         key={tier}
                         type="button"
                         onClick={() => setSelectedTier(tier)}
-                        className={`w-full p-4 text-left rounded-[var(--premium-radius-nested)] border ${
+                        className={`w-full p-4 text-left rounded-[var(--premium-radius-nested)] border-2 ${
                           isSelected
                             ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]"
-                            : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]"
+                            : isCurrent
+                              ? "bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)] hover:border-[var(--color-neuro-blue-dark)]"
+                              : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]"
                         }`}
                       >
                         <div className="flex items-start justify-between gap-4">
@@ -746,10 +752,12 @@ export function EditSubscriptionModal({
                         key={size}
                         type="button"
                         onClick={() => setSelectedPackSize(size)}
-                        className={`p-4 text-left rounded-[var(--premium-radius-nested)] border ${
+                        className={`p-4 text-left rounded-[var(--premium-radius-nested)] border-2 ${
                           isSelected
                             ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]"
-                            : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]"
+                            : isCurrent
+                              ? "bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)] hover:border-[var(--color-neuro-blue-dark)]"
+                              : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]"
                         }`}
                       >
                         <span className="font-bold">{FORMULA_PACK_LABELS[size]}</span>
@@ -807,16 +815,28 @@ export function EditSubscriptionModal({
             </div>
           )}
           <div className="flex items-center justify-between">
-            <div className="premium-body-sm text-[var(--text-on-light-muted)]">
-              {hasChanges ? (
-                <span className="text-[var(--color-ink)] font-medium">
-                  {isProtocol
-                    ? `→ ${PROTOCOLS.find((p) => p.id === selectedProtocol)?.name} · ${getTierInfo(selectedProtocol, selectedTier)?.deliveryShots} shots per delivery`
-                    : `→ ${FORMULAS.find((f) => f.id === selectedFormulaId)?.name} · ${selectedPackSize} shots`}
-                </span>
-              ) : (
-                "No changes"
-              )}
+            <div className="flex items-center gap-4 flex-wrap">
+              <a
+                href={`mailto:sales@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}`)}`}
+                className="premium-body-sm text-[var(--color-neuro-blue-dark)] font-medium hover:underline inline-flex items-center gap-1.5"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                Contact support
+              </a>
+              <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                {hasChanges ? (
+                  <span className="text-[var(--color-ink)] font-medium">
+                    {isProtocol
+                      ? `→ ${PROTOCOLS.find((p) => p.id === selectedProtocol)?.name} · ${getTierInfo(selectedProtocol, selectedTier)?.deliveryShots} shots per delivery`
+                      : `→ ${FORMULAS.find((f) => f.id === selectedFormulaId)?.name} · ${selectedPackSize} shots`}
+                  </span>
+                ) : (
+                  "No changes"
+                )}
+              </span>
             </div>
             <div className="flex gap-3">
               <button
@@ -912,8 +932,8 @@ export function EditSubscriptionModal({
                           key={protocol.id}
                           type="button"
                           onClick={() => { setSelectedProtocol(protocol.id); setMobileStep("tier"); }}
-                          className={`w-full text-left rounded-[var(--premium-radius-nested)] border overflow-hidden ${
-                            isSelected ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]" : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)]"
+                          className={`w-full text-left rounded-[var(--premium-radius-nested)] border-2 overflow-hidden ${
+                            isSelected ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]" : isCurrent ? "bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)]" : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)]"
                           }`}
                         >
                           <div className="flex gap-3 p-3">
@@ -959,8 +979,8 @@ export function EditSubscriptionModal({
                           key={formula.id}
                           type="button"
                           onClick={() => { setSelectedFormulaId(formula.id); setMobileStep("tier"); }}
-                          className={`w-full text-left rounded-[var(--premium-radius-nested)] border overflow-hidden ${
-                            isSelected ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]" : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)]"
+                          className={`w-full text-left rounded-[var(--premium-radius-nested)] border-2 overflow-hidden ${
+                            isSelected ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]" : isCurrent ? "bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)]" : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)]"
                           }`}
                         >
                           <div className="flex gap-3 p-3">
@@ -1012,8 +1032,8 @@ export function EditSubscriptionModal({
                         key={tier}
                         type="button"
                         onClick={() => setSelectedTier(tier)}
-                        className={`w-full p-4 text-left rounded-[var(--premium-radius-nested)] border ${
-                          isSelected ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]" : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)]"
+                        className={`w-full p-4 text-left rounded-[var(--premium-radius-nested)] border-2 ${
+                          isSelected ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]" : isCurrent ? "bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)]" : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)]"
                         }`}
                       >
                         <div className="flex items-start justify-between">
@@ -1047,8 +1067,8 @@ export function EditSubscriptionModal({
                           key={size}
                           type="button"
                           onClick={() => setSelectedPackSize(size)}
-                          className={`p-4 text-left rounded-[var(--premium-radius-nested)] border ${
-                            isSelected ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]" : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)]"
+                          className={`p-4 text-left rounded-[var(--premium-radius-nested)] border-2 ${
+                            isSelected ? "bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]" : isCurrent ? "bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)]" : "bg-[var(--color-bone)] border-[var(--color-premium-stroke)]"
                           }`}
                         >
                           <span className="font-bold">{FORMULA_PACK_LABELS[size]}</span>
@@ -1099,6 +1119,16 @@ export function EditSubscriptionModal({
               {error}
             </div>
           )}
+          <a
+            href={`mailto:sales@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}`)}`}
+            className="mb-3 w-full inline-flex items-center justify-center gap-2 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            Contact support
+          </a>
           <button
             onClick={handleSave}
             disabled={!hasChanges || saving || loading || (!isProtocol && !onSaveFormula)}
