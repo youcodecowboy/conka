@@ -330,13 +330,10 @@ export default function SubscriptionsPage() {
   // Show loading state
   if (authLoading || loading) {
     return (
-      <div
-        className="min-h-screen theme-conka-flow flex items-center justify-center"
-        style={{ background: "var(--background)", color: "var(--foreground)" }}
-      >
+      <div className="min-h-screen bg-[var(--color-bone)] text-[var(--color-ink)] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-current/20 border-t-current rounded-full animate-spin mx-auto mb-4" />
-          <p className="font-clinical text-sm opacity-50">
+          <div className="w-8 h-8 border-2 border-[var(--color-ink)]/20 border-t-[var(--color-ink)] rounded-full animate-spin mx-auto mb-4" />
+          <p className="premium-body-sm text-[var(--text-on-light-muted)]">
             Loading subscriptions...
           </p>
         </div>
@@ -358,71 +355,66 @@ export default function SubscriptionsPage() {
   );
 
   return (
-    <div
-      className="min-h-screen theme-conka-flow"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
+    <div className="min-h-screen bg-[var(--color-bone)] text-[var(--color-ink)]">
       <Navigation />
 
-      <main className="pt-24 pb-24 lg:pt-32 px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-2">
-            <Link
-              href="/account"
-              className="p-2 hover:opacity-70 transition-opacity"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+      <main className="pt-24 pb-24 lg:pt-32">
+        <section className="premium-section-luxury premium-bg-bone" aria-labelledby="subscriptions-heading">
+          <div className="premium-track">
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-8">
+              <Link
+                href="/account"
+                className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] transition-colors"
+                aria-label="Back to account"
               >
-                <line x1="19" y1="12" x2="5" y2="12" />
-                <polyline points="12 19 5 12 12 5" />
-              </svg>
-            </Link>
-            <div>
-              <p className="font-commentary text-lg opacity-70">manage your</p>
-              <h1 className="text-3xl font-bold">Subscriptions</h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12" />
+                  <polyline points="12 19 5 12 12 5" />
+                </svg>
+              </Link>
+              <div>
+                <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-0.5">Manage your</p>
+                <h1 id="subscriptions-heading" className="premium-section-heading mb-0" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>
+                  Subscriptions
+                </h1>
+              </div>
             </div>
-          </div>
 
           {/* Summary Stats */}
           {subscriptions.length > 0 && (
-            <div className="grid grid-cols-3 gap-4 mb-8 mt-6">
-              <div className="neo-box p-4 text-center">
-                <p className="font-clinical text-2xl font-bold text-green-600">
-                  {
-                    activeSubscriptions.filter((s) => s.status === "active")
-                      .length
-                  }
+            <div className="grid grid-cols-3 gap-4 mb-10">
+              <div className="premium-card-soft premium-card-soft-stroke p-6 text-center">
+                <p className="text-2xl font-semibold text-[var(--color-ink)] mb-1" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>
+                  {activeSubscriptions.filter((s) => s.status === "active").length}
                 </p>
-                <p className="font-clinical text-xs opacity-50 uppercase">
+                <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">
                   Active
                 </p>
               </div>
-              <div className="neo-box p-4 text-center">
-                <p className="font-clinical text-2xl font-bold text-yellow-600">
-                  {
-                    activeSubscriptions.filter((s) => s.status === "paused")
-                      .length
-                  }
+              <div className="premium-card-soft premium-card-soft-stroke p-6 text-center">
+                <p className="text-2xl font-semibold text-[var(--color-ink)] mb-1" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>
+                  {activeSubscriptions.filter((s) => s.status === "paused").length}
                 </p>
-                <p className="font-clinical text-xs opacity-50 uppercase">
+                <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">
                   Paused
                 </p>
               </div>
-              <div className="neo-box p-4 text-center">
-                <p className="font-clinical text-2xl font-bold opacity-50">
+              <div className="premium-card-soft premium-card-soft-stroke p-6 text-center">
+                <p className="text-2xl font-semibold text-[var(--color-ink)] mb-1 opacity-60" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>
                   {inactiveSubscriptions.length}
                 </p>
-                <p className="font-clinical text-xs opacity-50 uppercase">
+                <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">
                   Past
                 </p>
               </div>
@@ -431,14 +423,14 @@ export default function SubscriptionsPage() {
 
           {/* Error State */}
           {error && (
-            <div className="neo-box p-6 text-center mb-6 border-red-200 bg-red-50">
-              <p className="text-red-600 font-clinical">{error}</p>
+            <div className="rounded-[var(--premium-radius-card)] border border-red-200 bg-red-50 p-6 mb-8">
+              <p className="premium-body text-red-700">{error}</p>
             </div>
           )}
 
           {/* Subscriptions List */}
           {subscriptions.length === 0 ? (
-            <div className="neo-box p-12 text-center">
+            <div className="premium-card-soft premium-card-soft-stroke p-12 text-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="48"
@@ -449,36 +441,24 @@ export default function SubscriptionsPage() {
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="mx-auto mb-4 opacity-30"
+                className="mx-auto mb-6 text-[var(--text-on-light-muted)]"
               >
                 <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
                 <path d="M22 12A10 10 0 0 0 12 2v10z" />
               </svg>
-              <h2 className="font-bold text-xl mb-2">
+              <h2 className="premium-heading mb-2 text-[var(--color-ink)]" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>
                 No active subscriptions
               </h2>
-              <p className="font-clinical text-sm opacity-70 mb-6">
-                Subscribe to your favorite protocols for automatic deliveries
-                and save money
+              <p className="premium-body text-[var(--text-on-light-muted)] mb-8 max-w-[65ch] mx-auto">
+                Subscribe to your favorite protocols for automatic deliveries and savings.
               </p>
               <Link
                 href="/quiz"
-                className="neo-button px-8 py-3 font-bold inline-flex items-center gap-2"
+                className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] px-8 py-3 font-semibold text-white text-sm hover:opacity-90 transition-opacity"
               >
-                Find Your Protocol
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
+                Find your protocol
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                 </svg>
               </Link>
             </div>
@@ -487,26 +467,26 @@ export default function SubscriptionsPage() {
               {/* Active Subscriptions */}
               {activeSubscriptions.length > 0 && (
                 <div>
-                  <h2 className="font-clinical text-xs uppercase opacity-50 mb-4">
-                    Active & Paused Subscriptions
+                  <h2 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-6">
+                    Active & paused
                   </h2>
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {activeSubscriptions.map((subscription) => (
                       <div
                         key={subscription.id}
-                        className="neo-box overflow-hidden"
+                        className="premium-card-soft premium-card-soft-stroke p-6 md:p-8 space-y-6"
                       >
                         {/* Subscription Header */}
-                        <div className="p-6">
+                        <div className="space-y-6">
                           {(() => {
                             const info = getTierDisplayInfo(subscription);
                             return (
                               <>
-                                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
-                                  <div className="flex gap-4">
+                                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                                  <div className="flex gap-5 min-w-0">
                                     {/* Product Image */}
                                     {subscription.product.image ? (
-                                      <div className="w-20 h-20 rounded-lg bg-current/5 flex-shrink-0 overflow-hidden">
+                                      <div className="w-24 h-24 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 overflow-hidden">
                                         <img
                                           src={subscription.product.image}
                                           alt={subscription.product.title}
@@ -514,116 +494,74 @@ export default function SubscriptionsPage() {
                                         />
                                       </div>
                                     ) : (
-                                      <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-amber-100 to-amber-200 flex-shrink-0 flex items-center justify-center">
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="32"
-                                          height="32"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          stroke="currentColor"
-                                          strokeWidth="1.5"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          className="text-amber-600"
-                                        >
-                                          <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                                          <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                                      <div className="w-24 h-24 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--text-on-light-muted)]">
+                                          <path d="M21.21 15.89A10 10 0 1 1 8 2.83" /><path d="M22 12A10 10 0 0 0 12 2v10z" />
                                         </svg>
                                       </div>
                                     )}
-                                    <div>
-                                      <h3 className="font-bold text-lg mb-1">
+                                    <div className="min-w-0">
+                                      <h3 className="font-semibold text-lg text-[var(--color-ink)] mb-1.5" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>
                                         {subscription.product.title}
                                       </h3>
-                                      {/* Tier Badge & Subtitle */}
-                                      <div className="flex items-center gap-2 mb-1">
-                                        <span className="px-2 py-0.5 bg-gray-100 text-xs font-bold">
+                                      <div className="flex items-center gap-2 mb-1.5">
+                                        <span className="px-2.5 py-1 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] premium-body-sm font-medium text-[var(--color-ink)]">
                                           {info.tierName}
                                         </span>
-                                        <span className="font-clinical text-xs opacity-60">
+                                        <span className="premium-body-sm text-[var(--text-on-light-muted)]">
                                           {info.protocolSubtitle}
                                         </span>
                                       </div>
-                                      <p className="text-xs opacity-50 mb-2 max-w-md">
+                                      <p className="premium-body-sm text-[var(--text-on-light-muted)] max-w-[50ch]">
                                         {info.protocolDescription}
                                       </p>
                                     </div>
                                   </div>
                                   <span
-                                    className={`px-3 py-1.5 rounded-full text-xs font-bold self-start ${getStatusColor(
+                                    className={`px-3 py-1.5 rounded-[var(--premium-radius-interactive)] premium-body-sm font-semibold flex-shrink-0 ${getStatusColor(
                                       subscription.status,
                                     )}`}
                                   >
-                                    {subscription.status
-                                      .charAt(0)
-                                      .toUpperCase() +
-                                      subscription.status.slice(1)}
+                                    {subscription.status.charAt(0).toUpperCase() + subscription.status.slice(1)}
                                   </span>
                                 </div>
 
                                 {/* Subscription Details Grid */}
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 p-4 bg-gray-50 rounded-lg">
-                                  {/* Frequency */}
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
                                   <div>
-                                    <p className="font-clinical text-xs uppercase opacity-40 mb-1">
-                                      Delivery
-                                    </p>
-                                    <p className="font-bold text-sm">
-                                      {info.frequency}
-                                    </p>
+                                    <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Delivery</p>
+                                    <p className="font-semibold text-[var(--color-ink)]">{info.frequency}</p>
                                   </div>
-                                  {/* Price */}
                                   <div>
-                                    <p className="font-clinical text-xs uppercase opacity-40 mb-1">
-                                      Price
-                                    </p>
-                                    <p className="font-bold text-sm">
-                                      £{info.price.toFixed(2)}
-                                    </p>
+                                    <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Price</p>
+                                    <p className="font-semibold text-[var(--color-ink)]">£{info.price.toFixed(2)}</p>
                                   </div>
-                                  {/* Shots */}
                                   <div>
-                                    <p className="font-clinical text-xs uppercase opacity-40 mb-1">
-                                      Shots
-                                    </p>
-                                    <p className="font-bold text-sm">
-                                      {info.shots} per delivery
-                                    </p>
+                                    <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Shots</p>
+                                    <p className="font-semibold text-[var(--color-ink)]">{info.shots} per delivery</p>
                                   </div>
-                                  {/* Price Per Shot */}
                                   <div>
-                                    <p className="font-clinical text-xs uppercase opacity-40 mb-1">
-                                      Per Shot
-                                    </p>
-                                    <p className="font-bold text-sm">
-                                      £{info.pricePerShot.toFixed(2)}
-                                    </p>
+                                    <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Per shot</p>
+                                    <p className="font-semibold text-[var(--color-ink)]">£{info.pricePerShot.toFixed(2)}</p>
                                   </div>
                                 </div>
 
                                 {/* Formula Breakdown */}
-                                <div className="flex items-center gap-4 mb-4 p-3 border-2 border-dashed border-gray-200 rounded-lg">
-                                  <p className="font-clinical text-xs uppercase opacity-40">
-                                    Formula Mix
-                                  </p>
+                                <div className="flex flex-wrap items-center gap-4 p-4 rounded-[var(--premium-radius-nested)] border border-dashed border-[var(--color-premium-stroke)]">
+                                  <span className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">Formula mix</span>
                                   <div className="flex items-center gap-3">
-                                    <div className="flex items-center gap-1.5">
+                                    <div className="flex items-center gap-2">
                                       <div className="w-3 h-3 rounded-full bg-amber-500" />
-                                      <span className="font-clinical text-sm">
-                                        {info.flowCount}x Flow
-                                      </span>
+                                      <span className="premium-body-sm text-[var(--color-ink)]">{info.flowCount}× Flow</span>
                                     </div>
-                                    <span className="opacity-30">+</span>
-                                    <div className="flex items-center gap-1.5">
+                                    <span className="text-[var(--text-on-light-muted)]">+</span>
+                                    <div className="flex items-center gap-2">
                                       <div className="w-3 h-3 rounded-full bg-[#AAB9BC]" />
-                                      <span className="font-clinical text-sm">
-                                        {info.clarityCount}x Clear
-                                      </span>
+                                      <span className="premium-body-sm text-[var(--color-ink)]">{info.clarityCount}× Clarity</span>
                                     </div>
                                   </div>
-                                  <span className="font-clinical text-xs opacity-40 ml-auto">
-                                    {info.isUltimate ? "per delivery" : "/week"}
+                                  <span className="premium-body-sm text-[var(--text-on-light-muted)] ml-auto">
+                                    {info.isUltimate ? "per delivery" : "per week"}
                                   </span>
                                 </div>
                               </>
@@ -633,42 +571,16 @@ export default function SubscriptionsPage() {
                           {/* Success Message */}
                           {successMessage?.subscriptionId ===
                             subscription.id && (
-                            <div className="bg-green-100 border-2 border-green-400 rounded-lg p-4 mb-4 animate-pulse">
+                            <div className="rounded-[var(--premium-radius-nested)] border border-green-300 bg-green-50 p-4">
                               <div className="flex items-center gap-3">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="20"
-                                  height="20"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="text-green-600"
-                                >
-                                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                                  <polyline points="22 4 12 14.01 9 11.01" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 flex-shrink-0">
+                                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
                                 </svg>
-                                <p className="font-bold text-sm text-green-800">
+                                <p className="premium-body-sm font-medium text-green-800 flex-1">
                                   {successMessage.message}
                                 </p>
-                                <button
-                                  onClick={() => setSuccessMessage(null)}
-                                  className="ml-auto text-green-600 hover:text-green-800"
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                  >
-                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                  </svg>
+                                <button onClick={() => setSuccessMessage(null)} className="text-green-600 hover:text-green-800 p-1" aria-label="Dismiss">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                                 </button>
                               </div>
                             </div>
@@ -677,70 +589,27 @@ export default function SubscriptionsPage() {
                           {/* Next Billing Date */}
                           {subscription.status === "active" &&
                             !successMessage?.subscriptionId && (
-                              <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-4">
+                              <div className="rounded-[var(--premium-radius-nested)] border border-green-200 bg-green-50/80 p-4">
                                 <div className="flex items-center gap-3">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="20"
-                                    height="20"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="text-green-600"
-                                  >
-                                    <rect
-                                      x="3"
-                                      y="4"
-                                      width="18"
-                                      height="18"
-                                      rx="2"
-                                      ry="2"
-                                    />
-                                    <line x1="16" y1="2" x2="16" y2="6" />
-                                    <line x1="8" y1="2" x2="8" y2="6" />
-                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 flex-shrink-0">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
                                   </svg>
-                                  <div>
-                                    <p className="font-clinical text-sm text-green-800">
-                                      <span className="opacity-70">
-                                        Next delivery:
-                                      </span>{" "}
-                                      <span className="font-bold">
-                                        {formatDate(
-                                          subscription.nextBillingDate,
-                                        )}
-                                      </span>
-                                    </p>
-                                  </div>
+                                  <p className="premium-body-sm text-green-800">
+                                    <span className="text-green-700">Next delivery:</span>{" "}
+                                    <span className="font-semibold">{formatDate(subscription.nextBillingDate)}</span>
+                                  </p>
                                 </div>
                               </div>
                             )}
 
                           {subscription.status === "paused" && (
-                            <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 mb-4">
+                            <div className="rounded-[var(--premium-radius-nested)] border border-amber-200 bg-amber-50/80 p-4">
                               <div className="flex items-center gap-3">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="20"
-                                  height="20"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="text-yellow-600"
-                                >
-                                  <circle cx="12" cy="12" r="10" />
-                                  <line x1="10" y1="15" x2="10" y2="9" />
-                                  <line x1="14" y1="15" x2="14" y2="9" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600 flex-shrink-0">
+                                  <circle cx="12" cy="12" r="10" /><line x1="10" y1="15" x2="10" y2="9" /><line x1="14" y1="15" x2="14" y2="9" />
                                 </svg>
-                                <p className="font-clinical text-sm text-yellow-800">
-                                  This subscription is paused. Resume to
-                                  continue deliveries.
+                                <p className="premium-body-sm text-amber-800">
+                                  This subscription is paused. Resume to continue deliveries.
                                 </p>
                               </div>
                             </div>
@@ -749,43 +618,22 @@ export default function SubscriptionsPage() {
                           {/* Unfulfilled Order Warning */}
                           {subscription.hasUnfulfilledOrder &&
                             subscription.status === "active" && (
-                              <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-4">
+                              <div className="rounded-[var(--premium-radius-nested)] border border-blue-200 bg-blue-50/80 p-4">
                                 <div className="flex items-start gap-3">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="20"
-                                    height="20"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="text-blue-600 flex-shrink-0 mt-0.5"
-                                  >
-                                    <circle cx="12" cy="12" r="10" />
-                                    <path d="M12 16v-4" />
-                                    <path d="M12 8h.01" />
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 flex-shrink-0 mt-0.5">
+                                    <circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" />
                                   </svg>
-                                  <div>
-                                    <p className="font-clinical text-sm text-blue-800 font-medium mb-1">
-                                      {subscription.unfulfilledOrdersCount ===
-                                        1 ||
-                                      !subscription.unfulfilledOrdersCount
+                                  <div className="min-w-0">
+                                    <p className="premium-body-sm font-medium text-blue-800 mb-1">
+                                      {subscription.unfulfilledOrdersCount === 1 || !subscription.unfulfilledOrdersCount
                                         ? "You have an order being prepared"
                                         : `You have ${subscription.unfulfilledOrdersCount} orders being prepared`}
                                     </p>
-                                    <p className="font-clinical text-xs text-blue-700">
-                                      Any plan changes will take effect on your
-                                      next delivery. If you need to adjust a
-                                      pending order, please{" "}
-                                      <a
-                                        href="mailto:support@conka.io"
-                                        className="underline font-medium"
-                                      >
+                                    <p className="premium-body-sm text-blue-700">
+                                      Any plan changes will apply to your next delivery. To change a pending order,{" "}
+                                      <a href="mailto:support@conka.io" className="underline font-medium">
                                         contact support
-                                      </a>
-                                      .
+                                      </a>.
                                     </p>
                                   </div>
                                 </div>
@@ -793,101 +641,46 @@ export default function SubscriptionsPage() {
                             )}
 
                           {/* Actions */}
-                          <div className="flex flex-wrap gap-3">
-                            {/* Edit Button */}
+                          <div className="flex flex-wrap gap-3 pt-2">
                             <button
                               onClick={() => setShowEditModal(subscription)}
                               disabled={actionLoading === subscription.id}
-                              className="neo-button-outline px-4 py-2 text-sm font-semibold disabled:opacity-50 flex items-center gap-2"
+                              className="rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-transparent px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] disabled:opacity-50 flex items-center gap-2 transition-colors"
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                               </svg>
                               Edit
                             </button>
-
-                            {/* Pause/Resume Button */}
                             <button
                               onClick={() => handleTogglePause(subscription)}
                               disabled={actionLoading === subscription.id}
-                              className="neo-button-outline px-4 py-2 text-sm font-semibold disabled:opacity-50 flex items-center gap-2"
+                              className="rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-transparent px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] disabled:opacity-50 flex items-center gap-2 transition-colors"
                             >
                               {actionLoading === subscription.id ? (
                                 <>
-                                  <div className="w-4 h-4 border-2 border-current/20 border-t-current rounded-full animate-spin" />
+                                  <div className="w-4 h-4 border-2 border-[var(--color-ink)]/20 border-t-[var(--color-ink)] rounded-full animate-spin" />
                                   Processing...
                                 </>
                               ) : subscription.status === "paused" ? (
                                 <>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="14"
-                                    height="14"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  >
-                                    <polygon points="5 3 19 12 5 21 5 3" />
-                                  </svg>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                                   Resume
                                 </>
                               ) : (
                                 <>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="14"
-                                    height="14"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  >
-                                    <rect x="6" y="4" width="4" height="16" />
-                                    <rect x="14" y="4" width="4" height="16" />
-                                  </svg>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
                                   Pause
                                 </>
                               )}
                             </button>
-
-                            {/* Cancel Button - styled consistently */}
                             <button
-                              onClick={() =>
-                                setShowCancelModal(subscription.id)
-                              }
+                              onClick={() => setShowCancelModal(subscription.id)}
                               disabled={actionLoading === subscription.id}
-                              className="neo-button-outline px-4 py-2 text-sm font-semibold disabled:opacity-50 flex items-center gap-2 border-red-300 text-red-600 hover:bg-red-50"
+                              className="rounded-[var(--premium-radius-interactive)] border border-red-200 bg-transparent px-5 py-2.5 premium-body-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-50 flex items-center gap-2 transition-colors"
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <circle cx="12" cy="12" r="10" />
-                                <line x1="15" y1="9" x2="9" y2="15" />
-                                <line x1="9" y1="9" x2="15" y2="15" />
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" />
                               </svg>
                               Cancel
                             </button>
@@ -901,49 +694,29 @@ export default function SubscriptionsPage() {
 
               {/* Past Subscriptions */}
               {inactiveSubscriptions.length > 0 && (
-                <div className="mt-8">
-                  <h2 className="font-clinical text-xs uppercase opacity-50 mb-4">
-                    Past Subscriptions
+                <div className="mt-10">
+                  <h2 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-6">
+                    Past subscriptions
                   </h2>
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {inactiveSubscriptions.map((subscription) => (
                       <div
                         key={subscription.id}
-                        className="neo-box p-4 opacity-60"
+                        className="premium-card-soft premium-card-soft-stroke p-5 opacity-75"
                       >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-lg bg-current/5 flex-shrink-0 flex items-center justify-center">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="opacity-50"
-                              >
-                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                                <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-4 min-w-0">
+                            <div className="w-12 h-12 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 flex items-center justify-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--text-on-light-muted)]">
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83" /><path d="M22 12A10 10 0 0 0 12 2v10z" />
                               </svg>
                             </div>
-                            <div>
-                              <p className="font-bold text-sm">
-                                {subscription.product.title}
-                              </p>
-                              <p className="font-clinical text-xs opacity-70">
-                                {formatInterval(subscription.interval)}
-                              </p>
+                            <div className="min-w-0">
+                              <p className="font-semibold text-[var(--color-ink)]">{subscription.product.title}</p>
+                              <p className="premium-body-sm text-[var(--text-on-light-muted)]">{formatInterval(subscription.interval)}</p>
                             </div>
                           </div>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-bold ${getStatusColor(
-                              subscription.status,
-                            )}`}
-                          >
+                          <span className={`px-2.5 py-1 rounded-[var(--premium-radius-interactive)] premium-body-sm font-semibold flex-shrink-0 ${getStatusColor(subscription.status)}`}>
                             {subscription.status}
                           </span>
                         </div>
@@ -956,33 +729,25 @@ export default function SubscriptionsPage() {
           )}
 
           {/* Help Section */}
-          <div className="mt-12 neo-box p-6 text-center">
-            <h3 className="font-bold text-lg mb-2">Need Help?</h3>
-            <p className="font-clinical text-sm opacity-70 mb-4">
-              Our team is here to help with any subscription questions
+          <div className="mt-14 premium-card-soft premium-card-soft-stroke p-8 text-center">
+            <h3 className="font-semibold text-lg text-[var(--color-ink)] mb-2" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>
+              Need help?
+            </h3>
+            <p className="premium-body text-[var(--text-on-light-muted)] mb-6 max-w-[50ch] mx-auto">
+              We can help with any subscription questions.
             </p>
             <a
               href="mailto:support@conka.com"
-              className="neo-button-outline px-6 py-2 font-semibold text-sm inline-flex items-center gap-2"
+              className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] px-6 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                <polyline points="22,6 12,13 2,6" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
               </svg>
-              Contact Support
+              Contact support
             </a>
           </div>
         </div>
+      </section>
       </main>
 
       {/* Cancel Confirmation Modal with Retention Flow */}
