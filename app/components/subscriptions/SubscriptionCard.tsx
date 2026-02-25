@@ -122,20 +122,20 @@ export function SubscriptionCard({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 p-4 rounded-[var(--premium-radius-nested)] border border-dashed border-[var(--color-premium-stroke)]">
+        <div className="flex flex-wrap items-center gap-4 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]">
           <span className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">
             Formula mix
           </span>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[var(--color-ink)] opacity-80" />
+              <div className="w-3 h-3 rounded-full bg-amber-500" />
               <span className="premium-body-sm text-[var(--color-ink)]">
                 {info.flowCount}× Flow
               </span>
             </div>
             <span className="text-[var(--text-on-light-muted)]">+</span>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#AAB9BC]" />
+              <div className="w-3 h-3 rounded-full bg-teal-500" />
               <span className="premium-body-sm text-[var(--color-ink)]">
                 {info.clarityCount}× Clarity
               </span>
@@ -292,7 +292,7 @@ export function SubscriptionCard({
         <button
           onClick={onEdit}
           disabled={isActionLoading}
-          className="rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-transparent px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] disabled:opacity-50 flex items-center gap-2 transition-colors"
+          className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 disabled:opacity-50 flex items-center gap-2 transition-opacity"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -313,7 +313,7 @@ export function SubscriptionCard({
         <button
           onClick={onTogglePause}
           disabled={isActionLoading}
-          className="rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-transparent px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] disabled:opacity-50 flex items-center gap-2 transition-colors"
+          className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-ink)]/40 bg-[var(--color-bone)] px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] hover:border-[var(--color-ink)]/50 disabled:opacity-50 flex items-center gap-2 transition-colors"
         >
           {isActionLoading ? (
             <>
@@ -360,7 +360,7 @@ export function SubscriptionCard({
         <button
           onClick={onCancel}
           disabled={isActionLoading}
-          className="rounded-[var(--premium-radius-interactive)] border border-red-200 bg-transparent px-5 py-2.5 premium-body-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-50 flex items-center gap-2 transition-colors"
+          className="rounded-[var(--premium-radius-interactive)] border-2 border-red-400 bg-transparent px-5 py-2.5 premium-body-sm font-semibold text-red-600 hover:bg-red-100 disabled:opacity-50 flex items-center gap-2 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -117,6 +117,19 @@ Backend flow:
 
 So the **target** plan’s selling plan ID is sent. Variant and selling plan are both updated in one swap call.
 
+### Edit plan modal — what you can change
+
+The modal behaviour is driven by **subscription type** (derived from the subscription’s product title):
+
+| Subscription type | What the user can change | What is shown |
+|-------------------|--------------------------|---------------|
+| **Protocol** (Resilience, Precision, Balance, Ultimate) | **Protocol** (switch between Resilience, Precision, Balance; Ultimate shown when on Max tier or already on Ultimate) and **pack size** (4, 12, or 28 shots per delivery — same price for 1/2/3, Ultimate has different pricing). | Left: protocol cards with **product images**. Right: pack size (tier). Callout: “Want CONKA Flow only or CONKA Clear only? Cancel this subscription and start a new one from the shop.” |
+| **Flow** or **Clear** (single formula) | **Formula** (switch between Flow and Clear) and **pack size** (4, 8, 12, or 28 shots). | Left: formula cards with **product images**. Right: pack size grid. Callout: “Want a protocol bundle (Resilience, Precision, Balance)? Cancel this subscription and start a new one from the shop.” |
+
+**Same “plan” = same pack size (and same family).** Within protocol subscriptions you can switch between Resilience, Precision, and Balance (and Ultimate when on Max) without changing pack size — same Loop plan, same price for 1/2/3. Within single-formula subscriptions you can switch between Flow and Clear at the same pack size. **Crossing the boundary** (protocol ↔ single formula) is not supported in this modal: the user must cancel and start a new subscription from the shop. The UI states this clearly in the callouts.
+
+**Formula change (Flow ↔ Clear) and pack size:** The modal supports selecting formula and pack size for single-formula subscriptions. Saving uses an optional `onSaveFormula(formulaId, packSize)` callback; if the API does not yet support formula/plan changes for single-formula products, the page can omit this callback and the modal will show “Formula changes are not yet supported. Contact support.” when the user tries to save.
+
 ## Profile and orders
 
 - **Profile:** The account dashboard ([`app/account/page.tsx`](../app/account/page.tsx)) has an “Edit Profile” modal. On save it POSTs to `/api/auth/customer/update` with JSON body (firstName, lastName, email, phone, address). **Note:** The update route [`app/api/auth/customer/update/route.ts`](../app/api/auth/customer/update/route.ts) currently expects `Authorization: Bearer <token>`. The account page uses `credentials: 'include'` and does not send the token in the header; other auth routes in this app read the access token from the **cookie** server-side. If profile update fails with 401, the update route may need to be aligned to read the token from the same cookie.

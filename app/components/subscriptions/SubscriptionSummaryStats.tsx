@@ -10,10 +10,10 @@ export function SubscriptionSummaryStats({
   pastCount,
 }: SubscriptionSummaryStatsProps) {
   return (
-    <div className="grid grid-cols-3 gap-4 mb-10">
-      <div className="premium-card-soft premium-card-soft-stroke p-6 text-center">
+    <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] bg-[var(--color-bone)] p-4 text-center shadow-sm">
         <p
-          className="text-2xl font-semibold text-[var(--color-ink)] mb-1"
+          className="text-xl font-semibold text-[var(--color-ink)] mb-0.5"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
           {activeCount}
@@ -22,9 +22,9 @@ export function SubscriptionSummaryStats({
           Active
         </p>
       </div>
-      <div className="premium-card-soft premium-card-soft-stroke p-6 text-center">
+      <div className="rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] bg-[var(--color-bone)] p-4 text-center shadow-sm">
         <p
-          className="text-2xl font-semibold text-[var(--color-ink)] mb-1"
+          className="text-xl font-semibold text-[var(--color-ink)] mb-0.5"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
           {pausedCount}
@@ -33,9 +33,9 @@ export function SubscriptionSummaryStats({
           Paused
         </p>
       </div>
-      <div className="premium-card-soft premium-card-soft-stroke p-6 text-center">
+      <div className="rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] bg-[var(--color-bone)] p-4 text-center shadow-sm">
         <p
-          className="text-2xl font-semibold text-[var(--color-ink)] mb-1 opacity-60"
+          className="text-xl font-semibold text-[var(--color-ink)] mb-0.5 opacity-60"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
           {pastCount}

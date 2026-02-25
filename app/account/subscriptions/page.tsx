@@ -17,6 +17,9 @@ import {
   getProtocolFromSubscription,
   getCurrentPlan,
   getTierDisplayInfo,
+  getSubscriptionType,
+  getCurrentFormulaId,
+  getCurrentPackSizeForFormula,
 } from "@/app/account/subscriptions/utils";
 
 type SubscriptionTier = "starter" | "pro" | "max";
@@ -138,7 +141,7 @@ export default function SubscriptionsPage() {
 
       <main className="pt-3 pb-24 lg:pt-4">
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury bg-[var(--color-surface)]"
           aria-labelledby="subscriptions-heading"
         >
           <div className="premium-track">
@@ -235,14 +238,16 @@ export default function SubscriptionsPage() {
         onClose={() => setShowEditModal(null)}
         onSave={handleChangePlan}
         subscriptionName={showEditModal?.product.title || "Subscription"}
+        subscriptionType={showEditModal ? getSubscriptionType(showEditModal) : "protocol"}
         currentProtocolId={
           showEditModal ? getProtocolFromSubscription(showEditModal) : "1"
         }
         currentTier={showEditModal ? getCurrentPlan(showEditModal) : "pro"}
+        currentFormulaId={showEditModal ? getCurrentFormulaId(showEditModal) : undefined}
+        currentPackSize={showEditModal ? getCurrentPackSizeForFormula(showEditModal) : undefined}
         nextBillingDate={showEditModal?.nextBillingDate}
         loading={actionLoading === showEditModal?.id}
         hasUnfulfilledFirstOrder={showEditModal?.hasUnfulfilledOrder ?? false}
-        samePlanOnly={true}
       />
     </div>
   );

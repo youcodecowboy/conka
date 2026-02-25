@@ -37,6 +37,51 @@ export function getProtocolFromSubscription(subscription: Subscription): string 
   return "1";
 }
 
+/** "protocol" = bundle (Resilience/Precision/Balance/Ultimate); "flow" | "clear" = single formula */
+export function getSubscriptionType(
+  subscription: Subscription
+): "protocol" | "flow" | "clear" {
+  const title = (subscription.product?.title || "").toLowerCase();
+  const variant = (subscription.product?.variantTitle || "").toLowerCase();
+  const combined = `${title} ${variant}`;
+  if (
+    combined.includes("resilience") ||
+    combined.includes("precision") ||
+    combined.includes("balance") ||
+    combined.includes("ultimate")
+  ) {
+    return "protocol";
+  }
+  if (combined.includes("flow")) return "flow";
+  if (combined.includes("clear")) return "clear";
+  return "protocol";
+}
+
+/** For single-formula subscriptions, infer pack size (4, 8, 12, 28) from title/variant/quantity */
+export function getCurrentPackSizeForFormula(
+  subscription: Subscription
+): 4 | 8 | 12 | 28 {
+  const qty = subscription.quantity ?? 1;
+  const variant = (subscription.product?.variantTitle || "").toLowerCase();
+  const title = (subscription.product?.title || "").toLowerCase();
+  const combined = `${title} ${variant}`;
+  if (combined.includes("28") || combined.includes("- 28")) return 28;
+  if (combined.includes("12") || combined.includes("- 12")) return 12;
+  if (combined.includes("8") || combined.includes("- 8")) return 8;
+  if (combined.includes("4") || combined.includes("- 4")) return 4;
+  if (qty >= 28) return 28;
+  if (qty >= 12) return 12;
+  if (qty >= 8) return 8;
+  return 4;
+}
+
+/** Formula id for productImageConfig: "01" = Flow, "02" = Clear */
+export function getCurrentFormulaId(
+  subscription: Subscription
+): "01" | "02" {
+  return getSubscriptionType(subscription) === "flow" ? "01" : "02";
+}
+
 export function getCurrentPlan(
   subscription: Subscription
 ): "starter" | "pro" | "max" {
