@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Navigation from '@/app/components/navigation';
 import { useAuth } from '@/app/context/AuthContext';
 import { useSubscriptions, Subscription } from '@/app/hooks/useSubscriptions';
+import { getProtocolFromSubscription } from '@/app/account/subscriptions/utils';
+import { getProtocolImage } from '@/app/lib/productImageConfig';
 
 interface ProfileFormData {
   firstName: string;
@@ -132,8 +134,8 @@ export default function AccountPage() {
     <div className="min-h-screen bg-[var(--color-bone)] text-[var(--color-ink)]">
       <Navigation />
 
-      <main className="pt-24 pb-16 px-4 lg:px-[5vw]">
-        <div className="mx-auto max-w-3xl">
+      <main className="pt-3 pb-16 px-4 lg:pt-4 lg:px-[5vw]">
+        <div className="mx-auto max-w-5xl">
           {/* Header */}
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
             <div>
@@ -166,32 +168,42 @@ export default function AccountPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
             <Link
               href="/account/orders"
-              className="flex items-center gap-4 rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4 hover:border-[var(--color-ink)]/20 transition-colors"
+              className="flex items-center gap-4 rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4 hover:border-[var(--color-neuro-blue-light)] transition-colors"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600 shrink-0">
+              <span className="flex h-10 w-10 items-center justify-center rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] text-[var(--color-ink)] shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
                 </svg>
               </span>
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <span className="font-semibold text-[var(--color-ink)]">Orders</span>
-                <p className="text-sm text-[var(--text-on-light-muted)] truncate">View history & track</p>
+                <p className="text-sm text-[var(--text-on-light-muted)]">View history & track</p>
               </div>
               <span className="shrink-0 text-[var(--text-on-light-muted)]">→</span>
             </Link>
 
             <Link
               href="/account/subscriptions"
-              className="flex items-center gap-4 rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4 hover:border-[var(--color-ink)]/20 transition-colors"
+              className="flex items-center gap-4 rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4 hover:border-[var(--color-neuro-blue-light)] transition-colors"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 text-green-600 shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>
-                </svg>
-              </span>
-              <div className="min-w-0">
+              {activeSubscriptions.length > 0 && getProtocolImage(getProtocolFromSubscription(activeSubscriptions[0])) ? (
+                <span className="flex h-10 w-10 shrink-0 overflow-hidden rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)]">
+                  <img
+                    src={getProtocolImage(getProtocolFromSubscription(activeSubscriptions[0]))}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
+                </span>
+              ) : (
+                <span className="flex h-10 w-10 items-center justify-center rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] text-[var(--color-ink)] shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                  </svg>
+                </span>
+              )}
+              <div className="min-w-0 flex-1">
                 <span className="font-semibold text-[var(--color-ink)]">Subscriptions</span>
-                <p className="text-sm text-[var(--text-on-light-muted)] truncate">
+                <p className="text-sm text-[var(--text-on-light-muted)]">
                   {subsLoading ? '…' : `${activeSubscriptions.length} active`}
                 </p>
               </div>
@@ -200,16 +212,16 @@ export default function AccountPage() {
 
             <Link
               href="/quiz"
-              className="flex items-center gap-4 rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4 hover:border-[var(--color-ink)]/20 transition-colors"
+              className="flex items-center gap-4 rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4 hover:border-[var(--color-neuro-blue-light)] transition-colors"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-ink)]/10 text-[var(--color-ink)] shrink-0">
+              <span className="flex h-10 w-10 items-center justify-center rounded-[var(--premium-radius-nested)] bg-[var(--color-ink)]/10 text-[var(--color-ink)] shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
               </span>
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <span className="font-semibold text-[var(--color-ink)]">Find your protocol</span>
-                <p className="text-sm text-[var(--text-on-light-muted)] truncate">Take the quiz</p>
+                <p className="text-sm text-[var(--text-on-light-muted)]">Take the quiz</p>
               </div>
               <span className="shrink-0 text-[var(--text-on-light-muted)]">→</span>
             </Link>
@@ -217,13 +229,23 @@ export default function AccountPage() {
 
           {/* Subscriptions strip (only if any) */}
           {!subsLoading && activeSubscriptions.length > 0 && (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--premium-radius-card)] bg-[var(--color-ink)] text-white p-4 mb-6">
-              <p className="text-sm">
-                {activeSubscriptions.length} active subscription{activeSubscriptions.length !== 1 ? 's' : ''}
-                {' — '}
-                {activeSubscriptions.slice(0, 2).map((s: Subscription) => s.product.title).join(', ')}
-                {activeSubscriptions.length > 2 ? ` +${activeSubscriptions.length - 2} more` : ''}
-              </p>
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--premium-radius-card)] bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] p-4 mb-6">
+              <div className="flex flex-wrap items-center gap-3 min-w-0">
+                {activeSubscriptions.slice(0, 3).map((s: Subscription) => {
+                  const img = getProtocolImage(getProtocolFromSubscription(s));
+                  return img ? (
+                    <span key={s.id} className="flex h-8 w-8 shrink-0 overflow-hidden rounded-[var(--premium-radius-nested)] border border-white/20">
+                      <img src={img} alt="" className="h-full w-full object-cover" />
+                    </span>
+                  ) : null;
+                })}
+                <p className="text-sm">
+                  {activeSubscriptions.length} active subscription{activeSubscriptions.length !== 1 ? 's' : ''}
+                  {' — '}
+                  {activeSubscriptions.slice(0, 2).map((s: Subscription) => s.product.title).join(', ')}
+                  {activeSubscriptions.length > 2 ? ` +${activeSubscriptions.length - 2} more` : ''}
+                </p>
+              </div>
               <Link
                 href="/account/subscriptions"
                 className="text-sm font-semibold underline hover:no-underline"
@@ -279,56 +301,56 @@ export default function AccountPage() {
       {showEditProfile && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="fixed inset-0 bg-black/50" onClick={() => setShowEditProfile(false)} aria-hidden />
-          <div className="relative bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b border-gray-100">
-              <h3 className="font-bold text-lg">Edit profile</h3>
-              <button type="button" onClick={() => setShowEditProfile(false)} className="p-2 rounded-full hover:bg-gray-100">
+          <div className="relative bg-[var(--color-bone)] rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-[var(--color-premium-stroke)]">
+              <h3 className="font-bold text-lg text-[var(--color-ink)]" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>Edit profile</h3>
+              <button type="button" onClick={() => setShowEditProfile(false)} className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
             <div className="p-4 overflow-y-auto flex-1">
               {profileSuccess && (
-                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-800 text-sm">Profile updated.</div>
+                <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] text-[var(--color-ink)] premium-body-sm">Profile updated.</div>
               )}
               {profileError && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">{profileError}</div>
+                <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] border border-red-200 bg-red-50 text-red-700 premium-body-sm">{profileError}</div>
               )}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1">First name</label>
-                  <input type="text" value={profileForm.firstName} onChange={(e) => handleProfileChange('firstName', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">First name</label>
+                  <input type="text" value={profileForm.firstName} onChange={(e) => handleProfileChange('firstName', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1">Last name</label>
-                  <input type="text" value={profileForm.lastName} onChange={(e) => handleProfileChange('lastName', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Last name</label>
+                  <input type="text" value={profileForm.lastName} onChange={(e) => handleProfileChange('lastName', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1">Email</label>
-                  <input type="email" value={profileForm.email} onChange={(e) => handleProfileChange('email', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Email</label>
+                  <input type="email" value={profileForm.email} onChange={(e) => handleProfileChange('email', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1">Phone</label>
-                  <input type="tel" value={profileForm.phone} onChange={(e) => handleProfileChange('phone', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Optional" />
+                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Phone</label>
+                  <input type="tel" value={profileForm.phone} onChange={(e) => handleProfileChange('phone', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" placeholder="Optional" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1">Address line 1</label>
-                  <input type="text" value={profileForm.address.address1} onChange={(e) => handleProfileChange('address.address1', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Address line 1</label>
+                  <input type="text" value={profileForm.address.address1} onChange={(e) => handleProfileChange('address.address1', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1">Address line 2</label>
-                  <input type="text" value={profileForm.address.address2} onChange={(e) => handleProfileChange('address.address2', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Optional" />
+                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Address line 2</label>
+                  <input type="text" value={profileForm.address.address2} onChange={(e) => handleProfileChange('address.address2', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" placeholder="Optional" />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1">City</label>
-                  <input type="text" value={profileForm.address.city} onChange={(e) => handleProfileChange('address.city', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">City</label>
+                  <input type="text" value={profileForm.address.city} onChange={(e) => handleProfileChange('address.city', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1">Postcode</label>
-                  <input type="text" value={profileForm.address.zip} onChange={(e) => handleProfileChange('address.zip', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Postcode</label>
+                  <input type="text" value={profileForm.address.zip} onChange={(e) => handleProfileChange('address.zip', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1">Country</label>
-                  <select value={profileForm.address.country} onChange={(e) => handleProfileChange('address.country', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white">
+                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Country</label>
+                  <select value={profileForm.address.country} onChange={(e) => handleProfileChange('address.country', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm">
                     <option value="United Kingdom">United Kingdom</option>
                     <option value="Ireland">Ireland</option>
                     <option value="United States">United States</option>
@@ -338,11 +360,11 @@ export default function AccountPage() {
                 </div>
               </div>
             </div>
-            <div className="p-4 border-t border-gray-100 flex gap-3">
-              <button type="button" onClick={() => setShowEditProfile(false)} className="flex-1 py-2.5 text-sm font-semibold border border-gray-300 rounded-lg hover:bg-gray-50">
+            <div className="p-4 border-t border-[var(--color-premium-stroke)] flex gap-3">
+              <button type="button" onClick={() => setShowEditProfile(false)} className="flex-1 py-2.5 premium-body-sm font-semibold border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-interactive)] text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors">
                 Cancel
               </button>
-              <button type="button" onClick={handleSaveProfile} disabled={profileSaving} className="flex-1 py-2.5 text-sm font-semibold bg-[var(--color-ink)] text-white rounded-lg hover:opacity-90 disabled:opacity-50">
+              <button type="button" onClick={handleSaveProfile} disabled={profileSaving} className="flex-1 py-2.5 premium-body-sm font-semibold bg-[var(--color-ink)] text-white rounded-[var(--premium-radius-interactive)] hover:opacity-90 disabled:opacity-50">
                 {profileSaving ? 'Saving...' : 'Save'}
               </button>
             </div>

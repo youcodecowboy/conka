@@ -97,7 +97,7 @@ export default function OrdersPage() {
           <div className="premium-track">
             <OrdersPageHeader />
 
-            {orders.length > 0 && (
+          {orders.length > 0 && (
               <OrderSummaryStats
                 totalCount={orders.length}
                 deliveredCount={deliveredCount}
@@ -105,13 +105,13 @@ export default function OrdersPage() {
               />
             )}
 
-            {error && (
+          {error && (
               <div className="rounded-[var(--premium-radius-card)] border border-red-200 bg-red-50 p-6 mb-8">
                 <p className="premium-body text-red-700">{error}</p>
-              </div>
-            )}
+            </div>
+          )}
 
-            {orders.length === 0 ? (
+          {orders.length === 0 ? (
               <EmptyOrdersState />
             ) : (
               <div className="space-y-6">
@@ -123,11 +123,11 @@ export default function OrdersPage() {
                     onToggle={() => toggleOrder(order.id)}
                   />
                 ))}
-              </div>
-            )}
+            </div>
+          )}
 
             {orders.length > 0 && <OrdersHelpCard />}
-          </div>
+            </div>
         </section>
       </main>
     </div>
