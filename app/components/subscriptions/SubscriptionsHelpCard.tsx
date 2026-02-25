@@ -11,7 +11,7 @@ export function SubscriptionsHelpCard() {
         We can help with any subscription questions.
       </p>
       <a
-        href="mailto:support@conka.com"
+        href="mailto:support@conka.io"
         className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-bone)] px-6 py-2.5 premium-body-sm font-semibold text-[var(--color-bone)] hover:bg-[var(--color-bone)]/10 transition-colors"
       >
         <svg

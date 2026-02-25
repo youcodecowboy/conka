@@ -492,7 +492,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                 Order Again
               </Link>
               <a
-                href={`mailto:support@conka.com?subject=Order%20%23${order.orderNumber}`}
+                href={`mailto:support@conka.io?subject=Order%20%23${order.orderNumber}`}
                 className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-ink)]/40 bg-[var(--color-bone)] px-6 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
               >
                 <svg
