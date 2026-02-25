@@ -307,6 +307,18 @@ export async function POST(
         // Loop's internal numeric ID — required for PUT /frequency (not the shopify-{id} format)
         const loopInternalId = subscriptionData?.id;
         
+        if (lines.length > 1) {
+          // Multi-line subscriptions have one shared billing frequency at contract level.
+          // Swapping one line and then changing frequency can fail if the other line's
+          // selling plan group doesn't support the target interval.
+          // For now, return a clear error rather than partially updating.
+          return NextResponse.json({
+            success: false,
+            multiLine: true,
+            error: 'This subscription contains multiple products. Please contact support at support@conka.io to change your plan — we\'ll make sure both items are updated correctly.',
+          }, { status: 422 });
+        }
+        
         if (lines.length === 0) {
           return NextResponse.json({
             success: false,

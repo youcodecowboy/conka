@@ -13,6 +13,8 @@ interface ChangePlanResult {
   message?: string;
   /** True when swap succeeded but change-frequency failed; show partial-failure banner. */
   partial?: boolean;
+  /** True when subscription has multiple lines; show multi-line contact-support banner. */
+  multiLine?: boolean;
 }
 
 interface UseSubscriptionsReturn {
@@ -308,6 +310,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
             success: false,
             message: data.error || data.message || 'Failed to change plan',
             partial: data.partial === true,
+            multiLine: data.multiLine === true,
           };
         }
 
@@ -325,7 +328,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       } catch (err) {
         console.error('Failed to change plan:', err);
         setError('Failed to change plan');
-        return { success: false, message: 'Failed to change plan', partial: false };
+        return { success: false, message: 'Failed to change plan', partial: false, multiLine: false };
       } finally {
         setLoading(false);
       }

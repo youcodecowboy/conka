@@ -363,12 +363,12 @@ interface EditSubscriptionModalProps {
   onSave: (
     protocolId: string,
     tier: TierType,
-  ) => Promise<{ success: boolean; message?: string; partial?: boolean }>;
+  ) => Promise<{ success: boolean; message?: string; partial?: boolean; multiLine?: boolean }>;
   /** Called when user saves a formula change (Flow/Clear + pack size). Optional until API supports it. */
   onSaveFormula?: (
     formulaId: FormulaId,
     packSize: PackSize,
-  ) => Promise<{ success: boolean; message?: string; partial?: boolean }>;
+  ) => Promise<{ success: boolean; message?: string; partial?: boolean; multiLine?: boolean }>;
   /** "protocol" = bundle subscription (can switch Resilience/Precision/Balance); "flow"|"clear" = single formula (can switch Flow/Clear) */
   subscriptionType: "protocol" | "flow" | "clear";
   currentProtocolId?: string;
@@ -409,6 +409,7 @@ export function EditSubscriptionModal({
   const [selectedPackSize, setSelectedPackSize] = useState<PackSize>(currentPackSize);
   const [error, setError] = useState<string | null>(null);
   const [errorPartial, setErrorPartial] = useState(false);
+  const [errorMultiLine, setErrorMultiLine] = useState(false);
   const [saving, setSaving] = useState(false);
   const [mobileStep, setMobileStep] = useState<"product" | "tier">("product");
 
@@ -425,6 +426,7 @@ export function EditSubscriptionModal({
       setSelectedPackSize(currentPackSize);
       setError(null);
       setErrorPartial(false);
+      setErrorMultiLine(false);
       setMobileStep("product");
       initialProtocolRef.current = currentProtocolId;
       initialTierRef.current = currentTier;
@@ -445,26 +447,31 @@ export function EditSubscriptionModal({
     setSaving(true);
     setError(null);
     setErrorPartial(false);
+    setErrorMultiLine(false);
     try {
       if (isProtocol) {
         const result = await onSave(selectedProtocol, selectedTier);
         if (!result.success) {
           setError(result.message || "Failed to update");
           setErrorPartial(result.partial === true);
+          setErrorMultiLine(result.multiLine === true);
         }
       } else if (onSaveFormula) {
         const result = await onSaveFormula(selectedFormulaId, selectedPackSize);
         if (!result.success) {
           setError(result.message || "Failed to update");
           setErrorPartial(result.partial === true);
+          setErrorMultiLine(result.multiLine === true);
         }
       } else {
         setError("Formula changes are not yet supported. Contact support.");
         setErrorPartial(false);
+        setErrorMultiLine(false);
       }
     } catch {
       setError("Something went wrong. Please try again.");
       setErrorPartial(false);
+      setErrorMultiLine(false);
     } finally {
       setSaving(false);
     }
@@ -824,19 +831,29 @@ export function EditSubscriptionModal({
             </div>
           )}
           {error && (
-            <div className={`mb-4 p-4 rounded-[var(--premium-radius-nested)] border-2 ${errorPartial ? "border-amber-500 bg-amber-50 text-amber-900" : "border-red-300 bg-red-50 text-red-800"}`}>
+            <div className={`mb-4 p-4 rounded-[var(--premium-radius-nested)] border-2 ${
+              errorMultiLine ? "border-[var(--color-neuro-blue-dark)]/30 bg-[var(--color-neuro-blue-light)] text-[var(--color-neuro-blue-dark)]" 
+              : errorPartial ? "border-amber-500 bg-amber-50 text-amber-900" 
+              : "border-red-300 bg-red-50 text-red-800"
+            }`}>
               <p className="font-semibold mb-2">
-                {errorPartial
-                  ? "Your plan was partially updated"
-                  : "Something went wrong"}
+                {errorMultiLine
+                  ? "Multiple products on this subscription"
+                  : errorPartial
+                    ? "Your plan was partially updated"
+                    : "Something went wrong"}
               </p>
               <p className="premium-body-sm mb-4">
-                {errorPartial
-                  ? "We updated your product and pack size, but we couldn't update your billing schedule. Please contact support so we can fix this for you."
-                  : "We couldn't update your plan. Please try again or contact support."}
+                {errorMultiLine
+                  ? "Your subscription contains multiple products and needs to be updated manually. Please contact us at support@conka.io and we'll sort it for you quickly."
+                  : errorPartial
+                    ? "We updated your product and pack size, but we couldn't update your billing schedule. Please contact support so we can fix this for you."
+                    : "We couldn't update your plan. Please try again or contact support."}
               </p>
               <a
-                href={`mailto:support@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}${subscriptionId ? ` (${subscriptionId})` : ""}`)}`}
+                href={errorMultiLine
+                  ? "mailto:support@conka.io?subject=" + encodeURIComponent("Multi-product subscription change")
+                  : `mailto:support@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}${subscriptionId ? ` (${subscriptionId})` : ""}`)}`}
                 className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1148,17 +1165,24 @@ export function EditSubscriptionModal({
             </div>
           )}
           {error && (
-            <div className={`mb-3 p-4 rounded-[var(--premium-radius-nested)] border-2 ${errorPartial ? "border-amber-500 bg-amber-50 text-amber-900" : "border-red-300 bg-red-50 text-red-800"}`}>
+            <div className={`mb-3 p-4 rounded-[var(--premium-radius-nested)] border-2 ${
+              errorMultiLine ? "border-[var(--color-neuro-blue-dark)]/30 bg-[var(--color-neuro-blue-light)] text-[var(--color-neuro-blue-dark)]"
+              : errorPartial ? "border-amber-500 bg-amber-50 text-amber-900" : "border-red-300 bg-red-50 text-red-800"
+            }`}>
               <p className="font-semibold mb-2">
-                {errorPartial ? "Your plan was partially updated" : "Something went wrong"}
+                {errorMultiLine ? "Multiple products on this subscription" : errorPartial ? "Your plan was partially updated" : "Something went wrong"}
               </p>
               <p className="premium-body-sm mb-3">
-                {errorPartial
-                  ? "We updated your product and pack size, but we couldn't update your billing schedule. Please contact support so we can fix this for you."
-                  : "We couldn't update your plan. Please try again or contact support."}
+                {errorMultiLine
+                  ? "Your subscription contains multiple products and needs to be updated manually. Please contact us at support@conka.io and we'll sort it for you quickly."
+                  : errorPartial
+                    ? "We updated your product and pack size, but we couldn't update your billing schedule. Please contact support so we can fix this for you."
+                    : "We couldn't update your plan. Please try again or contact support."}
               </p>
               <a
-                href={`mailto:support@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}${subscriptionId ? ` (${subscriptionId})` : ""}`)}`}
+                href={errorMultiLine
+                  ? "mailto:support@conka.io?subject=" + encodeURIComponent("Multi-product subscription change")
+                  : `mailto:support@conka.io?subject=${encodeURIComponent(`Subscription support: ${subscriptionName}${subscriptionId ? ` (${subscriptionId})` : ""}`)}`}
                 className="inline-flex items-center justify-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-4 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity w-full"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
