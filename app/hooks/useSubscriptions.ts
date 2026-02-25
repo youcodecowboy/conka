@@ -11,6 +11,8 @@ interface ChangePlanResult {
   requiresConfirmation?: boolean;
   redirectUrl?: string;
   message?: string;
+  /** True when swap succeeded but change-frequency failed; show partial-failure banner. */
+  partial?: boolean;
 }
 
 interface UseSubscriptionsReturn {
@@ -296,7 +298,11 @@ export function useSubscriptions(): UseSubscriptionsReturn {
 
         if (!response.ok) {
           setError(data.error || data.message || 'Failed to change plan');
-          return { success: false, message: data.error || data.message };
+          return {
+            success: false,
+            message: data.error || data.message || 'Failed to change plan',
+            partial: data.partial === true,
+          };
         }
 
         // If subscription was updated successfully
@@ -313,7 +319,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       } catch (err) {
         console.error('Failed to change plan:', err);
         setError('Failed to change plan');
-        return { success: false, message: 'Failed to change plan' };
+        return { success: false, message: 'Failed to change plan', partial: false };
       } finally {
         setLoading(false);
       }
