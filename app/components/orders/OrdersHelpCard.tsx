@@ -1,6 +1,6 @@
 export function OrdersHelpCard() {
   return (
-    <div className="mt-14 premium-card-soft premium-card-soft-stroke p-8 text-center">
+    <div className="mt-14 rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] bg-[var(--color-bone)] shadow-sm p-8 text-center">
       <h3
         className="font-semibold text-lg text-[var(--color-ink)] mb-2"
         style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
@@ -12,7 +12,7 @@ export function OrdersHelpCard() {
       </p>
       <a
         href="mailto:support@conka.com"
-        className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] px-6 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
+        className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-6 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

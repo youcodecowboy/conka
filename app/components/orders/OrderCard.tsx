@@ -106,7 +106,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
       <button
         type="button"
         onClick={onToggle}
-        className="w-full p-6 text-left hover:bg-[var(--color-premium-stroke)]/20 transition-colors"
+        className="w-full p-6 text-left hover:bg-[var(--color-premium-bg-soft)] transition-colors"
       >
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
           <div className="flex items-start gap-4 min-w-0">
@@ -192,8 +192,8 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
 
       {isExpanded && (
         <div className="border-t border-[var(--color-premium-stroke)]">
-          <div className="p-6 bg-[var(--color-premium-bg-soft)]">
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-4">
+          <div className="p-6 rounded-b-[var(--premium-radius-card)]" style={{ backgroundColor: "var(--color-neuro-blue-light)" }}>
+            <p className="premium-body-sm text-[var(--color-neuro-blue-dark)] uppercase tracking-wide font-semibold mb-4">
               Order Status
             </p>
             {progress.cancelled ? (
@@ -291,8 +291,8 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
           </div>
 
           {order.shippingAddress && (
-            <div className="p-6">
-              <div className="p-4 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+            <div className="p-6 bg-[var(--color-bone)]">
+              <div className="p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]">
                 <div className="flex items-start gap-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -339,7 +339,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
             </div>
           )}
 
-          <div className="p-6 pt-0">
+          <div className="p-6 pt-0 bg-[var(--color-bone)]">
             <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-4">
               Items
             </p>
@@ -347,7 +347,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
               {order.lineItems.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+                  className="flex items-center justify-between p-3 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     {item.image?.url ? (
@@ -473,7 +473,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
             <div className="flex flex-wrap gap-3 mt-6">
               <Link
                 href="/quiz"
-                className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] px-6 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-6 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -493,7 +493,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
               </Link>
               <a
                 href={`mailto:support@conka.com?subject=Order%20%23${order.orderNumber}`}
-                className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] px-6 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
+                className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-ink)]/40 bg-[var(--color-bone)] px-6 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

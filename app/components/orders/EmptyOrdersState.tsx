@@ -44,7 +44,7 @@ export function EmptyOrdersState() {
         <div className="grid grid-cols-2 gap-6 max-w-lg mx-auto mb-8">
           <Link
             href="/conka-flow"
-            className="rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-5 hover:border-[var(--color-neuro-blue-light)] transition-colors text-left overflow-hidden"
+            className="rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] p-5 hover:border-[var(--color-neuro-blue-start)] transition-colors text-left overflow-hidden bg-[var(--color-premium-bg-soft)]"
           >
             {flowImage ? (
               <div className="w-full aspect-square max-w-[180px] mx-auto rounded-[var(--premium-radius-nested)] overflow-hidden mb-4 bg-[var(--color-premium-stroke)]">
@@ -62,7 +62,7 @@ export function EmptyOrdersState() {
           </Link>
           <Link
             href="/conka-clarity"
-            className="rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-5 hover:border-[var(--color-neuro-blue-light)] transition-colors text-left overflow-hidden"
+            className="rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] p-5 hover:border-[var(--color-neuro-blue-start)] transition-colors text-left overflow-hidden bg-[var(--color-premium-bg-soft)]"
           >
             {clearImage ? (
               <div className="w-full aspect-square max-w-[180px] mx-auto rounded-[var(--premium-radius-nested)] overflow-hidden mb-4 bg-[var(--color-premium-stroke)]">
