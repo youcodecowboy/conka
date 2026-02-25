@@ -167,11 +167,9 @@ export async function GET(request: NextRequest) {
     
     console.log(`[Subscriptions] Found ${shopifySubscriptions.length} subscriptions from Shopify`);
 
-    // Step 2: For each subscription, fetch current state from Loop
-    const subscriptions = await Promise.all(
-      shopifySubscriptions
-        .filter((sub: any) => ['ACTIVE', 'PAUSED'].includes(sub.status?.toUpperCase()))
-        .map(async (sub: any) => {
+    // Step 2: For each subscription contract, fetch current state from Loop (all contracts, not just active/paused)
+    const rawSubscriptions = await Promise.all(
+      shopifySubscriptions.map(async (sub: any) => {
           // Extract the numeric Shopify ID from the GID
           // Format: gid://shopify/SubscriptionContract/126077600118 -> 126077600118
           const shopifyNumericId = sub.id.split('/').pop();
@@ -279,7 +277,7 @@ export async function GET(request: NextRequest) {
                 // Loop provides 'name' which is "Product - Variant" format
                 title: loopLine.name || loopLine.productTitle || shopifyFirstLine.title || shopifyFirstLine.name || 'Subscription',
                 variantTitle: loopLine.variantTitle || '',
-                quantity: loopLine.quantity || shopifyFirstLine.quantity || 1,
+                quantity: loopLine.quantity ?? shopifyFirstLine.quantity ?? 1,
                 image: loopLine.variantImage || loopLine.image || shopifyFirstLine.variantImage?.url,
               },
               
@@ -295,7 +293,32 @@ export async function GET(request: NextRequest) {
                 unit: (loopInterval || 'month').toLowerCase(),
               },
               
-              // All line items from Loop
+              // All line items from Loop (for display and multi-line detection)
+              lines: (loopData.lines || []).map((line: any) => ({
+                id: line.id,
+                productTitle: line.productTitle ?? line.name ?? '',
+                variantTitle: line.variantTitle ?? '',
+                price: line.price ?? line.currentPrice ?? 0,
+                quantity: line.quantity ?? 1,
+                variantShopifyId: line.variantShopifyId ?? line.variant?.shopifyId,
+              })),
+              isMultiLine: (loopData.lines?.length ?? 0) > 1,
+              
+              // Payment method from Loop (for display and update-email trigger)
+              paymentMethodId: loopData?.paymentMethodId ?? null,
+              paymentMethod: loopData?.paymentMethod
+                ? {
+                    id: loopData.paymentMethod.id,
+                    brand: loopData.paymentMethod.card?.brand ?? null,
+                    lastDigits: loopData.paymentMethod.card?.lastDigits != null ? String(loopData.paymentMethod.card.lastDigits) : null,
+                    expiryMonth: loopData.paymentMethod.card?.expiryMonth ?? null,
+                    expiryYear: loopData.paymentMethod.card?.expiryYear ?? null,
+                    type: loopData.paymentMethod.type ?? null,
+                    status: loopData.paymentMethod.status ?? null,
+                  }
+                : null,
+              
+              // Legacy lineItems shape (kept for compatibility)
               lineItems: (loopData.lines || []).map((line: any) => ({
                 id: line.id,
                 title: line.productTitle || line.variantTitle,
@@ -324,23 +347,23 @@ export async function GET(request: NextRequest) {
             currencyCode: sub.currencyCode || 'GBP',
             lastPaymentStatus: sub.lastPaymentStatus,
             
-            // Without Loop data, we can't determine fulfillment status
-            // Default to false (don't show warning) when falling back
-            completedOrdersCount: null,
-            totalOrdersPlaced: null,
-            pendingOrdersCount: null,
-            hasUnfulfilledOrder: false,
-            unfulfilledOrdersCount: 0,
-            originOrderId: null,
-            
-            // Product info from Shopify
-            product: {
-              id: shopifyFirstLine.id || '',
-              title: shopifyFirstLine.title || shopifyFirstLine.name || 'Subscription',
-              variantTitle: '',
-              quantity: shopifyFirstLine.quantity || 1,
-              image: shopifyFirstLine.variantImage?.url,
-            },
+          // Without Loop data, we can't determine fulfillment status
+          // Default to false (don't show warning) when falling back
+          completedOrdersCount: null,
+          totalOrdersPlaced: null,
+          pendingOrdersCount: null,
+          hasUnfulfilledOrder: false,
+          unfulfilledOrdersCount: 0,
+          originOrderId: null,
+          
+          // Product info from Shopify
+          product: {
+            id: shopifyFirstLine.id || '',
+            title: shopifyFirstLine.title || shopifyFirstLine.name || 'Subscription',
+            variantTitle: shopifyFirstLine.title || '',
+            quantity: shopifyFirstLine.quantity ?? 1,
+            image: shopifyFirstLine.variantImage?.url,
+          },
             
             // Price info
             price: {
@@ -354,7 +377,21 @@ export async function GET(request: NextRequest) {
               unit: shopifyInterval.toLowerCase(),
             },
             
-            // All line items
+            // All line items from Shopify (for display and multi-line detection)
+            lines: (sub.lines?.nodes || []).map((line: any) => ({
+              id: line.id,
+              productTitle: line.title ?? line.name ?? '',
+              variantTitle: line.title ?? line.name ?? '',
+              price: line.currentPrice?.amount ?? 0,
+              quantity: line.quantity ?? 1,
+              variantShopifyId: undefined,
+            })),
+            isMultiLine: (sub.lines?.nodes?.length ?? 0) > 1,
+            
+            paymentMethodId: null,
+            paymentMethod: null,
+            
+            // Legacy lineItems shape
             lineItems: (sub.lines?.nodes || []).map((line: any) => ({
               id: line.id,
               title: line.title || line.name,
@@ -369,12 +406,25 @@ export async function GET(request: NextRequest) {
         })
     );
 
+    // Order: ACTIVE first, then PAUSED, then cancelled/expired; within each group by createdAt descending
+    const statusOrder: Record<string, number> = { active: 0, paused: 1, cancelled: 2, expired: 3 };
+    const subscriptions = (rawSubscriptions as any[]).sort((a, b) => {
+      const aStatus = (a.status || '').toLowerCase();
+      const bStatus = (b.status || '').toLowerCase();
+      const aOrder = statusOrder[aStatus] ?? 4;
+      const bOrder = statusOrder[bStatus] ?? 4;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      const aCreated = new Date(a.createdAt || 0).getTime();
+      const bCreated = new Date(b.createdAt || 0).getTime();
+      return bCreated - aCreated; // newest first
+    });
+
     return NextResponse.json({ 
       subscriptions,
       debug: {
         source: 'hybrid-shopify-loop',
         totalFromShopify: shopifySubscriptions.length,
-        activeAndPaused: subscriptions.length,
+        returned: subscriptions.length,
         loopDataCount: subscriptions.filter((s: any) => s.dataSource === 'loop').length,
         shopifyFallbackCount: subscriptions.filter((s: any) => s.dataSource === 'shopify-fallback').length,
       }

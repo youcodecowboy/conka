@@ -11,7 +11,7 @@ export function OrdersHelpCard() {
         Our team is here to help with tracking, returns, or any other questions.
       </p>
       <a
-        href="mailto:support@conka.com"
+        href="mailto:support@conka.io"
         className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-6 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity"
       >
         <svg

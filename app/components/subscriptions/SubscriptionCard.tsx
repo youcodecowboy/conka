@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import type { Subscription } from "@/app/hooks/useSubscriptions";
+import type { PaymentMethod } from "@/app/types/paymentMethod";
 import type { TierDisplayInfo } from "@/app/account/subscriptions/utils";
 import { formatDate, getStatusColor, getProtocolFromSubscription } from "@/app/account/subscriptions/utils";
 import { getProtocolImage } from "@/app/lib/productImageConfig";
@@ -12,6 +16,13 @@ interface SubscriptionCardProps {
   onTogglePause: () => void;
   onCancel: () => void;
   onDismissSuccess: () => void;
+  /** Primary (first safe) payment method from usePaymentMethods — per customer, fetch once. */
+  primaryMethod?: PaymentMethod | null;
+  onTriggerUpdateEmail?: (paymentMethodId: number) => void;
+  paymentUpdateLoading?: boolean;
+  paymentUpdateMessage?: string | null;
+  /** Disable update button until this timestamp (ms). */
+  paymentCooldownUntil?: number;
 }
 
 export function SubscriptionCard({
@@ -23,7 +34,23 @@ export function SubscriptionCard({
   onTogglePause,
   onCancel,
   onDismissSuccess,
+  primaryMethod = null,
+  onTriggerUpdateEmail,
+  paymentUpdateLoading = false,
+  paymentUpdateMessage = null,
+  paymentCooldownUntil = 0,
 }: SubscriptionCardProps) {
+  const [showContactSupportModal, setShowContactSupportModal] = useState(false);
+  const contactSupportHref = `mailto:support@conka.io?subject=${encodeURIComponent(`Multi-product subscription: ${subscription.id}`)}&body=${encodeURIComponent(`Hi, I'd like to change my subscription plan. Subscription ID: ${subscription.id}`)}`;
+
+  const isMultiLine = subscription.isMultiLine ?? (subscription.lines?.length ?? 0) > 1;
+  const lines = subscription.lines?.length ? subscription.lines : [{
+    id: subscription.product?.id || '0',
+    productTitle: subscription.product?.title || 'Subscription',
+    variantTitle: subscription.product?.variantTitle ?? '',
+    price: subscription.price?.amount ?? '0',
+    quantity: subscription.quantity ?? 1,
+  }];
   const productImage = subscription.product.image || getProtocolImage(getProtocolFromSubscription(subscription)) || "";
   return (
     <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-6 md:p-8 space-y-6">
@@ -58,23 +85,48 @@ export function SubscriptionCard({
               </div>
             )}
             <div className="min-w-0">
-              <h3
-                className="font-semibold text-lg text-[var(--color-ink)] mb-1.5"
-                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-              >
-                {subscription.product.title}
-              </h3>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="px-2.5 py-1 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] premium-body-sm font-medium text-[var(--color-ink)]">
-                  {info.tierName}
-                </span>
-                <span className="premium-body-sm text-[var(--text-on-light-muted)]">
-                  {info.protocolSubtitle}
-                </span>
-              </div>
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] max-w-[50ch]">
-                {info.protocolDescription}
-              </p>
+              {isMultiLine ? (
+                <>
+                  <h3
+                    className="font-semibold text-lg text-[var(--color-ink)] mb-2"
+                    style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                  >
+                    {lines.length} products
+                  </h3>
+                  <ul className="space-y-2">
+                    {lines.map((line, idx) => (
+                      <li key={line.id ?? idx} className="premium-body-sm flex items-baseline justify-between gap-2">
+                        <span className="text-[var(--color-ink)]">
+                          {line.productTitle}{line.variantTitle ? ` · ${line.variantTitle}` : ''}
+                        </span>
+                        <span className="text-[var(--text-on-light-muted)] shrink-0">
+                          £{typeof line.price === 'number' ? line.price.toFixed(2) : line.price} × {line.quantity}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <>
+                  <h3
+                    className="font-semibold text-lg text-[var(--color-ink)] mb-1.5"
+                    style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                  >
+                    {subscription.product.title}
+                  </h3>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="px-2.5 py-1 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] premium-body-sm font-medium text-[var(--color-ink)]">
+                      {info.tierName}
+                    </span>
+                    <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                      {info.protocolSubtitle}
+                    </span>
+                  </div>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] max-w-[50ch]">
+                    {info.protocolDescription}
+                  </p>
+                </>
+              )}
             </div>
           </div>
           <span
@@ -122,6 +174,7 @@ export function SubscriptionCard({
           </div>
         </div>
 
+        {!isMultiLine && (
         <div className="flex flex-wrap items-center gap-4 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]">
           <span className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">
             Formula mix
@@ -145,6 +198,8 @@ export function SubscriptionCard({
             {info.isUltimate ? "per delivery" : "per week"}
           </span>
         </div>
+        )}
+
       </div>
 
       {successMessage && (
@@ -288,7 +343,156 @@ export function SubscriptionCard({
         </div>
       )}
 
+      {(subscription.status === "active" || subscription.status === "paused") &&
+        primaryMethod != null && (
+        <div className="rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-3 min-w-0">
+              {(() => {
+                const pm = primaryMethod;
+                const brand = (pm.brand || '').toLowerCase();
+                const brandLabel = brand ? brand.charAt(0).toUpperCase() + brand.slice(1) : 'Card';
+                const last4 = pm.lastDigits != null ? String(pm.lastDigits).slice(-4) : '';
+                const y = pm.expiryYear != null ? (pm.expiryYear < 100 ? 2000 + pm.expiryYear : pm.expiryYear) : null;
+                const expiry =
+                  pm.expiryMonth != null && y != null
+                    ? `${String(pm.expiryMonth).padStart(2, '0')}/${String(y).slice(-2)}`
+                    : '';
+                const status = pm.status === 'safe' || pm.status === 'expiring_soon' || pm.status === 'expired' ? pm.status : 'safe';
+                return (
+                  <>
+                    <span className="flex items-center gap-2 premium-body-sm font-medium text-[var(--color-ink)]">
+                      <span className="text-[var(--text-on-light-muted)]" aria-hidden="true">
+                        💳
+                      </span>
+                      {brandLabel}
+                      {last4 && (
+                        <>
+                          <span className="text-[var(--text-on-light-muted)]">····</span>
+                          <span>{last4}</span>
+                        </>
+                      )}
+                    </span>
+                    {expiry && (
+                      <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                        Expires {expiry}
+                      </span>
+                    )}
+                    {status === 'safe' && (
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" aria-hidden="true" />
+                        <span className="premium-body-sm text-[var(--text-on-light-muted)]">Safe</span>
+                      </span>
+                    )}
+                    {status === 'expiring_soon' && (
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" aria-hidden="true" />
+                        <span className="px-2 py-0.5 rounded-[var(--premium-radius-nested)] premium-body-sm font-medium bg-amber-100 text-amber-800">
+                          Expiring soon
+                        </span>
+                      </span>
+                    )}
+                    {status === 'expired' && (
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" aria-hidden="true" />
+                        <span className="px-2 py-0.5 rounded-[var(--premium-radius-nested)] premium-body-sm font-medium bg-red-100 text-red-800">
+                          Expired — please update
+                        </span>
+                      </span>
+                    )}
+                  </>
+                );
+              })()}
+            </div>
+            {paymentUpdateMessage != null && !paymentUpdateMessage.includes('support') ? (
+              <p className="premium-body-sm text-green-700 shrink-0 max-w-[240px]">
+                {paymentUpdateMessage}
+              </p>
+            ) : onTriggerUpdateEmail ? (
+              <button
+                type="button"
+                onClick={() => onTriggerUpdateEmail(primaryMethod.id)}
+                disabled={paymentUpdateLoading || Date.now() < (paymentCooldownUntil ?? 0)}
+                className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-4 py-2 premium-body-sm font-semibold text-white hover:opacity-90 disabled:opacity-50 flex items-center gap-2 transition-opacity shrink-0"
+              >
+                {paymentUpdateLoading ? (
+                  <>
+                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending…
+                  </>
+                ) : (
+                  'Update payment method'
+                )}
+              </button>
+            ) : null}
+          </div>
+          {paymentUpdateMessage != null && paymentUpdateMessage.includes('support') && (
+            <p className="premium-body-sm mt-3 text-red-600">
+              {paymentUpdateMessage}
+            </p>
+          )}
+        </div>
+      )}
+
       <div className="flex flex-wrap gap-3 pt-2">
+        {isMultiLine ? (
+          <>
+            <button
+              type="button"
+              onClick={() => setShowContactSupportModal(true)}
+              className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 flex items-center gap-2 transition-opacity"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact support to change plan
+            </button>
+            {showContactSupportModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" aria-modal="true" role="dialog">
+                <div
+                  className="absolute inset-0"
+                  onClick={() => setShowContactSupportModal(false)}
+                  aria-hidden="true"
+                />
+                <div className="relative rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-lg p-6 max-w-md w-full">
+                  <h3 className="font-semibold text-lg text-[var(--color-ink)] mb-3" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
+                    Change your plan
+                  </h3>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-5">
+                    Because you have more than one item in your subscription, contact support and we can help adjust your order for you.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <a
+                      href={contactSupportHref}
+                      className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 no-underline inline-flex items-center gap-2"
+                      onClick={() => setShowContactSupportModal(false)}
+                    >
+                      Contact support
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setShowContactSupportModal(false)}
+                      className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-ink)]/40 bg-[var(--color-bone)] px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)]"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
         <button
           onClick={onEdit}
           disabled={isActionLoading}
@@ -310,6 +514,7 @@ export function SubscriptionCard({
           </svg>
           Edit
         </button>
+        )}
         <button
           onClick={onTogglePause}
           disabled={isActionLoading}

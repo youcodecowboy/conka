@@ -1,18 +1,18 @@
 export function SubscriptionsHelpCard() {
   return (
-    <div className="mt-14 premium-card-soft premium-card-soft-stroke p-8 text-center">
+    <div className="mt-14 rounded-[var(--premium-radius-card)] bg-[var(--color-ink)] border border-[var(--color-ink)] p-8 text-center">
       <h3
-        className="font-semibold text-lg text-[var(--color-ink)] mb-2"
+        className="font-semibold text-lg text-[var(--color-bone)] mb-2"
         style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
       >
         Need help?
       </h3>
-      <p className="premium-body text-[var(--text-on-light-muted)] mb-6 max-w-[50ch] mx-auto">
+      <p className="premium-body text-[var(--color-bone)]/80 mb-6 max-w-[50ch] mx-auto">
         We can help with any subscription questions.
       </p>
       <a
-        href="mailto:support@conka.com"
-        className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] px-6 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
+        href="mailto:support@conka.io"
+        className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-bone)] px-6 py-2.5 premium-body-sm font-semibold text-[var(--color-bone)] hover:bg-[var(--color-bone)]/10 transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

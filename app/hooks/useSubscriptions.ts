@@ -11,6 +11,10 @@ interface ChangePlanResult {
   requiresConfirmation?: boolean;
   redirectUrl?: string;
   message?: string;
+  /** True when swap succeeded but change-frequency failed; show partial-failure banner. */
+  partial?: boolean;
+  /** True when subscription has multiple lines; show multi-line contact-support banner. */
+  multiLine?: boolean;
 }
 
 interface UseSubscriptionsReturn {
@@ -25,6 +29,7 @@ interface UseSubscriptionsReturn {
   changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', protocolId?: string) => Promise<ChangePlanResult>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
   updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
+  sendPaymentUpdateEmail: (subscriptionId: string, paymentMethodId: number) => Promise<{ success: boolean; message: string }>;
 }
 
 /**
@@ -70,11 +75,11 @@ export function useSubscriptions(): UseSubscriptionsReturn {
         setError(data.error || 'Failed to fetch subscriptions');
         setSubscriptions([]);
       } else {
-        // Transform Shopify format to our Subscription type
+        // Transform API response to Subscription type — preserve all fields so multiple subscriptions render correctly
         const transformed = (data.subscriptions || []).map((sub: any) => ({
           id: sub.id,
-          customerId: '', // Not provided by Shopify's customer API
-          email: '', // Not provided by Shopify's customer API
+          customerId: sub.customerId ?? '',
+          email: sub.email ?? '',
           status: sub.status as 'active' | 'paused' | 'cancelled' | 'expired',
           nextBillingDate: sub.nextBillingDate || '',
           createdAt: sub.createdAt || '',
@@ -82,21 +87,31 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           product: sub.product ? {
             id: sub.product.id || '',
             title: sub.product.title || 'Subscription',
-            variantTitle: sub.product.variantId ? `Variant ${sub.product.variantId}` : undefined,
+            variantTitle: sub.product.variantTitle,
             image: sub.product.image,
           } : {
             id: '',
             title: 'Subscription',
           },
           price: sub.price ? {
-            amount: sub.price.amount || '0',
+            amount: String(sub.price.amount ?? '0'),
             currencyCode: sub.price.currencyCode || 'GBP',
           } : {
             amount: '0',
             currencyCode: 'GBP',
           },
-          quantity: sub.product?.quantity || 1,
+          quantity: sub.product?.quantity ?? sub.quantity ?? 1,
           interval: sub.interval || { value: 1, unit: 'month' as const },
+          lines: sub.lines ?? [],
+          isMultiLine: sub.isMultiLine ?? (sub.lines?.length ?? 0) > 1,
+          paymentMethodId: sub.paymentMethodId ?? null,
+          paymentMethod: sub.paymentMethod ?? null,
+          completedOrdersCount: sub.completedOrdersCount ?? null,
+          totalOrdersPlaced: sub.totalOrdersPlaced ?? null,
+          pendingOrdersCount: sub.pendingOrdersCount ?? null,
+          hasUnfulfilledOrder: sub.hasUnfulfilledOrder ?? false,
+          unfulfilledOrdersCount: sub.unfulfilledOrdersCount ?? undefined,
+          originOrderId: sub.originOrderId ?? null,
         }));
         setSubscriptions(transformed);
       }
@@ -296,7 +311,12 @@ export function useSubscriptions(): UseSubscriptionsReturn {
 
         if (!response.ok) {
           setError(data.error || data.message || 'Failed to change plan');
-          return { success: false, message: data.error || data.message };
+          return {
+            success: false,
+            message: data.error || data.message || 'Failed to change plan',
+            partial: data.partial === true,
+            multiLine: data.multiLine === true,
+          };
         }
 
         // If subscription was updated successfully
@@ -313,7 +333,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       } catch (err) {
         console.error('Failed to change plan:', err);
         setError('Failed to change plan');
-        return { success: false, message: 'Failed to change plan' };
+        return { success: false, message: 'Failed to change plan', partial: false, multiLine: false };
       } finally {
         setLoading(false);
       }
@@ -359,6 +379,27 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     [changePlan]
   );
 
+  const sendPaymentUpdateEmail = useCallback(
+    async (
+      subscriptionId: string,
+      paymentMethodId: number
+    ): Promise<{ success: boolean; message: string }> => {
+      const id = extractShopifyId(subscriptionId);
+      const res = await fetch(`/api/auth/subscriptions/${id}/payment-method`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentMethodId }),
+      });
+      const data = await res.json();
+      return {
+        success: res.ok && !!data.success,
+        message: data.message ?? (data.error ?? ''),
+      };
+    },
+    []
+  );
+
   return {
     subscriptions,
     loading,
@@ -371,5 +412,6 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     changePlan,
     updateFrequency,
     updateQuantity,
+    sendPaymentUpdateEmail,
   };
 }

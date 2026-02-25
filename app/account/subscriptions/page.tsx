@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 import { useSubscriptions, Subscription } from "@/app/hooks/useSubscriptions";
+import { usePaymentMethods } from "@/app/hooks/usePaymentMethods";
 import { CancellationModal } from "@/app/components/subscriptions/CancellationModal";
 import { EditSubscriptionModal } from "@/app/components/subscriptions/EditSubscriptionModal";
 import { SubscriptionsPageHeader } from "@/app/components/subscriptions/SubscriptionsPageHeader";
@@ -37,6 +38,14 @@ export default function SubscriptionsPage() {
     cancelSubscription,
     changePlan,
   } = useSubscriptions();
+
+  const {
+    primaryMethod,
+    triggerUpdateEmail,
+    updateLoading: paymentUpdateLoading,
+    updateMessage: paymentUpdateMessage,
+    cooldownUntil: paymentCooldownUntil,
+  } = usePaymentMethods(!!customer);
 
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [showCancelModal, setShowCancelModal] = useState<string | null>(null);
@@ -165,10 +174,12 @@ export default function SubscriptionsPage() {
               <EmptySubscriptionsState />
             ) : (
               <div className="space-y-6">
-                {activeSubscriptions.length > 0 && (
+                {activeSubscriptions.length > 0 ? (
                   <div>
                     <h2 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-6">
-                      Active & paused
+                      {activeSubscriptions.length === 1
+                        ? "Active & paused"
+                        : `Active & paused (${activeSubscriptions.length} subscriptions)`}
                     </h2>
                     <div className="space-y-6">
                       {activeSubscriptions.map((subscription) => (
@@ -186,10 +197,17 @@ export default function SubscriptionsPage() {
                           onTogglePause={() => handleTogglePause(subscription)}
                           onCancel={() => setShowCancelModal(subscription.id)}
                           onDismissSuccess={() => setSuccessMessage(null)}
+                          primaryMethod={primaryMethod}
+                          onTriggerUpdateEmail={(id) => triggerUpdateEmail(id)}
+                          paymentUpdateLoading={paymentUpdateLoading}
+                          paymentUpdateMessage={paymentUpdateMessage}
+                          paymentCooldownUntil={paymentCooldownUntil}
                         />
                       ))}
                     </div>
                   </div>
+                ) : (
+                  <EmptySubscriptionsState />
                 )}
 
                 {inactiveSubscriptions.length > 0 && (
@@ -238,6 +256,7 @@ export default function SubscriptionsPage() {
         onClose={() => setShowEditModal(null)}
         onSave={handleChangePlan}
         subscriptionName={showEditModal?.product.title || "Subscription"}
+        subscriptionId={showEditModal?.id}
         subscriptionType={showEditModal ? getSubscriptionType(showEditModal) : "protocol"}
         currentProtocolId={
           showEditModal ? getProtocolFromSubscription(showEditModal) : "1"

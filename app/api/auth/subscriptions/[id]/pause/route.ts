@@ -20,34 +20,48 @@ const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 // These must match the selling plans and variants configured in Shopify
 // From shopifyProductMapping.ts
 
-// Variant IDs by protocol and tier (just the numeric Shopify ID)
+// Variant IDs by protocol/formula and tier — verified against Shopify
 const PROTOCOL_VARIANTS: Record<string, Record<string, number>> = {
-  // Protocol 1 (Resilience)
+  // Protocol 1: Protocol: CONKA Resilience (Product: 15528618951030)
   '1': {
-    starter: 56999240597878,  // RESILIANCE_STARTER_4
-    pro: 56999240630646,      // RESILIANCE_PRO_12
-    max: 56999240663414,      // RESILIANCE_MAX_28
+    starter: 56999240597878,  // RESILIANCE_STARTER_4 - Starter - 4
+    pro:     56999240630646,  // RESILIANCE_PRO_12 - Pro - 12
+    max:     56999240663414,  // RESILIANCE_MAX_28 - Max - 28
   },
-  // Protocol 2 (Precision)
+  // Protocol 2: Protocol: CONKA Precision (Product: 15528617804150)
   '2': {
-    starter: 56999234503030,  // PRECISION_STARTER_4
-    pro: 56999234535798,      // PRECISION_PRO_12
-    max: 56999234568566,      // PRECISION_MAX_28
+    starter: 56999234503030,  // PRECISION_STARTER_4 - Starter - 4
+    pro:     56999234535798,  // PRECISION_PRO_12 - Pro - 12
+    max:     56999234568566,  // PRECISION_MAX_28 - Max - 28
   },
-  // Protocol 3 (Balance)
+  // Protocol 3: Protocol: Conka Balance (Product: 15528510423414)
   '3': {
-    starter: 56998884573558,  // BALANCED_STARTER_4
-    pro: 56998884606326,      // BALANCED_PRO_12
-    max: 56998884639094,      // BALANCED_MAX_28
+    starter: 56998884573558,  // BALANCED_STARTER_4 - Starter - 4
+    pro:     56998884606326,  // BALANCED_PRO_12 - Pro - 12
+    max:     56998884639094,  // BALANCED_MAX_28 - Max - 28
   },
-  // Protocol 4 (Ultimate) - no starter tier
+  // Protocol 4: Protocol: CONKA Ultimate (Product: 15528620589430)
   '4': {
-    pro: 56999249478006,      // ULTAMATE_PRO_28
-    max: 56999249510774,      // ULTAMATE_MAX_56
+    pro: 56999249478006,      // ULTAMATE_PRO_28 - Pro - 28
+    max: 56999249510774,      // ULTAMATE_MAX_56 - Max - 56
+  },
+  // Formula: CONKA Flow (Product: 15528722170230)
+  'flow': {
+    starter: 57000187363702,  // FLOW_TRIAL_4 - Flow - 4 Shots
+    pro_8:   56999967785334,  // FLOW_TRIAL_8 - Flow - 8 Shots
+    pro:     56999967752566,  // FLOW_TRIAL_12 - Flow - 12 Shots
+    max:     56999967818102,  // FLOW_TRIAL_28 - Flow - 28 Shots
+  },
+  // Formula: CONKA Clear (Product: 15528796291446)
+  'clear': {
+    starter: 57000418607478,  // CLEATR_TRIAL_4 - Clear - 4 Shots
+    pro_8:   57000418640246,  // CLEAR_TRIAL_8 - Clear - 8 Shots
+    pro:     57000418673014,  // CLEAR_TRIAL_12 - Clear - 12 Shots
+    max:     57000418705782,  // CLEAR_TRIAL_28 - Clear - 28 Shots
   },
 };
 
-// Reverse lookup: variant ID -> protocol ID
+// Reverse lookup: variant ID -> protocol/formula ID
 const VARIANT_TO_PROTOCOL: Record<number, string> = {};
 for (const [protocolId, variants] of Object.entries(PROTOCOL_VARIANTS)) {
   for (const variantId of Object.values(variants)) {
@@ -55,26 +69,31 @@ for (const [protocolId, variants] of Object.entries(PROTOCOL_VARIANTS)) {
   }
 }
 
+// Selling plan group IDs and billing intervals verified against Shopify
+// SellingPlanGroup numeric IDs extracted from GIDs
 const PLAN_CONFIGURATIONS = {
   starter: {
     name: 'Starter (Weekly)',
-    interval: 'WEEK',
+    interval: 'WEEK',       // Verified: WEEK x 1
     intervalCount: 1,
-    sellingPlanId: '711429882230',
+    sellingPlanId: '711429882230',        // SellingPlan: 711429882230
+    sellingPlanGroupId: '98722480502',    // SellingPlanGroup: 98722480502
     quantity: 1,
   },
   pro: {
     name: 'Pro (Bi-Weekly)',
-    interval: 'DAY',
-    intervalCount: 14,
-    sellingPlanId: '711429947766',
+    interval: 'WEEK',       // Verified: WEEK x 2 (NOT DAY x 14 — this was the bug)
+    intervalCount: 2,
+    sellingPlanId: '711429947766',        // SellingPlan: 711429947766
+    sellingPlanGroupId: '98722546038',    // SellingPlanGroup: 98722546038
     quantity: 1,
   },
   max: {
     name: 'Max (Monthly)',
-    interval: 'MONTH',
+    interval: 'MONTH',      // Verified: MONTH x 1
     intervalCount: 1,
-    sellingPlanId: '711429980534',
+    sellingPlanId: '711429980534',        // SellingPlan: 711429980534
+    sellingPlanGroupId: '98722578806',    // SellingPlanGroup: 98722578806
     quantity: 1,
   },
 };
@@ -263,8 +282,11 @@ export async function POST(
 
         const planConfig = PLAN_CONFIGURATIONS[plan];
         
+        // Log prefix for Vercel log tracing (Fix 4)
+        const logPrefix = `[Loop plan-update][${loopSubscriptionId}]`;
+        
         // Step 1: Fetch subscription details from Loop to get lineId and current variant
-        console.log('[CHANGE-FREQUENCY] Fetching subscription details...');
+        console.log(`${logPrefix} Step 1: GET subscription`);
         const subDetailsResult = await loopRequest(
           `/subscription/${loopSubscriptionId}`,
           loopToken,
@@ -282,6 +304,21 @@ export async function POST(
         const subscriptionData = subDetailsResult.data.data;
         const lines = subscriptionData?.lines || [];
         
+        // Loop's internal numeric ID — required for PUT /frequency (not the shopify-{id} format)
+        const loopInternalId = subscriptionData?.id;
+        
+        if (lines.length > 1) {
+          // Multi-line subscriptions have one shared billing frequency at contract level.
+          // Swapping one line and then changing frequency can fail if the other line's
+          // selling plan group doesn't support the target interval.
+          // For now, return a clear error rather than partially updating.
+          return NextResponse.json({
+            success: false,
+            multiLine: true,
+            error: 'This subscription contains multiple products. Please contact support at support@conka.io to change your plan — we\'ll make sure both items are updated correctly.',
+          }, { status: 422 });
+        }
+        
         if (lines.length === 0) {
           return NextResponse.json({
             success: false,
@@ -294,28 +331,15 @@ export async function POST(
         const lineId = line.id;
         const currentVariantId = line.variantShopifyId || line.variant?.shopifyId;
         
-        console.log('[CHANGE-FREQUENCY] Current line:', { lineId, currentVariantId });
+        console.log(`${logPrefix} Current line:`, { lineId, currentVariantId });
         
-        // Step 2: Determine which protocol to use
-        // If protocolId is provided, use that (user wants to change protocol)
-        // Otherwise, detect from current variant (just changing tier)
+        // Step 2: Determine target protocol
+        // If protocolId is provided, use it (user may be switching protocol or tier)
+        // Otherwise, infer from current variant (tier-only change)
         const currentProtocolFromVariant = VARIANT_TO_PROTOCOL[currentVariantId] as ProtocolIdType | undefined;
-        let targetProtocolId = protocolId;
-        
+        const targetProtocolId = protocolId ?? currentProtocolFromVariant;
         if (!targetProtocolId) {
-          targetProtocolId = currentProtocolFromVariant;
-        }
-        
-        // Same-plan-only: reject if request asks for a different protocol than current subscription
-        if (protocolId != null && currentProtocolFromVariant != null && protocolId !== currentProtocolFromVariant) {
-          return NextResponse.json({
-            success: false,
-            error: 'Only frequency changes within the same plan are allowed.',
-          }, { status: 400 });
-        }
-        
-        if (!targetProtocolId) {
-          console.log('[CHANGE-FREQUENCY] Unknown variant, trying direct approach...');
+          console.log(`${logPrefix} Unknown variant, fallback: POST change-plan`, { sellingPlanId: planConfig.sellingPlanId });
           // If we can't identify the protocol, try the change-plan endpoint as fallback
           result = await loopRequest(
             `/subscription/${loopSubscriptionId}/change-plan`, 
@@ -343,17 +367,12 @@ export async function POST(
             }, { status: 400 });
           }
           
-          console.log('[CHANGE-FREQUENCY] Swapping to variant:', { 
-            currentProtocol: VARIANT_TO_PROTOCOL[currentVariantId],
-            targetProtocol: targetProtocolId,
-            plan, 
-            targetVariantId,
-            lineId 
-          });
+          // Use sellingPlanGroupId (not sellingPlanId) — Loop swap expects the group ID
+          const sellingPlanGroupIdSent = parseInt(planConfig.sellingPlanGroupId, 10);
+          console.log(`${logPrefix} sellingPlanGroupId sent:`, sellingPlanGroupIdSent);
           
+          console.log(`${logPrefix} Step 2: PUT swap line`, { targetVariantId, plan });
           // Step 4: Call swap-line endpoint to change the variant AND selling plan
-          // Including sellingPlanGroupId ensures Shopify subscription contract is updated
-          // Note: Loop API expects sellingPlanGroupId as a number, not string
           result = await loopRequest(
             `/subscription/${loopSubscriptionId}/line/${lineId}/swap`,
             loopToken,
@@ -362,9 +381,60 @@ export async function POST(
               variantShopifyId: targetVariantId,
               quantity: planConfig.quantity,
               pricingType: 'OLD', // Keep existing discount
-              sellingPlanGroupId: parseInt(planConfig.sellingPlanId, 10), // Parse as number for Loop API
+              sellingPlanGroupId: sellingPlanGroupIdSent,
             }
           );
+          // Step 5: If swap succeeded, update billing/delivery interval (required for correct billing).
+          // Uses PUT /subscription/{loopInternalId}/frequency with Loop's internal ID (not shopify-{id}).
+          // If this fails, we do NOT return success — subscription may be in a partial state.
+          if (result.response.ok && loopInternalId != null) {
+            const intervalUnit = planConfig.interval;
+            const intervalCount = planConfig.intervalCount;
+            const nextBillingDateRaw = subscriptionData?.nextBillingDate;
+            const nextBillingDateEpoch = nextBillingDateRaw
+              ? Math.floor(new Date(nextBillingDateRaw).getTime() / 1000)
+              : Math.floor(Date.now() / 1000) + 86400; // fallback: tomorrow
+            
+            console.log(`${logPrefix} Step 3: PUT frequency using Loop internal ID:`, loopInternalId);
+            const freqResult = await loopRequest(
+              `/subscription/${loopInternalId}/frequency`,
+              loopToken,
+              'PUT',
+              {
+                billingPolicy: { interval: intervalUnit, intervalCount },
+                deliveryPolicy: { interval: intervalUnit, intervalCount },
+                nextBillingDateEpoch,
+                discountType: 'OLD',
+              }
+            );
+            if (!freqResult.response.ok) {
+              console.error(`${logPrefix} Swap succeeded but PUT frequency failed. Full error:`, JSON.stringify(freqResult.data));
+              return NextResponse.json(
+                {
+                  success: false,
+                  partial: true,
+                  error: 'Plan product was updated but we could not update your billing schedule. Please contact support so we can fix this for you.',
+                  message: freqResult.data?.message || 'Billing interval update failed',
+                  loopResponse: freqResult.data,
+                  loopSubscriptionId,
+                },
+                { status: 503 }
+              );
+            }
+            console.log(`${logPrefix} PUT frequency OK`);
+          } else if (result.response.ok && loopInternalId == null) {
+            console.error(`${logPrefix} Swap succeeded but Loop internal ID missing from GET response; cannot call PUT frequency`);
+            return NextResponse.json(
+              {
+                success: false,
+                partial: true,
+                error: 'Plan product was updated but we could not update your billing schedule. Please contact support so we can fix this for you.',
+                message: 'Missing subscription ID for frequency update',
+                loopSubscriptionId,
+              },
+              { status: 503 }
+            );
+          }
         }
         
         successMessage = `Plan updated to ${planConfig.name} successfully`;

@@ -25,6 +25,24 @@ export interface Subscription {
   quantity: number;
   interval: SubscriptionInterval;
   
+  /** All line items (from Loop). Empty or single item for most subscriptions. */
+  lines?: SubscriptionLine[];
+  /** True when the subscription has more than one product line. */
+  isMultiLine?: boolean;
+
+  /** Loop payment method id (for triggering update email). */
+  paymentMethodId?: number | null;
+  /** Payment method details from Loop (card brand, last 4, expiry, status). */
+  paymentMethod?: {
+    id: number;
+    brand: string | null;
+    lastDigits: string | null;
+    expiryMonth: number | null;
+    expiryYear: number | null;
+    type: string | null;
+    status: string | null;
+  } | null;
+  
   // Fulfillment tracking
   completedOrdersCount?: number | null;
   totalOrdersPlaced?: number | null;
@@ -35,6 +53,15 @@ export interface Subscription {
 }
 
 export type SubscriptionStatus = 'active' | 'paused' | 'cancelled' | 'expired';
+
+export interface SubscriptionLine {
+  id: number | string;
+  productTitle: string;
+  variantTitle: string;
+  price: string | number;
+  quantity: number;
+  variantShopifyId?: number;
+}
 
 export interface SubscriptionInterval {
   value: number;
