@@ -57,7 +57,36 @@ export async function GET(request: NextRequest) {
   const mockAuthEnabled = process.env.DEV_MOCK_AUTH === 'true';
 
   if (isDev && mockAuthEnabled && mockCookie === '1') {
-    return NextResponse.json({ subscriptions: [] });
+    const nextBilling = new Date();
+    nextBilling.setDate(nextBilling.getDate() + 14);
+    return NextResponse.json({
+      subscriptions: [
+        {
+          id: 'gid://shopify/SubscriptionContract/dev-mock-resilience',
+          status: 'active',
+          nextBillingDate: nextBilling.toISOString().slice(0, 10),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          product: {
+            id: 'dev-mock-product',
+            title: 'Conka Resilience - Pro - 12',
+            variantTitle: 'Pro · 12 shots',
+            variantId: 'pro-12',
+            quantity: 12,
+            image: '/protocols/ResilienceRed.jpg',
+          },
+          price: {
+            amount: '31.99',
+            currencyCode: 'GBP',
+          },
+          interval: {
+            value: 14,
+            unit: 'day',
+          },
+          hasUnfulfilledOrder: false,
+        },
+      ],
+    });
   }
 
   if (!accessToken) {
