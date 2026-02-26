@@ -7,11 +7,11 @@ import HeroMobile from "./HeroMobile";
 export type HeroVariant = "default" | "dark";
 
 /**
- * Hero wrapper: uses lg breakpoint (1024px) to render HeroMobile or HeroDesktop.
+ * Hero wrapper: uses xl breakpoint (1280px) to render HeroMobile or HeroDesktop.
  * Desktop = two banner images; mobile/tablet = three images with HeroBannerMobileH as primary.
  */
 export default function Hero({ variant = "default" }: { variant?: HeroVariant }) {
-  const isMobile = useIsMobile(1024);
+  const isMobile = useIsMobile(1280);
 
   if (isMobile === true) {
     return <HeroMobile variant={variant} />;
