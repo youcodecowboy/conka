@@ -13,6 +13,8 @@ interface PremiumDotIndicatorProps {
   getDotAriaLabel?: (index: number) => string;
   /** Optional className for the container */
   className?: string;
+  /** Use light-colored dots (e.g. on dark backgrounds) */
+  variant?: "default" | "light-on-dark";
 }
 
 /**
@@ -40,7 +42,9 @@ export default function PremiumDotIndicator({
   ariaLabel,
   getDotAriaLabel,
   className = "",
+  variant = "default",
 }: PremiumDotIndicatorProps) {
+  const isLight = variant === "light-on-dark";
   return (
     <div
       className={`flex justify-center gap-2 ${className}`}
@@ -57,8 +61,12 @@ export default function PremiumDotIndicator({
           onClick={() => onDotClick(i)}
           className={`h-2 rounded-full transition-all ${
             i === currentIndex
-              ? "w-8 bg-[var(--color-ink)]"
-              : "w-2 bg-black/20 hover:bg-black/40"
+              ? isLight
+                ? "w-8 bg-[var(--color-bone)]"
+                : "w-8 bg-[var(--color-ink)]"
+              : isLight
+                ? "w-2 bg-white/30 hover:bg-white/50"
+                : "w-2 bg-black/20 hover:bg-black/40"
           }`}
         />
       ))}
