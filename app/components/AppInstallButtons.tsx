@@ -42,17 +42,17 @@ export function AppInstallButtons({
   iconSize = 20,
   inverted = false,
 }: AppInstallButtonsProps) {
-  const buttonBaseClass = inverted
-    ? "bg-white text-black border-2 border-white hover:opacity-90"
-    : "neo-button";
-
   return (
-    <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${className}`}>
+    <div className={`flex flex-row flex-wrap gap-4 justify-center items-center ${className}`}>
       <a
         href={APP_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${buttonBaseClass} px-8 py-4 font-semibold text-base flex items-center gap-2 rounded-full transition-all ${buttonClassName}`}
+        className={`px-8 py-4 font-semibold text-base flex items-center gap-2 rounded-full transition-all text-white border-0 hover:opacity-90 ${buttonClassName}`}
+        style={{
+          background: "var(--gradient-neuro-blue-accent)",
+          color: "white",
+        }}
       >
         App Store
         <AppStoreIcon size={iconSize} />
@@ -61,7 +61,11 @@ export function AppInstallButtons({
         href={PLAY_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${buttonBaseClass} px-8 py-4 font-semibold text-base flex items-center gap-2 rounded-full transition-all ${buttonClassName}`}
+        className={`px-8 py-4 font-semibold text-base flex items-center gap-2 rounded-full transition-all text-white border-0 hover:opacity-90 ${buttonClassName}`}
+        style={{
+          background: "var(--gradient-neuro-blue-accent)",
+          color: "white",
+        }}
       >
         Play Store
         <PlayStoreIcon size={iconSize} />
