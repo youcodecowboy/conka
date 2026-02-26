@@ -38,6 +38,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/blogs/:path*',
+        destination: 'https://www.conka.io/why-conka',
+        permanent: true,
+      },
+      {
         source: '/durhamuniversityresearch',
         destination: '/',
         permanent: true,
