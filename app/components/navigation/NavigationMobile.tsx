@@ -32,7 +32,7 @@ export default function NavigationMobile({
       <header className="relative w-full bg-[var(--background)] border-b border-[var(--color-premium-stroke)]">
         <div className="px-[var(--premium-gutter-mobile-tight)] md:px-16 py-1 flex items-center justify-between min-h-[4.5rem]">
           {/* Left: Hamburger - fixed width so logo center is true viewport center */}
-          <div className="lg:hidden w-10 flex-shrink-0 flex items-center justify-start">
+          <div className="xl:hidden w-10 flex-shrink-0 flex items-center justify-start">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 hover:opacity-70 transition-all"
@@ -82,7 +82,7 @@ export default function NavigationMobile({
           </a>
 
           {/* Right: Account + Cart - reserve width so logo center doesn't overlap */}
-          <div className="lg:hidden min-w-[5.5rem] flex-shrink-0 flex items-center justify-end gap-2">
+          <div className="xl:hidden min-w-[5.5rem] flex-shrink-0 flex items-center justify-end gap-2">
             {/* Account Icon */}
             <a
               href="/account/login"
@@ -140,7 +140,7 @@ export default function NavigationMobile({
 
       {/* Mobile Menu Overlay - Only visible when mobileMenuOpen is true */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-[var(--background)] flex flex-col">
+        <div className="xl:hidden fixed inset-0 z-40 bg-[var(--background)] flex flex-col">
           {/* Scrollable Content - Centered vertically */}
           <div className="flex-1 overflow-y-auto p-6 pb-16 flex flex-col">
             {/* Header */}

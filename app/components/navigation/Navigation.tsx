@@ -100,12 +100,12 @@ export default function Navigation({
   }, []);
 
   // Render both desktop and mobile versions immediately
-  // CSS classes (hidden lg:block, lg:hidden) handle visibility
+  // CSS classes (hidden xl:block, xl:hidden) handle visibility
   // This ensures SSR renders immediately without waiting for JavaScript
   return (
     <>
-      {/* Desktop Navigation - Hidden on mobile, visible on lg+ */}
-      <div className="hidden lg:block">
+      {/* Desktop Navigation - Hidden below xl, visible on xl+ */}
+      <div className="hidden xl:block">
         <NavigationDesktop
           hideBanner={hideBanner}
           shopDropdownOpen={shopDropdownOpen}
@@ -120,7 +120,7 @@ export default function Navigation({
         />
 
         {/* Spacer to push content down on desktop (accounts for fixed header height) */}
-        {/* Only needed on desktop (lg:) where header is fixed */}
+        {/* Only needed on desktop (xl:) where header is fixed */}
         {/* When banner is visible: 136px (banner ~56px + header ~80px) */}
         {!hideBanner && bannerConfig ? (
           <div className="h-[136px]" />
@@ -130,8 +130,8 @@ export default function Navigation({
         )}
       </div>
 
-      {/* Mobile Navigation - Visible on mobile, hidden on lg+ */}
-      <div className="lg:hidden">
+      {/* Mobile Navigation - Visible below xl, hidden on xl+ */}
+      <div className="xl:hidden">
         <NavigationMobile
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}

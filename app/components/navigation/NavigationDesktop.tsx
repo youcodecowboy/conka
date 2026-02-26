@@ -22,8 +22,8 @@ export default function NavigationDesktop({
 
   return (
     <div
-      className={`w-full lg:fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
-        isScrollingDown ? "lg:-translate-y-full" : "lg:translate-y-0"
+      className={`w-full xl:fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
+        isScrollingDown ? "xl:-translate-y-full" : "xl:translate-y-0"
       }`}
       ref={shopDropdownRef}
     >
@@ -46,7 +46,7 @@ export default function NavigationDesktop({
           </a>
 
           {/* Shop + Navigation Links */}
-          <div className="hidden lg:flex items-center gap-6 ml-6">
+          <div className="hidden xl:flex items-center gap-6 ml-6">
             {/* Shop Mega Menu */}
             <div
               className="relative"
@@ -141,7 +141,7 @@ export default function NavigationDesktop({
           <div className="flex-1"></div>
 
           {/* Right: Take Quiz + Account + Cart */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden xl:flex items-center gap-4">
             {/* Take the Quiz */}
             <a
               href="/quiz"
