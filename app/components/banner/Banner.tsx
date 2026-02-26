@@ -11,7 +11,7 @@ interface BannerProps {
 }
 
 export default function Banner({ config }: BannerProps) {
-  const isMobile = useIsMobile(1024); // lg breakpoint
+  const isMobile = useIsMobile(1280); // xl breakpoint (matches nav/hero)
 
   // During SSR/hydration when isMobile is undefined, show desktop version
   if (isMobile === undefined) {
