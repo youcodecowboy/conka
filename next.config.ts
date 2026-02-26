@@ -43,6 +43,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/products/:path*',
+        destination: '/protocol/3',
+        permanent: true,
+      },
+      {
         source: '/durhamuniversityresearch',
         destination: '/',
         permanent: true,
