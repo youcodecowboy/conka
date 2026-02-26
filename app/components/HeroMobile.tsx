@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import HeroBannerCarousel from "./HeroBannerCarousel";
+import Image from "next/image";
 import {
   HeroTrustBadges,
   ROTATING_WORDS,
@@ -9,16 +9,10 @@ import {
   ROTATION_INTERVAL_MS,
 } from "./HeroShared";
 
-// Tablet + mobile (below md): four images, mobile hero primary (first)
-const HERO_BANNER_IMAGES_MOBILE = [
-  { src: "/lifestyle/FlowHold.jpg", alt: "Person with CONKA bottle outdoors" },
-  { src: "/hero/HeroBannerMobileH.jpg", alt: "Person with CONKA on the go" },
-  {
-    src: "/hero/HeroBannerW.jpg",
-    alt: "Athlete holding CONKA Flow and Clear bottles",
-  },
-  { src: "/hero/Hero.jpg", alt: "Person holding CONKA Flow and Clear bottles" },
-];
+const HERO_IMAGE = {
+  src: "/hero/HeroBannerMobileH.jpg",
+  alt: "Person with CONKA on the go",
+};
 
 export type HeroVariant = "default" | "dark";
 
@@ -74,12 +68,29 @@ export default function HeroMobile({
     <div
       className={`relative w-full min-h-[70vh] flex flex-col overflow-hidden ${rootBg}`}
     >
-      {/* Image on top (order-first), content below */}
-      <HeroBannerCarousel
-        images={HERO_BANNER_IMAGES_MOBILE}
-        isDark={isDark}
-        variant="mobile"
-      />
+      {/* Single static hero image */}
+      <div
+        className={`relative w-full order-first min-h-[35vh] md:min-h-[45vh]`}
+      >
+        {isDark && (
+          <div
+            className="absolute inset-0 z-[3] pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to top, var(--color-ink) 0%, rgba(17, 17, 17, 0.6) 25%, transparent 55%)",
+            }}
+          />
+        )}
+        <Image
+          src={HERO_IMAGE.src}
+          alt={HERO_IMAGE.alt}
+          fill
+          priority
+          sizes="(max-width: 767px) 100vw, 66.67vw"
+          className="object-cover"
+          style={{ objectPosition: "center 45%" }}
+        />
+      </div>
       <div
         className={`relative z-10 flex flex-col justify-center py-4 pl-6 pr-8 text-left ${contentBg}`}
       >
@@ -92,7 +103,7 @@ export default function HeroMobile({
                 ★★★★★
               </span>
             </span>
-            <span className="whitespace-nowrap">Over 100,000 bottles sold</span>
+            <span className="whitespace-nowrap">Over 150,000 bottles sold</span>
           </div>
 
           <h1
