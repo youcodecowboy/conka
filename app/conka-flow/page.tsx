@@ -94,6 +94,7 @@ export default function ConkaFlowPage() {
         <Navigation />
         {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
         <section
+          id="hero"
           className="premium-section-luxury premium-hero-first bg-white"
           aria-label="Product hero"
         >
@@ -112,6 +113,7 @@ export default function ConkaFlowPage() {
         <div className="premium-pdp">
           {/* Dark section for high-impact stats */}
           <section
+            id="benefits-stats"
             className="premium-section-luxury"
             style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
             aria-labelledby="benefits-stats-heading"
@@ -123,6 +125,7 @@ export default function ConkaFlowPage() {
 
           {/* Testimonials */}
           <section
+            id="testimonials"
             className="premium-section-luxury"
             style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
           >
@@ -135,6 +138,7 @@ export default function ConkaFlowPage() {
           </section>
 
           <section
+            id="ingredients"
             className="premium-section-luxury premium-bg-bone"
             aria-label="Formula ingredients"
           >
@@ -157,6 +161,7 @@ export default function ConkaFlowPage() {
 
           {/* What to expect */}
           <section
+            id="what-to-expect"
             className="premium-section-luxury premium-bg-bone"
             aria-label="What to expect"
           >
@@ -166,6 +171,7 @@ export default function ConkaFlowPage() {
           </section>
 
           <section
+            id="how-it-works"
             className="premium-section-luxury"
             style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
             aria-labelledby="how-it-works-heading"
@@ -176,6 +182,7 @@ export default function ConkaFlowPage() {
           </section>
 
           <section
+            id="case-studies"
             className="premium-section-luxury"
             style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
             aria-label="CONKA Case Studies"
@@ -185,6 +192,7 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <section
+            id="faq"
             className="premium-section-luxury premium-bg-bone"
             aria-label="FAQ"
           >
@@ -193,6 +201,7 @@ export default function ConkaFlowPage() {
             </div>
           </section>
           <section
+            id="explore"
             className="premium-section-luxury bg-white"
             aria-label="Explore other protocols and formulas"
           >
@@ -225,6 +234,7 @@ export default function ConkaFlowPage() {
       <Navigation />
       {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
       <section
+        id="hero"
         className="premium-section-luxury premium-hero-first bg-white"
         aria-label="Product hero"
       >
@@ -243,6 +253,7 @@ export default function ConkaFlowPage() {
       <div className="premium-pdp">
         {/* Dark section for high-impact stats */}
         <section
+          id="benefits-stats"
           className="premium-section-luxury"
           style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
           aria-labelledby="benefits-stats-heading"
@@ -254,6 +265,7 @@ export default function ConkaFlowPage() {
 
         {/* Testimonials */}
         <section
+          id="testimonials"
           className="premium-section-luxury"
           style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
         >
@@ -266,6 +278,7 @@ export default function ConkaFlowPage() {
         </section>
 
         <section
+          id="ingredients"
           className="premium-section-luxury premium-bg-bone"
           aria-label="Formula ingredients"
         >
@@ -289,6 +302,7 @@ export default function ConkaFlowPage() {
 
       {/* What to expect */}
       <section
+        id="what-to-expect"
         className="premium-section-luxury premium-bg-bone"
         aria-label="What to expect"
       >
@@ -299,6 +313,7 @@ export default function ConkaFlowPage() {
 
       <div className="premium-pdp">
         <section
+          id="how-it-works"
           className="premium-section-luxury"
           style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
           aria-labelledby="how-it-works-heading"
@@ -309,6 +324,7 @@ export default function ConkaFlowPage() {
         </section>
 
         <section
+          id="case-studies"
           className="premium-section-luxury"
           style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
           aria-label="CONKA Case Studies"
@@ -318,6 +334,7 @@ export default function ConkaFlowPage() {
           </div>
         </section>
         <section
+          id="faq"
           className="premium-section-luxury premium-bg-bone"
           aria-label="FAQ"
         >
@@ -326,6 +343,7 @@ export default function ConkaFlowPage() {
           </div>
         </section>
         <section
+          id="explore"
           className="premium-section-luxury bg-white"
           aria-label="Explore other protocols and formulas"
         >

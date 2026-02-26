@@ -37,23 +37,7 @@ export function AppHeroDesktop() {
 
       <div className="relative z-[2] mx-auto flex w-full max-w-[var(--premium-max-width)] flex-1 flex-col gap-10 lg:flex-row lg:items-center lg:gap-12">
         {/* Left column — copy */}
-        <div className="hero-mount-left flex flex-1 flex-col items-center text-center lg:w-1/2 lg:items-start lg:text-left">
-          {/* Eyebrow pill */}
-          <div
-            className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.07)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              color: "var(--color-bone)",
-            }}
-          >
-            <span
-              className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full"
-              style={{ backgroundColor: "#4058bb" }}
-            />
-            Free · iOS &amp; Android
-          </div>
-
+          <div className="hero-mount-left flex flex-1 flex-col items-center text-center lg:w-1/2 lg:items-start lg:text-left">
           <h1
             className="mb-6 max-w-[14ch] font-bold leading-[1.08] text-white"
             style={{
@@ -89,7 +73,7 @@ export function AppHeroDesktop() {
           <div className="mb-8 flex flex-wrap justify-center gap-8 lg:justify-start">
             <div>
               <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
-                800+
+                Over 1,000
               </div>
               <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
                 Active users
@@ -114,6 +98,21 @@ export function AppHeroDesktop() {
           </div>
 
           <AppInstallButtons inverted={false} />
+
+          <div
+            className="mt-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest"
+            style={{
+              backgroundColor: "rgba(255,255,255,0.07)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              color: "var(--color-bone)",
+            }}
+          >
+            <span
+              className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full"
+              style={{ backgroundColor: "#4058bb" }}
+            />
+            Free · iOS &amp; Android
+          </div>
 
           <p
             className="mt-8 max-w-[36ch] text-[0.75rem]"

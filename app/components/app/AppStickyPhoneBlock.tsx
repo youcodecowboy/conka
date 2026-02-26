@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import useIsMobile from "@/app/hooks/useIsMobile";
+import { AppStickyPhoneBlockMobile } from "./AppStickyPhoneBlockMobile";
+import { SECTIONS_DATA, PHONE_SOURCES, SECTION_TAB_LABELS, type SectionData } from "./appStickyPhoneBlockData";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -11,65 +13,7 @@ const GRAIN_DATA_URI =
     `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" /></filter><rect width="100%" height="100%" filter="url(%23n)" /></svg>`
   );
 
-const PHONE_SOURCES = [
-  "/app/AppConkaRing.png",
-  "/app/AppWellness.png",
-  "/app/AppTestBreakdown.png",
-  "/app/AppLeaderboard.png",
-] as const;
-
 const SCROLL_MULTIPLIER = 0.85;
-
-// ─── Section data ────────────────────────────────────────────────────────────
-
-type SectionData = {
-  eyebrow?: string;
-  heading: string;
-  headingAccent?: string;
-  body: string;
-  footnote?: string;
-  stats?: { value: string; label: string; source?: string }[];
-};
-
-const SECTIONS_DATA: SectionData[] = [
-  {
-    eyebrow: "Not an intelligence test. A processing speed test.",
-    heading: "Most cognitive tests get easier with practice.",
-    headingAccent: "This one can't.",
-    body:
-      "The test measures how quickly your brain processes visual information — the same mechanism " +
-      "that's first affected by cognitive decline. It uses natural images rather than words, " +
-      "numbers, or patterns, so there's no way to learn it or game it. Your score only " +
-      "improves if your brain actually improves.",
-    footnote: "It does not measure intelligence — only how efficiently your brain processes what it sees.",
-    stats: [
-      { value: "93%", label: "Sensitivity detecting cognitive impairment", source: "ADePT Study, PMC10533908" },
-      { value: "87.5%", label: "Test-retest reliability", source: "ADePT Study, PMC10533908" },
-      { value: "14", label: "NHS Trusts in clinical validation trials", source: "HRA validation study, ISRCTN95636074" },
-      { value: "2 min", label: "That's all it takes" },
-    ],
-  },
-  {
-    heading: "Your score changes every day. Now you'll know why.",
-    body:
-      "Log what matters — sleep, stress, caffeine, training — and see how it lines up with your cognitive score. " +
-      "The app turns that loop into clear cause and effect so you can adjust what's actually moving the needle.",
-  },
-  {
-    heading: "See your brain improve over 30 days.",
-    body:
-      "Clinical data supports up to 16% improvement in cognitive performance following the " +
-      "recommended plan. The graph can't lie — you're either improving or you're not. Pairs with CONKA formulas to show what's working.",
-  },
-  {
-    heading: "See where you rank against 10,000 athletes. Globally.",
-    body:
-      "Football, F1, rugby, ultra running — the same leaderboard. Press and hold any user to send a challenge. " +
-      "Add friends, track trends, and prove it.",
-  },
-];
-
-const SECTION_TAB_LABELS = ["01 The Test", "02 What You Track", "03 Your Progress", "04 Compete"];
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
 
@@ -196,10 +140,10 @@ function StatCard({
 
 // ─── SectionContent (data-driven) ─────────────────────────────────────────────
 
-function SectionContent({ data, compact: compactMode }: { data: SectionData; compact?: boolean }) {
+function SectionContent({ data, compact: compactMode, alignLeft }: { data: SectionData; compact?: boolean; alignLeft?: boolean }) {
   const headingParts = data.heading.split("<br/>").filter(Boolean);
   return (
-    <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+    <div className={`flex flex-col ${alignLeft ? "items-start text-left" : "items-center text-center lg:items-start lg:text-left"}`}>
       {data.eyebrow && (
         <div
           className={`inline-flex items-center gap-2 rounded-full px-4 py-2 uppercase tracking-widest ${compactMode ? "mb-3 text-[0.65rem]" : "mb-6 text-xs"}`}
@@ -258,10 +202,12 @@ export function PhoneFrame({
   sources,
   activeIndex,
   altLabels,
+  size = "desktop",
 }: {
   sources: readonly string[];
   activeIndex: number;
   altLabels?: string[];
+  size?: "desktop" | "mobile";
 }) {
   const [scaleReady, setScaleReady] = useState(true);
   const prevActiveRef = useRef(activeIndex);
@@ -277,6 +223,9 @@ export function PhoneFrame({
   }, [activeIndex]);
 
   const transition = "opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+  const frameWidth = size === "mobile"
+    ? "clamp(200px, 60vw, 280px)"
+    : "clamp(240px, 18vw, 300px)";
 
   return (
     <div className="relative flex justify-center items-center">
@@ -293,7 +242,7 @@ export function PhoneFrame({
       <div
         className="relative z-[1] overflow-hidden rounded-xl"
         style={{
-          width: "clamp(240px, 18vw, 300px)",
+          width: frameWidth,
           aspectRatio: "9/19",
           boxShadow: "0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06)",
         }}
@@ -373,41 +322,9 @@ export function AppStickyPhoneBlock() {
     [numSections]
   );
 
-  // ─── Mobile: stacked sections ──────────────────────────────────────────────
+  // ─── Mobile: separate component per MOBILE_OPTIMIZATION.md ───────────────────
   if (isMobile === true || isMobile === undefined) {
-    return (
-      <section
-        className="relative w-full overflow-hidden text-white"
-        style={{
-          background: "var(--color-ink)",
-          paddingTop: "var(--space-section-padding)",
-          paddingBottom: "var(--space-section-padding)",
-          paddingLeft: "var(--premium-gutter-mobile)",
-          paddingRight: "var(--premium-gutter-mobile)",
-        }}
-      >
-        <GrainOverlay />
-        <div className="relative z-[2] mx-auto w-full max-w-[var(--premium-max-width)] flex flex-col gap-24">
-          {SECTIONS_DATA.map((data, i) => (
-            <div key={i} className="flex flex-col gap-8">
-              <div className="flex justify-center">
-                <div
-                  className="relative w-[clamp(200px,60vw,280px)] overflow-hidden rounded-[2rem]"
-                  style={{ aspectRatio: "9/19" }}
-                >
-                  <img
-                    src={PHONE_SOURCES[i]}
-                    alt={i === 0 ? "Cognitive test screen" : i === 1 ? "Wellness and metrics" : i === 2 ? "Progress graph" : "Leaderboard"}
-                    className="h-full w-full object-contain object-center"
-                  />
-                </div>
-              </div>
-              <SectionContent data={data} />
-            </div>
-          ))}
-        </div>
-      </section>
-    );
+    return <AppStickyPhoneBlockMobile />;
   }
 
   // ─── Desktop: scroll track + sticky panel ───────────────────────────────────
