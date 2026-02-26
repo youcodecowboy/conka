@@ -10,6 +10,7 @@ import {
   getOrderProgress,
   getStatusColor,
 } from "@/app/account/orders/utils";
+import { ContactSupportLink } from "@/app/components/ContactSupportLink";
 
 function OrderStatusIcon({ status }: { status: string }) {
   switch (status?.toLowerCase()) {

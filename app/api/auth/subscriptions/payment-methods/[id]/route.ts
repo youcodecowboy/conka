@@ -11,6 +11,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { env } from '@/app/lib/env';
+import { SUPPORT_EMAIL } from '@/app/lib/supportEmail';
 
 const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 
@@ -60,7 +61,7 @@ export async function PUT(
       return NextResponse.json(
         {
           success: false,
-          message: 'Something went wrong. Please contact support at support@conka.io.',
+          message: `Something went wrong. Please contact support at ${SUPPORT_EMAIL}.`,
         },
         { status: 502 }
       );
@@ -77,7 +78,7 @@ export async function PUT(
     return NextResponse.json(
       {
         success: false,
-        message: 'Something went wrong. Please contact support at support@conka.io.',
+        message: `Something went wrong. Please contact support at ${SUPPORT_EMAIL}.`,
       },
       { status: 500 }
     );
