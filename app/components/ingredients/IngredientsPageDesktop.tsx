@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import FormulaToggle from "@/app/components/FormulaToggle";
 import {
   IngredientData,
   CATEGORY_INFO,
@@ -60,34 +61,11 @@ export default function IngredientsPageDesktop({
             </div>
 
             {/* Formula Toggle */}
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleFormulaChange("01")}
-                className={`px-5 py-2 rounded-full border-2 border-current transition-all flex items-center gap-2 ${
-                  activeFormula === "01"
-                    ? "bg-[var(--foreground)] text-[var(--background)]"
-                    : "bg-transparent hover:bg-current/10"
-                }`}
-              >
-                <span className="w-3 h-3 rounded-sm bg-amber-500" />
-                <span className="font-clinical text-sm font-medium">
-                  CONKA Flow
-                </span>
-              </button>
-              <button
-                onClick={() => handleFormulaChange("02")}
-                className={`px-5 py-2 rounded-full border-2 border-current transition-all flex items-center gap-2 ${
-                  activeFormula === "02"
-                    ? "bg-[var(--foreground)] text-[var(--background)]"
-                    : "bg-transparent hover:bg-current/10"
-                }`}
-              >
-                <span className="w-3 h-3 rounded-sm bg-[#AAB9BC]" />
-                <span className="font-clinical text-sm font-medium">
-                  CONKA Clear
-                </span>
-              </button>
-            </div>
+            <FormulaToggle
+              value={activeFormula}
+              onChange={handleFormulaChange}
+              ariaLabel="Ingredients formula"
+            />
           </div>
 
           {/* Ingredient Selector Pills */}
