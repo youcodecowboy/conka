@@ -6,6 +6,7 @@ import type { PaymentMethod } from "@/app/types/paymentMethod";
 import type { TierDisplayInfo } from "@/app/account/subscriptions/utils";
 import { formatDate, getStatusColor, getProtocolFromSubscription } from "@/app/account/subscriptions/utils";
 import { getProtocolImage } from "@/app/lib/productImageConfig";
+import { ContactSupportLink } from "@/app/components/ContactSupportLink";
 
 interface SubscriptionCardProps {
   subscription: Subscription;
@@ -41,7 +42,6 @@ export function SubscriptionCard({
   paymentCooldownUntil = 0,
 }: SubscriptionCardProps) {
   const [showContactSupportModal, setShowContactSupportModal] = useState(false);
-  const contactSupportHref = `mailto:support@conka.io?subject=${encodeURIComponent(`Multi-product subscription: ${subscription.id}`)}&body=${encodeURIComponent(`Hi, I'd like to change my subscription plan. Subscription ID: ${subscription.id}`)}`;
 
   const isMultiLine = subscription.isMultiLine ?? (subscription.lines?.length ?? 0) > 1;
   const lines = subscription.lines?.length ? subscription.lines : [{
@@ -330,12 +330,7 @@ export function SubscriptionCard({
               <p className="premium-body-sm text-blue-700">
                 Any plan changes will apply to your next delivery. To change a
                 pending order,{" "}
-                <a
-                  href="mailto:support@conka.io"
-                  className="underline font-medium"
-                >
-                  contact support
-                </a>
+                <ContactSupportLink variant="inline" icon={false} />
                 .
               </p>
             </div>
@@ -473,13 +468,13 @@ export function SubscriptionCard({
                     Because you have more than one item in your subscription, contact support and we can help adjust your order for you.
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    <a
-                      href={contactSupportHref}
-                      className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 no-underline inline-flex items-center gap-2"
+                    <ContactSupportLink
+                      subject={`Multi-product subscription: ${subscription.id}`}
+                      body={`Hi, I'd like to change my subscription plan. Subscription ID: ${subscription.id}`}
+                      variant="button-primary-small"
+                      icon="envelope-small"
                       onClick={() => setShowContactSupportModal(false)}
-                    >
-                      Contact support
-                    </a>
+                    />
                     <button
                       type="button"
                       onClick={() => setShowContactSupportModal(false)}

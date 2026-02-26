@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import type { PaymentMethod } from '@/app/types/paymentMethod';
+import { SUPPORT_EMAIL } from '@/app/lib/supportEmail';
 
 interface TriggerUpdateResult {
   success: boolean;
@@ -77,7 +78,7 @@ export function usePaymentMethods(enabled: boolean = true): UsePaymentMethodsRet
       const success = res.ok && !!data.success;
       const message =
         data.message ??
-        (data.error ?? 'Something went wrong. Please contact support at support@conka.io.');
+        (data.error ?? `Something went wrong. Please contact support at ${SUPPORT_EMAIL}.`);
       setUpdateMessage(message);
       if (success) {
         setCooldownUntil(Date.now() + 30_000);
@@ -86,7 +87,7 @@ export function usePaymentMethods(enabled: boolean = true): UsePaymentMethodsRet
       return { success, message };
     } catch (err) {
       console.error('Failed to trigger payment method update:', err);
-      const message = 'Something went wrong. Please contact support at support@conka.io.';
+      const message = `Something went wrong. Please contact support at ${SUPPORT_EMAIL}.`;
       setUpdateMessage(message);
       return { success: false, message };
     } finally {
