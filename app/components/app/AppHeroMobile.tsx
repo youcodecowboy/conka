@@ -25,23 +25,7 @@ export function AppHeroMobile() {
       />
 
       <div className="relative z-[2] mx-auto flex w-full max-w-[var(--premium-max-width)] flex-1 flex-col items-center gap-8 text-center">
-        {/* 1. Eyebrow pill */}
-        <div
-          className="hero-mount-left inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.07)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            color: "var(--color-bone)",
-          }}
-        >
-          <span
-            className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full"
-            style={{ backgroundColor: "#4058bb" }}
-          />
-          Free · iOS &amp; Android
-        </div>
-
-        {/* 2. Title */}
+        {/* 1. Title */}
         <h1
           className="hero-mount-left max-w-[14ch] font-bold leading-[1.08] text-white"
           style={{
@@ -99,7 +83,7 @@ export function AppHeroMobile() {
         <div className="flex flex-wrap justify-center gap-8">
           <div>
             <div className="font-bold text-white" style={{ fontSize: "1.35rem" }}>
-              800+
+              Over 1,000
             </div>
             <div className="text-[0.75rem]" style={{ color: "var(--color-bone)" }}>
               Active users
@@ -123,8 +107,24 @@ export function AppHeroMobile() {
           </div>
         </div>
 
-        {/* 6. CTA */}
+        {/* 6. CTA — row on mobile */}
         <AppInstallButtons inverted={false} />
+
+        {/* Badge under install buttons */}
+        <div
+          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest"
+          style={{
+            backgroundColor: "rgba(255,255,255,0.07)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            color: "var(--color-bone)",
+          }}
+        >
+          <span
+            className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full"
+            style={{ backgroundColor: "#4058bb" }}
+          />
+          Free · iOS &amp; Android
+        </div>
 
         {/* 7. Credibility line */}
         <p
