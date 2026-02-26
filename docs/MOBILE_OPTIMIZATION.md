@@ -30,6 +30,8 @@ This document captures the lessons learned and preferences established during th
 
 ## Homepage Hero (Mobile vs Desktop)
 
+**Breakpoint:** The split-screen desktop hero is used at **xl (1280px)** and above. Below that (including tablet and large iPad), the stacked (mobile-style) hero is used.
+
 The hero has **different behavior and content** on mobile and desktop. Do not apply mobile-only changes to desktop or vice versa.
 
 ### Hero — Mobile
@@ -240,6 +242,8 @@ className = "w-48 h-auto mx-auto"; // Centered, controlled width
 ---
 
 ## Navigation (Mobile Menu)
+
+**Breakpoint:** The header uses the **mobile (hamburger)** layout below **xl (1280px)**. The full horizontal bar with Shop mega menu is shown only at 1280px and above, so tablet and large iPad get the compact header.
 
 ### Structure
 
