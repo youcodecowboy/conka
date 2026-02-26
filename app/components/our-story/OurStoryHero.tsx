@@ -2,40 +2,39 @@
 
 export function OurStoryHero() {
   return (
-    <div className="flex flex-col">
-      {/* Main Headline — gradient on "Story" for punch */}
-      <h1
-        className="premium-section-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-2 text-[var(--color-ink)]"
-        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-      >
-        Our{" "}
-        <span
-          style={{
-            background: "var(--gradient-neuro-blue-accent)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
+    <div className="flex flex-col gap-6 md:gap-8">
+      {/* Headline block — tight grouping */}
+      <header>
+        <h1
+          className="premium-section-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-1 md:mb-2 text-[var(--color-ink)]"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          Story
-        </span>
-      </h1>
+          Our{" "}
+          <span
+            style={{
+              background: "var(--gradient-neuro-blue-accent)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Story
+          </span>
+        </h1>
+        <p className="premium-section-subtitle text-xl md:text-2xl mb-1 opacity-70">
+          the journey behind the formula
+        </p>
+        <p
+          className="premium-body text-base md:text-lg opacity-60"
+          style={{ maxWidth: "var(--premium-body-max-width)" }}
+        >
+          Two founders on a mission to build a better brain.
+        </p>
+      </header>
 
-      {/* Subtitle */}
-      <p className="premium-section-subtitle text-xl md:text-2xl mb-2 opacity-70">
-        the journey behind the formula
-      </p>
-
-      {/* Founders Tagline */}
-      <p
-        className="premium-body text-base md:text-lg opacity-60 mb-8 md:mb-10"
-        style={{ maxWidth: "var(--premium-body-max-width)" }}
-      >
-        Two founders on a mission to build a better brain.
-      </p>
-
-      {/* Hero Stats - 3 neural accent blue cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+      {/* Stats cards + key stats in one block */}
+      <div className="flex flex-col gap-4 md:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
         <div
           className="p-5 md:p-6 text-white shadow-lg"
           style={{
@@ -139,10 +138,10 @@ export function OurStoryHero() {
             Clinical trials with elite teams
           </div>
         </div>
-      </div>
+        </div>
 
-      {/* Key Stats Row */}
-      <div className="flex flex-wrap items-center gap-6 md:gap-10 mb-6 md:mb-8">
+        {/* Key stats inline row */}
+        <div className="flex flex-wrap items-center gap-4 md:gap-6">
         <div className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -220,14 +219,15 @@ export function OurStoryHero() {
           </span>
           <span className="premium-body-sm opacity-50">years lifespan*</span>
         </div>
+        </div>
       </div>
 
-      {/* Story Preview — gradient accent */}
-      <div className="pt-6 md:pt-8 mb-0 border-t-2 border-[var(--color-neuro-blue-start)]/30">
-        <p className="premium-body-sm uppercase tracking-widest opacity-40 mb-4">
+      {/* What you'll discover */}
+      <div className="pt-4 md:pt-5 border-t border-[var(--color-neuro-blue-start)]/30">
+        <p className="premium-body-sm uppercase tracking-widest opacity-40 mb-3">
           What you&apos;ll discover
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <div className="flex items-start gap-3">
             <span className="font-clinical text-lg font-bold opacity-30">
               01

@@ -26,8 +26,7 @@ export default function OurStoryPage() {
         <>
           {/* Hero */}
           <section
-            className="premium-section-luxury premium-hero-first"
-            style={{ backgroundColor: "white" }}
+            className="premium-section-luxury premium-hero-first premium-section-reduced-bottom premium-bg-bone"
             aria-label="Our Story hero"
           >
             <div className="premium-track">

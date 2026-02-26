@@ -2,39 +2,41 @@
 
 export function OurStoryHeroMobile() {
   return (
-    <div className="flex flex-col">
-      <div className="flex-1">
-          <h1
-            className="premium-section-heading text-4xl font-bold tracking-tight mb-1 text-[var(--color-ink)]"
-            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-          >
-            Our{" "}
-            <span
-              style={{
-                background: "var(--gradient-neuro-blue-accent)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Story
-            </span>
-          </h1>
-          <p className="premium-section-subtitle text-lg mb-1 opacity-70">
-            the journey behind the formula
-          </p>
-          <p className="premium-body-sm opacity-50 mb-5">
-            Two founders on a mission to build a better brain.
-          </p>
-
-          <div
-            className="p-4 mb-3 text-white shadow-lg"
+    <div className="flex flex-col gap-4">
+      <header>
+        <h1
+          className="premium-section-heading text-4xl font-bold tracking-tight mb-1 text-[var(--color-ink)]"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          Our{" "}
+          <span
             style={{
-              borderRadius: "var(--premium-radius-card)",
-              backgroundColor: "var(--color-neuro-blue-end)",
-              border: "1px solid rgba(255,255,255,0.2)",
+              background: "var(--gradient-neuro-blue-accent)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
             }}
           >
+            Story
+          </span>
+        </h1>
+        <p className="premium-section-subtitle text-lg mb-1 opacity-70">
+          the journey behind the formula
+        </p>
+        <p className="premium-body-sm opacity-50">
+          Two founders on a mission to build a better brain.
+        </p>
+      </header>
+
+      <div className="flex flex-col gap-3">
+        <div
+          className="p-4 text-white shadow-lg"
+          style={{
+            borderRadius: "var(--premium-radius-card)",
+            backgroundColor: "var(--color-neuro-blue-end)",
+            border: "1px solid rgba(255,255,255,0.2)",
+          }}
+        >
             <div className="flex items-center gap-2 mb-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +60,7 @@ export function OurStoryHeroMobile() {
             <div className="premium-body-sm text-white/70">#GB2620279</div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="grid grid-cols-2 gap-2">
             <div
               className="p-3 text-white shadow-md"
               style={{
@@ -83,7 +85,7 @@ export function OurStoryHeroMobile() {
             </div>
           </div>
 
-        <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -150,12 +152,13 @@ export function OurStoryHeroMobile() {
             <span className="premium-body-sm opacity-50">years*</span>
           </div>
         </div>
+      </div>
 
-        <div className="border-t-2 border-[var(--color-neuro-blue-start)]/30 pt-4">
-          <p className="premium-body-sm uppercase tracking-widest opacity-40 mb-3">
-            What you&apos;ll discover
-          </p>
-          <div className="space-y-2">
+      <div className="pt-3 border-t border-[var(--color-neuro-blue-start)]/30">
+        <p className="premium-body-sm uppercase tracking-widest opacity-40 mb-2">
+          What you&apos;ll discover
+        </p>
+        <div className="space-y-1.5">
             <div className="flex items-start gap-2">
               <span className="font-clinical text-sm font-bold opacity-30">
                 01
@@ -174,7 +177,6 @@ export function OurStoryHeroMobile() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }
