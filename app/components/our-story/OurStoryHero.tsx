@@ -2,13 +2,23 @@
 
 export function OurStoryHero() {
   return (
-    <div className="min-h-[calc(100vh-5rem)] flex flex-col">
-      {/* Main Headline */}
+    <div className="flex flex-col">
+      {/* Main Headline — gradient on "Story" for punch */}
       <h1
         className="premium-section-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-2 text-[var(--color-ink)]"
         style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
       >
-        Our Story
+        Our{" "}
+        <span
+          style={{
+            background: "var(--gradient-neuro-blue-accent)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          Story
+        </span>
       </h1>
 
       {/* Subtitle */}
@@ -24,9 +34,16 @@ export function OurStoryHero() {
         Two founders on a mission to build a better brain.
       </p>
 
-      {/* Hero Stats - 3 Columns */}
+      {/* Hero Stats - 3 neural accent blue cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
-        <div className="premium-card-soft premium-card-soft-stroke p-5 md:p-6 text-[var(--color-ink)]">
+        <div
+          className="p-5 md:p-6 text-white shadow-lg"
+          style={{
+            borderRadius: "var(--premium-radius-card)",
+            backgroundColor: "var(--color-neuro-blue-end)",
+            border: "1px solid rgba(255,255,255,0.2)",
+          }}
+        >
           <div className="flex items-center gap-3 mb-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -38,21 +55,28 @@ export function OurStoryHero() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="opacity-60"
+              className="opacity-80"
             >
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
-            <div className="premium-body-sm uppercase tracking-widest opacity-50">
+            <div className="premium-body-sm uppercase tracking-widest text-white/80">
               Unique
             </div>
           </div>
           <div className="text-xl md:text-2xl font-bold mb-1">
             Patented Nootropic Formula
           </div>
-          <div className="premium-body-sm opacity-50">#GB2620279</div>
+          <div className="premium-body-sm text-white/70">#GB2620279</div>
         </div>
 
-        <div className="premium-card-soft premium-card-soft-stroke p-5 md:p-6 text-[var(--color-ink)]">
+        <div
+          className="p-5 md:p-6 text-white shadow-lg"
+          style={{
+            borderRadius: "var(--premium-radius-card)",
+            backgroundColor: "var(--color-neuro-blue-end)",
+            border: "1px solid rgba(255,255,255,0.2)",
+          }}
+        >
           <div className="flex items-center gap-3 mb-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -64,21 +88,30 @@ export function OurStoryHero() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="opacity-60"
+              className="opacity-80"
             >
               <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
             </svg>
-            <div className="premium-body-sm uppercase tracking-widest opacity-50">
+            <div className="premium-body-sm uppercase tracking-widest text-white/80">
               Research
             </div>
           </div>
           <div className="font-clinical text-3xl md:text-4xl font-bold mb-1">
             £500K+
           </div>
-          <div className="premium-body-sm opacity-50">Durham & Cambridge</div>
+          <div className="premium-body-sm text-white/70">
+            Durham & Cambridge
+          </div>
         </div>
 
-        <div className="premium-card-soft premium-card-soft-stroke p-5 md:p-6 text-[var(--color-ink)]">
+        <div
+          className="p-5 md:p-6 text-white shadow-lg"
+          style={{
+            borderRadius: "var(--premium-radius-card)",
+            backgroundColor: "var(--color-neuro-blue-end)",
+            border: "1px solid rgba(255,255,255,0.2)",
+          }}
+        >
           <div className="flex items-center gap-3 mb-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -90,19 +123,19 @@ export function OurStoryHero() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="opacity-60"
+              className="opacity-80"
             >
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
               <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
-            <div className="premium-body-sm uppercase tracking-widest opacity-50">
+            <div className="premium-body-sm uppercase tracking-widest text-white/80">
               Validated
             </div>
           </div>
           <div className="font-clinical text-3xl md:text-4xl font-bold mb-1">
             25+
           </div>
-          <div className="premium-body-sm opacity-50">
+          <div className="premium-body-sm text-white/70">
             Clinical trials with elite teams
           </div>
         </div>
@@ -189,57 +222,44 @@ export function OurStoryHero() {
         </div>
       </div>
 
-      {/* Story Preview */}
-      <div className="border-t-2 border-black/10 pt-6 md:pt-8 mb-6 md:mb-8">
+      {/* Story Preview — gradient accent */}
+      <div className="pt-6 md:pt-8 mb-0 border-t-2 border-[var(--color-neuro-blue-start)]/30">
         <p className="premium-body-sm uppercase tracking-widest opacity-40 mb-4">
           What you&apos;ll discover
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           <div className="flex items-start gap-3">
-            <span className="font-clinical text-lg font-bold opacity-30">01</span>
+            <span className="font-clinical text-lg font-bold opacity-30">
+              01
+            </span>
             <p className="premium-body-sm opacity-70">
               How a concussion injury sparked an 8-month research journey
             </p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="font-clinical text-lg font-bold opacity-30">02</span>
+            <span className="font-clinical text-lg font-bold opacity-30">
+              02
+            </span>
             <p className="premium-body-sm opacity-70">
               The science behind extending lifespan by 15 years
             </p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="font-clinical text-lg font-bold opacity-30">03</span>
+            <span className="font-clinical text-lg font-bold opacity-30">
+              03
+            </span>
             <p className="premium-body-sm opacity-70">
               Why we invented an alcohol-free extraction method
             </p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="font-clinical text-lg font-bold opacity-30">04</span>
+            <span className="font-clinical text-lg font-bold opacity-30">
+              04
+            </span>
             <p className="premium-body-sm opacity-70">
               Tested by 12+ elite sports teams worldwide
             </p>
           </div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="mt-auto flex items-center gap-3 opacity-50">
-        <p className="premium-body">scroll to read the full story</p>
-        <div className="animate-bounce-slow">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 5v14" />
-            <path d="m19 12-7 7-7-7" />
-          </svg>
         </div>
       </div>
     </div>
