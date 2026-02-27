@@ -237,6 +237,18 @@ A single Loop subscription contract can contain multiple product lines but only 
 
 This is an edge case. Normal customers have one line per subscription. Customers who want two products at different frequencies should have two separate subscription contracts.
 
+**Loop subscription contracts: billing frequency and multi-line behaviour**
+
+A Loop subscription contract has **one billing frequency** — the billing policy is set at the contract level, not per line. This means:
+
+- All lines in a contract are billed together in a single charge on the same schedule.
+- You can swap a line's variant or price independently, but you cannot assign different billing intervals to individual lines.
+- If two products appear to have different cadences (e.g. "weekly" vs "bi-weekly") in the same checkout, they are either cosmetic labels, or Shopify created two separate contracts under the hood — check the Loop dashboard to confirm.
+
+If a customer genuinely needs two products at different frequencies, the correct architecture is **two separate subscription contracts**. There is no native way to have per-line frequencies within a single contract.
+
+**For the customer portal:** any UI that allows frequency changes on a multi-line contract should be treated with caution, as the change will apply to all lines. The current behaviour (directing multi-line customers to contact support) is a safe default until contract splitting is explicitly implemented.
+
 ### Verifying a plan change
 
 After a plan change, check Vercel function logs for:
