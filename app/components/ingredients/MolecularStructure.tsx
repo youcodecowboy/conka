@@ -62,37 +62,37 @@ export function MolecularStructure({ structure, ingredientName }: MolecularStruc
   }, [structure.pubchemCid]);
 
   return (
-    <div className="neo-box p-4">
+    <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-4">
       <div className="flex items-center justify-between mb-3">
-        <p className="font-clinical text-xs opacity-50 uppercase">Chemical Structure</p>
+        <p className="premium-body-sm opacity-50 uppercase text-[var(--color-ink)]">Chemical Structure</p>
         <a
           href={pubchemUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs opacity-60 hover:opacity-100 transition-opacity"
+          className="premium-body-sm opacity-60 hover:opacity-100 transition-opacity text-[var(--color-ink)]"
         >
           View on PubChem →
         </a>
       </div>
       
-      <div className="relative bg-white rounded-lg p-4 flex items-center justify-center min-h-[200px]">
+      <div className="relative bg-white rounded-[var(--premium-radius-nested)] p-4 flex items-center justify-center min-h-[200px] border border-[var(--color-premium-stroke)]">
         {isLoading && !hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white rounded-lg z-10">
-            <div className="w-8 h-8 border-2 border-current border-t-transparent rounded-full animate-spin opacity-30" />
+          <div className="absolute inset-0 flex items-center justify-center bg-white rounded-[var(--premium-radius-nested)] z-10">
+            <div className="w-8 h-8 border-2 border-[var(--color-ink)] border-t-transparent rounded-full animate-spin opacity-30" />
           </div>
         )}
         
         {hasError ? (
-          <div className="text-center text-gray-500">
+          <div className="text-center text-[var(--color-ink)] opacity-70">
             <svg className="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            <p className="text-sm">Unable to load structure</p>
+            <p className="premium-body-sm">Unable to load structure</p>
             <a 
               href={pubchemUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs hover:underline mt-1 inline-block"
+              className="premium-body-sm hover:underline mt-1 inline-block text-[var(--color-ink)]"
             >
               View on PubChem
             </a>
@@ -109,14 +109,14 @@ export function MolecularStructure({ structure, ingredientName }: MolecularStruc
         )}
       </div>
       
-      <div className="mt-3 flex items-center justify-between">
+      <div className="mt-3 flex items-center justify-between text-[var(--color-ink)]">
         <div>
-          <p className="font-clinical text-sm font-medium">{structure.activeCompound}</p>
-          <p className="font-clinical text-xs opacity-50">Active Compound</p>
+          <p className="premium-body-sm font-medium">{structure.activeCompound}</p>
+          <p className="premium-body-sm opacity-50">Active Compound</p>
         </div>
         <div className="text-right">
-          <p className="font-clinical text-xs opacity-50">PubChem CID</p>
-          <p className="font-clinical text-sm">{structure.pubchemCid}</p>
+          <p className="premium-body-sm opacity-50">PubChem CID</p>
+          <p className="premium-body-sm">{structure.pubchemCid}</p>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import PremiumDotIndicator from "@/app/components/premium/PremiumDotIndicator";
+import PremiumCarouselToggle from "@/app/components/premium/PremiumCarouselToggle";
 import { PhoneFrame } from "./AppStickyPhoneBlock";
 import {
   SECTIONS_DATA,
@@ -249,12 +250,28 @@ export function AppStickyPhoneBlockMobile() {
         </h2>
 
         <div className="flex flex-col items-center gap-4">
-          <div className="flex justify-center">
-            <PhoneFrame
-              sources={PHONE_SOURCES}
-              activeIndex={mobileActiveIndex}
-              altLabels={["Cognitive test screen", "Wellness and metrics", "Progress graph", "Leaderboard"]}
-              size="mobile"
+          <div className="relative flex items-center justify-center w-full gap-2">
+            <PremiumCarouselToggle
+              direction="prev"
+              onClick={() => setMobileActiveIndex((i) => Math.max(i - 1, 0))}
+              ariaLabel="Previous section"
+              className="shrink-0 z-10"
+              variant="default"
+            />
+            <div className="flex justify-center flex-1 min-w-0">
+              <PhoneFrame
+                sources={PHONE_SOURCES}
+                activeIndex={mobileActiveIndex}
+                altLabels={["Cognitive test screen", "Wellness and metrics", "Progress graph", "Leaderboard"]}
+                size="mobile"
+              />
+            </div>
+            <PremiumCarouselToggle
+              direction="next"
+              onClick={() => setMobileActiveIndex((i) => Math.min(i + 1, numSections - 1))}
+              ariaLabel="Next section"
+              className="shrink-0 z-10"
+              variant="default"
             />
           </div>
           <PremiumDotIndicator

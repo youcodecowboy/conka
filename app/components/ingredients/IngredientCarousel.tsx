@@ -33,10 +33,6 @@ export default function IngredientCarousel({
 
   return (
     <div className="relative">
-      {/* Gradient Fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
-
       {/* Scrollable Container */}
       <div
         ref={scrollRef}
@@ -58,10 +54,10 @@ export default function IngredientCarousel({
               }`}
             >
               <div
-                className={`neo-box overflow-hidden ${
+                className={`rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] overflow-hidden p-0 transition-colors ${
                   isActive
-                    ? "border-2 border-[var(--foreground)]"
-                    : "border border-current/30"
+                    ? "ring-2 ring-[var(--color-ink)]"
+                    : ""
                 }`}
               >
                 {/* Image */}
@@ -75,8 +71,8 @@ export default function IngredientCarousel({
                       className="object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full placeholder-box bg-current/5 flex items-center justify-center">
-                      <span className="font-clinical text-[8px] text-center px-1">
+                    <div className="w-full h-full flex items-center justify-center bg-[var(--color-premium-stroke)]/20 rounded-b-[var(--premium-radius-card)]">
+                      <span className="font-clinical text-[8px] text-center px-1 text-[var(--color-ink)] opacity-60">
                         [{ingredient.name.toUpperCase()}]
                       </span>
                     </div>
@@ -84,19 +80,19 @@ export default function IngredientCarousel({
                 </div>
 
                 {/* Info */}
-                <div className="p-2">
+                <div className="p-2 text-[var(--color-ink)]">
                   <div className="flex items-center gap-1 mb-1">
                     <span
                       className={`w-1.5 h-1.5 rounded-full ${categoryInfo.color}`}
                     />
-                    <span className="font-clinical text-[10px] opacity-60 truncate">
+                    <span className="premium-body-sm opacity-60 truncate">
                       {categoryInfo.name}
                     </span>
                   </div>
                   <p className="font-bold text-xs truncate">
                     {ingredient.name}
                   </p>
-                  <p className="font-clinical text-sm font-medium">
+                  <p className="premium-body-sm font-medium">
                     {ingredient.percentage}
                   </p>
                 </div>
@@ -107,7 +103,7 @@ export default function IngredientCarousel({
       </div>
 
       {/* Scroll Hint */}
-      <p className="font-commentary text-md text-center mt-2 ">
+      <p className="premium-body-sm text-center mt-2 opacity-60">
         swipe to explore
       </p>
     </div>

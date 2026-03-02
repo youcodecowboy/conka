@@ -10,14 +10,9 @@ export default function CaseStudiesPage() {
   const isMobile = useIsMobile();
 
   return (
-    <div
-      className="min-h-screen flex flex-col theme-conka-flow premium-pdp"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
-      {/* Navigation */}
+    <div className="min-h-screen flex flex-col">
       <Navigation />
 
-      {/* Main Content - wait for hydration to determine layout */}
       <main className="flex-1 flex flex-col">
         {isMobile === undefined ? (
           <div className="min-h-screen pt-32 pb-16 flex items-center justify-center flex-1">
@@ -27,8 +22,7 @@ export default function CaseStudiesPage() {
           </div>
         ) : (
           <section
-            className="premium-section-luxury premium-section-reduced-top"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+            className="premium-section-luxury premium-hero-first premium-hero-with-top-air premium-section-reduced-bottom premium-bg-bone"
             aria-label="Case Studies"
           >
             <div className="premium-track">

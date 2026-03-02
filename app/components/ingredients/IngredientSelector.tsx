@@ -23,10 +23,10 @@ export default function IngredientSelector({
           <button
             key={ingredient.id}
             onClick={() => onSelect(ingredient.id)}
-            className={`group flex items-center gap-2 px-4 py-2 rounded-full border-2 transition-all ${
+            className={`group flex items-center gap-2 px-4 py-2 rounded-full border transition-all premium-body-sm ${
               isActive
-                ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
-                : "border-current/20 hover:border-current/50"
+                ? "bg-[var(--color-ink)] text-white border-[var(--color-ink)]"
+                : "bg-white border-[var(--color-premium-stroke)] hover:border-[var(--color-ink)]/30 text-[var(--color-ink)]"
             }`}
           >
             {/* Category dot */}
@@ -36,14 +36,12 @@ export default function IngredientSelector({
               }`}
             />
             {/* Ingredient name */}
-            <span className="font-clinical text-sm font-medium">
+            <span className="font-medium">
               {ingredient.name}
             </span>
             {/* Percentage badge */}
             <span
-              className={`font-clinical text-xs ${
-                isActive ? "opacity-70" : "opacity-50"
-              }`}
+              className={isActive ? "opacity-70" : "opacity-50"}
             >
               {ingredient.percentage}
             </span>

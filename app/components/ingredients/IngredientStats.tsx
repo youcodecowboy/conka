@@ -5,21 +5,27 @@ import { IngredientStat } from "@/app/lib/ingredientsData";
 interface IngredientStatsProps {
   stats: IngredientStat[];
   accentColor?: string;
+  /** When true, use subtle background (e.g. inside a section card) */
+  nested?: boolean;
 }
 
-export default function IngredientStats({ stats, accentColor = "text-current" }: IngredientStatsProps) {
+export default function IngredientStats({ stats, accentColor = "text-current", nested = false }: IngredientStatsProps) {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {stats.map((stat, idx) => (
         <div
           key={idx}
-          className="neo-box p-4 text-center"
+          className={`p-4 text-center ${
+            nested
+              ? "rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)]/15 border border-[var(--color-premium-stroke)]"
+              : "rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)]"
+          }`}
         >
           <p className={`text-3xl lg:text-4xl font-bold font-clinical ${accentColor}`}>
             {stat.value}
           </p>
-          <p className="font-medium text-sm mt-1">{stat.label}</p>
-          <p className="font-clinical text-xs opacity-50 mt-1">{stat.source}</p>
+          <p className="font-medium premium-body-sm mt-1 text-[var(--color-ink)]">{stat.label}</p>
+          <p className="premium-body-sm opacity-50 mt-1">{stat.source}</p>
         </div>
       ))}
     </div>

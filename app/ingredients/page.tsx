@@ -13,30 +13,34 @@ export default function IngredientsPage() {
   const [activeFormula, setActiveFormula] = useState<FormulaId>("01");
 
   return (
-    <div
-      className="min-h-screen theme-conka-flow"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
-      {/* Navigation */}
+    <div className="min-h-screen">
       <Navigation />
 
-      {/* Main Content */}
       {isMobile === undefined ? (
         <div className="min-h-screen pt-32 pb-16 flex items-center justify-center">
           <div className="animate-pulse text-center">
             <p className="font-clinical text-sm opacity-50">Loading...</p>
           </div>
         </div>
-      ) : isMobile ? (
-        <IngredientsPageMobile
-          activeFormula={activeFormula}
-          setActiveFormula={setActiveFormula}
-        />
       ) : (
-        <IngredientsPageDesktop
-          activeFormula={activeFormula}
-          setActiveFormula={setActiveFormula}
-        />
+        <section
+          className="premium-section-luxury premium-hero-first premium-hero-with-top-air premium-section-reduced-bottom premium-bg-bone"
+          aria-label="Ingredients"
+        >
+          <div className="premium-track">
+            {isMobile ? (
+              <IngredientsPageMobile
+                activeFormula={activeFormula}
+                setActiveFormula={setActiveFormula}
+              />
+            ) : (
+              <IngredientsPageDesktop
+                activeFormula={activeFormula}
+                setActiveFormula={setActiveFormula}
+              />
+            )}
+          </div>
+        </section>
       )}
 
       <Footer />
