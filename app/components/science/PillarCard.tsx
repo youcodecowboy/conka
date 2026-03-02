@@ -192,9 +192,9 @@ export default function PillarCard({
 
       {isExpanded && (
         <div
-          className={`border-t border-[var(--color-premium-stroke)] ${isMobile ? "p-4" : "p-6"}`}
+          className={`border-t border-[var(--color-premium-stroke)] ${isMobile ? "p-4 space-y-4" : "p-6 space-y-6"}`}
         >
-          <div className="mb-6">
+          <div className={isMobile ? "" : "mb-6"}>
             <p className="premium-body-sm uppercase opacity-50 mb-2">
               What Is It?
             </p>
@@ -207,8 +207,12 @@ export default function PillarCard({
           </div>
 
           <div
-            className="mb-6 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
-            style={{ backgroundColor: "var(--color-premium-bg-soft)" }}
+            className={
+              isMobile
+                ? "premium-card-soft-mobile premium-card-soft-stroke"
+                : "p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+            }
+            style={isMobile ? undefined : { backgroundColor: "var(--color-premium-bg-soft)" }}
           >
             <p className="premium-body-sm uppercase opacity-50 mb-2">
               How It Works
@@ -221,20 +225,24 @@ export default function PillarCard({
             </p>
           </div>
 
-          <div className="mb-6">
+          <div className={isMobile ? "" : "mb-6"}>
             <p className="premium-body-sm uppercase opacity-50 mb-3">
               Clinical Evidence
             </p>
             <div
-              className={`grid gap-3 ${
+              className={`grid gap-2 md:gap-3 ${
                 isMobile ? "grid-cols-2" : "grid-cols-4"
               }`}
             >
               {pillar.keyStats.map((stat, idx) => (
                 <div
                   key={idx}
-                  className="p-3 text-center rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
-                  style={{ backgroundColor: "var(--color-premium-bg-soft)" }}
+                  className={
+                    isMobile
+                      ? "premium-card-soft-mobile premium-card-soft-stroke text-center"
+                      : "p-3 text-center rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+                  }
+                  style={isMobile ? undefined : { backgroundColor: "var(--color-premium-bg-soft)" }}
                 >
                   <p
                     className="text-2xl font-bold font-clinical"
@@ -270,7 +278,12 @@ export default function PillarCard({
               {pillar.ingredients.map((ingredient, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-3 p-3 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+                  className={
+                    isMobile
+                      ? "premium-card-soft-mobile premium-card-soft-stroke flex items-center gap-3"
+                      : "flex items-center gap-3 p-3 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+                  }
+                  style={isMobile ? undefined : { backgroundColor: "var(--color-premium-bg-soft)" }}
                 >
                   <span
                     className="w-2 h-2 rounded-full flex-shrink-0"
