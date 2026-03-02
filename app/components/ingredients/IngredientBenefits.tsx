@@ -128,7 +128,7 @@ export default function IngredientBenefits({ benefits, accentColor = "text-curre
   }
 
   return (
-    <div className="rounded-[var(--premium-radius-card)] bg-white divide-y divide-[var(--color-premium-stroke)]/50 overflow-hidden">
+    <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] divide-y divide-[var(--color-premium-stroke)]/50 overflow-hidden">
       {content}
     </div>
   );

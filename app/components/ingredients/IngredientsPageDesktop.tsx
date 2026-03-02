@@ -95,7 +95,7 @@ export default function IngredientsPageDesktop({
         <div className="lg:w-2/5 lg:sticky lg:top-24 lg:self-start">
           {/* Ingredient Image - bone, no border */}
           <div
-            className="overflow-hidden mb-6 rounded-[var(--premium-radius-card)] bg-white"
+            className="overflow-hidden mb-6 rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)]"
           >
             <div className="p-4 border-b border-[var(--color-premium-stroke)]/30 bg-white">
               <div className="flex items-center justify-between">
@@ -140,7 +140,7 @@ export default function IngredientsPageDesktop({
               ingredientName={activeIngredient.name}
             />
           ) : (
-            <div className="rounded-[var(--premium-radius-card)] bg-white">
+            <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)]">
               <p className="premium-body-sm opacity-50 uppercase mb-3">
                 Chemical Structure
               </p>
@@ -155,8 +155,8 @@ export default function IngredientsPageDesktop({
 
         {/* Right Side - Detailed Information */}
         <div className="lg:w-3/5 space-y-8">
-          {/* Header Info - no card wrapper, description with bottom padding */}
-          <div className="overflow-hidden rounded-[var(--premium-radius-card)]">
+          {/* Header Info - neuro-blue band + white description */}
+          <div className="overflow-hidden rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)]">
             <div
               className="p-4 text-white"
               style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
@@ -177,13 +177,15 @@ export default function IngredientsPageDesktop({
                 </div>
               </div>
             </div>
-            <p className="premium-body text-[var(--color-ink)] leading-relaxed pt-4 pb-6">
-              {activeIngredient.description}
-            </p>
+            <div className="bg-white pt-4 pb-6 px-4">
+              <p className="premium-body text-[var(--color-ink)] leading-relaxed">
+                {activeIngredient.description}
+              </p>
+            </div>
           </div>
 
           {/* Section: How it works (Stats + Mechanism + Benefits) */}
-          <section className="rounded-[var(--premium-radius-card)] bg-white p-6 lg:p-8" aria-labelledby="how-it-works-heading">
+          <section className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-6 lg:p-8" aria-labelledby="how-it-works-heading">
             <h2 id="how-it-works-heading" className="premium-heading text-[var(--color-ink)] mb-6 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
@@ -229,7 +231,7 @@ export default function IngredientsPageDesktop({
           </section>
 
           {/* Section: Clinical Studies */}
-          <section className="rounded-[var(--premium-radius-card)] bg-white p-6 lg:p-8" aria-labelledby="clinical-studies-heading">
+          <section className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-6 lg:p-8" aria-labelledby="clinical-studies-heading">
             <h2 id="clinical-studies-heading" className="premium-heading text-[var(--color-ink)] mb-4 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -247,7 +249,7 @@ export default function IngredientsPageDesktop({
           </section>
 
           {/* Section: Synergies */}
-          <section className="rounded-[var(--premium-radius-card)] bg-white p-6" aria-labelledby="synergies-heading">
+          <section className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-6" aria-labelledby="synergies-heading">
             <h2 id="synergies-heading" className="font-bold text-[var(--color-ink)] mb-3 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />

@@ -17,8 +17,8 @@ export default function IngredientStats({ stats, accentColor = "text-current", n
           key={idx}
           className={`p-4 text-center ${
             nested
-              ? "rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)]/15"
-              : "rounded-[var(--premium-radius-card)] bg-white"
+              ? "rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)]/15 border border-[var(--color-premium-stroke)]"
+              : "rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)]"
           }`}
         >
           <p className={`text-3xl lg:text-4xl font-bold font-clinical ${accentColor}`}>

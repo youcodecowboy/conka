@@ -92,7 +92,7 @@ export default function IngredientsPageMobile({
       {/* Active Ingredient Content */}
       <div className="space-y-6">
         {/* Main Card - no thick padding, bone-friendly */}
-        <div className="overflow-hidden rounded-[var(--premium-radius-card)]">
+        <div className="overflow-hidden rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)]">
           <div
             className="p-4 text-white"
             style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
@@ -139,10 +139,12 @@ export default function IngredientsPageMobile({
             )}
           </div>
 
-          {/* Description - bottom padding so text isn't clipped by rounded corners */}
-          <p className="premium-body-sm text-[var(--color-ink)] leading-relaxed pt-4 pb-6">
-            {activeIngredient.description}
-          </p>
+          {/* Description - white background, bottom padding so text isn't clipped */}
+          <div className="bg-white pt-4 pb-6 px-4">
+            <p className="premium-body-sm text-[var(--color-ink)] leading-relaxed">
+              {activeIngredient.description}
+            </p>
+          </div>
         </div>
 
         {/* Key Stats */}
@@ -172,7 +174,7 @@ export default function IngredientsPageMobile({
         </div>
 
         {/* How It Works - bone, no border */}
-        <div className="rounded-[var(--premium-radius-card)] bg-white p-4">
+        <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-4">
           <h3 className="font-bold text-[var(--color-ink)] mb-2 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -250,7 +252,7 @@ export default function IngredientsPageMobile({
         </div>
 
         {/* Synergies - bone, no border */}
-        <div className="rounded-[var(--premium-radius-card)] bg-white p-4">
+        <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-4">
           <h3 className="font-bold text-[var(--color-ink)] mb-3 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
