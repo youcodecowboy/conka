@@ -106,7 +106,7 @@ const defaultIcon: React.ReactNode = (
 
 export default function IngredientBenefits({ benefits, accentColor = "text-current" }: IngredientBenefitsProps) {
   return (
-    <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] divide-y divide-[var(--color-premium-stroke)]/50 overflow-hidden">
+    <div className="rounded-[var(--premium-radius-card)] bg-white divide-y divide-[var(--color-premium-stroke)]/50 overflow-hidden">
       {benefits.map((benefit, idx) => (
         <div
           key={idx}

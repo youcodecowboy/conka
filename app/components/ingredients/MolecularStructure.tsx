@@ -62,7 +62,7 @@ export function MolecularStructure({ structure, ingredientName }: MolecularStruc
   }, [structure.pubchemCid]);
 
   return (
-    <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] p-4">
+    <div className="rounded-[var(--premium-radius-card)] bg-white p-4">
       <div className="flex items-center justify-between mb-3">
         <p className="premium-body-sm opacity-50 uppercase text-[var(--color-ink)]">Chemical Structure</p>
         <a

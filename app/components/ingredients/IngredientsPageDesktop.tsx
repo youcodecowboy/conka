@@ -79,9 +79,9 @@ export default function IngredientsPageDesktop({
         <div className="lg:w-2/5 lg:sticky lg:top-24 lg:self-start">
           {/* Ingredient Image - bone, no border */}
           <div
-            className="overflow-hidden mb-6 rounded-[var(--premium-radius-card)] bg-[var(--color-bone)]"
+            className="overflow-hidden mb-6 rounded-[var(--premium-radius-card)] bg-white"
           >
-            <div className="p-4 border-b border-[var(--color-bone)] bg-[var(--color-bone)]">
+            <div className="p-4 border-b border-[var(--color-premium-stroke)]/30 bg-white">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="premium-body-sm opacity-70">
@@ -124,7 +124,7 @@ export default function IngredientsPageDesktop({
               ingredientName={activeIngredient.name}
             />
           ) : (
-            <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)]">
+            <div className="rounded-[var(--premium-radius-card)] bg-white">
               <p className="premium-body-sm opacity-50 uppercase mb-3">
                 Chemical Structure
               </p>
@@ -193,7 +193,7 @@ export default function IngredientsPageDesktop({
           </div>
 
           {/* Mechanism of Action - bone, no border */}
-          <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] p-6">
+          <div className="rounded-[var(--premium-radius-card)] bg-white p-6">
             <h3 className="premium-heading text-[var(--color-ink)] mb-3 flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -271,7 +271,7 @@ export default function IngredientsPageDesktop({
           </div>
 
           {/* Synergies - bone, no border */}
-          <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] p-6">
+          <div className="rounded-[var(--premium-radius-card)] bg-white p-6">
             <h3 className="font-bold text-[var(--color-ink)] mb-3 flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

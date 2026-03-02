@@ -156,7 +156,7 @@ export default function IngredientsPageMobile({
         </div>
 
         {/* How It Works - bone, no border */}
-        <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] p-4">
+        <div className="rounded-[var(--premium-radius-card)] bg-white p-4">
           <h3 className="font-bold text-[var(--color-ink)] mb-2 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -234,7 +234,7 @@ export default function IngredientsPageMobile({
         </div>
 
         {/* Synergies - bone, no border */}
-        <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] p-4">
+        <div className="rounded-[var(--premium-radius-card)] bg-white p-4">
           <h3 className="font-bold text-[var(--color-ink)] mb-3 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
