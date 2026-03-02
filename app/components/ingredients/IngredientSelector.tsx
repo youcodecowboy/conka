@@ -26,7 +26,7 @@ export default function IngredientSelector({
             className={`group flex items-center gap-2 px-4 py-2 rounded-full border transition-all premium-body-sm ${
               isActive
                 ? "bg-[var(--color-ink)] text-white border-[var(--color-ink)]"
-                : "border-[var(--color-premium-stroke)] hover:border-[var(--color-ink)]/30 text-[var(--color-ink)]"
+                : "bg-white border-[var(--color-premium-stroke)] hover:border-[var(--color-ink)]/30 text-[var(--color-ink)]"
             }`}
           >
             {/* Category dot */}

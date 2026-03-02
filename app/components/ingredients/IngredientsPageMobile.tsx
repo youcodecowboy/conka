@@ -45,13 +45,29 @@ export default function IngredientsPageMobile({
 
   return (
     <div className="min-h-screen pt-6 pb-8">
-      {/* Header */}
+      {/* Hero */}
       <div className="mb-6">
-        <h1 className="premium-section-heading text-[var(--color-ink)] mb-1">
-          The Science Inside
+        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-1">
+          Explore every ingredient
+        </p>
+        <h1
+          className="premium-section-heading font-bold text-[var(--color-ink)] text-3xl mb-1"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          The Science{" "}
+          <span
+            style={{
+              background: "var(--gradient-neuro-blue-accent)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Inside
+          </span>
         </h1>
         <p className="premium-body-sm opacity-70">
-          Explore every ingredient
+          Formula breakdown and clinical evidence for each ingredient.
         </p>
       </div>
 
@@ -123,8 +139,8 @@ export default function IngredientsPageMobile({
             )}
           </div>
 
-          {/* Description - no box padding */}
-          <p className="premium-body-sm text-[var(--color-ink)] leading-relaxed pt-4">
+          {/* Description - bottom padding so text isn't clipped by rounded corners */}
+          <p className="premium-body-sm text-[var(--color-ink)] leading-relaxed pt-4 pb-6">
             {activeIngredient.description}
           </p>
         </div>

@@ -47,17 +47,33 @@ export default function IngredientsPageDesktop({
 
   return (
     <div className="space-y-12">
-      {/* Header Section */}
+      {/* Hero / Header Section */}
       <div>
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
-          <div>
-            <h1 className="premium-section-heading text-[var(--color-ink)] mb-2">
-              The Science Inside
-            </h1>
-            <p className="premium-body-sm opacity-80">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+          <header>
+            <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
               Explore every ingredient
             </p>
-          </div>
+            <h1
+              className="premium-section-heading font-bold text-[var(--color-ink)] text-4xl lg:text-5xl mb-2"
+              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            >
+              The Science{" "}
+              <span
+                style={{
+                  background: "var(--gradient-neuro-blue-accent)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Inside
+              </span>
+            </h1>
+            <p className="premium-body-sm opacity-80" style={{ maxWidth: "var(--premium-body-max-width)" }}>
+              Formula breakdown, mechanisms, and clinical evidence for each ingredient.
+            </p>
+          </header>
 
           <FormulaToggle
             value={activeFormula}
@@ -139,7 +155,7 @@ export default function IngredientsPageDesktop({
 
         {/* Right Side - Detailed Information */}
         <div className="lg:w-3/5 space-y-8">
-          {/* Header Info - no card wrapper, minimal padding */}
+          {/* Header Info - no card wrapper, description with bottom padding */}
           <div className="overflow-hidden rounded-[var(--premium-radius-card)]">
             <div
               className="p-4 text-white"
@@ -161,101 +177,61 @@ export default function IngredientsPageDesktop({
                 </div>
               </div>
             </div>
-            <p className="premium-body text-[var(--color-ink)] leading-relaxed pt-4">
+            <p className="premium-body text-[var(--color-ink)] leading-relaxed pt-4 pb-6">
               {activeIngredient.description}
             </p>
           </div>
 
-          {/* Key Stats */}
-          <div>
-            <h3 className="premium-heading text-[var(--color-ink)] mb-4 flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="18" y1="20" x2="18" y2="10" />
-                <line x1="12" y1="20" x2="12" y2="4" />
-                <line x1="6" y1="20" x2="6" y2="14" />
-              </svg>
-              Key Statistics
-            </h3>
-            <IngredientStats
-              stats={activeIngredient.keyStats}
-              accentColor={accentColor.text}
-            />
-          </div>
-
-          {/* Mechanism of Action - bone, no border */}
-          <div className="rounded-[var(--premium-radius-card)] bg-white p-6">
-            <h3 className="premium-heading text-[var(--color-ink)] mb-3 flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+          {/* Section: How it works (Stats + Mechanism + Benefits) */}
+          <section className="rounded-[var(--premium-radius-card)] bg-white p-6 lg:p-8" aria-labelledby="how-it-works-heading">
+            <h2 id="how-it-works-heading" className="premium-heading text-[var(--color-ink)] mb-6 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                 <line x1="12" y1="17" x2="12.01" y2="17" />
               </svg>
-              How It Works
-            </h3>
-            <p className="premium-body-sm text-[var(--color-ink)] opacity-80 leading-relaxed">
-              {activeIngredient.mechanismOfAction}
-            </p>
-          </div>
+              How it works
+            </h2>
 
-          {/* Benefits */}
-          <div>
-            <h3 className="premium-heading text-[var(--color-ink)] mb-4 flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
-              Key Benefits
-            </h3>
-            <IngredientBenefits
-              benefits={activeIngredient.benefits}
+            {/* Key Stats */}
+            <div className="mb-8">
+              <h3 className="premium-body-sm font-semibold text-[var(--color-ink)] uppercase tracking-wider opacity-70 mb-3">
+                Key Statistics
+              </h3>
+            <IngredientStats
+              stats={activeIngredient.keyStats}
               accentColor={accentColor.text}
+              nested
             />
-          </div>
+            </div>
 
-          {/* Clinical Studies */}
-          <div>
-            <h3 className="premium-heading text-[var(--color-ink)] mb-4 flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+            {/* Mechanism */}
+            <div className="mb-8">
+              <h3 className="premium-body-sm font-semibold text-[var(--color-ink)] uppercase tracking-wider opacity-70 mb-2">
+                Mechanism
+              </h3>
+              <p className="premium-body-sm text-[var(--color-ink)] opacity-80 leading-relaxed">
+                {activeIngredient.mechanismOfAction}
+              </p>
+            </div>
+
+            {/* Benefits */}
+            <div>
+              <h3 className="premium-body-sm font-semibold text-[var(--color-ink)] uppercase tracking-wider opacity-70 mb-3">
+                Key Benefits
+              </h3>
+              <IngredientBenefits
+                benefits={activeIngredient.benefits}
+                accentColor={accentColor.text}
+                nested
+              />
+            </div>
+          </section>
+
+          {/* Section: Clinical Studies */}
+          <section className="rounded-[var(--premium-radius-card)] bg-white p-6 lg:p-8" aria-labelledby="clinical-studies-heading">
+            <h2 id="clinical-studies-heading" className="premium-heading text-[var(--color-ink)] mb-4 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
                 <line x1="16" y1="13" x2="8" y2="13" />
@@ -263,33 +239,23 @@ export default function IngredientsPageDesktop({
                 <polyline points="10 9 9 9 8 9" />
               </svg>
               Clinical Studies
-            </h3>
+            </h2>
             <IngredientStudies
               studies={activeIngredient.clinicalStudies}
               accentColor={accentColor.text}
             />
-          </div>
+          </section>
 
-          {/* Synergies - bone, no border */}
-          <div className="rounded-[var(--premium-radius-card)] bg-white p-6">
-            <h3 className="font-bold text-[var(--color-ink)] mb-3 flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+          {/* Section: Synergies */}
+          <section className="rounded-[var(--premium-radius-card)] bg-white p-6" aria-labelledby="synergies-heading">
+            <h2 id="synergies-heading" className="font-bold text-[var(--color-ink)] mb-3 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <line x1="2" y1="12" x2="22" y2="12" />
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
               </svg>
               Works Well With
-            </h3>
+            </h2>
             <div className="flex flex-wrap gap-2">
               {activeIngredient.synergies.map((synergy, idx) => (
                 <span
@@ -300,7 +266,7 @@ export default function IngredientsPageDesktop({
                 </span>
               ))}
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </div>

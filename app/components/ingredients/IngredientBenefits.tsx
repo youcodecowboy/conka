@@ -6,7 +6,10 @@ import { IngredientBenefit } from "@/app/lib/ingredientsData";
 interface IngredientBenefitsProps {
   benefits: IngredientBenefit[];
   accentColor?: string;
+  /** When true, render without outer card (e.g. inside a section) */
+  nested?: boolean;
 }
+
 
 // Icon mapping (smaller for compact list)
 const iconMap: Record<string, React.ReactNode> = {
@@ -104,23 +107,29 @@ const defaultIcon: React.ReactNode = (
   </svg>
 );
 
-export default function IngredientBenefits({ benefits, accentColor = "text-current" }: IngredientBenefitsProps) {
+export default function IngredientBenefits({ benefits, accentColor = "text-current", nested = false }: IngredientBenefitsProps) {
+  const content = benefits.map((benefit, idx) => (
+    <div
+      key={idx}
+      className="flex items-start gap-3 py-3 px-4 text-[var(--color-ink)]"
+    >
+      <div className={`shrink-0 mt-0.5 ${accentColor}`}>
+        {iconMap[benefit.icon] || defaultIcon}
+      </div>
+      <div className="min-w-0">
+        <p className="font-semibold premium-body-sm">{benefit.title}</p>
+        <p className="premium-body-sm opacity-80 mt-0.5">{benefit.description}</p>
+      </div>
+    </div>
+  ));
+
+  if (nested) {
+    return <div className="divide-y divide-[var(--color-premium-stroke)]/50">{content}</div>;
+  }
+
   return (
     <div className="rounded-[var(--premium-radius-card)] bg-white divide-y divide-[var(--color-premium-stroke)]/50 overflow-hidden">
-      {benefits.map((benefit, idx) => (
-        <div
-          key={idx}
-          className="flex items-start gap-3 py-3 px-4 text-[var(--color-ink)]"
-        >
-          <div className={`shrink-0 mt-0.5 ${accentColor}`}>
-            {iconMap[benefit.icon] || defaultIcon}
-          </div>
-          <div className="min-w-0">
-            <p className="font-semibold premium-body-sm">{benefit.title}</p>
-            <p className="premium-body-sm opacity-80 mt-0.5">{benefit.description}</p>
-          </div>
-        </div>
-      ))}
+      {content}
     </div>
   );
 }
