@@ -166,6 +166,40 @@ Structure:
         └── content
 ```
 
+### Hero section styling
+
+**Purpose:** Consistent first-section hero pattern across premium pages (e.g. Our Story, Science). The page wraps the hero component in a section with `.premium-section-luxury`, `.premium-hero-first`, and optional `.premium-hero-with-top-air` for extra padding above.
+
+**Structure (follow this order):**
+
+1. **Small message** — Eyebrow/label above the title. Use `.premium-body-sm`, uppercase, tracking-widest, reduced opacity (e.g. `opacity-50`). Example: "The Science Behind CONKA", "The journey behind the formula".
+2. **Title** — Main headline with the **critical word (or phrase) in gradient**. Use `.premium-section-heading`, `letterSpacing: "var(--letter-spacing-premium-title)"`. Apply the gradient only to the emphasised span:
+   ```tsx
+   <h1 className="premium-section-heading ... text-[var(--color-ink)]" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
+     Our{" "}
+     <span style={{
+       background: "var(--gradient-neuro-blue-accent)",
+       WebkitBackgroundClip: "text",
+       WebkitTextFillColor: "transparent",
+       backgroundClip: "text",
+     }}>
+       Story
+     </span>
+   </h1>
+   ```
+   Do not use italic for the gradient phrase; the gradient is the emphasis.
+3. **Description** — Body copy below the title. Use `.premium-body`, `maxWidth: "var(--premium-body-max-width)"`, optional opacity (e.g. `opacity-80`).
+
+**Section wrapper (page responsibility):**
+
+- Hero as first section: `premium-section-luxury premium-hero-first premium-section-reduced-bottom premium-bg-bone` (or `premium-bg-ink` for dark hero).
+- For **a bit more padding above** the hero content, add `.premium-hero-with-top-air` to the section. This uses `clamp(2rem, 6vh, 4rem)` top padding (desktop) so the hero doesn’t sit flush under the nav.
+
+**Optional: stat/content tiles**
+
+- When the hero includes stat cards or tiles, use **neural blue tiles with white text** for consistency: `backgroundColor: "var(--color-neuro-blue-dark)"`, `color: white` (or `text-white`), border `1px solid rgba(255,255,255,0.15)`, radius `var(--premium-radius-card)`.
+- Reference: [OurStoryHero](../app/components/our-story/OurStoryHero.tsx), [ScienceHero](../app/components/science/ScienceHero.tsx).
+
 ---
 
 ## 5. Component rules

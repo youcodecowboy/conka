@@ -15,14 +15,23 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
           The Science Behind CONKA
         </p>
         <h1
-          className={`premium-section-heading font-bold ${
+          className={`premium-section-heading font-bold text-[var(--color-ink)] ${
             isMobile ? "text-3xl mb-3" : "text-5xl lg:text-6xl mb-4"
           }`}
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
           Cognitive Performance,
           <br />
-          <span className="font-normal italic">rooted in science</span>
+          <span
+            style={{
+              background: "var(--gradient-neuro-blue-accent)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            rooted in science
+          </span>
         </h1>
         <p
           className="premium-body opacity-80"
@@ -41,8 +50,12 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
         {headlineStats.map((stat, idx) => (
           <div
             key={idx}
-            className="bg-white premium-card-soft-stroke p-4 lg:p-6 text-center text-[var(--color-ink)]"
-            style={{ borderRadius: "var(--premium-radius-card)" }}
+            className="p-4 lg:p-6 text-center text-white premium-card-soft-stroke"
+            style={{
+              borderRadius: "var(--premium-radius-card)",
+              backgroundColor: "var(--color-neuro-blue-dark)",
+              border: "1px solid rgba(255,255,255,0.15)",
+            }}
           >
             <p
               className={`font-bold font-clinical ${
@@ -51,16 +64,12 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
             >
               {stat.value}
               {stat.suffix && (
-                <span
-                  style={{
-                    color: "var(--color-neuro-blue-end)",
-                  }}
-                >
+                <span className="text-white/90">
                   {stat.suffix}
                 </span>
               )}
             </p>
-            <p className="premium-body-sm opacity-70 mt-1">{stat.label}</p>
+            <p className="premium-body-sm text-white/80 mt-1">{stat.label}</p>
           </div>
         ))}
       </div>

@@ -145,6 +145,15 @@
 .premium-section-luxury.premium-hero-first {
   padding-top: var(--premium-space-m);
 }
+/* Hero with a bit more top padding (use when hero needs more air above) */
+.premium-section-luxury.premium-hero-first.premium-hero-with-top-air {
+  padding-top: clamp(2rem, 6vh, 4rem);
+}
+@media (max-width: 768px) {
+  .premium-section-luxury.premium-hero-first.premium-hero-with-top-air {
+    padding-top: clamp(1.5rem, 4vh, 3rem);
+  }
+}
 @media (max-width: 768px) {
   .premium-section-luxury {
     padding-top: var(--space-section-padding-mobile);

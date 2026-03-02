@@ -26,7 +26,7 @@ export default function OurStoryPage() {
         <>
           {/* Hero */}
           <section
-            className="premium-section-luxury premium-hero-first premium-section-reduced-bottom premium-bg-bone"
+            className="premium-section-luxury premium-hero-first premium-hero-with-top-air premium-section-reduced-bottom premium-bg-bone"
             aria-label="Our Story hero"
           >
             <div className="premium-track">

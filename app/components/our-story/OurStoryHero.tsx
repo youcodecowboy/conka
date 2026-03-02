@@ -3,8 +3,11 @@
 export function OurStoryHero() {
   return (
     <div className="flex flex-col gap-6 md:gap-8">
-      {/* Headline block — tight grouping */}
+      {/* Headline block — small message, title (gradient word), description */}
       <header>
+        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
+          the journey behind the formula
+        </p>
         <h1
           className="premium-section-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-1 md:mb-2 text-[var(--color-ink)]"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
@@ -21,9 +24,6 @@ export function OurStoryHero() {
             Story
           </span>
         </h1>
-        <p className="premium-section-subtitle text-xl md:text-2xl mb-1 opacity-70">
-          the journey behind the formula
-        </p>
         <p
           className="premium-body text-base md:text-lg opacity-60"
           style={{ maxWidth: "var(--premium-body-max-width)" }}
