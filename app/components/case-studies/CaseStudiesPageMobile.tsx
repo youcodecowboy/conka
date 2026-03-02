@@ -88,7 +88,7 @@ export default function CaseStudiesPageMobile() {
   };
 
   return (
-    <div className="-mx-[var(--premium-gutter-mobile)] pt-3 pb-8 min-h-screen">
+    <div className="-mx-[var(--premium-gutter-mobile)] pb-8 min-h-screen">
       {/* 1. Header — hero style with gradient accent */}
       <div className="px-[var(--premium-gutter-mobile)] mb-2">
         <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-0.5 text-[var(--color-ink)]">

@@ -43,7 +43,7 @@ export default function CaseStudiesPageDesktop() {
   };
 
   return (
-    <div className="pt-8 pb-8 md:pt-6 md:pb-6">
+    <div className="pb-8 md:pb-6">
       {/* Header Section */}
       <div className="mb-8">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-6">
