@@ -9,7 +9,22 @@ interface PillarCardProps {
   isMobile?: boolean;
 }
 
-// Icon components
+// Map pillar color class to background style (neural blue palette where possible)
+function getIconBgStyle(colorClass: string): React.CSSProperties {
+  // Use neural blue for amber/emerald-like accents; keep others distinct
+  if (
+    colorClass === "bg-amber-500" ||
+    colorClass === "bg-emerald-500" ||
+    colorClass === "bg-purple-500"
+  ) {
+    return { backgroundColor: "var(--color-neuro-blue-end)" };
+  }
+  if (colorClass === "bg-blue-500" || colorClass === "bg-red-500") {
+    return { backgroundColor: "var(--color-neuro-blue-end)" };
+  }
+  return { backgroundColor: "var(--color-neuro-blue-end)" };
+}
+
 const icons = {
   shield: (
     <svg
@@ -103,47 +118,57 @@ export default function PillarCard({
         ? "CONKA Clear"
         : "Both Formulas";
 
-  const formulaColor =
+  const formulaDotStyle: React.CSSProperties =
     pillar.forFormula === "01"
-      ? "bg-amber-500"
+      ? { backgroundColor: "var(--color-neuro-blue-end)" }
       : pillar.forFormula === "02"
-        ? "bg-[#AAB9BC]"
-        : "bg-gradient-to-r from-amber-500 to-[#AAB9BC]";
+        ? { backgroundColor: "var(--color-mid)" }
+        : {
+            background:
+              "linear-gradient(to right, var(--color-neuro-blue-end), var(--color-mid))",
+          };
 
   return (
-    <div className="neo-box overflow-hidden">
-      {/* Header - Always visible */}
+    <div
+      className="premium-card-soft premium-card-soft-stroke overflow-hidden text-[var(--color-ink)]"
+      style={{ borderRadius: "var(--premium-radius-card)" }}
+    >
       <button
+        type="button"
         onClick={onToggle}
-        className={`w-full text-left hover:bg-current/5 transition-colors ${
+        className={`w-full text-left hover:opacity-90 transition-opacity ${
           isMobile ? "p-4" : "p-6"
         }`}
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-4">
-            {/* Icon */}
             <div
-              className={`${pillar.color} text-white p-3 rounded-lg flex-shrink-0`}
+              className="text-white p-3 rounded-lg flex-shrink-0"
+              style={{
+                ...getIconBgStyle(pillar.color),
+                borderRadius: "var(--premium-radius-nested)",
+              }}
             >
               {icons[pillar.icon]}
             </div>
-            {/* Title */}
             <div>
-              <h3 className={`font-bold ${isMobile ? "text-lg" : "text-xl"}`}>
+              <h3 className={`premium-heading ${isMobile ? "text-lg" : "text-xl"}`}>
                 {pillar.name}
               </h3>
-              <p className="font-commentary text-sm opacity-70 mt-0.5">
+              <p className="premium-section-subtitle opacity-70 mt-0.5">
                 {pillar.tagline}
               </p>
               <div className="flex items-center gap-2 mt-2">
-                <span className={`w-2 h-2 rounded-full ${formulaColor}`}></span>
-                <span className="font-clinical text-xs opacity-50">
+                <span
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={formulaDotStyle}
+                />
+                <span className="premium-body-sm opacity-50">
                   {formulaLabel}
                 </span>
               </div>
             </div>
           </div>
-          {/* Expand Icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -163,36 +188,39 @@ export default function PillarCard({
         </div>
       </button>
 
-      {/* Expanded Content */}
       {isExpanded && (
         <div
-          className={`border-t-2 border-current/10 ${isMobile ? "p-4" : "p-6"}`}
+          className={`border-t border-[var(--color-premium-stroke)] ${isMobile ? "p-4" : "p-6"}`}
         >
-          {/* Description */}
           <div className="mb-6">
-            <p className="font-clinical text-xs uppercase opacity-50 mb-2">
+            <p className="premium-body-sm uppercase opacity-50 mb-2">
               What Is It?
             </p>
             <p
-              className={`${isMobile ? "text-sm" : "text-base"} leading-relaxed`}
+              className={`premium-body ${isMobile ? "text-sm" : "text-base"}`}
+              style={{ lineHeight: "var(--premium-font-body-leading)" }}
             >
               {pillar.description}
             </p>
           </div>
 
-          {/* Mechanism */}
-          <div className="mb-6 neo-box p-4">
-            <p className="font-clinical text-xs uppercase opacity-50 mb-2">
+          <div
+            className="mb-6 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+            style={{ backgroundColor: "var(--color-premium-bg-soft)" }}
+          >
+            <p className="premium-body-sm uppercase opacity-50 mb-2">
               How It Works
             </p>
-            <p className="text-sm leading-relaxed opacity-80">
+            <p
+              className="premium-body-sm leading-relaxed opacity-80"
+              style={{ lineHeight: "var(--premium-font-body-leading)" }}
+            >
               {pillar.mechanism}
             </p>
           </div>
 
-          {/* Key Stats */}
           <div className="mb-6">
-            <p className="font-clinical text-xs uppercase opacity-50 mb-3">
+            <p className="premium-body-sm uppercase opacity-50 mb-3">
               Clinical Evidence
             </p>
             <div
@@ -201,18 +229,29 @@ export default function PillarCard({
               }`}
             >
               {pillar.keyStats.map((stat, idx) => (
-                <div key={idx} className="neo-box p-3 text-center">
-                  <p className="text-2xl font-bold font-clinical text-amber-600">
+                <div
+                  key={idx}
+                  className="p-3 text-center rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+                  style={{ backgroundColor: "var(--color-premium-bg-soft)" }}
+                >
+                  <p
+                    className="text-2xl font-bold font-clinical"
+                    style={{ color: "var(--color-neuro-blue-end)" }}
+                  >
                     {stat.value}
                   </p>
-                  <p className="font-clinical text-xs opacity-70 mt-1">
+                  <p className="premium-body-sm opacity-70 mt-1">
                     {stat.label}
                   </p>
                   <a
                     href={`https://pubmed.ncbi.nlm.nih.gov/${stat.pmid}/`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-clinical text-[10px] text-amber-500 hover:underline mt-1 block"
+                    className="premium-body-sm hover:underline mt-1 block"
+                    style={{
+                      fontSize: "10px",
+                      color: "var(--color-neuro-blue-end)",
+                    }}
                   >
                     PMID: {stat.pmid}
                   </a>
@@ -221,33 +260,36 @@ export default function PillarCard({
             </div>
           </div>
 
-          {/* Ingredients */}
           <div>
-            <p className="font-clinical text-xs uppercase opacity-50 mb-3">
+            <p className="premium-body-sm uppercase opacity-50 mb-3">
               Key Ingredients
             </p>
             <div className="space-y-2">
               {pillar.ingredients.map((ingredient, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-3 p-3 border-2 border-current/10 rounded"
+                  className="flex items-center gap-3 p-3 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
                 >
                   <span
-                    className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={
                       ingredient.formula === "01"
-                        ? "bg-amber-500"
+                        ? { backgroundColor: "var(--color-neuro-blue-end)" }
                         : ingredient.formula === "02"
-                          ? "bg-[#AAB9BC]"
-                          : "bg-gradient-to-r from-amber-500 to-[#AAB9BC]"
-                    }`}
-                  ></span>
+                          ? { backgroundColor: "var(--color-mid)" }
+                          : {
+                              background:
+                                "linear-gradient(to right, var(--color-neuro-blue-end), var(--color-mid))",
+                            }
+                    }
+                  />
                   <div className="flex-1">
                     <p className="font-bold text-sm">{ingredient.name}</p>
-                    <p className="font-clinical text-xs opacity-70">
+                    <p className="premium-body-sm opacity-70">
                       {ingredient.role}
                     </p>
                   </div>
-                  <span className="font-clinical text-[10px] opacity-50">
+                  <span className="premium-body-sm opacity-50">
                     {ingredient.formula === "01"
                       ? "F01"
                       : ingredient.formula === "02"
