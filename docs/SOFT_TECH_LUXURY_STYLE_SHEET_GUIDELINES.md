@@ -166,6 +166,40 @@ Structure:
         └── content
 ```
 
+### Hero section styling
+
+**Purpose:** Consistent first-section hero pattern across premium pages (e.g. Our Story, Science). The page wraps the hero component in a section with `.premium-section-luxury`, `.premium-hero-first`, and optional `.premium-hero-with-top-air` for extra padding above.
+
+**Structure (follow this order):**
+
+1. **Small message** — Eyebrow/label above the title. Use `.premium-body-sm`, uppercase, tracking-widest, reduced opacity (e.g. `opacity-50`). Example: "The Science Behind CONKA", "The journey behind the formula".
+2. **Title** — Main headline with the **critical word (or phrase) in gradient**. Use `.premium-section-heading`, `letterSpacing: "var(--letter-spacing-premium-title)"`. Apply the gradient only to the emphasised span:
+   ```tsx
+   <h1 className="premium-section-heading ... text-[var(--color-ink)]" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
+     Our{" "}
+     <span style={{
+       background: "var(--gradient-neuro-blue-accent)",
+       WebkitBackgroundClip: "text",
+       WebkitTextFillColor: "transparent",
+       backgroundClip: "text",
+     }}>
+       Story
+     </span>
+   </h1>
+   ```
+   Do not use italic for the gradient phrase; the gradient is the emphasis.
+3. **Description** — Body copy below the title. Use `.premium-body`, `maxWidth: "var(--premium-body-max-width)"`, optional opacity (e.g. `opacity-80`).
+
+**Section wrapper (page responsibility):**
+
+- Hero as first section: `premium-section-luxury premium-hero-first premium-section-reduced-bottom premium-bg-bone` (or `premium-bg-ink` for dark hero).
+- For **a bit more padding above** the hero content, add `.premium-hero-with-top-air` to the section. This uses `clamp(2rem, 6vh, 4rem)` top padding (desktop) so the hero doesn’t sit flush under the nav.
+
+**Optional: stat/content tiles**
+
+- When the hero includes stat cards or tiles, use **neural blue tiles with white text** for consistency: `backgroundColor: "var(--color-neuro-blue-dark)"`, `color: white` (or `text-white`), border `1px solid rgba(255,255,255,0.15)`, radius `var(--premium-radius-card)`.
+- Reference: [OurStoryHero](../app/components/our-story/OurStoryHero.tsx), [ScienceHero](../app/components/science/ScienceHero.tsx).
+
 ---
 
 ## 5. Component rules
@@ -208,6 +242,10 @@ Structure:
 - ✅ **FormulaFAQ** — Stripped section and root max-width/padding; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-bone` on conka-flow (mobile + desktop).
 - ✅ **CrossSell** (CrossSellDesktop + CrossSellMobile) — Stripped section/container and padding; content-only. Wrapped in `.premium-section-luxury` + `.premium-track` with `.premium-bg-bone` on conka-flow (mobile + desktop).
 
+### Migrated pages (section-based layout)
+
+- ✅ **Science page** ([app/science/page.tsx](../app/science/page.tsx)) — Page owns all sections and color rhythm; no root `theme-conka-flow` or inline background. Uses `premium-section-luxury` + `premium-track` per block with neural blue (`--color-neuro-blue-light`, `--color-neuro-blue-dark`), `premium-bg-bone`, and `premium-bg-ink`. Components refactored to content-only: **ScienceHero**, **ScienceQuote**, **ScienceAdaptogens**, **SciencePillars**, **PillarCard**, **SynergyChart**, **ScienceDifferent**, **EvidenceSummary**.
+
 ### Components to migrate (conka-flow page)
 
 - ⏳ **ProductHero** / **ProductHeroMobile** — Deferred (not in scope for this phase).
@@ -231,6 +269,7 @@ Structure:
 - **Section wrapper** — `<section className="premium-section-luxury premium-bg-{ink|bone|surface}" aria-label="…">`.
 - **Track** — `<div className="premium-track">` around the component so content aligns to the system rail.
 - **Background and default color** — Section background and a single default `color` (Ink = light text, Bone/Surface/Mid = dark text) come from the page via `.premium-bg-*` classes. Components inherit this color or set their own on elements that need different colors (e.g. white card on dark section sets dark text on the card).
+- **Multi-section pages** — Prefer a flat list of sections (each with section + track + one component) over a single wrapper component that owns multiple sections; see the **Section-based pages** subsection in Section 11.1.
 
 ---
 
@@ -490,6 +529,17 @@ White (CrossSell - clean end)
 ```
 
 **Result:** A cohesive page that feels intentional, rhythmic, and premium — not a collection of random sections, but a unified experience.
+
+### Section-based pages (our-story, science)
+
+For multi-section content pages, prefer a **flat list of sections** on the page, each with `premium-section-luxury` + `premium-track` + one content-only component, rather than a single wrapper component that owns multiple sections.
+
+**Reference implementations:**
+
+- [app/our-story/page.tsx](../app/our-story/page.tsx) — Hero (bone), alternating story sections (neuro-blue-light / neuro-blue-dark), final CTA (ink). No root theme or background; sections provide background and default color.
+- [app/science/page.tsx](../app/science/page.tsx) — Hero (bone), quote (neuro-blue-light), adaptogens (bone), five pillars (neuro-blue-dark), synergy chart (neuro-blue-light), how we're different (bone), evidence summary (ink). Same pattern: page owns section order and backgrounds; components are content-only.
+
+**Typical section order and background pattern:** Hero bone/white → alternating neuro-blue-light / neuro-blue-dark / bone → final CTA ink or dark.
 
 ---
 

@@ -4,6 +4,9 @@ export function OurStoryHeroMobile() {
   return (
     <div className="flex flex-col gap-4">
       <header>
+        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
+          the journey behind the formula
+        </p>
         <h1
           className="premium-section-heading text-4xl font-bold tracking-tight mb-1 text-[var(--color-ink)]"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
@@ -20,10 +23,7 @@ export function OurStoryHeroMobile() {
             Story
           </span>
         </h1>
-        <p className="premium-section-subtitle text-lg mb-1 opacity-70">
-          the journey behind the formula
-        </p>
-        <p className="premium-body-sm opacity-50">
+        <p className="premium-body text-base opacity-60" style={{ maxWidth: "var(--premium-body-max-width)" }}>
           Two founders on a mission to build a better brain.
         </p>
       </header>

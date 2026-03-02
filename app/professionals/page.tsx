@@ -3,7 +3,7 @@
 import Navigation from "../components/navigation";
 import ProfessionalsContext from "../components/professionals/ProfessionalsContext";
 import ModeSelectionSection from "../components/professionals/ModeSelectionSection";
-import { SciencePageDesktop, SciencePageMobile } from "../components/science";
+import SciencePageContent from "../components/science/SciencePageContent";
 import useIsMobile from "../hooks/useIsMobile";
 
 export default function ProfessionalsPage() {
@@ -26,9 +26,9 @@ export default function ProfessionalsPage() {
           </div>
         </div>
       ) : isMobile ? (
-        <SciencePageMobile />
+        <SciencePageContent isMobile={true} />
       ) : (
-        <SciencePageDesktop />
+        <SciencePageContent isMobile={false} />
       )}
     </div>
   );
