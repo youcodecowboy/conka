@@ -58,7 +58,7 @@ export default function IngredientCarousel({
               }`}
             >
               <div
-                className={`rounded-[var(--premium-radius-card)] bg-white overflow-hidden p-0 transition-colors ${
+                className={`rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] overflow-hidden p-0 transition-colors ${
                   isActive
                     ? "ring-2 ring-[var(--color-ink)]"
                     : ""

@@ -17,7 +17,7 @@ export default function IngredientStudies({ studies, accentColor = "text-current
       {studies.map((study, idx) => (
         <div
           key={idx}
-          className="rounded-[var(--premium-radius-card)] bg-white overflow-hidden"
+          className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] overflow-hidden"
         >
           {/* Study Header */}
           <button
