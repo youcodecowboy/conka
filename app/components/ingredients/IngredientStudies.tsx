@@ -17,22 +17,22 @@ export default function IngredientStudies({ studies, accentColor = "text-current
       {studies.map((study, idx) => (
         <div
           key={idx}
-          className="neo-box overflow-hidden"
+          className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] overflow-hidden"
         >
           {/* Study Header */}
           <button
             onClick={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
-            className="w-full p-4 text-left hover:bg-current/5 transition-colors"
+            className="w-full p-4 text-left hover:bg-[var(--color-premium-stroke)]/30 transition-colors text-[var(--color-ink)]"
           >
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <h4 className="font-bold text-sm">{study.title}</h4>
-                <p className="font-clinical text-xs opacity-70 mt-1">
+                <h4 className="font-bold premium-body-sm">{study.title}</h4>
+                <p className="premium-body-sm opacity-70 mt-1">
                   {study.university} • {study.year}
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <span className={`font-clinical text-xs px-2 py-1 rounded bg-current/10 ${accentColor}`}>
+                <span className={`premium-body-sm px-2 py-1 rounded bg-[var(--color-premium-stroke)]/50 ${accentColor}`}>
                   {study.pValue}
                 </span>
                 <svg
@@ -55,41 +55,41 @@ export default function IngredientStudies({ studies, accentColor = "text-current
 
           {/* Expanded Content */}
           {expandedIndex === idx && (
-            <div className="px-4 pb-4 border-t-2 border-current/10">
+            <div className="px-4 pb-4 border-t border-[var(--color-premium-stroke)]">
               {/* Authors & Journal */}
-              <div className="py-3 border-b border-current/10">
-                <p className="font-clinical text-xs opacity-70">{study.authors}</p>
-                <p className="font-clinical text-xs opacity-50 mt-1">
+              <div className="py-3 border-b border-[var(--color-premium-stroke)]">
+                <p className="premium-body-sm opacity-70 text-[var(--color-ink)]">{study.authors}</p>
+                <p className="premium-body-sm opacity-50 mt-1 text-[var(--color-ink)]">
                   <span className="italic">{study.journal}</span> ({study.year})
                 </p>
               </div>
 
               {/* Study Meta */}
-              <div className="grid grid-cols-3 gap-4 py-4 border-b border-current/10">
+              <div className="grid grid-cols-3 gap-4 py-4 border-b border-[var(--color-premium-stroke)]">
                 <div>
-                  <p className="font-clinical text-xs opacity-50 uppercase">Participants</p>
-                  <p className="font-bold text-lg">{study.participants.toLocaleString()}</p>
+                  <p className="premium-body-sm opacity-50 uppercase text-[var(--color-ink)]">Participants</p>
+                  <p className="font-bold text-lg text-[var(--color-ink)]">{study.participants.toLocaleString()}</p>
                 </div>
                 <div>
-                  <p className="font-clinical text-xs opacity-50 uppercase">Duration</p>
-                  <p className="font-bold text-lg">{study.duration}</p>
+                  <p className="premium-body-sm opacity-50 uppercase text-[var(--color-ink)]">Duration</p>
+                  <p className="font-bold text-lg text-[var(--color-ink)]">{study.duration}</p>
                 </div>
                 <div>
-                  <p className="font-clinical text-xs opacity-50 uppercase">Significance</p>
+                  <p className="premium-body-sm opacity-50 uppercase text-[var(--color-ink)]">Significance</p>
                   <p className={`font-bold text-lg font-clinical ${accentColor}`}>{study.pValue}</p>
                 </div>
               </div>
 
               {/* Key Finding */}
-              <div className="py-4 border-b border-current/10">
-                <p className="font-clinical text-xs opacity-50 uppercase mb-2">Key Finding</p>
-                <p className="text-sm font-medium">{study.keyFinding}</p>
+              <div className="py-4 border-b border-[var(--color-premium-stroke)]">
+                <p className="premium-body-sm opacity-50 uppercase mb-2 text-[var(--color-ink)]">Key Finding</p>
+                <p className="premium-body-sm font-medium text-[var(--color-ink)]">{study.keyFinding}</p>
               </div>
 
               {/* Chart */}
               {study.chartData && study.chartData.length > 0 && (
-                <div className="pt-4 border-b border-current/10">
-                  <p className="font-clinical text-xs opacity-50 uppercase mb-3">Results</p>
+                <div className="pt-4 border-b border-[var(--color-premium-stroke)]">
+                  <p className="premium-body-sm opacity-50 uppercase mb-3 text-[var(--color-ink)]">Results</p>
                   <div className="h-48">
                     <StudyBarChart data={study.chartData} />
                   </div>
@@ -102,7 +102,7 @@ export default function IngredientStudies({ studies, accentColor = "text-current
                   href={`https://pubmed.ncbi.nlm.nih.gov/${study.pmid}/`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`font-clinical text-xs px-3 py-1.5 rounded border-2 border-current/20 hover:bg-current/10 transition-colors ${accentColor}`}
+                  className={`premium-body-sm px-3 py-1.5 rounded-full border border-[var(--color-premium-stroke)] hover:bg-[var(--color-premium-stroke)]/30 transition-colors ${accentColor}`}
                 >
                   PMID: {study.pmid}
                 </a>
@@ -110,7 +110,7 @@ export default function IngredientStudies({ studies, accentColor = "text-current
                   href={`https://doi.org/${study.doi}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-clinical text-xs px-3 py-1.5 rounded border-2 border-current/20 hover:bg-current/10 transition-colors opacity-70"
+                  className="premium-body-sm px-3 py-1.5 rounded-full border border-[var(--color-premium-stroke)] hover:bg-[var(--color-premium-stroke)]/30 transition-colors opacity-70 text-[var(--color-ink)]"
                 >
                   DOI: {study.doi}
                 </a>

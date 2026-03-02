@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import {
-  IngredientData,
   CATEGORY_INFO,
   getIngredientsByFormula,
 } from "@/app/lib/ingredientsData";
 import { FormulaId, FORMULA_COLORS } from "@/app/lib/productData";
+import FormulaToggle from "@/app/components/FormulaToggle";
 import IngredientCarousel from "./IngredientCarousel";
 import IngredientStats from "./IngredientStats";
 import IngredientBenefits from "./IngredientBenefits";
@@ -46,41 +46,22 @@ export default function IngredientsPageMobile({
   return (
     <div className="min-h-screen pt-6 pb-8">
       {/* Header */}
-      <div className="px-4 mb-6">
-        <h1 className="text-2xl font-bold mb-1">The Science Inside</h1>
-        <p className="font-clinical text-sm opacity-70">
+      <div className="mb-6">
+        <h1 className="premium-section-heading text-[var(--color-ink)] mb-1">
+          The Science Inside
+        </h1>
+        <p className="premium-body-sm opacity-70">
           Explore every ingredient
         </p>
       </div>
 
       {/* Formula Toggle */}
-      <div className="px-4 mb-6">
-        <div className="flex gap-2">
-          <button
-            onClick={() => handleFormulaChange("01")}
-            className={`flex-1 py-2 px-3 rounded-full font-clinical text-sm transition-all flex items-center justify-center gap-2 ${
-              activeFormula === "01"
-                ? "bg-[var(--foreground)] text-[var(--background)]"
-                : "border-2 border-current/20 hover:border-current/40"
-            }`}
-          >
-            <span
-              className={`w-2.5 h-2.5 rounded-sm ${activeFormula === "01" ? "bg-amber-500" : "bg-amber-500"}`}
-            />
-            CONKA Flow
-          </button>
-          <button
-            onClick={() => handleFormulaChange("02")}
-            className={`flex-1 py-2 px-3 rounded-full font-clinical text-sm transition-all flex items-center justify-center gap-2 ${
-              activeFormula === "02"
-                ? "bg-[var(--foreground)] text-[var(--background)]"
-                : "border-2 border-current/20 hover:border-current/40"
-            }`}
-          >
-            <span className={`w-2.5 h-2.5 rounded-sm bg-[#AAB9BC]`} />
-            CONKA Clear
-          </button>
-        </div>
+      <div className="mb-6">
+        <FormulaToggle
+          value={activeFormula}
+          onChange={handleFormulaChange}
+          ariaLabel="Ingredients formula"
+        />
       </div>
 
       {/* Ingredient Carousel */}
@@ -93,11 +74,13 @@ export default function IngredientsPageMobile({
       </div>
 
       {/* Active Ingredient Content */}
-      <div className="px-4 space-y-6">
-        {/* Main Card */}
-        <div className="neo-box overflow-hidden">
-          {/* Header */}
-          <div className="neo-box-inverted p-4">
+      <div className="space-y-6">
+        {/* Main Card - no thick padding, bone-friendly */}
+        <div className="overflow-hidden rounded-[var(--premium-radius-card)]">
+          <div
+            className="p-4 text-white"
+            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+          >
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
@@ -108,13 +91,13 @@ export default function IngredientsPageMobile({
                   </span>
                 </div>
                 <h2 className="text-xl font-bold">{activeIngredient.name}</h2>
-                <p className="font-clinical text-xs opacity-70">
+                <p className="premium-body-sm opacity-70">
                   {activeIngredient.scientificName}
                 </p>
               </div>
               <div className="text-right">
-                <p className="font-clinical text-xs opacity-70">of formula</p>
-                <p className={`text-2xl font-bold font-clinical`}>
+                <p className="premium-body-sm opacity-70">of formula</p>
+                <p className="text-2xl font-bold font-clinical">
                   {activeIngredient.percentage}
                 </p>
               </div>
@@ -132,25 +115,23 @@ export default function IngredientsPageMobile({
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full placeholder-box flex items-center justify-center">
-                <span className="font-clinical text-sm">
+              <div className="w-full h-full flex items-center justify-center bg-[var(--color-premium-stroke)]/20">
+                <span className="font-clinical text-sm text-[var(--color-ink)] opacity-60">
                   [{activeIngredient.name.toUpperCase()} IMAGE]
                 </span>
               </div>
             )}
           </div>
 
-          {/* Description */}
-          <div className="p-4 border-t-2 border-current/10">
-            <p className="text-sm leading-relaxed">
-              {activeIngredient.description}
-            </p>
-          </div>
+          {/* Description - no box padding */}
+          <p className="premium-body-sm text-[var(--color-ink)] leading-relaxed pt-4">
+            {activeIngredient.description}
+          </p>
         </div>
 
         {/* Key Stats */}
         <div>
-          <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+          <h3 className="premium-heading text-[var(--color-ink)] text-lg mb-3 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -174,9 +155,9 @@ export default function IngredientsPageMobile({
           />
         </div>
 
-        {/* How It Works */}
-        <div className="neo-box p-4">
-          <h3 className="font-bold mb-2 flex items-center gap-2">
+        {/* How It Works - bone, no border */}
+        <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] p-4">
+          <h3 className="font-bold text-[var(--color-ink)] mb-2 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -194,14 +175,14 @@ export default function IngredientsPageMobile({
             </svg>
             How It Works
           </h3>
-          <p className="text-sm opacity-80 leading-relaxed">
+          <p className="premium-body-sm text-[var(--color-ink)] opacity-80 leading-relaxed">
             {activeIngredient.mechanismOfAction}
           </p>
         </div>
 
         {/* Benefits */}
         <div>
-          <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+          <h3 className="premium-heading text-[var(--color-ink)] text-lg mb-3 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -226,7 +207,7 @@ export default function IngredientsPageMobile({
 
         {/* Clinical Studies */}
         <div>
-          <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+          <h3 className="premium-heading text-[var(--color-ink)] text-lg mb-3 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -252,9 +233,9 @@ export default function IngredientsPageMobile({
           />
         </div>
 
-        {/* Synergies */}
-        <div className="neo-box p-4">
-          <h3 className="font-bold mb-3 flex items-center gap-2">
+        {/* Synergies - bone, no border */}
+        <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] p-4">
+          <h3 className="font-bold text-[var(--color-ink)] mb-3 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -272,21 +253,21 @@ export default function IngredientsPageMobile({
             </svg>
             Works Well With
           </h3>
-          <div className="flex flex-wrap gap-2">
-            {activeIngredient.synergies.map((synergy, idx) => (
-              <span
-                key={idx}
-                className="px-3 py-1 rounded-full border-2 border-current/20 font-clinical text-xs"
-              >
-                {synergy}
-              </span>
-            ))}
-          </div>
+            <div className="flex flex-wrap gap-2">
+              {activeIngredient.synergies.map((synergy, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 rounded-full bg-[var(--color-premium-stroke)]/30 premium-body-sm text-[var(--color-ink)]"
+                >
+                  {synergy}
+                </span>
+              ))}
+            </div>
         </div>
 
         {/* Navigation Hint */}
         <div className="text-center py-4">
-          <p className="font-commentary text-sm opacity-50">
+          <p className="premium-body-sm opacity-50">
             scroll up and swipe to explore more ingredients
           </p>
         </div>
