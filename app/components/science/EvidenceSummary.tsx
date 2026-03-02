@@ -42,11 +42,7 @@ export default function EvidenceSummary({
           color: "var(--text-on-ink)",
         }}
       >
-        <div
-          className={`grid gap-6 ${
-            isMobile ? "grid-cols-2" : "grid-cols-3 lg:grid-cols-6"
-          }`}
-        >
+        <div className="grid grid-cols-3 gap-6">
           <div className="text-center">
             <p className="text-3xl lg:text-4xl font-bold font-clinical">
               {evidence.totalStudies}
@@ -149,18 +145,21 @@ export default function EvidenceSummary({
       <div className="mt-8 flex flex-wrap justify-center gap-4">
         <Link
           href="/ingredients"
-          className="px-6 py-3 font-bold text-sm text-white transition-opacity hover:opacity-90"
+          className="px-6 py-3 font-bold text-sm transition-opacity hover:opacity-90 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)]"
           style={{
-            backgroundColor: "var(--color-neuro-blue-dark)",
-            borderRadius: "var(--premium-radius-interactive)",
-            border: "1px solid rgba(255,255,255,0.2)",
+            backgroundColor: "var(--color-bone)",
+            color: "var(--color-ink)",
           }}
         >
           Explore All Ingredients
         </Link>
         <Link
           href="/quiz"
-          className="px-6 py-3 font-bold text-sm transition-opacity hover:opacity-90 border-2 border-current rounded-[var(--premium-radius-interactive)]"
+          className="px-6 py-3 font-bold text-sm transition-opacity hover:opacity-90 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)]"
+          style={{
+            backgroundColor: "var(--color-bone)",
+            color: "var(--color-ink)",
+          }}
         >
           Find Your Protocol
         </Link>
