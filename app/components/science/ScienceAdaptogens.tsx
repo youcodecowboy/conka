@@ -22,7 +22,7 @@ export default function ScienceAdaptogens({
       }`}
     >
       {/* Text: second on mobile, first on desktop */}
-      <div className={isMobile ? "order-2" : ""}>
+      <div className={isMobile ? "order-2 space-y-6" : ""}>
         <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
           Understanding The Basics
         </p>
@@ -32,29 +32,59 @@ export default function ScienceAdaptogens({
         >
           What Are Adaptogens?
         </h2>
-        <div
-          className="space-y-4 opacity-80"
-          style={{ maxWidth: "var(--premium-body-max-width)" }}
-        >
-          <p className="premium-body">
-            Adaptogens are a unique class of natural compounds that help your
-            body &ldquo;adapt&rdquo; to stress. Unlike stimulants that force a
-            response, adaptogens work by normalizing physiological functions
-            and maintaining homeostasis.
-          </p>
-          <p className="premium-body">
-            The term was coined by Soviet scientist Dr. Nikolai Lazarev in 1947,
-            and these compounds have been used in traditional medicine for
-            thousands of years. Modern research has validated their effects on
-            the hypothalamic-pituitary-adrenal (HPA) axis.
-          </p>
-          <p className="premium-body">
-            Key adaptogens in our formulas include{" "}
-            <strong>Ashwagandha</strong>, <strong>Rhodiola rosea</strong>, and{" "}
-            <strong>Lemon Balm</strong>
-            {isMobile ? "." : ", each clinically proven to reduce cortisol and improve stress resilience."}
-          </p>
-        </div>
+        {isMobile ? (
+          <>
+            {/* Mobile: lead in a card so it's not a wall of text */}
+            <div
+              className="p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+              style={{ backgroundColor: "var(--color-premium-bg-soft)" }}
+            >
+              <p className="premium-body font-medium">
+                Adaptogens are natural compounds that help your body
+                &ldquo;adapt&rdquo; to stress by normalizing physiological
+                functions—unlike stimulants that force a response.
+              </p>
+            </div>
+            <div className="space-y-5">
+              <p className="premium-body opacity-80">
+                The term was coined by Soviet scientist Dr. Nikolai Lazarev in
+                1947, and these compounds have been used in traditional medicine
+                for thousands of years. Modern research has validated their
+                effects on the hypothalamic-pituitary-adrenal (HPA) axis.
+              </p>
+              <p className="premium-body opacity-80">
+                Key adaptogens in our formulas include{" "}
+                <strong>Ashwagandha</strong>, <strong>Rhodiola rosea</strong>,
+                and <strong>Lemon Balm</strong>, each clinically proven to
+                reduce cortisol and improve stress resilience.
+              </p>
+            </div>
+          </>
+        ) : (
+          <div
+            className="space-y-4 opacity-80"
+            style={{ maxWidth: "var(--premium-body-max-width)" }}
+          >
+            <p className="premium-body">
+              Adaptogens are a unique class of natural compounds that help your
+              body &ldquo;adapt&rdquo; to stress. Unlike stimulants that force a
+              response, adaptogens work by normalizing physiological functions
+              and maintaining homeostasis.
+            </p>
+            <p className="premium-body">
+              The term was coined by Soviet scientist Dr. Nikolai Lazarev in
+              1947, and these compounds have been used in traditional medicine
+              for thousands of years. Modern research has validated their
+              effects on the hypothalamic-pituitary-adrenal (HPA) axis.
+            </p>
+            <p className="premium-body">
+              Key adaptogens in our formulas include{" "}
+              <strong>Ashwagandha</strong>, <strong>Rhodiola rosea</strong>, and{" "}
+              <strong>Lemon Balm</strong>, each clinically proven to reduce
+              cortisol and improve stress resilience.
+            </p>
+          </div>
+        )}
         <div className="flex flex-wrap gap-2 md:gap-3 mt-6">
           {TAGS.map((tag) => (
             <span

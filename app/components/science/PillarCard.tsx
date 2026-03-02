@@ -140,51 +140,53 @@ export default function PillarCard({
           isMobile ? "p-4" : "p-6"
         }`}
       >
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-start gap-4">
-            <div
-              className="text-white p-3 rounded-lg flex-shrink-0"
-              style={{
-                ...getIconBgStyle(pillar.color),
-                borderRadius: "var(--premium-radius-nested)",
-              }}
-            >
-              {icons[pillar.icon]}
-            </div>
-            <div>
-              <h3 className={`premium-heading ${isMobile ? "text-lg" : "text-xl"}`}>
-                {pillar.name}
-              </h3>
-              <p className="premium-section-subtitle opacity-70 mt-0.5">
-                {pillar.tagline}
-              </p>
-              <div className="flex items-center gap-2 mt-2">
-                <span
-                  className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={formulaDotStyle}
-                />
-                <span className="premium-body-sm opacity-50">
-                  {formulaLabel}
-                </span>
-              </div>
-            </div>
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={`transition-transform flex-shrink-0 ${
-              isExpanded ? "rotate-180" : ""
-            }`}
+        <div className="flex flex-col gap-3">
+          {/* Icon on its own line */}
+          <div
+            className="text-white p-3 rounded-lg w-fit self-center"
+            style={{
+              ...getIconBgStyle(pillar.color),
+              borderRadius: "var(--premium-radius-nested)",
+            }}
           >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+            {icons[pillar.icon]}
+          </div>
+          {/* Title and dropdown in a row */}
+          <div className="flex items-start justify-between gap-4">
+            <h3 className={`premium-heading flex-1 min-w-0 ${isMobile ? "text-lg" : "text-xl"}`}>
+              {pillar.name}
+            </h3>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={`transition-transform flex-shrink-0 ${
+                isExpanded ? "rotate-180" : ""
+              }`}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          {/* Tagline / description */}
+          <p className="premium-section-subtitle opacity-70">
+            {pillar.tagline}
+          </p>
+          {/* Formula label */}
+          <div className="flex items-center gap-2">
+            <span
+              className="w-2 h-2 rounded-full flex-shrink-0"
+              style={formulaDotStyle}
+            />
+            <span className="premium-body-sm opacity-50">
+              {formulaLabel}
+            </span>
+          </div>
         </div>
       </button>
 

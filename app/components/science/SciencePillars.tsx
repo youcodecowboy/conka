@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { sciencePillars } from "@/app/lib/scienceData";
 import PillarCard from "./PillarCard";
 
@@ -9,9 +9,13 @@ interface SciencePillarsProps {
 }
 
 export default function SciencePillars({ isMobile = false }: SciencePillarsProps) {
-  const [expandedId, setExpandedId] = useState<string | null>(
-    sciencePillars[0]?.id || null,
-  );
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isMobile && sciencePillars[0]?.id) {
+      setExpandedId(sciencePillars[0].id);
+    }
+  }, [isMobile]);
 
   const handleToggle = (id: string) => {
     setExpandedId(expandedId === id ? null : id);

@@ -42,7 +42,7 @@ export default function EvidenceSummary({
           color: "var(--text-on-ink)",
         }}
       >
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-4 md:gap-6">
           <div className="text-center">
             <p className="text-3xl lg:text-4xl font-bold font-clinical">
               {evidence.totalStudies}
@@ -73,7 +73,7 @@ export default function EvidenceSummary({
               Research Investment
             </p>
           </div>
-          <div className="text-center">
+          <div className="text-center col-span-3 md:col-span-1">
             <p className="text-lg lg:text-xl font-bold font-clinical">
               {evidence.patentNumber}
             </p>
