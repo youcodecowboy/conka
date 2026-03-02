@@ -89,28 +89,43 @@ export default function CaseStudiesPageMobile() {
 
   return (
     <div className="-mx-[var(--premium-gutter-mobile)] pt-3 pb-8 min-h-screen">
-      {/* 1. Header — compact, standard gutter so not tight to edge */}
+      {/* 1. Header — hero style with gradient accent */}
       <div className="px-[var(--premium-gutter-mobile)] mb-2">
-        <p className="premium-body-sm uppercase tracking-wider text-[var(--text-on-light-muted)] mb-0.5">
+        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-0.5 text-[var(--color-ink)]">
           Research & Results
         </p>
-        <h1 className="premium-section-heading mb-1">Case Studies</h1>
-        <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+        <h1
+          className="premium-section-heading font-bold text-[var(--color-ink)] text-3xl mb-1"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          Case{" "}
+          <span
+            style={{
+              background: "var(--gradient-neuro-blue-accent)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Studies
+          </span>
+        </h1>
+        <p className="premium-body-sm text-[var(--color-ink)] opacity-70">
           {athletes.length} Athletes • {totalTests} Tests • +{avgImprovement}%
           Avg
         </p>
       </div>
 
-      {/* 2. Sport filter pills — horizontal scroll, sticky; inner padding matches header */}
-      <div className="sticky top-0 z-10 py-2 mb-3 bg-[var(--color-neuro-blue-light)] border-b border-[var(--color-premium-stroke)] overflow-x-auto scrollbar-hide">
+      {/* 2. Sport filter pills — sticky; white bar on bone */}
+      <div className="sticky top-0 z-10 py-2 mb-3 bg-white border-y border-[var(--color-premium-stroke)] overflow-x-auto scrollbar-hide">
         <div className="px-[var(--premium-gutter-mobile)]">
         <div className="flex gap-2 pb-0.5">
           <button
             onClick={() => setSelectedSport("all")}
             className={`flex-shrink-0 px-3 py-1.5 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
               selectedSport === "all"
-                ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
-                : "bg-transparent text-[var(--text-on-light)]"
+                ? "bg-[var(--color-ink)] text-white"
+                : "bg-transparent text-[var(--color-ink)]"
             }`}
           >
             All
@@ -123,8 +138,8 @@ export default function CaseStudiesPageMobile() {
                 onClick={() => setSelectedSport(sport)}
                 className={`flex-shrink-0 px-3 py-1.5 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
                   selectedSport === sport
-                    ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
-                    : "bg-transparent text-[var(--text-on-light)]"
+                    ? "bg-[var(--color-ink)] text-white"
+                    : "bg-transparent text-[var(--color-ink)]"
                 }`}
               >
                 <SportIcon sport={sport} size={12} />
@@ -139,7 +154,7 @@ export default function CaseStudiesPageMobile() {
       {/* 3. Trading-card: photo tile with gradient + all info on card + overlay toggles (tight gutter) */}
       {activeAthlete ? (
         <div className="px-[var(--premium-gutter-mobile-tight)]">
-          <div className="relative w-full aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden">
+          <div className="relative w-full aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden border border-[var(--color-premium-stroke)]">
           {(() => {
             const photoSrc =
               getCaseStudyPhotoPath(activeAthlete.id) || activeAthlete.photo;
@@ -236,8 +251,8 @@ export default function CaseStudiesPageMobile() {
         </div>
       ) : (
         <div className="px-[var(--premium-gutter-mobile)] mt-2">
-          <div className="premium-card-soft premium-card-soft-stroke p-6 text-center rounded-[var(--premium-radius-card)]">
-            <p className="premium-body text-[var(--text-on-light-muted)]">
+          <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-6 text-center">
+            <p className="premium-body text-[var(--color-ink)] opacity-70">
               No athletes found for this filter
             </p>
           </div>
@@ -246,11 +261,11 @@ export default function CaseStudiesPageMobile() {
 
       {/* 5. Bottom CTA */}
       <div className="px-[var(--premium-gutter-mobile)] mt-8">
-        <div className="premium-card-soft premium-card-soft-stroke p-5 text-center rounded-[var(--premium-radius-card)]">
-          <h3 className="font-bold mb-2 text-[var(--text-on-light)]">
+        <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-5 text-center">
+          <h3 className="font-bold mb-2 text-[var(--color-ink)]">
             Start your journey
           </h3>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
+          <p className="premium-body-sm text-[var(--color-ink)] opacity-70 mb-4">
             Join hundreds of athletes
           </p>
           <div className="flex gap-2">

@@ -33,7 +33,7 @@ export default function FeaturedAthletesCarousel({
             key={athlete.id}
             type="button"
             onClick={() => onSelectAthlete(athlete.id)}
-            className={`relative flex-shrink-0 w-[140px] aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden text-left transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)] focus:ring-offset-2 ${
+            className={`relative flex-shrink-0 w-[140px] aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden text-left transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)] focus:ring-offset-2 border border-[var(--color-premium-stroke)] ${
               isActive
                 ? "ring-2 ring-[var(--color-ink)] ring-offset-2"
                 : "hover:opacity-95"

@@ -24,7 +24,7 @@ export default function IngredientsPage() {
         </div>
       ) : (
         <section
-          className="premium-section-luxury premium-bg-bone pt-32 pb-16"
+          className="premium-section-luxury premium-hero-first premium-hero-with-top-air premium-section-reduced-bottom premium-bg-bone"
           aria-label="Ingredients"
         >
           <div className="premium-track">
