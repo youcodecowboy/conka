@@ -26,7 +26,7 @@ export default function WhyConkaPage() {
         <>
           {/* Hero */}
           <section
-            className="premium-section-luxury premium-hero-first premium-bg-bone"
+            className="premium-section-luxury premium-hero-first premium-hero-with-top-air premium-section-reduced-bottom premium-bg-bone"
             aria-label="Why CONKA"
           >
             <div className="premium-track">
