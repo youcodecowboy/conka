@@ -231,7 +231,7 @@ export default function NavigationMobile({
                   }`}
                 >
                   <span className="font-clinical text-sm font-medium">
-                    Shop by Protocol
+                    Shop by Bundle
                   </span>
                 </button>
                 <button
