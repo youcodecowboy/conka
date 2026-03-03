@@ -220,7 +220,7 @@ export default function ProductCard({
           variantData.variantId,
           1,
           variantData.sellingPlanId,
-          { location: "product_grid", source: "direct" },
+          { location: "product_grid", source: "product_grid" },
         );
       }
     } else {
@@ -235,7 +235,7 @@ export default function ProductCard({
           variantData.variantId,
           1,
           variantData.sellingPlanId,
-          { location: "product_grid", source: "direct" },
+          { location: "product_grid", source: "product_grid" },
         );
       }
     }
