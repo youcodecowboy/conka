@@ -6,6 +6,7 @@ import { trackAddToCart } from '@/app/lib/tripleWhale';
 import { trackPurchaseAddToCart } from '@/app/lib/analytics';
 import { trackMetaAddToCart, toContentId } from '@/app/lib/metaPixel';
 import { extractProductMetadata } from '@/app/lib/productMetadata';
+import { getPlanFrequency } from '@/app/lib/shopifyProductMapping';
 import { getB2BCartTierUpdates } from '@/app/lib/b2bCartTier';
 import type { B2BTier } from '@/app/lib/productData';
 
@@ -13,9 +14,22 @@ const CART_ID_KEY = 'shopify_cart_id';
 const B2B_NORMALIZE_ERROR_MSG = "Couldn't update pricing tier. Please try again.";
 
 interface AddToCartMetadata {
-  location?: string;  // "hero", "sticky_footer", "results_page", "calendar"
-  source?: string;   // "quiz", "menu", "direct", "cta"
+  location?: string;  // "hero", "sticky_footer", "results_page", "calendar", "product_grid"
+  source?: string;   // Canonical: "quiz" | "product_page" | "protocol_page" | "product_grid" | "professional_portal"
   sessionId?: string; // Quiz session ID
+}
+
+/** Build cart line attributes for LTV tagging (sent to Shopify as line item properties). */
+function buildCartAttributes(
+  metadata: AddToCartMetadata | undefined,
+  sellingPlanId: string | undefined
+): Array<{ key: string; value: string }> {
+  const attrs: Array<{ key: string; value: string }> = [];
+  const source = metadata?.source || "direct";
+  attrs.push({ key: "source", value: source });
+  const frequency = getPlanFrequency(sellingPlanId);
+  if (frequency) attrs.push({ key: "plan_frequency", value: frequency });
+  return attrs;
 }
 
 interface CartContextType {
@@ -148,8 +162,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [fetchCart]);
 
-  // Create a new cart
-  const createCart = async (variantId?: string, quantity?: number, sellingPlanId?: string): Promise<{ cart: Cart | null; warning?: string }> => {
+  // Create a new cart (optionally with initial line and LTV attributes)
+  const createCart = async (
+    variantId?: string,
+    quantity?: number,
+    sellingPlanId?: string,
+    attributes?: Array<{ key: string; value: string }>
+  ): Promise<{ cart: Cart | null; warning?: string }> => {
     try {
       const response = await fetch('/api/cart', {
         method: 'POST',
@@ -159,6 +178,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           variantId,
           quantity,
           sellingPlanId,
+          ...(attributes && attributes.length > 0 && { attributes }),
         }),
       });
 
@@ -179,7 +199,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   // Add item to cart
   // sellingPlanId is optional - used for subscription products (e.g., Loop Subscriptions)
-  // metadata is optional - used for analytics tracking (location, source, sessionId)
+  // metadata is optional - used for analytics and LTV attributes (source, plan_frequency)
   const addToCart = useCallback(async (
     variantId: string,
     quantity: number = 1,
@@ -191,6 +211,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
+    const attributes = buildCartAttributes(metadata, sellingPlanId);
+
     setLoading(true);
     setError(null);
     setB2bNormalizeError(null);
@@ -201,7 +223,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       let updatedCart: Cart | null = null;
 
       if (!cartId) {
-        const result = await createCart(variantId, quantity, sellingPlanId);
+        const result = await createCart(variantId, quantity, sellingPlanId, attributes);
         warning = result.warning;
         updatedCart = result.cart;
       } else {
@@ -214,6 +236,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             variantId,
             quantity,
             sellingPlanId,
+            attributes,
           }),
         });
 
@@ -224,7 +247,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           setCart(data.cart);
           warning = data.warning;
         } else if (response.status === 404) {
-          const result = await createCart(variantId, quantity, sellingPlanId);
+          const result = await createCart(variantId, quantity, sellingPlanId, attributes);
           warning = result.warning;
           updatedCart = result.cart;
         } else {
