@@ -18,6 +18,7 @@ import {
 import { getProtocolHeroImages } from "@/app/components/navigation/protocolHeroConfig";
 import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
 import TierSelectorPremium from "./TierSelectorPremium";
+import ProtocolRatioSelector from "./ProtocolRatioSelector";
 
 interface ProtocolHeroProps {
   protocolId: ProtocolId;
@@ -26,6 +27,7 @@ interface ProtocolHeroProps {
   purchaseType: PurchaseType;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onAddToCart: () => void;
+  onProtocolChange?: (id: ProtocolId) => void;
 }
 
 export default function ProtocolHero({
@@ -35,6 +37,7 @@ export default function ProtocolHero({
   purchaseType,
   onPurchaseTypeChange,
   onAddToCart,
+  onProtocolChange,
 }: ProtocolHeroProps) {
   const protocol = protocolContent[protocolId];
   const tierConfig = protocol.tiers[selectedTier];
@@ -136,57 +139,114 @@ export default function ProtocolHero({
             {protocol.description}
           </p>
 
-          {/* What you get – Flow/Clear per week + total shots (contents, not benefit stats) */}
-          {tierConfig && (
-            <div
-              className="w-full"
-              style={{
-                background: "var(--color-surface)",
-                borderRadius: "var(--premium-radius-nested)",
-                padding: "var(--premium-space-m)",
-              }}
-            >
-              <p className="premium-data uppercase opacity-70 mb-3">
-                Your weekly mix
+          {/* Ratio selector – choose ratio first, then see bundle */}
+          {onProtocolChange && (
+            <div>
+              <p className="premium-data uppercase opacity-70 mb-2">
+                Choose your ratio
               </p>
-              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <span className="flex items-center gap-1.5">
-                  <span
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: FORMULA_COLORS["01"].hex }}
-                    aria-hidden
-                  />
-                  <span className="font-clinical text-sm">
-                    <span className="font-bold text-current">
-                      {tierConfig.conkaFlowCount}
-                    </span>{" "}
-                    Flow
-                  </span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: FORMULA_COLORS["02"].hex }}
-                    aria-hidden
-                  />
-                  <span className="font-clinical text-sm">
-                    <span className="font-bold text-current">
-                      {tierConfig.conkaClarityCount}
-                    </span>{" "}
-                    Clear
-                  </span>
-                </span>
-                <span className="premium-data text-sm opacity-80">
-                  · {tierConfig.shotsPerWeek} shots a week
-                </span>
-              </div>
-              {protocol.bestFor[0] && (
-                <p className="mt-2 premium-data text-xs opacity-70">
-                  {protocol.bestFor[0]}
-                </p>
-              )}
+              <ProtocolRatioSelector
+                value={protocolId}
+                onChange={onProtocolChange}
+              />
             </div>
           )}
+
+          {/* What you get – one coloured square per shot, rows = weeks, total per plan */}
+          {tierConfig && (() => {
+            const totalShots = getProtocolTierTotalShots(protocolId, selectedTier);
+            const shotsPerWeek = tierConfig.shotsPerWeek;
+            const flowPerWeek = tierConfig.conkaFlowCount;
+            const clearPerWeek = tierConfig.conkaClarityCount;
+            const fullRows = Math.floor(totalShots / shotsPerWeek);
+            const remainder = totalShots % shotsPerWeek;
+            const flowInRemainder = remainder > 0 ? Math.round(remainder * (flowPerWeek / shotsPerWeek)) : 0;
+            const clearInRemainder = remainder - flowInRemainder;
+            const totalFlow = fullRows * flowPerWeek + flowInRemainder;
+            const totalClear = fullRows * clearPerWeek + clearInRemainder;
+            return (
+              <div
+                className="w-full"
+                style={{
+                  background: "var(--color-surface)",
+                  borderRadius: "var(--premium-radius-nested)",
+                  padding: "var(--premium-space-m)",
+                }}
+              >
+                <p className="premium-data uppercase opacity-70 mb-1">
+                  Your Bundle:
+                </p>
+                <p className="premium-data text-sm mb-2">
+                  <span className="font-bold text-current">
+                    {totalShots} shots total per plan
+                  </span>
+                  <br />
+                  <span className="opacity-70">{shotsPerWeek} shots per week</span>
+                </p>
+                <div className="flex flex-col gap-1 mb-2">
+                  {Array.from({ length: fullRows }, (_, rowIdx) => (
+                    <div key={`row-${rowIdx}`} className="flex flex-wrap items-center gap-1">
+                      {Array.from({ length: flowPerWeek }, (_, i) => (
+                        <span
+                          key={`f-${rowIdx}-${i}`}
+                          className="inline-block rounded-sm flex-shrink-0"
+                          style={{
+                            width: 10,
+                            height: 10,
+                            backgroundColor: FORMULA_COLORS["01"].hex,
+                          }}
+                          aria-hidden
+                        />
+                      ))}
+                      {Array.from({ length: clearPerWeek }, (_, i) => (
+                        <span
+                          key={`c-${rowIdx}-${i}`}
+                          className="inline-block rounded-sm flex-shrink-0"
+                          style={{
+                            width: 10,
+                            height: 10,
+                            backgroundColor: FORMULA_COLORS["02"].hex,
+                          }}
+                          aria-hidden
+                        />
+                      ))}
+                    </div>
+                  ))}
+                  {remainder > 0 && (
+                    <div className="flex flex-wrap items-center gap-1">
+                      {Array.from({ length: flowInRemainder }, (_, i) => (
+                        <span
+                          key={`fr-${i}`}
+                          className="inline-block rounded-sm flex-shrink-0"
+                          style={{
+                            width: 10,
+                            height: 10,
+                            backgroundColor: FORMULA_COLORS["01"].hex,
+                          }}
+                          aria-hidden
+                        />
+                      ))}
+                      {Array.from({ length: clearInRemainder }, (_, i) => (
+                        <span
+                          key={`cr-${i}`}
+                          className="inline-block rounded-sm flex-shrink-0"
+                          style={{
+                            width: 10,
+                            height: 10,
+                            backgroundColor: FORMULA_COLORS["02"].hex,
+                          }}
+                          aria-hidden
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <p className="premium-data text-sm opacity-70">
+                  {totalFlow} Flow, {totalClear} Clear
+                </p>
+              </div>
+            );
+          })()}
 
           {/* Tier Selector */}
           <div>
