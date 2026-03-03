@@ -46,7 +46,7 @@ export default function ShopMegaMenu({
                     : "border-transparent opacity-60 hover:opacity-100 hover:border-[var(--color-premium-stroke)]"
                 }`}
               >
-                Shop by Protocol
+                Shop by Bundle
               </button>
               <button
                 onMouseEnter={() => setHoveredSection("formulas")}

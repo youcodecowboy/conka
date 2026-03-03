@@ -1,15 +1,6 @@
 "use client";
 
-import { pathData } from "@/app/components/ProtocolBuilder";
-
 export default function ShopHeroDesktop() {
-  const protocolIcons = [
-    pathData.path1.icon,
-    pathData.path2.icon,
-    pathData.path3.icon,
-    pathData.path4.icon,
-  ];
-
   return (
     <div className="px-6 md:px-16 pt-8 md:pt-24 md:pb-12">
       <div className="max-w-6xl mx-auto text-center">

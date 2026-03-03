@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
@@ -30,7 +30,6 @@ import {
 } from "@/app/lib/productData";
 import WhatToExpectTimeline from "@/app/components/product/WhatToExpectTimeline";
 import ProductGrid from "@/app/components/home/ProductGrid";
-import type { ProtocolVariant } from "@/app/components/home/ProtocolVariantSelector";
 import Testimonials from "@/app/components/testimonials/Testimonials";
 import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
 import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
@@ -43,28 +42,20 @@ import { trackMetaViewContent, toContentId } from "@/app/lib/metaPixel";
 // Valid protocol IDs
 const validProtocolIds: ProtocolId[] = ["1", "2", "3", "4"];
 
-// Disable the current protocol variant in the ProductGrid cross-sell so we don't show the same card
-function getDisabledProtocolVariantsForPage(protocolId: string): ProtocolVariant[] {
-  switch (protocolId) {
-    case "1":
-      return ["flow-heavy"];
-    case "2":
-      return ["clear-heavy"];
-    case "3":
-    case "4":
-      return ["balance"];
-    default:
-      return [];
-  }
-}
+const DEFAULT_PROTOCOL_ID: ProtocolId = "3";
 
 export default function ProtocolPage() {
   const params = useParams();
   const router = useRouter();
-  const protocolId = params.id as string;
+  const idFromParams = params.id as string;
   const isMobile = useIsMobile();
   const { addToCart } = useCart();
 
+  const [selectedProtocolId, setSelectedProtocolId] = useState<ProtocolId>(() =>
+    validProtocolIds.includes(idFromParams as ProtocolId)
+      ? (idFromParams as ProtocolId)
+      : DEFAULT_PROTOCOL_ID,
+  );
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
   const [purchaseType, setPurchaseType] =
     useState<PurchaseType>("subscription");
@@ -75,32 +66,45 @@ export default function ProtocolPage() {
     [selectedSymptom],
   );
 
-  // Validate protocol ID
+  // Validate protocol ID from URL and redirect invalid to Balance
   useEffect(() => {
-    if (!validProtocolIds.includes(protocolId as ProtocolId)) {
-      router.push("/protocol/1"); // Redirect to default protocol
+    if (!validProtocolIds.includes(idFromParams as ProtocolId)) {
+      router.push("/protocol/3");
     }
-  }, [protocolId, router]);
+  }, [idFromParams, router]);
 
-  // Get protocol data
-  const protocol = protocolContent[protocolId as ProtocolId];
+  // Sync selected protocol from URL when navigating (e.g. back/forward or direct link)
+  useEffect(() => {
+    if (validProtocolIds.includes(idFromParams as ProtocolId)) {
+      setSelectedProtocolId(idFromParams as ProtocolId);
+    }
+  }, [idFromParams]);
+
+  const protocol = protocolContent[selectedProtocolId];
 
   // Set default tier based on protocol (Protocol 4 doesn't have starter)
   useEffect(() => {
-    if (protocolId === "4" && selectedTier === "starter") {
+    if (selectedProtocolId === "4" && selectedTier === "starter") {
       setSelectedTier("pro");
     }
-  }, [protocolId, selectedTier]);
+  }, [selectedProtocolId, selectedTier]);
+
+  const handleProtocolChange = useCallback(
+    (id: ProtocolId) => {
+      setSelectedProtocolId(id);
+      router.replace(`/protocol/${id}`, { scroll: false });
+    },
+    [router],
+  );
 
   if (!protocol) {
     return null; // Will redirect
   }
 
-  // Meta ViewContent (once per page view)
+  // Meta ViewContent on initial load and when selected protocol changes
   useEffect(() => {
-    if (!validProtocolIds.includes(protocolId as ProtocolId)) return;
     const variantData = getProtocolVariantId(
-      protocolId as ProtocolId,
+      selectedProtocolId,
       "pro",
       "subscription",
     );
@@ -111,12 +115,12 @@ export default function ProtocolPage() {
         content_type: "product",
       });
     }
-  }, [protocolId]);
+  }, [selectedProtocolId]);
 
   // Hero section handler
   const handleAddToCartFromHero = async () => {
     const variantData = getProtocolVariantId(
-      protocolId as ProtocolId,
+      selectedProtocolId,
       selectedTier,
       purchaseType,
     );
@@ -128,7 +132,7 @@ export default function ProtocolPage() {
       });
     } else {
       console.warn("Variant ID not configured for:", {
-        protocol: protocolId,
+        protocol: selectedProtocolId,
         tier: selectedTier,
         type: purchaseType,
       });
@@ -138,7 +142,7 @@ export default function ProtocolPage() {
   // Sticky footer handler
   const handleAddToCartFromFooter = async () => {
     const variantData = getProtocolVariantId(
-      protocolId as ProtocolId,
+      selectedProtocolId,
       selectedTier,
       purchaseType,
     );
@@ -150,7 +154,7 @@ export default function ProtocolPage() {
       });
     } else {
       console.warn("Variant ID not configured for:", {
-        protocol: protocolId,
+        protocol: selectedProtocolId,
         tier: selectedTier,
         type: purchaseType,
       });
@@ -173,12 +177,13 @@ export default function ProtocolPage() {
         >
           <div className="premium-track">
             <ProtocolHeroMobile
-              protocolId={protocolId as ProtocolId}
+              protocolId={selectedProtocolId}
               selectedTier={selectedTier}
               onTierSelect={setSelectedTier}
               purchaseType={purchaseType}
               onPurchaseTypeChange={setPurchaseType}
               onAddToCart={handleAddToCartFromHero}
+              onProtocolChange={handleProtocolChange}
             />
           </div>
         </section>
@@ -210,7 +215,7 @@ export default function ProtocolPage() {
           </section>
 
           <CycleTrap
-            protocolId={protocolId as ProtocolId}
+            protocolId={selectedProtocolId}
             initialNode={whyEntryNodeIndex}
             selectedSymptomId={selectedSymptom}
             onSelectSymptom={setSelectedSymptom}
@@ -251,7 +256,7 @@ export default function ProtocolPage() {
             aria-label="The outcome"
           >
             <div className="premium-track">
-              <CycleTransformation protocolId={protocolId as ProtocolId} />
+              <CycleTransformation protocolId={selectedProtocolId} />
             </div>
           </section>
 
@@ -275,7 +280,7 @@ export default function ProtocolPage() {
           >
             <div className="premium-track">
               <WhatToExpectTimeline
-                productId={protocolId as ProtocolId}
+                productId={selectedProtocolId}
                 sectionTitle="Expected results"
               />
             </div>
@@ -288,11 +293,11 @@ export default function ProtocolPage() {
           >
             <div className="premium-track">
               <ProtocolCalendarMobile
-                protocolId={protocolId as ProtocolId}
+                protocolId={selectedProtocolId}
                 selectedTier={selectedTier}
                 onTierSelect={setSelectedTier}
                 availableTiers={
-                  protocolContent[protocolId as ProtocolId].availableTiers
+                  protocolContent[selectedProtocolId].availableTiers
                 }
               />
             </div>
@@ -304,7 +309,7 @@ export default function ProtocolPage() {
             aria-label="Case studies"
           >
             <div className="premium-track">
-              <FormulaCaseStudiesMobile productId={protocolId as ProtocolId} />
+              <FormulaCaseStudiesMobile productId={selectedProtocolId} />
             </div>
           </section>
 
@@ -313,7 +318,7 @@ export default function ProtocolPage() {
             aria-label="FAQ"
           >
             <div className="premium-track">
-              <ProtocolFAQ protocolId={protocolId as ProtocolId} />
+              <ProtocolFAQ protocolId={selectedProtocolId} />
             </div>
           </section>
 
@@ -322,14 +327,14 @@ export default function ProtocolPage() {
             aria-label="Explore other protocols and formulas"
           >
             <div className="premium-track">
-              <ProductGrid disabledProtocolVariants={getDisabledProtocolVariantsForPage(protocolId)} />
+              <ProductGrid exclude={["protocol"]} />
             </div>
           </section>
 
           <Footer />
 
           <StickyPurchaseFooterMobile
-            protocolId={protocolId as ProtocolId}
+            protocolId={selectedProtocolId}
             selectedTier={selectedTier}
             onTierSelect={setSelectedTier}
             purchaseType={purchaseType}
@@ -354,12 +359,13 @@ export default function ProtocolPage() {
       >
         <div className="premium-track">
           <ProtocolHero
-            protocolId={protocolId as ProtocolId}
+            protocolId={selectedProtocolId}
             selectedTier={selectedTier}
             onTierSelect={setSelectedTier}
             purchaseType={purchaseType}
             onPurchaseTypeChange={setPurchaseType}
             onAddToCart={handleAddToCartFromHero}
+            onProtocolChange={handleProtocolChange}
           />
         </div>
       </section>
@@ -389,7 +395,7 @@ export default function ProtocolPage() {
         </section>
 
         <CycleTrap
-          protocolId={protocolId as ProtocolId}
+          protocolId={selectedProtocolId}
           initialNode={whyEntryNodeIndex}
           selectedSymptomId={selectedSymptom}
           onSelectSymptom={setSelectedSymptom}
@@ -430,7 +436,7 @@ export default function ProtocolPage() {
           aria-label="The outcome"
         >
           <div className="premium-track">
-            <CycleTransformation protocolId={protocolId as ProtocolId} />
+            <CycleTransformation protocolId={selectedProtocolId} />
           </div>
         </section>
 
@@ -454,7 +460,7 @@ export default function ProtocolPage() {
         >
           <div className="premium-track">
             <WhatToExpectTimeline
-              productId={protocolId as ProtocolId}
+              productId={selectedProtocolId}
               sectionTitle="Expected results"
             />
           </div>
@@ -467,11 +473,11 @@ export default function ProtocolPage() {
         >
           <div className="premium-track">
             <ProtocolCalendar
-              protocolId={protocolId as ProtocolId}
+              protocolId={selectedProtocolId}
               selectedTier={selectedTier}
               onTierSelect={setSelectedTier}
               availableTiers={
-                protocolContent[protocolId as ProtocolId].availableTiers
+                protocolContent[selectedProtocolId].availableTiers
               }
             />
           </div>
@@ -483,7 +489,7 @@ export default function ProtocolPage() {
           aria-label="Case studies"
         >
           <div className="premium-track">
-            <FormulaCaseStudies productId={protocolId as ProtocolId} />
+            <FormulaCaseStudies productId={selectedProtocolId} />
           </div>
         </section>
 
@@ -492,7 +498,7 @@ export default function ProtocolPage() {
           aria-label="FAQ"
         >
           <div className="premium-track">
-            <ProtocolFAQ protocolId={protocolId as ProtocolId} />
+            <ProtocolFAQ protocolId={selectedProtocolId} />
           </div>
         </section>
 
@@ -501,14 +507,14 @@ export default function ProtocolPage() {
           aria-label="Explore other protocols and formulas"
         >
           <div className="premium-track">
-            <ProductGrid disabledProtocolVariants={getDisabledProtocolVariantsForPage(protocolId)} />
+            <ProductGrid exclude={["protocol"]} />
           </div>
         </section>
 
         <Footer />
 
         <StickyPurchaseFooter
-          protocolId={protocolId as ProtocolId}
+          protocolId={selectedProtocolId}
           selectedTier={selectedTier}
           onTierSelect={setSelectedTier}
           purchaseType={purchaseType}
