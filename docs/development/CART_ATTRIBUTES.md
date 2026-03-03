@@ -27,7 +27,28 @@ See [LTV_TAGGING_PLAN.md](./LTV_TAGGING_PLAN.md) for context and implementation 
 
 ---
 
-## Plan frequency
+## How `source` is determined
+
+We do **not** infer the page from the URL at add-to-cart time. We use two pieces together:
+
+1. **Page awareness (call site)**  
+   Each place that calls `addToCart` knows which page it is, so it passes the right fallback:
+   - Quiz results page → always `source: "quiz"`.
+   - Protocol page (`/protocol/[id]`) → `source: getAddToCartSource() === "quiz" ? "quiz" : "protocol_page"`.
+   - Formula pages (Conka Flow, Conka Clarity) → same pattern with fallback `"product_page"`.
+   - Product grid (ProductCard) → always `source: "product_grid"`.
+   - Professionals pages → always `source: "professional_portal"`.
+
+2. **Quiz awareness (`getAddToCartSource()`)**  
+   Used only on protocol and formula pages to decide: “Is this add-to-cart still in a quiz flow?” It returns:
+   - `"quiz"` if `sessionStorage.quizSessionId` is set (user started the quiz and hasn’t cleared it), or if `document.referrer` contains `"/quiz"`.
+   - `"direct"` otherwise.
+
+So: **Page** comes from which component is calling (we hardcode the fallback). **Quiz vs not-quiz** comes from sessionStorage + referrer. We never “detect the page” from the URL inside a shared helper; the call site always provides the page-specific source when it’s not quiz.
+
+`quizSessionId` is set when the user starts the quiz (`trackQuizStarted` in `app/lib/analytics.ts`, which is called from the quiz page with the session id from `useQuizAnalytics`). It persists in the same tab until they close it or clear storage, so if they go quiz → results → “View protocol” → protocol page and add to cart there, we still tag `source: "quiz"`.
+
+---
 
 Mapped from Shopify selling plan GID (Loop subscription plans):
 
