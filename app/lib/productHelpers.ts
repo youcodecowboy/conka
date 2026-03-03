@@ -59,7 +59,7 @@ export function getProtocolTierPackLabel(
     const ultimateLabels: Record<ProtocolTier, string> = {
       starter: "4-pack",
       pro: "24-pack",
-      max: "48-pack",
+      max: "56-pack",
     };
     return ultimateLabels[tier];
   }
@@ -80,7 +80,7 @@ export function getProtocolTierTotalShots(
     const ultimate: Record<ProtocolTier, number> = {
       starter: 4,
       pro: 24,
-      max: 48,
+      max: 56,
     };
     return ultimate[tier];
   }
