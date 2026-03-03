@@ -255,7 +255,6 @@ export default function NavigationMobile({
                     {(["1", "2", "3", "4"] as const).map((protocolId) => {
                       const protocol = protocolContent[protocolId];
                       const selectorData = protocolSelectorData[protocolId];
-                      // Get image based on config
                       const imageSrc =
                         getProtocolImage(protocolId) || protocol.image;
                       return (
@@ -317,7 +316,6 @@ export default function NavigationMobile({
                 <div className="pb-4 mb-4">
                   <div className="flex flex-col gap-4">
                     {formulas.map((formula) => {
-                      // Get image based on config
                       const imageSrc =
                         getFormulaImage(formula.id) || formula.image.src;
                       return (
@@ -341,17 +339,12 @@ export default function NavigationMobile({
                               />
                             </div>
                             <div className="flex flex-col flex-1">
-                              {/* Formula Name - Small, Above Headline */}
                               <p className="font-primary text-xs uppercase tracking-wide opacity-60 mb-1">
                                 {formula.name}
                               </p>
-
-                              {/* Subheadline - Always Visible */}
                               <h3 className="text-lg font-bold leading-tight mb-3">
                                 {formula.subheadline}
                               </h3>
-
-                              {/* CTA Button */}
                               <div className="neo-button px-3 py-1.5 rounded-full font-bold text-xs inline-flex items-center gap-1.5 w-fit mx-auto">
                                 View product
                                 <svg
