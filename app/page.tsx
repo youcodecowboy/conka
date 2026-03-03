@@ -150,11 +150,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 6: PROTOCOL BUILDER ===== */}
-      {/* <div id="protocols">
-        <ProtocolBuilder />
-      </div> */}
-
       {/* ===== SECTION 7: OUR STORY / FOUNDERS ===== */}
       <section
         className="premium-section-luxury"
