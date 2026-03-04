@@ -132,13 +132,14 @@ Mock is only active when `NODE_ENV === 'development'` and `DEV_MOCK_AUTH === 'tr
 
 All mutations go through one route: `POST /api/auth/subscriptions/[id]/pause`
 
-| Action      | Body                                                                                                 |
-| ----------- | ---------------------------------------------------------------------------------------------------- |
-| Pause       | `{ action: 'pause' }`                                                                                |
-| Resume      | `{ action: 'resume' }`                                                                               |
-| Cancel      | `{ action: 'cancel', reason?: string }`                                                              |
-| Skip        | `{ action: 'skip' }`                                                                                 |
-| Change plan | `{ action: 'change-frequency', plan: 'starter' \| 'pro' \| 'max', protocolId?: '1'\|'2'\|'3'\|'4' }` |
+| Action            | Body                                                                                                       |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- |
+| Pause             | `{ action: 'pause' }`                                                                                      |
+| Resume            | `{ action: 'resume' }`                                                                                     |
+| Cancel            | `{ action: 'cancel', reason?: string }`                                                                    |
+| Skip              | `{ action: 'skip' }`                                                                                       |
+| Change plan       | `{ action: 'change-frequency', plan: 'starter' \| 'pro' \| 'max', protocolId?: '1'\|'2'\|'3'\|'4' }`      |
+| Edit multi-line   | `{ action: 'edit-multi-line', lines: LineEdit[], plan?: 'starter' \| 'pro' \| 'max' }`                     |
 
 The `[id]` is the Shopify subscription contract ID (GID or numeric). The route converts it to Loop's `shopify-{numericId}` format.
 
@@ -150,7 +151,7 @@ The `[id]` is the Shopify subscription contract ID (GID or numeric). The route c
 
 ### How it works
 
-When a customer changes tier or protocol, the backend performs **two sequential Loop API calls**. Both must succeed — if either fails the customer sees an error and is directed to contact support.
+When a customer changes tier or protocol on a **single-line** subscription, the backend performs two sequential Loop API calls.
 
 **Step 1 — Swap line:**
 
@@ -179,7 +180,7 @@ Body:
 }
 ```
 
-Interval must be `WEEK`, `MONTH`, or `YEAR` — Loop does not accept `DAY`. Bi-weekly = `WEEK` × 2.
+`nextBillingDateEpoch` is always set to the subscription's **existing** next billing date, so a plan change never resets the billing clock. Interval must be `WEEK`, `MONTH`, or `YEAR` — Loop does not accept `DAY`. Bi-weekly = `WEEK` × 2.
 
 **Important:** Step 2 uses the Loop internal ID, not the Shopify-prefixed ID. This is a known gotcha — the frequency endpoint returns 404 if you pass `shopify-{id}`.
 
@@ -203,9 +204,11 @@ These are verified against Shopify and must be kept in sync if products change.
 | 4 — Ultimate   | pro     | 56999249478006 | ULTAMATE_PRO_28      |
 | 4 — Ultimate   | max     | 56999249510774 | ULTAMATE_MAX_56      |
 | flow           | starter | 57000187363702 | FLOW_TRIAL_4         |
+| flow           | pro_8   | 56999967785334 | FLOW_TRIAL_8         |
 | flow           | pro     | 56999967752566 | FLOW_TRIAL_12        |
 | flow           | max     | 56999967818102 | FLOW_TRIAL_28        |
 | clear          | starter | 57000418607478 | CLEATR_TRIAL_4       |
+| clear          | pro_8   | 57000418640246 | CLEAR_TRIAL_8        |
 | clear          | pro     | 57000418673014 | CLEAR_TRIAL_12       |
 | clear          | max     | 57000418705782 | CLEAR_TRIAL_28       |
 
@@ -217,7 +220,7 @@ These are verified against Shopify and must be kept in sync if products change.
 | pro     | WEEK × 2  | 711429947766  | 98722546038        |
 | max     | MONTH × 1 | 711429980534  | 98722578806        |
 
-### Edit plan modal
+### Edit plan modal — single-line subscriptions
 
 The modal behaviour is driven by **subscription type** (derived from the subscription's product title):
 
@@ -228,36 +231,45 @@ The modal behaviour is driven by **subscription type** (derived from the subscri
 
 Crossing the boundary (protocol ↔ single formula) is not supported in the modal. The UI states this clearly and directs the customer to cancel and start a new subscription from the shop.
 
-### Multi-line subscriptions
+### Edit plan modal — multi-line subscriptions
 
-A single Loop subscription contract can contain multiple product lines but only one billing frequency. If a subscription has more than one line:
+Multi-line contracts use `MultiLineEditModal.tsx`, which provides a per-line product/size picker and a shared delivery schedule display.
 
-- The edit modal is **not shown**. The subscription card displays all line items and replaces the Edit button with a **"Contact support to change plan"** link pre-filled with the subscription ID.
-- A runtime guard in the pause route also returns a `422` with `{ multiLine: true }` if somehow reached, as a safety net.
+**Cadence is auto-derived — not user-selectable.** The delivery frequency is set to the plan of the largest pack across all lines:
 
-This is an edge case. Normal customers have one line per subscription. Customers who want two products at different frequencies should have two separate subscription contracts.
+- ≤ 4 shots → Starter (weekly)
+- 5–12 shots or 8-shot formula → Pro (bi-weekly)
+- ≥ 28 shots → Max (monthly)
 
-**Loop subscription contracts: billing frequency and multi-line behaviour**
+Example: a contract with a 12-shot line and a 28-shot line → monthly cadence (28 shots forces it).
 
-A Loop subscription contract has **one billing frequency** — the billing policy is set at the contract level, not per line. This means:
+**Frequency update is skipped when the interval is unchanged.** After swapping each line's variant, the route checks whether the target interval/intervalCount differs from the current billing policy. If they match, `PUT /frequency` is skipped entirely — Loop rejects redundant frequency updates on multi-line contracts. If the cadence genuinely changes (e.g. both lines drop to 4-shot → weekly), the frequency call is made with `nextBillingDateEpoch` set to the existing next billing date to preserve the schedule.
 
-- All lines in a contract are billed together in a single charge on the same schedule.
-- You can swap a line's variant or price independently, but you cannot assign different billing intervals to individual lines.
-- If two products appear to have different cadences (e.g. "weekly" vs "bi-weekly") in the same checkout, they are either cosmetic labels, or Shopify created two separate contracts under the hood — check the Loop dashboard to confirm.
-
-If a customer genuinely needs two products at different frequencies, the correct architecture is **two separate subscription contracts**. There is no native way to have per-line frequencies within a single contract.
-
-**For the customer portal:** any UI that allows frequency changes on a multi-line contract should be treated with caution, as the change will apply to all lines. The current behaviour (directing multi-line customers to contact support) is a safe default until contract splitting is explicitly implemented.
+**Next billing date is always preserved.** `nextBillingDateEpoch` is fetched from Loop before any mutation and passed back on every frequency update. A plan or product change never resets the billing clock.
 
 ### Verifying a plan change
 
 After a plan change, check Vercel function logs for:
 
+**Single-line:**
 ```
 [Loop plan-update][shopify-{id}] Step 1: GET subscription
 [Loop plan-update][shopify-{id}] Step 2: PUT swap line
 [Loop plan-update][shopify-{id}] Step 3: PUT frequency using Loop internal ID: {loopInternalId}
 [Loop plan-update][shopify-{id}] PUT frequency OK
+```
+
+**Multi-line (interval unchanged):**
+```
+[Loop edit-multi-line][shopify-{id}] Swapping line {lineId}: product=... size=... variant=...
+[Loop edit-multi-line][shopify-{id}] Skipping PUT frequency — interval unchanged (MONTH × 1)
+```
+
+**Multi-line (interval changing):**
+```
+[Loop edit-multi-line][shopify-{id}] Swapping line {lineId}: ...
+[Loop edit-multi-line][shopify-{id}] PUT frequency using Loop internal ID: {loopInternalId}
+[Loop edit-multi-line][shopify-{id}] PUT frequency OK
 ```
 
 Then confirm in Loop's dashboard that both the product/variant and billing interval match the selection.
@@ -341,7 +353,8 @@ On clicking Update:
 | Payment methods hook           | [`app/hooks/usePaymentMethods.ts`](../app/hooks/usePaymentMethods.ts)                                                     |
 | Account dashboard              | [`app/account/page.tsx`](../app/account/page.tsx)                                                                         |
 | Subscriptions list & actions   | [`app/account/subscriptions/page.tsx`](../app/account/subscriptions/page.tsx)                                             |
-| Edit plan modal                | [`app/components/subscriptions/EditSubscriptionModal.tsx`](../app/components/subscriptions/EditSubscriptionModal.tsx)     |
+| Edit plan modal (single-line)  | [`app/components/subscriptions/EditSubscriptionModal.tsx`](../app/components/subscriptions/EditSubscriptionModal.tsx)     |
+| Edit plan modal (multi-line)   | [`app/components/subscriptions/MultiLineEditModal.tsx`](../app/components/subscriptions/MultiLineEditModal.tsx)           |
 | GET subscriptions (hybrid)     | [`app/api/auth/subscriptions/route.ts`](../app/api/auth/subscriptions/route.ts)                                           |
 | All subscription actions       | [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts)                     |
 | Payment methods — fetch        | [`app/api/auth/subscriptions/payment-methods/route.ts`](../app/api/auth/subscriptions/payment-methods/route.ts)           |

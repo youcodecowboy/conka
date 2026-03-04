@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { Subscription } from "@/app/hooks/useSubscriptions";
+import { sizeToTierKey } from "@/app/lib/productSizeUtils";
 
 type PlanType = "starter" | "pro" | "max";
 
@@ -35,15 +36,6 @@ const PLAN_CADENCE: Record<PlanType, { label: string; detail: string }> = {
   pro:     { label: "Bi-Weekly", detail: "Every 14 days" },
   max:     { label: "Monthly",   detail: "Every 4 weeks" },
 };
-
-/** Mirror of sizeToTierKey in pause/route.ts */
-function sizeToTierKey(productKey: string, size: number): string {
-  if (productKey === "4") return size >= 56 ? "max" : "pro";
-  if (size <= 4) return "starter";
-  if (size <= 8) return "pro_8";
-  if (size <= 12) return "pro";
-  return "max";
-}
 
 function tierKeyToPlan(tierKey: string): PlanType {
   if (tierKey === "max") return "max";
