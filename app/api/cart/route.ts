@@ -9,6 +9,10 @@ import {
   GET_CART,
 } from '@/app/lib/shopifyQueries';
 
+const cartLineAttributesSchema = z
+  .array(z.object({ key: z.string(), value: z.string() }))
+  .optional();
+
 // Zod schemas for cart operations
 const cartActionSchema = z.discriminatedUnion('action', [
   z.object({
@@ -16,6 +20,7 @@ const cartActionSchema = z.discriminatedUnion('action', [
     variantId: z.string().optional(),
     quantity: z.number().int().positive().optional(),
     sellingPlanId: z.string().optional(),
+    attributes: cartLineAttributesSchema,
   }),
   z.object({
     action: z.literal('add'),
@@ -23,6 +28,7 @@ const cartActionSchema = z.discriminatedUnion('action', [
     variantId: z.string().min(1, 'Variant ID is required'),
     quantity: z.number().int().positive().optional(),
     sellingPlanId: z.string().optional(),
+    attributes: cartLineAttributesSchema,
   }),
   z.object({
     action: z.literal('update'),
@@ -135,20 +141,23 @@ export async function POST(request: NextRequest) {
     switch (action) {
       case 'create': {
         // Create a new cart, optionally with initial items
-        const { variantId, quantity, sellingPlanId } = validatedData;
+        const { variantId, quantity, sellingPlanId, attributes } = validatedData;
         
         interface CartLineInput {
           merchandiseId: string;
           quantity: number;
           sellingPlanId?: string;
+          attributes?: Array<{ key: string; value: string }>;
         }
         
         const input: { lines?: CartLineInput[] } = {};
+        const lineAttrs = attributes && attributes.length > 0 ? attributes : undefined;
         
         if (variantId) {
           const line: CartLineInput = {
             merchandiseId: variantId,
             quantity: quantity || 1,
+            ...(lineAttrs && { attributes: lineAttrs }),
           };
           
           // Add selling plan for subscription
@@ -172,12 +181,13 @@ export async function POST(request: NextRequest) {
           if (sellingPlanId && userError.message.toLowerCase().includes('selling plan')) {
             console.log('Selling plan not applicable, retrying without subscription...');
             
-            // Retry without selling plan
+            // Retry without selling plan (keep same attributes)
             const retryInput: { lines?: CartLineInput[] } = {};
             if (variantId) {
               retryInput.lines = [{
                 merchandiseId: variantId,
                 quantity: quantity || 1,
+                ...(lineAttrs && { attributes: lineAttrs }),
               }];
             }
             
@@ -219,17 +229,20 @@ export async function POST(request: NextRequest) {
 
       case 'add': {
         // Add item to existing cart
-        const { cartId, variantId, quantity, sellingPlanId } = validatedData;
+        const { cartId, variantId, quantity, sellingPlanId, attributes } = validatedData;
 
         interface CartLineInput {
           merchandiseId: string;
           quantity: number;
           sellingPlanId?: string;
+          attributes?: Array<{ key: string; value: string }>;
         }
 
+        const lineAttrs = attributes && attributes.length > 0 ? attributes : undefined;
         const line: CartLineInput = {
           merchandiseId: variantId,
           quantity: quantity || 1,
+          ...(lineAttrs && { attributes: lineAttrs }),
         };
         
         // Add selling plan for subscription
@@ -247,7 +260,7 @@ export async function POST(request: NextRequest) {
           const userError = response.data.cartLinesAdd.userErrors[0];
           console.error('Cart add user errors:', response.data.cartLinesAdd.userErrors);
           
-          // If the error is about selling plan, retry without it
+          // If the error is about selling plan, retry without it (keep same attributes)
           if (sellingPlanId && userError.message.toLowerCase().includes('selling plan')) {
             console.log('Selling plan not applicable, retrying without subscription...');
             
@@ -256,6 +269,7 @@ export async function POST(request: NextRequest) {
               lines: [{
                 merchandiseId: variantId,
                 quantity: quantity || 1,
+                ...(lineAttrs && { attributes: lineAttrs }),
               }],
             });
             

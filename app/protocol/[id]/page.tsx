@@ -127,7 +127,7 @@ export default function ProtocolPage() {
     if (variantData?.variantId) {
       await addToCart(variantData.variantId, 1, variantData.sellingPlanId, {
         location: "hero",
-        source: getAddToCartSource(),
+        source: getAddToCartSource() === "quiz" ? "quiz" : "protocol_page",
         sessionId: getQuizSessionId(),
       });
     } else {
@@ -149,7 +149,7 @@ export default function ProtocolPage() {
     if (variantData?.variantId) {
       await addToCart(variantData.variantId, 1, variantData.sellingPlanId, {
         location: "sticky_footer",
-        source: getAddToCartSource(),
+        source: getAddToCartSource() === "quiz" ? "quiz" : "protocol_page",
         sessionId: getQuizSessionId(),
       });
     } else {
