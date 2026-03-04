@@ -1,4 +1,5 @@
 import type { Subscription } from "@/app/hooks/useSubscriptions";
+import { getProtocolImage, getFormulaImage } from "@/app/lib/productImageConfig";
 
 export function formatDate(dateString: string): string {
   return new Date(dateString).toLocaleDateString("en-GB", {
@@ -34,7 +35,19 @@ export function getProtocolFromSubscription(subscription: Subscription): string 
   if (title.includes("precision")) return "2";
   if (title.includes("balance")) return "3";
   if (title.includes("ultimate")) return "4";
-  return "1";
+  // Flow/Clarity are single-formula subscriptions, not protocols — return empty so callers
+  // don't accidentally render Resilience imagery as a fallback.
+  return "";
+}
+
+/** Returns the best available image for a subscription (Loop image → formula image → protocol image). */
+export function getSubscriptionImage(subscription: Subscription): string {
+  if (subscription.product.image) return subscription.product.image;
+  const type = getSubscriptionType(subscription);
+  if (type === "flow") return getFormulaImage("01");
+  if (type === "clear") return getFormulaImage("02");
+  const protocolId = getProtocolFromSubscription(subscription);
+  return getProtocolImage(protocolId);
 }
 
 /** "protocol" = bundle (Resilience/Precision/Balance/Ultimate); "flow" | "clear" = single formula */
@@ -101,7 +114,14 @@ export function getCurrentPlan(
 
   const { interval } = subscription;
   if (interval.unit === "week" && interval.value === 1) return "starter";
-  if (interval.unit === "month" && interval.value === 1) return "max";
+  if (interval.unit === "week" && interval.value <= 7) return "pro";
+  if (interval.unit === "month") return "max";
+  // Normalise day-based intervals (Loop sometimes returns days instead of weeks)
+  if (interval.unit === "day") {
+    if (interval.value <= 7) return "starter";
+    if (interval.value <= 20) return "pro";
+    return "max";
+  }
   return "pro";
 }
 
@@ -214,12 +234,16 @@ export function getTierDisplayInfo(subscription: Subscription): TierDisplayInfo 
     clarityCount: 0,
   };
 
+  // Prefer the actual charged price from Loop over hardcoded display values.
+  const actualPrice = parseFloat(subscription.price.amount) || tierPricing.price;
+  const actualPricePerShot = tierPricing.shots > 0 ? actualPrice / tierPricing.shots : tierPricing.pricePerShot;
+
   return {
     tierName: tierNames[tier],
     frequency: frequencyDisplay[tier],
-    price: tierPricing.price,
+    price: actualPrice,
     shots: tierPricing.shots,
-    pricePerShot: tierPricing.pricePerShot,
+    pricePerShot: actualPricePerShot,
     protocolId,
     tier,
     protocolName: protocol?.name || "Protocol",
