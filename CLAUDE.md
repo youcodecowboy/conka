@@ -1,0 +1,115 @@
+# CONKA Website – Claude Instructions
+
+Headless Shopify e-commerce site. Next.js App Router + TypeScript, hosted on Vercel.
+
+## Commands
+
+```bash
+npm run dev        # Start dev server
+npm run build      # Production build
+npm run lint       # ESLint
+npm run dev:all    # Dev + any parallel processes
+```
+
+## Stack
+
+- **Framework:** Next.js (App Router), React, TypeScript, Tailwind CSS
+- **Commerce:** Shopify Storefront API (`@shopify/storefront-api-client`) — cart only; checkout is Shopify-hosted via `cart.checkoutUrl`
+- **Database:** Convex (see `docs/CONVEX_DEPLOYMENT.md`)
+- **Hosting:** Vercel
+
+## Key files
+
+| File | Purpose |
+|------|---------|
+| `app/context/CartContext.tsx` | Global cart state — `addToCart`, `updateQuantity`, `removeItem`, `clearCart`. Cart ID stored in `localStorage` under `shopify_cart_id`. |
+| `app/context/AuthContext.tsx` | Global auth state |
+| `app/api/cart/route.ts` | Proxies cart actions to Shopify Storefront API |
+| `app/components/CartDrawer.tsx` | Slide-out cart UI; "Checkout" links to `cart.checkoutUrl` |
+| `app/lib/productData.ts` | **Barrel export** — always import product data from here, never from sub-modules |
+| `app/premium-base.css` | Design system tokens and layout classes |
+| `app/layout.tsx` | Root layout — nav, footer, CartDrawer, analytics scripts |
+
+## Product data
+
+Data is split into focused modules; import everything from the barrel:
+
+```typescript
+import { FormulaId, formulaContent, getFormulaPricing, formatPrice } from "@/app/lib/productData";
+```
+
+Modules (no circular deps): `productTypes` → `productColors`, `productPricing`, `formulaContent`, `protocolContent` → `productHelpers`
+
+Key helpers: `getFormulaPricing(packSize, purchaseType)`, `getProtocolPricing(id, tier, purchaseType)`, `formatPrice(n)`, `getB2BTier(qty)`.
+
+## Design system — Soft-Tech Luxury
+
+Full spec: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`. Tokens in `app/premium-base.css`.
+
+**The pattern — page orchestrates, components are content-only:**
+
+```tsx
+// Page (owns section wrapper, background, track)
+<section className="premium-section-luxury premium-bg-bone">
+  <div className="premium-track">
+    <MyComponent />  {/* no <section>, no max-w, no px-* at root */}
+  </div>
+</section>
+```
+
+**Key classes:**
+- `.premium-section-luxury` — section padding + gutters (5vw desktop, 1.25rem mobile)
+- `.premium-track` — max-width 1280px, centred; no own padding
+- `.premium-bg-ink` / `.premium-bg-bone` / `.premium-bg-surface` / `.premium-bg-mid` — section backgrounds
+- `.premium-card-soft` — 40px radius, soft bg, no border (`--premium-radius-card`)
+- `.premium-section-heading` — fluid section title with tight tracking
+- `.premium-body` — body copy (1.125rem, line-height 1.6, max-width 65ch)
+
+**Color palette (ink/bone system):**
+- `--color-ink` (#111111) — dark sections; use `text-white` for text on ink
+- `--color-bone` (#F9F9F9) — light sections
+- `--color-neuro-blue-light` (#eeeff2) — readable content sections
+- `--color-neuro-blue-dark` (#0e1f3f) — high-impact dark sections (use sparingly, max 2×)
+- `--gradient-neuro-blue-accent` — gradient for hero title emphasis spans
+
+**Sticky positioning gotcha:** `.premium-pdp` has `overflow-x: hidden` which breaks `position: sticky`. Place sticky sections *outside* `.premium-pdp`. See `conka-flow/page.tsx` comments.
+
+**Component rules:**
+- Components return content only — no `<section>`, no `max-w-*`, no `px-*` at root
+- Components do not set their own background
+- Cards/surfaces that differ from the section background must set their own text color explicitly
+- Use `var(--letter-spacing-premium-title)` (`-0.03em`) on section headings
+
+## Analytics
+
+- **Vercel Analytics** (`app/lib/analytics.ts`) — quiz events + add-to-cart with `source`/`location`
+- **Triple Whale** (`app/lib/tripleWhale.ts`) — AddToCart only
+- **Meta Pixel** (`app/lib/metaPixel.ts`) — PageView, ViewContent, AddToCart, InitiateCheckout (browser-side)
+- **Meta CAPI** (`app/api/meta/events/route.ts`) — server-side deduplication
+- **GA + Klaviyo** — scripts in `app/layout.tsx`
+
+All analytics fire from `CartContext` after successful cart mutations. Pass `metadata` (`location`, `source`, `sessionId`) to `addToCart` for funnel tagging.
+
+## Cart — important details
+
+- Cart ID persisted in `localStorage` as `shopify_cart_id`; cart data lives in Shopify
+- No custom checkout — redirect to `cart.checkoutUrl`
+- **B2B tier normalization:** after any cart mutation, `getB2BCartTierUpdates` (`app/lib/b2bCartTier.ts`) may fire `updateMultiple` to keep the cart on a consistent B2B tier
+- `clearCart()` removes localStorage reference only; the Shopify cart still exists until it expires
+
+## Routes
+
+`/` home · `/conka-flow` · `/conka-clarity` · `/protocol/[id]` · `/quiz` `/quiz/results` · `/shop` · `/professionals` · `/account` · static content pages (`/science`, `/our-story`, `/why-conka`, `/ingredients`)
+
+## Docs index
+
+| Doc | Topic |
+|-----|-------|
+| `docs/PROJECT_OVERVIEW.md` | High-level architecture |
+| `docs/PRODUCT_DATA.md` | Product module structure + helper usage |
+| `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md` | Full design system spec |
+| `docs/features/CART_LOGIC.md` | Cart actions, persistence, B2B normalization |
+| `docs/features/CUSTOMER_PORTAL.md` | Account portal |
+| `docs/features/b2b/B2B_PORTAL.md` | B2B professional portal |
+| `docs/analytics/` | Analytics implementation + verification guides |
+| `docs/CONVEX_DEPLOYMENT.md` | Convex setup |
