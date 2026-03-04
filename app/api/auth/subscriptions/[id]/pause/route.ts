@@ -13,6 +13,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { env } from '@/app/lib/env';
+import { sizeToTierKey } from '@/app/lib/productSizeUtils';
 import { SUPPORT_EMAIL } from '@/app/lib/supportEmail';
 
 const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
@@ -181,15 +182,6 @@ async function loopRequest(
   return { response, data };
 }
 
-function sizeToTierKey(productKey: string, size: number): string {
-  if (productKey === '4') { // Ultimate: only pro (28) and max (56)
-    return size >= 56 ? 'max' : 'pro';
-  }
-  if (size <= 4) return 'starter';
-  if (size <= 8) return 'pro_8'; // 8-shot formula variant
-  if (size <= 12) return 'pro';
-  return 'max';
-}
 
 export async function POST(
   request: NextRequest,
