@@ -3,7 +3,7 @@
 import type { Subscription } from "@/app/hooks/useSubscriptions";
 import type { PaymentMethod } from "@/app/types/paymentMethod";
 import type { TierDisplayInfo } from "@/app/account/subscriptions/utils";
-import { formatDate, getStatusColor, getSubscriptionImage } from "@/app/account/subscriptions/utils";
+import { formatDate, getStatusColor, getSubscriptionImage, intervalToFrequencyLabel } from "@/app/account/subscriptions/utils";
 import { ContactSupportLink } from "@/app/components/ContactSupportLink";
 import { PaymentCardSection } from "@/app/components/subscriptions/PaymentCardSection";
 
@@ -138,40 +138,82 @@ export function SubscriptionCard({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
-          <div>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">
-              Delivery
-            </p>
-            <p className="font-semibold text-[var(--color-ink)]">
-              {info.frequency}
-            </p>
-          </div>
-          <div>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">
-              Price
-            </p>
-            <p className="font-semibold text-[var(--color-ink)]">
-              £{info.price.toFixed(2)}
-            </p>
-          </div>
-          <div>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">
-              Shots
-            </p>
-            <p className="font-semibold text-[var(--color-ink)]">
-              {info.shots} per delivery
-            </p>
-          </div>
-          <div>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">
-              Per shot
-            </p>
-            <p className="font-semibold text-[var(--color-ink)]">
-              £{info.pricePerShot.toFixed(2)}
-            </p>
-          </div>
-        </div>
+        {(() => {
+          // For multi-line: derive stats from all lines rather than from a single product.
+          let displayFrequency: string;
+          let displayPrice: number;
+          let displayShots: number | null;
+          let displayPricePerShot: number | null;
+
+          if (isMultiLine) {
+            displayFrequency = intervalToFrequencyLabel(subscription.interval);
+            // Sum line prices (price × quantity per line)
+            const lineTotal = lines.reduce(
+              (sum, l) => sum + parseFloat(String(l.price)) * Math.max(1, l.quantity),
+              0,
+            );
+            displayPrice = lineTotal > 0 ? lineTotal : parseFloat(subscription.price.amount) || 0;
+            // Infer shot count per line from variantTitle
+            const shotsTotal = lines.reduce((sum, l) => {
+              const v = (l.variantTitle || "").toLowerCase();
+              for (const s of [56, 28, 12, 8, 4]) {
+                if (v.includes(String(s))) return sum + s;
+              }
+              return sum + l.quantity;
+            }, 0);
+            displayShots = shotsTotal > 0 ? shotsTotal : null;
+            displayPricePerShot = (displayShots && displayPrice) ? displayPrice / displayShots : null;
+          } else {
+            displayFrequency = info.frequency;
+            displayPrice = info.price;
+            displayShots = info.shots;
+            displayPricePerShot = info.pricePerShot;
+          }
+
+          return (
+            <div className="space-y-2">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+                <div>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">
+                    Billing
+                  </p>
+                  <p className="font-semibold text-[var(--color-ink)]">
+                    {displayFrequency}
+                  </p>
+                </div>
+                <div>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">
+                    Total price
+                  </p>
+                  <p className="font-semibold text-[var(--color-ink)]">
+                    £{displayPrice.toFixed(2)}
+                  </p>
+                </div>
+                <div>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">
+                    Shots
+                  </p>
+                  <p className="font-semibold text-[var(--color-ink)]">
+                    {displayShots != null ? `${displayShots} per delivery` : "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">
+                    Per shot
+                  </p>
+                  <p className="font-semibold text-[var(--color-ink)]">
+                    {displayPricePerShot != null ? `£${displayPricePerShot.toFixed(2)}` : "—"}
+                  </p>
+                </div>
+              </div>
+              {isMultiLine && (
+                <p className="premium-body-sm text-[var(--text-on-light-muted)] px-1">
+                  Billed and delivered on your largest pack's schedule.
+                </p>
+              )}
+            </div>
+          );
+        })()}
 
         {!isMultiLine && (
         <div className="flex flex-wrap items-center gap-4 p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]">
