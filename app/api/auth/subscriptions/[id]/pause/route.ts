@@ -99,7 +99,7 @@ const PLAN_CONFIGURATIONS = {
   },
 };
 
-type ActionType = 'pause' | 'resume' | 'cancel' | 'skip' | 'change-frequency';
+type ActionType = 'pause' | 'resume' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line';
 type PlanType = 'starter' | 'pro' | 'max';
 type ProtocolIdType = '1' | '2' | '3' | '4';
 
@@ -108,6 +108,7 @@ interface ActionRequest {
   plan?: PlanType;
   protocolId?: ProtocolIdType; // Optional: if provided, swap to this protocol
   reason?: string;
+  lines?: Array<{ lineId: string | number; productKey: string; size: number }>;
 }
 
 /**
@@ -178,6 +179,16 @@ async function loopRequest(
 
   console.log(`[Loop API] Response ${response.status}:`, JSON.stringify(data).substring(0, 500));
   return { response, data };
+}
+
+function sizeToTierKey(productKey: string, size: number): string {
+  if (productKey === '4') { // Ultimate: only pro (28) and max (56)
+    return size >= 56 ? 'max' : 'pro';
+  }
+  if (size <= 4) return 'starter';
+  if (size <= 8) return 'pro_8'; // 8-shot formula variant
+  if (size <= 12) return 'pro';
+  return 'max';
 }
 
 export async function POST(
@@ -440,6 +451,121 @@ export async function POST(
         
         successMessage = `Plan updated to ${planConfig.name} successfully`;
         break;
+
+      case 'edit-multi-line': {
+        const lineEdits = body.lines || [];
+        const newPlan = body.plan;
+
+        if (!lineEdits.length && !newPlan) {
+          return NextResponse.json({ success: false, error: 'No changes provided' }, { status: 400 });
+        }
+
+        // Step 1: GET subscription to get Loop internal ID and current billing policy
+        const subDetailsResult = await loopRequest(`/subscription/${loopSubscriptionId}`, loopToken, 'GET');
+        if (!subDetailsResult.response.ok) {
+          return NextResponse.json({ success: false, error: 'Failed to fetch subscription details' }, { status: 500 });
+        }
+
+        const subscriptionData = subDetailsResult.data.data;
+        const loopInternalId = subscriptionData?.id;
+
+        // Step 2: Determine target plan (requested or inferred from current billing policy)
+        let targetPlan: PlanType;
+        if (newPlan && PLAN_CONFIGURATIONS[newPlan]) {
+          targetPlan = newPlan;
+        } else {
+          const bi = subscriptionData?.billingPolicy?.interval;
+          const bc = subscriptionData?.billingPolicy?.intervalCount;
+          if (bi === 'MONTH') targetPlan = 'max';
+          else if (bi === 'WEEK' && bc === 1) targetPlan = 'starter';
+          else if (bi === 'DAY' && bc <= 7) targetPlan = 'starter';
+          else targetPlan = 'pro';
+        }
+
+        const planConfig = PLAN_CONFIGURATIONS[targetPlan];
+        const sellingPlanGroupIdSent = parseInt(planConfig.sellingPlanGroupId, 10);
+        const logPrefix = `[Loop edit-multi-line][${loopSubscriptionId}]`;
+
+        // Step 3: Swap each line
+        for (const lineEdit of lineEdits) {
+          const { lineId, productKey, size } = lineEdit;
+          const tierKey = sizeToTierKey(String(productKey), Number(size));
+          const productVariants = PROTOCOL_VARIANTS[String(productKey)];
+
+          if (!productVariants) {
+            return NextResponse.json({
+              success: false,
+              error: `Unknown product: ${productKey}`,
+            }, { status: 400 });
+          }
+
+          const variantShopifyId = productVariants[tierKey];
+          if (!variantShopifyId) {
+            return NextResponse.json({
+              success: false,
+              error: `No variant found for product ${productKey} size ${size}`,
+            }, { status: 400 });
+          }
+
+          console.log(`${logPrefix} Swapping line ${lineId}: product=${productKey} size=${size} variant=${variantShopifyId}`);
+
+          const swapResult = await loopRequest(
+            `/subscription/${loopSubscriptionId}/line/${lineId}/swap`,
+            loopToken,
+            'PUT',
+            {
+              variantShopifyId,
+              quantity: 1,
+              pricingType: 'OLD',
+              sellingPlanGroupId: sellingPlanGroupIdSent,
+            }
+          );
+
+          if (!swapResult.response.ok) {
+            return NextResponse.json({
+              success: false,
+              error: `Failed to update line ${lineId}: ${swapResult.data?.message || 'Swap failed'}`,
+              loopResponse: swapResult.data,
+            }, { status: swapResult.response.status || 500 });
+          }
+        }
+
+        // Step 4: Update frequency (always, to ensure billing policy is correct after swaps)
+        if (loopInternalId != null) {
+          const nextBillingDateRaw = subscriptionData?.nextBillingDate;
+          const nextBillingDateEpoch = nextBillingDateRaw
+            ? Math.floor(new Date(nextBillingDateRaw).getTime() / 1000)
+            : Math.floor(Date.now() / 1000) + 86400;
+
+          console.log(`${logPrefix} PUT frequency using Loop internal ID:`, loopInternalId);
+          const freqResult = await loopRequest(
+            `/subscription/${loopInternalId}/frequency`,
+            loopToken,
+            'PUT',
+            {
+              billingPolicy: { interval: planConfig.interval, intervalCount: planConfig.intervalCount },
+              deliveryPolicy: { interval: planConfig.interval, intervalCount: planConfig.intervalCount },
+              nextBillingDateEpoch,
+              discountType: 'OLD',
+            }
+          );
+
+          if (!freqResult.response.ok) {
+            console.error(`${logPrefix} PUT frequency failed:`, JSON.stringify(freqResult.data));
+            return NextResponse.json({
+              success: false,
+              partial: true,
+              error: 'Products updated but billing schedule could not be updated. Please contact support.',
+            }, { status: 503 });
+          }
+          console.log(`${logPrefix} PUT frequency OK`);
+        }
+
+        return NextResponse.json({
+          success: true,
+          message: `Subscription updated successfully`,
+        });
+      }
 
       default:
         return NextResponse.json({

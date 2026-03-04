@@ -129,8 +129,8 @@ export async function GET(request: NextRequest) {
           price: { amount: '63.98', currencyCode: 'GBP' },
           interval: { value: 14, unit: 'day' },
           lines: [
-            { id: 'line-1', productTitle: 'Conka Flow', variantTitle: 'Pro · 12 shots', price: '31.99', quantity: 12 },
-            { id: 'line-2', productTitle: 'Conka Clarity', variantTitle: 'Pro · 12 shots', price: '31.99', quantity: 12 },
+            { id: 'line-1', productTitle: 'Conka Flow', variantTitle: 'Pro · 12 shots', price: '31.99', quantity: 12, variantShopifyId: 56999967752566 },
+            { id: 'line-2', productTitle: 'Conka Clarity', variantTitle: 'Pro · 12 shots', price: '31.99', quantity: 12, variantShopifyId: 57000418673014 },
           ],
           isMultiLine: true,
           hasUnfulfilledOrder: false,

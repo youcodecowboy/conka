@@ -27,6 +27,7 @@ interface UseSubscriptionsReturn {
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
   changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', protocolId?: string) => Promise<ChangePlanResult>;
+  editMultiLine: (subscriptionId: string, lines: Array<{ lineId: string | number; productKey: string; size: number }>, plan?: 'starter' | 'pro' | 'max') => Promise<ChangePlanResult>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
   updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
   sendPaymentUpdateEmail: (subscriptionId: string, paymentMethodId: number) => Promise<{ success: boolean; message: string }>;
@@ -287,6 +288,44 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
+  const editMultiLine = useCallback(
+    async (
+      subscriptionId: string,
+      lines: Array<{ lineId: string | number; productKey: string; size: number }>,
+      plan?: 'starter' | 'pro' | 'max'
+    ): Promise<ChangePlanResult> => {
+      setLoading(true);
+      setError(null);
+      try {
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'edit-multi-line',
+            lines,
+            ...(plan ? { plan } : {}),
+          }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          setError(data.error || 'Failed to update subscription');
+          return { success: false, message: data.error || 'Failed to update subscription', partial: data.partial };
+        }
+        await fetchSubscriptions();
+        return { success: true, message: data.message };
+      } catch (err) {
+        console.error('Failed to edit multi-line subscription:', err);
+        setError('Failed to update subscription');
+        return { success: false, message: 'Failed to update subscription' };
+      } finally {
+        setLoading(false);
+      }
+    },
+    [fetchSubscriptions]
+  );
+
   // Change subscription plan - uses the consolidated pause route with action: 'change-frequency'
   // Can optionally change to a different protocol by passing protocolId
   const changePlan = useCallback(
@@ -414,6 +453,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     resumeSubscription,
     cancelSubscription,
     skipNextOrder,
+    editMultiLine,
     changePlan,
     updateFrequency,
     updateQuantity,
