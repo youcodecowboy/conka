@@ -6,8 +6,7 @@ import Link from 'next/link';
 import Navigation from '@/app/components/navigation';
 import { useAuth } from '@/app/context/AuthContext';
 import { useSubscriptions, Subscription } from '@/app/hooks/useSubscriptions';
-import { getProtocolFromSubscription } from '@/app/account/subscriptions/utils';
-import { getProtocolImage } from '@/app/lib/productImageConfig';
+import { getSubscriptionImage } from '@/app/account/subscriptions/utils';
 
 interface ProfileFormData {
   firstName: string;
@@ -64,8 +63,15 @@ export default function AccountPage() {
       firstName: customer?.firstName ?? '',
       lastName: customer?.lastName ?? '',
       email: customer?.email ?? '',
-      phone: '',
-      address: { address1: '', address2: '', city: '', province: '', zip: '', country: 'United Kingdom' },
+      phone: customer?.phone ?? '',
+      address: {
+        address1: customer?.defaultAddress?.address1 ?? '',
+        address2: customer?.defaultAddress?.address2 ?? '',
+        city: customer?.defaultAddress?.city ?? '',
+        province: customer?.defaultAddress?.province ?? '',
+        zip: customer?.defaultAddress?.zip ?? '',
+        country: customer?.defaultAddress?.country ?? 'United Kingdom',
+      },
     });
     setProfileError(null);
     setProfileSuccess(false);
@@ -190,10 +196,10 @@ export default function AccountPage() {
               href="/account/subscriptions"
               className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
             >
-              {activeSubscriptions.length > 0 && getProtocolImage(getProtocolFromSubscription(activeSubscriptions[0])) ? (
+              {activeSubscriptions.length > 0 && getSubscriptionImage(activeSubscriptions[0]) ? (
                 <span className="flex h-36 w-full shrink-0 overflow-hidden bg-[var(--color-premium-stroke)]/30">
                   <img
-                    src={getProtocolImage(getProtocolFromSubscription(activeSubscriptions[0]))}
+                    src={getSubscriptionImage(activeSubscriptions[0])}
                     alt=""
                     className="h-full w-full object-cover"
                   />
@@ -240,7 +246,7 @@ export default function AccountPage() {
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--premium-radius-card)] bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] p-4 mb-6">
               <div className="flex flex-wrap items-center gap-3 min-w-0">
                 {activeSubscriptions.slice(0, 3).map((s: Subscription) => {
-                  const img = getProtocolImage(getProtocolFromSubscription(s));
+                  const img = getSubscriptionImage(s);
                   return img ? (
                     <span key={s.id} className="flex h-10 w-10 shrink-0 overflow-hidden rounded-[var(--premium-radius-nested)] border border-white/20">
                       <img src={img} alt="" className="h-full w-full object-cover" />

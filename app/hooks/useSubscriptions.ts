@@ -348,10 +348,15 @@ export function useSubscriptions(): UseSubscriptionsReturn {
       let plan: 'starter' | 'pro' | 'max' = 'pro';
       if (interval.unit === 'week' && interval.value === 1) {
         plan = 'starter';
-      } else if (interval.unit === 'week' && interval.value === 2) {
+      } else if (interval.unit === 'week') {
         plan = 'pro';
       } else if (interval.unit === 'month') {
         plan = 'max';
+      } else if (interval.unit === 'day') {
+        // Normalise day-based intervals (Loop sometimes returns days instead of weeks)
+        if (interval.value <= 7) plan = 'starter';
+        else if (interval.value <= 20) plan = 'pro';
+        else plan = 'max';
       }
       
       const result = await changePlan(subscriptionId, plan);

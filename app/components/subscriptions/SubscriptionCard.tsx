@@ -4,8 +4,7 @@ import { useState } from "react";
 import type { Subscription } from "@/app/hooks/useSubscriptions";
 import type { PaymentMethod } from "@/app/types/paymentMethod";
 import type { TierDisplayInfo } from "@/app/account/subscriptions/utils";
-import { formatDate, getStatusColor, getProtocolFromSubscription } from "@/app/account/subscriptions/utils";
-import { getProtocolImage } from "@/app/lib/productImageConfig";
+import { formatDate, getStatusColor, getSubscriptionImage } from "@/app/account/subscriptions/utils";
 import { ContactSupportLink } from "@/app/components/ContactSupportLink";
 
 interface SubscriptionCardProps {
@@ -24,6 +23,7 @@ interface SubscriptionCardProps {
   paymentUpdateMessage?: string | null;
   /** Disable update button until this timestamp (ms). */
   paymentCooldownUntil?: number;
+  onSkipNext?: () => void;
 }
 
 export function SubscriptionCard({
@@ -40,6 +40,7 @@ export function SubscriptionCard({
   paymentUpdateLoading = false,
   paymentUpdateMessage = null,
   paymentCooldownUntil = 0,
+  onSkipNext,
 }: SubscriptionCardProps) {
   const [showContactSupportModal, setShowContactSupportModal] = useState(false);
 
@@ -51,7 +52,7 @@ export function SubscriptionCard({
     price: subscription.price?.amount ?? '0',
     quantity: subscription.quantity ?? 1,
   }];
-  const productImage = subscription.product.image || getProtocolImage(getProtocolFromSubscription(subscription)) || "";
+  const productImage = getSubscriptionImage(subscription);
   return (
     <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-6 md:p-8 space-y-6">
       <div className="space-y-6">
@@ -557,6 +558,18 @@ export function SubscriptionCard({
             </>
           )}
         </button>
+        {subscription.status === "active" && onSkipNext && (
+          <button
+            onClick={onSkipNext}
+            disabled={isActionLoading}
+            className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-ink)]/40 bg-[var(--color-bone)] px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] hover:border-[var(--color-ink)]/50 disabled:opacity-50 flex items-center gap-2 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/>
+            </svg>
+            Skip next order
+          </button>
+        )}
         <button
           onClick={onCancel}
           disabled={isActionLoading}
