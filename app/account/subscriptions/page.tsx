@@ -36,6 +36,7 @@ export default function SubscriptionsPage() {
     pauseSubscription,
     resumeSubscription,
     cancelSubscription,
+    skipNextOrder,
     changePlan,
   } = useSubscriptions();
 
@@ -66,6 +67,17 @@ export default function SubscriptionsPage() {
       fetchSubscriptions();
     }
   }, [customer, fetchSubscriptions]);
+
+  const handleSkipNext = async (subscription: Subscription) => {
+    setActionLoading(subscription.id);
+    const success = await skipNextOrder(subscription.id);
+    if (success) {
+      setSuccessMessage({ subscriptionId: subscription.id, message: "Next order skipped." });
+      await fetchSubscriptions();
+      setTimeout(() => setSuccessMessage(null), 5000);
+    }
+    setActionLoading(null);
+  };
 
   const handleTogglePause = async (subscription: Subscription) => {
     setActionLoading(subscription.id);
@@ -195,6 +207,7 @@ export default function SubscriptionsPage() {
                           isActionLoading={actionLoading === subscription.id}
                           onEdit={() => setShowEditModal(subscription)}
                           onTogglePause={() => handleTogglePause(subscription)}
+                          onSkipNext={() => handleSkipNext(subscription)}
                           onCancel={() => setShowCancelModal(subscription.id)}
                           onDismissSuccess={() => setSuccessMessage(null)}
                           primaryMethod={primaryMethod}
