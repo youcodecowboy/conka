@@ -30,6 +30,18 @@ export interface Subscription {
   /** True when the subscription has more than one product line. */
   isMultiLine?: boolean;
 
+  /** Active discount codes applied to this subscription (from Loop). */
+  discounts?: Array<{
+    title: string;
+    value: { percentage?: number; fixed?: number };
+    isActive: boolean;
+    type: string;
+  }>;
+  /** Pre-discount total (sum of base line prices). */
+  totalLineItemPrice?: number | null;
+  /** Post-discount total — what the customer is actually charged. */
+  totalLineItemDiscountedPrice?: number | null;
+
   /** Loop payment method id (for triggering update email). */
   paymentMethodId?: number | null;
   /** Payment method details from Loop (card brand, last 4, expiry, status). */

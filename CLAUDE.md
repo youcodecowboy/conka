@@ -2,6 +2,16 @@
 
 Headless Shopify e-commerce site. Next.js App Router + TypeScript, hosted on Vercel.
 
+## Git workflow
+
+**Never commit directly to `main`.** Always create a feature branch, make changes there, and open a PR.
+
+```bash
+git checkout -b my-feature-branch   # create branch off main
+# … make changes …
+git push -u origin my-feature-branch
+```
+
 ## Commands
 
 ```bash
