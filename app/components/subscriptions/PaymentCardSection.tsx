@@ -28,7 +28,7 @@ export function PaymentCardSection({
   const cardStatus = pm.status === 'expiring_soon' ? 'expiring_soon' : pm.status === 'expired' ? 'expired' : 'safe';
 
   return (
-    <div className="space-y-3">
+    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
       {/* Card mockup */}
       <div className={`relative rounded-[var(--premium-radius-nested)] p-5 overflow-hidden text-white select-none ${
         cardStatus === 'expired'
@@ -86,33 +86,35 @@ export function PaymentCardSection({
       </div>
 
       {/* Update action / feedback */}
-      {paymentUpdateMessage != null && !paymentUpdateMessage.includes('support') ? (
-        <p className="premium-body-sm text-green-700">{paymentUpdateMessage}</p>
-      ) : onTriggerUpdateEmail ? (
-        <button
-          type="button"
-          onClick={() => onTriggerUpdateEmail(primaryMethod.id)}
-          disabled={paymentUpdateLoading || Date.now() < (paymentCooldownUntil ?? 0)}
-          className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-4 py-2 premium-body-sm font-semibold text-white hover:opacity-90 disabled:opacity-50 flex items-center gap-2 transition-opacity"
-        >
-          {paymentUpdateLoading ? (
-            <>
-              <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              Sending…
-            </>
-          ) : (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
-              </svg>
-              Update payment method
-            </>
-          )}
-        </button>
-      ) : null}
-      {paymentUpdateMessage != null && paymentUpdateMessage.includes('support') && (
-        <p className="premium-body-sm text-red-600">{paymentUpdateMessage}</p>
-      )}
+      <div className="flex flex-col justify-center gap-2">
+        {paymentUpdateMessage != null && !paymentUpdateMessage.includes('support') ? (
+          <p className="premium-body-sm text-green-700">{paymentUpdateMessage}</p>
+        ) : onTriggerUpdateEmail ? (
+          <button
+            type="button"
+            onClick={() => onTriggerUpdateEmail(primaryMethod.id)}
+            disabled={paymentUpdateLoading || Date.now() < (paymentCooldownUntil ?? 0)}
+            className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-4 py-2 premium-body-sm font-semibold text-white hover:opacity-90 disabled:opacity-50 flex items-center gap-2 transition-opacity"
+          >
+            {paymentUpdateLoading ? (
+              <>
+                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Sending…
+              </>
+            ) : (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+                Update payment method
+              </>
+            )}
+          </button>
+        ) : null}
+        {paymentUpdateMessage != null && paymentUpdateMessage.includes('support') && (
+          <p className="premium-body-sm text-red-600">{paymentUpdateMessage}</p>
+        )}
+      </div>
     </div>
   );
 }

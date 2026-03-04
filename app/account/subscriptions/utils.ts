@@ -14,6 +14,22 @@ export function formatInterval(interval: Subscription["interval"]): string {
   return `Every ${interval.value} ${unit}`;
 }
 
+/** Convert a Loop billing interval to a human-readable frequency label. */
+export function intervalToFrequencyLabel(interval: Subscription["interval"]): string {
+  if (interval.unit === "month") return "Monthly";
+  if (interval.unit === "week") {
+    if (interval.value === 1) return "Weekly";
+    if (interval.value === 2) return "Bi-Weekly";
+    return `Every ${interval.value} weeks`;
+  }
+  if (interval.unit === "day") {
+    if (interval.value <= 7) return "Weekly";
+    if (interval.value <= 16) return "Bi-Weekly";
+    return "Monthly";
+  }
+  return formatInterval(interval);
+}
+
 export function getStatusColor(status: Subscription["status"]): string {
   switch (status) {
     case "active":
@@ -205,11 +221,9 @@ export function getTierDisplayInfo(subscription: Subscription): TierDisplayInfo 
     pro: "Pro",
     max: "Max",
   };
-  const frequencyDisplay: Record<string, string> = {
-    starter: "Weekly",
-    pro: "Bi-Weekly",
-    max: "Monthly",
-  };
+  // Use the actual contract interval — not inferred from product title — to avoid
+  // showing a stale or mismatched frequency when lines have mixed cadences.
+  const frequency = intervalToFrequencyLabel(subscription.interval);
   const standardPricing: Record<
     string,
     { price: number; shots: number; pricePerShot: number }
@@ -240,7 +254,7 @@ export function getTierDisplayInfo(subscription: Subscription): TierDisplayInfo 
 
   return {
     tierName: tierNames[tier],
-    frequency: frequencyDisplay[tier],
+    frequency,
     price: actualPrice,
     shots: tierPricing.shots,
     pricePerShot: actualPricePerShot,
