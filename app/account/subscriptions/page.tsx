@@ -8,6 +8,7 @@ import { useSubscriptions, Subscription } from "@/app/hooks/useSubscriptions";
 import { usePaymentMethods } from "@/app/hooks/usePaymentMethods";
 import { CancellationModal } from "@/app/components/subscriptions/CancellationModal";
 import { EditSubscriptionModal } from "@/app/components/subscriptions/EditSubscriptionModal";
+import { MultiLineEditModal } from "@/app/components/subscriptions/MultiLineEditModal";
 import { SubscriptionsPageHeader } from "@/app/components/subscriptions/SubscriptionsPageHeader";
 import { SubscriptionSummaryStats } from "@/app/components/subscriptions/SubscriptionSummaryStats";
 import { EmptySubscriptionsState } from "@/app/components/subscriptions/EmptySubscriptionsState";
@@ -38,6 +39,7 @@ export default function SubscriptionsPage() {
     cancelSubscription,
     skipNextOrder,
     changePlan,
+    editMultiLine,
   } = useSubscriptions();
 
   const {
@@ -129,6 +131,23 @@ export default function SubscriptionsPage() {
       setTimeout(() => setSuccessMessage(null), 5000);
     }
 
+    return result;
+  };
+
+  const handleEditMultiLine = async (
+    lines: Array<{ lineId: string | number; productKey: string; size: number }>,
+    plan: "starter" | "pro" | "max"
+  ): Promise<{ success: boolean; message?: string }> => {
+    if (!showEditModal) return { success: false, message: "No subscription selected" };
+    const subscriptionId = showEditModal.id;
+    setActionLoading(subscriptionId);
+    const result = await editMultiLine(subscriptionId, lines, plan);
+    setActionLoading(null);
+    if (result.success) {
+      setShowEditModal(null);
+      setSuccessMessage({ subscriptionId, message: "Subscription updated successfully!" });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    }
     return result;
   };
 
@@ -264,23 +283,31 @@ export default function SubscriptionsPage() {
         }
       />
 
-      <EditSubscriptionModal
-        isOpen={!!showEditModal}
-        onClose={() => setShowEditModal(null)}
-        onSave={handleChangePlan}
-        subscriptionName={showEditModal?.product.title || "Subscription"}
-        subscriptionId={showEditModal?.id}
-        subscriptionType={showEditModal ? getSubscriptionType(showEditModal) : "protocol"}
-        currentProtocolId={
-          showEditModal ? getProtocolFromSubscription(showEditModal) : "1"
-        }
-        currentTier={showEditModal ? getCurrentPlan(showEditModal) : "pro"}
-        currentFormulaId={showEditModal ? getCurrentFormulaId(showEditModal) : undefined}
-        currentPackSize={showEditModal ? getCurrentPackSizeForFormula(showEditModal) : undefined}
-        nextBillingDate={showEditModal?.nextBillingDate}
-        loading={actionLoading === showEditModal?.id}
-        hasUnfulfilledFirstOrder={showEditModal?.hasUnfulfilledOrder ?? false}
-      />
+      {showEditModal && showEditModal.isMultiLine ? (
+        <MultiLineEditModal
+          isOpen={!!showEditModal}
+          onClose={() => setShowEditModal(null)}
+          subscription={showEditModal}
+          onSave={handleEditMultiLine}
+          loading={actionLoading === showEditModal?.id}
+        />
+      ) : (
+        <EditSubscriptionModal
+          isOpen={!!showEditModal}
+          onClose={() => setShowEditModal(null)}
+          onSave={handleChangePlan}
+          subscriptionName={showEditModal?.product.title || "Subscription"}
+          subscriptionId={showEditModal?.id}
+          subscriptionType={showEditModal ? getSubscriptionType(showEditModal) : "protocol"}
+          currentProtocolId={showEditModal ? getProtocolFromSubscription(showEditModal) : "1"}
+          currentTier={showEditModal ? getCurrentPlan(showEditModal) : "pro"}
+          currentFormulaId={showEditModal ? getCurrentFormulaId(showEditModal) : undefined}
+          currentPackSize={showEditModal ? getCurrentPackSizeForFormula(showEditModal) : undefined}
+          nextBillingDate={showEditModal?.nextBillingDate}
+          loading={actionLoading === showEditModal?.id}
+          hasUnfulfilledFirstOrder={showEditModal?.hasUnfulfilledOrder ?? false}
+        />
+      )}
     </div>
   );
 }
