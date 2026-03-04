@@ -530,8 +530,16 @@ export async function POST(
           }
         }
 
-        // Step 4: Update frequency (always, to ensure billing policy is correct after swaps)
-        if (loopInternalId != null) {
+        // Step 4: Only update frequency if the interval is actually changing.
+        // If the subscription already has the target interval, skip the PUT frequency call —
+        // Loop rejects redundant frequency updates on multi-line contracts.
+        const currentInterval = subscriptionData?.billingPolicy?.interval;
+        const currentIntervalCount = subscriptionData?.billingPolicy?.intervalCount;
+        const intervalNeedsUpdate =
+          currentInterval !== planConfig.interval ||
+          currentIntervalCount !== planConfig.intervalCount;
+
+        if (intervalNeedsUpdate && loopInternalId != null) {
           const nextBillingDateRaw = subscriptionData?.nextBillingDate;
           const nextBillingDateEpoch = nextBillingDateRaw
             ? Math.floor(new Date(nextBillingDateRaw).getTime() / 1000)
@@ -559,6 +567,8 @@ export async function POST(
             }, { status: 503 });
           }
           console.log(`${logPrefix} PUT frequency OK`);
+        } else {
+          console.log(`${logPrefix} Skipping PUT frequency — interval unchanged (${currentInterval} × ${currentIntervalCount})`);
         }
 
         return NextResponse.json({
