@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { Subscription } from "@/app/hooks/useSubscriptions";
 import type { PaymentMethod } from "@/app/types/paymentMethod";
 import type { TierDisplayInfo } from "@/app/account/subscriptions/utils";
@@ -42,8 +41,6 @@ export function SubscriptionCard({
   paymentCooldownUntil = 0,
   onSkipNext,
 }: SubscriptionCardProps) {
-  const [showContactSupportModal, setShowContactSupportModal] = useState(false);
-
   const isMultiLine = subscription.isMultiLine ?? (subscription.lines?.length ?? 0) > 1;
   const lines = subscription.lines?.length ? subscription.lines : [{
     id: subscription.product?.id || '0',
@@ -431,86 +428,17 @@ export function SubscriptionCard({
       )}
 
       <div className="flex flex-wrap gap-3 pt-2">
-        {isMultiLine ? (
-          <>
-            <button
-              type="button"
-              onClick={() => setShowContactSupportModal(true)}
-              className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 flex items-center gap-2 transition-opacity"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                <polyline points="22,6 12,13 2,6" />
-              </svg>
-              Contact support to change plan
-            </button>
-            {showContactSupportModal && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" aria-modal="true" role="dialog">
-                <div
-                  className="absolute inset-0"
-                  onClick={() => setShowContactSupportModal(false)}
-                  aria-hidden="true"
-                />
-                <div className="relative rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-lg p-6 max-w-md w-full">
-                  <h3 className="font-semibold text-lg text-[var(--color-ink)] mb-3" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
-                    Change your plan
-                  </h3>
-                  <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-5">
-                    Because you have more than one item in your subscription, contact support and we can help adjust your order for you.
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    <ContactSupportLink
-                      subject={`Multi-product subscription: ${subscription.id}`}
-                      body={`Hi, I'd like to change my subscription plan. Subscription ID: ${subscription.id}`}
-                      variant="button-primary-small"
-                      icon="envelope-small"
-                      onClick={() => setShowContactSupportModal(false)}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowContactSupportModal(false)}
-                      className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-ink)]/40 bg-[var(--color-bone)] px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)]"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
-        ) : (
         <button
           onClick={onEdit}
           disabled={isActionLoading}
           className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-5 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 disabled:opacity-50 flex items-center gap-2 transition-opacity"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
           </svg>
           Edit
         </button>
-        )}
         <button
           onClick={onTogglePause}
           disabled={isActionLoading}
