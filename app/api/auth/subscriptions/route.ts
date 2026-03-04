@@ -402,7 +402,19 @@ export async function GET(request: NextRequest) {
                 variantShopifyId: line.variantShopifyId ?? line.variant?.shopifyId,
               })),
               isMultiLine: (loopData.lines?.length ?? 0) > 1,
-              
+
+              // Discount codes applied to this subscription (exclude shipping-only discounts)
+              discounts: (loopData.discounts || [])
+                .filter((d: any) => d.isActive && d.type !== 'SHIPPING_LINE')
+                .map((d: any) => ({
+                  title: d.title,
+                  value: d.value,
+                  isActive: d.isActive,
+                  type: d.type,
+                })),
+              totalLineItemPrice: loopData.totalLineItemPrice ?? null,
+              totalLineItemDiscountedPrice: loopData.totalLineItemDiscountedPrice ?? null,
+
               // Payment method from Loop (for display and update-email trigger)
               paymentMethodId: loopData?.paymentMethodId ?? null,
               paymentMethod: loopData?.paymentMethod

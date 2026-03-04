@@ -30,13 +30,13 @@ export function PaymentCardSection({
   return (
     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
       {/* Card mockup */}
-      <div className={`relative rounded-[var(--premium-radius-nested)] p-5 overflow-hidden text-white select-none ${
+      <div className={`relative rounded-[var(--premium-radius-nested)] p-5 overflow-hidden text-white select-none w-full sm:w-80 flex-shrink-0 ${
         cardStatus === 'expired'
           ? 'bg-red-900'
           : cardStatus === 'expiring_soon'
           ? 'bg-amber-800'
           : 'bg-[var(--color-ink)]'
-      }`} style={{ maxWidth: '320px' }}>
+      }`}>
         <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/5 pointer-events-none" />
         <div className="absolute -bottom-12 -left-6 w-36 h-36 rounded-full bg-white/5 pointer-events-none" />
 

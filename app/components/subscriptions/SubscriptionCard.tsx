@@ -145,14 +145,23 @@ export function SubscriptionCard({
           let displayShots: number | null;
           let displayPricePerShot: number | null;
 
+          // Active discounts (exclude shipping-only)
+          const activeDiscounts = (subscription.discounts ?? []).filter(
+            (d) => d.isActive && d.type !== 'SHIPPING_LINE',
+          );
+
           if (isMultiLine) {
             displayFrequency = intervalToFrequencyLabel(subscription.interval);
-            // Sum line prices (price × quantity per line)
-            const lineTotal = lines.reduce(
-              (sum, l) => sum + parseFloat(String(l.price)) * Math.max(1, l.quantity),
-              0,
-            );
-            displayPrice = lineTotal > 0 ? lineTotal : parseFloat(subscription.price.amount) || 0;
+            // Prefer Loop's authoritative discounted total; fall back to summing lines
+            if (subscription.totalLineItemDiscountedPrice != null) {
+              displayPrice = subscription.totalLineItemDiscountedPrice;
+            } else {
+              const lineTotal = lines.reduce(
+                (sum, l) => sum + parseFloat(String(l.price)) * Math.max(1, l.quantity),
+                0,
+              );
+              displayPrice = lineTotal > 0 ? lineTotal : parseFloat(subscription.price.amount) || 0;
+            }
             // Infer shot count per line from variantTitle
             const shotsTotal = lines.reduce((sum, l) => {
               const v = (l.variantTitle || "").toLowerCase();
@@ -165,9 +174,10 @@ export function SubscriptionCard({
             displayPricePerShot = (displayShots && displayPrice) ? displayPrice / displayShots : null;
           } else {
             displayFrequency = info.frequency;
-            displayPrice = info.price;
+            // Use Loop's discounted total if available, otherwise fall back to derived price
+            displayPrice = subscription.totalLineItemDiscountedPrice ?? info.price;
             displayShots = info.shots;
-            displayPricePerShot = info.pricePerShot;
+            displayPricePerShot = displayShots ? displayPrice / displayShots : info.pricePerShot;
           }
 
           return (
@@ -210,6 +220,31 @@ export function SubscriptionCard({
                 <p className="premium-body-sm text-[var(--text-on-light-muted)] px-1">
                   Billed and delivered on your largest pack's schedule.
                 </p>
+              )}
+              {activeDiscounts.length > 0 && (
+                <div className="flex flex-wrap gap-2 px-1">
+                  {activeDiscounts.map((d) => (
+                    <span
+                      key={d.title}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 border border-green-200 premium-body-sm font-medium text-green-800"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>
+                      </svg>
+                      {d.title}
+                      {d.value?.percentage != null && (
+                        <span className="text-green-600">· {d.value.percentage}% off</span>
+                      )}
+                    </span>
+                  ))}
+                  {subscription.totalLineItemPrice != null &&
+                    subscription.totalLineItemDiscountedPrice != null &&
+                    subscription.totalLineItemPrice > subscription.totalLineItemDiscountedPrice && (
+                      <span className="premium-body-sm text-[var(--text-on-light-muted)] self-center">
+                        (was £{subscription.totalLineItemPrice.toFixed(2)})
+                      </span>
+                    )}
+                </div>
               )}
             </div>
           );
