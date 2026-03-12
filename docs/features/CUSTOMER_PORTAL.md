@@ -132,16 +132,24 @@ Mock is only active when `NODE_ENV === 'development'` and `DEV_MOCK_AUTH === 'tr
 
 All mutations go through one route: `POST /api/auth/subscriptions/[id]/pause`
 
-| Action            | Body                                                                                                       |
-| ----------------- | ---------------------------------------------------------------------------------------------------------- |
-| Pause             | `{ action: 'pause' }`                                                                                      |
-| Resume            | `{ action: 'resume' }`                                                                                     |
-| Cancel            | `{ action: 'cancel', reason?: string }`                                                                    |
-| Skip              | `{ action: 'skip' }`                                                                                       |
-| Change plan       | `{ action: 'change-frequency', plan: 'starter' \| 'pro' \| 'max', protocolId?: '1'\|'2'\|'3'\|'4' }`      |
-| Edit multi-line   | `{ action: 'edit-multi-line', lines: LineEdit[], plan?: 'starter' \| 'pro' \| 'max' }`                     |
+| Action            | Body                                                                                                       | Loop endpoint used                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| Pause             | `{ action: 'pause' }`                                                                                      | `POST /subscription/{shopify-id}/pause`         |
+| Resume            | `{ action: 'resume' }`                                                                                     | `POST /subscription/{shopify-id}/resume`        |
+| Cancel            | `{ action: 'cancel', reason?: string }`                                                                    | `POST /subscription/{shopify-id}/cancel`        |
+| Skip              | `{ action: 'skip' }`                                                                                       | `POST /subscription/{loopInternalId}/skipNext`  |
+| Change plan       | `{ action: 'change-frequency', plan: 'starter' \| 'pro' \| 'max', protocolId?: '1'\|'2'\|'3'\|'4' }`      | `PUT .../line/{lineId}/swap` + `PUT .../frequency` |
+| Edit multi-line   | `{ action: 'edit-multi-line', lines: LineEdit[], plan?: 'starter' \| 'pro' \| 'max' }`                     | `PUT .../line/{lineId}/swap` (per line) + `PUT .../frequency` |
 
-The `[id]` is the Shopify subscription contract ID (GID or numeric). The route converts it to Loop's `shopify-{numericId}` format.
+The `[id]` is the Shopify subscription contract ID (GID or numeric). The route converts it to Loop's `shopify-{numericId}` format. Some Loop endpoints (skipNext, frequency) require Loop's internal numeric ID — the route GETs the subscription first to resolve this.
+
+**Pause behaviour:** Pauses are capped at 3 months via `pauseDuration`. Loop will auto-resume the subscription after that period. Customers can resume manually at any time before then.
+
+**Cancel behaviour:** The customer's cancellation reason is sent as `comment` (Loop's field name). Loop sends a cancellation confirmation email to the customer (`notifyCustomer: true`).
+
+**Skip behaviour:** Skips the next upcoming order. The route resolves the Loop internal ID first (skipNext requires it), then calls `POST /subscription/{loopInternalId}/skipNext`.
+
+**Error handling:** All Loop API errors are logged server-side with full details. Client responses contain only user-friendly messages — no internal Loop data is exposed.
 
 **Implementation:** [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts)
 
@@ -249,9 +257,17 @@ Example: a contract with a 12-shot line and a 28-shot line → monthly cadence (
 
 ### Verifying a plan change
 
-After a plan change, check Vercel function logs for:
+After any subscription action, check Vercel function logs for:
 
-**Single-line:**
+**Skip:**
+```
+[SKIP] Input: {numericId} -> Loop format: shopify-{numericId}
+[SKIP] Using Loop internal ID: {loopInternalId}
+[Loop API] POST .../subscription/{loopInternalId}/skipNext
+[Loop API] Response 200: {"success":true,"message":"Upcoming order skipped successfully"...}
+```
+
+**Single-line plan change:**
 ```
 [Loop plan-update][shopify-{id}] Step 1: GET subscription
 [Loop plan-update][shopify-{id}] Step 2: PUT swap line
