@@ -123,3 +123,19 @@ All analytics fire from `CartContext` after successful cart mutations. Pass `met
 | `docs/features/b2b/B2B_PORTAL.md` | B2B professional portal |
 | `docs/analytics/` | Analytics implementation + verification guides |
 | `docs/CONVEX_DEPLOYMENT.md` | Convex setup |
+
+## Workflows
+
+Process docs for how to approach work on this project. Read the relevant workflow before starting a task.
+
+| Doc | When to use |
+|-----|-------------|
+| `docs/workflows/README.md` | Index and overview of all workflows |
+| `docs/workflows/01-scoping-work.md` | Before starting any non-trivial feature — break down scope, identify affected areas |
+| `docs/workflows/02-implementation-workflow.md` | Step-by-step implementation process after scoping |
+| `docs/workflows/03-nextjs-development.md` | Next.js patterns, rendering strategy, data fetching conventions |
+| `docs/workflows/04-shopify-commerce.md` | Working with Shopify APIs, cart, checkout, subscriptions (Loop) |
+| `docs/workflows/05-creating-documentation.md` | When creating or updating project documentation |
+| `docs/workflows/06-code-review.md` | Self-review checklist before opening a PR |
+| `docs/workflows/07-testing-validation.md` | Testing layers and validation checklists |
+| `docs/workflows/08-jira-workflow.md` | Ticket creation, status transitions, writing acceptance criteria |
