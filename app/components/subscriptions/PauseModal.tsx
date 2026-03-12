@@ -1,22 +1,69 @@
 'use client';
 
 import { useState } from 'react';
+import type { SubscriptionInterval } from '@/app/types';
 
-const PAUSE_OPTIONS = [
-  { weeks: 1, label: '1 week' },
-  { weeks: 2, label: '2 weeks' },
-  { weeks: 4, label: '1 month' },
-  { weeks: 8, label: '2 months' },
-  { weeks: 12, label: '3 months' },
-] as const;
+/** Max number of billing cycles a customer can pause for */
+const MAX_CYCLES = 3;
 
-const MAX_WEEKS = 12;
+/**
+ * Build pause options based on the subscription's billing interval.
+ * Returns 1–3 cycle options with weeks and human-readable labels.
+ */
+function buildPauseOptions(interval?: SubscriptionInterval) {
+  // Default to monthly if no interval provided
+  const unit = interval?.unit ?? 'month';
+  const value = interval?.value ?? 1;
+
+  const options: Array<{ weeks: number; label: string }> = [];
+
+  for (let cycles = 1; cycles <= MAX_CYCLES; cycles++) {
+    let weeks: number;
+    let label: string;
+
+    switch (unit) {
+      case 'week': {
+        weeks = value * cycles;
+        label = weeks === 1 ? '1 week' : `${weeks} weeks`;
+        break;
+      }
+      case 'month': {
+        const months = value * cycles;
+        weeks = months * 4; // approximate for the route's conversion
+        label = months === 1 ? '1 month' : `${months} months`;
+        break;
+      }
+      case 'year': {
+        const years = value * cycles;
+        weeks = years * 52;
+        label = years === 1 ? '1 year' : `${years} years`;
+        break;
+      }
+      case 'day': {
+        const days = value * cycles;
+        weeks = Math.max(1, Math.round(days / 7));
+        label = days === 1 ? '1 day' : `${days} days`;
+        break;
+      }
+      default: {
+        weeks = 4 * cycles;
+        label = cycles === 1 ? '1 month' : `${cycles} months`;
+      }
+    }
+
+    options.push({ weeks, label });
+  }
+
+  return options;
+}
 
 interface PauseModalProps {
   isOpen: boolean;
   onClose: () => void;
   onPause: (weeks: number) => Promise<boolean>;
   subscriptionName: string;
+  /** The subscription's billing interval — used to generate cycle-based pause options */
+  interval?: SubscriptionInterval;
 }
 
 export function PauseModal({
@@ -24,12 +71,16 @@ export function PauseModal({
   onClose,
   onPause,
   subscriptionName,
+  interval,
 }: PauseModalProps) {
   const [selectedWeeks, setSelectedWeeks] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
+
+  const pauseOptions = buildPauseOptions(interval);
+  const maxWeeks = pauseOptions[pauseOptions.length - 1]?.weeks ?? 12;
 
   const handleConfirm = async () => {
     if (selectedWeeks == null) return;
@@ -96,7 +147,7 @@ export function PauseModal({
           </p>
 
           <div className="space-y-2">
-            {PAUSE_OPTIONS.map((option) => (
+            {pauseOptions.map((option, idx) => (
               <label
                 key={option.weeks}
                 className={`flex items-center justify-between p-3 border rounded-lg cursor-pointer transition-colors ${
@@ -123,9 +174,14 @@ export function PauseModal({
                       <div className="w-2 h-2 rounded-full bg-[var(--color-neuro-blue-dark)]" />
                     )}
                   </div>
-                  <span className="text-sm font-medium">{option.label}</span>
+                  <span className="text-sm font-medium">
+                    {option.label}
+                    <span className="text-gray-400 font-normal ml-1.5">
+                      ({idx + 1} {idx === 0 ? 'delivery cycle' : 'delivery cycles'})
+                    </span>
+                  </span>
                 </div>
-                {option.weeks === MAX_WEEKS && (
+                {option.weeks === maxWeeks && (
                   <span className="text-xs text-gray-400">Maximum</span>
                 )}
               </label>

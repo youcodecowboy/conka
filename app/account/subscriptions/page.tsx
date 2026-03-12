@@ -311,6 +311,7 @@ export default function SubscriptionsPage() {
         onClose={() => setShowPauseModal(null)}
         onPause={handlePauseFromModal}
         subscriptionName={showPauseModal?.product.title || "Subscription"}
+        interval={showPauseModal?.interval}
       />
 
       <RescheduleModal
