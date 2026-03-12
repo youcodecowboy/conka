@@ -1,8 +1,22 @@
 'use client';
 
 import { useState } from 'react';
+import type { SubscriptionInterval } from '@/app/types';
 
-const MAX_RESCHEDULE_DAYS = 90;
+/** Minimum lead time in days — must match the API route's MIN_LEAD_DAYS */
+const MIN_LEAD_DAYS = 3;
+
+/** Convert a subscription interval to days (for computing the max reschedule window) */
+function intervalToDays(interval?: SubscriptionInterval): number {
+  if (!interval) return 30; // safe fallback
+  switch (interval.unit) {
+    case 'week': return interval.value * 7;
+    case 'month': return interval.value * 30;
+    case 'year': return interval.value * 365;
+    case 'day': return interval.value;
+    default: return 30;
+  }
+}
 
 interface RescheduleModalProps {
   isOpen: boolean;
@@ -11,6 +25,8 @@ interface RescheduleModalProps {
   subscriptionName: string;
   currentNextBillingDate?: string;
   hasUnfulfilledOrder?: boolean;
+  /** The subscription's billing interval — used to compute the max reschedule window */
+  interval?: SubscriptionInterval;
 }
 
 function formatDateForInput(date: Date): string {
@@ -37,6 +53,7 @@ export function RescheduleModal({
   subscriptionName,
   currentNextBillingDate,
   hasUnfulfilledOrder = false,
+  interval,
 }: RescheduleModalProps) {
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -44,13 +61,17 @@ export function RescheduleModal({
 
   if (!isOpen) return null;
 
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const minDate = formatDateForInput(tomorrow);
+  // Min: 3 days from now (fulfillment lead time)
+  const minDateObj = new Date();
+  minDateObj.setDate(minDateObj.getDate() + MIN_LEAD_DAYS);
+  const minDate = formatDateForInput(minDateObj);
 
-  const maxDate = new Date();
-  maxDate.setDate(maxDate.getDate() + MAX_RESCHEDULE_DAYS);
-  const maxDateStr = formatDateForInput(maxDate);
+  // Max: one billing cycle from the current next billing date
+  const cycleDays = intervalToDays(interval);
+  const baseDate = currentNextBillingDate ? new Date(currentNextBillingDate) : new Date();
+  const maxDateObj = new Date(baseDate);
+  maxDateObj.setDate(maxDateObj.getDate() + cycleDays);
+  const maxDateStr = formatDateForInput(maxDateObj);
 
   const currentDateFormatted = currentNextBillingDate
     ? new Date(currentNextBillingDate).toLocaleDateString('en-GB', {
@@ -134,7 +155,7 @@ export function RescheduleModal({
           )}
 
           <p className="text-gray-600 mb-4">
-            Choose a new date for your next delivery.
+            Choose a new date within your current billing cycle.
           </p>
 
           <div className="space-y-3">
@@ -150,18 +171,21 @@ export function RescheduleModal({
               />
             </label>
             <p className="text-xs text-gray-400">
-              You can reschedule up to {MAX_RESCHEDULE_DAYS} days ahead.
+              Select a date at least {MIN_LEAD_DAYS} days from now, up to {cycleDays} days ahead.
             </p>
           </div>
 
           {selectedDate && (
-            <div className="mt-4 p-3 bg-[var(--color-neuro-blue-light)]/30 border border-[var(--color-neuro-blue-light)] rounded-lg">
+            <div className="mt-4 p-3 bg-[var(--color-neuro-blue-light)]/30 border border-[var(--color-neuro-blue-light)] rounded-lg space-y-2">
               <p className="text-sm text-gray-700">
                 Your next delivery will move to{' '}
                 <span className="font-semibold">
                   {formatDateForDisplay(selectedDate)}
                 </span>
                 .
+              </p>
+              <p className="text-xs text-gray-500">
+                This will shift your entire delivery schedule. All future deliveries will follow from this new date.
               </p>
             </div>
           )}
