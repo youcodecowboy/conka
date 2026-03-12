@@ -17,7 +17,6 @@ interface PauseModalProps {
   onClose: () => void;
   onPause: (weeks: number) => Promise<boolean>;
   subscriptionName: string;
-  nextBillingDate?: string;
 }
 
 export function PauseModal({
@@ -25,7 +24,6 @@ export function PauseModal({
   onClose,
   onPause,
   subscriptionName,
-  nextBillingDate,
 }: PauseModalProps) {
   const [selectedWeeks, setSelectedWeeks] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);

@@ -104,7 +104,7 @@ export default function SubscriptionsPage() {
       await fetchSubscriptions();
       setSuccessMessage({
         subscriptionId: showPauseModal.id,
-        message: `Subscription paused for ${weeks < 4 ? `${weeks} week${weeks > 1 ? 's' : ''}` : `${Math.round(weeks / 4)} month${Math.round(weeks / 4) > 1 ? 's' : ''}`}. You can resume anytime.`,
+        message: "Subscription paused. You can resume anytime.",
       });
       setTimeout(() => setSuccessMessage(null), 5000);
     }
@@ -290,7 +290,6 @@ export default function SubscriptionsPage() {
         onClose={() => setShowPauseModal(null)}
         onPause={handlePauseFromModal}
         subscriptionName={showPauseModal?.product.title || "Subscription"}
-        nextBillingDate={showPauseModal?.nextBillingDate}
       />
 
       <CancellationModal
