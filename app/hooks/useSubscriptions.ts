@@ -30,6 +30,7 @@ interface UseSubscriptionsReturn {
   editMultiLine: (subscriptionId: string, lines: Array<{ lineId: string | number; productKey: string; size: number }>, plan?: 'starter' | 'pro' | 'max') => Promise<ChangePlanResult>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
   updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
+  rescheduleSubscription: (subscriptionId: string, newDateEpoch: number) => Promise<boolean>;
   sendPaymentUpdateEmail: (subscriptionId: string, paymentMethodId: number) => Promise<{ success: boolean; message: string }>;
 }
 
@@ -424,6 +425,51 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     [changePlan]
   );
 
+  // Reschedule next delivery date — calls dedicated /reschedule route
+  const rescheduleSubscription = useCallback(
+    async (subscriptionId: string, newDateEpoch: number): Promise<boolean> => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/reschedule`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ newBillingDateEpoch: newDateEpoch }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.error || 'Failed to reschedule delivery');
+          return false;
+        }
+
+        // Update local state with new billing date
+        if (data.nextBillingDate) {
+          setSubscriptions((prev) =>
+            prev.map((sub) =>
+              sub.id === subscriptionId
+                ? { ...sub, nextBillingDate: data.nextBillingDate }
+                : sub
+            )
+          );
+        }
+
+        return true;
+      } catch (err) {
+        console.error('Failed to reschedule subscription:', err);
+        setError('Failed to reschedule delivery');
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   const sendPaymentUpdateEmail = useCallback(
     async (
       subscriptionId: string,
@@ -458,6 +504,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     changePlan,
     updateFrequency,
     updateQuantity,
+    rescheduleSubscription,
     sendPaymentUpdateEmail,
   };
 }
