@@ -230,7 +230,7 @@ The `change-frequency` and `skip` actions in the codebase already follow this pa
 | **Skip next order** | POST | `/subscription/{id}/skipNext` | **Loop internal ID** | — |
 | Swap line | PUT | `/subscription/{id}/line/{lineId}/swap` | `shopify-{id}` | `variantShopifyId`, `quantity`, `pricingType`, `sellingPlanGroupId` |
 | Update frequency | PUT | `/subscription/{id}/frequency` | **Loop internal ID** | `billingPolicy`, `deliveryPolicy`, `nextBillingDateEpoch`, `discountType` |
-| **Reschedule delivery** | PUT | `/subscription/{id}/frequency` | **Loop internal ID** | Same as update frequency — preserves existing interval, only changes `nextBillingDateEpoch` |
+| **Reschedule delivery** | POST | `/subscription/{id}/reschedule` | **Loop internal ID** | `newBillingDateEpoch`, optional `rescheduleFutureOrders` (default true), `notifyCustomer` (default true) |
 | Get customer | GET | `/customer/{customerShopifyId}` | Shopify customer ID | — |
 | Update payment method | POST | `/paymentMethod/{id}/update` (storefront API) | Loop payment method ID | — |
 
@@ -363,7 +363,7 @@ sellingPlanGroups(first: 5) {
 - **Redundant frequency updates rejected:** On multi-line contracts, Loop rejects a frequency update if the interval hasn't changed. Check before calling.
 - **Cancel uses `comment`, not `cancellationReason`:** The `cancellationReason` field only appears in Loop responses. To send a reason, use `comment` in the request body.
 - **Pause `pauseDuration` format:** `{ intervalCount: number, intervalType: 'WEEK' | 'MONTH' }`. Use WEEK for <4 weeks, MONTH for 4+. Max pause is 3 months.
-- **Reschedule reuses the frequency endpoint:** To change only the delivery date without altering the interval, call `PUT /frequency` with the existing billing/delivery policy and a new `nextBillingDateEpoch`.
+- **Reschedule has a dedicated endpoint:** Use `POST /subscription/{loopInternalId}/reschedule` — NOT `PUT /frequency`. The frequency endpoint validates selling plans against Shopify's product catalog, which fails on multi-line subscriptions where a variant's selling plan doesn't match the billing interval. The dedicated reschedule endpoint skips this validation entirely.
 - **Rate limit:** 5 requests per second. The plan change flow makes 2-3 sequential calls — stay aware.
 
 ---
