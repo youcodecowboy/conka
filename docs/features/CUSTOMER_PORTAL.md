@@ -142,7 +142,7 @@ Reschedule has its own dedicated route: `POST /api/auth/subscriptions/[id]/resch
 | Skip              | `{ action: 'skip' }`                                                                                       | `POST /subscription/{loopInternalId}/skipNext`  | `/pause` |
 | Change plan       | `{ action: 'change-frequency', plan: 'starter' \| 'pro' \| 'max', protocolId?: '1'\|'2'\|'3'\|'4' }`      | `PUT .../line/{lineId}/swap` + `PUT .../frequency` | `/pause` |
 | Edit multi-line   | `{ action: 'edit-multi-line', lines: LineEdit[], plan?: 'starter' \| 'pro' \| 'max' }`                     | `PUT .../line/{lineId}/swap` (per line) + `PUT .../frequency` | `/pause` |
-| Reschedule        | `{ newBillingDateEpoch: number }`                                                                          | `PUT /subscription/{loopInternalId}/frequency`  | `/reschedule` |
+| Reschedule        | `{ newBillingDateEpoch: number }`                                                                          | `POST /subscription/{loopInternalId}/reschedule` | `/reschedule` |
 
 The `[id]` is the Shopify subscription contract ID (GID or numeric). The route converts it to Loop's `shopify-{numericId}` format. Some Loop endpoints (skipNext, frequency, reschedule) require Loop's internal numeric ID — the route GETs the subscription first to resolve this.
 
@@ -152,7 +152,7 @@ The `[id]` is the Shopify subscription contract ID (GID or numeric). The route c
 
 **Skip behaviour:** Skips the next upcoming order. The route resolves the Loop internal ID first (skipNext requires it), then calls `POST /subscription/{loopInternalId}/skipNext`.
 
-**Reschedule behaviour:** Clicking "Reschedule Delivery" on an active subscription opens a date picker modal (`RescheduleModal.tsx`). The reschedule window is **interval-aware**: minimum 3 days from now (fulfillment lead time), maximum one billing cycle from the current next billing date (e.g. 14 days for bi-weekly, 30 days for monthly). This prevents pushing a delivery past the next cycle boundary, which would be confusing. For longer delays, customers should use Skip or Pause instead. The modal shows a schedule shift warning: _"This will shift your entire delivery schedule. All future deliveries will follow from this new date."_ This is because Loop's `PUT /frequency` endpoint reanchors the entire recurring schedule, not just one delivery. The server GETs the subscription to resolve the Loop internal ID and current billing/delivery policy, then calls `PUT /subscription/{loopInternalId}/frequency` with the existing interval preserved and the new `nextBillingDateEpoch`. If the subscription has an unfulfilled order, the modal warns that rescheduling affects the following delivery. The card's "Next delivery" date updates immediately on success.
+**Reschedule behaviour:** Clicking "Reschedule Delivery" on an active subscription opens a date picker modal (`RescheduleModal.tsx`). The reschedule window is **interval-aware**: minimum 3 days from now (fulfillment lead time), maximum one billing cycle from the current next billing date (e.g. 14 days for bi-weekly, 30 days for monthly). This prevents pushing a delivery past the next cycle boundary, which would be confusing. For longer delays, customers should use Skip or Pause instead. The modal shows a schedule shift warning: _"This will shift your entire delivery schedule. All future deliveries will follow from this new date."_ The server GETs the subscription to resolve the Loop internal ID and billing policy (for date validation), then calls Loop's dedicated `POST /subscription/{loopInternalId}/reschedule` with `newBillingDateEpoch` and `rescheduleFutureOrders: true`. This endpoint changes the next billing date without going through the frequency endpoint, so it has no selling plan validation — it works correctly on multi-line subscriptions regardless of variant/interval configuration. If the subscription has an unfulfilled order, the modal warns that rescheduling affects the following delivery. The card's "Next delivery" date updates immediately on success.
 
 **Error handling:** All Loop API errors are logged server-side with full details. Client responses contain only user-friendly messages — no internal Loop data is exposed.
 
@@ -298,8 +298,8 @@ After any subscription action, check Vercel function logs for:
 **Reschedule:**
 ```
 [RESCHEDULE] Input: {numericId} -> Loop format: shopify-{numericId}
-[RESCHEDULE] Using Loop internal ID: {loopInternalId}, interval: WEEK × 2, cycleDays: 14
-[Loop API] PUT .../subscription/{loopInternalId}/frequency
+[RESCHEDULE] Loop internal ID: {loopInternalId}, interval: WEEK × 2, cycleDays: 14
+[Loop API] POST .../subscription/{loopInternalId}/reschedule
 [RESCHEDULE] Success
 ```
 
