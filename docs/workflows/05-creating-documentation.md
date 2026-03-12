@@ -20,12 +20,12 @@ Identify which type of doc you're creating, as each has a different structure:
 
 | Type | Purpose | Location |
 |------|---------|----------|
-| **Feature doc** | Explains what a feature does, how it works, decisions made | `[YOUR_DOCS_DIR]/features/` |
-| **Architecture decision** | Records why a technical decision was made | `[YOUR_DOCS_DIR]/decisions/` |
-| **API documentation** | Endpoint reference for the backend | `[YOUR_DOCS_DIR]/api/` |
-| **Component documentation** | Usage guide for reusable UI components | `[YOUR_DOCS_DIR]/components/` |
-| **Setup/onboarding** | How to get the project running | `[YOUR_DOCS_DIR]/` or project root |
-| **Workflow/process** | How to do something (like this doc) | `[YOUR_DOCS_DIR]/workflows/` |
+| **Feature doc** | Explains what a feature does, how it works, decisions made | `docs/features/` |
+| **Architecture decision** | Records why a technical decision was made | `docs/decisions/` |
+| **API documentation** | Endpoint reference for the backend | `docs/api/` |
+| **Component documentation** | Usage guide for reusable UI components | `docs/components/` |
+| **Setup/onboarding** | How to get the project running | `docs/` or project root |
+| **Workflow/process** | How to do something (like this doc) | `docs/workflows/` |
 
 IF the type doesn't fit the above → ask the user where it should live.
 
@@ -211,6 +211,6 @@ Before finalising, check:
 ---
 
 ## References
-- Style guide: `[PATH_TO_YOUR_STYLE_GUIDE]`
-- Architecture docs: `[PATH_TO_YOUR_ARCHITECTURE_DOCS]`
-- Existing feature docs: `[YOUR_DOCS_DIR]/features/`
+- Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
+- Architecture docs: `docs/PROJECT_OVERVIEW.md`
+- Existing feature docs: `docs/features/`

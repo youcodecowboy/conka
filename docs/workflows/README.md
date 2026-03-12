@@ -81,7 +81,7 @@ If you also work on the mobile app, here's what's different:
 | **Database** | Firestore + Cloud SQL | Shopify (products, orders) + metafields |
 | **Deployment** | `[Your app deploy process]` | Git push → Vercel auto-deploy |
 | **Preview/staging** | `[Your app staging process]` | Vercel preview deployments per branch |
-| **Styling** | StyleSheet.create | `[Tailwind / CSS Modules / etc.]` |
+| **Styling** | StyleSheet.create | Tailwind CSS + design tokens (`app/premium-base.css`) |
 | **State** | `[Your RN state approach]` | Server-first, minimal client state |
 | **SEO** | N/A (native app) | Critical — every page needs metadata |
 | **Commerce** | N/A (or limited) | Shopify Storefront API, Loop Subscriptions |
@@ -98,14 +98,14 @@ These docs contain placeholder paths marked as `[PATH_TO_...]` or `[YOUR_...]`.
    ```
 
 2. **Replace with your actual paths and conventions.** Key ones:
-   - `[PATH_TO_YOUR_ARCHITECTURE_DOCS]` — existing architecture docs
-   - `[PATH_TO_YOUR_STYLE_GUIDE]` — existing style guide
-   - `[PATH_TO_SHOPIFY_LIB]` — Shopify client and helpers
-   - `[PATH_TO_SHOPIFY_QUERIES]` — GraphQL query files
-   - `[PATH_TO_SHOPIFY_TYPES]` — TypeScript types for Shopify data
-   - `[PATH_TO_CART_LOGIC]` — cart operations (add, remove, etc.)
-   - `[YOUR_LINT_COMMAND]` — linter command
-   - `[YOUR_BRANCH_NAMING_CONVENTION]` — branch naming pattern
+   - `docs/PROJECT_OVERVIEW.md` — existing architecture docs
+   - `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md` — existing style guide
+   - `app/lib/shopify.ts` — Shopify client and helpers
+   - `app/lib/shopifyQueries.ts` — GraphQL query files
+   - `app/types/` — TypeScript types for Shopify data
+   - `app/context/CartContext.tsx` — cart operations (add, remove, etc.)
+   - `npm run lint` — linter command
+   - `feature/short-desc or fix/short-desc` — branch naming pattern
 
 3. **Fill in the metafields table** in `04-shopify-commerce.md` with your actual metafield definitions.
 

@@ -50,7 +50,7 @@ Work through these checks in order. Fix any failures before moving on.
 ### Consistency
 - [ ] Does the code follow the same patterns as surrounding code?
 - [ ] Are naming conventions consistent with the rest of the project?
-- [ ] Does the styling approach match the style guide? `[PATH_TO_YOUR_STYLE_GUIDE]`
+- [ ] Does the styling approach match the style guide? `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
 
 ---
 
@@ -114,10 +114,8 @@ Work through these checks in order. Fix any failures before moving on.
 - [ ] No TODO comments without context
 - [ ] No unused imports, variables, or functions
 - [ ] No placeholder text or hardcoded test data
-- [ ] Linter passes: `[YOUR_LINT_COMMAND]`
-- [ ] Formatter has been run: `[YOUR_FORMAT_COMMAND]`
-- [ ] TypeScript has no errors: `[YOUR_TYPE_CHECK_COMMAND]`
-- [ ] Build succeeds locally: `[YOUR_BUILD_COMMAND]`
+- [ ] Linter passes: `npm run lint`
+- [ ] Build succeeds locally: `npm run build`
 
 ---
 
@@ -182,4 +180,4 @@ Present findings in priority order:
 - Implementation workflow: `./02-implementation-workflow.md`
 - Next.js development: `./03-nextjs-development.md`
 - Shopify conventions: `./04-shopify-commerce.md`
-- Style guide: `[PATH_TO_YOUR_STYLE_GUIDE]`
+- Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`

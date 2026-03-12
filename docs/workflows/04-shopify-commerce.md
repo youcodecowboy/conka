@@ -186,8 +186,8 @@ const handleCheckout = () => {
 
 ### Overview
 - Loop handles subscription management: creation, billing, portal
-- Integration approach: `[YOUR_APPROACH — embedded widget, API, etc.]`
-- Configuration: `[PATH_TO_LOOP_CONFIG_OR_DOCS]`
+- Integration approach: Loop Admin API called from Next.js API routes (server-side only)
+- Configuration: `app/lib/loop.ts` (client), `docs/features/CUSTOMER_PORTAL.md` (full docs)
 
 ### Subscription patterns
 ```
@@ -197,7 +197,7 @@ Subscription management → Loop customer portal
 ```
 
 ### Working with subscriptions
-- Subscription eligibility: `[HOW YOU DETERMINE IF A PRODUCT IS SUBSCRIBABLE — metafield, tag, selling plan, etc.]`
+- Subscription eligibility: Products with `sellingPlanGroups` on their Shopify listing are subscribable
 - Selling plan data: available via Storefront API on the product's `sellingPlanGroups`
 - Display logic:
   - IF product has selling plans → show subscription option with pricing
@@ -253,7 +253,7 @@ sellingPlanGroups(first: 5) {
 
 ### Price formatting utility
 ```tsx
-// Location: [PATH_TO_PRICE_FORMATTER]
+// Location: app/lib/productData.ts (formatPrice helper)
 // Should handle:
 // - Currency formatting based on currencyCode
 // - Locale-appropriate number formatting
@@ -309,4 +309,4 @@ sellingPlanGroups(first: 5) {
 - Next.js development: `./03-nextjs-development.md`
 - Implementation workflow: `./02-implementation-workflow.md`
 - Shopify Storefront API docs: https://shopify.dev/docs/api/storefront
-- Loop Subscriptions docs: `[LOOP_DOCS_URL_IF_APPLICABLE]`
+- Loop Subscriptions docs: https://developer.loopwork.co/reference/api-reference

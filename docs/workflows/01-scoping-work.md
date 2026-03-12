@@ -39,7 +39,7 @@ Map out what parts of the system this work touches.
 - [ ] Does this affect the layout hierarchy? (layouts, templates, loading/error boundaries)
 - [ ] Are there SEO implications? (meta tags, structured data, OG images)
 - [ ] Does this affect middleware? (redirects, auth checks, geo-routing)
-- [ ] Reference: `[PATH_TO_YOUR_STYLE_GUIDE]` for component patterns
+- [ ] Reference: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md` for component patterns
 
 ### Shopify / Commerce
 - [ ] Does this involve product data? Which product fields / metafields?
