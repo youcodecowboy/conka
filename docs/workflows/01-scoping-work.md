@@ -18,7 +18,7 @@ Before anything else, make sure you understand what's being asked.
 
 1. Read the request carefully — identify the **what** (desired outcome) and **why** (user/business goal)
 2. Check for existing documentation:
-   - Read `[PATH_TO_YOUR_ARCHITECTURE_DOCS]` for relevant system context
+   - Read `docs/PROJECT_OVERVIEW.md` for relevant system context
    - Search for related feature specs or PRDs if they exist
    - Check if similar functionality already exists in the codebase
 3. List any **ambiguities or open questions** — things that aren't clear from the request
@@ -138,7 +138,7 @@ Wait for user confirmation before starting implementation. If the user says "jus
 ---
 
 ## References
-- Architecture docs: `[PATH_TO_YOUR_ARCHITECTURE_DOCS]`
-- Style guide: `[PATH_TO_YOUR_STYLE_GUIDE]`
+- Architecture docs: `docs/PROJECT_OVERVIEW.md`
+- Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
 - Implementation workflow: `./02-implementation-workflow.md`
 - Shopify conventions: `./04-shopify-commerce.md`

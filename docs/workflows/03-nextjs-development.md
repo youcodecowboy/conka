@@ -16,33 +16,32 @@
 ## Project structure
 
 ```
-[UPDATE THIS TO MATCH YOUR ACTUAL STRUCTURE]
-├── app/                    # App Router pages and layouts
-│   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Homepage
-│   ├── [collection]/       # Dynamic collection pages
-│   ├── products/[handle]/  # Product detail pages
-│   ├── cart/               # Cart page
-│   ├── account/            # Account pages
-│   └── api/                # API route handlers
-├── components/             # Shared/reusable components
-│   ├── ui/                 # Generic UI primitives
-│   ├── layout/             # Header, footer, nav
-│   ├── product/            # Product-specific components
-│   ├── cart/               # Cart-specific components
-│   └── [feature]/          # Feature-grouped components
-├── lib/                    # Core logic and utilities
-│   ├── shopify/            # Shopify API client, queries, types
-│   ├── actions/            # Server Actions
-│   ├── hooks/              # Custom React hooks
-│   └── utils/              # Helper functions
-├── public/                 # Static assets
-├── styles/                 # Global styles / theme
-├── middleware.ts           # Edge middleware
-└── next.config.js          # Next.js configuration
+├── app/                        # App Router pages and layouts
+│   ├── layout.tsx              # Root layout (nav, footer, CartDrawer, analytics)
+│   ├── page.tsx                # Homepage
+│   ├── premium-base.css        # Design system tokens and layout classes
+│   ├── conka-flow/             # Flow product page
+│   ├── conka-clarity/          # Clarity product page
+│   ├── protocol/[id]/          # Protocol detail pages
+│   ├── quiz/                   # Quiz + results
+│   ├── shop/                   # Shop page
+│   ├── account/                # Account portal (login, subscriptions, orders)
+│   ├── professionals/          # B2B professional portal
+│   ├── api/                    # API route handlers
+│   │   ├── cart/               # Cart proxy to Shopify
+│   │   ├── auth/               # Auth + subscription actions (Loop)
+│   │   └── meta/               # Meta CAPI events
+│   ├── components/             # Shared/reusable components
+│   ├── context/                # React contexts (CartContext, AuthContext)
+│   ├── hooks/                  # Custom React hooks
+│   ├── lib/                    # Core logic, Shopify client, product data, analytics
+│   └── types/                  # TypeScript type definitions
+├── public/                     # Static assets
+├── convex/                     # Convex database schema and functions
+├── docs/                       # Project documentation
+├── middleware.ts                # Edge middleware
+└── next.config.js              # Next.js configuration
 ```
-
-> **Update this to match your actual structure.**
 
 ---
 
@@ -172,14 +171,14 @@ export async function generateStaticParams() {
 ## Data fetching patterns
 
 ### Shopify Storefront API
-- Client/helpers location: `[PATH_TO_SHOPIFY_LIB]`
-- Queries location: `[PATH_TO_SHOPIFY_QUERIES]`
-- Types location: `[PATH_TO_SHOPIFY_TYPES]`
+- Client/helpers location: `app/lib/shopify.ts`
+- Queries location: `app/lib/shopifyQueries.ts`
+- Types location: `app/types/`
 
 ```tsx
 // Pattern for fetching in Server Components
 // In app/products/[handle]/page.tsx
-import { getProduct } from '[PATH_TO_SHOPIFY_LIB]';
+import { getProduct } from 'app/lib/shopify.ts';
 
 export default async function ProductPage({ params }: { params: { handle: string } }) {
   const product = await getProduct(params.handle);
@@ -227,12 +226,12 @@ export async function addToCart(variantId: string, quantity: number = 1) {
 
 ## Styling
 
-Reference the style guide at: `[PATH_TO_YOUR_STYLE_GUIDE]`
+Reference the style guide at: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
 
 ### Approach
-- Primary styling method: `[YOUR_APPROACH — Tailwind CSS / CSS Modules / etc.]`
-- Theme/tokens location: `[PATH_TO_THEME]`
-- Global styles: `[PATH_TO_GLOBAL_STYLES]`
+- Primary styling method: Tailwind CSS + CSS custom properties (design tokens)
+- Theme/tokens location: `app/premium-base.css`
+- Global styles: `app/globals.css`, `app/premium-base.css`
 
 ### Key rules
 1. **Use design tokens** — never hard-code colours, spacing, or font sizes
@@ -241,14 +240,11 @@ Reference the style guide at: `[PATH_TO_YOUR_STYLE_GUIDE]`
 4. **Prioritise Core Web Vitals** — avoid layout shift (CLS), keep LCP fast
 
 ### Responsive approach
-```
-[DOCUMENT YOUR BREAKPOINTS AND APPROACH]
-e.g., Mobile-first with breakpoints:
+Mobile-first with Tailwind default breakpoints:
 - sm: 640px
 - md: 768px
 - lg: 1024px
-- xl: 1280px
-```
+- xl: 1280px (matches `.premium-track` max-width)
 
 ---
 
@@ -256,7 +252,7 @@ e.g., Mobile-first with breakpoints:
 
 - Local: `.env.local` (git-ignored)
 - Vercel: configured in project settings (auto-injected at build/runtime)
-- Location of env type definitions: `[PATH_IF_APPLICABLE]`
+- Location of env type definitions: `app/lib/env.ts`
 
 ### Required variables
 ```
@@ -288,9 +284,9 @@ Feature branch → push → Vercel preview deployment (auto)
 ```
 
 ### Branch conventions
-- Feature: `[YOUR_CONVENTION — e.g., feature/TICKET-123-description]`
-- Bugfix: `[YOUR_CONVENTION — e.g., fix/TICKET-123-description]`
-- Hotfix: `[YOUR_CONVENTION — e.g., hotfix/brief-description]`
+- Feature: `feature/short-description` or `short-description`
+- Bugfix: `fix/short-description` or `short-description-bug`
+- Hotfix: `hotfix/brief-description`
 
 ### Preview deployments
 - Every push creates a preview at `[project]-[branch]-[hash].vercel.app`
@@ -329,15 +325,15 @@ Feature branch → push → Vercel preview deployment (auto)
 
 > **Fill this section in over time.**
 
-- `[e.g., Shopify rate limits — don't make multiple Storefront API calls in parallel without batching]`
-- `[e.g., next/image requires explicit width/height or a sized parent with fill]`
-- `[e.g., Middleware runs on the Edge — can't use Node.js APIs]`
-- `[e.g., Server Actions must be imported, not defined inline in Client Components]`
-- `[e.g., revalidatePath only works in Server Actions and Route Handlers, not in Server Components]`
+- `.premium-pdp` has `overflow-x: hidden` which breaks `position: sticky`. Place sticky sections *outside* `.premium-pdp`.
+- Components return content only — no `<section>`, no `max-w-*`, no `px-*` at root. The page owns section wrappers.
+- Import product data from the barrel `app/lib/productData.ts`, never from sub-modules directly.
+- Middleware runs on the Edge — can't use Node.js APIs.
+- `next/image` requires explicit width/height or a sized parent with `fill`.
 
 ---
 
 ## References
-- Style guide: `[PATH_TO_YOUR_STYLE_GUIDE]`
+- Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
 - Shopify/commerce: `./04-shopify-commerce.md`
 - Implementation workflow: `./02-implementation-workflow.md`

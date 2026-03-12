@@ -25,13 +25,13 @@
 | **Admin API** | Writing data, managing inventory, processing webhooks, accessing order data | Secret token, server-side ONLY (API routes, Server Actions) |
 
 ### Storefront API setup
-- Client location: `[PATH_TO_SHOPIFY_CLIENT]`
+- Client location: `app/lib/shopify.ts`
 - Access token: `SHOPIFY_STOREFRONT_ACCESS_TOKEN` (env var)
 - Endpoint: `https://[STORE].myshopify.com/api/[VERSION]/graphql.json`
 
 ### GraphQL query conventions
-- All queries live in: `[PATH_TO_SHOPIFY_QUERIES]`
-- All response types live in: `[PATH_TO_SHOPIFY_TYPES]`
+- All queries live in: `app/lib/shopifyQueries.ts`
+- All response types live in: `app/types/`
 - Name queries descriptively: `getProduct`, `getCollection`, `getCart`, etc.
 - Always request only the fields you need — Shopify rate-limits based on query cost
 - Use fragments for shared field sets across queries
@@ -140,8 +140,8 @@ const selectedVariant = product.variants.find(variant =>
 
 ### Cart architecture
 - Cart is managed via Shopify Storefront API (cart object)
-- Cart ID is stored in: `[YOUR_APPROACH — cookie, localStorage, context, etc.]`
-- Cart operations location: `[PATH_TO_CART_LOGIC]`
+- Cart ID is stored in: `localStorage` under key `shopify_cart_id`
+- Cart operations location: `app/context/CartContext.tsx` (client), `app/api/cart/route.ts` (API proxy)
 
 ### Cart operations
 | Operation | API | Notes |

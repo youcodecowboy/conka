@@ -17,12 +17,12 @@
 Before writing any code:
 
 1. **Read the relevant existing docs:**
-   - Architecture docs: `[PATH_TO_YOUR_ARCHITECTURE_DOCS]`
-   - Style guide: `[PATH_TO_YOUR_STYLE_GUIDE]`
+   - Architecture docs: `docs/PROJECT_OVERVIEW.md`
+   - Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
    - Any feature-specific docs referenced in the scope
 2. **Check the current state of affected files** — read them, understand the existing patterns
 3. **Identify the existing conventions** in the area you're modifying
-4. **Create a feature branch** from `main` — use the naming convention: `[YOUR_BRANCH_NAMING_CONVENTION — e.g., feature/ticket-id-short-desc, fix/ticket-id-short-desc]`
+4. **Create a feature branch** from `main` — use the naming convention: `feature/short-desc` or `fix/short-desc` (always branch from `main`)
 
 ### The golden rule
 > **Match the existing codebase.** If the project uses a certain pattern, follow it — even if you'd do it differently on a fresh project. Consistency beats personal preference.
@@ -37,11 +37,11 @@ Before writing any code:
 IF the task involves fetching or modifying data, complete this before building UI.
 
 ### Shopify data (Storefront API)
-1. **Check if a query already exists** for the data you need: `[PATH_TO_SHOPIFY_QUERIES]`
+1. **Check if a query already exists** for the data you need: `app/lib/shopifyQueries.ts`
 2. **IF new query needed:**
    - Write the GraphQL query
-   - Add TypeScript types for the response: `[PATH_TO_SHOPIFY_TYPES]`
-   - Create or update the data fetching function: `[PATH_TO_SHOPIFY_LIB]`
+   - Add TypeScript types for the response: `app/types/`
+   - Create or update the data fetching function: `app/lib/shopify.ts`
    - Test the query independently before building UI
 3. **IF modifying an existing query:**
    - Check everywhere the current query is used — don't break existing consumers
@@ -50,11 +50,11 @@ IF the task involves fetching or modifying data, complete this before building U
 ### Shopify Admin API (if needed)
 - Only use for operations the Storefront API can't handle (inventory, order management, metafield writes)
 - These should go through Next.js API routes, never called from the client
-- Location: `[PATH_TO_API_ROUTES]`
+- Location: `app/api/`
 
 ### Loop Subscriptions
 - Reference: `./04-shopify-commerce.md` for subscription patterns
-- Subscription data fetching: `[PATH_TO_SUBSCRIPTION_HELPERS]`
+- Subscription data fetching: `app/lib/loop.ts, app/hooks/useSubscriptions.ts`
 
 ### Other data sources
 - Follow the established pattern for each integration
@@ -65,14 +65,14 @@ IF the task involves fetching or modifying data, complete this before building U
 ## Phase 3: Server-side logic (if applicable)
 
 ### API routes / Route handlers
-- Location: `[PATH_TO_API_ROUTES — e.g., app/api/]`
+- Location: `app/api/`
 - Follow the existing pattern for request validation, error handling, and response format
 - Always validate and sanitise incoming data
 - Use appropriate HTTP methods and status codes
 
 ### Server Actions
 - Use for form submissions and mutations where appropriate
-- Keep in dedicated files: `[PATH_TO_SERVER_ACTIONS — e.g., lib/actions/]`
+- Keep in dedicated files: `app/lib/actions/` (if applicable)
 - Always include error handling and validation
 - `'use server'` directive at the top of the file or function
 
@@ -99,16 +99,16 @@ Does this component need interactivity (state, event handlers, browser APIs)?
 
 ### Component creation checklist
 1. **Check if a similar component already exists** — reuse or extend before creating new
-2. **Follow the component structure from the style guide:** `[PATH_TO_YOUR_STYLE_GUIDE]`
+2. **Follow the component structure from the style guide:** `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
 3. **File placement:**
-   - Pages/routes: `[YOUR_APP_DIRECTORY — e.g., app/]`
-   - Shared components: `[YOUR_COMPONENTS_DIRECTORY]`
-   - Page-specific components: co-locate with the page or in `[CONVENTION]`
-   - Hooks: `[YOUR_HOOKS_DIRECTORY]`
-   - Utils: `[YOUR_UTILS_DIRECTORY]`
+   - Pages/routes: `app/`
+   - Shared components: `app/components/`
+   - Page-specific components: co-locate with the page (e.g. `app/account/subscriptions/utils.ts`)
+   - Hooks: `app/hooks/`
+   - Utils: `app/lib/`
 4. **Styling:**
-   - Use the established styling approach: `[YOUR_APPROACH — Tailwind, CSS Modules, styled-components, etc.]`
-   - Reference design tokens/theme from: `[PATH_TO_THEME]`
+   - Use the established styling approach: Tailwind CSS + design tokens from `app/premium-base.css`
+   - Reference design tokens/theme from: `app/premium-base.css`
    - DO NOT use magic numbers — use theme values, spacing scale, colour tokens
 5. **Images:**
    - Always use `next/image` for optimised loading
@@ -185,9 +185,9 @@ This is a key advantage of the Vercel workflow — use it.
 1. Remove any console.logs, debug code, or commented-out code
 2. Ensure all new files follow the project's naming conventions
 3. Check for TODO comments — resolve them or flag them explicitly
-4. Run the linter/formatter: `[YOUR_LINT_COMMAND]`
+4. Run the linter/formatter: `npm run lint`
 5. Verify no unused imports or variables
-6. Check bundle size impact: `[YOUR_BUNDLE_ANALYSIS_APPROACH — if any]`
+6. Check bundle size impact: `npm run build` (check build output for bundle sizes)
 7. Proceed to code review: `./06-code-review.md`
 
 ---
@@ -210,5 +210,5 @@ This is a key advantage of the Vercel workflow — use it.
 - Next.js development: `./03-nextjs-development.md`
 - Shopify/commerce: `./04-shopify-commerce.md`
 - Code review: `./06-code-review.md`
-- Architecture docs: `[PATH_TO_YOUR_ARCHITECTURE_DOCS]`
-- Style guide: `[PATH_TO_YOUR_STYLE_GUIDE]`
+- Architecture docs: `docs/PROJECT_OVERVIEW.md`
+- Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
