@@ -112,6 +112,7 @@ interface ActionRequest {
   plan?: PlanType;
   protocolId?: ProtocolIdType; // Optional: if provided, swap to this protocol
   reason?: string;
+  pauseWeeks?: number; // Pause duration in weeks (1-12). Defaults to 12 (3 months).
   lines?: Array<{ lineId: string | number; productKey: string; size: number }>;
 }
 
@@ -227,7 +228,7 @@ export async function POST(
     // No body or invalid JSON - use default action 'pause'
   }
 
-  const { action = 'pause', plan, protocolId, reason } = body;
+  const { action = 'pause', plan, protocolId, reason, pauseWeeks } = body;
 
   // Convert to Loop's shopify-{id} format
   const loopSubscriptionId = toLoopShopifyId(subscriptionId);
@@ -239,17 +240,31 @@ export async function POST(
     let successMessage: string;
 
     switch (action) {
-      case 'pause':
+      case 'pause': {
         // Loop API: POST /subscription/{id}/pause
-        // Send pauseDuration to auto-resume after 3 months (prevents indefinite pauses)
+        // pauseWeeks comes from the PauseModal (1-12 weeks). Cap at 12 weeks (3 months).
+        const MAX_PAUSE_WEEKS = 12;
+        const weeks = Math.min(Math.max(pauseWeeks || MAX_PAUSE_WEEKS, 1), MAX_PAUSE_WEEKS);
+
+        // Convert weeks to Loop's pauseDuration format
+        // Use WEEK for durations < 4 weeks, MONTH for 4+ weeks (cleaner for Loop)
+        let pauseDuration: { intervalCount: number; intervalType: string };
+        if (weeks < 4) {
+          pauseDuration = { intervalCount: weeks, intervalType: 'WEEK' };
+        } else {
+          // 4 weeks ≈ 1 month, 8 weeks ≈ 2 months, 12 weeks ≈ 3 months
+          pauseDuration = { intervalCount: Math.round(weeks / 4), intervalType: 'MONTH' };
+        }
+
         result = await loopRequest(`/subscription/${loopSubscriptionId}/pause`, loopToken, 'POST', {
-          pauseDuration: {
-            intervalCount: 3,
-            intervalType: 'MONTH',
-          },
+          pauseDuration,
         });
-        successMessage = 'Subscription paused for up to 3 months. You can resume anytime.';
+
+        // Build a human-readable duration label for the success message
+        const durationLabel = weeks < 4 ? `${weeks} week${weeks > 1 ? 's' : ''}` : `${Math.round(weeks / 4)} month${Math.round(weeks / 4) > 1 ? 's' : ''}`;
+        successMessage = `Subscription paused for ${durationLabel}. You can resume anytime.`;
         break;
+      }
 
       case 'resume':
         result = await loopRequest(`/subscription/${loopSubscriptionId}/resume`, loopToken, 'POST');
