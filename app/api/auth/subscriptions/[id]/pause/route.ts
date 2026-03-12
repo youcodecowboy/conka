@@ -254,25 +254,13 @@ export async function POST(
         break;
 
       case 'skip':
-        // Use the correct Loop API endpoint for skipping next order
-        // Based on Loop API docs: Order actions section
-        // First try updating next billing date (skip = delay next order)
+        // Loop API: POST /subscription/{id}/order/skip
+        // https://developer.loopwork.co/reference/skip-next-order
         result = await loopRequest(
-          `/subscription/${loopSubscriptionId}/order/reschedule`, 
-          loopToken, 
-          'POST',
-          { skipNextOrder: true }
+          `/subscription/${loopSubscriptionId}/order/skip`,
+          loopToken,
+          'POST'
         );
-        
-        // If that fails, try the direct skip endpoint
-        if (!result.response.ok) {
-          console.log('[SKIP] Reschedule endpoint failed, trying direct skip...');
-          result = await loopRequest(
-            `/subscription/${loopSubscriptionId}/skip`, 
-            loopToken, 
-            'POST'
-          );
-        }
         successMessage = 'Next delivery skipped successfully';
         break;
 
