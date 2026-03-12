@@ -319,6 +319,7 @@ export default function SubscriptionsPage() {
         subscriptionName={showRescheduleModal?.product.title || "Subscription"}
         currentNextBillingDate={showRescheduleModal?.nextBillingDate}
         hasUnfulfilledOrder={showRescheduleModal?.hasUnfulfilledOrder}
+        interval={showRescheduleModal?.interval}
       />
 
       <CancellationModal
