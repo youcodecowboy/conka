@@ -15,8 +15,21 @@ import { env } from '@/app/lib/env';
 
 const LOOP_API_BASE = 'https://api.loopsubscriptions.com/admin/2023-10';
 
-// Max days into the future a customer can reschedule
-const MAX_RESCHEDULE_DAYS = 90;
+// Minimum lead time in days — fulfillment needs at least this long
+const MIN_LEAD_DAYS = 3;
+
+/**
+ * Convert a Loop billing interval to days.
+ * Used to compute the max reschedule window (one billing cycle from current date).
+ */
+function intervalToDays(interval: string, intervalCount: number): number {
+  switch (interval) {
+    case 'WEEK': return intervalCount * 7;
+    case 'MONTH': return intervalCount * 30;
+    case 'YEAR': return intervalCount * 365;
+    default: return 30; // safe fallback
+  }
+}
 
 /**
  * Convert a Shopify GID or numeric ID to Loop's shopify-{id} format
@@ -104,22 +117,13 @@ export async function POST(
     return NextResponse.json({ error: 'newBillingDateEpoch is required' }, { status: 400 });
   }
 
-  // Validate: must be in the future
+  // Basic future-date check (detailed interval-aware check comes after fetching the subscription)
   const nowEpoch = Math.floor(Date.now() / 1000);
-  const tomorrowEpoch = nowEpoch + 86400;
-  if (newBillingDateEpoch < tomorrowEpoch) {
+  const minEpoch = nowEpoch + (MIN_LEAD_DAYS * 86400);
+  if (newBillingDateEpoch < minEpoch) {
     return NextResponse.json({
       success: false,
-      error: 'Please select a date from tomorrow onwards.',
-    }, { status: 400 });
-  }
-
-  // Validate: must not be more than MAX_RESCHEDULE_DAYS in the future
-  const maxEpoch = nowEpoch + (MAX_RESCHEDULE_DAYS * 86400);
-  if (newBillingDateEpoch > maxEpoch) {
-    return NextResponse.json({
-      success: false,
-      error: `You can reschedule up to ${MAX_RESCHEDULE_DAYS} days ahead.`,
+      error: `Please select a date at least ${MIN_LEAD_DAYS} days from now to allow for fulfillment.`,
     }, { status: 400 });
   }
 
@@ -160,7 +164,22 @@ export async function POST(
       }, { status: 500 });
     }
 
-    console.log(`[RESCHEDULE] Using Loop internal ID: ${loopInternalId}, current interval: ${billingPolicy.interval} × ${billingPolicy.intervalCount}`);
+    // Interval-aware max: one billing cycle from the current next billing date
+    // This prevents pushing a delivery so far out that it overlaps the following cycle
+    const cycleDays = intervalToDays(billingPolicy.interval, billingPolicy.intervalCount);
+    const currentNextBillingEpoch = subscriptionData?.nextBillingDate
+      ? Math.floor(new Date(subscriptionData.nextBillingDate).getTime() / 1000)
+      : nowEpoch;
+    const maxEpoch = currentNextBillingEpoch + (cycleDays * 86400);
+
+    if (newBillingDateEpoch > maxEpoch) {
+      return NextResponse.json({
+        success: false,
+        error: `You can reschedule within one billing cycle. For longer delays, use Skip or Pause instead.`,
+      }, { status: 400 });
+    }
+
+    console.log(`[RESCHEDULE] Using Loop internal ID: ${loopInternalId}, interval: ${billingPolicy.interval} × ${billingPolicy.intervalCount}, cycleDays: ${cycleDays}`);
 
     // Step 2: PUT /subscription/{loopInternalId}/frequency with same interval but new date
     const freqResult = await loopRequest(
