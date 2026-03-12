@@ -22,7 +22,7 @@ interface UseSubscriptionsReturn {
   loading: boolean;
   error: string | null;
   fetchSubscriptions: () => Promise<void>;
-  pauseSubscription: (subscriptionId: string) => Promise<boolean>;
+  pauseSubscription: (subscriptionId: string, weeks?: number) => Promise<boolean>;
   resumeSubscription: (subscriptionId: string) => Promise<boolean>;
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
@@ -126,8 +126,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
   }, []);
 
   // Pause subscription - uses the consolidated pause route
+  // weeks: optional pause duration in weeks (1-12). If omitted, defaults to 12 weeks (3 months) server-side.
   const pauseSubscription = useCallback(
-    async (subscriptionId: string): Promise<boolean> => {
+    async (subscriptionId: string, weeks?: number): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
@@ -137,7 +138,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'pause' }),
+          body: JSON.stringify({ action: 'pause', ...(weeks ? { pauseWeeks: weeks } : {}) }),
         });
 
         const data = await response.json();
