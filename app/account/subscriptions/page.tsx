@@ -58,6 +58,7 @@ export default function SubscriptionsPage() {
   const [showPauseModal, setShowPauseModal] = useState<Subscription | null>(null);
   const [showRescheduleModal, setShowRescheduleModal] = useState<Subscription | null>(null);
   const [showEditModal, setShowEditModal] = useState<Subscription | null>(null);
+  const [initialFetchDone, setInitialFetchDone] = useState(false);
   const [successMessage, setSuccessMessage] = useState<{
     subscriptionId: string;
     message: string;
@@ -71,7 +72,7 @@ export default function SubscriptionsPage() {
 
   useEffect(() => {
     if (customer) {
-      fetchSubscriptions();
+      fetchSubscriptions().then(() => setInitialFetchDone(true));
     }
   }, [customer, fetchSubscriptions]);
 
@@ -190,7 +191,7 @@ export default function SubscriptionsPage() {
     return result;
   };
 
-  if (authLoading || loading) {
+  if (authLoading || (!initialFetchDone && loading)) {
     return (
       <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)] flex items-center justify-center">
         <div className="text-center">
