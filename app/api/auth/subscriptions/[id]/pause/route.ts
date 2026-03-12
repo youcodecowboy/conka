@@ -253,16 +253,38 @@ export async function POST(
         successMessage = 'Subscription cancelled successfully';
         break;
 
-      case 'skip':
-        // Loop API: POST /subscription/{id}/skipNext
+      case 'skip': {
+        // Loop API: POST /subscription/{loopInternalId}/skipNext
         // https://developer.loopwork.co/reference/skip-next-order
+        // skipNext requires Loop's internal numeric ID, not shopify-{id}
+        const skipSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        if (!skipSubResult.response.ok) {
+          return NextResponse.json({
+            success: false,
+            error: 'Failed to fetch subscription details for skip',
+            loopResponse: skipSubResult.data,
+          }, { status: skipSubResult.response.status });
+        }
+        const skipLoopInternalId = skipSubResult.data?.data?.id;
+        if (skipLoopInternalId == null) {
+          return NextResponse.json({
+            success: false,
+            error: 'Could not resolve Loop subscription ID',
+          }, { status: 500 });
+        }
+        console.log(`[SKIP] Using Loop internal ID: ${skipLoopInternalId}`);
         result = await loopRequest(
-          `/subscription/${loopSubscriptionId}/skipNext`,
+          `/subscription/${skipLoopInternalId}/skipNext`,
           loopToken,
           'POST'
         );
         successMessage = 'Next delivery skipped successfully';
         break;
+      }
 
       case 'change-frequency':
         if (!plan || !PLAN_CONFIGURATIONS[plan]) {
