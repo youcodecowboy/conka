@@ -254,10 +254,10 @@ export async function POST(
         break;
 
       case 'skip':
-        // Loop API: POST /subscription/{id}/order/skip
+        // Loop API: POST /subscription/{id}/skipNext
         // https://developer.loopwork.co/reference/skip-next-order
         result = await loopRequest(
-          `/subscription/${loopSubscriptionId}/order/skip`,
+          `/subscription/${loopSubscriptionId}/skipNext`,
           loopToken,
           'POST'
         );
