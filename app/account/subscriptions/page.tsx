@@ -7,6 +7,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import { useSubscriptions, Subscription } from "@/app/hooks/useSubscriptions";
 import { usePaymentMethods } from "@/app/hooks/usePaymentMethods";
 import { CancellationModal } from "@/app/components/subscriptions/CancellationModal";
+import { PauseModal } from "@/app/components/subscriptions/PauseModal";
 import { EditSubscriptionModal } from "@/app/components/subscriptions/EditSubscriptionModal";
 import { MultiLineEditModal } from "@/app/components/subscriptions/MultiLineEditModal";
 import { SubscriptionsPageHeader } from "@/app/components/subscriptions/SubscriptionsPageHeader";
@@ -52,6 +53,7 @@ export default function SubscriptionsPage() {
 
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [showCancelModal, setShowCancelModal] = useState<string | null>(null);
+  const [showPauseModal, setShowPauseModal] = useState<Subscription | null>(null);
   const [showEditModal, setShowEditModal] = useState<Subscription | null>(null);
   const [successMessage, setSuccessMessage] = useState<{
     subscriptionId: string;
@@ -82,14 +84,32 @@ export default function SubscriptionsPage() {
   };
 
   const handleTogglePause = async (subscription: Subscription) => {
-    setActionLoading(subscription.id);
     if (subscription.status === "paused") {
+      // Resume directly — no modal needed
+      setActionLoading(subscription.id);
       await resumeSubscription(subscription.id);
+      await fetchSubscriptions();
+      setActionLoading(null);
     } else {
-      await pauseSubscription(subscription.id);
+      // Show pause duration modal for active subscriptions
+      setShowPauseModal(subscription);
     }
-    await fetchSubscriptions();
+  };
+
+  const handlePauseFromModal = async (weeks: number): Promise<boolean> => {
+    if (!showPauseModal) return false;
+    setActionLoading(showPauseModal.id);
+    const success = await pauseSubscription(showPauseModal.id, weeks);
+    if (success) {
+      await fetchSubscriptions();
+      setSuccessMessage({
+        subscriptionId: showPauseModal.id,
+        message: `Subscription paused for ${weeks < 4 ? `${weeks} week${weeks > 1 ? 's' : ''}` : `${Math.round(weeks / 4)} month${Math.round(weeks / 4) > 1 ? 's' : ''}`}. You can resume anytime.`,
+      });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    }
     setActionLoading(null);
+    return success;
   };
 
   const getTierFromQuantity = (quantity: number): SubscriptionTier => {
@@ -264,6 +284,14 @@ export default function SubscriptionsPage() {
           </div>
         </section>
       </main>
+
+      <PauseModal
+        isOpen={!!showPauseModal}
+        onClose={() => setShowPauseModal(null)}
+        onPause={handlePauseFromModal}
+        subscriptionName={showPauseModal?.product.title || "Subscription"}
+        nextBillingDate={showPauseModal?.nextBillingDate}
+      />
 
       <CancellationModal
         isOpen={!!showCancelModal}
