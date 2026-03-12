@@ -8,6 +8,7 @@ import { useSubscriptions, Subscription } from "@/app/hooks/useSubscriptions";
 import { usePaymentMethods } from "@/app/hooks/usePaymentMethods";
 import { CancellationModal } from "@/app/components/subscriptions/CancellationModal";
 import { PauseModal } from "@/app/components/subscriptions/PauseModal";
+import { RescheduleModal } from "@/app/components/subscriptions/RescheduleModal";
 import { EditSubscriptionModal } from "@/app/components/subscriptions/EditSubscriptionModal";
 import { MultiLineEditModal } from "@/app/components/subscriptions/MultiLineEditModal";
 import { SubscriptionsPageHeader } from "@/app/components/subscriptions/SubscriptionsPageHeader";
@@ -41,6 +42,7 @@ export default function SubscriptionsPage() {
     skipNextOrder,
     changePlan,
     editMultiLine,
+    rescheduleSubscription,
   } = useSubscriptions();
 
   const {
@@ -54,6 +56,7 @@ export default function SubscriptionsPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [showCancelModal, setShowCancelModal] = useState<string | null>(null);
   const [showPauseModal, setShowPauseModal] = useState<Subscription | null>(null);
+  const [showRescheduleModal, setShowRescheduleModal] = useState<Subscription | null>(null);
   const [showEditModal, setShowEditModal] = useState<Subscription | null>(null);
   const [successMessage, setSuccessMessage] = useState<{
     subscriptionId: string;
@@ -105,6 +108,22 @@ export default function SubscriptionsPage() {
       setSuccessMessage({
         subscriptionId: showPauseModal.id,
         message: "Subscription paused. You can resume anytime.",
+      });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    }
+    setActionLoading(null);
+    return success;
+  };
+
+  const handleRescheduleFromModal = async (newDateEpoch: number): Promise<boolean> => {
+    if (!showRescheduleModal) return false;
+    setActionLoading(showRescheduleModal.id);
+    const success = await rescheduleSubscription(showRescheduleModal.id, newDateEpoch);
+    if (success) {
+      await fetchSubscriptions();
+      setSuccessMessage({
+        subscriptionId: showRescheduleModal.id,
+        message: "Delivery rescheduled successfully.",
       });
       setTimeout(() => setSuccessMessage(null), 5000);
     }
@@ -247,6 +266,7 @@ export default function SubscriptionsPage() {
                           onEdit={() => setShowEditModal(subscription)}
                           onTogglePause={() => handleTogglePause(subscription)}
                           onSkipNext={() => handleSkipNext(subscription)}
+                          onReschedule={() => setShowRescheduleModal(subscription)}
                           onCancel={() => setShowCancelModal(subscription.id)}
                           onDismissSuccess={() => setSuccessMessage(null)}
                           primaryMethod={primaryMethod}
@@ -290,6 +310,15 @@ export default function SubscriptionsPage() {
         onClose={() => setShowPauseModal(null)}
         onPause={handlePauseFromModal}
         subscriptionName={showPauseModal?.product.title || "Subscription"}
+      />
+
+      <RescheduleModal
+        isOpen={!!showRescheduleModal}
+        onClose={() => setShowRescheduleModal(null)}
+        onReschedule={handleRescheduleFromModal}
+        subscriptionName={showRescheduleModal?.product.title || "Subscription"}
+        currentNextBillingDate={showRescheduleModal?.nextBillingDate}
+        hasUnfulfilledOrder={showRescheduleModal?.hasUnfulfilledOrder}
       />
 
       <CancellationModal
