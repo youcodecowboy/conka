@@ -185,18 +185,69 @@ const handleCheckout = () => {
 ## Loop Subscriptions
 
 ### Overview
-- Loop handles subscription management: creation, billing, portal
+- Loop handles subscription lifecycle: billing, pause/resume, skip, cancel, plan changes
+- **Shopify** = who the customer is + which contracts they have. **Loop** = what each subscription actually is and what happens when they interact with it.
 - Integration approach: Loop Admin API called from Next.js API routes (server-side only)
-- Configuration: `app/lib/loop.ts` (client), `docs/features/CUSTOMER_PORTAL.md` (full docs)
+- All subscription mutations go through: `app/api/auth/subscriptions/[id]/pause/route.ts`
 
-### Subscription patterns
+### Key files
+| File | Purpose |
+|------|---------|
+| `app/lib/loop.ts` | Loop API client (low-level helpers) |
+| `app/hooks/useSubscriptions.ts` | Frontend hook — all subscription actions |
+| `app/api/auth/subscriptions/[id]/pause/route.ts` | All subscription mutations (pause, resume, cancel, skip, change plan, edit multi-line) |
+| `app/api/auth/subscriptions/route.ts` | GET subscriptions (hybrid Shopify + Loop) |
+| `app/types/subscription.ts` | Shared TypeScript types |
+| `docs/features/CUSTOMER_PORTAL.md` | Full feature documentation |
+
+### Loop API reference
+- **Docs:** https://developer.loopwork.co/reference/api-reference
+- **Base URL:** `https://api.loopsubscriptions.com/admin/2023-10`
+- **Auth header:** `X-Loop-Token: {LOOP_API_KEY}`
+- **Rate limit:** 5 requests per second
+
+### ID formats — critical gotcha
+
+Loop uses **two different ID formats** depending on the endpoint:
+
+| Format | Example | Used by |
+|--------|---------|---------|
+| `shopify-{numericId}` | `shopify-121614270838` | `GET /subscription/{id}`, line swap, pause, resume, cancel |
+| Loop internal numeric ID | `10547807` | `PUT /frequency`, `POST /skipNext`, `POST /placeOrder` |
+
+**Rule:** If an endpoint returns 404 with `shopify-{id}`, it likely needs the Loop internal ID. To get the internal ID, first `GET /subscription/shopify-{id}` and read `response.data.data.id`.
+
+The `change-frequency` and `skip` actions in the codebase already follow this pattern — they GET the subscription first, extract the internal ID, then call the target endpoint.
+
+### Endpoint reference (endpoints we use)
+
+| Action | Method | Endpoint | ID format | Body |
+|--------|--------|----------|-----------|------|
+| Get subscription | GET | `/subscription/{id}` | `shopify-{id}` | — |
+| Pause | POST | `/subscription/{id}/pause` | `shopify-{id}` | optional `pauseDuration` |
+| Resume | POST | `/subscription/{id}/resume` | `shopify-{id}` | — |
+| Cancel | POST | `/subscription/{id}/cancel` | `shopify-{id}` | optional `cancellationReason` |
+| **Skip next order** | POST | `/subscription/{id}/skipNext` | **Loop internal ID** | — |
+| Swap line | PUT | `/subscription/{id}/line/{lineId}/swap` | `shopify-{id}` | `variantShopifyId`, `quantity`, `pricingType`, `sellingPlanGroupId` |
+| Update frequency | PUT | `/subscription/{id}/frequency` | **Loop internal ID** | `billingPolicy`, `deliveryPolicy`, `nextBillingDateEpoch`, `discountType` |
+| Get customer | GET | `/customer/{customerShopifyId}` | Shopify customer ID | — |
+| Update payment method | POST | `/paymentMethod/{id}/update` (storefront API) | Loop payment method ID | — |
+
+### Subscription data flow
+
 ```
-One-time purchase → Standard Shopify checkout
-Subscription purchase → Loop-managed checkout flow
-Subscription management → Loop customer portal
+Reading:
+  Shopify Customer Account API → subscription contract IDs
+  Loop Admin API (per contract) → full subscription details
+  Merged response → frontend
+
+Mutations:
+  Frontend hook → POST /api/auth/subscriptions/[id]/pause
+  API route → converts to shopify-{id} → Loop Admin API
+  (some endpoints: GET subscription first → extract Loop internal ID → then call endpoint)
 ```
 
-### Working with subscriptions
+### Working with subscriptions (Storefront API side)
 - Subscription eligibility: Products with `sellingPlanGroups` on their Shopify listing are subscribable
 - Selling plan data: available via Storefront API on the product's `sellingPlanGroups`
 - Display logic:
@@ -204,7 +255,7 @@ Subscription management → Loop customer portal
   - Show discount compared to one-time price
   - Let user toggle between one-time and subscription
 
-### Key subscription fields
+### Key subscription fields (Storefront API)
 ```graphql
 # In your product query, include:
 sellingPlanGroups(first: 5) {
@@ -240,6 +291,8 @@ sellingPlanGroups(first: 5) {
 - Subscription-only products → hide the one-time option
 - Subscription price vs one-time price → always show the savings clearly
 - Cart with mixed items (subscription + one-time) → ensure both work through checkout
+- **Legacy products:** Old subscriptions on legacy variants (e.g. "CONKA 1 (28 Shots)") will fail plan changes — must be manually migrated in Loop dashboard
+- **Multi-line contracts:** Frequency changes on multi-line contracts can fail if lines have different selling plan groups — route returns a clear error directing to support
 
 ---
 
@@ -294,14 +347,19 @@ sellingPlanGroups(first: 5) {
 
 ## Common gotchas
 
-> **Fill this in over time.**
+### Shopify
+- Cart checkout URLs expire — always use `cart.checkoutUrl` from the latest cart fetch
+- Metafield values are always strings — parse JSON metafields carefully
+- B2B tier normalization: after any cart mutation, `getB2BCartTierUpdates` may fire to keep cart on a consistent B2B tier
 
-- `[e.g., Shopify Storefront API has a rate limit of 1000 points per second — batch queries to stay under]`
-- `[e.g., Cart checkout URLs expire — always fetch a fresh one before redirecting]`
-- `[e.g., Product handles can change if the title is edited in Shopify — use ID for stable references]`
-- `[e.g., Metafield values are always strings — parse JSON metafields carefully]`
-- `[e.g., Selling plan IDs change between Shopify environments — don't hardcode them]`
-- `[e.g., Loop subscription portal URL is — [URL_PATTERN]]`
+### Loop
+- **ID format mismatch:** Some Loop endpoints accept `shopify-{id}`, others require Loop's internal numeric ID. If you get a 404, check the ID format first. See the ID formats table above.
+- **Frequency endpoint uses Loop internal ID:** `PUT /subscription/{id}/frequency` returns 404 if you pass `shopify-{id}`. Always GET the subscription first and use `response.data.data.id`.
+- **skipNext uses Loop internal ID:** Same as frequency — must resolve the internal ID first.
+- **Loop does not accept `DAY` for frequency:** Use `WEEK`, `MONTH`, or `YEAR`. Bi-weekly = `WEEK` × 2.
+- **`nextBillingDateEpoch` must be preserved:** When changing plan/frequency, always pass the existing next billing date back — never let it reset.
+- **Redundant frequency updates rejected:** On multi-line contracts, Loop rejects a frequency update if the interval hasn't changed. Check before calling.
+- **Rate limit:** 5 requests per second. The plan change flow makes 2-3 sequential calls — stay aware.
 
 ---
 
