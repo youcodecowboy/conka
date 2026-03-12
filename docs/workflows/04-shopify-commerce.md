@@ -224,12 +224,13 @@ The `change-frequency` and `skip` actions in the codebase already follow this pa
 | Action | Method | Endpoint | ID format | Body |
 |--------|--------|----------|-----------|------|
 | Get subscription | GET | `/subscription/{id}` | `shopify-{id}` | — |
-| Pause | POST | `/subscription/{id}/pause` | `shopify-{id}` | optional `pauseDuration` |
+| Pause | POST | `/subscription/{id}/pause` | `shopify-{id}` | optional `pauseDuration` (`{ intervalCount, intervalType }`) |
 | Resume | POST | `/subscription/{id}/resume` | `shopify-{id}` | — |
-| Cancel | POST | `/subscription/{id}/cancel` | `shopify-{id}` | optional `cancellationReason` |
+| Cancel | POST | `/subscription/{id}/cancel` | `shopify-{id}` | optional `comment`, `notifyCustomer` |
 | **Skip next order** | POST | `/subscription/{id}/skipNext` | **Loop internal ID** | — |
 | Swap line | PUT | `/subscription/{id}/line/{lineId}/swap` | `shopify-{id}` | `variantShopifyId`, `quantity`, `pricingType`, `sellingPlanGroupId` |
 | Update frequency | PUT | `/subscription/{id}/frequency` | **Loop internal ID** | `billingPolicy`, `deliveryPolicy`, `nextBillingDateEpoch`, `discountType` |
+| **Reschedule delivery** | PUT | `/subscription/{id}/frequency` | **Loop internal ID** | Same as update frequency — preserves existing interval, only changes `nextBillingDateEpoch` |
 | Get customer | GET | `/customer/{customerShopifyId}` | Shopify customer ID | — |
 | Update payment method | POST | `/paymentMethod/{id}/update` (storefront API) | Loop payment method ID | — |
 
@@ -242,7 +243,8 @@ Reading:
   Merged response → frontend
 
 Mutations:
-  Frontend hook → POST /api/auth/subscriptions/[id]/pause
+  Frontend hook → POST /api/auth/subscriptions/[id]/pause (pause, resume, cancel, skip, change-frequency, edit-multi-line)
+                → POST /api/auth/subscriptions/[id]/reschedule (reschedule delivery date)
   API route → converts to shopify-{id} → Loop Admin API
   (some endpoints: GET subscription first → extract Loop internal ID → then call endpoint)
 ```
@@ -359,6 +361,9 @@ sellingPlanGroups(first: 5) {
 - **Loop does not accept `DAY` for frequency:** Use `WEEK`, `MONTH`, or `YEAR`. Bi-weekly = `WEEK` × 2.
 - **`nextBillingDateEpoch` must be preserved:** When changing plan/frequency, always pass the existing next billing date back — never let it reset.
 - **Redundant frequency updates rejected:** On multi-line contracts, Loop rejects a frequency update if the interval hasn't changed. Check before calling.
+- **Cancel uses `comment`, not `cancellationReason`:** The `cancellationReason` field only appears in Loop responses. To send a reason, use `comment` in the request body.
+- **Pause `pauseDuration` format:** `{ intervalCount: number, intervalType: 'WEEK' | 'MONTH' }`. Use WEEK for <4 weeks, MONTH for 4+. Max pause is 3 months.
+- **Reschedule reuses the frequency endpoint:** To change only the delivery date without altering the interval, call `PUT /frequency` with the existing billing/delivery policy and a new `nextBillingDateEpoch`.
 - **Rate limit:** 5 requests per second. The plan change flow makes 2-3 sequential calls — stay aware.
 
 ---
