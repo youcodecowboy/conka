@@ -8,7 +8,7 @@ The account portal lets customers:
 
 - View and edit **profile** (name, email, address)
 - View **order history**
-- View **subscriptions** and perform **subscription actions** (pause, resume, cancel, skip, change plan/frequency, update payment method)
+- View **subscriptions** and perform **subscription actions** (Edit Plan, Pause Subscription, Resume Subscription, Skip next order, Reschedule Delivery, Cancel Subscription, update payment method)
 
 **Stack:**
 
@@ -130,20 +130,38 @@ Mock is only active when `NODE_ENV === 'development'` and `DEV_MOCK_AUTH === 'tr
 
 ### Subscription actions
 
-All mutations go through one route: `POST /api/auth/subscriptions/[id]/pause`
+Most mutations go through one consolidated route: `POST /api/auth/subscriptions/[id]/pause`
 
-| Action            | Body                                                                                                       |
-| ----------------- | ---------------------------------------------------------------------------------------------------------- |
-| Pause             | `{ action: 'pause' }`                                                                                      |
-| Resume            | `{ action: 'resume' }`                                                                                     |
-| Cancel            | `{ action: 'cancel', reason?: string }`                                                                    |
-| Skip              | `{ action: 'skip' }`                                                                                       |
-| Change plan       | `{ action: 'change-frequency', plan: 'starter' \| 'pro' \| 'max', protocolId?: '1'\|'2'\|'3'\|'4' }`      |
-| Edit multi-line   | `{ action: 'edit-multi-line', lines: LineEdit[], plan?: 'starter' \| 'pro' \| 'max' }`                     |
+Reschedule has its own dedicated route: `POST /api/auth/subscriptions/[id]/reschedule`
 
-The `[id]` is the Shopify subscription contract ID (GID or numeric). The route converts it to Loop's `shopify-{numericId}` format.
+| Action            | Body                                                                                                       | Loop endpoint used                              | Route |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ----- |
+| Pause             | `{ action: 'pause', pauseWeeks?: number }`                                                                 | `POST /subscription/{shopify-id}/pause`         | `/pause` |
+| Resume            | `{ action: 'resume' }`                                                                                     | `POST /subscription/{shopify-id}/resume`        | `/pause` |
+| Resume now        | `{ action: 'resume-now', resumeNowEpoch: number }`                                                        | `POST .../resume` + `POST .../reschedule`       | `/pause` |
+| Cancel            | `{ action: 'cancel', reason?: string }`                                                                    | `POST /subscription/{shopify-id}/cancel`        | `/pause` |
+| Skip              | `{ action: 'skip' }`                                                                                       | `POST /subscription/{loopInternalId}/skipNext`  | `/pause` |
+| Change plan       | `{ action: 'change-frequency', plan: 'starter' \| 'pro' \| 'max', protocolId?: '1'\|'2'\|'3'\|'4' }`      | `PUT .../line/{lineId}/swap` + `PUT .../frequency` | `/pause` |
+| Edit multi-line   | `{ action: 'edit-multi-line', lines: LineEdit[], plan?: 'starter' \| 'pro' \| 'max' }`                     | `PUT .../line/{lineId}/swap` (per line) + `PUT .../frequency` | `/pause` |
+| Reschedule        | `{ newBillingDateEpoch: number }`                                                                          | `POST /subscription/{loopInternalId}/reschedule` | `/reschedule` |
 
-**Implementation:** [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts)
+The `[id]` is the Shopify subscription contract ID (GID or numeric). The route converts it to Loop's `shopify-{numericId}` format. Some Loop endpoints (skipNext, frequency, reschedule) require Loop's internal numeric ID — the route GETs the subscription first to resolve this.
+
+**Pause behaviour:** Clicking "Pause Subscription" opens a cycle-based duration picker modal (`PauseModal.tsx`) offering 1, 2, or 3 billing cycles based on the subscription's interval (e.g. monthly → 1/2/3 months, bi-weekly → 2/4/6 weeks). The selected duration is sent as `pauseWeeks` in the request body. The server converts this to Loop's `pauseDuration` format (`{ intervalCount, intervalType: 'DAY' | 'MONTH' }`) — note that Loop does NOT accept `WEEK` as an intervalType; sub-month durations use `DAY` with days = weeks × 7. Loop auto-resumes the subscription after the selected period. Customers can resume manually at any time.
+
+**Resume behaviour:** Clicking "Resume" on a paused subscription opens the `ResumeModal.tsx` with two options: (1) **Resume now** — sets the next billing date to ~3 days from today (fulfillment lead time) so the customer gets a delivery soon; this calls `resume` then `reschedule` server-side. (2) **Resume on scheduled date** — keeps the existing (paused) next billing date; this calls `resume` only. If the scheduled date is already within a few days of now, the "resume now" option is hidden since both options would be effectively the same. Footer copy reminds the customer they can always reschedule after resuming. The server action `resume-now` is gracefully degraded: if the reschedule step fails after a successful resume, the subscription is still active and the customer is told they can reschedule manually.
+
+**Cancel behaviour:** The customer's cancellation reason is sent as `comment` (Loop's field name — not `cancellationReason`, which is only in responses). Loop sends a cancellation confirmation email to the customer (`notifyCustomer: true`).
+
+**Skip behaviour:** Skips the next upcoming order. The route resolves the Loop internal ID first (skipNext requires it), then calls `POST /subscription/{loopInternalId}/skipNext`.
+
+**Reschedule behaviour:** Clicking "Reschedule Delivery" on an active subscription opens a date picker modal (`RescheduleModal.tsx`). The reschedule window is **interval-aware**: minimum 3 days from now (fulfillment lead time), maximum one billing cycle from the current next billing date (e.g. 14 days for bi-weekly, 30 days for monthly). This prevents pushing a delivery past the next cycle boundary, which would be confusing. For longer delays, customers should use Skip or Pause instead. The modal shows a schedule shift warning: _"This will shift your entire delivery schedule. All future deliveries will follow from this new date."_ The server GETs the subscription to resolve the Loop internal ID and billing policy (for date validation), then calls Loop's dedicated `POST /subscription/{loopInternalId}/reschedule` with `newBillingDateEpoch` and `rescheduleFutureOrders: true`. This endpoint changes the next billing date without going through the frequency endpoint, so it has no selling plan validation — it works correctly on multi-line subscriptions regardless of variant/interval configuration. If the subscription has an unfulfilled order, the modal warns that rescheduling affects the following delivery. The card's "Next delivery" date updates immediately on success.
+
+**Error handling:** All Loop API errors are logged server-side with full details. Client responses contain only user-friendly messages — no internal Loop data is exposed.
+
+**Implementation:**
+- [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts) — pause, resume, cancel, skip, change-frequency, edit-multi-line
+- [`app/api/auth/subscriptions/[id]/reschedule/route.ts`](../app/api/auth/subscriptions/[id]/reschedule/route.ts) — reschedule delivery date
 
 ---
 
@@ -249,9 +267,17 @@ Example: a contract with a 12-shot line and a 28-shot line → monthly cadence (
 
 ### Verifying a plan change
 
-After a plan change, check Vercel function logs for:
+After any subscription action, check Vercel function logs for:
 
-**Single-line:**
+**Skip:**
+```
+[SKIP] Input: {numericId} -> Loop format: shopify-{numericId}
+[SKIP] Using Loop internal ID: {loopInternalId}
+[Loop API] POST .../subscription/{loopInternalId}/skipNext
+[Loop API] Response 200: {"success":true,"message":"Upcoming order skipped successfully"...}
+```
+
+**Single-line plan change:**
 ```
 [Loop plan-update][shopify-{id}] Step 1: GET subscription
 [Loop plan-update][shopify-{id}] Step 2: PUT swap line
@@ -270,6 +296,14 @@ After a plan change, check Vercel function logs for:
 [Loop edit-multi-line][shopify-{id}] Swapping line {lineId}: ...
 [Loop edit-multi-line][shopify-{id}] PUT frequency using Loop internal ID: {loopInternalId}
 [Loop edit-multi-line][shopify-{id}] PUT frequency OK
+```
+
+**Reschedule:**
+```
+[RESCHEDULE] Input: {numericId} -> Loop format: shopify-{numericId}
+[RESCHEDULE] Loop internal ID: {loopInternalId}, interval: WEEK × 2, cycleDays: 14
+[Loop API] POST .../subscription/{loopInternalId}/reschedule
+[RESCHEDULE] Success
 ```
 
 Then confirm in Loop's dashboard that both the product/variant and billing interval match the selection.
@@ -355,8 +389,12 @@ On clicking Update:
 | Subscriptions list & actions   | [`app/account/subscriptions/page.tsx`](../app/account/subscriptions/page.tsx)                                             |
 | Edit plan modal (single-line)  | [`app/components/subscriptions/EditSubscriptionModal.tsx`](../app/components/subscriptions/EditSubscriptionModal.tsx)     |
 | Edit plan modal (multi-line)   | [`app/components/subscriptions/MultiLineEditModal.tsx`](../app/components/subscriptions/MultiLineEditModal.tsx)           |
+| Pause duration modal           | [`app/components/subscriptions/PauseModal.tsx`](../app/components/subscriptions/PauseModal.tsx)                           |
+| Resume options modal           | [`app/components/subscriptions/ResumeModal.tsx`](../app/components/subscriptions/ResumeModal.tsx)                         |
+| Reschedule delivery modal      | [`app/components/subscriptions/RescheduleModal.tsx`](../app/components/subscriptions/RescheduleModal.tsx)                 |
 | GET subscriptions (hybrid)     | [`app/api/auth/subscriptions/route.ts`](../app/api/auth/subscriptions/route.ts)                                           |
-| All subscription actions       | [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts)                     |
+| Subscription actions           | [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts)                     |
+| Reschedule delivery            | [`app/api/auth/subscriptions/[id]/reschedule/route.ts`](../app/api/auth/subscriptions/[id]/reschedule/route.ts)           |
 | Payment methods — fetch        | [`app/api/auth/subscriptions/payment-methods/route.ts`](../app/api/auth/subscriptions/payment-methods/route.ts)           |
 | Payment methods — update email | [`app/api/auth/subscriptions/payment-methods/[id]/route.ts`](../app/api/auth/subscriptions/payment-methods/[id]/route.ts) |
 | Loop API client                | [`app/lib/loop.ts`](../app/lib/loop.ts)                                                                                   |

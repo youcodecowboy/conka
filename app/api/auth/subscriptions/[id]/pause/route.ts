@@ -1,12 +1,15 @@
 /**
  * Subscription Actions API Route
- * 
- * Uses Loop Admin API with the shopify-{id} format.
- * Handles all subscription actions: pause, resume, cancel, skip, change-frequency
- * 
+ *
+ * Uses Loop Admin API. Most endpoints accept shopify-{id} format, but some
+ * (skipNext, frequency) require Loop's internal numeric ID — those cases
+ * GET the subscription first to resolve the ID.
+ *
+ * Loop API docs: https://developer.loopwork.co/reference/api-reference
+ *
  * This route is named "pause" for historical reasons but handles all actions
  * via the `action` parameter in the request body.
- * 
+ *
  * @route POST /api/auth/subscriptions/[id]/pause
  */
 
@@ -100,7 +103,7 @@ const PLAN_CONFIGURATIONS = {
   },
 };
 
-type ActionType = 'pause' | 'resume' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line';
+type ActionType = 'pause' | 'resume' | 'resume-now' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line';
 type PlanType = 'starter' | 'pro' | 'max';
 type ProtocolIdType = '1' | '2' | '3' | '4';
 
@@ -109,6 +112,8 @@ interface ActionRequest {
   plan?: PlanType;
   protocolId?: ProtocolIdType; // Optional: if provided, swap to this protocol
   reason?: string;
+  pauseWeeks?: number; // Pause duration in weeks (1-12). Defaults to 12 (3 months).
+  resumeNowEpoch?: number; // For resume-now: epoch timestamp for the new next billing date
   lines?: Array<{ lineId: string | number; productKey: string; size: number }>;
 }
 
@@ -224,7 +229,7 @@ export async function POST(
     // No body or invalid JSON - use default action 'pause'
   }
 
-  const { action = 'pause', plan, protocolId, reason } = body;
+  const { action = 'pause', plan, protocolId, reason, pauseWeeks, resumeNowEpoch } = body;
 
   // Convert to Loop's shopify-{id} format
   const loopSubscriptionId = toLoopShopifyId(subscriptionId);
@@ -233,48 +238,142 @@ export async function POST(
 
   try {
     let result: { response: Response; data: any };
-    let successMessage: string;
+    let successMessage = '';
 
     switch (action) {
-      case 'pause':
-        result = await loopRequest(`/subscription/${loopSubscriptionId}/pause`, loopToken, 'POST');
-        successMessage = 'Subscription paused successfully';
+      case 'pause': {
+        // Loop API: POST /subscription/{id}/pause
+        // pauseWeeks comes from the PauseModal (1-12 weeks). Cap at 12 weeks (3 months).
+        const MAX_PAUSE_WEEKS = 12;
+        const weeks = Math.min(Math.max(pauseWeeks || MAX_PAUSE_WEEKS, 1), MAX_PAUSE_WEEKS);
+
+        // Convert weeks to Loop's pauseDuration format
+        // Loop's valid intervalType enum: DAY, MONTH, YEAR, CUSTOM (NOT WEEK)
+        // Use MONTH for durations that are exact multiples of 4 weeks, DAY otherwise
+        let pauseDuration: { intervalCount: number; intervalType: string };
+        if (weeks >= 4 && weeks % 4 === 0) {
+          pauseDuration = { intervalCount: weeks / 4, intervalType: 'MONTH' };
+        } else {
+          pauseDuration = { intervalCount: weeks * 7, intervalType: 'DAY' };
+        }
+
+        result = await loopRequest(`/subscription/${loopSubscriptionId}/pause`, loopToken, 'POST', {
+          pauseDuration,
+        });
+
+        // Build a human-readable duration label for the success message
+        const durationLabel = (weeks >= 4 && weeks % 4 === 0)
+          ? `${weeks / 4} month${weeks / 4 > 1 ? 's' : ''}`
+          : `${weeks} week${weeks > 1 ? 's' : ''}`;
+        successMessage = `Subscription paused for ${durationLabel}. You can resume anytime.`;
         break;
+      }
 
       case 'resume':
         result = await loopRequest(`/subscription/${loopSubscriptionId}/resume`, loopToken, 'POST');
         successMessage = 'Subscription resumed successfully';
         break;
 
+      case 'resume-now': {
+        // Step 1: Resume the subscription
+        result = await loopRequest(`/subscription/${loopSubscriptionId}/resume`, loopToken, 'POST');
+        if (!result.response.ok) {
+          // Resume failed — bail out before rescheduling
+          break;
+        }
+
+        // Step 2: GET the subscription to resolve the Loop internal ID (needed for reschedule)
+        const resumeSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        if (!resumeSubResult.response.ok) {
+          console.error('[RESUME-NOW] Resume succeeded but failed to fetch subscription for reschedule:', JSON.stringify(resumeSubResult.data));
+          // Resume worked — return success with a note that reschedule didn't happen
+          return NextResponse.json({
+            success: true,
+            message: 'Subscription resumed. You can reschedule your next delivery from your subscriptions page.',
+          });
+        }
+
+        const resumeLoopInternalId = resumeSubResult.data?.data?.id;
+        if (resumeLoopInternalId == null || !resumeNowEpoch) {
+          // Can't reschedule without internal ID or target date — still a successful resume
+          return NextResponse.json({
+            success: true,
+            message: 'Subscription resumed. You can reschedule your next delivery from your subscriptions page.',
+          });
+        }
+
+        // Step 3: Reschedule to the requested date
+        console.log(`[RESUME-NOW] Rescheduling to epoch ${resumeNowEpoch} using Loop internal ID: ${resumeLoopInternalId}`);
+        const rescheduleResult = await loopRequest(
+          `/subscription/${resumeLoopInternalId}/reschedule`,
+          loopToken,
+          'POST',
+          {
+            newBillingDateEpoch: resumeNowEpoch,
+            rescheduleFutureOrders: true,
+            notifyCustomer: true,
+          }
+        );
+
+        if (!rescheduleResult.response.ok) {
+          console.error('[RESUME-NOW] Resume succeeded but reschedule failed:', JSON.stringify(rescheduleResult.data));
+          return NextResponse.json({
+            success: true,
+            message: 'Subscription resumed. We couldn\'t adjust the delivery date automatically — you can reschedule from your subscriptions page.',
+          });
+        }
+
+        console.log('[RESUME-NOW] Resume + reschedule success');
+        successMessage = 'Subscription resumed — your next delivery is on the way!';
+        break;
+      }
+
       case 'cancel':
+        // Loop API: POST /subscription/{id}/cancel
+        // Loop accepts `comment` (not cancellationReason) for the customer's reason
         result = await loopRequest(`/subscription/${loopSubscriptionId}/cancel`, loopToken, 'POST', {
-          cancellationReason: reason,
+          comment: reason || undefined,
+          notifyCustomer: true,
         });
         successMessage = 'Subscription cancelled successfully';
         break;
 
-      case 'skip':
-        // Use the correct Loop API endpoint for skipping next order
-        // Based on Loop API docs: Order actions section
-        // First try updating next billing date (skip = delay next order)
-        result = await loopRequest(
-          `/subscription/${loopSubscriptionId}/order/reschedule`, 
-          loopToken, 
-          'POST',
-          { skipNextOrder: true }
+      case 'skip': {
+        // Loop API: POST /subscription/{loopInternalId}/skipNext
+        // https://developer.loopwork.co/reference/skip-next-order
+        // skipNext requires Loop's internal numeric ID, not shopify-{id}
+        const skipSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
         );
-        
-        // If that fails, try the direct skip endpoint
-        if (!result.response.ok) {
-          console.log('[SKIP] Reschedule endpoint failed, trying direct skip...');
-          result = await loopRequest(
-            `/subscription/${loopSubscriptionId}/skip`, 
-            loopToken, 
-            'POST'
-          );
+        if (!skipSubResult.response.ok) {
+          console.error('[SKIP] Failed to fetch subscription:', JSON.stringify(skipSubResult.data));
+          return NextResponse.json({
+            success: false,
+            error: 'Unable to skip this order right now. Please try again or contact support.',
+          }, { status: 502 });
         }
+        const skipLoopInternalId = skipSubResult.data?.data?.id;
+        if (skipLoopInternalId == null) {
+          return NextResponse.json({
+            success: false,
+            error: 'Could not resolve Loop subscription ID',
+          }, { status: 500 });
+        }
+        console.log(`[SKIP] Using Loop internal ID: ${skipLoopInternalId}`);
+        result = await loopRequest(
+          `/subscription/${skipLoopInternalId}/skipNext`,
+          loopToken,
+          'POST'
+        );
         successMessage = 'Next delivery skipped successfully';
         break;
+      }
 
       case 'change-frequency':
         if (!plan || !PLAN_CONFIGURATIONS[plan]) {
@@ -298,16 +397,16 @@ export async function POST(
         );
         
         if (!subDetailsResult.response.ok) {
+          console.error(`${logPrefix} Failed to fetch subscription:`, JSON.stringify(subDetailsResult.data));
           return NextResponse.json({
             success: false,
-            error: 'Failed to fetch subscription details',
-            loopResponse: subDetailsResult.data,
-          }, { status: subDetailsResult.response.status });
+            error: 'Unable to update your plan right now. Please try again or contact support.',
+          }, { status: 502 });
         }
-        
+
         const subscriptionData = subDetailsResult.data.data;
         const lines = subscriptionData?.lines || [];
-        
+
         // Loop's internal numeric ID — required for PUT /frequency (not the shopify-{id} format)
         const loopInternalId = subscriptionData?.id;
         
@@ -417,10 +516,7 @@ export async function POST(
                 {
                   success: false,
                   partial: true,
-                  error: 'Plan product was updated but we could not update your billing schedule. Please contact support so we can fix this for you.',
-                  message: freqResult.data?.message || 'Billing interval update failed',
-                  loopResponse: freqResult.data,
-                  loopSubscriptionId,
+                  error: 'Your product was updated but we could not update your billing schedule. Please contact support so we can fix this for you.',
                 },
                 { status: 503 }
               );
@@ -432,9 +528,7 @@ export async function POST(
               {
                 success: false,
                 partial: true,
-                error: 'Plan product was updated but we could not update your billing schedule. Please contact support so we can fix this for you.',
-                message: 'Missing subscription ID for frequency update',
-                loopSubscriptionId,
+                error: 'Your product was updated but we could not update your billing schedule. Please contact support so we can fix this for you.',
               },
               { status: 503 }
             );
@@ -455,7 +549,8 @@ export async function POST(
         // Step 1: GET subscription to get Loop internal ID and current billing policy
         const subDetailsResult = await loopRequest(`/subscription/${loopSubscriptionId}`, loopToken, 'GET');
         if (!subDetailsResult.response.ok) {
-          return NextResponse.json({ success: false, error: 'Failed to fetch subscription details' }, { status: 500 });
+          console.error(`[Loop edit-multi-line][${loopSubscriptionId}] Failed to fetch subscription:`, JSON.stringify(subDetailsResult.data));
+          return NextResponse.json({ success: false, error: 'Unable to update your subscription right now. Please try again or contact support.' }, { status: 502 });
         }
 
         const subscriptionData = subDetailsResult.data.data;
@@ -514,11 +609,11 @@ export async function POST(
           );
 
           if (!swapResult.response.ok) {
+            console.error(`${logPrefix} Swap failed for line ${lineId}:`, JSON.stringify(swapResult.data));
             return NextResponse.json({
               success: false,
-              error: `Failed to update line ${lineId}: ${swapResult.data?.message || 'Swap failed'}`,
-              loopResponse: swapResult.data,
-            }, { status: swapResult.response.status || 500 });
+              error: 'We couldn\'t update one of your products. Please try again or contact support.',
+            }, { status: 502 });
           }
         }
 
@@ -582,27 +677,35 @@ export async function POST(
     });
 
     if (!result.response.ok) {
+      // Log full Loop response server-side for debugging, but don't expose to client
+      console.error(`[${action.toUpperCase()}] Loop API error:`, JSON.stringify(result.data));
+
+      // Map action to user-friendly error messages
+      const userErrors: Record<string, string> = {
+        pause: 'Unable to pause your subscription right now. Please try again or contact support.',
+        resume: 'Unable to resume your subscription right now. Please try again or contact support.',
+        'resume-now': 'Unable to resume your subscription right now. Please try again or contact support.',
+        cancel: 'Unable to cancel your subscription right now. Please try again or contact support.',
+        skip: 'Unable to skip your next order right now. Please try again or contact support.',
+        'change-frequency': 'Unable to update your plan right now. Please try again or contact support.',
+      };
+
       return NextResponse.json({
         success: false,
-        error: result.data.message || `Failed to ${action} subscription`,
-        loopResponse: result.data,
-        loopSubscriptionId,
-      }, { status: result.response.status });
+        error: userErrors[action] || 'Something went wrong. Please try again or contact support.',
+      }, { status: 502 });
     }
 
     return NextResponse.json({
       success: true,
       message: successMessage,
-      subscription: result.data.data || result.data,
-      ...(action === 'change-frequency' && plan ? { updatedPlan: PLAN_CONFIGURATIONS[plan] } : {}),
     });
 
   } catch (error) {
-    console.error(`[${action.toUpperCase()}] Error:`, error);
+    console.error(`[${action.toUpperCase()}] Unexpected error:`, error);
     return NextResponse.json({
       success: false,
-      error: `Failed to ${action} subscription`,
-      details: String(error),
+      error: 'Something went wrong. Please try again or contact support.',
     }, { status: 500 });
   }
 }

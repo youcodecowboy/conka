@@ -174,7 +174,7 @@ export async function skipNextOrder(
   subscriptionId: string
 ): Promise<LoopApiResponse<{ success: boolean }>> {
   return loopFetch<{ success: boolean }>(
-    `/subscription/${subscriptionId}/order/skip`,
+    `/subscription/${subscriptionId}/skipNext`,
     {
       method: 'POST',
     }

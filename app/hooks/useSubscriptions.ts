@@ -22,14 +22,15 @@ interface UseSubscriptionsReturn {
   loading: boolean;
   error: string | null;
   fetchSubscriptions: () => Promise<void>;
-  pauseSubscription: (subscriptionId: string) => Promise<boolean>;
-  resumeSubscription: (subscriptionId: string) => Promise<boolean>;
+  pauseSubscription: (subscriptionId: string, weeks?: number) => Promise<boolean>;
+  resumeSubscription: (subscriptionId: string, resumeNowEpoch?: number) => Promise<boolean>;
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
   changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', protocolId?: string) => Promise<ChangePlanResult>;
   editMultiLine: (subscriptionId: string, lines: Array<{ lineId: string | number; productKey: string; size: number }>, plan?: 'starter' | 'pro' | 'max') => Promise<ChangePlanResult>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
   updateQuantity: (subscriptionId: string, quantity: number) => Promise<boolean>;
+  rescheduleSubscription: (subscriptionId: string, newDateEpoch: number) => Promise<boolean>;
   sendPaymentUpdateEmail: (subscriptionId: string, paymentMethodId: number) => Promise<{ success: boolean; message: string }>;
 }
 
@@ -126,8 +127,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
   }, []);
 
   // Pause subscription - uses the consolidated pause route
+  // weeks: optional pause duration in weeks (1-12). If omitted, defaults to 12 weeks (3 months) server-side.
   const pauseSubscription = useCallback(
-    async (subscriptionId: string): Promise<boolean> => {
+    async (subscriptionId: string, weeks?: number): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
@@ -137,7 +139,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'pause' }),
+          body: JSON.stringify({ action: 'pause', ...(weeks ? { pauseWeeks: weeks } : {}) }),
         });
 
         const data = await response.json();
@@ -168,19 +170,21 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Resume subscription - uses the consolidated pause route with action: 'resume'
+  // Resume subscription - uses the consolidated pause route with action: 'resume' or 'resume-now'
+  // If resumeNowEpoch is provided, uses 'resume-now' to resume and reschedule in one call.
   const resumeSubscription = useCallback(
-    async (subscriptionId: string): Promise<boolean> => {
+    async (subscriptionId: string, resumeNowEpoch?: number): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
         const numericId = extractShopifyId(subscriptionId);
+        const action = resumeNowEpoch ? 'resume-now' : 'resume';
         const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'resume' }),
+          body: JSON.stringify({ action, ...(resumeNowEpoch ? { resumeNowEpoch } : {}) }),
         });
 
         const data = await response.json();
@@ -423,6 +427,51 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     [changePlan]
   );
 
+  // Reschedule next delivery date — calls dedicated /reschedule route
+  const rescheduleSubscription = useCallback(
+    async (subscriptionId: string, newDateEpoch: number): Promise<boolean> => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/reschedule`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ newBillingDateEpoch: newDateEpoch }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.error || 'Failed to reschedule delivery');
+          return false;
+        }
+
+        // Update local state with new billing date
+        if (data.nextBillingDate) {
+          setSubscriptions((prev) =>
+            prev.map((sub) =>
+              sub.id === subscriptionId
+                ? { ...sub, nextBillingDate: data.nextBillingDate }
+                : sub
+            )
+          );
+        }
+
+        return true;
+      } catch (err) {
+        console.error('Failed to reschedule subscription:', err);
+        setError('Failed to reschedule delivery');
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   const sendPaymentUpdateEmail = useCallback(
     async (
       subscriptionId: string,
@@ -457,6 +506,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     changePlan,
     updateFrequency,
     updateQuantity,
+    rescheduleSubscription,
     sendPaymentUpdateEmail,
   };
 }

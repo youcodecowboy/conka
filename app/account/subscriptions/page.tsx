@@ -7,6 +7,9 @@ import { useAuth } from "@/app/context/AuthContext";
 import { useSubscriptions, Subscription } from "@/app/hooks/useSubscriptions";
 import { usePaymentMethods } from "@/app/hooks/usePaymentMethods";
 import { CancellationModal } from "@/app/components/subscriptions/CancellationModal";
+import { PauseModal } from "@/app/components/subscriptions/PauseModal";
+import { RescheduleModal } from "@/app/components/subscriptions/RescheduleModal";
+import { ResumeModal } from "@/app/components/subscriptions/ResumeModal";
 import { EditSubscriptionModal } from "@/app/components/subscriptions/EditSubscriptionModal";
 import { MultiLineEditModal } from "@/app/components/subscriptions/MultiLineEditModal";
 import { SubscriptionsPageHeader } from "@/app/components/subscriptions/SubscriptionsPageHeader";
@@ -26,6 +29,14 @@ import {
 
 type SubscriptionTier = "starter" | "pro" | "max";
 
+/** Build a display name for modals — lists all product names for multi-line subscriptions */
+function getSubscriptionDisplayName(subscription: Subscription): string {
+  if (subscription.isMultiLine && subscription.lines && subscription.lines.length > 1) {
+    return subscription.lines.map((line) => line.productTitle).join(' + ');
+  }
+  return subscription.product.title || "Subscription";
+}
+
 export default function SubscriptionsPage() {
   const router = useRouter();
   const { customer, isAuthenticated, loading: authLoading } = useAuth();
@@ -40,6 +51,7 @@ export default function SubscriptionsPage() {
     skipNextOrder,
     changePlan,
     editMultiLine,
+    rescheduleSubscription,
   } = useSubscriptions();
 
   const {
@@ -52,7 +64,11 @@ export default function SubscriptionsPage() {
 
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [showCancelModal, setShowCancelModal] = useState<string | null>(null);
+  const [showPauseModal, setShowPauseModal] = useState<Subscription | null>(null);
+  const [showResumeModal, setShowResumeModal] = useState<Subscription | null>(null);
+  const [showRescheduleModal, setShowRescheduleModal] = useState<Subscription | null>(null);
   const [showEditModal, setShowEditModal] = useState<Subscription | null>(null);
+  const [initialFetchDone, setInitialFetchDone] = useState(false);
   const [successMessage, setSuccessMessage] = useState<{
     subscriptionId: string;
     message: string;
@@ -66,7 +82,7 @@ export default function SubscriptionsPage() {
 
   useEffect(() => {
     if (customer) {
-      fetchSubscriptions();
+      fetchSubscriptions().then(() => setInitialFetchDone(true));
     }
   }, [customer, fetchSubscriptions]);
 
@@ -82,14 +98,63 @@ export default function SubscriptionsPage() {
   };
 
   const handleTogglePause = async (subscription: Subscription) => {
-    setActionLoading(subscription.id);
     if (subscription.status === "paused") {
-      await resumeSubscription(subscription.id);
+      // Show resume modal so the user can choose when to restart deliveries
+      setShowResumeModal(subscription);
     } else {
-      await pauseSubscription(subscription.id);
+      // Show pause duration modal for active subscriptions
+      setShowPauseModal(subscription);
     }
-    await fetchSubscriptions();
+  };
+
+  const handleResumeFromModal = async (resumeNowEpoch?: number): Promise<boolean> => {
+    if (!showResumeModal) return false;
+    setActionLoading(showResumeModal.id);
+    const success = await resumeSubscription(showResumeModal.id, resumeNowEpoch);
+    if (success) {
+      await fetchSubscriptions();
+      setSuccessMessage({
+        subscriptionId: showResumeModal.id,
+        message: resumeNowEpoch
+          ? "Subscription resumed — your next delivery is on the way!"
+          : "Subscription resumed successfully.",
+      });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    }
     setActionLoading(null);
+    return success;
+  };
+
+  const handlePauseFromModal = async (weeks: number): Promise<boolean> => {
+    if (!showPauseModal) return false;
+    setActionLoading(showPauseModal.id);
+    const success = await pauseSubscription(showPauseModal.id, weeks);
+    if (success) {
+      await fetchSubscriptions();
+      setSuccessMessage({
+        subscriptionId: showPauseModal.id,
+        message: "Subscription paused. You can resume anytime.",
+      });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    }
+    setActionLoading(null);
+    return success;
+  };
+
+  const handleRescheduleFromModal = async (newDateEpoch: number): Promise<boolean> => {
+    if (!showRescheduleModal) return false;
+    setActionLoading(showRescheduleModal.id);
+    const success = await rescheduleSubscription(showRescheduleModal.id, newDateEpoch);
+    if (success) {
+      await fetchSubscriptions();
+      setSuccessMessage({
+        subscriptionId: showRescheduleModal.id,
+        message: "Delivery rescheduled successfully.",
+      });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    }
+    setActionLoading(null);
+    return success;
   };
 
   const getTierFromQuantity = (quantity: number): SubscriptionTier => {
@@ -151,7 +216,7 @@ export default function SubscriptionsPage() {
     return result;
   };
 
-  if (authLoading || loading) {
+  if (authLoading || (!initialFetchDone && loading)) {
     return (
       <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)] flex items-center justify-center">
         <div className="text-center">
@@ -227,6 +292,7 @@ export default function SubscriptionsPage() {
                           onEdit={() => setShowEditModal(subscription)}
                           onTogglePause={() => handleTogglePause(subscription)}
                           onSkipNext={() => handleSkipNext(subscription)}
+                          onReschedule={() => setShowRescheduleModal(subscription)}
                           onCancel={() => setShowCancelModal(subscription.id)}
                           onDismissSuccess={() => setSuccessMessage(null)}
                           primaryMethod={primaryMethod}
@@ -265,13 +331,42 @@ export default function SubscriptionsPage() {
         </section>
       </main>
 
+      <PauseModal
+        isOpen={!!showPauseModal}
+        onClose={() => setShowPauseModal(null)}
+        onPause={handlePauseFromModal}
+        subscriptionName={showPauseModal ? getSubscriptionDisplayName(showPauseModal) : "Subscription"}
+        interval={showPauseModal?.interval}
+      />
+
+      <ResumeModal
+        isOpen={!!showResumeModal}
+        onClose={() => setShowResumeModal(null)}
+        onResume={handleResumeFromModal}
+        subscriptionName={showResumeModal ? getSubscriptionDisplayName(showResumeModal) : "Subscription"}
+        currentNextBillingDate={showResumeModal?.nextBillingDate}
+        interval={showResumeModal?.interval}
+      />
+
+      <RescheduleModal
+        isOpen={!!showRescheduleModal}
+        onClose={() => setShowRescheduleModal(null)}
+        onReschedule={handleRescheduleFromModal}
+        subscriptionName={showRescheduleModal ? getSubscriptionDisplayName(showRescheduleModal) : "Subscription"}
+        currentNextBillingDate={showRescheduleModal?.nextBillingDate}
+        hasUnfulfilledOrder={showRescheduleModal?.hasUnfulfilledOrder}
+        interval={showRescheduleModal?.interval}
+      />
+
       <CancellationModal
         isOpen={!!showCancelModal}
         onClose={() => setShowCancelModal(null)}
         onCancel={handleCancelFromModal}
         subscriptionName={
-          subscriptions.find((s) => s.id === showCancelModal)?.product.title ||
-          "Subscription"
+          (() => {
+            const sub = subscriptions.find((s) => s.id === showCancelModal);
+            return sub ? getSubscriptionDisplayName(sub) : "Subscription";
+          })()
         }
         currentPlan={
           showCancelModal
@@ -296,7 +391,7 @@ export default function SubscriptionsPage() {
           isOpen={!!showEditModal}
           onClose={() => setShowEditModal(null)}
           onSave={handleChangePlan}
-          subscriptionName={showEditModal?.product.title || "Subscription"}
+          subscriptionName={showEditModal ? getSubscriptionDisplayName(showEditModal) : "Subscription"}
           subscriptionId={showEditModal?.id}
           subscriptionType={showEditModal ? getSubscriptionType(showEditModal) : "protocol"}
           currentProtocolId={showEditModal ? getProtocolFromSubscription(showEditModal) : "1"}
