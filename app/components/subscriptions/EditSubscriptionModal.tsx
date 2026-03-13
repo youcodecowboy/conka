@@ -1,7 +1,8 @@
 "use client";
 
-import { SUPPORT_EMAIL } from "@/app/lib/supportEmail";
+import Image from "next/image";
 import { ContactSupportLink } from "@/app/components/ContactSupportLink";
+import { getProtocolImage, getFormulaImage } from "@/app/lib/productImageConfig";
 import {
   PROTOCOLS,
   FORMULAS,
@@ -14,6 +15,7 @@ import { useSubscriptionEditor } from "@/app/hooks/useSubscriptionEditor";
 import { SubscriptionIcon } from "./SubscriptionIcon";
 import { ProductSelectorPanel } from "./ProductSelectorPanel";
 import { TierSelectorPanel } from "./TierSelectorPanel";
+import { PlanPreviewBar } from "./PlanPreviewBar";
 import { SaveErrorBanner } from "./SaveErrorBanner";
 
 interface EditSubscriptionModalProps {
@@ -97,6 +99,8 @@ export function EditSubscriptionModal({
 
   const currentTierInfo = getTierInfo(currentProtocolId, currentTier);
   const currentPlanShots = currentTierInfo?.deliveryShots;
+  const currentProtocolName = PROTOCOLS.find((p) => p.id === currentProtocolId)?.name;
+  const currentFormulaName = FORMULAS.find((f) => f.id === currentFormulaId)?.name;
 
   const formattedNextBilling = nextBillingDate
     ? new Date(nextBillingDate).toLocaleDateString("en-GB", {
@@ -126,31 +130,65 @@ export function EditSubscriptionModal({
       {/* Modal - Desktop */}
       <div className="relative bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] w-full max-w-4xl max-h-[90vh] overflow-hidden hidden md:flex flex-col shadow-xl">
         {/* Header */}
-        <div className="border-b border-[var(--color-premium-stroke)] px-6 py-4 flex items-center justify-between">
-          <div>
+        <div className="border-b border-[var(--color-premium-stroke)] px-6 py-4">
+          <div className="flex items-start justify-between mb-3">
             <h2 className="text-xl font-bold text-[var(--color-ink)]" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
               Edit Plan
             </h2>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-0.5">
-              {subscriptionName}
-            </p>
-            {currentPlanShots != null && isProtocol && (
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
-                Your current plan: {currentPlanShots} shots per delivery
-              </p>
-            )}
-            {!isProtocol && (
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
-                Your current: {FORMULAS.find((f) => f.id === currentFormulaId)?.name} · {currentPackSize} shots
-              </p>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] transition-colors text-[var(--color-ink)]"
+            >
+              <SubscriptionIcon name="close" className="w-5 h-5" />
+            </button>
+          </div>
+          {/* Current plan visual summary */}
+          <div className="flex items-center gap-3 p-3 rounded-[var(--premium-radius-nested)] bg-[var(--color-surface)] border border-[var(--color-premium-stroke)]">
+            {isProtocol ? (
+              <>
+                {getProtocolImage(currentProtocolId) && (
+                  <div className="w-12 h-12 flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden">
+                    <Image
+                      src={getProtocolImage(currentProtocolId)}
+                      alt={currentProtocolName ?? 'Protocol'}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)]">Your current plan</p>
+                  <p className="font-semibold text-sm text-[var(--color-ink)]">
+                    {currentProtocolName ?? 'Protocol'} · {currentPlanShots ?? '–'} shots · {currentTierInfo?.frequency ?? '–'}
+                  </p>
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+                    £{currentTierInfo?.price.toFixed(2) ?? '–'} · {currentTierInfo?.billing ?? '–'}
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                {getFormulaImage(currentFormulaId) && (
+                  <div className="w-12 h-12 flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden">
+                    <Image
+                      src={getFormulaImage(currentFormulaId)}
+                      alt={currentFormulaName ?? 'Formula'}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="premium-body-sm text-[var(--text-on-light-muted)]">Your current plan</p>
+                  <p className="font-semibold text-sm text-[var(--color-ink)]">
+                    {currentFormulaName ?? 'Formula'} · {currentPackSize} shots
+                  </p>
+                </div>
+              </>
             )}
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] transition-colors text-[var(--color-ink)]"
-          >
-            <SubscriptionIcon name="close" className="w-5 h-5" />
-          </button>
         </div>
 
         {/* Content */}
@@ -193,6 +231,18 @@ export function EditSubscriptionModal({
 
         {/* Desktop Footer */}
         <div className="border-t border-[var(--color-premium-stroke)] p-6 bg-[var(--color-bone)]">
+          <PlanPreviewBar
+            isProtocol={isProtocol}
+            currentProtocolId={currentProtocolId}
+            currentTier={currentTier}
+            currentFormulaId={currentFormulaId}
+            currentPackSize={currentPackSize}
+            selectedProtocol={selectedProtocol}
+            selectedTier={selectedTier}
+            selectedFormulaId={selectedFormulaId}
+            selectedPackSize={selectedPackSize}
+            hasChanges={hasChanges}
+          />
           {hasUnfulfilledFirstOrder && hasChanges && (
             <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] bg-[var(--color-neuro-blue-light)] border border-[var(--color-neuro-blue-start)]">
               <div className="flex items-start gap-2">
@@ -279,26 +329,57 @@ export function EditSubscriptionModal({
       {/* Modal - Mobile */}
       <div className="relative bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] w-full max-h-[90vh] overflow-hidden flex flex-col md:hidden shadow-xl">
         {/* Header */}
-        <div className="border-b border-[var(--color-premium-stroke)] px-4 py-3 flex items-center justify-between">
-          <div className="min-w-0">
+        <div className="border-b border-[var(--color-premium-stroke)] px-4 py-3">
+          <div className="flex items-start justify-between mb-2">
             <h2 className="font-bold text-[var(--color-ink)]" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>Edit Plan</h2>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] truncate mt-0.5">
-              {subscriptionName}
-            </p>
-            {isProtocol && currentPlanShots != null && (
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
-                Your current plan: {currentPlanShots} shots per delivery
-              </p>
-            )}
-            {!isProtocol && (
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
-                Your current: {FORMULAS.find((f) => f.id === currentFormulaId)?.name} · {currentPackSize} shots
-              </p>
+            <button onClick={onClose} className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] text-[var(--color-ink)]">
+              <SubscriptionIcon name="close" className="w-5 h-5" />
+            </button>
+          </div>
+          {/* Current plan visual summary — mobile */}
+          <div className="flex items-center gap-2.5 p-2.5 rounded-[var(--premium-radius-nested)] bg-[var(--color-surface)] border border-[var(--color-premium-stroke)]">
+            {isProtocol ? (
+              <>
+                {getProtocolImage(currentProtocolId) && (
+                  <div className="w-10 h-10 flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden">
+                    <Image
+                      src={getProtocolImage(currentProtocolId)}
+                      alt={currentProtocolName ?? 'Protocol'}
+                      width={40}
+                      height={40}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-xs text-[var(--text-on-light-muted)]">Current plan</p>
+                  <p className="font-semibold text-sm text-[var(--color-ink)] truncate">
+                    {currentProtocolName ?? 'Protocol'} · {currentPlanShots ?? '–'} shots · {currentTierInfo?.frequency ?? '–'}
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                {getFormulaImage(currentFormulaId) && (
+                  <div className="w-10 h-10 flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden">
+                    <Image
+                      src={getFormulaImage(currentFormulaId)}
+                      alt={currentFormulaName ?? 'Formula'}
+                      width={40}
+                      height={40}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-xs text-[var(--text-on-light-muted)]">Current plan</p>
+                  <p className="font-semibold text-sm text-[var(--color-ink)] truncate">
+                    {currentFormulaName ?? 'Formula'} · {currentPackSize} shots
+                  </p>
+                </div>
+              </>
             )}
           </div>
-          <button onClick={onClose} className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] text-[var(--color-ink)]">
-            <SubscriptionIcon name="close" className="w-5 h-5" />
-          </button>
         </div>
 
         {/* Mobile Steps */}
@@ -362,6 +443,19 @@ export function EditSubscriptionModal({
 
         {/* Mobile Footer */}
         <div className="border-t border-[var(--color-premium-stroke)] p-4 bg-[var(--color-bone)]">
+          <PlanPreviewBar
+            isProtocol={isProtocol}
+            currentProtocolId={currentProtocolId}
+            currentTier={currentTier}
+            currentFormulaId={currentFormulaId}
+            currentPackSize={currentPackSize}
+            selectedProtocol={selectedProtocol}
+            selectedTier={selectedTier}
+            selectedFormulaId={selectedFormulaId}
+            selectedPackSize={selectedPackSize}
+            hasChanges={hasChanges}
+            compact={true}
+          />
           {hasUnfulfilledFirstOrder && hasChanges && (
             <div className="mb-3 p-2 rounded-[var(--premium-radius-nested)] bg-[var(--color-neuro-blue-light)] border border-[var(--color-neuro-blue-start)]">
               <div className="flex items-start gap-2">
