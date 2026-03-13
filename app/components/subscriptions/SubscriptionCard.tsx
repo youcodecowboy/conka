@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { Subscription } from "@/app/hooks/useSubscriptions";
 import type { PaymentMethod } from "@/app/types/paymentMethod";
 import type { TierDisplayInfo } from "@/app/account/subscriptions/utils";
@@ -26,6 +27,7 @@ interface SubscriptionCardProps {
   onSkipNext?: () => void;
   onReschedule?: () => void;
   onPlaceOrder?: () => void;
+  onApplyDiscount?: (code: string) => Promise<{ success: boolean; message: string }>;
 }
 
 export function SubscriptionCard({
@@ -45,7 +47,30 @@ export function SubscriptionCard({
   onSkipNext,
   onReschedule,
   onPlaceOrder,
+  onApplyDiscount,
 }: SubscriptionCardProps) {
+  const [discountExpanded, setDiscountExpanded] = useState(false);
+  const [discountCode, setDiscountCode] = useState('');
+  const [discountLoading, setDiscountLoading] = useState(false);
+  const [discountFeedback, setDiscountFeedback] = useState<{ success: boolean; message: string } | null>(null);
+
+  const handleApplyDiscount = async () => {
+    if (!onApplyDiscount || !discountCode.trim()) return;
+    setDiscountLoading(true);
+    setDiscountFeedback(null);
+    try {
+      const result = await onApplyDiscount(discountCode.trim());
+      setDiscountFeedback(result);
+      if (result.success) {
+        setDiscountCode('');
+        setTimeout(() => { setDiscountExpanded(false); setDiscountFeedback(null); }, 3000);
+      }
+    } catch {
+      setDiscountFeedback({ success: false, message: 'Something went wrong. Please try again.' });
+    } finally {
+      setDiscountLoading(false);
+    }
+  };
   const isMultiLine = subscription.isMultiLine ?? (subscription.lines?.length ?? 0) > 1;
   const lines = subscription.lines?.length ? subscription.lines : [{
     id: subscription.product?.id || '0',
@@ -415,6 +440,70 @@ export function SubscriptionCard({
               </p>
             </div>
           </div>
+        </div>
+      )}
+
+      {subscription.status === "active" && onApplyDiscount && (
+        <div className="space-y-3">
+          {!discountExpanded ? (
+            <button
+              onClick={() => { setDiscountExpanded(true); setDiscountFeedback(null); }}
+              aria-expanded={false}
+              className="premium-body-sm font-medium text-[var(--color-neuro-blue-dark)] hover:underline flex items-center gap-1.5"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>
+              </svg>
+              Apply promo code
+            </button>
+          ) : (
+            <div className="space-y-2">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={discountCode}
+                  onChange={(e) => { setDiscountCode(e.target.value.toUpperCase()); setDiscountFeedback(null); }}
+                  placeholder="Enter promo code"
+                  aria-label="Promo code"
+                  maxLength={50}
+                  className="flex-1 px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-interactive)] premium-body-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-neuro-blue-dark)]/30 focus:border-[var(--color-neuro-blue-dark)]"
+                  disabled={discountLoading}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleApplyDiscount();
+                    }
+                  }}
+                />
+                <button
+                  onClick={handleApplyDiscount}
+                  disabled={discountLoading || !discountCode.trim()}
+                  aria-label={discountLoading ? 'Applying discount' : 'Apply discount code'}
+                  className="px-4 py-2 bg-[var(--color-neuro-blue-dark)] text-white rounded-[var(--premium-radius-interactive)] premium-body-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity flex items-center gap-2"
+                >
+                  {discountLoading ? (
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    'Apply'
+                  )}
+                </button>
+                <button
+                  onClick={() => { setDiscountExpanded(false); setDiscountCode(''); setDiscountFeedback(null); }}
+                  className="p-2 text-[var(--text-on-light-muted)] hover:text-[var(--color-ink)] transition-colors"
+                  aria-label="Close promo code"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+              {discountFeedback && (
+                <p className={`premium-body-sm ${discountFeedback.success ? 'text-green-700' : 'text-red-600'}`} role="status">
+                  {discountFeedback.message}
+                </p>
+              )}
+            </div>
+          )}
         </div>
       )}
 
