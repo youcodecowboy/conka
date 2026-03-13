@@ -103,7 +103,7 @@ const PLAN_CONFIGURATIONS = {
   },
 };
 
-type ActionType = 'pause' | 'resume' | 'resume-now' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line' | 'reactivate' | 'place-order';
+type ActionType = 'pause' | 'resume' | 'resume-now' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line' | 'reactivate' | 'place-order' | 'apply-discount';
 type PlanType = 'starter' | 'pro' | 'max';
 type ProtocolIdType = '1' | '2' | '3' | '4';
 
@@ -115,6 +115,7 @@ interface ActionRequest {
   pauseWeeks?: number; // Pause duration in weeks (1-12). Defaults to 12 (3 months).
   resumeNowEpoch?: number; // For resume-now: epoch timestamp for the new next billing date
   lines?: Array<{ lineId: string | number; productKey: string; size: number }>;
+  discountCode?: string; // For apply-discount: Shopify discount code to apply
 }
 
 /**
@@ -696,6 +697,47 @@ export async function POST(
         break;
       }
 
+      case 'apply-discount': {
+        // Loop Admin API: POST /subscription/{loopInternalId}/discount
+        // Applies a Shopify discount code to the subscription.
+        const code = body.discountCode?.trim();
+        if (!code) {
+          return NextResponse.json({
+            success: false,
+            error: 'Please enter a discount code.',
+          }, { status: 400 });
+        }
+
+        const discountSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        if (!discountSubResult.response.ok) {
+          console.error('[APPLY-DISCOUNT] Failed to fetch subscription:', JSON.stringify(discountSubResult.data));
+          return NextResponse.json({
+            success: false,
+            error: 'Unable to apply discount right now. Please try again or contact support.',
+          }, { status: 502 });
+        }
+        const discountLoopInternalId = discountSubResult.data?.data?.id;
+        if (discountLoopInternalId == null) {
+          return NextResponse.json({
+            success: false,
+            error: 'Could not resolve subscription ID. Please contact support.',
+          }, { status: 500 });
+        }
+        console.log(`[APPLY-DISCOUNT] Using Loop internal ID: ${discountLoopInternalId}, code: ${code}`);
+        result = await loopRequest(
+          `/subscription/${discountLoopInternalId}/discount`,
+          loopToken,
+          'POST',
+          { code }
+        );
+        successMessage = 'Discount code applied!';
+        break;
+      }
+
       case 'place-order': {
         // Loop API: POST /subscription/{loopInternalId}/placeOrder
         // Places an immediate order. Requires Loop's internal numeric ID.
@@ -755,6 +797,7 @@ export async function POST(
         'change-frequency': 'Unable to update your plan right now. Please try again or contact support.',
         'reactivate': 'Unable to reactivate your subscription right now. The product may no longer be available — please contact support or start a new subscription.',
         'place-order': 'Unable to place an order right now. Please try again or contact support.',
+        'apply-discount': 'This discount code is invalid or cannot be applied to this subscription.',
       };
 
       return NextResponse.json({
