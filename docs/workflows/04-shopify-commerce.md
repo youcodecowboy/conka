@@ -231,6 +231,8 @@ The `change-frequency` and `skip` actions in the codebase already follow this pa
 | Swap line | PUT | `/subscription/{id}/line/{lineId}/swap` | `shopify-{id}` | `variantShopifyId`, `quantity`, `pricingType`, `sellingPlanGroupId` |
 | Update frequency | PUT | `/subscription/{id}/frequency` | **Loop internal ID** | `billingPolicy`, `deliveryPolicy`, `nextBillingDateEpoch`, `discountType` |
 | **Reschedule delivery** | POST | `/subscription/{id}/reschedule` | **Loop internal ID** | `newBillingDateEpoch`, optional `rescheduleFutureOrders` (default true), `notifyCustomer` (default true) |
+| **Reactivate** | POST | `/subscription/{id}/reactivate` | **Loop internal ID** | — (no body) |
+| **Place order now** | POST | `/subscription/{id}/placeOrder` | **Loop internal ID** | optional `preponeFutureOrder` (default true) |
 | Get customer | GET | `/customer/{customerShopifyId}` | Shopify customer ID | — |
 | Update payment method | POST | `/paymentMethod/{id}/update` (storefront API) | Loop payment method ID | — |
 
@@ -364,6 +366,8 @@ sellingPlanGroups(first: 5) {
 - **Cancel uses `comment`, not `cancellationReason`:** The `cancellationReason` field only appears in Loop responses. To send a reason, use `comment` in the request body.
 - **Pause `pauseDuration` format:** `{ intervalCount: number, intervalType: 'DAY' | 'MONTH' | 'YEAR' | 'CUSTOM' }`. Loop does NOT accept `WEEK` as intervalType. Use `DAY` (with days = weeks × 7) for sub-month durations, `MONTH` for exact month multiples. Max pause is 3 billing cycles.
 - **Reschedule has a dedicated endpoint:** Use `POST /subscription/{loopInternalId}/reschedule` — NOT `PUT /frequency`. The frequency endpoint validates selling plans against Shopify's product catalog, which fails on multi-line subscriptions where a variant's selling plan doesn't match the billing interval. The dedicated reschedule endpoint skips this validation entirely.
+- **Reactivate uses Loop internal ID:** `POST /subscription/{loopInternalId}/reactivate` — no body needed. Must GET subscription first to resolve internal ID. Only works on cancelled subscriptions — not paused (use resume for paused). May fail if the product/variant has been discontinued since cancellation.
+- **placeOrder uses Loop internal ID:** `POST /subscription/{loopInternalId}/placeOrder` — optional `preponeFutureOrder: true` shifts future deliveries forward. May fail if there's already an unfulfilled order.
 - **Rate limit:** 5 requests per second. The plan change flow makes 2-3 sequential calls — stay aware.
 
 ---

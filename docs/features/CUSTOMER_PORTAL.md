@@ -143,6 +143,8 @@ Reschedule has its own dedicated route: `POST /api/auth/subscriptions/[id]/resch
 | Skip              | `{ action: 'skip' }`                                                                                       | `POST /subscription/{loopInternalId}/skipNext`  | `/pause` |
 | Change plan       | `{ action: 'change-frequency', plan: 'starter' \| 'pro' \| 'max', protocolId?: '1'\|'2'\|'3'\|'4' }`      | `PUT .../line/{lineId}/swap` + `PUT .../frequency` | `/pause` |
 | Edit multi-line   | `{ action: 'edit-multi-line', lines: LineEdit[], plan?: 'starter' \| 'pro' \| 'max' }`                     | `PUT .../line/{lineId}/swap` (per line) + `PUT .../frequency` | `/pause` |
+| Reactivate        | `{ action: 'reactivate' }`                                                                                 | `POST /subscription/{loopInternalId}/reactivate` | `/pause` |
+| Place order now   | `{ action: 'place-order' }`                                                                                | `POST /subscription/{loopInternalId}/placeOrder` | `/pause` |
 | Reschedule        | `{ newBillingDateEpoch: number }`                                                                          | `POST /subscription/{loopInternalId}/reschedule` | `/reschedule` |
 
 The `[id]` is the Shopify subscription contract ID (GID or numeric). The route converts it to Loop's `shopify-{numericId}` format. Some Loop endpoints (skipNext, frequency, reschedule) require Loop's internal numeric ID — the route GETs the subscription first to resolve this.
@@ -151,7 +153,11 @@ The `[id]` is the Shopify subscription contract ID (GID or numeric). The route c
 
 **Resume behaviour:** Clicking "Resume" on a paused subscription opens the `ResumeModal.tsx` with two options: (1) **Resume now** — sets the next billing date to ~3 days from today (fulfillment lead time) so the customer gets a delivery soon; this calls `resume` then `reschedule` server-side. (2) **Resume on scheduled date** — keeps the existing (paused) next billing date; this calls `resume` only. If the scheduled date is already within a few days of now, the "resume now" option is hidden since both options would be effectively the same. Footer copy reminds the customer they can always reschedule after resuming. The server action `resume-now` is gracefully degraded: if the reschedule step fails after a successful resume, the subscription is still active and the customer is told they can reschedule manually.
 
-**Cancel behaviour:** The customer's cancellation reason is sent as `comment` (Loop's field name — not `cancellationReason`, which is only in responses). Loop sends a cancellation confirmation email to the customer (`notifyCustomer: true`).
+**Cancel behaviour:** The cancellation flow has a three-step modal: (1) reason selection, (2) retention offer, (3) final confirmation. The retention step shows a tailored alternative based on the reason — e.g. "Too expensive" suggests downgrading, "Not seeing results" suggests pausing. If the customer accepts the alternative, the cancel modal closes and the relevant action modal (pause/edit) opens. If they decline, they proceed to final confirmation. The customer's cancellation reason is sent as `comment` (Loop's field name — not `cancellationReason`, which is only in responses). Loop sends a cancellation confirmation email to the customer (`notifyCustomer: true`). The final confirmation step also tells the customer they can reactivate later.
+
+**Reactivate behaviour:** Cancelled subscriptions show a "Reactivate" button on the past subscriptions card. Clicking it opens `ReactivateModal.tsx` which explains that billing will resume on the original schedule. The server calls `POST /subscription/{loopInternalId}/reactivate` (Loop internal ID — resolved via GET first, same pattern as skip/frequency). On success, the subscription moves back to the active section. Error handling accounts for discontinued products — if the product/variant no longer exists, the error message directs the customer to start a new subscription.
+
+**Place order now behaviour:** Active subscription cards show an "Order Now" button (hidden when there's already an unfulfilled order, using the existing `hasUnfulfilledOrder` flag). Clicking it opens `PlaceOrderModal.tsx` which warns that the next scheduled delivery will shift forward. The server calls `POST /subscription/{loopInternalId}/placeOrder` with `preponeFutureOrder: true` (Loop internal ID). On success, subscription data is refreshed to show the updated next billing date.
 
 **Skip behaviour:** Skips the next upcoming order. The route resolves the Loop internal ID first (skipNext requires it), then calls `POST /subscription/{loopInternalId}/skipNext`.
 
@@ -160,7 +166,7 @@ The `[id]` is the Shopify subscription contract ID (GID or numeric). The route c
 **Error handling:** All Loop API errors are logged server-side with full details. Client responses contain only user-friendly messages — no internal Loop data is exposed.
 
 **Implementation:**
-- [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts) — pause, resume, cancel, skip, change-frequency, edit-multi-line
+- [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts) — pause, resume, cancel, skip, change-frequency, edit-multi-line, reactivate, place-order
 - [`app/api/auth/subscriptions/[id]/reschedule/route.ts`](../app/api/auth/subscriptions/[id]/reschedule/route.ts) — reschedule delivery date
 
 ---
@@ -306,6 +312,22 @@ After any subscription action, check Vercel function logs for:
 [RESCHEDULE] Success
 ```
 
+**Reactivate:**
+```
+[REACTIVATE] Input: {numericId} -> Loop format: shopify-{numericId}
+[REACTIVATE] Using Loop internal ID: {loopInternalId}
+[Loop API] POST .../subscription/{loopInternalId}/reactivate
+[Loop API] Response 200: {"success":true,...}
+```
+
+**Place order now:**
+```
+[PLACE-ORDER] Input: {numericId} -> Loop format: shopify-{numericId}
+[PLACE-ORDER] Using Loop internal ID: {loopInternalId}
+[Loop API] POST .../subscription/{loopInternalId}/placeOrder
+[Loop API] Response 200: {"success":true,"message":"Order placed successfully",...}
+```
+
 Then confirm in Loop's dashboard that both the product/variant and billing interval match the selection.
 
 ### Legacy product subscriptions
@@ -392,6 +414,8 @@ On clicking Update:
 | Pause duration modal           | [`app/components/subscriptions/PauseModal.tsx`](../app/components/subscriptions/PauseModal.tsx)                           |
 | Resume options modal           | [`app/components/subscriptions/ResumeModal.tsx`](../app/components/subscriptions/ResumeModal.tsx)                         |
 | Reschedule delivery modal      | [`app/components/subscriptions/RescheduleModal.tsx`](../app/components/subscriptions/RescheduleModal.tsx)                 |
+| Reactivate subscription modal  | [`app/components/subscriptions/ReactivateModal.tsx`](../app/components/subscriptions/ReactivateModal.tsx)                 |
+| Place order now modal          | [`app/components/subscriptions/PlaceOrderModal.tsx`](../app/components/subscriptions/PlaceOrderModal.tsx)                 |
 | GET subscriptions (hybrid)     | [`app/api/auth/subscriptions/route.ts`](../app/api/auth/subscriptions/route.ts)                                           |
 | Subscription actions           | [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts)                     |
 | Reschedule delivery            | [`app/api/auth/subscriptions/[id]/reschedule/route.ts`](../app/api/auth/subscriptions/[id]/reschedule/route.ts)           |
