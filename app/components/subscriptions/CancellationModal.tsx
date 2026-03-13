@@ -18,13 +18,13 @@ const RETENTION_OFFERS: Record<string, {
   title: string;
   description: string;
   actionLabel: string;
-  actionType: 'pause' | 'edit' | 'reschedule';
+  actionType: 'pause' | 'edit' | 'reschedule' | 'discount';
 }> = {
   too_expensive: {
-    title: 'Try a smaller plan instead?',
-    description: 'You could switch to a Starter pack (4 shots/week) at a lower price. You can always upgrade again later.',
-    actionLabel: 'Change my plan',
-    actionType: 'edit',
+    title: 'How about 15% off?',
+    description: 'We\'d love you to stay. We can give you 15% off your next 3 deliveries — no strings attached.',
+    actionLabel: 'Yes, apply 15% off',
+    actionType: 'discount',
   },
   not_seeing_results: {
     title: 'Take a break instead?',
@@ -62,6 +62,8 @@ interface CancellationModalProps {
   onPauseInstead?: () => void;
   /** Called when user chooses "edit plan" from retention step */
   onEditInstead?: () => void;
+  /** Called when user accepts the retention discount offer */
+  onApplyDiscount?: (code: string) => Promise<{ success: boolean; message: string }>;
 }
 
 type Step = 'reason' | 'retention' | 'confirm';
@@ -74,12 +76,14 @@ export function CancellationModal({
   currentPlan,
   onPauseInstead,
   onEditInstead,
+  onApplyDiscount,
 }: CancellationModalProps) {
   const [step, setStep] = useState<Step>('reason');
   const [selectedReason, setSelectedReason] = useState<string>('');
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [discountLoading, setDiscountLoading] = useState(false);
 
   if (!isOpen) return null;
 
@@ -95,8 +99,27 @@ export function CancellationModal({
     }
   };
 
-  const handleRetentionAction = () => {
+  const handleRetentionAction = async () => {
     if (!retentionOffer) return;
+
+    if (retentionOffer.actionType === 'discount' && onApplyDiscount) {
+      setDiscountLoading(true);
+      setError(null);
+      try {
+        const result = await onApplyDiscount('RETENTION15');
+        if (result.success) {
+          handleClose();
+        } else {
+          setError(result.message || 'Could not apply discount. You can try again or continue cancelling.');
+        }
+      } catch {
+        setError('Something went wrong. You can try again or continue cancelling.');
+      } finally {
+        setDiscountLoading(false);
+      }
+      return;
+    }
+
     handleClose();
     if (retentionOffer.actionType === 'pause' && onPauseInstead) {
       onPauseInstead();
@@ -255,17 +278,29 @@ export function CancellationModal({
               </div>
 
               <div className="space-y-3 pt-2">
-                {(onPauseInstead || onEditInstead) && (
+                {(onPauseInstead || onEditInstead || (retentionOffer.actionType === 'discount' && onApplyDiscount)) && (
                   <button
                     onClick={handleRetentionAction}
-                    className="w-full py-3 bg-[var(--color-neuro-blue-dark)] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+                    disabled={discountLoading}
+                    className="w-full py-3 bg-[var(--color-neuro-blue-dark)] text-white rounded-lg font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
                   >
-                    {retentionOffer.actionLabel}
+                    {discountLoading ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Applying discount...
+                      </span>
+                    ) : (
+                      retentionOffer.actionLabel
+                    )}
                   </button>
                 )}
                 <button
                   onClick={() => setStep('confirm')}
-                  className="w-full py-3 border border-gray-200 rounded-lg font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                  disabled={discountLoading}
+                  className="w-full py-3 border border-gray-200 rounded-lg font-medium text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
                 >
                   I still want to cancel
                 </button>
