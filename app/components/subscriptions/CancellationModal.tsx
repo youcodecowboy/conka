@@ -13,6 +13,44 @@ const CANCELLATION_REASONS = [
   { id: 'other', label: 'Other reason' },
 ] as const;
 
+// Retention suggestions mapped to cancellation reasons
+const RETENTION_OFFERS: Record<string, {
+  title: string;
+  description: string;
+  actionLabel: string;
+  actionType: 'pause' | 'edit' | 'reschedule';
+}> = {
+  too_expensive: {
+    title: 'Try a smaller plan instead?',
+    description: 'You could switch to a Starter pack (4 shots/week) at a lower price. You can always upgrade again later.',
+    actionLabel: 'Change my plan',
+    actionType: 'edit',
+  },
+  not_seeing_results: {
+    title: 'Take a break instead?',
+    description: 'Pausing your subscription lets you take a break without losing your plan. You can resume anytime — no need to set up a new subscription.',
+    actionLabel: 'Pause instead',
+    actionType: 'pause',
+  },
+  too_frequent: {
+    title: 'Adjust your delivery schedule?',
+    description: 'You can switch to a less frequent delivery — bi-weekly or monthly — so you only get what you need.',
+    actionLabel: 'Change my plan',
+    actionType: 'edit',
+  },
+  too_infrequent: {
+    title: 'Get deliveries more often?',
+    description: 'You can switch to weekly or bi-weekly deliveries so you never run out.',
+    actionLabel: 'Change my plan',
+    actionType: 'edit',
+  },
+  no_longer_needed: {
+    title: 'Pause for a while instead?',
+    description: 'If you might want to come back later, pausing keeps your subscription ready. Resume whenever you like.',
+    actionLabel: 'Pause instead',
+    actionType: 'pause',
+  },
+};
 
 interface CancellationModalProps {
   isOpen: boolean;
@@ -20,9 +58,13 @@ interface CancellationModalProps {
   onCancel: (reason: string, comment?: string) => Promise<boolean>;
   subscriptionName: string;
   currentPlan?: string;
+  /** Called when user chooses "pause instead" from retention step */
+  onPauseInstead?: () => void;
+  /** Called when user chooses "edit plan" from retention step */
+  onEditInstead?: () => void;
 }
 
-type Step = 'reason' | 'confirm';
+type Step = 'reason' | 'retention' | 'confirm';
 
 export function CancellationModal({
   isOpen,
@@ -30,6 +72,8 @@ export function CancellationModal({
   onCancel,
   subscriptionName,
   currentPlan,
+  onPauseInstead,
+  onEditInstead,
 }: CancellationModalProps) {
   const [step, setStep] = useState<Step>('reason');
   const [selectedReason, setSelectedReason] = useState<string>('');
@@ -39,15 +83,32 @@ export function CancellationModal({
 
   if (!isOpen) return null;
 
+  const retentionOffer = RETENTION_OFFERS[selectedReason];
+
   const handleReasonSubmit = () => {
     if (!selectedReason) return;
-    setStep('confirm');
+    // Show retention step if there's a relevant offer, otherwise go straight to confirm
+    if (retentionOffer) {
+      setStep('retention');
+    } else {
+      setStep('confirm');
+    }
+  };
+
+  const handleRetentionAction = () => {
+    if (!retentionOffer) return;
+    handleClose();
+    if (retentionOffer.actionType === 'pause' && onPauseInstead) {
+      onPauseInstead();
+    } else if ((retentionOffer.actionType === 'edit' || retentionOffer.actionType === 'reschedule') && onEditInstead) {
+      onEditInstead();
+    }
   };
 
   const handleConfirmCancel = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const success = await onCancel(selectedReason, comment);
       if (success) {
@@ -73,11 +134,11 @@ export function CancellationModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
+      <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={handleClose}
       />
-      
+
       {/* Modal */}
       <div className="relative bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
@@ -85,6 +146,7 @@ export function CancellationModal({
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">
               {step === 'reason' && 'Cancel Subscription'}
+              {step === 'retention' && 'Before you go'}
               {step === 'confirm' && 'Confirm Cancellation'}
             </h2>
             <button
@@ -114,7 +176,7 @@ export function CancellationModal({
               <p className="text-gray-600">
                 We&apos;re sorry to see you go. Please let us know why you&apos;re cancelling:
               </p>
-              
+
               <div className="space-y-2">
                 {CANCELLATION_REASONS.map((reason) => (
                   <label
@@ -175,7 +237,49 @@ export function CancellationModal({
             </div>
           )}
 
-          {/* Step 2: Final Confirmation */}
+          {/* Step 2: Retention Offer */}
+          {step === 'retention' && retentionOffer && (
+            <div className="space-y-4">
+              <div className="text-center mb-2">
+                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4" />
+                    <path d="M12 8h.01" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold">{retentionOffer.title}</h3>
+                <p className="text-gray-600 text-sm mt-2">
+                  {retentionOffer.description}
+                </p>
+              </div>
+
+              <div className="space-y-3 pt-2">
+                {(onPauseInstead || onEditInstead) && (
+                  <button
+                    onClick={handleRetentionAction}
+                    className="w-full py-3 bg-[var(--color-neuro-blue-dark)] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+                  >
+                    {retentionOffer.actionLabel}
+                  </button>
+                )}
+                <button
+                  onClick={() => setStep('confirm')}
+                  className="w-full py-3 border border-gray-200 rounded-lg font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  I still want to cancel
+                </button>
+                <button
+                  onClick={handleClose}
+                  className="w-full py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  Never mind, keep my subscription
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Final Confirmation */}
           {step === 'confirm' && (
             <div className="space-y-4">
               <div className="text-center mb-6">
@@ -204,9 +308,15 @@ export function CancellationModal({
                 </div>
               </div>
 
+              <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  You can reactivate your subscription at any time from your account page.
+                </p>
+              </div>
+
               <div className="flex gap-3 pt-4">
                 <button
-                  onClick={() => setStep('reason')}
+                  onClick={() => setStep(retentionOffer ? 'retention' : 'reason')}
                   disabled={loading}
                   className="flex-1 py-3 border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
                 >
@@ -237,4 +347,3 @@ export function CancellationModal({
     </div>
   );
 }
-
