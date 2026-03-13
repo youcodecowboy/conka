@@ -138,6 +138,7 @@ Reschedule has its own dedicated route: `POST /api/auth/subscriptions/[id]/resch
 | ----------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ----- |
 | Pause             | `{ action: 'pause', pauseWeeks?: number }`                                                                 | `POST /subscription/{shopify-id}/pause`         | `/pause` |
 | Resume            | `{ action: 'resume' }`                                                                                     | `POST /subscription/{shopify-id}/resume`        | `/pause` |
+| Resume now        | `{ action: 'resume-now', resumeNowEpoch: number }`                                                        | `POST .../resume` + `POST .../reschedule`       | `/pause` |
 | Cancel            | `{ action: 'cancel', reason?: string }`                                                                    | `POST /subscription/{shopify-id}/cancel`        | `/pause` |
 | Skip              | `{ action: 'skip' }`                                                                                       | `POST /subscription/{loopInternalId}/skipNext`  | `/pause` |
 | Change plan       | `{ action: 'change-frequency', plan: 'starter' \| 'pro' \| 'max', protocolId?: '1'\|'2'\|'3'\|'4' }`      | `PUT .../line/{lineId}/swap` + `PUT .../frequency` | `/pause` |
@@ -147,6 +148,8 @@ Reschedule has its own dedicated route: `POST /api/auth/subscriptions/[id]/resch
 The `[id]` is the Shopify subscription contract ID (GID or numeric). The route converts it to Loop's `shopify-{numericId}` format. Some Loop endpoints (skipNext, frequency, reschedule) require Loop's internal numeric ID — the route GETs the subscription first to resolve this.
 
 **Pause behaviour:** Clicking "Pause Subscription" opens a cycle-based duration picker modal (`PauseModal.tsx`) offering 1, 2, or 3 billing cycles based on the subscription's interval (e.g. monthly → 1/2/3 months, bi-weekly → 2/4/6 weeks). The selected duration is sent as `pauseWeeks` in the request body. The server converts this to Loop's `pauseDuration` format (`{ intervalCount, intervalType: 'DAY' | 'MONTH' }`) — note that Loop does NOT accept `WEEK` as an intervalType; sub-month durations use `DAY` with days = weeks × 7. Loop auto-resumes the subscription after the selected period. Customers can resume manually at any time.
+
+**Resume behaviour:** Clicking "Resume" on a paused subscription opens the `ResumeModal.tsx` with two options: (1) **Resume now** — sets the next billing date to ~3 days from today (fulfillment lead time) so the customer gets a delivery soon; this calls `resume` then `reschedule` server-side. (2) **Resume on scheduled date** — keeps the existing (paused) next billing date; this calls `resume` only. If the scheduled date is already within a few days of now, the "resume now" option is hidden since both options would be effectively the same. Footer copy reminds the customer they can always reschedule after resuming. The server action `resume-now` is gracefully degraded: if the reschedule step fails after a successful resume, the subscription is still active and the customer is told they can reschedule manually.
 
 **Cancel behaviour:** The customer's cancellation reason is sent as `comment` (Loop's field name — not `cancellationReason`, which is only in responses). Loop sends a cancellation confirmation email to the customer (`notifyCustomer: true`).
 
@@ -387,6 +390,7 @@ On clicking Update:
 | Edit plan modal (single-line)  | [`app/components/subscriptions/EditSubscriptionModal.tsx`](../app/components/subscriptions/EditSubscriptionModal.tsx)     |
 | Edit plan modal (multi-line)   | [`app/components/subscriptions/MultiLineEditModal.tsx`](../app/components/subscriptions/MultiLineEditModal.tsx)           |
 | Pause duration modal           | [`app/components/subscriptions/PauseModal.tsx`](../app/components/subscriptions/PauseModal.tsx)                           |
+| Resume options modal           | [`app/components/subscriptions/ResumeModal.tsx`](../app/components/subscriptions/ResumeModal.tsx)                         |
 | Reschedule delivery modal      | [`app/components/subscriptions/RescheduleModal.tsx`](../app/components/subscriptions/RescheduleModal.tsx)                 |
 | GET subscriptions (hybrid)     | [`app/api/auth/subscriptions/route.ts`](../app/api/auth/subscriptions/route.ts)                                           |
 | Subscription actions           | [`app/api/auth/subscriptions/[id]/pause/route.ts`](../app/api/auth/subscriptions/[id]/pause/route.ts)                     |
