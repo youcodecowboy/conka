@@ -103,7 +103,7 @@ const PLAN_CONFIGURATIONS = {
   },
 };
 
-type ActionType = 'pause' | 'resume' | 'resume-now' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line';
+type ActionType = 'pause' | 'resume' | 'resume-now' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line' | 'reactivate' | 'place-order';
 type PlanType = 'starter' | 'pro' | 'max';
 type ProtocolIdType = '1' | '2' | '3' | '4';
 
@@ -664,6 +664,71 @@ export async function POST(
         });
       }
 
+      case 'reactivate': {
+        // Loop API: POST /subscription/{loopInternalId}/reactivate
+        // Reactivates a cancelled subscription. Requires Loop's internal numeric ID.
+        const reactivateSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        if (!reactivateSubResult.response.ok) {
+          console.error('[REACTIVATE] Failed to fetch subscription:', JSON.stringify(reactivateSubResult.data));
+          return NextResponse.json({
+            success: false,
+            error: 'Unable to reactivate this subscription right now. Please try again or contact support.',
+          }, { status: 502 });
+        }
+        const reactivateLoopInternalId = reactivateSubResult.data?.data?.id;
+        if (reactivateLoopInternalId == null) {
+          return NextResponse.json({
+            success: false,
+            error: 'Could not resolve subscription ID. Please contact support.',
+          }, { status: 500 });
+        }
+        console.log(`[REACTIVATE] Using Loop internal ID: ${reactivateLoopInternalId}`);
+        result = await loopRequest(
+          `/subscription/${reactivateLoopInternalId}/reactivate`,
+          loopToken,
+          'POST'
+        );
+        successMessage = 'Subscription reactivated! Your deliveries will resume on their original schedule.';
+        break;
+      }
+
+      case 'place-order': {
+        // Loop API: POST /subscription/{loopInternalId}/placeOrder
+        // Places an immediate order. Requires Loop's internal numeric ID.
+        const placeOrderSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        if (!placeOrderSubResult.response.ok) {
+          console.error('[PLACE-ORDER] Failed to fetch subscription:', JSON.stringify(placeOrderSubResult.data));
+          return NextResponse.json({
+            success: false,
+            error: 'Unable to place an order right now. Please try again or contact support.',
+          }, { status: 502 });
+        }
+        const placeOrderLoopInternalId = placeOrderSubResult.data?.data?.id;
+        if (placeOrderLoopInternalId == null) {
+          return NextResponse.json({
+            success: false,
+            error: 'Could not resolve subscription ID. Please contact support.',
+          }, { status: 500 });
+        }
+        console.log(`[PLACE-ORDER] Using Loop internal ID: ${placeOrderLoopInternalId}`);
+        result = await loopRequest(
+          `/subscription/${placeOrderLoopInternalId}/placeOrder`,
+          loopToken,
+          'POST',
+          { preponeFutureOrder: true }
+        );
+        successMessage = 'Order placed! Your delivery is on the way.';
+        break;
+      }
+
       default:
         return NextResponse.json({
           success: false,
@@ -688,6 +753,8 @@ export async function POST(
         cancel: 'Unable to cancel your subscription right now. Please try again or contact support.',
         skip: 'Unable to skip your next order right now. Please try again or contact support.',
         'change-frequency': 'Unable to update your plan right now. Please try again or contact support.',
+        'reactivate': 'Unable to reactivate your subscription right now. The product may no longer be available — please contact support or start a new subscription.',
+        'place-order': 'Unable to place an order right now. Please try again or contact support.',
       };
 
       return NextResponse.json({
