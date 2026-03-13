@@ -25,6 +25,7 @@ interface SubscriptionCardProps {
   paymentCooldownUntil?: number;
   onSkipNext?: () => void;
   onReschedule?: () => void;
+  onPlaceOrder?: () => void;
 }
 
 export function SubscriptionCard({
@@ -43,6 +44,7 @@ export function SubscriptionCard({
   paymentCooldownUntil = 0,
   onSkipNext,
   onReschedule,
+  onPlaceOrder,
 }: SubscriptionCardProps) {
   const isMultiLine = subscription.isMultiLine ?? (subscription.lines?.length ?? 0) > 1;
   const lines = subscription.lines?.length ? subscription.lines : [{
@@ -511,6 +513,20 @@ export function SubscriptionCard({
               <line x1="3" y1="10" x2="21" y2="10"/>
             </svg>
             Reschedule Delivery
+          </button>
+        )}
+        {subscription.status === "active" && onPlaceOrder && !subscription.hasUnfulfilledOrder && (
+          <button
+            onClick={onPlaceOrder}
+            disabled={isActionLoading}
+            className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-ink)]/40 bg-[var(--color-bone)] px-5 py-2.5 premium-body-sm font-semibold text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] hover:border-[var(--color-ink)]/50 disabled:opacity-50 flex items-center gap-2 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1"/>
+              <circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            Order Now
           </button>
         )}
         <button
