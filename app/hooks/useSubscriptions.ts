@@ -28,6 +28,7 @@ interface UseSubscriptionsReturn {
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
   reactivateSubscription: (subscriptionId: string) => Promise<boolean>;
   placeOrderNow: (subscriptionId: string) => Promise<boolean>;
+  applyDiscount: (subscriptionId: string, code: string) => Promise<{ success: boolean; message: string }>;
   changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', protocolId?: string) => Promise<ChangePlanResult>;
   editMultiLine: (subscriptionId: string, lines: Array<{ lineId: string | number; productKey: string; size: number }>, plan?: 'starter' | 'pro' | 'max') => Promise<ChangePlanResult>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
@@ -366,6 +367,37 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     [fetchSubscriptions]
   );
 
+  // Apply a discount code to a subscription
+  const applyDiscount = useCallback(
+    async (subscriptionId: string, code: string): Promise<{ success: boolean; message: string }> => {
+      // Don't set hook-level error/loading — the SubscriptionCard manages its own
+      // inline feedback for discount operations to avoid a double-error display.
+      try {
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'apply-discount', discountCode: code }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          return { success: false, message: data.error || 'Invalid discount code' };
+        }
+
+        // Refresh subscriptions to show updated discount
+        await fetchSubscriptions();
+        return { success: true, message: data.message || 'Discount applied!' };
+      } catch (err) {
+        console.error('Failed to apply discount:', err);
+        return { success: false, message: 'Failed to apply discount code' };
+      }
+    },
+    [fetchSubscriptions]
+  );
+
   const editMultiLine = useCallback(
     async (
       subscriptionId: string,
@@ -578,6 +610,7 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     skipNextOrder,
     reactivateSubscription,
     placeOrderNow,
+    applyDiscount,
     editMultiLine,
     changePlan,
     updateFrequency,
