@@ -12,6 +12,21 @@ import {
 } from "@/app/account/orders/utils";
 import { ContactSupportLink } from "@/app/components/ContactSupportLink";
 
+/**
+ * Map a line item title to a product page URL.
+ * Returns null if the product can't be matched.
+ */
+function getProductPageUrl(title: string): string | null {
+  const t = (title || "").toLowerCase();
+  if (t.includes("flow")) return "/conka-flow";
+  if (t.includes("clear") || t.includes("clarity")) return "/conka-clarity";
+  if (t.includes("resilience")) return "/protocol/1";
+  if (t.includes("precision")) return "/protocol/2";
+  if (t.includes("balance")) return "/protocol/3";
+  if (t.includes("ultimate")) return "/protocol/4";
+  return null;
+}
+
 function OrderStatusIcon({ status }: { status: string }) {
   switch (status?.toLowerCase()) {
     case "fulfilled":
