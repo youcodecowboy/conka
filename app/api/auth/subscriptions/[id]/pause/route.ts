@@ -247,13 +247,13 @@ export async function POST(
         const weeks = Math.min(Math.max(pauseWeeks || MAX_PAUSE_WEEKS, 1), MAX_PAUSE_WEEKS);
 
         // Convert weeks to Loop's pauseDuration format
-        // Use WEEK for durations < 4 weeks, MONTH for 4+ weeks (cleaner for Loop)
+        // Loop's valid intervalType enum: DAY, MONTH, YEAR, CUSTOM (NOT WEEK)
+        // Use MONTH for durations that are exact multiples of 4 weeks, DAY otherwise
         let pauseDuration: { intervalCount: number; intervalType: string };
-        if (weeks < 4) {
-          pauseDuration = { intervalCount: weeks, intervalType: 'WEEK' };
+        if (weeks >= 4 && weeks % 4 === 0) {
+          pauseDuration = { intervalCount: weeks / 4, intervalType: 'MONTH' };
         } else {
-          // 4 weeks ≈ 1 month, 8 weeks ≈ 2 months, 12 weeks ≈ 3 months
-          pauseDuration = { intervalCount: Math.round(weeks / 4), intervalType: 'MONTH' };
+          pauseDuration = { intervalCount: weeks * 7, intervalType: 'DAY' };
         }
 
         result = await loopRequest(`/subscription/${loopSubscriptionId}/pause`, loopToken, 'POST', {
@@ -261,7 +261,9 @@ export async function POST(
         });
 
         // Build a human-readable duration label for the success message
-        const durationLabel = weeks < 4 ? `${weeks} week${weeks > 1 ? 's' : ''}` : `${Math.round(weeks / 4)} month${Math.round(weeks / 4) > 1 ? 's' : ''}`;
+        const durationLabel = (weeks >= 4 && weeks % 4 === 0)
+          ? `${weeks / 4} month${weeks / 4 > 1 ? 's' : ''}`
+          : `${weeks} week${weeks > 1 ? 's' : ''}`;
         successMessage = `Subscription paused for ${durationLabel}. You can resume anytime.`;
         break;
       }
