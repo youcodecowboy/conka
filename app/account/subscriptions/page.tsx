@@ -425,6 +425,10 @@ export default function SubscriptionsPage() {
           const sub = subscriptions.find((s) => s.id === showCancelModal);
           if (sub) setShowEditModal(sub);
         }}
+        onApplyDiscount={showCancelModal
+          ? (code) => applyDiscount(showCancelModal, code)
+          : undefined
+        }
       />
 
       <ReactivateModal
