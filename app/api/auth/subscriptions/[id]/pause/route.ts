@@ -103,7 +103,7 @@ const PLAN_CONFIGURATIONS = {
   },
 };
 
-type ActionType = 'pause' | 'resume' | 'resume-now' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line';
+type ActionType = 'pause' | 'resume' | 'resume-now' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line' | 'reactivate' | 'place-order' | 'apply-discount';
 type PlanType = 'starter' | 'pro' | 'max';
 type ProtocolIdType = '1' | '2' | '3' | '4';
 
@@ -115,6 +115,7 @@ interface ActionRequest {
   pauseWeeks?: number; // Pause duration in weeks (1-12). Defaults to 12 (3 months).
   resumeNowEpoch?: number; // For resume-now: epoch timestamp for the new next billing date
   lines?: Array<{ lineId: string | number; productKey: string; size: number }>;
+  discountCode?: string; // For apply-discount: Shopify discount code to apply
 }
 
 /**
@@ -664,6 +665,112 @@ export async function POST(
         });
       }
 
+      case 'reactivate': {
+        // Loop API: POST /subscription/{loopInternalId}/reactivate
+        // Reactivates a cancelled subscription. Requires Loop's internal numeric ID.
+        const reactivateSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        if (!reactivateSubResult.response.ok) {
+          console.error('[REACTIVATE] Failed to fetch subscription:', JSON.stringify(reactivateSubResult.data));
+          return NextResponse.json({
+            success: false,
+            error: 'Unable to reactivate this subscription right now. Please try again or contact support.',
+          }, { status: 502 });
+        }
+        const reactivateLoopInternalId = reactivateSubResult.data?.data?.id;
+        if (reactivateLoopInternalId == null) {
+          return NextResponse.json({
+            success: false,
+            error: 'Could not resolve subscription ID. Please contact support.',
+          }, { status: 500 });
+        }
+        console.log(`[REACTIVATE] Using Loop internal ID: ${reactivateLoopInternalId}`);
+        result = await loopRequest(
+          `/subscription/${reactivateLoopInternalId}/reactivate`,
+          loopToken,
+          'POST'
+        );
+        successMessage = 'Subscription reactivated! Your deliveries will resume on their original schedule.';
+        break;
+      }
+
+      case 'apply-discount': {
+        // Loop Admin API: POST /subscription/{loopInternalId}/discount
+        // Applies a Shopify discount code to the subscription.
+        const code = body.discountCode?.trim();
+        if (!code) {
+          return NextResponse.json({
+            success: false,
+            error: 'Please enter a discount code.',
+          }, { status: 400 });
+        }
+
+        const discountSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        if (!discountSubResult.response.ok) {
+          console.error('[APPLY-DISCOUNT] Failed to fetch subscription:', JSON.stringify(discountSubResult.data));
+          return NextResponse.json({
+            success: false,
+            error: 'Unable to apply discount right now. Please try again or contact support.',
+          }, { status: 502 });
+        }
+        const discountLoopInternalId = discountSubResult.data?.data?.id;
+        if (discountLoopInternalId == null) {
+          return NextResponse.json({
+            success: false,
+            error: 'Could not resolve subscription ID. Please contact support.',
+          }, { status: 500 });
+        }
+        console.log(`[APPLY-DISCOUNT] Using Loop internal ID: ${discountLoopInternalId}, code: ${code}`);
+        result = await loopRequest(
+          `/subscription/${discountLoopInternalId}/discount`,
+          loopToken,
+          'POST',
+          { code }
+        );
+        successMessage = 'Discount code applied!';
+        break;
+      }
+
+      case 'place-order': {
+        // Loop API: POST /subscription/{loopInternalId}/placeOrder
+        // Places an immediate order. Requires Loop's internal numeric ID.
+        const placeOrderSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        if (!placeOrderSubResult.response.ok) {
+          console.error('[PLACE-ORDER] Failed to fetch subscription:', JSON.stringify(placeOrderSubResult.data));
+          return NextResponse.json({
+            success: false,
+            error: 'Unable to place an order right now. Please try again or contact support.',
+          }, { status: 502 });
+        }
+        const placeOrderLoopInternalId = placeOrderSubResult.data?.data?.id;
+        if (placeOrderLoopInternalId == null) {
+          return NextResponse.json({
+            success: false,
+            error: 'Could not resolve subscription ID. Please contact support.',
+          }, { status: 500 });
+        }
+        console.log(`[PLACE-ORDER] Using Loop internal ID: ${placeOrderLoopInternalId}`);
+        result = await loopRequest(
+          `/subscription/${placeOrderLoopInternalId}/placeOrder`,
+          loopToken,
+          'POST',
+          { preponeFutureOrder: true }
+        );
+        successMessage = 'Order placed! Your delivery is on the way.';
+        break;
+      }
+
       default:
         return NextResponse.json({
           success: false,
@@ -688,6 +795,9 @@ export async function POST(
         cancel: 'Unable to cancel your subscription right now. Please try again or contact support.',
         skip: 'Unable to skip your next order right now. Please try again or contact support.',
         'change-frequency': 'Unable to update your plan right now. Please try again or contact support.',
+        'reactivate': 'Unable to reactivate your subscription right now. The product may no longer be available — please contact support or start a new subscription.',
+        'place-order': 'Unable to place an order right now. Please try again or contact support.',
+        'apply-discount': 'This discount code is invalid or cannot be applied to this subscription.',
       };
 
       return NextResponse.json({

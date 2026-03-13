@@ -17,6 +17,8 @@ import { SubscriptionSummaryStats } from "@/app/components/subscriptions/Subscri
 import { EmptySubscriptionsState } from "@/app/components/subscriptions/EmptySubscriptionsState";
 import { SubscriptionCard } from "@/app/components/subscriptions/SubscriptionCard";
 import { PastSubscriptionCard } from "@/app/components/subscriptions/PastSubscriptionCard";
+import { ReactivateModal } from "@/app/components/subscriptions/ReactivateModal";
+import { PlaceOrderModal } from "@/app/components/subscriptions/PlaceOrderModal";
 import { SubscriptionsHelpCard } from "@/app/components/subscriptions/SubscriptionsHelpCard";
 import {
   getProtocolFromSubscription,
@@ -49,6 +51,9 @@ export default function SubscriptionsPage() {
     resumeSubscription,
     cancelSubscription,
     skipNextOrder,
+    reactivateSubscription,
+    placeOrderNow,
+    applyDiscount,
     changePlan,
     editMultiLine,
     rescheduleSubscription,
@@ -68,6 +73,8 @@ export default function SubscriptionsPage() {
   const [showResumeModal, setShowResumeModal] = useState<Subscription | null>(null);
   const [showRescheduleModal, setShowRescheduleModal] = useState<Subscription | null>(null);
   const [showEditModal, setShowEditModal] = useState<Subscription | null>(null);
+  const [showReactivateModal, setShowReactivateModal] = useState<Subscription | null>(null);
+  const [showPlaceOrderModal, setShowPlaceOrderModal] = useState<Subscription | null>(null);
   const [initialFetchDone, setInitialFetchDone] = useState(false);
   const [successMessage, setSuccessMessage] = useState<{
     subscriptionId: string;
@@ -150,6 +157,36 @@ export default function SubscriptionsPage() {
       setSuccessMessage({
         subscriptionId: showRescheduleModal.id,
         message: "Delivery rescheduled successfully.",
+      });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    }
+    setActionLoading(null);
+    return success;
+  };
+
+  const handleReactivateFromModal = async (): Promise<boolean> => {
+    if (!showReactivateModal) return false;
+    setActionLoading(showReactivateModal.id);
+    const success = await reactivateSubscription(showReactivateModal.id);
+    if (success) {
+      setSuccessMessage({
+        subscriptionId: showReactivateModal.id,
+        message: "Subscription reactivated! Your deliveries will resume.",
+      });
+      setTimeout(() => setSuccessMessage(null), 5000);
+    }
+    setActionLoading(null);
+    return success;
+  };
+
+  const handlePlaceOrderFromModal = async (): Promise<boolean> => {
+    if (!showPlaceOrderModal) return false;
+    setActionLoading(showPlaceOrderModal.id);
+    const success = await placeOrderNow(showPlaceOrderModal.id);
+    if (success) {
+      setSuccessMessage({
+        subscriptionId: showPlaceOrderModal.id,
+        message: "Order placed! Your delivery is on the way.",
       });
       setTimeout(() => setSuccessMessage(null), 5000);
     }
@@ -293,6 +330,8 @@ export default function SubscriptionsPage() {
                           onTogglePause={() => handleTogglePause(subscription)}
                           onSkipNext={() => handleSkipNext(subscription)}
                           onReschedule={() => setShowRescheduleModal(subscription)}
+                          onPlaceOrder={() => setShowPlaceOrderModal(subscription)}
+                          onApplyDiscount={(code) => applyDiscount(subscription.id, code)}
                           onCancel={() => setShowCancelModal(subscription.id)}
                           onDismissSuccess={() => setSuccessMessage(null)}
                           primaryMethod={primaryMethod}
@@ -318,6 +357,8 @@ export default function SubscriptionsPage() {
                         <PastSubscriptionCard
                           key={subscription.id}
                           subscription={subscription}
+                          onReactivate={() => setShowReactivateModal(subscription)}
+                          isActionLoading={actionLoading === subscription.id}
                         />
                       ))}
                     </div>
@@ -376,6 +417,32 @@ export default function SubscriptionsPage() {
               )
             : undefined
         }
+        onPauseInstead={() => {
+          const sub = subscriptions.find((s) => s.id === showCancelModal);
+          if (sub) setShowPauseModal(sub);
+        }}
+        onEditInstead={() => {
+          const sub = subscriptions.find((s) => s.id === showCancelModal);
+          if (sub) setShowEditModal(sub);
+        }}
+        onApplyDiscount={showCancelModal
+          ? (code) => applyDiscount(showCancelModal, code)
+          : undefined
+        }
+      />
+
+      <ReactivateModal
+        isOpen={!!showReactivateModal}
+        onClose={() => setShowReactivateModal(null)}
+        onReactivate={handleReactivateFromModal}
+        subscriptionName={showReactivateModal ? getSubscriptionDisplayName(showReactivateModal) : "Subscription"}
+      />
+
+      <PlaceOrderModal
+        isOpen={!!showPlaceOrderModal}
+        onClose={() => setShowPlaceOrderModal(null)}
+        onPlaceOrder={handlePlaceOrderFromModal}
+        subscriptionName={showPlaceOrderModal ? getSubscriptionDisplayName(showPlaceOrderModal) : "Subscription"}
       />
 
       {showEditModal && showEditModal.isMultiLine ? (

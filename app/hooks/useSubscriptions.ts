@@ -26,6 +26,9 @@ interface UseSubscriptionsReturn {
   resumeSubscription: (subscriptionId: string, resumeNowEpoch?: number) => Promise<boolean>;
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
+  reactivateSubscription: (subscriptionId: string) => Promise<boolean>;
+  placeOrderNow: (subscriptionId: string) => Promise<boolean>;
+  applyDiscount: (subscriptionId: string, code: string) => Promise<{ success: boolean; message: string }>;
   changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', protocolId?: string) => Promise<ChangePlanResult>;
   editMultiLine: (subscriptionId: string, lines: Array<{ lineId: string | number; productKey: string; size: number }>, plan?: 'starter' | 'pro' | 'max') => Promise<ChangePlanResult>;
   updateFrequency: (subscriptionId: string, interval: SubscriptionInterval) => Promise<boolean>;
@@ -292,6 +295,109 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
+  // Reactivate a cancelled subscription — calls consolidated pause route with action: 'reactivate'
+  const reactivateSubscription = useCallback(
+    async (subscriptionId: string): Promise<boolean> => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'reactivate' }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.error || 'Failed to reactivate subscription');
+          return false;
+        }
+
+        // Refresh subscriptions to get updated state from Loop
+        await fetchSubscriptions();
+        return true;
+      } catch (err) {
+        console.error('Failed to reactivate subscription:', err);
+        setError('Failed to reactivate subscription');
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [fetchSubscriptions]
+  );
+
+  // Place an immediate order for an active subscription
+  const placeOrderNow = useCallback(
+    async (subscriptionId: string): Promise<boolean> => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'place-order' }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.error || 'Failed to place order');
+          return false;
+        }
+
+        // Refresh subscriptions to get updated next billing date
+        await fetchSubscriptions();
+        return true;
+      } catch (err) {
+        console.error('Failed to place order:', err);
+        setError('Failed to place order');
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [fetchSubscriptions]
+  );
+
+  // Apply a discount code to a subscription
+  const applyDiscount = useCallback(
+    async (subscriptionId: string, code: string): Promise<{ success: boolean; message: string }> => {
+      // Don't set hook-level error/loading — the SubscriptionCard manages its own
+      // inline feedback for discount operations to avoid a double-error display.
+      try {
+        const numericId = extractShopifyId(subscriptionId);
+        const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'apply-discount', discountCode: code }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          return { success: false, message: data.error || 'Invalid discount code' };
+        }
+
+        // Refresh subscriptions to show updated discount
+        await fetchSubscriptions();
+        return { success: true, message: data.message || 'Discount applied!' };
+      } catch (err) {
+        console.error('Failed to apply discount:', err);
+        return { success: false, message: 'Failed to apply discount code' };
+      }
+    },
+    [fetchSubscriptions]
+  );
+
   const editMultiLine = useCallback(
     async (
       subscriptionId: string,
@@ -502,6 +608,9 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     resumeSubscription,
     cancelSubscription,
     skipNextOrder,
+    reactivateSubscription,
+    placeOrderNow,
+    applyDiscount,
     editMultiLine,
     changePlan,
     updateFrequency,

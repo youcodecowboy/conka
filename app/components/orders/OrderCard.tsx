@@ -12,6 +12,21 @@ import {
 } from "@/app/account/orders/utils";
 import { ContactSupportLink } from "@/app/components/ContactSupportLink";
 
+/**
+ * Map a line item title to a product page URL.
+ * Returns null if the product can't be matched.
+ */
+function getProductPageUrl(title: string): string | null {
+  const t = (title || "").toLowerCase();
+  if (t.includes("flow")) return "/conka-flow";
+  if (t.includes("clear") || t.includes("clarity")) return "/conka-clarity";
+  if (t.includes("resilience")) return "/protocol/1";
+  if (t.includes("precision")) return "/protocol/2";
+  if (t.includes("balance")) return "/protocol/3";
+  if (t.includes("ultimate")) return "/protocol/4";
+  return null;
+}
+
 function OrderStatusIcon({ status }: { status: string }) {
   switch (status?.toLowerCase()) {
     case "fulfilled":
@@ -472,26 +487,39 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
             </div>
 
             <div className="flex flex-wrap gap-3 mt-6">
-              <Link
-                href="/quiz"
-                className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-6 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                  <path d="M22 12A10 10 0 0 0 12 2v10z" />
-                </svg>
-                Order Again
-              </Link>
+              {(() => {
+                // For single-product orders, link directly to the product page.
+                // For multi-product or unrecognized, fall back to the shop.
+                const uniqueTitles = [...new Set(order.lineItems.map((i) => i.title))];
+                const productUrl =
+                  uniqueTitles.length === 1
+                    ? getProductPageUrl(uniqueTitles[0])
+                    : null;
+                const href = productUrl || "/";
+                const label = productUrl ? "Order Again" : "Browse Products";
+                return (
+                  <Link
+                    href={href}
+                    className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-6 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                      <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                    </svg>
+                    {label}
+                  </Link>
+                );
+              })()}
               <ContactSupportLink
                 subject={`Order #${order.orderNumber}`}
                 variant="button-outline"
