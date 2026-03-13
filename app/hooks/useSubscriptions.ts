@@ -23,7 +23,7 @@ interface UseSubscriptionsReturn {
   error: string | null;
   fetchSubscriptions: () => Promise<void>;
   pauseSubscription: (subscriptionId: string, weeks?: number) => Promise<boolean>;
-  resumeSubscription: (subscriptionId: string) => Promise<boolean>;
+  resumeSubscription: (subscriptionId: string, resumeNowEpoch?: number) => Promise<boolean>;
   cancelSubscription: (subscriptionId: string, reason?: string) => Promise<boolean>;
   skipNextOrder: (subscriptionId: string) => Promise<boolean>;
   changePlan: (subscriptionId: string, plan: 'starter' | 'pro' | 'max', protocolId?: string) => Promise<ChangePlanResult>;
@@ -170,19 +170,21 @@ export function useSubscriptions(): UseSubscriptionsReturn {
     []
   );
 
-  // Resume subscription - uses the consolidated pause route with action: 'resume'
+  // Resume subscription - uses the consolidated pause route with action: 'resume' or 'resume-now'
+  // If resumeNowEpoch is provided, uses 'resume-now' to resume and reschedule in one call.
   const resumeSubscription = useCallback(
-    async (subscriptionId: string): Promise<boolean> => {
+    async (subscriptionId: string, resumeNowEpoch?: number): Promise<boolean> => {
       setLoading(true);
       setError(null);
 
       try {
         const numericId = extractShopifyId(subscriptionId);
+        const action = resumeNowEpoch ? 'resume-now' : 'resume';
         const response = await fetch(`/api/auth/subscriptions/${numericId}/pause`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'resume' }),
+          body: JSON.stringify({ action, ...(resumeNowEpoch ? { resumeNowEpoch } : {}) }),
         });
 
         const data = await response.json();
