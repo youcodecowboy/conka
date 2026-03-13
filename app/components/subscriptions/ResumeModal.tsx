@@ -78,15 +78,18 @@ export function ResumeModal({
     ? scheduledDate.getTime() <= resumeNowDate.getTime() + 24 * 60 * 60 * 1000
     : false;
 
+  // Effective selection: if only one option is visible, treat it as selected
+  const effectiveSelected = scheduledIsClose && !selected ? 'scheduled' : selected;
+
   const handleConfirm = async () => {
-    if (!selected) return;
+    if (!effectiveSelected) return;
     setLoading(true);
     setError(null);
 
     try {
       let success: boolean;
 
-      if (selected === 'now') {
+      if (effectiveSelected === 'now') {
         // Resume + reschedule to near date
         const epoch = Math.floor(resumeNowDate.getTime() / 1000);
         success = await onResume(epoch);
@@ -190,10 +193,8 @@ export function ResumeModal({
             {scheduledDateFormatted && (
               <label
                 className={`flex items-start p-4 border rounded-lg cursor-pointer transition-colors ${
-                  selected === 'scheduled' || scheduledIsClose
-                    ? selected === 'scheduled'
-                      ? 'border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-light)]/30'
-                      : 'border-gray-200 hover:border-gray-300'
+                  effectiveSelected === 'scheduled'
+                    ? 'border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-light)]/30'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -206,11 +207,11 @@ export function ResumeModal({
                   className="sr-only"
                 />
                 <div className={`w-4 h-4 rounded-full border-2 mr-3 mt-0.5 flex-shrink-0 flex items-center justify-center ${
-                  selected === 'scheduled'
+                  effectiveSelected === 'scheduled'
                     ? 'border-[var(--color-neuro-blue-dark)]'
                     : 'border-gray-300'
                 }`}>
-                  {selected === 'scheduled' && (
+                  {effectiveSelected === 'scheduled' && (
                     <div className="w-2 h-2 rounded-full bg-[var(--color-neuro-blue-dark)]" />
                   )}
                 </div>
@@ -238,7 +239,7 @@ export function ResumeModal({
             </button>
             <button
               onClick={handleConfirm}
-              disabled={selected == null || loading}
+              disabled={effectiveSelected == null || loading}
               className="flex-1 py-3 bg-[var(--color-neuro-blue-dark)] text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
             >
               {loading ? (
