@@ -3,9 +3,13 @@ import { formatInterval, getStatusColor } from "@/app/account/subscriptions/util
 
 interface PastSubscriptionCardProps {
   subscription: Subscription;
+  onReactivate?: () => void;
+  isActionLoading?: boolean;
 }
 
-export function PastSubscriptionCard({ subscription }: PastSubscriptionCardProps) {
+export function PastSubscriptionCard({ subscription, onReactivate, isActionLoading }: PastSubscriptionCardProps) {
+  const canReactivate = subscription.status === 'cancelled';
+
   return (
     <div className="premium-card-soft premium-card-soft-stroke p-5 opacity-75">
       <div className="flex items-center justify-between gap-4">
@@ -36,13 +40,24 @@ export function PastSubscriptionCard({ subscription }: PastSubscriptionCardProps
             </p>
           </div>
         </div>
-        <span
-          className={`px-2.5 py-1 rounded-[var(--premium-radius-interactive)] premium-body-sm font-semibold flex-shrink-0 ${getStatusColor(
-            subscription.status
-          )}`}
-        >
-          {subscription.status}
-        </span>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {canReactivate && onReactivate && (
+            <button
+              onClick={onReactivate}
+              disabled={isActionLoading}
+              className="px-4 py-1.5 text-sm font-medium rounded-[var(--premium-radius-interactive)] border border-[var(--color-neuro-blue-dark)] text-[var(--color-neuro-blue-dark)] hover:bg-[var(--color-neuro-blue-light)]/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isActionLoading ? 'Reactivating...' : 'Reactivate'}
+            </button>
+          )}
+          <span
+            className={`px-2.5 py-1 rounded-[var(--premium-radius-interactive)] premium-body-sm font-semibold ${getStatusColor(
+              subscription.status
+            )}`}
+          >
+            {subscription.status}
+          </span>
+        </div>
       </div>
     </div>
   );
