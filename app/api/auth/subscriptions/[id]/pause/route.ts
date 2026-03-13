@@ -103,7 +103,7 @@ const PLAN_CONFIGURATIONS = {
   },
 };
 
-type ActionType = 'pause' | 'resume' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line';
+type ActionType = 'pause' | 'resume' | 'resume-now' | 'cancel' | 'skip' | 'change-frequency' | 'edit-multi-line';
 type PlanType = 'starter' | 'pro' | 'max';
 type ProtocolIdType = '1' | '2' | '3' | '4';
 
@@ -113,6 +113,7 @@ interface ActionRequest {
   protocolId?: ProtocolIdType; // Optional: if provided, swap to this protocol
   reason?: string;
   pauseWeeks?: number; // Pause duration in weeks (1-12). Defaults to 12 (3 months).
+  resumeNowEpoch?: number; // For resume-now: epoch timestamp for the new next billing date
   lines?: Array<{ lineId: string | number; productKey: string; size: number }>;
 }
 
@@ -228,7 +229,7 @@ export async function POST(
     // No body or invalid JSON - use default action 'pause'
   }
 
-  const { action = 'pause', plan, protocolId, reason, pauseWeeks } = body;
+  const { action = 'pause', plan, protocolId, reason, pauseWeeks, resumeNowEpoch } = body;
 
   // Convert to Loop's shopify-{id} format
   const loopSubscriptionId = toLoopShopifyId(subscriptionId);
@@ -237,7 +238,7 @@ export async function POST(
 
   try {
     let result: { response: Response; data: any };
-    let successMessage: string;
+    let successMessage = '';
 
     switch (action) {
       case 'pause': {
@@ -272,6 +273,64 @@ export async function POST(
         result = await loopRequest(`/subscription/${loopSubscriptionId}/resume`, loopToken, 'POST');
         successMessage = 'Subscription resumed successfully';
         break;
+
+      case 'resume-now': {
+        // Step 1: Resume the subscription
+        result = await loopRequest(`/subscription/${loopSubscriptionId}/resume`, loopToken, 'POST');
+        if (!result.response.ok) {
+          // Resume failed — bail out before rescheduling
+          break;
+        }
+
+        // Step 2: GET the subscription to resolve the Loop internal ID (needed for reschedule)
+        const resumeSubResult = await loopRequest(
+          `/subscription/${loopSubscriptionId}`,
+          loopToken,
+          'GET'
+        );
+        if (!resumeSubResult.response.ok) {
+          console.error('[RESUME-NOW] Resume succeeded but failed to fetch subscription for reschedule:', JSON.stringify(resumeSubResult.data));
+          // Resume worked — return success with a note that reschedule didn't happen
+          return NextResponse.json({
+            success: true,
+            message: 'Subscription resumed. You can reschedule your next delivery from your subscriptions page.',
+          });
+        }
+
+        const resumeLoopInternalId = resumeSubResult.data?.data?.id;
+        if (resumeLoopInternalId == null || !resumeNowEpoch) {
+          // Can't reschedule without internal ID or target date — still a successful resume
+          return NextResponse.json({
+            success: true,
+            message: 'Subscription resumed. You can reschedule your next delivery from your subscriptions page.',
+          });
+        }
+
+        // Step 3: Reschedule to the requested date
+        console.log(`[RESUME-NOW] Rescheduling to epoch ${resumeNowEpoch} using Loop internal ID: ${resumeLoopInternalId}`);
+        const rescheduleResult = await loopRequest(
+          `/subscription/${resumeLoopInternalId}/reschedule`,
+          loopToken,
+          'POST',
+          {
+            newBillingDateEpoch: resumeNowEpoch,
+            rescheduleFutureOrders: true,
+            notifyCustomer: true,
+          }
+        );
+
+        if (!rescheduleResult.response.ok) {
+          console.error('[RESUME-NOW] Resume succeeded but reschedule failed:', JSON.stringify(rescheduleResult.data));
+          return NextResponse.json({
+            success: true,
+            message: 'Subscription resumed. We couldn\'t adjust the delivery date automatically — you can reschedule from your subscriptions page.',
+          });
+        }
+
+        console.log('[RESUME-NOW] Resume + reschedule success');
+        successMessage = 'Subscription resumed — your next delivery is on the way!';
+        break;
+      }
 
       case 'cancel':
         // Loop API: POST /subscription/{id}/cancel
@@ -625,6 +684,7 @@ export async function POST(
       const userErrors: Record<string, string> = {
         pause: 'Unable to pause your subscription right now. Please try again or contact support.',
         resume: 'Unable to resume your subscription right now. Please try again or contact support.',
+        'resume-now': 'Unable to resume your subscription right now. Please try again or contact support.',
         cancel: 'Unable to cancel your subscription right now. Please try again or contact support.',
         skip: 'Unable to skip your next order right now. Please try again or contact support.',
         'change-frequency': 'Unable to update your plan right now. Please try again or contact support.',
