@@ -146,7 +146,7 @@ Reschedule has its own dedicated route: `POST /api/auth/subscriptions/[id]/resch
 
 The `[id]` is the Shopify subscription contract ID (GID or numeric). The route converts it to Loop's `shopify-{numericId}` format. Some Loop endpoints (skipNext, frequency, reschedule) require Loop's internal numeric ID — the route GETs the subscription first to resolve this.
 
-**Pause behaviour:** Clicking "Pause" opens a duration picker modal (`PauseModal.tsx`) offering 5 options: 1 week, 2 weeks, 1 month, 2 months, or 3 months (maximum). The selected duration is sent as `pauseWeeks` in the request body. The server converts this to Loop's `pauseDuration` format (`{ intervalCount, intervalType: 'WEEK' | 'MONTH' }`), capped at 12 weeks server-side. Loop auto-resumes the subscription after the selected period. Customers can resume manually at any time.
+**Pause behaviour:** Clicking "Pause Subscription" opens a cycle-based duration picker modal (`PauseModal.tsx`) offering 1, 2, or 3 billing cycles based on the subscription's interval (e.g. monthly → 1/2/3 months, bi-weekly → 2/4/6 weeks). The selected duration is sent as `pauseWeeks` in the request body. The server converts this to Loop's `pauseDuration` format (`{ intervalCount, intervalType: 'DAY' | 'MONTH' }`) — note that Loop does NOT accept `WEEK` as an intervalType; sub-month durations use `DAY` with days = weeks × 7. Loop auto-resumes the subscription after the selected period. Customers can resume manually at any time.
 
 **Cancel behaviour:** The customer's cancellation reason is sent as `comment` (Loop's field name — not `cancellationReason`, which is only in responses). Loop sends a cancellation confirmation email to the customer (`notifyCustomer: true`).
 

@@ -362,7 +362,7 @@ sellingPlanGroups(first: 5) {
 - **`nextBillingDateEpoch` must be preserved:** When changing plan/frequency, always pass the existing next billing date back — never let it reset.
 - **Redundant frequency updates rejected:** On multi-line contracts, Loop rejects a frequency update if the interval hasn't changed. Check before calling.
 - **Cancel uses `comment`, not `cancellationReason`:** The `cancellationReason` field only appears in Loop responses. To send a reason, use `comment` in the request body.
-- **Pause `pauseDuration` format:** `{ intervalCount: number, intervalType: 'WEEK' | 'MONTH' }`. Use WEEK for <4 weeks, MONTH for 4+. Max pause is 3 months.
+- **Pause `pauseDuration` format:** `{ intervalCount: number, intervalType: 'DAY' | 'MONTH' | 'YEAR' | 'CUSTOM' }`. Loop does NOT accept `WEEK` as intervalType. Use `DAY` (with days = weeks × 7) for sub-month durations, `MONTH` for exact month multiples. Max pause is 3 billing cycles.
 - **Reschedule has a dedicated endpoint:** Use `POST /subscription/{loopInternalId}/reschedule` — NOT `PUT /frequency`. The frequency endpoint validates selling plans against Shopify's product catalog, which fails on multi-line subscriptions where a variant's selling plan doesn't match the billing interval. The dedicated reschedule endpoint skips this validation entirely.
 - **Rate limit:** 5 requests per second. The plan change flow makes 2-3 sequential calls — stay aware.
 
