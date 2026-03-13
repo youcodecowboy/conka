@@ -53,6 +53,7 @@ export default function SubscriptionsPage() {
     skipNextOrder,
     reactivateSubscription,
     placeOrderNow,
+    applyDiscount,
     changePlan,
     editMultiLine,
     rescheduleSubscription,
@@ -330,6 +331,7 @@ export default function SubscriptionsPage() {
                           onSkipNext={() => handleSkipNext(subscription)}
                           onReschedule={() => setShowRescheduleModal(subscription)}
                           onPlaceOrder={() => setShowPlaceOrderModal(subscription)}
+                          onApplyDiscount={(code) => applyDiscount(subscription.id, code)}
                           onCancel={() => setShowCancelModal(subscription.id)}
                           onDismissSuccess={() => setSuccessMessage(null)}
                           primaryMethod={primaryMethod}
