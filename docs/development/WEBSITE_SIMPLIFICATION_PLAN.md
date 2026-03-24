@@ -22,10 +22,11 @@ The current site has too much cognitive load. Four protocols, multiple tiers, pa
 
 | Product | What ships | Monthly Sub | Monthly OTP | Quarterly Sub |
 |---------|-----------|-------------|-------------|---------------|
+| **Both** (hero) | 2 boxes (56 shots) | TBC | TBC | TBC |
 | Flow | 1 box (28 shots) | TBC | TBC | TBC |
 | Clear | 1 box (28 shots) | TBC | TBC | TBC |
-| Both | 2 boxes (56 shots) | TBC | TBC | TBC |
 
+- **"Both" is the hero product.** Taking Flow + Clear daily provides the best efficacy — synergistic compounding effect (Flow generates AMPK for energy, Clear provides glutathione precursors for recovery/detox). The entire funnel is oriented around pushing customers toward Both. Flow and Clear individually are available but secondary.
 - Pricing targets: ~£89.99 / £129.99 / £229.99 (awaiting final COGS)
 - "Both" = single Shopify product (not two line items)
 - Quarterly subscription requires a new selling plan in Shopify
@@ -86,7 +87,7 @@ These tasks have no pricing/SKU dependency and unblock everything else.
 1. **Hero** — Bold functional headline. AM/PM product framing. Product imagery (not lifestyle). Trust badges (Informed Sport, 4.7★, 500+ reviews, 150,000 bottles sold).
 2. **Social proof bar** — Athlete names and logos ABOVE the fold. This is the #1 change from current site — elite endorsements are currently buried at the bottom.
 3. **Us vs Them** — CONKA vs Coffee / Energy Drinks. Simple comparison grid. Functional benefits, not science.
-4. **Product explanation** — AM = Flow (daily foundation, caffeine-free focus). PM = Clear (recovery, peak performance). Both = the full stack. Keep it "five-year-old simple."
+4. **Product explanation** — AM = Flow (daily foundation, caffeine-free focus). PM = Clear (recovery, peak performance). **The narrative builds toward Both** — explain each individually, then show why they're better together (synergistic effect). The landing page should make "Both" feel like the obvious choice, not an upgrade. Keep it "five-year-old simple."
 5. **Clinical results** — Scannable stats (+18% focus, +42% sleep, etc.). Not heavy science — just proof points.
 6. **Testimonials** — Real customers with product in hand. Athletes. Results-focused quotes.
 7. **The app** — "The only supplement you can measure working." App screenshots, score improvement stats. Money-back guarantee hook.
@@ -146,7 +147,7 @@ These tasks have no pricing/SKU dependency and unblock everything else.
 
 **Flow:**
 1. **Choose cadence** — 3 tabs/pills: Monthly Subscription (pre-selected, tagged "Most Popular"), Monthly One-Time, Quarterly Subscription.
-2. **Choose product** — 3 cards: Flow (1 box), Clear (1 box), Both (2 boxes, pre-selected, tagged "Most Popular"). Quarterly adjusts quantities (3/3/6).
+2. **Choose product** — 3 cards: **Both (2 boxes, pre-selected, tagged "Most Popular" — this is the hero product)**, Flow (1 box), Clear (1 box). Quarterly adjusts quantities (6/3/3). Both should be visually dominant — larger card, highlighted border, or elevated position.
 3. **Price display** — Updates dynamically based on selection. Show per-shot price and total.
 4. **CTA** — "Start My Subscription" / "Buy Now" / "Subscribe & Save". Single button.
 5. **Checkout** — Straight to Shopify checkout. No cart drawer. Add to cart → immediately redirect to `cart.checkoutUrl`.
