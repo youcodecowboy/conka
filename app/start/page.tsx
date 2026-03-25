@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import LandingHero from "../components/landing/LandingHero";
+import LandingBenefits from "../components/landing/LandingBenefits";
 import { keyBenefits } from "../components/KeyBenefits";
 import {
   getSiteTestimonialsGeneral,
@@ -13,10 +14,6 @@ import {
 import type { Testimonial } from "../components/testimonials/types";
 
 // Heavy below-fold components — dynamic imports (matches homepage pattern)
-const KeyBenefits = dynamic(() => import("../components/KeyBenefits"), {
-  loading: () => <div className="h-[800px]" />,
-});
-
 const CaseStudiesDataDriven = dynamic(
   () => import("../components/CaseStudiesDataDriven"),
   { loading: () => <div className="h-[1200px]" /> },
@@ -115,12 +112,11 @@ export default function StartPage() {
 
       {/* ===== 2. KEY BENEFITS — What you'll actually feel ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        className="premium-section-luxury premium-bg-bone"
         aria-label="Key Benefits"
       >
         <div className="premium-track">
-          <KeyBenefits benefits={keyBenefits} />
+          <LandingBenefits benefits={keyBenefits} />
         </div>
       </section>
 
