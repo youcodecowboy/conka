@@ -75,34 +75,63 @@ These tasks have no pricing/SKU dependency and unblock everything else.
 
 ---
 
-## Phase 2: Ad Landing Page (can start now, copy-dependent)
+## Phase 2: Ad Landing Page
 
-### 2A. Build the landing page
+> **Status:** Built — iterating on copy and assets.
+> **Route:** `/start` (`app/start/page.tsx`)
+> **SEO:** `noindex` via metadata in server component wrapper.
 
-**What:** New route (URL TBD — e.g. `/lp`, `/start`, `/get-started`) as a standalone page for paid Meta traffic.
-**Why:** Sending paid traffic to the homepage kills conversion. The landing page educates cold audiences and funnels them to purchase. This is the single highest-impact change for paid acquisition.
+### 2A. Landing page — what's built
 
-**Page structure (based on January Brands guidance + AG1/Overload/Fussy patterns):**
+The landing page is live at `/start`. It's a standalone conversion page for paid Meta traffic. Every section has its own CTA pointing to the funnel page (currently `#`, will be updated when the funnel is built). All components are landing-specific — they don't modify shared site components.
 
-1. **Hero** — Bold functional headline. AM/PM product framing. Product imagery (not lifestyle). Trust badges (Informed Sport, 4.7★, 500+ reviews, 150,000 bottles sold).
-2. **Social proof bar** — Athlete names and logos ABOVE the fold. This is the #1 change from current site — elite endorsements are currently buried at the bottom.
-3. **Us vs Them** — CONKA vs Coffee / Energy Drinks. Simple comparison grid. Functional benefits, not science.
-4. **Product explanation** — AM = Flow (daily foundation, caffeine-free focus). PM = Clear (recovery, peak performance). **The narrative builds toward Both** — explain each individually, then show why they're better together (synergistic effect). The landing page should make "Both" feel like the obvious choice, not an upgrade. Keep it "five-year-old simple."
-5. **Clinical results** — Scannable stats (+18% focus, +42% sleep, etc.). Not heavy science — just proof points.
-6. **Testimonials** — Real customers with product in hand. Athletes. Results-focused quotes.
-7. **The app** — "The only supplement you can measure working." App screenshots, score improvement stats. Money-back guarantee hook.
-8. **Founder story** — Brief. Builds trust. Why we built this.
-9. **CTA sections** — Repeated throughout. All push to the funnel page.
+**Page structure (8 sections):**
 
-**Design:** Follows existing Soft-Tech Luxury system but can have its own section flow. No main nav (or minimal nav — just logo + CTA). No footer nav clutter.
+| # | Section | Component | Background | CTA |
+|---|---------|-----------|------------|-----|
+| 1 | Hero | `LandingHero` | White | Try CONKA Today → |
+| 2 | Benefits + Trust Badges | `LandingBenefits` | Dark neuro blue | See Your Options → |
+| 3 | Product Split (AM/PM) | `LandingProductSplit` | White | Get Both → |
+| 4 | What's Inside | `LandingWhatsInside` | Neuro-blue-light | Start Your Routine → |
+| 5 | Testimonials | `Testimonials` (shared, reused) | White | Join Them → |
+| 6 | App Guarantee | `LandingGuarantee` | Bone | Try Risk-Free → |
+| 7 | Case Studies | `CaseStudiesDataDriven` (shared, reused) | Neuro-blue-light | Start Your Journey → |
+| 8 | FAQ | `LandingFAQ` | Neuro-blue-light | Try Risk-Free → |
 
-**SEO:** `noindex` — this page is for paid traffic only.
+**Landing-specific components created (`app/components/landing/`):**
 
-**Analytics:** Meta Pixel ViewContent, CAPI server-side, Vercel custom events (`lp:viewed`, `lp:cta_clicked`), UTM preservation.
+| Component | Purpose |
+|-----------|---------|
+| `LandingHero.tsx` | Banner hero — product image, headline, trust badges, CTA. Desktop: copy left, image right. |
+| `LandingBenefits.tsx` | 2x2 benefit grid (tappable tiles with science detail) + 2x2 trust badge row. Dark background. |
+| `LandingProductSplit.tsx` | AM/PM product split — `ConkaAmPm.jpg` asset, two product cards (warm/cool), CTA. |
+| `LandingWhatsInside.tsx` | Collapsible accordion (what it does, ingredients, science, how to take). Desktop: lifestyle image left, accordion right. |
+| `LandingGuarantee.tsx` | App as confidence booster — 30-day money-back guarantee, phone mockup, stats, CTA. |
+| `LandingFAQ.tsx` | 8 conversion-focused FAQ items ordered by purchase intent. Desktop: lifestyle image left, accordion right. |
 
-**Size:** Large
-**Dependencies:** Copy direction (can scaffold with placeholder copy and iterate)
-**Blocked by:** Nothing — can start with layout and placeholder content
+**Assets used:**
+- `/CONKA_39.jpg` — hero product shot (both boxes + bottles)
+- `/formulas/ConkaAmPm.jpg` — AM/PM split shot with sun/moon labels
+- `/app/AppConkaRing.png` — app score screen mockup
+- `/lifestyle/FlowHold.jpg` — man holding CONKA Flow (What's Inside section)
+- `/lifestyle/ClearDrink.jpg` — woman drinking CONKA Clear (FAQ section)
+
+### 2B. Landing page — what's next
+
+**Immediate (no dependencies):**
+- Add a "What to Expect" timeline section (simplified version of homepage `WhatToExpect`) — answers "when will I feel it?"
+- Copy pass on hero headline and benefit subtitles — current copy is functional but not optimised for cold traffic conversion
+- Analytics: add `lp:viewed`, `lp:cta_clicked` Vercel events, UTM param passthrough on CTA links
+
+**Blocked by assets:**
+- Hero lifestyle image — current `CONKA_39.jpg` is a product-on-white shot. Needs a lifestyle/context hero image (someone taking CONKA in the morning)
+- Better product photography for the split section (individual bottle shots)
+- Customer avatar photos for trust cluster below hero CTA
+
+**Blocked by decisions:**
+- Funnel page URL — all CTAs currently point to `#`. Once the funnel page is built, update the `FUNNEL_URL` constant in each landing component.
+- Offer / value proposition — what's the paid traffic offer? (e.g. "Save 20%", "First box free"). Needed for hero value badge and CTA copy.
+- Final headline copy from January Brands
 
 ---
 
