@@ -34,7 +34,7 @@ function getTeaserAthletes(): AthleteData[] {
     "pierre-louis-barassi",
     "patrick-bamford",
     "nimisha-kurup",
-    "callum-sheedy",
+
     "will-stuart",
   ];
 
@@ -116,7 +116,7 @@ export default function CaseStudiesDataDriven() {
       <div className="text-left mb-8 md:mb-12">
         <h2 className="premium-section-heading">Verified Performance Data</h2>
         <p className="premium-section-subtitle text-[var(--text-on-light-muted)]">
-          Real athletes. Real tests. Real improvements.
+          Real People. Real tests. Real improvements.
           <br />
           All measured via the CONKA cognitive testing app.
         </p>
