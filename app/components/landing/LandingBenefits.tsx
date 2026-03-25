@@ -171,12 +171,12 @@ export default function LandingBenefits() {
         ))}
       </div>
 
-      {/* Trust Badges — 2x2 grid, white text on dark bg */}
-      <div className="grid grid-cols-2 gap-3 mt-6">
+      {/* Trust Badges — 2x2 on mobile, 4-col centred on desktop */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-6 lg:max-w-3xl lg:mx-auto">
         {TRUST_BADGES.map((badge) => (
           <div
             key={badge.title}
-            className="flex items-center gap-2.5 px-3 py-3"
+            className="flex items-center gap-2.5 px-3 py-3 lg:flex-col lg:text-center lg:gap-1.5"
           >
             <span className="text-white opacity-50">
               {badge.icon}

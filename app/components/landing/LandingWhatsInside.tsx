@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 /**
  * Landing page "What's Inside" collapsible accordion.
@@ -99,6 +100,17 @@ export default function LandingWhatsInside() {
         >
           Everything you need to know.
         </h2>
+      </div>
+
+      {/* Lifestyle image */}
+      <div className="mb-8 overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
+        <Image
+          src="/lifestyle/FlowHold.jpg"
+          alt="Man holding CONKA Flow bottle outdoors"
+          width={800}
+          height={800}
+          className="w-full h-48 lg:h-64 object-cover"
+        />
       </div>
 
       {/* Accordion */}

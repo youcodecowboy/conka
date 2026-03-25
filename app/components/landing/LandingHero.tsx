@@ -5,26 +5,20 @@ import { HeroTrustBadges } from "../HeroShared";
 
 const FUNNEL_URL = "#";
 
-/**
- * Landing page hero — banner layout, mobile-first.
- * Page wraps this in premium-section-luxury + premium-track.
- * Component is content-only.
- */
 export default function LandingHero() {
   return (
     <div className="flex flex-col items-center">
-      {/* Banner image — zoomed ~15%, with sales badge */}
-      <div className="relative w-full overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
+      {/* Banner image — zoomed on mobile, contained on desktop */}
+      <div className="relative w-full lg:max-w-3xl overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
         <Image
           src="/CONKA_39.jpg"
           alt="CONKA Flow and Clear — two boxes with daily brain shot bottles"
           width={1280}
           height={533}
           priority
-          sizes="(max-width: 1024px) 100vw, 1280px"
-          className="w-full h-auto object-cover scale-[1.15]"
+          sizes="(max-width: 1024px) 100vw, 768px"
+          className="w-full h-auto object-cover scale-[1.15] lg:scale-100"
         />
-        {/* Sales badge */}
         <div
           className="absolute top-3 left-3 lg:top-5 lg:left-5 px-3 py-1.5 rounded-full text-xs lg:text-sm font-semibold"
           style={{
@@ -32,11 +26,10 @@ export default function LandingHero() {
             color: "var(--color-ink)",
           }}
         >
-          150,000+ bottles sold
+          Over 150,000 bottles sold
         </div>
       </div>
 
-      {/* Content block */}
       <div className="w-full max-w-2xl text-center mt-8 lg:mt-12">
         <h1
           className="font-bold leading-tight"
@@ -48,7 +41,7 @@ export default function LandingHero() {
         >
           Morning Energy.
           <br />
-          Afternoon Clarity.
+          Evening Clarity.
         </h1>
 
         <p
@@ -63,7 +56,6 @@ export default function LandingHero() {
           16 natural ingredients. Two daily shots. Clinically dosed.
         </p>
 
-        {/* CTA */}
         <div className="mt-8 lg:mt-10">
           <a
             href={FUNNEL_URL}
@@ -74,13 +66,11 @@ export default function LandingHero() {
           </a>
         </div>
 
-        {/* Trust cluster */}
         <div className="flex items-center justify-center gap-2 mt-3 text-sm font-semibold opacity-60">
           <span aria-hidden className="text-yellow-500">★★★★★</span>
           <span>4.7/5 from 500+ verified reviews</span>
         </div>
 
-        {/* Authority row */}
         <div className="flex justify-center mt-8">
           <HeroTrustBadges />
         </div>

@@ -60,9 +60,10 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 3. PRODUCT SPLIT — AM vs PM ===== */}
+      {/* ===== 3. PRODUCT SPLIT — AM vs PM ===== white */}
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "white" }}
         aria-label="Flow and Clear explained"
       >
         <div className="premium-track">
@@ -70,10 +71,10 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 4. WHAT'S INSIDE ===== */}
+      {/* ===== 4. WHAT'S INSIDE ===== neuro-blue-light */}
       <section
         className="premium-section-luxury"
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
         aria-label="What's inside CONKA"
       >
         <div className="premium-track">
@@ -81,15 +82,15 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 5. TESTIMONIALS ===== */}
+      {/* ===== 5. TESTIMONIALS ===== white */}
       {shuffledTestimonials.length > 0 && (
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="premium-section-luxury"
+          style={{ backgroundColor: "white" }}
           aria-label="Customer reviews"
         >
           <div className="premium-track">
             <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
-            {/* CTA after testimonials */}
             <div className="mt-8 flex justify-center">
               <a
                 href={FUNNEL_URL}
@@ -103,10 +104,10 @@ export default function StartPage() {
         </section>
       )}
 
-      {/* ===== 6. FAQ ===== */}
+      {/* ===== 6. FAQ ===== neuro-blue-light */}
       <section
         className="premium-section-luxury"
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
         aria-label="FAQ"
       >
         <div className="premium-track">

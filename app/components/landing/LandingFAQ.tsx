@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 const FUNNEL_URL = "#";
 
@@ -69,6 +70,17 @@ export default function LandingFAQ() {
         >
           Frequently asked questions
         </h2>
+      </div>
+
+      {/* Lifestyle image */}
+      <div className="mb-8 overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
+        <Image
+          src="/lifestyle/ClearDrink.jpg"
+          alt="Woman drinking CONKA Clear in the gym"
+          width={800}
+          height={800}
+          className="w-full h-48 lg:h-64 object-cover object-top"
+        />
       </div>
 
       {/* Accordion */}
