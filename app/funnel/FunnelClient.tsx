@@ -2,8 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { track } from "@vercel/analytics/react";
-import Navigation from "../components/navigation";
-import Footer from "../components/footer";
+import Image from "next/image";
 import FunnelStepIndicator from "../components/funnel/FunnelStepIndicator";
 import FunnelHeroAsset from "../components/funnel/FunnelHeroAsset";
 import CadenceSelector from "../components/funnel/CadenceSelector";
@@ -17,6 +16,7 @@ import {
   type UpsellOffer,
   getOfferPricing,
   getUpsellOffer,
+  getCTAText,
 } from "../lib/funnelData";
 import {
   funnelCheckout,
@@ -32,16 +32,18 @@ function safeTrack(event: string, props: Record<string, string | number | boolea
 }
 
 export default function FunnelClient() {
-  // Pre-selected defaults — Both + Monthly Subscription (highest LTV)
+  // Navigation state — paginated funnel
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
+
+  // Selection state — pre-selected defaults (highest LTV)
   const [cadence, setCadence] = useState<FunnelCadence>("monthly-sub");
   const [product, setProduct] = useState<FunnelProduct>("both");
+
+  // Checkout state
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [isUpsellOpen, setIsUpsellOpen] = useState(false);
   const [upsellOffer, setUpsellOffer] = useState<UpsellOffer | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  // Derive current step from state
-  const currentStep: 1 | 2 | 3 = isCheckingOut ? 3 : 2;
 
   // Track page view
   useEffect(() => {
@@ -50,6 +52,8 @@ export default function FunnelClient() {
       defaultProduct: "both",
     });
   }, []);
+
+  // --- Step 1: Cadence ---
 
   const handleCadenceChange = useCallback(
     (newCadence: FunnelCadence) => {
@@ -64,6 +68,15 @@ export default function FunnelClient() {
     [cadence, product],
   );
 
+  const handleStep1Next = useCallback(() => {
+    safeTrack("funnel:step1_completed", { cadence, product });
+    setCurrentStep(2);
+    // Scroll to top when navigating
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [cadence, product]);
+
+  // --- Step 2: Product ---
+
   const handleProductChange = useCallback(
     (newProduct: FunnelProduct) => {
       setProduct(newProduct);
@@ -76,6 +89,14 @@ export default function FunnelClient() {
     },
     [product, cadence],
   );
+
+  const handleBack = useCallback(() => {
+    setCurrentStep(1);
+    setError(null);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
+  // --- Checkout ---
 
   const proceedToCheckout = useCallback(
     async (
@@ -105,7 +126,6 @@ export default function FunnelClient() {
         return;
       }
 
-      // Redirect to Shopify checkout
       window.location.href = result.checkoutUrl;
     },
     [],
@@ -120,7 +140,7 @@ export default function FunnelClient() {
       price: getOfferPricing(product, cadence).price,
     });
 
-    // Check for upsell opportunity
+    // Check for upsell
     const offer = getUpsellOffer(product, cadence);
     if (offer) {
       setUpsellOffer(offer);
@@ -134,108 +154,164 @@ export default function FunnelClient() {
       return;
     }
 
-    // No upsell — go straight to checkout
     proceedToCheckout(product, cadence, false);
   }, [product, cadence, proceedToCheckout]);
 
   const handleUpsellAccept = useCallback(() => {
     if (!upsellOffer) return;
-
     safeTrack("funnel:upsell_accepted", {
       originalProduct: product,
       originalCadence: cadence,
       upgradedProduct: upsellOffer.upgradedProduct,
       upgradedCadence: upsellOffer.upgradedCadence,
     });
-
     setIsUpsellOpen(false);
     proceedToCheckout(upsellOffer.upgradedProduct, upsellOffer.upgradedCadence, true);
   }, [upsellOffer, product, cadence, proceedToCheckout]);
 
   const handleUpsellDecline = useCallback(() => {
-    safeTrack("funnel:upsell_declined", {
-      product,
-      cadence,
-    });
-
+    safeTrack("funnel:upsell_declined", { product, cadence });
     setIsUpsellOpen(false);
     proceedToCheckout(product, cadence, false);
   }, [product, cadence, proceedToCheckout]);
 
+  // --- CTA labels ---
+
+  const pricing = getOfferPricing(product, cadence);
+  const step1Label = "Choose Product";
+  const step2Label = getCTAText(cadence, pricing.price);
+
   return (
-    <div
-      className="min-h-screen"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
-      <Navigation />
+    <div className="min-h-screen bg-white text-[var(--color-ink)]">
+      {/* Minimal header — logo only */}
+      <header className="flex items-center justify-center py-4 px-4 border-b border-gray-100">
+        <Image
+          src="/conka.svg"
+          alt="CONKA"
+          width={100}
+          height={28}
+          priority
+        />
+      </header>
 
       {/* Main funnel content */}
-      <main className="lg:flex lg:gap-0 lg:min-h-[calc(100vh-80px)]">
+      <main className="lg:flex lg:min-h-[calc(100vh-57px)]">
         {/* Desktop: Left column — sticky hero asset */}
-        <div className="hidden lg:block lg:w-1/2 lg:sticky lg:top-0 lg:h-screen lg:p-8">
+        <div className="hidden lg:flex lg:w-1/2 lg:sticky lg:top-0 lg:h-screen lg:items-center lg:justify-center lg:p-8 lg:bg-gray-50">
           <FunnelHeroAsset product={product} />
         </div>
 
         {/* Right column (full width on mobile) */}
         <div className="w-full lg:w-1/2 lg:overflow-y-auto">
           {/* Step Indicator */}
-          <div className="px-4 pt-4 lg:px-8 lg:pt-8">
+          <div className="px-5 pt-4 lg:px-10 lg:pt-8">
             <FunnelStepIndicator currentStep={currentStep} />
           </div>
 
-          {/* Mobile: Hero asset */}
-          <div className="px-4 pt-2 pb-4 lg:hidden">
-            <FunnelHeroAsset product={product} />
-          </div>
+          {/* ===== STEP 1: Choose Plan ===== */}
+          {currentStep === 1 && (
+            <>
+              {/* Mobile hero */}
+              <div className="px-5 pt-2 pb-5 lg:hidden">
+                <FunnelHeroAsset product={product} />
+              </div>
 
-          {/* Step 1: Cadence */}
-          <div className="px-4 pb-6 lg:px-8">
-            <CadenceSelector
-              cadence={cadence}
-              product={product}
-              onChange={handleCadenceChange}
-            />
-          </div>
+              <div className="px-5 pb-6 lg:px-10">
+                <CadenceSelector
+                  cadence={cadence}
+                  product={product}
+                  onChange={handleCadenceChange}
+                />
+              </div>
 
-          {/* Step 2: Product */}
-          <div className="px-4 pb-6 lg:px-8">
-            <ProductSelector
-              product={product}
-              cadence={cadence}
-              onChange={handleProductChange}
-            />
-          </div>
+              <div className="px-5 pb-6 lg:px-10">
+                <FunnelAssurance />
+              </div>
 
-          {/* Assurance badges */}
-          <div className="px-4 pb-6 lg:px-8">
-            <FunnelAssurance />
-          </div>
+              {/* Spacer for sticky CTA */}
+              <div className="h-24 lg:hidden" />
 
-          {/* Desktop CTA (mobile CTA is sticky fixed) */}
-          <div className="hidden lg:block px-8 pb-8">
-            <FunnelCTA
-              cadence={cadence}
-              product={product}
-              onCheckout={handleCheckout}
-              loading={isCheckingOut}
-              error={error}
-            />
-          </div>
+              {/* Desktop CTA */}
+              <div className="hidden lg:block px-10 pb-8">
+                <FunnelCTA
+                  label={step1Label}
+                  onClick={handleStep1Next}
+                  loading={false}
+                  error={error}
+                />
+              </div>
+            </>
+          )}
 
-          {/* Spacer for mobile sticky CTA */}
-          <div className="h-24 lg:hidden" />
+          {/* ===== STEP 2: Choose Product ===== */}
+          {currentStep === 2 && (
+            <>
+              {/* Mobile hero */}
+              <div className="px-5 pt-2 pb-5 lg:hidden">
+                <FunnelHeroAsset product={product} />
+              </div>
+
+              {/* Back button */}
+              <div className="px-5 lg:px-10">
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[var(--color-ink)] transition-colors mb-4"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 12H5" />
+                    <path d="M12 19l-7-7 7-7" />
+                  </svg>
+                  Back
+                </button>
+              </div>
+
+              <div className="px-5 pb-6 lg:px-10">
+                <ProductSelector
+                  product={product}
+                  cadence={cadence}
+                  onChange={handleProductChange}
+                />
+              </div>
+
+              <div className="px-5 pb-6 lg:px-10">
+                <FunnelAssurance />
+              </div>
+
+              {/* Spacer for sticky CTA */}
+              <div className="h-24 lg:hidden" />
+
+              {/* Desktop CTA */}
+              <div className="hidden lg:block px-10 pb-8">
+                <FunnelCTA
+                  label={step2Label}
+                  onClick={handleCheckout}
+                  loading={isCheckingOut}
+                  error={error}
+                />
+              </div>
+            </>
+          )}
         </div>
       </main>
 
       {/* Mobile sticky CTA */}
       <div className="lg:hidden">
-        <FunnelCTA
-          cadence={cadence}
-          product={product}
-          onCheckout={handleCheckout}
-          loading={isCheckingOut}
-          error={error}
-        />
+        {currentStep === 1 ? (
+          <FunnelCTA
+            label={step1Label}
+            onClick={handleStep1Next}
+            loading={false}
+            error={error}
+          />
+        ) : (
+          <FunnelCTA
+            label={step2Label}
+            onClick={handleCheckout}
+            loading={isCheckingOut}
+            error={error}
+          />
+        )}
       </div>
 
       {/* Upsell modal */}
@@ -246,8 +322,6 @@ export default function FunnelClient() {
         onDecline={handleUpsellDecline}
         loading={isCheckingOut}
       />
-
-      <Footer />
     </div>
   );
 }
