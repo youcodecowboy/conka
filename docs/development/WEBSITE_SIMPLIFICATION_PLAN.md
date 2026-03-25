@@ -302,6 +302,11 @@ This is lower priority. The funnel handles paid traffic. These changes align the
 | Product photography | Asset creation | Hero update (5A), landing page imagery (2A) |
 | Landing page copy | Internal + January Brands direction | 2A (can scaffold without) |
 | "Both" product setup | Shopify Admin | Phase 3A |
+| **Landing page hero banner asset** | Product photography — needs a wide-format (16:9 or wider) hero shot showing Both boxes + bottles. Current `CONKA_39.jpg` is a square product shot, not a banner. Ideal: lifestyle context or styled flat-lay at wider aspect ratio. | 2A hero quality |
+| **Landing page offer / value proposition** | What is the offer for paid traffic? (e.g. "Save 20%", "First month free", "Try for £X"). Needed for a value badge overlay on the hero and CTA copy. Without this the CTA is generic "Get Started". | 2A hero conversion |
+| **Landing page headline + subheadline copy** | Final copy direction from January Brands. Current placeholder: "Your daily brain performance system". Needs to be benefit-first, not feature-first. | 2A hero copy |
+| **Customer avatar photos** | 3–5 small circular customer/athlete face photos for a trust cluster below the CTA (Purdy & Figg pattern). Could use existing athlete headshots if available. | 2A social proof |
+| **"Featured In" / authority logos** | If CONKA has press mentions or partnerships (e.g. Men's Health, BBC, etc.), monochrome logos for an authority row below the hero. | 2A authority row |
 
 ---
 
