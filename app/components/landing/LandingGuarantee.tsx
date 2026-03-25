@@ -85,9 +85,10 @@ export default function LandingGuarantee() {
             className="mt-6 text-sm lg:text-base leading-relaxed"
             style={{ color: "var(--color-ink)", opacity: 0.6 }}
           >
-            The free CONKA app measures your cognitive performance with a
-            3-minute test. Take it before you start, then again at 30 days. If
-            your scores haven&apos;t improved, we refund you in full. No questions.
+            Download the free CONKA app and baseline your cognitive performance
+            before your first box arrives. Test regularly in the weeks that
+            follow and watch your scores improve. If they don&apos;t, we refund
+            you in full.*
           </p>
 
           {/* CTA + app link */}
