@@ -123,11 +123,23 @@ export default function StartPage() {
       {/* ===== 7. CASE STUDIES ===== */}
       <section
         className="premium-section-luxury"
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
         aria-label="Verified performance data"
       >
         <div className="premium-track">
-          <CaseStudiesDataDriven />
+          {/* Hide the component's own CTA, replace with funnel CTA */}
+          <div className="[&_a[href='/case-studies']]:hidden">
+            <CaseStudiesDataDriven />
+          </div>
+          <div className="mt-8 flex justify-center">
+            <a
+              href={FUNNEL_URL}
+              className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              style={{ background: "var(--gradient-neuro-blue-accent)" }}
+            >
+              Start Your Journey →
+            </a>
+          </div>
         </div>
       </section>
 

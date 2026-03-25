@@ -108,6 +108,14 @@ export default function LandingGuarantee() {
               Learn more about the app
             </a>
           </div>
+
+          {/* Footnote */}
+          <p
+            className="mt-4 text-xs"
+            style={{ color: "var(--color-ink)", opacity: 0.3 }}
+          >
+            *Complete at least 3 tests per week for 4 weeks to qualify for the guarantee.
+          </p>
         </div>
 
         {/* Phone mockup — first on mobile, second on desktop */}

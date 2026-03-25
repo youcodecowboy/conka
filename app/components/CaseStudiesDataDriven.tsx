@@ -34,7 +34,7 @@ function getTeaserAthletes(): AthleteData[] {
     "pierre-louis-barassi",
     "patrick-bamford",
     "nimisha-kurup",
-    "callum-sheedy",
+
     "will-stuart",
   ];
 
