@@ -114,9 +114,11 @@ export default function CaseStudiesDataDriven() {
     <>
       {/* Section Header */}
       <div className="text-left mb-8 md:mb-12">
-        <h2 className="premium-section-heading">Real People. Real Tests.</h2>
+        <h2 className="premium-section-heading">Verified Performance Data</h2>
         <p className="premium-section-subtitle text-[var(--text-on-light-muted)]">
-          Real improvements — all measured via the CONKA cognitive testing app.
+          Real People. Real tests. Real improvements.
+          <br />
+          All measured via the CONKA cognitive testing app.
         </p>
       </div>
 
