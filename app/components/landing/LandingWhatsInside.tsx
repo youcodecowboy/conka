@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 /**
- * Landing page "What's Inside" — collapsible accordion.
+ * Landing page "What's Inside" collapsible accordion.
  * Follows the Overload pattern: "what does it do?" / "ingredients" / "science" / "how to use"
  * Adapted for CONKA with real product data.
  *
@@ -20,10 +20,10 @@ const SECTIONS = [
     content: (
       <>
         <p>
-          <strong><em>Morning foundation:</em></strong> CONKA Flow supports your nervous system and focus with adaptogens like Ashwagandha and Lemon Balm — so you stay sharp without caffeine, jitters, or a crash.
+          <strong><em>Morning foundation:</em></strong> CONKA Flow supports your nervous system and focus with adaptogens like Ashwagandha and Lemon Balm, so you stay sharp without caffeine, jitters, or a crash.
         </p>
         <p className="mt-3">
-          <strong><em>Evening recovery:</em></strong> CONKA Clear boosts cerebral blood flow and key neurotransmitters with Glutathione and Alpha GPC — so you think clearly under pressure and recover overnight.
+          <strong><em>Evening recovery:</em></strong> CONKA Clear boosts cerebral blood flow and key neurotransmitters with Glutathione and Alpha GPC, so you think clearly under pressure and recover overnight.
         </p>
         <p className="mt-3">
           <strong><em>Better together:</em></strong> Taking both daily creates a compounding effect. Flow generates AMPK for energy, Clear provides glutathione precursors for recovery. The combination is more effective than either alone.
@@ -56,7 +56,7 @@ const SECTIONS = [
     content: (
       <>
         <p>
-          Every batch is third-party tested by the UK&apos;s leading supplement testing laboratory. CONKA is <strong>Informed Sport Certified</strong> — the same standard used by professional athletes.
+          Every batch is third-party tested by the UK&apos;s leading supplement testing laboratory. CONKA is <strong>Informed Sport Certified</strong>, the same standard used by professional athletes.
         </p>
         <p className="mt-3">
           All key ingredients are backed by peer-reviewed clinical studies (PubMed-indexed). CONKA Flow holds a UK patent (GB2629279).
@@ -87,7 +87,7 @@ const SECTIONS = [
 ];
 
 export default function LandingWhatsInside() {
-  const [openId, setOpenId] = useState<string | null>("what");
+  const [openId, setOpenId] = useState<string | null>(null);
 
   return (
     <div>

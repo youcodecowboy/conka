@@ -111,10 +111,10 @@ const TRUST_BADGES = [
 export default function LandingBenefits() {
   return (
     <div>
-      {/* Heading */}
+      {/* Heading — white text on dark background */}
       <div className="mb-8">
         <h2
-          className="premium-section-heading"
+          className="premium-section-heading text-white"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
           What you&apos;ll actually feel.
@@ -171,27 +171,21 @@ export default function LandingBenefits() {
         ))}
       </div>
 
-      {/* Trust Badges — 2x2 grid */}
+      {/* Trust Badges — 2x2 grid, white text on dark bg */}
       <div className="grid grid-cols-2 gap-3 mt-6">
         {TRUST_BADGES.map((badge) => (
           <div
             key={badge.title}
             className="flex items-center gap-2.5 px-3 py-3"
           >
-            <span style={{ color: "var(--color-ink)", opacity: 0.4 }}>
+            <span className="text-white opacity-50">
               {badge.icon}
             </span>
             <div>
-              <p
-                className="text-xs font-semibold leading-tight"
-                style={{ color: "var(--color-ink)" }}
-              >
+              <p className="text-xs font-semibold leading-tight text-white">
                 {badge.title}
               </p>
-              <p
-                className="text-xs leading-tight"
-                style={{ color: "var(--color-ink)", opacity: 0.45 }}
-              >
+              <p className="text-xs leading-tight text-white opacity-50">
                 {badge.subtitle}
               </p>
             </div>

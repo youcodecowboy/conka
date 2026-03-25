@@ -7,6 +7,7 @@ import Footer from "../components/footer";
 import LandingHero from "../components/landing/LandingHero";
 import LandingBenefits from "../components/landing/LandingBenefits";
 import LandingWhatsInside from "../components/landing/LandingWhatsInside";
+import LandingProductSplit from "../components/landing/LandingProductSplit";
 import {
   getSiteTestimonialsGeneral,
   shuffleTestimonials,
@@ -71,9 +72,10 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 2. BENEFITS + TRUST BADGES ===== bone */}
+      {/* ===== 2. BENEFITS + TRUST BADGES ===== dark neuro blue */}
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
         aria-label="Key Benefits"
       >
         <div className="premium-track">
@@ -81,7 +83,17 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 3. WHAT'S INSIDE ===== white */}
+      {/* ===== 3. PRODUCT SPLIT — AM vs PM ===== bone */}
+      <section
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="Flow and Clear explained"
+      >
+        <div className="premium-track">
+          <LandingProductSplit />
+        </div>
+      </section>
+
+      {/* ===== 4. WHAT'S INSIDE ===== white */}
       <section
         className="premium-section-luxury"
         style={{ backgroundColor: "white" }}
