@@ -104,7 +104,8 @@ export default function StartPage() {
 
       {/* ===== 1. HERO ===== */}
       <section
-        className="premium-section-luxury premium-hero-first premium-bg-bone"
+        className="premium-section-luxury premium-hero-first"
+        style={{ backgroundColor: "white" }}
         aria-label="Landing page hero"
       >
         <div className="premium-track">
