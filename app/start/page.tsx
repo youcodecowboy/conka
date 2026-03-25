@@ -8,6 +8,7 @@ import LandingHero from "../components/landing/LandingHero";
 import LandingBenefits from "../components/landing/LandingBenefits";
 import LandingProductSplit from "../components/landing/LandingProductSplit";
 import LandingWhatsInside from "../components/landing/LandingWhatsInside";
+import LandingGuarantee from "../components/landing/LandingGuarantee";
 import LandingFAQ from "../components/landing/LandingFAQ";
 import {
   getSiteTestimonialsGeneral,
@@ -18,6 +19,11 @@ import type { Testimonial } from "../components/testimonials/types";
 const Testimonials = dynamic(
   () => import("../components/testimonials/Testimonials"),
   { loading: () => <div className="h-[450px]" /> },
+);
+
+const CaseStudiesDataDriven = dynamic(
+  () => import("../components/CaseStudiesDataDriven"),
+  { loading: () => <div className="h-[600px]" /> },
 );
 
 const FUNNEL_URL = "#";
@@ -60,7 +66,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 3. PRODUCT SPLIT — AM vs PM ===== white */}
+      {/* ===== 3. PRODUCT SPLIT — AM vs PM ===== */}
       <section
         className="premium-section-luxury"
         style={{ backgroundColor: "white" }}
@@ -71,7 +77,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 4. WHAT'S INSIDE ===== neuro-blue-light */}
+      {/* ===== 4. WHAT'S INSIDE ===== */}
       <section
         className="premium-section-luxury"
         style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
@@ -82,7 +88,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 5. TESTIMONIALS ===== white */}
+      {/* ===== 5. TESTIMONIALS ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
           className="premium-section-luxury"
@@ -97,14 +103,35 @@ export default function StartPage() {
                 className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
                 style={{ background: "var(--gradient-neuro-blue-accent)" }}
               >
-                Get Started →
+                Join Them →
               </a>
             </div>
           </div>
         </section>
       )}
 
-      {/* ===== 6. FAQ ===== neuro-blue-light */}
+      {/* ===== 6. APP GUARANTEE ===== */}
+      <section
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="Money-back guarantee"
+      >
+        <div className="premium-track">
+          <LandingGuarantee />
+        </div>
+      </section>
+
+      {/* ===== 7. CASE STUDIES ===== */}
+      <section
+        className="premium-section-luxury"
+        style={{ backgroundColor: "white" }}
+        aria-label="Verified performance data"
+      >
+        <div className="premium-track">
+          <CaseStudiesDataDriven />
+        </div>
+      </section>
+
+      {/* ===== 8. FAQ ===== */}
       <section
         className="premium-section-luxury"
         style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
