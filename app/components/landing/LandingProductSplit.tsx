@@ -5,9 +5,8 @@ import Image from "next/image";
 const FUNNEL_URL = "#";
 
 /**
- * Landing product split — "Which is which" section.
- * Shows both bottles, then a two-column split explaining AM vs PM.
- * Builds toward "Both" as the obvious choice.
+ * Landing product split — AM vs PM, makes it instantly clear which is which.
+ * Builds toward "Both" as the obvious daily system.
  *
  * Page wraps this in premium-section-luxury + premium-track.
  * Component is content-only.
@@ -21,24 +20,18 @@ export default function LandingProductSplit() {
           className="premium-section-heading"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          Your daily system.
+          One system. Two shots. Every day.
         </h2>
-        <p
-          className="mt-2 text-sm opacity-50"
-          style={{ color: "var(--color-ink)" }}
-        >
-          Two shots. Morning and evening. That&apos;s it.
-        </p>
       </div>
 
-      {/* Product image */}
+      {/* Product image — rounded corners + shadow */}
       <div className="flex justify-center mb-8">
-        <div className="w-full max-w-xs">
+        <div className="w-full max-w-sm overflow-hidden rounded-[var(--premium-radius-card)] shadow-lg">
           <Image
-            src="/formulas/BothShots.jpg"
-            alt="CONKA Flow (black cap) and CONKA Clear (white cap) bottles side by side"
-            width={600}
-            height={600}
+            src="/formulas/ConkaAmPm.jpg"
+            alt="CONKA Flow (morning energy, sun icon) and CONKA Clear (evening clarity, moon icon) side by side"
+            width={800}
+            height={800}
             className="w-full h-auto"
           />
         </div>
@@ -46,7 +39,7 @@ export default function LandingProductSplit() {
 
       {/* Two-column split */}
       <div className="grid grid-cols-2 gap-3 lg:gap-5">
-        {/* Flow — Morning */}
+        {/* CONKA Flow — Morning */}
         <div
           className="rounded-2xl p-4 lg:p-6"
           style={{
@@ -63,7 +56,7 @@ export default function LandingProductSplit() {
           >
             CONKA Flow
           </h3>
-          <p className="text-xs opacity-40 mb-3">Black cap</p>
+          <p className="text-xs opacity-40 mb-3">Black cap · Caffeine-free</p>
 
           <ul className="space-y-2">
             <li className="flex items-start gap-2 text-sm" style={{ color: "var(--color-ink)" }}>
@@ -81,11 +74,11 @@ export default function LandingProductSplit() {
           </ul>
 
           <p className="text-xs mt-4 opacity-40">
-            Tastes like honey + citrus
+            Honey + citrus flavour
           </p>
         </div>
 
-        {/* Clear — Evening */}
+        {/* CONKA Clear — Evening */}
         <div
           className="rounded-2xl p-4 lg:p-6"
           style={{
@@ -102,7 +95,7 @@ export default function LandingProductSplit() {
           >
             CONKA Clear
           </h3>
-          <p className="text-xs opacity-40 mb-3">White cap</p>
+          <p className="text-xs opacity-40 mb-3">White cap · Nootropic</p>
 
           <ul className="space-y-2">
             <li className="flex items-start gap-2 text-sm" style={{ color: "var(--color-ink)" }}>
@@ -120,25 +113,13 @@ export default function LandingProductSplit() {
           </ul>
 
           <p className="text-xs mt-4 opacity-40">
-            Tastes like fresh lemon
+            Fresh lemon flavour
           </p>
         </div>
       </div>
 
-      {/* Bridge text — sell "Both" */}
-      <div className="text-center mt-8">
-        <p
-          className="text-sm lg:text-base font-medium"
-          style={{ color: "var(--color-ink)", opacity: 0.7 }}
-        >
-          Flow generates energy. Clear supports recovery.
-          <br />
-          Together they compound daily.
-        </p>
-      </div>
-
       {/* CTA */}
-      <div className="mt-6 flex justify-center">
+      <div className="mt-8 flex justify-center">
         <a
           href={FUNNEL_URL}
           className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"

@@ -26,7 +26,7 @@ const SECTIONS = [
           <strong><em>Evening recovery:</em></strong> CONKA Clear boosts cerebral blood flow and key neurotransmitters with Glutathione and Alpha GPC, so you think clearly under pressure and recover overnight.
         </p>
         <p className="mt-3">
-          <strong><em>Better together:</em></strong> Taking both daily creates a compounding effect. Flow generates AMPK for energy, Clear provides glutathione precursors for recovery. The combination is more effective than either alone.
+          <strong><em>Better together:</em></strong> Taking both daily creates a compounding effect. CONKA Flow generates AMPK for energy, CONKA Clear provides glutathione precursors for recovery. The combination is more effective than either alone.
         </p>
       </>
     ),
@@ -36,11 +36,11 @@ const SECTIONS = [
     question: "What's in it?",
     content: (
       <>
-        <p className="font-semibold mb-2">Flow (Morning)</p>
+        <p className="font-semibold mb-2">CONKA Flow (Morning)</p>
         <p className="opacity-70">
           Lemon Balm · Turmeric · KSM-66® Ashwagandha · Rhodiola Rosea · Bilberry · Black Pepper
         </p>
-        <p className="font-semibold mt-4 mb-2">Clear (Evening)</p>
+        <p className="font-semibold mt-4 mb-2">CONKA Clear (Evening)</p>
         <p className="opacity-70">
           Vitamin C · Alpha GPC · Glutathione · N-Acetyl Cysteine · Acetyl-L-Carnitine · Ginkgo Biloba · Vitamin B12
         </p>
@@ -73,10 +73,10 @@ const SECTIONS = [
     content: (
       <>
         <p>
-          <strong>Flow:</strong> One shot in the morning, with or without food. Works as a coffee replacement.
+          <strong>CONKA Flow:</strong> One shot in the morning, with or without food. Works as a coffee replacement.
         </p>
         <p className="mt-3">
-          <strong>Clear:</strong> One shot in the evening, 30–60 minutes before you want peak clarity or before bed for overnight recovery.
+          <strong>CONKA Clear:</strong> One shot in the evening, 30–60 minutes before you want peak clarity or before bed for overnight recovery.
         </p>
         <p className="mt-3">
           Each box contains 28 shots (one per day). Both together = 56 shots per month.

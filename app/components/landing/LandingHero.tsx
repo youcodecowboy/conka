@@ -7,19 +7,13 @@ const FUNNEL_URL = "#";
 
 /**
  * Landing page hero — banner layout, mobile-first.
- *
- * Structure (mobile):
- *   1. Full-width banner image (slightly zoomed) + bottle count badge
- *   2. Headline — black text
- *   3. Subheadline
- *   4. CTA button (standard gradient)
- *   5. Trust cluster directly under CTA
- *   6. Authority row (Informed Sport + Made in Britain)
+ * Page wraps this in premium-section-luxury + premium-track.
+ * Component is content-only.
  */
 export default function LandingHero() {
   return (
     <div className="flex flex-col items-center">
-      {/* Banner image — zoomed ~15%, with bottle count badge */}
+      {/* Banner image — zoomed ~15%, with sales badge */}
       <div className="relative w-full overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
         <Image
           src="/CONKA_39.jpg"
@@ -30,22 +24,20 @@ export default function LandingHero() {
           sizes="(max-width: 1024px) 100vw, 1280px"
           className="w-full h-auto object-cover scale-[1.15]"
         />
-        {/* Bottle count badge */}
+        {/* Sales badge */}
         <div
           className="absolute top-3 left-3 lg:top-5 lg:left-5 px-3 py-1.5 rounded-full text-xs lg:text-sm font-semibold"
           style={{
-            backgroundColor: "rgba(255,255,255,0.92)",
+            backgroundColor: "var(--color-neuro-blue-light)",
             color: "var(--color-ink)",
-            backdropFilter: "blur(8px)",
           }}
         >
-          56 shots · 2 boxes
+          150,000+ bottles sold
         </div>
       </div>
 
       {/* Content block */}
       <div className="w-full max-w-2xl text-center mt-8 lg:mt-12">
-        {/* Headline */}
         <h1
           className="font-bold leading-tight"
           style={{
@@ -59,9 +51,8 @@ export default function LandingHero() {
           Afternoon Clarity.
         </h1>
 
-        {/* Subheadline */}
         <p
-          className="mt-4 lg:mt-5"
+          className="mt-4"
           style={{
             fontSize: "clamp(0.875rem, 2.5vw, 1.125rem)",
             lineHeight: "var(--premium-font-body-leading)",
@@ -69,10 +60,10 @@ export default function LandingHero() {
             opacity: 0.6,
           }}
         >
-          Flow for focus. Clear for recovery. Take both daily.
+          16 natural ingredients. Two daily shots. Clinically dosed.
         </p>
 
-        {/* CTA — standard gradient button */}
+        {/* CTA */}
         <div className="mt-8 lg:mt-10">
           <a
             href={FUNNEL_URL}
@@ -83,7 +74,7 @@ export default function LandingHero() {
           </a>
         </div>
 
-        {/* Trust cluster — tight to CTA */}
+        {/* Trust cluster */}
         <div className="flex items-center justify-center gap-2 mt-3 text-sm font-semibold opacity-60">
           <span aria-hidden className="text-yellow-500">★★★★★</span>
           <span>4.7/5 from 500+ verified reviews</span>

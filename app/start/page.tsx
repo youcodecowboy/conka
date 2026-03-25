@@ -6,8 +6,9 @@ import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import LandingHero from "../components/landing/LandingHero";
 import LandingBenefits from "../components/landing/LandingBenefits";
-import LandingWhatsInside from "../components/landing/LandingWhatsInside";
 import LandingProductSplit from "../components/landing/LandingProductSplit";
+import LandingWhatsInside from "../components/landing/LandingWhatsInside";
+import LandingFAQ from "../components/landing/LandingFAQ";
 import {
   getSiteTestimonialsGeneral,
   shuffleTestimonials,
@@ -19,32 +20,8 @@ const Testimonials = dynamic(
   { loading: () => <div className="h-[450px]" /> },
 );
 
-const LandingFAQ = dynamic(() => import("../components/home/LandingFAQ"), {
-  loading: () => <div className="h-[350px]" />,
-});
-
-/* ------------------------------------------------------------------ */
-/*  Funnel CTA — used at the end of testimonials and FAQ              */
-/* ------------------------------------------------------------------ */
 const FUNNEL_URL = "#";
 
-function SectionCTA() {
-  return (
-    <div className="mt-8 flex justify-center">
-      <a
-        href={FUNNEL_URL}
-        className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-        style={{ background: "var(--gradient-neuro-blue-accent)" }}
-      >
-        Get Started →
-      </a>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Page — 5 sections, each pushes to the funnel                      */
-/* ------------------------------------------------------------------ */
 export default function StartPage() {
   const [shuffledTestimonials, setShuffledTestimonials] = useState<
     Testimonial[]
@@ -61,7 +38,7 @@ export default function StartPage() {
     >
       <Navigation />
 
-      {/* ===== 1. HERO ===== white */}
+      {/* ===== 1. HERO ===== */}
       <section
         className="premium-section-luxury premium-hero-first"
         style={{ backgroundColor: "white" }}
@@ -72,7 +49,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 2. BENEFITS + TRUST BADGES ===== dark neuro blue */}
+      {/* ===== 2. BENEFITS + TRUST BADGES ===== */}
       <section
         className="premium-section-luxury"
         style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
@@ -83,7 +60,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 3. PRODUCT SPLIT — AM vs PM ===== bone */}
+      {/* ===== 3. PRODUCT SPLIT — AM vs PM ===== */}
       <section
         className="premium-section-luxury premium-bg-bone"
         aria-label="Flow and Clear explained"
@@ -93,7 +70,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 4. WHAT'S INSIDE ===== white */}
+      {/* ===== 4. WHAT'S INSIDE ===== */}
       <section
         className="premium-section-luxury"
         style={{ backgroundColor: "white" }}
@@ -104,7 +81,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 4. TESTIMONIALS ===== bone */}
+      {/* ===== 5. TESTIMONIALS ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
           className="premium-section-luxury premium-bg-bone"
@@ -112,12 +89,21 @@ export default function StartPage() {
         >
           <div className="premium-track">
             <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
-            <SectionCTA />
+            {/* CTA after testimonials */}
+            <div className="mt-8 flex justify-center">
+              <a
+                href={FUNNEL_URL}
+                className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                style={{ background: "var(--gradient-neuro-blue-accent)" }}
+              >
+                Get Started →
+              </a>
+            </div>
           </div>
         </section>
       )}
 
-      {/* ===== 5. FAQ ===== white */}
+      {/* ===== 6. FAQ ===== */}
       <section
         className="premium-section-luxury"
         style={{ backgroundColor: "white" }}
@@ -125,7 +111,6 @@ export default function StartPage() {
       >
         <div className="premium-track">
           <LandingFAQ />
-          <SectionCTA />
         </div>
       </section>
 
