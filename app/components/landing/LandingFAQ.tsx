@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 /**
  * Landing page FAQ — conversion-focused questions.

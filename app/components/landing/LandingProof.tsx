@@ -7,7 +7,7 @@ import {
   getAthleteById,
 } from "@/app/lib/caseStudiesData";
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 // 4 featured athletes for the landing page
 const PROOF_ATHLETE_IDS = [

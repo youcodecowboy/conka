@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 export default function LandingProductSplit() {
   return (

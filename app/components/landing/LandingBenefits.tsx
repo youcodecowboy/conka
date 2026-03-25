@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 const BENEFITS = [
   {

@@ -1,6 +1,6 @@
 "use client";
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 /**
  * Landing guarantee section.

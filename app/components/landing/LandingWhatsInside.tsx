@@ -12,7 +12,7 @@ import Image from "next/image";
  * Component is content-only.
  */
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 const SECTIONS = [
   {

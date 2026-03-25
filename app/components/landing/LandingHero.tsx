@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 /**
  * Landing page hero.
