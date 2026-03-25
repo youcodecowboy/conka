@@ -45,7 +45,7 @@ export default function LandingHero() {
             opacity: 0.6,
           }}
         >
-          16 natural ingredients. Two shots a day. Clinically dosed.
+          16 natural ingredients. Two shots a day. Clinically dosed.†
         </p>
 
         <div className="mt-8">
@@ -60,7 +60,7 @@ export default function LandingHero() {
 
         <div className="flex items-center justify-center lg:justify-start gap-2 mt-3 text-sm font-semibold opacity-60">
           <span aria-hidden className="text-yellow-500">★★★★★</span>
-          <span>4.7/5 from 500+ verified reviews</span>
+          <span>4.7/5 from 500+ verified reviews&#8225;</span>
         </div>
 
         <div className="flex justify-center lg:justify-start mt-6">
@@ -86,7 +86,7 @@ export default function LandingHero() {
             color: "var(--color-ink)",
           }}
         >
-          Over 150,000 bottles sold
+          Over 150,000 bottles sold&#167;
         </div>
       </div>
     </div>

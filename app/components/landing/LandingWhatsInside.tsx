@@ -24,10 +24,10 @@ const SECTIONS = [
           <strong><em>Morning foundation:</em></strong> CONKA Flow supports your nervous system and focus with adaptogens like Ashwagandha and Lemon Balm, so you stay sharp without caffeine, jitters, or a crash.
         </p>
         <p className="mt-3">
-          <strong><em>Evening recovery:</em></strong> CONKA Clear boosts cerebral blood flow and key neurotransmitters with Glutathione and Alpha GPC, so you think clearly under pressure and recover overnight.
+          <strong><em>Evening recovery:</em></strong> CONKA Clear combines nootropics like Alpha GPC and Glutathione with Vitamin C, which contributes to normal psychological function†† and the reduction of tiredness and fatigue.††
         </p>
         <p className="mt-3">
-          <strong><em>Better together:</em></strong> Taking both daily creates a compounding effect. CONKA Flow generates AMPK for energy, CONKA Clear provides glutathione precursors for recovery. The combination is more effective than either alone.
+          <strong><em>Better together:</em></strong> Designed to work as a daily pair. CONKA Flow provides your morning foundation with adaptogens, while CONKA Clear supports your evening with nootropics and antioxidants. A complete daily routine in two shots.
         </p>
       </>
     ),
@@ -46,7 +46,7 @@ const SECTIONS = [
           Vitamin C · Alpha GPC · Glutathione · N-Acetyl Cysteine · Acetyl-L-Carnitine · Ginkgo Biloba · Vitamin B12
         </p>
         <p className="mt-4 text-xs opacity-40">
-          All ingredients are clinically dosed. No proprietary blends. Full amounts on the label.
+          All ingredients are clinically dosed.† No proprietary blends. Full amounts on the label.
         </p>
       </>
     ),

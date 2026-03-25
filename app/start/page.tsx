@@ -10,6 +10,7 @@ import LandingProductSplit from "../components/landing/LandingProductSplit";
 import LandingWhatsInside from "../components/landing/LandingWhatsInside";
 import LandingGuarantee from "../components/landing/LandingGuarantee";
 import LandingFAQ from "../components/landing/LandingFAQ";
+import LandingDisclaimer from "../components/landing/LandingDisclaimer";
 import {
   getSiteTestimonialsGeneral,
   shuffleTestimonials,
@@ -124,7 +125,7 @@ export default function StartPage() {
       <section
         className="premium-section-luxury"
         style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-        aria-label="Verified performance data"
+        aria-label="Clinically validated test scores"
       >
         <div className="premium-track">
           {/* Hide the component's own CTA, replace with funnel CTA */}
@@ -151,6 +152,16 @@ export default function StartPage() {
       >
         <div className="premium-track">
           <LandingFAQ />
+        </div>
+      </section>
+
+      {/* ===== 9. DISCLAIMER ===== */}
+      <section
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="Important information and disclaimers"
+      >
+        <div className="premium-track">
+          <LandingDisclaimer />
         </div>
       </section>
 

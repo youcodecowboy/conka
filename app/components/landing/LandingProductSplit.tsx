@@ -114,15 +114,15 @@ export default function LandingProductSplit() {
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Sharp thinking under pressure</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Supports mental clarity††</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Overnight brain recovery</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Evening wind-down ritual</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Cellular detox + repair</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Cellular renewal + recovery</span>
             </div>
           </div>
 

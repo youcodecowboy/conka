@@ -39,10 +39,10 @@ export default function LandingProof() {
           className="premium-section-heading"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          Verified performance data.
+          Measured with a clinically validated test.^^
         </h2>
         <p className="text-sm mt-2 opacity-50">
-          Real people. Real tests. All measured via the CONKA app.
+          Cognitive test scores measured using the CONKA app&apos;s FDA-cleared assessment, developed from Cambridge University research. Individual results — many factors may influence test performance.
         </p>
       </div>
 
@@ -58,7 +58,7 @@ export default function LandingProof() {
           +{avgImprovement.toFixed(0)}%
         </span>
         <span className="text-xs opacity-60">
-          average cognitive improvement
+          average change in test scores^^
         </span>
       </div>
 

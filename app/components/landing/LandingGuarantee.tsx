@@ -31,7 +31,7 @@ export default function LandingGuarantee() {
             color: "var(--color-ink)",
           }}
         >
-          See the difference, or get your money back.
+          See for yourself.
         </h2>
       </div>
 
@@ -56,7 +56,7 @@ export default function LandingGuarantee() {
               className="text-sm font-semibold"
               style={{ color: "var(--color-ink)" }}
             >
-              30-day money-back guarantee
+              30-day money-back guarantee*
             </span>
           </div>
 
@@ -64,10 +64,10 @@ export default function LandingGuarantee() {
           <div className="flex flex-wrap justify-center lg:justify-start gap-6 mt-6">
             <div>
               <div className="text-2xl font-bold" style={{ color: "var(--color-ink)" }}>
-                16%
+                93%
               </div>
               <div className="text-xs" style={{ color: "var(--color-ink)", opacity: 0.4 }}>
-                Average improvement in 30 days
+                Test sensitivity^^
               </div>
             </div>
             <div>
@@ -85,10 +85,11 @@ export default function LandingGuarantee() {
             className="mt-6 text-sm lg:text-base leading-relaxed"
             style={{ color: "var(--color-ink)", opacity: 0.6 }}
           >
-            Download the free CONKA app and baseline your cognitive performance
-            before your first box arrives. Test regularly in the weeks that
-            follow and watch your scores improve. If they don&apos;t, we refund
-            you in full.*
+            The CONKA app includes a clinically validated cognitive test developed
+            from Cambridge University research (FDA cleared).^^ Baseline before
+            your first box. Track as you build your routine. Decide if
+            it&apos;s for you. Not satisfied after 30 days? Full refund, no
+            questions asked.*
           </p>
 
           {/* CTA + app link */}
@@ -114,7 +115,7 @@ export default function LandingGuarantee() {
             className="mt-4 text-xs"
             style={{ color: "var(--color-ink)", opacity: 0.3 }}
           >
-            *Complete at least 3 tests per week for 4 weeks to qualify for the guarantee.
+            *30-day satisfaction guarantee for first-time customers. Contact support@conka.co.uk for a full refund within 30 days of your first order.
           </p>
         </div>
 

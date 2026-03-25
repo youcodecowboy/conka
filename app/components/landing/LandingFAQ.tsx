@@ -18,12 +18,12 @@ const FAQ_ITEMS = [
   {
     question: "What makes CONKA different from coffee or energy drinks?",
     answer:
-      "CONKA doesn't stimulate, it supports. CONKA Flow uses adaptogens like Ashwagandha and Lemon Balm to regulate your stress response and energy naturally, with no caffeine, no jitters, and no crash. CONKA Clear uses nootropics like Alpha GPC and Glutathione to boost cerebral blood flow and cellular repair. Together they enhance your brain's own systems rather than overriding them.",
+      "CONKA doesn't stimulate, it supports. CONKA Flow uses adaptogens like Ashwagandha and Lemon Balm to regulate your stress response and energy naturally, with no caffeine, no jitters, and no crash. CONKA Clear uses nootropics like Alpha GPC and Glutathione alongside Vitamin C, which contributes to normal psychological function and the protection of cells from oxidative stress.†† Together they support your daily cognitive routine rather than relying on stimulants.",
   },
   {
     question: "When will I notice results?",
     answer:
-      "Most people notice a clearer mind and calmer focus within 30 minutes of their first shot. With consistent daily use, you'll experience improved stress resilience, better sleep quality, and sustained mental performance within the first week. By week four, the benefits compound significantly as the adaptogens build up in your system.",
+      "Everyone responds differently. Some people notice they feel calmer and more focused early on, while for others it takes a few weeks of consistent daily use. We recommend giving CONKA at least 30 days as part of your daily routine. That's why we offer a 30-day money-back guarantee — so you have time to find out what works for you.",
   },
   {
     question: "Is CONKA safe to take every day?",
@@ -43,7 +43,7 @@ const FAQ_ITEMS = [
   {
     question: "Can I cancel my subscription?",
     answer:
-      "Yes. Cancel, pause, or modify anytime from your account. No contracts, no commitments, no questions asked. We also offer a 60-day money-back guarantee, so if you don't feel the difference, you get a full refund.",
+      "Yes. Cancel, pause, or modify anytime from your account. No contracts, no commitments, no questions asked. We also offer a 30-day money-back guarantee, so if you're not satisfied, you get a full refund.",
   },
   {
     question: "When will I receive my order?",
@@ -53,7 +53,7 @@ const FAQ_ITEMS = [
   {
     question: "What if it doesn't work for me?",
     answer:
-      "We offer a 60-day money-back guarantee. Try CONKA for up to 60 days, and if you're not satisfied with your results, contact us for a full refund. No returns needed. We're confident enough in the product to take the risk for you.",
+      "We offer a 30-day money-back guarantee. Try CONKA for up to 30 days, and if you're not satisfied, contact us for a full refund. No returns needed. We're confident enough in the product to take the risk for you.",
   },
 ];
 
