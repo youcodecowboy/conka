@@ -1,17 +1,6 @@
 "use client";
 
-/**
- * Landing page benefits — 2x2 grid + trust badges + CTA.
- *
- * Structure:
- *   1. Heading
- *   2. 2x2 benefit cards (icon, stat, title, subtitle)
- *   3. Trust badge row (2x2: free shipping, certified, batch tested, cancel anytime)
- *   4. CTA button
- *
- * Page wraps this in premium-section-luxury + premium-track.
- * Component is content-only.
- */
+import { useState } from "react";
 
 const FUNNEL_URL = "#";
 
@@ -28,6 +17,9 @@ const BENEFITS = [
     title: "Sharper Focus",
     subtitle: "Stay locked in without caffeine or jitters",
     stat: "+18%",
+    ingredient: "Lemon Balm Extract · 300mg",
+    study: "Kennedy et al. 2003",
+    pmid: "PMID: 12888775",
   },
   {
     id: "sleep",
@@ -39,6 +31,9 @@ const BENEFITS = [
     title: "Better Sleep",
     subtitle: "Fall asleep faster, wake up actually rested",
     stat: "+42%",
+    ingredient: "KSM-66® Ashwagandha · 600mg",
+    study: "Salve et al. 2019",
+    pmid: "PMID: 32021735",
   },
   {
     id: "stress",
@@ -48,8 +43,11 @@ const BENEFITS = [
       </svg>
     ),
     title: "Stress Resilience",
-    subtitle: "Pressure doesn't rattle you, deadlines don't drain you",
+    subtitle: "Pressure doesn't rattle you",
     stat: "-56%",
+    ingredient: "KSM-66® Ashwagandha · 600mg",
+    study: "Chandrasekhar et al. 2012",
+    pmid: "PMID: 23439798",
   },
   {
     id: "brain-fog",
@@ -59,8 +57,11 @@ const BENEFITS = [
       </svg>
     ),
     title: "Clear Thinking",
-    subtitle: "No 3pm wall — sharp mornings, clear afternoons",
+    subtitle: "No 3pm wall, sharp all day",
     stat: "+40%",
+    ingredient: "Reduced Glutathione · 250mg",
+    study: "Sinha et al. 2018",
+    pmid: "PMID: 29559699",
   },
 ];
 
@@ -109,9 +110,10 @@ const TRUST_BADGES = [
 ];
 
 export default function LandingBenefits() {
+  const [tappedId, setTappedId] = useState<string | null>(null);
+
   return (
     <div>
-      {/* Heading — white text on dark background */}
       <div className="mb-8">
         <h2
           className="premium-section-heading text-white"
@@ -119,59 +121,97 @@ export default function LandingBenefits() {
         >
           What you&apos;ll actually feel.
         </h2>
+        <p className="text-sm text-white opacity-40 mt-2">
+          Tap a benefit to see the science.
+        </p>
       </div>
 
-      {/* 2x2 Benefit Grid */}
+      {/* 2x2 Benefit Grid — tappable */}
       <div className="grid grid-cols-2 gap-3 lg:gap-5">
-        {BENEFITS.map((benefit) => (
-          <div
-            key={benefit.id}
-            className="flex flex-col items-center text-center p-4 lg:p-8 rounded-2xl"
-            style={{
-              backgroundColor: "white",
-              border: "1px solid var(--color-premium-stroke)",
-            }}
-          >
-            <div
-              className="w-11 h-11 flex items-center justify-center rounded-full mb-2"
+        {BENEFITS.map((benefit) => {
+          const isOpen = tappedId === benefit.id;
+
+          return (
+            <button
+              key={benefit.id}
+              type="button"
+              onClick={() => setTappedId(isOpen ? null : benefit.id)}
+              className="flex flex-col items-center text-center p-4 lg:p-8 rounded-2xl transition-all duration-200 cursor-pointer"
               style={{
-                backgroundColor: "var(--color-neuro-blue-light)",
-                color: "var(--color-ink)",
+                backgroundColor: "white",
+                border: isOpen
+                  ? "2px solid var(--color-ink)"
+                  : "1px solid var(--color-premium-stroke)",
               }}
             >
-              {benefit.icon}
-            </div>
+              <div
+                className="w-11 h-11 flex items-center justify-center rounded-full mb-2"
+                style={{
+                  backgroundColor: "var(--color-neuro-blue-light)",
+                  color: "var(--color-ink)",
+                }}
+              >
+                {benefit.icon}
+              </div>
 
-            <span
-              className="text-xl lg:text-2xl font-bold"
-              style={{
-                backgroundImage: "var(--gradient-neuro-blue-accent)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              {benefit.stat}
-            </span>
+              <span
+                className="text-xl lg:text-2xl font-bold"
+                style={{
+                  backgroundImage: "var(--gradient-neuro-blue-accent)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {benefit.stat}
+              </span>
 
-            <h3
-              className="text-sm lg:text-base font-semibold mt-1.5"
-              style={{ color: "var(--color-ink)" }}
-            >
-              {benefit.title}
-            </h3>
+              <h3
+                className="text-sm lg:text-base font-semibold mt-1.5"
+                style={{ color: "var(--color-ink)" }}
+              >
+                {benefit.title}
+              </h3>
 
-            <p
-              className="text-xs lg:text-sm mt-1 leading-snug"
-              style={{ color: "var(--color-ink)", opacity: 0.5 }}
-            >
-              {benefit.subtitle}
-            </p>
-          </div>
-        ))}
+              <p
+                className="text-xs lg:text-sm mt-1 leading-snug"
+                style={{ color: "var(--color-ink)", opacity: 0.5 }}
+              >
+                {benefit.subtitle}
+              </p>
+
+              {/* Science detail — shown on tap */}
+              {isOpen && (
+                <div
+                  className="w-full mt-3 pt-3 text-left"
+                  style={{ borderTop: "1px solid var(--color-premium-stroke)" }}
+                >
+                  <p
+                    className="text-xs font-semibold"
+                    style={{ color: "var(--color-ink)", opacity: 0.7 }}
+                  >
+                    {benefit.ingredient}
+                  </p>
+                  <p
+                    className="text-xs font-mono mt-1"
+                    style={{ color: "var(--color-ink)", opacity: 0.4 }}
+                  >
+                    {benefit.study}
+                  </p>
+                  <p
+                    className="text-xs font-mono"
+                    style={{ color: "var(--color-ink)", opacity: 0.3 }}
+                  >
+                    {benefit.pmid}
+                  </p>
+                </div>
+              )}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Trust Badges — 2x2 on mobile, 4-col centred on desktop */}
+      {/* Trust Badges */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-6 lg:max-w-3xl lg:mx-auto">
         {TRUST_BADGES.map((badge) => (
           <div
@@ -200,7 +240,7 @@ export default function LandingBenefits() {
           className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
           style={{ background: "var(--gradient-neuro-blue-accent)" }}
         >
-          Get Started →
+          See Your Options →
         </a>
       </div>
     </div>

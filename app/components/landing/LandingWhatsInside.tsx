@@ -92,35 +92,42 @@ export default function LandingWhatsInside() {
 
   return (
     <div>
-      {/* Heading */}
-      <div className="mb-6">
-        <h2
-          className="premium-section-heading"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-        >
-          Everything you need to know.
-        </h2>
-      </div>
+      {/* Desktop: two-column (image left, content right) */}
+      {/* Mobile: image above heading, then accordion */}
+      <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
+        {/* Lifestyle image — square, sticky on desktop */}
+        <div className="lg:w-2/5 lg:sticky lg:top-8 mb-8 lg:mb-0">
+          <div className="overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)] max-w-md mx-auto lg:max-w-none">
+            <Image
+              src="/lifestyle/FlowHold.jpg"
+              alt="Man holding CONKA Flow bottle outdoors"
+              width={800}
+              height={800}
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
 
-      {/* Lifestyle image */}
-      <div className="mb-8 overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
-        <Image
-          src="/lifestyle/FlowHold.jpg"
-          alt="Man holding CONKA Flow bottle outdoors"
-          width={800}
-          height={800}
-          className="w-full h-48 lg:h-64 object-cover"
-        />
-      </div>
+        {/* Content column */}
+        <div className="lg:w-3/5">
+          {/* Heading */}
+          <div className="mb-6">
+            <h2
+              className="premium-section-heading"
+              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            >
+              Everything you need to know.
+            </h2>
+          </div>
 
-      {/* Accordion */}
-      <div
-        className="rounded-2xl overflow-hidden"
-        style={{
-          backgroundColor: "white",
-          border: "1px solid var(--color-premium-stroke)",
-        }}
-      >
+          {/* Accordion */}
+          <div
+            className="rounded-2xl overflow-hidden"
+            style={{
+              backgroundColor: "white",
+              border: "1px solid var(--color-premium-stroke)",
+            }}
+          >
         {SECTIONS.map((section, i) => {
           const isOpen = openId === section.id;
           const isLast = i === SECTIONS.length - 1;
@@ -190,16 +197,18 @@ export default function LandingWhatsInside() {
         })}
       </div>
 
-      {/* CTA */}
-      <div className="mt-8 flex justify-center">
-        <a
-          href={FUNNEL_URL}
-          className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          style={{ background: "var(--gradient-neuro-blue-accent)" }}
-        >
-          Get Started →
-        </a>
-      </div>
+          {/* CTA */}
+          <div className="mt-8 flex justify-center lg:justify-start">
+            <a
+              href={FUNNEL_URL}
+              className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              style={{ background: "var(--gradient-neuro-blue-accent)" }}
+            >
+              Start Your Routine →
+            </a>
+          </div>
+        </div>{/* end content column */}
+      </div>{/* end flex-row */}
     </div>
   );
 }
