@@ -27,7 +27,7 @@ const CaseStudiesDataDriven = dynamic(
   { loading: () => <div className="h-[600px]" /> },
 );
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 export default function StartPage() {
   const [shuffledTestimonials, setShuffledTestimonials] = useState<
