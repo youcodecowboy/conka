@@ -6,82 +6,43 @@ import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import LandingHero from "../components/landing/LandingHero";
 import LandingBenefits from "../components/landing/LandingBenefits";
-import { keyBenefits } from "../components/KeyBenefits";
+import LandingWhatsInside from "../components/landing/LandingWhatsInside";
 import {
   getSiteTestimonialsGeneral,
   shuffleTestimonials,
 } from "../lib/testimonialsFilter";
 import type { Testimonial } from "../components/testimonials/types";
 
-// Heavy below-fold components — dynamic imports (matches homepage pattern)
-const CaseStudiesDataDriven = dynamic(
-  () => import("../components/CaseStudiesDataDriven"),
-  { loading: () => <div className="h-[1200px]" /> },
-);
-
 const Testimonials = dynamic(
   () => import("../components/testimonials/Testimonials"),
   { loading: () => <div className="h-[450px]" /> },
-);
-
-const AthleteCredibilityCarousel = dynamic(
-  () => import("../components/AthleteCredibilityCarousel"),
-  { loading: () => <div className="h-[350px]" /> },
-);
-
-const FoundersSection = dynamic(
-  () => import("../components/home/FoundersSection"),
-  { loading: () => <div className="h-[350px]" /> },
 );
 
 const LandingFAQ = dynamic(() => import("../components/home/LandingFAQ"), {
   loading: () => <div className="h-[350px]" />,
 });
 
-const AppHero = dynamic(
-  () =>
-    import("../components/app/AppHero").then((mod) => ({
-      default: mod.AppHero,
-    })),
-  { loading: () => <div className="h-[600px]" /> },
-);
+/* ------------------------------------------------------------------ */
+/*  Funnel CTA — used at the end of testimonials and FAQ              */
+/* ------------------------------------------------------------------ */
+const FUNNEL_URL = "#";
 
-/* ------------------------------------------------------------------ */
-/*  Inline CTA — reused between sections                              */
-/* ------------------------------------------------------------------ */
-function CTABanner({ text }: { text?: string }) {
+function SectionCTA() {
   return (
-    <div className="py-6 md:py-10 px-5">
-      <div className="max-w-md mx-auto flex flex-col items-center gap-3">
-        {text && (
-          <p className="premium-body text-center opacity-70">{text}</p>
-        )}
-        <a
-          href="#"
-          className="block w-full text-center py-4 px-8 rounded-[var(--premium-radius-interactive)] text-white font-semibold transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          style={{ background: "var(--gradient-neuro-blue-accent)" }}
-        >
-          Get Started →
-        </a>
-      </div>
+    <div className="mt-8 flex justify-center">
+      <a
+        href={FUNNEL_URL}
+        className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
+        style={{ background: "var(--gradient-neuro-blue-accent)" }}
+      >
+        Get Started →
+      </a>
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  Placeholder — for sections not yet built                          */
-/* ------------------------------------------------------------------ */
-function Placeholder({ title, note }: { title: string; note: string }) {
-  return (
-    <div className="premium-card-soft text-center py-16">
-      <h2 className="premium-section-heading">{title}</h2>
-      <p className="premium-body mx-auto mt-4 opacity-50">{note}</p>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Page                                                              */
+/*  Page — 5 sections, each pushes to the funnel                      */
 /* ------------------------------------------------------------------ */
 export default function StartPage() {
   const [shuffledTestimonials, setShuffledTestimonials] = useState<
@@ -99,7 +60,7 @@ export default function StartPage() {
     >
       <Navigation />
 
-      {/* ===== 1. HERO ===== */}
+      {/* ===== 1. HERO ===== white */}
       <section
         className="premium-section-luxury premium-hero-first"
         style={{ backgroundColor: "white" }}
@@ -110,51 +71,28 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 2. KEY BENEFITS — What you'll actually feel ===== */}
+      {/* ===== 2. BENEFITS + TRUST BADGES ===== bone */}
       <section
         className="premium-section-luxury premium-bg-bone"
         aria-label="Key Benefits"
       >
         <div className="premium-track">
-          <LandingBenefits benefits={keyBenefits} />
+          <LandingBenefits />
         </div>
       </section>
 
-      {/* ===== 3. CASE STUDIES / REAL DATA ===== */}
-      <section className="premium-section-luxury premium-bg-bone">
-        <div className="premium-track">
-          <CaseStudiesDataDriven />
-        </div>
-      </section>
-
-      {/* ===== 4. US VS THEM (placeholder) ===== */}
-      <section className="premium-section-luxury premium-bg-bone">
-        <div className="premium-track">
-          <Placeholder
-            title="CONKA vs Coffee & Energy Drinks"
-            note="Comparison content — placeholder for copy from January Brands."
-          />
-        </div>
-      </section>
-
-      <CTABanner />
-
-      {/* ===== 4. PRODUCT EXPLAINER (placeholder) ===== */}
+      {/* ===== 3. WHAT'S INSIDE ===== white */}
       <section
         className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        style={{ backgroundColor: "white" }}
+        aria-label="What's inside CONKA"
       >
         <div className="premium-track">
-          <Placeholder
-            title="Flow (AM) + Clear (PM) = Both"
-            note="Product explainer — AM/PM positioning, synergistic effect. Placeholder for copy."
-          />
+          <LandingWhatsInside />
         </div>
       </section>
 
-      <CTABanner />
-
-      {/* ===== 6. TESTIMONIALS ===== */}
+      {/* ===== 4. TESTIMONIALS ===== bone */}
       {shuffledTestimonials.length > 0 && (
         <section
           className="premium-section-luxury premium-bg-bone"
@@ -162,46 +100,20 @@ export default function StartPage() {
         >
           <div className="premium-track">
             <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
+            <SectionCTA />
           </div>
         </section>
       )}
 
-      <CTABanner />
-
-      {/* ===== 7. ATHLETES — Why Athletes Trust CONKA ===== */}
+      {/* ===== 5. FAQ ===== white */}
       <section
         className="premium-section-luxury"
         style={{ backgroundColor: "white" }}
-        aria-label="Athletes who use CONKA"
-      >
-        <div className="premium-track">
-          <AthleteCredibilityCarousel />
-        </div>
-      </section>
-
-      {/* ===== 8. THE APP ===== */}
-      <section aria-label="The CONKA App">
-        <AppHero />
-      </section>
-
-      {/* ===== 9. FOUNDER STORY ===== */}
-      <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-        aria-label="Our Story"
-      >
-        <div className="premium-track">
-          <FoundersSection />
-        </div>
-      </section>
-
-      {/* ===== 10. FAQ ===== */}
-      <section
-        className="premium-section-luxury premium-bg-bone"
         aria-label="FAQ"
       >
         <div className="premium-track">
           <LandingFAQ />
+          <SectionCTA />
         </div>
       </section>
 
