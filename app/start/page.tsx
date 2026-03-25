@@ -113,14 +113,25 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 2. CASE STUDIES / ATHLETE DATA ===== */}
+      {/* ===== 2. KEY BENEFITS — What you'll actually feel ===== */}
+      <section
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        aria-label="Key Benefits"
+      >
+        <div className="premium-track">
+          <KeyBenefits benefits={keyBenefits} />
+        </div>
+      </section>
+
+      {/* ===== 3. CASE STUDIES / REAL DATA ===== */}
       <section className="premium-section-luxury premium-bg-bone">
         <div className="premium-track">
           <CaseStudiesDataDriven />
         </div>
       </section>
 
-      {/* ===== 3. US VS THEM (placeholder) ===== */}
+      {/* ===== 4. US VS THEM (placeholder) ===== */}
       <section className="premium-section-luxury premium-bg-bone">
         <div className="premium-track">
           <Placeholder
@@ -146,17 +157,6 @@ export default function StartPage() {
       </section>
 
       <CTABanner />
-
-      {/* ===== 5. CLINICAL RESULTS ===== */}
-      <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-        aria-label="Key Benefits"
-      >
-        <div className="premium-track">
-          <KeyBenefits benefits={keyBenefits} />
-        </div>
-      </section>
 
       {/* ===== 6. TESTIMONIALS ===== */}
       {shuffledTestimonials.length > 0 && (
