@@ -70,12 +70,11 @@ export default function ProductSelector({
                 <div className="flex gap-4">
                   {/* Product thumbnail */}
                   <div
-                    className={`flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center transition-all ${
-                      isActive ? "ring-2 ring-offset-1" : ""
-                    }`}
+                    className="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center transition-all"
                     style={{
                       backgroundColor: `${display.accent}10`,
-                      ringColor: isActive ? display.accent : undefined,
+                      outline: isActive ? `2px solid ${display.accent}` : undefined,
+                      outlineOffset: isActive ? "2px" : undefined,
                     }}
                   >
                     <Image
