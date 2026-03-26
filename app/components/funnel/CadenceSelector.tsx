@@ -40,10 +40,10 @@ export default function CadenceSelector({
         className="text-2xl lg:text-3xl font-semibold tracking-[var(--letter-spacing-premium-title)] mb-2"
         style={{ color: "var(--color-ink)" }}
       >
-        Choose your plan
+        Choose your quantity
       </h2>
       <p className="text-sm text-gray-500 mb-5">
-        Select how you'd like to receive your CONKA
+        Select how often you&apos;d like CONKA delivered
       </p>
 
       <div className="flex flex-col gap-3">
@@ -125,14 +125,19 @@ export default function CadenceSelector({
                 {/* Expanded: full details for selected card */}
                 {isActive && (
                   <div className="mt-3 ml-8">
-                    {/* What you get — prominent */}
-                    <div className="bg-gray-50 rounded-lg px-3 py-2 mb-3">
+                    {/* What you get + per-shot price — prominent */}
+                    <div className="bg-gray-50 rounded-lg px-3 py-2.5 mb-3">
                       <p className="text-sm font-medium text-[var(--color-ink)]">
                         📦 {whatYouGet}
                       </p>
-                      <p className="text-xs text-gray-500 mt-0.5">
-                        {pricing.shotCount} shots · {formatPrice(pricing.perShot)}/shot
-                      </p>
+                      <div className="flex items-baseline gap-2 mt-1">
+                        <span className="text-lg font-bold text-[var(--color-ink)]">
+                          {formatPrice(pricing.perShot)}
+                        </span>
+                        <span className="text-xs text-gray-500">per shot</span>
+                        <span className="text-xs text-gray-300">·</span>
+                        <span className="text-xs text-gray-500">{pricing.shotCount} shots total</span>
+                      </div>
                     </div>
 
                     {/* Feature bullets */}

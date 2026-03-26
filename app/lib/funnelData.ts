@@ -239,9 +239,26 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
 };
 
 // ============================================
-// HERO IMAGES (swap per product selection)
+// HERO IMAGES
 // ============================================
 
+/** Step 1: Static hero per cadence selection */
+export const FUNNEL_CADENCE_HERO: Record<FunnelCadence, { src: string; alt: string }> = {
+  "monthly-sub": {
+    src: "/CONKA_41.jpg",
+    alt: "CONKA monthly subscription — delivered to your door every month",
+  },
+  "monthly-otp": {
+    src: "/CONKA_41.jpg",
+    alt: "CONKA one-time purchase",
+  },
+  "quarterly-sub": {
+    src: "/CONKA_46.jpg",
+    alt: "CONKA quarterly supply — 3 months of brain performance",
+  },
+};
+
+/** Step 2: Product-specific hero (static fallback) */
 export const FUNNEL_HERO_IMAGES: Record<FunnelProduct, { src: string; alt: string }> = {
   both: {
     src: "/formulas/ConkaAmPm.jpg",
@@ -255,6 +272,36 @@ export const FUNNEL_HERO_IMAGES: Record<FunnelProduct, { src: string; alt: strin
     src: "/formulas/conkaClear/ClearBox.jpg",
     alt: "CONKA Clear — evening clarity and recovery formula",
   },
+};
+
+/** Step 2: Slideshow images per product (carousel) */
+export const FUNNEL_PRODUCT_SLIDESHOW: Record<FunnelProduct, { src: string }[]> = {
+  flow: [
+    { src: "/formulas/conkaFlow/FlowBox.jpg" },
+    { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
+    { src: "/formulas/conkaFlow/FlowStats.jpg" },
+    { src: "/formulas/conkaFlow/FlowEssentials.jpg" },
+    { src: "/formulas/conkaFlow/FlowCertified.jpg" },
+    { src: "/formulas/conkaFlow/FlowReviews.jpg" },
+  ],
+  clear: [
+    { src: "/formulas/conkaClear/ClearBox.jpg" },
+    { src: "/formulas/conkaClear/ClearIngredients.jpg" },
+    { src: "/formulas/conkaClear/ClearStats.jpg" },
+    { src: "/formulas/conkaClear/ClearEssentials.jpg" },
+    { src: "/formulas/conkaClear/ClearCertified.jpg" },
+    { src: "/formulas/conkaClear/ClearReviews.jpg" },
+  ],
+  // "Both" uses the Balance protocol hero images (box + Flow/Clear details)
+  both: [
+    { src: "/protocols/BalanceBox.jpg" },
+    { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
+    { src: "/formulas/conkaClear/ClearIngredients.jpg" },
+    { src: "/formulas/conkaFlow/FlowStats.jpg" },
+    { src: "/formulas/conkaClear/ClearStats.jpg" },
+    { src: "/formulas/conkaFlow/FlowReviews.jpg" },
+    { src: "/formulas/conkaClear/ClearReviews.jpg" },
+  ],
 };
 
 // ============================================
@@ -283,22 +330,6 @@ export function isVariantReady(
 ): boolean {
   const config = FUNNEL_VARIANTS[product][cadence];
   return Boolean(config?.variantId);
-}
-
-/** Format the CTA button text based on cadence and price */
-export function getCTAText(
-  cadence: FunnelCadence,
-  price: number,
-): string {
-  const formatted = formatPrice(price);
-  switch (cadence) {
-    case "monthly-sub":
-      return `Subscribe & Save — ${formatted}/mo`;
-    case "monthly-otp":
-      return `Buy Now — ${formatted}`;
-    case "quarterly-sub":
-      return `Subscribe & Save — ${formatted}/quarter`;
-  }
 }
 
 /** Get the cadence frequency label for cart attributes */

@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { track } from "@vercel/analytics/react";
-import Image from "next/image";
 import FunnelStepIndicator from "../components/funnel/FunnelStepIndicator";
 import FunnelHeroAsset from "../components/funnel/FunnelHeroAsset";
 import CadenceSelector from "../components/funnel/CadenceSelector";
@@ -16,7 +15,6 @@ import {
   type UpsellOffer,
   getOfferPricing,
   getUpsellOffer,
-  getCTAText,
 } from "../lib/funnelData";
 import {
   funnelCheckout,
@@ -53,6 +51,14 @@ export default function FunnelClient() {
     });
   }, []);
 
+  // --- Step navigation ---
+
+  const goToStep = useCallback((step: 1 | 2) => {
+    setCurrentStep(step);
+    setError(null);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
   // --- Step 1: Cadence ---
 
   const handleCadenceChange = useCallback(
@@ -70,10 +76,8 @@ export default function FunnelClient() {
 
   const handleStep1Next = useCallback(() => {
     safeTrack("funnel:step1_completed", { cadence, product });
-    setCurrentStep(2);
-    // Scroll to top when navigating
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [cadence, product]);
+    goToStep(2);
+  }, [cadence, product, goToStep]);
 
   // --- Step 2: Product ---
 
@@ -89,12 +93,6 @@ export default function FunnelClient() {
     },
     [product, cadence],
   );
-
-  const handleBack = useCallback(() => {
-    setCurrentStep(1);
-    setError(null);
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, []);
 
   // --- Checkout ---
 
@@ -177,46 +175,51 @@ export default function FunnelClient() {
 
   // --- CTA labels ---
 
-  const pricing = getOfferPricing(product, cadence);
   const step1Label = "Choose Product";
-  const step2Label = getCTAText(cadence, pricing.price);
+  const step2Label = "Go to Checkout";
+
 
   return (
     <div className="min-h-screen bg-white text-[var(--color-ink)]">
-      {/* Minimal header — logo only */}
-      <header className="flex items-center justify-center py-4 px-4 border-b border-gray-100">
-        <Image
-          src="/conka.svg"
-          alt="CONKA"
-          width={100}
-          height={28}
-          priority
-        />
-      </header>
+      {/* Fixed header with step breadcrumb */}
+      <FunnelStepIndicator
+        currentStep={currentStep}
+        onStepClick={goToStep}
+      />
+
+      {/* Spacer for fixed header */}
+      <div className="h-12 lg:h-14" />
 
       {/* Main funnel content */}
-      <main className="lg:flex lg:min-h-[calc(100vh-57px)]">
+      <main className="lg:flex lg:min-h-[calc(100vh-56px)]">
         {/* Desktop: Left column — sticky hero asset */}
-        <div className="hidden lg:flex lg:w-1/2 lg:sticky lg:top-0 lg:h-screen lg:items-center lg:justify-center lg:p-8 lg:bg-gray-50">
-          <FunnelHeroAsset product={product} />
+        <div className="hidden lg:flex lg:w-1/2 lg:sticky lg:top-14 lg:h-[calc(100vh-56px)] lg:items-center lg:justify-center lg:p-8 lg:bg-gray-50">
+          <FunnelHeroAsset
+            product={product}
+            cadence={cadence}
+            mode={currentStep === 1 ? "static" : "carousel"}
+          />
         </div>
 
         {/* Right column (full width on mobile) */}
         <div className="w-full lg:w-1/2 lg:overflow-y-auto">
-          {/* Step Indicator */}
-          <div className="px-5 pt-4 lg:px-10 lg:pt-8">
-            <FunnelStepIndicator currentStep={currentStep} />
-          </div>
 
-          {/* ===== STEP 1: Choose Plan ===== */}
+          {/* ===== STEP 1: Choose Quantity ===== */}
           {currentStep === 1 && (
             <>
-              {/* Mobile hero */}
-              <div className="px-5 pt-2 pb-5 lg:hidden">
-                <FunnelHeroAsset product={product} />
+              {/* Mobile sticky hero — stays visible, content scrolls beneath */}
+              <div
+                className="lg:hidden sticky z-10"
+                style={{ top: "48px" }}
+              >
+                <FunnelHeroAsset
+                  product={product}
+                  cadence={cadence}
+                  mode="static"
+                />
               </div>
 
-              <div className="px-5 pb-6 lg:px-10">
+              <div className="px-5 pt-5 pb-6 lg:px-10 lg:pt-8">
                 <CadenceSelector
                   cadence={cadence}
                   product={product}
@@ -246,27 +249,19 @@ export default function FunnelClient() {
           {/* ===== STEP 2: Choose Product ===== */}
           {currentStep === 2 && (
             <>
-              {/* Mobile hero */}
-              <div className="px-5 pt-2 pb-5 lg:hidden">
-                <FunnelHeroAsset product={product} />
+              {/* Mobile sticky hero — carousel */}
+              <div
+                className="lg:hidden sticky z-10"
+                style={{ top: "48px" }}
+              >
+                <FunnelHeroAsset
+                  product={product}
+                  cadence={cadence}
+                  mode="carousel"
+                />
               </div>
 
-              {/* Back button */}
-              <div className="px-5 lg:px-10">
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[var(--color-ink)] transition-colors mb-4"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M19 12H5" />
-                    <path d="M12 19l-7-7 7-7" />
-                  </svg>
-                  Back
-                </button>
-              </div>
-
-              <div className="px-5 pb-6 lg:px-10">
+              <div className="px-5 pt-5 pb-6 lg:px-10 lg:pt-8">
                 <ProductSelector
                   product={product}
                   cadence={cadence}

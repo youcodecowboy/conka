@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { type UpsellOffer } from "@/app/lib/funnelData";
 import { formatPrice } from "@/app/lib/productData";
 
@@ -18,6 +19,14 @@ export default function UpsellModal({
   onDecline,
   loading,
 }: UpsellModalProps) {
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = ""; };
+    }
+  }, [isOpen]);
+
   if (!isOpen || !offer) return null;
 
   return (
@@ -26,6 +35,9 @@ export default function UpsellModal({
       <div
         className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm transition-opacity"
         onClick={onDecline}
+        role="button"
+        aria-label="Close upgrade offer"
+        tabIndex={-1}
       />
 
       {/* Bottom sheet */}

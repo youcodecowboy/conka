@@ -9,6 +9,11 @@ export const metadata: Metadata = {
     index: false,
     follow: false,
   },
+  openGraph: {
+    title: "Get Started with CONKA",
+    description:
+      "Choose your daily brain performance system. Flow + Clear, delivered monthly.",
+  },
 };
 
 export default function FunnelPage() {
