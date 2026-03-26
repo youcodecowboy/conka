@@ -20,7 +20,7 @@ export default function FunnelCTA({
         onClick={onClick}
         disabled={loading}
         className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:hover:scale-100"
-        style={{ background: "var(--gradient-neuro-blue-accent)" }}
+        style={{ backgroundColor: "var(--color-ink)" }}
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">

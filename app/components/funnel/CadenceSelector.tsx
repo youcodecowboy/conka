@@ -60,7 +60,7 @@ export default function CadenceSelector({
               onClick={() => onChange(cadenceKey)}
               className={`relative w-full text-left rounded-xl border-2 transition-all select-none overflow-hidden ${
                 isActive
-                  ? "border-[var(--color-ink)] bg-[var(--color-ink)]/[0.02]"
+                  ? "border-[#4058bb] bg-[#4058bb]/[0.03]"
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >
@@ -69,9 +69,10 @@ export default function CadenceSelector({
                 <div
                   className={`text-center py-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
                     isActive
-                      ? "bg-[var(--color-ink)] text-white"
+                      ? "text-white"
                       : "bg-gray-50 text-gray-400"
                   }`}
+                  style={isActive ? { background: "var(--gradient-neuro-blue-accent)" } : undefined}
                 >
                   {display.savingsLabel
                     ? `⚡ ${display.badge} · ${display.savingsLabel} ⚡`
@@ -87,7 +88,7 @@ export default function CadenceSelector({
                     <div
                       className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
                         isActive
-                          ? "border-[var(--color-ink)] bg-[var(--color-ink)]"
+                          ? "border-[#4058bb] bg-[#4058bb]"
                           : "border-gray-300"
                       }`}
                     >

@@ -5,7 +5,6 @@ import {
   type FunnelProduct,
   type FunnelCadence,
   FUNNEL_CADENCE_HERO,
-  FUNNEL_CADENCES,
   FUNNEL_HERO_IMAGES,
   FUNNEL_PRODUCT_SLIDESHOW,
 } from "@/app/lib/funnelData";
@@ -61,12 +60,6 @@ export default function FunnelHeroAsset({
         );
       })}
 
-      {/* Cadence label overlay */}
-      <div className="absolute bottom-4 left-4">
-        <span className="inline-block rounded-full bg-white/90 backdrop-blur-sm px-4 py-1.5 text-sm font-medium text-[var(--color-ink)]">
-          {FUNNEL_CADENCES[cadence].label}
-        </span>
-      </div>
     </div>
   );
 }
