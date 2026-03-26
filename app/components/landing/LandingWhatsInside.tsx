@@ -202,7 +202,7 @@ export default function LandingWhatsInside() {
             <a
               href={FUNNEL_URL}
               className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{ background: "var(--gradient-neuro-blue-accent)" }}
+              style={{ backgroundColor: "var(--color-ink)" }}
             >
               Start Your Routine →
             </a>

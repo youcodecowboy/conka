@@ -31,7 +31,7 @@ export default function LandingGuarantee() {
             color: "var(--color-ink)",
           }}
         >
-          See for yourself.
+          The only supplement that proves it&apos;s working.
         </h2>
       </div>
 
@@ -85,10 +85,10 @@ export default function LandingGuarantee() {
             className="mt-6 text-sm lg:text-base leading-relaxed"
             style={{ color: "var(--color-ink)", opacity: 0.6 }}
           >
-            The CONKA app includes a clinically validated cognitive test developed
-            from Cambridge University research (FDA cleared).^^ Baseline before
-            your first box. Track as you build your routine. Decide if
-            it&apos;s for you. Not satisfied after 30 days? Full refund, no
+            We didn&apos;t want to tell you it works. We built an app so you
+            could prove it yourself. Baseline before your first box. Track as
+            you build your routine. Week 1, you feel the difference. Week 4,
+            you measure it. Not satisfied after 30 days? Full refund, no
             questions asked.*
           </p>
 
@@ -97,7 +97,7 @@ export default function LandingGuarantee() {
             <a
               href={FUNNEL_URL}
               className="block w-full sm:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{ background: "var(--gradient-neuro-blue-accent)" }}
+              style={{ backgroundColor: "var(--color-ink)" }}
             >
               Try Risk-Free →
             </a>

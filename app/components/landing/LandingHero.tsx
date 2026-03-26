@@ -35,9 +35,9 @@ export default function LandingHero() {
               color: "var(--color-ink)",
             }}
           >
-            Morning Energy.
+            Sharp at 9am.
             <br />
-            Evening Clarity.
+            Still sharp at 9pm.
           </h1>
 
           <p
@@ -49,9 +49,11 @@ export default function LandingHero() {
               opacity: 0.6,
             }}
           >
-            16 clinically dosed ingredients. Two shots a day.
+            Coffee borrows from tomorrow. CONKA invests in it.
             <br className="hidden lg:inline" />
-            The daily brain performance system backed by science.
+            Two shots a day. 16 clinically dosed ingredients.
+            <br className="hidden lg:inline" />
+            The only supplement that proves it&apos;s working.
           </p>
 
           {/* CTA — high contrast */}

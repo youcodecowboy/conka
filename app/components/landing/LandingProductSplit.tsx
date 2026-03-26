@@ -13,7 +13,7 @@ export default function LandingProductSplit() {
           className="premium-section-heading"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          One system. Two shots. Every day.
+          Flow starts it. Clear completes it.
         </h2>
       </div>
 
@@ -59,19 +59,19 @@ export default function LandingProductSplit() {
             Caffeine-free · Patented formula
           </p>
 
-          {/* Benefits — clean list */}
+          {/* Benefits — outcome-led */}
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#f59e0b" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Sustained focus without stimulants</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Show up the same at 4pm as at 9am</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#f59e0b" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Calm, steady energy all day</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Calm focus that builds, not crashes</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#f59e0b" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Lower stress response</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Pressure doesn&apos;t rattle you</span>
             </div>
           </div>
 
@@ -110,19 +110,19 @@ export default function LandingProductSplit() {
             Nootropic · Antioxidant blend
           </p>
 
-          {/* Benefits — clean list */}
+          {/* Benefits — outcome-led */}
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Supports mental clarity††</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Clears the mental debt of a hard day</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Evening wind-down ritual</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Recovery isn&apos;t just physical</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Cellular renewal + recovery</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Wake up ready to go again</span>
             </div>
           </div>
 
@@ -140,7 +140,7 @@ export default function LandingProductSplit() {
         <a
           href={FUNNEL_URL}
           className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          style={{ background: "var(--gradient-neuro-blue-accent)" }}
+          style={{ backgroundColor: "var(--color-ink)" }}
         >
           Get Both →
         </a>
