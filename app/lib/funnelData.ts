@@ -150,10 +150,17 @@ const FUNNEL_VARIANTS: Record<FunnelProduct, Record<FunnelCadence, FunnelVariant
 export interface FunnelProductDisplay {
   name: string;
   label: string;
+  tagline: string;
   shotCount: number;
   description: string;
-  image: string;
+  /** Small product thumbnail for the card */
+  thumbnail: string;
   badge?: string;
+  /** Accent colour for the card (warm for Flow, cool for Clear, gradient for Both) */
+  accent: string;
+  /** Time-of-day indicator */
+  timeLabel: string;
+  timeEmoji: string;
   features: string[];
 }
 
@@ -161,38 +168,50 @@ export const FUNNEL_PRODUCTS: Record<FunnelProduct, FunnelProductDisplay> = {
   both: {
     name: "Both",
     label: "Flow + Clear",
+    tagline: "The complete cognitive day",
     shotCount: 56,
-    description: "AM energy + PM clarity — the complete daily system",
-    image: "/formulas/BothShots.jpg",
+    description: "Most people optimise their mornings. The best people optimise their full day.",
+    thumbnail: "/formulas/BothShots.jpg",
     badge: "Most Popular",
+    accent: "#4058bb",
+    timeLabel: "AM + PM",
+    timeEmoji: "☀️🌙",
     features: [
       "2 boxes (56 shots)",
-      "Synergistic AM + PM formula",
+      "Flow starts it, Clear completes it",
       "Best value per shot",
     ],
   },
   flow: {
     name: "Flow",
     label: "CONKA Flow",
+    tagline: "Your morning edge",
     shotCount: 28,
-    description: "Morning energy & focus",
-    image: "/formulas/conkaFlow/FlowNoBackground.png",
+    description: "Calm focus that builds across the day. Not a stimulant — an upgrade.",
+    thumbnail: "/formulas/conkaFlow/FlowNoBackground.png",
+    accent: "#d97706",
+    timeLabel: "Morning",
+    timeEmoji: "☀️",
     features: [
       "1 box (28 shots)",
-      "AMPK activation for energy",
-      "Take in the morning",
+      "Show up the same at 4pm as at 9am",
+      "Caffeine-free, patented formula",
     ],
   },
   clear: {
     name: "Clear",
     label: "CONKA Clear",
+    tagline: "Your evening reset",
     shotCount: 28,
-    description: "Evening clarity & recovery",
-    image: "/formulas/conkaClear/ClearNoBackground.png",
+    description: "Clears the mental debt of a hard day. Recovery isn\u2019t just physical.",
+    thumbnail: "/formulas/conkaClear/ClearNoBackground.png",
+    accent: "#0369a1",
+    timeLabel: "Evening",
+    timeEmoji: "🌙",
     features: [
       "1 box (28 shots)",
-      "Glutathione precursors for recovery",
-      "Take in the evening",
+      "Wake up ready to go again",
+      "Glutathione precursor blend",
     ],
   },
 };

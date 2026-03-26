@@ -227,15 +227,12 @@ export default function FunnelClient() {
                 />
               </div>
 
-              <div className="px-5 pb-6 lg:px-10">
-                <FunnelAssurance />
-              </div>
-
               {/* Spacer for sticky CTA */}
               <div className="h-24 lg:hidden" />
 
-              {/* Desktop CTA */}
+              {/* Desktop: assurance + CTA */}
               <div className="hidden lg:block px-10 pb-8">
+                <FunnelAssurance />
                 <FunnelCTA
                   label={step1Label}
                   onClick={handleStep1Next}
@@ -269,15 +266,12 @@ export default function FunnelClient() {
                 />
               </div>
 
-              <div className="px-5 pb-6 lg:px-10">
-                <FunnelAssurance />
-              </div>
-
               {/* Spacer for sticky CTA */}
               <div className="h-24 lg:hidden" />
 
-              {/* Desktop CTA */}
+              {/* Desktop: assurance + CTA */}
               <div className="hidden lg:block px-10 pb-8">
+                <FunnelAssurance />
                 <FunnelCTA
                   label={step2Label}
                   onClick={handleCheckout}
