@@ -1,7 +1,8 @@
 # Website Simplification & Ad Funnel Plan
 
-> **Status:** Planning
+> **Status:** Phase 2 complete, Phase 4 in progress
 > **Created:** 2026-03-24
+> **Last updated:** 2026-03-25
 > **Context:** Following workshop with January Brands (Overload). CONKA is pivoting from a 4-protocol system to a simplified Flow / Clear / Both offering, with a dedicated ad landing page and frictionless funnel page for paid Meta traffic.
 
 ---
@@ -77,13 +78,13 @@ These tasks have no pricing/SKU dependency and unblock everything else.
 
 ## Phase 2: Ad Landing Page
 
-> **Status:** Built — iterating on copy and assets.
+> **Status:** Built. CTAs now point to `/funnel`.
 > **Route:** `/start` (`app/start/page.tsx`)
 > **SEO:** `noindex` via metadata in server component wrapper.
 
 ### 2A. Landing page — what's built
 
-The landing page is live at `/start`. It's a standalone conversion page for paid Meta traffic. Every section has its own CTA pointing to the funnel page (currently `#`, will be updated when the funnel is built). All components are landing-specific — they don't modify shared site components.
+The landing page is live at `/start`. It's a standalone conversion page for paid Meta traffic. Every section has its own CTA pointing to the funnel page (`/funnel`). All components are landing-specific — they don't modify shared site components.
 
 **Page structure (8 sections):**
 
@@ -108,6 +109,7 @@ The landing page is live at `/start`. It's a standalone conversion page for paid
 | `LandingWhatsInside.tsx` | Collapsible accordion (what it does, ingredients, science, how to take). Desktop: lifestyle image left, accordion right. |
 | `LandingGuarantee.tsx` | App as confidence booster — 30-day money-back guarantee, phone mockup, stats, CTA. |
 | `LandingFAQ.tsx` | 8 conversion-focused FAQ items ordered by purchase intent. Desktop: lifestyle image left, accordion right. |
+| `LandingProof.tsx` | Case study proof section with athlete data. |
 
 **Assets used:**
 - `/CONKA_39.jpg` — hero product shot (both boxes + bottles)
@@ -129,7 +131,7 @@ The landing page is live at `/start`. It's a standalone conversion page for paid
 - Customer avatar photos for trust cluster below hero CTA
 
 **Blocked by decisions:**
-- Funnel page URL — all CTAs currently point to `#`. Once the funnel page is built, update the `FUNNEL_URL` constant in each landing component.
+- ~~Funnel page URL — all CTAs currently point to `#`. Once the funnel page is built, update the `FUNNEL_URL` constant in each landing component.~~ **Done.** All CTAs now point to `/funnel`.
 - Offer / value proposition — what's the paid traffic offer? (e.g. "Save 20%", "First box free"). Needed for hero value badge and CTA copy.
 - Final headline copy from January Brands
 
@@ -149,118 +151,133 @@ The landing page is live at `/start`. It's a standalone conversion page for paid
 
 **Size:** Medium
 **Blocked by:** Final pricing from COGS analysis
-**Note:** This is Shopify Admin work, not code. But it must happen before Phase 4.
+**Note:** This is Shopify Admin work, not code. But it must happen before Phase 4 is fully functional.
 
 ### 3B. Update product data layer
 
-**What:** Add new types, pricing, and variant mappings for the simplified offering:
-- New type (e.g. `OfferProduct = "flow" | "clear" | "both"`)
-- New type (e.g. `OfferCadence = "monthly-sub" | "monthly-otp" | "quarterly-sub"`)
-- New pricing data structure
-- New variant ID mappings in `shopifyProductMapping.ts`
-- New helper: `getOfferPricing(product, cadence)` and `getOfferVariantId(product, cadence)`
+**What:** ~~Add new types, pricing, and variant mappings for the simplified offering.~~ **Partially done.** The funnel data layer (`app/lib/funnelData.ts`) is built as a standalone module with its own types, pricing matrix, and variant mapping. It does not modify the existing product data modules.
 
-**Why:** Clean separation from old protocol data. The funnel page imports from this. Old data stays until the main site is fully migrated.
+**What's built:**
+- `FunnelProduct = "both" | "flow" | "clear"` and `FunnelCadence = "monthly-sub" | "monthly-otp" | "quarterly-sub"` types
+- 3×3 pricing matrix with mock values (price, perShot, shotCount, compareAtPrice)
+- 3×3 variant mapping — Flow/Clear monthly-sub and monthly-otp use real existing Shopify variant IDs; Both and quarterly are empty strings awaiting Shopify setup
+- `getOfferPricing()`, `getOfferVariant()`, `isVariantReady()` helpers
+- Product and cadence display data with feature bullets
 
-**Files:** `productTypes.ts`, `productPricing.ts`, `shopifyProductMapping.ts`, `productHelpers.ts`, `productData.ts`
-**Size:** Medium
-**Dependencies:** 3A (variant IDs)
+**What's remaining:**
+- Replace mock pricing with real values from COGS analysis
+- Fill in "Both" variant IDs after Shopify product creation (3A)
+- Fill in quarterly selling plan IDs after Shopify setup (3A)
+
+**Files:** `app/lib/funnelData.ts` (new, standalone)
+**Dependencies:** 3A (variant IDs) for full functionality
 
 ---
 
-## Phase 4: Funnel Page (blocked by Phase 3)
+## Phase 4: Funnel Page
 
-> **Design principle #1: Mobile-first.** If it doesn't perform and look great on mobile, we have failed. Paid Meta traffic is overwhelmingly mobile. Every decision below is evaluated through a mobile lens first.
+> **Status:** Built — scaffolded with mock data, iterating on UX.
+> **Route:** `/funnel` (`app/funnel/page.tsx`)
+> **SEO:** `noindex` via metadata.
+> **Branch:** `funnel-page`
 
-### Reference pages
+### 4A. Funnel page — what's built
 
-| Brand | Page | URL | What to study |
-|-------|------|-----|---------------|
-| Overload | Funnel | `ovrload.co/pages/funnel` | Product picker UX, pre-selection, upsell step, mobile layout |
-| Overload | Landing | `ovrload.co/pages/gummy` | Hero asset, trust badges, mobile scroll structure |
-| Fussy | Subscribe | `getfussy.com/pages/subscribe` | Multi-step flow (Case → Plan → Scent → Checkout), step indicator |
+The funnel page is live at `/funnel`. It's a **multi-step paginated funnel** (Fussy pattern) — each step is its own focused screen, not a single scroll.
 
-**How to find more:** Search each brand in [Meta Ad Library](https://facebook.com/ads/library) → click through active ads to find their landing/funnel URLs (these pages are hidden from main nav, only reachable via ads).
+**Architecture:**
 
-### 4A. Build the funnel page
+| File | Purpose |
+|------|---------|
+| `app/funnel/page.tsx` | Server component — metadata (noindex), renders FunnelClient |
+| `app/funnel/FunnelClient.tsx` | Client orchestrator — all state, step navigation, checkout flow, analytics |
+| `app/lib/funnelData.ts` | Types, 3×3 pricing matrix, variant mapping, display data, upsell logic |
+| `app/lib/funnelCheckout.ts` | Isolated cart creation → analytics → checkout URL (bypasses CartContext) |
 
-**What:** New route (URL TBD) — the conversion page. Mobile-first, minimal UI, maximum clarity.
+**Funnel components (`app/components/funnel/`):**
 
-**Page structure (top to bottom on mobile):**
+| Component | Purpose |
+|-----------|---------|
+| `FunnelStepIndicator.tsx` | Fixed header — CONKA logo (right), step breadcrumb with chevrons (Quantity > Product > Checkout) |
+| `FunnelHeroAsset.tsx` | Two modes: static (cadence-based, step 1) and carousel (product slideshow, step 2) |
+| `CadenceSelector.tsx` | Step 1: 3 stacked option cards — expanded/collapsed pattern, per-shot price emphasis |
+| `ProductSelector.tsx` | Step 2: 3 stacked product cards — expanded/collapsed, dynamic pricing per cadence |
+| `FunnelCTA.tsx` | Sticky CTA button — simple text + arrow icon |
+| `UpsellModal.tsx` | Bottom sheet — contextual upgrade offer before checkout |
+| `FunnelAssurance.tsx` | Trust badges (2×2 grid — guarantee, shipping, cancel, certified) |
 
-1. **Hero asset** — Large product imagery at the top. Full-width on mobile. This is the first thing the customer sees — it sets quality perception instantly. No headline competing for attention above the fold; the product IS the headline.
+**Step flow:**
 
-2. **Step indicator** — Visible progress (like Fussy's 1-2-3-4 pills). Shows the customer exactly where they are in the flow. Reduces anxiety ("how long is this going to take?"). Steps:
-   - Step 1: Choose your plan (cadence)
-   - Step 2: Choose your product
-   - Step 3: Confirm & checkout
-   - (Hidden) Step 3.5: Upsell (contextual, see below)
+| Step | Screen | Pre-selected | CTA |
+|------|--------|-------------|-----|
+| 1 — Quantity | Cadence cards (Monthly Sub / One-Time / Quarterly) | Monthly Subscription | "Choose Product →" |
+| 2 — Product | Product cards (Both / Flow / Clear) | Both | "Subscribe & Save — £X/mo →" (dynamic) |
+| 3 — Checkout | Shopify hosted checkout | — | Redirect via `cart.checkoutUrl` |
+| 3.5 — Upsell | Bottom sheet modal (contextual) | — | "Yes, upgrade" / "No thanks" |
 
-3. **Step 1 — Choose cadence** — 3 options as tabs/pills:
-   - Monthly Subscription (**pre-selected**, tagged "Most Popular")
-   - Monthly One-Time
-   - Quarterly Subscription
-   - Show savings vs one-time on subscription options (e.g. "Save 20%")
+**Key UX patterns:**
+- **Multi-step pagination** — each step is its own screen (not one long scroll). CTA advances to next step.
+- **Fussy-style fixed header** — logo right-aligned, step breadcrumb left (Quantity > Product > Checkout). Completed steps are clickable.
+- **Expanded/collapsed cards** — selected card shows full details (what you get, per-shot price, feature bullets). Unselected cards collapse to name + price.
+- **Sticky hero on mobile** — product image stays pinned below header as user scrolls through cards.
+- **Product carousel (step 2)** — reuses existing `ProductImageSlideshow` component. Flow/Clear use their product photography. Both uses Balance protocol assets.
+- **Cadence-specific hero images (step 1)** — quarterly shows `CONKA_46.jpg`, monthly shows `CONKA_41.jpg`.
+- **Pre-selection** — Both + Monthly Subscription always selected on page load (highest LTV bias).
+- **No navigation/footer** — distraction-free focused view, just logo + step indicator.
+- **Desktop** — two-column layout: left = sticky hero asset, right = step flow.
 
-4. **Step 2 — Choose product** — 3 cards:
-   - **Both** (2 boxes, 56 shots) — **pre-selected**, tagged "Most Popular", visually dominant (larger card, highlighted border, or elevated position). This is the hero product — the entire funnel pushes toward it.
-   - Flow (1 box, 28 shots)
-   - Clear (1 box, 28 shots)
-   - Quarterly adjusts quantities (6/3/3 boxes)
-   - Price display updates dynamically based on cadence + product selection. Show per-shot price and total.
+**Checkout flow (isolated from CartContext):**
+1. User clicks final CTA → check for upsell opportunity
+2. If upsell applies → show bottom sheet modal → accept upgrades variant, decline proceeds
+3. `POST /api/cart` with `action: "create"`, selected variantId + sellingPlanId + attributes
+4. Fire analytics (Meta Pixel AddToCart + InitiateCheckout, Triple Whale, Vercel events) — non-blocking
+5. `window.location.href = cart.checkoutUrl` — straight to Shopify checkout, no cart drawer
 
-5. **Step 3 — CTA** — Single prominent button: "Start My Subscription" / "Buy Now" / "Subscribe & Save" (copy varies by cadence selection). Full-width on mobile.
+**Analytics events tracked:**
+- `funnel:viewed`, `funnel:cadence_changed`, `funnel:product_changed`
+- `funnel:step1_completed`, `funnel:cta_clicked`
+- `funnel:upsell_shown`, `funnel:upsell_accepted`, `funnel:upsell_declined`
+- `funnel:checkout` (with product, cadence, price, upsellAccepted)
+- Meta Pixel: AddToCart + InitiateCheckout with CAPI deduplication
+- Triple Whale: AddToCart
+- Vercel: `purchase:add_to_cart` with `source: "funnel_page"`
 
-6. **Step 3.5 — Hidden upsell** — Triggered AFTER the customer clicks the CTA, BEFORE checkout redirect. Contextual based on selection:
-   - If customer selected **Flow only** → upsell to Both ("Add Clear for £X more — most customers take both")
-   - If customer selected **Clear only** → upsell to Both ("Add Flow for £X more — most customers take both")
-   - If customer selected **Both** → upsell to quarterly ("Save £X by switching to quarterly — most popular choice")
-   - If customer selected **Monthly One-Time** → upsell to subscription ("Subscribe & save 20%")
-   - This is a single interstitial modal/sheet — one question, two buttons ("Yes, upgrade" / "No thanks, continue"). Not a new page.
-   - If declined → proceed to checkout. If accepted → update the variant, then proceed to checkout.
+**What works end-to-end now (4 of 9 combos):**
 
-7. **Checkout** — Straight to Shopify checkout. No cart drawer. Create cart → add variant → redirect to `cart.checkoutUrl`. Zero intermediate steps.
-
-**Pre-selection strategy (critical):**
-- Both + Monthly Subscription is ALWAYS the default state when the page loads
-- Pre-selection has a massive bias effect on what people choose — this is the single most important conversion lever
-- "Most Popular" badges reinforce the default as the social proof choice
-- The page should feel like the customer is confirming a good default, not building from scratch
-
-**Mobile-specific requirements:**
-- Full-width product imagery, edge-to-edge
-- Stacked layout — no side-by-side cards on mobile
-- Sticky CTA button at bottom of viewport (like Overload)
-- Touch-friendly tap targets (min 44px)
-- Step indicator always visible (sticky or at top of current step)
-- Fast — no heavy animations, lazy load below-fold assets
-
-**Desktop:**
-- Can show product cards side-by-side (3 columns)
-- Hero asset can be contained/centred rather than edge-to-edge
-- Otherwise same flow and logic
-
-**Analytics:** Full tracking — Meta Pixel AddToCart + InitiateCheckout, CAPI, Triple Whale, Vercel events with `source: "funnel_page"`. Track upsell accept/decline rates.
-
-**Size:** Large
-**Dependencies:** 3A, 3B (real variant IDs and pricing)
-**Can scaffold early:** Layout, step flow, and component structure can be built with mock data. The upsell logic can be wired up with placeholder variants.
+| Combination | Status |
+|-------------|--------|
+| Flow × Monthly Subscription | **Works** — real variant + selling plan |
+| Flow × Monthly One-Time | **Works** — real variant |
+| Clear × Monthly Subscription | **Works** — real variant + selling plan |
+| Clear × Monthly One-Time | **Works** — real variant |
+| Both × any cadence | **Blocked** — no "Both" product in Shopify yet |
+| Any × Quarterly Subscription | **Blocked** — no quarterly selling plan yet |
 
 ### 4B. Direct-to-checkout cart logic
 
-**What:** New cart flow for the funnel page that bypasses the cart drawer:
-1. Create a fresh Shopify cart (do NOT reuse the browsing cart)
-2. Add the selected variant (with selling plan if subscription)
-3. If upsell accepted → update the line item to the upgraded variant before redirect
-4. Immediately redirect to `cart.checkoutUrl`
+> **Status:** Built.
+> **File:** `app/lib/funnelCheckout.ts`
 
-**Why:** The funnel is about minimal friction. Opening a cart drawer adds a step and an exit point. The customer has already made their choice — take them straight to payment.
+Standalone checkout utility. Creates a fresh Shopify cart via `/api/cart`, fires all analytics, returns `checkoutUrl`. Completely isolated from global `CartContext` — never opens cart drawer. No changes were needed to the existing cart API route.
 
-**Cart attributes:** `source: "funnel_page"`, `plan_frequency` for subscriptions, `upsell_accepted: true/false`.
+**Cart attributes set:** `source: "funnel_page"`, `plan_frequency`, `upsell_accepted`, `selected_product`.
 
-**Size:** Medium
-**Files:** New standalone utility (NOT the global CartContext — this is an isolated checkout flow)
-**Dependencies:** 3B
+### 4C. Funnel page — what's next
+
+**Immediate (no dependencies):**
+- Refine card copy and feature bullets based on conversion testing
+- Add UTM parameter passthrough from landing page CTAs to funnel → checkout
+- Consider adding a "What you'll receive" summary before checkout CTA
+
+**Blocked by Shopify setup (Phase 3A):**
+- Wire up "Both" product variant IDs
+- Wire up quarterly selling plan IDs
+- Replace mock pricing with real COGS-based pricing
+- End-to-end test all 9 combinations
+
+**Blocked by assets:**
+- Better hero photography for step 1 cadence views
+- Product photography optimised for carousel format
 
 ---
 
@@ -324,7 +341,7 @@ This is lower priority. The funnel handles paid traffic. These changes align the
 
 | Item | Waiting for | Blocks |
 |------|-------------|--------|
-| Final pricing (3×3 matrix) | COGS analysis + margin targets | Phase 3, 4 |
+| Final pricing (3×3 matrix) | COGS analysis + margin targets | Phase 3, 4 (full functionality) |
 | Quarterly selling plan | Shopify Admin setup | Phase 3A |
 | Skio call (tomorrow) | Migration decision | Subscription portal work, selling plan setup |
 | Shopify legacy frontend call | Understanding constraints | Any checkout customisation |
@@ -353,9 +370,11 @@ This is lower priority. The funnel handles paid traffic. These changes align the
 | 2026-03-25 | Hidden upsell step in funnel | Contextual upsell after CTA click, before checkout redirect (e.g. Flow→Both, OTP→Sub) |
 | 2026-03-25 | Funnel uses isolated cart (not global CartContext) | Funnel checkout is a separate flow — fresh cart, no drawer, no interference with browsing cart |
 | 2026-03-25 | Step indicator in funnel | Visible progress (Fussy pattern) reduces anxiety and improves completion rate |
+| 2026-03-25 | Multi-step paginated funnel (not single scroll) | Each step is its own focused screen — clearer, less overwhelming, Fussy pattern |
+| 2026-03-25 | No nav/footer on funnel page | Distraction-free focused view — only logo + step breadcrumb |
+| 2026-03-25 | Funnel data layer is standalone (`funnelData.ts`) | Clean separation from protocol-era product data; easy to wire up real Shopify IDs later |
+| 2026-03-25 | Funnel route = `/funnel` | Landing page CTAs updated from `#` to `/funnel` |
 | TBD | Skio vs Loop | Call scheduled for 2026-03-25 |
-| TBD | Landing page URL | — |
-| TBD | Funnel page URL | — |
 
 ---
 
