@@ -6,6 +6,7 @@ import {
   type FunnelCadence,
   FUNNEL_PRODUCTS,
   getOfferPricing,
+  getBuySeparatelyPrice,
 } from "@/app/lib/funnelData";
 import { formatPrice } from "@/app/lib/productData";
 
@@ -16,6 +17,18 @@ interface ProductSelectorProps {
 }
 
 const PRODUCT_ORDER: FunnelProduct[] = ["both", "flow", "clear"];
+
+/** Cadence-aware frequency label for price display */
+function getPriceFrequency(cadence: FunnelCadence): string {
+  switch (cadence) {
+    case "monthly-sub":
+      return "/mo";
+    case "monthly-otp":
+      return "";
+    case "quarterly-sub":
+      return "/quarter";
+  }
+}
 
 export default function ProductSelector({
   product,
@@ -39,6 +52,10 @@ export default function ProductSelector({
           const display = FUNNEL_PRODUCTS[productKey];
           const isActive = product === productKey;
           const pricing = getOfferPricing(productKey, cadence);
+          const frequency = getPriceFrequency(cadence);
+          const isBoth = productKey === "both";
+          const separatePrice = isBoth ? getBuySeparatelyPrice(cadence) : null;
+          const savings = separatePrice ? separatePrice - pricing.price : 0;
 
           return (
             <button
@@ -61,7 +78,9 @@ export default function ProductSelector({
                   }`}
                   style={isActive ? { background: "var(--gradient-neuro-blue-accent)" } : undefined}
                 >
-                  ★ {display.badge}
+                  {isBoth && savings > 0
+                    ? `★ ${display.badge} · Save ${formatPrice(savings)}`
+                    : `★ ${display.badge}`}
                 </div>
               )}
 
@@ -107,7 +126,9 @@ export default function ProductSelector({
                             isActive ? "text-gray-600" : "text-gray-400"
                           }`}
                         >
-                          {display.tagline}
+                          {isBoth
+                            ? `2 boxes (${pricing.shotCount} shots)`
+                            : `1 box (${pricing.shotCount} shots)`}
                         </p>
                       </div>
 
@@ -115,8 +136,14 @@ export default function ProductSelector({
                       <div className="text-right flex-shrink-0">
                         <p className="text-base font-semibold text-[var(--color-ink)]">
                           {formatPrice(pricing.price)}
+                          {frequency && <span className="text-xs font-normal text-gray-500">{frequency}</span>}
                         </p>
-                        {pricing.compareAtPrice && (
+                        {isBoth && separatePrice && savings > 0 && (
+                          <p className="text-xs text-gray-400 line-through">
+                            {formatPrice(separatePrice)}
+                          </p>
+                        )}
+                        {!isBoth && pricing.compareAtPrice && (
                           <p className="text-xs text-gray-400 line-through">
                             {formatPrice(pricing.compareAtPrice)}
                           </p>
@@ -134,12 +161,12 @@ export default function ProductSelector({
                     </p>
 
                     <div className="flex items-baseline gap-2 mb-3">
-                      <span className="text-sm text-gray-500">
-                        {pricing.shotCount} shots
-                      </span>
-                      <span className="text-gray-300">·</span>
                       <span className="text-sm font-semibold" style={{ color: display.accent }}>
                         {formatPrice(pricing.perShot)}/shot
+                      </span>
+                      <span className="text-gray-300">·</span>
+                      <span className="text-sm text-gray-500">
+                        {pricing.shotCount} shots
                       </span>
                     </div>
 

@@ -23,6 +23,8 @@ export interface FunnelPricing {
   price: number;
   /** Price per shot */
   perShot: number;
+  /** Price per day (shots per day × perShot) */
+  perDay: number;
   /** Total shots included */
   shotCount: number;
   /** Crossed-out compare-at price (shown for subscription options) */
@@ -53,59 +55,68 @@ export interface UpsellOffer {
 const FUNNEL_PRICING: Record<FunnelProduct, Record<FunnelCadence, FunnelPricing>> = {
   both: {
     "monthly-sub": {
-      price: 111.99,
-      perShot: 2.0,
+      price: 89,
+      perShot: 1.59,
+      perDay: 3.18,
       shotCount: 56,
-      compareAtPrice: 139.99,
+      compareAtPrice: 129,
     },
     "monthly-otp": {
-      price: 139.99,
-      perShot: 2.5,
+      price: 129,
+      perShot: 2.30,
+      perDay: 4.60,
       shotCount: 56,
     },
     "quarterly-sub": {
-      price: 299.99,
-      perShot: 1.79,
+      price: 229,
+      perShot: 1.36,
+      perDay: 2.72,
       shotCount: 168,
-      compareAtPrice: 419.97,
+      compareAtPrice: 267,
     },
   },
   flow: {
     "monthly-sub": {
-      price: 63.99,
-      perShot: 2.29,
+      price: 59,
+      perShot: 2.11,
+      perDay: 2.11,
       shotCount: 28,
-      compareAtPrice: 79.99,
+      compareAtPrice: 79,
     },
     "monthly-otp": {
-      price: 79.99,
-      perShot: 2.86,
+      price: 79,
+      perShot: 2.82,
+      perDay: 2.82,
       shotCount: 28,
     },
     "quarterly-sub": {
-      price: 171.99,
-      perShot: 2.05,
+      price: 149,
+      perShot: 1.77,
+      perDay: 1.77,
       shotCount: 84,
-      compareAtPrice: 239.97,
+      compareAtPrice: 177,
     },
   },
   clear: {
     "monthly-sub": {
-      price: 63.99,
-      perShot: 2.29,
+      price: 59,
+      perShot: 2.11,
+      perDay: 2.11,
       shotCount: 28,
-      compareAtPrice: 79.99,
+      compareAtPrice: 79,
     },
     "monthly-otp": {
-      price: 79.99,
-      perShot: 2.86,
+      price: 79,
+      perShot: 2.82,
+      perDay: 2.82,
       shotCount: 28,
     },
     "quarterly-sub": {
-      price: 171.99,
-      perShot: 2.05,
+      price: 149,
+      perShot: 1.77,
+      perDay: 1.77,
       shotCount: 84,
-      compareAtPrice: 239.97,
+      compareAtPrice: 177,
     },
   },
 };
@@ -226,27 +237,27 @@ export interface FunnelCadenceDisplay {
 
 export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
   "monthly-sub": {
-    label: "Subscribe & Save",
-    subtitle: "Billed monthly, delivered to your door",
+    label: "1-Month Supply",
+    subtitle: "Delivered monthly, cancel anytime",
     badge: "Most Popular",
     savingsLabel: "Save 20%",
     features: [
       "Free UK shipping",
       "Cancel or pause anytime",
-      "20% off every order",
+      "20% off vs one-time",
     ],
   },
   "monthly-otp": {
-    label: "One-Time Purchase",
-    subtitle: "Single order, no commitment",
+    label: "Try Once",
+    subtitle: "No subscription, no commitment",
     features: [
-      "Try once, no strings attached",
+      "No strings attached",
       "Subscribe later if you love it",
     ],
   },
   "quarterly-sub": {
-    label: "Quarterly",
-    subtitle: "3-month supply, biggest savings",
+    label: "3-Month Supply",
+    subtitle: "Biggest savings, delivered quarterly",
     badge: "Best Value",
     savingsLabel: "Save 25%",
     features: [
@@ -349,6 +360,11 @@ export function isVariantReady(
 ): boolean {
   const config = FUNNEL_VARIANTS[product][cadence];
   return Boolean(config?.variantId);
+}
+
+/** For "Both", get the price of buying Flow + Clear separately at the same cadence */
+export function getBuySeparatelyPrice(cadence: FunnelCadence): number {
+  return FUNNEL_PRICING.flow[cadence].price + FUNNEL_PRICING.clear[cadence].price;
 }
 
 /** Get the cadence frequency label for cart attributes */
