@@ -28,8 +28,8 @@ export default function FunnelHeroAsset({
     const heroInfo = FUNNEL_HERO_IMAGES[product];
 
     return (
-      <div className="w-full bg-[#FAFAFA] rounded-2xl lg:rounded-none overflow-hidden [&_.mt-3]:hidden lg:[&_.mt-3]:flex">
-        {/* Hide thumbnails on mobile to keep sticky hero compact */}
+      <div className="w-full bg-[#FAFAFA] rounded-2xl lg:rounded-none overflow-hidden [&_.mt-3]:hidden">
+        {/* Hide thumbnails — arrows only for cleaner look */}
         <ProductImageSlideshow
           images={images}
           alt={heroInfo.alt}
