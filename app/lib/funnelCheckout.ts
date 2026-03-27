@@ -82,7 +82,7 @@ export async function funnelCheckout(
     }
 
     const data = await response.json();
-    const checkoutUrl = data?.data?.cart?.checkoutUrl;
+    const checkoutUrl = data?.cart?.checkoutUrl;
 
     if (!checkoutUrl) {
       return { error: "Could not create checkout. Please try again." };
