@@ -41,11 +41,11 @@ export default function UpsellModal({
         tabIndex={-1}
       />
 
-      {/* Bottom sheet */}
-      <div className="fixed bottom-0 left-0 right-0 z-[70] bg-white rounded-t-2xl shadow-2xl animate-slide-up max-h-[85vh] overflow-y-auto">
+      {/* Bottom sheet (mobile) / Centered modal (desktop) */}
+      <div className="fixed z-[70] bg-white shadow-2xl animate-slide-up max-h-[85vh] overflow-y-auto bottom-0 left-0 right-0 rounded-t-2xl lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:right-auto lg:w-full lg:max-w-md lg:rounded-2xl">
         <div className="p-6 pb-8">
-          {/* Handle bar */}
-          <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-gray-200" />
+          {/* Handle bar (mobile only) */}
+          <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-gray-200 lg:hidden" />
 
           {/* Product image */}
           {offer.image && (

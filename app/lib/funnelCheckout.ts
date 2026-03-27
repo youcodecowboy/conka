@@ -66,10 +66,10 @@ export async function funnelCheckout(
         quantity: 1,
         sellingPlanId: variant.sellingPlanId || undefined,
         attributes: [
-          { key: "source", value: "funnel_page" },
-          { key: "plan_frequency", value: getCadenceFrequency(cadence) },
-          { key: "upsell_accepted", value: String(upsellAccepted) },
-          { key: "selected_product", value: product },
+          { key: "_source", value: "funnel_page" },
+          { key: "_plan_frequency", value: getCadenceFrequency(cadence) },
+          { key: "_upsell_accepted", value: String(upsellAccepted) },
+          { key: "_selected_product", value: product },
         ],
       }),
     });

@@ -53,7 +53,7 @@ export default function FunnelHeroAsset({
             alt={img.alt}
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className={`object-cover transition-opacity duration-500 ${
+            className={`object-cover transition-opacity duration-500 lg:object-top ${
               key === cadence ? "opacity-100" : "opacity-0"
             }`}
             priority={key === "monthly-sub"}
