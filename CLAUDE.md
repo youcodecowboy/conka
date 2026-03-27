@@ -2,6 +2,17 @@
 
 Headless Shopify e-commerce site. Next.js App Router + TypeScript, hosted on Vercel.
 
+## Current strategic direction (March 2026)
+
+**Read `docs/development/WEBSITE_SIMPLIFICATION_PLAN.md` before starting any feature work.** The site is undergoing a major simplification:
+
+- **Protocols are being removed.** The 4-protocol system is being replaced with a simple Flow / Clear / Both offering.
+- **New ad landing page** — standalone page for paid Meta traffic (not linked from main nav).
+- **New funnel page** — minimal friction product selector: 3 cadences × 3 products, straight to Shopify checkout (no cart drawer).
+- **Quiz is hidden** — removed from nav, redirected. May be repurposed later.
+- **Shop page deleted** — redirected.
+- Subscription management may migrate from Loop to Skio (decision pending).
+
 ## Git workflow
 
 **Never commit directly to `main`.** Always create a feature branch, make changes there, and open a PR.
@@ -109,12 +120,15 @@ All analytics fire from `CartContext` after successful cart mutations. Pass `met
 
 ## Routes
 
-`/` home · `/conka-flow` · `/conka-clarity` · `/protocol/[id]` · `/quiz` `/quiz/results` · `/shop` · `/professionals` · `/account` · static content pages (`/science`, `/our-story`, `/why-conka`, `/ingredients`)
+**Active:** `/` home · `/conka-flow` · `/conka-clarity` · `/professionals` · `/account` · static content pages (`/science`, `/our-story`, `/why-conka`, `/ingredients`, `/app`, `/case-studies`)
+**Being built:** Landing page (URL TBD) · Funnel page (URL TBD)
+**Being removed:** `/protocol/[id]` (redirect) · `/quiz` (redirect) · `/shop` (redirect)
 
 ## Docs index
 
 | Doc | Topic |
 |-----|-------|
+| `docs/development/WEBSITE_SIMPLIFICATION_PLAN.md` | **Active plan** — phased simplification + funnel build |
 | `docs/PROJECT_OVERVIEW.md` | High-level architecture |
 | `docs/PRODUCT_DATA.md` | Product module structure + helper usage |
 | `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md` | Full design system spec |
@@ -139,3 +153,4 @@ Process docs for how to approach work on this project. Read the relevant workflo
 | `docs/workflows/06-code-review.md` | Self-review checklist before opening a PR |
 | `docs/workflows/07-testing-validation.md` | Testing layers and validation checklists |
 | `docs/workflows/08-jira-workflow.md` | Ticket creation, status transitions, writing acceptance criteria |
+| `docs/workflows/09-ux-iteration.md` | Refining existing pages for conversion, layout, information hierarchy |

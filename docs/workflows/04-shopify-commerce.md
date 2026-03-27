@@ -63,6 +63,39 @@ query { product(handle: $handle) { ...everything } }
 
 ---
 
+## Product data architecture
+
+The codebase has **two independent product data systems** — see `docs/PRODUCT_DATA.md` for the full module breakdown.
+
+| System | Import from | Shopify mapping | Used by |
+|--------|-------------|-----------------|---------|
+| **Main site** | `@/app/lib/productData` | `shopifyProductMapping.ts` | PDP pages, cart, B2B |
+| **Funnel** | `@/app/lib/funnelData` | Built into `funnelData.ts` | `/funnel` page only |
+
+**Key rule:** These systems are intentionally separate. The funnel has its own Shopify products (tagged `funnel`), its own selling plans, its own variant GIDs, and its own checkout flow (bypasses CartContext). Do not merge them.
+
+### Funnel Shopify products
+
+3 products, each with 2 variants (monthly size + quarterly size). 4 Loop selling plans apply fixed-amount discounts:
+
+| Product | Monthly variant (base/OTP) | Quarterly variant (base) | Monthly sub price | Quarterly sub price |
+|---------|---------------------------|-------------------------|-------------------|---------------------|
+| CONKA Flow AM | 28 shots @ £79.99 | 84 shots @ £229.99 | £59.99 (-£20) | £149.99 (-£80) |
+| CONKA Clear PM | 28 shots @ £79.99 | 84 shots @ £229.99 | £59.99 (-£20) | £149.99 (-£80) |
+| CONKA Flow + Clear | 56 shots @ £129.99 | 168 shots @ £389.99 | £89.99 (-£40) | £229.99 (-£160) |
+
+Quarterly variant base prices exist only to make the Loop discount math work — they're never shown as OTP.
+
+### Fetching Shopify GIDs
+
+```bash
+npx tsx scripts/fetch-funnel-products.ts
+```
+
+Queries the Storefront API for products tagged `funnel` and outputs all variant GIDs and selling plan GIDs. Use this after creating or modifying funnel products in Shopify Admin.
+
+---
+
 ## Product data patterns
 
 ### Product display hierarchy

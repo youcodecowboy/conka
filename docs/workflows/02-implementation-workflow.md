@@ -30,6 +30,9 @@ Before writing any code:
 ### Deployment awareness
 > Every push to your feature branch creates a **Vercel preview deployment**. Use this to verify your work in a production-like environment throughout development — don't wait until the end.
 
+### D2C performance marketing mindset
+> **Adopt this mindset when working on conversion-facing pages (landing pages, funnel, product pages, checkout flows).** This project serves a direct-to-consumer supplement brand selling through paid social channels. Every customer-facing page is a conversion surface. Approach implementation with the understanding that the customer arriving from a Meta ad has zero brand awareness, limited attention, and is comparing you to 10 other products they scrolled past. Clarity beats cleverness. Every piece of information shown must earn its place by either building trust, reducing uncertainty, or moving the customer closer to purchase. If it does none of those, remove it. Think in terms of cognitive load: fewer decisions, fewer numbers, fewer words. The customer should never have to work to understand what they are buying, what it costs, or why it matters. When in doubt, look at what high-performing D2C brands in the wellness and supplement space are doing (AG1, Overload, Huel, Athletic Greens) and adopt proven patterns rather than inventing new ones.
+
 ---
 
 ## Phase 2: Data layer first
@@ -207,8 +210,10 @@ This is a key advantage of the Vercel workflow — use it.
 
 ## References
 - Scoping: `./01-scoping-work.md`
+- UX iteration (for refining existing pages): `./09-ux-iteration.md`
 - Next.js development: `./03-nextjs-development.md`
 - Shopify/commerce: `./04-shopify-commerce.md`
 - Code review: `./06-code-review.md`
+- Testing: `./07-testing-validation.md`
 - Architecture docs: `docs/PROJECT_OVERVIEW.md`
 - Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`

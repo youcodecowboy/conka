@@ -34,7 +34,7 @@ function getTeaserAthletes(): AthleteData[] {
     "pierre-louis-barassi",
     "patrick-bamford",
     "nimisha-kurup",
-    "callum-sheedy",
+
     "will-stuart",
   ];
 
@@ -88,8 +88,8 @@ function AthletePhotoTile({ athlete }: { athlete: AthleteData }) {
         </p>
         <p className="text-[10px] uppercase tracking-wide opacity-80 mb-1">
           {totalImprovement?.metric === "Total Score"
-            ? "Cognitive improvement"
-            : (totalImprovement?.metric ?? "Improvement")}
+            ? "Change in test score"
+            : (totalImprovement?.metric ?? "Change in test score")}
         </p>
         <p className="text-xs opacity-80">{getSportLabel(athlete.sport)}</p>
       </div>
@@ -114,11 +114,11 @@ export default function CaseStudiesDataDriven() {
     <>
       {/* Section Header */}
       <div className="text-left mb-8 md:mb-12">
-        <h2 className="premium-section-heading">Verified Performance Data</h2>
+        <h2 className="premium-section-heading">Measured with a clinically validated test.</h2>
         <p className="premium-section-subtitle text-[var(--text-on-light-muted)]">
-          Real athletes. Real tests. Real improvements.
+          Cognitive test scores measured using the CONKA app&apos;s FDA-cleared assessment, developed from Cambridge University research.
           <br />
-          All measured via the CONKA cognitive testing app.
+          Individual results — many factors may influence test performance.^^
         </p>
       </div>
 
@@ -145,7 +145,7 @@ export default function CaseStudiesDataDriven() {
               +{avgImprovement.toFixed(1)}%
             </p>
             <p className="text-[10px] sm:text-xs premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-1 sm:mt-2">
-              Average Improvement
+              Avg. Change in Test Scores^^
             </p>
           </div>
         </div>
@@ -190,8 +190,7 @@ export default function CaseStudiesDataDriven() {
         {/* Footnote */}
         <div className="text-center mb-8">
           <p className="premium-body-sm text-xs text-[var(--text-on-light-muted)] opacity-70">
-            * Baseline scores vary by individual. Improvements measured over 4+
-            month testing periods with the CONKA App.
+            ^^ Individual results. Scores from a clinically validated cognitive assessment (FDA cleared, 93% sensitivity, 87.5% test-retest reliability). Measured via the CONKA app over 4+ month testing periods. These results reflect changes in cognitive test performance and do not constitute health claims about CONKA products. Many factors — including lifestyle changes, practice effects, and natural variation — may contribute to changes in test scores.
           </p>
         </div>
 
