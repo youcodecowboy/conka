@@ -308,8 +308,8 @@ export const FUNNEL_CADENCE_HERO: Record<FunnelCadence, { src: string; alt: stri
     alt: "CONKA one-time purchase",
   },
   "quarterly-sub": {
-    src: "/CONKA_46.jpg",
-    alt: "CONKA quarterly supply — 3 months of brain performance",
+    src: "/formulas/QuartelySingle.jpg",
+    alt: "CONKA quarterly supply — 3 boxes delivered every 3 months",
   },
 };
 
@@ -330,7 +330,7 @@ export const FUNNEL_HERO_IMAGES: Record<FunnelProduct, { src: string; alt: strin
 };
 
 /** Step 2: Slideshow images per product (carousel) */
-export const FUNNEL_PRODUCT_SLIDESHOW: Record<FunnelProduct, { src: string }[]> = {
+const FUNNEL_PRODUCT_SLIDESHOW_BASE: Record<FunnelProduct, { src: string }[]> = {
   flow: [
     { src: "/formulas/conkaFlow/FlowBox.jpg" },
     { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
@@ -347,9 +347,8 @@ export const FUNNEL_PRODUCT_SLIDESHOW: Record<FunnelProduct, { src: string }[]> 
     { src: "/formulas/conkaClear/ClearCertified.jpg" },
     { src: "/formulas/conkaClear/ClearReviews.jpg" },
   ],
-  // "Both" uses the Balance protocol hero images (box + Flow/Clear details)
   both: [
-    { src: "/protocols/BalanceBox.jpg" },
+    { src: "/formulas/ConkaAmPm.jpg" },
     { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
     { src: "/formulas/conkaClear/ClearIngredients.jpg" },
     { src: "/formulas/conkaFlow/FlowStats.jpg" },
@@ -358,6 +357,25 @@ export const FUNNEL_PRODUCT_SLIDESHOW: Record<FunnelProduct, { src: string }[]> 
     { src: "/formulas/conkaClear/ClearReviews.jpg" },
   ],
 };
+
+/** Quarterly swaps the first slide to show the larger shipment */
+const QUARTERLY_FIRST_SLIDE: Record<FunnelProduct, { src: string }> = {
+  flow: { src: "/formulas/QuartelySingle.jpg" },
+  clear: { src: "/formulas/QuartelySingle.jpg" },
+  both: { src: "/formulas/QuartelyDouble.jpg" },
+};
+
+/** Get slideshow images for a product, adjusted for cadence */
+export function getFunnelProductSlideshow(
+  product: FunnelProduct,
+  cadence: FunnelCadence,
+): { src: string }[] {
+  const base = FUNNEL_PRODUCT_SLIDESHOW_BASE[product];
+  if (cadence === "quarterly-sub") {
+    return [QUARTERLY_FIRST_SLIDE[product], ...base.slice(1)];
+  }
+  return base;
+}
 
 // ============================================
 // HELPERS

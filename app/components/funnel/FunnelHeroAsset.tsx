@@ -6,7 +6,7 @@ import {
   type FunnelCadence,
   FUNNEL_CADENCE_HERO,
   FUNNEL_HERO_IMAGES,
-  FUNNEL_PRODUCT_SLIDESHOW,
+  getFunnelProductSlideshow,
 } from "@/app/lib/funnelData";
 import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
 
@@ -24,7 +24,7 @@ export default function FunnelHeroAsset({
 }: FunnelHeroAssetProps) {
   // --- Carousel mode (step 2): product slideshow ---
   if (mode === "carousel") {
-    const images = FUNNEL_PRODUCT_SLIDESHOW[product];
+    const images = getFunnelProductSlideshow(product, cadence);
     const heroInfo = FUNNEL_HERO_IMAGES[product];
 
     return (

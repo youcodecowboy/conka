@@ -51,7 +51,7 @@ export default function LandingHero() {
           >
             Coffee borrows from tomorrow. CONKA invests in it.
             <br className="hidden lg:inline" />
-            Two shots a day. 16 clinically dosed ingredients.
+            Two shots a day. 16 active ingredients.
             <br className="hidden lg:inline" />
             The only supplement that proves it&apos;s working.
           </p>
@@ -106,10 +106,10 @@ export default function LandingHero() {
           {/* Image with drop shadow for depth */}
           <div className="relative overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
             <Image
-              src="/CONKA_39.jpg"
-              alt="CONKA Flow and Clear - two boxes with daily brain shot bottles"
+              src="/formulas/QuartelySingle.jpg"
+              alt="CONKA Flow and Clear - brain performance shots delivered to your door"
               width={1280}
-              height={533}
+              height={1280}
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="w-full h-auto object-cover scale-[1.15] lg:scale-100"
@@ -128,7 +128,7 @@ export default function LandingHero() {
             >
               <span className="text-lg lg:text-xl font-bold leading-none">16</span>
               <span className="text-[9px] lg:text-[10px] font-semibold uppercase tracking-wide leading-tight mt-0.5 px-1">
-                Clinical
+                Active
                 <br />
                 Ingredients
               </span>
