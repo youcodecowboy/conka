@@ -31,6 +31,7 @@ export default function FunnelHeroAsset({
       <div className="w-full bg-[#FAFAFA] rounded-2xl lg:rounded-none overflow-hidden [&_.mt-3]:hidden">
         {/* Hide thumbnails — arrows only for cleaner look */}
         <ProductImageSlideshow
+          key={product}
           images={images}
           alt={heroInfo.alt}
           fullBleedThumbnails

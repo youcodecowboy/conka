@@ -266,10 +266,11 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
   "monthly-sub": {
     label: "1-Month Supply",
     subtitle: "Delivered monthly, cancel anytime",
+    badge: "Most Popular",
     features: [
       "Free UK shipping",
       "Cancel or pause anytime",
-      "20% off vs one-time",
+      "25% off vs one-time",
     ],
   },
   "monthly-otp": {
@@ -283,8 +284,7 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
   "quarterly-sub": {
     label: "3-Month Supply",
     subtitle: "Biggest savings, delivered quarterly",
-    badge: "Most Popular",
-    savingsLabel: "Save 25%",
+    savingsLabel: "Best Value",
     features: [
       "Free UK shipping",
       "Cancel or pause anytime",
@@ -358,10 +358,10 @@ const FUNNEL_PRODUCT_SLIDESHOW_BASE: Record<FunnelProduct, { src: string }[]> = 
   ],
 };
 
-/** Quarterly swaps the first slide to show the larger shipment */
-const QUARTERLY_FIRST_SLIDE: Record<FunnelProduct, { src: string }> = {
-  flow: { src: "/formulas/QuartelySingle.jpg" },
-  clear: { src: "/formulas/QuartelySingle.jpg" },
+/** Quarterly swaps the first slide for "Both" only to show the larger shipment */
+const QUARTERLY_FIRST_SLIDE: Record<FunnelProduct, { src: string } | null> = {
+  flow: null,
+  clear: null,
   both: { src: "/formulas/QuartelyDouble.jpg" },
 };
 
@@ -371,8 +371,9 @@ export function getFunnelProductSlideshow(
   cadence: FunnelCadence,
 ): { src: string }[] {
   const base = FUNNEL_PRODUCT_SLIDESHOW_BASE[product];
-  if (cadence === "quarterly-sub") {
-    return [QUARTERLY_FIRST_SLIDE[product], ...base.slice(1)];
+  const quarterlySlide = QUARTERLY_FIRST_SLIDE[product];
+  if (cadence === "quarterly-sub" && quarterlySlide) {
+    return [quarterlySlide, ...base.slice(1)];
   }
   return base;
 }
