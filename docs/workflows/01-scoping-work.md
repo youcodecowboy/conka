@@ -10,6 +10,8 @@
 - You're asked to build or modify something non-trivial (more than a single-file change)
 - You're unsure about scope and need to clarify before proceeding
 
+> **Not building something new?** If the task is "make this page better" rather than "build this new thing", use `./09-ux-iteration.md` instead. That workflow is designed for iterative refinement of existing pages (layout, information hierarchy, conversion optimisation).
+
 ---
 
 ## Step 1: Understand the request
@@ -141,4 +143,5 @@ Wait for user confirmation before starting implementation. If the user says "jus
 - Architecture docs: `docs/PROJECT_OVERVIEW.md`
 - Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
 - Implementation workflow: `./02-implementation-workflow.md`
+- UX iteration (for refining existing pages): `./09-ux-iteration.md`
 - Shopify conventions: `./04-shopify-commerce.md`

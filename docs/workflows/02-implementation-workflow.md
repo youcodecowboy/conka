@@ -210,8 +210,10 @@ This is a key advantage of the Vercel workflow — use it.
 
 ## References
 - Scoping: `./01-scoping-work.md`
+- UX iteration (for refining existing pages): `./09-ux-iteration.md`
 - Next.js development: `./03-nextjs-development.md`
 - Shopify/commerce: `./04-shopify-commerce.md`
 - Code review: `./06-code-review.md`
+- Testing: `./07-testing-validation.md`
 - Architecture docs: `docs/PROJECT_OVERVIEW.md`
 - Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
