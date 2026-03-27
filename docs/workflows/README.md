@@ -57,6 +57,7 @@ When creating or updating Jira tickets, follow: docs/workflows/08-jira-workflow.
 | 06 | [Code Review](./06-code-review.md) | Reviewing code before presenting |
 | 07 | [Testing & Validation](./07-testing-validation.md) | Verifying that code works |
 | 08 | [Jira Workflow](./08-jira-workflow.md) | Creating tickets, writing AC, updating status |
+| 09 | [UX Iteration](./09-ux-iteration.md) | Refining existing pages for conversion, layout, or information hierarchy |
 
 ### Typical workflow chains
 
@@ -65,6 +66,7 @@ When creating or updating Jira tickets, follow: docs/workflows/08-jira-workflow.
 **Scoping only:** 01 → 08 (create tickets from scope)
 **Shopify/commerce work:** 04 (read first) → 02 → 03 → 06 → 07
 **New page (non-commerce):** 03 → 02 → 06 → 07
+**UX iteration / conversion work:** 09 → 06 → 07
 **Documentation task:** 05
 **Code review only:** 06
 

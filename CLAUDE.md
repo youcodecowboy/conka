@@ -153,3 +153,4 @@ Process docs for how to approach work on this project. Read the relevant workflo
 | `docs/workflows/06-code-review.md` | Self-review checklist before opening a PR |
 | `docs/workflows/07-testing-validation.md` | Testing layers and validation checklists |
 | `docs/workflows/08-jira-workflow.md` | Ticket creation, status transitions, writing acceptance criteria |
+| `docs/workflows/09-ux-iteration.md` | Refining existing pages for conversion, layout, information hierarchy |
