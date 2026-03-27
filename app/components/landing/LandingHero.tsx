@@ -107,7 +107,7 @@ export default function LandingHero() {
           <div className="relative overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
             <Image
               src="/CONKA_39.jpg"
-              alt="CONKA Flow and Clear — two boxes with daily brain shot bottles"
+              alt="CONKA Flow and Clear - two boxes with daily brain shot bottles"
               width={1280}
               height={533}
               priority

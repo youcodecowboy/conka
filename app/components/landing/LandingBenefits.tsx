@@ -59,7 +59,7 @@ const BENEFITS = [
     title: "Clear Thinking",
     subtitle: "No 3pm wall, sharp all day",
     ingredient: "Reduced Glutathione · 250mg",
-    studyObservation: "Vitamin C contributes to normal psychological function†† — CONKA Clear provides Vitamin C alongside Glutathione (Sinha et al. 2018)¶",
+    studyObservation: "Vitamin C contributes to normal psychological function†† - CONKA Clear provides Vitamin C alongside Glutathione (Sinha et al. 2018)¶",
     study: "Sinha et al. 2018",
     pmid: "PMID: 29559699",
   },

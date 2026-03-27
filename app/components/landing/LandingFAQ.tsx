@@ -23,7 +23,7 @@ const FAQ_ITEMS = [
   {
     question: "When will I notice results?",
     answer:
-      "Everyone responds differently. Some people notice they feel calmer and more focused early on, while for others it takes a few weeks of consistent daily use. We recommend giving CONKA at least 30 days as part of your daily routine. That's why we offer a 30-day money-back guarantee — so you have time to find out what works for you.",
+      "Everyone responds differently. Some people notice they feel calmer and more focused early on, while for others it takes a few weeks of consistent daily use. We recommend giving CONKA at least 30 days as part of your daily routine. That's why we offer a 30-day money-back guarantee, so you have time to find out what works for you.",
   },
   {
     question: "Is CONKA safe to take every day?",

@@ -219,7 +219,6 @@ export default function FunnelClient() {
               <div className="px-5 pt-5 pb-6 lg:px-10 lg:pt-8">
                 <CadenceSelector
                   cadence={cadence}
-                  product={product}
                   onChange={handleCadenceChange}
                 />
               </div>

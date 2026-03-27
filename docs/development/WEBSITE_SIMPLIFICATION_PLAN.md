@@ -1,8 +1,8 @@
 # Website Simplification & Ad Funnel Plan
 
-> **Status:** Phase 2 complete, Phase 4 in progress
+> **Status:** Phase 2 complete, Phase 4 UX iterated (pricing populated, mobile optimised), blocked on Shopify product setup (Phase 3A)
 > **Created:** 2026-03-24
-> **Last updated:** 2026-03-25
+> **Last updated:** 2026-03-27
 > **Context:** Following workshop with January Brands (Overload). CONKA is pivoting from a 4-protocol system to a simplified Flow / Clear / Both offering, with a dedicated ad landing page and frictionless funnel page for paid Meta traffic.
 
 ---
@@ -176,55 +176,69 @@ The landing page is live at `/start`. It's a standalone conversion page for paid
 
 ## Phase 4: Funnel Page
 
-> **Status:** Built — scaffolded with mock data, iterating on UX.
+> **Status:** Built and iterated. Pricing populated, UX refined, ready for Shopify product setup.
 > **Route:** `/funnel` (`app/funnel/page.tsx`)
 > **SEO:** `noindex` via metadata.
 > **Branch:** `funnel-page`
+> **Last updated:** 2026-03-27
 
-### 4A. Funnel page — what's built
+### 4A. Funnel page - what's built
 
-The funnel page is live at `/funnel`. It's a **multi-step paginated funnel** (Fussy pattern) — each step is its own focused screen, not a single scroll.
+The funnel page is live at `/funnel`. It's a **multi-step paginated funnel** (Fussy/Overload pattern) - each step is its own focused screen, not a single scroll.
 
 **Architecture:**
 
 | File | Purpose |
 |------|---------|
-| `app/funnel/page.tsx` | Server component — metadata (noindex), renders FunnelClient |
-| `app/funnel/FunnelClient.tsx` | Client orchestrator — all state, step navigation, checkout flow, analytics |
-| `app/lib/funnelData.ts` | Types, 3×3 pricing matrix, variant mapping, display data, upsell logic |
-| `app/lib/funnelCheckout.ts` | Isolated cart creation → analytics → checkout URL (bypasses CartContext) |
+| `app/funnel/page.tsx` | Server component - metadata (noindex), renders FunnelClient |
+| `app/funnel/FunnelClient.tsx` | Client orchestrator - all state, step navigation, checkout flow, analytics |
+| `app/lib/funnelData.ts` | Types, 3x3 pricing matrix, variant mapping, display data, upsell logic |
+| `app/lib/funnelCheckout.ts` | Isolated cart creation, analytics, checkout URL (bypasses CartContext) |
 
 **Funnel components (`app/components/funnel/`):**
 
 | Component | Purpose |
 |-----------|---------|
-| `FunnelStepIndicator.tsx` | Fixed header — CONKA logo (right), step breadcrumb with chevrons (Quantity > Product > Checkout) |
-| `FunnelHeroAsset.tsx` | Two modes: static (cadence-based, step 1) and carousel (product slideshow, step 2) |
-| `CadenceSelector.tsx` | Step 1: 3 stacked option cards — expanded/collapsed pattern, per-shot price emphasis |
-| `ProductSelector.tsx` | Step 2: 3 stacked product cards — expanded/collapsed, dynamic pricing per cadence |
-| `FunnelCTA.tsx` | Sticky CTA button — simple text + arrow icon |
-| `UpsellModal.tsx` | Bottom sheet — contextual upgrade offer before checkout |
-| `FunnelAssurance.tsx` | Trust badges (2×2 grid — guarantee, shipping, cancel, certified) |
+| `FunnelStepIndicator.tsx` | Fixed header - CONKA logo (right), numbered step breadcrumb with ticks for completed steps (Plan > Product > Checkout) |
+| `FunnelHeroAsset.tsx` | Two modes: static square image (step 1) and carousel without thumbnails (step 2) |
+| `CadenceSelector.tsx` | Step 1: 3 stacked cards (Monthly > Quarterly > Try Once) - per-shot price, no total price shown |
+| `ProductSelector.tsx` | Step 2: 3 stacked product cards - full price revealed here, "Both" shows savings vs buying separately |
+| `FunnelCTA.tsx` | Sticky CTA button - simple text + arrow icon |
+| `UpsellModal.tsx` | Bottom sheet - contextual upgrade offer before checkout |
+| `FunnelAssurance.tsx` | Trust strip (guarantee, shipping, cancel anytime) |
 
 **Step flow:**
 
 | Step | Screen | Pre-selected | CTA |
 |------|--------|-------------|-----|
-| 1 — Quantity | Cadence cards (Monthly Sub / One-Time / Quarterly) | Monthly Subscription | "Choose Product →" |
-| 2 — Product | Product cards (Both / Flow / Clear) | Both | "Subscribe & Save — £X/mo →" (dynamic) |
-| 3 — Checkout | Shopify hosted checkout | — | Redirect via `cart.checkoutUrl` |
-| 3.5 — Upsell | Bottom sheet modal (contextual) | — | "Yes, upgrade" / "No thanks" |
+| 1 - Plan | Cadence cards (1-Month Supply / 3-Month Supply / Try Once) | 1-Month Supply | "Choose Product" |
+| 2 - Product | Product cards (Both / Flow / Clear) | Both | "Go to Checkout" |
+| 3 - Checkout | Shopify hosted checkout | - | Redirect via `cart.checkoutUrl` |
+| 3.5 - Upsell | Bottom sheet modal (contextual) | - | "Yes, upgrade" / "No thanks" |
+
+**Pricing strategy (two-stage reveal):**
+- **Step 1 shows per-shot price only** (e.g. "£1.77/shot") - anchors on a small number, no sticker shock. Always shows single-box (28/84 shots) regardless of product selection.
+- **Step 2 reveals full price** (e.g. "£89/mo") with cadence frequency. For "Both", shows the buy-separately price crossed out and savings in the badge (e.g. "Save £29").
+
+**Current pricing (estimated, pre-COGS):**
+
+| Cadence | Per Shot | Flow/Clear | Both | Both saves |
+|---------|---------|-----------|------|-----------|
+| Monthly Sub | £2.11 | £59 | £89 | £29 (25%) |
+| Quarterly Sub | £1.77 | £149 | £229 | £69 (23%) |
+| One-Time | £2.82 | £79 | £129 | £29 (18%) |
 
 **Key UX patterns:**
-- **Multi-step pagination** — each step is its own screen (not one long scroll). CTA advances to next step.
-- **Fussy-style fixed header** — logo right-aligned, step breadcrumb left (Quantity > Product > Checkout). Completed steps are clickable.
-- **Expanded/collapsed cards** — selected card shows full details (what you get, per-shot price, feature bullets). Unselected cards collapse to name + price.
-- **Sticky hero on mobile** — product image stays pinned below header as user scrolls through cards.
-- **Product carousel (step 2)** — reuses existing `ProductImageSlideshow` component. Flow/Clear use their product photography. Both uses Balance protocol assets.
-- **Cadence-specific hero images (step 1)** — quarterly shows `CONKA_46.jpg`, monthly shows `CONKA_41.jpg`.
-- **Pre-selection** — Both + Monthly Subscription always selected on page load (highest LTV bias).
-- **No navigation/footer** — distraction-free focused view, just logo + step indicator.
-- **Desktop** — two-column layout: left = sticky hero asset, right = step flow.
+- **Multi-step pagination** - each step is its own screen. CTA advances to next step.
+- **Numbered step indicator** - circles with numbers (1, 2), tick replaces number on completed steps. Consistent on mobile and desktop.
+- **Expanded/collapsed cards** - selected card shows full details. Unselected cards collapse to name + key metric.
+- **Scrolling hero on mobile** - product image scrolls naturally with content (not sticky). Square aspect ratio, constrained to `max-h-[65vw]`, rounded corners, padded.
+- **Product carousel (step 2)** - reuses `ProductImageSlideshow` with arrows only (no thumbnails on any breakpoint).
+- **"Most Popular" badge** - single badge on Quarterly cadence (step 1) and Both product (step 2). Ink/black background, always prominent regardless of selection state.
+- **Neuro-blue selected state** - selected card border and radio tick use `#4058bb`.
+- **Pre-selection** - Both + Monthly Subscription always selected on page load (highest LTV bias).
+- **No navigation/footer** - distraction-free focused view, just logo + step indicator.
+- **Desktop** - two-column layout: left = sticky hero asset, right = step flow with `max-w-2xl` and extra padding for readability.
 
 **Checkout flow (isolated from CartContext):**
 1. User clicks final CTA → check for upsell opportunity
@@ -262,22 +276,26 @@ Standalone checkout utility. Creates a fresh Shopify cart via `/api/cart`, fires
 
 **Cart attributes set:** `source: "funnel_page"`, `plan_frequency`, `upsell_accepted`, `selected_product`.
 
-### 4C. Funnel page — what's next
+### 4C. Funnel page - what's next
 
 **Immediate (no dependencies):**
+- Create product photography assets for step 1 hero (square, centred product on clean background)
+- Create "Both" product carousel images (AM/PM split, flatlay, ingredients)
 - Refine card copy and feature bullets based on conversion testing
-- Add UTM parameter passthrough from landing page CTAs to funnel → checkout
-- Consider adding a "What you'll receive" summary before checkout CTA
+- Add UTM parameter passthrough from landing page CTAs to funnel checkout
+- Review and refine upsell logic copy and thresholds
 
 **Blocked by Shopify setup (Phase 3A):**
-- Wire up "Both" product variant IDs
-- Wire up quarterly selling plan IDs
-- Replace mock pricing with real COGS-based pricing
+- Create "Both" product in Shopify (single product, 56 shots)
+- Create quarterly selling plan in Shopify
+- Wire up "Both" variant IDs in `funnelData.ts`
+- Wire up quarterly selling plan IDs in `funnelData.ts`
+- Replace estimated pricing with final COGS-based pricing
 - End-to-end test all 9 combinations
 
 **Blocked by assets:**
-- Better hero photography for step 1 cadence views
-- Product photography optimised for carousel format
+- "Both" product photography (two boxes side-by-side, AM/PM split)
+- Better hero photography for step 1 cadence views (square format, centred)
 
 ---
 

@@ -42,7 +42,7 @@ export default function LandingProof() {
           Measured with a clinically validated test.^^
         </h2>
         <p className="text-sm mt-2 opacity-50">
-          Cognitive test scores measured using the CONKA app&apos;s FDA-cleared assessment, developed from Cambridge University research. Individual results — many factors may influence test performance.
+          Cognitive test scores measured using the CONKA app&apos;s FDA-cleared assessment, developed from Cambridge University research. Individual results may vary. Many factors may influence test performance.
         </p>
       </div>
 

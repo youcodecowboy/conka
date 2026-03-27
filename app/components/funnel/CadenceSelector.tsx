@@ -2,7 +2,6 @@
 
 import {
   type FunnelCadence,
-  type FunnelProduct,
   FUNNEL_CADENCES,
   getOfferPricing,
 } from "@/app/lib/funnelData";
@@ -10,7 +9,6 @@ import { formatPrice } from "@/app/lib/productData";
 
 interface CadenceSelectorProps {
   cadence: FunnelCadence;
-  product: FunnelProduct;
   onChange: (cadence: FunnelCadence) => void;
 }
 
@@ -47,7 +45,6 @@ function getWhatShips(cadence: FunnelCadence, shotCount: number): string {
 
 export default function CadenceSelector({
   cadence,
-  product,
   onChange,
 }: CadenceSelectorProps) {
   return (

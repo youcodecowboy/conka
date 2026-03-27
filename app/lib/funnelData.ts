@@ -198,7 +198,7 @@ export const FUNNEL_PRODUCTS: Record<FunnelProduct, FunnelProductDisplay> = {
     label: "CONKA Flow",
     tagline: "Your morning edge",
     shotCount: 28,
-    description: "Calm focus that builds across the day. Not a stimulant — an upgrade.",
+    description: "Calm focus that builds across the day. Not a stimulant, an upgrade.",
     thumbnail: "/formulas/conkaFlow/FlowNoBackground.png",
     accent: "#d97706",
     timeLabel: "Morning",
@@ -395,7 +395,7 @@ export function getUpsellOffer(
     const upgradePrice = getOfferPricing("both", upgradedCadence).price;
     return {
       headline: "Add Clear to your routine?",
-      body: "Most customers take both — Flow in the morning, Clear in the evening. Together they create a synergistic compounding effect.",
+      body: "Most customers take both. Flow in the morning, Clear in the evening. Together they create a synergistic compounding effect.",
       acceptLabel: `Yes, get Both for ${formatPrice(upgradePrice)}`,
       declineLabel: "No thanks, continue",
       upgradedProduct: "both",
@@ -412,7 +412,7 @@ export function getUpsellOffer(
     const upgradePrice = getOfferPricing("both", upgradedCadence).price;
     return {
       headline: "Add Flow to your routine?",
-      body: "Most customers take both — Flow in the morning, Clear in the evening. Together they create a synergistic compounding effect.",
+      body: "Most customers take both. Flow in the morning, Clear in the evening. Together they create a synergistic compounding effect.",
       acceptLabel: `Yes, get Both for ${formatPrice(upgradePrice)}`,
       declineLabel: "No thanks, continue",
       upgradedProduct: "both",
@@ -428,7 +428,7 @@ export function getUpsellOffer(
     const upgradePrice = getOfferPricing("both", "monthly-sub").price;
     return {
       headline: "Subscribe & save 20%?",
-      body: `Save ${formatPrice(currentPrice - upgradePrice)} every month. Cancel or pause anytime — no commitment.`,
+      body: `Save ${formatPrice(currentPrice - upgradePrice)} every month. Cancel or pause anytime, no commitment.`,
       acceptLabel: `Yes, subscribe for ${formatPrice(upgradePrice)}/mo`,
       declineLabel: "No thanks, continue",
       upgradedProduct: "both",

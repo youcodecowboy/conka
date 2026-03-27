@@ -47,9 +47,9 @@ export default function FunnelStepIndicator({
                         : "text-gray-300 cursor-default"
                   } ${!isClickable ? "cursor-default" : ""}`}
                 >
-                  {/* Step number — desktop only */}
+                  {/* Step number with tick for completed */}
                   <span
-                    className={`hidden lg:flex items-center justify-center w-5 h-5 rounded-full text-[10px] leading-none border ${
+                    className={`flex items-center justify-center w-5 h-5 rounded-full text-[10px] leading-none border ${
                       isActive || isCompleted
                         ? "border-[var(--color-ink)]"
                         : "border-gray-300"
