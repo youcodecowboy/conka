@@ -207,11 +207,8 @@ export default function FunnelClient() {
           {/* ===== STEP 1: Choose Quantity ===== */}
           {currentStep === 1 && (
             <>
-              {/* Mobile sticky hero — stays visible, content scrolls beneath */}
-              <div
-                className="lg:hidden sticky z-10"
-                style={{ top: "48px" }}
-              >
+              {/* Mobile hero — scrolls naturally with content */}
+              <div className="lg:hidden px-5 pt-5">
                 <FunnelHeroAsset
                   product={product}
                   cadence={cadence}
@@ -246,11 +243,8 @@ export default function FunnelClient() {
           {/* ===== STEP 2: Choose Product ===== */}
           {currentStep === 2 && (
             <>
-              {/* Mobile sticky hero — carousel */}
-              <div
-                className="lg:hidden sticky z-10"
-                style={{ top: "48px" }}
-              >
+              {/* Mobile hero — carousel, scrolls naturally */}
+              <div className="lg:hidden px-5 pt-5">
                 <FunnelHeroAsset
                   product={product}
                   cadence={cadence}

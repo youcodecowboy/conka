@@ -28,7 +28,7 @@ export default function FunnelHeroAsset({
     const heroInfo = FUNNEL_HERO_IMAGES[product];
 
     return (
-      <div className="w-full bg-[#FAFAFA] [&_.mt-3]:hidden lg:[&_.mt-3]:flex">
+      <div className="w-full bg-[#FAFAFA] rounded-2xl lg:rounded-none overflow-hidden [&_.mt-3]:hidden lg:[&_.mt-3]:flex">
         {/* Hide thumbnails on mobile to keep sticky hero compact */}
         <ProductImageSlideshow
           images={images}
@@ -41,7 +41,7 @@ export default function FunnelHeroAsset({
 
   // --- Static mode (step 1): single image per cadence ---
   return (
-    <div className="relative w-full aspect-[16/9] lg:aspect-[4/3] overflow-hidden bg-gray-50">
+    <div className="relative w-full aspect-square max-h-[65vw] lg:max-h-none lg:aspect-[4/3] overflow-hidden rounded-2xl lg:rounded-none bg-gray-50">
       {/* Render all cadence images, crossfade on selection */}
       {(Object.keys(FUNNEL_CADENCE_HERO) as FunnelCadence[]).map((key) => {
         const img = FUNNEL_CADENCE_HERO[key];
