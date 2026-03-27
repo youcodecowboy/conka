@@ -50,73 +50,73 @@ export interface UpsellOffer {
 // ============================================
 // PRICING MATRIX (3 products × 3 cadences)
 // ============================================
-// TODO: Replace with real pricing once COGS analysis is complete.
+// Pricing from COGS analysis (2026-03-27). Variant IDs still pending for Both + quarterly.
 
 const FUNNEL_PRICING: Record<FunnelProduct, Record<FunnelCadence, FunnelPricing>> = {
   both: {
     "monthly-sub": {
-      price: 89,
-      perShot: 1.59,
-      perDay: 3.18,
+      price: 89.99,
+      perShot: 1.61,
+      perDay: 3.22,
       shotCount: 56,
-      compareAtPrice: 129,
+      compareAtPrice: 129.99,
     },
     "monthly-otp": {
-      price: 129,
-      perShot: 2.30,
-      perDay: 4.60,
+      price: 129.99,
+      perShot: 2.32,
+      perDay: 4.64,
       shotCount: 56,
     },
     "quarterly-sub": {
-      price: 229,
-      perShot: 1.36,
-      perDay: 2.72,
+      price: 229.99,
+      perShot: 1.37,
+      perDay: 2.74,
       shotCount: 168,
-      compareAtPrice: 267,
+      compareAtPrice: 269.97,
     },
   },
   flow: {
     "monthly-sub": {
-      price: 59,
-      perShot: 2.11,
-      perDay: 2.11,
+      price: 59.99,
+      perShot: 2.14,
+      perDay: 2.14,
       shotCount: 28,
-      compareAtPrice: 79,
+      compareAtPrice: 79.99,
     },
     "monthly-otp": {
-      price: 79,
-      perShot: 2.82,
-      perDay: 2.82,
+      price: 79.99,
+      perShot: 2.86,
+      perDay: 2.86,
       shotCount: 28,
     },
     "quarterly-sub": {
-      price: 149,
-      perShot: 1.77,
-      perDay: 1.77,
+      price: 149.99,
+      perShot: 1.79,
+      perDay: 1.79,
       shotCount: 84,
-      compareAtPrice: 177,
+      compareAtPrice: 179.97,
     },
   },
   clear: {
     "monthly-sub": {
-      price: 59,
-      perShot: 2.11,
-      perDay: 2.11,
+      price: 59.99,
+      perShot: 2.14,
+      perDay: 2.14,
       shotCount: 28,
-      compareAtPrice: 79,
+      compareAtPrice: 79.99,
     },
     "monthly-otp": {
-      price: 79,
-      perShot: 2.82,
-      perDay: 2.82,
+      price: 79.99,
+      perShot: 2.86,
+      perDay: 2.86,
       shotCount: 28,
     },
     "quarterly-sub": {
-      price: 149,
-      perShot: 1.77,
-      perDay: 1.77,
+      price: 149.99,
+      perShot: 1.79,
+      perDay: 1.79,
       shotCount: 84,
-      compareAtPrice: 177,
+      compareAtPrice: 179.97,
     },
   },
 };
@@ -124,33 +124,50 @@ const FUNNEL_PRICING: Record<FunnelProduct, Record<FunnelCadence, FunnelPricing>
 // ============================================
 // VARIANT MAPPING (Shopify GIDs)
 // ============================================
-// Empty strings = not yet created in Shopify Admin.
+// Funnel-specific products created 2026-03-27.
+// Monthly uses 28-shot (Flow/Clear) or 56-shot (Both) variant.
+// Quarterly uses 84-shot (Flow/Clear) or 168-shot (Both) variant.
+// Selling plans: Single = Flow/Clear, Dual = Both.
 
 const FUNNEL_VARIANTS: Record<FunnelProduct, Record<FunnelCadence, FunnelVariantConfig>> = {
   flow: {
     "monthly-sub": {
-      variantId: "gid://shopify/ProductVariant/56999967818102",
-      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+      variantId: "gid://shopify/ProductVariant/57568795918710",
+      sellingPlanId: "gid://shopify/SellingPlan/712527348086",
     },
     "monthly-otp": {
-      variantId: "gid://shopify/ProductVariant/56999967818102",
+      variantId: "gid://shopify/ProductVariant/57568795918710",
     },
-    "quarterly-sub": { variantId: "", sellingPlanId: "" },
+    "quarterly-sub": {
+      variantId: "gid://shopify/ProductVariant/57568795951478",
+      sellingPlanId: "gid://shopify/SellingPlan/712527413622",
+    },
   },
   clear: {
     "monthly-sub": {
-      variantId: "gid://shopify/ProductVariant/57000418705782",
-      sellingPlanId: "gid://shopify/SellingPlan/711429980534",
+      variantId: "gid://shopify/ProductVariant/57568517489014",
+      sellingPlanId: "gid://shopify/SellingPlan/712527348086",
     },
     "monthly-otp": {
-      variantId: "gid://shopify/ProductVariant/57000418705782",
+      variantId: "gid://shopify/ProductVariant/57568517489014",
     },
-    "quarterly-sub": { variantId: "", sellingPlanId: "" },
+    "quarterly-sub": {
+      variantId: "gid://shopify/ProductVariant/57568746930550",
+      sellingPlanId: "gid://shopify/SellingPlan/712527413622",
+    },
   },
   both: {
-    "monthly-sub": { variantId: "", sellingPlanId: "" },
-    "monthly-otp": { variantId: "" },
-    "quarterly-sub": { variantId: "", sellingPlanId: "" },
+    "monthly-sub": {
+      variantId: "gid://shopify/ProductVariant/57568809976182",
+      sellingPlanId: "gid://shopify/SellingPlan/712527479158",
+    },
+    "monthly-otp": {
+      variantId: "gid://shopify/ProductVariant/57568809976182",
+    },
+    "quarterly-sub": {
+      variantId: "gid://shopify/ProductVariant/57568810008950",
+      sellingPlanId: "gid://shopify/SellingPlan/712527446390",
+    },
   },
 };
 
