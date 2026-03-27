@@ -68,15 +68,11 @@ export default function ProductSelector({
                   : "border-gray-200 hover:border-gray-300 bg-white"
               }`}
             >
-              {/* Badge banner */}
+              {/* Badge banner — always prominent, ink background */}
               {display.badge && (
                 <div
-                  className={`text-center py-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
-                    isActive
-                      ? "text-white"
-                      : "bg-gray-50 text-gray-400"
-                  }`}
-                  style={isActive ? { background: "var(--gradient-neuro-blue-accent)" } : undefined}
+                  className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
+                  style={{ backgroundColor: "var(--color-ink)" }}
                 >
                   {isBoth && savings > 0
                     ? `★ ${display.badge} · Save ${formatPrice(savings)}`

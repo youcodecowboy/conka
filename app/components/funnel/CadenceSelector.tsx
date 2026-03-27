@@ -14,7 +14,12 @@ interface CadenceSelectorProps {
   onChange: (cadence: FunnelCadence) => void;
 }
 
-const CADENCE_ORDER: FunnelCadence[] = ["monthly-sub", "monthly-otp", "quarterly-sub"];
+// Step 1 always shows single-box pricing (1 box = 28 shots).
+// Per-shot is the same for Flow and Clear, so we use "flow" as the reference.
+// Product choice (1 box vs 2 boxes) happens at step 2.
+const CADENCE_PRICING_REF = "flow" as const;
+
+const CADENCE_ORDER: FunnelCadence[] = ["monthly-sub", "quarterly-sub", "monthly-otp"];
 
 /** Short delivery label for collapsed cards */
 function getDeliveryLabel(cadence: FunnelCadence): string {
@@ -28,18 +33,15 @@ function getDeliveryLabel(cadence: FunnelCadence): string {
   }
 }
 
-/** Explicit "what ships" for the expanded card — e.g. "2 boxes (56 shots) delivered monthly" */
-function getWhatShips(cadence: FunnelCadence, product: FunnelProduct, shotCount: number): string {
-  const boxes = product === "both" ? "2 boxes" : "1 box";
+/** Explicit "what ships" — always assumes 1 box at this stage */
+function getWhatShips(cadence: FunnelCadence, shotCount: number): string {
   switch (cadence) {
     case "monthly-sub":
-      return `${boxes} (${shotCount} shots) delivered every month`;
+      return `1 box (${shotCount} shots) delivered every month`;
     case "monthly-otp":
-      return `${boxes} (${shotCount} shots), one-time delivery`;
+      return `1 box (${shotCount} shots), one-time delivery`;
     case "quarterly-sub":
-      return product === "both"
-        ? `6 boxes (${shotCount} shots) delivered every 3 months`
-        : `3 boxes (${shotCount} shots) delivered every 3 months`;
+      return `3 boxes (${shotCount} shots) delivered every 3 months`;
   }
 }
 
@@ -64,7 +66,7 @@ export default function CadenceSelector({
         {CADENCE_ORDER.map((cadenceKey) => {
           const display = FUNNEL_CADENCES[cadenceKey];
           const isActive = cadence === cadenceKey;
-          const pricing = getOfferPricing(product, cadenceKey);
+          const pricing = getOfferPricing(CADENCE_PRICING_REF, cadenceKey);
 
           return (
             <button
@@ -77,15 +79,11 @@ export default function CadenceSelector({
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >
-              {/* Badge banner */}
+              {/* Badge banner — always prominent, ink background */}
               {display.badge && (
                 <div
-                  className={`text-center py-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
-                    isActive
-                      ? "text-white"
-                      : "bg-gray-50 text-gray-400"
-                  }`}
-                  style={isActive ? { background: "var(--gradient-neuro-blue-accent)" } : undefined}
+                  className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
+                  style={{ backgroundColor: "var(--color-ink)" }}
                 >
                   {display.savingsLabel
                     ? `⚡ ${display.badge} · ${display.savingsLabel} ⚡`
@@ -125,28 +123,34 @@ export default function CadenceSelector({
                     </div>
                   </div>
 
-                  {/* Per-day price — the anchor number */}
+                  {/* Per-shot price — the anchor number */}
                   <div className="text-right flex-shrink-0">
                     <p className={`font-semibold ${isActive ? "text-base text-[var(--color-ink)]" : "text-sm text-gray-600"}`}>
-                      {formatPrice(pricing.perDay)}<span className="text-xs font-normal text-gray-500">/day</span>
+                      {formatPrice(pricing.perShot)}<span className="text-xs font-normal text-gray-500">/shot</span>
                     </p>
                   </div>
                 </div>
 
-                {/* Expanded: full details for selected card */}
+                {/* Expanded details */}
                 {isActive && (
-                  <div className="mt-3 ml-8">
-                    {/* What ships */}
-                    <div className="bg-gray-50 rounded-lg px-3 py-2.5 mb-3">
-                      <p className="text-sm font-medium text-[var(--color-ink)]">
-                        📦 {getWhatShips(cadenceKey, product, pricing.shotCount)}
-                      </p>
+                  <div className="mt-3 ml-8 space-y-3">
+                    {/* Per-shot cost — large, prominent */}
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-xl font-bold text-[var(--color-ink)]">
+                        {formatPrice(pricing.perShot)}
+                      </span>
+                      <span className="text-sm text-gray-500">per shot</span>
                     </div>
 
+                    {/* What ships */}
+                    <p className="text-sm text-gray-600">
+                      📦 {getWhatShips(cadenceKey, pricing.shotCount)}
+                    </p>
+
                     {/* Feature bullets */}
-                    <div className="space-y-1.5 text-[var(--color-ink)]">
+                    <div className="space-y-1.5">
                       {display.features.map((feature) => (
-                        <div key={feature} className="flex items-center gap-2 text-sm">
+                        <div key={feature} className="flex items-center gap-2 text-sm text-gray-600">
                           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0 text-green-600">
                             <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>

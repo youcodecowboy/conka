@@ -201,8 +201,8 @@ export default function FunnelClient() {
           />
         </div>
 
-        {/* Right column (full width on mobile) */}
-        <div className="w-full lg:w-1/2 lg:overflow-y-auto">
+        {/* Right column (full width on mobile, constrained on desktop) */}
+        <div className="w-full lg:w-1/2 lg:overflow-y-auto lg:px-8 lg:max-w-2xl">
 
           {/* ===== STEP 1: Choose Quantity ===== */}
           {currentStep === 1 && (

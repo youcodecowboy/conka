@@ -239,8 +239,6 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
   "monthly-sub": {
     label: "1-Month Supply",
     subtitle: "Delivered monthly, cancel anytime",
-    badge: "Most Popular",
-    savingsLabel: "Save 20%",
     features: [
       "Free UK shipping",
       "Cancel or pause anytime",
@@ -258,12 +256,12 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
   "quarterly-sub": {
     label: "3-Month Supply",
     subtitle: "Biggest savings, delivered quarterly",
-    badge: "Best Value",
+    badge: "Most Popular",
     savingsLabel: "Save 25%",
     features: [
       "Free UK shipping",
       "Cancel or pause anytime",
-      "Biggest savings per shot",
+      "Biggest savings per day",
     ],
   },
 };
