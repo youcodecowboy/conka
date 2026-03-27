@@ -7,7 +7,7 @@ import {
   getAthleteById,
 } from "@/app/lib/caseStudiesData";
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 // 4 featured athletes for the landing page
 const PROOF_ATHLETE_IDS = [
@@ -39,10 +39,10 @@ export default function LandingProof() {
           className="premium-section-heading"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          Verified performance data.
+          Measured with a clinically validated test.^^
         </h2>
         <p className="text-sm mt-2 opacity-50">
-          Real people. Real tests. All measured via the CONKA app.
+          Cognitive test scores measured using the CONKA app&apos;s FDA-cleared assessment, developed from Cambridge University research. Individual results may vary. Many factors may influence test performance.
         </p>
       </div>
 
@@ -58,7 +58,7 @@ export default function LandingProof() {
           +{avgImprovement.toFixed(0)}%
         </span>
         <span className="text-xs opacity-60">
-          average cognitive improvement
+          average change in test scores^^
         </span>
       </div>
 
@@ -133,7 +133,7 @@ export default function LandingProof() {
         <a
           href={FUNNEL_URL}
           className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          style={{ background: "var(--gradient-neuro-blue-accent)" }}
+          style={{ backgroundColor: "var(--color-ink)" }}
         >
           See Your Options →
         </a>

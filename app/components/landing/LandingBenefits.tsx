@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const FUNNEL_URL = "#";
+const FUNNEL_URL = "/funnel";
 
 const BENEFITS = [
   {
@@ -16,8 +16,8 @@ const BENEFITS = [
     ),
     title: "Sharper Focus",
     subtitle: "Stay locked in without caffeine or jitters",
-    stat: "+18%",
     ingredient: "Lemon Balm Extract · 300mg",
+    studyObservation: "In one study, participants taking Lemon Balm showed improvements in calmness and alertness (Kennedy et al. 2003)¶",
     study: "Kennedy et al. 2003",
     pmid: "PMID: 12888775",
   },
@@ -30,8 +30,8 @@ const BENEFITS = [
     ),
     title: "Better Sleep",
     subtitle: "Fall asleep faster, wake up actually rested",
-    stat: "+42%",
     ingredient: "KSM-66® Ashwagandha · 600mg",
+    studyObservation: "In one study, participants taking KSM-66 Ashwagandha reported improvements in sleep quality (Salve et al. 2019)¶",
     study: "Salve et al. 2019",
     pmid: "PMID: 32021735",
   },
@@ -44,8 +44,8 @@ const BENEFITS = [
     ),
     title: "Stress Resilience",
     subtitle: "Pressure doesn't rattle you",
-    stat: "-56%",
     ingredient: "KSM-66® Ashwagandha · 600mg",
+    studyObservation: "In one study, participants taking KSM-66 Ashwagandha showed a reduction in perceived stress (Chandrasekhar et al. 2012)¶",
     study: "Chandrasekhar et al. 2012",
     pmid: "PMID: 23439798",
   },
@@ -58,8 +58,8 @@ const BENEFITS = [
     ),
     title: "Clear Thinking",
     subtitle: "No 3pm wall, sharp all day",
-    stat: "+40%",
     ingredient: "Reduced Glutathione · 250mg",
+    studyObservation: "Vitamin C contributes to normal psychological function†† - CONKA Clear provides Vitamin C alongside Glutathione (Sinha et al. 2018)¶",
     study: "Sinha et al. 2018",
     pmid: "PMID: 29559699",
   },
@@ -105,7 +105,7 @@ const TRUST_BADGES = [
       </svg>
     ),
     title: "Cancel Anytime",
-    subtitle: "60-day guarantee",
+    subtitle: "30-day guarantee",
   },
 ];
 
@@ -122,7 +122,7 @@ export default function LandingBenefits() {
           What you&apos;ll actually feel.
         </h2>
         <p className="text-sm text-white opacity-40 mt-2">
-          Tap a benefit to see the science.
+          Tap a benefit to see the research.
         </p>
       </div>
 
@@ -145,7 +145,7 @@ export default function LandingBenefits() {
               }}
             >
               <div
-                className="w-11 h-11 flex items-center justify-center rounded-full mb-2"
+                className="w-14 h-14 flex items-center justify-center rounded-full mb-3"
                 style={{
                   backgroundColor: "var(--color-neuro-blue-light)",
                   color: "var(--color-ink)",
@@ -153,18 +153,6 @@ export default function LandingBenefits() {
               >
                 {benefit.icon}
               </div>
-
-              <span
-                className="text-xl lg:text-2xl font-bold"
-                style={{
-                  backgroundImage: "var(--gradient-neuro-blue-accent)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {benefit.stat}
-              </span>
 
               <h3
                 className="text-sm lg:text-base font-semibold mt-1.5"
@@ -187,19 +175,19 @@ export default function LandingBenefits() {
                   style={{ borderTop: "1px solid var(--color-premium-stroke)" }}
                 >
                   <p
-                    className="text-xs font-semibold"
+                    className="text-xs leading-relaxed"
+                    style={{ color: "var(--color-ink)", opacity: 0.6 }}
+                  >
+                    {benefit.studyObservation}
+                  </p>
+                  <p
+                    className="text-xs font-semibold mt-2"
                     style={{ color: "var(--color-ink)", opacity: 0.7 }}
                   >
                     {benefit.ingredient}
                   </p>
                   <p
                     className="text-xs font-mono mt-1"
-                    style={{ color: "var(--color-ink)", opacity: 0.4 }}
-                  >
-                    {benefit.study}
-                  </p>
-                  <p
-                    className="text-xs font-mono"
                     style={{ color: "var(--color-ink)", opacity: 0.3 }}
                   >
                     {benefit.pmid}
@@ -238,7 +226,7 @@ export default function LandingBenefits() {
         <a
           href={FUNNEL_URL}
           className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          style={{ background: "var(--gradient-neuro-blue-accent)" }}
+          style={{ backgroundColor: "var(--color-ink)" }}
         >
           See Your Options →
         </a>

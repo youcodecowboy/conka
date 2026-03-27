@@ -1,0 +1,129 @@
+# Landing Page Claims Compliance Log
+
+> **Last updated:** 2026-03-25
+> **Context:** Marketing/compliance review identified non-compliant health claims on `/start` landing page. Changes required under UK/EU food supplement regulations (EFSA 1924/2006, FIC 1169/2011).
+> **Scope:** Landing page (`/start`) + shared components used on landing page. This log feeds into main site updates later.
+
+---
+
+## Anchor Symbol Reference
+
+| Symbol | Category | Summary |
+|--------|----------|---------|
+| `†` | Clinically dosed | Dosages match published studies on individual ingredients |
+| `††` | EFSA claims | Vitamin C + B12 authorised health claims |
+| `‡` | Reviews | Loox verified post-purchase review collection |
+| `§` | Bottles sold | Cumulative sales figure as of date |
+| `¶` | Research | Ingredient-level studies, not product-level |
+| `^^` | Cognitive test | Cognetivity test — FDA cleared, Cambridge, 93% sensitivity |
+| `*` | Guarantee | 30-day satisfaction guarantee terms |
+
+---
+
+## Change Log
+
+### LandingHero.tsx
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 1 | `Clinically dosed.` | `Clinically dosed.†` | AMBER — add anchor | † | Done |
+| 2 | `500+ verified reviews` | `500+ verified reviews‡` | Needs verification footnote | ‡ | Done |
+| 3 | `Over 150,000 bottles sold` | `Over 150,000 bottles sold§` | Needs date footnote | § | Done |
+
+### LandingBenefits.tsx
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 4 | `+18%` (headline stat) | Removed — icon only | RED — % health claim | — | Done |
+| 5 | `+42%` (headline stat) | Removed — icon only | RED — % health claim | — | Done |
+| 6 | `-56%` (headline stat) | Removed — icon only | RED — % health claim | — | Done |
+| 7 | `+40%` (headline stat) | Removed — icon only | RED — % health claim | — | Done |
+| 8 | Study detail (Focus) | "In one study, participants taking Lemon Balm showed improvements in calmness and alertness (Kennedy et al. 2003)¶" | Observational reframing | ¶ | Done |
+| 9 | Study detail (Sleep) | "In one study, participants taking KSM-66 Ashwagandha reported improvements in sleep quality (Salve et al. 2019)¶" | Observational reframing | ¶ | Done |
+| 10 | Study detail (Stress) | "In one study, participants taking KSM-66 Ashwagandha showed a reduction in perceived stress (Chandrasekhar et al. 2012)¶" | Observational reframing | ¶ | Done |
+| 11 | Study detail (Thinking) | "Vitamin C contributes to normal psychological function†† — CONKA Clear provides Vitamin C alongside Glutathione (Sinha et al. 2018)¶" | EFSA claim + observational | ††, ¶ | Done |
+| 12 | `Tap a benefit to see the science.` | `Tap a benefit to see the research.` | Softer framing | — | Done |
+
+### LandingProductSplit.tsx
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 13 | `Sharp thinking under pressure` | `Supports mental clarity††` | Anchor to EFSA Vitamin C claim | †† | Done |
+| 14 | `Overnight brain recovery` | `Evening wind-down ritual` | "Brain recovery" is mechanism claim | — | Done |
+| 15 | `Cellular detox + repair` | `Cellular renewal + recovery` | RED — "detox" not authorised | — | Done |
+
+### LandingWhatsInside.tsx
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 16 | `CONKA Clear boosts cerebral blood flow and key neurotransmitters with Glutathione and Alpha GPC, so you think clearly under pressure and recover overnight.` | `CONKA Clear combines nootropics like Alpha GPC and Glutathione with Vitamin C, which contributes to normal psychological function†† and the reduction of tiredness and fatigue.††` | RED — mechanism claim → EFSA claims | †† | Done |
+| 17 | `Taking both daily creates a compounding effect. CONKA Flow generates AMPK for energy, CONKA Clear provides glutathione precursors for recovery. The combination is more effective than either alone.` | `Designed to work as a daily pair. CONKA Flow provides your morning foundation with adaptogens, while CONKA Clear supports your evening with nootropics and antioxidants. A complete daily routine in two shots.` | RED — comparative efficacy + mechanism claims | — | Done |
+| 18 | `clinically dosed.` | `clinically dosed.†` | AMBER — add anchor | † | Done |
+
+### LandingGuarantee.tsx
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 19 | `See the difference, or get your money back.` | `See for yourself.` | "See the difference" implies health improvement | — | Done |
+| 20 | `16%` / `Average improvement in 30 days` | `93%` / `Test sensitivity` | RED — quantified health outcome → test credibility stat | ^^ | Done |
+| 21 | Full body copy (performance promise) | Measurement tool framing with test validation (FDA cleared, Cambridge) | Satisfaction-based, app as transparency tool | ^^, * | Done |
+| 22 | `*Complete at least 3 tests per week for 4 weeks to qualify for the guarantee.` | `*30-day satisfaction guarantee for first-time customers. Contact support@conka.co.uk for a full refund within 30 days of your first order.` | Decouple from performance promise | * | Done |
+
+### LandingFAQ.tsx
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 23 | `...to boost cerebral blood flow and cellular repair. Together they enhance your brain's own systems rather than overriding them.` | `...alongside Vitamin C, which contributes to normal psychological function and the protection of cells from oxidative stress.†† Together they support your daily cognitive routine rather than relying on stimulants.` | RED — mechanism claims | †† | Done |
+| 24 | `Most people notice a clearer mind and calmer focus within 30 minutes...` (full speed-of-effect paragraph) | `Everyone responds differently. Some people notice they feel calmer and more focused early on, while for others it takes a few weeks...` | RED — speed-of-effect + timeframe claims | — | Done |
+| 25 | `feel the difference` (FAQ 6) | `not satisfied` | Minor — implied health claim | — | Done |
+| 26 | `satisfied with your results` (FAQ 8) | `not satisfied` | Minor — implied outcomes | — | Done |
+| 27 | `60-day money-back guarantee` (FAQ 6) | `30-day money-back guarantee` | Align to 30 days | — | Done |
+| 28 | `Try CONKA for up to 60 days` (FAQ 8) | `Try CONKA for up to 30 days` | Align to 30 days | — | Done |
+
+### LandingProof.tsx
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 29 | `Verified performance data.` | `Measured with a clinically validated test.^^` | Conveys test credibility without health claim | ^^ | Done |
+| 30 | `Real people. Real tests. All measured via the CONKA app.` | `Cognitive test scores measured using the CONKA app's FDA-cleared assessment, developed from Cambridge University research. Individual results — many factors may influence test performance.` | Test validation + caveat | — | Done |
+| 31 | `average cognitive improvement` | `average change in test scores^^` | "Improvement" is a health claim | ^^ | Done |
+
+### CaseStudiesDataDriven.tsx (shared — global change)
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 32 | `Verified Performance Data` | `Measured with a clinically validated test.` | Same reframing as LandingProof | — | Done |
+| 33 | `Real People. Real tests. Real improvements.` | `Cognitive test scores measured using the CONKA app's FDA-cleared assessment, developed from Cambridge University research. Individual results — many factors may influence test performance.^^` | Test validation + caveat | ^^ | Done |
+| 34 | `Average Improvement` | `Avg. Change in Test Scores^^` | "Improvement" is a health claim | ^^ | Done |
+| 35 | `Cognitive improvement` (photo overlay) | `Change in test score` | Neutral label | — | Done |
+| 36 | Old footnote | Strengthened: test validation details (FDA, 93% sensitivity, 87.5% reliability) + "do not constitute health claims" | Compliance + credibility | ^^ | Done |
+
+### NEW: LandingDisclaimer.tsx
+
+| # | Description | Status |
+|---|-------------|--------|
+| 37 | Created new AG1-style disclaimer footer with all anchor definitions | Done |
+| 38 | Integrated into app/start/page.tsx as final section | Done |
+
+---
+
+## Compliance Checklist
+
+- [x] All RED items removed or replaced
+- [x] All AMBER items anchored
+- [x] All GREEN additions in place
+- [x] Disclaimer footer live on `/start`
+- [x] CaseStudiesDataDriven global changes applied
+- [x] Guarantee aligned to 30 days throughout
+- [ ] Legal/compliance sign-off (pending review)
+
+---
+
+## Main Site TODO (for later)
+
+The following pages use similar claims that will need the same treatment:
+- Homepage (`/`) — testimonials, case studies section
+- App page (`/app`) — case studies section (already fixed via shared component)
+- Formula pages (`/conka-flow`, `/conka-clarity`) — ingredient claims, benefit descriptions
+- Science page (`/science`) — study citations
+- Main site footer — needs standard food supplement disclaimer added
