@@ -51,6 +51,18 @@ export default function FunnelClient() {
     });
   }, []);
 
+  // Reset checkout state when page is restored from bfcache (browser back from Shopify)
+  useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        setIsCheckingOut(false);
+        setError(null);
+      }
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
+
   // --- Step navigation ---
 
   const goToStep = useCallback((step: 1 | 2) => {
