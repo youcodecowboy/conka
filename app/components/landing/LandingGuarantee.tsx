@@ -1,5 +1,7 @@
 "use client";
 
+import { GUARANTEE_LABEL_FULL } from "@/app/lib/offerConstants";
+
 const FUNNEL_URL = "/funnel";
 
 /**
@@ -56,7 +58,7 @@ export default function LandingGuarantee() {
               className="text-sm font-semibold"
               style={{ color: "var(--color-ink)" }}
             >
-              100-day money-back guarantee*
+              {GUARANTEE_LABEL_FULL}*
             </span>
           </div>
 

@@ -169,15 +169,12 @@ export default function ProductSelector({
                       {display.description}
                     </p>
 
-                    <div className="flex items-baseline gap-2 mb-3">
-                      <span className="text-sm font-semibold" style={{ color: display.accent }}>
-                        {formatPrice(pricing.perShot)}/shot
-                      </span>
-                      <span className="text-gray-300">·</span>
-                      <span className="text-sm text-gray-500">
-                        {pricing.shotCount} shots
-                      </span>
-                    </div>
+                    <span
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
+                      style={{ backgroundColor: `${display.accent}12`, color: display.accent }}
+                    >
+                      {formatPrice(pricing.perShot)}/shot · {pricing.shotCount} shots
+                    </span>
 
                     {/* Feature bullets */}
                     <div className="space-y-1.5">

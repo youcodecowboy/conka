@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { GUARANTEE_LABEL } from "@/app/lib/offerConstants";
 
 const FUNNEL_URL = "/funnel";
 
@@ -105,7 +106,7 @@ const TRUST_BADGES = [
       </svg>
     ),
     title: "Cancel Anytime",
-    subtitle: "30-day guarantee",
+    subtitle: GUARANTEE_LABEL,
   },
 ];
 
