@@ -5,8 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   AthleteData,
-  getTotalTestsCompleted,
-  getAverageImprovementAcrossAll,
   athletes,
   SportCategory,
   getAthleteById,
@@ -99,8 +97,6 @@ function AthletePhotoTile({ athlete }: { athlete: AthleteData }) {
 
 export default function CaseStudiesDataDriven() {
   const teaserAthletes = getTeaserAthletes();
-  const totalTests = getTotalTestsCompleted();
-  const avgImprovement = getAverageImprovementAcrossAll();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleDotUpdate = (e: React.UIEvent<HTMLDivElement>) => {
@@ -114,19 +110,14 @@ export default function CaseStudiesDataDriven() {
     <>
       {/* Section Header */}
       <div className="text-left mb-8 md:mb-12">
-        <h2 className="premium-section-heading">Measured with a clinically validated test.</h2>
-        <p className="premium-section-subtitle text-[var(--text-on-light-muted)]">
-          Cognitive test scores measured using the CONKA app&apos;s FDA-cleared assessment, developed from Cambridge University research.
-          <br />
-          Individual results — many factors may influence test performance.^^
-        </p>
+        <h2 className="premium-section-heading">Athletes, Founders, Corporates. They all take CONKA.</h2>
       </div>
 
       {/* Hero Stats Block — desktop/tablet only */}
-        <div className="hidden md:grid grid-cols-3 gap-1 sm:gap-2 md:gap-6 mb-6">
+        <div className="hidden md:grid grid-cols-2 gap-1 sm:gap-2 md:gap-6 mb-6 max-w-2xl">
           <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
             <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)] leading-tight">
-              {totalTests.toLocaleString()}
+              5,000+
             </p>
             <p className="text-[10px] sm:text-xs premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-1 sm:mt-2">
               Total Tests
@@ -134,18 +125,10 @@ export default function CaseStudiesDataDriven() {
           </div>
           <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
             <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)] leading-tight">
-              {athletes.length}
+              150+
             </p>
             <p className="text-[10px] sm:text-xs premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-1 sm:mt-2">
-              Total Athletes
-            </p>
-          </div>
-          <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
-            <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-emerald-600 leading-tight">
-              +{avgImprovement.toFixed(1)}%
-            </p>
-            <p className="text-[10px] sm:text-xs premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-1 sm:mt-2">
-              Avg. Change in Test Scores^^
+              Participants
             </p>
           </div>
         </div>
