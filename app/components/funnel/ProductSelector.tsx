@@ -18,6 +18,19 @@ interface ProductSelectorProps {
 
 const PRODUCT_ORDER: FunnelProduct[] = ["both", "flow", "clear"];
 
+/** Cadence-aware box count label */
+function getBoxLabel(product: FunnelProduct, cadence: FunnelCadence, shotCount: number): string {
+  const isBoth = product === "both";
+  if (cadence === "quarterly-sub") {
+    return isBoth
+      ? `6 boxes · ${shotCount} shots total`
+      : `3 boxes · ${shotCount} shots total`;
+  }
+  return isBoth
+    ? `2 boxes · ${shotCount} shots`
+    : `1 box · ${shotCount} shots`;
+}
+
 /** Cadence-aware frequency label for price display */
 function getPriceFrequency(cadence: FunnelCadence): string {
   switch (cadence) {
@@ -117,15 +130,15 @@ export default function ProductSelector({
                           {display.label}
                         </p>
 
-                        <p
-                          className={`text-xs mt-0.5 transition-colors ${
-                            isActive ? "text-gray-600" : "text-gray-400"
+                        <span
+                          className={`inline-flex items-center gap-1 text-xs mt-1 px-2 py-0.5 rounded-full font-medium ${
+                            isActive
+                              ? "bg-[var(--color-neuro-blue-light)] text-[var(--color-ink)]"
+                              : "bg-gray-100 text-gray-500"
                           }`}
                         >
-                          {isBoth
-                            ? `2 boxes (${pricing.shotCount} shots)`
-                            : `1 box (${pricing.shotCount} shots)`}
-                        </p>
+                          📦 {getBoxLabel(productKey, cadence, pricing.shotCount)}
+                        </span>
                       </div>
 
                       {/* Price */}
@@ -156,15 +169,12 @@ export default function ProductSelector({
                       {display.description}
                     </p>
 
-                    <div className="flex items-baseline gap-2 mb-3">
-                      <span className="text-sm font-semibold" style={{ color: display.accent }}>
-                        {formatPrice(pricing.perShot)}/shot
-                      </span>
-                      <span className="text-gray-300">·</span>
-                      <span className="text-sm text-gray-500">
-                        {pricing.shotCount} shots
-                      </span>
-                    </div>
+                    <span
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
+                      style={{ backgroundColor: `${display.accent}12`, color: display.accent }}
+                    >
+                      {formatPrice(pricing.perShot)}/shot · {pricing.shotCount} shots
+                    </span>
 
                     {/* Feature bullets */}
                     <div className="space-y-1.5">

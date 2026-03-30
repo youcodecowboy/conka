@@ -13,7 +13,7 @@ export default function LandingProductSplit() {
           className="premium-section-heading"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          Flow starts it. Clear completes it.
+          Designed for 24 hours.
         </h2>
       </div>
 
@@ -45,7 +45,7 @@ export default function LandingProductSplit() {
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-4"
             style={{ backgroundColor: "rgba(245, 158, 11, 0.1)", color: "#b45309" }}
           >
-            ☀️ Morning Shot
+            ☀️ Before the day
           </div>
 
           <h3
@@ -63,15 +63,15 @@ export default function LandingProductSplit() {
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#f59e0b" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Show up the same at 4pm as at 9am</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Start how you want to finish</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#f59e0b" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Calm focus that builds, not crashes</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Calm focus that builds</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#f59e0b" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Pressure doesn&apos;t rattle you</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Win the day before it starts</span>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ export default function LandingProductSplit() {
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-4"
             style={{ backgroundColor: "rgba(14, 165, 233, 0.1)", color: "#0369a1" }}
           >
-            🌙 Evening Shot
+            🌙 After the day
           </div>
 
           <h3
@@ -118,7 +118,7 @@ export default function LandingProductSplit() {
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Recovery isn&apos;t just physical</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Beyond physical recovery</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />

@@ -1,5 +1,7 @@
 "use client";
 
+import { GUARANTEE_LABEL_FULL } from "@/app/lib/offerConstants";
+
 const FUNNEL_URL = "/funnel";
 
 /**
@@ -31,7 +33,7 @@ export default function LandingGuarantee() {
             color: "var(--color-ink)",
           }}
         >
-          The only supplement that proves it&apos;s working.
+          Results that you can actually see.
         </h2>
       </div>
 
@@ -56,40 +58,17 @@ export default function LandingGuarantee() {
               className="text-sm font-semibold"
               style={{ color: "var(--color-ink)" }}
             >
-              30-day money-back guarantee*
+              {GUARANTEE_LABEL_FULL}*
             </span>
           </div>
 
-          {/* Stats — the proof */}
-          <div className="flex flex-wrap justify-center lg:justify-start gap-6 mt-6">
-            <div>
-              <div className="text-2xl font-bold" style={{ color: "var(--color-ink)" }}>
-                93%
-              </div>
-              <div className="text-xs" style={{ color: "var(--color-ink)", opacity: 0.4 }}>
-                Test sensitivity^^
-              </div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold" style={{ color: "var(--color-ink)" }}>
-                1,000+
-              </div>
-              <div className="text-xs" style={{ color: "var(--color-ink)", opacity: 0.4 }}>
-                People tracking with the app
-              </div>
-            </div>
-          </div>
-
-          {/* Explanation — how the guarantee works */}
+          {/* Explanation */}
           <p
             className="mt-6 text-sm lg:text-base leading-relaxed"
             style={{ color: "var(--color-ink)", opacity: 0.6 }}
           >
-            We didn&apos;t want to tell you it works. We built an app so you
-            could prove it yourself. Baseline before your first box. Track as
-            you build your routine. Week 1, you feel the difference. Week 4,
-            you measure it. Not satisfied after 30 days? Full refund, no
-            questions asked.*
+            Don&apos;t take our word for it. Test your brain and see the
+            benefits of CONKA yourself. Track as you build your routine.
           </p>
 
           {/* CTA + app link */}
@@ -115,7 +94,7 @@ export default function LandingGuarantee() {
             className="mt-4 text-xs"
             style={{ color: "var(--color-ink)", opacity: 0.3 }}
           >
-            *30-day satisfaction guarantee for first-time customers. Contact support@conka.co.uk for a full refund within 30 days of your first order.
+            *Complete baseline before your box arrives.
           </p>
         </div>
 

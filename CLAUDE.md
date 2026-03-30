@@ -135,6 +135,7 @@ All analytics fire from `CartContext` after successful cart mutations. Pass `met
 | `docs/features/CART_LOGIC.md` | Cart actions, persistence, B2B normalization |
 | `docs/features/CUSTOMER_PORTAL.md` | Account portal |
 | `docs/features/b2b/B2B_PORTAL.md` | B2B professional portal |
+| `docs/BRAND_VOICE.md` | **Brand voice, proof assets, copy rules, claims compliance** |
 | `docs/analytics/` | Analytics implementation + verification guides |
 | `docs/CONVEX_DEPLOYMENT.md` | Convex setup |
 
