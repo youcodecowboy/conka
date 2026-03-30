@@ -50,10 +50,10 @@ export default function LandingHero() {
             }}
           >
             Coffee borrows from tomorrow. CONKA invests in it.
-            <br className="hidden lg:inline" />
+            <br className="hidden lg:inline" />{" "}
             Two shots a day. 16 active ingredients.
-            <br className="hidden lg:inline" />
-            The only supplement that proves it&apos;s working.
+            <br className="hidden lg:inline" />{" "}
+            Unlike anything else on the shelf.
           </p>
 
           {/* CTA — high contrast */}

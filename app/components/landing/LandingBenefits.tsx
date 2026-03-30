@@ -15,7 +15,7 @@ const BENEFITS = [
       </svg>
     ),
     title: "Sharper Focus",
-    subtitle: "Stay locked in without caffeine or jitters",
+    subtitle: "Stay locked in for longer",
     ingredient: "Lemon Balm Extract · 300mg",
     studyObservation: "In one study, participants taking Lemon Balm showed improvements in calmness and alertness (Kennedy et al. 2003)¶",
     study: "Kennedy et al. 2003",
@@ -28,8 +28,8 @@ const BENEFITS = [
         <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
       </svg>
     ),
-    title: "Better Sleep",
-    subtitle: "Fall asleep faster, wake up actually rested",
+    title: "Sleep Quality",
+    subtitle: "Wake up ready for the day",
     ingredient: "KSM-66® Ashwagandha · 600mg",
     studyObservation: "In one study, participants taking KSM-66 Ashwagandha reported improvements in sleep quality (Salve et al. 2019)¶",
     study: "Salve et al. 2019",
@@ -56,8 +56,8 @@ const BENEFITS = [
         <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 1 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
       </svg>
     ),
-    title: "Clear Thinking",
-    subtitle: "No 3pm wall, sharp all day",
+    title: "Clearer Thinking",
+    subtitle: "Better decision making, all day",
     ingredient: "Reduced Glutathione · 250mg",
     studyObservation: "Vitamin C contributes to normal psychological function†† - CONKA Clear provides Vitamin C alongside Glutathione (Sinha et al. 2018)¶",
     study: "Sinha et al. 2018",
@@ -119,9 +119,9 @@ export default function LandingBenefits() {
           className="premium-section-heading text-white"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          What you&apos;ll actually feel.
+          What it feels like to stay sharp.
         </h2>
-        <p className="text-sm text-white opacity-40 mt-2">
+        <p className="text-sm text-white opacity-70 mt-2">
           Tap a benefit to see the research.
         </p>
       </div>
@@ -225,8 +225,8 @@ export default function LandingBenefits() {
       <div className="mt-8 flex justify-center">
         <a
           href={FUNNEL_URL}
-          className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          style={{ backgroundColor: "var(--color-ink)" }}
+          className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
+          style={{ backgroundColor: "white", color: "var(--color-ink)" }}
         >
           See Your Options →
         </a>

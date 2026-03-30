@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import {
-  athletes,
-  getAverageImprovementAcrossAll,
   getAthleteById,
 } from "@/app/lib/caseStudiesData";
 
@@ -29,7 +27,6 @@ export default function LandingProof() {
   const proofAthletes = PROOF_ATHLETE_IDS.map((id) => getAthleteById(id)).filter(
     Boolean
   );
-  const avgImprovement = getAverageImprovementAcrossAll();
 
   return (
     <div>
@@ -39,27 +36,32 @@ export default function LandingProof() {
           className="premium-section-heading"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          Measured with a clinically validated test.^^
+          Athletes, Founders, Corporates. They all take CONKA.
         </h2>
-        <p className="text-sm mt-2 opacity-50">
-          Cognitive test scores measured using the CONKA app&apos;s FDA-cleared assessment, developed from Cambridge University research. Individual results may vary. Many factors may influence test performance.
-        </p>
       </div>
 
-      {/* Avg improvement callout */}
-      <div
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-        style={{
-          backgroundColor: "var(--color-neuro-blue-light)",
-          color: "var(--color-ink)",
-        }}
-      >
-        <span className="text-sm font-bold">
-          +{avgImprovement.toFixed(0)}%
-        </span>
-        <span className="text-xs opacity-60">
-          average change in test scores^^
-        </span>
+      {/* Stats */}
+      <div className="flex gap-4 mb-6">
+        <div
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+          style={{
+            backgroundColor: "var(--color-neuro-blue-light)",
+            color: "var(--color-ink)",
+          }}
+        >
+          <span className="text-sm font-bold">5,000+</span>
+          <span className="text-xs opacity-60">total tests</span>
+        </div>
+        <div
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+          style={{
+            backgroundColor: "var(--color-neuro-blue-light)",
+            color: "var(--color-ink)",
+          }}
+        >
+          <span className="text-sm font-bold">150+</span>
+          <span className="text-xs opacity-60">participants</span>
+        </div>
       </div>
 
       {/* Athlete tiles — horizontal scroll mobile, 4-col desktop */}
