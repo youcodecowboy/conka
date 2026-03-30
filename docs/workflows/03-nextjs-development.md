@@ -235,12 +235,12 @@ Reference the style guide at: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
 
 ### Key rules
 1. **Use design tokens** — never hard-code colours, spacing, or font sizes
-2. **Responsive design is mandatory** — every component must work on mobile and desktop
+2. **Mobile-first is mandatory** — build for 390px first, then adapt upward. 74% of traffic is mobile. Every component must be reviewed on mobile before desktop. See `docs/QUALITY_STANDARDS.md`.
 3. **Use `next/image`** for all images — never raw `<img>` tags
 4. **Prioritise Core Web Vitals** — avoid layout shift (CLS), keep LCP fast
 
 ### Responsive approach
-Mobile-first with Tailwind default breakpoints:
+Mobile-first (hard requirement, not preference). Write base styles for mobile, add complexity at breakpoints:
 - sm: 640px
 - md: 768px
 - lg: 1024px

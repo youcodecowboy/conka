@@ -19,6 +19,7 @@ Before writing any code:
 1. **Read the relevant existing docs:**
    - Architecture docs: `docs/PROJECT_OVERVIEW.md`
    - Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
+   - Quality standards: `docs/QUALITY_STANDARDS.md`
    - Any feature-specific docs referenced in the scope
 2. **Check the current state of affected files** — read them, understand the existing patterns
 3. **Identify the existing conventions** in the area you're modifying
@@ -30,8 +31,11 @@ Before writing any code:
 ### Deployment awareness
 > Every push to your feature branch creates a **Vercel preview deployment**. Use this to verify your work in a production-like environment throughout development — don't wait until the end.
 
+### Mobile-first is the default
+> 74% of traffic is mobile (50% iOS, 24% Android). Build for 390px first, then adapt for desktop. Every component and page must be reviewed on mobile before desktop. If mobile and desktop conflict, mobile wins. See `docs/QUALITY_STANDARDS.md` for the full quality bar.
+
 ### D2C performance marketing mindset
-> **Adopt this mindset when working on conversion-facing pages (landing pages, funnel, product pages, checkout flows).** This project serves a direct-to-consumer supplement brand selling through paid social channels. Every customer-facing page is a conversion surface. Approach implementation with the understanding that the customer arriving from a Meta ad has zero brand awareness, limited attention, and is comparing you to 10 other products they scrolled past. Clarity beats cleverness. Every piece of information shown must earn its place by either building trust, reducing uncertainty, or moving the customer closer to purchase. If it does none of those, remove it. Think in terms of cognitive load: fewer decisions, fewer numbers, fewer words. The customer should never have to work to understand what they are buying, what it costs, or why it matters. When in doubt, look at what high-performing D2C brands in the wellness and supplement space are doing (AG1, Overload, Huel, Athletic Greens) and adopt proven patterns rather than inventing new ones.
+> **Adopt this mindset when working on conversion-facing pages (landing pages, funnel, product pages, checkout flows).** This project serves a direct-to-consumer supplement brand selling through paid social channels. Every customer-facing page is a conversion surface. Approach implementation with the understanding that the customer arriving from a Meta ad has zero brand awareness, limited attention, and is comparing you to 10 other products they scrolled past. Clarity beats cleverness. Every piece of information shown must earn its place by either building trust, reducing uncertainty, or moving the customer closer to purchase. If it does none of those, remove it. Think in terms of cognitive load: fewer decisions, fewer numbers, fewer words. The customer should never have to work to understand what they are buying, what it costs, or why it matters. When in doubt, look at what high-performing D2C brands in the wellness and supplement space are doing (AG1, Overload, Huel, Athletic Greens) and adopt proven patterns rather than inventing new ones. See `docs/QUALITY_STANDARDS.md` for specific reference sites and the visual patterns to emulate.
 
 ---
 
