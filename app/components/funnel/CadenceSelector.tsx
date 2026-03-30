@@ -31,7 +31,7 @@ function getDeliveryLabel(cadence: FunnelCadence): string {
   }
 }
 
-/** Explicit "what ships" — always assumes 1 box at this stage */
+/** Explicit "what ships" — step 1 shows single-product quantities */
 function getWhatShips(cadence: FunnelCadence, shotCount: number): string {
   switch (cadence) {
     case "monthly-sub":
@@ -39,7 +39,7 @@ function getWhatShips(cadence: FunnelCadence, shotCount: number): string {
     case "monthly-otp":
       return `1 box (${shotCount} shots), one-time delivery`;
     case "quarterly-sub":
-      return `3 boxes (${shotCount} shots) delivered every 3 months`;
+      return `3 boxes (${shotCount} shots total) delivered every 3 months`;
   }
 }
 
