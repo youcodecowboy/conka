@@ -42,6 +42,13 @@ Do not guess. Look at what works.
    - Fussy: `getfussy.com/pages/subscribe`
    - AG1, Huel, Athletic Greens, Magic Mind, Ketone IQ
    - Find more via [Meta Ad Library](https://facebook.com/ads/library) - search the brand, click their ads, follow the landing page
+
+   **Key reference sites with specific lessons:**
+   - **Seed.com** — Study their layered depth (components ON sections, not IN them). Avoid their performance patterns.
+   - **Ovrload** — Study their conversion intensity and "quickly consumable" information design.
+   - **Magic Mind** — Study their approachable science positioning and breathability/whitespace.
+   - Full reference notes: `docs/QUALITY_STANDARDS.md`
+
 2. **Note patterns, not aesthetics.** What information do they show at each step? What do they hide? What's the default selection? How do they frame price?
 3. **Screenshot and describe** what you observe before proposing changes
 
