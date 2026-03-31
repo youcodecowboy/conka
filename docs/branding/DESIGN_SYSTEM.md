@@ -21,8 +21,8 @@
 
 | Role | Font | Fallback | Notes |
 |------|------|----------|-------|
-| **Primary** (headings + body) | Neue Haas Grotesk | `var(--font-brand-primary), -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif` | Commercial font — requires `.woff2` files in `app/fonts/`. Until available, system fallback applies. |
-| **Data** (metrics, labels, code) | JetBrains Mono | `var(--font-brand-data), "IBM Plex Mono", "Courier New", monospace` | Free — loaded via `next/font/google`. |
+| **Primary** (headings + body) | Neue Haas Grotesk Display | `var(--font-brand-primary)` with system sans-serif fallback | Loaded via `next/font/local` from `app/fonts/`. Weights: Regular (400), Medium (500), Bold (700). |
+| **Data** (metrics, labels, code) | JetBrains Mono | `var(--font-brand-data)` with monospace fallback | Loaded via `next/font/local` from `app/fonts/`. Weights: Regular (400), Medium (500). |
 
 ### Type scale
 

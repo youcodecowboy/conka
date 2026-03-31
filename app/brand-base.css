@@ -26,11 +26,13 @@
   --brand-divider-subtle: rgba(0, 0, 0, 0.06);
 
   /* ===== Typography ===== */
-  /* Font families — override --font-brand-primary when .woff2 is loaded via next/font/local */
+  /* Font families
+     --font-brand-primary is set by next/font/local on <body> (layout.tsx).
+     The :root fallback applies only if the font class is missing. */
   --font-brand-primary: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
     Arial, sans-serif;
-  --font-brand-data: var(--font-jetbrains-mono, "JetBrains Mono"),
-    "IBM Plex Mono", "Courier New", monospace;
+  --font-brand-data: var(--font-jetbrains-mono), "IBM Plex Mono",
+    "Courier New", monospace;
 
   /* Type scale */
   --brand-h1-size: clamp(2.25rem, 6vw, 3.5rem);
