@@ -211,6 +211,6 @@ Before finalising, check:
 ---
 
 ## References
-- Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
+- Design system: `docs/branding/DESIGN_SYSTEM.md`
 - Architecture docs: `docs/PROJECT_OVERVIEW.md`
 - Existing feature docs: `docs/features/`

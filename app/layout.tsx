@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, Caveat, IBM_Plex_Mono, Syne, DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
@@ -27,7 +28,47 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
-/* Premium PDP style guide: display + body (sharp, legible; move away from Poppins) */
+/* Brand design system: Neue Haas Grotesk Display (primary) + JetBrains Mono (data) */
+const neueHaas = localFont({
+  variable: "--font-brand-primary",
+  src: [
+    {
+      path: "./fonts/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayRoman.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayMediu.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayBold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+});
+
+const jetBrainsMono = localFont({
+  variable: "--font-jetbrains-mono",
+  src: [
+    {
+      path: "./fonts/JetBrainsMono-2.304/fonts/webfonts/JetBrainsMono-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/JetBrainsMono-2.304/fonts/webfonts/JetBrainsMono-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+});
+
+/* Legacy fonts (still used by premium-base.css pages) */
 const syne = Syne({
   variable: "--font-premium-display",
   subsets: ["latin"],
@@ -136,7 +177,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${poppins.variable} ${caveat.variable} ${ibmPlexMono.variable} ${syne.variable} ${dmSans.variable} antialiased`}
+        className={`${poppins.variable} ${caveat.variable} ${ibmPlexMono.variable} ${syne.variable} ${dmSans.variable} ${neueHaas.variable} ${jetBrainsMono.variable} antialiased`}
       >
         <MetaPageViewTracker />
         <ConvexClientProvider>

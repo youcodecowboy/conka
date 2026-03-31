@@ -226,16 +226,16 @@ export async function addToCart(variantId: string, quantity: number = 1) {
 
 ## Styling
 
-Reference the style guide at: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
+Reference the design system at: `docs/branding/DESIGN_SYSTEM.md`
 
 ### Approach
 - Primary styling method: Tailwind CSS + CSS custom properties (design tokens)
-- Theme/tokens location: `app/premium-base.css`
-- Global styles: `app/globals.css`, `app/premium-base.css`
+- Theme/tokens location: `app/brand-base.css` (new) / `app/premium-base.css` (legacy)
+- Global styles: `app/globals.css`, `app/brand-base.css`, `app/premium-base.css`
 
 ### Key rules
 1. **Use design tokens** — never hard-code colours, spacing, or font sizes
-2. **Mobile-first is mandatory** — build for 390px first, then adapt upward. 74% of traffic is mobile. Every component must be reviewed on mobile before desktop. See `docs/QUALITY_STANDARDS.md`.
+2. **Mobile-first is mandatory** — build for 390px first, then adapt upward. 74% of traffic is mobile. Every component must be reviewed on mobile before desktop. See `docs/branding/QUALITY_STANDARDS.md`.
 3. **Use `next/image`** for all images — never raw `<img>` tags
 4. **Prioritise Core Web Vitals** — avoid layout shift (CLS), keep LCP fast
 
@@ -334,6 +334,6 @@ Feature branch → push → Vercel preview deployment (auto)
 ---
 
 ## References
-- Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
+- Design system: `docs/branding/DESIGN_SYSTEM.md`
 - Shopify/commerce: `./04-shopify-commerce.md`
 - Implementation workflow: `./02-implementation-workflow.md`

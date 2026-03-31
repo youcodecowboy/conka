@@ -1,0 +1,304 @@
+/**
+ * CONKA Brand Design System
+ * New token system aligned with 2026 brand guidelines.
+ *
+ * Coexists with premium-base.css during migration.
+ * New/refactored pages use brand-* classes; legacy pages keep premium-* classes.
+ *
+ * Typography:
+ *   Primary: Neue Haas Grotesk (commercial — load via next/font/local when .woff2 available)
+ *   Data:    JetBrains Mono (free — load via next/font/google)
+ *   Until Neue Haas Grotesk is available, system sans-serif fallback applies.
+ */
+
+:root {
+  /* ===== Colour palette ===== */
+  --brand-white: #ffffff;
+  --brand-neutral: #ccccca;
+  --brand-accent: #4058bb;
+  --brand-deep-grey: #212121;
+  --brand-black: #000000;
+
+  /* Functional aliases */
+  --brand-text-primary: var(--brand-black);
+  --brand-text-on-dark: var(--brand-white);
+  --brand-divider: var(--brand-neutral);
+  --brand-divider-subtle: rgba(0, 0, 0, 0.06);
+
+  /* ===== Typography ===== */
+  /* Font families
+     --font-brand-primary is set by next/font/local on <body> (layout.tsx).
+     The :root fallback applies only if the font class is missing. */
+  --font-brand-primary: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-brand-data: var(--font-jetbrains-mono), "IBM Plex Mono",
+    "Courier New", monospace;
+
+  /* Type scale */
+  --brand-h1-size: clamp(2.25rem, 6vw, 3.5rem);
+  --brand-h1-weight: 500;
+  --brand-h1-leading: 1.1;
+  --brand-h1-tracking: -0.02em;
+
+  --brand-h2-size: clamp(1.75rem, 4vw, 2.5rem);
+  --brand-h2-weight: 500;
+  --brand-h2-leading: 1.125;
+  --brand-h2-tracking: -0.01em;
+
+  --brand-h3-size: clamp(1.25rem, 3vw, 1.75rem);
+  --brand-h3-weight: 400;
+  --brand-h3-leading: 1.15;
+  --brand-h3-tracking: 0;
+
+  --brand-body-size: 1rem;
+  --brand-body-weight: 400;
+  --brand-body-leading: 1.4;
+
+  --brand-caption-size: 0.875rem;
+  --brand-caption-weight: 400;
+  --brand-caption-leading: 1.15;
+
+  --brand-data-weight: 500;
+  --brand-data-label-weight: 400;
+  --brand-data-label-size: 0.875rem;
+
+  --brand-body-max-width: 65ch;
+
+  /* ===== Radius (3 tiers only) ===== */
+  --brand-radius-interactive: 1rem; /* 16px — buttons, inputs, pills */
+  --brand-radius-container: 1.5rem; /* 24px — image containers, nested surfaces */
+  --brand-radius-card: 2rem; /* 32px — cards, major surfaces */
+
+  /* ===== Spacing ===== */
+  --brand-space-xs: 0.25rem; /* 4px */
+  --brand-space-s: 0.5rem; /* 8px */
+  --brand-space-m: 1rem; /* 16px */
+  --brand-space-l: 1.5rem; /* 24px */
+  --brand-space-xl: 2rem; /* 32px */
+  --brand-space-2xl: 3rem; /* 48px */
+
+  /* ===== Layout ===== */
+  --brand-max-width: 1280px;
+  --brand-gutter-mobile: 1.25rem;
+  --brand-gutter-desktop: 5vw;
+
+  /* Section vertical padding */
+  --brand-section-padding: clamp(5rem, 10vh, 10rem);
+  --brand-section-padding-mobile: 5rem;
+  --brand-header-gap: 3rem;
+  --brand-text-gap: 1.5rem;
+}
+
+/* ===== Layout classes ===== */
+
+/* Content track — max-width + centred */
+.brand-track {
+  max-width: var(--brand-max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Section wrapper — vertical rhythm + gutters */
+.brand-section {
+  padding-top: var(--brand-section-padding);
+  padding-bottom: var(--brand-section-padding);
+  padding-left: var(--brand-gutter-desktop);
+  padding-right: var(--brand-gutter-desktop);
+  transition: background-color 0.4s ease;
+}
+
+/* Hero as first section — minimal top padding */
+.brand-section.brand-hero-first {
+  padding-top: var(--brand-space-m);
+}
+
+@media (max-width: 768px) {
+  .brand-section {
+    padding-top: var(--brand-section-padding-mobile);
+    padding-bottom: var(--brand-section-padding-mobile);
+    padding-left: var(--brand-gutter-mobile);
+    padding-right: var(--brand-gutter-mobile);
+  }
+  .brand-section.brand-hero-first {
+    padding-top: var(--brand-space-m);
+  }
+}
+
+/* ===== Section backgrounds ===== */
+
+.brand-bg-white {
+  background-color: var(--brand-white);
+  color: var(--brand-black);
+}
+
+.brand-bg-neutral {
+  background-color: var(--brand-neutral);
+  color: var(--brand-black);
+}
+
+.brand-bg-black {
+  background-color: var(--brand-black);
+  color: var(--brand-white);
+}
+
+.brand-bg-deep-grey {
+  background-color: var(--brand-deep-grey);
+  color: var(--brand-white);
+}
+
+/* ===== Typography classes ===== */
+/* All left-aligned by default. No centred headers. */
+
+.brand-h1 {
+  font-family: var(--font-brand-primary);
+  font-size: var(--brand-h1-size);
+  font-weight: var(--brand-h1-weight);
+  line-height: var(--brand-h1-leading);
+  letter-spacing: var(--brand-h1-tracking);
+  margin-bottom: var(--brand-text-gap);
+}
+
+.brand-h1-bold {
+  font-family: var(--font-brand-primary);
+  font-size: var(--brand-h1-size);
+  font-weight: 700;
+  line-height: var(--brand-h1-leading);
+  letter-spacing: var(--brand-h1-tracking);
+  margin-bottom: var(--brand-text-gap);
+}
+
+.brand-h2 {
+  font-family: var(--font-brand-primary);
+  font-size: var(--brand-h2-size);
+  font-weight: var(--brand-h2-weight);
+  line-height: var(--brand-h2-leading);
+  letter-spacing: var(--brand-h2-tracking);
+  margin-bottom: var(--brand-text-gap);
+}
+
+.brand-h3 {
+  font-family: var(--font-brand-primary);
+  font-size: var(--brand-h3-size);
+  font-weight: var(--brand-h3-weight);
+  line-height: var(--brand-h3-leading);
+  letter-spacing: var(--brand-h3-tracking);
+  margin-bottom: var(--brand-text-gap);
+}
+
+.brand-body {
+  font-family: var(--font-brand-primary);
+  font-size: var(--brand-body-size);
+  font-weight: var(--brand-body-weight);
+  line-height: var(--brand-body-leading);
+  max-width: var(--brand-body-max-width);
+}
+
+.brand-caption {
+  font-family: var(--font-brand-primary);
+  font-size: var(--brand-caption-size);
+  font-weight: var(--brand-caption-weight);
+  line-height: var(--brand-caption-leading);
+}
+
+.brand-data {
+  font-family: var(--font-brand-data);
+  font-weight: var(--brand-data-weight);
+  line-height: normal;
+}
+
+.brand-data-label {
+  font-family: var(--font-brand-data);
+  font-size: var(--brand-data-label-size);
+  font-weight: var(--brand-data-label-weight);
+  line-height: normal;
+}
+
+/* ===== Component patterns ===== */
+
+/* Card — major surface */
+.brand-card {
+  border-radius: var(--brand-radius-card);
+  background-color: var(--brand-white);
+  border: none;
+  padding: var(--brand-space-xl);
+}
+
+.brand-card-bordered {
+  border-radius: var(--brand-radius-card);
+  background-color: var(--brand-white);
+  border: 1px solid var(--brand-divider-subtle);
+  padding: var(--brand-space-xl);
+}
+
+/* Container — image wrappers, nested blocks */
+.brand-container {
+  border-radius: var(--brand-radius-container);
+  overflow: hidden;
+}
+
+/* Button base */
+.brand-btn {
+  border-radius: var(--brand-radius-interactive);
+  font-family: var(--font-brand-primary);
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  border: none;
+}
+
+.brand-btn:hover {
+  opacity: 0.85;
+}
+
+.brand-btn-primary {
+  background-color: var(--brand-black);
+  color: var(--brand-white);
+}
+
+.brand-btn-secondary {
+  background-color: var(--brand-white);
+  color: var(--brand-black);
+  border: 1px solid var(--brand-black);
+}
+
+.brand-btn-accent {
+  background-color: var(--brand-accent);
+  color: var(--brand-white);
+}
+
+/* ===== Utility ===== */
+
+/* Prevent horizontal overflow from full-bleed content */
+.brand-page {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Spacing helpers */
+.brand-stack-s {
+  margin-bottom: var(--brand-space-s);
+}
+.brand-stack-s:last-child {
+  margin-bottom: 0;
+}
+
+.brand-stack-m {
+  margin-bottom: var(--brand-space-m);
+}
+.brand-stack-m:last-child {
+  margin-bottom: 0;
+}
+
+/* Divider */
+.brand-divider {
+  border: none;
+  border-top: 1px solid var(--brand-divider);
+  margin: var(--brand-space-xl) 0;
+}
+
+.brand-divider-subtle {
+  border: none;
+  border-top: 1px solid var(--brand-divider-subtle);
+  margin: var(--brand-space-xl) 0;
+}

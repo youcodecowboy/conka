@@ -65,7 +65,7 @@ Key helpers: `getFormulaPricing(packSize, purchaseType)`, `getProtocolPricing(id
 
 ## Design system — Soft-Tech Luxury
 
-Full spec: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`. Tokens in `app/premium-base.css`.
+Full spec: `docs/branding/DESIGN_SYSTEM.md`. New tokens in `app/brand-base.css` (legacy tokens still in `app/premium-base.css` during migration).
 
 **The pattern — page orchestrates, components are content-only:**
 
@@ -131,12 +131,14 @@ All analytics fire from `CartContext` after successful cart mutations. Pass `met
 | `docs/development/WEBSITE_SIMPLIFICATION_PLAN.md` | **Active plan** — phased simplification + funnel build |
 | `docs/PROJECT_OVERVIEW.md` | High-level architecture |
 | `docs/PRODUCT_DATA.md` | Product module structure + helper usage |
-| `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md` | Full design system spec |
+| `docs/branding/DESIGN_SYSTEM.md` | **Active design system** — typography, colours, radius, layout, migration guide |
+| `docs/branding/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md` | Legacy design system (until pages are migrated) |
 | `docs/features/CART_LOGIC.md` | Cart actions, persistence, B2B normalization |
 | `docs/features/CUSTOMER_PORTAL.md` | Account portal |
 | `docs/features/b2b/B2B_PORTAL.md` | B2B professional portal |
-| `docs/QUALITY_STANDARDS.md` | **Quality bar** — what premium looks like, reference sites, mobile-first mandate, consumability principle |
-| `docs/BRAND_VOICE.md` | **Brand voice, proof assets, copy rules, claims compliance** |
+| `docs/branding/QUALITY_STANDARDS.md` | **Quality bar** — what premium looks like, reference sites, mobile-first mandate, consumability principle |
+| `docs/branding/BRAND_VOICE.md` | **Brand voice, proof assets, copy rules, claims compliance** |
+| `docs/branding/MOBILE_OPTIMIZATION.md` | Mobile component patterns, split component architecture |
 | `docs/analytics/` | Analytics implementation + verification guides |
 | `docs/CONVEX_DEPLOYMENT.md` | Convex setup |
 

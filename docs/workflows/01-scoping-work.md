@@ -41,7 +41,7 @@ Map out what parts of the system this work touches.
 - [ ] Does this affect the layout hierarchy? (layouts, templates, loading/error boundaries)
 - [ ] Are there SEO implications? (meta tags, structured data, OG images)
 - [ ] Does this affect middleware? (redirects, auth checks, geo-routing)
-- [ ] Reference: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md` for component patterns
+- [ ] Reference: `docs/branding/DESIGN_SYSTEM.md` for component patterns
 
 ### Shopify / Commerce
 - [ ] Does this involve product data? Which product fields / metafields?
@@ -141,7 +141,7 @@ Wait for user confirmation before starting implementation. If the user says "jus
 
 ## References
 - Architecture docs: `docs/PROJECT_OVERVIEW.md`
-- Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
+- Design system: `docs/branding/DESIGN_SYSTEM.md`
 - Implementation workflow: `./02-implementation-workflow.md`
 - UX iteration (for refining existing pages): `./09-ux-iteration.md`
 - Shopify conventions: `./04-shopify-commerce.md`

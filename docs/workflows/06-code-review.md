@@ -50,7 +50,7 @@ Work through these checks in order. Fix any failures before moving on.
 ### Consistency
 - [ ] Does the code follow the same patterns as surrounding code?
 - [ ] Are naming conventions consistent with the rest of the project?
-- [ ] Does the styling approach match the style guide? `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
+- [ ] Does the styling approach match the design system? `docs/branding/DESIGN_SYSTEM.md`
 
 ---
 
@@ -180,4 +180,4 @@ Present findings in priority order:
 - Implementation workflow: `./02-implementation-workflow.md`
 - Next.js development: `./03-nextjs-development.md`
 - Shopify conventions: `./04-shopify-commerce.md`
-- Style guide: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
+- Design system: `docs/branding/DESIGN_SYSTEM.md`
