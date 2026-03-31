@@ -83,8 +83,8 @@ From Ovrload: information must be simple, easily understood, AND fast to digest.
 
 ## How this connects to other docs
 
-- **HOW to build** (design tokens, classes, section patterns): `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
-- **HOW to write** (copy voice, proof assets, claims compliance): `docs/BRAND_VOICE.md`
-- **Mobile component patterns** (split components, progressive disclosure): `docs/MOBILE_OPTIMIZATION.md`
+- **HOW to build** (design tokens, classes, section patterns): `docs/branding/DESIGN_SYSTEM.md`
+- **HOW to write** (copy voice, proof assets, claims compliance): `docs/branding/BRAND_VOICE.md`
+- **Mobile component patterns** (split components, progressive disclosure): `docs/branding/MOBILE_OPTIMIZATION.md`
 - **Conversion principles** (hierarchy, cognitive load, trust): `docs/workflows/09-ux-iteration.md`
 - **Implementation process** (phases, checklist, deployment): `docs/workflows/02-implementation-workflow.md`

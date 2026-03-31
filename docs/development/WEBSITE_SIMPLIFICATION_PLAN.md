@@ -401,7 +401,7 @@ This is lower priority. The funnel handles paid traffic. These changes align the
 - [January Brands Workshop Notes](../../CONKA_BUSINESS_CONTEXT.md) — Full business context
 - [Product Data Docs](../PRODUCT_DATA.md) — Current product module structure
 - [Cart Logic](../features/CART_LOGIC.md) — Current cart implementation
-- [Design System](../SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md) — Soft-Tech Luxury guidelines
+- [Design System](../branding/DESIGN_SYSTEM.md) — Brand design system
 - [Shopify Commerce Workflow](../workflows/04-shopify-commerce.md) — Shopify conventions
 - **Overload funnel page:** `ovrload.co/pages/funnel` — Product picker, pre-selection, upsell step, mobile layout (built by January Brands)
 - **Overload landing page:** `ovrload.co/pages/gummy` — Hero asset, trust badges, mobile scroll structure

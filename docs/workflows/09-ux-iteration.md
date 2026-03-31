@@ -47,7 +47,7 @@ Do not guess. Look at what works.
    - **Seed.com** — Study their layered depth (components ON sections, not IN them). Avoid their performance patterns.
    - **Ovrload** — Study their conversion intensity and "quickly consumable" information design.
    - **Magic Mind** — Study their approachable science positioning and breathability/whitespace.
-   - Full reference notes: `docs/QUALITY_STANDARDS.md`
+   - Full reference notes: `docs/branding/QUALITY_STANDARDS.md`
 
 2. **Note patterns, not aesthetics.** What information do they show at each step? What do they hide? What's the default selection? How do they frame price?
 3. **Screenshot and describe** what you observe before proposing changes
@@ -157,5 +157,5 @@ If the iteration changes the page's behaviour, pricing strategy, or UX patterns:
 - Implementation: `./02-implementation-workflow.md`
 - Code review: `./06-code-review.md`
 - Active plan: `docs/development/WEBSITE_SIMPLIFICATION_PLAN.md`
-- Design system: `docs/SOFT_TECH_LUXURY_STYLE_SHEET_GUIDELINES.md`
+- Design system: `docs/branding/DESIGN_SYSTEM.md`
 - Competitor references: See plan doc "Reference" section for URLs
