@@ -1,6 +1,6 @@
 # Landing Page Review & Upgrade
 
-> **Status:** Audit complete, planning next
+> **Status:** Scoped. Phases 1-2 ticketed (SCRUM-836, SCRUM-837). Phases 3-5 future.
 > **Created:** 2026-04-01
 > **Route:** `/start` (`app/start/page.tsx`)
 > **Design system:** Currently legacy (`premium-base.css`), migration to `brand-base.css` planned
@@ -99,19 +99,26 @@ The landing page (`/start`) receives paid Meta traffic. It was built during the 
 
 ## Phase Plan
 
-| Phase | Description | Status |
-|-------|-------------|--------|
-| 1 | Critical fixes (guarantee, metadata, Server Component, FUNNEL_URL) | Not Started |
-| 2 | Code quality (shared CTA component, delete dead code, fix img tag, remove CSS hack) | Not Started |
-| 3 | Claims compliance pass (AMBER items) | Not Started |
-| 4 | Brand voice + copy improvements | Not Started |
-| 5 | Design system migration (premium -> brand) + visual fixes | Future |
+| Phase | Description | Ticket | Status |
+|-------|-------------|--------|--------|
+| 1 | Critical fixes (guarantee, metadata, Server Component, FUNNEL_URL) | SCRUM-836 | Not Started |
+| 2 | Code quality (shared CTA, dead code, img tag, CSS hack, colours) | SCRUM-837 | Not Started |
+| 3 | Claims compliance pass (AMBER items) | -- | Future |
+| 4 | Brand voice + copy improvements | -- | Future |
+| 5 | Design system migration (premium -> brand) + visual fixes | -- | Future |
 
 ---
 
 ## Jira Tickets
 
-_To be created after scoping._
+| Key | Summary | Phase | Sprint |
+|-----|---------|-------|--------|
+| SCRUM-836 | Landing page: Fix guarantee mismatch + noindex + Server Component + FUNNEL_URL | 1 | Sprint 23 |
+| SCRUM-837 | Landing page: Code quality cleanup (shared CTA, dead code, img, CSS hack, colours) | 2 | Sprint 23 |
+
+**Related existing tickets:**
+- SCRUM-822: Review landing page performance with ads (To Do)
+- SCRUM-823: Update main website copy to align with claims compliance (To Do -- relates to Phase 3)
 
 ---
 
