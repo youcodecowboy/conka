@@ -240,7 +240,15 @@ export default function PrivacyPage() {
                       <td className="py-3 pr-4">Shopify</td>
                       <td className="py-3 pr-4">E-commerce platform</td>
                       <td className="py-3">
-                        Order data, customer details, cart data
+                        Order data, customer details, cart data. See{" "}
+                        <a
+                          href="https://www.shopify.com/legal/privacy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline hover:opacity-70"
+                        >
+                          Shopify&apos;s Privacy Policy
+                        </a>
                       </td>
                     </tr>
                     <tr>
@@ -329,10 +337,90 @@ export default function PrivacyPage() {
               </ul>
             </section>
 
-            {/* 6. Your rights */}
+            {/* 6. Security */}
+            <section>
+              <h2 className="text-xl font-bold mb-4">6. Security</h2>
+              <p>
+                We use appropriate technical and organisational measures to
+                protect your personal data, including encryption, access
+                controls, and secure hosting. However, no method of transmission
+                over the internet or electronic storage is completely secure. We
+                cannot guarantee absolute security, but we are committed to
+                protecting your data to the best of our ability.
+              </p>
+            </section>
+
+            {/* 7. Advertising and opt-outs */}
             <section>
               <h2 className="text-xl font-bold mb-4">
-                6. Your rights under UK GDPR
+                7. Targeted advertising and how to opt out
+              </h2>
+              <p>
+                We use third-party advertising services to show you relevant ads
+                based on your browsing behaviour on our website. This includes
+                retargeting (showing you CONKA ads after you visit our site) and
+                conversion tracking (measuring whether an ad led to a purchase).
+              </p>
+              <p className="mt-3">
+                You can opt out of targeted advertising through these platforms
+                directly:
+              </p>
+              <ul className="list-disc list-inside space-y-2 mt-3 ml-4">
+                <li>
+                  <strong>Meta (Facebook/Instagram):</strong>{" "}
+                  <a
+                    href="https://www.facebook.com/settings/?tab=ads"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:opacity-70"
+                  >
+                    facebook.com/settings/?tab=ads
+                  </a>
+                </li>
+                <li>
+                  <strong>Google:</strong>{" "}
+                  <a
+                    href="https://www.google.com/settings/ads/anonymous"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:opacity-70"
+                  >
+                    google.com/settings/ads
+                  </a>
+                </li>
+              </ul>
+              <p className="mt-3">
+                You can also manage advertising cookies through our cookie
+                consent banner or your browser settings. See our{" "}
+                <a
+                  href="/cookies"
+                  className="underline hover:opacity-70"
+                >
+                  Cookie Policy
+                </a>{" "}
+                for details.
+              </p>
+            </section>
+
+            {/* 8. User-generated content */}
+            <section>
+              <h2 className="text-xl font-bold mb-4">
+                8. Reviews and user-generated content
+              </h2>
+              <p>
+                We collect and display customer reviews via Loox, a verified
+                review platform. Review invitations are sent to customers after
+                purchase. If you submit a review, your first name and review
+                content may be displayed publicly on our website. We do not
+                control how others may use information you choose to make
+                public through reviews.
+              </p>
+            </section>
+
+            {/* 9. Your rights */}
+            <section>
+              <h2 className="text-xl font-bold mb-4">
+                9. Your rights under UK GDPR
               </h2>
               <p>You have the right to:</p>
               <ul className="list-disc list-inside space-y-2 mt-3 ml-4">
@@ -394,10 +482,10 @@ export default function PrivacyPage() {
               </ul>
             </section>
 
-            {/* 7. International transfers */}
+            {/* 10. International transfers */}
             <section>
               <h2 className="text-xl font-bold mb-4">
-                7. International data transfers
+                10. International data transfers
               </h2>
               <p>
                 Some of our third-party processors (including Meta, Google,
@@ -409,9 +497,9 @@ export default function PrivacyPage() {
               </p>
             </section>
 
-            {/* 8. Cookies */}
+            {/* 11. Cookies */}
             <section>
-              <h2 className="text-xl font-bold mb-4">8. Cookies</h2>
+              <h2 className="text-xl font-bold mb-4">11. Cookies</h2>
               <p>
                 We use cookies and similar technologies on our website. For full
                 details of the cookies we use, why we use them, and how to
@@ -426,10 +514,41 @@ export default function PrivacyPage() {
               </p>
             </section>
 
-            {/* 9. Children */}
+            {/* 12. Do Not Track */}
             <section>
               <h2 className="text-xl font-bold mb-4">
-                9. Children&apos;s data
+                12. Do Not Track
+              </h2>
+              <p>
+                Some browsers include a &quot;Do Not Track&quot; (DNT) feature
+                that signals to websites that you do not wish to be tracked.
+                There is currently no universally accepted standard for how
+                websites should respond to DNT signals. At this time, our
+                website does not respond to DNT signals, but you can manage
+                your cookie and tracking preferences through our cookie consent
+                banner.
+              </p>
+            </section>
+
+            {/* 13. Third-party websites */}
+            <section>
+              <h2 className="text-xl font-bold mb-4">
+                13. Third-party websites and links
+              </h2>
+              <p>
+                Our website may contain links to websites operated by third
+                parties. These links are provided for your convenience and do
+                not signify our endorsement of such websites. We have no
+                control over, and are not responsible for, the privacy practices
+                or content of third-party websites. We encourage you to review
+                the privacy policies of any third-party sites you visit.
+              </p>
+            </section>
+
+            {/* 14. Children */}
+            <section>
+              <h2 className="text-xl font-bold mb-4">
+                14. Children&apos;s data
               </h2>
               <p>
                 Our products are not marketed to, or intended for, children
@@ -439,10 +558,10 @@ export default function PrivacyPage() {
               </p>
             </section>
 
-            {/* 10. Changes */}
+            {/* 15. Changes */}
             <section>
               <h2 className="text-xl font-bold mb-4">
-                10. Changes to this policy
+                15. Changes to this policy
               </h2>
               <p>
                 We may update this policy from time to time. The updated version
@@ -452,9 +571,9 @@ export default function PrivacyPage() {
               </p>
             </section>
 
-            {/* 11. Contact */}
+            {/* 16. Contact */}
             <section>
-              <h2 className="text-xl font-bold mb-4">11. Contact us</h2>
+              <h2 className="text-xl font-bold mb-4">16. Contact us</h2>
               <p>
                 If you have any questions about this privacy policy or how we
                 handle your data, contact us at:
