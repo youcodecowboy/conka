@@ -130,10 +130,10 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://conka-6770.myshopify.com" />
 
         {/* CookieYes consent banner — must load before all analytics/marketing scripts */}
-        <script
+        <Script
           id="cookieyes"
-          type="text/javascript"
           src="https://cdn-cookieyes.com/client_data/da22d570927106b57de609d869ecc4f3/script.js"
+          strategy="beforeInteractive"
         />
 
         {/* Google Analytics */}
