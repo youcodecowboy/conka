@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { GUARANTEE_LABEL } from "@/app/lib/offerConstants";
-
-const FUNNEL_URL = "/funnel";
+import { FUNNEL_URL } from "@/app/lib/landingConstants";
 
 const BENEFITS = [
   {

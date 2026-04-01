@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
-const FUNNEL_URL = "/funnel";
+import { FUNNEL_URL } from "@/app/lib/landingConstants";
 
 export default function LandingProductSplit() {
   return (

@@ -12,7 +12,7 @@ import Image from "next/image";
  * Component is content-only.
  */
 
-const FUNNEL_URL = "/funnel";
+import { FUNNEL_URL } from "@/app/lib/landingConstants";
 
 const SECTIONS = [
   {

@@ -1,8 +1,7 @@
 "use client";
 
 import { GUARANTEE_LABEL_FULL } from "@/app/lib/offerConstants";
-
-const FUNNEL_URL = "/funnel";
+import { FUNNEL_URL } from "@/app/lib/landingConstants";
 
 /**
  * Landing guarantee section.
