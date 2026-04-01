@@ -8,8 +8,8 @@ interface FunnelStepIndicatorProps {
 }
 
 const STEPS = [
-  { number: 1 as const, label: "Quantity" },
-  { number: 2 as const, label: "Product" },
+  { number: 1 as const, label: "Product" },
+  { number: 2 as const, label: "Plan" },
 ];
 
 export default function FunnelStepIndicator({
@@ -41,9 +41,9 @@ export default function FunnelStepIndicator({
                   disabled={!isClickable}
                   className={`text-xs lg:text-sm flex items-center gap-1.5 transition-colors ${
                     isActive
-                      ? "text-[var(--color-ink)] font-semibold"
+                      ? "text-[var(--brand-black)] font-semibold"
                       : isCompleted
-                        ? "text-[var(--color-ink)] cursor-pointer"
+                        ? "text-[var(--brand-black)] cursor-pointer"
                         : "text-gray-300 cursor-default"
                   } ${!isClickable ? "cursor-default" : ""}`}
                 >
@@ -51,7 +51,7 @@ export default function FunnelStepIndicator({
                   <span
                     className={`flex items-center justify-center w-5 h-5 rounded-full text-[10px] leading-none border ${
                       isActive || isCompleted
-                        ? "border-[var(--color-ink)]"
+                        ? "border-[var(--brand-black)]"
                         : "border-gray-300"
                     }`}
                   >

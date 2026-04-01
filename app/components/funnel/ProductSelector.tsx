@@ -51,8 +51,8 @@ export default function ProductSelector({
   return (
     <div>
       <h2
-        className="text-2xl lg:text-3xl font-semibold tracking-[var(--letter-spacing-premium-title)] mb-2"
-        style={{ color: "var(--color-ink)" }}
+        className="text-2xl lg:text-3xl font-semibold tracking-[var(--brand-h2-tracking)] mb-2"
+        style={{ color: "var(--brand-black)" }}
       >
         Choose your product
       </h2>
@@ -81,11 +81,11 @@ export default function ProductSelector({
                   : "border-gray-200 hover:border-gray-300 bg-white"
               }`}
             >
-              {/* Badge banner — always prominent, ink background */}
+              {/* Badge banner */}
               {display.badge && (
                 <div
                   className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
-                  style={{ backgroundColor: "var(--color-ink)" }}
+                  style={{ backgroundColor: "var(--brand-black)" }}
                 >
                   {isBoth && savings > 0
                     ? `★ ${display.badge} · Save ${formatPrice(savings)}`
@@ -126,14 +126,14 @@ export default function ProductSelector({
                           {display.timeEmoji} {display.timeLabel}
                         </span>
 
-                        <p className="text-base font-semibold text-[var(--color-ink)]">
+                        <p className="text-base font-semibold text-[var(--brand-black)]">
                           {display.label}
                         </p>
 
                         <span
                           className={`inline-flex items-center gap-1 text-xs mt-1 px-2 py-0.5 rounded-full font-medium ${
                             isActive
-                              ? "bg-[var(--color-neuro-blue-light)] text-[var(--color-ink)]"
+                              ? "bg-[var(--brand-neutral)] text-[var(--brand-black)]"
                               : "bg-gray-100 text-gray-500"
                           }`}
                         >
@@ -141,11 +141,14 @@ export default function ProductSelector({
                         </span>
                       </div>
 
-                      {/* Price */}
+                      {/* Per-shot price — primary anchor */}
                       <div className="text-right flex-shrink-0">
-                        <p className="text-base font-semibold text-[var(--color-ink)]">
-                          {formatPrice(pricing.price)}
-                          {frequency && <span className="text-xs font-normal text-gray-500">{frequency}</span>}
+                        <p className="text-base font-semibold text-[var(--brand-black)]">
+                          {formatPrice(pricing.perShot)}<span className="text-xs font-normal text-gray-500">/shot</span>
+                        </p>
+                        {/* Total price underneath */}
+                        <p className="text-xs text-gray-500 mt-0.5">
+                          {formatPrice(pricing.price)}{frequency}
                         </p>
                         {isBoth && separatePrice && savings > 0 && (
                           <p className="text-xs text-gray-400 line-through">
@@ -164,7 +167,7 @@ export default function ProductSelector({
 
                 {/* Expanded details for selected product */}
                 {isActive && (
-                  <div className="mt-4 pt-4" style={{ borderTop: "1px solid var(--color-premium-stroke, #eee)" }}>
+                  <div className="mt-4 pt-4" style={{ borderTop: "1px solid var(--brand-divider-subtle)" }}>
                     <p className="text-sm text-gray-600 leading-relaxed mb-3">
                       {display.description}
                     </p>
@@ -179,7 +182,7 @@ export default function ProductSelector({
                     {/* Feature bullets */}
                     <div className="space-y-1.5">
                       {display.features.map((feature) => (
-                        <div key={feature} className="flex items-center gap-2 text-sm text-[var(--color-ink)]">
+                        <div key={feature} className="flex items-center gap-2 text-sm text-[var(--brand-black)]">
                           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0" style={{ color: display.accent }}>
                             <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
@@ -195,7 +198,7 @@ export default function ProductSelector({
               {isActive && (
                 <div
                   className="h-1 w-full"
-                  style={{ background: "var(--gradient-neuro-blue-accent)" }}
+                  style={{ background: "var(--brand-gradient-accent)" }}
                 />
               )}
             </button>

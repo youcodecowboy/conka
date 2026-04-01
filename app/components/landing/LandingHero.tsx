@@ -3,69 +3,61 @@
 import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 import LandingCTA from "./LandingCTA";
+import { GUARANTEE_DAYS } from "@/app/lib/offerConstants";
 
 /**
  * Landing page hero.
  *
- * Mobile: social proof pill → image (with power badge) → copy → CTA → avatars (stacked).
+ * Mobile: social proof pill > image (with power badge) > copy > CTA > avatars (stacked).
  * Desktop: copy left, image right (split).
  */
 export default function LandingHero() {
   return (
     <div>
-      {/* Social proof pill — top, centred, before everything */}
-      <div className="flex justify-center lg:justify-start mb-5">
-        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-ink)] text-white text-xs lg:text-sm font-semibold">
+      {/* Social proof pill */}
+      <div className="flex justify-start mb-5">
+        <div className="flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] bg-[var(--brand-black)] text-white text-xs lg:text-sm font-semibold">
           <span aria-hidden className="text-yellow-400">★★★★★</span>
-          <span>150,000+ bottles sold</span>
+          <span>150,000+ bottles sold§</span>
           <span className="text-white/40">·</span>
           <span>4.7/5 rating</span>
         </div>
       </div>
 
       <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
-        {/* Copy — below image on mobile, left on desktop */}
+        {/* Copy -- below image on mobile, left on desktop */}
         <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
-          <h1
-            className="font-bold leading-tight"
-            style={{
-              fontSize: "clamp(1.75rem, 5.5vw, 3.25rem)",
-              letterSpacing: "var(--letter-spacing-premium-title)",
-              color: "var(--color-ink)",
-            }}
-          >
-            Sharp at 9am.
+          <h1 className="brand-h1-bold">
+            Your brain fades
             <br />
-            Still sharp at 9pm.
+            by 2pm. Why?
           </h1>
 
           <p
-            className="mt-4"
-            style={{
-              fontSize: "clamp(0.875rem, 2.5vw, 1.125rem)",
-              lineHeight: "var(--premium-font-body-leading)",
-              color: "var(--color-ink)",
-              opacity: 0.6,
-            }}
+            className="brand-body mt-4"
+            style={{ opacity: 0.6 }}
           >
-            Coffee borrows from tomorrow. CONKA invests in it.
+            Coffee masks it. Willpower can&apos;t fix it.
             <br className="hidden lg:inline" />{" "}
-            Two shots a day. 16 active ingredients.
+            CONKA is a daily 2-shot system with 16 active
             <br className="hidden lg:inline" />{" "}
-            Unlike anything else on the shelf.
+            ingredients. 150,000+ bottles sold.§
           </p>
 
-          {/* CTA — high contrast */}
+          {/* CTA */}
           <div className="mt-8">
             <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
-              Try CONKA Today →
+              Try Risk-Free for {GUARANTEE_DAYS} Days →
             </LandingCTA>
           </div>
 
           {/* Customer avatars + review count */}
           <div className="flex items-center justify-center lg:justify-start gap-3 mt-5">
-            {/* Avatar stack — overlapping circles */}
+            {/* Avatar stack */}
             <div className="flex -space-x-2">
+              {/* TODO: Avatar colours are hardcoded pastels. Brand system has no
+                  avatar/pastel palette defined. Fallback: kept as inline values.
+                  Consider adding --brand-avatar-* tokens if pattern recurs. */}
               {[
                 { bg: "#e8d5b7", initials: "JM" },
                 { bg: "#b7cfe8", initials: "SR" },
@@ -75,7 +67,7 @@ export default function LandingHero() {
               ].map((avatar) => (
                 <div
                   key={avatar.initials}
-                  className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-bold text-[var(--color-ink)]/60"
+                  className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-bold text-[var(--brand-black)]/60"
                   style={{ backgroundColor: avatar.bg }}
                 >
                   {avatar.initials}
@@ -83,8 +75,8 @@ export default function LandingHero() {
               ))}
             </div>
             <div className="text-sm">
-              <span className="font-semibold text-[var(--color-ink)]">500+ reviews</span>
-              <span className="text-[var(--color-ink)]/40 ml-1">· verified buyers</span>
+              <span className="font-semibold text-[var(--brand-black)]">500+ reviews</span>
+              <span className="text-[var(--brand-black)]/40 ml-1">· verified buyers</span>
             </div>
           </div>
 
@@ -93,13 +85,12 @@ export default function LandingHero() {
           </div>
         </div>
 
-        {/* Product image — on top for mobile, right on desktop */}
+        {/* Product image */}
         <div className="relative order-1 lg:order-2 lg:flex-1 w-full">
-          {/* Image with drop shadow for depth */}
-          <div className="relative overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
+          <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)]">
             <Image
               src="/formulas/QuartelySingle.jpg"
-              alt="CONKA Flow and Clear - brain performance shots delivered to your door"
+              alt="CONKA Flow and Clear daily shots delivered to your door"
               width={1280}
               height={1280}
               priority
@@ -110,12 +101,12 @@ export default function LandingHero() {
               }}
             />
 
-            {/* Power badge — circular, top-right */}
+            {/* Power badge */}
             <div
               className="absolute top-3 right-3 lg:top-5 lg:right-5 w-20 h-20 lg:w-24 lg:h-24 rounded-full flex flex-col items-center justify-center text-center shadow-lg"
               style={{
-                backgroundColor: "var(--color-ink)",
-                color: "white",
+                backgroundColor: "var(--brand-black)",
+                color: "var(--brand-white)",
               }}
             >
               <span className="text-lg lg:text-xl font-bold leading-none">16</span>

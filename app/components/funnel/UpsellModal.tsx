@@ -61,7 +61,7 @@ export default function UpsellModal({
           )}
 
           {/* Headline */}
-          <h3 className="text-lg font-semibold text-[var(--color-ink)] tracking-[var(--letter-spacing-premium-title)]">
+          <h3 className="text-lg font-semibold text-[var(--brand-black)] tracking-[var(--brand-h2-tracking)]">
             {offer.headline}
           </h3>
 
@@ -90,7 +90,7 @@ export default function UpsellModal({
               <span className="text-lg text-gray-400 line-through">
                 {formatPrice(offer.compareAtUpgrade)}
               </span>
-              <span className="text-2xl font-bold text-[var(--color-ink)]">
+              <span className="text-2xl font-bold text-[var(--brand-black)]">
                 {offer.priceDifference > 0
                   ? formatPrice(offer.priceDifference)
                   : formatPrice(offer.compareAtUpgrade + offer.priceDifference)}
@@ -104,8 +104,8 @@ export default function UpsellModal({
               type="button"
               onClick={onAccept}
               disabled={loading}
-              className="w-full py-4 px-6 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
-              style={{ background: "var(--gradient-neuro-blue-accent)" }}
+              className="w-full py-4 px-6 rounded-[var(--brand-radius-interactive)] text-white font-semibold text-base transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
+              style={{ background: "var(--brand-gradient-accent)" }}
             >
               {loading ? "Processing..." : offer.acceptLabel}
             </button>

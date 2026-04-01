@@ -49,8 +49,8 @@ export default function FunnelCTA({
         type="button"
         onClick={onClick}
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:hover:scale-100"
-        style={{ backgroundColor: "var(--color-ink)" }}
+        className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-[var(--brand-radius-interactive)] text-white font-semibold text-base transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:hover:scale-100"
+        style={{ backgroundColor: "var(--brand-black)" }}
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">

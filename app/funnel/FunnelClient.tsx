@@ -34,8 +34,8 @@ export default function FunnelClient() {
   const [currentStep, setCurrentStep] = useState<1 | 2>(1);
 
   // Selection state — pre-selected defaults (highest LTV)
-  const [cadence, setCadence] = useState<FunnelCadence>("monthly-sub");
   const [product, setProduct] = useState<FunnelProduct>("both");
+  const [cadence, setCadence] = useState<FunnelCadence>("monthly-sub");
 
   // Checkout state
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -46,8 +46,8 @@ export default function FunnelClient() {
   // Track page view
   useEffect(() => {
     safeTrack("funnel:viewed", {
-      defaultCadence: "monthly-sub",
       defaultProduct: "both",
+      defaultCadence: "monthly-sub",
     });
   }, []);
 
@@ -71,27 +71,7 @@ export default function FunnelClient() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
-  // --- Step 1: Cadence ---
-
-  const handleCadenceChange = useCallback(
-    (newCadence: FunnelCadence) => {
-      setCadence(newCadence);
-      setError(null);
-      safeTrack("funnel:cadence_changed", {
-        from: cadence,
-        to: newCadence,
-        product,
-      });
-    },
-    [cadence, product],
-  );
-
-  const handleStep1Next = useCallback(() => {
-    safeTrack("funnel:step1_completed", { cadence, product });
-    goToStep(2);
-  }, [cadence, product, goToStep]);
-
-  // --- Step 2: Product ---
+  // --- Step 1: Product ---
 
   const handleProductChange = useCallback(
     (newProduct: FunnelProduct) => {
@@ -104,6 +84,26 @@ export default function FunnelClient() {
       });
     },
     [product, cadence],
+  );
+
+  const handleStep1Next = useCallback(() => {
+    safeTrack("funnel:step1_completed", { product, cadence });
+    goToStep(2);
+  }, [product, cadence, goToStep]);
+
+  // --- Step 2: Cadence ---
+
+  const handleCadenceChange = useCallback(
+    (newCadence: FunnelCadence) => {
+      setCadence(newCadence);
+      setError(null);
+      safeTrack("funnel:cadence_changed", {
+        from: cadence,
+        to: newCadence,
+        product,
+      });
+    },
+    [cadence, product],
   );
 
   // --- Checkout ---
@@ -187,12 +187,12 @@ export default function FunnelClient() {
 
   // --- CTA labels ---
 
-  const step1Label = "Choose Product";
-  const step2Label = "Go to Checkout";
+  const step1Label = "Continue";
+  const step2Label = "Checkout Now";
 
 
   return (
-    <div className="min-h-screen bg-white text-[var(--color-ink)]">
+    <div className="min-h-screen bg-white text-[var(--brand-black)]">
       {/* Fixed header with step breadcrumb */}
       <FunnelStepIndicator
         currentStep={currentStep}
@@ -209,29 +209,30 @@ export default function FunnelClient() {
           <FunnelHeroAsset
             product={product}
             cadence={cadence}
-            mode={currentStep === 1 ? "static" : "carousel"}
+            mode={currentStep === 1 ? "carousel" : "static"}
           />
         </div>
 
         {/* Right column (full width on mobile, constrained on desktop) */}
         <div className="w-full lg:w-1/2 lg:overflow-y-auto lg:px-8 lg:max-w-2xl">
 
-          {/* ===== STEP 1: Choose Quantity ===== */}
+          {/* ===== STEP 1: Choose Product ===== */}
           {currentStep === 1 && (
             <>
-              {/* Mobile hero — scrolls naturally with content */}
+              {/* Mobile hero — carousel, scrolls naturally with content */}
               <div className="lg:hidden px-5 pt-5">
                 <FunnelHeroAsset
                   product={product}
                   cadence={cadence}
-                  mode="static"
+                  mode="carousel"
                 />
               </div>
 
               <div className="px-5 pt-5 pb-6 lg:px-10 lg:pt-8">
-                <CadenceSelector
+                <ProductSelector
+                  product={product}
                   cadence={cadence}
-                  onChange={handleCadenceChange}
+                  onChange={handleProductChange}
                 />
               </div>
 
@@ -251,23 +252,23 @@ export default function FunnelClient() {
             </>
           )}
 
-          {/* ===== STEP 2: Choose Product ===== */}
+          {/* ===== STEP 2: Choose Plan ===== */}
           {currentStep === 2 && (
             <>
-              {/* Mobile hero — carousel, scrolls naturally */}
+              {/* Mobile hero — static product image, scrolls naturally */}
               <div className="lg:hidden px-5 pt-5">
                 <FunnelHeroAsset
                   product={product}
                   cadence={cadence}
-                  mode="carousel"
+                  mode="static"
                 />
               </div>
 
               <div className="px-5 pt-5 pb-6 lg:px-10 lg:pt-8">
-                <ProductSelector
-                  product={product}
+                <CadenceSelector
                   cadence={cadence}
-                  onChange={handleProductChange}
+                  product={product}
+                  onChange={handleCadenceChange}
                 />
               </div>
 

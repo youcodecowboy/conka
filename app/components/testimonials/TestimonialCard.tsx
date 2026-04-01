@@ -159,8 +159,8 @@ export default function TestimonialCard({
       : body;
 
   const cardClassName = isProductHero
-    ? "bg-white rounded-xl border border-black/[0.06] shadow-[0_1px_4px_rgba(0,0,0,0.06)] min-h-[300px] flex flex-col p-4 md:p-5"
-    : `border-2 ${isMobile ? "p-3" : "p-6"} flex flex-col bg-[var(--background)]`;
+    ? "bg-white text-[var(--brand-black)] rounded-xl border border-black/[0.06] shadow-[0_1px_4px_rgba(0,0,0,0.06)] min-h-[300px] flex flex-col p-4 md:p-5"
+    : `border-2 ${isMobile ? "p-3" : "p-6"} flex flex-col bg-[var(--background)] text-[var(--brand-black)]`;
 
   const cardStyle = isProductHero
     ? undefined

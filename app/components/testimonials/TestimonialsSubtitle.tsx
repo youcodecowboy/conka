@@ -4,7 +4,7 @@
  */
 export default function TestimonialsSubtitle() {
   return (
-    <p className="font-primary text-sm md:text-base opacity-70 flex items-center gap-2 flex-wrap">
+    <p className="font-primary text-sm md:text-base text-white opacity-90 flex items-center gap-2 flex-wrap">
       <span className="inline-flex items-center gap-0.5" aria-hidden>
         <span>
           500+ reviews from athletes, professionals, and high performers
