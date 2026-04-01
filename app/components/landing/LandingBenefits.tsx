@@ -118,7 +118,7 @@ export default function LandingBenefits() {
         <h2
           className="brand-h2 text-white"
         >
-          What it feels like to stay sharp.
+          Why 150,000+ bottles and counting.§
         </h2>
         <p className="text-sm text-white opacity-70 mt-2">
           Tap a benefit to see the research.
@@ -135,9 +135,9 @@ export default function LandingBenefits() {
               key={benefit.id}
               type="button"
               onClick={() => setTappedId(isOpen ? null : benefit.id)}
-              className="flex flex-col items-center text-center p-4 lg:p-8 rounded-2xl transition-all duration-200 cursor-pointer"
+              className="flex flex-col items-center text-center p-4 lg:p-8 rounded-[var(--brand-radius-container)] transition-all duration-200 cursor-pointer"
               style={{
-                backgroundColor: "white",
+                backgroundColor: "var(--brand-white)",
                 border: isOpen
                   ? "2px solid var(--brand-black)"
                   : "1px solid var(--brand-divider-subtle)",

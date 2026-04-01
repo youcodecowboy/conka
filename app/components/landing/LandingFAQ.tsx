@@ -91,9 +91,9 @@ export default function LandingFAQ() {
 
           {/* Accordion */}
           <div
-            className="rounded-2xl overflow-hidden"
+            className="rounded-[var(--brand-radius-container)] overflow-hidden"
             style={{
-              backgroundColor: "white",
+              backgroundColor: "var(--brand-white)",
               border: "1px solid var(--brand-divider-subtle)",
             }}
       >
