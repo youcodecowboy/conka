@@ -114,7 +114,7 @@ export default function LandingDisclaimer() {
           </span>{" "}
           <span className="font-semibold">Guarantee</span> - {GUARANTEE_DAYS}-day
           satisfaction guarantee applies to first-time customers. {GUARANTEE_COPY_REFUND}{" "}
-          if you are not satisfied. See full terms at conka.co.uk/terms.
+          if you are not satisfied. See full terms at conka.io/terms.
         </p>
 
         {/* Standard UK food supplement legal block */}
