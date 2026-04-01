@@ -25,6 +25,7 @@ export default function LandingGuarantee() {
         {/* Copy */}
         <div className="flex-1 order-2 lg:order-1">
           {/* Guarantee callout pill -- neutral bg, white text */}
+          <div className="flex justify-center lg:justify-start">
           <div
             className="inline-flex items-center gap-3 px-5 py-3 rounded-[var(--brand-radius-interactive)]"
             style={{
@@ -41,6 +42,7 @@ export default function LandingGuarantee() {
             >
               {GUARANTEE_LABEL_FULL}*
             </span>
+          </div>
           </div>
 
           {/* Explanation */}
