@@ -1,6 +1,6 @@
 # Funnel & Landing Page CRO Optimisation
 
-> **Status:** Scoped, tickets created
+> **Status:** All 3 phases complete
 > **Created:** 2026-04-01
 > **Appetite:** A few days
 > **Branch:** `funnel-cro-optimisation`
@@ -39,9 +39,9 @@ Migrate both pages from `premium-base.css` (legacy) to `brand-base.css` (new).
 
 | Phase | Description | Ticket | Status |
 |-------|-------------|--------|--------|
-| 1 | Funnel flow restructure: Product > Cadence > Checkout + upsell rework | SCRUM-838 | Not Started |
-| 2 | Copy & content hardening (both pages) | SCRUM-839 | Not Started |
-| 3 | Design system migration + visual premium polish (both pages) | SCRUM-840 | Not Started |
+| 1 | Funnel flow restructure: Product > Cadence > Checkout + upsell rework | SCRUM-838 | Done |
+| 2 | Copy & content hardening (both pages) | SCRUM-839 | Done |
+| 3 | Design system migration + visual premium polish (both pages) | SCRUM-840 | Done |
 
 ---
 
