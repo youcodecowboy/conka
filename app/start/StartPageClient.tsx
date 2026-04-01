@@ -90,10 +90,7 @@ export default function StartPageClient() {
           aria-label="Customer reviews"
         >
           <div className="brand-track">
-            {/* Reset text to black for testimonial cards (they inherit, don't set their own colour) */}
-            <div className="text-[var(--brand-black)]">
-              <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
-            </div>
+            <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
             <div className="mt-8 flex justify-start">
               <LandingCTA>Try Risk-Free →</LandingCTA>
             </div>
