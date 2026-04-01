@@ -192,7 +192,7 @@ export default function FunnelClient() {
 
 
   return (
-    <div className="min-h-screen bg-white text-[var(--color-ink)]">
+    <div className="min-h-screen bg-white text-[var(--brand-black)]">
       {/* Fixed header with step breadcrumb */}
       <FunnelStepIndicator
         currentStep={currentStep}

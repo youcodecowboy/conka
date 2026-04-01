@@ -7,7 +7,7 @@ import { GUARANTEE_DAYS, GUARANTEE_COPY_REFUND } from "@/app/lib/offerConstants"
  * Contains all anchor symbol definitions used throughout the landing page,
  * plus standard UK food supplement disclaimers.
  *
- * Page wraps this in premium-section-luxury + premium-track.
+ * Page wraps this in brand-section + brand-track.
  * Component is content-only.
  */
 export default function LandingDisclaimer() {
@@ -21,14 +21,14 @@ export default function LandingDisclaimer() {
 
       <h3
         className="text-xs font-semibold uppercase tracking-widest mb-6"
-        style={{ color: "var(--color-ink)", opacity: 0.35 }}
+        style={{ color: "var(--brand-black)", opacity: 0.35 }}
       >
         Important information
       </h3>
 
       <div
         className="space-y-5 text-xs leading-relaxed"
-        style={{ color: "var(--color-ink)", opacity: 0.4 }}
+        style={{ color: "var(--brand-black)", opacity: 0.4 }}
       >
         {/* † Clinically dosed */}
         <p>

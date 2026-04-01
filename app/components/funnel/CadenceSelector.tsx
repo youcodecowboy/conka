@@ -67,8 +67,8 @@ export default function CadenceSelector({
   return (
     <div>
       <h2
-        className="text-2xl lg:text-3xl font-semibold tracking-[var(--letter-spacing-premium-title)] mb-2"
-        style={{ color: "var(--color-ink)" }}
+        className="text-2xl lg:text-3xl font-semibold tracking-[var(--brand-h2-tracking)] mb-2"
+        style={{ color: "var(--brand-black)" }}
       >
         Choose your plan
       </h2>
@@ -98,7 +98,7 @@ export default function CadenceSelector({
               {display.badge && (
                 <div
                   className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
-                  style={{ backgroundColor: "var(--color-ink)" }}
+                  style={{ backgroundColor: "var(--brand-black)" }}
                 >
                   {display.savingsLabel
                     ? `${display.badge} · ${display.savingsLabel}`
@@ -126,7 +126,7 @@ export default function CadenceSelector({
                     </div>
 
                     <div>
-                      <p className={`font-semibold ${isActive ? "text-base text-[var(--color-ink)]" : "text-sm text-gray-600"}`}>
+                      <p className={`font-semibold ${isActive ? "text-base text-[var(--brand-black)]" : "text-sm text-gray-600"}`}>
                         {display.label}
                       </p>
                       {/* Collapsed: delivery + shots */}
@@ -140,7 +140,7 @@ export default function CadenceSelector({
 
                   {/* Per-shot price — the primary anchor */}
                   <div className="text-right flex-shrink-0">
-                    <p className={`font-semibold ${isActive ? "text-base text-[var(--color-ink)]" : "text-sm text-gray-600"}`}>
+                    <p className={`font-semibold ${isActive ? "text-base text-[var(--brand-black)]" : "text-sm text-gray-600"}`}>
                       {formatPrice(pricing.perShot)}<span className="text-xs font-normal text-gray-500">/shot</span>
                     </p>
                     {/* Collapsed: total price underneath */}
@@ -157,7 +157,7 @@ export default function CadenceSelector({
                   <div className="mt-3 ml-8 space-y-3">
                     {/* Per-shot cost — large, prominent */}
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-xl font-bold text-[var(--color-ink)]">
+                      <span className="text-xl font-bold text-[var(--brand-black)]">
                         {formatPrice(pricing.perShot)}
                       </span>
                       <span className="text-sm text-gray-500">per shot</span>
@@ -165,7 +165,7 @@ export default function CadenceSelector({
 
                     {/* Total price — secondary */}
                     <div className="flex items-baseline gap-2">
-                      <span className="text-base font-semibold text-[var(--color-ink)]">
+                      <span className="text-base font-semibold text-[var(--brand-black)]">
                         {formatPrice(pricing.price)}{frequency}
                       </span>
                       {pricing.compareAtPrice && (

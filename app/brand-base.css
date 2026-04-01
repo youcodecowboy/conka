@@ -25,6 +25,19 @@
   --brand-divider: var(--brand-neutral);
   --brand-divider-subtle: rgba(0, 0, 0, 0.06);
 
+  /* TODO: Product accent colours — used for Flow/Clear differentiation in cards,
+     badges, and feature icons. Currently hardcoded in components. Need to decide
+     if these belong in the brand system or stay as product-data-driven values.
+     Fallback: kept as component-level constants for now. */
+  --brand-flow-accent: #d97706;
+  --brand-clear-accent: #0369a1;
+
+  /* TODO: Gradient accent — used for upsell buttons and funnel accent bars.
+     Legacy --gradient-neuro-blue-accent. Needs design decision on whether
+     gradients survive in the new system (design system says "subtle, soft
+     gradients only"). Fallback: kept as linear-gradient with brand-accent. */
+  --brand-gradient-accent: linear-gradient(135deg, #4058bb 0%, #2a3d8f 100%);
+
   /* ===== Typography ===== */
   /* Font families
      --font-brand-primary is set by next/font/local on <body> (layout.tsx).

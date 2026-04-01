@@ -10,7 +10,7 @@ import LandingCTA from "./LandingCTA";
  * Inspired by Magic Mind's framing: addresses hesitations, not just features.
  * Questions ordered by purchase intent: what → results → safety → logistics → risk.
  *
- * Page wraps this in premium-section-luxury + premium-track.
+ * Page wraps this in brand-section + brand-track.
  * Component is content-only.
  */
 
@@ -67,7 +67,7 @@ export default function LandingFAQ() {
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
         {/* Lifestyle image — sticky on desktop */}
         <div className="lg:w-2/5 lg:sticky lg:top-8 mb-8 lg:mb-0">
-          <div className="overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)] max-w-md mx-auto lg:max-w-none">
+          <div className="overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] max-w-md mx-auto lg:max-w-none">
             <Image
               src="/lifestyle/ClearDrink.jpg"
               alt="Woman drinking CONKA Clear in the gym"
@@ -83,8 +83,7 @@ export default function LandingFAQ() {
           {/* Heading */}
           <div className="mb-8">
             <h2
-              className="premium-section-heading"
-              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+              className="brand-h2"
             >
               Frequently asked questions
             </h2>
@@ -95,7 +94,7 @@ export default function LandingFAQ() {
             className="rounded-2xl overflow-hidden"
             style={{
               backgroundColor: "white",
-              border: "1px solid var(--color-premium-stroke)",
+              border: "1px solid var(--brand-divider-subtle)",
             }}
       >
         {FAQ_ITEMS.map((item, i) => {
@@ -113,7 +112,7 @@ export default function LandingFAQ() {
                   className="text-base"
                   style={{
                     fontWeight: isOpen ? 600 : 500,
-                    color: "var(--color-ink)",
+                    color: "var(--brand-black)",
                   }}
                 >
                   {item.question}
@@ -130,7 +129,7 @@ export default function LandingFAQ() {
                   className="shrink-0 transition-transform duration-300"
                   style={{
                     transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-                    color: "var(--color-ink)",
+                    color: "var(--brand-black)",
                     opacity: isOpen ? 0.7 : 0.25,
                   }}
                 >
@@ -147,7 +146,7 @@ export default function LandingFAQ() {
               >
                 <div
                   className="px-5 pb-5 text-sm leading-relaxed"
-                  style={{ color: "var(--color-ink)", opacity: 0.7 }}
+                  style={{ color: "var(--brand-black)", opacity: 0.7 }}
                 >
                   {item.answer}
                 </div>
@@ -156,7 +155,7 @@ export default function LandingFAQ() {
               {!isLast && (
                 <div
                   className="mx-5"
-                  style={{ height: "1px", background: "var(--color-ink)", opacity: 0.08 }}
+                  style={{ height: "1px", background: "var(--brand-black)", opacity: 0.08 }}
                 />
               )}
             </div>

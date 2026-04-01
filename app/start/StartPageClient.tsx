@@ -38,52 +38,45 @@ export default function StartPageClient() {
   }, []);
 
   return (
-    <div
-      className="min-h-screen theme-conka-flow"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
+    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
 
       {/* ===== 1. HERO ===== */}
       <section
-        className="premium-section-luxury premium-hero-first"
-        style={{ backgroundColor: "white" }}
+        className="brand-section brand-hero-first brand-bg-white"
         aria-label="Landing page hero"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <LandingHero />
         </div>
       </section>
 
       {/* ===== 2. BENEFITS + TRUST BADGES ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+        className="brand-section brand-bg-black"
         aria-label="Key Benefits"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <LandingBenefits />
         </div>
       </section>
 
       {/* ===== 3. PRODUCT SPLIT — AM vs PM ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "white" }}
+        className="brand-section brand-bg-white"
         aria-label="Flow and Clear explained"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <LandingProductSplit />
         </div>
       </section>
 
       {/* ===== 4. WHAT'S INSIDE ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        className="brand-section brand-bg-neutral"
         aria-label="What's inside CONKA"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <LandingWhatsInside />
         </div>
       </section>
@@ -91,13 +84,12 @@ export default function StartPageClient() {
       {/* ===== 5. TESTIMONIALS ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "white" }}
+          className="brand-section brand-bg-white"
           aria-label="Customer reviews"
         >
-          <div className="premium-track">
+          <div className="brand-track">
             <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex justify-start">
               <LandingCTA>Try Risk-Free →</LandingCTA>
             </div>
           </div>
@@ -106,45 +98,43 @@ export default function StartPageClient() {
 
       {/* ===== 6. APP GUARANTEE ===== */}
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="brand-section brand-bg-neutral"
         aria-label="Money-back guarantee"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <LandingGuarantee />
         </div>
       </section>
 
       {/* ===== 7. CASE STUDIES ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        className="brand-section brand-bg-black"
         aria-label="Clinically validated test scores"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <CaseStudiesDataDriven hideCTA />
-          <div className="mt-8 flex justify-center">
-            <LandingCTA>Try Risk-Free →</LandingCTA>
+          <div className="mt-8 flex justify-start">
+            <LandingCTA variant="light">Try Risk-Free →</LandingCTA>
           </div>
         </div>
       </section>
 
       {/* ===== 8. FAQ ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        className="brand-section brand-bg-white"
         aria-label="FAQ"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <LandingFAQ />
         </div>
       </section>
 
       {/* ===== 9. DISCLAIMER ===== */}
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="brand-section brand-bg-neutral"
         aria-label="Important information and disclaimers"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <LandingDisclaimer />
         </div>
       </section>

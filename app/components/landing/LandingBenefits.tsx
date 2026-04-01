@@ -116,8 +116,7 @@ export default function LandingBenefits() {
     <div>
       <div className="mb-8">
         <h2
-          className="premium-section-heading text-white"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 text-white"
         >
           What it feels like to stay sharp.
         </h2>
@@ -140,15 +139,15 @@ export default function LandingBenefits() {
               style={{
                 backgroundColor: "white",
                 border: isOpen
-                  ? "2px solid var(--color-ink)"
-                  : "1px solid var(--color-premium-stroke)",
+                  ? "2px solid var(--brand-black)"
+                  : "1px solid var(--brand-divider-subtle)",
               }}
             >
               <div
                 className="w-14 h-14 flex items-center justify-center rounded-full mb-3"
                 style={{
-                  backgroundColor: "var(--color-neuro-blue-light)",
-                  color: "var(--color-ink)",
+                  backgroundColor: "var(--brand-neutral)",
+                  color: "var(--brand-black)",
                 }}
               >
                 {benefit.icon}
@@ -156,14 +155,14 @@ export default function LandingBenefits() {
 
               <h3
                 className="text-sm lg:text-base font-semibold mt-1.5"
-                style={{ color: "var(--color-ink)" }}
+                style={{ color: "var(--brand-black)" }}
               >
                 {benefit.title}
               </h3>
 
               <p
                 className="text-xs lg:text-sm mt-1 leading-snug"
-                style={{ color: "var(--color-ink)", opacity: 0.5 }}
+                style={{ color: "var(--brand-black)", opacity: 0.5 }}
               >
                 {benefit.subtitle}
               </p>
@@ -172,23 +171,23 @@ export default function LandingBenefits() {
               {isOpen && (
                 <div
                   className="w-full mt-3 pt-3 text-left"
-                  style={{ borderTop: "1px solid var(--color-premium-stroke)" }}
+                  style={{ borderTop: "1px solid var(--brand-divider-subtle)" }}
                 >
                   <p
                     className="text-xs leading-relaxed"
-                    style={{ color: "var(--color-ink)", opacity: 0.6 }}
+                    style={{ color: "var(--brand-black)", opacity: 0.6 }}
                   >
                     {benefit.studyObservation}
                   </p>
                   <p
                     className="text-xs font-semibold mt-2"
-                    style={{ color: "var(--color-ink)", opacity: 0.7 }}
+                    style={{ color: "var(--brand-black)", opacity: 0.7 }}
                   >
                     {benefit.ingredient}
                   </p>
                   <p
                     className="text-xs font-mono mt-1"
-                    style={{ color: "var(--color-ink)", opacity: 0.3 }}
+                    style={{ color: "var(--brand-black)", opacity: 0.3 }}
                   >
                     {benefit.pmid}
                   </p>

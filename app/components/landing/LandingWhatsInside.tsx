@@ -8,7 +8,7 @@ import Image from "next/image";
  * Follows the Overload pattern: "what does it do?" / "ingredients" / "science" / "how to use"
  * Adapted for CONKA with real product data.
  *
- * Page wraps this in premium-section-luxury + premium-track.
+ * Page wraps this in brand-section + brand-track.
  * Component is content-only.
  */
 
@@ -97,7 +97,7 @@ export default function LandingWhatsInside() {
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
         {/* Lifestyle image — square, sticky on desktop */}
         <div className="lg:w-2/5 lg:sticky lg:top-8 mb-8 lg:mb-0">
-          <div className="overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)] max-w-md mx-auto lg:max-w-none">
+          <div className="overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] max-w-md mx-auto lg:max-w-none">
             <Image
               src="/lifestyle/FlowHold.jpg"
               alt="Man holding CONKA Flow bottle outdoors"
@@ -112,20 +112,17 @@ export default function LandingWhatsInside() {
         <div className="lg:w-3/5">
           {/* Heading */}
           <div className="mb-6">
-            <h2
-              className="premium-section-heading"
-              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-            >
+            <h2 className="brand-h2">
               16 ingredients. Zero fluff.
             </h2>
           </div>
 
           {/* Accordion */}
           <div
-            className="rounded-2xl overflow-hidden"
+            className="rounded-[var(--brand-radius-container)] overflow-hidden"
             style={{
-              backgroundColor: "white",
-              border: "1px solid var(--color-premium-stroke)",
+              backgroundColor: "var(--brand-white)",
+              border: "1px solid var(--brand-divider-subtle)",
             }}
           >
         {SECTIONS.map((section, i) => {
@@ -144,7 +141,7 @@ export default function LandingWhatsInside() {
                   className="text-base"
                   style={{
                     fontWeight: isOpen ? 600 : 500,
-                    color: "var(--color-ink)",
+                    color: "var(--brand-black)",
                   }}
                 >
                   {section.question}
@@ -161,7 +158,7 @@ export default function LandingWhatsInside() {
                   className="shrink-0 transition-transform duration-300"
                   style={{
                     transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-                    color: "var(--color-ink)",
+                    color: "var(--brand-black)",
                     opacity: isOpen ? 0.7 : 0.25,
                   }}
                 >
@@ -180,7 +177,7 @@ export default function LandingWhatsInside() {
               >
                 <div
                   className="px-5 pb-5 text-sm leading-relaxed"
-                  style={{ color: "var(--color-ink)", opacity: 0.7 }}
+                  style={{ color: "var(--brand-black)", opacity: 0.7 }}
                 >
                   {section.content}
                 </div>
@@ -189,7 +186,7 @@ export default function LandingWhatsInside() {
               {!isLast && (
                 <div
                   className="mx-5"
-                  style={{ height: "1px", background: "var(--color-ink)", opacity: 0.08 }}
+                  style={{ height: "1px", background: "var(--brand-black)", opacity: 0.08 }}
                 />
               )}
             </div>
@@ -198,7 +195,7 @@ export default function LandingWhatsInside() {
       </div>
 
           {/* CTA */}
-          <div className="mt-8 flex justify-center lg:justify-start">
+          <div className="mt-8 flex justify-start">
             <LandingCTA>Try Risk-Free →</LandingCTA>
           </div>
         </div>{/* end content column */}
