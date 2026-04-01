@@ -11,7 +11,7 @@ import LandingWhatsInside from "../components/landing/LandingWhatsInside";
 import LandingGuarantee from "../components/landing/LandingGuarantee";
 import LandingFAQ from "../components/landing/LandingFAQ";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
-import { FUNNEL_URL } from "../lib/landingConstants";
+import LandingCTA from "../components/landing/LandingCTA";
 import {
   getSiteTestimonialsGeneral,
   shuffleTestimonials,
@@ -98,13 +98,7 @@ export default function StartPageClient() {
           <div className="premium-track">
             <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
             <div className="mt-8 flex justify-center">
-              <a
-                href={FUNNEL_URL}
-                className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-                style={{ backgroundColor: "var(--color-ink)" }}
-              >
-                Join Them →
-              </a>
+              <LandingCTA>Join Them →</LandingCTA>
             </div>
           </div>
         </section>
@@ -127,18 +121,9 @@ export default function StartPageClient() {
         aria-label="Clinically validated test scores"
       >
         <div className="premium-track">
-          {/* Hide the component's own CTA, replace with funnel CTA */}
-          <div className="[&_a[href='/case-studies']]:hidden">
-            <CaseStudiesDataDriven />
-          </div>
+          <CaseStudiesDataDriven hideCTA />
           <div className="mt-8 flex justify-center">
-            <a
-              href={FUNNEL_URL}
-              className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{ backgroundColor: "var(--color-ink)" }}
-            >
-              Start Your Journey →
-            </a>
+            <LandingCTA>Start Your Journey →</LandingCTA>
           </div>
         </div>
       </section>

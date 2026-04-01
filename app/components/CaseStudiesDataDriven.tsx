@@ -95,7 +95,11 @@ function AthletePhotoTile({ athlete }: { athlete: AthleteData }) {
   );
 }
 
-export default function CaseStudiesDataDriven() {
+export default function CaseStudiesDataDriven({
+  hideCTA = false,
+}: {
+  hideCTA?: boolean;
+} = {}) {
   const teaserAthletes = getTeaserAthletes();
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -178,28 +182,30 @@ export default function CaseStudiesDataDriven() {
         </div>
 
         {/* CTA Button */}
-        <div className="flex justify-center">
-          <Link
-            href="/case-studies"
-            className="max-w-[500px] w-full px-8 py-4 rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] text-white font-semibold text-base hover:opacity-90 transition-all inline-flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)]"
-          >
-            View All CONKA App Case Studies
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
+        {!hideCTA && (
+          <div className="flex justify-center">
+            <Link
+              href="/case-studies"
+              className="max-w-[500px] w-full px-8 py-4 rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] text-white font-semibold text-base hover:opacity-90 transition-all inline-flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)]"
             >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
+              View All CONKA App Case Studies
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+        )}
     </>
   );
 }

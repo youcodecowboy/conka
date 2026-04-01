@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { FUNNEL_URL } from "@/app/lib/landingConstants";
 import { GUARANTEE_DAYS, GUARANTEE_LABEL_FULL, GUARANTEE_COPY_TRIAL } from "@/app/lib/offerConstants";
+import LandingCTA from "./LandingCTA";
 
 /**
  * Landing page FAQ — conversion-focused questions.
@@ -166,13 +166,7 @@ export default function LandingFAQ() {
 
           {/* CTA */}
           <div className="mt-8 flex justify-center lg:justify-start">
-            <a
-              href={FUNNEL_URL}
-              className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{ backgroundColor: "var(--color-ink)" }}
-            >
-              Try Risk-Free →
-            </a>
+            <LandingCTA>Try Risk-Free →</LandingCTA>
           </div>
         </div>{/* end content column */}
       </div>{/* end flex-row */}
