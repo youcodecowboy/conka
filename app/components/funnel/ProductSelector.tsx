@@ -81,7 +81,7 @@ export default function ProductSelector({
                   : "border-gray-200 hover:border-gray-300 bg-white"
               }`}
             >
-              {/* Badge banner — always prominent, ink background */}
+              {/* Badge banner */}
               {display.badge && (
                 <div
                   className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
@@ -141,11 +141,14 @@ export default function ProductSelector({
                         </span>
                       </div>
 
-                      {/* Price */}
+                      {/* Per-shot price — primary anchor */}
                       <div className="text-right flex-shrink-0">
                         <p className="text-base font-semibold text-[var(--color-ink)]">
-                          {formatPrice(pricing.price)}
-                          {frequency && <span className="text-xs font-normal text-gray-500">{frequency}</span>}
+                          {formatPrice(pricing.perShot)}<span className="text-xs font-normal text-gray-500">/shot</span>
+                        </p>
+                        {/* Total price underneath */}
+                        <p className="text-xs text-gray-500 mt-0.5">
+                          {formatPrice(pricing.price)}{frequency}
                         </p>
                         {isBoth && separatePrice && savings > 0 && (
                           <p className="text-xs text-gray-400 line-through">

@@ -4,7 +4,6 @@ import Image from "next/image";
 import {
   type FunnelProduct,
   type FunnelCadence,
-  FUNNEL_CADENCE_HERO,
   FUNNEL_HERO_IMAGES,
   getFunnelProductSlideshow,
 } from "@/app/lib/funnelData";
@@ -13,7 +12,7 @@ import ProductImageSlideshow from "@/app/components/product/ProductImageSlidesho
 interface FunnelHeroAssetProps {
   product: FunnelProduct;
   cadence: FunnelCadence;
-  /** "static" = single image per cadence (step 1). "carousel" = product slideshow (step 2). */
+  /** "carousel" = product slideshow (step 1, choosing product). "static" = selected product image (step 2, choosing cadence). */
   mode: "static" | "carousel";
 }
 
@@ -22,14 +21,13 @@ export default function FunnelHeroAsset({
   cadence,
   mode,
 }: FunnelHeroAssetProps) {
-  // --- Carousel mode (step 2): product slideshow ---
+  // --- Carousel mode (step 1): product slideshow for selected product ---
   if (mode === "carousel") {
     const images = getFunnelProductSlideshow(product, cadence);
     const heroInfo = FUNNEL_HERO_IMAGES[product];
 
     return (
       <div className="w-full bg-[#FAFAFA] rounded-2xl lg:rounded-none overflow-hidden [&_.mt-3]:hidden">
-        {/* Hide thumbnails — arrows only for cleaner look */}
         <ProductImageSlideshow
           key={product}
           images={images}
@@ -40,12 +38,12 @@ export default function FunnelHeroAsset({
     );
   }
 
-  // --- Static mode (step 1): single image per cadence ---
+  // --- Static mode (step 2): single image for selected product ---
   return (
     <div className="relative w-full aspect-square max-h-[65vw] lg:max-h-none lg:aspect-[4/3] overflow-hidden rounded-2xl lg:rounded-none bg-gray-50">
-      {/* Render all cadence images, crossfade on selection */}
-      {(Object.keys(FUNNEL_CADENCE_HERO) as FunnelCadence[]).map((key) => {
-        const img = FUNNEL_CADENCE_HERO[key];
+      {/* Render all product images, crossfade on selection */}
+      {(Object.keys(FUNNEL_HERO_IMAGES) as FunnelProduct[]).map((key) => {
+        const img = FUNNEL_HERO_IMAGES[key];
         return (
           <Image
             key={key}
@@ -54,13 +52,12 @@ export default function FunnelHeroAsset({
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             className={`object-cover transition-opacity duration-500 lg:object-top ${
-              key === cadence ? "opacity-100" : "opacity-0"
+              key === product ? "opacity-100" : "opacity-0"
             }`}
-            priority={key === "monthly-sub"}
+            priority={key === "both"}
           />
         );
       })}
-
     </div>
   );
 }

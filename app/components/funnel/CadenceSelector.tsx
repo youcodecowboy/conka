@@ -2,6 +2,7 @@
 
 import {
   type FunnelCadence,
+  type FunnelProduct,
   FUNNEL_CADENCES,
   getOfferPricing,
 } from "@/app/lib/funnelData";
@@ -9,13 +10,9 @@ import { formatPrice } from "@/app/lib/productData";
 
 interface CadenceSelectorProps {
   cadence: FunnelCadence;
+  product: FunnelProduct;
   onChange: (cadence: FunnelCadence) => void;
 }
-
-// Step 1 always shows single-box pricing (1 box = 28 shots).
-// Per-shot is the same for Flow and Clear, so we use "flow" as the reference.
-// Product choice (1 box vs 2 boxes) happens at step 2.
-const CADENCE_PRICING_REF = "flow" as const;
 
 const CADENCE_ORDER: FunnelCadence[] = ["monthly-sub", "quarterly-sub", "monthly-otp"];
 
@@ -31,20 +28,40 @@ function getDeliveryLabel(cadence: FunnelCadence): string {
   }
 }
 
-/** Explicit "what ships" — step 1 shows single-product quantities */
-function getWhatShips(cadence: FunnelCadence, shotCount: number): string {
+/** Cadence-aware frequency label */
+function getPriceFrequency(cadence: FunnelCadence): string {
   switch (cadence) {
     case "monthly-sub":
-      return `1 box (${shotCount} shots) delivered every month`;
+      return "/mo";
     case "monthly-otp":
-      return `1 box (${shotCount} shots), one-time delivery`;
+      return "";
     case "quarterly-sub":
-      return `3 boxes (${shotCount} shots total) delivered every 3 months`;
+      return "/quarter";
+  }
+}
+
+/** Explicit "what ships" — uses actual product shot count */
+function getWhatShips(cadence: FunnelCadence, product: FunnelProduct, shotCount: number): string {
+  const isBoth = product === "both";
+  switch (cadence) {
+    case "monthly-sub":
+      return isBoth
+        ? `2 boxes (${shotCount} shots) delivered every month`
+        : `1 box (${shotCount} shots) delivered every month`;
+    case "monthly-otp":
+      return isBoth
+        ? `2 boxes (${shotCount} shots), one-time delivery`
+        : `1 box (${shotCount} shots), one-time delivery`;
+    case "quarterly-sub":
+      return isBoth
+        ? `6 boxes (${shotCount} shots total) delivered every 3 months`
+        : `3 boxes (${shotCount} shots total) delivered every 3 months`;
   }
 }
 
 export default function CadenceSelector({
   cadence,
+  product,
   onChange,
 }: CadenceSelectorProps) {
   return (
@@ -63,7 +80,8 @@ export default function CadenceSelector({
         {CADENCE_ORDER.map((cadenceKey) => {
           const display = FUNNEL_CADENCES[cadenceKey];
           const isActive = cadence === cadenceKey;
-          const pricing = getOfferPricing(CADENCE_PRICING_REF, cadenceKey);
+          const pricing = getOfferPricing(product, cadenceKey);
+          const frequency = getPriceFrequency(cadenceKey);
 
           return (
             <button
@@ -76,14 +94,14 @@ export default function CadenceSelector({
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >
-              {/* Badge banner — always prominent, ink background */}
+              {/* Badge banner */}
               {display.badge && (
                 <div
                   className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
                   style={{ backgroundColor: "var(--color-ink)" }}
                 >
                   {display.savingsLabel
-                    ? `⚡ ${display.badge} · ${display.savingsLabel} ⚡`
+                    ? `${display.badge} · ${display.savingsLabel}`
                     : display.badge}
                 </div>
               )}
@@ -120,11 +138,17 @@ export default function CadenceSelector({
                     </div>
                   </div>
 
-                  {/* Per-shot price — the anchor number */}
+                  {/* Per-shot price — the primary anchor */}
                   <div className="text-right flex-shrink-0">
                     <p className={`font-semibold ${isActive ? "text-base text-[var(--color-ink)]" : "text-sm text-gray-600"}`}>
                       {formatPrice(pricing.perShot)}<span className="text-xs font-normal text-gray-500">/shot</span>
                     </p>
+                    {/* Collapsed: total price underneath */}
+                    {!isActive && (
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        {formatPrice(pricing.price)}{frequency}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -139,9 +163,21 @@ export default function CadenceSelector({
                       <span className="text-sm text-gray-500">per shot</span>
                     </div>
 
+                    {/* Total price — secondary */}
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-base font-semibold text-[var(--color-ink)]">
+                        {formatPrice(pricing.price)}{frequency}
+                      </span>
+                      {pricing.compareAtPrice && (
+                        <span className="text-sm text-gray-400 line-through">
+                          {formatPrice(pricing.compareAtPrice)}
+                        </span>
+                      )}
+                    </div>
+
                     {/* What ships */}
                     <p className="text-sm text-gray-600">
-                      📦 {getWhatShips(cadenceKey, pricing.shotCount)}
+                      📦 {getWhatShips(cadenceKey, product, pricing.shotCount)}
                     </p>
 
                     {/* Feature bullets */}

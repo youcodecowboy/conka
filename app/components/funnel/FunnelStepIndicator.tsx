@@ -8,8 +8,8 @@ interface FunnelStepIndicatorProps {
 }
 
 const STEPS = [
-  { number: 1 as const, label: "Quantity" },
-  { number: 2 as const, label: "Product" },
+  { number: 1 as const, label: "Product" },
+  { number: 2 as const, label: "Plan" },
 ];
 
 export default function FunnelStepIndicator({

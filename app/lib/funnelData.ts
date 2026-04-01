@@ -429,65 +429,84 @@ export function getCadenceFrequency(
 // UPSELL LOGIC
 // ============================================
 
+/**
+ * Upsell logic for Product > Cadence > Checkout flow.
+ *
+ * All upsells trigger at checkout (after the user has chosen both product
+ * and cadence). Two categories:
+ *
+ * 1. Product upgrades: Flow/Clear → Both (the user picked a single product,
+ *    we offer the pair at a discount vs buying separately).
+ * 2. Cadence upgrades: OTP → subscription, monthly → quarterly (the user
+ *    picked Both but a less committed cadence, we offer more savings).
+ *
+ * Priority: product upgrade first (higher AOV impact), then cadence upgrade.
+ */
 export function getUpsellOffer(
   product: FunnelProduct,
   cadence: FunnelCadence,
 ): UpsellOffer | null {
   const bothImage = { src: "/formulas/ConkaAmPm.jpg", alt: "CONKA Flow and Clear — AM and PM brain performance" };
 
+  // --- Product upgrades: single product → Both ---
+
   // Flow → Both (add Clear)
   if (product === "flow") {
-    const upgradedCadence = cadence;
-    if (!isVariantReady("both", upgradedCadence)) return null;
+    if (!isVariantReady("both", cadence)) return null;
     const currentPrice = getOfferPricing("flow", cadence).price;
     const clearAlonePrice = getOfferPricing("clear", cadence).price;
-    const upgradePrice = getOfferPricing("both", upgradedCadence).price;
+    const upgradePrice = getOfferPricing("both", cadence).price;
     const priceDiff = upgradePrice - currentPrice;
+    const savingsVsSeparate = clearAlonePrice - priceDiff;
     return {
-      headline: "Add Clear to your routine?",
-      body: "Flow starts your day. Clear completes it. Together they create a synergistic compounding effect that neither delivers alone.",
-      acceptLabel: "Add offer and go to checkout",
-      declineLabel: "no thanks",
+      headline: "Get the full system?",
+      body: "Most customers take Flow and Clear together. Flow sharpens your morning, Clear recovers your evening. Together they compound in a way that neither delivers alone.",
+      acceptLabel: "Upgrade to Both",
+      declineLabel: "No thanks, just Flow",
       upgradedProduct: "both",
-      upgradedCadence,
+      upgradedCadence: cadence,
       priceDifference: priceDiff,
       compareAtUpgrade: clearAlonePrice,
-      savingsAmount: clearAlonePrice - priceDiff,
+      savingsAmount: savingsVsSeparate,
+      savingsLabel: `Save ${formatPrice(savingsVsSeparate)} vs adding Clear separately`,
       image: bothImage,
       benefits: [
         "Add CONKA Clear (PM recovery) to your order",
-        `Save ${formatPrice(clearAlonePrice - priceDiff)} vs buying separately`,
-        "Most customers take both for full-day coverage",
+        `Save ${formatPrice(savingsVsSeparate)} vs buying separately`,
+        "Full-day cognitive support, sunrise to sunset",
       ],
     };
   }
 
   // Clear → Both (add Flow)
   if (product === "clear") {
-    const upgradedCadence = cadence;
-    if (!isVariantReady("both", upgradedCadence)) return null;
+    if (!isVariantReady("both", cadence)) return null;
     const currentPrice = getOfferPricing("clear", cadence).price;
     const flowAlonePrice = getOfferPricing("flow", cadence).price;
-    const upgradePrice = getOfferPricing("both", upgradedCadence).price;
+    const upgradePrice = getOfferPricing("both", cadence).price;
     const priceDiff = upgradePrice - currentPrice;
+    const savingsVsSeparate = flowAlonePrice - priceDiff;
     return {
-      headline: "Add Flow to your routine?",
-      body: "Clear recovers your evening. Flow sharpens your morning. Together they create a synergistic compounding effect that neither delivers alone.",
-      acceptLabel: "Add offer and go to checkout",
-      declineLabel: "no thanks",
+      headline: "Get the full system?",
+      body: "Most customers take Flow and Clear together. Clear recovers your evening, Flow sharpens your morning. Together they compound in a way that neither delivers alone.",
+      acceptLabel: "Upgrade to Both",
+      declineLabel: "No thanks, just Clear",
       upgradedProduct: "both",
-      upgradedCadence,
+      upgradedCadence: cadence,
       priceDifference: priceDiff,
       compareAtUpgrade: flowAlonePrice,
-      savingsAmount: flowAlonePrice - priceDiff,
+      savingsAmount: savingsVsSeparate,
+      savingsLabel: `Save ${formatPrice(savingsVsSeparate)} vs adding Flow separately`,
       image: bothImage,
       benefits: [
         "Add CONKA Flow (AM focus) to your order",
-        `Save ${formatPrice(flowAlonePrice - priceDiff)} vs buying separately`,
-        "Most customers take both for full-day coverage",
+        `Save ${formatPrice(savingsVsSeparate)} vs buying separately`,
+        "Full-day cognitive support, sunrise to sunset",
       ],
     };
   }
+
+  // --- Cadence upgrades: Both selected, offer better cadence ---
 
   // Both + OTP → Both + monthly sub
   if (product === "both" && cadence === "monthly-otp") {
@@ -496,19 +515,20 @@ export function getUpsellOffer(
     const upgradePrice = getOfferPricing("both", "monthly-sub").price;
     const savings = currentPrice - upgradePrice;
     return {
-      headline: "Subscribe & save every month",
-      body: "Your supply arrives automatically so you never run out. No lock-in, cancel or pause anytime.",
-      acceptLabel: "Subscribe and go to checkout",
-      declineLabel: "no thanks",
+      headline: "Subscribe and save {savings}/mo",
+      body: `You're paying ${formatPrice(currentPrice)} for a one-time order. Subscribe at ${formatPrice(upgradePrice)}/mo and save ${formatPrice(savings)} every month. Cancel or pause anytime.`,
+      acceptLabel: `Subscribe at ${formatPrice(upgradePrice)}/mo`,
+      declineLabel: "No thanks, one-time is fine",
       upgradedProduct: "both",
       upgradedCadence: "monthly-sub",
       priceDifference: upgradePrice - currentPrice,
       compareAtUpgrade: currentPrice,
       savingsAmount: savings,
+      savingsLabel: `Save ${formatPrice(savings)} every month`,
       image: bothImage,
       benefits: [
         `Save ${formatPrice(savings)} every month`,
-        "Cancel or pause anytime, no commitment",
+        "Cancel or pause anytime, no lock-in",
         "Free UK shipping on every delivery",
       ],
     };
@@ -521,15 +541,16 @@ export function getUpsellOffer(
     const quarterlyPrice = getOfferPricing("both", "quarterly-sub").price;
     const savings = monthlyTotal - quarterlyPrice;
     return {
-      headline: "Go quarterly and save more",
-      body: "3-month supply delivered at once. Biggest savings per shot, fewer deliveries to worry about.",
-      acceptLabel: "Go quarterly and checkout",
-      declineLabel: "no thanks",
+      headline: "Go quarterly, save more",
+      body: `3 months delivered at once for ${formatPrice(quarterlyPrice)} instead of ${formatPrice(monthlyTotal)}. Lowest price per shot, fewer deliveries.`,
+      acceptLabel: `Go quarterly at ${formatPrice(quarterlyPrice)}`,
+      declineLabel: "No thanks, monthly is fine",
       upgradedProduct: "both",
       upgradedCadence: "quarterly-sub",
       priceDifference: quarterlyPrice - monthlyTotal,
       compareAtUpgrade: monthlyTotal,
       savingsAmount: savings,
+      savingsLabel: `Save ${formatPrice(savings)} vs 3x monthly`,
       image: bothImage,
       benefits: [
         `Save ${formatPrice(savings)} vs 3 months of monthly`,
@@ -539,6 +560,6 @@ export function getUpsellOffer(
     };
   }
 
-  // Both + quarterly → no upsell
+  // Both + quarterly → no upsell (best option already selected)
   return null;
 }
