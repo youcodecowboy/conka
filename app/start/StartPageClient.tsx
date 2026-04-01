@@ -107,21 +107,24 @@ export default function StartPageClient() {
       </section>
 
       {/* ===== 7. CASE STUDIES ===== */}
+      {/* Note: CaseStudiesDataDriven is a shared component using premium-base tokens
+          (premium-section-heading, premium-card-soft). It assumes a light background.
+          Using brand-bg-white here until the shared component is migrated. */}
       <section
-        className="brand-section brand-bg-black"
+        className="brand-section brand-bg-white"
         aria-label="Clinically validated test scores"
       >
         <div className="brand-track">
           <CaseStudiesDataDriven hideCTA />
           <div className="mt-8 flex justify-start">
-            <LandingCTA variant="light">Try Risk-Free →</LandingCTA>
+            <LandingCTA>Try Risk-Free →</LandingCTA>
           </div>
         </div>
       </section>
 
       {/* ===== 8. FAQ ===== */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-neutral"
         aria-label="FAQ"
       >
         <div className="brand-track">
@@ -131,7 +134,7 @@ export default function StartPageClient() {
 
       {/* ===== 9. DISCLAIMER ===== */}
       <section
-        className="brand-section brand-bg-neutral"
+        className="brand-section brand-bg-white"
         aria-label="Important information and disclaimers"
       >
         <div className="brand-track">
