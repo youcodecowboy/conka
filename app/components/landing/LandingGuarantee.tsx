@@ -88,7 +88,7 @@ export default function LandingGuarantee() {
             className="mt-4 text-xs"
             style={{ color: "var(--color-ink)", opacity: 0.3 }}
           >
-            *Complete baseline before your box arrives.
+            *First-time customers only. Not satisfied? Full refund, no returns needed.
           </p>
         </div>
 

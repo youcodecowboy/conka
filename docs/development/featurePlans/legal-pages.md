@@ -214,16 +214,17 @@
 
 ## Information needed from the business
 
-- [ ] Companies House registration number
-- [ ] Registered address
-- [ ] VAT number
-- [ ] Whether a DPO is appointed
+- [x] Companies House registration number: 13235415
+- [x] Registered address: The Light Bulb, 1 Filament Walk, U 107 Conka, London, SW18 4GQ
+- [x] VAT number: GB430507628
+- [ ] Whether a DPO is appointed (likely not required for a company this size)
 - [ ] Data retention periods (how long customer data is kept after last purchase)
 - [ ] Whether international shipping is offered
 - [ ] One-time purchase shipping cost
 - [ ] Whether a cookie consent banner is currently implemented (likely not -- this is a gap)
-- [ ] Confirm subscription cancellation policy details
-- [ ] Confirm the 100-day guarantee terms are final
+- [x] Subscription cancellation: cancel anytime, no questions asked
+- [x] 100-day guarantee: first-time customers only, full refund, no returns needed
+- [ ] Open question: does the guarantee require app testing (3+ tests per week) or is it unconditional satisfaction-based?
 
 ---
 
