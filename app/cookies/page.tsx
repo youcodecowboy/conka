@@ -242,10 +242,10 @@ export default function CookiesPage() {
                 If you have any questions about our use of cookies, contact us
                 at{" "}
                 <a
-                  href="mailto:support@conka.co.uk"
+                  href="mailto:info@conka.io"
                   className="underline hover:opacity-70"
                 >
-                  support@conka.co.uk
+                  info@conka.io
                 </a>
                 .
               </p>

@@ -45,10 +45,10 @@ export default function TermsPage() {
                 <li>
                   Contact:{" "}
                   <a
-                    href="mailto:support@conka.co.uk"
+                    href="mailto:info@conka.io"
                     className="underline hover:opacity-70"
                   >
-                    support@conka.co.uk
+                    info@conka.io
                   </a>
                 </li>
               </ul>
@@ -117,10 +117,10 @@ export default function TermsPage() {
                   modify your subscription at any time through your account
                   portal or by emailing{" "}
                   <a
-                    href="mailto:support@conka.co.uk"
+                    href="mailto:info@conka.io"
                     className="underline hover:opacity-70"
                   >
-                    support@conka.co.uk
+                    info@conka.io
                   </a>
                   . No questions asked. No cancellation fees.
                 </li>
@@ -158,10 +158,10 @@ export default function TermsPage() {
                 <li>
                   <strong>How to claim:</strong> Email{" "}
                   <a
-                    href="mailto:support@conka.co.uk"
+                    href="mailto:info@conka.io"
                     className="underline hover:opacity-70"
                   >
-                    support@conka.co.uk
+                    info@conka.io
                   </a>{" "}
                   within {GUARANTEE_DAYS} days of receiving your first order.
                 </li>
@@ -226,10 +226,10 @@ export default function TermsPage() {
                 <li>
                   <strong>How to cancel:</strong> Email{" "}
                   <a
-                    href="mailto:support@conka.co.uk"
+                    href="mailto:info@conka.io"
                     className="underline hover:opacity-70"
                   >
-                    support@conka.co.uk
+                    info@conka.io
                   </a>{" "}
                   stating your name, order number, and that you wish to cancel.
                 </li>
@@ -265,10 +265,10 @@ export default function TermsPage() {
                 <li>
                   Contact{" "}
                   <a
-                    href="mailto:support@conka.co.uk"
+                    href="mailto:info@conka.io"
                     className="underline hover:opacity-70"
                   >
-                    support@conka.co.uk
+                    info@conka.io
                   </a>{" "}
                   with your order number, a description of the issue, and photos
                   if applicable.
@@ -374,10 +374,10 @@ export default function TermsPage() {
                 <li>
                   Email:{" "}
                   <a
-                    href="mailto:support@conka.co.uk"
+                    href="mailto:info@conka.io"
                     className="underline hover:opacity-70"
                   >
-                    support@conka.co.uk
+                    info@conka.io
                   </a>
                 </li>
                 <li>

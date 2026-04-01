@@ -43,10 +43,10 @@ export default function PrivacyPage() {
                 <li>
                   Data protection contact:{" "}
                   <a
-                    href="mailto:support@conka.co.uk"
+                    href="mailto:info@conka.io"
                     className="underline hover:opacity-70"
                   >
-                    support@conka.co.uk
+                    info@conka.io
                   </a>
                 </li>
               </ul>
@@ -367,10 +367,10 @@ export default function PrivacyPage() {
               <p className="mt-4">
                 To exercise any of these rights, email{" "}
                 <a
-                  href="mailto:support@conka.co.uk"
+                  href="mailto:info@conka.io"
                   className="underline hover:opacity-70"
                 >
-                  support@conka.co.uk
+                  info@conka.io
                 </a>
                 . We will respond within 30 days.
               </p>
@@ -463,10 +463,10 @@ export default function PrivacyPage() {
                 <li>
                   Email:{" "}
                   <a
-                    href="mailto:support@conka.co.uk"
+                    href="mailto:info@conka.io"
                     className="underline hover:opacity-70"
                   >
-                    support@conka.co.uk
+                    info@conka.io
                   </a>
                 </li>
                 <li>
