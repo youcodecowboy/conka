@@ -16,19 +16,19 @@ export default function LandingDisclaimer() {
       {/* Divider */}
       <div
         className="w-full h-px mb-8"
-        style={{ backgroundColor: "rgba(0,0,0,0.08)" }}
+        style={{ backgroundColor: "rgba(255,255,255,0.2)" }}
       />
 
       <h3
         className="text-xs font-semibold uppercase tracking-widest mb-6"
-        style={{ color: "var(--brand-black)", opacity: 0.35 }}
+        style={{ color: "var(--brand-white)", opacity: 0.35 }}
       >
         Important information
       </h3>
 
       <div
         className="space-y-5 text-xs leading-relaxed"
-        style={{ color: "var(--brand-black)", opacity: 0.4 }}
+        style={{ color: "var(--brand-white)", opacity: 0.4 }}
       >
         {/* † Clinically dosed */}
         <p>
@@ -120,7 +120,7 @@ export default function LandingDisclaimer() {
         {/* Standard UK food supplement legal block */}
         <div
           className="pt-5 mt-5"
-          style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}
+          style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}
         >
           <p>
             Food supplements should not be used as a substitute for a varied and
