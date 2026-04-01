@@ -100,7 +100,7 @@ export default function StartPageClient() {
 
       {/* ===== 6. APP GUARANTEE ===== */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-neutral"
         aria-label="Money-back guarantee"
       >
         <div className="brand-track">
