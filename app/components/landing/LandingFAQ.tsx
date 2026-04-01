@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-
-const FUNNEL_URL = "/funnel";
+import { GUARANTEE_DAYS, GUARANTEE_LABEL_FULL, GUARANTEE_COPY_TRIAL } from "@/app/lib/offerConstants";
+import LandingCTA from "./LandingCTA";
 
 /**
  * Landing page FAQ — conversion-focused questions.
@@ -23,7 +23,7 @@ const FAQ_ITEMS = [
   {
     question: "When will I notice results?",
     answer:
-      "Everyone responds differently. Some people notice they feel calmer and more focused early on, while for others it takes a few weeks of consistent daily use. We recommend giving CONKA at least 30 days as part of your daily routine. That's why we offer a 30-day money-back guarantee, so you have time to find out what works for you.",
+      `Everyone responds differently. Some people notice they feel calmer and more focused early on, while for others it takes a few weeks of consistent daily use. We recommend giving CONKA at least ${GUARANTEE_DAYS} days as part of your daily routine. That's why we offer a ${GUARANTEE_LABEL_FULL}, so you have time to find out what works for you.`,
   },
   {
     question: "Is CONKA safe to take every day?",
@@ -43,7 +43,7 @@ const FAQ_ITEMS = [
   {
     question: "Can I cancel my subscription?",
     answer:
-      "Yes. Cancel, pause, or modify anytime from your account. No contracts, no commitments, no questions asked. We also offer a 30-day money-back guarantee, so if you're not satisfied, you get a full refund.",
+      `Yes. Cancel, pause, or modify anytime from your account. No contracts, no commitments, no questions asked. We also offer a ${GUARANTEE_LABEL_FULL}, so if you're not satisfied, you get a full refund.`,
   },
   {
     question: "When will I receive my order?",
@@ -53,7 +53,7 @@ const FAQ_ITEMS = [
   {
     question: "What if it doesn't work for me?",
     answer:
-      "We offer a 30-day money-back guarantee. Try CONKA for up to 30 days, and if you're not satisfied, contact us for a full refund. No returns needed. We're confident enough in the product to take the risk for you.",
+      `We offer a ${GUARANTEE_LABEL_FULL}. ${GUARANTEE_COPY_TRIAL}, and if you're not satisfied, contact us for a full refund. No returns needed. We're confident enough in the product to take the risk for you.`,
   },
 ];
 
@@ -166,13 +166,7 @@ export default function LandingFAQ() {
 
           {/* CTA */}
           <div className="mt-8 flex justify-center lg:justify-start">
-            <a
-              href={FUNNEL_URL}
-              className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{ backgroundColor: "var(--color-ink)" }}
-            >
-              Try Risk-Free →
-            </a>
+            <LandingCTA>Try Risk-Free →</LandingCTA>
           </div>
         </div>{/* end content column */}
       </div>{/* end flex-row */}

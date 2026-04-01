@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { GUARANTEE_LABEL } from "@/app/lib/offerConstants";
-
-const FUNNEL_URL = "/funnel";
+import LandingCTA from "./LandingCTA";
 
 const BENEFITS = [
   {
@@ -224,13 +223,7 @@ export default function LandingBenefits() {
 
       {/* CTA */}
       <div className="mt-8 flex justify-center">
-        <a
-          href={FUNNEL_URL}
-          className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          style={{ backgroundColor: "white", color: "var(--color-ink)" }}
-        >
-          See Your Options →
-        </a>
+        <LandingCTA variant="light">See Your Options →</LandingCTA>
       </div>
     </div>
   );

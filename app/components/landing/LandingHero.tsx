@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
-
-const FUNNEL_URL = "/funnel";
+import LandingCTA from "./LandingCTA";
 
 /**
  * Landing page hero.
@@ -58,16 +57,9 @@ export default function LandingHero() {
 
           {/* CTA — high contrast */}
           <div className="mt-8">
-            <a
-              href={FUNNEL_URL}
-              className="block w-full lg:inline-block lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] font-bold text-base lg:text-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
-              style={{
-                backgroundColor: "var(--color-ink)",
-                color: "white",
-              }}
-            >
+            <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
               Try CONKA Today →
-            </a>
+            </LandingCTA>
           </div>
 
           {/* Customer avatars + review count */}

@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { GUARANTEE_LABEL_FULL } from "@/app/lib/offerConstants";
-
-const FUNNEL_URL = "/funnel";
+import LandingCTA from "./LandingCTA";
 
 /**
  * Landing guarantee section.
@@ -73,13 +73,7 @@ export default function LandingGuarantee() {
 
           {/* CTA + app link */}
           <div className="mt-8 flex flex-col sm:flex-row items-center lg:items-start gap-3">
-            <a
-              href={FUNNEL_URL}
-              className="block w-full sm:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{ backgroundColor: "var(--color-ink)" }}
-            >
-              Try Risk-Free →
-            </a>
+            <LandingCTA className="sm:w-auto">Try Risk-Free →</LandingCTA>
             <a
               href="/app"
               className="text-sm font-medium underline underline-offset-2"
@@ -100,7 +94,7 @@ export default function LandingGuarantee() {
 
         {/* Phone mockup — first on mobile, second on desktop */}
         <div className="relative flex justify-center order-1 lg:order-2">
-          <img
+          <Image
             src="/app/AppConkaRing.png"
             alt="CONKA app showing cognitive performance score of 92"
             width={240}
@@ -110,7 +104,6 @@ export default function LandingGuarantee() {
               width: "clamp(180px, 40vw, 240px)",
               boxShadow: "0 24px 48px rgba(0,0,0,0.15)",
             }}
-            loading="lazy"
           />
         </div>
       </div>

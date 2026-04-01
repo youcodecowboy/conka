@@ -1,3 +1,5 @@
+import { GUARANTEE_DAYS, GUARANTEE_COPY_REFUND } from "@/app/lib/offerConstants";
+
 /**
  * Landing disclaimer footer — AG1-style anchored footnotes + legal block.
  *
@@ -110,10 +112,9 @@ export default function LandingDisclaimer() {
           <span className="font-semibold" style={{ opacity: 1 }}>
             *
           </span>{" "}
-          <span className="font-semibold">Guarantee</span> - 30-day
-          satisfaction guarantee applies to first-time customers. Contact
-          support@conka.co.uk for a full refund within 30 days of your first
-          order if you are not satisfied. See full terms at conka.co.uk/terms.
+          <span className="font-semibold">Guarantee</span> - {GUARANTEE_DAYS}-day
+          satisfaction guarantee applies to first-time customers. {GUARANTEE_COPY_REFUND}{" "}
+          if you are not satisfied. See full terms at conka.io/terms.
         </p>
 
         {/* Standard UK food supplement legal block */}

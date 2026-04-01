@@ -1,8 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import LandingCTA from "./LandingCTA";
 
-const FUNNEL_URL = "/funnel";
+/* Product accent colours — semantic names for Flow (warm) and Clear (cool) */
+const FLOW_ACCENT = "rgb(245, 158, 11)";
+const FLOW_ACCENT_BG = "rgba(245, 158, 11, 0.1)";
+const FLOW_ACCENT_TEXT = "rgb(180, 83, 9)";
+const CLEAR_ACCENT = "rgb(14, 165, 233)";
+const CLEAR_ACCENT_BG = "rgba(14, 165, 233, 0.1)";
+const CLEAR_ACCENT_TEXT = "rgb(3, 105, 161)";
 
 export default function LandingProductSplit() {
   return (
@@ -43,7 +50,7 @@ export default function LandingProductSplit() {
           {/* Time badge */}
           <div
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-4"
-            style={{ backgroundColor: "rgba(245, 158, 11, 0.1)", color: "#b45309" }}
+            style={{ backgroundColor: FLOW_ACCENT_BG, color: FLOW_ACCENT_TEXT }}
           >
             ☀️ Before the day
           </div>
@@ -62,15 +69,15 @@ export default function LandingProductSplit() {
           {/* Benefits — outcome-led */}
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#f59e0b" }} />
+              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: FLOW_ACCENT }} />
               <span className="text-sm" style={{ color: "var(--color-ink)" }}>Start how you want to finish</span>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#f59e0b" }} />
+              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: FLOW_ACCENT }} />
               <span className="text-sm" style={{ color: "var(--color-ink)" }}>Calm focus that builds</span>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#f59e0b" }} />
+              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: FLOW_ACCENT }} />
               <span className="text-sm" style={{ color: "var(--color-ink)" }}>Win the day before it starts</span>
             </div>
           </div>
@@ -94,7 +101,7 @@ export default function LandingProductSplit() {
           {/* Time badge */}
           <div
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-4"
-            style={{ backgroundColor: "rgba(14, 165, 233, 0.1)", color: "#0369a1" }}
+            style={{ backgroundColor: CLEAR_ACCENT_BG, color: CLEAR_ACCENT_TEXT }}
           >
             🌙 After the day
           </div>
@@ -113,15 +120,15 @@ export default function LandingProductSplit() {
           {/* Benefits — outcome-led */}
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
+              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
               <span className="text-sm" style={{ color: "var(--color-ink)" }}>Clears the mental debt of a hard day</span>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
+              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
               <span className="text-sm" style={{ color: "var(--color-ink)" }}>Beyond physical recovery</span>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#0ea5e9" }} />
+              <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
               <span className="text-sm" style={{ color: "var(--color-ink)" }}>Wake up ready to go again</span>
             </div>
           </div>
@@ -137,13 +144,7 @@ export default function LandingProductSplit() {
 
       {/* CTA */}
       <div className="mt-10 flex justify-center">
-        <a
-          href={FUNNEL_URL}
-          className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          style={{ backgroundColor: "var(--color-ink)" }}
-        >
-          Get Both →
-        </a>
+        <LandingCTA>Get Both →</LandingCTA>
       </div>
     </div>
   );

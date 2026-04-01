@@ -12,7 +12,7 @@ import Image from "next/image";
  * Component is content-only.
  */
 
-const FUNNEL_URL = "/funnel";
+import LandingCTA from "./LandingCTA";
 
 const SECTIONS = [
   {
@@ -199,13 +199,7 @@ export default function LandingWhatsInside() {
 
           {/* CTA */}
           <div className="mt-8 flex justify-center lg:justify-start">
-            <a
-              href={FUNNEL_URL}
-              className="block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--premium-radius-interactive)] text-white font-semibold text-base transition-transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{ backgroundColor: "var(--color-ink)" }}
-            >
-              Start Your Routine →
-            </a>
+            <LandingCTA>Start Your Routine →</LandingCTA>
           </div>
         </div>{/* end content column */}
       </div>{/* end flex-row */}

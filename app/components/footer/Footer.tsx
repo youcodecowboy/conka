@@ -235,10 +235,26 @@ export default function Footer() {
             <ul className="flex flex-col gap-2">
               <li>
                 <a
-                  href="/conkaapp-privacy-policy"
+                  href="/terms"
+                  className="font-clinical text-sm hover:opacity-70 transition-all"
+                >
+                  Terms &amp; Conditions
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/privacy"
                   className="font-clinical text-sm hover:opacity-70 transition-all"
                 >
                   Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/cookies"
+                  className="font-clinical text-sm hover:opacity-70 transition-all"
+                >
+                  Cookie Policy
                 </a>
               </li>
               <li>
