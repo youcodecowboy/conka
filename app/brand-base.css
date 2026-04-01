@@ -77,7 +77,10 @@
 
   --brand-body-max-width: 65ch;
 
-  /* ===== Radius (3 tiers only) ===== */
+  /* ===== Radius ===== */
+  /* TODO: Marketing direction says 12px-24px for buttons/containers, 32px for cards.
+     Current interactive is 16px (1rem). May need to adjust to 12px (0.75rem)
+     based on visual review. The 12-24px range suggests flexibility, not a fixed value. */
   --brand-radius-interactive: 1rem; /* 16px — buttons, inputs, pills */
   --brand-radius-container: 1.5rem; /* 24px — image containers, nested surfaces */
   --brand-radius-card: 2rem; /* 32px — cards, major surfaces */

@@ -28,7 +28,7 @@ export default function LandingGuarantee() {
           <div
             className="inline-flex items-center gap-3 px-5 py-3 rounded-[var(--brand-radius-interactive)]"
             style={{
-              backgroundColor: "var(--brand-white)",
+              backgroundColor: "var(--brand-neutral)",
               border: "1px solid var(--brand-divider-subtle)",
             }}
           >

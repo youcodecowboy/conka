@@ -52,6 +52,7 @@ export default function StartPageClient() {
       </section>
 
       {/* ===== 2. BENEFITS + TRUST BADGES ===== */}
+      {/* Black background: high-impact section with white cards on dark canvas */}
       <section
         className="brand-section brand-bg-black"
         aria-label="Key Benefits"
@@ -72,6 +73,7 @@ export default function StartPageClient() {
       </section>
 
       {/* ===== 4. WHAT'S INSIDE ===== */}
+      {/* Neutral: soft break before testimonials, accordion content is dense */}
       <section
         className="brand-section brand-bg-neutral"
         aria-label="What's inside CONKA"
@@ -98,7 +100,7 @@ export default function StartPageClient() {
 
       {/* ===== 6. APP GUARANTEE ===== */}
       <section
-        className="brand-section brand-bg-neutral"
+        className="brand-section brand-bg-white"
         aria-label="Money-back guarantee"
       >
         <div className="brand-track">
@@ -107,9 +109,8 @@ export default function StartPageClient() {
       </section>
 
       {/* ===== 7. CASE STUDIES ===== */}
-      {/* Note: CaseStudiesDataDriven is a shared component using premium-base tokens
-          (premium-section-heading, premium-card-soft). It assumes a light background.
-          Using brand-bg-white here until the shared component is migrated. */}
+      {/* Note: CaseStudiesDataDriven is a shared component using premium-base tokens.
+          It assumes a light background. Migrate separately when ready. */}
       <section
         className="brand-section brand-bg-white"
         aria-label="Clinically validated test scores"
@@ -124,7 +125,7 @@ export default function StartPageClient() {
 
       {/* ===== 8. FAQ ===== */}
       <section
-        className="brand-section brand-bg-neutral"
+        className="brand-section brand-bg-white"
         aria-label="FAQ"
       >
         <div className="brand-track">
@@ -133,8 +134,9 @@ export default function StartPageClient() {
       </section>
 
       {/* ===== 9. DISCLAIMER ===== */}
+      {/* Neutral: visually separates the legal footer from content above */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-neutral"
         aria-label="Important information and disclaimers"
       >
         <div className="brand-track">
