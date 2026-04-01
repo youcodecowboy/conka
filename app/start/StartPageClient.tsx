@@ -75,7 +75,7 @@ export default function StartPageClient() {
       {/* ===== 4. WHAT'S INSIDE ===== */}
       {/* Neutral: soft break before testimonials, accordion content is dense */}
       <section
-        className="brand-section brand-bg-neutral"
+        className="brand-section brand-bg-white"
         aria-label="What's inside CONKA"
       >
         <div className="brand-track">
@@ -86,7 +86,7 @@ export default function StartPageClient() {
       {/* ===== 5. TESTIMONIALS ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
-          className="brand-section brand-bg-white"
+          className="brand-section brand-bg-neutral"
           aria-label="Customer reviews"
         >
           <div className="brand-track">
