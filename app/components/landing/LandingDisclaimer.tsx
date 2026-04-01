@@ -21,14 +21,14 @@ export default function LandingDisclaimer() {
 
       <h3
         className="text-xs font-semibold uppercase tracking-widest mb-6"
-        style={{ color: "var(--brand-white)", opacity: 0.35 }}
+        style={{ color: "var(--brand-white)" }}
       >
         Important information
       </h3>
 
       <div
         className="space-y-5 text-xs leading-relaxed"
-        style={{ color: "var(--brand-white)", opacity: 0.4 }}
+        style={{ color: "var(--brand-white)" }}
       >
         {/* † Clinically dosed */}
         <p>
