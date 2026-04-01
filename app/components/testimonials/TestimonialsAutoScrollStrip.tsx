@@ -40,7 +40,7 @@ export default function TestimonialsAutoScrollStrip({
       {/* Header: will be wrapped in .premium-track by page wrapper */}
       <div className="text-center mb-8 md:mb-10">
         <h2
-          className="brand-h2 text-white mb-2"
+          className="brand-h2 mb-2"
         >
           Real People. Real Results
         </h2>
