@@ -15,7 +15,7 @@ export default function LandingGuarantee() {
     <div>
       {/* Headline */}
       <div className="mb-8">
-        <h2 className="brand-h2 text-white">
+        <h2 className="brand-h2">
           The only supplement you can measure.^^
         </h2>
       </div>
@@ -24,7 +24,7 @@ export default function LandingGuarantee() {
       <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
         {/* Copy */}
         <div className="flex-1 order-2 lg:order-1">
-          {/* Guarantee callout */}
+          {/* Guarantee callout pill -- neutral bg, white text */}
           <div
             className="inline-flex items-center gap-3 px-5 py-3 rounded-[var(--brand-radius-interactive)]"
             style={{
@@ -37,8 +37,7 @@ export default function LandingGuarantee() {
               <polyline points="9 12 11 14 15 10" />
             </svg>
             <span
-              className="text-sm font-semibold"
-              style={{ color: "white" }}
+              className="text-sm font-semibold text-white"
             >
               {GUARANTEE_LABEL_FULL}*
             </span>
@@ -46,7 +45,8 @@ export default function LandingGuarantee() {
 
           {/* Explanation */}
           <p
-            className="brand-body mt-6 text-white/80"
+            className="brand-body mt-6"
+            style={{ color: "var(--brand-black)", opacity: 0.6 }}
           >
             Track your cognitive performance with the CONKA app&apos;s
             FDA-cleared assessment.^^ 5,000+ tests completed. If
@@ -59,7 +59,7 @@ export default function LandingGuarantee() {
             <a
               href="/app"
               className="text-sm font-medium underline underline-offset-2"
-              style={{ color: "white", opacity: 0.7 }}
+              style={{ color: "var(--brand-black)", opacity: 0.5 }}
             >
               Learn more about the app
             </a>
@@ -68,7 +68,7 @@ export default function LandingGuarantee() {
           {/* Footnote */}
           <p
             className="mt-4 text-xs"
-            style={{ color: "white", opacity: 0.5 }}
+            style={{ color: "var(--brand-black)", opacity: 0.3 }}
           >
             *First-time customers only. Not satisfied? Full refund, no returns needed.
           </p>
