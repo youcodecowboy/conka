@@ -18,7 +18,7 @@ export default function LandingHero() {
       <div className="flex justify-center lg:justify-start mb-5">
         <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-ink)] text-white text-xs lg:text-sm font-semibold">
           <span aria-hidden className="text-yellow-400">★★★★★</span>
-          <span>150,000+ bottles sold</span>
+          <span>150,000+ bottles sold§</span>
           <span className="text-white/40">·</span>
           <span>4.7/5 rating</span>
         </div>
@@ -100,7 +100,7 @@ export default function LandingHero() {
           <div className="relative overflow-hidden rounded-2xl lg:rounded-[var(--premium-radius-card)]">
             <Image
               src="/formulas/QuartelySingle.jpg"
-              alt="CONKA Flow and Clear - brain performance shots delivered to your door"
+              alt="CONKA Flow and Clear daily shots delivered to your door"
               width={1280}
               height={1280}
               priority

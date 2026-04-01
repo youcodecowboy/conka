@@ -10,6 +10,7 @@
  */
 
 import { formatPrice } from "./productData";
+import { GUARANTEE_DAYS } from "./offerConstants";
 
 // ============================================
 // TYPES
@@ -277,7 +278,7 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
     label: "One-Time",
     subtitle: "Single order, no subscription",
     features: [
-      "100-day money-back guarantee*",
+      `${GUARANTEE_DAYS}-day money-back guarantee*`,
       "Subscribe later and save 25%",
     ],
   },

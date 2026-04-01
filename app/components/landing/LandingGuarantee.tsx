@@ -33,7 +33,7 @@ export default function LandingGuarantee() {
             color: "var(--color-ink)",
           }}
         >
-          The only supplement you can measure working.^^
+          The only supplement you can measure.^^
         </h2>
       </div>
 
