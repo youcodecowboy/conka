@@ -297,23 +297,7 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
 // HERO IMAGES
 // ============================================
 
-/** Step 1: Static hero per cadence selection */
-export const FUNNEL_CADENCE_HERO: Record<FunnelCadence, { src: string; alt: string }> = {
-  "monthly-sub": {
-    src: "/CONKA_41.jpg",
-    alt: "CONKA monthly subscription — delivered to your door every month",
-  },
-  "monthly-otp": {
-    src: "/CONKA_41.jpg",
-    alt: "CONKA one-time purchase",
-  },
-  "quarterly-sub": {
-    src: "/formulas/QuartelySingle.jpg",
-    alt: "CONKA quarterly supply — 3 boxes delivered every 3 months",
-  },
-};
-
-/** Step 2: Product-specific hero (static fallback) */
+/** Product-specific hero images (used in static mode for step 2) */
 export const FUNNEL_HERO_IMAGES: Record<FunnelProduct, { src: string; alt: string }> = {
   both: {
     src: "/formulas/ConkaAmPm.jpg",
@@ -515,7 +499,7 @@ export function getUpsellOffer(
     const upgradePrice = getOfferPricing("both", "monthly-sub").price;
     const savings = currentPrice - upgradePrice;
     return {
-      headline: "Subscribe and save {savings}/mo",
+      headline: `Subscribe and save ${formatPrice(savings)}/mo`,
       body: `You're paying ${formatPrice(currentPrice)} for a one-time order. Subscribe at ${formatPrice(upgradePrice)}/mo and save ${formatPrice(savings)} every month. Cancel or pause anytime.`,
       acceptLabel: `Subscribe at ${formatPrice(upgradePrice)}/mo`,
       declineLabel: "No thanks, one-time is fine",
