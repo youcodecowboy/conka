@@ -39,8 +39,9 @@ export default function FunnelHeroAsset({
   }
 
   // --- Static mode (step 2): single image for selected product ---
+  // Matches the carousel container size from step 1 (no max-h constraint)
   return (
-    <div className="relative w-full aspect-square max-h-[65vw] lg:max-h-none lg:aspect-[4/3] overflow-hidden rounded-2xl lg:rounded-none bg-gray-50">
+    <div className="relative w-full aspect-square lg:aspect-[4/3] overflow-hidden rounded-2xl lg:rounded-none bg-[#FAFAFA]">
       {/* Render all product images, crossfade on selection */}
       {(Object.keys(FUNNEL_HERO_IMAGES) as FunnelProduct[]).map((key) => {
         const img = FUNNEL_HERO_IMAGES[key];
