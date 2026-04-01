@@ -33,7 +33,7 @@ export default function LandingGuarantee() {
             color: "var(--color-ink)",
           }}
         >
-          Results that you can actually see.
+          The only supplement you can measure working.^^
         </h2>
       </div>
 
@@ -67,8 +67,9 @@ export default function LandingGuarantee() {
             className="mt-6 text-sm lg:text-base leading-relaxed"
             style={{ color: "var(--color-ink)", opacity: 0.6 }}
           >
-            Don&apos;t take our word for it. Test your brain and see the
-            benefits of CONKA yourself. Track as you build your routine.
+            Track your cognitive performance with the CONKA app&apos;s
+            FDA-cleared assessment.^^ 5,000+ tests completed. If
+            you&apos;re not satisfied, full refund.*
           </p>
 
           {/* CTA + app link */}

@@ -187,8 +187,8 @@ export default function FunnelClient() {
 
   // --- CTA labels ---
 
-  const step1Label = "Choose Plan";
-  const step2Label = "Go to Checkout";
+  const step1Label = "Continue";
+  const step2Label = "Checkout Now";
 
 
   return (

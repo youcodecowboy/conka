@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 import LandingCTA from "./LandingCTA";
+import { GUARANTEE_DAYS } from "@/app/lib/offerConstants";
 
 /**
  * Landing page hero.
@@ -34,9 +35,9 @@ export default function LandingHero() {
               color: "var(--color-ink)",
             }}
           >
-            Sharp at 9am.
+            Your brain fades
             <br />
-            Still sharp at 9pm.
+            by 2pm. Why?
           </h1>
 
           <p
@@ -48,17 +49,17 @@ export default function LandingHero() {
               opacity: 0.6,
             }}
           >
-            Coffee borrows from tomorrow. CONKA invests in it.
+            Coffee masks it. Willpower can&apos;t fix it.
             <br className="hidden lg:inline" />{" "}
-            Two shots a day. 16 active ingredients.
+            CONKA is a daily 2-shot system with 16 active
             <br className="hidden lg:inline" />{" "}
-            Unlike anything else on the shelf.
+            ingredients. 150,000+ bottles sold.§
           </p>
 
           {/* CTA — high contrast */}
           <div className="mt-8">
             <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
-              Try CONKA Today →
+              Try Risk-Free for {GUARANTEE_DAYS} Days →
             </LandingCTA>
           </div>
 

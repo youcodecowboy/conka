@@ -20,7 +20,7 @@ export default function LandingProductSplit() {
           className="premium-section-heading"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          Designed for 24 hours.
+          Two shots. 24 hours covered.
         </h2>
       </div>
 
@@ -70,15 +70,15 @@ export default function LandingProductSplit() {
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: FLOW_ACCENT }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Start how you want to finish</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Calm focus without caffeine</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: FLOW_ACCENT }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Calm focus that builds</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>KSM-66 Ashwagandha + Lemon Balm</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: FLOW_ACCENT }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Win the day before it starts</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>UK patented formula (GB2629279)</span>
             </div>
           </div>
 
@@ -121,15 +121,15 @@ export default function LandingProductSplit() {
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Clears the mental debt of a hard day</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Vitamin C for psychological function††</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Beyond physical recovery</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Glutathione + Alpha GPC + NAC</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
-              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Wake up ready to go again</span>
+              <span className="text-sm" style={{ color: "var(--color-ink)" }}>Evening wind-down ritual</span>
             </div>
           </div>
 
@@ -144,7 +144,7 @@ export default function LandingProductSplit() {
 
       {/* CTA */}
       <div className="mt-10 flex justify-center">
-        <LandingCTA>Get Both →</LandingCTA>
+        <LandingCTA>Get Both for Less →</LandingCTA>
       </div>
     </div>
   );

@@ -223,7 +223,7 @@ export default function LandingBenefits() {
 
       {/* CTA */}
       <div className="mt-8 flex justify-center">
-        <LandingCTA variant="light">See Your Options →</LandingCTA>
+        <LandingCTA variant="light">Try Risk-Free →</LandingCTA>
       </div>
     </div>
   );

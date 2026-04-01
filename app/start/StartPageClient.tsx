@@ -98,7 +98,7 @@ export default function StartPageClient() {
           <div className="premium-track">
             <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
             <div className="mt-8 flex justify-center">
-              <LandingCTA>Join Them →</LandingCTA>
+              <LandingCTA>Try Risk-Free →</LandingCTA>
             </div>
           </div>
         </section>
@@ -123,7 +123,7 @@ export default function StartPageClient() {
         <div className="premium-track">
           <CaseStudiesDataDriven hideCTA />
           <div className="mt-8 flex justify-center">
-            <LandingCTA>Start Your Journey →</LandingCTA>
+            <LandingCTA>Try Risk-Free →</LandingCTA>
           </div>
         </div>
       </section>

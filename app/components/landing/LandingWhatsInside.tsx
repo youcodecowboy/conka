@@ -116,7 +116,7 @@ export default function LandingWhatsInside() {
               className="premium-section-heading"
               style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
             >
-              Everything you need to know.
+              16 ingredients. Zero fluff.
             </h2>
           </div>
 
@@ -199,7 +199,7 @@ export default function LandingWhatsInside() {
 
           {/* CTA */}
           <div className="mt-8 flex justify-center lg:justify-start">
-            <LandingCTA>Start Your Routine →</LandingCTA>
+            <LandingCTA>Try Risk-Free →</LandingCTA>
           </div>
         </div>{/* end content column */}
       </div>{/* end flex-row */}
