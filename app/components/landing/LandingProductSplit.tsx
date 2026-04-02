@@ -3,11 +3,6 @@
 import Image from "next/image";
 import LandingCTA from "./LandingCTA";
 
-/* Product accent colours — use brand tokens where available.
-   TODO: Flow/Clear accent tints (BG, TEXT) not in brand-base.css.
-   The base accents are defined as --brand-flow-accent and --brand-clear-accent
-   but the tinted variants (10% bg, darker text) remain hardcoded here.
-   Fallback: kept as component constants until a tint system is established. */
 const FLOW_ACCENT = "var(--brand-flow-accent)";
 const FLOW_ACCENT_BG = "rgba(245, 158, 11, 0.1)";
 const FLOW_ACCENT_TEXT = "rgb(180, 83, 9)";
@@ -19,8 +14,8 @@ export default function LandingProductSplit() {
   return (
     <div>
       {/* Heading */}
-      <div className="mb-8">
-        <h2 className="brand-h2">
+      <div className="mb-10">
+        <h2 className="brand-h2 mb-0">
           Two shots. 24 hours covered.
         </h2>
       </div>
@@ -41,13 +36,7 @@ export default function LandingProductSplit() {
       {/* Two-column product cards */}
       <div className="grid grid-cols-2 gap-3 lg:gap-6">
         {/* CONKA Flow */}
-        <div
-          className="rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8"
-          style={{
-            backgroundColor: "var(--brand-white)",
-            border: "1px solid var(--brand-divider-subtle)",
-          }}
-        >
+        <div className="rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/6">
           {/* Time badge */}
           <div
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[var(--brand-radius-interactive)] text-xs font-semibold mb-4"
@@ -56,14 +45,11 @@ export default function LandingProductSplit() {
             ☀️ Before the day
           </div>
 
-          <h3
-            className="text-lg lg:text-xl font-bold"
-            style={{ color: "var(--brand-black)" }}
-          >
+          <h3 className="text-lg lg:text-xl font-bold text-black">
             CONKA Flow
           </h3>
 
-          <p className="text-xs opacity-40 mt-1 mb-5">
+          <p className="text-xs text-black/40 mt-1 mb-5">
             Caffeine-free · Patented formula
           </p>
 
@@ -72,27 +58,21 @@ export default function LandingProductSplit() {
             {["Calm focus without caffeine", "KSM-66 Ashwagandha + Lemon Balm", "UK patented formula (GB2629279)"].map((benefit) => (
               <div key={benefit} className="flex items-center gap-3">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: FLOW_ACCENT }} />
-                <span className="text-sm" style={{ color: "var(--brand-black)" }}>{benefit}</span>
+                <span className="text-sm text-black/80">{benefit}</span>
               </div>
             ))}
           </div>
 
           {/* Taste */}
-          <div className="mt-5 pt-4" style={{ borderTop: "1px solid var(--brand-divider-subtle)" }}>
-            <p className="text-xs opacity-50">
-              <span className="font-medium opacity-80">Taste:</span> Honey + citrus
+          <div className="mt-5 pt-4 border-t border-black/6">
+            <p className="text-xs text-black/60">
+              <span className="font-medium text-black/80">Taste:</span> Honey + citrus
             </p>
           </div>
         </div>
 
         {/* CONKA Clear */}
-        <div
-          className="rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8"
-          style={{
-            backgroundColor: "var(--brand-white)",
-            border: "1px solid var(--brand-divider-subtle)",
-          }}
-        >
+        <div className="rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/6">
           {/* Time badge */}
           <div
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[var(--brand-radius-interactive)] text-xs font-semibold mb-4"
@@ -101,14 +81,11 @@ export default function LandingProductSplit() {
             🌙 After the day
           </div>
 
-          <h3
-            className="text-lg lg:text-xl font-bold"
-            style={{ color: "var(--brand-black)" }}
-          >
+          <h3 className="text-lg lg:text-xl font-bold text-black">
             CONKA Clear
           </h3>
 
-          <p className="text-xs opacity-40 mt-1 mb-5">
+          <p className="text-xs text-black/40 mt-1 mb-5">
             Nootropic · Antioxidant blend
           </p>
 
@@ -117,15 +94,15 @@ export default function LandingProductSplit() {
             {["Vitamin C for psychological function††", "Glutathione + Alpha GPC + NAC", "Evening wind-down ritual"].map((benefit) => (
               <div key={benefit} className="flex items-center gap-3">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
-                <span className="text-sm" style={{ color: "var(--brand-black)" }}>{benefit}</span>
+                <span className="text-sm text-black/80">{benefit}</span>
               </div>
             ))}
           </div>
 
           {/* Taste */}
-          <div className="mt-5 pt-4" style={{ borderTop: "1px solid var(--brand-divider-subtle)" }}>
-            <p className="text-xs opacity-50">
-              <span className="font-medium opacity-80">Taste:</span> Fresh lemon
+          <div className="mt-5 pt-4 border-t border-black/6">
+            <p className="text-xs text-black/60">
+              <span className="font-medium text-black/80">Taste:</span> Fresh lemon
             </p>
           </div>
         </div>

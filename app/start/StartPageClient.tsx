@@ -52,9 +52,8 @@ export default function StartPageClient() {
       </section>
 
       {/* ===== 2. BENEFITS + TRUST BADGES ===== */}
-      {/* Black background: high-impact section with white cards on dark canvas */}
       <section
-        className="brand-section brand-bg-black"
+        className="brand-section brand-bg-tint"
         aria-label="Key Benefits"
       >
         <div className="brand-track">
@@ -73,9 +72,8 @@ export default function StartPageClient() {
       </section>
 
       {/* ===== 4. WHAT'S INSIDE ===== */}
-      {/* Neutral: soft break before testimonials, accordion content is dense */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-tint"
         aria-label="What's inside CONKA"
       >
         <div className="brand-track">
@@ -86,7 +84,7 @@ export default function StartPageClient() {
       {/* ===== 5. TESTIMONIALS ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
-          className="brand-section brand-bg-neutral"
+          className="brand-section brand-bg-white"
           aria-label="Customer reviews"
         >
           <div className="brand-track">
@@ -100,7 +98,7 @@ export default function StartPageClient() {
 
       {/* ===== 6. APP GUARANTEE ===== */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-tint"
         aria-label="Money-back guarantee"
       >
         <div className="brand-track">
@@ -134,9 +132,8 @@ export default function StartPageClient() {
       </section>
 
       {/* ===== 9. DISCLAIMER ===== */}
-      {/* Neutral: visually separates the legal footer from content above */}
       <section
-        className="brand-section brand-bg-neutral"
+        className="brand-section brand-bg-tint"
         aria-label="Important information and disclaimers"
       >
         <div className="brand-track">

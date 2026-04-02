@@ -1,7 +1,7 @@
 import { GUARANTEE_DAYS, GUARANTEE_COPY_REFUND } from "@/app/lib/offerConstants";
 
 /**
- * Landing disclaimer footer — AG1-style anchored footnotes + legal block.
+ * Landing disclaimer footer -- anchored footnotes + legal block.
  *
  * Rendered at the bottom of /start, before the main site Footer.
  * Contains all anchor symbol definitions used throughout the landing page,
@@ -14,27 +14,16 @@ export default function LandingDisclaimer() {
   return (
     <div className="max-w-3xl mx-auto">
       {/* Divider */}
-      <div
-        className="w-full h-px mb-8"
-        style={{ backgroundColor: "rgba(255,255,255,0.2)" }}
-      />
+      <div className="w-full h-px mb-8 bg-black/10" />
 
-      <h3
-        className="text-xs font-semibold uppercase tracking-widest mb-6"
-        style={{ color: "var(--brand-white)" }}
-      >
+      <h3 className="text-xs font-semibold uppercase tracking-widest mb-6 text-black/60">
         Important information
       </h3>
 
-      <div
-        className="space-y-5 text-xs leading-relaxed"
-        style={{ color: "var(--brand-white)" }}
-      >
+      <div className="space-y-5 text-xs leading-relaxed text-black/40">
         {/* † Clinically dosed */}
         <p>
-          <span className="font-semibold" style={{ opacity: 1 }}>
-            †
-          </span>{" "}
+          <span className="font-semibold text-black/60">†</span>{" "}
           <span className="font-semibold">Clinically dosed</span> - Dosages of
           key ingredients match or exceed the amounts used in published,
           peer-reviewed studies on those individual ingredients.
@@ -44,9 +33,7 @@ export default function LandingDisclaimer() {
 
         {/* †† EFSA-authorised health claims */}
         <p>
-          <span className="font-semibold" style={{ opacity: 1 }}>
-            ††
-          </span>{" "}
+          <span className="font-semibold text-black/60">††</span>{" "}
           <span className="font-semibold">
             EFSA-authorised health claims
           </span>{" "}
@@ -61,9 +48,7 @@ export default function LandingDisclaimer() {
 
         {/* ‡ Reviews */}
         <p>
-          <span className="font-semibold" style={{ opacity: 1 }}>
-            ‡
-          </span>{" "}
+          <span className="font-semibold text-black/60">‡</span>{" "}
           <span className="font-semibold">Reviews</span> - Reviews collected via
           Loox, a verified review platform. Review invitations are sent to
           customers after purchase. Reviews are genuine and unedited.
@@ -71,18 +56,14 @@ export default function LandingDisclaimer() {
 
         {/* § Bottles sold */}
         <p>
-          <span className="font-semibold" style={{ opacity: 1 }}>
-            §
-          </span>{" "}
+          <span className="font-semibold text-black/60">§</span>{" "}
           <span className="font-semibold">Bottles sold</span> - Based on
           cumulative units sold across all channels as of March 2026.
         </p>
 
         {/* ¶ Ingredient-level research */}
         <p>
-          <span className="font-semibold" style={{ opacity: 1 }}>
-            ¶
-          </span>{" "}
+          <span className="font-semibold text-black/60">¶</span>{" "}
           <span className="font-semibold">Ingredient-level research</span> -
           Formulated using ingredients studied across 30+ clinical trials
           involving 6,000+ participants. These are studies on individual
@@ -92,9 +73,7 @@ export default function LandingDisclaimer() {
 
         {/* ^^ Cognitive test */}
         <p>
-          <span className="font-semibold" style={{ opacity: 1 }}>
-            ^^
-          </span>{" "}
+          <span className="font-semibold text-black/60">^^</span>{" "}
           <span className="font-semibold">Cognitive test</span> - The CONKA app
           uses a clinically validated cognitive assessment developed by
           Cognetivity Neurosciences from Cambridge University research. The test
@@ -109,19 +88,14 @@ export default function LandingDisclaimer() {
 
         {/* * Guarantee */}
         <p>
-          <span className="font-semibold" style={{ opacity: 1 }}>
-            *
-          </span>{" "}
+          <span className="font-semibold text-black/60">*</span>{" "}
           <span className="font-semibold">Guarantee</span> - {GUARANTEE_DAYS}-day
           satisfaction guarantee applies to first-time customers. {GUARANTEE_COPY_REFUND}{" "}
           if you are not satisfied. See full terms at conka.io/terms.
         </p>
 
         {/* Standard UK food supplement legal block */}
-        <div
-          className="pt-5 mt-5"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}
-        >
+        <div className="pt-5 mt-5 border-t border-black/10">
           <p>
             Food supplements should not be used as a substitute for a varied and
             balanced diet and a healthy lifestyle. Do not exceed the recommended

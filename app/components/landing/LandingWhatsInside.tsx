@@ -2,16 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-
-/**
- * Landing page "What's Inside" collapsible accordion.
- * Follows the Overload pattern: "what does it do?" / "ingredients" / "science" / "how to use"
- * Adapted for CONKA with real product data.
- *
- * Page wraps this in brand-section + brand-track.
- * Component is content-only.
- */
-
 import LandingCTA from "./LandingCTA";
 
 const SECTIONS = [
@@ -45,7 +35,7 @@ const SECTIONS = [
         <p className="opacity-70">
           Vitamin C · Alpha GPC · Glutathione · N-Acetyl Cysteine · Acetyl-L-Carnitine · Ginkgo Biloba · Vitamin B12
         </p>
-        <p className="mt-4 text-xs opacity-40">
+        <p className="mt-4 text-xs text-black/40">
           All ingredients are clinically dosed.† No proprietary blends. Full amounts on the label.
         </p>
       </>
@@ -62,7 +52,7 @@ const SECTIONS = [
         <p className="mt-3">
           All key ingredients are backed by peer-reviewed clinical studies (PubMed-indexed). CONKA Flow holds a UK patent (GB2629279).
         </p>
-        <p className="mt-3 opacity-50">
+        <p className="mt-3 text-black/60">
           Made in Britain · GMP Certified · Vegan Friendly
         </p>
       </>
@@ -77,7 +67,7 @@ const SECTIONS = [
           <strong>CONKA Flow:</strong> One shot in the morning, with or without food. Works as a coffee replacement.
         </p>
         <p className="mt-3">
-          <strong>CONKA Clear:</strong> One shot in the evening, 30–60 minutes before you want peak clarity or before bed for overnight recovery.
+          <strong>CONKA Clear:</strong> One shot in the evening, 30-60 minutes before you want peak clarity or before bed for overnight recovery.
         </p>
         <p className="mt-3">
           Each box contains 28 shots (one per day). Both together = 56 shots per month.
@@ -111,95 +101,72 @@ export default function LandingWhatsInside() {
         {/* Content column */}
         <div className="lg:w-3/5">
           {/* Heading */}
-          <div className="mb-6">
-            <h2 className="brand-h2">
+          <div className="mb-10">
+            <h2 className="brand-h2 mb-0">
               16 ingredients. Zero fluff.
             </h2>
           </div>
 
           {/* Accordion */}
-          <div
-            className="rounded-[var(--brand-radius-container)] overflow-hidden"
-            style={{
-              backgroundColor: "var(--brand-white)",
-              border: "1px solid var(--brand-divider-subtle)",
-            }}
-          >
-        {SECTIONS.map((section, i) => {
-          const isOpen = openId === section.id;
-          const isLast = i === SECTIONS.length - 1;
+          <div className="rounded-[var(--brand-radius-container)] overflow-hidden bg-white border border-black/6">
+            {SECTIONS.map((section, i) => {
+              const isOpen = openId === section.id;
+              const isLast = i === SECTIONS.length - 1;
 
-          return (
-            <div key={section.id}>
-              <button
-                onClick={() => setOpenId(isOpen ? null : section.id)}
-                aria-expanded={isOpen}
-                aria-controls={`lp-inside-${section.id}`}
-                className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left"
-              >
-                <span
-                  className="text-base"
-                  style={{
-                    fontWeight: isOpen ? 600 : 500,
-                    color: "var(--brand-black)",
-                  }}
-                >
-                  {section.question}
-                </span>
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="shrink-0 transition-transform duration-300"
-                  style={{
-                    transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-                    color: "var(--brand-black)",
-                    opacity: isOpen ? 0.7 : 0.25,
-                  }}
-                >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
+              return (
+                <div key={section.id}>
+                  <button
+                    onClick={() => setOpenId(isOpen ? null : section.id)}
+                    aria-expanded={isOpen}
+                    aria-controls={`lp-inside-${section.id}`}
+                    className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left"
+                  >
+                    <span className={`text-base text-black ${isOpen ? "font-semibold" : "font-medium"}`}>
+                      {section.question}
+                    </span>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-black/80" : "text-black/40"}`}
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
 
-              <div
-                id={`lp-inside-${section.id}`}
-                role="region"
-                className="overflow-hidden transition-all duration-300 ease-out"
-                style={{
-                  maxHeight: isOpen ? "600px" : "0px",
-                  opacity: isOpen ? 1 : 0,
-                }}
-              >
-                <div
-                  className="px-5 pb-5 text-sm leading-relaxed"
-                  style={{ color: "var(--brand-black)", opacity: 0.7 }}
-                >
-                  {section.content}
+                  <div
+                    id={`lp-inside-${section.id}`}
+                    role="region"
+                    className="overflow-hidden transition-all duration-300 ease-out"
+                    style={{
+                      maxHeight: isOpen ? "600px" : "0px",
+                      opacity: isOpen ? 1 : 0,
+                    }}
+                  >
+                    <div className="px-5 pb-5 text-sm leading-relaxed text-black/60">
+                      {section.content}
+                    </div>
+                  </div>
+
+                  {!isLast && (
+                    <div className="mx-5 h-px bg-black/8" />
+                  )}
                 </div>
-              </div>
-
-              {!isLast && (
-                <div
-                  className="mx-5"
-                  style={{ height: "1px", background: "var(--brand-black)", opacity: 0.08 }}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
+              );
+            })}
+          </div>
 
           {/* CTA */}
           <div className="mt-8 flex justify-start">
             <LandingCTA>Try Risk-Free →</LandingCTA>
           </div>
-        </div>{/* end content column */}
-      </div>{/* end flex-row */}
+        </div>
+      </div>
     </div>
   );
 }

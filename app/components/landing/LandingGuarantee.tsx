@@ -14,8 +14,8 @@ export default function LandingGuarantee() {
   return (
     <div>
       {/* Headline */}
-      <div className="mb-8">
-        <h2 className="brand-h2">
+      <div className="mb-10">
+        <h2 className="brand-h2 mb-0">
           The only supplement you can measure.^^
         </h2>
       </div>
@@ -24,32 +24,21 @@ export default function LandingGuarantee() {
       <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
         {/* Copy */}
         <div className="flex-1 order-2 lg:order-1">
-          {/* Guarantee callout pill -- neutral bg, white text */}
+          {/* Guarantee callout pill */}
           <div className="flex justify-center lg:justify-start">
-          <div
-            className="inline-flex items-center gap-3 px-5 py-3 rounded-[var(--brand-radius-interactive)]"
-            style={{
-              backgroundColor: "var(--brand-neutral)",
-              border: "1px solid var(--brand-divider-subtle)",
-            }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "white", opacity: 0.8, flexShrink: 0 }}>
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              <polyline points="9 12 11 14 15 10" />
-            </svg>
-            <span
-              className="text-sm font-semibold text-white"
-            >
-              {GUARANTEE_LABEL_FULL}*
-            </span>
-          </div>
+            <div className="inline-flex items-center gap-3 px-5 py-3 rounded-[var(--brand-radius-interactive)] bg-brand-accent/10">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-accent shrink-0">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <polyline points="9 12 11 14 15 10" />
+              </svg>
+              <span className="text-sm font-semibold text-brand-accent">
+                {GUARANTEE_LABEL_FULL}*
+              </span>
+            </div>
           </div>
 
           {/* Explanation */}
-          <p
-            className="brand-body mt-6"
-            style={{ color: "var(--brand-black)", opacity: 0.6 }}
-          >
+          <p className="brand-body mt-6 text-black/60">
             Track your cognitive performance with the CONKA app&apos;s
             FDA-cleared assessment.^^ 5,000+ tests completed. If
             you&apos;re not satisfied, full refund.*
@@ -60,18 +49,14 @@ export default function LandingGuarantee() {
             <LandingCTA className="sm:w-auto">Try Risk-Free →</LandingCTA>
             <a
               href="/app"
-              className="text-sm font-medium underline underline-offset-2"
-              style={{ color: "var(--brand-black)", opacity: 0.5 }}
+              className="text-sm font-medium underline underline-offset-2 text-black/60"
             >
               Learn more about the app
             </a>
           </div>
 
           {/* Footnote */}
-          <p
-            className="mt-4 text-xs"
-            style={{ color: "var(--brand-black)", opacity: 0.3 }}
-          >
+          <p className="mt-4 text-xs text-black/40">
             *First-time customers only. Not satisfied? Full refund, no returns needed.
           </p>
         </div>

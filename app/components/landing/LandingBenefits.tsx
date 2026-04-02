@@ -114,18 +114,16 @@ export default function LandingBenefits() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h2
-          className="brand-h2 text-white"
-        >
+      <div className="mb-10">
+        <h2 className="brand-h2 mb-0">
           Why 150,000+ bottles and counting.§
         </h2>
-        <p className="text-sm text-white opacity-70 mt-2">
+        <p className="text-sm text-black/60 mt-2">
           Tap a benefit to see the research.
         </p>
       </div>
 
-      {/* 2x2 Benefit Grid — tappable */}
+      {/* 2x2 Benefit Grid */}
       <div className="grid grid-cols-2 gap-3 lg:gap-5">
         {BENEFITS.map((benefit) => {
           const isOpen = tappedId === benefit.id;
@@ -135,60 +133,32 @@ export default function LandingBenefits() {
               key={benefit.id}
               type="button"
               onClick={() => setTappedId(isOpen ? null : benefit.id)}
-              className="flex flex-col items-center text-center p-4 lg:p-8 rounded-[var(--brand-radius-container)] transition-all duration-200 cursor-pointer"
-              style={{
-                backgroundColor: "var(--brand-white)",
-                border: isOpen
-                  ? "2px solid var(--brand-black)"
-                  : "1px solid var(--brand-divider-subtle)",
-              }}
+              className={`flex flex-col items-center text-center p-4 lg:p-8 rounded-[var(--brand-radius-container)] bg-white transition-all duration-200 cursor-pointer ${
+                isOpen ? "border-2 border-brand-accent" : "border border-black/6"
+              }`}
             >
-              <div
-                className="w-14 h-14 flex items-center justify-center rounded-full mb-3"
-                style={{
-                  backgroundColor: "var(--brand-neutral)",
-                  color: "var(--brand-black)",
-                }}
-              >
+              <div className="w-14 h-14 flex items-center justify-center rounded-full mb-3 bg-brand-accent/8 text-brand-accent">
                 {benefit.icon}
               </div>
 
-              <h3
-                className="text-sm lg:text-base font-semibold mt-1.5"
-                style={{ color: "var(--brand-black)" }}
-              >
+              <h3 className="text-sm lg:text-base font-semibold mt-1.5 text-black">
                 {benefit.title}
               </h3>
 
-              <p
-                className="text-xs lg:text-sm mt-1 leading-snug"
-                style={{ color: "var(--brand-black)", opacity: 0.5 }}
-              >
+              <p className="text-xs lg:text-sm mt-1 leading-snug text-black/60">
                 {benefit.subtitle}
               </p>
 
               {/* Science detail — shown on tap */}
               {isOpen && (
-                <div
-                  className="w-full mt-3 pt-3 text-left"
-                  style={{ borderTop: "1px solid var(--brand-divider-subtle)" }}
-                >
-                  <p
-                    className="text-xs leading-relaxed"
-                    style={{ color: "var(--brand-black)", opacity: 0.6 }}
-                  >
+                <div className="w-full mt-3 pt-3 text-left border-t border-black/6">
+                  <p className="text-xs leading-relaxed text-black/60">
                     {benefit.studyObservation}
                   </p>
-                  <p
-                    className="text-xs font-semibold mt-2"
-                    style={{ color: "var(--brand-black)", opacity: 0.7 }}
-                  >
+                  <p className="text-xs font-semibold mt-2 text-black/80">
                     {benefit.ingredient}
                   </p>
-                  <p
-                    className="text-xs font-mono mt-1"
-                    style={{ color: "var(--brand-black)", opacity: 0.3 }}
-                  >
+                  <p className="text-xs font-mono mt-1 text-black/40">
                     {benefit.pmid}
                   </p>
                 </div>
@@ -205,14 +175,14 @@ export default function LandingBenefits() {
             key={badge.title}
             className="flex items-center gap-2.5 px-3 py-3 lg:flex-col lg:text-center lg:gap-1.5"
           >
-            <span className="text-white opacity-50">
+            <span className="text-brand-accent/60">
               {badge.icon}
             </span>
             <div>
-              <p className="text-xs font-semibold leading-tight text-white">
+              <p className="text-xs font-semibold leading-tight text-black/80">
                 {badge.title}
               </p>
-              <p className="text-xs leading-tight text-white opacity-50">
+              <p className="text-xs leading-tight text-black/60">
                 {badge.subtitle}
               </p>
             </div>
@@ -222,7 +192,7 @@ export default function LandingBenefits() {
 
       {/* CTA */}
       <div className="mt-8 flex justify-center">
-        <LandingCTA variant="light">Try Risk-Free →</LandingCTA>
+        <LandingCTA>Try Risk-Free →</LandingCTA>
       </div>
     </div>
   );

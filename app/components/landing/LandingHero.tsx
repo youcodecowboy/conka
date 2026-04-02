@@ -16,7 +16,7 @@ export default function LandingHero() {
     <div>
       {/* Social proof pill */}
       <div className="flex justify-start mb-5">
-        <div className="flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] bg-[var(--brand-black)] text-white text-xs lg:text-sm font-semibold">
+        <div className="flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] bg-black text-white text-xs lg:text-sm font-semibold">
           <span aria-hidden className="text-yellow-400">★★★★★</span>
           <span>150,000+ bottles sold§</span>
           <span className="text-white/40">·</span>
@@ -27,16 +27,13 @@ export default function LandingHero() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
         {/* Copy -- below image on mobile, left on desktop */}
         <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
-          <h1 className="brand-h1-bold">
+          <h1 className="brand-h1-bold mb-0">
             Your brain fades
             <br />
             by 2pm. Why?
           </h1>
 
-          <p
-            className="brand-body mt-4"
-            style={{ opacity: 0.6 }}
-          >
+          <p className="brand-body mt-4 text-black/60">
             Coffee masks it. Willpower can&apos;t fix it.
             <br className="hidden lg:inline" />{" "}
             CONKA is a daily 2-shot system with 16 active
@@ -55,9 +52,6 @@ export default function LandingHero() {
           <div className="flex items-center justify-center lg:justify-start gap-3 mt-5">
             {/* Avatar stack */}
             <div className="flex -space-x-2">
-              {/* TODO: Avatar colours are hardcoded pastels. Brand system has no
-                  avatar/pastel palette defined. Fallback: kept as inline values.
-                  Consider adding --brand-avatar-* tokens if pattern recurs. */}
               {[
                 { bg: "#e8d5b7", initials: "JM" },
                 { bg: "#b7cfe8", initials: "SR" },
@@ -67,7 +61,7 @@ export default function LandingHero() {
               ].map((avatar) => (
                 <div
                   key={avatar.initials}
-                  className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-bold text-[var(--brand-black)]/60"
+                  className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-bold text-black/60"
                   style={{ backgroundColor: avatar.bg }}
                 >
                   {avatar.initials}
@@ -75,8 +69,8 @@ export default function LandingHero() {
               ))}
             </div>
             <div className="text-sm">
-              <span className="font-semibold text-[var(--brand-black)]">500+ reviews</span>
-              <span className="text-[var(--brand-black)]/40 ml-1">· verified buyers</span>
+              <span className="font-semibold text-black">500+ reviews</span>
+              <span className="text-black/40 ml-1">· verified buyers</span>
             </div>
           </div>
 
@@ -102,13 +96,7 @@ export default function LandingHero() {
             />
 
             {/* Power badge */}
-            <div
-              className="absolute top-3 right-3 lg:top-5 lg:right-5 w-20 h-20 lg:w-24 lg:h-24 rounded-full flex flex-col items-center justify-center text-center shadow-lg"
-              style={{
-                backgroundColor: "var(--brand-black)",
-                color: "var(--brand-white)",
-              }}
-            >
+            <div className="absolute top-3 right-3 lg:top-5 lg:right-5 w-20 h-20 lg:w-24 lg:h-24 rounded-full flex flex-col items-center justify-center text-center shadow-lg bg-black text-white">
               <span className="text-lg lg:text-xl font-bold leading-none">16</span>
               <span className="text-[9px] lg:text-[10px] font-semibold uppercase tracking-wide leading-tight mt-0.5 px-1">
                 Active

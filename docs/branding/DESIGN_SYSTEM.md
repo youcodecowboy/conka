@@ -43,30 +43,61 @@
 - Hero titles can use Bold (700); all other headings use Medium (500) or Regular (400).
 - Data/metrics always use JetBrains Mono to visually distinguish numbers from prose.
 
+### Heading spacing
+
+`brand-h*` classes set typography only (font, size, weight, tracking, line-height). They include a default `margin-bottom` for convenience, but **components should override with `mb-0`** and control spacing via Tailwind.
+
+**Standard heading block pattern:**
+
+```jsx
+<div className="mb-10">                           {/* 2.5rem gap to content below */}
+  <h2 className="brand-h2 mb-0">Heading</h2>
+  <p className="mt-2 text-black/60">Subtitle</p>  {/* tight to heading */}
+</div>
+```
+
+- `mb-10` (2.5rem) from heading block to content — consistent across all sections.
+- Subtitle sits at `mt-2` (0.5rem) below heading.
+- CSS classes own typography; Tailwind owns layout spacing.
+
 ---
 
 ## 3. Colour palette
 
 | Name | Variable | Hex | Role |
 |------|----------|-----|------|
-| **Pure White** | `--brand-white` | `#FFFFFF` | Primary background. Default canvas for most pages and sections. |
-| **UI Neutral** | `--brand-neutral` | `#CCCCCA` | Secondary backgrounds, dividers, subtle UI elements. Separates sections softly. |
-| **Neuro Blue** | `--brand-accent` | `#4058BB` | CTAs, key highlights, important interactions. Intentional and sparing. |
-| **Deep Grey** | `--brand-deep-grey` | `#212121` | Slight contrast from black. Least used. Breaks page rhythm when needed. |
-| **Deep Black** | `--brand-black` | `#000000` | Primary text, high-contrast sections, footer. Authority and sharpness. |
+| **Pure White** | `--brand-white` | `#FFFFFF` | Primary background. Default canvas (~55-60% of sections). |
+| **Tint** | `--brand-tint` | `#F4F5F8` | Soft zone break (~96% lightness, faint blue-grey). Signals content shift without colour. ~30-40% of sections. One tint only — no warm/cool variants. |
+| **UI Neutral** | `--brand-neutral` | `#CCCCCA` | Dividers and borders only. **Not for section backgrounds** (too heavy at 80% lightness). |
+| **Neuro Blue** | `--brand-accent` | `#4058BB` | Primary CTA button colour. Key highlights, important interactions. |
+| **Deep Grey** | `--brand-deep-grey` | `#212121` | Slight contrast from black. Least used. |
+| **Deep Black** | `--brand-black` | `#000000` | Primary text, footer. Authority and sharpness. |
 
 ### Colour strategy
 
 - **Use colour functionally, not decoratively.** Most pages should feel monochrome first.
 - Think of the page as a canvas — colour draws eyes to imagery and actions.
 - Accent colour (`--brand-accent`) used to:
-  - Highlight key actions (CTAs)
+  - **Primary CTA buttons** (accent bg, white text) — the main interactive signal
   - Emphasise data points
-  - Break sections
+  - One accent-wash section background per page (ties credibility content to brand)
 - **Text on backgrounds:**
-  - On white/neutral: Deep Black (`--brand-black`) text
+  - On white/warm/cool/accent-wash: Deep Black text with opacity tiers (see Text colour tiers below)
   - On black/dark sections: Pure White (`--brand-white`) text
-  - Accent blue: white text only (ensure contrast)
+  - On accent buttons: white text only (ensure contrast)
+
+### Text colour tiers
+
+4 fixed tiers. Pick the tier based on content role. No in-between values.
+
+| Tier | Opacity | Tailwind class | Use for |
+|------|---------|---------------|---------|
+| **Primary** | 100% | `text-black` | Headings, card titles, key statements |
+| **Secondary** | 80% | `text-black/80` | Body copy, descriptions, benefit text |
+| **Tertiary** | 60% | `text-black/60` | Captions, subtitles, metadata, supporting detail |
+| **Muted** | 40% | `text-black/40` | Legal footnotes, PMIDs, disclaimers |
+
+**Rule:** If something doesn't clearly fit a tier, it goes in the tier above (more visible).
 
 ### Gradients
 
@@ -188,39 +219,44 @@ Minimal. Scientific. Slightly organic. Never overdesigned.
 
 ### Section backgrounds
 
-| Class | Background | Default text |
-|-------|-----------|-------------|
-| `.brand-bg-white` | `--brand-white` (#FFFFFF) | `--brand-black` |
-| `.brand-bg-neutral` | `--brand-neutral` (#CCCCCA) | `--brand-black` |
-| `.brand-bg-black` | `--brand-black` (#000000) | `--brand-white` |
-| `.brand-bg-deep-grey` | `--brand-deep-grey` (#212121) | `--brand-white` |
+| Class | Background | Default text | Use |
+|-------|-----------|-------------|-----|
+| `.brand-bg-white` | `--brand-white` (#FFFFFF) | `--brand-black` | Default canvas (~55-60%) |
+| `.brand-bg-tint` | `--brand-tint` (#F4F5F8) | `--brand-black` | Soft zone breaks (~30-40%) |
+| `.brand-bg-black` | `--brand-black` (#000000) | `--brand-white` | Available but use sparingly |
+| `.brand-bg-neutral` | `--brand-neutral` (#CCCCCA) | `--brand-black` | **Legacy only.** Do not use for new pages. |
+| `.brand-bg-deep-grey` | `--brand-deep-grey` (#212121) | `--brand-white` | Available but use sparingly |
 
 ### Colour rhythm
 
-Most pages follow a monochrome rhythm:
+Pages follow a light-base rhythm with subtle tint shifts:
 
 ```
 White (Hero)
   ↓
-Black (high-impact stats)
+Tint (credibility / benefits)
   ↓
-White (readable content)
+White (breathing room)
   ↓
-Neutral (soft break)
+Tint (detail/depth content)
+  ↓
+White (social proof)
+  ↓
+Tint (risk reversal / guarantee)
   ↓
 White (content)
   ↓
-Black (case studies / CTA)
+White (FAQ)
   ↓
-White (FAQ / cross-sell)
+Tint (quiet sign-off / disclaimer)
 ```
 
 **Rules:**
-- White is the default — use it most.
-- Black sections for high-impact moments only (max 2–3 per page).
-- Neutral for soft transitions between white sections.
-- Deep Grey is the least used — only for subtle contrast from black (e.g., app-related sections).
-- Neuro Blue (`--brand-accent`) for interactive elements within sections, not as section backgrounds.
+- White is the default — ~55-60% of sections.
+- **Never place two identical backgrounds adjacent.** The tint is subtle enough (~96% lightness) that the eye registers a zone change without it feeling like a colour.
+- **One tint only.** No warm/cool/accent-wash variants. Simplicity beats variety.
+- Dark sections (black, deep-grey) are available but use sparingly (max 1 per page). Landing page uses none.
+- Neuro Blue (`--brand-accent`) for CTA buttons, not as a section background.
 
 ---
 
@@ -239,15 +275,15 @@ padding: 2rem;                                /* or var(--brand-space-xl) */
 
 ```css
 border-radius: var(--brand-radius-interactive);  /* 16px */
-background: var(--brand-black);
+background: var(--brand-accent);
 color: var(--brand-white);
 padding: 0.75rem 1.5rem;
 font-weight: 500;
 ```
 
-- Primary: black fill, white text
+- **Primary: accent fill (`--brand-accent`), white text** — the default for all conversion CTAs. Accent on buttons trains the eye that "this colour = action".
 - Secondary: white fill, black border, black text
-- Accent: `--brand-accent` fill, white text (CTAs that need emphasis)
+- Tertiary: black fill, white text (navigation, non-conversion actions)
 
 ### Image containers
 
@@ -342,7 +378,7 @@ Key rules for the design system:
 
 Before shipping any new section:
 
-1. **Section wrapper:** `<section class="brand-section brand-bg-{white|black|neutral}">` with `aria-label`
+1. **Section wrapper:** `<section class="brand-section brand-bg-{white|tint|black}">` with `aria-label`
 2. **Track:** `<div class="brand-track">` wrapping the component
 3. **No custom spacing:** Use brand tokens only — no ad-hoc padding or max-widths
 4. **Radius:** One of the three tiers (16/24/32px) — no other values
