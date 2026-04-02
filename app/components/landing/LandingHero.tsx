@@ -38,7 +38,7 @@ export default function LandingHero() {
             <br className="hidden lg:inline" />{" "}
             CONKA is a daily 2-shot system with 16 active
             <br className="hidden lg:inline" />{" "}
-            ingredients. 150,000+ bottles sold.§
+            ingredients. 150,000+ bottles sold.<sup className="text-[0.5em] text-black/40 align-super">§</sup>
           </p>
 
           {/* CTA */}

@@ -116,7 +116,7 @@ export default function LandingBenefits() {
     <div>
       <div className="mb-10">
         <h2 className="brand-h2 mb-0">
-          Why 150,000+ bottles and counting.§
+          Why 150,000+ bottles and counting.<sup className="text-[0.5em] text-black/40 align-super">§</sup>
         </h2>
         <p className="text-sm text-black/60 mt-2">
           Tap a benefit to see the research.
