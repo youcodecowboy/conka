@@ -18,17 +18,17 @@ export default function FunnelCTA({
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-100 px-4 pb-4 pt-2 lg:static lg:border-0 lg:p-0 lg:bg-transparent">
       {/* Mobile trust strip — right above the button */}
-      <div className="flex items-center justify-center gap-3 py-1.5 text-xs text-black/50 tracking-wide lg:hidden">
+      <div className="flex items-center justify-center gap-3 py-1.5 text-[10px] text-black tracking-wide lg:hidden">
         <span className="flex items-center gap-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60">
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             <polyline points="9 12 11 14 15 10" />
           </svg>
-          <span className="font-semibold">{GUARANTEE_LABEL}</span>
+          {GUARANTEE_LABEL}
         </span>
         <span className="text-black/20" aria-hidden>·</span>
         <span className="flex items-center gap-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60">
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 10V7a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 7v10a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 17v-3" />
             <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
             <line x1="12" y1="22.08" x2="12" y2="12" />
@@ -37,7 +37,7 @@ export default function FunnelCTA({
         </span>
         <span className="text-black/20" aria-hidden>·</span>
         <span className="flex items-center gap-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60">
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="23 4 23 10 17 10" />
             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
           </svg>
