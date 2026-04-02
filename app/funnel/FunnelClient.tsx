@@ -222,10 +222,10 @@ export default function FunnelClient() {
 
         {/* Right column (full width on mobile, constrained on desktop) */}
         <div
-          className="w-full lg:w-1/2 lg:overflow-y-auto lg:px-8 lg:max-w-2xl transition-all duration-200"
+          className="w-full lg:w-1/2 lg:overflow-y-auto lg:px-8 lg:max-w-2xl transition-all duration-300"
           style={{
             opacity: stepVisible ? 1 : 0,
-            transform: stepVisible ? "translateY(0)" : "translateY(8px)",
+            transform: stepVisible ? "translateY(0) scale(1)" : "translateY(10px) scale(0.985)",
           }}
         >
 

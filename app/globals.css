@@ -359,3 +359,99 @@ body {
     animation-duration: 180s;
   }
 }
+
+/* ===== Scroll reveal system ===== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  will-change: transform, opacity;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  animation: reveal-cleanup 0ms 900ms forwards;
+}
+
+.reveal-fade {
+  opacity: 0;
+  will-change: opacity;
+}
+
+.reveal-fade.revealed {
+  opacity: 1;
+  transition: opacity 300ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  animation: reveal-cleanup 0ms 600ms forwards;
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.97);
+  will-change: transform, opacity;
+}
+
+.reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 500ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  animation: reveal-cleanup 0ms 1000ms forwards;
+}
+
+@keyframes reveal-cleanup {
+  to { will-change: auto; }
+}
+
+/* Stagger delays -- data-attribute based */
+[data-stagger="1"].revealed { transition-delay: 80ms; }
+[data-stagger="2"].revealed { transition-delay: 160ms; }
+[data-stagger="3"].revealed { transition-delay: 240ms; }
+[data-stagger="4"].revealed { transition-delay: 320ms; }
+[data-stagger="5"].revealed { transition-delay: 400ms; }
+[data-stagger="6"].revealed { transition-delay: 480ms; }
+
+@media (min-width: 1024px) {
+  [data-stagger="1"].revealed { transition-delay: 100ms; }
+  [data-stagger="2"].revealed { transition-delay: 200ms; }
+  [data-stagger="3"].revealed { transition-delay: 300ms; }
+  [data-stagger="4"].revealed { transition-delay: 400ms; }
+  [data-stagger="5"].revealed { transition-delay: 500ms; }
+  [data-stagger="6"].revealed { transition-delay: 600ms; }
+}
+
+/* Funnel card selection pulse */
+@keyframes card-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+
+.card-pulse {
+  animation: card-pulse 200ms ease-out;
+}
+
+/* Reduced motion: disable all reveal and pulse animations */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-fade,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+  .reveal.revealed,
+  .reveal-fade.revealed,
+  .reveal-scale.revealed {
+    transition: none;
+    animation: none;
+  }
+  [data-stagger].revealed {
+    transition-delay: 0ms;
+  }
+  .card-pulse {
+    animation: none;
+  }
+}

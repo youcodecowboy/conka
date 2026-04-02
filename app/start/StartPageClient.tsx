@@ -13,6 +13,7 @@ import LandingGuarantee from "../components/landing/LandingGuarantee";
 import LandingFAQ from "../components/landing/LandingFAQ";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
 import LandingCTA from "../components/landing/LandingCTA";
+import Reveal from "../components/landing/Reveal";
 import {
   getSiteTestimonialsGeneral,
   shuffleTestimonials,
@@ -58,7 +59,9 @@ export default function StartPageClient() {
         aria-label="Key Benefits"
       >
         <div className="brand-track">
-          <LandingBenefits />
+          <Reveal>
+            <LandingBenefits />
+          </Reveal>
         </div>
       </section>
 
@@ -88,7 +91,9 @@ export default function StartPageClient() {
         aria-label="What's inside CONKA"
       >
         <div className="brand-track">
-          <LandingWhatsInside />
+          <Reveal>
+            <LandingWhatsInside />
+          </Reveal>
         </div>
       </section>
 
@@ -99,10 +104,12 @@ export default function StartPageClient() {
           aria-label="Customer reviews"
         >
           <div className="brand-track">
-            <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
-            <div className="mt-8 flex justify-start">
-              <LandingCTA>Try Risk-Free →</LandingCTA>
-            </div>
+            <Reveal>
+              <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
+              <div className="mt-8 flex justify-start">
+                <LandingCTA>Join Them →</LandingCTA>
+              </div>
+            </Reveal>
           </div>
         </section>
       )}
@@ -113,7 +120,9 @@ export default function StartPageClient() {
         aria-label="Money-back guarantee"
       >
         <div className="brand-track">
-          <LandingGuarantee />
+          <Reveal>
+            <LandingGuarantee />
+          </Reveal>
         </div>
       </section>
 
@@ -125,10 +134,12 @@ export default function StartPageClient() {
         aria-label="Clinically validated test scores"
       >
         <div className="brand-track">
-          <CaseStudiesDataDriven hideCTA />
-          <div className="mt-8 flex justify-start">
-            <LandingCTA>Try Risk-Free →</LandingCTA>
-          </div>
+          <Reveal>
+            <CaseStudiesDataDriven hideCTA />
+            <div className="mt-8 flex justify-start">
+              <LandingCTA>See the Results →</LandingCTA>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -138,7 +149,9 @@ export default function StartPageClient() {
         aria-label="FAQ"
       >
         <div className="brand-track">
-          <LandingFAQ />
+          <Reveal>
+            <LandingFAQ />
+          </Reveal>
         </div>
       </section>
 
@@ -148,7 +161,9 @@ export default function StartPageClient() {
         aria-label="Important information and disclaimers"
       >
         <div className="brand-track">
-          <LandingDisclaimer />
+          <Reveal>
+            <LandingDisclaimer />
+          </Reveal>
         </div>
       </section>
 
