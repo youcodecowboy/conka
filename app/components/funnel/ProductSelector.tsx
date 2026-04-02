@@ -75,10 +75,10 @@ export default function ProductSelector({
               key={productKey}
               type="button"
               onClick={() => onChange(productKey)}
-              className={`relative w-full text-left rounded-2xl border-2 transition-all select-none overflow-hidden ${
+              className={`relative w-full text-left rounded-2xl border-2 transition-all duration-200 select-none overflow-hidden ${
                 isActive
-                  ? "border-[#4058bb] bg-white shadow-md"
-                  : "border-gray-200 hover:border-gray-300 bg-white"
+                  ? "border-[#4058bb] bg-white shadow-md lg:scale-[1.01]"
+                  : "border-gray-200 hover:border-gray-300 bg-white shadow-sm"
               }`}
             >
               {/* Badge banner */}

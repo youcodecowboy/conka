@@ -326,3 +326,14 @@
   border-top: 1px solid var(--brand-divider-subtle);
   margin: var(--brand-space-xl) 0;
 }
+
+/* ===== Animations ===== */
+
+@keyframes checkmark-draw {
+  from {
+    stroke-dashoffset: 20;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

@@ -88,10 +88,10 @@ export default function CadenceSelector({
               key={cadenceKey}
               type="button"
               onClick={() => onChange(cadenceKey)}
-              className={`relative w-full text-left rounded-xl border-2 transition-all select-none overflow-hidden ${
+              className={`relative w-full text-left rounded-xl border-2 transition-all duration-200 select-none overflow-hidden ${
                 isActive
-                  ? "border-[#4058bb] bg-[#4058bb]/[0.03]"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "border-[#4058bb] bg-[#4058bb]/[0.03] shadow-md"
+                  : "border-gray-200 hover:border-gray-300 shadow-sm"
               }`}
             >
               {/* Badge banner */}
@@ -112,17 +112,21 @@ export default function CadenceSelector({
                   <div className="flex items-center gap-3">
                     {/* Radio circle */}
                     <div
-                      className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
+                      className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-all duration-200 ${
                         isActive
-                          ? "border-[#4058bb] bg-[#4058bb]"
-                          : "border-gray-300"
+                          ? "border-[#4058bb] bg-[#4058bb] scale-110"
+                          : "border-gray-300 scale-100"
                       }`}
                     >
-                      {isActive && (
-                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
-                          <path d="M2.5 8.5L6.5 12L13.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
+                      <svg
+                        width="10"
+                        height="10"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        className={`transition-all duration-200 ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}
+                      >
+                        <path d="M2.5 8.5L6.5 12L13.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                     </div>
 
                     <div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { track } from "@vercel/analytics/react";
 import FunnelStepIndicator from "../components/funnel/FunnelStepIndicator";
 import FunnelHeroAsset from "../components/funnel/FunnelHeroAsset";
@@ -65,14 +65,6 @@ export default function FunnelClient() {
 
   // --- Step navigation ---
 
-  const goToStep = useCallback((step: 1 | 2) => {
-    setCurrentStep(step);
-    setError(null);
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, []);
-
-  // --- Step 1: Product ---
-
   const handleProductChange = useCallback(
     (newProduct: FunnelProduct) => {
       setProduct(newProduct);
@@ -86,13 +78,6 @@ export default function FunnelClient() {
     [product, cadence],
   );
 
-  const handleStep1Next = useCallback(() => {
-    safeTrack("funnel:step1_completed", { product, cadence });
-    goToStep(2);
-  }, [product, cadence, goToStep]);
-
-  // --- Step 2: Cadence ---
-
   const handleCadenceChange = useCallback(
     (newCadence: FunnelCadence) => {
       setCadence(newCadence);
@@ -105,6 +90,26 @@ export default function FunnelClient() {
     },
     [cadence, product],
   );
+
+  // --- Step transition animation ---
+  const [stepVisible, setStepVisible] = useState(true);
+  const transitionTimeout = useRef<ReturnType<typeof setTimeout>>(null);
+
+  const goToStep = useCallback((step: 1 | 2) => {
+    setStepVisible(false);
+    if (transitionTimeout.current) clearTimeout(transitionTimeout.current);
+    transitionTimeout.current = setTimeout(() => {
+      setCurrentStep(step);
+      setError(null);
+      window.scrollTo({ top: 0, behavior: "instant" });
+      requestAnimationFrame(() => setStepVisible(true));
+    }, 150);
+  }, []);
+
+  const handleStep1Next = useCallback(() => {
+    safeTrack("funnel:step1_completed", { product, cadence });
+    goToStep(2);
+  }, [product, cadence, goToStep]);
 
   // --- Checkout ---
 
@@ -214,7 +219,13 @@ export default function FunnelClient() {
         </div>
 
         {/* Right column (full width on mobile, constrained on desktop) */}
-        <div className="w-full lg:w-1/2 lg:overflow-y-auto lg:px-8 lg:max-w-2xl">
+        <div
+          className="w-full lg:w-1/2 lg:overflow-y-auto lg:px-8 lg:max-w-2xl transition-all duration-200"
+          style={{
+            opacity: stepVisible ? 1 : 0,
+            transform: stepVisible ? "translateY(0)" : "translateY(8px)",
+          }}
+        >
 
           {/* ===== STEP 1: Choose Product ===== */}
           {currentStep === 1 && (
