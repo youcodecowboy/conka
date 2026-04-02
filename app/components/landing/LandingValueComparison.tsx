@@ -101,8 +101,8 @@ export default function LandingValueComparison() {
               <div className="flex-1 h-px bg-black/8" />
             </div>
             {/* Desktop divider */}
-            <div className="hidden lg:flex items-stretch">
-              <div className="w-px bg-black/8" />
+            <div className="hidden lg:block">
+              <div className="w-px h-full bg-black/8" />
             </div>
           </div>
 
@@ -126,11 +126,7 @@ export default function LandingValueComparison() {
                 <span className="brand-data-label text-black/40">/day</span>
               </div>
               <p className="text-xs text-black/40 mt-1">
-                Monthly subscription ({" "}
-                <span className="brand-data-label">
-                  £{PRICE_PER_SHOT_BOTH}
-                </span>
-                /shot)
+                Monthly subscription (<span className="brand-data-label">£{PRICE_PER_SHOT_BOTH}</span>/shot)
               </p>
             </div>
 

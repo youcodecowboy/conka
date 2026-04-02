@@ -63,7 +63,6 @@ export default function FunnelStepIndicator({
                         height="10"
                         viewBox="0 0 16 16"
                         fill="none"
-                        className="animate-[checkmark-draw_0.3s_ease-out_forwards]"
                       >
                         <path
                           d="M3 8.5L6.5 12L13 4.5"
