@@ -212,7 +212,7 @@ export default function FunnelClient() {
       {/* Main funnel content */}
       <main className="lg:flex lg:min-h-[calc(100vh-56px)]">
         {/* Desktop: Left column — sticky hero asset */}
-        <div className="hidden lg:flex lg:w-1/2 lg:sticky lg:top-14 lg:h-[calc(100vh-56px)] lg:items-center lg:justify-center lg:p-8 lg:bg-gray-50">
+        <div className="hidden lg:flex lg:w-1/2 lg:sticky lg:top-14 lg:h-[calc(100vh-56px)] lg:items-center lg:justify-center lg:p-8 lg:bg-[var(--brand-tint)]">
           <FunnelHeroAsset
             product={product}
             cadence={cadence}

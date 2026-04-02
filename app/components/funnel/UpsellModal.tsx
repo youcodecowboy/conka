@@ -42,10 +42,10 @@ export default function UpsellModal({
       />
 
       {/* Bottom sheet (mobile) / Centered modal (desktop) */}
-      <div className="fixed z-[70] bg-white shadow-2xl animate-slide-up max-h-[85vh] overflow-y-auto bottom-0 left-0 right-0 rounded-t-2xl lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:right-auto lg:w-full lg:max-w-md lg:rounded-2xl">
+      <div className="fixed z-[70] bg-white shadow-2xl animate-slide-up max-h-[85vh] overflow-y-auto bottom-0 left-0 right-0 rounded-t-[var(--brand-radius-card)] lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:right-auto lg:w-full lg:max-w-md lg:rounded-[var(--brand-radius-card)]">
         <div className="p-6 pb-8">
           {/* Handle bar (mobile only) */}
-          <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-gray-200 lg:hidden" />
+          <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-black/10 lg:hidden" />
 
           {/* Product image */}
           {offer.image && (
@@ -66,7 +66,7 @@ export default function UpsellModal({
           </h3>
 
           {/* Body */}
-          <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+          <p className="mt-2 text-sm text-black/60 leading-relaxed">
             {offer.body}
           </p>
 
@@ -74,8 +74,8 @@ export default function UpsellModal({
           {offer.benefits && offer.benefits.length > 0 && (
             <ul className="mt-3 space-y-1.5">
               {offer.benefits.map((benefit, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                  <svg className="w-4 h-4 mt-0.5 shrink-0 text-green-600" viewBox="0 0 16 16" fill="currentColor">
+                <li key={i} className="flex items-start gap-2 text-sm text-black/80">
+                  <svg className="w-4 h-4 mt-0.5 shrink-0 text-brand-accent" viewBox="0 0 16 16" fill="currentColor">
                     <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
                   </svg>
                   <span>{benefit}</span>
@@ -114,7 +114,7 @@ export default function UpsellModal({
               type="button"
               onClick={onDecline}
               disabled={loading}
-              className="w-full py-3 px-6 text-gray-400 font-medium text-sm transition-colors hover:text-gray-600"
+              className="w-full py-3 px-6 text-black/40 font-medium text-sm transition-colors hover:text-black/60"
             >
               {offer.declineLabel}
             </button>

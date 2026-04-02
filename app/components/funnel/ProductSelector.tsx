@@ -80,10 +80,10 @@ export default function ProductSelector({
               key={productKey}
               type="button"
               onClick={() => onChange(productKey)}
-              className={`relative w-full text-left rounded-2xl border-2 transition-all duration-200 select-none overflow-hidden ${
+              className={`relative w-full text-left rounded-[var(--brand-radius-card)] border-2 transition-all duration-200 select-none overflow-hidden ${
                 isActive
-                  ? "border-[#4058bb] bg-white shadow-md lg:scale-[1.01]"
-                  : "border-gray-200 hover:border-gray-300 bg-white shadow-sm"
+                  ? "border-brand-accent bg-white shadow-md lg:scale-[1.01]"
+                  : "border-black/10 hover:border-black/20 bg-white shadow-sm"
               }`}
             >
               {/* Top accent bar for Both */}
@@ -147,7 +147,7 @@ export default function ProductSelector({
                           className={`inline-flex items-center gap-1 text-xs mt-1 px-2 py-0.5 rounded-full font-medium ${
                             isActive
                               ? "bg-[var(--brand-neutral)] text-[var(--brand-black)]"
-                              : "bg-gray-100 text-gray-500"
+                              : "bg-black/[0.04] text-black/50"
                           }`}
                         >
                           📦 {getBoxLabel(productKey, cadence, pricing.shotCount)}
@@ -174,7 +174,7 @@ export default function ProductSelector({
                           </>
                         )}
                         {!isBoth && pricing.compareAtPrice && (
-                          <p className="text-xs text-gray-400 line-through">
+                          <p className="text-xs text-black/40 line-through">
                             {formatPrice(pricing.compareAtPrice)}
                           </p>
                         )}
@@ -186,7 +186,7 @@ export default function ProductSelector({
                 {/* Expanded details for selected product */}
                 {isActive && (
                   <div className="mt-4 pt-4" style={{ borderTop: "1px solid var(--brand-divider-subtle)" }}>
-                    <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                    <p className="text-sm text-black/60 leading-relaxed mb-3">
                       {display.description}
                     </p>
 

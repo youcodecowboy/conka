@@ -16,7 +16,7 @@ export default function FunnelCTA({
   error,
 }: FunnelCTAProps) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-100 px-4 pb-4 pt-2 lg:static lg:border-0 lg:p-0 lg:bg-transparent">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-black/6 px-4 pb-4 pt-2 lg:static lg:border-0 lg:p-0 lg:bg-transparent">
       {/* Mobile trust strip — right above the button */}
       <div className="flex items-center justify-center gap-3 py-1.5 text-[10px] text-black tracking-wide lg:hidden">
         <span className="flex items-center gap-1">
