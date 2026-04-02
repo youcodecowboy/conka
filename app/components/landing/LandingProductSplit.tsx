@@ -34,7 +34,7 @@ export default function LandingProductSplit() {
         <span aria-hidden>☀️</span>
         <span className="uppercase tracking-wide">Morning</span>
         <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, rgba(217, 119, 6, 0.3), rgba(3, 105, 161, 0.3))" }} />
-        <span className="uppercase tracking-wide">Evening</span>
+        <span className="uppercase tracking-wide">Afternoon</span>
         <span aria-hidden>🌙</span>
       </div>
 
