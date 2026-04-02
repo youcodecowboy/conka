@@ -144,18 +144,9 @@ export default function LandingProductSplit() {
         </div>
       </div>
 
-      {/* Both value callout + CTA */}
-      <div className="mt-6 px-4 py-3 rounded-[var(--brand-radius-interactive)] bg-brand-accent/8">
-        <p className="text-sm text-black/80">
-          Get both from{" "}
-          <span className="brand-data font-semibold text-brand-accent">£{PRICE_PER_SHOT_BOTH}/shot</span>
-          <span className="text-black/40"> · </span>
-          <span className="text-black/60">the lowest per-shot cost</span>
-        </p>
-      </div>
-
-      <div className="mt-6 flex justify-start">
-        <LandingCTA>Get Both for Less →</LandingCTA>
+      {/* CTA */}
+      <div className="mt-10 flex justify-start">
+        <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
       </div>
     </div>
   );
