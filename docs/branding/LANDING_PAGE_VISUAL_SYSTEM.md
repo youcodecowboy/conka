@@ -65,14 +65,15 @@ Two backgrounds: white and one tint. That's it.
 | 1 | Hero | **white** | Clean entry, product image provides visual weight |
 | 2 | Benefits + trust | **tint** | Credibility section. Accent icons + accent CTA on the tinted background makes it feel branded without a separate accent-wash colour. |
 | 3 | Product split | **white** | Breathing room, let the product cards speak |
-| 4 | What's Inside | **tint** | Signals shift to detail/depth content |
-| 5 | Testimonials | **white** | Testimonial cards provide their own visual weight |
-| 6 | Guarantee + app | **tint** | Soft zone for risk-reversal argument |
-| 7 | Case Studies | **white** | Data cards self-distinguish |
-| 8 | FAQ | **white** | Clean, low-friction |
-| 9 | Disclaimer | **tint** | Quiet sign-off, visually separates legal from content |
+| 4 | Value comparison | **tint** | CONKA vs coffee cost comparison. Natural follow-on from product reveal -- "here's what it costs." |
+| 5 | What's Inside | **white** | Signals shift to detail/depth content |
+| 6 | Testimonials | **tint** | Testimonial cards (white bg) pop slightly against tint |
+| 7 | Guarantee + app | **white** | Risk-reversal on clean canvas |
+| 8 | Case Studies | **tint** | Data cards self-distinguish against soft background |
+| 9 | FAQ | **white** | Clean, low-friction |
+| 10 | Disclaimer | **tint** | Quiet sign-off, visually separates legal from content |
 
-**Rule:** Never place two identical backgrounds adjacent. White/tint alternation at this lightness level feels like gentle rhythm, not harsh striping.
+**Rule:** Never place two identical backgrounds adjacent. White/tint alternation at this lightness level feels like gentle rhythm, not harsh striping. The 10-section layout achieves perfect alternation.
 
 ### Accent colour `#4058bb`
 

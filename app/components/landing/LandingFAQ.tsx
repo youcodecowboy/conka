@@ -3,13 +3,23 @@
 import { useState } from "react";
 import Image from "next/image";
 import { GUARANTEE_DAYS, GUARANTEE_LABEL_FULL, GUARANTEE_COPY_TRIAL } from "@/app/lib/offerConstants";
+import {
+  PRICE_PER_DAY_BOTH,
+  PRICE_PER_SHOT_BOTH,
+  PRICE_PER_DAY_BOTH_QUARTERLY,
+} from "@/app/lib/landingPricing";
 import LandingCTA from "./LandingCTA";
 
 const FAQ_ITEMS = [
   {
     question: "What makes CONKA different from coffee or energy drinks?",
     answer:
-      "CONKA doesn't stimulate, it supports. CONKA Flow uses adaptogens like Ashwagandha and Lemon Balm to regulate your stress response and energy naturally, with no caffeine, no jitters, and no crash. CONKA Clear uses nootropics like Alpha GPC and Glutathione alongside Vitamin C, which contributes to normal psychological function and the protection of cells from oxidative stress.†† Together they support your daily cognitive routine rather than relying on stimulants.",
+      `CONKA doesn't stimulate, it supports. CONKA Flow uses adaptogens like Ashwagandha and Lemon Balm to regulate your stress response and energy naturally, with no caffeine, no jitters, and no crash. CONKA Clear uses nootropics like Alpha GPC and Glutathione alongside Vitamin C, which contributes to normal psychological function and the protection of cells from oxidative stress.†† Together they support your daily cognitive routine rather than relying on stimulants. It's also more affordable: both formulas together start from £${PRICE_PER_DAY_BOTH}/day, less than a single coffee.`,
+  },
+  {
+    question: "How much does CONKA cost per day?",
+    answer:
+      `CONKA Flow and Clear together start from £${PRICE_PER_DAY_BOTH}/day on a monthly subscription (£${PRICE_PER_SHOT_BOTH}/shot). That's less than a daily coffee. A quarterly subscription brings it down to £${PRICE_PER_DAY_BOTH_QUARTERLY}/day. One-time orders are available too, with no commitment required.`,
   },
   {
     question: "When will I notice results?",
