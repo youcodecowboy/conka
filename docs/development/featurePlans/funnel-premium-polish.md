@@ -32,9 +32,9 @@ Directly gates funnel completion rate. Every percentage point improvement in fun
 
 | Phase | Description | Ticket | Status |
 |-------|-------------|--------|--------|
-| 1 | Micro-interactions + trust visibility | SCRUM-846 | Not Started |
-| 2 | Value context + visual hierarchy | SCRUM-847 | Not Started |
-| 3 | Token migration + claims cleanup | SCRUM-848 | Not Started |
+| 1 | Micro-interactions + trust visibility | SCRUM-846 | Done |
+| 2 | Value context + visual hierarchy | SCRUM-847 | Done |
+| 3 | Token migration + claims cleanup | SCRUM-848 | Done |
 
 ---
 
