@@ -2,6 +2,11 @@
 
 import Image from "next/image";
 import LandingCTA from "./LandingCTA";
+import {
+  PRICE_PER_SHOT_FLOW,
+  PRICE_PER_SHOT_CLEAR,
+  PRICE_PER_SHOT_BOTH,
+} from "@/app/lib/landingPricing";
 
 const FLOW_ACCENT = "var(--brand-flow-accent)";
 const FLOW_ACCENT_BG = "rgba(245, 158, 11, 0.1)";
@@ -69,6 +74,15 @@ export default function LandingProductSplit() {
               <span className="font-medium text-black/80">Taste:</span> Honey + citrus
             </p>
           </div>
+
+          {/* Per-shot price */}
+          <div className="mt-4 pt-4 border-t border-black/6">
+            <p className="text-xs text-black/60">
+              From{" "}
+              <span className="brand-data text-black">£{PRICE_PER_SHOT_FLOW}</span>
+              <span className="brand-data-label text-black/40">/shot</span>
+            </p>
+          </div>
         </div>
 
         {/* CONKA Clear */}
@@ -118,12 +132,21 @@ export default function LandingProductSplit() {
               <span className="font-medium text-black/80">Taste:</span> Fresh lemon
             </p>
           </div>
+
+          {/* Per-shot price */}
+          <div className="mt-4 pt-4 border-t border-black/6">
+            <p className="text-xs text-black/60">
+              From{" "}
+              <span className="brand-data text-black">£{PRICE_PER_SHOT_CLEAR}</span>
+              <span className="brand-data-label text-black/40">/shot</span>
+            </p>
+          </div>
         </div>
       </div>
 
       {/* CTA */}
       <div className="mt-10 flex justify-start">
-        <LandingCTA>Get Both for Less →</LandingCTA>
+        <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
       </div>
     </div>
   );

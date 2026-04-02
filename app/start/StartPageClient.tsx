@@ -7,6 +7,7 @@ import Footer from "../components/footer";
 import LandingHero from "../components/landing/LandingHero";
 import LandingBenefits from "../components/landing/LandingBenefits";
 import LandingProductSplit from "../components/landing/LandingProductSplit";
+import LandingValueComparison from "../components/landing/LandingValueComparison";
 import LandingWhatsInside from "../components/landing/LandingWhatsInside";
 import LandingGuarantee from "../components/landing/LandingGuarantee";
 import LandingFAQ from "../components/landing/LandingFAQ";
@@ -71,9 +72,19 @@ export default function StartPageClient() {
         </div>
       </section>
 
-      {/* ===== 4. WHAT'S INSIDE ===== */}
+      {/* ===== 4. CONKA vs COFFEE — VALUE COMPARISON ===== */}
       <section
         className="brand-section brand-bg-tint"
+        aria-label="CONKA vs coffee cost comparison"
+      >
+        <div className="brand-track">
+          <LandingValueComparison />
+        </div>
+      </section>
+
+      {/* ===== 5. WHAT'S INSIDE ===== */}
+      <section
+        className="brand-section brand-bg-white"
         aria-label="What's inside CONKA"
       >
         <div className="brand-track">
@@ -81,10 +92,10 @@ export default function StartPageClient() {
         </div>
       </section>
 
-      {/* ===== 5. TESTIMONIALS ===== */}
+      {/* ===== 6. TESTIMONIALS ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
-          className="brand-section brand-bg-white"
+          className="brand-section brand-bg-tint"
           aria-label="Customer reviews"
         >
           <div className="brand-track">
@@ -96,9 +107,9 @@ export default function StartPageClient() {
         </section>
       )}
 
-      {/* ===== 6. APP GUARANTEE ===== */}
+      {/* ===== 7. APP GUARANTEE ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="Money-back guarantee"
       >
         <div className="brand-track">
@@ -106,11 +117,11 @@ export default function StartPageClient() {
         </div>
       </section>
 
-      {/* ===== 7. CASE STUDIES ===== */}
+      {/* ===== 8. CASE STUDIES ===== */}
       {/* Note: CaseStudiesDataDriven is a shared component using premium-base tokens.
-          It assumes a light background. Migrate separately when ready. */}
+          It assumes a light background. Tint (#f4f5f8) at 96% lightness is still light. */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-tint"
         aria-label="Clinically validated test scores"
       >
         <div className="brand-track">
@@ -121,7 +132,7 @@ export default function StartPageClient() {
         </div>
       </section>
 
-      {/* ===== 8. FAQ ===== */}
+      {/* ===== 9. FAQ ===== */}
       <section
         className="brand-section brand-bg-white"
         aria-label="FAQ"
@@ -131,7 +142,7 @@ export default function StartPageClient() {
         </div>
       </section>
 
-      {/* ===== 9. DISCLAIMER ===== */}
+      {/* ===== 10. DISCLAIMER ===== */}
       <section
         className="brand-section brand-bg-tint"
         aria-label="Important information and disclaimers"

@@ -16,7 +16,7 @@ export default function LandingGuarantee() {
       {/* Headline */}
       <div className="mb-10">
         <h2 className="brand-h2 mb-0">
-          The only supplement you can measure.^^
+          The only supplement you can measure.<sup className="text-[0.5em] text-black/40 align-super">^^</sup>
         </h2>
       </div>
 
@@ -32,7 +32,7 @@ export default function LandingGuarantee() {
                 <polyline points="9 12 11 14 15 10" />
               </svg>
               <span className="text-sm font-semibold text-brand-accent">
-                {GUARANTEE_LABEL_FULL}*
+                {GUARANTEE_LABEL_FULL}<sup className="text-[0.5em] opacity-60 align-super">*</sup>
               </span>
             </div>
           </div>
@@ -40,8 +40,8 @@ export default function LandingGuarantee() {
           {/* Explanation */}
           <p className="brand-body mt-6 text-black/60">
             Track your cognitive performance with the CONKA app&apos;s
-            FDA-cleared assessment.^^ 5,000+ tests completed. If
-            you&apos;re not satisfied, full refund.*
+            FDA-cleared assessment.<sup className="text-[0.5em] text-black/40 align-super">^^</sup> 5,000+ tests completed. If
+            you&apos;re not satisfied, full refund.<sup className="text-[0.5em] text-black/40 align-super">*</sup>
           </p>
 
           {/* CTA + app link */}

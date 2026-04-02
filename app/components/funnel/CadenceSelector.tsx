@@ -72,7 +72,7 @@ export default function CadenceSelector({
       >
         Choose your plan
       </h2>
-      <p className="text-sm text-gray-500 mb-5">
+      <p className="text-sm text-black/50 mb-5">
         Select how often you&apos;d like CONKA delivered
       </p>
 
@@ -88,10 +88,10 @@ export default function CadenceSelector({
               key={cadenceKey}
               type="button"
               onClick={() => onChange(cadenceKey)}
-              className={`relative w-full text-left rounded-xl border-2 transition-all select-none overflow-hidden ${
+              className={`relative w-full text-left rounded-xl border-2 transition-all duration-200 select-none overflow-hidden ${
                 isActive
-                  ? "border-[#4058bb] bg-[#4058bb]/[0.03]"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "border-brand-accent bg-brand-accent/[0.03] shadow-md"
+                  : "border-black/10 hover:border-black/20 shadow-sm"
               }`}
             >
               {/* Badge banner */}
@@ -112,26 +112,30 @@ export default function CadenceSelector({
                   <div className="flex items-center gap-3">
                     {/* Radio circle */}
                     <div
-                      className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
+                      className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-all duration-200 ${
                         isActive
-                          ? "border-[#4058bb] bg-[#4058bb]"
-                          : "border-gray-300"
+                          ? "border-brand-accent bg-brand-accent scale-110"
+                          : "border-black/30 scale-100"
                       }`}
                     >
-                      {isActive && (
-                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
-                          <path d="M2.5 8.5L6.5 12L13.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
+                      <svg
+                        width="10"
+                        height="10"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        className={`transition-all duration-200 ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}
+                      >
+                        <path d="M2.5 8.5L6.5 12L13.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                     </div>
 
                     <div>
-                      <p className={`font-semibold ${isActive ? "text-base text-[var(--brand-black)]" : "text-sm text-gray-600"}`}>
+                      <p className={`font-semibold ${isActive ? "text-base text-[var(--brand-black)]" : "text-sm text-black/60"}`}>
                         {display.label}
                       </p>
                       {/* Collapsed: delivery + shots */}
                       {!isActive && (
-                        <p className="text-xs text-gray-400 mt-0.5">
+                        <p className="text-xs text-black/40 mt-0.5">
                           {getDeliveryLabel(cadenceKey)} · {pricing.shotCount} shots
                         </p>
                       )}
@@ -140,13 +144,13 @@ export default function CadenceSelector({
 
                   {/* Per-shot price — the primary anchor */}
                   <div className="text-right flex-shrink-0">
-                    <p className={`font-semibold ${isActive ? "text-base text-[var(--brand-black)]" : "text-sm text-gray-600"}`}>
-                      {formatPrice(pricing.perShot)}<span className="text-xs font-normal text-gray-500">/shot</span>
+                    <p className={`font-semibold ${isActive ? "text-base text-[var(--brand-black)]" : "text-sm text-black/60"}`}>
+                      <span className="brand-data">{formatPrice(pricing.perShot)}</span><span className="brand-data-label text-black/40">/shot</span>
                     </p>
                     {/* Collapsed: total price underneath */}
                     {!isActive && (
-                      <p className="text-xs text-gray-400 mt-0.5">
-                        {formatPrice(pricing.price)}{frequency}
+                      <p className="text-xs text-black/40 mt-0.5">
+                        <span className="brand-data-label">{formatPrice(pricing.price)}</span>{frequency}
                       </p>
                     )}
                   </div>
@@ -157,34 +161,34 @@ export default function CadenceSelector({
                   <div className="mt-3 ml-8 space-y-3">
                     {/* Per-shot cost — large, prominent */}
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-xl font-bold text-[var(--brand-black)]">
+                      <span className="brand-data text-xl font-bold text-[var(--brand-black)]">
                         {formatPrice(pricing.perShot)}
                       </span>
-                      <span className="text-sm text-gray-500">per shot</span>
+                      <span className="brand-data-label text-black/50">per shot</span>
                     </div>
 
                     {/* Total price — secondary */}
                     <div className="flex items-baseline gap-2">
-                      <span className="text-base font-semibold text-[var(--brand-black)]">
+                      <span className="brand-data text-base font-semibold text-[var(--brand-black)]">
                         {formatPrice(pricing.price)}{frequency}
                       </span>
                       {pricing.compareAtPrice && (
-                        <span className="text-sm text-gray-400 line-through">
+                        <span className="brand-data-label text-black/40 line-through">
                           {formatPrice(pricing.compareAtPrice)}
                         </span>
                       )}
                     </div>
 
                     {/* What ships */}
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-black/60">
                       📦 {getWhatShips(cadenceKey, product, pricing.shotCount)}
                     </p>
 
                     {/* Feature bullets */}
                     <div className="space-y-1.5">
                       {display.features.map((feature) => (
-                        <div key={feature} className="flex items-center gap-2 text-sm text-gray-600">
-                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0 text-green-600">
+                        <div key={feature} className="flex items-center gap-2 text-sm text-black/60">
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0 text-brand-accent">
                             <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                           <span>{feature}</span>

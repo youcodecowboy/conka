@@ -240,7 +240,7 @@ export const FUNNEL_PRODUCTS: Record<FunnelProduct, FunnelProductDisplay> = {
   clear: {
     name: "Clear",
     label: "CONKA Clear",
-    tagline: "Evening recovery",
+    tagline: "Evening wind-down",
     shotCount: 28,
     description: "Nootropics + Vitamin C, which contributes to normal psychological function.†† Glutathione, Alpha GPC, NAC.",
     thumbnail: "/formulas/conkaClear/ClearNoBackground.png",
@@ -306,11 +306,11 @@ export const FUNNEL_HERO_IMAGES: Record<FunnelProduct, { src: string; alt: strin
   },
   flow: {
     src: "/formulas/conkaFlow/FlowBox.jpg",
-    alt: "CONKA Flow — morning energy and focus formula",
+    alt: "CONKA Flow — morning focus and calm formula",
   },
   clear: {
     src: "/formulas/conkaClear/ClearBox.jpg",
-    alt: "CONKA Clear — evening clarity and recovery formula",
+    alt: "CONKA Clear — evening clarity and wind-down formula",
   },
 };
 

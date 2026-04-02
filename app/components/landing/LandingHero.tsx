@@ -4,6 +4,7 @@ import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 import LandingCTA from "./LandingCTA";
 import { GUARANTEE_DAYS } from "@/app/lib/offerConstants";
+import { PRICE_PER_DAY_BOTH } from "@/app/lib/landingPricing";
 
 /**
  * Landing page hero.
@@ -38,7 +39,9 @@ export default function LandingHero() {
             <br className="hidden lg:inline" />{" "}
             CONKA is a daily 2-shot system with 16 active
             <br className="hidden lg:inline" />{" "}
-            ingredients. 150,000+ bottles sold.<sup className="text-[0.5em] text-black/40 align-super">§</sup>
+            ingredients, from{" "}
+            <span className="brand-data text-black">£{PRICE_PER_DAY_BOTH}/day</span>.{" "}
+            150,000+ bottles sold.<sup className="text-[0.5em] text-black/40 align-super">§</sup>
           </p>
 
           {/* CTA */}
