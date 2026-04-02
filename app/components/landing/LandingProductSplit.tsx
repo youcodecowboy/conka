@@ -30,7 +30,7 @@ export default function LandingProductSplit() {
       </div>
 
       {/* AM/PM connector strip */}
-      <div className={`reveal ${revealed} flex items-center gap-3 mb-4 text-xs text-black/40 font-medium`} data-stagger="1">
+      <div className={`reveal ${revealed} flex items-center gap-3 mb-4 text-xs text-black/40 font-medium`}>
         <span aria-hidden>☀️</span>
         <span className="uppercase tracking-wide">Morning</span>
         <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, rgba(217, 119, 6, 0.3), rgba(3, 105, 161, 0.3))" }} />

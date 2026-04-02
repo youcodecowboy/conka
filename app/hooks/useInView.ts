@@ -14,7 +14,7 @@ export function useInView(
   const { threshold = 0.15, triggerOnce = true } = options ?? {};
   const [isInView, setIsInView] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const reducedMotionRef = useRef(false);
+  const isInViewRef = useRef(false);
 
   const ref = useCallback(
     (node: Element | null) => {
@@ -31,16 +31,17 @@ export function useInView(
         typeof window !== "undefined" &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches
       ) {
-        reducedMotionRef.current = true;
+        isInViewRef.current = true;
         setIsInView(true);
         return;
       }
 
-      if (reducedMotionRef.current || isInView) return;
+      if (isInViewRef.current) return;
 
       observerRef.current = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
+            isInViewRef.current = true;
             setIsInView(true);
             if (triggerOnce && observerRef.current) {
               observerRef.current.disconnect();
@@ -53,7 +54,7 @@ export function useInView(
 
       observerRef.current.observe(node);
     },
-    [threshold, triggerOnce, isInView]
+    [threshold, triggerOnce]
   );
 
   // Cleanup on unmount

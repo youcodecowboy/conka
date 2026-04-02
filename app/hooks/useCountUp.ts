@@ -2,6 +2,9 @@
 
 import { useRef, useEffect, useCallback } from "react";
 
+/** easeOutCubic: fast start, smooth deceleration */
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
 /**
  * Animates a number counting up from 0 to `target` using requestAnimationFrame.
  * Updates the DOM directly via textContent (no React re-renders during animation).
@@ -23,9 +26,6 @@ export function useCountUp(
     (value: number) => `${prefix}${value.toFixed(decimals)}${suffix}`,
     [prefix, decimals, suffix]
   );
-
-  // easeOutCubic: fast start, smooth deceleration
-  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
   useEffect(() => {
     if (!isActive || hasAnimatedRef.current || !elementRef.current) return;

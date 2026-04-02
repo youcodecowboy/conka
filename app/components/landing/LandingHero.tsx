@@ -19,13 +19,13 @@ export default function LandingHero() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Reduced motion: skip animation, show content immediately
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      requestAnimationFrame(() => setMounted(true));
-      return;
-    }
-    // Wait one frame so the initial invisible state is painted
-    requestAnimationFrame(() => setMounted(true));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Reduced motion: show content next microtask (near-instant, no animation frame wait)
+    // Normal: wait one frame so the initial invisible state is painted before transitioning
+    const trigger = reducedMotion
+      ? (fn: () => void) => queueMicrotask(fn)
+      : requestAnimationFrame;
+    trigger(() => setMounted(true));
   }, []);
 
   const cls = (base: string, variant: string = "reveal") =>
