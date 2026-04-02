@@ -28,7 +28,7 @@ export default function LandingProductSplit() {
       {/* Two-column product cards */}
       <div className="grid grid-cols-2 gap-3 lg:gap-6">
         {/* CONKA Flow */}
-        <div className="rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/6">
+        <div className="flex flex-col rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/12 shadow-sm">
           {/* Product image */}
           <div className="flex justify-center mb-4">
             <div className="relative w-20 h-44 lg:w-28 lg:h-56 overflow-hidden">
@@ -58,8 +58,8 @@ export default function LandingProductSplit() {
             Caffeine-free · Patented formula
           </p>
 
-          {/* Benefits */}
-          <div className="space-y-3">
+          {/* Benefits -- flex-1 so this area stretches to align with sibling card */}
+          <div className="flex-1 space-y-3">
             {["Calm focus without caffeine", "KSM-66 Ashwagandha + Lemon Balm", "UK patented formula (GB2629279)"].map((benefit) => (
               <div key={benefit} className="flex items-center gap-3">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: FLOW_ACCENT }} />
@@ -68,15 +68,15 @@ export default function LandingProductSplit() {
             ))}
           </div>
 
-          {/* Taste */}
-          <div className="mt-5 pt-4 border-t border-black/6">
+          {/* Taste -- mt-auto pushes to bottom, aligned across cards */}
+          <div className="mt-5 pt-4 border-t border-black/8">
             <p className="text-xs text-black/60">
               <span className="font-medium text-black/80">Taste:</span> Honey + citrus
             </p>
           </div>
 
           {/* Per-shot price */}
-          <div className="mt-4 pt-4 border-t border-black/6">
+          <div className="mt-4 pt-4 border-t border-black/8">
             <p className="text-xs text-black/60">
               From{" "}
               <span className="brand-data text-black">£{PRICE_PER_SHOT_FLOW}</span>
@@ -86,7 +86,7 @@ export default function LandingProductSplit() {
         </div>
 
         {/* CONKA Clear */}
-        <div className="rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/6">
+        <div className="flex flex-col rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/12 shadow-sm">
           {/* Product image */}
           <div className="flex justify-center mb-4">
             <div className="relative w-20 h-44 lg:w-28 lg:h-56 overflow-hidden">
@@ -116,8 +116,8 @@ export default function LandingProductSplit() {
             Nootropic · Antioxidant blend
           </p>
 
-          {/* Benefits */}
-          <div className="space-y-3">
+          {/* Benefits -- flex-1 so this area stretches to align with sibling card */}
+          <div className="flex-1 space-y-3">
             {["Vitamin C for psychological function††", "Glutathione + Alpha GPC + NAC", "Evening wind-down ritual"].map((benefit) => (
               <div key={benefit} className="flex items-center gap-3">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
@@ -126,15 +126,15 @@ export default function LandingProductSplit() {
             ))}
           </div>
 
-          {/* Taste */}
-          <div className="mt-5 pt-4 border-t border-black/6">
+          {/* Taste -- mt-auto pushes to bottom, aligned across cards */}
+          <div className="mt-5 pt-4 border-t border-black/8">
             <p className="text-xs text-black/60">
               <span className="font-medium text-black/80">Taste:</span> Fresh lemon
             </p>
           </div>
 
           {/* Per-shot price */}
-          <div className="mt-4 pt-4 border-t border-black/6">
+          <div className="mt-4 pt-4 border-t border-black/8">
             <p className="text-xs text-black/60">
               From{" "}
               <span className="brand-data text-black">£{PRICE_PER_SHOT_CLEAR}</span>
