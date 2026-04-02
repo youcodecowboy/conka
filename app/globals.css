@@ -23,6 +23,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-teal: var(--color-teal);
+  --color-brand-accent: #4058bb;
+  --color-brand-tint: #f4f5f8;
   --font-sans: var(--font-primary);
   --font-mono: var(--font-clinical);
 }

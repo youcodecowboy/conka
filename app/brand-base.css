@@ -19,6 +19,9 @@
   --brand-deep-grey: #212121;
   --brand-black: #000000;
 
+  /* Background tint (landing page visual system — see docs/branding/LANDING_PAGE_VISUAL_SYSTEM.md) */
+  --brand-tint: #f4f5f8;
+
   /* Functional aliases */
   --brand-text-primary: var(--brand-black);
   --brand-text-on-dark: var(--brand-white);
@@ -160,6 +163,11 @@
 .brand-bg-deep-grey {
   background-color: var(--brand-deep-grey);
   color: var(--brand-white);
+}
+
+.brand-bg-tint {
+  background-color: var(--brand-tint);
+  color: var(--brand-black);
 }
 
 /* ===== Typography classes ===== */
