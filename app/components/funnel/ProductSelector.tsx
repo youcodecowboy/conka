@@ -50,13 +50,18 @@ export default function ProductSelector({
 }: ProductSelectorProps) {
   return (
     <div>
+      {/* Value context for cold traffic */}
+      <p className="brand-caption text-black/50 mb-4">
+        16 active ingredients. Less than a coffee. 150,000+ bottles sold.
+      </p>
+
       <h2
         className="text-2xl lg:text-3xl font-semibold tracking-[var(--brand-h2-tracking)] mb-2"
         style={{ color: "var(--brand-black)" }}
       >
         Choose your product
       </h2>
-      <p className="text-sm text-gray-500 mb-5">
+      <p className="text-sm text-black/50 mb-5">
         What would you like in your plan?
       </p>
 
@@ -81,6 +86,14 @@ export default function ProductSelector({
                   : "border-gray-200 hover:border-gray-300 bg-white shadow-sm"
               }`}
             >
+              {/* Top accent bar for Both */}
+              {isBoth && (
+                <div
+                  className="h-1 w-full"
+                  style={{ background: "var(--brand-gradient-accent)" }}
+                />
+              )}
+
               {/* Badge banner */}
               {display.badge && (
                 <div
@@ -144,16 +157,21 @@ export default function ProductSelector({
                       {/* Per-shot price — primary anchor */}
                       <div className="text-right flex-shrink-0">
                         <p className="text-base font-semibold text-[var(--brand-black)]">
-                          {formatPrice(pricing.perShot)}<span className="text-xs font-normal text-gray-500">/shot</span>
+                          <span className="brand-data">{formatPrice(pricing.perShot)}</span><span className="brand-data-label text-black/40">/shot</span>
                         </p>
                         {/* Total price underneath */}
-                        <p className="text-xs text-gray-500 mt-0.5">
-                          {formatPrice(pricing.price)}{frequency}
+                        <p className="text-xs text-black/50 mt-0.5">
+                          <span className="brand-data-label">{formatPrice(pricing.price)}</span>{frequency}
                         </p>
                         {isBoth && separatePrice && savings > 0 && (
-                          <p className="text-xs text-gray-400 line-through">
-                            {formatPrice(separatePrice)}
-                          </p>
+                          <>
+                            <p className="text-xs text-black/40 line-through">
+                              {formatPrice(separatePrice)}
+                            </p>
+                            <p className="text-[10px] font-semibold text-brand-accent">
+                              Save {formatPrice(savings)}
+                            </p>
+                          </>
                         )}
                         {!isBoth && pricing.compareAtPrice && (
                           <p className="text-xs text-gray-400 line-through">
@@ -176,7 +194,7 @@ export default function ProductSelector({
                       className="inline-flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
                       style={{ backgroundColor: `${display.accent}12`, color: display.accent }}
                     >
-                      {formatPrice(pricing.perShot)}/shot · {pricing.shotCount} shots
+                      <span className="brand-data">{formatPrice(pricing.perShot)}</span>/shot · {pricing.shotCount} shots
                     </span>
 
                     {/* Feature bullets */}

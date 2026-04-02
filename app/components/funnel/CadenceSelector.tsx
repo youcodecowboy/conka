@@ -144,13 +144,13 @@ export default function CadenceSelector({
 
                   {/* Per-shot price — the primary anchor */}
                   <div className="text-right flex-shrink-0">
-                    <p className={`font-semibold ${isActive ? "text-base text-[var(--brand-black)]" : "text-sm text-gray-600"}`}>
-                      {formatPrice(pricing.perShot)}<span className="text-xs font-normal text-gray-500">/shot</span>
+                    <p className={`font-semibold ${isActive ? "text-base text-[var(--brand-black)]" : "text-sm text-black/60"}`}>
+                      <span className="brand-data">{formatPrice(pricing.perShot)}</span><span className="brand-data-label text-black/40">/shot</span>
                     </p>
                     {/* Collapsed: total price underneath */}
                     {!isActive && (
-                      <p className="text-xs text-gray-400 mt-0.5">
-                        {formatPrice(pricing.price)}{frequency}
+                      <p className="text-xs text-black/40 mt-0.5">
+                        <span className="brand-data-label">{formatPrice(pricing.price)}</span>{frequency}
                       </p>
                     )}
                   </div>
@@ -161,19 +161,19 @@ export default function CadenceSelector({
                   <div className="mt-3 ml-8 space-y-3">
                     {/* Per-shot cost — large, prominent */}
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-xl font-bold text-[var(--brand-black)]">
+                      <span className="brand-data text-xl font-bold text-[var(--brand-black)]">
                         {formatPrice(pricing.perShot)}
                       </span>
-                      <span className="text-sm text-gray-500">per shot</span>
+                      <span className="brand-data-label text-black/50">per shot</span>
                     </div>
 
                     {/* Total price — secondary */}
                     <div className="flex items-baseline gap-2">
-                      <span className="text-base font-semibold text-[var(--brand-black)]">
+                      <span className="brand-data text-base font-semibold text-[var(--brand-black)]">
                         {formatPrice(pricing.price)}{frequency}
                       </span>
                       {pricing.compareAtPrice && (
-                        <span className="text-sm text-gray-400 line-through">
+                        <span className="brand-data-label text-black/40 line-through">
                           {formatPrice(pricing.compareAtPrice)}
                         </span>
                       )}

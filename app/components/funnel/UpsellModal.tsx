@@ -87,10 +87,10 @@ export default function UpsellModal({
           {/* Price — crossed out original, actual price */}
           {offer.compareAtUpgrade && offer.priceDifference !== undefined && (
             <div className="mt-4 flex items-baseline gap-3">
-              <span className="text-lg text-gray-400 line-through">
+              <span className="brand-data text-lg text-black/40 line-through">
                 {formatPrice(offer.compareAtUpgrade)}
               </span>
-              <span className="text-2xl font-bold text-[var(--brand-black)]">
+              <span className="brand-data text-2xl font-bold text-[var(--brand-black)]">
                 {offer.priceDifference > 0
                   ? formatPrice(offer.priceDifference)
                   : formatPrice(offer.compareAtUpgrade + offer.priceDifference)}
