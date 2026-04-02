@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import {
   type FunnelProduct,
@@ -48,6 +49,13 @@ export default function ProductSelector({
   cadence,
   onChange,
 }: ProductSelectorProps) {
+  const [pulseKey, setPulseKey] = useState(0);
+
+  const handleChange = (newProduct: FunnelProduct) => {
+    setPulseKey((k) => k + 1);
+    onChange(newProduct);
+  };
+
   return (
     <div>
       {/* Value context for cold traffic */}
@@ -77,12 +85,12 @@ export default function ProductSelector({
 
           return (
             <button
-              key={productKey}
+              key={isActive ? `active-${pulseKey}` : productKey}
               type="button"
-              onClick={() => onChange(productKey)}
+              onClick={() => handleChange(productKey)}
               className={`relative w-full text-left rounded-[var(--brand-radius-card)] border-2 transition-all duration-200 select-none overflow-hidden ${
                 isActive
-                  ? "border-brand-accent bg-white shadow-md lg:scale-[1.01]"
+                  ? "card-pulse border-brand-accent bg-white shadow-md lg:scale-[1.01]"
                   : "border-black/10 hover:border-black/20 bg-white shadow-sm"
               }`}
             >

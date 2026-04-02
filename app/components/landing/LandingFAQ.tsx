@@ -141,7 +141,7 @@ export default function LandingFAQ() {
 
           {/* CTA */}
           <div className="mt-8 flex justify-center lg:justify-start">
-            <LandingCTA>Try Risk-Free →</LandingCTA>
+            <LandingCTA>Get Started →</LandingCTA>
           </div>
         </div>
       </div>

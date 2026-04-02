@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   type FunnelCadence,
   type FunnelProduct,
@@ -64,6 +65,13 @@ export default function CadenceSelector({
   product,
   onChange,
 }: CadenceSelectorProps) {
+  const [pulseKey, setPulseKey] = useState(0);
+
+  const handleChange = (newCadence: FunnelCadence) => {
+    setPulseKey((k) => k + 1);
+    onChange(newCadence);
+  };
+
   return (
     <div>
       <h2
@@ -85,12 +93,12 @@ export default function CadenceSelector({
 
           return (
             <button
-              key={cadenceKey}
+              key={isActive ? `active-${pulseKey}` : cadenceKey}
               type="button"
-              onClick={() => onChange(cadenceKey)}
+              onClick={() => handleChange(cadenceKey)}
               className={`relative w-full text-left rounded-xl border-2 transition-all duration-200 select-none overflow-hidden ${
                 isActive
-                  ? "border-brand-accent bg-brand-accent/[0.03] shadow-md"
+                  ? "card-pulse border-brand-accent bg-brand-accent/[0.03] shadow-md"
                   : "border-black/10 hover:border-black/20 shadow-sm"
               }`}
             >

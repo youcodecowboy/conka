@@ -163,7 +163,7 @@ export default function LandingWhatsInside() {
 
           {/* CTA */}
           <div className="mt-8 flex justify-start">
-            <LandingCTA>Try Risk-Free →</LandingCTA>
+            <LandingCTA>Start Your Routine →</LandingCTA>
           </div>
         </div>
       </div>
