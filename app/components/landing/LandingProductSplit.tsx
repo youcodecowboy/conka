@@ -20,23 +20,23 @@ export default function LandingProductSplit() {
         </h2>
       </div>
 
-      {/* Product image */}
-      <div className="flex justify-center mb-10">
-        <div className="w-full max-w-sm overflow-hidden rounded-[var(--brand-radius-card)] shadow-lg">
-          <Image
-            src="/formulas/ConkaAmPm.jpg"
-            alt="CONKA Flow (morning energy) and CONKA Clear (evening clarity) side by side"
-            width={800}
-            height={800}
-            className="w-full h-auto"
-          />
-        </div>
-      </div>
-
       {/* Two-column product cards */}
       <div className="grid grid-cols-2 gap-3 lg:gap-6">
         {/* CONKA Flow */}
         <div className="rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/6">
+          {/* Product image */}
+          <div className="flex justify-center mb-4">
+            <div className="relative w-20 h-44 lg:w-28 lg:h-56 overflow-hidden">
+              <Image
+                src="/formulas/conkaFlow/FlowNoBackground.png"
+                alt="CONKA Flow bottle"
+                fill
+                sizes="(max-width: 1024px) 80px, 112px"
+                className="object-contain scale-200"
+              />
+            </div>
+          </div>
+
           {/* Time badge */}
           <div
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[var(--brand-radius-interactive)] text-xs font-semibold mb-4"
@@ -73,6 +73,19 @@ export default function LandingProductSplit() {
 
         {/* CONKA Clear */}
         <div className="rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/6">
+          {/* Product image */}
+          <div className="flex justify-center mb-4">
+            <div className="relative w-20 h-44 lg:w-28 lg:h-56 overflow-hidden">
+              <Image
+                src="/formulas/conkaClear/ClearNoBackground.png"
+                alt="CONKA Clear bottle"
+                fill
+                sizes="(max-width: 1024px) 80px, 112px"
+                className="object-contain scale-200"
+              />
+            </div>
+          </div>
+
           {/* Time badge */}
           <div
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[var(--brand-radius-interactive)] text-xs font-semibold mb-4"
