@@ -16,7 +16,7 @@
 | `§` | Bottles sold | Cumulative sales figure as of date |
 | `¶` | Research | Ingredient-level studies, not product-level |
 | `^^` | Cognitive test | Cognetivity test — FDA cleared, Cambridge, 93% sensitivity |
-| `*` | Guarantee | 30-day satisfaction guarantee terms |
+| `*` | Guarantee | 100-day satisfaction guarantee terms |
 
 ---
 
@@ -114,7 +114,7 @@
 - [x] All GREEN additions in place
 - [x] Disclaimer footer live on `/start`
 - [x] CaseStudiesDataDriven global changes applied
-- [x] Guarantee aligned to 30 days throughout
+- [x] Guarantee aligned to `GUARANTEE_DAYS` (100 days) from `offerConstants.ts` throughout
 - [ ] Legal/compliance sign-off (pending review)
 
 ---

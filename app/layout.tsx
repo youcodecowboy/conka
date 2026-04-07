@@ -129,9 +129,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://conka-6770.myshopify.com" />
         <link rel="dns-prefetch" href="https://conka-6770.myshopify.com" />
         {/* Preconnect to analytics domains */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://connect.facebook.net" />
+        <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
 
         {/* CookieYes consent banner — must load before all analytics/marketing scripts */}
