@@ -33,7 +33,7 @@ The new system (`brand-base.css`) replaces the legacy system (`premium-base.css`
 
 | Route | Current System | Priority | Status | Ticket | Notes |
 |-------|---------------|----------|--------|--------|-------|
-| `/` (homepage) | Premium | **High** | Not Started | SCRUM-855, SCRUM-856 | Phase 1 (perf) + Phase 2 (visual alignment) |
+| `/` (homepage) | **Brand** | **High** | **Done** | SCRUM-855, SCRUM-856 | Phase 1 (perf) + Phase 2 (visual alignment) complete |
 | `/start` | Brand | -- | Done | SCRUM-840 | Reference implementation for other migrations |
 | `/funnel` | Brand | -- | Done | SCRUM-840 | |
 | `/conka-flow` | Premium | Medium | Not Started | -- | PDP page. Complex (desktop/mobile split, premium-pdp wrapper) |
@@ -70,8 +70,8 @@ Components used across multiple pages need careful migration (test all consuming
 
 | Component | Used On | Current System | Status | Notes |
 |-----------|---------|---------------|--------|-------|
-| `Testimonials` / `TestimonialCard` | `/`, `/start` | Premium | Not Started | Shared between homepage and /start. Migration affects both. |
-| `CaseStudiesDataDriven` | `/`, `/start`, `/case-studies` | Premium | Not Started | Shared across 3 pages. Has `hideCTA` prop. |
+| `Testimonials` / `TestimonialCard` | `/`, `/start` | Clean (no premium tokens) | **Done** | Already clean, no migration needed. |
+| `CaseStudiesDataDriven` | `/`, `/start`, `/case-studies` | **Brand** | **Done** | Migrated in SCRUM-856. Has `hideCTA` prop. |
 | `Navigation` | All pages | Premium | Not Started | Global component. Migrate last or alongside layout.tsx. |
 | `Footer` | All pages | Premium | Not Started | Global component. Migrate last or alongside layout.tsx. |
 

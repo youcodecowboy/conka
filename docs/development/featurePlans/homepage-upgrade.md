@@ -29,8 +29,8 @@ CRO/Acquisition. Faster load reduces bounce. Visual cohesion with `/start` build
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| 1 | Performance + Hero Simplification | Not Started |
-| 2 | Visual Alignment (brand-base migration) | Not Started |
+| 1 | Performance + Hero Simplification | **Done** |
+| 2 | Visual Alignment (brand-base migration) | **Done** |
 | 3 | Product Simplification (Flow/Clear/Balance only) | Future (separate scope) |
 
 ---
