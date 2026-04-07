@@ -44,6 +44,18 @@
 | 11 | Study detail (Thinking) | "Vitamin C contributes to normal psychological function†† — CONKA Clear provides Vitamin C alongside Glutathione (Sinha et al. 2018)¶" | EFSA claim + observational | ††, ¶ | Done |
 | 12 | `Tap a benefit to see the science.` | `Tap a benefit to see the research.` | Softer framing | — | Done |
 
+#### Phase 1: Benefit titles + ingredient subtitles redesign (2026-04-07, SCRUM-850)
+
+Approach: Keep benefit titles (conversion value) but move ingredient names + dosages to subtitle. Benefit title is a standalone concept, not directly attributed to the ingredient -- reducing AMBER risk while keeping conversion power.
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 39 | Section heading: `Why 150,000+ bottles and counting.§` | `What's working inside every shot.` | Frames ingredient content; curiosity-led, not a claim | — | Done |
+| 40 | Card subtitle: `Stay locked in for longer` | `Lemon Balm Extract · 300mg` | Ingredient + dosage replaces vague benefit subtitle | — | Done |
+| 41 | Card subtitle: `Wake up ready for the day` | `Ashwagandha · 600mg` | Ingredient + dosage replaces vague benefit subtitle | — | Done |
+| 42 | Card subtitle: `Pressure doesn't rattle you` | `Glutathione · 250mg` | Ingredient + dosage replaces vague benefit subtitle | — | Done |
+| 43 | Card subtitle: `Better decision making, all day` | `Vitamin C + B Vitamins` | Ingredient name replaces vague benefit subtitle | — | Done |
+
 ### LandingProductSplit.tsx
 
 | # | Old Text | New Text | Reason | Anchor | Status |
@@ -110,7 +122,7 @@
 ## Compliance Checklist
 
 - [x] All RED items removed or replaced
-- [x] All AMBER items anchored
+- [x] All AMBER items resolved (card titles replaced with ingredient names in Phase 1, SCRUM-850)
 - [x] All GREEN additions in place
 - [x] Disclaimer footer live on `/start`
 - [x] CaseStudiesDataDriven global changes applied

@@ -45,8 +45,8 @@ Replace benefit-claim titles with **ingredient names + dosages** as the primary 
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| 0 | /start performance optimization -- LCP fix, image compression, font trimming, script deferral | Not Started |
-| 1 | Ingredient-forward card redesign + compliance fix + visual upgrade | Not Started (blocked by Phase 0) |
+| 0 | /start performance optimization -- LCP fix, image compression, font trimming, script deferral | Done (SCRUM-852) |
+| 1 | Ingredient-forward card redesign + compliance fix + visual upgrade | Not Started (SCRUM-850) |
 
 ---
 
@@ -55,8 +55,9 @@ Replace benefit-claim titles with **ingredient names + dosages** as the primary 
 **Problem:** Mobile Lighthouse score is 63/100 with LCP of 9.2s (target <2.5s). This is the primary paid traffic landing page -- performance is the highest-leverage CRO fix available. Must be resolved before the visual redesign in Phase 1, otherwise new assets compound the problem.
 
 **Lighthouse baseline (2026-04-07, mobile, Slow 4G):**
-- Performance: 63/100
-- FCP: 3.2s | LCP: 9.2s | SI: 6.7s | TBT: 50ms | CLS: 0
+- Before: Performance 63 | FCP 3.2s | LCP 9.2s | SI 6.7s | TBT 50ms | CLS 0
+- After: Performance 70 | FCP 2.6s | LCP 9.1s | SI 3.6s | TBT 30ms | CLS 0
+- Remaining LCP bottleneck: hero source image needs file-level compression (separate task)
 
 **Root causes identified:**
 
@@ -115,8 +116,8 @@ Replace benefit-claim titles with **ingredient names + dosages** as the primary 
 
 ## Phase 1: Task Breakdown
 
-### 1. [Content] Rewrite benefit card data array
-- **What:** Replace the `BENEFITS` array in `LandingBenefits.tsx`. Titles become ingredient names + dosages. Subtitles become compliant descriptors. Keep existing study observations and PMIDs. Ensure only Vitamin C/B12 claims use †† anchor; all others use observational ¶ framing.
+### 1. [Content] Rewrite benefit card data + section heading
+- **What:** Replace the `BENEFITS` array in `LandingBenefits.tsx`. Titles become ingredient names + dosages. Subtitles become compliant descriptors. Change section heading from "Why 150,000+ bottles and counting." to "What's working inside every shot." (curiosity-led, not a claim, frames ingredient cards naturally). Keep existing study observations and PMIDs. Ensure only Vitamin C/B12 claims use †† anchor; all others use observational ¶ framing.
 - **Dependencies:** None
 - **Complexity:** Small
 - **Files:** `app/components/landing/LandingBenefits.tsx`
@@ -125,16 +126,23 @@ Replace benefit-claim titles with **ingredient names + dosages** as the primary 
 
 | Current Title | New Title | New Subtitle | Compliance |
 |--------------|-----------|--------------|------------|
-| Sharper Focus | Lemon Balm Extract · 300mg | Traditional botanical for calm alertness | Observational ¶ — no EFSA claim |
-| Sleep Quality | KSM-66 Ashwagandha · 600mg | Clinically studied adaptogen | Observational ¶ — no EFSA claim |
-| Stress Resilience | Reduced Glutathione · 250mg | Cellular antioxidant | Observational ¶ — no EFSA claim |
+| Sharper Focus | Lemon Balm Extract · 300mg | Traditional botanical for calm alertness | Observational ¶ -- no EFSA claim |
+| Sleep Quality | KSM-66 Ashwagandha · 600mg | Clinically studied adaptogen | Observational ¶ -- no EFSA claim |
+| Stress Resilience | Reduced Glutathione · 250mg | Cellular antioxidant | Observational ¶ -- no EFSA claim |
 | Clearer Thinking | Vitamin C + B Vitamins | Contributes to normal psychological function†† | EFSA authorised †† |
 
 > **Note:** The 4th card shifts from Glutathione-led to Vitamin C-led, since Vitamin C is the only ingredient with an EFSA-authorised cognitive claim. Glutathione moves to the 3rd card. This reordering avoids having 2 Ashwagandha cards adjacent.
 
-### 2. [Frontend] Upgrade card visual treatment
-- **What:** Redesign cards using `brand-base.css` tokens. Add visual depth (subtle shadow or border treatment), proper `--brand-radius-card` (32px), left-aligned text (per brand guidelines), and better expand/collapse affordance (chevron icon + "See the research" text link instead of relying on the whole card tap).
-- **Dependencies:** Task 1 (content)
+### 2. [Frontend] Extract inline SVGs to icons file
+- **What:** Move the 4 benefit icons + 4 trust badge SVGs out of the component into `app/components/landing/icons.tsx` as named exports. Import in LandingBenefits. Do this before the card redesign to keep the visual diff clean.
+- **Dependencies:** None (do first)
+- **Complexity:** Small
+- **Files:** `app/components/landing/LandingBenefits.tsx`, new `app/components/landing/icons.tsx`
+
+### 3. [Frontend] Upgrade card visual treatment
+- **What:** Redesign cards using `brand-base.css` tokens. Left-aligned text. `--brand-radius-card` (32px). Subtle `shadow-sm` or `border border-black/6` on white bg. Chevron icon that rotates on open + "See the research" micro-link for expand affordance. Accent left-border strip on expanded state. Dosages in `font-brand-data` (JetBrains Mono). All hardcoded colours replaced with design tokens.
+- **Performance rules:** No inline `transitionDuration` or `transitionDelay` styles. Use Tailwind transition utilities (`transition-transform duration-300`) for the chevron rotation. Expand/collapse can use inline `maxHeight` (established pattern from LandingWhatsInside/LandingFAQ -- not compositor-optimizable anyway). No new `will-change` properties.
+- **Dependencies:** Tasks 1 + 2
 - **Complexity:** Medium
 - **Files:** `app/components/landing/LandingBenefits.tsx`
 
@@ -142,26 +150,20 @@ Replace benefit-claim titles with **ingredient names + dosages** as the primary 
 - Card radius: `var(--brand-radius-card)` (32px)
 - Card bg: `var(--brand-white)` with subtle `shadow-sm` or `border border-black/6`
 - Text alignment: left-aligned (not centred)
-- Icon: keep accent-coloured circle, but consider a more distinctive icon per ingredient
+- Icon: keep accent-coloured circle with existing SVG style
 - Expand affordance: chevron that rotates on open + "See the research" micro-link
 - Expanded state: accent left-border strip instead of full border highlight
-- Dosage shown in `font-brand-data` (JetBrains Mono) for the clinical feel
+- Dosage shown in `font-brand-data` (JetBrains Mono) for clinical feel
 - All hardcoded colours replaced with design tokens (black/80, black/60, etc.)
 
-### 3. [Frontend] Upgrade trust badges
-- **What:** Give trust badges more visual weight. Promote from tiny inline text to proper badge treatment — slightly larger, with card-like containers or pill backgrounds. Keep the 2-col mobile / 4-col desktop grid.
-- **Dependencies:** None (can be done in parallel with tasks 1-2)
+### 4. [Frontend] Upgrade trust badges
+- **What:** Promote trust badges from tiny inline text to proper badge treatment -- pill backgrounds or card-like containers, slightly larger. Keep 2-col mobile / 4-col desktop grid.
+- **Dependencies:** Task 2 (icons extracted)
 - **Complexity:** Small
 - **Files:** `app/components/landing/LandingBenefits.tsx`
 
-### 4. [Frontend] Extract inline SVGs
-- **What:** Move the 4 benefit icons and 4 trust badge icons out of the component into a shared icons file or inline constants file. This was flagged in the landing page review (finding #88).
-- **Dependencies:** None
-- **Complexity:** Small
-- **Files:** `app/components/landing/LandingBenefits.tsx`, new file for icons (e.g. `app/components/landing/icons.tsx`)
-
 ### 5. [Compliance] Update claims log
-- **What:** Update `docs/development/LANDING_PAGE_CLAIMS_LOG.md` to mark AMBER items #6 and #7 as resolved. Document the new card titles and their compliance status.
+- **What:** Update `docs/development/LANDING_PAGE_CLAIMS_LOG.md` to mark AMBER items #6 and #7 as resolved. Document new card titles, heading change, and compliance status.
 - **Dependencies:** Task 1
 - **Complexity:** Small
 - **Files:** `docs/development/LANDING_PAGE_CLAIMS_LOG.md`
@@ -170,9 +172,10 @@ Replace benefit-claim titles with **ingredient names + dosages** as the primary 
 
 ## Rabbit Holes
 
-- **Don't redesign the whole section layout.** The 2x2 grid works. The temptation will be to switch to a 1-col stack or accordion — resist. The grid is scannable and compact on mobile.
+- **Don't redesign the whole section layout.** The 2x2 grid works. The temptation will be to switch to a 1-col stack or accordion -- resist. The grid is scannable and compact on mobile.
 - **Don't source new icons/illustrations.** Use the existing SVG icon style, just make them slightly more distinctive per ingredient if easy. If it takes more than 15 minutes, keep current icons.
 - **Don't touch the section wrapper or page layout.** This is a component-level change only.
+- **Don't add animations beyond expand/collapse.** The section is already wrapped in `<Reveal>` -- that provides entrance animation. No inline transition styles (Phase 0 lesson).
 
 ## No-Gos
 
@@ -189,7 +192,7 @@ Replace benefit-claim titles with **ingredient names + dosages** as the primary 
 
 ## Open Questions
 
-- Should the section heading change? Current: "Why 150,000+ bottles and counting." This still works — it's a proof point, not a health claim. But "What's working inside every shot" might better frame ingredient cards. **Decision needed from user.**
+- ~~Should the section heading change?~~ **Resolved (2026-04-07):** Changing to "What's working inside every shot." -- curiosity-led, frames ingredient cards naturally, not a health claim. The 150,000+ stat is already in the hero.
 
 ---
 
