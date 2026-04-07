@@ -422,6 +422,14 @@ body {
   [data-stagger="6"].revealed { transition-delay: 600ms; }
 }
 
+/* Hero mount-animation delays (replaces inline styles for compositor-friendly rendering) */
+.hero-delay-0.revealed { transition-delay: 0ms; }
+.hero-delay-1.revealed { transition-delay: 100ms; }
+.hero-delay-2.revealed { transition-delay: 200ms; }
+.hero-delay-3.revealed { transition-delay: 300ms; }
+.hero-delay-4.revealed { transition-delay: 400ms; }
+.hero-delay-5.revealed { transition-delay: 500ms; }
+
 /* Funnel card selection pulse */
 @keyframes card-pulse {
   0% { transform: scale(1); }

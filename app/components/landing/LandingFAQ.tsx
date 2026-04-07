@@ -74,6 +74,7 @@ export default function LandingFAQ() {
               alt="Woman drinking CONKA Clear in the gym"
               width={800}
               height={800}
+              loading="lazy"
               className="w-full h-auto"
             />
           </div>

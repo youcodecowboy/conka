@@ -32,6 +32,9 @@ const nextConfig: NextConfig = {
         pathname: '/s/files/**',
       },
     ],
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [390, 640, 1024, 1280],
+    minimumCacheTTL: 31536000,
   },
 
   // Redirects

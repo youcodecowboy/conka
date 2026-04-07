@@ -93,6 +93,7 @@ export default function LandingWhatsInside() {
               alt="Man holding CONKA Flow bottle outdoors"
               width={800}
               height={800}
+              loading="lazy"
               className="w-full h-auto"
             />
           </div>
