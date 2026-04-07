@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import RadarChart from "./RadarChart";
 import { Benefit } from "./KeyBenefits";
 
@@ -246,10 +247,13 @@ export default function KeyBenefitsDesktop({
           >
             {/* Square image */}
             <div className="relative w-full aspect-[2/1] bg-[var(--color-premium-bg-soft)]">
-              <img
+              <Image
                 src={currentBenefit.ingredientAsset.image}
                 alt={currentBenefit.ingredientAsset.name}
-                className="w-full h-full object-cover"
+                fill
+                loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
               />
             </div>
 

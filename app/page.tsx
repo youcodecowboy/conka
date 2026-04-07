@@ -70,8 +70,13 @@ export default function Home() {
     >
       {/* ===== SECTION 1: HERO ===== */}
       <Navigation />
-      <section aria-label="Homepage hero">
-        <Hero variant="default" />
+      <section
+        className="brand-section brand-hero-first brand-bg-white"
+        aria-label="Homepage hero"
+      >
+        <div className="brand-track">
+          <Hero />
+        </div>
       </section>
 
       {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}

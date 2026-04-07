@@ -55,6 +55,7 @@ export default function FoundersSection() {
           src="/TwoFounders.jpg"
           alt="CONKA founders"
           fill
+          loading="lazy"
           className="object-cover"
           sizes="(max-width: 1024px) 100vw, 50vw"
         />

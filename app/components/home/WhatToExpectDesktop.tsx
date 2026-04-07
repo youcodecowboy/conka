@@ -94,6 +94,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                   }
                   alt=""
                   fill
+                  loading="lazy"
                   className="object-contain object-center"
                   sizes="80px"
                   aria-hidden
@@ -165,6 +166,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                     : "Peak performance with CONKA Clear"
                 }
                 fill
+                loading="lazy"
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
@@ -185,6 +187,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                       : "Oxidative stress and cellular protection"
                   }
                   fill
+                  loading="lazy"
                   className="object-cover"
                   sizes="(max-width: 1024px) 50vw, 25vw"
                 />
@@ -198,6 +201,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                   }
                   alt={selectedFormula === "01" ? "Water flow" : "Clear sky"}
                   fill
+                  loading="lazy"
                   className="object-cover"
                   sizes="(max-width: 1024px) 50vw, 25vw"
                 />

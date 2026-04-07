@@ -10,8 +10,8 @@ import {
 } from "./HeroShared";
 
 const HERO_IMAGE = {
-  src: "/hero/HeroBannerMobileH.jpg",
-  alt: "Person with CONKA on the go",
+  src: "/formulas/QuartelySingle.jpg",
+  alt: "CONKA Flow and Clear daily brain performance shots",
 };
 
 export type HeroVariant = "default" | "dark";
@@ -86,7 +86,7 @@ export default function HeroMobile({
           alt={HERO_IMAGE.alt}
           fill
           priority
-          sizes="(max-width: 767px) 100vw, 66.67vw"
+          sizes="100vw"
           className="object-cover"
           style={{ objectPosition: "center 45%" }}
         />

@@ -164,9 +164,9 @@ export default function AthleteCredibilityCarousel() {
                     src={s.image}
                     alt={`${s.name} in action`}
                     fill
+                    loading="lazy"
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    priority={i === 0}
                   />
                 </div>
               ))}

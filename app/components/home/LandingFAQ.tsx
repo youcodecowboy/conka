@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 const landingFaqItems = [
   {
@@ -59,12 +60,14 @@ export default function LandingFAQ() {
               className="relative w-full max-w-[520px] aspect-square overflow-hidden shadow-lg"
               style={{ borderRadius: "var(--premium-radius-card)" }}
             >
-              <img
+              <Image
                 src="/CONKA_21.jpg"
-                alt="CONKA product"
-                className="w-full h-full object-cover"
-                style={{ objectPosition: "center 25%" }}
+                alt="CONKA Flow and Clear brain performance shots"
+                fill
                 loading="lazy"
+                sizes="(max-width: 1024px) 0px, 520px"
+                className="object-cover"
+                style={{ objectPosition: "center 25%" }}
               />
             </div>
           </div>
@@ -150,12 +153,14 @@ export default function LandingFAQ() {
             className="relative w-full max-w-[280px] mx-auto aspect-square overflow-hidden shadow-lg"
             style={{ borderRadius: "var(--premium-radius-card)" }}
           >
-            <img
+            <Image
               src="/CONKA_21.jpg"
-              alt="CONKA product"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center 25%" }}
+              alt="CONKA Flow and Clear brain performance shots"
+              fill
               loading="lazy"
+              sizes="280px"
+              className="object-cover"
+              style={{ objectPosition: "center 25%" }}
             />
           </div>
         </div>

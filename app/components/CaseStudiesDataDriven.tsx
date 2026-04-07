@@ -69,8 +69,10 @@ function AthletePhotoTile({ athlete }: { athlete: AthleteData }) {
       <Image
         src={photoPath}
         alt={athlete.name}
-        width={2000}
-        height={2000}
+        width={600}
+        height={800}
+        loading="lazy"
+        sizes="(max-width: 768px) 70vw, (max-width: 1024px) 33vw, 25vw"
         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         style={{
           objectPosition: `${focalPoint.x}% ${focalPoint.y}%`,

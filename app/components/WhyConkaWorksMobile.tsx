@@ -84,6 +84,7 @@ export default function WhyConkaWorksMobile() {
               alt="Informed Sport certified"
               width={80}
               height={80}
+              loading="lazy"
               className="h-20 w-auto object-contain"
             />
           </div>
@@ -146,6 +147,7 @@ export default function WhyConkaWorksMobile() {
                 alt="Durham University"
                 width={112}
                 height={40}
+                loading="lazy"
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -155,6 +157,7 @@ export default function WhyConkaWorksMobile() {
                 alt="University of Exeter"
                 width={112}
                 height={40}
+                loading="lazy"
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -209,6 +212,7 @@ export default function WhyConkaWorksMobile() {
               alt="Made in Britain"
               width={80}
               height={40}
+              loading="lazy"
               className="h-20 w-auto object-contain"
             />
           </div>

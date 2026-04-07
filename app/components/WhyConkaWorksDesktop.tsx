@@ -65,6 +65,7 @@ export default function WhyConkaWorksDesktop() {
               alt="Informed Sport certified"
               width={128}
               height={128}
+              loading="lazy"
               className="h-24 md:h-32 w-auto object-contain"
             />
           </div>
@@ -113,6 +114,7 @@ export default function WhyConkaWorksDesktop() {
                 alt="Durham University"
                 width={144}
                 height={48}
+                loading="lazy"
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -122,6 +124,7 @@ export default function WhyConkaWorksDesktop() {
                 alt="University of Exeter"
                 width={144}
                 height={48}
+                loading="lazy"
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -161,6 +164,7 @@ export default function WhyConkaWorksDesktop() {
               alt="Made in Britain"
               width={128}
               height={64}
+              loading="lazy"
               className="h-24 md:h-32 w-auto object-contain"
             />
           </div>

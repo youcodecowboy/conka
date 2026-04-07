@@ -1,27 +1,13 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import HeroBannerCarousel from "./HeroBannerCarousel";
+import Image from "next/image";
 import {
   HeroTrustBadges,
   ROTATING_WORDS,
   FADE_DURATION_MS,
   ROTATION_INTERVAL_MS,
 } from "./HeroShared";
-
-// Desktop (md and up): four images in carousel order
-const HERO_BANNER_IMAGES_DESKTOP = [
-  {
-    src: "/hero/HeroBannerW.jpg",
-    alt: "Athlete holding CONKA Flow and Clear bottles",
-  },
-  { src: "/hero/SamHero.jpg", alt: "Person with CONKA bottle outdoors" },
-  { src: "/hero/ClearHero.jpg", alt: "CONKA bottle in hand, lifestyle" },
-  {
-    src: "/hero/HeroBanner.jpg",
-    alt: "Athlete holding CONKA Flow and Clear bottles",
-  },
-];
 
 export type HeroVariant = "default" | "dark";
 
@@ -151,11 +137,26 @@ export default function HeroDesktop({
         </div>
       </div>
 
-      <HeroBannerCarousel
-        images={HERO_BANNER_IMAGES_DESKTOP}
-        isDark={isDark}
-        variant="desktop"
-      />
+      {/* Single product image (replaces carousel) */}
+      <div className="relative w-full order-none lg:h-full min-h-0">
+        {/* Left-edge gradient so text panel blends into image */}
+        <div
+          className="absolute inset-0 z-[3] pointer-events-none"
+          style={{
+            background: isDark
+              ? "linear-gradient(to right, var(--color-ink) 0%, rgba(17, 17, 17, 0.9) 10%, rgba(17, 17, 17, 0.35) 18%, transparent 28%)"
+              : "linear-gradient(to right, var(--color-bone) 0%, rgba(249, 249, 249, 0.75) 10%, rgba(249, 249, 249, 0.2) 20%, transparent 30%)",
+          }}
+        />
+        <Image
+          src="/formulas/QuartelySingle.jpg"
+          alt="CONKA Flow and Clear daily brain performance shots"
+          fill
+          priority
+          sizes="(max-width: 1023px) 100vw, 66.67vw"
+          className="object-cover object-right"
+        />
+      </div>
     </div>
   );
 }
