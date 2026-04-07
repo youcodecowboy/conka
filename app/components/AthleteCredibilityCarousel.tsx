@@ -114,8 +114,8 @@ export default function AthleteCredibilityCarousel() {
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Section Header */}
-      <div className="mb-8 md:mb-12 text-center">
-        <h2 className="premium-section-heading text-3xl md:text-4xl font-bold">
+      <div className="mb-10">
+        <h2 className="brand-h2 mb-0">
           Why Athletes Trust CONKA
         </h2>
       </div>
@@ -128,13 +128,13 @@ export default function AthleteCredibilityCarousel() {
             key={currentIndex}
             className="animate-fade-in-scale flex flex-col h-full"
           >
-            <h3 className="premium-heading text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--text-on-light)]">
+            <h3 className="brand-h3 text-2xl md:text-3xl lg:text-4xl font-bold text-black">
               {slide.name}
             </h3>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1 opacity-80">
+            <p className="brand-caption text-black/60 mt-1">
               {slide.sport}
             </p>
-            <blockquote className="premium-body mt-4 text-[var(--text-on-light)] text-base md:text-2xl font-semibold leading-relaxed max-w-xl">
+            <blockquote className="brand-body mt-4 text-black text-base md:text-2xl font-semibold leading-relaxed max-w-xl">
               &ldquo;{slide.quote}&rdquo;
             </blockquote>
           </div>
@@ -152,7 +152,7 @@ export default function AthleteCredibilityCarousel() {
               onClick={goPrev}
               ariaLabel="Previous athlete"
             />
-            <div className="relative w-full aspect-square max-w-[85vw] md:max-w-none mx-auto rounded-[var(--premium-radius-card)] overflow-hidden bg-black/5 flex items-center justify-center">
+            <div className="relative w-full aspect-square max-w-[85vw] md:max-w-none mx-auto rounded-[var(--brand-radius-card)] overflow-hidden bg-black/5 flex items-center justify-center">
               {ATHLETE_SLIDES.map((s, i) => (
                 <div
                   key={s.image}
@@ -164,9 +164,9 @@ export default function AthleteCredibilityCarousel() {
                     src={s.image}
                     alt={`${s.name} in action`}
                     fill
+                    loading="lazy"
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    priority={i === 0}
                   />
                 </div>
               ))}

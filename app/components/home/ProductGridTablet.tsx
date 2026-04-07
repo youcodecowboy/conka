@@ -52,7 +52,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
   return (
     <>
       <div className="text-left mb-8">
-        <h2 className="premium-section-heading mb-3">
+        <h2 className="brand-h2 mb-0 mb-3">
           {copy.title}
         </h2>
         {copy.subtitleNode && (

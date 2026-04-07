@@ -64,23 +64,24 @@ export default function Home() {
   }, []);
 
   return (
-    <div
-      className="min-h-screen theme-conka-flow"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
+    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       {/* ===== SECTION 1: HERO ===== */}
       <Navigation />
-      <section aria-label="Homepage hero">
-        <Hero variant="default" />
+      <section
+        className="brand-section brand-hero-first brand-bg-white"
+        aria-label="Homepage hero"
+      >
+        <div className="brand-track">
+          <Hero />
+        </div>
       </section>
 
       {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "white" }}
+        className="brand-section brand-bg-tint"
         aria-label="Athletes who use CONKA"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <AthleteCredibilityCarousel />
         </div>
       </section>
@@ -88,85 +89,83 @@ export default function Home() {
       {/* ===== PRODUCT GRID (scroll target for hero CTA) ===== */}
       <div id="product-grid" className="scroll-mt-20">
         <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+          className="brand-section brand-bg-white"
           aria-label="Find Your Formula"
         >
-          <div className="premium-track">
+          <div className="brand-track">
             <ProductGrid />
           </div>
         </section>
       </div>
 
-      {/* ===== SECTION 1.5: TESTIMONIALS (landing page mix: Flow, Clarity, Protocol) ===== */}
+      {/* ===== TESTIMONIALS ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
-          className="premium-section-luxury premium-bg-bone"
+          className="brand-section brand-bg-tint"
           aria-label="Customer reviews"
         >
-          <div className="premium-track">
+          <div className="brand-track">
             <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
           </div>
         </section>
       )}
 
-      {/* ===== SECTION 2.5: KEY BENEFITS SLIDESHOW ===== */}
+      {/* ===== KEY BENEFITS ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        className="brand-section brand-bg-white"
         aria-label="Key Benefits"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <KeyBenefits benefits={keyBenefits} />
         </div>
       </section>
 
-      {/* ===== SECTION: WHY CONKA WORKS ===== */}
+      {/* ===== WHY CONKA WORKS ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+        className="brand-section brand-bg-tint"
         aria-label="Why CONKA Works"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <WhyConkaWorks />
         </div>
       </section>
 
-      {/* ===== WHAT TO EXPECT (timeline + Flow/Clear toggle + How to Use) ===== */}
+      {/* ===== WHAT TO EXPECT ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        className="brand-section brand-bg-white"
         aria-label="What to Expect with CONKA"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <WhatToExpect />
         </div>
       </section>
 
-      {/* ===== SECTION 5: CASE STUDIES ===== */}
-      <section className="premium-section-luxury premium-bg-bone">
-        <div className="premium-track">
+      {/* ===== CASE STUDIES ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="Clinically validated test scores"
+      >
+        <div className="brand-track">
           <CaseStudiesDataDriven />
         </div>
       </section>
 
-      {/* ===== SECTION 7: OUR STORY / FOUNDERS ===== */}
+      {/* ===== OUR STORY / FOUNDERS ===== */}
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        className="brand-section brand-bg-white"
         aria-label="Our Story"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <FoundersSection />
         </div>
       </section>
 
-      {/* ===== SECTION 8: FAQ ===== */}
+      {/* ===== FAQ ===== */}
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="brand-section brand-bg-tint"
         aria-label="FAQ"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <LandingFAQ />
         </div>
       </section>

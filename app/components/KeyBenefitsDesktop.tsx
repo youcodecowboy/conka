@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import RadarChart from "./RadarChart";
 import { Benefit } from "./KeyBenefits";
 
@@ -155,12 +156,12 @@ export default function KeyBenefitsDesktop({
       {/* Heading block */}
       <div className="text-right mb-10">
         <h2
-          className="premium-section-heading text-[var(--color-ink)]"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-0 text-black"
+          style={{ letterSpacing: "-0.01em" }}
         >
           What you'll actually feel.
         </h2>
-        <p className="premium-section-subtitle mt-2 text-[var(--color-ink)]">
+        <p className="brand-body mt-2 text-black">
           Select a benefit to see the evidence behind it.
         </p>
       </div>
@@ -171,9 +172,9 @@ export default function KeyBenefitsDesktop({
         <div className="lg:sticky lg:top-8">
           <div
             className="rounded-[40px] overflow-hidden"
-            style={{ 
-              border: "1px solid var(--color-premium-stroke)",
-              background: "var(--color-bone)"
+            style={{
+              border: "1px solid rgba(0,0,0,0.06)",
+              background: "white"
             }}
           >
             <div style={{ padding: "2em" }} className="space-y-2">
@@ -191,8 +192,8 @@ export default function KeyBenefitsDesktop({
                       flex items-center gap-3 px-4 py-3.5 rounded-[20px] cursor-pointer 
                       transition-all duration-200 w-full text-left
                       ${isActive
-                        ? "bg-[var(--color-ink)] text-white"
-                        : "bg-white border border-[var(--color-premium-stroke)] hover:bg-[var(--color-premium-bg-soft)]"
+                        ? "bg-black text-white"
+                        : "bg-white border border-[rgba(0,0,0,0.06)] hover:bg-[var(--brand-tint)]"
                       }
                     `}
                   >
@@ -204,7 +205,7 @@ export default function KeyBenefitsDesktop({
                     )}
 
                     {/* Benefit title */}
-                    <span className={`premium-body font-medium flex-1 ${isActive ? "text-white" : "text-[var(--color-ink)]"}`}>
+                    <span className={`brand-body font-medium flex-1 ${isActive ? "text-white" : "text-black"}`}>
                       {benefit.title}
                     </span>
 
@@ -242,26 +243,29 @@ export default function KeyBenefitsDesktop({
           <div
             key={`ingredient-${activeBenefit}`}
             className="mt-4 rounded-[24px] overflow-hidden [animation:fadeIn_0.3s_ease]"
-            style={{ border: "1px solid var(--color-premium-stroke)" }}
+            style={{ border: "1px solid rgba(0,0,0,0.06)" }}
           >
             {/* Square image */}
-            <div className="relative w-full aspect-[2/1] bg-[var(--color-premium-bg-soft)]">
-              <img
+            <div className="relative w-full aspect-[2/1] bg-[var(--brand-tint)]">
+              <Image
                 src={currentBenefit.ingredientAsset.image}
                 alt={currentBenefit.ingredientAsset.name}
-                className="w-full h-full object-cover"
+                fill
+                loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
               />
             </div>
 
             {/* Label strip */}
             <div
               className="px-4 py-3"
-              style={{ background: "var(--color-bone)" }}
+              style={{ background: "white" }}
             >
-              <p className="premium-body-sm font-medium text-[var(--color-ink)]">
+              <p className="brand-caption font-medium text-black">
                 {currentBenefit.ingredientAsset.name}
               </p>
-              <p className="premium-body-sm opacity-50 text-[var(--color-ink)]">
+              <p className="brand-caption text-black/60">
                 {currentBenefit.ingredientAsset.dosage}
               </p>
             </div>
@@ -272,20 +276,20 @@ export default function KeyBenefitsDesktop({
         <div aria-live="polite">
           <div
             key={activeBenefit}
-            className="premium-card-soft !bg-white p-8 [animation:fadeIn_0.3s_ease]"
+            className="brand-card !bg-white p-8 [animation:fadeIn_0.3s_ease]"
           >
             {/* 1. Struggle statement — small, muted, italic */}
-            <p className="premium-body-sm italic opacity-50 mb-2 text-[var(--color-ink)]">
+            <p className="brand-caption italic text-black/60 mb-2">
               {currentBenefit.struggle}
             </p>
 
             {/* 2. Outcome headline — large, bold, hero text */}
-            <h3 className="text-2xl lg:text-3xl font-bold mb-6 leading-tight text-[var(--color-ink)]">
+            <h3 className="text-2xl lg:text-3xl font-bold mb-6 leading-tight text-black">
               {currentBenefit.outcome}
             </h3>
 
             {/* 3. Mechanism (description) — smaller, more muted */}
-            <p className="premium-body-sm opacity-60 leading-relaxed mb-6 text-[var(--color-ink)]">
+            <p className="brand-caption text-black/60 leading-relaxed mb-6">
               {currentBenefit.description}
             </p>
 
@@ -297,17 +301,17 @@ export default function KeyBenefitsDesktop({
                     key={idx}
                     className="rounded-[20px] p-4"
                     style={{
-                      background: "var(--color-premium-bg-soft)",
-                      border: "1px solid var(--color-premium-stroke)",
+                      background: "var(--brand-tint)",
+                      border: "1px solid rgba(0,0,0,0.06)",
                     }}
                   >
                     <p
                       className={`text-3xl font-bold mb-1 ${NEURAL_BLUE.text}`}
-                      style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                      style={{ letterSpacing: "-0.01em" }}
                     >
                       {stat.value}
                     </p>
-                    <p className="premium-body-sm opacity-70 text-[var(--color-ink)] leading-tight">
+                    <p className="brand-caption text-black/80 leading-tight">
                       {stat.label}
                     </p>
                   </div>
@@ -316,11 +320,11 @@ export default function KeyBenefitsDesktop({
             )}
 
             {/* 5. Radar chart — keep as-is, add explainer line above */}
-            <div className="premium-card-soft p-6 rounded-[20px] mb-6" aria-hidden="true">
-              <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-1 text-[var(--color-ink)]">
+            <div className="brand-card p-6 rounded-[20px] mb-6" aria-hidden="true">
+              <p className="brand-caption text-black/60 uppercase tracking-wider mb-1">
                 Performance impact
               </p>
-              <p className="premium-body-sm opacity-70 mb-4 text-[var(--color-ink)]">
+              <p className="brand-caption text-black/80 mb-4">
                 How this benefit impacts your overall cognitive performance
               </p>
               <div className="w-full max-w-[360px] mx-auto">
@@ -336,55 +340,55 @@ export default function KeyBenefitsDesktop({
             {currentBenefit.clinicalBreakdown && (
               <div
                 className="rounded-[20px] overflow-hidden mb-2"
-                style={{ border: "1px solid var(--color-premium-stroke)" }}
+                style={{ border: "1px solid rgba(0,0,0,0.06)" }}
               >
                 {/* Header row */}
                 <div
                   className="px-5 py-3 space-y-1"
                   style={{
-                    background: "var(--color-premium-bg-soft)",
-                    borderBottom: "1px solid var(--color-premium-stroke)",
+                    background: "var(--brand-tint)",
+                    borderBottom: "1px solid rgba(0,0,0,0.06)",
                   }}
                 >
                   <div className="flex items-center justify-between">
-                    <p className="premium-body-sm uppercase tracking-wider opacity-50 text-[var(--color-ink)]">
+                    <p className="brand-caption text-black/60 uppercase tracking-wider">
                       Clinical study
                     </p>
-                    <p className="premium-body-sm opacity-40 text-[var(--color-ink)]">
+                    <p className="brand-caption text-black/40">
                       {currentBenefit.annotation}
                     </p>
                   </div>
-                  <p className="premium-body-sm opacity-60 text-[var(--color-ink)]">
+                  <p className="brand-caption text-black/60">
                     {currentBenefit.ingredientAsset.name} • {currentBenefit.ingredientAsset.dosage}
                   </p>
                 </div>
 
                 {/* Study details */}
-                <div className="px-5 py-4 space-y-2 premium-body-sm text-[var(--color-ink)]">
+                <div className="px-5 py-4 space-y-2 brand-caption text-black">
                   <p>
-                    <span className="opacity-50">Study: </span>
-                    <span className="opacity-80">{currentBenefit.clinicalBreakdown.study}</span>
+                    <span className="text-black/60">Study: </span>
+                    <span className="text-black/80">{currentBenefit.clinicalBreakdown.study}</span>
                   </p>
                   <p>
-                    <span className="opacity-50">Participants: </span>
-                    <span className="opacity-80">{currentBenefit.clinicalBreakdown.participants}</span>
+                    <span className="text-black/60">Participants: </span>
+                    <span className="text-black/80">{currentBenefit.clinicalBreakdown.participants}</span>
                   </p>
                   <p>
-                    <span className="opacity-50">Duration: </span>
-                    <span className="opacity-80">{currentBenefit.clinicalBreakdown.duration}</span>
+                    <span className="text-black/60">Duration: </span>
+                    <span className="text-black/80">{currentBenefit.clinicalBreakdown.duration}</span>
                   </p>
                 </div>
 
                 {/* Only render this section if there are text-only results */}
                 {parsedResults.textOnly.length > 0 && (
-                  <div className="px-5 pb-5 text-[var(--color-ink)]">
-                    <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3">
+                  <div className="px-5 pb-5 text-black">
+                    <p className="brand-caption text-black/60 uppercase tracking-wider mb-3">
                       Additional findings
                     </p>
                     <ul className="space-y-2">
                       {parsedResults.textOnly.map((result, idx) => (
-                        <li key={idx} className="flex items-start gap-2 premium-body-sm opacity-80">
-                          <span className="opacity-40 shrink-0 mt-0.5">—</span>
+                        <li key={idx} className="flex items-start gap-2 brand-caption text-black/80">
+                          <span className="text-black/40 shrink-0 mt-0.5">—</span>
                           <span>{result}</span>
                         </li>
                       ))}

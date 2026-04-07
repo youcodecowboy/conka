@@ -17,7 +17,7 @@ export const ROTATION_INTERVAL_MS = 3000;
 export const FADE_DURATION_MS = 500;
 
 export function HeroTrustBadges({
-  textClass = "text-[var(--text-on-light-muted)]",
+  textClass = "text-black/60",
 }: {
   textClass?: string;
 }) {

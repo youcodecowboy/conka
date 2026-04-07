@@ -26,10 +26,10 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
       {/* Section Header (+ Toggle only when landing) */}
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-12">
         <div className="text-left">
-          <h2 className="premium-section-heading mb-3">
+          <h2 className="brand-h2 mb-0 mb-3">
             What to Expect with CONKA
           </h2>
-          <p className="premium-body text-[var(--text-on-light-muted)] max-w-2xl">
+          <p className="brand-body text-black/60 max-w-2xl">
             Real benefits that build over time, not overnight promises.
           </p>
         </div>
@@ -55,11 +55,11 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
               {/* Dot + connecting line (neuro blue accent) */}
               <div className="flex flex-col items-center flex-shrink-0">
                 <div
-                  className="w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full bg-[var(--color-neuro-blue-end)] flex-shrink-0"
+                  className="w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full bg-[var(--brand-accent)] flex-shrink-0"
                   aria-hidden
                 />
                 <div
-                  className="w-0.5 flex-1 min-h-[1rem] bg-[var(--color-neuro-blue-end)] mt-2"
+                  className="w-0.5 flex-1 min-h-[1rem] bg-[var(--brand-accent)] mt-2"
                   aria-hidden
                 />
               </div>
@@ -67,15 +67,15 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
               {/* Content */}
               <div className="flex-1 -mt-1 min-w-0">
                 <span
-                  className="inline-block premium-data text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[var(--color-neuro-blue-end)] text-[var(--color-bone)] mb-2"
+                  className="inline-block brand-data text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[var(--brand-accent)] text-white mb-2"
                   aria-hidden
                 >
                   {stage.subheading}
                 </span>
-                <h3 className="text-lg lg:text-xl font-bold mb-2 text-[var(--text-on-light)]">
+                <h3 className="text-lg lg:text-xl font-bold mb-2 text-black">
                   {stage.heading}
                 </h3>
-                <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed">
+                <p className="brand-caption text-black/60 leading-relaxed">
                   {stage.body}
                 </p>
               </div>
@@ -83,9 +83,9 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
           ))}
 
           {/* How to Use — under last step, left column */}
-          <div className="mt-8 premium-card-soft premium-card-soft-stroke p-6">
+          <div className="mt-8 brand-card p-6">
             <div className="flex items-start gap-4 lg:gap-6">
-              <div className="flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] overflow-hidden flex items-center justify-center p-1">
+              <div className="flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded-[var(--brand-radius-container)] bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)] overflow-hidden flex items-center justify-center p-1">
                 <Image
                   src={
                     selectedFormula === "01"
@@ -94,20 +94,21 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                   }
                   alt=""
                   fill
+                  loading="lazy"
                   className="object-contain object-center"
                   sizes="80px"
                   aria-hidden
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-base mb-2 text-[var(--text-on-light)]">
+                <h3 className="font-bold text-base mb-2 text-black">
                   How to Use
                 </h3>
                 <p
                   className={
                     showToggle
-                      ? "premium-body-sm text-[var(--text-on-light-muted)] mb-4"
-                      : "premium-body-sm text-[var(--text-on-light-muted)]"
+                      ? "brand-caption text-black/60 mb-4"
+                      : "brand-caption text-black/60"
                   }
                 >
                   {selectedFormula === "01"
@@ -121,7 +122,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                         ? "/conka-flow"
                         : "/conka-clarity"
                     }
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--premium-radius-interactive)] font-semibold text-sm bg-[var(--color-ink)] text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-opacity"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] font-semibold text-sm bg-black text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-opacity"
                   >
                     {selectedFormula === "01"
                       ? "View CONKA Flow"
@@ -152,7 +153,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
         <div className="lg:sticky lg:top-24">
           <div className="space-y-4">
             {/* Main lifestyle image */}
-            <div className="relative aspect-[4/3] rounded-[var(--premium-radius-card)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+            <div className="relative aspect-[4/3] rounded-[var(--brand-radius-card)] overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
               <Image
                 src={
                   selectedFormula === "01"
@@ -165,6 +166,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                     : "Peak performance with CONKA Clear"
                 }
                 fill
+                loading="lazy"
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
@@ -172,7 +174,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
 
             {/* Two supporting images */}
             <div className="grid grid-cols-2 gap-3 md:gap-4">
-              <div className="relative aspect-square rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+              <div className="relative aspect-square rounded-[var(--brand-radius-container)] overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
                 <Image
                   src={
                     selectedFormula === "01"
@@ -185,11 +187,12 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                       : "Oxidative stress and cellular protection"
                   }
                   fill
+                  loading="lazy"
                   className="object-cover"
                   sizes="(max-width: 1024px) 50vw, 25vw"
                 />
               </div>
-              <div className="relative aspect-square rounded-full overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+              <div className="relative aspect-square rounded-full overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
                 <Image
                   src={
                     selectedFormula === "01"
@@ -198,6 +201,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                   }
                   alt={selectedFormula === "01" ? "Water flow" : "Clear sky"}
                   fill
+                  loading="lazy"
                   className="object-cover"
                   sizes="(max-width: 1024px) 50vw, 25vw"
                 />
@@ -205,7 +209,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
             </div>
           </div>
 
-          <p className="premium-body-sm text-center text-[var(--text-on-light-muted)] mt-4">
+          <p className="brand-caption text-center text-black/60 mt-4">
             {selectedFormula === "01"
               ? "CONKA Flow for clean sustained energy"
               : "CONKA Clear for peak performance"}

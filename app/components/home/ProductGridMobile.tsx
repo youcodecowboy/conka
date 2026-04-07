@@ -108,7 +108,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
   return (
     <>
       <div className="text-left mb-8 px-4">
-        <h2 className="premium-section-heading mb-3">{copy.title}</h2>
+        <h2 className="brand-h2 mb-0 mb-3">{copy.title}</h2>
         {copy.subtitleNode && (
           <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
             {copy.subtitleNode}

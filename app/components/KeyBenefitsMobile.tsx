@@ -34,7 +34,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
           isOpen ? "py-5" : "py-4"
         }`}
         style={{
-          background: isOpen ? "var(--color-neuro-blue-dark)" : "transparent",
+          background: isOpen ? "black" : "transparent",
           color: isOpen ? "#ffffff" : undefined,
         }}
       >
@@ -45,24 +45,24 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
               className={`w-5 h-5 shrink-0 flex items-center justify-center transition-colors duration-200 ${
                 isOpen
                   ? "opacity-100 text-white"
-                  : "opacity-30 text-[var(--color-ink)]"
+                  : "opacity-30 text-black"
               }`}
             >
               {benefit.icon}
             </span>
           )}
           <span
-            className={`flex-1 premium-body text-left transition-colors duration-200 ${
+            className={`flex-1 brand-body text-left transition-colors duration-200 ${
               isOpen
                 ? "text-white font-semibold"
-                : "text-[var(--color-ink)] font-medium"
+                : "text-black font-medium"
             }`}
           >
             {benefit.title}
           </span>
           <span
             className={`text-xl font-extrabold shrink-0 transition-colors duration-200 ${
-              isOpen ? "text-[var(--color-bone)]" : "text-[var(--color-ink)]"
+              isOpen ? "text-white" : "text-black"
             }`}
           >
             {benefit.stat}
@@ -78,8 +78,8 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
             strokeLinejoin="round"
             className={`shrink-0 transition-all duration-300 ${
               isOpen
-                ? "rotate-180 text-[var(--color-bone)] opacity-100"
-                : "rotate-0 text-[var(--color-ink)] opacity-30"
+                ? "rotate-180 text-white opacity-100"
+                : "rotate-0 text-black opacity-30"
             }`}
           >
             <polyline points="6 9 12 15 18 9" />
@@ -89,10 +89,10 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
         {/* Row 2: struggle text — full width */}
         {benefit.struggle && (
           <p
-            className={`w-full text-left premium-body-sm mt-1 font-normal transition-colors duration-200 ${
+            className={`w-full text-left brand-caption mt-1 font-normal transition-colors duration-200 ${
               isOpen
                 ? "text-white opacity-60"
-                : "opacity-50 text-[var(--color-ink)]"
+                : "opacity-50 text-black"
             }`}
           >
             {benefit.struggle}
@@ -109,7 +109,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
           key={benefit.id}
           className="px-5 pb-6"
           style={{
-            background: "var(--color-neuro-blue-dark)",
+            background: "black",
             color: "#ffffff",
             animation: "fadeSlideDown 0.3s ease forwards",
           }}
@@ -117,7 +117,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
           {/* 1. Outcome headline — first thing read */}
           <h3
             className="text-lg font-bold leading-tight mb-3"
-            style={{ color: "var(--color-bone)" }}
+            style={{ color: "white" }}
           >
             {benefit.outcome}
           </h3>
@@ -128,8 +128,8 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
             style={{
               fontSize: "clamp(2.8rem, 14vw, 3.8rem)",
               lineHeight: 1,
-              letterSpacing: "var(--letter-spacing-premium-title)",
-              color: "var(--color-bone)",
+              letterSpacing: "-0.01em",
+              color: "white",
             }}
           >
             {benefit.stat}
@@ -137,8 +137,8 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
 
           {/* 3. One-line mechanism — muted, capped via line clamp */}
           <p
-            className="premium-body-sm leading-relaxed mb-4 line-clamp-3"
-            style={{ color: "var(--color-bone)", opacity: 0.65 }}
+            className="brand-caption leading-relaxed mb-4 line-clamp-3"
+            style={{ color: "white", opacity: 0.65 }}
           >
             {benefit.description}
           </p>
@@ -153,20 +153,20 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
               }}
             >
               <span
-                className="premium-body-sm font-medium"
-                style={{ color: "var(--color-bone)", opacity: 0.9 }}
+                className="brand-caption font-medium"
+                style={{ color: "white", opacity: 0.9 }}
               >
                 {benefit.ingredientAsset.name}
               </span>
               <span
-                className="premium-body-sm"
-                style={{ color: "var(--color-bone)", opacity: 0.4 }}
+                className="brand-caption"
+                style={{ color: "white", opacity: 0.4 }}
               >
                 ·
               </span>
               <span
-                className="premium-body-sm"
-                style={{ color: "var(--color-bone)", opacity: 0.5 }}
+                className="brand-caption"
+                style={{ color: "white", opacity: 0.5 }}
               >
                 {benefit.ingredientAsset.dosage}
               </span>
@@ -180,7 +180,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
         <div
           style={{
             height: "1px",
-            background: "var(--color-premium-stroke)",
+            background: "rgba(0,0,0,0.06)",
           }}
         />
       )}
@@ -200,14 +200,14 @@ export default function KeyBenefitsMobile({
   return (
     <div>
       {/* Heading block */}
-      <div className="text-right mb-8 text-[var(--color-ink)]">
+      <div className="text-left mb-8 text-black">
         <h2
-          className="premium-section-heading"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-0"
+          style={{ letterSpacing: "-0.01em" }}
         >
           What you'll actually feel.
         </h2>
-        <p className="premium-section-subtitle mt-2">
+        <p className="brand-body mt-2">
           Tap a benefit to see the evidence behind it.
         </p>
       </div>
@@ -216,8 +216,8 @@ export default function KeyBenefitsMobile({
       <div
         className="overflow-hidden -mx-5 md:-mx-[5vw]"
         style={{
-          border: "1px solid var(--color-premium-stroke)",
-          background: "var(--color-bone)",
+          border: "1px solid rgba(0,0,0,0.06)",
+          background: "white",
         }}
       >
         {benefits.map((benefit, index) => (

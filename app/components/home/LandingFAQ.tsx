@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 const landingFaqItems = [
   {
@@ -57,14 +58,16 @@ export default function LandingFAQ() {
           <div className="flex items-start justify-start">
             <div
               className="relative w-full max-w-[520px] aspect-square overflow-hidden shadow-lg"
-              style={{ borderRadius: "var(--premium-radius-card)" }}
+              style={{ borderRadius: "var(--brand-radius-card)" }}
             >
-              <img
+              <Image
                 src="/CONKA_21.jpg"
-                alt="CONKA product"
-                className="w-full h-full object-cover"
-                style={{ objectPosition: "center 25%" }}
+                alt="CONKA Flow and Clear brain performance shots"
+                fill
                 loading="lazy"
+                sizes="(max-width: 768px) 0px, 520px"
+                className="object-cover"
+                style={{ objectPosition: "center 25%" }}
               />
             </div>
           </div>
@@ -72,13 +75,13 @@ export default function LandingFAQ() {
           {/* Right: heading + accordion */}
           <div>
             <div className="mb-8">
-              <p
-                className="text-3xl lg:text-4xl font-bold text-black mb-2"
-                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+              <h2
+                className="brand-h2 mb-0 text-black mb-2"
+                style={{ letterSpacing: "-0.01em" }}
               >
                 Questions?
-              </p>
-              <p className="text-xl lg:text-2xl text-black/80 premium-body">
+              </h2>
+              <p className="brand-body text-black/60">
                 We&apos;re here to help
               </p>
             </div>
@@ -148,26 +151,28 @@ export default function LandingFAQ() {
         <div className="pt-6 pb-2">
           <div
             className="relative w-full max-w-[280px] mx-auto aspect-square overflow-hidden shadow-lg"
-            style={{ borderRadius: "var(--premium-radius-card)" }}
+            style={{ borderRadius: "var(--brand-radius-card)" }}
           >
-            <img
+            <Image
               src="/CONKA_21.jpg"
-              alt="CONKA product"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center 25%" }}
+              alt="CONKA Flow and Clear brain performance shots"
+              fill
               loading="lazy"
+              sizes="280px"
+              className="object-cover"
+              style={{ objectPosition: "center 25%" }}
             />
           </div>
         </div>
         <div className="py-6">
           <div className="mb-6">
-            <p
-              className="text-2xl font-bold text-black mb-1"
-              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            <h2
+              className="brand-h2 mb-0 text-black text-2xl mb-1"
+              style={{ letterSpacing: "-0.01em" }}
             >
               Questions?
-            </p>
-            <p className="text-lg text-black/80 premium-body">
+            </h2>
+            <p className="brand-body text-black/60">
               We&apos;re here to help
             </p>
           </div>
