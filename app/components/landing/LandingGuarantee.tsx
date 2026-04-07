@@ -68,6 +68,7 @@ export default function LandingGuarantee() {
             alt="CONKA app showing cognitive performance score of 92"
             width={240}
             height={480}
+            loading="lazy"
             className="relative z-[1] h-auto rounded-[var(--brand-radius-container)]"
             style={{
               width: "clamp(180px, 40vw, 240px)",

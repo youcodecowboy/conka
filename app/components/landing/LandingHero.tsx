@@ -35,8 +35,7 @@ export default function LandingHero() {
     <div>
       {/* Social proof pill -- sits close to headline, not nav */}
       <div
-        className={cls("flex justify-start mb-4", "reveal-fade")}
-        style={{ transitionDelay: "0ms", transitionDuration: "300ms" }}
+        className={cls("hero-delay-0 flex justify-start mb-4", "reveal-fade")}
       >
         <div className="flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] bg-black text-white text-xs lg:text-sm font-semibold">
           <span aria-hidden className="text-yellow-400">★★★★★</span>
@@ -50,8 +49,7 @@ export default function LandingHero() {
         {/* Copy -- below image on mobile, left on desktop */}
         <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
           <div
-            className={cls("", "reveal")}
-            style={{ transitionDelay: "100ms", transitionDuration: "400ms" }}
+            className={cls("hero-delay-1", "reveal")}
           >
             <h1 className="brand-h1-bold mb-0">
               Your brain fades
@@ -61,8 +59,7 @@ export default function LandingHero() {
           </div>
 
           <div
-            className={cls("", "reveal")}
-            style={{ transitionDelay: "200ms", transitionDuration: "400ms" }}
+            className={cls("hero-delay-2", "reveal")}
           >
             <p className="brand-body mt-4 text-black/60">
               Coffee masks it. Willpower can&apos;t fix it.
@@ -77,8 +74,7 @@ export default function LandingHero() {
 
           {/* CTA */}
           <div
-            className={cls("mt-8", "reveal")}
-            style={{ transitionDelay: "300ms", transitionDuration: "400ms" }}
+            className={cls("hero-delay-3 mt-8", "reveal")}
           >
             <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
               Try Risk-Free for {GUARANTEE_DAYS} Days →
@@ -87,8 +83,7 @@ export default function LandingHero() {
 
           {/* Customer avatars + review count */}
           <div
-            className={cls("flex items-center justify-center lg:justify-start gap-3 mt-5", "reveal-fade")}
-            style={{ transitionDelay: "400ms", transitionDuration: "300ms" }}
+            className={cls("hero-delay-4 flex items-center justify-center lg:justify-start gap-3 mt-5", "reveal-fade")}
           >
             {/* Avatar stack */}
             <div className="flex -space-x-2">
@@ -115,8 +110,7 @@ export default function LandingHero() {
           </div>
 
           <div
-            className={cls("flex justify-center lg:justify-start mt-6", "reveal-fade")}
-            style={{ transitionDelay: "500ms", transitionDuration: "300ms" }}
+            className={cls("hero-delay-5 flex justify-center lg:justify-start mt-6", "reveal-fade")}
           >
             <HeroTrustBadges />
           </div>
@@ -124,8 +118,7 @@ export default function LandingHero() {
 
         {/* Product image */}
         <div
-          className={cls("relative order-1 lg:order-2 lg:flex-1 w-full", "reveal-scale")}
-          style={{ transitionDelay: "200ms", transitionDuration: "500ms" }}
+          className={cls("hero-delay-2 relative order-1 lg:order-2 lg:flex-1 w-full", "reveal-scale")}
         >
           <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)]">
             <Image
@@ -135,7 +128,7 @@ export default function LandingHero() {
               height={1280}
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="w-full h-auto object-cover scale-[1.15] lg:scale-100"
+              className="w-full h-auto object-cover"
               style={{
                 filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.15))",
               }}
