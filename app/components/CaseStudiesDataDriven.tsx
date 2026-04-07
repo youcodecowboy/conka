@@ -65,7 +65,7 @@ function AthletePhotoTile({ athlete }: { athlete: AthleteData }) {
   const focalPoint = athlete.focalPoint || { x: 50, y: 50 };
 
   return (
-    <div className="relative aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden group">
+    <div className="relative aspect-[3/4] rounded-[var(--brand-radius-card)] overflow-hidden group">
       <Image
         src={photoPath}
         alt={athlete.name}
@@ -115,25 +115,25 @@ export default function CaseStudiesDataDriven({
   return (
     <>
       {/* Section Header */}
-      <div className="text-left mb-8 md:mb-12">
-        <h2 className="premium-section-heading">Athletes, Founders, Corporates. They all take CONKA.</h2>
+      <div className="mb-10">
+        <h2 className="brand-h2 mb-0">Athletes, Founders, Corporates. They all take CONKA.</h2>
       </div>
 
-      {/* Hero Stats Block — desktop/tablet only */}
+      {/* Hero Stats Block -- desktop/tablet only */}
         <div className="hidden md:grid grid-cols-2 gap-1 sm:gap-2 md:gap-6 mb-6 max-w-2xl">
-          <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
-            <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)] leading-tight">
+          <div className="brand-card px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
+            <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-black leading-tight">
               5,000+
             </p>
-            <p className="text-[10px] sm:text-xs premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-1 sm:mt-2">
+            <p className="text-[10px] sm:text-xs brand-caption text-black/60 uppercase mt-1 sm:mt-2">
               Total Tests
             </p>
           </div>
-          <div className="premium-card-soft px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
-            <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-[var(--text-on-light)] leading-tight">
+          <div className="brand-card px-2 py-3 sm:px-3 sm:py-4 md:px-6 md:py-8 text-center min-w-0">
+            <p className="text-base sm:text-2xl md:text-5xl lg:text-6xl font-bold font-clinical text-black leading-tight">
               150+
             </p>
-            <p className="text-[10px] sm:text-xs premium-body-sm text-[var(--text-on-light-muted)] uppercase mt-1 sm:mt-2">
+            <p className="text-[10px] sm:text-xs brand-caption text-black/60 uppercase mt-1 sm:mt-2">
               Participants
             </p>
           </div>
@@ -168,8 +168,8 @@ export default function CaseStudiesDataDriven({
                 key={idx}
                 className={`h-2 rounded-full transition-all ${
                   currentIndex === idx
-                    ? "bg-[var(--color-ink)] w-6"
-                    : "bg-[var(--color-ink)] opacity-30 w-2"
+                    ? "bg-black w-6"
+                    : "bg-black opacity-30 w-2"
                 }`}
               />
             ))}
@@ -178,7 +178,7 @@ export default function CaseStudiesDataDriven({
 
         {/* Footnote */}
         <div className="text-center mb-8">
-          <p className="premium-body-sm text-xs text-[var(--text-on-light-muted)] opacity-70">
+          <p className="brand-caption text-xs text-black/40">
             ^^ Individual results. Scores from a clinically validated cognitive assessment (FDA cleared, 93% sensitivity, 87.5% test-retest reliability). Measured via the CONKA app over 4+ month testing periods. These results reflect changes in cognitive test performance and do not constitute health claims about CONKA products. Many factors — including lifestyle changes, practice effects, and natural variation — may contribute to changes in test scores.
           </p>
         </div>
@@ -188,7 +188,7 @@ export default function CaseStudiesDataDriven({
           <div className="flex justify-center">
             <Link
               href="/case-studies"
-              className="max-w-[500px] w-full px-8 py-4 rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] text-white font-semibold text-base hover:opacity-90 transition-all inline-flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)]"
+              className="max-w-[500px] w-full px-8 py-4 rounded-[var(--brand-radius-interactive)] bg-[var(--brand-accent)] text-white font-semibold text-base hover:opacity-90 transition-all inline-flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-accent)]"
             >
               View All CONKA App Case Studies
               <svg

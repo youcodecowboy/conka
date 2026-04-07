@@ -7,16 +7,16 @@ export default function FoundersSection() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       {/* Left: Copy */}
       <div>
-        <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-4">
+        <p className="brand-caption uppercase tracking-widest text-black/60 mb-4">
           Our Story
         </p>
         <h2
-          className="text-3xl lg:text-4xl font-bold text-black mb-6"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-0 text-black mb-6"
+          style={{ letterSpacing: "-0.01em" }}
         >
           Built from a brain injury. Backed by £500,000 of research.
         </h2>
-        <p className="text-lg text-black/70 leading-relaxed mb-8">
+        <p className="brand-body text-black/80 leading-relaxed mb-8">
           After a trip to the Olympics and a career-ending concussion, two
           athletes set out to solve a problem nobody was talking about:
           recovery for the brain. CONKA is the result — two formulas, years
@@ -26,7 +26,7 @@ export default function FoundersSection() {
 
         <a
           href="/our-story"
-          className="neo-button-outline px-6 py-2.5 font-semibold text-base inline-flex items-center gap-2"
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[var(--brand-radius-interactive)] font-semibold text-base border border-black text-black hover:bg-black hover:text-white transition-colors"
         >
           Read Our Story
           <svg
@@ -49,7 +49,7 @@ export default function FoundersSection() {
       {/* Right: Image */}
       <div
         className="relative w-full aspect-square lg:aspect-[4/5] overflow-hidden shadow-lg"
-        style={{ borderRadius: "var(--premium-radius-card)" }}
+        style={{ borderRadius: "var(--brand-radius-card)" }}
       >
         <Image
           src="/TwoFounders.jpg"

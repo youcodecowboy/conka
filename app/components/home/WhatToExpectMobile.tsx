@@ -24,10 +24,10 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
     <div className="[animation:none] [&_*]:!animate-none">
       {/* 1. Section header — text-left, premium spacing */}
       <div className="mb-8">
-        <h2 className="premium-section-heading mb-3 text-left">
+        <h2 className="brand-h2 mb-0 mb-3 text-left">
           What to Expect with CONKA
         </h2>
-        <p className="premium-body text-[var(--text-on-light-muted)] text-left">
+        <p className="brand-body text-black/60 text-left">
           Real benefits that build over time, not overnight promises.
         </p>
       </div>
@@ -39,10 +39,10 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
             <button
               type="button"
               onClick={() => setToggleFormula("01")}
-              className={`flex items-center justify-center w-20 h-20 rounded-[var(--premium-radius-nested)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
+              className={`flex items-center justify-center w-20 h-20 rounded-[var(--brand-radius-container)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black ${
                 selectedFormula === "01"
-                  ? "border-[var(--color-ink)] opacity-100"
-                  : "border-[var(--color-premium-stroke)] opacity-60"
+                  ? "border-black opacity-100"
+                  : "border-[rgba(0,0,0,0.06)] opacity-60"
               }`}
               aria-pressed={selectedFormula === "01"}
             >
@@ -57,7 +57,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
                 />
               </span>
             </button>
-            <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+            <span className="mt-1.5 text-xs font-semibold text-center text-black">
               Flow
             </span>
           </div>
@@ -66,10 +66,10 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
             <button
               type="button"
               onClick={() => setToggleFormula("02")}
-              className={`flex items-center justify-center w-20 h-20 rounded-[var(--premium-radius-nested)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] ${
+              className={`flex items-center justify-center w-20 h-20 rounded-[var(--brand-radius-container)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black ${
                 selectedFormula === "02"
-                  ? "border-[var(--color-ink)] opacity-100"
-                  : "border-[var(--color-premium-stroke)] opacity-60"
+                  ? "border-black opacity-100"
+                  : "border-[rgba(0,0,0,0.06)] opacity-60"
               }`}
               aria-pressed={selectedFormula === "02"}
             >
@@ -84,7 +84,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
                 />
               </span>
             </button>
-            <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+            <span className="mt-1.5 text-xs font-semibold text-center text-black">
               Clear
             </span>
           </div>
@@ -93,7 +93,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
 
       {/* 3. Main lifestyle image */}
       <div className="mb-8">
-        <div className="relative aspect-[4/3] rounded-[var(--premium-radius-card)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+        <div className="relative aspect-[4/3] rounded-[var(--brand-radius-card)] overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
           <Image
             src={
               selectedFormula === "01"
@@ -111,7 +111,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
             priority
           />
         </div>
-        <p className="premium-body-sm text-center text-[var(--text-on-light-muted)] mt-3">
+        <p className="brand-caption text-center text-black/60 mt-3">
           {selectedFormula === "01"
             ? "CONKA Flow for clean sustained energy"
             : "CONKA Clear for peak performance"}
@@ -127,26 +127,26 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
           >
             <div className="flex flex-col items-center flex-shrink-0">
               <div
-                className="w-2.5 h-2.5 rounded-full bg-[var(--color-neuro-blue-end)] flex-shrink-0"
+                className="w-2.5 h-2.5 rounded-full bg-[var(--brand-accent)] flex-shrink-0"
                 aria-hidden
               />
               <div
-                className="w-0.5 flex-1 min-h-[1rem] bg-[var(--color-neuro-blue-end)] mt-2"
+                className="w-0.5 flex-1 min-h-[1rem] bg-[var(--brand-accent)] mt-2"
                 aria-hidden
               />
             </div>
 
             <div className="flex-1 -mt-1 min-w-0">
               <span
-                className="inline-block premium-data text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[var(--color-neuro-blue-end)] text-[var(--color-bone)] mb-2"
+                className="inline-block brand-data text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[var(--brand-accent)] text-white mb-2"
                 aria-hidden
               >
                 {stage.subheading}
               </span>
-              <h3 className="text-lg font-bold mb-2 text-[var(--text-on-light)]">
+              <h3 className="text-lg font-bold mb-2 text-black">
                 {stage.heading}
               </h3>
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed">
+              <p className="brand-caption text-black/60 leading-relaxed">
                 {stage.body}
               </p>
             </div>
@@ -155,9 +155,9 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
       </div>
 
       {/* 5. How to use card */}
-      <div className="mb-8 premium-card-soft premium-card-soft-stroke p-6">
+      <div className="mb-8 brand-card p-6">
         <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-16 h-16 relative rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] overflow-hidden flex items-center justify-center p-1">
+          <div className="flex-shrink-0 w-16 h-16 relative rounded-[var(--brand-radius-container)] bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)] overflow-hidden flex items-center justify-center p-1">
             <Image
               src={
                 selectedFormula === "01"
@@ -173,14 +173,14 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
           </div>
 
           <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-base mb-2 text-[var(--text-on-light)]">
+            <h3 className="font-bold text-base mb-2 text-black">
               How to Use
             </h3>
             <p
               className={
                 showToggle
-                  ? "premium-body-sm text-[var(--text-on-light-muted)] mb-4"
-                  : "premium-body-sm text-[var(--text-on-light-muted)]"
+                  ? "brand-caption text-black/60 mb-4"
+                  : "brand-caption text-black/60"
               }
             >
               {selectedFormula === "01"
@@ -193,7 +193,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
                 href={
                   selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"
                 }
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--premium-radius-interactive)] font-semibold text-sm bg-[var(--color-ink)] text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)]"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] font-semibold text-sm bg-black text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
               >
                 {selectedFormula === "01"
                   ? "View CONKA Flow"
@@ -221,7 +221,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
 
       {/* 6. Supporting images — 2-column grid */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="relative aspect-square rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+        <div className="relative aspect-square rounded-[var(--brand-radius-container)] overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
           <Image
             src={
               selectedFormula === "01"
@@ -239,7 +239,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
             loading="lazy"
           />
         </div>
-        <div className="relative aspect-square rounded-full overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+        <div className="relative aspect-square rounded-full overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
           <Image
             src={
               selectedFormula === "01" ? "/vibe/water.jpg" : "/vibe/sky.jpg"

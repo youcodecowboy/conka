@@ -27,7 +27,7 @@ const PillRow = ({ children }: { children: React.ReactNode }) => (
 );
 
 const Pill = ({ children }: { children: React.ReactNode }) => (
-  <span className="px-2 py-1 rounded-full text-[10px] font-medium border border-[var(--color-premium-stroke)] bg-white text-[var(--text-on-light)] inline-flex items-center gap-1 flex-shrink-0">
+  <span className="px-2 py-1 rounded-full text-[10px] font-medium border border-[rgba(0,0,0,0.06)] bg-white text-black inline-flex items-center gap-1 flex-shrink-0">
     <CheckIcon />
     {children}
   </span>
@@ -39,37 +39,37 @@ export default function WhyConkaWorksMobile() {
   return (
     <>
       <div className="text-center mb-6">
-        <h2 className="premium-section-heading text-[var(--color-bone)] text-2xl">
+        <h2 className="brand-h2 mb-0 text-black text-2xl">
           Certified for Performance.
         </h2>
-        <p className="premium-section-subtitle text-[var(--color-bone)] opacity-90 text-sm mt-2">
+        <p className="brand-body text-black/80 text-sm mt-2">
           Every formula is third-party tested, university-trialled, and
           manufactured to the highest standards.
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-2 mb-6 p-4 rounded-2xl bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+      <div className="grid grid-cols-3 gap-2 mb-6 p-4 rounded-2xl bg-white border border-[rgba(0,0,0,0.06)]">
         <div className="text-center">
-          <p className="text-2xl font-bold font-clinical text-[var(--color-ink)]">
+          <p className="text-2xl font-bold font-clinical text-black">
             280+
           </p>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-0.5 text-[10px]">
+          <p className="brand-caption text-black/60 mt-0.5 text-[10px]">
             Substances Tested
           </p>
         </div>
-        <div className="text-center border-l border-r border-[var(--color-premium-stroke)]">
-          <p className="text-2xl font-bold font-clinical text-[var(--color-ink)]">
+        <div className="text-center border-l border-r border-[rgba(0,0,0,0.06)]">
+          <p className="text-2xl font-bold font-clinical text-black">
             2
           </p>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-0.5 text-[10px]">
+          <p className="brand-caption text-black/60 mt-0.5 text-[10px]">
             University Partners
           </p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-bold font-clinical text-[var(--color-ink)]">
+          <p className="text-2xl font-bold font-clinical text-black">
             100%
           </p>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-0.5 text-[10px]">
+          <p className="brand-caption text-black/60 mt-0.5 text-[10px]">
             Batch Verified
           </p>
         </div>
@@ -77,8 +77,8 @@ export default function WhyConkaWorksMobile() {
 
       <div className="flex flex-col gap-3">
         {/* Pillar 1 */}
-        <div className="premium-card-soft-mobile premium-card-soft-stroke border-t-4 border-t-[#3a9f7e] flex flex-col items-center text-center">
-          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-[var(--color-premium-bg-soft)] flex-shrink-0">
+        <div className="brand-card bg-white border-t-4 border-t-[#3a9f7e] flex flex-col items-center">
+          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-[var(--brand-tint)] flex-shrink-0">
             <Image
               src="/logos/InformedSportLogo.png"
               alt="Informed Sport certified"
@@ -89,8 +89,8 @@ export default function WhyConkaWorksMobile() {
             />
           </div>
           <h3
-            className="premium-heading text-lg font-bold mb-2"
-            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            className="brand-h3 text-lg font-bold mb-2"
+            style={{ letterSpacing: "-0.01em" }}
           >
             Certified Safe for Elite Sport
           </h3>
@@ -103,7 +103,7 @@ export default function WhyConkaWorksMobile() {
             className={`overflow-hidden transition-all duration-300 ${expandedPillar === 0 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
             id="pillar-1-content"
           >
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed mt-3 mb-3 text-left">
+            <p className="brand-caption text-black/60 leading-relaxed mt-3 mb-3 text-left">
               Every batch of CONKA Flow and CONKA Clear is tested by Informed
               Sport for over 280 banned substances. Trusted by WADA, Olympic
               committees, and professional sports leagues worldwide. Safe for
@@ -113,14 +113,14 @@ export default function WhyConkaWorksMobile() {
               href="https://sport.wetestyoutrust.com/supplement-search/brand/conka"
               target="_blank"
               rel="noopener noreferrer"
-              className="premium-body-sm text-[var(--color-ink)] font-medium hover:underline"
+              className="brand-caption text-black font-medium hover:underline"
             >
               View Certificate →
             </Link>
           </div>
           <button
             onClick={() => setExpandedPillar(expandedPillar === 0 ? null : 0)}
-            className="mt-2 premium-body-sm font-medium text-[var(--color-ink)] hover:underline flex items-center gap-1"
+            className="mt-2 brand-caption font-medium text-black hover:underline flex items-center gap-1"
             aria-expanded={expandedPillar === 0}
             aria-controls="pillar-1-content"
           >
@@ -139,8 +139,8 @@ export default function WhyConkaWorksMobile() {
         </div>
 
         {/* Pillar 2 */}
-        <div className="premium-card-soft-mobile premium-card-soft-stroke flex flex-col items-center text-center">
-          <div className="mb-3 flex flex-col items-center justify-center gap-2 rounded-xl bg-[var(--color-premium-bg-soft)] p-3 flex-shrink-0">
+        <div className="brand-card bg-white flex flex-col items-center">
+          <div className="mb-3 flex flex-col items-center justify-center gap-2 rounded-xl bg-[var(--brand-tint)] p-3 flex-shrink-0">
             <div className="h-10 w-28 overflow-hidden flex items-center justify-center rounded-lg [&>img]:object-cover [&>img]:object-center">
               <Image
                 src="/logos/UniversityOfDurham.png"
@@ -163,8 +163,8 @@ export default function WhyConkaWorksMobile() {
             </div>
           </div>
           <h3
-            className="premium-heading text-lg font-bold mb-2"
-            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            className="brand-h3 text-lg font-bold mb-2"
+            style={{ letterSpacing: "-0.01em" }}
           >
             University-Tested, Clinically Dosed
           </h3>
@@ -177,7 +177,7 @@ export default function WhyConkaWorksMobile() {
             className={`overflow-hidden transition-all duration-300 ${expandedPillar === 1 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
             id="pillar-2-content"
           >
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed mt-3 mb-3 text-left">
+            <p className="brand-caption text-black/60 leading-relaxed mt-3 mb-3 text-left">
               Formulated in partnership with Durham and Exeter universities.
               Every ingredient is dosed at clinically effective levels based on
               peer-reviewed research. Not pixie-dusted—real science, real
@@ -186,7 +186,7 @@ export default function WhyConkaWorksMobile() {
           </div>
           <button
             onClick={() => setExpandedPillar(expandedPillar === 1 ? null : 1)}
-            className="mt-2 premium-body-sm font-medium text-[var(--color-ink)] hover:underline flex items-center gap-1"
+            className="mt-2 brand-caption font-medium text-black hover:underline flex items-center gap-1"
             aria-expanded={expandedPillar === 1}
             aria-controls="pillar-2-content"
           >
@@ -205,8 +205,8 @@ export default function WhyConkaWorksMobile() {
         </div>
 
         {/* Pillar 3 */}
-        <div className="premium-card-soft-mobile premium-card-soft-stroke flex flex-col items-center text-center">
-          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-[var(--color-premium-bg-soft)] flex-shrink-0">
+        <div className="brand-card bg-white flex flex-col items-center">
+          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-[var(--brand-tint)] flex-shrink-0">
             <Image
               src="/logos/MadeInBritain.png"
               alt="Made in Britain"
@@ -217,8 +217,8 @@ export default function WhyConkaWorksMobile() {
             />
           </div>
           <h3
-            className="premium-heading text-lg font-bold mb-2"
-            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            className="brand-h3 text-lg font-bold mb-2"
+            style={{ letterSpacing: "-0.01em" }}
           >
             UK Manufactured to GMP Standards
           </h3>
@@ -231,7 +231,7 @@ export default function WhyConkaWorksMobile() {
             className={`overflow-hidden transition-all duration-300 ${expandedPillar === 2 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
             id="pillar-3-content"
           >
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] leading-relaxed mt-3 mb-3 text-left">
+            <p className="brand-caption text-black/60 leading-relaxed mt-3 mb-3 text-left">
               Made in England to Good Manufacturing Practice (GMP) standards.
               Every batch is tested for purity, potency, and consistency. No
               cutting corners, no outsourcing—just rigorous British quality
@@ -240,7 +240,7 @@ export default function WhyConkaWorksMobile() {
           </div>
           <button
             onClick={() => setExpandedPillar(expandedPillar === 2 ? null : 2)}
-            className="mt-2 premium-body-sm font-medium text-[var(--color-ink)] hover:underline flex items-center gap-1"
+            className="mt-2 brand-caption font-medium text-black hover:underline flex items-center gap-1"
             aria-expanded={expandedPillar === 2}
             aria-controls="pillar-3-content"
           >
