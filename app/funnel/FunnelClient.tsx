@@ -8,7 +8,7 @@ import FunnelHeroAsset from "../components/funnel/FunnelHeroAsset";
 import CadenceSelector from "../components/funnel/CadenceSelector";
 import ProductSelector from "../components/funnel/ProductSelector";
 import FunnelCTA from "../components/funnel/FunnelCTA";
-import UpsellModal from "../components/funnel/UpsellModal";
+import UpsellBottomSheet from "../components/funnel/UpsellBottomSheet";
 import FunnelAssurance from "../components/funnel/FunnelAssurance";
 import {
   type FunnelCadence,
@@ -193,6 +193,11 @@ export default function FunnelClient() {
     proceedToCheckout(product, cadence, false);
   }, [product, cadence, proceedToCheckout]);
 
+  const handleUpsellDismiss = useCallback(() => {
+    safeTrack("funnel:upsell_dismissed", { product, cadence });
+    setIsUpsellOpen(false);
+  }, [product, cadence]);
+
   // --- CTA labels (computed from product + cadence state) ---
 
   const step1CTA = getFunnelCTALabels(1, product, cadence);
@@ -250,8 +255,8 @@ export default function FunnelClient() {
                 />
               </div>
 
-              {/* Spacer for sticky CTA */}
-              <div className="h-24 lg:hidden" />
+              {/* Spacer for sticky CTA (trust strip + button + sub-label + padding) */}
+              <div className="h-36 lg:hidden" />
 
               {/* Desktop: assurance + CTA */}
               <div className="hidden lg:block px-10 pb-8">
@@ -302,8 +307,8 @@ export default function FunnelClient() {
                 />
               </div>
 
-              {/* Spacer for sticky CTA */}
-              <div className="h-24 lg:hidden" />
+              {/* Spacer for sticky CTA (trust strip + button + sub-label + padding) */}
+              <div className="h-36 lg:hidden" />
 
               {/* Desktop: assurance + CTA */}
               <div className="hidden lg:block px-10 pb-8">
@@ -342,12 +347,13 @@ export default function FunnelClient() {
         )}
       </div>
 
-      {/* Upsell modal */}
-      <UpsellModal
+      {/* Upsell bottom sheet */}
+      <UpsellBottomSheet
         isOpen={isUpsellOpen}
         offer={upsellOffer}
         onAccept={handleUpsellAccept}
         onDecline={handleUpsellDecline}
+        onDismiss={handleUpsellDismiss}
         loading={isCheckingOut}
       />
     </div>
