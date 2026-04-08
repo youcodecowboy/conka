@@ -457,7 +457,7 @@ export function getUpsellOffer(
   product: FunnelProduct,
   cadence: FunnelCadence,
 ): UpsellOffer | null {
-  const bothImage = { src: "/formulas/ConkaAmPm.jpg", alt: "CONKA Flow and Clear — AM and PM brain performance" };
+  const bothImage = { src: "/formulas/BothBox.jpg", alt: "CONKA Flow and Clear — AM and PM brain performance" };
 
   // --- Product upgrades: single product → Both ---
 
