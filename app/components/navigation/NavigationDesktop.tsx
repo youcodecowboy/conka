@@ -40,7 +40,7 @@ export default function NavigationDesktop({
               alt="CONKA logo"
               width={440}
               height={112}
-              className="h-16 md:h-20 w-auto invert"
+              className="h-7 md:h-9 w-auto"
               priority
             />
           </a>
