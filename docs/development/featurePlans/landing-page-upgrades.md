@@ -9,10 +9,10 @@
 
 ## Phase Overview
 
-| Phase | Description                                                                    | Status    |
-| ----- | ------------------------------------------------------------------------------ | --------- |
-| 1     | Critical fixes before next campaign (performance, compliance, SEO, mobile CTA) | Done      |
-| 2     | Landing page restructure (reorder, copy, CTA standardisation, FAQ trim)        | Done      |
+| Phase | Description                                                                    | Status      |
+| ----- | ------------------------------------------------------------------------------ | ----------- |
+| 1     | Critical fixes before next campaign (performance, compliance, SEO, mobile CTA) | Done        |
+| 2     | Landing page restructure (reorder, copy, CTA standardisation, FAQ trim)        | Done        |
 | 3     | Funnel product selection page (header, copy, dynamic CTA)                      | Not Started |
 | 4     | Funnel plan page (header, hero cleanup, accent colors, price anchors, CTAs)    | Not Started |
 | 5     | Evening to Afternoon global terminology audit                                  | Not Started |
@@ -177,12 +177,14 @@ Remove "What makes CONKA different from coffee?" (redundant with comparison sect
 ## No-Gos
 
 **Phases 1-2 (landing page -- complete):**
+
 - Not integrating new hero photography (pending shoot)
 - Not fixing cut-off logos in hero image
 - Not redesigning the coffee comparison section (marked unchanged)
 - Not deleting any landing page sections -- unused sections stacked at bottom
 
 **Phases 3-5 (funnel + terminology):**
+
 - Not touching upsell modal copy or logic (separate optimization)
 - Not redesigning card layout or adding new UI patterns -- copy, colors, and CTA changes only
 - Not touching checkout flow or Shopify variant mapping
@@ -193,11 +195,13 @@ Remove "What makes CONKA different from coffee?" (redundant with comparison sect
 ## Risks
 
 **Phases 1-2 (complete):**
+
 - ~~Performance (1.1): Could spiral. Timebox to quick wins.~~ Done.
 - ~~Testimonials (2.5): Incomplete data.~~ Done with available data.
 - ~~KSM-66 (1.2): Touches 8 files.~~ Done, verified no regressions.
 
 **Phases 3-5:**
+
 - **Accent color shift (4.2):** Clear's change from blue (#0369a1) to teal (#0F6E56) is significant. Verify readability against white card backgrounds on mobile.
 - **Dynamic CTA complexity (3.3, 4.4):** CTA now needs product + cadence + step to compute labels. Keep the helper function clean and typed to avoid pricing drift.
 - **Evening to Afternoon (5.1):** Touches ~12 files across the codebase including shared components used on product pages. Needs regression check on `/conka-flow`, `/conka-clarity`, `/start`, and `/funnel` after deployment. Ship as separate PR.
@@ -231,13 +235,14 @@ Remove the feature-bashing caption and simplify the header. The product cards th
 
 Update product descriptions in `FUNNEL_PRODUCTS` to outcome-focused copy. Also update Clear’s tagline and time label to use "Afternoon" (aligns with Phase 5 terminology audit).
 
-| Product | Current | New |
-|---------|---------|-----|
-| Both | "Morning foundation + evening recovery. Most customers choose Both because the two formulas are designed to work as a daily pair." | "The complete protocol. Flow sharpens your morning. Clear sustains your afternoon. Together they cover the full day." |
-| Flow | "Adaptogens including Ashwagandha and Lemon Balm. Caffeine-free, UK patented formula." | "Take it in the morning. Calm, sustained focus without caffeine. Your brain on before the day starts." |
-| Clear | "Nootropics + Vitamin C, which contributes to normal psychological function.†† Glutathione, Alpha GPC, NAC." | "Take it in the afternoon. Clears the 2pm fog and sustains output. The shot for the second half of your day." |
+| Product | Current                                                                                                                            | New                                                                                                                   |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Both    | "Morning foundation + evening recovery. Most customers choose Both because the two formulas are designed to work as a daily pair." | "The complete protocol. Flow sharpens your morning. Clear sustains your afternoon. Together they cover the full day." |
+| Flow    | "Adaptogens including Ashwagandha and Lemon Balm. Caffeine-free, UK patented formula."                                             | "Take it in the morning. Calm, sustained focus without caffeine. Your brain on before the day starts."                |
+| Clear   | "Nootropics + Vitamin C, which contributes to normal psychological function.†† Glutathione, Alpha GPC, NAC."                       | "Take it in the afternoon. Clears the 2pm fog and sustains output. The shot for the second half of your day."         |
 
 Also update:
+
 - `clear.tagline`: "Evening wind-down" to "Afternoon clarity" (`funnelData.ts` line 243)
 - `clear.timeLabel`: "Evening" to "Afternoon" (`funnelData.ts` line 248)
 - `clear.timeEmoji`: "🌙" to "☀️" (afternoon, not night) (`funnelData.ts` line 249)
@@ -252,13 +257,14 @@ The Step 1 CTA currently shows a static "Continue" label. Update it to reflect t
 
 **CTA labels by product state:**
 
-| State | Button label | Sub-label |
-|-------|-------------|-----------|
-| Flow + Clear (default) | Get Both · £1.61/shot -> | 56 shots · save £29.99 |
-| Flow only | Get Flow · £2.14/shot -> | 28 shots/mo |
-| Clear only | Get Clear · £2.14/shot -> | 28 shots/mo |
+| State                  | Button label              | Sub-label              |
+| ---------------------- | ------------------------- | ---------------------- |
+| Flow + Clear (default) | Get Both · £1.61/shot ->  | 56 shots · save £29.99 |
+| Flow only              | Get Flow · £2.14/shot ->  | 28 shots/mo            |
+| Clear only             | Get Clear · £2.14/shot -> | 28 shots/mo            |
 
 Implementation:
+
 - Add `subLabel` prop to `FunnelCTA` component (12px, centred, beneath button)
 - Build helper `getFunnelCTALabels(step, product, cadence)` in `funnelData.ts` that computes label + subLabel from the pricing matrix (not hardcoded values)
 - Wire up in `FunnelClient.tsx` to replace static `step1Label`/`step2Label` constants
@@ -294,11 +300,11 @@ Update product accent colors and make the CadenceSelector cards visually adapt t
 
 **Accent color changes in `FUNNEL_PRODUCTS`:**
 
-| Product | Current | New |
-|---------|---------|-----|
-| Both (Flow + Clear) | `#4058bb` | `#378ADD` (blue) |
-| Flow | `#d97706` | `#F59E0B` (amber) |
-| Clear | `#0369a1` | `#0369a1` (unchanged -- existing brand teal) |
+| Product             | Current   | New                                          |
+| ------------------- | --------- | -------------------------------------------- |
+| Both (Flow + Clear) | `#4058bb` | `#378ADD` (blue)                             |
+| Flow                | `#d97706` | `#F59E0B` (amber)                            |
+| Clear               | `#0369a1` | `#0369a1` (unchanged -- existing brand teal) |
 
 - Pass `product` prop through to CadenceSelector for accent-aware styling
 - Apply product accent to: selected card border, radio indicator, feature bullet icons, expanded detail highlights
@@ -314,17 +320,17 @@ The £3.75/shot trial pack (4-shot plan, available on site to the same traffic) 
 
 Update `compareAtPrice` in `FUNNEL_PRICING` to use `£3.75 x shotCount` for all 9 product/cadence combinations:
 
-| Product | Cadence | Price | Anchor (£3.75/shot) | Saving |
-|---------|---------|-------|---------------------|--------|
-| Both | Monthly sub | £89.99 (56 shots) | £210.00 | 57% |
-| Both | Quarterly sub | £229.99 (168 shots) | £630.00 | 63% |
-| Both | One-time | £129.99 (56 shots) | £210.00 | 38% |
-| Flow | Monthly sub | £59.99 (28 shots) | £105.00 | 43% |
-| Flow | Quarterly sub | £149.99 (84 shots) | £315.00 | 52% |
-| Flow | One-time | £79.99 (28 shots) | £105.00 | 24% |
-| Clear | Monthly sub | £59.99 (28 shots) | £105.00 | 43% |
-| Clear | Quarterly sub | £149.99 (84 shots) | £315.00 | 52% |
-| Clear | One-time | £79.99 (28 shots) | £105.00 | 24% |
+| Product | Cadence       | Price               | Anchor (£3.75/shot) | Saving |
+| ------- | ------------- | ------------------- | ------------------- | ------ |
+| Both    | Monthly sub   | £89.99 (56 shots)   | £210.00             | 57%    |
+| Both    | Quarterly sub | £229.99 (168 shots) | £630.00             | 63%    |
+| Both    | One-time      | £129.99 (56 shots)  | £210.00             | 38%    |
+| Flow    | Monthly sub   | £59.99 (28 shots)   | £105.00             | 43%    |
+| Flow    | Quarterly sub | £149.99 (84 shots)  | £315.00             | 52%    |
+| Flow    | One-time      | £79.99 (28 shots)   | £105.00             | 24%    |
+| Clear   | Monthly sub   | £59.99 (28 shots)   | £105.00             | 43%    |
+| Clear   | Quarterly sub | £149.99 (84 shots)  | £315.00             | 52%    |
+| Clear   | One-time      | £79.99 (28 shots)   | £105.00             | 24%    |
 
 - Compute `compareAtPrice` as `TRIAL_PACK_PER_SHOT * shotCount` rather than hardcoding (add `TRIAL_PACK_PER_SHOT = 3.75` constant)
 - Display savings percentage on cards alongside the crossed-out price
@@ -340,27 +346,27 @@ The Step 2 CTA updates based on selected product + cadence. Uses the same `getFu
 
 **CTA labels for Both (Flow + Clear):**
 
-| Cadence | Button label | Sub-label |
-|---------|-------------|-----------|
-| Monthly (default) | Start monthly · £89.99/mo -> | £1.61/shot · cancel anytime |
-| Quarterly | Start quarterly · £229.99/quarter -> | £1.37/shot · save £119.52/year · cancel anytime |
-| One-Time | Buy once · £129.99 -> | £2.32/shot · 100-day guarantee · no subscription |
+| Cadence           | Button label                         | Sub-label                                        |
+| ----------------- | ------------------------------------ | ------------------------------------------------ |
+| Monthly (default) | Start monthly · £89.99/mo ->         | £1.61/shot · cancel anytime                      |
+| Quarterly         | Start quarterly · £229.99/quarter -> | £1.37/shot · save £119.52/year · cancel anytime  |
+| One-Time          | Buy once · £129.99 ->                | £2.32/shot · 100-day guarantee · no subscription |
 
 **CTA labels for Flow only:**
 
-| Cadence | Button label | Sub-label |
-|---------|-------------|-----------|
-| Monthly (default) | Start monthly · £59.99/mo -> | £2.14/shot · cancel anytime |
-| Quarterly | Start quarterly · £149.99/quarter -> | £1.79/shot · save £119.92/year · cancel anytime |
-| One-Time | Buy once · £79.99 -> | £2.86/shot · 100-day guarantee · no subscription |
+| Cadence           | Button label                         | Sub-label                                        |
+| ----------------- | ------------------------------------ | ------------------------------------------------ |
+| Monthly (default) | Start monthly · £59.99/mo ->         | £2.14/shot · cancel anytime                      |
+| Quarterly         | Start quarterly · £149.99/quarter -> | £1.79/shot · save £119.92/year · cancel anytime  |
+| One-Time          | Buy once · £79.99 ->                 | £2.86/shot · 100-day guarantee · no subscription |
 
 **CTA labels for Clear only:**
 
-| Cadence | Button label | Sub-label |
-|---------|-------------|-----------|
-| Monthly (default) | Start monthly · £59.99/mo -> | £2.14/shot · cancel anytime |
-| Quarterly | Start quarterly · £149.99/quarter -> | £1.79/shot · save £119.92/year · cancel anytime |
-| One-Time | Buy once · £79.99 -> | £2.86/shot · 100-day guarantee · no subscription |
+| Cadence           | Button label                         | Sub-label                                        |
+| ----------------- | ------------------------------------ | ------------------------------------------------ |
+| Monthly (default) | Start monthly · £59.99/mo ->         | £2.14/shot · cancel anytime                      |
+| Quarterly         | Start quarterly · £149.99/quarter -> | £1.79/shot · save £119.92/year · cancel anytime  |
+| One-Time          | Buy once · £79.99 ->                 | £2.86/shot · 100-day guarantee · no subscription |
 
 - All prices computed from pricing matrix, not hardcoded
 - Yearly savings computed as: `(monthlyPrice * 12) - (quarterlyPrice * 4)`
@@ -378,27 +384,112 @@ Separate PR. Replaces "Evening" with "Afternoon" in all CONKA Clear context acro
 ### 5.1 Codebase Audit
 
 **Funnel files (handled in Phases 3-4 above, listed here for completeness):**
+
 - `funnelData.ts` -- description, tagline, timeLabel, alt text, upsell copy (6 instances)
 - `funnel/page.tsx` -- meta description (1 instance)
 
 **Landing page components:**
+
 - `LandingWhatsInside.tsx` -- "Evening recovery" heading, body copy, section title, usage instruction (lines 18, 21, 35, 71)
 - `LandingProductSplit.tsx` -- "Evening wind-down ritual" benefit bullet (line 122)
 - `LandingFAQ.tsx` -- Clear description, product synergy copy (lines 18, 23)
 
 **Product pages and shared components:**
+
 - `formulaContent.ts` -- usage instructions, FAQ answer (lines 655, 750)
 - `HowItWorks.tsx` -- timing instruction (line 60)
 - `WhatToExpectMobile.tsx` -- dosage guidance (line 188)
 - `WhatToExpectDesktop.tsx` -- dosage guidance (line 116)
 
 **Other components:**
+
 - `ProtocolCalendar.tsx` -- calendar tooltip (line 229)
 - `ProductCard.tsx` -- "best for" metadata (line 94)
 
 **DO NOT change -- customer testimonials:**
+
 - `testimonialsFromLoox.ts` -- 6 instances of "morning to evening" and similar phrasing. These are real customer quotes; altering them would be falsifying reviews.
 
 - **Files:** ~12 files, ~21 edits (excluding testimonials and funnel changes already covered in Phases 3-4)
 - **Complexity:** Small per-edit, Medium overall due to blast radius
 - **Jira:** TBD
+
+Section 5 — Priority 2: Upsell modals
+A bottom sheet modal appears after a single product is selected on the product selection page, offering an upgrade to Both before the visitor proceeds to the plan page. This section covers both upsell journeys: Flow → Both and Clear → Both.
+
+5.1 What is working — keep as is
+P2 — No change needed on these elements
+
+Headline ‘Get the full system?’ — question format, not a push. Keep exactly as is.
+‘No thanks, just Flow / just Clear’ dismiss line — low friction, plain language. Keep exactly as is, updating product name per journey.
+AM/PM product image — appropriate here as it introduces a product the visitor has not yet seen in context.
+‘Upgrade to Both’ CTA label — action-oriented and specific. Keep as is.
+
+5.2 Copy changes
+P2 — Copy change
+
+Body copy
+Clear recovers your evening.
+Clear sustains your afternoon.
+
+Body copy
+Together they compound in a way that neither delivers alone.
+Your morning is covered. Your afternoon holds. That’s the full protocol.
+
+Replace the three bullet points across both modal variants with:
+
+Current
+Replacement
+Add CONKA Clear (PM recovery) to your order
+Save [X]% vs buying separately — see table below
+Save £29.99 vs buying separately
+Flow sharpens the morning. Clear holds the afternoon
+Full-day cognitive support, sunrise to sunset
+One decision. Full day covered
+
+5.3 Price display — per-shot saving as hero
+P2 — Development task
+
+The primary price signal on the modal should be the per-shot price drop on upgrading to Both. The visitor has just committed to a per-shot price on the previous screen — showing them it immediately drops on upgrade is the most direct and personal saving signal available.
+
+Plan
+Was /shot
+Now /shot
+Extra cost
+% saving on added product
+Monthly
+£2.14/shot
+£1.61/shot
++£30/mo
+50% off vs buying separately
+Quarterly
+£1.79/shot
+£1.37/shot
++£80/qtr
+47% off vs buying separately
+One-Time
+£2.86/shot
+£2.32/shot
++£50
+37% off vs buying separately
+
+DEV: The green hero block at the top of the modal body shows: large new per-shot price (e.g. £1.61/shot) with the old price struck through beside it (£2.14/shot), and a sub-line: ‘Drop from £2.14 — add Clear for £30/mo’. This block updates dynamically per plan state. The crossed-out price is the single-product per-shot price the visitor has already committed to. The percentage saving appears as bullet point 1 beneath the hero block.
+
+5.4 Social nudge line
+P2 — Copy — verify data before deploy
+
+Add a single line beneath the dismiss option in a light blue box:
+
+Flow upsell
+“Most people who start with Flow switch to Both within 30 days.”
+Clear upsell
+“Most people who start with Clear switch to Both within 30 days.”
+
+IMPORTANT: Verify the ‘30 days’ figure against actual subscription data before publishing. If the real number is different, use the real number.
+
+5.5 Visual references
+P2 — Visual reference
+
+📁 Visual reference: Upsell from Flow — all three plan states — Google Drive
+
+📁 Visual reference: Upsell from Clear — all three plan states — Google Drive

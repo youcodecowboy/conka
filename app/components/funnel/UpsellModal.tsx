@@ -65,8 +65,25 @@ export default function UpsellModal({
             {offer.headline}
           </h3>
 
+          {/* Per-shot hero block (product upgrades) */}
+          {offer.perShotHero && (
+            <div className="mt-4 rounded-[var(--brand-radius-interactive)] p-4" style={{ backgroundColor: "rgba(64, 88, 187, 0.06)" }}>
+              <div className="flex items-baseline gap-2">
+                <span className="brand-data text-2xl font-bold text-[var(--brand-black)]">
+                  {formatPrice(offer.perShotHero.upgradedPerShot)}/shot
+                </span>
+                <span className="brand-data text-base text-black/40 line-through">
+                  {formatPrice(offer.perShotHero.currentPerShot)}/shot
+                </span>
+              </div>
+              <p className="mt-1 text-sm text-black/60">
+                Drop from {formatPrice(offer.perShotHero.currentPerShot)} — add {offer.perShotHero.addedProductName} for {offer.perShotHero.extraCostLabel}
+              </p>
+            </div>
+          )}
+
           {/* Body */}
-          <p className="mt-2 text-sm text-black/60 leading-relaxed">
+          <p className="mt-4 text-sm text-black/60 leading-relaxed">
             {offer.body}
           </p>
 
@@ -84,8 +101,8 @@ export default function UpsellModal({
             </ul>
           )}
 
-          {/* Price — crossed out original, actual price */}
-          {offer.compareAtUpgrade && offer.priceDifference !== undefined && (
+          {/* Fallback price display (cadence upgrades — no perShotHero) */}
+          {!offer.perShotHero && offer.compareAtUpgrade && offer.priceDifference !== undefined && (
             <div className="mt-4 flex items-baseline gap-3">
               <span className="brand-data text-lg text-black/40 line-through">
                 {formatPrice(offer.compareAtUpgrade)}
@@ -119,6 +136,13 @@ export default function UpsellModal({
               {offer.declineLabel}
             </button>
           </div>
+
+          {/* Social nudge */}
+          {offer.socialNudge && (
+            <p className="mt-4 text-center text-xs text-black/50 px-4 py-2.5 rounded-[var(--brand-radius-interactive)]" style={{ backgroundColor: "rgba(64, 88, 187, 0.06)" }}>
+              {offer.socialNudge}
+            </p>
+          )}
         </div>
       </div>
     </>

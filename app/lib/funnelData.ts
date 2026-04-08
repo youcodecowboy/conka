@@ -56,6 +56,21 @@ export interface UpsellOffer {
   image?: { src: string; alt: string };
   /** Benefit bullets with tick marks */
   benefits?: string[];
+  /** Per-shot price hero block (product upgrades only) */
+  perShotHero?: {
+    /** Per-shot price the user committed to on the previous screen */
+    currentPerShot: number;
+    /** Per-shot price after upgrading to Both */
+    upgradedPerShot: number;
+    /** Human-readable extra cost label, e.g. "+£30/mo" */
+    extraCostLabel: string;
+    /** Savings % vs buying the added product separately */
+    savingsPercent: number;
+    /** Name of the product being added */
+    addedProductName: string;
+  };
+  /** Social nudge line shown beneath decline button */
+  socialNudge?: string;
 }
 
 // ============================================
@@ -449,14 +464,20 @@ export function getUpsellOffer(
   // Flow → Both (add Clear)
   if (product === "flow") {
     if (!isVariantReady("both", cadence)) return null;
-    const currentPrice = getOfferPricing("flow", cadence).price;
+    const currentPricing = getOfferPricing("flow", cadence);
     const clearAlonePrice = getOfferPricing("clear", cadence).price;
-    const upgradePrice = getOfferPricing("both", cadence).price;
-    const priceDiff = upgradePrice - currentPrice;
+    const bothPricing = getOfferPricing("both", cadence);
+    const priceDiff = bothPricing.price - currentPricing.price;
     const savingsVsSeparate = clearAlonePrice - priceDiff;
+    const savingsPercent = Math.round((savingsVsSeparate / clearAlonePrice) * 100);
+    const extraCostLabel = cadence === "monthly-sub"
+      ? `+${formatPrice(priceDiff)}/mo`
+      : cadence === "quarterly-sub"
+        ? `+${formatPrice(priceDiff)}/qtr`
+        : `+${formatPrice(priceDiff)}`;
     return {
       headline: "Get the full system?",
-      body: "Most customers take Flow and Clear together. Flow sharpens your morning, Clear sustains your afternoon. Together they compound in a way that neither delivers alone.",
+      body: "Your morning is covered. Your afternoon holds. That's the full protocol.",
       acceptLabel: "Upgrade to Both",
       declineLabel: "No thanks, just Flow",
       upgradedProduct: "both",
@@ -466,25 +487,40 @@ export function getUpsellOffer(
       savingsAmount: savingsVsSeparate,
       savingsLabel: `Save ${formatPrice(savingsVsSeparate)} vs adding Clear separately`,
       image: bothImage,
+      perShotHero: {
+        currentPerShot: currentPricing.perShot,
+        upgradedPerShot: bothPricing.perShot,
+        extraCostLabel,
+        savingsPercent,
+        addedProductName: "Clear",
+      },
       benefits: [
-        "Add CONKA Clear (PM recovery) to your order",
-        `Save ${formatPrice(savingsVsSeparate)} vs buying separately`,
-        "Full-day cognitive support, sunrise to sunset",
+        `Save ${savingsPercent}% vs buying separately`,
+        "Flow sharpens the morning. Clear holds the afternoon",
+        "One decision. Full day covered",
       ],
+      // TODO: Verify "30 days" figure against actual subscription data before publishing
+      socialNudge: "Most people who start with Flow switch to Both within 30 days.",
     };
   }
 
   // Clear → Both (add Flow)
   if (product === "clear") {
     if (!isVariantReady("both", cadence)) return null;
-    const currentPrice = getOfferPricing("clear", cadence).price;
+    const currentPricing = getOfferPricing("clear", cadence);
     const flowAlonePrice = getOfferPricing("flow", cadence).price;
-    const upgradePrice = getOfferPricing("both", cadence).price;
-    const priceDiff = upgradePrice - currentPrice;
+    const bothPricing = getOfferPricing("both", cadence);
+    const priceDiff = bothPricing.price - currentPricing.price;
     const savingsVsSeparate = flowAlonePrice - priceDiff;
+    const savingsPercent = Math.round((savingsVsSeparate / flowAlonePrice) * 100);
+    const extraCostLabel = cadence === "monthly-sub"
+      ? `+${formatPrice(priceDiff)}/mo`
+      : cadence === "quarterly-sub"
+        ? `+${formatPrice(priceDiff)}/qtr`
+        : `+${formatPrice(priceDiff)}`;
     return {
       headline: "Get the full system?",
-      body: "Most customers take Flow and Clear together. Clear sustains your afternoon, Flow sharpens your morning. Together they compound in a way that neither delivers alone.",
+      body: "Your morning is covered. Your afternoon holds. That's the full protocol.",
       acceptLabel: "Upgrade to Both",
       declineLabel: "No thanks, just Clear",
       upgradedProduct: "both",
@@ -494,11 +530,20 @@ export function getUpsellOffer(
       savingsAmount: savingsVsSeparate,
       savingsLabel: `Save ${formatPrice(savingsVsSeparate)} vs adding Flow separately`,
       image: bothImage,
+      perShotHero: {
+        currentPerShot: currentPricing.perShot,
+        upgradedPerShot: bothPricing.perShot,
+        extraCostLabel,
+        savingsPercent,
+        addedProductName: "Flow",
+      },
       benefits: [
-        "Add CONKA Flow (AM focus) to your order",
-        `Save ${formatPrice(savingsVsSeparate)} vs buying separately`,
-        "Full-day cognitive support, sunrise to sunset",
+        `Save ${savingsPercent}% vs buying separately`,
+        "Flow sharpens the morning. Clear holds the afternoon",
+        "One decision. Full day covered",
       ],
+      // TODO: Verify "30 days" figure against actual subscription data before publishing
+      socialNudge: "Most people who start with Clear switch to Both within 30 days.",
     };
   }
 
