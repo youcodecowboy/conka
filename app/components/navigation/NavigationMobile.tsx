@@ -76,7 +76,7 @@ export default function NavigationMobile({
               alt="CONKA logo"
               width={440}
               height={112}
-              className="h-16 md:h-20 w-auto invert"
+              className="h-7 md:h-9 w-auto"
               priority
             />
           </a>
@@ -147,11 +147,11 @@ export default function NavigationMobile({
             <div className="flex justify-between items-center mb-6">
               <a href="/" className="flex items-center">
                 <Image
-                  src="/conka.svg"
+                  src="/conka-logo.webp"
                   alt="CONKA logo"
-                  width={270}
-                  height={90}
-                  className="h-16 w-auto invert"
+                  width={440}
+                  height={112}
+                  className="h-7 w-auto invert"
                   priority
                 />
               </a>
