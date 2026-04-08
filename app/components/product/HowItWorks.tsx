@@ -57,7 +57,7 @@ const STEPS: Record<
       number: "02",
       title: "Take Daily",
       description:
-        "Best taken 30-60 minutes before you need peak performance, or in the evening to support decision-making and recovery.",
+        "Best taken 30-60 minutes before you need peak performance, or in the afternoon to support decision-making and recovery.",
     },
     {
       number: "03",

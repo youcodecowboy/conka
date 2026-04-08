@@ -15,12 +15,12 @@ const FAQ_ITEMS = [
   {
     question: "What\u2019s the difference between Flow and Clear?",
     answer:
-      "CONKA Flow (black cap) is your morning foundation. It uses adaptogens like Ashwagandha and Lemon Balm for calm focus without caffeine. CONKA Clear (white cap) is your evening recovery shot. It combines nootropics like Alpha GPC and Glutathione with Vitamin C, which contributes to normal psychological function.\u2020\u2020 One of each, every day.",
+      "CONKA Flow (black cap) is your morning foundation. It uses adaptogens like Ashwagandha and Lemon Balm for calm focus without caffeine. CONKA Clear (white cap) is your afternoon recovery shot. It combines nootropics like Alpha GPC and Glutathione with Vitamin C, which contributes to normal psychological function.\u2020\u2020 One of each, every day.",
   },
   {
     question: "Can I take just one shot?",
     answer:
-      "Yes. You can subscribe to Flow or Clear individually. However, the two formulas are designed to work as a daily pair. Flow supports your daytime focus and energy, Clear supports your evening recovery. Together they cover the full 24-hour cycle, and the combined subscription is better value per shot.",
+      "Yes. You can subscribe to Flow or Clear individually. However, the two formulas are designed to work as a daily pair. Flow supports your daytime focus and energy, Clear supports your afternoon recovery. Together they cover the full 24-hour cycle, and the combined subscription is better value per shot.",
   },
   {
     question: "How quickly will it arrive?",

@@ -91,7 +91,7 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       benefitHeadline: "Mental clarity and complete recovery",
       bodyCopy:
         "Sharpen performance when you need it. Support recovery when you're done.",
-      bestFor: ["Post-training recovery", "Evening wind-down", "Sleep quality"],
+      bestFor: ["Post-training recovery", "Afternoon clarity", "Sleep quality"],
       stats: [
         { value: "+63%", label: "Memory & Attention" },
         { value: "+57%", label: "Brain Blood Flow" },

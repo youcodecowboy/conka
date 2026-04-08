@@ -226,7 +226,7 @@ export default function ProtocolCalendar({
                     <span className="text-white text-xs font-bold">02</span>
                   </div>
                   <p className="font-clinical text-sm">
-                    Take CONKA Clear before demanding tasks or in the evening
+                    Take CONKA Clear before demanding tasks or in the afternoon
                   </p>
                 </div>
               </div>

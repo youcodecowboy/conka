@@ -652,7 +652,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
     annotation: "your competitive edge",
     positioning: "CLARITY",
     whenToTake:
-      "Best taken 30-60 minutes before you need peak performance, or in the evening to support decision-making and recovery.",
+      "Best taken 30-60 minutes before you need peak performance, or in the afternoon to support decision-making and recovery.",
     ingredients: [
       { name: "Vitamin C", part: "", percentage: "50.46%" },
       { name: "Alpha GPC", part: "Seeds", percentage: "16.11%" },
@@ -747,7 +747,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
       {
         question: "When should I take CONKA Clear?",
         answer:
-          "CONKA Clear is best taken 30-60 minutes before you need peak performance, such as important meetings, competitions, or creative work. It's also effective in the evening for recovery.",
+          "CONKA Clear is best taken 30-60 minutes before you need peak performance, such as important meetings, competitions, or creative work. It's also effective in the afternoon for recovery.",
       },
       {
         question: "How is CONKA Clear different from CONKA Flow?",

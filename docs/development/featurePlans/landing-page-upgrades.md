@@ -9,10 +9,13 @@
 
 ## Phase Overview
 
-| Phase | Description                                                                    | Status      |
-| ----- | ------------------------------------------------------------------------------ | ----------- |
-| 1     | Critical fixes before next campaign (performance, compliance, SEO, mobile CTA) | Not Started |
-| 2     | Landing page restructure (reorder, copy, CTA standardisation, FAQ trim)        | Not Started |
+| Phase | Description                                                                    | Status    |
+| ----- | ------------------------------------------------------------------------------ | --------- |
+| 1     | Critical fixes before next campaign (performance, compliance, SEO, mobile CTA) | Done      |
+| 2     | Landing page restructure (reorder, copy, CTA standardisation, FAQ trim)        | Done      |
+| 3     | Funnel product selection page (header, copy, dynamic CTA)                      | Not Started |
+| 4     | Funnel plan page (header, hero cleanup, accent colors, price anchors, CTAs)    | Not Started |
+| 5     | Evening to Afternoon global terminology audit                                  | Not Started |
 
 ---
 
@@ -173,185 +176,229 @@ Remove "What makes CONKA different from coffee?" (redundant with comparison sect
 
 ## No-Gos
 
-- Not touching the funnel page (`/funnel`) - separate sprint
+**Phases 1-2 (landing page -- complete):**
 - Not integrating new hero photography (pending shoot)
 - Not fixing cut-off logos in hero image
 - Not redesigning the coffee comparison section (marked unchanged)
-- Not deleting any sections - unused sections stacked at bottom for now
+- Not deleting any landing page sections -- unused sections stacked at bottom
+
+**Phases 3-5 (funnel + terminology):**
+- Not touching upsell modal copy or logic (separate optimization)
+- Not redesigning card layout or adding new UI patterns -- copy, colors, and CTA changes only
+- Not touching checkout flow or Shopify variant mapping
+- Not changing customer testimonials that use "evening" (real quotes, cannot alter)
+- Not creating new slideshow image assets (already handled separately)
+- Not removing desktop left-column hero image on Step 2 (provides visual anchor)
 
 ## Risks
 
-- **Performance (1.1):** Could spiral. Timebox to quick wins (image format, lazy loading, fetchpriority), measure, stop if 85+.
-- **Testimonials (2.5):** Two of three have incomplete data. Build component with available data, use placeholders for missing scores.
-- **KSM-66 (1.2):** Touches 8 files across the codebase including shared components used on other pages. Verify no regressions on product pages after change.
+**Phases 1-2 (complete):**
+- ~~Performance (1.1): Could spiral. Timebox to quick wins.~~ Done.
+- ~~Testimonials (2.5): Incomplete data.~~ Done with available data.
+- ~~KSM-66 (1.2): Touches 8 files.~~ Done, verified no regressions.
+
+**Phases 3-5:**
+- **Accent color shift (4.2):** Clear's change from blue (#0369a1) to teal (#0F6E56) is significant. Verify readability against white card backgrounds on mobile.
+- **Dynamic CTA complexity (3.3, 4.4):** CTA now needs product + cadence + step to compute labels. Keep the helper function clean and typed to avoid pricing drift.
+- **Evening to Afternoon (5.1):** Touches ~12 files across the codebase including shared components used on product pages. Needs regression check on `/conka-flow`, `/conka-clarity`, `/start`, and `/funnel` after deployment. Ship as separate PR.
+- **Price anchor values (4.3):** Computed from `TRIAL_PACK_PER_SHOT` constant. If the trial pack price changes, a single constant update propagates everywhere. Verify trial pack remains at £3.75/shot before launch.
 
 ## Out of Scope
 
 - Cookie consent positioning (already fixed)
-- New hero photography (pending Friday shoot)
+- New hero photography (pending shoot)
 - Cut-off logo fix
-- Funnel page changes
-- Analytics events
+- Analytics events (funnel analytics already in place)
+- Upsell modal redesign
+- Email sequences, app onboarding, or packaging copy (Evening to Afternoon audit is codebase-only)
 
-Section 3 — Priority 2: Product selection page
+## Phase 3: Funnel Product Selection Page
 
-3.1 Page header and sub-line
-P2 — Copy change
+Step 1 of the funnel (`/funnel`). Component: `ProductSelector.tsx`, data: `funnelData.ts`.
 
-Header
-Choose your product
-Your CONKA plan
+### 3.1 Header and Sub-copy Cleanup
 
-Sub-line
-What would you like in your plan?
-[REMOVE ENTIRELY]
+Remove the feature-bashing caption and simplify the header. The product cards themselves communicate value.
 
-3.2 Remove feature-bashing sub-copy
-P2 — Copy change
+- Remove "16 active ingredients. Less than a coffee. 150,000+ bottles sold." caption (`ProductSelector.tsx` line 62-64)
+- Change H2 "Choose your product" to "Your CONKA plan" (`ProductSelector.tsx` line 70)
+- Remove subtitle "What would you like in your plan?" entirely (`ProductSelector.tsx` lines 72-74)
+- **Files:** `app/components/funnel/ProductSelector.tsx`
+- **Complexity:** Small
+- **Jira:** TBD
 
-Sub-copy
-16 active ingredients. Less than a coffee. 150,000+ bottles sold.
-[REMOVE ENTIRELY]
+### 3.2 Product Card Copy
 
-3.3 Terminology audit: Evening → Afternoon
-P2 — Global audit
+Update product descriptions in `FUNNEL_PRODUCTS` to outcome-focused copy. Also update Clear’s tagline and time label to use "Afternoon" (aligns with Phase 5 terminology audit).
 
-All pages
-EVENING
-AFTERNOON
+| Product | Current | New |
+|---------|---------|-----|
+| Both | "Morning foundation + evening recovery. Most customers choose Both because the two formulas are designed to work as a daily pair." | "The complete protocol. Flow sharpens your morning. Clear sustains your afternoon. Together they cover the full day." |
+| Flow | "Adaptogens including Ashwagandha and Lemon Balm. Caffeine-free, UK patented formula." | "Take it in the morning. Calm, sustained focus without caffeine. Your brain on before the day starts." |
+| Clear | "Nootropics + Vitamin C, which contributes to normal psychological function.†† Glutathione, Alpha GPC, NAC." | "Take it in the afternoon. Clears the 2pm fog and sustains output. The shot for the second half of your day." |
 
-DEV: Global audit — search codebase, CMS, email sequences, app onboarding, packaging, and upsell modals for all instances of ‘Evening’ in CONKA Clear context. Replace with ‘Afternoon’ everywhere in a single pass.
+Also update:
+- `clear.tagline`: "Evening wind-down" to "Afternoon clarity" (`funnelData.ts` line 243)
+- `clear.timeLabel`: "Evening" to "Afternoon" (`funnelData.ts` line 248)
+- `clear.timeEmoji`: "🌙" to "☀️" (afternoon, not night) (`funnelData.ts` line 249)
 
-3.4 Product card copy
-P2 — Copy change
+- **Files:** `app/lib/funnelData.ts` (lines 206-256)
+- **Complexity:** Small
+- **Jira:** TBD
 
-Flow + Clear
-Morning foundation + evening recovery. Most customers choose Both because the two formulas are designed to work as a daily pair.
-The complete protocol. Flow sharpens your morning. Clear sustains your afternoon. Together they cover the full day.
+### 3.3 Dynamic CTA -- Product Selection
 
-Flow
-Adaptogens including KSM-66 Ashwagandha and Lemon Balm. Caffeine-free, UK patented formula.
-Take it in the morning. Calm, sustained focus without caffeine. Your brain on before the day starts.
+The Step 1 CTA currently shows a static "Continue" label. Update it to reflect the selected product with pricing context. The button still advances to Step 2 (plan selection) -- it does not skip to checkout.
 
-Clear
-Nootropics + Vitamin C, which contributes to normal psychological function. Glutathione, Alpha GPC, NAC.
-Take it in the afternoon. Clears the 2pm fog and sustains output. The shot for the second half of your day.
+**CTA labels by product state:**
 
-3.5 Dynamic CTA — product selection page
-P2 — Development task
+| State | Button label | Sub-label |
+|-------|-------------|-----------|
+| Flow + Clear (default) | Get Both · £1.61/shot -> | 56 shots · save £29.99 |
+| Flow only | Get Flow · £2.14/shot -> | 28 shots/mo |
+| Clear only | Get Clear · £2.14/shot -> | 28 shots/mo |
 
-State
-Button label
-Sub-label
-Flow + Clear (default)
-Get Both · £1.61/shot →
-56 shots · save £29.99
-Flow only
-Get Flow · £2.14/shot →
-28 shots/mo
-Clear only
-Get Clear · £2.14/shot →
-28 shots/mo
+Implementation:
+- Add `subLabel` prop to `FunnelCTA` component (12px, centred, beneath button)
+- Build helper `getFunnelCTALabels(step, product, cadence)` in `funnelData.ts` that computes label + subLabel from the pricing matrix (not hardcoded values)
+- Wire up in `FunnelClient.tsx` to replace static `step1Label`/`step2Label` constants
+- CTA updates reactively on product card selection
 
-DEV: Button updates on card radio change event. Sub-label: 12px, centred, beneath button.
+- **Files:** `app/components/funnel/FunnelCTA.tsx`, `app/funnel/FunnelClient.tsx`, `app/lib/funnelData.ts`
+- **Complexity:** Medium
+- **Jira:** TBD
 
-Section 4 — Priority 2: Plan pages
+---
 
-4.1 Changes common to all three plan pages
-P2 — Copy + design
+## Phase 4: Funnel Plan Page
 
-Header
-Choose your plan
-Your delivery plan
+Step 2 of the funnel (`/funnel`). Component: `CadenceSelector.tsx`, data: `funnelData.ts`.
 
-Sub-line
-Select how often you’d like CONKA delivered
-[REMOVE ENTIRELY]
+### 4.1 Header and Mobile Hero Cleanup
 
-Remove large product hero image from plan page — the ‘You chose’ confirmation strip is sufficient
-Remove benefits strip (Sustained Energy, Better Sleep, etc.) from plan page hero area
-Remove ‘Replaces 9/14 Supplements’ badge from Flow and Clear hero images
+Simplify the plan page header and remove the redundant mobile hero image. The "You chose" confirmation bar is sufficient context.
 
-DEV: Remove hero image element entirely — do not hide with CSS. Do not load it on mobile.
+- Change H2 "Choose your plan" to "Your delivery plan" (`CadenceSelector.tsx` line 81)
+- Remove subtitle "Select how often you’d like CONKA delivered" entirely (`CadenceSelector.tsx` lines 83-85)
+- Remove mobile hero image from Step 2 (`FunnelClient.tsx` lines 296-302) -- delete the element, do not CSS-hide
+- Keep desktop left-column hero image (sticky product shot provides visual anchor)
+- Update `app/funnel/page.tsx` meta description: "Clear for evening clarity" to "Clear for afternoon clarity"
 
-4.2 Price anchor rationale
-P2 — Pricing
+- **Files:** `app/components/funnel/CadenceSelector.tsx`, `app/funnel/FunnelClient.tsx`, `app/funnel/page.tsx`
+- **Complexity:** Small
+- **Jira:** TBD
 
-The £3.75/shot trial pack price (4-shot plan, available on site to same traffic) is used as the crossed-out anchor on every card header across all three plan pages. The anchor is visible on the site so no legitimising line is required.
+### 4.2 Per-Product Accent Colors
 
-Plan page
-Monthly saving
-Quarterly saving
-One-time saving
-Both (Flow + Clear)
-57% (£1.61 vs £3.75)
-63% (£1.37 vs £3.75)
-38% (£2.32 vs £3.75)
-Flow only
-43% (£2.14 vs £3.75)
-52% (£1.79 vs £3.75)
-24% (£2.86 vs £3.75)
-Clear only
-43% (£2.14 vs £3.75)
-52% (£1.79 vs £3.75)
-24% (£2.86 vs £3.75)
+Update product accent colors and make the CadenceSelector cards visually adapt to the selected product. Currently all plan cards use `brand-accent`. After this change, the plan step takes on the selected product’s color identity.
 
-4.3 Both (Flow + Clear) plan cards — blue accent
-P2 — Development task
+**Accent color changes in `FUNNEL_PRODUCTS`:**
 
-Card accent colour: blue (#378ADD). All four states: collapsed, monthly selected, quarterly selected, one-time selected.
+| Product | Current | New |
+|---------|---------|-----|
+| Both (Flow + Clear) | `#4058bb` | `#378ADD` (blue) |
+| Flow | `#d97706` | `#F59E0B` (amber) |
+| Clear | `#0369a1` | `#0369a1` (unchanged -- existing brand teal) |
 
-📁 Visual reference: Both plan card visual references — Google Drive
+- Pass `product` prop through to CadenceSelector for accent-aware styling
+- Apply product accent to: selected card border, radio indicator, feature bullet icons, expanded detail highlights
+- All four card states (collapsed, monthly selected, quarterly selected, one-time selected) must use the product accent
 
-State
-Button label
-Sub-label
-Monthly (default)
-Start monthly · £89.99/mo →
-£1.61/shot · cancel anytime
-Quarterly
-Start quarterly · £229.99/quarter →
-£1.37/shot · save £119.52/year · cancel anytime
-One-Time
-Buy once · £129.99 →
-£2.32/shot · 100-day guarantee · no subscription
+- **Files:** `app/lib/funnelData.ts`, `app/components/funnel/CadenceSelector.tsx`
+- **Complexity:** Medium
+- **Jira:** TBD
 
-4.4 Flow only plan cards — amber accent
-P2 — Development task
+### 4.3 Price Anchor -- Trial Pack Reference
 
-Card accent colour: amber (#F59E0B). Amber distinguishes the Flow-only plan page from Both (blue) and Clear (teal).
+The £3.75/shot trial pack (4-shot plan, available on site to the same traffic) is the crossed-out anchor on every plan card. This is a legitimate reference price visible on the site.
 
-📁 Visual reference: Flow plan card visual references — Google Drive
+Update `compareAtPrice` in `FUNNEL_PRICING` to use `£3.75 x shotCount` for all 9 product/cadence combinations:
 
-State
-Button label
-Sub-label
-Monthly (default)
-Start monthly · £59.99/mo →
-£2.14/shot · cancel anytime
-Quarterly
-Start quarterly · £149.99/quarter →
-£1.79/shot · save £119.92/year · cancel anytime
-One-Time
-Buy once · £79.99 →
-£2.86/shot · 100-day guarantee · no subscription
+| Product | Cadence | Price | Anchor (£3.75/shot) | Saving |
+|---------|---------|-------|---------------------|--------|
+| Both | Monthly sub | £89.99 (56 shots) | £210.00 | 57% |
+| Both | Quarterly sub | £229.99 (168 shots) | £630.00 | 63% |
+| Both | One-time | £129.99 (56 shots) | £210.00 | 38% |
+| Flow | Monthly sub | £59.99 (28 shots) | £105.00 | 43% |
+| Flow | Quarterly sub | £149.99 (84 shots) | £315.00 | 52% |
+| Flow | One-time | £79.99 (28 shots) | £105.00 | 24% |
+| Clear | Monthly sub | £59.99 (28 shots) | £105.00 | 43% |
+| Clear | Quarterly sub | £149.99 (84 shots) | £315.00 | 52% |
+| Clear | One-time | £79.99 (28 shots) | £105.00 | 24% |
 
-4.5 Clear only plan cards — teal accent
-P2 — Development task
+- Compute `compareAtPrice` as `TRIAL_PACK_PER_SHOT * shotCount` rather than hardcoding (add `TRIAL_PACK_PER_SHOT = 3.75` constant)
+- Display savings percentage on cards alongside the crossed-out price
+- Show compareAtPrice on ALL cards (currently only shown on subscription cards)
 
-Card accent colour: teal (#0F6E56). Teal distinguishes the Clear-only plan page from Both (blue) and Flow (amber).
+- **Files:** `app/lib/funnelData.ts`, `app/components/funnel/ProductSelector.tsx`, `app/components/funnel/CadenceSelector.tsx`
+- **Complexity:** Medium
+- **Jira:** TBD
 
-📁 Visual reference: Clear plan card visual references — Google Drive
+### 4.4 Dynamic CTA -- Plan Selection
 
-State
-Button label
-Sub-label
-Monthly (default)
-Start monthly · £59.99/mo →
-£2.14/shot · cancel anytime
-Quarterly
-Start quarterly · £149.99/quarter →
-£1.79/shot · save £119.92/year · cancel anytime
-One-Time
-Buy once · £79.99 →
-£2.86/shot · 100-day guarantee · no subscription
+The Step 2 CTA updates based on selected product + cadence. Uses the same `getFunnelCTALabels` helper built in 3.3.
+
+**CTA labels for Both (Flow + Clear):**
+
+| Cadence | Button label | Sub-label |
+|---------|-------------|-----------|
+| Monthly (default) | Start monthly · £89.99/mo -> | £1.61/shot · cancel anytime |
+| Quarterly | Start quarterly · £229.99/quarter -> | £1.37/shot · save £119.52/year · cancel anytime |
+| One-Time | Buy once · £129.99 -> | £2.32/shot · 100-day guarantee · no subscription |
+
+**CTA labels for Flow only:**
+
+| Cadence | Button label | Sub-label |
+|---------|-------------|-----------|
+| Monthly (default) | Start monthly · £59.99/mo -> | £2.14/shot · cancel anytime |
+| Quarterly | Start quarterly · £149.99/quarter -> | £1.79/shot · save £119.92/year · cancel anytime |
+| One-Time | Buy once · £79.99 -> | £2.86/shot · 100-day guarantee · no subscription |
+
+**CTA labels for Clear only:**
+
+| Cadence | Button label | Sub-label |
+|---------|-------------|-----------|
+| Monthly (default) | Start monthly · £59.99/mo -> | £2.14/shot · cancel anytime |
+| Quarterly | Start quarterly · £149.99/quarter -> | £1.79/shot · save £119.92/year · cancel anytime |
+| One-Time | Buy once · £79.99 -> | £2.86/shot · 100-day guarantee · no subscription |
+
+- All prices computed from pricing matrix, not hardcoded
+- Yearly savings computed as: `(monthlyPrice * 12) - (quarterlyPrice * 4)`
+
+- **Files:** `app/lib/funnelData.ts`, `app/funnel/FunnelClient.tsx`
+- **Complexity:** Small (logic already built in 3.3, just different inputs)
+- **Jira:** TBD
+
+---
+
+## Phase 5: Evening to Afternoon Global Terminology Audit
+
+Separate PR. Replaces "Evening" with "Afternoon" in all CONKA Clear context across the codebase.
+
+### 5.1 Codebase Audit
+
+**Funnel files (handled in Phases 3-4 above, listed here for completeness):**
+- `funnelData.ts` -- description, tagline, timeLabel, alt text, upsell copy (6 instances)
+- `funnel/page.tsx` -- meta description (1 instance)
+
+**Landing page components:**
+- `LandingWhatsInside.tsx` -- "Evening recovery" heading, body copy, section title, usage instruction (lines 18, 21, 35, 71)
+- `LandingProductSplit.tsx` -- "Evening wind-down ritual" benefit bullet (line 122)
+- `LandingFAQ.tsx` -- Clear description, product synergy copy (lines 18, 23)
+
+**Product pages and shared components:**
+- `formulaContent.ts` -- usage instructions, FAQ answer (lines 655, 750)
+- `HowItWorks.tsx` -- timing instruction (line 60)
+- `WhatToExpectMobile.tsx` -- dosage guidance (line 188)
+- `WhatToExpectDesktop.tsx` -- dosage guidance (line 116)
+
+**Other components:**
+- `ProtocolCalendar.tsx` -- calendar tooltip (line 229)
+- `ProductCard.tsx` -- "best for" metadata (line 94)
+
+**DO NOT change -- customer testimonials:**
+- `testimonialsFromLoox.ts` -- 6 instances of "morning to evening" and similar phrasing. These are real customer quotes; altering them would be falsifying reviews.
+
+- **Files:** ~12 files, ~21 edits (excluding testimonials and funnel changes already covered in Phases 3-4)
+- **Complexity:** Small per-edit, Medium overall due to blast radius
+- **Jira:** TBD

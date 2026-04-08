@@ -31,7 +31,7 @@ export default function LandingProductSplit() {
         <span className="uppercase tracking-wide">Morning</span>
         <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, rgba(217, 119, 6, 0.3), rgba(3, 105, 161, 0.3))" }} />
         <span className="uppercase tracking-wide">Afternoon</span>
-        <span aria-hidden>🌙</span>
+        <span aria-hidden>☀️</span>
       </div>
 
       {/* Two-column product cards */}
@@ -106,7 +106,7 @@ export default function LandingProductSplit() {
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[var(--brand-radius-interactive)] text-xs font-semibold mb-4"
             style={{ backgroundColor: CLEAR_ACCENT_BG, color: CLEAR_ACCENT_TEXT }}
           >
-            🌙 Take in the afternoon
+            ☀️ Take in the afternoon
           </div>
 
           <h3 className="text-lg lg:text-xl font-bold text-black">
@@ -119,7 +119,7 @@ export default function LandingProductSplit() {
 
           {/* Benefits -- flex-1 so this area stretches to align with sibling card */}
           <div className="flex-1 space-y-3">
-            {["Vitamin C for psychological function††", "Glutathione + Alpha GPC + NAC", "Evening wind-down ritual"].map((benefit) => (
+            {["Vitamin C for psychological function††", "Glutathione + Alpha GPC + NAC", "Afternoon clarity ritual"].map((benefit) => (
               <div key={benefit} className="flex items-center gap-3">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
                 <span className="text-sm text-black/80">{benefit}</span>

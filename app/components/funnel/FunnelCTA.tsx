@@ -4,6 +4,7 @@ import { GUARANTEE_LABEL } from "@/app/lib/offerConstants";
 
 interface FunnelCTAProps {
   label: string;
+  subLabel?: string;
   onClick: () => void;
   loading: boolean;
   error: string | null;
@@ -11,6 +12,7 @@ interface FunnelCTAProps {
 
 export default function FunnelCTA({
   label,
+  subLabel,
   onClick,
   loading,
   error,
@@ -70,6 +72,10 @@ export default function FunnelCTA({
           </>
         )}
       </button>
+
+      {subLabel && !loading && (
+        <p className="mt-1.5 text-center text-xs text-black/50">{subLabel}</p>
+      )}
 
       {error && (
         <p className="mt-2 text-center text-sm text-red-600">{error}</p>

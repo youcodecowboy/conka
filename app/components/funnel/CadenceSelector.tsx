@@ -5,7 +5,9 @@ import {
   type FunnelCadence,
   type FunnelProduct,
   FUNNEL_CADENCES,
+  FUNNEL_PRODUCTS,
   getOfferPricing,
+  getSavingsPercent,
 } from "@/app/lib/funnelData";
 import { formatPrice } from "@/app/lib/productData";
 
@@ -72,17 +74,16 @@ export default function CadenceSelector({
     onChange(newCadence);
   };
 
+  const accent = FUNNEL_PRODUCTS[product].accent;
+
   return (
     <div>
       <h2
-        className="text-2xl lg:text-3xl font-semibold tracking-[var(--brand-h2-tracking)] mb-2"
+        className="text-2xl lg:text-3xl font-semibold tracking-[var(--brand-h2-tracking)] mb-5"
         style={{ color: "var(--brand-black)" }}
       >
-        Choose your plan
+        Your delivery plan
       </h2>
-      <p className="text-sm text-black/50 mb-5">
-        Select how often you&apos;d like CONKA delivered
-      </p>
 
       <div className="flex flex-col gap-3">
         {CADENCE_ORDER.map((cadenceKey) => {
@@ -98,9 +99,10 @@ export default function CadenceSelector({
               onClick={() => handleChange(cadenceKey)}
               className={`relative w-full text-left rounded-xl border-2 transition-all duration-200 select-none overflow-hidden ${
                 isActive
-                  ? "card-pulse border-brand-accent bg-brand-accent/[0.03] shadow-md"
+                  ? "card-pulse shadow-md"
                   : "border-black/10 hover:border-black/20 shadow-sm"
               }`}
+              style={isActive ? { borderColor: accent, backgroundColor: `${accent}08` } : undefined}
             >
               {/* Badge banner */}
               {display.badge && (
@@ -122,9 +124,10 @@ export default function CadenceSelector({
                     <div
                       className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-all duration-200 ${
                         isActive
-                          ? "border-brand-accent bg-brand-accent scale-110"
+                          ? "scale-110"
                           : "border-black/30 scale-100"
                       }`}
+                      style={isActive ? { borderColor: accent, backgroundColor: accent } : undefined}
                     >
                       <svg
                         width="10"
@@ -176,14 +179,19 @@ export default function CadenceSelector({
                     </div>
 
                     {/* Total price — secondary */}
-                    <div className="flex items-baseline gap-2">
+                    <div className="flex items-baseline gap-2 flex-wrap">
                       <span className="brand-data text-base font-semibold text-[var(--brand-black)]">
                         {formatPrice(pricing.price)}{frequency}
                       </span>
                       {pricing.compareAtPrice && (
-                        <span className="brand-data-label text-black/40 line-through">
-                          {formatPrice(pricing.compareAtPrice)}
-                        </span>
+                        <>
+                          <span className="brand-data-label text-black/40 line-through">
+                            {formatPrice(pricing.compareAtPrice)}
+                          </span>
+                          <span className="text-xs font-semibold" style={{ color: accent }}>
+                            {getSavingsPercent(pricing.price, pricing.compareAtPrice)}% off
+                          </span>
+                        </>
                       )}
                     </div>
 
@@ -196,7 +204,7 @@ export default function CadenceSelector({
                     <div className="space-y-1.5">
                       {display.features.map((feature) => (
                         <div key={feature} className="flex items-center gap-2 text-sm text-black/60">
-                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0 text-brand-accent">
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0" style={{ color: accent }}>
                             <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                           <span>{feature}</span>
