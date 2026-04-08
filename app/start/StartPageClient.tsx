@@ -93,9 +93,7 @@ export default function StartPageClient() {
         aria-label="Key Benefits"
       >
         <div className="brand-track">
-          <Reveal>
-            <LandingBenefits />
-          </Reveal>
+          <LandingBenefits />
         </div>
       </section>
 
@@ -106,12 +104,10 @@ export default function StartPageClient() {
           aria-label="Customer reviews"
         >
           <div className="brand-track">
-            <Reveal>
-              <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
-              <div className="mt-8 flex justify-start">
-                <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
-              </div>
-            </Reveal>
+            <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
+            <div className="mt-8 flex justify-start">
+              <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
+            </div>
           </div>
         </section>
       )}
@@ -122,9 +118,7 @@ export default function StartPageClient() {
         aria-label="FAQ"
       >
         <div className="brand-track">
-          <Reveal>
-            <LandingFAQ />
-          </Reveal>
+          <LandingFAQ />
         </div>
       </section>
 
@@ -134,9 +128,7 @@ export default function StartPageClient() {
         aria-label="Important information and disclaimers"
       >
         <div className="brand-track">
-          <Reveal>
-            <LandingDisclaimer />
-          </Reveal>
+          <LandingDisclaimer />
         </div>
       </section>
 

@@ -86,6 +86,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.conka.io"),
   title: "CONKA - Daily Nootropic Brain Shot",
   description: "Premium daily nootropic brain shot supplements",
   openGraph: {
@@ -126,23 +127,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect to Shopify CDN for faster cart/checkout */}
+        {/* Preconnect to critical origins only (keep under 4) */}
         <link rel="preconnect" href="https://cdn.shopify.com" />
-        <link rel="dns-prefetch" href="https://cdn.shopify.com" />
-        {/* Preconnect to Shopify storefront API */}
         <link rel="preconnect" href="https://conka-6770.myshopify.com" />
-        <link rel="dns-prefetch" href="https://conka-6770.myshopify.com" />
-        {/* Preconnect to analytics domains */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://connect.facebook.net" />
 
-        {/* CookieYes consent banner — must load before all analytics/marketing scripts */}
+        {/* CookieYes consent banner */}
         <Script
           id="cookieyes"
           src="https://cdn-cookieyes.com/client_data/da22d570927106b57de609d869ecc4f3/script.js"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
         />
 
         {/* Google Analytics */}
@@ -160,7 +153,7 @@ export default function RootLayout({
         </Script>
 
         {/* Meta Pixel */}
-        <Script id="meta-pixel" strategy="afterInteractive">
+        <Script id="meta-pixel" strategy="lazyOnload">
           {`
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -175,8 +168,6 @@ export default function RootLayout({
         </Script>
 
         {/* Triple Pixel */}
-        <link rel="preconnect" href="https://api.config-security.com/" crossOrigin="" />
-        <link rel="preconnect" href="https://conf.config-security.com/" crossOrigin="" />
         <Script
           id="triple-pixel"
           strategy="lazyOnload"
