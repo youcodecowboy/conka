@@ -26,7 +26,7 @@ export default function LandingProductSplit() {
       </div>
 
       {/* AM/PM connector strip */}
-      <div className={`reveal ${revealed} flex items-center gap-3 mb-4 text-xs text-black/40 font-medium`}>
+      <div className="flex items-center gap-3 mb-4 text-xs text-black/40 font-medium">
         <span aria-hidden>☀️</span>
         <span className="uppercase tracking-wide">Morning</span>
         <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, rgba(217, 119, 6, 0.3), rgba(3, 105, 161, 0.3))" }} />
@@ -38,6 +38,7 @@ export default function LandingProductSplit() {
       <div className="grid grid-cols-2 gap-3 lg:gap-6">
         {/* CONKA Flow */}
         <div className={`reveal ${revealed} flex flex-col rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/12 shadow-sm transition-all duration-200 lg:hover:-translate-y-0.5 lg:hover:shadow-md active:scale-[0.99]`} data-stagger="1">
+
           {/* Product image */}
           <div className="flex justify-center mb-4">
             <div className="relative w-20 h-44 lg:w-28 lg:h-56 overflow-hidden">
@@ -138,10 +139,10 @@ export default function LandingProductSplit() {
       </div>
 
       {/* Bridge connector + CTA */}
-      <div className={`reveal ${revealed} flex flex-col items-center`} data-stagger="3">
+      <div className="flex flex-col items-center">
         <div className="w-px h-8 bg-brand-accent/20" />
       </div>
-      <div className={`reveal ${revealed} flex justify-start`} data-stagger="4">
+      <div className="flex justify-start">
         <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
       </div>
     </div>

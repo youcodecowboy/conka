@@ -25,7 +25,6 @@ const CONKA_ATTRIBUTES = [
 
 export default function LandingValueComparison() {
   const [ref, isInView] = useInView();
-  const revealed = isInView ? "revealed" : "";
 
   // Number counter refs -- animate from 0 when section enters viewport
   const coffeePriceRef = useCountUp(parseFloat(COFFEE_PRICE_PER_DAY), isInView, {
@@ -47,7 +46,7 @@ export default function LandingValueComparison() {
   return (
     <div ref={ref}>
       {/* Heading */}
-      <div className={`reveal ${revealed} mb-10`}>
+      <div className="mb-10">
         <h2 className="brand-h2 mb-0">Less than your daily coffee.</h2>
         <p className="mt-2 text-black/60">
           {CONKA_INGREDIENTS_COUNT} active ingredients for the price of a latte.
@@ -55,7 +54,7 @@ export default function LandingValueComparison() {
       </div>
 
       {/* Comparison card */}
-      <div className={`reveal ${revealed} rounded-[var(--brand-radius-card)] bg-white border border-black/6 overflow-hidden`} data-stagger="1">
+      <div className="rounded-[var(--brand-radius-card)] bg-white border border-black/6 overflow-hidden">
         {/* Mobile: stacked | Desktop: side-by-side */}
         <div className="flex flex-col lg:flex-row">
           {/* Coffee side */}
@@ -111,9 +110,8 @@ export default function LandingValueComparison() {
               {COFFEE_ATTRIBUTES.map((attr, i) => (
                 <div
                   key={attr}
-                  className={`reveal ${revealed} flex items-center gap-2.5`}
-                  data-stagger={i + 1}
-                >
+                  className="flex items-center gap-2.5"
+>
                   <svg
                     width="14"
                     height="14"
@@ -195,9 +193,8 @@ export default function LandingValueComparison() {
               {CONKA_ATTRIBUTES.map((attr, i) => (
                 <div
                   key={attr}
-                  className={`reveal ${revealed} flex items-center gap-2.5`}
-                  data-stagger={i + 4}
-                >
+                  className="flex items-center gap-2.5"
+>
                   <svg
                     width="14"
                     height="14"
@@ -220,7 +217,7 @@ export default function LandingValueComparison() {
       </div>
 
       {/* Savings callout -- standalone strip below card */}
-      <div className={`reveal ${revealed} mt-4 px-5 py-3 rounded-[var(--brand-radius-interactive)] bg-brand-accent/8 text-center lg:text-left`} data-stagger="2">
+      <div className="mt-4 px-5 py-3 rounded-[var(--brand-radius-interactive)] bg-brand-accent/8 text-center lg:text-left">
         <span className="text-sm font-semibold text-brand-accent">
           Save{" "}
           <span ref={savingsRef}>~£{MONTHLY_SAVINGS_VS_COFFEE}</span>
@@ -232,7 +229,7 @@ export default function LandingValueComparison() {
       </div>
 
       {/* CTA */}
-      <div className={`reveal ${revealed} mt-8 flex justify-start`} data-stagger="3">
+      <div className="mt-8 flex justify-start">
         <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
       </div>
     </div>
