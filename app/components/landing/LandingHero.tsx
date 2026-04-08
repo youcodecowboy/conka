@@ -124,6 +124,7 @@ export default function LandingHero() {
               width={1920}
               height={1080}
               priority
+              fetchPriority="high"
               sizes="(max-width: 1024px) 95vw, 60vw"
               className="w-full h-auto object-cover"
             />
