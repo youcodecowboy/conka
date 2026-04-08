@@ -127,11 +127,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* CookieYes consent banner */}
+        {/* CookieYes consent banner — lazyOnload so it doesn't become LCP element */}
         <Script
           id="cookieyes"
           src="https://cdn-cookieyes.com/client_data/da22d570927106b57de609d869ecc4f3/script.js"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
 
         {/* Google Analytics */}
@@ -172,10 +172,10 @@ export default function RootLayout({
           }}
         />
 
-        {/* Klaviyo Sign-up Forms */}
+        {/* Klaviyo Sign-up Forms — lazyOnload, popups not needed at initial load */}
         <Script
           src={`https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=${process.env.NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           async
         />
       </head>

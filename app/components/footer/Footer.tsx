@@ -61,7 +61,7 @@ export default function Footer() {
             aria-label="CONKA home"
           >
             <img
-              src="/conka.png"
+              src="/conka-logo.webp"
               alt="CONKA logo"
               width={220}
               height={56}
