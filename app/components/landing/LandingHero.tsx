@@ -115,7 +115,7 @@ export default function LandingHero() {
 
         {/* Product image -- rounded on mobile, 150% width on desktop */}
         <div
-          className={cls("hero-delay-2 relative order-1 lg:order-2 lg:flex-[1.5] w-full", "reveal-scale")}
+          className="relative order-1 lg:order-2 lg:flex-[1.5] w-full"
         >
           <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)]">
             <Image
