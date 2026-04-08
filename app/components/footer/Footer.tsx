@@ -63,6 +63,8 @@ export default function Footer() {
             <img
               src="/conka.png"
               alt="CONKA logo"
+              width={220}
+              height={56}
               className="h-14 md:h-16 w-auto invert"
             />
           </a>

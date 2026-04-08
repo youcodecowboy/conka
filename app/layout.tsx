@@ -127,10 +127,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect to critical origins only (keep under 4) */}
-        <link rel="preconnect" href="https://cdn.shopify.com" />
-        <link rel="preconnect" href="https://conka-6770.myshopify.com" />
-
         {/* CookieYes consent banner */}
         <Script
           id="cookieyes"
