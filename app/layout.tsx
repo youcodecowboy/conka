@@ -173,10 +173,10 @@ export default function RootLayout({
           }}
         />
 
-        {/* Klaviyo Sign-up Forms — lazyOnload, popups not needed at initial load */}
+        {/* Klaviyo Sign-up Forms */}
         <Script
           src={`https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=${process.env.NEXT_PUBLIC_KLAVIYO_PUBLIC_KEY}`}
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           async
         />
       </head>
