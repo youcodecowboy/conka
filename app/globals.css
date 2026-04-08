@@ -451,3 +451,14 @@ body {
     animation: none;
   }
 }
+
+/* CookieYes banner: render off-screen so it can't be an LCP candidate.
+   Slides in after 0.5s. Off-screen elements are excluded from LCP by spec. */
+.cky-consent-container {
+  transform: translateY(100%);
+  animation: cky-slide-in 0.3s ease-out 0.5s forwards;
+}
+
+@keyframes cky-slide-in {
+  to { transform: translateY(0); }
+}
