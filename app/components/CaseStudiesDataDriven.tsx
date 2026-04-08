@@ -116,7 +116,7 @@ export default function CaseStudiesDataDriven({
     <>
       {/* Section Header */}
       <div className="mb-10">
-        <h2 className="brand-h2 mb-0">Athletes, Founders, Corporates. They all take CONKA.</h2>
+        <h2 className="brand-h2 mb-0">Athletes, Founders, Corporates. They all take CONKA.<sup className="text-[0.5em] text-black/30 align-super">^^</sup></h2>
       </div>
 
       {/* Hero Stats Block -- desktop/tablet only */}
@@ -176,12 +176,7 @@ export default function CaseStudiesDataDriven({
           </div>
         </div>
 
-        {/* Footnote */}
-        <div className="text-center mb-8">
-          <p className="brand-caption text-xs text-black/40">
-            ^^ Individual results. Scores from a clinically validated cognitive assessment (FDA cleared, 93% sensitivity, 87.5% test-retest reliability). Measured via the CONKA app over 4+ month testing periods. These results reflect changes in cognitive test performance and do not constitute health claims about CONKA products. Many factors — including lifestyle changes, practice effects, and natural variation — may contribute to changes in test scores.
-          </p>
-        </div>
+        {/* Footnote -- moved to page-level disclaimer section */}
 
         {/* CTA Button */}
         {!hideCTA && (

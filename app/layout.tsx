@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins, Caveat, IBM_Plex_Mono, Syne, DM_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import Script from "next/script";
@@ -80,6 +80,10 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400"],
 });
+
+export const viewport: Viewport = {
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "CONKA - Daily Nootropic Brain Shot",

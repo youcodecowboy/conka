@@ -100,7 +100,7 @@ export const keyBenefits: Benefit[] = [
     description: "Improved sleep quality and reduced time to fall asleep",
     ingredientAsset: {
       image: "/ingredients/flow/ashwagandha.webp",
-      name: "KSM-66® Ashwagandha",
+      name: "Ashwagandha",
       dosage: "600mg per serving",
     },
     clinicalBreakdown: {
@@ -184,7 +184,7 @@ export const keyBenefits: Benefit[] = [
     description: "Reduce cortisol and build natural stress resistance",
     ingredientAsset: {
       image: "/ingredients/flow/ashwagandha.webp",
-      name: "KSM-66® Ashwagandha",
+      name: "Ashwagandha",
       dosage: "600mg per serving",
     },
     clinicalBreakdown: {

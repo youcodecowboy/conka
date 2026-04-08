@@ -2,59 +2,35 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { GUARANTEE_DAYS, GUARANTEE_LABEL_FULL, GUARANTEE_COPY_TRIAL } from "@/app/lib/offerConstants";
-import {
-  PRICE_PER_DAY_BOTH,
-  PRICE_PER_SHOT_BOTH,
-  PRICE_PER_DAY_BOTH_QUARTERLY,
-} from "@/app/lib/landingPricing";
+import { GUARANTEE_LABEL_FULL, GUARANTEE_COPY_TRIAL } from "@/app/lib/offerConstants";
+import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 import LandingCTA from "./LandingCTA";
 
 const FAQ_ITEMS = [
   {
-    question: "What makes CONKA different from coffee or energy drinks?",
-    answer:
-      `CONKA doesn't stimulate, it supports. CONKA Flow uses adaptogens like Ashwagandha and Lemon Balm to regulate your stress response and energy naturally, with no caffeine, no jitters, and no crash. CONKA Clear uses nootropics like Alpha GPC and Glutathione alongside Vitamin C, which contributes to normal psychological function and the protection of cells from oxidative stress.†† Together they support your daily cognitive routine rather than relying on stimulants. It's also more affordable: both formulas together start from £${PRICE_PER_DAY_BOTH}/day, less than a single coffee.`,
-  },
-  {
-    question: "How much does CONKA cost per day?",
-    answer:
-      `CONKA Flow and Clear together start from £${PRICE_PER_DAY_BOTH}/day on a monthly subscription (£${PRICE_PER_SHOT_BOTH}/shot). That's less than a daily coffee. A quarterly subscription brings it down to £${PRICE_PER_DAY_BOTH_QUARTERLY}/day. One-time orders are available too, with no commitment required.`,
-  },
-  {
-    question: "When will I notice results?",
-    answer:
-      `Everyone responds differently. Some people notice they feel calmer and more focused early on, while for others it takes a few weeks of consistent daily use. We recommend giving CONKA at least ${GUARANTEE_DAYS} days as part of your daily routine. That's why we offer a ${GUARANTEE_LABEL_FULL}, so you have time to find out what works for you.`,
-  },
-  {
-    question: "Is CONKA safe to take every day?",
-    answer:
-      "Yes. Both formulas are designed specifically for daily use with naturally derived ingredients at clinically studied doses. CONKA is Informed Sport Certified, meaning every batch is independently tested for purity and banned substances. The same certification used by professional athletes.",
-  },
-  {
-    question: "Which shot do I take when?",
-    answer:
-      "CONKA Flow (black cap) in the morning, with or without food. It's your daily foundation for focus and calm energy. CONKA Clear (white cap) in the evening, ideally 30 to 60 minutes before you need peak clarity, or before bed to support overnight recovery. One of each, every day.",
-  },
-  {
-    question: "What are the ingredients?",
-    answer:
-      "CONKA Flow contains Lemon Balm, KSM-66 Ashwagandha, Turmeric, Rhodiola Rosea, Bilberry, and Black Pepper. CONKA Clear contains Vitamin C, Alpha GPC, Glutathione, N-Acetyl Cysteine, Acetyl-L-Carnitine, Ginkgo Biloba, and Vitamin B12. All ingredients are clinically dosed with full amounts on the label. No proprietary blends.",
-  },
-  {
-    question: "Can I cancel my subscription?",
-    answer:
-      `Yes. Cancel, pause, or modify anytime from your account. No contracts, no commitments, no questions asked. We also offer a ${GUARANTEE_LABEL_FULL}, so if you're not satisfied, you get a full refund.`,
-  },
-  {
-    question: "When will I receive my order?",
-    answer:
-      "Orders placed before 2pm ship same day. Most UK customers receive their order within 1 to 2 working days. Subscriptions ship free. You'll receive tracking information by email as soon as your order dispatches.",
-  },
-  {
-    question: "What if it doesn't work for me?",
+    question: "What if my score doesn\u2019t improve?",
     answer:
       `We offer a ${GUARANTEE_LABEL_FULL}. ${GUARANTEE_COPY_TRIAL}, and if you're not satisfied, contact us for a full refund. No returns needed. We're confident enough in the product to take the risk for you.`,
+  },
+  {
+    question: "What\u2019s the difference between Flow and Clear?",
+    answer:
+      "CONKA Flow (black cap) is your morning foundation. It uses adaptogens like Ashwagandha and Lemon Balm for calm focus without caffeine. CONKA Clear (white cap) is your evening recovery shot. It combines nootropics like Alpha GPC and Glutathione with Vitamin C, which contributes to normal psychological function.\u2020\u2020 One of each, every day.",
+  },
+  {
+    question: "Can I take just one shot?",
+    answer:
+      "Yes. You can subscribe to Flow or Clear individually. However, the two formulas are designed to work as a daily pair. Flow supports your daytime focus and energy, Clear supports your evening recovery. Together they cover the full 24-hour cycle, and the combined subscription is better value per shot.",
+  },
+  {
+    question: "How quickly will it arrive?",
+    answer:
+      "Orders placed before 2pm ship same day. Most UK customers receive their order within 1 to 2 working days. Subscriptions ship free. You\u2019ll receive tracking information by email as soon as your order dispatches.",
+  },
+  {
+    question: "How do I cancel?",
+    answer:
+      `Cancel, pause, or modify anytime from your account. No contracts, no commitments, no questions asked. We also offer a ${GUARANTEE_LABEL_FULL}, so if you're not satisfied, you get a full refund.`,
   },
 ];
 
@@ -142,7 +118,7 @@ export default function LandingFAQ() {
 
           {/* CTA */}
           <div className="mt-8 flex justify-center lg:justify-start">
-            <LandingCTA>Get Started →</LandingCTA>
+            <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
           </div>
         </div>
       </div>

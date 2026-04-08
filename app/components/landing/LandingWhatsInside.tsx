@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import LandingCTA from "./LandingCTA";
+import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 
 const SECTIONS = [
   {
@@ -29,7 +30,7 @@ const SECTIONS = [
       <>
         <p className="font-semibold mb-2">CONKA Flow (Morning)</p>
         <p className="opacity-70">
-          Lemon Balm · Turmeric · KSM-66® Ashwagandha · Rhodiola Rosea · Bilberry · Black Pepper
+          Lemon Balm · Turmeric · Ashwagandha · Rhodiola Rosea · Bilberry · Black Pepper
         </p>
         <p className="font-semibold mt-4 mb-2">CONKA Clear (Evening)</p>
         <p className="opacity-70">
@@ -164,7 +165,7 @@ export default function LandingWhatsInside() {
 
           {/* CTA */}
           <div className="mt-8 flex justify-start">
-            <LandingCTA>Start Your Routine →</LandingCTA>
+            <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
           </div>
         </div>
       </div>

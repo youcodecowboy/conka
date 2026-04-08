@@ -226,7 +226,7 @@ export const FUNNEL_PRODUCTS: Record<FunnelProduct, FunnelProductDisplay> = {
     label: "CONKA Flow",
     tagline: "Morning foundation",
     shotCount: 28,
-    description: "Adaptogens including KSM-66 Ashwagandha and Lemon Balm. Caffeine-free, UK patented formula.",
+    description: "Adaptogens including Ashwagandha and Lemon Balm. Caffeine-free, UK patented formula.",
     thumbnail: "/formulas/conkaFlow/FlowNoBackground.png",
     accent: "#d97706",
     timeLabel: "Morning",

@@ -77,7 +77,7 @@ export interface StruggleSolution {
   keyIngredients: string[];
   ingredientAsset: {
     image: string; // path e.g. "/ingredients/flow/lemon-balm.webp"
-    name: string; // e.g. "Lemon Balm Extract" or "KSM-66® Ashwagandha"
+    name: string; // e.g. "Lemon Balm Extract" or "Ashwagandha"
     dosage: string; // e.g. "300mg per serving"
   };
   clinicalStudy: ClinicalStudy;
@@ -238,7 +238,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         keyIngredients: ["Ashwagandha", "Lemon Balm", "Rhodiola rosea"],
         ingredientAsset: {
           image: "/ingredients/flow/ashwagandha.webp",
-          name: "KSM-66® Ashwagandha",
+          name: "Ashwagandha",
           dosage: "600mg per serving",
         },
         clinicalStudy: {
@@ -379,7 +379,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         keyIngredients: ["Ashwagandha", "Turmeric", "Rhodiola rosea"],
         ingredientAsset: {
           image: "/ingredients/flow/ashwagandha.webp",
-          name: "KSM-66® Ashwagandha",
+          name: "Ashwagandha",
           dosage: "600mg per serving",
         },
         clinicalStudy: {
@@ -449,7 +449,7 @@ export const formulaContent: Record<FormulaId, FormulaContent> = {
         keyIngredients: ["Ashwagandha", "Rhodiola rosea", "Lemon Balm"],
         ingredientAsset: {
           image: "/ingredients/flow/ashwagandha.webp",
-          name: "KSM-66® Ashwagandha",
+          name: "Ashwagandha",
           dosage: "600mg per serving",
         },
         clinicalStudy: {
