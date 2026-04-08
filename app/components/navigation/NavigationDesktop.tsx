@@ -36,10 +36,10 @@ export default function NavigationDesktop({
           {/* Logo - Left */}
           <a href="/" className="flex items-center">
             <Image
-              src="/conka.svg"
+              src="/conka-logo.webp"
               alt="CONKA logo"
-              width={270}
-              height={90}
+              width={440}
+              height={112}
               className="h-16 md:h-20 w-auto invert"
               priority
             />
