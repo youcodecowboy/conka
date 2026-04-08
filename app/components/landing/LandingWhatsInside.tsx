@@ -1,3 +1,4 @@
+// TODO: This component is no longer used on /start. If no other page uses it, delete this file.
 "use client";
 
 import { useState } from "react";

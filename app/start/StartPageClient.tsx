@@ -8,7 +8,6 @@ import LandingHero from "../components/landing/LandingHero";
 import LandingBenefits from "../components/landing/LandingBenefits";
 import LandingProductSplit from "../components/landing/LandingProductSplit";
 import LandingValueComparison from "../components/landing/LandingValueComparison";
-import LandingWhatsInside from "../components/landing/LandingWhatsInside";
 import LandingFAQ from "../components/landing/LandingFAQ";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
 import LandingCTA from "../components/landing/LandingCTA";
@@ -129,19 +128,7 @@ export default function StartPageClient() {
         </div>
       </section>
 
-      {/* ===== 8. WHAT'S INSIDE ===== */}
-      <section
-        className="brand-section brand-bg-white"
-        aria-label="What's inside CONKA"
-      >
-        <div className="brand-track">
-          <Reveal>
-            <LandingWhatsInside />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ===== 9. DISCLAIMER ===== */}
+      {/* ===== 8. DISCLAIMER ===== */}
       <section
         className="brand-section brand-bg-tint"
         aria-label="Important information and disclaimers"
