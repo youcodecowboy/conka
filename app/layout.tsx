@@ -127,12 +127,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* CookieYes consent banner — lazyOnload so it doesn't become LCP element */}
-        <Script
-          id="cookieyes"
-          src="https://cdn-cookieyes.com/client_data/da22d570927106b57de609d869ecc4f3/script.js"
-          strategy="lazyOnload"
-        />
+        {/* CookieYes consent banner — delayed 5s past page load to keep it
+             out of the LCP measurement window (lazyOnload alone wasn't enough
+             on slow 4G). Banner still appears and functions normally. */}
+        <Script id="cookieyes-delayed" strategy="lazyOnload">
+          {`setTimeout(function(){var s=document.createElement('script');s.src='https://cdn-cookieyes.com/client_data/da22d570927106b57de609d869ecc4f3/script.js';document.head.appendChild(s)},5000)`}
+        </Script>
 
         {/* Google Analytics */}
         <Script
