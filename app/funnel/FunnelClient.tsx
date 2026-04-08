@@ -8,7 +8,7 @@ import FunnelHeroAsset from "../components/funnel/FunnelHeroAsset";
 import CadenceSelector from "../components/funnel/CadenceSelector";
 import ProductSelector from "../components/funnel/ProductSelector";
 import FunnelCTA from "../components/funnel/FunnelCTA";
-import UpsellModal from "../components/funnel/UpsellModal";
+import UpsellBottomSheet from "../components/funnel/UpsellBottomSheet";
 import FunnelAssurance from "../components/funnel/FunnelAssurance";
 import {
   type FunnelCadence,
@@ -17,6 +17,7 @@ import {
   FUNNEL_PRODUCTS,
   getOfferPricing,
   getUpsellOffer,
+  getFunnelCTALabels,
 } from "../lib/funnelData";
 import {
   funnelCheckout,
@@ -192,10 +193,15 @@ export default function FunnelClient() {
     proceedToCheckout(product, cadence, false);
   }, [product, cadence, proceedToCheckout]);
 
-  // --- CTA labels ---
+  const handleUpsellDismiss = useCallback(() => {
+    safeTrack("funnel:upsell_dismissed", { product, cadence });
+    setIsUpsellOpen(false);
+  }, [product, cadence]);
 
-  const step1Label = "Continue";
-  const step2Label = "Checkout Now";
+  // --- CTA labels (computed from product + cadence state) ---
+
+  const step1CTA = getFunnelCTALabels(1, product, cadence);
+  const step2CTA = getFunnelCTALabels(2, product, cadence);
 
 
   return (
@@ -212,11 +218,11 @@ export default function FunnelClient() {
       {/* Main funnel content */}
       <main className="lg:flex lg:min-h-[calc(100vh-56px)]">
         {/* Desktop: Left column — sticky hero asset */}
-        <div className="hidden lg:flex lg:w-1/2 lg:sticky lg:top-14 lg:h-[calc(100vh-56px)] lg:items-center lg:justify-center lg:p-8 lg:bg-[var(--brand-tint)]">
+        <div className="hidden lg:flex lg:w-1/2 lg:sticky lg:top-14 lg:h-[calc(100vh-56px)] lg:items-center lg:justify-center lg:p-8" style={{ backgroundColor: "#d3d7e3" }}>
           <FunnelHeroAsset
             product={product}
             cadence={cadence}
-            mode={currentStep === 1 ? "carousel" : "static"}
+            mode="carousel"
           />
         </div>
 
@@ -249,14 +255,15 @@ export default function FunnelClient() {
                 />
               </div>
 
-              {/* Spacer for sticky CTA */}
-              <div className="h-24 lg:hidden" />
+              {/* Spacer for sticky CTA (trust strip + button + sub-label + padding) */}
+              <div className="h-36 lg:hidden" />
 
               {/* Desktop: assurance + CTA */}
               <div className="hidden lg:block px-10 pb-8">
                 <FunnelAssurance />
                 <FunnelCTA
-                  label={step1Label}
+                  label={step1CTA.label}
+                  subLabel={step1CTA.subLabel}
                   onClick={handleStep1Next}
                   loading={false}
                   error={error}
@@ -292,15 +299,6 @@ export default function FunnelClient() {
                 </button>
               </div>
 
-              {/* Mobile hero — static product image, scrolls naturally */}
-              <div className="lg:hidden px-5 pt-4">
-                <FunnelHeroAsset
-                  product={product}
-                  cadence={cadence}
-                  mode="static"
-                />
-              </div>
-
               <div className="px-5 pt-5 pb-6 lg:px-10 lg:pt-8">
                 <CadenceSelector
                   cadence={cadence}
@@ -309,14 +307,15 @@ export default function FunnelClient() {
                 />
               </div>
 
-              {/* Spacer for sticky CTA */}
-              <div className="h-24 lg:hidden" />
+              {/* Spacer for sticky CTA (trust strip + button + sub-label + padding) */}
+              <div className="h-36 lg:hidden" />
 
               {/* Desktop: assurance + CTA */}
               <div className="hidden lg:block px-10 pb-8">
                 <FunnelAssurance />
                 <FunnelCTA
-                  label={step2Label}
+                  label={step2CTA.label}
+                  subLabel={step2CTA.subLabel}
                   onClick={handleCheckout}
                   loading={isCheckingOut}
                   error={error}
@@ -331,14 +330,16 @@ export default function FunnelClient() {
       <div className="lg:hidden">
         {currentStep === 1 ? (
           <FunnelCTA
-            label={step1Label}
+            label={step1CTA.label}
+            subLabel={step1CTA.subLabel}
             onClick={handleStep1Next}
             loading={false}
             error={error}
           />
         ) : (
           <FunnelCTA
-            label={step2Label}
+            label={step2CTA.label}
+            subLabel={step2CTA.subLabel}
             onClick={handleCheckout}
             loading={isCheckingOut}
             error={error}
@@ -346,12 +347,13 @@ export default function FunnelClient() {
         )}
       </div>
 
-      {/* Upsell modal */}
-      <UpsellModal
+      {/* Upsell bottom sheet */}
+      <UpsellBottomSheet
         isOpen={isUpsellOpen}
         offer={upsellOffer}
         onAccept={handleUpsellAccept}
         onDecline={handleUpsellDecline}
+        onDismiss={handleUpsellDismiss}
         loading={isCheckingOut}
       />
     </div>

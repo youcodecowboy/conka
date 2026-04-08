@@ -233,7 +233,7 @@ export default function LandingValueComparison() {
 
       {/* CTA */}
       <div className={`reveal ${revealed} mt-8 flex justify-start`} data-stagger="3">
-        <LandingCTA>Get Both for Less →</LandingCTA>
+        <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
       </div>
     </div>
   );

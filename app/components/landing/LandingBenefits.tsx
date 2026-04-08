@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { GUARANTEE_LABEL } from "@/app/lib/offerConstants";
+import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 import LandingCTA from "./LandingCTA";
 import {
   BenefitIconFocus,
@@ -18,7 +19,7 @@ const BENEFITS = [
   {
     id: "focus",
     icon: <BenefitIconFocus />,
-    title: "Sharper Focus",
+    title: "Stay locked in past 2pm",
     ingredient: "Lemon Balm Extract \u00B7 300mg",
     studyObservation: "In one study, participants taking Lemon Balm showed improvements in calmness and alertness (Kennedy et al. 2003)\u00B6",
     study: "Kennedy et al. 2003",
@@ -27,25 +28,25 @@ const BENEFITS = [
   {
     id: "sleep",
     icon: <BenefitIconSleep />,
-    title: "Sleep Quality",
+    title: "Wake up ready, not catching up",
     ingredient: "Ashwagandha \u00B7 600mg",
-    studyObservation: "In one study, participants taking KSM-66 Ashwagandha reported improvements in sleep quality (Salve et al. 2019)\u00B6",
+    studyObservation: "In one study, participants taking Ashwagandha reported improvements in sleep quality (Salve et al. 2019)\u00B6",
     study: "Salve et al. 2019",
     pmid: "PMID: 32021735",
   },
   {
     id: "stress",
     icon: <BenefitIconStress />,
-    title: "Stress Resilience",
+    title: "Pressure that used to rattle you, doesn\u2019t",
     ingredient: "Glutathione \u00B7 250mg",
-    studyObservation: "In one study, participants taking KSM-66 Ashwagandha showed a reduction in perceived stress (Chandrasekhar et al. 2012)\u00B6",
+    studyObservation: "In one study, participants taking Ashwagandha showed a reduction in perceived stress (Chandrasekhar et al. 2012)\u00B6",
     study: "Chandrasekhar et al. 2012",
     pmid: "PMID: 23439798",
   },
   {
     id: "brain-fog",
     icon: <BenefitIconThinking />,
-    title: "Clearer Thinking",
+    title: "Sharp calls at 4pm, not just 9am",
     ingredient: "Vitamin C + B Vitamins",
     studyObservation: "Vitamin C contributes to normal psychological function\u2020\u2020 - CONKA Clear provides Vitamin C alongside Glutathione (Sinha et al. 2018)\u00B6",
     study: "Sinha et al. 2018",
@@ -186,7 +187,7 @@ export default function LandingBenefits() {
 
       {/* CTA */}
       <div className="mt-8 flex justify-start">
-        <LandingCTA>See Your Options &rarr;</LandingCTA>
+        <LandingCTA>Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot &rarr;</LandingCTA>
       </div>
     </div>
   );

@@ -1,8 +1,10 @@
+// TODO: This component is no longer used on /start. If no other page uses it, delete this file.
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
 import LandingCTA from "./LandingCTA";
+import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 
 const SECTIONS = [
   {
@@ -14,10 +16,10 @@ const SECTIONS = [
           <strong><em>Morning foundation:</em></strong> CONKA Flow supports your nervous system and focus with adaptogens like Ashwagandha and Lemon Balm, so you stay sharp without caffeine, jitters, or a crash.
         </p>
         <p className="mt-3">
-          <strong><em>Evening recovery:</em></strong> CONKA Clear combines nootropics like Alpha GPC and Glutathione with Vitamin C, which contributes to normal psychological function†† and the reduction of tiredness and fatigue.††
+          <strong><em>Afternoon recovery:</em></strong> CONKA Clear combines nootropics like Alpha GPC and Glutathione with Vitamin C, which contributes to normal psychological function†† and the reduction of tiredness and fatigue.††
         </p>
         <p className="mt-3">
-          <strong><em>Better together:</em></strong> Designed to work as a daily pair. CONKA Flow provides your morning foundation with adaptogens, while CONKA Clear supports your evening with nootropics and antioxidants. A complete daily routine in two shots.
+          <strong><em>Better together:</em></strong> Designed to work as a daily pair. CONKA Flow provides your morning foundation with adaptogens, while CONKA Clear supports your afternoon with nootropics and antioxidants. A complete daily routine in two shots.
         </p>
       </>
     ),
@@ -29,9 +31,9 @@ const SECTIONS = [
       <>
         <p className="font-semibold mb-2">CONKA Flow (Morning)</p>
         <p className="opacity-70">
-          Lemon Balm · Turmeric · KSM-66® Ashwagandha · Rhodiola Rosea · Bilberry · Black Pepper
+          Lemon Balm · Turmeric · Ashwagandha · Rhodiola Rosea · Bilberry · Black Pepper
         </p>
-        <p className="font-semibold mt-4 mb-2">CONKA Clear (Evening)</p>
+        <p className="font-semibold mt-4 mb-2">CONKA Clear (Afternoon)</p>
         <p className="opacity-70">
           Vitamin C · Alpha GPC · Glutathione · N-Acetyl Cysteine · Acetyl-L-Carnitine · Ginkgo Biloba · Vitamin B12
         </p>
@@ -67,7 +69,7 @@ const SECTIONS = [
           <strong>CONKA Flow:</strong> One shot in the morning, with or without food. Works as a coffee replacement.
         </p>
         <p className="mt-3">
-          <strong>CONKA Clear:</strong> One shot in the evening, 30-60 minutes before you want peak clarity or before bed for overnight recovery.
+          <strong>CONKA Clear:</strong> One shot in the afternoon, 30-60 minutes before you want peak clarity or before bed for overnight recovery.
         </p>
         <p className="mt-3">
           Each box contains 28 shots (one per day). Both together = 56 shots per month.
@@ -164,7 +166,7 @@ export default function LandingWhatsInside() {
 
           {/* CTA */}
           <div className="mt-8 flex justify-start">
-            <LandingCTA>Start Your Routine →</LandingCTA>
+            <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
           </div>
         </div>
       </div>

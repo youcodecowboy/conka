@@ -5,12 +5,11 @@ import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 import LandingCTA from "./LandingCTA";
 import { GUARANTEE_DAYS } from "@/app/lib/offerConstants";
-import { PRICE_PER_DAY_BOTH } from "@/app/lib/landingPricing";
 
 /**
  * Landing page hero with mount-based entrance animation.
  *
- * Mobile: social proof pill > image (with power badge) > copy > CTA > avatars (stacked).
+ * Mobile: social proof pill > image > copy > CTA > avatars (stacked).
  * Desktop: copy left, image right (split).
  *
  * Animation: staggered fade-up on mount. GPU-composited (transform + opacity only).
@@ -37,7 +36,7 @@ export default function LandingHero() {
       <div
         className={cls("hero-delay-0 flex justify-start mb-4", "reveal-fade")}
       >
-        <div className="flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] bg-black text-white text-xs lg:text-sm font-semibold">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white text-xs font-semibold whitespace-nowrap">
           <span aria-hidden className="text-yellow-400">★★★★★</span>
           <span>150,000+ bottles sold<sup className="text-[0.6em] text-white/30 align-super">§</sup></span>
           <span className="text-white/40">·</span>
@@ -52,9 +51,9 @@ export default function LandingHero() {
             className={cls("hero-delay-1", "reveal")}
           >
             <h1 className="brand-h1-bold mb-0">
-              Your brain fades
+              The only brain supplement
               <br />
-              by 2pm. Why?
+              you can measure.
             </h1>
           </div>
 
@@ -62,19 +61,17 @@ export default function LandingHero() {
             className={cls("hero-delay-2", "reveal")}
           >
             <p className="brand-body mt-4 text-black/60">
-              Coffee masks it. Willpower can&apos;t fix it.
+              Your brain fades by 2pm. Coffee masks it.
               <br className="hidden lg:inline" />{" "}
-              CONKA is a daily 2-shot system with 16 active
+              Willpower can&apos;t fix it. A 2-shot system built for
               <br className="hidden lg:inline" />{" "}
-              ingredients, from{" "}
-              <span className="brand-data text-black">£{PRICE_PER_DAY_BOTH}/day</span>.{" "}
-              150,000+ bottles sold.<sup className="text-[0.5em] text-black/40 align-super">§</sup>
+              people who don&apos;t leave their performance to chance.
             </p>
           </div>
 
-          {/* CTA */}
+          {/* CTA -- safe-area padding prevents mobile URL bar overlap */}
           <div
-            className={cls("hero-delay-3 mt-8", "reveal")}
+            className={cls("hero-delay-3 mt-8 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0", "reveal")}
           >
             <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
               Try Risk-Free for {GUARANTEE_DAYS} Days →
@@ -116,33 +113,20 @@ export default function LandingHero() {
           </div>
         </div>
 
-        {/* Product image */}
+        {/* Product image -- rounded on mobile, 150% width on desktop */}
         <div
-          className={cls("hero-delay-2 relative order-1 lg:order-2 lg:flex-1 w-full", "reveal-scale")}
+          className={cls("hero-delay-2 relative order-1 lg:order-2 lg:flex-[1.5] w-full", "reveal-scale")}
         >
           <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)]">
             <Image
-              src="/formulas/QuartelySingle.jpg"
-              alt="CONKA Flow and Clear daily shots delivered to your door"
-              width={1280}
-              height={1280}
+              src="/hero/AppShotsHero.jpg"
+              alt="CONKA app showing cognitive score of 92 alongside Flow and Clear daily shots"
+              width={1920}
+              height={1080}
               priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="w-full h-auto object-cover"
-              style={{
-                filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.15))",
-              }}
             />
-
-            {/* Power badge */}
-            <div className="absolute top-3 right-3 lg:top-5 lg:right-5 w-20 h-20 lg:w-24 lg:h-24 rounded-full flex flex-col items-center justify-center text-center shadow-lg bg-black text-white">
-              <span className="text-lg lg:text-xl font-bold leading-none">16</span>
-              <span className="text-[9px] lg:text-[10px] font-semibold uppercase tracking-wide leading-tight mt-0.5 px-1">
-                Active
-                <br />
-                Ingredients
-              </span>
-            </div>
           </div>
         </div>
       </div>

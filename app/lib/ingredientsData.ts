@@ -1433,7 +1433,7 @@ export function getIngredientCategories(formulaId: FormulaId): IngredientCategor
  */
 function getBrandedIngredientName(ingredientName: string): string {
   const brandMap: Record<string, string> = {
-    "Ashwagandha": "KSM-66® Ashwagandha",
+    "Ashwagandha": "Ashwagandha",
     "Turmeric": "Longvida® Curcumin",
     "Lemon Balm": "Lemon Balm Extract",
     "Glutathione": "Reduced Glutathione",

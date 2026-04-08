@@ -8,11 +8,10 @@ import LandingHero from "../components/landing/LandingHero";
 import LandingBenefits from "../components/landing/LandingBenefits";
 import LandingProductSplit from "../components/landing/LandingProductSplit";
 import LandingValueComparison from "../components/landing/LandingValueComparison";
-import LandingWhatsInside from "../components/landing/LandingWhatsInside";
-import LandingGuarantee from "../components/landing/LandingGuarantee";
 import LandingFAQ from "../components/landing/LandingFAQ";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
 import LandingCTA from "../components/landing/LandingCTA";
+import { PRICE_PER_SHOT_BOTH } from "../lib/landingPricing";
 import Reveal from "../components/landing/Reveal";
 import {
   getSiteTestimonialsGeneral,
@@ -53,14 +52,17 @@ export default function StartPageClient() {
         </div>
       </section>
 
-      {/* ===== 2. BENEFITS + TRUST BADGES ===== */}
+      {/* ===== 2. ATHLETE PROOF / CASE STUDIES ===== */}
       <section
         className="brand-section brand-bg-tint"
-        aria-label="Key Benefits"
+        aria-label="Clinically validated test scores"
       >
         <div className="brand-track">
           <Reveal>
-            <LandingBenefits />
+            <CaseStudiesDataDriven hideCTA />
+            <div className="mt-8 flex justify-start">
+              <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -85,14 +87,14 @@ export default function StartPageClient() {
         </div>
       </section>
 
-      {/* ===== 5. WHAT'S INSIDE ===== */}
+      {/* ===== 5. BENEFITS + TRUST BADGES ===== */}
       <section
         className="brand-section brand-bg-white"
-        aria-label="What's inside CONKA"
+        aria-label="Key Benefits"
       >
         <div className="brand-track">
           <Reveal>
-            <LandingWhatsInside />
+            <LandingBenefits />
           </Reveal>
         </div>
       </section>
@@ -107,43 +109,14 @@ export default function StartPageClient() {
             <Reveal>
               <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
               <div className="mt-8 flex justify-start">
-                <LandingCTA>Join Them →</LandingCTA>
+                <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
               </div>
             </Reveal>
           </div>
         </section>
       )}
 
-      {/* ===== 7. APP GUARANTEE ===== */}
-      <section
-        className="brand-section brand-bg-white"
-        aria-label="Money-back guarantee"
-      >
-        <div className="brand-track">
-          <Reveal>
-            <LandingGuarantee />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ===== 8. CASE STUDIES ===== */}
-      {/* Note: CaseStudiesDataDriven is a shared component using premium-base tokens.
-          It assumes a light background. Tint (#f4f5f8) at 96% lightness is still light. */}
-      <section
-        className="brand-section brand-bg-tint"
-        aria-label="Clinically validated test scores"
-      >
-        <div className="brand-track">
-          <Reveal>
-            <CaseStudiesDataDriven hideCTA />
-            <div className="mt-8 flex justify-start">
-              <LandingCTA>See the Results →</LandingCTA>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ===== 9. FAQ ===== */}
+      {/* ===== 7. FAQ ===== */}
       <section
         className="brand-section brand-bg-white"
         aria-label="FAQ"
@@ -155,7 +128,7 @@ export default function StartPageClient() {
         </div>
       </section>
 
-      {/* ===== 10. DISCLAIMER ===== */}
+      {/* ===== 8. DISCLAIMER ===== */}
       <section
         className="brand-section brand-bg-tint"
         aria-label="Important information and disclaimers"

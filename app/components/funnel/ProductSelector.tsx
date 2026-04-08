@@ -8,6 +8,7 @@ import {
   FUNNEL_PRODUCTS,
   getOfferPricing,
   getBuySeparatelyPrice,
+  getSavingsPercent,
 } from "@/app/lib/funnelData";
 import { formatPrice } from "@/app/lib/productData";
 
@@ -58,20 +59,12 @@ export default function ProductSelector({
 
   return (
     <div>
-      {/* Value context for cold traffic */}
-      <p className="brand-caption text-black/50 mb-4">
-        16 active ingredients. Less than a coffee. 150,000+ bottles sold.
-      </p>
-
       <h2
-        className="text-2xl lg:text-3xl font-semibold tracking-[var(--brand-h2-tracking)] mb-2"
+        className="text-2xl lg:text-3xl font-semibold tracking-[var(--brand-h2-tracking)] mb-5"
         style={{ color: "var(--brand-black)" }}
       >
-        Choose your product
+        Your CONKA plan
       </h2>
-      <p className="text-sm text-black/50 mb-5">
-        What would you like in your plan?
-      </p>
 
       <div className="flex flex-col gap-3">
         {PRODUCT_ORDER.map((productKey) => {
@@ -171,19 +164,17 @@ export default function ProductSelector({
                         <p className="text-xs text-black/50 mt-0.5">
                           <span className="brand-data-label">{formatPrice(pricing.price)}</span>{frequency}
                         </p>
-                        {isBoth && separatePrice && savings > 0 && (
-                          <>
-                            <p className="text-xs text-black/40 line-through">
-                              {formatPrice(separatePrice)}
-                            </p>
-                            <p className="text-[10px] font-semibold text-brand-accent">
-                              Save {formatPrice(savings)}
-                            </p>
-                          </>
+                        {pricing.compareAtPrice && (
+                          <p className="text-xs text-black/40 mt-0.5">
+                            <span className="line-through">{formatPrice(pricing.compareAtPrice)}</span>
+                            <span className="ml-1 font-semibold" style={{ color: display.accent }}>
+                              {getSavingsPercent(pricing.price, pricing.compareAtPrice)}% off
+                            </span>
+                          </p>
                         )}
-                        {!isBoth && pricing.compareAtPrice && (
-                          <p className="text-xs text-black/40 line-through">
-                            {formatPrice(pricing.compareAtPrice)}
+                        {isBoth && separatePrice && savings > 0 && (
+                          <p className="text-[10px] font-semibold" style={{ color: display.accent }}>
+                            Save {formatPrice(savings)} vs separate
                           </p>
                         )}
                       </div>

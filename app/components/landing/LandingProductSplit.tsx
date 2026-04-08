@@ -3,11 +3,7 @@
 import Image from "next/image";
 import LandingCTA from "./LandingCTA";
 import { useInView } from "@/app/hooks/useInView";
-import {
-  PRICE_PER_SHOT_FLOW,
-  PRICE_PER_SHOT_CLEAR,
-  PRICE_PER_SHOT_BOTH,
-} from "@/app/lib/landingPricing";
+import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 
 const FLOW_ACCENT = "var(--brand-flow-accent)";
 const FLOW_ACCENT_BG = "rgba(245, 158, 11, 0.1)";
@@ -35,7 +31,7 @@ export default function LandingProductSplit() {
         <span className="uppercase tracking-wide">Morning</span>
         <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, rgba(217, 119, 6, 0.3), rgba(3, 105, 161, 0.3))" }} />
         <span className="uppercase tracking-wide">Afternoon</span>
-        <span aria-hidden>🌙</span>
+        <span aria-hidden>☀️</span>
       </div>
 
       {/* Two-column product cards */}
@@ -60,7 +56,7 @@ export default function LandingProductSplit() {
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[var(--brand-radius-interactive)] text-xs font-semibold mb-4"
             style={{ backgroundColor: FLOW_ACCENT_BG, color: FLOW_ACCENT_TEXT }}
           >
-            ☀️ Before the day
+            ☀️ Take in the morning
           </div>
 
           <h3 className="text-lg lg:text-xl font-bold text-black">
@@ -73,7 +69,7 @@ export default function LandingProductSplit() {
 
           {/* Benefits -- flex-1 so this area stretches to align with sibling card */}
           <div className="flex-1 space-y-3">
-            {["Calm focus without caffeine", "KSM-66 Ashwagandha + Lemon Balm", "UK patented formula (GB2629279)"].map((benefit) => (
+            {["Calm focus without caffeine", "Ashwagandha + Lemon Balm", "UK patented formula (GB2629279)"].map((benefit) => (
               <div key={benefit} className="flex items-center gap-3">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: FLOW_ACCENT }} />
                 <span className="text-sm text-black/80">{benefit}</span>
@@ -88,14 +84,6 @@ export default function LandingProductSplit() {
             </p>
           </div>
 
-          {/* Per-shot price */}
-          <div className="mt-4 pt-4 border-t border-black/8">
-            <p className="text-xs text-black/60">
-              From{" "}
-              <span className="brand-data text-black">£{PRICE_PER_SHOT_FLOW}</span>
-              <span className="brand-data-label text-black/40">/shot</span>
-            </p>
-          </div>
         </div>
 
         {/* CONKA Clear */}
@@ -118,7 +106,7 @@ export default function LandingProductSplit() {
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[var(--brand-radius-interactive)] text-xs font-semibold mb-4"
             style={{ backgroundColor: CLEAR_ACCENT_BG, color: CLEAR_ACCENT_TEXT }}
           >
-            🌙 After the day
+            ☀️ Take in the afternoon
           </div>
 
           <h3 className="text-lg lg:text-xl font-bold text-black">
@@ -131,7 +119,7 @@ export default function LandingProductSplit() {
 
           {/* Benefits -- flex-1 so this area stretches to align with sibling card */}
           <div className="flex-1 space-y-3">
-            {["Vitamin C for psychological function††", "Glutathione + Alpha GPC + NAC", "Evening wind-down ritual"].map((benefit) => (
+            {["Vitamin C for psychological function††", "Glutathione + Alpha GPC + NAC", "Afternoon clarity ritual"].map((benefit) => (
               <div key={benefit} className="flex items-center gap-3">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: CLEAR_ACCENT }} />
                 <span className="text-sm text-black/80">{benefit}</span>
@@ -146,14 +134,6 @@ export default function LandingProductSplit() {
             </p>
           </div>
 
-          {/* Per-shot price */}
-          <div className="mt-4 pt-4 border-t border-black/8">
-            <p className="text-xs text-black/60">
-              From{" "}
-              <span className="brand-data text-black">£{PRICE_PER_SHOT_CLEAR}</span>
-              <span className="brand-data-label text-black/40">/shot</span>
-            </p>
-          </div>
         </div>
       </div>
 
