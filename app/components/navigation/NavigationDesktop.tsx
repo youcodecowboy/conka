@@ -32,7 +32,7 @@ export default function NavigationDesktop({
 
       {/* Header - Edge to edge (nav does not use premium gutter/track) */}
       <header className="w-full bg-[var(--background)] border-b border-[var(--color-premium-stroke)]">
-        <div className="px-6 md:px-16 py-1 flex items-center relative">
+        <div className="px-6 md:px-16 py-1 md:py-4 flex items-center relative">
           {/* Logo - Left */}
           <a href="/" className="flex items-center">
             <Image
