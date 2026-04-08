@@ -9,10 +9,10 @@
 
 ## Phase Overview
 
-| Phase | Description | Status |
-|-------|-------------|--------|
-| 1 | Critical fixes before next campaign (performance, compliance, SEO, mobile CTA) | Not Started |
-| 2 | Landing page restructure (reorder, copy, CTA standardisation, FAQ trim) | Not Started |
+| Phase | Description                                                                    | Status      |
+| ----- | ------------------------------------------------------------------------------ | ----------- |
+| 1     | Critical fixes before next campaign (performance, compliance, SEO, mobile CTA) | Not Started |
+| 2     | Landing page restructure (reorder, copy, CTA standardisation, FAQ trim)        | Not Started |
 
 ---
 
@@ -36,17 +36,20 @@ Each task is independently deployable. Target: complete before scaling paid spen
 Replace "KSM-66 Ashwagandha" / "KSM-66® Ashwagandha" with "Ashwagandha" across the codebase.
 
 **Landing components (4 files):**
+
 - `LandingBenefits.tsx` (lines 32, 41) - study observations
 - `LandingProductSplit.tsx` (line 76) - Flow card benefit
 - `LandingWhatsInside.tsx` (line 32) - ingredient list
 - `LandingFAQ.tsx` (line 42) - ingredients answer
 
 **Lib/data files (3 files):**
+
 - `funnelData.ts` (line 229) - Flow description
 - `ingredientsData.ts` (line 1436) - brand mapping
 - `formulaContent.ts` (lines 241, 382, 452) - ingredient assets
 
 **Shared component (1 file):**
+
 - `KeyBenefits.tsx` (lines 103, 187) - ingredient assets
 
 - **Complexity:** Small
@@ -83,6 +86,7 @@ Depends on Phase 1 completion.
 Reorder existing sections in `StartPageClient.tsx`. No new components.
 
 **New order:**
+
 1. Hero (LandingHero) - was #1
 2. Athlete proof / Case Studies (CaseStudiesDataDriven) - was #8, moved to #2
 3. Product Split (LandingProductSplit) - was #3, stays
@@ -123,12 +127,12 @@ Reorder existing sections in `StartPageClient.tsx`. No new components.
 
 Labels only. Interactive tap-to-see-research mechanic stays exactly as is.
 
-| Tile | Current | New |
-|------|---------|-----|
-| 1 (focus) | Sharper Focus | Stay locked in past 2pm |
-| 2 (sleep) | Sleep Quality | Wake up ready, not catching up |
-| 3 (stress) | Stress Resilience | Pressure that used to rattle you, doesn't |
-| 4 (brain-fog) | Clearer Thinking | Sharp calls at 4pm, not just 9am |
+| Tile          | Current           | New                                       |
+| ------------- | ----------------- | ----------------------------------------- |
+| 1 (focus)     | Sharper Focus     | Stay locked in past 2pm                   |
+| 2 (sleep)     | Sleep Quality     | Wake up ready, not catching up            |
+| 3 (stress)    | Stress Resilience | Pressure that used to rattle you, doesn't |
+| 4 (brain-fog) | Clearer Thinking  | Sharp calls at 4pm, not just 9am          |
 
 - **Files:** `LandingBenefits.tsx`
 - **Complexity:** Small
@@ -139,6 +143,7 @@ Labels only. Interactive tap-to-see-research mechanic stays exactly as is.
 Cards must visually echo the case studies format: name prominent, score change as large data point, role as sub-label.
 
 **3 testimonials specified:**
+
 1. Business owner, 41 (unnamed until approved) - score 61 -> 79
 2. Ben Cox, Account Executive at Revolut - scores TBD ([FILL SCORES])
 3. Johnny Lyle - baseline couldn't pass 88, hit 96 on day 1
@@ -153,6 +158,7 @@ Cards must visually echo the case studies format: name prominent, score change a
 Remove "What makes CONKA different from coffee?" (redundant with comparison section above).
 
 **New order (5 questions, down from 9):**
+
 1. What if my score doesn't improve? (lead with 100-day guarantee)
 2. What's the difference between Flow and Clear?
 3. Can I take just one shot?
@@ -186,3 +192,166 @@ Remove "What makes CONKA different from coffee?" (redundant with comparison sect
 - Cut-off logo fix
 - Funnel page changes
 - Analytics events
+
+Section 3 — Priority 2: Product selection page
+
+3.1 Page header and sub-line
+P2 — Copy change
+
+Header
+Choose your product
+Your CONKA plan
+
+Sub-line
+What would you like in your plan?
+[REMOVE ENTIRELY]
+
+3.2 Remove feature-bashing sub-copy
+P2 — Copy change
+
+Sub-copy
+16 active ingredients. Less than a coffee. 150,000+ bottles sold.
+[REMOVE ENTIRELY]
+
+3.3 Terminology audit: Evening → Afternoon
+P2 — Global audit
+
+All pages
+EVENING
+AFTERNOON
+
+DEV: Global audit — search codebase, CMS, email sequences, app onboarding, packaging, and upsell modals for all instances of ‘Evening’ in CONKA Clear context. Replace with ‘Afternoon’ everywhere in a single pass.
+
+3.4 Product card copy
+P2 — Copy change
+
+Flow + Clear
+Morning foundation + evening recovery. Most customers choose Both because the two formulas are designed to work as a daily pair.
+The complete protocol. Flow sharpens your morning. Clear sustains your afternoon. Together they cover the full day.
+
+Flow
+Adaptogens including KSM-66 Ashwagandha and Lemon Balm. Caffeine-free, UK patented formula.
+Take it in the morning. Calm, sustained focus without caffeine. Your brain on before the day starts.
+
+Clear
+Nootropics + Vitamin C, which contributes to normal psychological function. Glutathione, Alpha GPC, NAC.
+Take it in the afternoon. Clears the 2pm fog and sustains output. The shot for the second half of your day.
+
+3.5 Dynamic CTA — product selection page
+P2 — Development task
+
+State
+Button label
+Sub-label
+Flow + Clear (default)
+Get Both · £1.61/shot →
+56 shots · save £29.99
+Flow only
+Get Flow · £2.14/shot →
+28 shots/mo
+Clear only
+Get Clear · £2.14/shot →
+28 shots/mo
+
+DEV: Button updates on card radio change event. Sub-label: 12px, centred, beneath button.
+
+Section 4 — Priority 2: Plan pages
+
+4.1 Changes common to all three plan pages
+P2 — Copy + design
+
+Header
+Choose your plan
+Your delivery plan
+
+Sub-line
+Select how often you’d like CONKA delivered
+[REMOVE ENTIRELY]
+
+Remove large product hero image from plan page — the ‘You chose’ confirmation strip is sufficient
+Remove benefits strip (Sustained Energy, Better Sleep, etc.) from plan page hero area
+Remove ‘Replaces 9/14 Supplements’ badge from Flow and Clear hero images
+
+DEV: Remove hero image element entirely — do not hide with CSS. Do not load it on mobile.
+
+4.2 Price anchor rationale
+P2 — Pricing
+
+The £3.75/shot trial pack price (4-shot plan, available on site to same traffic) is used as the crossed-out anchor on every card header across all three plan pages. The anchor is visible on the site so no legitimising line is required.
+
+Plan page
+Monthly saving
+Quarterly saving
+One-time saving
+Both (Flow + Clear)
+57% (£1.61 vs £3.75)
+63% (£1.37 vs £3.75)
+38% (£2.32 vs £3.75)
+Flow only
+43% (£2.14 vs £3.75)
+52% (£1.79 vs £3.75)
+24% (£2.86 vs £3.75)
+Clear only
+43% (£2.14 vs £3.75)
+52% (£1.79 vs £3.75)
+24% (£2.86 vs £3.75)
+
+4.3 Both (Flow + Clear) plan cards — blue accent
+P2 — Development task
+
+Card accent colour: blue (#378ADD). All four states: collapsed, monthly selected, quarterly selected, one-time selected.
+
+📁 Visual reference: Both plan card visual references — Google Drive
+
+State
+Button label
+Sub-label
+Monthly (default)
+Start monthly · £89.99/mo →
+£1.61/shot · cancel anytime
+Quarterly
+Start quarterly · £229.99/quarter →
+£1.37/shot · save £119.52/year · cancel anytime
+One-Time
+Buy once · £129.99 →
+£2.32/shot · 100-day guarantee · no subscription
+
+4.4 Flow only plan cards — amber accent
+P2 — Development task
+
+Card accent colour: amber (#F59E0B). Amber distinguishes the Flow-only plan page from Both (blue) and Clear (teal).
+
+📁 Visual reference: Flow plan card visual references — Google Drive
+
+State
+Button label
+Sub-label
+Monthly (default)
+Start monthly · £59.99/mo →
+£2.14/shot · cancel anytime
+Quarterly
+Start quarterly · £149.99/quarter →
+£1.79/shot · save £119.92/year · cancel anytime
+One-Time
+Buy once · £79.99 →
+£2.86/shot · 100-day guarantee · no subscription
+
+4.5 Clear only plan cards — teal accent
+P2 — Development task
+
+Card accent colour: teal (#0F6E56). Teal distinguishes the Clear-only plan page from Both (blue) and Flow (amber).
+
+📁 Visual reference: Clear plan card visual references — Google Drive
+
+State
+Button label
+Sub-label
+Monthly (default)
+Start monthly · £59.99/mo →
+£2.14/shot · cancel anytime
+Quarterly
+Start quarterly · £149.99/quarter →
+£1.79/shot · save £119.92/year · cancel anytime
+One-Time
+Buy once · £79.99 →
+£2.86/shot · 100-day guarantee · no subscription
