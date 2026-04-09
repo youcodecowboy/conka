@@ -6,6 +6,11 @@
 
 ## April 2026
 
+### 2026-04-09 — Case study showcase update (IP-safe list)
+Replaced showcased case study athletes to remove those with team logo IP issues. New highlight list: Jack Willis, Nimisha Kurup, Max Lahiff, Josh Stanton, Ben Cox, Aaron Hope, Shane Corstorphine, Liz Glover (Millie Hammond ready but held back). Added data entries and photos for Ben Cox (Revolut) and Liz Glover (Retired Banker). Updated `featured` flags so `/case-studies` page (desktop carousel + mobile sort) aligns with homepage teaser. Deleted 3 unused legacy components (`CaseStudies.tsx`, `CaseStudiesDesktop.tsx`, `CaseStudiesMobile.tsx`).
+**Why:** Several original featured athletes had team logos visible in photos, creating IP risk. Also rebalanced the list to better represent business/corporate users alongside athletes.
+**Branch:** `updating-showcased-case-study-data`
+
 ### 2026-04-08 — /start performance optimisation (65 → 71, ongoing)
 Four rounds of performance work on the ad landing page.
 

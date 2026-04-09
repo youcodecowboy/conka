@@ -63,10 +63,11 @@ export default function CaseStudiesPageMobile() {
     setPhotoErrorIds((prev) => new Set(prev).add(id));
 
   const availableSports = getAllSports();
-  const filteredAthletes =
+  const filteredAthletes = (
     selectedSport === "all"
       ? athletes
-      : athletes.filter((a) => a.sport === selectedSport);
+      : athletes.filter((a) => a.sport === selectedSport)
+  ).toSorted((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1));
   const activeAthlete = filteredAthletes[activeAthleteIndex];
   const totalTests = athletes.reduce((sum, a) => sum + a.testsCompleted, 0);
   const avgImprovement = getAverageImprovementAcrossAll().toFixed(1);
