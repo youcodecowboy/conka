@@ -26,14 +26,15 @@ function getSportLabel(sport: SportCategory): string {
 // Get the 8 hardcoded athletes for the teaser
 function getTeaserAthletes(): AthleteData[] {
   const athleteIds = [
-    "jade-shekells",
-    "finn-russell",
     "jack-willis",
-    "pierre-louis-barassi",
-    "patrick-bamford",
     "nimisha-kurup",
-
-    "will-stuart",
+    "max-lahiff",
+    "josh-stanton",
+    "ben-cox",
+    "aaron-hope",
+    "shane-corstorphine",
+    "liz-glover",
+    // "millie-hammond",
   ];
 
   return athleteIds
@@ -44,14 +45,15 @@ function getTeaserAthletes(): AthleteData[] {
 // Map athlete ID to new asset path
 function getTeaserPhotoPath(athleteId: string): string {
   const pathMap: Record<string, string> = {
-    "jade-shekells": "/caseStudies/JadeShekells.jpg",
-    "finn-russell": "/caseStudies/FinnRussell.jpg",
     "jack-willis": "/caseStudies/JackWillis.jpg",
-    "pierre-louis-barassi": "/caseStudies/PierreLouisBarassi.jpg",
-    "patrick-bamford": "/caseStudies/PatrickBamford.jpg",
     "nimisha-kurup": "/caseStudies/NimishaKurup.jpg",
-    "callum-sheedy": "/caseStudies/CallumSheedy.jpg",
-    "will-stuart": "/caseStudies/WillStuart.jpg",
+    "max-lahiff": "/caseStudies/MaxLahiff.jpg",
+    "josh-stanton": "/caseStudies/JoshStanton.jpg",
+    "aaron-hope": "/caseStudies/AaronHope.jpg",
+    "shane-corstorphine": "/caseStudies/ShaneCorstorphine.jpg",
+    "liz-glover": "/caseStudies/LizGlover.jpg",
+    "millie-hammond": "/caseStudies/MillieHammond.jpg",
+    "ben-cox": "/caseStudies/BenCox.jpg",
   };
   return pathMap[athleteId] || "/placeholder.jpg";
 }
