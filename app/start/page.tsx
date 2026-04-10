@@ -5,6 +5,7 @@ import Footer from "../components/footer";
 import LandingHero from "../components/landing/LandingHero";
 import LandingCTA from "../components/landing/LandingCTA";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
+import LandingWhatItDoes from "../components/landing/LandingWhatItDoes";
 import Reveal from "../components/landing/Reveal";
 import { PRICE_PER_SHOT_BOTH } from "../lib/landingPricing";
 import TestimonialsSection from "./TestimonialsSection";
@@ -22,9 +23,13 @@ const LandingValueComparison = dynamic(
   () => import("../components/landing/LandingValueComparison"),
   { loading: () => <div className="h-[300px]" /> },
 );
-const LandingBenefits = dynamic(
-  () => import("../components/landing/LandingBenefits"),
-  { loading: () => <div className="h-[300px]" /> },
+const LandingWhatsInside = dynamic(
+  () => import("../components/landing/LandingWhatsInside"),
+  { loading: () => <div className="h-[400px]" /> },
+);
+const LandingTimeline = dynamic(
+  () => import("../components/landing/LandingTimeline"),
+  { loading: () => <div className="h-[500px]" /> },
 );
 const LandingFAQ = dynamic(
   () => import("../components/landing/LandingFAQ"),
@@ -60,7 +65,29 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 2. ATHLETE PROOF / CASE STUDIES ===== */}
+      {/* ===== 2. WHAT CONKA DOES ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="What CONKA does"
+      >
+        <div className="brand-track">
+          <Reveal>
+            <LandingWhatItDoes />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== 3. WHAT'S INSIDE — INGREDIENT EDUCATION ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="What's inside CONKA"
+      >
+        <div className="brand-track">
+          <LandingWhatsInside />
+        </div>
+      </section>
+
+      {/* ===== 4. ATHLETE PROOF / CASE STUDIES ===== */}
       <section
         className="brand-section brand-bg-tint"
         aria-label="Clinically validated test scores"
@@ -75,7 +102,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 3. PRODUCT SPLIT — AM vs PM ===== */}
+      {/* ===== 5. PRODUCT SPLIT — AM vs PM ===== */}
       <section
         className="brand-section brand-bg-white"
         aria-label="Flow and Clear explained"
@@ -85,7 +112,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 4. CONKA vs COFFEE — VALUE COMPARISON ===== */}
+      {/* ===== 6. CONKA vs COFFEE — VALUE COMPARISON ===== */}
       <section
         className="brand-section brand-bg-tint"
         aria-label="CONKA vs coffee cost comparison"
@@ -95,20 +122,22 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 5. BENEFITS + TRUST BADGES ===== */}
+      {/* ===== 7. WHAT TO EXPECT TIMELINE ===== */}
       <section
         className="brand-section brand-bg-white"
-        aria-label="Key Benefits"
+        aria-label="What to expect timeline"
       >
         <div className="brand-track">
-          <LandingBenefits />
+          <Reveal>
+            <LandingTimeline />
+          </Reveal>
         </div>
       </section>
 
-      {/* ===== 6. TESTIMONIALS ===== */}
+      {/* ===== 8. TESTIMONIALS ===== */}
       <TestimonialsSection />
 
-      {/* ===== 7. FAQ ===== */}
+      {/* ===== 9. FAQ ===== */}
       <section
         className="brand-section brand-bg-white"
         aria-label="FAQ"
@@ -118,7 +147,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 8. DISCLAIMER ===== */}
+      {/* ===== 10. DISCLAIMER ===== */}
       <section
         className="brand-section brand-bg-tint"
         aria-label="Important information and disclaimers"

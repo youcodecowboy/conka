@@ -47,7 +47,7 @@ export default function LandingValueComparison() {
     <div ref={ref}>
       {/* Heading */}
       <div className="mb-10">
-        <h2 className="brand-h2 mb-0">Less than your daily coffee.</h2>
+        <h2 className="brand-h1 mb-0">Less than your daily coffee.</h2>
         <p className="mt-2 text-black/60">
           {CONKA_INGREDIENTS_COUNT} active ingredients for the price of a latte.
         </p>

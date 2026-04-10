@@ -4,7 +4,53 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 import LandingCTA from "./LandingCTA";
-import { GUARANTEE_DAYS } from "@/app/lib/offerConstants";
+import { PRICE_PER_SHOT_BOTH, PRICE_PER_DAY_BOTH } from "@/app/lib/landingPricing";
+
+/* ------------------------------------------------------------------ */
+/*  A/B TEST CONFIG                                                    */
+/*  Change the active index to swap headline or CTA per campaign.      */
+/*  Only one of each is rendered on the live site.                     */
+/* ------------------------------------------------------------------ */
+
+/** Headline variants for A/B testing. */
+const HEADLINES = [
+  /* 0 — proof-led, differentiator (current) */
+  "The only brain supplement\nyou can measure.",
+  /* 1 — pain-led, direct, urgency */
+  "Your brain fades by 2pm.\nFix it.",
+  /* 2 — identity-led, aspirational */
+  "For people who refuse\nto fade by 2pm.",
+  /* 3 — counterintuitive question */
+  "What if your supplement\ncould prove it works?",
+] as const;
+
+const ACTIVE_HEADLINE_INDEX = 0;
+
+/** CTA label variants for A/B testing. */
+const CTA_LABELS = [
+  /* 0 — value-anchored, matches section CTAs */
+  `Get Both from £${PRICE_PER_SHOT_BOTH}/shot →`,
+  /* 1 — percentage-led (Johnny's recommendation) */
+  "Save 25% — subscribe today →",
+  /* 2 — daily cost anchor, cheaper than coffee */
+  `Start for £${PRICE_PER_DAY_BOTH}/day →`,
+  /* 3 — low-commitment, curiosity-driven */
+  "See your plan →",
+] as const;
+
+const ACTIVE_CTA_INDEX = 0;
+
+/* ------------------------------------------------------------------ */
+/*  Avatar data — photos at /public/avatars/, fallback to initials     */
+/* ------------------------------------------------------------------ */
+
+const AVATARS = [
+  { src: "/avatars/1.jpg", initials: "JM", bg: "#e8d5b7" },
+  { src: "/avatars/2.jpg", initials: "SR", bg: "#b7cfe8" },
+  { src: "/avatars/3.jpg", initials: "AK", bg: "#d5e8b7" },
+  { src: "/avatars/4.jpg", initials: "TW", bg: "#e8b7d5" },
+  { src: "/avatars/5.jpg", initials: "LP", bg: "#b7e8d5" },
+];
 
 /**
  * Landing page hero with mount-based entrance animation.
@@ -16,11 +62,10 @@ import { GUARANTEE_DAYS } from "@/app/lib/offerConstants";
  */
 export default function LandingHero() {
   const [mounted, setMounted] = useState(false);
+  const [failedAvatars, setFailedAvatars] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // Reduced motion: show content next microtask (near-instant, no animation frame wait)
-    // Normal: wait one frame so the initial invisible state is painted before transitioning
     const trigger = reducedMotion
       ? (fn: () => void) => queueMicrotask(fn)
       : requestAnimationFrame;
@@ -30,11 +75,15 @@ export default function LandingHero() {
   const cls = (base: string, variant: string = "reveal") =>
     `${variant} ${mounted ? "revealed" : ""} ${base}`;
 
+  const handleAvatarError = (index: number) => {
+    setFailedAvatars((prev) => new Set(prev).add(index));
+  };
+
   return (
     <div>
-      {/* Social proof pill -- sits close to headline, not nav */}
+      {/* Social proof pill — centered on mobile, left-aligned on desktop */}
       <div
-        className={cls("hero-delay-0 flex justify-start mb-4", "reveal-fade")}
+        className={cls("hero-delay-0 flex justify-center lg:justify-start mb-4", "reveal-fade")}
       >
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white text-xs font-semibold whitespace-nowrap">
           <span aria-hidden className="text-yellow-400">★★★★★</span>
@@ -45,15 +94,13 @@ export default function LandingHero() {
       </div>
 
       <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
-        {/* Copy -- below image on mobile, left on desktop */}
+        {/* Copy — below image on mobile, left on desktop */}
         <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
           <div
             className={cls("hero-delay-1", "reveal")}
           >
-            <h1 className="brand-h1-bold mb-0">
-              The only brain supplement
-              <br />
-              you can measure.
+            <h1 className="brand-h1-bold mb-0 whitespace-pre-line">
+              {HEADLINES[ACTIVE_HEADLINE_INDEX]}
             </h1>
           </div>
 
@@ -69,12 +116,12 @@ export default function LandingHero() {
             </p>
           </div>
 
-          {/* CTA -- safe-area padding prevents mobile URL bar overlap */}
+          {/* CTA — safe-area padding prevents mobile URL bar overlap */}
           <div
             className={cls("hero-delay-3 mt-8 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0", "reveal")}
           >
             <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
-              Try Risk-Free for {GUARANTEE_DAYS} Days →
+              {CTA_LABELS[ACTIVE_CTA_INDEX]}
             </LandingCTA>
           </div>
 
@@ -82,21 +129,29 @@ export default function LandingHero() {
           <div
             className={cls("hero-delay-4 flex items-center justify-center lg:justify-start gap-3 mt-5", "reveal-fade")}
           >
-            {/* Avatar stack */}
             <div className="flex -space-x-2">
-              {[
-                { bg: "#e8d5b7", initials: "JM" },
-                { bg: "#b7cfe8", initials: "SR" },
-                { bg: "#d5e8b7", initials: "AK" },
-                { bg: "#e8b7d5", initials: "TW" },
-                { bg: "#b7e8d5", initials: "LP" },
-              ].map((avatar) => (
+              {AVATARS.map((avatar, i) => (
                 <div
                   key={avatar.initials}
-                  className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-bold text-black/60"
-                  style={{ backgroundColor: avatar.bg }}
+                  className="relative w-8 h-8 rounded-full border-2 border-white overflow-hidden flex-shrink-0"
                 >
-                  {avatar.initials}
+                  {failedAvatars.has(i) ? (
+                    <div
+                      className="w-full h-full flex items-center justify-center text-[10px] font-bold text-black/60"
+                      style={{ backgroundColor: avatar.bg }}
+                    >
+                      {avatar.initials}
+                    </div>
+                  ) : (
+                    <Image
+                      src={avatar.src}
+                      alt={`${avatar.initials}, verified buyer`}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-cover"
+                      onError={() => handleAvatarError(i)}
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -113,20 +168,19 @@ export default function LandingHero() {
           </div>
         </div>
 
-        {/* Product image -- rounded on mobile, 150% width on desktop */}
+        {/* Product image — constrained height, square source cropped */}
         <div
           className="relative order-1 lg:order-2 lg:flex-[1.5] w-full"
         >
-          <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)]">
+          <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] aspect-[5/3]">
             <Image
-              src="/hero/AppShotsHero.jpg"
-              alt="CONKA app showing cognitive score of 92 alongside Flow and Clear daily shots"
-              width={1920}
-              height={1080}
+              src="/hero/ShotsHero.jpg"
+              alt="CONKA Flow and Clear daily brain performance shots"
+              fill
               priority
               fetchPriority="high"
               sizes="(max-width: 1024px) 95vw, 60vw"
-              className="w-full h-auto object-cover"
+              className="object-cover object-center"
             />
           </div>
         </div>
