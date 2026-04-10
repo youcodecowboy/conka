@@ -98,7 +98,7 @@ function ProductMini({ stretch = false }: { stretch?: boolean }) {
         </span>
         <p className="text-sm lg:text-base font-semibold text-black">CONKA Flow</p>
         <p className="text-[11px] lg:text-xs text-black/40 mt-1">
-          Lemon Balm · Ashwagandha · +4 more
+          Lemon Balm · Ashwagandha · +4 more ingredients
         </p>
       </div>
 
@@ -121,7 +121,7 @@ function ProductMini({ stretch = false }: { stretch?: boolean }) {
         </span>
         <p className="text-sm lg:text-base font-semibold text-black">CONKA Clear</p>
         <p className="text-[11px] lg:text-xs text-black/40 mt-1">
-          Glutathione · Alpha GPC · +8 more
+          Glutathione · Alpha GPC · +8 more ingredients
         </p>
       </div>
     </div>
@@ -141,9 +141,6 @@ export default function LandingWhatsInside() {
         >
           Two shots. 16 active ingredients.
         </h2>
-        <p className="brand-caption text-black/50">
-          Tap a group to see the research
-        </p>
       </div>
 
       {/* Mobile: product mini above cards */}
