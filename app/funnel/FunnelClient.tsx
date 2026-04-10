@@ -204,6 +204,7 @@ export default function FunnelClient() {
   const step2CTA = getFunnelCTALabels(2, product, cadence);
 
 
+
   return (
     <div className="min-h-screen bg-white text-[var(--brand-black)]">
       {/* Fixed header with step breadcrumb */}
@@ -264,6 +265,7 @@ export default function FunnelClient() {
                 <FunnelCTA
                   label={step1CTA.label}
                   subLabel={step1CTA.subLabel}
+                  highlightSubLabel={product === "both"}
                   onClick={handleStep1Next}
                   loading={false}
                   error={error}
@@ -332,6 +334,7 @@ export default function FunnelClient() {
           <FunnelCTA
             label={step1CTA.label}
             subLabel={step1CTA.subLabel}
+            highlightSubLabel={product === "both"}
             onClick={handleStep1Next}
             loading={false}
             error={error}

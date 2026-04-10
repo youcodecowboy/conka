@@ -242,8 +242,8 @@ export const FUNNEL_PRODUCTS: Record<FunnelProduct, FunnelProductDisplay> = {
     timeLabel: "AM + PM",
     timeEmoji: "☀️🌙",
     features: [
-      "2 boxes (56 shots/mo)",
       "Lowest price per shot",
+      "Free shipping for subscribers",
       "Informed Sport Certified",
     ],
   },
@@ -258,8 +258,8 @@ export const FUNNEL_PRODUCTS: Record<FunnelProduct, FunnelProductDisplay> = {
     timeLabel: "Morning",
     timeEmoji: "☀️",
     features: [
-      "1 box (28 shots/mo)",
       "Caffeine-free, no crash",
+      "Free shipping for subscribers",
       "UK patented (GB2629279)",
     ],
   },
@@ -274,8 +274,8 @@ export const FUNNEL_PRODUCTS: Record<FunnelProduct, FunnelProductDisplay> = {
     timeLabel: "Afternoon",
     timeEmoji: "☀️",
     features: [
-      "1 box (28 shots/mo)",
       "Vitamin C for psychological function††",
+      "Free shipping for subscribers",
       "Glutathione + Alpha GPC",
     ],
   },

@@ -5,6 +5,8 @@ import { GUARANTEE_LABEL } from "@/app/lib/offerConstants";
 interface FunnelCTAProps {
   label: string;
   subLabel?: string;
+  /** When true, renders sub-label as a prominent styled badge */
+  highlightSubLabel?: boolean;
   onClick: () => void;
   loading: boolean;
   error: string | null;
@@ -13,6 +15,7 @@ interface FunnelCTAProps {
 export default function FunnelCTA({
   label,
   subLabel,
+  highlightSubLabel,
   onClick,
   loading,
   error,
@@ -74,7 +77,15 @@ export default function FunnelCTA({
       </button>
 
       {subLabel && !loading && (
-        <p className="mt-1.5 text-center text-xs text-black/50">{subLabel}</p>
+        highlightSubLabel ? (
+          <p className="mt-2 text-center">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]">
+              {subLabel}
+            </span>
+          </p>
+        ) : (
+          <p className="mt-1.5 text-center text-xs text-black/50">{subLabel}</p>
+        )
       )}
 
       {error && (
