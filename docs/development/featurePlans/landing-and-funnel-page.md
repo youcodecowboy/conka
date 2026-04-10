@@ -200,12 +200,30 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 
 ### A.7 "What to Expect" timeline
 
-- What: New landing-specific timeline component. Shows 5 stages (30 min, 7 days, 14 days, 30 days, 60+ days).
-- Data: Pulls from existing `whatToExpectData.ts`. Renders a combined "Both" timeline by default. Product picker (Both / Flow / Clear tabs) switches the timeline data.
-- Design: Vertical timeline with left-aligned steps. Each step: timeframe badge, heading, short body. Mobile-first, single column. `brand-bg-tint`.
-- Placement: After Benefits (#5), before Testimonials (#6).
-- Files: New `app/components/landing/LandingTimeline.tsx`, `app/start/page.tsx`
-- Dependencies: Need to create a combined "Both" timeline dataset in `whatToExpectData.ts`
+**Header:** Magic Mind-inspired headline block above the timeline. Two lines with subheadings:
+- "Your Brain" (subheading: "what to expect")
+- "Optimized" (subheading: "after 30 days")
+
+**Task 1: Create "Both" timeline data**
+- What: Add `whatToExpectStepsBoth` array to `whatToExpectData.ts`. 5 steps blending Flow + Clear benefits (both taken daily). Copy emphasizes synergy -- adaptogens in the morning, antioxidants in the afternoon.
+- File: `app/lib/whatToExpectData.ts`
+- Complexity: Small
+
+**Task 2: Build `LandingTimeline` component**
+- What: New client component at `app/components/landing/LandingTimeline.tsx`. Vertical timeline, mobile-first.
+- Header: Two-line headline with subheadings (Magic Mind pattern). "Your Brain" / "what to expect" + "Optimized" / "after 30 days".
+- Product picker: 3 pill tabs (Both / Flow / Clear). Both selected by default. Selected pill uses `brand-accent` fill. Switching swaps the timeline data.
+- Timeline layout: Vertical line on the left, 5 steps. Each step has: timeframe badge (small, semibold, `text-black/40`), heading (`text-base font-semibold`), body (`text-sm text-black/60`, 1-2 sentences).
+- Mobile: Single column, full width.
+- Desktop: Same vertical layout with more whitespace.
+- Complexity: Medium
+
+**Task 3: Wire into page**
+- What: Dynamic import in `app/start/page.tsx`. New section after Benefits, `brand-bg-tint`, `aria-label="What to expect timeline"`.
+- File: `app/start/page.tsx`
+- Complexity: Small
+
+**No-gos:** Not modifying PDP WhatToExpectTimeline. Not adding images to steps. Not adding a CTA (Testimonials below has one).
 
 ---
 
