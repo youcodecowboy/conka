@@ -60,7 +60,7 @@ export default function LandingFAQ() {
         <div className="lg:w-3/5">
           {/* Heading */}
           <div className="mb-10">
-            <h2 className="brand-h2 mb-0">
+            <h2 className="brand-h1 mb-0">
               Frequently asked questions
             </h2>
           </div>

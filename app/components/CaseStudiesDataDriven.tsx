@@ -118,7 +118,7 @@ export default function CaseStudiesDataDriven({
     <>
       {/* Section Header */}
       <div className="mb-10">
-        <h2 className="brand-h2 mb-0">Athletes, Founders, Corporates. They all take CONKA.<sup className="text-[0.5em] text-black/30 align-super">^^</sup></h2>
+        <h2 className="brand-h1 mb-0">Athletes, Founders, Corporates. They all take CONKA.<sup className="text-[0.5em] text-black/30 align-super">^^</sup></h2>
       </div>
 
       {/* Hero Stats Block -- desktop/tablet only */}
