@@ -26,6 +26,10 @@ const LandingBenefits = dynamic(
   () => import("../components/landing/LandingBenefits"),
   { loading: () => <div className="h-[300px]" /> },
 );
+const LandingTimeline = dynamic(
+  () => import("../components/landing/LandingTimeline"),
+  { loading: () => <div className="h-[500px]" /> },
+);
 const LandingFAQ = dynamic(
   () => import("../components/landing/LandingFAQ"),
   { loading: () => <div className="h-[400px]" /> },
@@ -105,12 +109,24 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 6. TESTIMONIALS ===== */}
+      {/* ===== 6. WHAT TO EXPECT TIMELINE ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="What to expect timeline"
+      >
+        <div className="brand-track">
+          <Reveal>
+            <LandingTimeline />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== 7. TESTIMONIALS ===== */}
       <TestimonialsSection />
 
-      {/* ===== 7. FAQ ===== */}
+      {/* ===== 8. FAQ ===== */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-tint"
         aria-label="FAQ"
       >
         <div className="brand-track">
@@ -118,9 +134,9 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 8. DISCLAIMER ===== */}
+      {/* ===== 9. DISCLAIMER ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="Important information and disclaimers"
       >
         <div className="brand-track">

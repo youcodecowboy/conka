@@ -140,7 +140,9 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 | A.4 | Hero CTA label variants (config array, one active) | Small | Not Started |
 | A.5 | Avatar photo slots (replace initials with real photos) | Small | Not Started |
 | A.6 | Landing testimonials component (new, snap-scroll, curated 10) | Medium | Not Started |
-| A.7 | "What to Expect" timeline section (new landing component) | Medium | Not Started |
+| A.7 | "What to Expect" timeline section (new landing component) | Medium | Done |
+| A.8 | Section title sizing -- all titles to brand-h1 | Small | Done |
+| A.9 | Extract trust badges to shared LandingTrustBadges component | Small | Done |
 
 ### A.1 Center social proof pill
 
@@ -198,14 +200,30 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 - Files: New `app/components/landing/LandingTestimonials.tsx`, edit `app/start/TestimonialsSection.tsx`
 - Risk: Must not regress homepage testimonials (shared component untouched, so safe).
 
-### A.7 "What to Expect" timeline
+### A.7 "What to Expect" timeline -- DONE
 
-- What: New landing-specific timeline component. Shows 5 stages (30 min, 7 days, 14 days, 30 days, 60+ days).
-- Data: Pulls from existing `whatToExpectData.ts`. Renders a combined "Both" timeline by default. Product picker (Both / Flow / Clear tabs) switches the timeline data.
-- Design: Vertical timeline with left-aligned steps. Each step: timeframe badge, heading, short body. Mobile-first, single column. `brand-bg-tint`.
-- Placement: After Benefits (#5), before Testimonials (#6).
-- Files: New `app/components/landing/LandingTimeline.tsx`, `app/start/page.tsx`
-- Dependencies: Need to create a combined "Both" timeline dataset in `whatToExpectData.ts`
+**What was built:**
+- Redesigned `LandingTimeline` with card-style layout (3 cards: Day 1, 14 Days, 30 Days)
+- Header: "Your Brain, Optimised." (brand-h1) + subtitle "What to expect after 30 days"
+- Copy rewritten to feeling-first tone (Magic Mind-inspired): no product names leading, no ingredient jargon
+- Each card has accent-tinted timeframe pill, large heading (text-xl/2xl), body copy
+- Desktop: two-column layout with lifestyle image (SatWoman.jpg, 450px, sticky) on right
+- Mobile: single column, image hidden
+- Proof point: "Based on 5,000+ cognitive tests across 150+ participants"
+- CTA: "Try Both from £1.61/shot" + shared LandingTrustBadges beneath
+- Files: `app/components/landing/LandingTimeline.tsx`
+
+### A.8 Section title sizing -- DONE
+
+- All section titles across `/start` upgraded from `brand-h2` to `brand-h1` per Johnny feedback ("slightly bigger and more readable")
+- Affected: LandingProductSplit, LandingValueComparison, LandingBenefits, CaseStudiesDataDriven, LandingFAQ
+- Not changed: LandingHero (already brand-h1-bold), LandingDisclaimer (intentionally small)
+
+### A.9 Extract trust badges -- DONE
+
+- Extracted trust badges (Free UK Shipping, Informed Sport, Every Batch Tested, Cancel Anytime) from LandingBenefits into shared `LandingTrustBadges` component
+- Rendered below CTA in both LandingBenefits and LandingTimeline for consistency
+- Files: New `app/components/landing/LandingTrustBadges.tsx`, updated `LandingBenefits.tsx`
 
 ---
 

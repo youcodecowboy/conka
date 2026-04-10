@@ -20,7 +20,7 @@ export default function LandingProductSplit() {
     <div ref={ref}>
       {/* Heading */}
       <div className={`reveal ${revealed} mb-10`}>
-        <h2 className="brand-h2 mb-0">
+        <h2 className="brand-h1 mb-0">
           Two shots. 24 hours covered.
         </h2>
       </div>

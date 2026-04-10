@@ -1,18 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { GUARANTEE_LABEL } from "@/app/lib/offerConstants";
 import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 import LandingCTA from "./LandingCTA";
+import LandingTrustBadges from "./LandingTrustBadges";
 import {
   BenefitIconFocus,
   BenefitIconSleep,
   BenefitIconStress,
   BenefitIconThinking,
-  TrustIconShipping,
-  TrustIconInformedSport,
-  TrustIconBatchTested,
-  TrustIconCancel,
 } from "./icons";
 
 const BENEFITS = [
@@ -54,28 +50,6 @@ const BENEFITS = [
   },
 ];
 
-const TRUST_BADGES = [
-  {
-    icon: <TrustIconShipping />,
-    title: "Free UK Shipping",
-    subtitle: "On subscriptions",
-  },
-  {
-    icon: <TrustIconInformedSport />,
-    title: "Informed Sport",
-    subtitle: "Certified",
-  },
-  {
-    icon: <TrustIconBatchTested />,
-    title: "Every Batch Tested",
-    subtitle: "UK lab verified",
-  },
-  {
-    icon: <TrustIconCancel />,
-    title: "Cancel Anytime",
-    subtitle: GUARANTEE_LABEL,
-  },
-];
 
 export default function LandingBenefits() {
   const [tappedId, setTappedId] = useState<string | null>(null);
@@ -83,7 +57,7 @@ export default function LandingBenefits() {
   return (
     <div>
       <div className="mb-10">
-        <h2 className="brand-h2 mb-0">
+        <h2 className="brand-h1 mb-0">
           What&apos;s working inside every shot.
         </h2>
         <p className="text-sm text-black/60 mt-2">
@@ -163,31 +137,14 @@ export default function LandingBenefits() {
         })}
       </div>
 
-      {/* Trust Badges */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
-        {TRUST_BADGES.map((badge) => (
-          <div
-            key={badge.title}
-            className="flex items-center gap-2.5 px-4 py-2.5 rounded-[var(--brand-radius-interactive)] bg-black/[0.03] border border-black/6"
-          >
-            <span className="text-brand-accent/60 shrink-0">
-              {badge.icon}
-            </span>
-            <div>
-              <p className="text-xs font-semibold leading-tight text-black/80">
-                {badge.title}
-              </p>
-              <p className="text-xs leading-tight text-black/50">
-                {badge.subtitle}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
       {/* CTA */}
       <div className="mt-8 flex justify-start">
         <LandingCTA>Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot &rarr;</LandingCTA>
+      </div>
+
+      {/* Trust Badges */}
+      <div className="mt-6">
+        <LandingTrustBadges />
       </div>
     </div>
   );
