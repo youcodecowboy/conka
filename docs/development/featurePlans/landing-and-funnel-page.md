@@ -1,8 +1,8 @@
 # Landing & Funnel Page
 
-> **Status:** Landing page and funnel built. Johnny feedback received 2026-04-09. Executing Phase A (CRO quick wins) and Phase B (product education).
+> **Status:** Landing page and funnel built. Phase A (CRO quick wins) and Phase B (product education) complete. Funnel iteration is next.
 > **Created:** 2026-03-24
-> **Last updated:** 2026-04-09
+> **Last updated:** 2026-04-10
 > **Routes:** `/start` (landing page), `/funnel` (purchase funnel)
 > **Design system:** `brand-base.css`
 
@@ -14,20 +14,22 @@
 
 Standalone conversion page for paid Meta traffic. Not in nav, `noindex`. Every section has a CTA pointing to `/funnel`.
 
-**Current page structure:**
+**Current page structure (after Phase A + B):**
 
-| # | Section | Component |
-|---|---------|-----------|
-| 1 | Hero | `LandingHero` |
-| 2 | Case Studies | `CaseStudiesDataDriven` |
-| 3 | Product Split (AM/PM) | `LandingProductSplit` |
-| 4 | Value Comparison | `LandingValueComparison` |
-| 5 | Benefits + Trust Badges | `LandingBenefits` |
-| 6 | Testimonials | `TestimonialsSection` |
-| 7 | FAQ | `LandingFAQ` |
-| 8 | Disclaimer | `LandingDisclaimer` |
+| # | Section | Component | Background |
+|---|---------|-----------|------------|
+| 1 | Hero | `LandingHero` | white |
+| 2 | What CONKA Does | `LandingWhatItDoes` | tint |
+| 3 | What's Inside | `LandingWhatsInside` | white |
+| 4 | Case Studies | `CaseStudiesDataDriven` | tint |
+| 5 | Product Split (AM/PM) | `LandingProductSplit` | white |
+| 6 | Value Comparison | `LandingValueComparison` | tint |
+| 7 | What to Expect | `LandingTimeline` | white |
+| 8 | Testimonials | `TestimonialsSection` | tint |
+| 9 | FAQ | `LandingFAQ` | white |
+| 10 | Disclaimer | `LandingDisclaimer` | tint |
 
-**Landing-specific components (`app/components/landing/`):** `LandingHero`, `LandingBenefits`, `LandingProductSplit`, `LandingValueComparison`, `LandingFAQ`, `LandingDisclaimer`, `LandingCTA`, `Reveal`.
+**Landing-specific components (`app/components/landing/`):** `LandingHero`, `LandingWhatItDoes`, `LandingWhatsInside`, `LandingProductSplit`, `LandingValueComparison`, `LandingTimeline`, `LandingFAQ`, `LandingDisclaimer`, `LandingCTA`, `LandingTrustBadges`, `Reveal`.
 
 ### Funnel Page (`/funnel`)
 
@@ -231,55 +233,39 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 
 | # | Task | Complexity | Status |
 |---|------|-----------|--------|
-| B.1 | "What CONKA Does" 3-tile section | Small | Not Started |
-| B.2 | Upgrade LandingBenefits to "What's Inside" ingredient education | Medium | Not Started |
-| B.3 | Reorder page sections + rename component | Small | Not Started |
+| B.1 | "What CONKA Does" 3-tile section | Small | Done |
+| B.2 | Upgrade LandingBenefits to "What's Inside" ingredient education | Medium | Done |
+| B.3 | Reorder page sections + rename component | Small | Done |
 
-### B.1 "What CONKA Does" section
+### B.1 "What CONKA Does" section -- DONE
 
-- What: 3-tile grid explaining what CONKA does for cold traffic. Goes after Hero, BEFORE Case Studies. Magic Mind pattern: quick scan, one idea per tile.
-- Tiles:
-  1. **Mental Performance** -- Sharp focus and clear thinking when it counts
-  2. **Sustained Energy** -- All-day energy without caffeine, jitters, or crashes
-  3. **Brain Health** -- Long-term cognitive protection, not just a quick fix
-- Design: 3-column grid desktop, 3 stacked cards mobile. Icon-led (reuse BenefitIcon* from icons.tsx). `brand-bg-tint`.
-- No images, no interactivity. Lightweight.
-- Files: New `app/components/landing/LandingWhatItDoes.tsx`, `app/start/page.tsx`
+- 3-tile card grid (Mental Performance / Sustained Energy / Brain Health) at position 2
+- Icons on right of title, brand-h1 sized headings, 2-sentence descriptions
+- Claims-compliant copy: EFSA Vitamin C claim with `††` anchor on Brain Health tile
+- 3-column desktop, stacked mobile. Server component, no interactivity
+- Files: `app/components/landing/LandingWhatItDoes.tsx`
 
-### B.2 Upgrade LandingBenefits to "What's Inside" ingredient education
+### B.2 "What's Inside" ingredient education -- DONE
 
-- What: Rename `LandingBenefits` to `LandingWhatsInside`. Restructure from 4 individual ingredient cards to 3 functional groups (Magic Mind "Daily habit. Lifelong benefits." pattern). Each group lists 2-3 key ingredients by bold name with dosage and brief description.
-- Keep tap-to-reveal study interaction on individual ingredients.
-- Headline: "16 active ingredients. Two shots. One daily system." (or similar)
-- 3 groups:
-  1. **Focus & Clarity** -- **Lemon Balm** (300mg), **Alpha GPC**, **Rhodiola**
-  2. **Energy & Resilience** -- **Ashwagandha** (600mg), **Turmeric**, **Vitamin B12**††
-  3. **Protection & Recovery** -- **Glutathione** (250mg), **NAC**, **Vitamin C**††
-- Claims compliance: `††` anchors for EFSA-authorised claims on Vitamin C and B12. Non-authorised ingredients use observational framing.
-- Trust badges (LandingTrustBadges) + CTA beneath, consistent with other sections.
-- Files: Rename + rewrite `app/components/landing/LandingBenefits.tsx` to `LandingWhatsInside.tsx`, update imports in `app/start/page.tsx`
+- Replaced `LandingBenefits` with `LandingWhatsInside`. Old component deleted.
+- 3 functional groups with tap-to-reveal studies per group:
+  - Focus & Clarity: Lemon Balm (300mg), Alpha GPC, Rhodiola
+  - Energy & Resilience: Ashwagandha (600mg), Turmeric, Vitamin B12††
+  - Protection & Recovery: Glutathione (250mg), NAC, Vitamin C††
+- Heading: "Two shots. 16 active ingredients."
+- Mini product split (Flow + Clear bottles side by side) above ingredient groups on mobile, right column on desktop
+- Ingredient pills with bold names, dosages, `††` EFSA anchors
+- CTA + LandingTrustBadges beneath
+- Claims audit passed (2 AMBER items resolved)
+- Files: `app/components/landing/LandingWhatsInside.tsx`
 
-### B.3 Reorder page sections
+### B.3 Reorder page sections -- DONE
 
-- Insert LandingWhatItDoes at position 2 (after Hero)
-- Move LandingWhatsInside to position 3 (after What It Does)
-- Maintain white/tint alternation
-- Files: `app/start/page.tsx`
-
-### Updated page order (after Phase A + B)
-
-| # | Section | Component | Background |
-|---|---------|-----------|------------|
-| 1 | Hero | `LandingHero` | white |
-| 2 | **What CONKA Does** (NEW) | `LandingWhatItDoes` | tint |
-| 3 | **What's Inside** (UPGRADED) | `LandingWhatsInside` | white |
-| 4 | Case Studies | `CaseStudiesDataDriven` | tint |
-| 5 | Product Split (AM/PM) | `LandingProductSplit` | white |
-| 6 | Value Comparison | `LandingValueComparison` | tint |
-| 7 | What to Expect | `LandingTimeline` | white |
-| 8 | Testimonials | `TestimonialsSection` | tint |
-| 9 | FAQ | `LandingFAQ` | white |
-| 10 | Disclaimer | `LandingDisclaimer` | tint |
+- LandingWhatItDoes at position 2, LandingWhatsInside at position 3
+- Case Studies pushed to position 4 (product education before proof, per Johnny)
+- Background alternation maintained across all 10 sections
+- TestimonialsSection updated from white to tint
+- Files: `app/start/page.tsx`, `app/start/TestimonialsSection.tsx`
 
 ---
 
@@ -378,9 +364,9 @@ Separate PR. ~12 files, ~21 edits. Does NOT change customer testimonials.
 
 | Key | Summary | Phase | Status |
 |-----|---------|-------|--------|
-| SCRUM-869 | Landing page: CRO quick wins -- hero, testimonials, avatars | A | To Do |
-| SCRUM-870 | Landing page: What to Expect timeline section | A | To Do |
-| SCRUM-871 | Landing page: Product education and ingredients sections | B | To Do |
+| SCRUM-869 | Landing page: CRO quick wins -- hero, testimonials, avatars | A | Done |
+| SCRUM-870 | Landing page: What to Expect timeline section | A | Done |
+| SCRUM-871 | Landing page: Product education and ingredients sections | B | Done |
 
 ---
 
