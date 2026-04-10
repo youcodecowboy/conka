@@ -1,174 +1,262 @@
-// TODO: This component is no longer used on /start. If no other page uses it, delete this file.
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
-import LandingCTA from "./LandingCTA";
 import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
+import LandingCTA from "./LandingCTA";
+import LandingTrustBadges from "./LandingTrustBadges";
+import {
+  BenefitIconFocus,
+  BenefitIconSleep,
+  BenefitIconStress,
+} from "./icons";
 
-const SECTIONS = [
+interface Ingredient {
+  name: string;
+  dosage?: string;
+  efsaAnchor?: boolean;
+}
+
+interface IngredientGroup {
+  id: string;
+  icon: React.ReactNode;
+  heading: string;
+  subtitle: string;
+  ingredients: Ingredient[];
+  studyObservation: string;
+  study: string;
+  pmid: string;
+}
+
+const INGREDIENT_GROUPS: IngredientGroup[] = [
   {
-    id: "what",
-    question: "What does CONKA do?",
-    content: (
-      <>
-        <p>
-          <strong><em>Morning foundation:</em></strong> CONKA Flow supports your nervous system and focus with adaptogens like Ashwagandha and Lemon Balm, so you stay sharp without caffeine, jitters, or a crash.
-        </p>
-        <p className="mt-3">
-          <strong><em>Afternoon recovery:</em></strong> CONKA Clear combines nootropics like Alpha GPC and Glutathione with Vitamin C, which contributes to normal psychological function†† and the reduction of tiredness and fatigue.††
-        </p>
-        <p className="mt-3">
-          <strong><em>Better together:</em></strong> Designed to work as a daily pair. CONKA Flow provides your morning foundation with adaptogens, while CONKA Clear supports your afternoon with nootropics and antioxidants. A complete daily routine in two shots.
-        </p>
-      </>
-    ),
+    id: "focus",
+    icon: <BenefitIconFocus />,
+    heading: "Focus & Clarity",
+    subtitle: "Sharpen focus and stay locked in",
+    ingredients: [
+      { name: "Lemon Balm", dosage: "300mg" },
+      { name: "Alpha GPC" },
+      { name: "Rhodiola" },
+    ],
+    studyObservation:
+      "In one study, participants taking Lemon Balm showed improvements in calmness and alertness (Kennedy et al. 2003)\u00B6",
+    study: "Kennedy et al. 2003",
+    pmid: "PMID: 12888775",
   },
   {
-    id: "ingredients",
-    question: "What's in it?",
-    content: (
-      <>
-        <p className="font-semibold mb-2">CONKA Flow (Morning)</p>
-        <p className="opacity-70">
-          Lemon Balm · Turmeric · Ashwagandha · Rhodiola Rosea · Bilberry · Black Pepper
-        </p>
-        <p className="font-semibold mt-4 mb-2">CONKA Clear (Afternoon)</p>
-        <p className="opacity-70">
-          Vitamin C · Alpha GPC · Glutathione · N-Acetyl Cysteine · Acetyl-L-Carnitine · Ginkgo Biloba · Vitamin B12
-        </p>
-        <p className="mt-4 text-xs text-black/40">
-          All ingredients are clinically dosed.† No proprietary blends. Full amounts on the label.
-        </p>
-      </>
-    ),
+    id: "energy",
+    icon: <BenefitIconSleep />,
+    heading: "Energy & Resilience",
+    subtitle: "All-day energy without the crash",
+    ingredients: [
+      { name: "Ashwagandha", dosage: "600mg" },
+      { name: "Turmeric" },
+      { name: "Vitamin B12", efsaAnchor: true },
+    ],
+    studyObservation:
+      "In one study, participants taking Ashwagandha showed a significant reduction in perceived stress (Chandrasekhar et al. 2012)\u00B6",
+    study: "Chandrasekhar et al. 2012",
+    pmid: "PMID: 23439798",
   },
   {
-    id: "science",
-    question: "Science & certifications",
-    content: (
-      <>
-        <p>
-          Every batch is third-party tested by the UK&apos;s leading supplement testing laboratory. CONKA is <strong>Informed Sport Certified</strong>, the same standard used by professional athletes.
-        </p>
-        <p className="mt-3">
-          All key ingredients are backed by peer-reviewed clinical studies (PubMed-indexed). CONKA Flow holds a UK patent (GB2629279).
-        </p>
-        <p className="mt-3 text-black/60">
-          Made in Britain · GMP Certified · Vegan Friendly
-        </p>
-      </>
-    ),
-  },
-  {
-    id: "how",
-    question: "How do I take it?",
-    content: (
-      <>
-        <p>
-          <strong>CONKA Flow:</strong> One shot in the morning, with or without food. Works as a coffee replacement.
-        </p>
-        <p className="mt-3">
-          <strong>CONKA Clear:</strong> One shot in the afternoon, 30-60 minutes before you want peak clarity or before bed for overnight recovery.
-        </p>
-        <p className="mt-3">
-          Each box contains 28 shots (one per day). Both together = 56 shots per month.
-        </p>
-      </>
-    ),
+    id: "protection",
+    icon: <BenefitIconStress />,
+    heading: "Protection & Recovery",
+    subtitle: "Invest in your brain for the long run",
+    ingredients: [
+      { name: "Glutathione", dosage: "250mg" },
+      { name: "NAC" },
+      { name: "Vitamin C", efsaAnchor: true },
+    ],
+    studyObservation:
+      "Vitamin C contributes to the protection of cells from oxidative stress\u2020\u2020. In one study, participants showed improvements in antioxidant capacity (Sinha et al. 2018)\u00B6",
+    study: "Sinha et al. 2018",
+    pmid: "PMID: 29559699",
   },
 ];
 
+function ProductMini({ stretch = false }: { stretch?: boolean }) {
+  return (
+    <div className={`grid grid-cols-2 gap-3 lg:gap-4 ${stretch ? "h-full" : ""}`}>
+      {/* Flow */}
+      <div className={`flex flex-col items-center text-center rounded-[var(--brand-radius-container)] bg-black/[0.02] border border-black/6 p-4 lg:p-6 ${stretch ? "justify-center" : ""}`}>
+        <div className={`relative w-16 h-36 mb-3 ${stretch ? "lg:w-28 lg:h-64" : "lg:w-24 lg:h-52"}`}>
+          <Image
+            src="/formulas/conkaFlow/FlowNoBackground.png"
+            alt="CONKA Flow bottle"
+            fill
+            sizes={stretch ? "(max-width: 1024px) 64px, 112px" : "(max-width: 1024px) 64px, 96px"}
+            className="object-contain scale-200"
+          />
+        </div>
+        <span
+          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[var(--brand-radius-interactive)] text-[11px] lg:text-xs font-semibold mb-2"
+          style={{ backgroundColor: "rgba(245, 158, 11, 0.1)", color: "rgb(180, 83, 9)" }}
+        >
+          ☀️ Morning
+        </span>
+        <p className="text-sm lg:text-base font-semibold text-black">CONKA Flow</p>
+        <p className="text-[11px] lg:text-xs text-black/40 mt-1">
+          Lemon Balm · Ashwagandha · +4 more ingredients
+        </p>
+      </div>
+
+      {/* Clear */}
+      <div className={`flex flex-col items-center text-center rounded-[var(--brand-radius-container)] bg-black/[0.02] border border-black/6 p-4 lg:p-6 ${stretch ? "justify-center" : ""}`}>
+        <div className={`relative w-16 h-36 mb-3 ${stretch ? "lg:w-28 lg:h-64" : "lg:w-24 lg:h-52"}`}>
+          <Image
+            src="/formulas/conkaClear/ClearNoBackground.png"
+            alt="CONKA Clear bottle"
+            fill
+            sizes={stretch ? "(max-width: 1024px) 64px, 112px" : "(max-width: 1024px) 64px, 96px"}
+            className="object-contain scale-200"
+          />
+        </div>
+        <span
+          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[var(--brand-radius-interactive)] text-[11px] lg:text-xs font-semibold mb-2"
+          style={{ backgroundColor: "rgba(14, 165, 233, 0.1)", color: "rgb(3, 105, 161)" }}
+        >
+          ☀️ Afternoon
+        </span>
+        <p className="text-sm lg:text-base font-semibold text-black">CONKA Clear</p>
+        <p className="text-[11px] lg:text-xs text-black/40 mt-1">
+          Glutathione · Alpha GPC · +8 more ingredients
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function LandingWhatsInside() {
-  const [openId, setOpenId] = useState<string | null>(null);
+  const [openGroupId, setOpenGroupId] = useState<string | null>(null);
 
   return (
     <div>
-      {/* Desktop: two-column (image left, content right) */}
-      {/* Mobile: image above heading, then accordion */}
-      <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
-        {/* Lifestyle image — square, sticky on desktop */}
-        <div className="lg:w-2/5 lg:sticky lg:top-8 mb-8 lg:mb-0">
-          <div className="overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] max-w-md mx-auto lg:max-w-none">
-            <Image
-              src="/lifestyle/FlowHold.jpg"
-              alt="Man holding CONKA Flow bottle outdoors"
-              width={800}
-              height={800}
-              loading="lazy"
-              className="w-full h-auto"
-            />
-          </div>
-        </div>
+      {/* Header */}
+      <div className="mb-8">
+        <h2
+          className="brand-h1 mb-2"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          Two shots. 16 active ingredients.
+        </h2>
+      </div>
 
-        {/* Content column */}
-        <div className="lg:w-3/5">
-          {/* Heading */}
-          <div className="mb-10">
-            <h2 className="brand-h2 mb-0">
-              16 ingredients. Zero fluff.
-            </h2>
-          </div>
+      {/* Mobile: product mini above cards */}
+      <div className="lg:hidden mb-8">
+        <ProductMini />
+      </div>
 
-          {/* Accordion */}
-          <div className="rounded-[var(--brand-radius-container)] overflow-hidden bg-white border border-black/6">
-            {SECTIONS.map((section, i) => {
-              const isOpen = openId === section.id;
-              const isLast = i === SECTIONS.length - 1;
+      {/* Desktop: two-column layout with product mini on right */}
+      <div className="lg:flex lg:gap-10 lg:items-start">
+        {/* Ingredient groups */}
+        <div className="flex flex-col gap-4 lg:gap-5 lg:flex-1">
+          {INGREDIENT_GROUPS.map((group) => {
+            const isOpen = openGroupId === group.id;
 
-              return (
-                <div key={section.id}>
-                  <button
-                    onClick={() => setOpenId(isOpen ? null : section.id)}
-                    aria-expanded={isOpen}
-                    aria-controls={`lp-inside-${section.id}`}
-                    className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left"
-                  >
-                    <span className={`text-base text-black ${isOpen ? "font-semibold" : "font-medium"}`}>
-                      {section.question}
-                    </span>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className={`shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-black/80" : "text-black/40"}`}
-                    >
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </button>
+            return (
+              <button
+                key={group.id}
+                type="button"
+                onClick={() => setOpenGroupId(isOpen ? null : group.id)}
+                aria-expanded={isOpen}
+                className={`flex flex-col items-start text-left w-full rounded-[var(--brand-radius-card)] bg-white shadow-sm transition-colors duration-200 cursor-pointer p-5 lg:p-6 ${
+                  isOpen
+                    ? "border-l-4 border-l-brand-accent border border-black/6"
+                    : "border border-black/6"
+                }`}
+              >
+                {/* Icon + heading row */}
+                <div className="flex items-start gap-4 w-full">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-full bg-brand-accent/8 text-brand-accent flex-shrink-0">
+                    {group.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-xl lg:text-2xl font-semibold text-black mb-1">
+                      {group.heading}
+                    </h3>
+                    <p className="text-sm text-black/60 mb-3">
+                      {group.subtitle}
+                    </p>
 
-                  <div
-                    id={`lp-inside-${section.id}`}
-                    role="region"
-                    className="overflow-hidden transition-all duration-300 ease-out"
-                    style={{
-                      maxHeight: isOpen ? "600px" : "0px",
-                      opacity: isOpen ? 1 : 0,
-                    }}
-                  >
-                    <div className="px-5 pb-5 text-sm leading-relaxed text-black/60">
-                      {section.content}
+                    {/* Ingredient pills */}
+                    <div className="flex flex-wrap gap-2">
+                      {group.ingredients.map((ingredient) => (
+                        <span
+                          key={ingredient.name}
+                          className="inline-flex items-center gap-1.5 rounded-[var(--brand-radius-interactive)] bg-black/[0.03] border border-black/6 px-3 py-1.5 text-sm"
+                        >
+                          <span className="font-semibold text-black/80">
+                            {ingredient.name}
+                          </span>
+                          {ingredient.dosage && (
+                            <span className="brand-data-label text-black/40">
+                              {ingredient.dosage}
+                            </span>
+                          )}
+                          {ingredient.efsaAnchor && (
+                            <span className="text-black/30 text-xs">††</span>
+                          )}
+                        </span>
+                      ))}
                     </div>
                   </div>
 
-                  {!isLast && (
-                    <div className="mx-5 h-px bg-black/8" />
-                  )}
+                  {/* Expand chevron */}
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`shrink-0 text-brand-accent mt-1 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
                 </div>
-              );
-            })}
-          </div>
 
-          {/* CTA */}
-          <div className="mt-8 flex justify-start">
-            <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
-          </div>
+                {/* Study detail -- shown on tap */}
+                <div
+                  className="w-full overflow-hidden transition-all duration-300 ease-out"
+                  style={{
+                    maxHeight: isOpen ? "300px" : "0px",
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                >
+                  <div className="mt-4 pt-4 text-left border-t border-black/6 ml-16">
+                    <p className="text-xs leading-relaxed text-black/60">
+                      {group.studyObservation}
+                    </p>
+                    <p className="text-xs brand-data-label mt-2 text-black/40">
+                      {group.pmid}
+                    </p>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
         </div>
+
+        {/* Desktop: product mini on right, stretches to match cards */}
+        <div className="hidden lg:block lg:w-[320px] lg:flex-shrink-0 lg:self-stretch">
+          <ProductMini stretch />
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="mt-8 flex justify-start">
+        <LandingCTA>
+          Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot &rarr;
+        </LandingCTA>
+      </div>
+
+      {/* Trust Badges */}
+      <div className="mt-6">
+        <LandingTrustBadges />
       </div>
     </div>
   );

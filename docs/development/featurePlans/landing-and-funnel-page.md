@@ -231,32 +231,40 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 
 | # | Task | Complexity | Status |
 |---|------|-----------|--------|
-| B.1 | "What CONKA Does" 3-tile section | Medium | Not Started |
-| B.2 | "Daily Habit" ingredient groupings section | Medium | Not Started |
+| B.1 | "What CONKA Does" 3-tile section | Small | Not Started |
+| B.2 | Upgrade LandingBenefits to "What's Inside" ingredient education | Medium | Not Started |
+| B.3 | Reorder page sections + rename component | Small | Not Started |
 
 ### B.1 "What CONKA Does" section
 
-- What: 3-tile grid explaining what CONKA does for cold traffic. Goes after Hero, BEFORE Case Studies.
+- What: 3-tile grid explaining what CONKA does for cold traffic. Goes after Hero, BEFORE Case Studies. Magic Mind pattern: quick scan, one idea per tile.
 - Tiles:
-  1. **Mental Performance** -- "Sharpen focus and stay locked in. Vitamin C contributes to normal psychological function.†† Lemon balm and Alpha GPC support your brain when it matters most."
-  2. **Sustained Energy** -- "No caffeine. No crash. Vitamin B12 contributes to normal energy-yielding metabolism.†† Adaptogens like rhodiola help your body manage the demands of a full day."
-  3. **Brain Health** -- "Invest in your brain for the long run. Vitamin C contributes to the protection of cells from oxidative stress.†† Glutathione and NAC support your body's natural defence systems."
-- Design: 3-column grid desktop, 3 stacked cards mobile. Icon-led. `brand-bg-tint`.
-- Claims compliance: `††` anchor for EFSA-authorised claims. Non-authorised ingredients use "support" framing.
+  1. **Mental Performance** -- Sharp focus and clear thinking when it counts
+  2. **Sustained Energy** -- All-day energy without caffeine, jitters, or crashes
+  3. **Brain Health** -- Long-term cognitive protection, not just a quick fix
+- Design: 3-column grid desktop, 3 stacked cards mobile. Icon-led (reuse BenefitIcon* from icons.tsx). `brand-bg-tint`.
+- No images, no interactivity. Lightweight.
 - Files: New `app/components/landing/LandingWhatItDoes.tsx`, `app/start/page.tsx`
 
-### B.2 "Daily Habit, Compounding Benefits" ingredient section
+### B.2 Upgrade LandingBenefits to "What's Inside" ingredient education
 
-- What: Ingredient groupings with lifestyle image. Shows how ingredients work together by function.
-- Headline: "16 active ingredients. Two shots. One daily system."
-- 3 ingredient groups:
-  1. **Focus & Clarity** -- Lemon Balm, Alpha GPC, Rhodiola
-  2. **Energy & Resilience** -- Ashwagandha, Turmeric, Vitamin B12
-  3. **Protection & Recovery** -- Glutathione, NAC, Vitamin C
-- Design: Desktop: copy-left, lifestyle image-right. Mobile: image top, copy below. `brand-bg-white`.
-- CTA: "Get Both from £1.61/shot"
-- Data source: Ingredient names and key stats from `ingredientsData.ts`.
-- Files: New `app/components/landing/LandingIngredients.tsx`, `app/start/page.tsx`
+- What: Rename `LandingBenefits` to `LandingWhatsInside`. Restructure from 4 individual ingredient cards to 3 functional groups (Magic Mind "Daily habit. Lifelong benefits." pattern). Each group lists 2-3 key ingredients by bold name with dosage and brief description.
+- Keep tap-to-reveal study interaction on individual ingredients.
+- Headline: "16 active ingredients. Two shots. One daily system." (or similar)
+- 3 groups:
+  1. **Focus & Clarity** -- **Lemon Balm** (300mg), **Alpha GPC**, **Rhodiola**
+  2. **Energy & Resilience** -- **Ashwagandha** (600mg), **Turmeric**, **Vitamin B12**††
+  3. **Protection & Recovery** -- **Glutathione** (250mg), **NAC**, **Vitamin C**††
+- Claims compliance: `††` anchors for EFSA-authorised claims on Vitamin C and B12. Non-authorised ingredients use observational framing.
+- Trust badges (LandingTrustBadges) + CTA beneath, consistent with other sections.
+- Files: Rename + rewrite `app/components/landing/LandingBenefits.tsx` to `LandingWhatsInside.tsx`, update imports in `app/start/page.tsx`
+
+### B.3 Reorder page sections
+
+- Insert LandingWhatItDoes at position 2 (after Hero)
+- Move LandingWhatsInside to position 3 (after What It Does)
+- Maintain white/tint alternation
+- Files: `app/start/page.tsx`
 
 ### Updated page order (after Phase A + B)
 
@@ -264,15 +272,14 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 |---|---------|-----------|------------|
 | 1 | Hero | `LandingHero` | white |
 | 2 | **What CONKA Does** (NEW) | `LandingWhatItDoes` | tint |
-| 3 | **Ingredients** (NEW) | `LandingIngredients` | white |
+| 3 | **What's Inside** (UPGRADED) | `LandingWhatsInside` | white |
 | 4 | Case Studies | `CaseStudiesDataDriven` | tint |
 | 5 | Product Split (AM/PM) | `LandingProductSplit` | white |
 | 6 | Value Comparison | `LandingValueComparison` | tint |
-| 7 | Benefits + Trust Badges | `LandingBenefits` | white |
-| 8 | **What to Expect** (NEW) | `LandingTimeline` | tint |
-| 9 | Testimonials | `TestimonialsSection` | white |
-| 10 | FAQ | `LandingFAQ` | tint |
-| 11 | Disclaimer | `LandingDisclaimer` | white |
+| 7 | What to Expect | `LandingTimeline` | white |
+| 8 | Testimonials | `TestimonialsSection` | tint |
+| 9 | FAQ | `LandingFAQ` | white |
+| 10 | Disclaimer | `LandingDisclaimer` | tint |
 
 ---
 
