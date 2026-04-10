@@ -13,7 +13,7 @@ const LANDING_TESTIMONIALS: Testimonial[] =
 export default function TestimonialsSection() {
   return (
     <section
-      className="brand-section brand-bg-white"
+      className="brand-section brand-bg-tint"
       aria-label="Customer reviews"
     >
       <div className="brand-track">
