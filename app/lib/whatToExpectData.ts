@@ -76,38 +76,6 @@ export const whatToExpectStepsClear: WhatToExpectStep[] = [
   },
 ];
 
-// ===== BOTH (Flow + Clear daily) =====
-// Landing page timeline blending both formulas. Emphasizes the synergy of
-// adaptogens in the morning (Flow) and antioxidant support in the afternoon (Clear).
-
-export const whatToExpectStepsBoth: WhatToExpectStep[] = [
-  {
-    subheading: "Within 30 minutes",
-    heading: "Calm focus meets clear thinking",
-    body: "Flow's adaptogens quiet mental chatter while Clear's antioxidants dampen oxidative stress. Two shots, two systems working together from the first day.",
-  },
-  {
-    subheading: "7 Days",
-    heading: "Your new baseline builds",
-    body: "Adaptogens like ashwagandha and rhodiola stack daily. Glutathione and NAC build antioxidant capacity. Mornings feel smoother, afternoons hold steadier.",
-  },
-  {
-    subheading: "14 Days",
-    heading: "The full-day difference",
-    body: "Turmeric supports BDNF and brain circulation. Vitamin C concentrates in neurons. You'll feel steadier energy from morning through afternoon, fewer dips, more consistent output.",
-  },
-  {
-    subheading: "30 Days",
-    heading: "Compound clarity, sustained",
-    body: "Both systems compound. Neuroprotection, antioxidant defence, and adaptogenic resilience work as one stack. Focus and clarity become your baseline, not a good day.",
-  },
-  {
-    subheading: "60+ Days",
-    heading: "The system you don't skip",
-    body: "Long-term cognitive support from 16 active ingredients working daily. Resilience, clarity, and balance maintained as a sustainable habit. This is what compounding feels like.",
-  },
-];
-
 export const whatToExpectByFormula: Record<FormulaId, WhatToExpectStep[]> = {
   "01": whatToExpectStepsFlow,
   "02": whatToExpectStepsClear,
