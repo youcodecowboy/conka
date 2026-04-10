@@ -182,12 +182,6 @@ export default function LandingHero() {
               sizes="(max-width: 1024px) 95vw, 60vw"
               className="object-cover object-center"
             />
-            {/* Badge overlay — circular app tracking callout */}
-            <div className="absolute bottom-3 right-3 lg:bottom-4 lg:right-4 w-[72px] h-[72px] lg:w-[88px] lg:h-[88px] bg-[var(--brand-bg-tint)] rounded-full shadow-sm flex items-center justify-center p-2">
-              <span className="text-[9px] lg:text-[10px] font-semibold text-black/80 text-center leading-tight">
-                Track on the CONKA app
-              </span>
-            </div>
           </div>
         </div>
       </div>
