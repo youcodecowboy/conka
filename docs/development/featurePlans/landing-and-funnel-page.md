@@ -140,7 +140,9 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 | A.4 | Hero CTA label variants (config array, one active) | Small | Not Started |
 | A.5 | Avatar photo slots (replace initials with real photos) | Small | Not Started |
 | A.6 | Landing testimonials component (new, snap-scroll, curated 10) | Medium | Not Started |
-| A.7 | "What to Expect" timeline section (new landing component) | Medium | Not Started |
+| A.7 | "What to Expect" timeline section (new landing component) | Medium | Done |
+| A.8 | Section title sizing -- all titles to brand-h1 | Small | Done |
+| A.9 | Extract trust badges to shared LandingTrustBadges component | Small | Done |
 
 ### A.1 Center social proof pill
 
@@ -198,32 +200,30 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 - Files: New `app/components/landing/LandingTestimonials.tsx`, edit `app/start/TestimonialsSection.tsx`
 - Risk: Must not regress homepage testimonials (shared component untouched, so safe).
 
-### A.7 "What to Expect" timeline
+### A.7 "What to Expect" timeline -- DONE
 
-**Header:** Magic Mind-inspired headline block above the timeline. Two lines with subheadings:
-- "Your Brain" (subheading: "what to expect")
-- "Optimized" (subheading: "after 30 days")
+**What was built:**
+- Redesigned `LandingTimeline` with card-style layout (3 cards: Day 1, 14 Days, 30 Days)
+- Header: "Your Brain, Optimised." (brand-h1) + subtitle "What to expect after 30 days"
+- Copy rewritten to feeling-first tone (Magic Mind-inspired): no product names leading, no ingredient jargon
+- Each card has accent-tinted timeframe pill, large heading (text-xl/2xl), body copy
+- Desktop: two-column layout with lifestyle image (SatWoman.jpg, 450px, sticky) on right
+- Mobile: single column, image hidden
+- Proof point: "Based on 5,000+ cognitive tests across 150+ participants"
+- CTA: "Try Both from £1.61/shot" + shared LandingTrustBadges beneath
+- Files: `app/components/landing/LandingTimeline.tsx`
 
-**Task 1: Create "Both" timeline data**
-- What: Add `whatToExpectStepsBoth` array to `whatToExpectData.ts`. 5 steps blending Flow + Clear benefits (both taken daily). Copy emphasizes synergy -- adaptogens in the morning, antioxidants in the afternoon.
-- File: `app/lib/whatToExpectData.ts`
-- Complexity: Small
+### A.8 Section title sizing -- DONE
 
-**Task 2: Build `LandingTimeline` component**
-- What: New client component at `app/components/landing/LandingTimeline.tsx`. Vertical timeline, mobile-first.
-- Header: Two-line headline with subheadings (Magic Mind pattern). "Your Brain" / "what to expect" + "Optimized" / "after 30 days".
-- Product picker: 3 pill tabs (Both / Flow / Clear). Both selected by default. Selected pill uses `brand-accent` fill. Switching swaps the timeline data.
-- Timeline layout: Vertical line on the left, 5 steps. Each step has: timeframe badge (small, semibold, `text-black/40`), heading (`text-base font-semibold`), body (`text-sm text-black/60`, 1-2 sentences).
-- Mobile: Single column, full width.
-- Desktop: Same vertical layout with more whitespace.
-- Complexity: Medium
+- All section titles across `/start` upgraded from `brand-h2` to `brand-h1` per Johnny feedback ("slightly bigger and more readable")
+- Affected: LandingProductSplit, LandingValueComparison, LandingBenefits, CaseStudiesDataDriven, LandingFAQ
+- Not changed: LandingHero (already brand-h1-bold), LandingDisclaimer (intentionally small)
 
-**Task 3: Wire into page**
-- What: Dynamic import in `app/start/page.tsx`. New section after Benefits, `brand-bg-tint`, `aria-label="What to expect timeline"`.
-- File: `app/start/page.tsx`
-- Complexity: Small
+### A.9 Extract trust badges -- DONE
 
-**No-gos:** Not modifying PDP WhatToExpectTimeline. Not adding images to steps. Not adding a CTA (Testimonials below has one).
+- Extracted trust badges (Free UK Shipping, Informed Sport, Every Batch Tested, Cancel Anytime) from LandingBenefits into shared `LandingTrustBadges` component
+- Rendered below CTA in both LandingBenefits and LandingTimeline for consistency
+- Files: New `app/components/landing/LandingTrustBadges.tsx`, updated `LandingBenefits.tsx`
 
 ---
 

@@ -13,7 +13,7 @@ const TIMELINE_STEPS: LandingTimelineStep[] = [
   {
     timeframe: "Day 1",
     heading: "Focus without the noise",
-    body: "Sharp, steady focus that lasts for hours. No jitters, no crash. Mental chatter quiets in the morning, the afternoon fog never arrives.",
+    body: "Sharp, steady focus that lasts for hours. No jitters, no crash. Mental chatter quiets. The afternoon fog never arrives.",
   },
   {
     timeframe: "14 Days",
