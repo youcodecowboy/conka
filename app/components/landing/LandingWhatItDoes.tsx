@@ -9,7 +9,7 @@ const TILES = [
     icon: <BenefitIconFocus />,
     heading: "Mental Performance",
     description:
-      "Sharpen focus, clarity, and recall with clinically-backed ingredients. Stay locked in past 2pm instead of reaching for another coffee.",
+      "Clinically-studied ingredients for your daily focus and clarity routine. Stay locked in past 2pm instead of reaching for another coffee.",
   },
   {
     icon: <BenefitIconSleep />,
@@ -21,7 +21,7 @@ const TILES = [
     icon: <BenefitIconStress />,
     heading: "Brain Health",
     description:
-      "Long-term cognitive protection, not just a quick fix. Neurosupportive antioxidants defend against daily oxidative stress and support your brain for the years ahead.",
+      "Long-term investment in your brain, not just a quick fix. Vitamin C contributes to the protection of cells from oxidative stress.\u2020\u2020 A daily routine built for the years ahead.",
   },
 ];
 
