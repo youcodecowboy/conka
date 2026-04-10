@@ -8,7 +8,6 @@ import {
   FUNNEL_PRODUCTS,
   getOfferPricing,
   getBuySeparatelyPrice,
-  getSavingsPercent,
 } from "@/app/lib/funnelData";
 import { formatPrice } from "@/app/lib/productData";
 
@@ -18,19 +17,19 @@ interface ProductSelectorProps {
   onChange: (product: FunnelProduct) => void;
 }
 
-const PRODUCT_ORDER: FunnelProduct[] = ["both", "flow", "clear"];
+const PRODUCT_ORDER: FunnelProduct[] = ["flow", "both", "clear"];
 
-/** Cadence-aware box count label */
-function getBoxLabel(product: FunnelProduct, cadence: FunnelCadence, shotCount: number): string {
+/** Cadence-aware box delivery label */
+function getBoxLabel(product: FunnelProduct, cadence: FunnelCadence): string {
   const isBoth = product === "both";
-  if (cadence === "quarterly-sub") {
-    return isBoth
-      ? `6 boxes · ${shotCount} shots total`
-      : `3 boxes · ${shotCount} shots total`;
+  switch (cadence) {
+    case "monthly-sub":
+      return isBoth ? "2 boxes delivered every month" : "1 box delivered every month";
+    case "monthly-otp":
+      return isBoth ? "2 boxes, one-time delivery" : "1 box, one-time delivery";
+    case "quarterly-sub":
+      return isBoth ? "6 boxes delivered every 3 months" : "3 boxes delivered every 3 months";
   }
-  return isBoth
-    ? `2 boxes · ${shotCount} shots`
-    : `1 box · ${shotCount} shots`;
 }
 
 /** Cadence-aware frequency label for price display */
@@ -151,7 +150,7 @@ export default function ProductSelector({
                               : "bg-black/[0.04] text-black/50"
                           }`}
                         >
-                          📦 {getBoxLabel(productKey, cadence, pricing.shotCount)}
+                          📦 {getBoxLabel(productKey, cadence)}
                         </span>
                       </div>
 
@@ -167,14 +166,6 @@ export default function ProductSelector({
                         {pricing.compareAtPrice && (
                           <p className="text-xs text-black/40 mt-0.5">
                             <span className="line-through">{formatPrice(pricing.compareAtPrice)}</span>
-                            <span className="ml-1 font-semibold" style={{ color: display.accent }}>
-                              {getSavingsPercent(pricing.price, pricing.compareAtPrice)}% off
-                            </span>
-                          </p>
-                        )}
-                        {isBoth && separatePrice && savings > 0 && (
-                          <p className="text-[10px] font-semibold" style={{ color: display.accent }}>
-                            Save {formatPrice(savings)} vs separate
                           </p>
                         )}
                       </div>
@@ -193,7 +184,7 @@ export default function ProductSelector({
                       className="inline-flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
                       style={{ backgroundColor: `${display.accent}12`, color: display.accent }}
                     >
-                      <span className="brand-data">{formatPrice(pricing.perShot)}</span>/shot · {pricing.shotCount} shots
+                      <span className="brand-data">{formatPrice(pricing.perShot)}</span>/shot · {isBoth ? "2" : "1"} shot{isBoth ? "s" : ""} per day
                     </span>
 
                     {/* Feature bullets */}

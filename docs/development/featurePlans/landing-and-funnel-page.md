@@ -1,6 +1,6 @@
 # Landing & Funnel Page
 
-> **Status:** Landing page and funnel built. Phase A (CRO quick wins) and Phase B (product education) complete. Funnel iteration is next.
+> **Status:** Landing page and funnel built. Phase A (CRO quick wins), Phase B (product education), and funnel iteration complete.
 > **Created:** 2026-03-24
 > **Last updated:** 2026-04-10
 > **Routes:** `/start` (landing page), `/funnel` (purchase funnel)
@@ -269,16 +269,16 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 
 ---
 
-## Funnel Iteration (Future -- Separate PR)
+## Funnel Iteration -- DONE
 
-Johnny's funnel feedback, to be executed after Phase A + B:
+Johnny's funnel feedback (2026-04-09), executed as a single PR:
 
-- Simplify pricing display -- remove "vs separate" comparison
-- Add "2 shots per day" context to per-shot price
-- Free shipping callout on subscription cards
-- Delivery clarity ("2 boxes delivered every month")
-- Most popular option in middle position
-- Highlight savings more on "Both" card
+- ~~Simplify pricing display -- remove "vs separate" comparison~~ Done
+- ~~Add "2 shots per day" context to per-shot price~~ Done
+- ~~Free shipping callout on subscription cards~~ Done
+- ~~Delivery clarity ("2 boxes delivered every month")~~ Already in place via `getWhatShips()`
+- ~~Most popular option in middle position~~ Done (products: Flow/Both/Clear; cadences: Quarterly/Monthly/OTP)
+- ~~Highlight savings more on "Both" card~~ Done (savings pill badge on Both)
 
 ---
 
@@ -367,6 +367,7 @@ Separate PR. ~12 files, ~21 edits. Does NOT change customer testimonials.
 | SCRUM-869 | Landing page: CRO quick wins -- hero, testimonials, avatars | A | Done |
 | SCRUM-870 | Landing page: What to Expect timeline section | A | Done |
 | SCRUM-871 | Landing page: Product education and ingredients sections | B | Done |
+| SCRUM-873 | Funnel: Pricing & layout iteration from January Brands feedback | Funnel Iteration | Done |
 
 ---
 

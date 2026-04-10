@@ -17,7 +17,7 @@ interface CadenceSelectorProps {
   onChange: (cadence: FunnelCadence) => void;
 }
 
-const CADENCE_ORDER: FunnelCadence[] = ["monthly-sub", "quarterly-sub", "monthly-otp"];
+const CADENCE_ORDER: FunnelCadence[] = ["quarterly-sub", "monthly-sub", "monthly-otp"];
 
 /** Short delivery label for collapsed cards */
 function getDeliveryLabel(cadence: FunnelCadence): string {
@@ -195,10 +195,15 @@ export default function CadenceSelector({
                       )}
                     </div>
 
-                    {/* What ships */}
+                    {/* What ships + shipping callout */}
                     <p className="text-sm text-black/60">
                       📦 {getWhatShips(cadenceKey, product, pricing.shotCount)}
                     </p>
+                    {display.shippingCallout && (
+                      <p className="text-sm text-black/60">
+                        🚚 {display.shippingCallout}
+                      </p>
+                    )}
 
                     {/* Feature bullets */}
                     <div className="space-y-1.5">
