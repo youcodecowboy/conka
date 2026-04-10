@@ -8,17 +8,20 @@ const TILES = [
   {
     icon: <BenefitIconFocus />,
     heading: "Mental Performance",
-    description: "Sharp focus and clear thinking when it counts.",
+    description:
+      "Sharpen focus, clarity, and recall with clinically-backed ingredients. Stay locked in past 2pm instead of reaching for another coffee.",
   },
   {
     icon: <BenefitIconSleep />,
     heading: "Sustained Energy",
-    description: "All-day energy without caffeine, jitters, or crashes.",
+    description:
+      "All-day mental energy without caffeine, jitters, or crashes. Adaptogens help your body manage the demands of a full day, not just the first few hours.",
   },
   {
     icon: <BenefitIconStress />,
     heading: "Brain Health",
-    description: "Long-term cognitive protection, not just a quick fix.",
+    description:
+      "Long-term cognitive protection, not just a quick fix. Neurosupportive antioxidants defend against daily oxidative stress and support your brain for the years ahead.",
   },
 ];
 
@@ -43,12 +46,14 @@ export default function LandingWhatItDoes() {
             key={tile.heading}
             className="rounded-[var(--brand-radius-card)] bg-white border border-black/6 shadow-sm p-5 lg:p-6"
           >
-            <div className="w-12 h-12 flex items-center justify-center rounded-full mb-4 bg-brand-accent/8 text-brand-accent">
-              {tile.icon}
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-2xl lg:text-3xl font-semibold text-black">
+                {tile.heading}
+              </h3>
+              <div className="w-10 h-10 flex items-center justify-center rounded-full bg-brand-accent/8 text-brand-accent flex-shrink-0 ml-3">
+                {tile.icon}
+              </div>
             </div>
-            <h3 className="text-xl lg:text-2xl font-semibold text-black mb-2">
-              {tile.heading}
-            </h3>
             <p className="text-sm text-black/60 leading-relaxed">
               {tile.description}
             </p>
