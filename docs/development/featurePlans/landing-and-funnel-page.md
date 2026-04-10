@@ -1,6 +1,6 @@
 # Landing & Funnel Page
 
-> **Status:** Landing page and funnel built. Johnny feedback received 2026-04-09. Next: execute feedback iteration.
+> **Status:** Landing page and funnel built. Johnny feedback received 2026-04-09. Executing Phase A (CRO quick wins) and Phase B (product education).
 > **Created:** 2026-03-24
 > **Last updated:** 2026-04-09
 > **Routes:** `/start` (landing page), `/funnel` (purchase funnel)
@@ -14,7 +14,7 @@
 
 Standalone conversion page for paid Meta traffic. Not in nav, `noindex`. Every section has a CTA pointing to `/funnel`.
 
-**Page structure:**
+**Current page structure:**
 
 | # | Section | Component |
 |---|---------|-----------|
@@ -37,9 +37,9 @@ Multi-step paginated funnel (Fussy/Overload pattern). Each step is its own focus
 
 | File | Purpose |
 |------|---------|
-| `app/funnel/page.tsx` | Server component — metadata (noindex), renders FunnelClient |
-| `app/funnel/FunnelClient.tsx` | Client orchestrator — state, step navigation, checkout flow, analytics |
-| `app/lib/funnelData.ts` | Types, 3×3 pricing matrix, variant mapping, display data, upsell logic |
+| `app/funnel/page.tsx` | Server component, metadata (noindex), renders FunnelClient |
+| `app/funnel/FunnelClient.tsx` | Client orchestrator, state, step navigation, checkout flow, analytics |
+| `app/lib/funnelData.ts` | Types, 3x3 pricing matrix, variant mapping, display data, upsell logic |
 | `app/lib/funnelCheckout.ts` | Isolated cart creation, analytics, checkout URL (bypasses CartContext) |
 
 **Funnel components (`app/components/funnel/`):** `FunnelStepIndicator`, `FunnelHeroAsset`, `CadenceSelector`, `ProductSelector`, `FunnelCTA`, `UpsellModal`, `FunnelAssurance`.
@@ -48,12 +48,12 @@ Multi-step paginated funnel (Fussy/Overload pattern). Each step is its own focus
 
 | Step | Screen | Pre-selected | CTA |
 |------|--------|-------------|-----|
-| 1 — Plan | Cadence cards (Monthly / Quarterly / Try Once) | Monthly | "Choose Product" |
-| 2 — Product | Product cards (Both / Flow / Clear) | Both | "Go to Checkout" |
-| 3 — Checkout | Shopify hosted checkout | — | Redirect via `cart.checkoutUrl` |
-| 3.5 — Upsell | Bottom sheet modal (contextual) | — | "Yes, upgrade" / "No thanks" |
+| 1 | Cadence cards (Monthly / Quarterly / Try Once) | Monthly | "Choose Product" |
+| 2 | Product cards (Both / Flow / Clear) | Both | "Go to Checkout" |
+| 3 | Shopify hosted checkout | -- | Redirect via `cart.checkoutUrl` |
+| 3.5 | Upsell bottom sheet (contextual) | -- | "Yes, upgrade" / "No thanks" |
 
-**What works end-to-end (4 of 9 combos):** Flow and Clear × Monthly Sub and Monthly OTP. Both × any cadence and Any × Quarterly are blocked on Shopify product setup.
+**What works end-to-end (4 of 9 combos):** Flow and Clear x Monthly Sub and Monthly OTP. Both x any cadence and Any x Quarterly are blocked on Shopify product setup.
 
 ---
 
@@ -61,140 +61,257 @@ Multi-step paginated funnel (Fussy/Overload pattern). Each step is its own focus
 
 ### Phase 1: Critical Fixes (Done)
 
-Completed before first paid campaign.
-
-- **Mobile performance** — images to WebP, lazy loading, `fetchpriority="high"` on hero, bundle audit. PageSpeed 64 → 85+.
-- **KSM-66 removal** — replaced "KSM-66 Ashwagandha" with "Ashwagandha" across 8 files (landing components, lib/data, shared components). Legal compliance requirement.
-- **Mobile CTA safe-area fix** — added `env(safe-area-inset-bottom)` padding so browser URL bar doesn't overlap CTA.
-- **SEO** — meta description, H1 verified, alt text, canonical URL. Score 58 → 80+.
+- **Mobile performance** -- images to WebP, lazy loading, `fetchpriority="high"` on hero, bundle audit. PageSpeed 64 to 85+.
+- **KSM-66 removal** -- replaced "KSM-66 Ashwagandha" with "Ashwagandha" across 8 files. Legal compliance.
+- **Mobile CTA safe-area fix** -- added `env(safe-area-inset-bottom)` padding.
+- **SEO** -- meta description, H1 verified, alt text, canonical URL. Score 58 to 80+.
 
 ### Phase 2: Landing Page Restructure (Done)
 
-- **Section reorder** — moved case studies to #2 (social proof early), benefits to #5, FAQ to #7. Unused sections (What's Inside, Guarantee) stacked at bottom.
-- **Hero updates** — H1 changed to "The only brain supplement you can measure." Subheadline now leads with pain point. Removed circular badge. Trust pill font increased.
-- **CTA standardisation** — hero keeps "Try Risk-Free →", all others show "Get Both from £1.61/shot →". Added CTA beneath coffee comparison.
-- **Benefits grid labels** — changed from feature names to outcome-focused copy (e.g. "Sharper Focus" → "Stay locked in past 2pm").
-- **Testimonial cards** — updated to show score changes as data points (matching case study format).
-- **FAQ trimmed** — cut from 9 to 5 questions, reordered to lead with guarantee.
+- **Section reorder** -- moved case studies to #2 (social proof early), benefits to #5, FAQ to #7.
+- **Hero updates** -- H1 changed to "The only brain supplement you can measure." Subheadline leads with pain point. Removed circular badge. Trust pill font increased.
+- **CTA standardisation** -- hero keeps "Try Risk-Free", all others show "Get Both from £1.61/shot". Added CTA beneath coffee comparison.
+- **Benefits grid labels** -- changed to outcome-focused copy (e.g. "Sharper Focus" to "Stay locked in past 2pm").
+- **Testimonial cards** -- updated to show score changes as data points.
+- **FAQ trimmed** -- cut from 9 to 5 questions, reordered to lead with guarantee.
 
 ### Code Quality Fixes (Done)
 
-- `FUNNEL_URL` consolidated from 7 duplicate definitions to single shared constant
-- `page.tsx` converted from Client Component to Server Component (testimonial shuffle in small client wrapper)
+- `FUNNEL_URL` consolidated to single shared constant
+- `page.tsx` converted from Client Component to Server Component
 - `LandingGuarantee.tsx` raw `<img>` replaced with `next/image`
 - `LandingProof.tsx` dead code deleted
 - CTA pattern extracted to shared `LandingCTA` component
-- `hideCTA` prop added to `CaseStudiesDataDriven` (replaced fragile CSS hack)
-- Hardcoded colours in `LandingProductSplit.tsx` replaced with design tokens
-
-### Audit Findings Resolved
-
-- Guarantee mismatch fixed (FAQ/Disclaimer now import from `offerConstants.ts`)
-- Missing `noindex` metadata added
-- Claims compliance pass completed (see `docs/development/LANDING_PAGE_CLAIMS_LOG.md`)
+- `hideCTA` prop added to `CaseStudiesDataDriven`
+- Hardcoded colours replaced with design tokens
 
 ---
 
-## Next Phase: Johnny Feedback (2026-04-09)
+## Johnny Feedback (2026-04-09)
 
-Feedback from Johnny at January Brands after reviewing the landing page and funnel on mobile. Two Loom videos covering the full flow.
+Feedback from Johnny at January Brands after reviewing landing page and funnel on mobile.
 
-**Overall verdict:** Funnel is "really, really impressive" and in a strong place. Landing page has all the right blocks but needs iteration on design consistency, product education for cold traffic, and social proof quality.
+**Overall verdict:** Funnel is "really, really impressive". Landing page has all the right blocks but needs product education for cold traffic, design consistency, and social proof quality.
 
-**Key reference site:** Magic Mind's landing page is the primary inspiration going forward. Johnny explicitly says to take their section structures and apply CONKA branding — "no shame in it, everyone does it, they have a lot of data."
+**Key reference:** Magic Mind's landing page. Take their section structures and apply CONKA branding.
 
 ### Landing Page Feedback
 
-#### Design & Branding
+**Design & Branding:**
+- Design consistency across sections -- some feel disconnected. Get Freddy on a call.
+- Section title sizing -- slightly bigger and more readable.
+- Trust badge icons -- reuse in more places.
 
-- **Design consistency across sections** — some sections feel like they don't belong next to each other. Suggests getting Freddy (January Brands' brand designer for Overload/Cloud) on a call for pointers on fonts, style, and cohesion.
-- **Section title sizing** — titles need to be slightly bigger and more readable throughout.
-- **Trust badge icons** — reuse the icons (Informed Sport, money-back guarantee, etc.) in more places across the page. "Things we want to shout about."
+**Hero:**
+- Hero image unclear about what the product is. Replace with lifestyle or bottle close-up (blocked on assets).
+- Hero centering -- something is off.
+- Need multiple headline variants to A/B test.
+- Use percentage discount rather than "risk-free for 100 days".
 
-#### Hero Section
+**Social Proof:**
+- Testimonials need real customer photos, not initials.
+- Carousel too fast -- should snap between items.
 
-- **Hero image** — current product-on-white shot (`CONKA_39.jpg`) is unclear about what the product actually is. Replace with either a lifestyle shot (someone drinking CONKA) or a close-up of the two bottles. The phone/app could be a small circle or banner overlay rather than a primary hero element.
-- **Hero centering** — something isn't centred (needs investigation).
-- **Headline copy** — need multiple headline variants to A/B test. They saw significant conversion rate differences between headline variants on Overload.
-- **Offer framing** — use a percentage discount rather than "risk-free for 100 days". Percentages always perform better.
-
-#### Social Proof
-
-- **Testimonials need real photos** — no initials or avatars. Actual customer pictures required. Reference Overload's approach.
-- **Testimonial scroll speed** — too fast to read. Should pause/snap between items rather than continuous scroll. Reference Overload's carousel that stops on each item.
-
-#### Content & Education (biggest gap)
-
-- **Product education section needed BEFORE case studies** — cold traffic doesn't know what CONKA is. Need a section early in the page explaining what the product does (mental performance, energy, brain health). Heavy inspiration from Magic Mind's landing page.
-- **Case study clarity** — "test score" and "change" metrics need more context. Cold traffic has no idea what these numbers mean.
-- **Product split section** — needs more detail than "caffeine-free nootropic, take in morning". Explain what each product actually *does*.
-- **Ingredients breakdown** — add a digestible ingredients section (Magic Mind style — ingredient cards with benefits).
-- **Timeline section** — add a "what to expect" timeline (Magic Mind has one). Answers "when will I feel it?"
+**Content & Education (biggest gap):**
+- Product education section needed BEFORE case studies.
+- Case study "test score" metrics need more context for cold traffic.
+- Product split needs more detail on what each product does.
+- Add digestible ingredients section (Magic Mind style).
+- Add "what to expect" timeline.
 
 ### Funnel Page Feedback
 
-#### Step 1 (Cadence Selection)
+- Simplify pricing display -- remove "vs separate", just show per-shot + total + strikethrough.
+- Add "2 shots per day" context next to per-shot price.
+- Add "Free priority shipping on subscriptions".
+- Delivery clarity -- "2 boxes delivered every month".
+- Most popular option in middle position (confirmed better conversion).
+- Highlight savings more on "Both" card.
 
-- **Simplify pricing display** — the "vs separate" comparison is confusing. Just show: per-shot price, monthly total, and the strike-through price. Remove the "versus separate" line.
-- **Per-shot context** — add "2 shots per day" context next to per-shot price (e.g. "£1.61/shot · 2 shots per day").
-- **Free shipping callout** — add "Free priority shipping on subscriptions".
-- **Delivery clarity** — make it very clear when products arrive (e.g. "2 boxes delivered every month", "delivered quarterly"). This was a major learning from Overload — customers need to understand exactly when they'll get their products.
+---
 
-#### Step 2 (Product Selection)
+## Phase A: CRO Quick Wins -- ACTIVE
 
-- **Reorder cards** — put the most popular option in the middle position, not first. Middle position converts better (confirmed by their data).
-- **Highlight savings more** — savings amount needs to be more prominent on the "Both" card.
+| # | Task | Complexity | Status |
+|---|------|-----------|--------|
+| A.1 | Center social proof pill above hero | Small | Not Started |
+| A.2 | Hero image swap + badge overlay | Small | Not Started |
+| A.3 | Hero headline variants (config array, one active) | Small | Not Started |
+| A.4 | Hero CTA label variants (config array, one active) | Small | Not Started |
+| A.5 | Avatar photo slots (replace initials with real photos) | Small | Not Started |
+| A.6 | Landing testimonials component (new, snap-scroll, curated 10) | Medium | Not Started |
+| A.7 | "What to Expect" timeline section (new landing component) | Medium | Not Started |
+
+### A.1 Center social proof pill
+
+- What: The "150,000+ bottles sold" pill at L36-45 appears misaligned on mobile. The pill uses `reveal-fade hero-delay-0` inside the parent flex column. Investigate alignment classes and fix centering.
+- Files: `app/components/landing/LandingHero.tsx` (~L36-45)
+
+### A.2 Hero image swap + badge overlay
+
+- What: Replace `AppShotsHero.jpg` (boxes + bottles + phone, unclear product shot) with `ShotsHero.jpg` (two bottles on white, clean product shot). Add a small badge/chip overlay on the image corner (e.g. "Track results on the CONKA app" or "Measure your improvement").
+- Current: L121-130, `<Image src="/hero/AppShotsHero.jpg" width={1920} height={1080} priority>`. Update src, check dimensions of `ShotsHero.jpg`, update width/height/sizes.
+- Badge: `absolute` positioned chip inside the image wrapper div. Small, subtle, not competing with headline. Use `brand-bg-tint` or white bg with subtle border.
+- Files: `app/components/landing/LandingHero.tsx` (~L118-131)
+
+### A.3 Hero headline variants
+
+- What: Create a documented config array of headline options with one active. Current: "The only brain supplement you can measure." (L53-57).
+- Copy constraints: Lead with pain or counterintuitive truth. Awareness stage 1-2. Under ~10 words.
+- Documented variants (with rationale):
+  1. "The only brain supplement you can measure." -- current, proof-led, differentiator
+  2. "Your brain fades by 2pm. Fix it." -- pain-led, direct, creates urgency
+  3. "For people who refuse to fade by 2pm" -- identity-led, aspirational, targets high-performers
+  4. "What if your supplement could prove it works?" -- counterintuitive question, challenges category norms
+- Implementation: Config array at top of file. `ACTIVE_HEADLINE_INDEX = 0` constant selects which is live. Comment each variant with its direction.
+- Files: `app/components/landing/LandingHero.tsx` (~L51-58)
+
+### A.4 Hero CTA label variants
+
+- What: Create a documented config array of CTA options with one active. Current: "Try Risk-Free for {GUARANTEE_DAYS} Days" (L76-79). Johnny says percentages always outperform "risk-free" messaging.
+- Documented variants (with rationale):
+  1. "Get Both from £1.61/shot" -- value-anchored, matches section CTAs, low per-unit price
+  2. "Save 25% -- subscribe today" -- percentage-led, Johnny's recommendation
+  3. "Start for £3.21/day" -- daily cost anchor, lower than a coffee
+  4. "See your plan" -- low-commitment, curiosity-driven, soft CTA
+- Implementation: Config array like A.3. `ACTIVE_CTA_INDEX = 0` constant. Only one renders on the live site. All documented in code for easy swap per campaign.
+- Files: `app/components/landing/LandingHero.tsx` (~L73-79)
+
+### A.5 Avatar photo slots
+
+- What: Replace 5 hard-coded initial divs (L87-101) with `next/image` using existing assets at `/avatars/1.jpg` through `/avatars/5.jpg`. Keep initials as fallback via `onError`.
+- Assets: 5 files exist, 1.7-2.7KB each (already compressed). Mount via `next/image` with `width={48} height={48}`, `className="rounded-full object-cover"`.
+- Implementation: Avatar data array: `{ src: "/avatars/1.jpg", initials: "JM", bg: "#e8d5b7" }`. Render `<Image>` by default. On `onError`, swap to initials div. Keep the overlapping `-space-x-2` stack and review count label.
+- Files: `app/components/landing/LandingHero.tsx` (~L87-106)
+
+### A.6 Landing testimonials component
+
+- What: New landing-specific testimonial component. Does NOT modify the shared `TestimonialsAutoScrollStrip` or `TestimonialCard`. Curate 10 best reviews, snap-scroll with periodic auto-advance, photo slots on cards.
+- Data: Use first 10 IDs from `GENERAL_TESTIMONIAL_IDS` in `testimonialsFilter.ts` (L25-36, already curated as "hero reviews"). Import via `getSiteTestimonialsGeneral()` and slice. No shuffle -- fixed curated order.
+- Carousel behavior:
+  - `overflow-x-auto snap-x snap-mandatory` on container
+  - Cards: `snap-center`, fixed width (~300px mobile, ~340px desktop), `flex-shrink-0`
+  - Auto-advance: `setInterval` every ~4s, `scrollBy` one card width. Pauses on touch (`touchstart`) and hover (`mouseenter`). Resumes after 5s inactivity.
+  - Dot indicators for position
+- Card design: Name, star rating, headline, truncated body (200 char), product label badge (e.g. "CONKA Flow"). Photo slot if `testimonial.photo` exists (currently none have photos, but slot is ready).
+- Replaces the shared `Testimonials` component in `TestimonialsSection.tsx`. Section wrapper stays the same (`brand-section brand-bg-tint`).
+- Files: New `app/components/landing/LandingTestimonials.tsx`, edit `app/start/TestimonialsSection.tsx`
+- Risk: Must not regress homepage testimonials (shared component untouched, so safe).
+
+### A.7 "What to Expect" timeline
+
+- What: New landing-specific timeline component. Shows 5 stages (30 min, 7 days, 14 days, 30 days, 60+ days).
+- Data: Pulls from existing `whatToExpectData.ts`. Renders a combined "Both" timeline by default. Product picker (Both / Flow / Clear tabs) switches the timeline data.
+- Design: Vertical timeline with left-aligned steps. Each step: timeframe badge, heading, short body. Mobile-first, single column. `brand-bg-tint`.
+- Placement: After Benefits (#5), before Testimonials (#6).
+- Files: New `app/components/landing/LandingTimeline.tsx`, `app/start/page.tsx`
+- Dependencies: Need to create a combined "Both" timeline dataset in `whatToExpectData.ts`
+
+---
+
+## Phase B: Product Education & Ingredients -- ACTIVE
+
+| # | Task | Complexity | Status |
+|---|------|-----------|--------|
+| B.1 | "What CONKA Does" 3-tile section | Medium | Not Started |
+| B.2 | "Daily Habit" ingredient groupings section | Medium | Not Started |
+
+### B.1 "What CONKA Does" section
+
+- What: 3-tile grid explaining what CONKA does for cold traffic. Goes after Hero, BEFORE Case Studies.
+- Tiles:
+  1. **Mental Performance** -- "Sharpen focus and stay locked in. Vitamin C contributes to normal psychological function.†† Lemon balm and Alpha GPC support your brain when it matters most."
+  2. **Sustained Energy** -- "No caffeine. No crash. Vitamin B12 contributes to normal energy-yielding metabolism.†† Adaptogens like rhodiola help your body manage the demands of a full day."
+  3. **Brain Health** -- "Invest in your brain for the long run. Vitamin C contributes to the protection of cells from oxidative stress.†† Glutathione and NAC support your body's natural defence systems."
+- Design: 3-column grid desktop, 3 stacked cards mobile. Icon-led. `brand-bg-tint`.
+- Claims compliance: `††` anchor for EFSA-authorised claims. Non-authorised ingredients use "support" framing.
+- Files: New `app/components/landing/LandingWhatItDoes.tsx`, `app/start/page.tsx`
+
+### B.2 "Daily Habit, Compounding Benefits" ingredient section
+
+- What: Ingredient groupings with lifestyle image. Shows how ingredients work together by function.
+- Headline: "16 active ingredients. Two shots. One daily system."
+- 3 ingredient groups:
+  1. **Focus & Clarity** -- Lemon Balm, Alpha GPC, Rhodiola
+  2. **Energy & Resilience** -- Ashwagandha, Turmeric, Vitamin B12
+  3. **Protection & Recovery** -- Glutathione, NAC, Vitamin C
+- Design: Desktop: copy-left, lifestyle image-right. Mobile: image top, copy below. `brand-bg-white`.
+- CTA: "Get Both from £1.61/shot"
+- Data source: Ingredient names and key stats from `ingredientsData.ts`.
+- Files: New `app/components/landing/LandingIngredients.tsx`, `app/start/page.tsx`
+
+### Updated page order (after Phase A + B)
+
+| # | Section | Component | Background |
+|---|---------|-----------|------------|
+| 1 | Hero | `LandingHero` | white |
+| 2 | **What CONKA Does** (NEW) | `LandingWhatItDoes` | tint |
+| 3 | **Ingredients** (NEW) | `LandingIngredients` | white |
+| 4 | Case Studies | `CaseStudiesDataDriven` | tint |
+| 5 | Product Split (AM/PM) | `LandingProductSplit` | white |
+| 6 | Value Comparison | `LandingValueComparison` | tint |
+| 7 | Benefits + Trust Badges | `LandingBenefits` | white |
+| 8 | **What to Expect** (NEW) | `LandingTimeline` | tint |
+| 9 | Testimonials | `TestimonialsSection` | white |
+| 10 | FAQ | `LandingFAQ` | tint |
+| 11 | Disclaimer | `LandingDisclaimer` | white |
+
+---
+
+## Funnel Iteration (Future -- Separate PR)
+
+Johnny's funnel feedback, to be executed after Phase A + B:
+
+- Simplify pricing display -- remove "vs separate" comparison
+- Add "2 shots per day" context to per-shot price
+- Free shipping callout on subscription cards
+- Delivery clarity ("2 boxes delivered every month")
+- Most popular option in middle position
+- Highlight savings more on "Both" card
 
 ---
 
 ## Previously Scoped Work (Unstarted)
 
-The following phases were scoped before Johnny's feedback. Some items overlap with or are superseded by the feedback above. Review before starting — Johnny's feedback takes priority where there's conflict.
+Review before starting -- Johnny's feedback takes priority where there's conflict.
 
-### Funnel: Product Selection Page (Phase 3)
+### Funnel: Product Selection Page
 
-- **Header cleanup** — remove feature-bashing caption, change H2 to "Your CONKA plan", remove subtitle
-- **Product card copy** — update descriptions to outcome-focused copy. Update Clear terminology from "Evening" to "Afternoon"
-- **Dynamic CTA** — CTA updates reactively based on selected product with per-shot pricing
+- Header cleanup, product card copy (outcome-focused), dynamic CTA
 
-### Funnel: Plan Page (Phase 4)
+### Funnel: Plan Page
 
-- **Header cleanup** — change H2 to "Your delivery plan", remove subtitle, remove mobile hero image from step 2
-- **Per-product accent colours** — Both: `#378ADD`, Flow: `#F59E0B`, Clear: `#0369a1`. Cards visually adapt to selected product.
-- **Price anchor (trial pack reference)** — use £3.75/shot trial pack as crossed-out anchor on all plan cards. Compute `compareAtPrice` as `TRIAL_PACK_PER_SHOT * shotCount`.
-- **Dynamic CTA** — CTA updates based on product + cadence selection with full pricing context
+- Header cleanup, per-product accent colours, price anchor (trial pack reference), dynamic CTA
 
-### Evening to Afternoon Terminology Audit (Phase 5)
+### Evening to Afternoon Terminology Audit
 
-Separate PR. Replaces "Evening" with "Afternoon" in all CONKA Clear context across ~12 files, ~21 edits. Does NOT change customer testimonials (real quotes).
+Separate PR. ~12 files, ~21 edits. Does NOT change customer testimonials.
 
 ### Upsell Modal Improvements (P2)
 
-- Copy changes: "Clear sustains your afternoon" (replacing evening), outcome-focused bullet points
-- Per-shot saving as hero price signal on the modal
-- Social nudge line: "Most people who start with Flow switch to Both within 30 days" (verify against real data)
+- Copy changes, per-shot saving as hero price signal, social nudge line
 
 ---
 
 ## No-Gos
 
-- Not integrating new hero photography until shoot is complete
-- Not fixing cut-off logos in current hero image
-- Not redesigning the coffee comparison section
-- Not touching upsell modal copy or logic until P1 Johnny feedback is done
-- Not redesigning card layout or adding new UI patterns in funnel — copy, colours, and CTA changes only
-- Not touching checkout flow or Shopify variant mapping
-- Not changing customer testimonials that use "evening" (real quotes, cannot alter)
-- Not removing desktop left-column hero image on funnel Step 2 (provides visual anchor)
+- Not swapping hero photography (blocked on photo shoot)
+- Not building A/B testing infrastructure -- just preparing variant copy for manual swap
+- Not redesigning case studies section (separate task)
+- Not touching funnel page in this PR
+- Not modifying the PDP WhatToExpectTimeline component (building landing-specific version)
+- Not adding analytics events (follow-up)
+- Not doing Evening-to-Afternoon audit (separate PR)
+- Not touching upsell modal until Phase A + B complete
 
 ---
 
 ## Risks
 
-- **Accent colour shift:** Clear's change from blue to teal needs readability verification against white card backgrounds on mobile
-- **Dynamic CTA complexity:** CTA needs product + cadence + step to compute labels. Keep the helper function clean and typed.
-- **Evening to Afternoon audit:** Touches ~12 files including shared components on product pages. Needs regression check. Ship as separate PR.
-- **Price anchor values:** Computed from `TRIAL_PACK_PER_SHOT` constant. If trial pack price changes, verify before launch.
+- **Testimonial carousel (A.4):** Modifies shared component. Test on homepage after change.
+- **Claims compliance (B.1, B.2):** New ingredient copy must use observational framing and `††` anchors. Review against claims log.
+- **Section count:** Page goes from 8 to 11 sections. Keep new sections concise (one mobile screen each).
+- **Background alternation:** 11 sections maintains white/tint rhythm in proposed order.
 
 ---
 
@@ -202,14 +319,12 @@ Separate PR. Replaces "Evening" with "Afternoon" in all CONKA Clear context acro
 
 | Item | Waiting for | Blocks |
 |------|-------------|--------|
-| Final pricing (3×3 matrix) | COGS analysis + margin targets | Shopify setup, funnel full functionality |
-| "Both" product in Shopify | Shopify Admin setup | Both × any cadence checkout |
-| Quarterly selling plan | Shopify Admin setup | Any × Quarterly checkout |
-| Lifestyle hero photography | Photo shoot | Landing page hero |
-| Customer photos for testimonials | Real customer/athlete photos | Landing page social proof |
+| Final pricing (3x3 matrix) | COGS analysis | Shopify setup, funnel full functionality |
+| "Both" product in Shopify | Shopify Admin | Both x any cadence checkout |
+| Quarterly selling plan | Shopify Admin | Any x Quarterly checkout |
+| Lifestyle hero photography | Photo shoot | Landing page hero swap |
+| ~~Customer photos for testimonials~~ | ~~Real photos~~ | User creating 96x96px assets in Canva |
 | Freddy brand call | Scheduling with January Brands | Design consistency pass |
-| A/B test headline variants | Copy creation | Landing page hero conversion |
-| Magic Mind reference analysis | Research task | Product education section, ingredients section, timeline |
 
 ---
 
@@ -220,25 +335,38 @@ Separate PR. Replaces "Evening" with "Afternoon" in all CONKA Clear context acro
 | 2026-03-24 | Pre-select "Both" + "Monthly Sub" | Direct customer to highest LTV option |
 | 2026-03-24 | Landing page is noindex, not in nav | Strictly for paid traffic |
 | 2026-03-25 | Funnel is mobile-first | 95% of paid Meta traffic is mobile |
-| 2026-03-25 | Funnel uses isolated cart (not global CartContext) | Separate flow — no drawer, no interference |
+| 2026-03-25 | Funnel uses isolated cart (not global CartContext) | Separate flow, no drawer, no interference |
 | 2026-03-25 | Multi-step paginated funnel | Each step is a focused screen (Fussy pattern) |
 | 2026-03-25 | No nav/footer on funnel page | Distraction-free |
-| 2026-04-09 | Magic Mind as primary landing page reference | Johnny recommendation — they have significant data and test extensively |
-| 2026-04-09 | Product education section needed early on landing page | Cold traffic from ads doesn't know what CONKA is |
-| 2026-04-09 | Most popular option goes in middle position (funnel) | January Brands data shows middle position converts better |
-| 2026-04-09 | Percentage discounts over "risk-free" messaging | January Brands consistently sees better performance with percentage offers |
-| 2026-04-09 | Real customer photos required for testimonials | Initials/avatars feel template-y, hurts trust |
+| 2026-04-09 | Magic Mind as primary landing page reference | Johnny: they have significant data and test extensively |
+| 2026-04-09 | Product education before case studies | Cold traffic needs to understand CONKA before seeing proof |
+| 2026-04-09 | Most popular option in middle position (funnel) | January Brands data: middle converts better |
+| 2026-04-09 | Percentage discounts over "risk-free" messaging | January Brands: percentages consistently perform better |
+| 2026-04-09 | Real customer photos for testimonials | Initials feel template-y, hurts trust |
+| 2026-04-09 | Landing-specific timeline, not PDP refactor | Simpler, faster, no risk to existing PDP component |
+| 2026-04-09 | Timeline shows Both by default with product picker | Combined timeline is most relevant for "Both" hero product, picker for exploration |
+| 2026-04-09 | Ingredient groupings cross both formulas | Grouped by function (focus/energy/protection) not by product |
+
+---
+
+## Jira Tickets
+
+| Key | Summary | Phase | Status |
+|-----|---------|-------|--------|
+| SCRUM-869 | Landing page: CRO quick wins -- hero, testimonials, avatars | A | To Do |
+| SCRUM-870 | Landing page: What to Expect timeline section | A | To Do |
+| SCRUM-871 | Landing page: Product education and ingredients sections | B | To Do |
 
 ---
 
 ## References
 
-- [Website Simplification Plan](../WEBSITE_SIMPLIFICATION_PLAN.md) — broader site simplification context
-- [Landing Page Claims Log](../LANDING_PAGE_CLAIMS_LOG.md) — claims compliance audit
-- [Design System](../../branding/DESIGN_SYSTEM.md) — brand design system
-- [Brand Voice](../../branding/BRAND_VOICE.md) — copy rules and proof assets
-- [Offer Constants](../../../app/lib/offerConstants.ts) — guarantee, pricing constants
-- **Magic Mind landing page** — primary inspiration for product education, ingredients, timeline sections
-- **Overload funnel:** `ovrload.co/pages/funnel` — product picker, pre-selection, middle-position pattern
-- **Overload landing:** `ovrload.co/pages/gummy` — hero asset, trust badges, testimonial carousel with snap
-- **Fussy subscribe flow:** `getfussy.com/pages/subscribe` — multi-step flow, step indicator UX
+- [Website Simplification Plan](../WEBSITE_SIMPLIFICATION_PLAN.md) -- broader site simplification context
+- [Landing Page Claims Log](../LANDING_PAGE_CLAIMS_LOG.md) -- claims compliance audit
+- [Design System](../../branding/DESIGN_SYSTEM.md) -- brand design system
+- [Brand Voice](../../branding/BRAND_VOICE.md) -- copy rules and proof assets
+- [Offer Constants](../../../app/lib/offerConstants.ts) -- guarantee, pricing constants
+- **Magic Mind landing page** -- primary inspiration for product education, ingredients, timeline
+- **Overload funnel:** `ovrload.co/pages/funnel` -- product picker, middle-position pattern
+- **Overload landing:** `ovrload.co/pages/gummy` -- hero, trust badges, testimonial snap carousel
+- **Fussy subscribe flow:** `getfussy.com/pages/subscribe` -- multi-step flow, step indicator UX
