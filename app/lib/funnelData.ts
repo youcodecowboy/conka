@@ -286,6 +286,8 @@ export interface FunnelCadenceDisplay {
   subtitle: string;
   badge?: string;
   savingsLabel?: string;
+  /** Shipping callout shown as a standalone badge on subscription cards */
+  shippingCallout?: string;
   features: string[];
 }
 
@@ -294,8 +296,8 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
     label: "Monthly",
     subtitle: "Delivered monthly, cancel anytime",
     badge: "Most Popular",
+    shippingCallout: "Free shipping on every delivery",
     features: [
-      "Free UK shipping every month",
       "Cancel or pause anytime, no lock-in",
       "Save 25% vs one-time price",
     ],
@@ -312,8 +314,8 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
     label: "Quarterly",
     subtitle: "3-month supply, lowest price per shot",
     savingsLabel: "Best Value",
+    shippingCallout: "Free shipping",
     features: [
-      "Free UK shipping",
       "Cancel or pause anytime",
       "Lowest cost per shot across all plans",
     ],

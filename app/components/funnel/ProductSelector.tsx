@@ -18,7 +18,7 @@ interface ProductSelectorProps {
   onChange: (product: FunnelProduct) => void;
 }
 
-const PRODUCT_ORDER: FunnelProduct[] = ["both", "flow", "clear"];
+const PRODUCT_ORDER: FunnelProduct[] = ["flow", "both", "clear"];
 
 /** Cadence-aware box count label */
 function getBoxLabel(product: FunnelProduct, cadence: FunnelCadence, shotCount: number): string {
@@ -152,6 +152,7 @@ export default function ProductSelector({
                           }`}
                         >
                           📦 {getBoxLabel(productKey, cadence, pricing.shotCount)}
+                          {isBoth && " · 2 shots/day"}
                         </span>
                       </div>
 
@@ -165,16 +166,17 @@ export default function ProductSelector({
                           <span className="brand-data-label">{formatPrice(pricing.price)}</span>{frequency}
                         </p>
                         {pricing.compareAtPrice && (
-                          <p className="text-xs text-black/40 mt-0.5">
+                          <p className={`mt-0.5 ${isBoth ? "text-sm" : "text-xs"} text-black/40`}>
                             <span className="line-through">{formatPrice(pricing.compareAtPrice)}</span>
-                            <span className="ml-1 font-semibold" style={{ color: display.accent }}>
+                            <span
+                              className={`ml-1 font-semibold ${isBoth ? "px-1.5 py-0.5 rounded-full text-white text-xs" : ""}`}
+                              style={isBoth
+                                ? { backgroundColor: display.accent }
+                                : { color: display.accent }
+                              }
+                            >
                               {getSavingsPercent(pricing.price, pricing.compareAtPrice)}% off
                             </span>
-                          </p>
-                        )}
-                        {isBoth && separatePrice && savings > 0 && (
-                          <p className="text-[10px] font-semibold" style={{ color: display.accent }}>
-                            Save {formatPrice(savings)} vs separate
                           </p>
                         )}
                       </div>
