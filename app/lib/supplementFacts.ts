@@ -15,7 +15,6 @@
  *
  * Claims compliance:
  * - Only Vitamin C and Vitamin B12 carry authorised EFSA claims.
- * - Functional-group copy uses observational phrasing.
  * - Anchor `††` on EFSA-backed nutrient references.
  * See docs/development/LANDING_PAGE_CLAIMS_LOG.md.
  */
@@ -34,7 +33,6 @@ export type SupplementFacts = {
     source: string;
   }>;
   base: Array<{ name: string; role: string }>;
-  functionalGroups: Array<{ heading: string; bullets: string[] }>;
 };
 
 const FLOW: SupplementFacts = {
@@ -57,20 +55,6 @@ const FLOW: SupplementFacts = {
     { name: "Polysorbate-80", role: "Solubiliser" },
     { name: "Potassium sorbate", role: "Preservative" },
     { name: "Lemon essential oil", role: "Natural flavouring" },
-  ],
-  functionalGroups: [
-    {
-      heading: "Focus & Calm",
-      bullets: ["Lemon Balm (Melissa officinalis)", "Rhodiola rosea"],
-    },
-    {
-      heading: "Energy & Resilience",
-      bullets: ["Ashwagandha (Withania somnifera)", "Turmeric (Curcuma longa)"],
-    },
-    {
-      heading: "Antioxidant Support",
-      bullets: ["Bilberry (Vaccinium myrtillus)", "Black Pepper (Piper nigrum)"],
-    },
   ],
 };
 
@@ -98,29 +82,6 @@ const CLEAR: SupplementFacts = {
     { name: "Lemon essential oil", role: "Natural flavouring" },
     { name: "Potassium sorbate", role: "Preservative" },
     { name: "Sodium benzoate", role: "Preservative" },
-  ],
-  functionalGroups: [
-    {
-      heading: "Psychological function††",
-      bullets: [
-        "Vitamin C contributes to normal psychological function",
-        "Vitamin B12 contributes to normal psychological function",
-      ],
-    },
-    {
-      heading: "Reduction of tiredness & fatigue††",
-      bullets: [
-        "Vitamin C contributes to the reduction of tiredness and fatigue",
-        "Vitamin B12 contributes to the reduction of tiredness and fatigue",
-      ],
-    },
-    {
-      heading: "Nootropic & antioxidant blend",
-      bullets: [
-        "Alpha-GPC, Acetyl-L-Carnitine, Ginkgo biloba",
-        "Glutathione, N-Acetyl Cysteine, Alpha Lipoic Acid",
-      ],
-    },
   ],
 };
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { track } from "@vercel/analytics/react";
 import IngredientsPanel from "./IngredientsPanel";
+import IngredientsButton from "./IngredientsButton";
 
 interface WhatsInsideProductMiniProps {
   stretch?: boolean;
@@ -47,19 +48,12 @@ export default function WhatsInsideProductMini({
           <p className="text-[11px] lg:text-xs text-black/40 mt-1 mb-3">
             Lemon Balm · Ashwagandha · +4 more ingredients
           </p>
-          <button
-            type="button"
+          <IngredientsButton
+            product="flow"
             onClick={() => openIngredients("flow")}
-            aria-label="View CONKA Flow ingredients"
-            className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-3 rounded-[var(--brand-radius-interactive)] text-xs font-semibold border border-black/15 text-black/80 hover:bg-black/[0.03] active:bg-black/[0.05] transition-colors w-full"
-          >
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden>
-              <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.25" />
-              <path d="M8 7.25v4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
-              <circle cx="8" cy="5.25" r="0.75" fill="currentColor" />
-            </svg>
-            Ingredients
-          </button>
+            className="w-full px-3 text-xs"
+            iconSize={12}
+          />
         </div>
 
         {/* Clear */}
@@ -83,19 +77,12 @@ export default function WhatsInsideProductMini({
           <p className="text-[11px] lg:text-xs text-black/40 mt-1 mb-3">
             Glutathione · Alpha GPC · +8 more ingredients
           </p>
-          <button
-            type="button"
+          <IngredientsButton
+            product="clear"
             onClick={() => openIngredients("clear")}
-            aria-label="View CONKA Clear ingredients"
-            className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-3 rounded-[var(--brand-radius-interactive)] text-xs font-semibold border border-black/15 text-black/80 hover:bg-black/[0.03] active:bg-black/[0.05] transition-colors w-full"
-          >
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden>
-              <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.25" />
-              <path d="M8 7.25v4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
-              <circle cx="8" cy="5.25" r="0.75" fill="currentColor" />
-            </svg>
-            Ingredients
-          </button>
+            className="w-full px-3 text-xs"
+            iconSize={12}
+          />
         </div>
       </div>
 

@@ -20,6 +20,12 @@ export default function IngredientsPanel({
   onClose,
 }: IngredientsPanelProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const onCloseRef = useRef(onClose);
+
+  // Keep onClose reference fresh without re-triggering the effect below.
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
 
   useEffect(() => {
     if (!isOpen) return;
@@ -28,7 +34,7 @@ export default function IngredientsPanel({
     closeButtonRef.current?.focus();
 
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") onCloseRef.current();
     };
     window.addEventListener("keydown", handleKey);
 
@@ -37,7 +43,7 @@ export default function IngredientsPanel({
       window.removeEventListener("keydown", handleKey);
       previouslyFocused?.focus?.();
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen || !product) return null;
 
@@ -58,7 +64,7 @@ export default function IngredientsPanel({
         role="dialog"
         aria-modal="true"
         aria-labelledby="ingredients-panel-title"
-        className="fixed z-[70] bg-white shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto bottom-0 left-0 right-0 rounded-t-[var(--brand-radius-card)] lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:right-auto lg:w-full lg:max-w-3xl lg:rounded-[var(--brand-radius-card)]"
+        className="fixed z-[70] bg-white shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto bottom-0 left-0 right-0 rounded-t-[var(--brand-radius-card)] lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:right-auto lg:w-full lg:max-w-xl lg:rounded-[var(--brand-radius-card)]"
       >
         {/* Sticky header */}
         <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-black/6 px-5 py-4 lg:px-6 flex items-center justify-between">
@@ -81,110 +87,77 @@ export default function IngredientsPanel({
           </button>
         </div>
 
-        <div className="px-5 pt-5 pb-8 lg:p-6 lg:pb-8 lg:grid lg:grid-cols-[60%_38%] lg:gap-6">
-          {/* Left column — ingredients paragraph + supplement facts table */}
-          <div>
-            <p className="text-sm lg:text-base text-black/70 leading-relaxed">
-              {facts.ingredientsParagraph}
-            </p>
+        <div className="px-5 pt-5 pb-8 lg:p-6 lg:pb-8">
+          <p className="text-sm lg:text-base text-black/70 leading-relaxed">
+            {facts.ingredientsParagraph}
+          </p>
 
-            <p className="mt-4 text-xs uppercase tracking-wider text-black/40 font-semibold">
-              Serving size: {facts.servingSize}
-            </p>
+          <p className="mt-4 text-xs uppercase tracking-wider text-black/40 font-semibold">
+            Serving size: {facts.servingSize}
+          </p>
 
-            <p className="mt-1 text-[11px] text-black/45 leading-relaxed">
-              Ingredients listed in descending order of concentration.
-            </p>
+          <p className="mt-1 text-[11px] text-black/45 leading-relaxed">
+            Ingredients listed in descending order of concentration.
+          </p>
 
-            <div className="mt-4 rounded-[var(--brand-radius-container)] border border-black/10 overflow-hidden">
-              {/* Nutrients rows (Clear only) */}
-              {hasNutrients && (
-                <>
-                  <div className="px-4 py-2 bg-black/[0.03] border-b border-black/10 grid grid-cols-[1fr_auto] gap-3 text-[11px] uppercase tracking-wider text-black/50 font-semibold">
-                    <span>Vitamins &amp; Nutrients</span>
-                    <span className="text-right">%NRV</span>
-                  </div>
-                  {facts.nutrients.map((n) => (
-                    <div
-                      key={n.name}
-                      className="grid grid-cols-[1fr_auto] gap-3 px-4 py-3 border-b border-black/6 text-sm"
-                    >
-                      <div>
-                        <div className="text-black font-medium">{n.name}</div>
-                        <div className="text-xs text-black/50 mt-0.5">{n.source}</div>
-                      </div>
-                      <div className="text-right text-black tabular-nums self-center">{n.nrv}</div>
-                    </div>
-                  ))}
-                </>
-              )}
-
-              {/* Actives rows */}
-              <div className="px-4 py-2 bg-black/[0.03] border-b border-black/10 text-[11px] uppercase tracking-wider text-black/50 font-semibold">
-                Active Ingredients
-              </div>
-              {facts.actives.map((a) => (
-                <div
-                  key={a.name}
-                  className="px-4 py-3 border-b border-black/6 last:border-b-0 text-sm"
-                >
-                  <div className="text-black font-medium">{a.name}</div>
-                  <div className="text-xs text-black/50 mt-0.5">{a.source}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Base ingredients */}
-            <div className="mt-4">
-              <p className="text-[11px] uppercase tracking-wider text-black/50 font-semibold mb-2">
-                Base
-              </p>
-              <ul className="text-sm text-black/70 space-y-1">
-                {facts.base.map((b) => (
-                  <li key={b.name} className="flex justify-between gap-3">
-                    <span>{b.name}</span>
-                    <span className="text-black/40 text-xs">{b.role}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
+          <div className="mt-4 rounded-[var(--brand-radius-container)] border border-black/10 overflow-hidden">
+            {/* Nutrients rows (Clear only) */}
             {hasNutrients && (
-              <p className="mt-3 text-[11px] text-black/45 leading-relaxed">
-                †† EFSA-authorised health claim. NRV = Nutrient Reference Value (EU minimum for labelling).
-              </p>
+              <>
+                <div className="px-4 py-2 bg-black/[0.03] border-b border-black/10 grid grid-cols-[1fr_auto] gap-3 text-[11px] uppercase tracking-wider text-black/50 font-semibold">
+                  <span>Vitamins &amp; Nutrients</span>
+                  <span className="text-right">%NRV</span>
+                </div>
+                {facts.nutrients.map((n) => (
+                  <div
+                    key={n.name}
+                    className="grid grid-cols-[1fr_auto] gap-3 px-4 py-3 border-b border-black/6 text-sm"
+                  >
+                    <div>
+                      <div className="text-black font-medium">{n.name}</div>
+                      <div className="text-xs text-black/50 mt-0.5">{n.source}</div>
+                    </div>
+                    <div className="text-right text-black tabular-nums self-center">{n.nrv}</div>
+                  </div>
+                ))}
+              </>
             )}
-          </div>
 
-          {/* Right column — functional groups */}
-          <div className="mt-6 lg:mt-0 space-y-3">
-            {facts.functionalGroups.map((group) => (
+            {/* Actives rows */}
+            <div className="px-4 py-2 bg-black/[0.03] border-b border-black/10 text-[11px] uppercase tracking-wider text-black/50 font-semibold">
+              Active Ingredients
+            </div>
+            {facts.actives.map((a) => (
               <div
-                key={group.heading}
-                className="rounded-[var(--brand-radius-container)] bg-[var(--brand-tint)] p-4"
+                key={a.name}
+                className="px-4 py-3 border-b border-black/6 last:border-b-0 text-sm"
               >
-                <h3 className="text-sm font-semibold text-[var(--brand-black)] mb-2">
-                  {group.heading}
-                </h3>
-                <ul className="space-y-1.5">
-                  {group.bullets.map((bullet) => (
-                    <li key={bullet} className="flex items-start gap-2 text-xs text-black/70 leading-relaxed">
-                      <span
-                        className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0"
-                        style={{
-                          backgroundColor:
-                            product === "flow"
-                              ? "var(--brand-flow-accent)"
-                              : "var(--brand-clear-accent)",
-                        }}
-                      />
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="text-black font-medium">{a.name}</div>
+                <div className="text-xs text-black/50 mt-0.5">{a.source}</div>
               </div>
             ))}
           </div>
+
+          {/* Base ingredients */}
+          <div className="mt-4">
+            <p className="text-[11px] uppercase tracking-wider text-black/50 font-semibold mb-2">
+              Base
+            </p>
+            <ul className="text-sm text-black/70 space-y-1">
+              {facts.base.map((b) => (
+                <li key={b.name} className="flex justify-between gap-3">
+                  <span>{b.name}</span>
+                  <span className="text-black/40 text-xs">{b.role}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {hasNutrients && (
+            <p className="mt-3 text-[11px] text-black/45 leading-relaxed">
+              †† EFSA-authorised health claim. NRV = Nutrient Reference Value (EU minimum for labelling).
+            </p>
+          )}
         </div>
       </div>
     </>

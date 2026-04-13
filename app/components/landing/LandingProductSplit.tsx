@@ -5,6 +5,7 @@ import Image from "next/image";
 import { track } from "@vercel/analytics/react";
 import LandingCTA from "./LandingCTA";
 import IngredientsPanel from "./IngredientsPanel";
+import IngredientsButton from "./IngredientsButton";
 import { useInView } from "@/app/hooks/useInView";
 import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 
@@ -23,7 +24,7 @@ export default function LandingProductSplit() {
   const openIngredients = (product: "flow" | "clear") => {
     setOpenProduct(product);
     try {
-      track("landing:ingredients_viewed", { product });
+      track("landing:ingredients_viewed", { product, source: "product_split" });
     } catch {
       /* fail silently */
     }
@@ -92,19 +93,11 @@ export default function LandingProductSplit() {
           </div>
 
           {/* Ingredients CTA */}
-          <button
-            type="button"
+          <IngredientsButton
+            product="flow"
             onClick={() => openIngredients("flow")}
-            aria-label="View CONKA Flow ingredients"
-            className="mt-5 inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 rounded-[var(--brand-radius-interactive)] text-xs lg:text-sm font-semibold border border-black/15 text-black/80 hover:bg-black/[0.03] active:bg-black/[0.05] transition-colors"
-          >
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-              <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.25" />
-              <path d="M8 7.25v4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
-              <circle cx="8" cy="5.25" r="0.75" fill="currentColor" />
-            </svg>
-            Ingredients
-          </button>
+            className="mt-5 px-4 text-xs lg:text-sm"
+          />
 
           {/* Taste -- mt-auto pushes to bottom, aligned across cards */}
           <div className="mt-4 pt-4 border-t border-black/8">
@@ -157,19 +150,11 @@ export default function LandingProductSplit() {
           </div>
 
           {/* Ingredients CTA */}
-          <button
-            type="button"
+          <IngredientsButton
+            product="clear"
             onClick={() => openIngredients("clear")}
-            aria-label="View CONKA Clear ingredients"
-            className="mt-5 inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 rounded-[var(--brand-radius-interactive)] text-xs lg:text-sm font-semibold border border-black/15 text-black/80 hover:bg-black/[0.03] active:bg-black/[0.05] transition-colors"
-          >
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-              <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.25" />
-              <path d="M8 7.25v4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
-              <circle cx="8" cy="5.25" r="0.75" fill="currentColor" />
-            </svg>
-            Ingredients
-          </button>
+            className="mt-5 px-4 text-xs lg:text-sm"
+          />
 
           {/* Taste -- mt-auto pushes to bottom, aligned across cards */}
           <div className="mt-4 pt-4 border-t border-black/8">
