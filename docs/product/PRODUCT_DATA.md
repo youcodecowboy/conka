@@ -2,6 +2,8 @@
 
 Overview of how product data is organized, where Shopify variant IDs live, and how to use helpers.
 
+> **For the physical formulation (per-shot doses, ingredients, %NRV, nutrition label data):** see [FORMULATION_SPEC.md](./FORMULATION_SPEC.md).
+
 ## Two Product Systems
 
 The codebase has **two independent product data systems**:
