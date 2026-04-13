@@ -6,6 +6,24 @@
 
 ## April 2026
 
+### 2026-04-13 -- Landing page Phase D: product education polish + Ingredients modal
+Three connected pieces on `/start` shipped as one Phase D.
+
+**Product education polish (LandingWhatItDoes):** Section title from "What CONKA does." to "Daily habit. Lifelong benefits." (Magic Mind habit framing per Johnny). Tile descriptions tightened to one scannable sentence each, hedging ("help", "not just") dropped. EFSA Vitamin C `††` anchor retained on Brain Health tile.
+
+**Ingredients modal (new):** Native per-product `IngredientsPanel` launched from outlined "Ingredients" buttons on both `LandingProductSplit` and `LandingWhatsInside` ProductMini tiles. New `app/lib/supplementFacts.ts` data module sourced from `FORMULATION_SPEC.md`. Explicit mg amounts deliberately NOT shipped to the client -- ingredient order (descending concentration, per supplement-facts convention) communicates relative quantity without exposing the formula. Only %NRV retained on Clear's Vit C (3,125%) and B12 (60,000%) to substantiate EFSA claims. Modal uses single-column layout (nutritional disclosure, not a benefits document) with focus management, ESC/backdrop close, body-scroll lock, `role="dialog"` + `aria-modal`. `landing:ingredients_viewed` Vercel Analytics event fires with `source: "product_split" | "whats_inside"` for attribution. Shared `IngredientsButton` extracted to avoid markup duplication.
+
+**Bottle image deblur (LandingProductSplit):** Source PNGs are 1000 x 1000 8-bit colormap with transparent padding around the bottle, so large-render upscaling caused visible banding. Reverted to small container + `scale-150` matching the crisp approach used in `WhatToExpectMobile` / `FormulaToggle` / `ProductMini`. Follow-up: re-export source PNGs to 24-bit full-colour tight-crop as a separate asset task.
+
+**Tile height normalisation (LandingWhatsInside):** `mt-auto` on `IngredientsButton` pins it to the bottom of each ProductMini flex column so Flow and Clear CTAs align horizontally regardless of ingredient-preview text wrap.
+
+**CaseStudiesDataDriven metric labels:** Tile label changed from generic "Change in test score" to metric-specific descriptions of what the Cognetivity CognICA test measures -- "Cognitive function" (Total Score), "Cognitive speed" (Speed), "Cognitive accuracy" (Accuracy). Total Score as a proxy for cognitive function is peer-reviewed (Modarres et al., Front Aging Neurosci 2023, doi:10.3389/fnagi.2023.1243316) and the device is FDA-cleared as a cognitive assessment (21 CFR 882.1470). `^^` test-validation anchor and global disclaimer footer remain.
+
+**Why:** Cold traffic landing on `/start` needed a native path to ingredient transparency without leaving the page, and the competitive IP around formulation concentrations needed protecting. CognICA labels replace a meaningless generic label with the metric the published research actually supports.
+**Plan:** `docs/development/featurePlans/landing-and-funnel-page.md` (Phase D)
+**Claims log:** entries 44-53
+**Branch:** `next-stage-improvements`
+
 ### 2026-04-10 -- Landing page: What to Expect timeline + product education (SCRUM-870, SCRUM-871)
 Two new sections and one major redesign on `/start`, all driven by Johnny's feedback and Magic Mind as reference.
 
