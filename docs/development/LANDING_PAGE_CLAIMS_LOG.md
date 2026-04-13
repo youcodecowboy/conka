@@ -1,8 +1,10 @@
 # Landing Page Claims Compliance Log
 
-> **Last updated:** 2026-03-25
+> **Last updated:** 2026-04-13
 > **Context:** Marketing/compliance review identified non-compliant health claims on `/start` landing page. Changes required under UK/EU food supplement regulations (EFSA 1924/2006, FIC 1169/2011).
 > **Scope:** Landing page (`/start`) + shared components used on landing page. This log feeds into main site updates later.
+>
+> **⚠️ 2026-04-13 update — ingredient dosages:** Items referencing specific mg values (Lemon Balm 300mg, Ashwagandha 600mg, Glutathione 250mg, etc.) are based on older research-dose figures and are **incorrect** against the formulation spec supplied 2026-04-13. Actual per-shot doses are: Lemon Balm 1,500mg, Ashwagandha 1,500mg, Glutathione 500mg, Vitamin C 2,500mg, Vitamin B12 1.5mg. See [FORMULATION_SPEC.md](../product/FORMULATION_SPEC.md) for the authoritative per-shot values. Decision pending on whether landing page shows mg at all (scientist advises no mg on herbals).
 
 ---
 
@@ -116,6 +118,32 @@ Approach: Keep benefit titles (conversion value) but move ingredient names + dos
 |---|-------------|--------|
 | 37 | Created new AG1-style disclaimer footer with all anchor definitions | Done |
 | 38 | Integrated into app/start/page.tsx as final section | Done |
+
+### Phase D: LandingWhatItDoes.tsx copy refresh (2026-04-13)
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 44 | Title: `What CONKA does.` | `Daily habit. Lifelong benefits.` | Magic Mind habit framing per Johnny feedback; no claim | — | Done |
+| 45 | Tile 1: `Clinically-studied ingredients for your daily focus and clarity routine. Stay locked in past 2pm instead of reaching for another coffee.` | `Stay locked in past 2pm without reaching for another coffee.` | Drop hedging; observational framing retained | — | Done |
+| 46 | Tile 2: `All-day mental energy without caffeine, jitters, or crashes. Adaptogens help your body manage the demands of a full day, not just the first few hours.` | `Mental energy that lasts the full day. No caffeine, no crash.` | Drop hedging ("help", "not just"); no change to claim surface | — | Done |
+| 47 | Tile 3: `Long-term investment in your brain, not just a quick fix. Vitamin C contributes to the protection of cells from oxidative stress.†† A daily routine built for the years ahead.` | `A daily routine built for the years ahead. Vitamin C contributes to the protection of cells from oxidative stress.††` | Tightened; retains EFSA Vitamin C claim + anchor | †† | Done |
+
+### NEW: IngredientsPanel.tsx (Phase D — factual disclosure)
+
+| # | Description | Anchor | Status |
+|---|-------------|--------|--------|
+| 48 | New native per-product modal launched from `LandingProductSplit` tiles | — | Done |
+| 49 | Supplement facts table sourced from `docs/product/FORMULATION_SPEC.md` via `app/lib/supplementFacts.ts` — factual disclosure, no new claims | — | Done |
+| 50 | %NRV column shown on Clear only (Vit C 3,125%, Vit B12 60,000%); hidden on Flow (no authorised nutrients) | †† | Done |
+| 51 | Functional-group headings use observational phrasing; EFSA claims (psychological function, reduction of tiredness & fatigue) anchored to Vit C + B12 on Clear panel | †† | Done |
+| 52 | **Explicit mg amounts removed** from both the data module and the panel. Ingredient order preserved — descending concentration is the standard supplement-facts convention, so relative quantity is still communicated. Competitive IP protection. Only %NRV retained on Clear's Vit C and B12 (required to substantiate EFSA claims). Also extended Ingredients modal trigger to `LandingWhatsInside` ProductMini tiles for parity with `LandingProductSplit`. | †† | Done |
+
+### CaseStudiesDataDriven.tsx — metric label revision (2026-04-13)
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 53 | Tile label: `Change in test score` (for Total Score metric) | `Cognitive function` (Total Score), `Cognitive speed` (Speed), `Cognitive accuracy` (Accuracy) | Labels describe what the Cognetivity CognICA test measures, not a product-driven claim. Total Score as a proxy for cognitive function is peer-reviewed (Modarres et al., Front Aging Neurosci 2023, doi:10.3389/fnagi.2023.1243316) and the test is FDA-cleared as a cognitive assessment (21 CFR 882.1470). Percentage reads as change in that measurement. `^^` test-validation anchor and global disclaimer footer remain | ^^ | Done |
+| 54 | LandingWhatItDoes tile descriptions (entries 45-47) | Reverted to pre-Phase D longer copy on user call. Title "Daily habit. Lifelong benefits." kept. Vit C †† anchor retained on Brain Health tile. | Preference for fuller copy on this section | †† | Done |
 
 ---
 

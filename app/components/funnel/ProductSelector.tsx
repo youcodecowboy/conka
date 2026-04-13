@@ -19,17 +19,9 @@ interface ProductSelectorProps {
 
 const PRODUCT_ORDER: FunnelProduct[] = ["flow", "both", "clear"];
 
-/** Cadence-aware box delivery label */
-function getBoxLabel(product: FunnelProduct, cadence: FunnelCadence): string {
-  const isBoth = product === "both";
-  switch (cadence) {
-    case "monthly-sub":
-      return isBoth ? "2 boxes delivered every month" : "1 box delivered every month";
-    case "monthly-otp":
-      return isBoth ? "2 boxes, one-time delivery" : "1 box, one-time delivery";
-    case "quarterly-sub":
-      return isBoth ? "6 boxes delivered every 3 months" : "3 boxes delivered every 3 months";
-  }
+/** Static per-product "what ships" label — decoupled from cadence */
+function getWhatShipsLabel(product: FunnelProduct): string {
+  return product === "both" ? "2 boxes · 28 shots each" : "1 box · 28 shots";
 }
 
 /** Cadence-aware frequency label for price display */
@@ -150,7 +142,7 @@ export default function ProductSelector({
                               : "bg-black/[0.04] text-black/50"
                           }`}
                         >
-                          📦 {getBoxLabel(productKey, cadence)}
+                          📦 {getWhatShipsLabel(productKey)}
                         </span>
                       </div>
 

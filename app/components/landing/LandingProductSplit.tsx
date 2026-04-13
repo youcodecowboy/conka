@@ -1,7 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
+import { track } from "@vercel/analytics/react";
 import LandingCTA from "./LandingCTA";
+import IngredientsPanel from "./IngredientsPanel";
+import IngredientsButton from "./IngredientsButton";
 import { useInView } from "@/app/hooks/useInView";
 import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 
@@ -15,6 +19,16 @@ const CLEAR_ACCENT_TEXT = "rgb(3, 105, 161)";
 export default function LandingProductSplit() {
   const [ref, isInView] = useInView();
   const revealed = isInView ? "revealed" : "";
+  const [openProduct, setOpenProduct] = useState<"flow" | "clear" | null>(null);
+
+  const openIngredients = (product: "flow" | "clear") => {
+    setOpenProduct(product);
+    try {
+      track("landing:ingredients_viewed", { product, source: "product_split" });
+    } catch {
+      /* fail silently */
+    }
+  };
 
   return (
     <div ref={ref}>
@@ -39,15 +53,15 @@ export default function LandingProductSplit() {
         {/* CONKA Flow */}
         <div className={`reveal ${revealed} flex flex-col rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/12 shadow-sm transition-all duration-200 lg:hover:-translate-y-0.5 lg:hover:shadow-md active:scale-[0.99]`} data-stagger="1">
 
-          {/* Product image */}
+          {/* Product image — small container + scale keeps render crisp (source PNG is 1000x1000 8-bit colormap) */}
           <div className="flex justify-center mb-4">
-            <div className="relative w-20 h-44 lg:w-28 lg:h-56 overflow-hidden">
+            <div className="relative w-20 h-44 lg:w-32 lg:h-64">
               <Image
                 src="/formulas/conkaFlow/FlowNoBackground.png"
                 alt="CONKA Flow bottle"
                 fill
-                sizes="(max-width: 1024px) 80px, 112px"
-                className="object-contain scale-200"
+                sizes="(max-width: 1024px) 80px, 128px"
+                className="object-contain scale-150"
               />
             </div>
           </div>
@@ -78,8 +92,15 @@ export default function LandingProductSplit() {
             ))}
           </div>
 
+          {/* Ingredients CTA */}
+          <IngredientsButton
+            product="flow"
+            onClick={() => openIngredients("flow")}
+            className="mt-5 px-4 text-xs lg:text-sm"
+          />
+
           {/* Taste -- mt-auto pushes to bottom, aligned across cards */}
-          <div className="mt-5 pt-4 border-t border-black/8">
+          <div className="mt-4 pt-4 border-t border-black/8">
             <p className="text-xs text-black/60">
               <span className="font-medium text-black/80">Taste:</span> Honey + citrus
             </p>
@@ -89,15 +110,15 @@ export default function LandingProductSplit() {
 
         {/* CONKA Clear */}
         <div className={`reveal ${revealed} flex flex-col rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] p-4 lg:p-8 bg-white border border-black/12 shadow-sm transition-all duration-200 lg:hover:-translate-y-0.5 lg:hover:shadow-md active:scale-[0.99]`} data-stagger="2">
-          {/* Product image */}
+          {/* Product image — small container + scale keeps render crisp (source PNG is 1000x1000 8-bit colormap) */}
           <div className="flex justify-center mb-4">
-            <div className="relative w-20 h-44 lg:w-28 lg:h-56 overflow-hidden">
+            <div className="relative w-20 h-44 lg:w-32 lg:h-64">
               <Image
                 src="/formulas/conkaClear/ClearNoBackground.png"
                 alt="CONKA Clear bottle"
                 fill
-                sizes="(max-width: 1024px) 80px, 112px"
-                className="object-contain scale-200"
+                sizes="(max-width: 1024px) 80px, 128px"
+                className="object-contain scale-150"
               />
             </div>
           </div>
@@ -128,8 +149,15 @@ export default function LandingProductSplit() {
             ))}
           </div>
 
+          {/* Ingredients CTA */}
+          <IngredientsButton
+            product="clear"
+            onClick={() => openIngredients("clear")}
+            className="mt-5 px-4 text-xs lg:text-sm"
+          />
+
           {/* Taste -- mt-auto pushes to bottom, aligned across cards */}
-          <div className="mt-5 pt-4 border-t border-black/8">
+          <div className="mt-4 pt-4 border-t border-black/8">
             <p className="text-xs text-black/60">
               <span className="font-medium text-black/80">Taste:</span> Fresh lemon
             </p>
@@ -145,6 +173,12 @@ export default function LandingProductSplit() {
       <div className="flex justify-start">
         <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
       </div>
+
+      <IngredientsPanel
+        isOpen={openProduct !== null}
+        product={openProduct}
+        onClose={() => setOpenProduct(null)}
+      />
     </div>
   );
 }

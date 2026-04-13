@@ -33,7 +33,7 @@ export default function LandingWhatItDoes() {
           className="brand-h1 mb-2"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          What CONKA does.
+          Daily habit. Lifelong benefits.
         </h2>
         <p className="brand-caption text-black/50">
           Two daily brain shots. 16 active ingredients. One system.
@@ -60,6 +60,7 @@ export default function LandingWhatItDoes() {
           </div>
         ))}
       </div>
+
     </div>
   );
 }

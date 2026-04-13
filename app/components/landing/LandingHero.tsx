@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 import LandingCTA from "./LandingCTA";
@@ -53,27 +53,16 @@ const AVATARS = [
 ];
 
 /**
- * Landing page hero with mount-based entrance animation.
+ * Landing page hero — renders immediately, no mount-based animation.
  *
  * Mobile: social proof pill > image > copy > CTA > avatars (stacked).
  * Desktop: copy left, image right (split).
  *
- * Animation: staggered fade-up on mount. GPU-composited (transform + opacity only).
+ * Hero is paid-traffic landing content; readable and tappable on first paint.
+ * Below-fold sections use scroll-triggered fades (Reveal) which don't affect LCP.
  */
 export default function LandingHero() {
-  const [mounted, setMounted] = useState(false);
   const [failedAvatars, setFailedAvatars] = useState<Set<number>>(new Set());
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const trigger = reducedMotion
-      ? (fn: () => void) => queueMicrotask(fn)
-      : requestAnimationFrame;
-    trigger(() => setMounted(true));
-  }, []);
-
-  const cls = (base: string, variant: string = "reveal") =>
-    `${variant} ${mounted ? "revealed" : ""} ${base}`;
 
   const handleAvatarError = (index: number) => {
     setFailedAvatars((prev) => new Set(prev).add(index));
@@ -82,9 +71,7 @@ export default function LandingHero() {
   return (
     <div>
       {/* Social proof pill — centered on mobile, left-aligned on desktop */}
-      <div
-        className={cls("hero-delay-0 flex justify-center lg:justify-start mb-4", "reveal-fade")}
-      >
+      <div className="flex justify-center lg:justify-start mb-4">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white text-xs font-semibold whitespace-nowrap">
           <span aria-hidden className="text-yellow-400">★★★★★</span>
           <span>150,000+ bottles sold<sup className="text-[0.6em] text-white/30 align-super">§</sup></span>
@@ -96,39 +83,27 @@ export default function LandingHero() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
         {/* Copy — below image on mobile, left on desktop */}
         <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
-          <div
-            className={cls("hero-delay-1", "reveal")}
-          >
-            <h1 className="brand-h1-bold mb-0 whitespace-pre-line">
-              {HEADLINES[ACTIVE_HEADLINE_INDEX]}
-            </h1>
-          </div>
+          <h1 className="brand-h1-bold mb-0 whitespace-pre-line">
+            {HEADLINES[ACTIVE_HEADLINE_INDEX]}
+          </h1>
 
-          <div
-            className={cls("hero-delay-2", "reveal")}
-          >
-            <p className="brand-body mt-4 text-black/60">
-              Your brain fades by 2pm. Coffee masks it.
-              <br className="hidden lg:inline" />{" "}
-              Willpower can&apos;t fix it. A 2-shot system built for
-              <br className="hidden lg:inline" />{" "}
-              people who don&apos;t leave their performance to chance.
-            </p>
-          </div>
+          <p className="brand-body mt-4 text-black/60">
+            Your brain fades by 2pm. Coffee masks it.
+            <br className="hidden lg:inline" />{" "}
+            Willpower can&apos;t fix it. A 2-shot system built for
+            <br className="hidden lg:inline" />{" "}
+            people who don&apos;t leave their performance to chance.
+          </p>
 
           {/* CTA — safe-area padding prevents mobile URL bar overlap */}
-          <div
-            className={cls("hero-delay-3 mt-8 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0", "reveal")}
-          >
+          <div className="mt-8 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0">
             <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
               {CTA_LABELS[ACTIVE_CTA_INDEX]}
             </LandingCTA>
           </div>
 
           {/* Customer avatars + review count */}
-          <div
-            className={cls("hero-delay-4 flex items-center justify-center lg:justify-start gap-3 mt-5", "reveal-fade")}
-          >
+          <div className="flex items-center justify-center lg:justify-start gap-3 mt-5">
             <div className="flex -space-x-2">
               {AVATARS.map((avatar, i) => (
                 <div
@@ -161,9 +136,7 @@ export default function LandingHero() {
             </div>
           </div>
 
-          <div
-            className={cls("hero-delay-5 flex justify-center lg:justify-start mt-6", "reveal-fade")}
-          >
+          <div className="flex justify-center lg:justify-start mt-6">
             <HeroTrustBadges />
           </div>
         </div>
