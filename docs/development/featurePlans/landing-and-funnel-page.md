@@ -1,8 +1,8 @@
 # Landing & Funnel Page
 
-> **Status:** Landing page and funnel built. Phase A (CRO quick wins), Phase B (product education), and funnel iteration complete.
+> **Status:** Landing page and funnel built. Phases A and B complete, funnel iteration complete, previously scoped funnel/upsell/terminology work complete. Awaiting lifestyle photography delivery and Freddy brand deck review.
 > **Created:** 2026-03-24
-> **Last updated:** 2026-04-10
+> **Last updated:** 2026-04-13
 > **Routes:** `/start` (landing page), `/funnel` (purchase funnel)
 > **Design system:** `brand-base.css`
 
@@ -55,7 +55,7 @@ Multi-step paginated funnel (Fussy/Overload pattern). Each step is its own focus
 | 3 | Shopify hosted checkout | -- | Redirect via `cart.checkoutUrl` |
 | 3.5 | Upsell bottom sheet (contextual) | -- | "Yes, upgrade" / "No thanks" |
 
-**What works end-to-end (4 of 9 combos):** Flow and Clear x Monthly Sub and Monthly OTP. Both x any cadence and Any x Quarterly are blocked on Shopify product setup.
+**What works end-to-end:** All 9 combos (3 products x 3 cadences). Both product and Quarterly selling plan now live in Shopify.
 
 ---
 
@@ -136,12 +136,12 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 
 | # | Task | Complexity | Status |
 |---|------|-----------|--------|
-| A.1 | Center social proof pill above hero | Small | Not Started |
-| A.2 | Hero image swap + badge overlay | Small | Not Started |
-| A.3 | Hero headline variants (config array, one active) | Small | Not Started |
-| A.4 | Hero CTA label variants (config array, one active) | Small | Not Started |
-| A.5 | Avatar photo slots (replace initials with real photos) | Small | Not Started |
-| A.6 | Landing testimonials component (new, snap-scroll, curated 10) | Medium | Not Started |
+| A.1 | Center social proof pill above hero | Small | Done |
+| A.2 | Hero image swap + badge overlay | Small | Done |
+| A.3 | Hero headline variants (config array, one active) | Small | Done |
+| A.4 | Hero CTA label variants (config array, one active) | Small | Done |
+| A.5 | Avatar photo slots (replace initials with real photos) | Small | Done |
+| A.6 | Landing testimonials component (new, snap-scroll, curated 10) | Medium | Done |
 | A.7 | "What to Expect" timeline section (new landing component) | Medium | Done |
 | A.8 | Section title sizing -- all titles to brand-h1 | Small | Done |
 | A.9 | Extract trust badges to shared LandingTrustBadges component | Small | Done |
@@ -247,6 +247,8 @@ Feedback from Johnny at January Brands after reviewing landing page and funnel o
 
 ### B.2 "What's Inside" ingredient education -- DONE
 
+> **⚠️ 2026-04-13:** mg values below are research-dose figures, not the formulated per-shot amounts. Actual per-shot doses: Lemon Balm 1,500mg, Ashwagandha 1,500mg, Glutathione 500mg, Vitamin C 2,500mg, Vitamin B12 1.5mg. See [FORMULATION_SPEC.md](../../product/FORMULATION_SPEC.md). Pending decision on whether to show mg at all on herbals/aminos (scientist advises against) — component needs updating either way.
+
 - Replaced `LandingBenefits` with `LandingWhatsInside`. Old component deleted.
 - 3 functional groups with tap-to-reveal studies per group:
   - Focus & Clarity: Lemon Balm (300mg), Alpha GPC, Rhodiola
@@ -282,25 +284,75 @@ Johnny's funnel feedback (2026-04-09), executed as a single PR:
 
 ---
 
-## Previously Scoped Work (Unstarted)
+## Phase C: Funnel Copy + Nutrition Modal -- ACTIVE
 
-Review before starting -- Johnny's feedback takes priority where there's conflict.
+Follow-up pass on the funnel after the Phase B landing work. Three friction points addressed in a single PR:
 
-### Funnel: Product Selection Page
+1. **Product-card copy leaks cadence context** -- step 1 shows "3 or 6 boxes delivered every quarter" when quarterly is pre-selected, forcing shoppers to reason about delivery frequency before they've chosen one. Static per-product labels are clearer.
+2. **Cadence labels are jargon-y** -- "Monthly / Quarterly / One-Time" is technical shorthand. Johnny's feedback: plain-English supply language converts better for cold traffic.
+3. **No ingredient transparency in the funnel** -- shoppers who want to verify what's in the product before checkout have no native path. Landing page covers ingredients, but paid traffic can enter the funnel directly from lower-funnel ads that skip `/start`.
 
-- Header cleanup, product card copy (outcome-focused), dynamic CTA
+| # | Task | Complexity | Status |
+|---|------|-----------|--------|
+| C.1 | Simplify product-card "what ships" copy (static per-product) | Small | Not Started |
+| C.2 | Rename cadence labels to supply language | Small | Not Started |
+| C.3 | Build `NutritionInfoModal` component (scroll layout) | Medium | Not Started |
+| C.4 | Wire nutrition trigger into cadence stage only | Small | Not Started |
 
-### Funnel: Plan Page
+### C.1 Product-card "what ships" copy
 
-- Header cleanup, per-product accent colours, price anchor (trial pack reference), dynamic CTA
+- What: Replace cadence-aware `getBoxLabel()` in `ProductSelector` with a static per-product label. Flow = "1 box · 28 shots", Clear = "1 box · 28 shots", Both = "2 boxes · 28 shots each".
+- Rationale: Step 1 is about choosing what you take, step 2 is about how often you receive it. Keep the concerns separated. The cadence-aware `getWhatShips()` on step 2 still surfaces full box counts once the user has chosen a cadence, so no information is lost.
+- Files: `app/components/funnel/ProductSelector.tsx` (L23-33, L153)
 
-### Evening to Afternoon Terminology Audit
+### C.2 Cadence labels -- supply language
 
-Separate PR. ~12 files, ~21 edits. Does NOT change customer testimonials.
+- What: Update `FUNNEL_CADENCES` display labels: Monthly -> "1-month supply", Quarterly -> "3-month supply", One-Time -> "Try once".
+- Keep: subtitles, features, shipping callouts, CTA labels in `getFunnelCTALabels` ("Start monthly...", "Start quarterly...", "Buy once..."). Those are action-oriented and read cleanly alongside the new supply labels.
+- Files: `app/lib/funnelData.ts` (L294-323)
 
-### Upsell Modal Improvements (P2)
+### C.3 NutritionInfoModal component
 
-- Copy changes, per-shot saving as hero price signal, social nudge line
+- What: Reusable modal accepting `product: FunnelProduct`. Renders `/formulas/FlowNutrition.jpg` for Flow, `/formulas/ClearNutrition.jpg` for Clear, both stacked (scrollable) with labelled "Flow" / "Clear" headings for Both.
+- Pattern: Mobile-first full-screen sheet modeled on `UpsellBottomSheet` conventions. Close via backdrop tap, X button, and ESC. No pinch-zoom library -- rely on native browser zoom if needed.
+- Accessibility: focus trap, `aria-modal`, labelled by heading.
+- Files: NEW `app/components/funnel/NutritionInfoModal.tsx`
+
+### C.4 Wire nutrition trigger (cadence stage only)
+
+- What: Add a tappable row beneath the cadence cards and **above** `FunnelAssurance`, with a help-circle icon + "Nutritional facts & ingredients" label. Only renders in step 2. Opens `NutritionInfoModal` scoped to the current `product` state. Not included in the mobile sticky footer.
+- Analytics: fire `funnel:nutrition_viewed` with `{ product, cadence }` on open.
+- Files: `app/funnel/FunnelClient.tsx` (step 2 block)
+
+### Appetite
+
+Half-day to one day. Single PR.
+
+### Design system
+
+`brand-base.css` (funnel is already on the new system).
+
+### No-Gos (Phase C specifically)
+
+- Not adding the nutrition trigger to the product picker (step 1) -- carousel already surfaces Ingredients slides.
+- Not expanding cadence copy beyond the three label swaps (subtitles, features, CTA copy all stay).
+- Not touching `getWhatShips()` on the cadence stage -- cadence-aware copy is correct once a cadence is chosen.
+- Not updating upsell modal copy.
+- No pinch-zoom library -- native browser zoom only.
+
+### Risks
+
+- Nutrition label images are text-dense screenshots. If unreadable at 390px via native zoom, may need to crop/split the source assets -- handle before shipping, don't pull in a zoom dependency.
+- Confirm "Both" modal stacked layout (Flow label -> Flow image -> Clear label -> Clear image) reads cleanly on mobile without visual confusion between the two labels.
+
+---
+
+## Previously Scoped Work -- DONE
+
+- ~~Funnel: Product Selection Page (header cleanup, outcome-focused copy, dynamic CTA)~~ Done
+- ~~Funnel: Plan Page (header cleanup, per-product accents, price anchor, dynamic CTA)~~ Done
+- ~~Evening to Afternoon Terminology Audit~~ Done
+- ~~Upsell Modal Improvements (copy, per-shot saving as hero price, social nudge)~~ Done
 
 ---
 
@@ -330,12 +382,12 @@ Separate PR. ~12 files, ~21 edits. Does NOT change customer testimonials.
 
 | Item | Waiting for | Blocks |
 |------|-------------|--------|
-| Final pricing (3x3 matrix) | COGS analysis | Shopify setup, funnel full functionality |
-| "Both" product in Shopify | Shopify Admin | Both x any cadence checkout |
-| Quarterly selling plan | Shopify Admin | Any x Quarterly checkout |
-| Lifestyle hero photography | Photo shoot | Landing page hero swap |
+| Final pricing (3x3 matrix) | COGS analysis | Funnel full functionality |
+| ~~"Both" product in Shopify~~ | ~~Shopify Admin~~ | Product live |
+| ~~Quarterly selling plan~~ | ~~Shopify Admin~~ | Selling plan live |
+| Lifestyle hero photography | Photos taken -- waiting on company to send files over | Landing page hero swap |
 | ~~Customer photos for testimonials~~ | ~~Real photos~~ | User creating 96x96px assets in Canva |
-| Freddy brand call | Scheduling with January Brands | Design consistency pass |
+| Review Freddy's brand deck | Deck delivered post-call -- needs review + action list | Design consistency pass |
 
 ---
 
@@ -357,6 +409,10 @@ Separate PR. ~12 files, ~21 edits. Does NOT change customer testimonials.
 | 2026-04-09 | Landing-specific timeline, not PDP refactor | Simpler, faster, no risk to existing PDP component |
 | 2026-04-09 | Timeline shows Both by default with product picker | Combined timeline is most relevant for "Both" hero product, picker for exploration |
 | 2026-04-09 | Ingredient groupings cross both formulas | Grouped by function (focus/energy/protection) not by product |
+| 2026-04-13 | Nutrition modal on cadence stage only, not product picker | Step 1 carousel already has Ingredients slides; extra trigger there would clutter. Shoppers at step 2 have committed to a product and are the audience most likely to want verification before checkout. |
+| 2026-04-13 | Product-card copy decoupled from cadence | Step 1 = what you take, step 2 = how often you receive it. Separating concerns reduces cognitive load on the product picker. |
+| 2026-04-13 | Cadence labels use supply language ("1-month supply") | Johnny: plain-English supply framing reads clearer to cold traffic than "Monthly/Quarterly/One-Time". |
+| 2026-04-13 | Stacked nutrition layout for Both (not tabs) | Two items, no need for tabs overhead. Scrollable stack with labelled sections is simpler on mobile. |
 
 ---
 
@@ -368,6 +424,7 @@ Separate PR. ~12 files, ~21 edits. Does NOT change customer testimonials.
 | SCRUM-870 | Landing page: What to Expect timeline section | A | Done |
 | SCRUM-871 | Landing page: Product education and ingredients sections | B | Done |
 | SCRUM-873 | Funnel: Pricing & layout iteration from January Brands feedback | Funnel Iteration | Done |
+| SCRUM-874 | Funnel: copy simplification + nutrition info modal | C | Not Started |
 
 ---
 

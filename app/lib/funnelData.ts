@@ -293,7 +293,7 @@ export interface FunnelCadenceDisplay {
 
 export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
   "monthly-sub": {
-    label: "Monthly",
+    label: "1-month supply",
     subtitle: "Delivered monthly, cancel anytime",
     badge: "Most Popular",
     shippingCallout: "Free shipping on every delivery",
@@ -303,7 +303,7 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
     ],
   },
   "monthly-otp": {
-    label: "One-Time",
+    label: "Try once",
     subtitle: "Single order, no subscription",
     features: [
       `${GUARANTEE_DAYS}-day money-back guarantee*`,
@@ -311,8 +311,8 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
     ],
   },
   "quarterly-sub": {
-    label: "Quarterly",
-    subtitle: "3-month supply, lowest price per shot",
+    label: "3-month supply",
+    subtitle: "Lowest price per shot",
     savingsLabel: "Best Value",
     shippingCallout: "Free shipping",
     features: [

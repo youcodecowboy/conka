@@ -10,6 +10,7 @@ import ProductSelector from "../components/funnel/ProductSelector";
 import FunnelCTA from "../components/funnel/FunnelCTA";
 import UpsellBottomSheet from "../components/funnel/UpsellBottomSheet";
 import FunnelAssurance from "../components/funnel/FunnelAssurance";
+import NutritionInfoModal from "../components/funnel/NutritionInfoModal";
 import {
   type FunnelCadence,
   type FunnelProduct,
@@ -44,6 +45,7 @@ export default function FunnelClient() {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [isUpsellOpen, setIsUpsellOpen] = useState(false);
   const [upsellOffer, setUpsellOffer] = useState<UpsellOffer | null>(null);
+  const [isNutritionOpen, setIsNutritionOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Track page view
@@ -309,6 +311,27 @@ export default function FunnelClient() {
                 />
               </div>
 
+              {/* Nutrition info trigger — cadence stage only, above assurance, not in sticky footer */}
+              <div className="px-5 pb-4 lg:px-10 lg:pb-6">
+                <button
+                  type="button"
+                  onClick={() => {
+                    safeTrack("funnel:nutrition_viewed", { product, cadence });
+                    setIsNutritionOpen(true);
+                  }}
+                  className="flex w-full min-h-11 items-center gap-2 py-3 text-left text-sm text-black/60 hover:text-black/80 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                  </svg>
+                  <span className="underline underline-offset-4 decoration-black/20">
+                    Nutritional facts & ingredients
+                  </span>
+                </button>
+              </div>
+
               {/* Spacer for sticky CTA (trust strip + button + sub-label + padding) */}
               <div className="h-36 lg:hidden" />
 
@@ -358,6 +381,13 @@ export default function FunnelClient() {
         onDecline={handleUpsellDecline}
         onDismiss={handleUpsellDismiss}
         loading={isCheckingOut}
+      />
+
+      {/* Nutrition info modal */}
+      <NutritionInfoModal
+        isOpen={isNutritionOpen}
+        product={product}
+        onClose={() => setIsNutritionOpen(false)}
       />
     </div>
   );
