@@ -24,12 +24,14 @@ function getSportLabel(sport: SportCategory): string {
 }
 
 // Human-readable label for the test metric being rendered.
-// Labels describe what the Cognetivity test measures — the percentage shows
-// the change in that measurement, not a product-driven improvement claim.
+// Labels describe what the Cognetivity CognICA test measures — the percentage
+// shows the change in that measurement, not a product-driven improvement claim.
+// CognICA Total Score is peer-reviewed as a proxy for cognitive function
+// (Modarres et al., Front Aging Neurosci 2023; FDA 21 CFR 882.1470).
 function getMetricLabel(metric: string | undefined): string {
   switch (metric) {
     case "Total Score":
-      return "Information processing";
+      return "Cognitive function";
     case "Speed":
       return "Cognitive speed";
     case "Accuracy":
