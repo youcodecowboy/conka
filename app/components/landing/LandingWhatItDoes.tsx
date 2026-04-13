@@ -9,19 +9,19 @@ const TILES = [
     icon: <BenefitIconFocus />,
     heading: "Mental Performance",
     description:
-      "Stay locked in past 2pm without reaching for another coffee.",
+      "Clinically-studied ingredients for your daily focus and clarity routine. Stay locked in past 2pm instead of reaching for another coffee.",
   },
   {
     icon: <BenefitIconSleep />,
     heading: "Sustained Energy",
     description:
-      "Mental energy that lasts the full day. No caffeine, no crash.",
+      "All-day mental energy without caffeine, jitters, or crashes. Adaptogens help your body manage the demands of a full day, not just the first few hours.",
   },
   {
     icon: <BenefitIconStress />,
     heading: "Brain Health",
     description:
-      "A daily routine built for the years ahead. Vitamin C contributes to the protection of cells from oxidative stress.\u2020\u2020",
+      "Long-term investment in your brain, not just a quick fix. Vitamin C contributes to the protection of cells from oxidative stress.\u2020\u2020 A daily routine built for the years ahead.",
   },
 ];
 

@@ -143,6 +143,7 @@ Approach: Keep benefit titles (conversion value) but move ingredient names + dos
 | # | Old Text | New Text | Reason | Anchor | Status |
 |---|----------|----------|--------|--------|--------|
 | 53 | Tile label: `Change in test score` (for Total Score metric) | `Cognitive function` (Total Score), `Cognitive speed` (Speed), `Cognitive accuracy` (Accuracy) | Labels describe what the Cognetivity CognICA test measures, not a product-driven claim. Total Score as a proxy for cognitive function is peer-reviewed (Modarres et al., Front Aging Neurosci 2023, doi:10.3389/fnagi.2023.1243316) and the test is FDA-cleared as a cognitive assessment (21 CFR 882.1470). Percentage reads as change in that measurement. `^^` test-validation anchor and global disclaimer footer remain | ^^ | Done |
+| 54 | LandingWhatItDoes tile descriptions (entries 45-47) | Reverted to pre-Phase D longer copy on user call. Title "Daily habit. Lifelong benefits." kept. Vit C †† anchor retained on Brain Health tile. | Preference for fuller copy on this section | †† | Done |
 
 ---
 
