@@ -138,6 +138,12 @@ Approach: Keep benefit titles (conversion value) but move ingredient names + dos
 | 51 | Functional-group headings use observational phrasing; EFSA claims (psychological function, reduction of tiredness & fatigue) anchored to Vit C + B12 on Clear panel | †† | Done |
 | 52 | **Explicit mg amounts removed** from both the data module and the panel. Ingredient order preserved — descending concentration is the standard supplement-facts convention, so relative quantity is still communicated. Competitive IP protection. Only %NRV retained on Clear's Vit C and B12 (required to substantiate EFSA claims). Also extended Ingredients modal trigger to `LandingWhatsInside` ProductMini tiles for parity with `LandingProductSplit`. | †† | Done |
 
+### CaseStudiesDataDriven.tsx — metric label revision (2026-04-13)
+
+| # | Old Text | New Text | Reason | Anchor | Status |
+|---|----------|----------|--------|--------|--------|
+| 53 | Tile label: `Change in test score` (for Total Score metric) | `Information processing` (Total Score), `Cognitive speed` (Speed), `Cognitive accuracy` (Accuracy) | Labels describe what the Cognetivity test measures, not a product-driven claim. Percentage still reads as change in that measurement. Pushes the line vs. the more cautious "change in test score" — net risk assessed as low given `^^` test-validation anchor and global disclaimer footer already in place | ^^ | Done |
+
 ---
 
 ## Compliance Checklist

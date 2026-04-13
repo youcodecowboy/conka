@@ -23,6 +23,22 @@ function getSportLabel(sport: SportCategory): string {
   return labels[sport] || sport;
 }
 
+// Human-readable label for the test metric being rendered.
+// Labels describe what the Cognetivity test measures — the percentage shows
+// the change in that measurement, not a product-driven improvement claim.
+function getMetricLabel(metric: string | undefined): string {
+  switch (metric) {
+    case "Total Score":
+      return "Information processing";
+    case "Speed":
+      return "Cognitive speed";
+    case "Accuracy":
+      return "Cognitive accuracy";
+    default:
+      return "Change in test score";
+  }
+}
+
 // Get the 8 hardcoded athletes for the teaser
 function getTeaserAthletes(): AthleteData[] {
   const athleteIds = [
@@ -89,9 +105,7 @@ function AthletePhotoTile({ athlete }: { athlete: AthleteData }) {
           {totalImprovement?.value || "+0%"}
         </p>
         <p className="text-[10px] uppercase tracking-wide opacity-80 mb-1">
-          {totalImprovement?.metric === "Total Score"
-            ? "Change in test score"
-            : (totalImprovement?.metric ?? "Change in test score")}
+          {getMetricLabel(totalImprovement?.metric)}
         </p>
         <p className="text-xs opacity-80">{getSportLabel(athlete.sport)}</p>
       </div>
