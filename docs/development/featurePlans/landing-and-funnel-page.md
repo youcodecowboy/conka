@@ -284,6 +284,118 @@ Johnny's funnel feedback (2026-04-09), executed as a single PR:
 
 ---
 
+## Phase D: Product Education Polish (Magic Mind wave 2) -- ACTIVE
+
+Landing-page follow-up after Phase B. Three connected fixes on `/start`, one PR.
+
+1. **ProductSplit images look blurry** — `scale-200` class upscales the PNG by 2x, causing visible upsampling on retina displays. Premium-brand visual bug.
+2. **`LandingWhatItDoes` copy is flat** — Johnny flagged that the section doesn't frame CONKA as a compounding daily habit the way Magic Mind does ("Daily habit. Lifelong benefits."). Tile descriptions hedge with "help" / "can" / "not just" language.
+3. **No regulatory-grade ingredient verification on landing** — cold traffic arriving from Meta ads has no path to check what's actually in Flow / Clear without scrolling to checkout. Magic Mind's per-product native-rendered "Ingredients" modal is the proven pattern.
+
+| # | Task | Complexity | Status |
+|---|------|-----------|--------|
+| D.1 | Fix ProductSplit image blur (remove `scale-200`) | Small | Done |
+| D.2 | `LandingWhatItDoes` copy refresh (Magic Mind framing) | Small | Done |
+| D.3-data | New `supplementFacts.ts` data module | Small | Done |
+| D.3 | New `IngredientsPanel` native modal component | Medium | Done |
+| D.4 | Wire per-tile "Ingredients" button on ProductSplit | Small | Done |
+| D.5 | Update claims log + plan doc | Small | Done |
+
+**Phase D polish pass (2026-04-13):**
+- Removed "See the research" link from `LandingWhatItDoes` — clutter with rest of page rough.
+- Reverted `LandingProductSplit` bottle render: source PNGs are 1000² 8-bit colormap (indexed palette), blur visible at large render. Back to small container + `scale-150` (`w-20 h-44 lg:w-32 lg:h-64`), matching the crisp approach used in `WhatToExpectMobile` / `FormulaToggle` / `ProductMini`. Follow-up: re-export source PNGs to full-colour 24-bit with tight crop (separate asset task).
+- Extracted `WhatsInsideProductMini` as a client sub-component. Adds outlined "Ingredients" button beneath each Flow/Clear tile. Opens same `IngredientsPanel`. Fires `landing:ingredients_viewed` with `{ product, source: "whats_inside" }` to distinguish from `LandingProductSplit` triggers.
+- **Stripped explicit mg from the supplement facts panel and data module.** Ingredient order preserved (descending concentration per supplement-facts convention, so relative quantity is still communicated). Only %NRV retained on Clear's Vit C (3,125%) + B12 (60,000%) to substantiate EFSA claims. Competitive IP protection — mg no longer shipped in the client bundle. Claims log entry 52.
+
+**Phase D summary (2026-04-13):**
+- `scale-200` removed from Flow/Clear bottle images; containers resized to natural render (`w-40 h-80` mobile, `w-56 h-[28rem]` desktop). No upsampling artefacts on retina.
+- `LandingWhatItDoes` title swapped to "Daily habit. Lifelong benefits." Tile descriptions tightened to one scannable sentence each; hedging dropped. EFSA `††` anchor retained on Brain Health tile. "See the research" link added to `/science`.
+- New `app/lib/supplementFacts.ts` module, sourced directly from `FORMULATION_SPEC.md`. Separate from `ingredientsData.ts` and `formulaContent.ts`.
+- New `app/components/landing/IngredientsPanel.tsx` modal: body-scroll lock, ESC/X/backdrop close, `role="dialog"`, `aria-modal`, focus-on-close-button. Left column = ingredients paragraph + supplement facts table; right column = functional-group cards. %NRV column hidden on Flow, shown on Clear.
+- Per-tile outlined "Ingredients" button wired on `LandingProductSplit`. Fires `landing:ingredients_viewed` Vercel Analytics event with `{ product }`. Min 44px tap target. Does not compete with the primary Get Both CTA.
+- Claims log updated (entries 44–51). No new claim surface introduced.
+
+### D.1 ProductSplit image blur fix
+
+- Remove `scale-200` from the image wrapper on Flow + Clear tiles (`app/components/landing/LandingProductSplit.tsx` L51, L101)
+- Resize the container so the image renders at its natural display size without upscaling
+- Source PNGs (`FlowNoBackground.png` / `ClearNoBackground.png`) are already high-res — no new assets
+
+### D.2 `LandingWhatItDoes` copy refresh
+
+- Title: punchier habit-framing (options proposed at implement time, pick one)
+- Tile descriptions: single scannable sentence each, drop hedging language
+- Subtitle stays: "Two daily brain shots. 16 active ingredients. One system."
+- Claims check: observational framing carries through, `††` stays on Brain Health tile's Vitamin C reference
+- Optional: subtle "See the research" link to `/science` (Magic Mind pattern)
+
+### D.3-data `supplementFacts.ts` data module
+
+- New narrow module `app/lib/supplementFacts.ts` containing canonical per-product supplement-facts records
+- Sourced from `docs/product/FORMULATION_SPEC.md`
+- Separate from `ingredientsData.ts` (research-dose storytelling) and `formulaContent.ts` (outdated percentages — out of scope for this PR)
+- Types:
+  ```ts
+  type SupplementFacts = {
+    productId: "flow" | "clear";
+    servingSize: string;
+    ingredientsParagraph: string;
+    nutrients: Array<{ name: string; source: string; perServing: string; nrv?: string }>;
+    actives: Array<{ name: string; source: string; perServing?: string }>;
+    base: Array<{ name: string; role: string }>;
+    functionalGroups: Array<{ heading: string; bullets: string[] }>;
+  };
+  ```
+
+### D.3 `IngredientsPanel` native modal
+
+- NEW `app/components/landing/IngredientsPanel.tsx`, accepts `product: "flow" | "clear"`
+- Layout (Magic Mind structure):
+  - Header: product name + close button. No product imagery (just text for clarity).
+  - Left column (60%): Ingredients paragraph, then Supplement Facts table with "Amount per serving" + "%NRV". %NRV column hidden on Flow (no authorised nutrients); shown on Clear for Vit C + B12.
+  - Right column (38%): Functional-group benefit cards with ingredient bullet lists. Observational phrasing only.
+  - Mobile: columns stack.
+- Modal shell follows `UpsellBottomSheet` conventions: backdrop + sheet on mobile, centred on desktop, body-scroll lock, ESC/X/backdrop close, `role="dialog"`, `aria-modal`, initial focus on close button.
+- All `brand-base.css` tokens.
+
+### D.4 Wire "Ingredients" button on ProductSplit tiles
+
+- Add outlined-pill secondary CTA on each product card (above "Taste" line, below benefits list)
+- Flow tile opens Flow modal, Clear tile opens Clear modal
+- Tap target ≥ 44px
+- Fires `landing:ingredients_viewed` Vercel Analytics event with `{ product }`
+- Does NOT compete with the primary "Get Both" CTA below the split
+
+### D.5 Docs
+
+- Append Phase D summary to this plan doc
+- Add entry to `docs/development/LANDING_PAGE_CLAIMS_LOG.md` logging the native supplement-facts panel (factual disclosure, no new claims — paper trail for future audits)
+
+### Appetite
+
+One day. Single PR.
+
+### Design system
+
+`brand-base.css`.
+
+### No-Gos (Phase D)
+
+- Not migrating the funnel `NutritionInfoModal` to the new native component (explicit user call — follow-up work).
+- Not adding ingredient assets/illustrations inside ProductSplit tiles (duplicates `LandingWhatsInside`).
+- Not changing ProductSplit's primary CTA or the AM/PM connector strip.
+- Not fixing `ingredientsData.ts` / `formulaContent.ts` percentage drift from formulation spec (separate cleanup).
+- Not adding product imagery inside the modal — text-only header for clarity.
+
+### Risks
+
+- Claims compliance on functional-group copy — handled by reusing approved observational phrasing and `††` anchors from the claims log.
+- %NRV column must hide on Flow's panel and show on Clear's.
+- Data-entry fidelity — `supplementFacts.ts` must match `FORMULATION_SPEC.md` exactly, audit twice.
+- Mobile scroll length on Clear modal (more content than Flow) — body needs `overflow-y: auto`, backdrop tap still dismisses.
+
+---
+
 ## Phase C: Funnel Copy + Nutrition Modal -- ACTIVE
 
 Follow-up pass on the funnel after the Phase B landing work. Three friction points addressed in a single PR:
