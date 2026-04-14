@@ -40,7 +40,7 @@ export default function LandingTimeline() {
           Tablet+ (md, 768px+): unchanged from prior behaviour — 16:6
           banner contained within the gutter with rounded corners. */}
       <h2 className="sr-only">Your Brain, Optimised. What to expect after 30 days.</h2>
-      <div className="relative mb-8 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/1.8] md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)]">
+      <div className="relative mb-2 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/1.6] md:mb-8 md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)]">
         <Image
           src="/story/YourBrainOptimised.jpg"
           alt="CONKA Flow and Clear bottles. Your Brain, Optimised. What to expect after 30 days."
