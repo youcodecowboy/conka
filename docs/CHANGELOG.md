@@ -6,6 +6,33 @@
 
 ## April 2026
 
+### 2026-04-14 -- Homepage Phase 3: landing parity + Balance-only ProductGrid (SCRUM-885/886/887/888)
+Four-part homepage upgrade that brings the organic entry point into parity with `/start` and locks the product offering to Balance ahead of the protocol deprecation.
+
+**Section composition + reordering (3.1 + 3.2):**
+
+- **`LandingHero` reused on homepage.** Homepage no longer runs a bespoke hero — `LandingHero` now backs both pages via optional `ctaHref` / `ctaLabel` props (defaults preserve `/start` funnel behaviour). Homepage passes a Balance-routed CTA. `Hero` / `HeroDesktop` / `HeroMobile` / `HeroBannerCarousel` flagged as orphaned for a follow-up cleanup pass.
+- **CTA copy unified.** Both heroes now read `Get Both from £{PRICE_PER_SHOT_BOTH}/shot →`. Homepage hero keeps the `/protocol/3` destination per the homepage-for-organic-traffic divergence; `/start` keeps the funnel destination.
+- **`LandingWhatItDoes` added as homepage section 2.** Replaces the previous "what CONKA does" slot with the same component `/start` uses. Homepage hides the trailing CTA + trust badges (ProductGrid below is the chooser).
+- **Athlete carousel renamed + repositioned.** Heading "Why Athletes Trust CONKA" → "Why High Performers Trust CONKA". Case Studies moved above Testimonials, with white/tint alternation re-cascaded so adjacent backgrounds never collide.
+
+**ProductGrid Balance-only + protocol PDP selector removed (3.3):**
+
+- **Protocol variant selector gone from `ProductGrid` (Desktop / Tablet / Mobile) and from the protocol PDP hero.** All three grid variants render Balance imagery unconditionally; `protocolVariant` state and flow-heavy/clear-heavy plumbing removed. `/protocol/1` and `/protocol/2` URLs still route (no deep-link breakage) — just no UI to switch between them.
+- **ProductGrid card normalisation.** `FunnelAssurance` swapped for `LandingTrustBadges` across Desktop/Tablet/Mobile. Cards now stretch to cell height (`items-stretch` + `flex-1`), Protocol card got clinical stats (Memory / Stress / Sleep) so every card has the same sections, Best-For rendering unified to the bulleted list across all three products (Protocol's paragraph variant + `BALANCE_PROTOCOL_BEST_FOR` dead-code deleted), and `min-h` reservations on the benefit headline + body copy so shorter copy no longer creates empty whitespace between content and pricing.
+- **Cart / pricing / B2B tier logic untouched.**
+
+**Component-level style alignment (3.4):**
+
+- Mechanical token + spacing migration across the remaining homepage-only components (`KeyBenefits` Desktop + Mobile, `WhyConkaWorks`, `WhatToExpect` Desktop + Mobile, `FoundersSection`, home `LandingFAQ`) to match `/start` patterns — left-aligned headings, `text-black/60` subtitles, accent CTAs, `brand-radius-card` radii. No content rewrites, no structural changes.
+
+**Explicit no-gos held:** Navigation (including the Shop mega-menu) and Footer untouched. Quiz untouched. No protocol content / metafield / pricing changes beyond the variant-picker removal. No `/start` page-level code changes (only backwards-compatible prop additions to shared components).
+
+**Why:** The homepage was drifting behind `/start` on both hero pattern and product-education framing, and the homepage ProductGrid was still offering flow-heavy/clear-heavy variants that will never ship. Reusing the landing components via props avoids a fork, and locking ProductGrid to Balance prepares for Phase 4 (full protocol deprecation).
+**Plan:** `docs/development/featurePlans/homepage-upgrade.md` (Phase 3)
+**Tickets:** SCRUM-885, SCRUM-886, SCRUM-887, SCRUM-888
+**Branch:** `home-page-alingment-and-performance-improvement`
+
 ### 2026-04-14 -- Landing page Phase E + iteration: merged WhatItDoes, 100-day guarantee, branded timeline, ProductSplit dropped (SCRUM-877)
 Three structural fixes shipped as one PR, plus a heavy iteration pass after the first cut.
 
