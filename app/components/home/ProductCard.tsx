@@ -2,11 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
-import {
-  PurchaseType,
-  formulaContent,
-  protocolContent,
-} from "@/app/lib/productData";
+import { PurchaseType, formulaContent } from "@/app/lib/productData";
 import { formulaPricing, protocolPricing } from "@/app/lib/productPricing";
 import { getProductAccent, getProductGradient } from "@/app/lib/productColors";
 import { getBillingLabel } from "@/app/lib/productHelpers";
@@ -76,10 +72,9 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
   }
 
   // Protocol (Balance only)
-  const protocol = protocolContent["3"];
   return {
     id: BALANCE_PROTOCOL_ID,
-    name: protocol?.name ?? "CONKA Protocol",
+    name: "CONKA Protocol",
     benefitHeadline: "Complete daily performance",
     bodyCopy:
       "Flow and Clear in precise ratios. All-day performance, fully covered.",
