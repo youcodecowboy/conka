@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import FunnelAssurance from "../funnel/FunnelAssurance";
+import LandingTrustBadges from "../landing/LandingTrustBadges";
 import ProductCard from "./ProductCard";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
@@ -134,7 +134,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
         )}
       </div>
 
-      <FunnelAssurance />
+      <LandingTrustBadges />
     </>
   );
 }

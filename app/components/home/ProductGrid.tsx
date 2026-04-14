@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import FunnelAssurance from "../funnel/FunnelAssurance";
+import LandingTrustBadges from "../landing/LandingTrustBadges";
 import ProductCard from "./ProductCard";
 import ProductGridMobile from "./ProductGridMobile";
 import ProductGridTablet from "./ProductGridTablet";
@@ -63,7 +63,7 @@ export default function ProductGrid(props?: ProductGridProps) {
         <div className="product-grid-container grid grid-cols-3 gap-8 mb-8">
           {/* Column 1: Flow or empty — always 3 columns so card size stays same with 2 cards */}
           {showFlow ? (
-            <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+            <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
               <Link
                 href="/conka-flow"
                 className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
@@ -95,7 +95,7 @@ export default function ProductGrid(props?: ProductGridProps) {
 
           {/* Column 2: Clear or empty */}
           {showClear ? (
-            <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+            <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
               <Link
                 href="/conka-clarity"
                 className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
@@ -127,7 +127,7 @@ export default function ProductGrid(props?: ProductGridProps) {
 
           {/* Column 3: Protocol (Balance) or empty */}
           {showProtocol ? (
-            <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-center">
+            <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-stretch h-full">
               <Link
                 href="/protocol/3"
                 className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
@@ -158,7 +158,7 @@ export default function ProductGrid(props?: ProductGridProps) {
           )}
         </div>
 
-        <FunnelAssurance />
+        <LandingTrustBadges />
       </>
     );
   }

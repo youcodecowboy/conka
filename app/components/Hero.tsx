@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { HeroTrustBadges } from "./HeroShared";
-import { PRICE_PER_DAY_BOTH } from "@/app/lib/landingPricing";
+import LandingCTA from "./landing/LandingCTA";
+import { PRICE_PER_DAY_BOTH, PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 
 /* Homepage avatar roster — kept separate from LandingHero so the two pages can diverge. */
 const AVATARS = [
@@ -71,12 +71,12 @@ export default function Hero() {
 
           {/* CTA — safe-area padding prevents mobile URL bar overlap */}
           <div className="mt-8 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0">
-            <Link
+            <LandingCTA
               href="/protocol/3"
-              className="block w-full lg:w-auto lg:inline-block text-center py-4 px-14 rounded-[var(--brand-radius-interactive)] font-bold text-base lg:text-lg text-white bg-brand-accent shadow-lg hover:shadow-xl transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg"
             >
-              See the Daily Protocol &rarr;
-            </Link>
+              Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot &rarr;
+            </LandingCTA>
           </div>
 
           {/* Customer avatars + review count */}

@@ -24,8 +24,6 @@ interface ProductCardProps {
 
 // Fixed Balance protocol id — ProductGrid no longer offers flow-heavy/clear-heavy variants.
 const BALANCE_PROTOCOL_ID: ProtocolId = "3";
-const BALANCE_PROTOCOL_BEST_FOR =
-  "Full-spectrum daily performance — energy, focus, and recovery covered.";
 
 // Get product data from productData.ts
 const getProductData = (productType: "flow" | "clear" | "protocol") => {
@@ -83,7 +81,11 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       "Full recovery & sleep",
       "Optimised for training load",
     ],
-    stats: [],
+    stats: [
+      { value: "+63%", label: "Memory & Attention" },
+      { value: "-56%", label: "Stress" },
+      { value: "+42%", label: "Sleep Quality" },
+    ],
     image: getProtocolImage("3"),
     link: "/protocol/3",
     linkText: "View More Packs →",
@@ -199,9 +201,6 @@ export default function ProductCard({
     }
   }
 
-  // Best for text
-  const bestForText = isProtocol ? BALANCE_PROTOCOL_BEST_FOR : product.bestFor;
-
   // Button background color
   const formulaGradient = !isProtocol ? getProductGradient(product.id) : null;
   const buttonBg = isSubscribe
@@ -216,7 +215,7 @@ export default function ProductCard({
 
   return (
     <div
-      className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden text-[var(--text-on-light)]"
+      className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden text-[var(--text-on-light)] flex-1 w-full"
       style={{ padding: "1rem", backgroundColor: "white" }}
     >
       {/* Product Info */}
@@ -241,14 +240,14 @@ export default function ProductCard({
 
         {/* Benefit Headline */}
         <h3
-          className="premium-heading text-2xl md:text-3xl font-bold mb-2"
+          className="premium-heading text-2xl md:text-3xl font-bold mb-2 min-h-[4.5rem] md:min-h-[5rem]"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
           {product.benefitHeadline}
         </h3>
 
         {/* Body Copy */}
-        <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-3">
+        <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-3 min-h-[3rem]">
           {product.bodyCopy}
         </p>
 
@@ -273,38 +272,32 @@ export default function ProductCard({
 
         {/* Best For */}
         <div className="mb-4">
-          {isProtocol ? (
-            <p className="premium-body-sm text-[var(--text-on-light-muted)]">
-              {bestForText}
-            </p>
-          ) : (
-            <ul className="space-y-2">
-              {(product.bestFor as string[]).map((item, idx) => (
-                <li
-                  key={idx}
-                  className="flex items-start gap-2 premium-body-sm text-[var(--text-on-light-muted)]"
+          <ul className="space-y-2">
+            {(product.bestFor as string[]).map((item, idx) => (
+              <li
+                key={idx}
+                className="flex items-start gap-2 premium-body-sm text-[var(--text-on-light-muted)]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="flex-shrink-0 mt-0.5"
+                  aria-hidden
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="flex-shrink-0 mt-0.5"
-                    aria-hidden
-                  >
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          )}
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Divider */}
