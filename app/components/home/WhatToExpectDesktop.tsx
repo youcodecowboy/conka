@@ -24,9 +24,12 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
   return (
     <div className="[animation:none] [&_*]:!animate-none">
       {/* Section Header (+ Toggle only when landing) */}
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-12">
-        <div className="text-left">
-          <h2 className="brand-h2 mb-0 mb-3">
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+        <div>
+          <h2
+            className="brand-h1 mb-6"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
             What to Expect with CONKA
           </h2>
           <p className="brand-body text-black/60 max-w-2xl">
@@ -122,7 +125,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                         ? "/conka-flow"
                         : "/conka-clarity"
                     }
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] font-semibold text-sm bg-black text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-opacity"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] font-semibold text-sm bg-[var(--brand-accent)] text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-accent)] transition-opacity"
                   >
                     {selectedFormula === "01"
                       ? "View CONKA Flow"

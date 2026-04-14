@@ -114,11 +114,12 @@ export default function AthleteCredibilityCarousel() {
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Section Header */}
-      <div className="mb-10">
-        <h2 className="brand-h2 mb-0">
-          Why Athletes Trust CONKA
-        </h2>
-      </div>
+      <h2
+        className="brand-h1 mb-6"
+        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+      >
+        Why High Performers Trust CONKA
+      </h2>
 
       {/* Carousel Content */}
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-8 md:gap-12 items-center">

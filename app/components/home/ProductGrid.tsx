@@ -1,50 +1,22 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import AssuranceBanner from "./AssuranceBanner";
+import LandingTrustBadges from "../landing/LandingTrustBadges";
 import ProductCard from "./ProductCard";
 import ProductGridMobile from "./ProductGridMobile";
 import ProductGridTablet from "./ProductGridTablet";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
-import type { ProtocolVariant } from "./ProtocolVariantSelector";
 import { getProductGridCopy } from "./productGridCopy";
 
 export interface ProductGridProps {
   exclude?: ("flow" | "clear" | "protocol")[];
-  disabledProtocolVariants?: ProtocolVariant[];
 }
 
-const getProtocolVariantImage = (variant: ProtocolVariant): string => {
-  switch (variant) {
-    case "flow-heavy":
-      return getProtocolImage("1");
-    case "balance":
-      return getProtocolImage("3");
-    case "clear-heavy":
-      return getProtocolImage("2");
-    default:
-      return getProtocolImage("3");
-  }
-};
-
-const getProtocolLink = (variant: ProtocolVariant): string => {
-  switch (variant) {
-    case "flow-heavy":
-      return "/protocol/1";
-    case "clear-heavy":
-      return "/protocol/2";
-    case "balance":
-    default:
-      return "/protocol/3";
-  }
-};
-
 export default function ProductGrid(props?: ProductGridProps) {
-  const { exclude = [], disabledProtocolVariants } = props ?? {};
-  const [protocolVariant, setProtocolVariant] = useState<ProtocolVariant>("balance");
+  const { exclude = [] } = props ?? {};
   const [width, setWidth] = useState<number | undefined>(undefined);
 
   useEffect(() => {
@@ -55,41 +27,34 @@ export default function ProductGrid(props?: ProductGridProps) {
   }, []);
 
   const handleAddToCart = useCallback((productType: "flow" | "clear" | "protocol") => {
-    console.log(`Add to cart: ${productType}`, { protocolVariant });
-  }, [protocolVariant]);
+    console.log(`Add to cart: ${productType}`);
+  }, []);
 
   const showFlow = !exclude.includes("flow");
   const showClear = !exclude.includes("clear");
   const showProtocol = !exclude.includes("protocol");
-  const copy = getProductGridCopy({ exclude, disabledProtocolVariants });
+  const copy = getProductGridCopy({ exclude });
 
   if (width !== undefined && width < 768) {
-    return (
-      <ProductGridMobile
-        exclude={exclude}
-        disabledProtocolVariants={disabledProtocolVariants}
-      />
-    );
+    return <ProductGridMobile exclude={exclude} />;
   }
 
   if (width !== undefined && width < 1024) {
-    return (
-      <ProductGridTablet
-        exclude={exclude}
-        disabledProtocolVariants={disabledProtocolVariants}
-      />
-    );
+    return <ProductGridTablet exclude={exclude} />;
   }
 
   if (width !== undefined && width >= 1024) {
     return (
       <>
-        <div className="text-left mb-8">
-          <h2 className="brand-h2 mb-0 mb-3">
+        <div className="mb-10">
+          <h2
+            className="brand-h1 mb-6"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
             {copy.title}
           </h2>
           {copy.subtitleNode && (
-            <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
+            <p className="brand-body text-black/60 max-w-xl">
               {copy.subtitleNode}
             </p>
           )}
@@ -98,7 +63,7 @@ export default function ProductGrid(props?: ProductGridProps) {
         <div className="product-grid-container grid grid-cols-3 gap-8 mb-8">
           {/* Column 1: Flow or empty — always 3 columns so card size stays same with 2 cards */}
           {showFlow ? (
-            <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+            <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
               <Link
                 href="/conka-flow"
                 className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
@@ -130,7 +95,7 @@ export default function ProductGrid(props?: ProductGridProps) {
 
           {/* Column 2: Clear or empty */}
           {showClear ? (
-            <div className="product-card-wrapper product-card-formula flex flex-col items-center">
+            <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
               <Link
                 href="/conka-clarity"
                 className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
@@ -160,27 +125,24 @@ export default function ProductGrid(props?: ProductGridProps) {
             <div aria-hidden="true" />
           )}
 
-          {/* Column 3: Protocol or empty */}
+          {/* Column 3: Protocol (Balance) or empty */}
           {showProtocol ? (
-            <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-center">
+            <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-stretch h-full">
               <Link
-                href={getProtocolLink(protocolVariant)}
+                href="/protocol/3"
                 className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
               >
                 <div className="relative w-full h-full">
                   <Image
-                    key={protocolVariant}
-                    src={getProtocolVariantImage(protocolVariant)}
+                    src={getProtocolImage("3")}
                     alt="CONKA Protocol"
                     fill
-                    className="object-cover transition-opacity duration-300"
+                    className="object-cover"
                     sizes="33vw"
                   />
                   <div
                     className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                    style={{
-                      backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e"
-                    }}
+                    style={{ backgroundColor: getProductAccent("3") || "#3a9f7e" }}
                   >
                     Most Popular
                   </div>
@@ -188,10 +150,7 @@ export default function ProductGrid(props?: ProductGridProps) {
               </Link>
               <ProductCard
                 productType="protocol"
-                protocolVariant={protocolVariant}
-                onProtocolVariantChange={setProtocolVariant}
                 onAddToCart={() => handleAddToCart("protocol")}
-                disabledProtocolVariants={disabledProtocolVariants}
               />
             </div>
           ) : (
@@ -199,7 +158,7 @@ export default function ProductGrid(props?: ProductGridProps) {
           )}
         </div>
 
-        <AssuranceBanner />
+        <LandingTrustBadges />
       </>
     );
   }

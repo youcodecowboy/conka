@@ -1,3 +1,8 @@
+// TODO(SCRUM-887 follow-up): The default export ProtocolVariantSelector component is orphaned
+// after the ProductGrid + protocol PDP were locked to Balance. The ProtocolVariant type is still
+// consumed by app/lib/shopifyProductMapping.ts, app/quiz/results/page.tsx, and
+// app/professionals/protocol/page.tsx, so the type export is retained. Revisit during the
+// full protocol deprecation (Phase 4 of homepage-upgrade.md).
 "use client";
 
 export type ProtocolVariant = "flow-heavy" | "balance" | "clear-heavy";

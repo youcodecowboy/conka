@@ -35,7 +35,7 @@ export default function LandingTrustBadges() {
       {TRUST_BADGES.map((badge) => (
         <div
           key={badge.title}
-          className="flex items-center gap-2.5 px-4 py-2.5 rounded-[var(--brand-radius-interactive)] bg-black/[0.03] border border-black/6"
+          className="flex items-center gap-2.5 px-4 py-2.5 rounded-[var(--brand-radius-interactive)] bg-black/[0.03] border border-black/[0.06]"
         >
           <span className="text-brand-accent/60 shrink-0">
             {badge.icon}

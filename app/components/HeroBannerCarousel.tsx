@@ -1,3 +1,5 @@
+// TODO(SCRUM-885 follow-up): Orphaned after homepage hero refactor. No active imports.
+// Verify zero references across repo + active A/B tests before deleting.
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";

@@ -1,45 +1,44 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { HeroTrustBadges } from "./HeroShared";
-import { GUARANTEE_DAYS } from "@/app/lib/offerConstants";
-import { PRICE_PER_DAY_BOTH } from "@/app/lib/landingPricing";
+import LandingCTA from "./landing/LandingCTA";
+import { PRICE_PER_DAY_BOTH, PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
+
+/* Homepage avatar roster — kept separate from LandingHero so the two pages can diverge. */
+const AVATARS = [
+  { src: "/avatars/1.jpg", initials: "JM", bg: "#e8d5b7" },
+  { src: "/avatars/2.jpg", initials: "SR", bg: "#b7cfe8" },
+  { src: "/avatars/3.jpg", initials: "AK", bg: "#d5e8b7" },
+  { src: "/avatars/4.jpg", initials: "TW", bg: "#e8b7d5" },
+  { src: "/avatars/5.jpg", initials: "LP", bg: "#b7e8d5" },
+];
 
 /**
- * Homepage hero -- single responsive component.
+ * Homepage hero — mirrors the LandingHero skeleton for visual parity but
+ * owns its composition so the homepage and /start can diverge independently.
  *
- * Mobile: social proof pill > image (with power badge) > copy > CTA > trust badges (stacked, centered).
+ * Mobile: social proof pill > image > copy > CTA > avatars (stacked).
  * Desktop: copy left, image right (split).
  *
- * Animation: staggered fade-up on mount. GPU-composited (transform + opacity only).
+ * CTA routes to /protocol/3 (Balance PDP) — the softer destination that suits
+ * mixed homepage traffic (organic / returning / SEO), versus the paid-traffic
+ * "Get Both" funnel on /start.
  */
 export default function Hero() {
-  const [mounted, setMounted] = useState(false);
+  const [failedAvatars, setFailedAvatars] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const trigger = reducedMotion
-      ? (fn: () => void) => queueMicrotask(fn)
-      : requestAnimationFrame;
-    trigger(() => setMounted(true));
-  }, []);
-
-  const cls = (base: string, variant: string = "reveal") =>
-    `${variant} ${mounted ? "revealed" : ""} ${base}`;
+  const handleAvatarError = (index: number) => {
+    setFailedAvatars((prev) => new Set(prev).add(index));
+  };
 
   return (
     <div>
-      {/* Social proof pill */}
-      <div
-        className={cls("hero-delay-0 flex justify-start mb-4", "reveal-fade")}
-      >
-        <div className="flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] bg-black text-white text-xs lg:text-sm font-semibold">
-          <span aria-hidden className="text-yellow-400">
-            ★★★★★
-          </span>
+      {/* Social proof pill — centered on mobile, left-aligned on desktop */}
+      <div className="flex justify-center lg:justify-start mb-4">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white text-xs font-semibold whitespace-nowrap">
+          <span aria-hidden className="text-yellow-400">★★★★★</span>
           <span>
             150,000+ bottles sold
             <sup className="text-[0.6em] text-white/30 align-super">§</sup>
@@ -50,59 +49,61 @@ export default function Hero() {
       </div>
 
       <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
-        {/* Copy -- below image on mobile, left on desktop */}
+        {/* Copy — below image on mobile, left on desktop */}
         <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
-          <div className={cls("hero-delay-1", "reveal")}>
-            <h1 className="brand-h1-bold mb-0">
-              Your brain fades
-              <br />
-              by 2pm. Why?
-            </h1>
-          </div>
+          <h1 className="brand-h1-bold mb-0">
+            Your brain fades
+            <br />
+            by 2pm. Why?
+          </h1>
 
-          <div className={cls("hero-delay-2", "reveal")}>
-            <p className="brand-body mt-4 text-black/60">
-              Coffee masks it. Willpower can&apos;t fix it.
-              <br className="hidden lg:inline" />{" "}
-              CONKA is a daily 2-shot system with 16 active
-              <br className="hidden lg:inline" />{" "}
-              ingredients, from{" "}
-              <span className="brand-data text-black">&pound;{PRICE_PER_DAY_BOTH}/day</span>.{" "}
-              150,000+ bottles sold.<sup className="text-[0.5em] text-black/40 align-super">&sect;</sup>
-            </p>
-          </div>
+          <p className="brand-body mt-4 text-black/60">
+            Coffee masks it. Willpower can&apos;t fix it.
+            <br className="hidden lg:inline" />{" "}
+            CONKA is a daily 2-shot system with 16 active
+            <br className="hidden lg:inline" />{" "}
+            ingredients, from{" "}
+            <span className="brand-data text-black">
+              &pound;{PRICE_PER_DAY_BOTH}/day
+            </span>
+            .
+          </p>
 
-          {/* CTA */}
-          <div className={cls("hero-delay-3 mt-8", "reveal")}>
-            <a
-              href="#product-grid"
-              className="block lg:inline-block px-8 py-4 rounded-[var(--brand-radius-interactive)] bg-[var(--brand-accent)] text-white font-bold text-base lg:text-lg shadow-lg hover:shadow-xl transition-shadow text-center"
+          {/* CTA — safe-area padding prevents mobile URL bar overlap */}
+          <div className="mt-8 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0">
+            <LandingCTA
+              href="/protocol/3"
+              className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg"
             >
-              Try Risk-Free for {GUARANTEE_DAYS} Days &rarr;
-            </a>
+              Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot &rarr;
+            </LandingCTA>
           </div>
 
           {/* Customer avatars + review count */}
-          <div
-            className={cls(
-              "hero-delay-4 flex items-center justify-center lg:justify-start gap-3 mt-5",
-              "reveal-fade",
-            )}
-          >
+          <div className="flex items-center justify-center lg:justify-start gap-3 mt-5">
             <div className="flex -space-x-2">
-              {[
-                { bg: "#e8d5b7", initials: "JM" },
-                { bg: "#b7cfe8", initials: "SR" },
-                { bg: "#d5e8b7", initials: "AK" },
-                { bg: "#e8b7d5", initials: "TW" },
-                { bg: "#b7e8d5", initials: "LP" },
-              ].map((avatar) => (
+              {AVATARS.map((avatar, i) => (
                 <div
                   key={avatar.initials}
-                  className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-bold text-black/60"
-                  style={{ backgroundColor: avatar.bg }}
+                  className="relative w-8 h-8 rounded-full border-2 border-white overflow-hidden flex-shrink-0"
                 >
-                  {avatar.initials}
+                  {failedAvatars.has(i) ? (
+                    <div
+                      className="w-full h-full flex items-center justify-center text-[10px] font-bold text-black/60"
+                      style={{ backgroundColor: avatar.bg }}
+                    >
+                      {avatar.initials}
+                    </div>
+                  ) : (
+                    <Image
+                      src={avatar.src}
+                      alt={`${avatar.initials}, verified buyer`}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-cover"
+                      onError={() => handleAvatarError(i)}
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -112,48 +113,23 @@ export default function Hero() {
             </div>
           </div>
 
-          <div
-            className={cls(
-              "hero-delay-5 flex justify-center lg:justify-start mt-6",
-              "reveal-fade",
-            )}
-          >
+          <div className="flex justify-center lg:justify-start mt-6">
             <HeroTrustBadges />
           </div>
         </div>
 
-        {/* Product image */}
-        <div
-          className={cls(
-            "hero-delay-2 relative order-1 lg:order-2 lg:flex-1 w-full",
-            "reveal-scale",
-          )}
-        >
-          <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)]">
+        {/* Product image — constrained height, square source cropped */}
+        <div className="relative order-1 lg:order-2 lg:flex-[1.5] w-full">
+          <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] aspect-[5/3]">
             <Image
-              src="/formulas/QuartelySingle.jpg"
-              alt="CONKA Flow and Clear daily shots delivered to your door"
-              width={1280}
-              height={1280}
+              src="/hero/ShotsHero.jpg"
+              alt="CONKA Flow and Clear daily brain performance shots"
+              fill
               priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="w-full h-auto object-cover"
-              style={{
-                filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.15))",
-              }}
+              fetchPriority="high"
+              sizes="(max-width: 1024px) 95vw, 60vw"
+              className="object-cover object-center"
             />
-
-            {/* Power badge */}
-            <div className="absolute top-3 right-3 lg:top-5 lg:right-5 w-20 h-20 lg:w-24 lg:h-24 rounded-full flex flex-col items-center justify-center text-center shadow-lg bg-black text-white">
-              <span className="text-lg lg:text-xl font-bold leading-none">
-                16
-              </span>
-              <span className="text-[9px] lg:text-[10px] font-semibold uppercase tracking-wide leading-tight mt-0.5 px-1">
-                Active
-                <br />
-                Ingredients
-              </span>
-            </div>
           </div>
         </div>
       </div>

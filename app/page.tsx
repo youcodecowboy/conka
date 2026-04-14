@@ -13,6 +13,11 @@ import {
 import type { Testimonial } from "./components/testimonials/types";
 
 // Dynamically import heavy components to reduce initial bundle size
+const HomeWhatItDoes = dynamic(
+  () => import("./components/home/HomeWhatItDoes"),
+  { loading: () => <div className="h-[1400px] lg:h-[1000px]" /> },
+);
+
 const KeyBenefits = dynamic(() => import("./components/KeyBenefits"), {
   loading: () => <div className="h-[800px]" />,
 });
@@ -76,9 +81,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== ATHLETE CREDIBILITY CAROUSEL ===== */}
+      {/* ===== SECTION 2: WHAT CONKA DOES ===== */}
       <section
         className="brand-section brand-bg-tint"
+        aria-label="What CONKA does"
+      >
+        <div className="brand-track">
+          <HomeWhatItDoes />
+        </div>
+      </section>
+
+      {/* ===== SECTION 3: WHY HIGH PERFORMERS TRUST CONKA ===== */}
+      <section
+        className="brand-section brand-bg-white"
         aria-label="Athletes who use CONKA"
       >
         <div className="brand-track">
@@ -86,10 +101,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== PRODUCT GRID (scroll target for hero CTA) ===== */}
+      {/* ===== SECTION 4: PRODUCT GRID (scroll target for hero CTA) ===== */}
       <div id="product-grid" className="scroll-mt-20">
         <section
-          className="brand-section brand-bg-white"
+          className="brand-section brand-bg-tint"
           aria-label="Find Your Formula"
         >
           <div className="brand-track">
@@ -98,10 +113,50 @@ export default function Home() {
         </section>
       </div>
 
-      {/* ===== TESTIMONIALS ===== */}
+      {/* ===== SECTION 5: CASE STUDIES (measurable outcomes first) ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="Clinically validated test scores"
+      >
+        <div className="brand-track">
+          <CaseStudiesDataDriven />
+        </div>
+      </section>
+
+      {/* ===== SECTION 6: KEY BENEFITS ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="Key Benefits"
+      >
+        <div className="brand-track">
+          <KeyBenefits benefits={keyBenefits} />
+        </div>
+      </section>
+
+      {/* ===== SECTION 7: WHY CONKA WORKS ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="Why CONKA Works"
+      >
+        <div className="brand-track">
+          <WhyConkaWorks />
+        </div>
+      </section>
+
+      {/* ===== SECTION 8: WHAT TO EXPECT ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="What to Expect with CONKA"
+      >
+        <div className="brand-track">
+          <WhatToExpect />
+        </div>
+      </section>
+
+      {/* ===== SECTION 9: TESTIMONIALS (real voices after data proof) ===== */}
       {shuffledTestimonials.length > 0 && (
         <section
-          className="brand-section brand-bg-tint"
+          className="brand-section brand-bg-white"
           aria-label="Customer reviews"
         >
           <div className="brand-track">
@@ -110,49 +165,9 @@ export default function Home() {
         </section>
       )}
 
-      {/* ===== KEY BENEFITS ===== */}
-      <section
-        className="brand-section brand-bg-white"
-        aria-label="Key Benefits"
-      >
-        <div className="brand-track">
-          <KeyBenefits benefits={keyBenefits} />
-        </div>
-      </section>
-
-      {/* ===== WHY CONKA WORKS ===== */}
+      {/* ===== SECTION 10: OUR STORY / FOUNDERS ===== */}
       <section
         className="brand-section brand-bg-tint"
-        aria-label="Why CONKA Works"
-      >
-        <div className="brand-track">
-          <WhyConkaWorks />
-        </div>
-      </section>
-
-      {/* ===== WHAT TO EXPECT ===== */}
-      <section
-        className="brand-section brand-bg-white"
-        aria-label="What to Expect with CONKA"
-      >
-        <div className="brand-track">
-          <WhatToExpect />
-        </div>
-      </section>
-
-      {/* ===== CASE STUDIES ===== */}
-      <section
-        className="brand-section brand-bg-tint"
-        aria-label="Clinically validated test scores"
-      >
-        <div className="brand-track">
-          <CaseStudiesDataDriven />
-        </div>
-      </section>
-
-      {/* ===== OUR STORY / FOUNDERS ===== */}
-      <section
-        className="brand-section brand-bg-white"
         aria-label="Our Story"
       >
         <div className="brand-track">
@@ -160,9 +175,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== FAQ ===== */}
+      {/* ===== SECTION 11: FAQ ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="FAQ"
       >
         <div className="brand-track">

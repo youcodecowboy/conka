@@ -180,7 +180,7 @@ function AccordionRow({ benefit, isOpen, isLast, onTap }: AccordionRowProps) {
         <div
           style={{
             height: "1px",
-            background: "rgba(0,0,0,0.06)",
+            background: "var(--brand-divider-subtle)",
           }}
         />
       )}
@@ -200,14 +200,14 @@ export default function KeyBenefitsMobile({
   return (
     <div>
       {/* Heading block */}
-      <div className="text-left mb-8 text-black">
+      <div className="mb-10">
         <h2
-          className="brand-h2 mb-0"
-          style={{ letterSpacing: "-0.01em" }}
+          className="brand-h1 mb-6 text-black"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
-          What you'll actually feel.
+          What you&apos;ll actually feel.
         </h2>
-        <p className="brand-body mt-2">
+        <p className="brand-body text-black/60">
           Tap a benefit to see the evidence behind it.
         </p>
       </div>
@@ -216,7 +216,7 @@ export default function KeyBenefitsMobile({
       <div
         className="overflow-hidden -mx-5 md:-mx-[5vw]"
         style={{
-          border: "1px solid rgba(0,0,0,0.06)",
+          border: "1px solid var(--brand-divider-subtle)",
           background: "white",
         }}
       >
