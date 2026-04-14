@@ -1,9 +1,10 @@
 # Homepage Upgrade: Performance + Visual Alignment
 
-> **Status:** Scoped
+> **Status:** Phase 3 scoped
 > **Created:** 2026-04-07
-> **Appetite:** 2-3 days (Phase 1 + Phase 2)
-> **Design system:** Migrate from `premium-base.css` to `brand-base.css`
+> **Last updated:** 2026-04-14
+> **Appetite:** 2-3 days (Phase 3)
+> **Design system:** `brand-base.css` (page-level migration complete in Phase 2; component-level finishing in Phase 3)
 > **Branch:** `main-page-simplication-and-improvement`
 
 ---
@@ -31,7 +32,8 @@ CRO/Acquisition. Faster load reduces bounce. Visual cohesion with `/start` build
 |-------|-------------|--------|
 | 1 | Performance + Hero Simplification | **Done** |
 | 2 | Visual Alignment (brand-base migration) | **Done** |
-| 3 | Product Simplification (Flow/Clear/Balance only) | Future (separate scope) |
+| 3 | Landing Parity + Balance-Only Simplification | **Active** |
+| 4 | Product Simplification (Flow/Clear/Balance only, full cleanup) | Future (separate scope) |
 
 ---
 
@@ -101,7 +103,89 @@ CRO/Acquisition. Faster load reduces bounce. Visual cohesion with `/start` build
 
 ---
 
-## Rabbit holes
+---
+
+## Phase 3: Landing Parity + Balance-Only Simplification
+
+> **Scoped:** 2026-04-14
+> **Context:** After the `/start` landing page and funnel were validated, the homepage hero and "what it does" section still feel behind. Phase 3 reuses the battle-tested landing components on the homepage via props, locks ProductGrid to Balance-only (protocols are being deprecated), and finishes the per-component style alignment that Phase 2 stopped short of.
+
+### Problem
+
+1. Homepage hero is a homepage-specific component; `LandingHero` (proof-led, higher converting on `/start`) is the better pattern.
+2. Section 2 on homepage is a carousel; `LandingWhatItDoes` on `/start` is a clearer "what CONKA does + why" moment that would serve organic traffic equally well.
+3. `ProductGrid` carries flow-heavy/clear-heavy protocol variants that will never ship in the simplified offering.
+4. Homepage-only components (KeyBenefits, WhyConkaWorks, WhatToExpect, FoundersSection, home/LandingFAQ) still carry legacy typography/spacing patterns.
+
+### Approach
+
+Reuse `LandingHero` and `LandingWhatItDoes` on the homepage via new optional props rather than forking. Homepage CTAs route to `/protocol/3` (Balance) instead of the Both funnel. Remove the protocol variant selector from ProductGrid and from the protocol PDP hero. Finish component-level token migration.
+
+### Task 3.1: Hero + "What CONKA does" parity
+
+- Extend `LandingHero` with optional `ctaHref` and `ctaLabel` props. Defaults keep current funnel behaviour on `/start`. On homepage, pass a softer label routing to `/protocol/3` (e.g. `See the Daily Protocol →`).
+- Extend `LandingWhatItDoes` with `hideCTA?: boolean` (or `ctaHref?: string`). Homepage hides the trailing CTA + `LandingTrustBadges` (ProductGrid below is the chooser). `/start` unchanged.
+- Swap homepage section 1 to `<LandingHero ctaHref="/protocol/3" ctaLabel="See the Daily Protocol →" />`.
+- Use `LandingWhatItDoes` as homepage section 2 (replacing the Athletes carousel slot, which moves to 3b).
+- Grep for any remaining imports of `Hero`, `HeroDesktop`, `HeroMobile`, `HeroBannerCarousel` and flag unused as orphaned for a follow-up cleanup.
+- **Files:** `app/components/landing/LandingHero.tsx`, `app/components/landing/LandingWhatItDoes.tsx`, `app/components/landing/LandingCTA.tsx`, `app/page.tsx`
+- **Complexity:** Small-Medium
+- **Risk:** Mobile LCP regression if `priority` / `fetchPriority` isn't carried. Regression on `/start` — both pages need QA.
+
+### Task 3.2: Section tweaks (athlete title + case studies/testimonials reorder)
+
+- Rename `AthleteCredibilityCarousel` heading from "Why Athletes Trust CONKA" to "Why High Performers Trust CONKA".
+- Reorder: Case Studies before Testimonials. Confirm white/tint alternation still alternates cleanly after the swap.
+- **Files:** `app/components/AthleteCredibilityCarousel.tsx`, `app/page.tsx`
+- **Complexity:** Trivial
+
+### Task 3.3: Balance-only ProductGrid + protocol PDP selector removal
+
+- `ProductGrid` (Desktop, Mobile, Tablet variants): remove `protocolVariant` state and the variant selector UI. Always render Balance imagery. `ProductCard` receives a fixed `protocolVariant="balance"` (or drop the prop entirely).
+- Simplify or remove `getProtocolVariantImage`, `getProtocolLink`, and any `disabledProtocolVariants` plumbing that becomes dead weight.
+- Protocol PDP (`/protocol/[id]`): remove the variant selector from the hero. Page still supports `id=1/2/3` URLs so existing deep links keep working — just no UI to switch between them.
+- Leave add-to-cart, pricing, B2B tier logic untouched.
+- **Files:** `app/components/home/ProductGrid.tsx`, `ProductGridMobile.tsx`, `ProductGridTablet.tsx`, `ProductCard.tsx`, `ProtocolVariantSelector.tsx`, `app/protocol/[id]/page.tsx` + associated hero component
+- **Complexity:** Small-Medium
+- **Risk:** Don't touch cart / pricing / B2B tier logic. Keep `/protocol/1` and `/protocol/2` URLs routable even if the UI is gone.
+
+### Task 3.4: Style alignment across remaining homepage components
+
+Mechanical token + spacing migration to match `/start` patterns: `brand-h2 mb-0` headings inside `mb-10` containers, `text-black/60` subtitles, accent CTAs, left-aligned, `brand-radius-card` radii. No content changes.
+
+- `KeyBenefits` (Desktop + Mobile split) — large volume, fully mechanical
+- `WhyConkaWorks` — already on tint background per Phase 2; tokens only
+- `WhatToExpect` (Desktop + Mobile)
+- `FoundersSection`
+- `home/LandingFAQ`
+- **Complexity:** Large (volume, not difficulty)
+- **Risk:** KeyBenefits is 900+ lines — migrate tokens mechanically, do NOT restructure.
+
+### Rabbit holes (Phase 3)
+
+- **Protocol PDP refactor.** "Remove selector" can drift into broader protocol PDP cleanup. Scope limit: selector UI only. Metafield / routing / pricing left alone for Phase 4.
+- **Orphaned hero components.** `Hero` / `HeroDesktop` / `HeroMobile` / `HeroBannerCarousel` may be referenced elsewhere. Grep before deleting — flag as orphaned in 3.1, delete in a follow-up only after verifying zero imports.
+- **KeyBenefits volume.** Resist the urge to restructure. Token replacement only.
+- **LandingHero paid-traffic headline on homepage.** Current headline `The only brain supplement you can measure` was tuned for cold Meta traffic. Confirm brand-voice/claims compliance is fine for the homepage context; if not, a homepage headline variant is a small addition.
+
+### No-gos (Phase 3)
+
+- No content rewrites (copy stays as-is unless trivially adjusted to fit the new layout).
+- No changes to `/start` page-level code (only shared-component prop additions that default to existing behaviour).
+- No protocol PDP changes beyond hiding the variant selector.
+- No B2B / cart / pricing logic changes.
+- No Navigation or Footer migration.
+- No full protocol deprecation (that's Phase 4).
+
+### Risks (Phase 3)
+
+- Mobile LCP regression after hero swap. Verify on mobile after 3.1.
+- Regression on `/start` via shared-component prop additions. Both pages need QA.
+- Protocol deep links (`/protocol/1`, `/protocol/2`) losing the selector may confuse any active email/ad campaigns linking to them.
+
+---
+
+## Rabbit holes (earlier phases, retained)
 
 - **WhyConkaWorks dark-to-light.** Currently designed for white-on-dark. Moving to light background may make it feel flat. Approach: migrate the tokens, review visually, adjust layout if needed but don't over-invest (content is good, just needs the right background treatment).
 - **KeyBenefits complexity.** 900+ lines across Desktop/Mobile split. Migrate tokens mechanically but don't restructure the component.
@@ -129,6 +213,10 @@ CRO/Acquisition. Faster load reduces bounce. Visual cohesion with `/start` build
 |--------|-------|-------------|
 | SCRUM-855 | 1 | Homepage performance + hero simplification |
 | SCRUM-856 | 2 | Homepage visual alignment (brand-base migration) |
+| SCRUM-885 | 3.1 | Homepage hero + "What it does" parity with /start — _In Review_ |
+| SCRUM-886 | 3.2 | Homepage section tweaks (athlete title + case studies/testimonials reorder) |
+| SCRUM-887 | 3.3 | Balance-only ProductGrid + protocol PDP selector removal |
+| SCRUM-888 | 3.4 | Homepage component style alignment (KeyBenefits, WhyConkaWorks, WhatToExpect, Founders, FAQ) |
 
 ---
 
