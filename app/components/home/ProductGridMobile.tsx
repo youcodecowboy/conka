@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import AssuranceBanner from "./AssuranceBanner";
+import FunnelAssurance from "../funnel/FunnelAssurance";
 import ProductCard from "./ProductCard";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
@@ -75,7 +75,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
   const currentCard = visibleCards[currentIndex] ?? visibleCards[0];
 
   if (visibleCards.length === 0) {
-    return <AssuranceBanner />;
+    return <FunnelAssurance />;
   }
 
   return (
@@ -193,7 +193,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
         })}
       </div>
 
-      <AssuranceBanner />
+      <FunnelAssurance />
     </>
   );
 }

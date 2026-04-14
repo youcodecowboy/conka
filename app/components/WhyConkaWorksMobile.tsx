@@ -77,7 +77,7 @@ export default function WhyConkaWorksMobile() {
 
       <div className="flex flex-col gap-3">
         {/* Pillar 1 */}
-        <div className="brand-card bg-white border-t-4 border-t-[#3a9f7e] flex flex-col items-center">
+        <div className="brand-card-bordered border-t-4 border-t-[#3a9f7e] flex flex-col items-center">
           <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-[var(--brand-tint)] flex-shrink-0">
             <Image
               src="/logos/InformedSportLogo.png"
@@ -139,7 +139,7 @@ export default function WhyConkaWorksMobile() {
         </div>
 
         {/* Pillar 2 */}
-        <div className="brand-card bg-white flex flex-col items-center">
+        <div className="brand-card-bordered flex flex-col items-center">
           <div className="mb-3 flex flex-col items-center justify-center gap-2 rounded-xl bg-[var(--brand-tint)] p-3 flex-shrink-0">
             <div className="h-10 w-28 overflow-hidden flex items-center justify-center rounded-lg [&>img]:object-cover [&>img]:object-center">
               <Image
@@ -205,7 +205,7 @@ export default function WhyConkaWorksMobile() {
         </div>
 
         {/* Pillar 3 */}
-        <div className="brand-card bg-white flex flex-col items-center">
+        <div className="brand-card-bordered flex flex-col items-center">
           <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-[var(--brand-tint)] flex-shrink-0">
             <Image
               src="/logos/MadeInBritain.png"

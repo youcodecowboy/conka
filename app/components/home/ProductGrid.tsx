@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import AssuranceBanner from "./AssuranceBanner";
+import FunnelAssurance from "../funnel/FunnelAssurance";
 import ProductCard from "./ProductCard";
 import ProductGridMobile from "./ProductGridMobile";
 import ProductGridTablet from "./ProductGridTablet";
@@ -155,7 +155,7 @@ export default function ProductGrid(props?: ProductGridProps) {
           )}
         </div>
 
-        <AssuranceBanner />
+        <FunnelAssurance />
       </>
     );
   }

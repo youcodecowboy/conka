@@ -58,7 +58,7 @@ export default function WhyConkaWorksDesktop() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Pillar 1 */}
-        <div className="brand-card border-t-4 border-t-[#3a9f7e] p-6 md:p-8 flex flex-col md:min-h-[400px]">
+        <div className="brand-card-bordered border-t-4 border-t-[#3a9f7e] p-6 md:p-8 flex flex-col md:min-h-[400px]">
           <div className="mb-6 h-24 md:h-32 flex items-center justify-center rounded-2xl bg-[var(--brand-tint)] p-8">
             <Image
               src="/logos/InformedSportLogo.png"
@@ -106,7 +106,7 @@ export default function WhyConkaWorksDesktop() {
         </div>
 
         {/* Pillar 2 */}
-        <div className="brand-card p-6 md:p-8 flex flex-col md:min-h-[400px]">
+        <div className="brand-card-bordered p-6 md:p-8 flex flex-col md:min-h-[400px]">
           <div className="mb-6 flex flex-col items-center justify-center gap-3 rounded-2xl bg-[var(--brand-tint)] p-6">
             <div className="h-12 w-36 overflow-hidden flex items-center justify-center rounded-lg [&>img]:object-cover [&>img]:object-center">
               <Image
@@ -157,7 +157,7 @@ export default function WhyConkaWorksDesktop() {
         </div>
 
         {/* Pillar 3 */}
-        <div className="brand-card p-6 md:p-8 flex flex-col md:min-h-[400px]">
+        <div className="brand-card-bordered p-6 md:p-8 flex flex-col md:min-h-[400px]">
           <div className="mb-6 h-24 md:h-32 flex items-center justify-center rounded-2xl bg-[var(--brand-tint)] p-8">
             <Image
               src="/logos/MadeInBritain.png"
