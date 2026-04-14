@@ -215,7 +215,7 @@ Mechanical token + spacing migration to match `/start` patterns: `brand-h2 mb-0`
 | SCRUM-856 | 2 | Homepage visual alignment (brand-base migration) |
 | SCRUM-885 | 3.1 | Homepage hero + "What it does" parity with /start — _In Review_ |
 | SCRUM-886 | 3.2 | Homepage section tweaks (athlete title + case studies/testimonials reorder) — _In Review_ |
-| SCRUM-887 | 3.3 | Balance-only ProductGrid + protocol PDP selector removal |
+| SCRUM-887 | 3.3 | Balance-only ProductGrid + protocol PDP selector removal — _In Review_ |
 | SCRUM-888 | 3.4 | Homepage component style alignment (KeyBenefits, WhyConkaWorks, WhatToExpect, Founders, FAQ) |
 
 ---

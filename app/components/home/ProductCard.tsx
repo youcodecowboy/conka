@@ -9,18 +9,12 @@ import {
 } from "@/app/lib/productData";
 import { formulaPricing, protocolPricing } from "@/app/lib/productPricing";
 import { getProductAccent, getProductGradient } from "@/app/lib/productColors";
-import {
-  getProtocolTierTotalShots,
-  getBillingLabel,
-} from "@/app/lib/productHelpers";
+import { getBillingLabel } from "@/app/lib/productHelpers";
 import {
   getFormulaImage,
   getProtocolImage,
 } from "@/app/lib/productImageConfig";
 import type { FormulaId, ProtocolId } from "@/app/lib/productTypes";
-import ProtocolVariantSelector, {
-  type ProtocolVariant,
-} from "./ProtocolVariantSelector";
 import { useCart } from "@/app/context/CartContext";
 import {
   getFormulaVariantId,
@@ -29,36 +23,13 @@ import {
 
 interface ProductCardProps {
   productType: "flow" | "clear" | "protocol";
-  protocolVariant?: ProtocolVariant;
-  onProtocolVariantChange?: (variant: ProtocolVariant) => void;
   onAddToCart?: () => void;
-  disabledProtocolVariants?: ProtocolVariant[];
 }
 
-// Protocol variant-specific best for descriptions
-const getProtocolBestFor = (variant: ProtocolVariant): string => {
-  switch (variant) {
-    case "flow-heavy":
-      return "Maximum energy and focus for athletes with high training loads.";
-    case "balance":
-      return "Full-spectrum daily performance — energy, focus, and recovery covered.";
-    case "clear-heavy":
-      return "Recovery and sleep prioritised for high-intensity training blocks.";
-    default:
-      return "Full-spectrum daily performance — energy, focus, and recovery covered.";
-  }
-};
-
-// Calculate protocol savings vs buying Flow + Clear 4-packs separately
-const calculateProtocolSavings = (
-  purchaseType: PurchaseType,
-): number | null => {
-  const protocolPrice = protocolPricing.standard[purchaseType].starter.price;
-  const formula4Price = formulaPricing[purchaseType]["4"].price;
-  const separateTotal = formula4Price + formula4Price; // Flow + Clear
-  const savings = separateTotal - protocolPrice;
-  return savings > 0 ? savings : null;
-};
+// Fixed Balance protocol id — ProductGrid no longer offers flow-heavy/clear-heavy variants.
+const BALANCE_PROTOCOL_ID: ProtocolId = "3";
+const BALANCE_PROTOCOL_BEST_FOR =
+  "Full-spectrum daily performance — energy, focus, and recovery covered.";
 
 // Get product data from productData.ts
 const getProductData = (productType: "flow" | "clear" | "protocol") => {
@@ -104,11 +75,11 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     };
   }
 
-  // Protocol - will be updated based on variant
+  // Protocol (Balance only)
   const protocol = protocolContent["3"];
   return {
-    id: "3" as ProtocolId,
-    name: "CONKA Protocol",
+    id: BALANCE_PROTOCOL_ID,
+    name: protocol?.name ?? "CONKA Protocol",
     benefitHeadline: "Complete daily performance",
     bodyCopy:
       "Flow and Clear in precise ratios. All-day performance, fully covered.",
@@ -117,54 +88,12 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       "Full recovery & sleep",
       "Optimised for training load",
     ],
-    stats: [], // No stats for protocol card (it's a combination)
-    image: getProtocolImage("3"), // Default, will be overridden by variant
-    link: "/protocol/3", // Overridden in render from protocolVariant
+    stats: [],
+    image: getProtocolImage("3"),
+    link: "/protocol/3",
     linkText: "View More Packs →",
     badge: "Most Popular",
   };
-};
-
-// Get protocol image and gradient based on variant
-const getProtocolVariantImage = (variant: ProtocolVariant): string => {
-  switch (variant) {
-    case "flow-heavy":
-      return getProtocolImage("1"); // Resilience Protocol (Flow-heavy)
-    case "balance":
-      return getProtocolImage("3"); // Balance Protocol
-    case "clear-heavy":
-      return getProtocolImage("2"); // Precision Protocol (Clear-heavy)
-    default:
-      return getProtocolImage("3");
-  }
-};
-
-const getProtocolVariantGradient = (
-  variant: ProtocolVariant,
-): { start: string; end: string } => {
-  switch (variant) {
-    case "flow-heavy":
-      return getProductGradient("1"); // Resilience: orange to red
-    case "balance":
-      return getProductGradient("3"); // Balance: green gradient
-    case "clear-heavy":
-      return getProductGradient("2"); // Precision: pink to purple
-    default:
-      return getProductGradient("3");
-  }
-};
-
-// Protocol variant → protocol page path (for View Product link)
-const getProtocolLink = (variant: ProtocolVariant): string => {
-  switch (variant) {
-    case "flow-heavy":
-      return "/protocol/1";
-    case "clear-heavy":
-      return "/protocol/2";
-    case "balance":
-    default:
-      return "/protocol/3";
-  }
 };
 
 // Export badge info for use in wrapper
@@ -177,25 +106,9 @@ export function getProductBadge(
   return null;
 }
 
-// Map ProtocolVariant to Shopify ProtocolId for variant lookup
-function protocolVariantToId(v: ProtocolVariant): ProtocolId {
-  switch (v) {
-    case "flow-heavy":
-      return "1";
-    case "clear-heavy":
-      return "2";
-    case "balance":
-    default:
-      return "3";
-  }
-}
-
 export default function ProductCard({
   productType,
-  protocolVariant = "balance",
-  onProtocolVariantChange,
   onAddToCart: onAddToCartProp,
-  disabledProtocolVariants,
 }: ProductCardProps) {
   const { addToCart, loading } = useCart();
   const [purchaseType, setPurchaseType] =
@@ -209,9 +122,8 @@ export default function ProductCard({
     const protocolTier = "starter" as const;
 
     if (isProtocol) {
-      const protocolId = protocolVariantToId(protocolVariant);
       const variantData = getProtocolVariantId(
-        protocolId,
+        BALANCE_PROTOCOL_ID,
         protocolTier,
         purchaseType,
       );
@@ -240,66 +152,41 @@ export default function ProductCard({
       }
     }
     onAddToCartProp?.();
-  }, [
-    isProtocol,
-    protocolVariant,
-    product.id,
-    purchaseType,
-    addToCart,
-    onAddToCartProp,
-  ]);
+  }, [isProtocol, product.id, purchaseType, addToCart, onAddToCartProp]);
 
-  // Get accent color/gradient for buttons and badge
-  const buttonGradient = isProtocol
-    ? getProtocolVariantGradient(protocolVariant)
-    : null;
+  // Accent / gradient — Balance for protocol, formula-specific otherwise
   const accentColor = isProtocol
-    ? getProductAccent(
-        protocolVariant === "flow-heavy"
-          ? "1"
-          : protocolVariant === "clear-heavy"
-            ? "2"
-            : "3",
-      )
+    ? getProductAccent(BALANCE_PROTOCOL_ID)
     : getProductAccent(product.id);
+  const buttonGradient = isProtocol
+    ? getProductGradient(BALANCE_PROTOCOL_ID)
+    : null;
 
   // Get pricing - all 4-pack on landing grid (customer acquisition)
-  let dailyPrice: string;
-  let monthlyPrice: string; // Selected option price (for main button)
-  let originalDailyPrice: string | null = null;
-  let originalMonthlyPrice: string | null = null; // Strikethrough when subscribe selected
-  let perShotText: string;
-  let savings: number | null = null;
+  let monthlyPrice: string;
+  let originalMonthlyPrice: string | null = null;
   let subscriptionBillingLabel: string | null = null;
   const formulaPackSize = "4" as const;
-  const formulaShotCount = 4;
 
-  // Prices for each option card (always show correct price per option, not selected state)
-  let subscriptionPrice: string; // Discounted price for Subscribe option
-  let subscriptionOriginalPrice: string | null = null; // Full price strikethrough on Subscribe
-  let oneTimePrice: string; // One-time price for One-time option
+  let subscriptionPrice: string;
+  let subscriptionOriginalPrice: string | null = null;
+  let oneTimePrice: string;
 
   if (isProtocol) {
     const subPricing = protocolPricing.standard.subscription.starter;
     const oneTimePricing = protocolPricing.standard["one-time"].starter;
-    const totalShots = getProtocolTierTotalShots("3", "starter");
     subscriptionPrice = `£${subPricing.price.toFixed(2)}`;
     subscriptionOriginalPrice = "basePrice" in subPricing ? `£${subPricing.basePrice.toFixed(2)}` : null;
     oneTimePrice = `£${oneTimePricing.price.toFixed(2)}`;
 
     const pricing = protocolPricing.standard[purchaseType].starter;
-    const perShot = pricing.price / totalShots;
-    dailyPrice = `£${perShot.toFixed(2)}`;
     monthlyPrice = `£${pricing.price.toFixed(2)}`;
     if (isSubscribe && "basePrice" in pricing) {
-      originalDailyPrice = `£${(pricing.basePrice / totalShots).toFixed(2)}`;
       originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
     if (isSubscribe && "billing" in subPricing) {
       subscriptionBillingLabel = getBillingLabel((subPricing as { billing: string }).billing);
     }
-    perShotText = "4-shot supply (Flow + Clear)";
-    savings = calculateProtocolSavings(purchaseType);
   } else {
     const subPricing = formulaPricing.subscription[formulaPackSize];
     const oneTimePricing = formulaPricing["one-time"][formulaPackSize];
@@ -308,22 +195,17 @@ export default function ProductCard({
     oneTimePrice = `£${oneTimePricing.price.toFixed(2)}`;
 
     const pricing = formulaPricing[purchaseType][formulaPackSize];
-    dailyPrice = `£${pricing.perShot.toFixed(2)}`;
     monthlyPrice = `£${pricing.price.toFixed(2)}`;
     if (isSubscribe && "basePrice" in pricing) {
-      originalDailyPrice = `£${(pricing.basePrice / formulaShotCount).toFixed(2)}`;
       originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
     }
     if (isSubscribe && "billing" in pricing) {
       subscriptionBillingLabel = getBillingLabel((pricing as { billing: string }).billing);
     }
-    perShotText = "4-shot supply";
   }
 
   // Best for text
-  const bestForText = isProtocol
-    ? getProtocolBestFor(protocolVariant)
-    : product.bestFor;
+  const bestForText = isProtocol ? BALANCE_PROTOCOL_BEST_FOR : product.bestFor;
 
   // Button background color
   const formulaGradient = !isProtocol ? getProductGradient(product.id) : null;
@@ -335,7 +217,7 @@ export default function ProductCard({
       : formulaGradient
         ? `linear-gradient(to right, ${formulaGradient.start}, ${formulaGradient.end})`
         : (accentColor ?? "#111")
-    : "var(--color-ink)"; // One-time purchase: use ink/black
+    : "var(--color-ink)";
 
   return (
     <div
@@ -391,20 +273,6 @@ export default function ProductCard({
                 </span>
               </span>
             ))}
-          </div>
-        )}
-
-        {/* Protocol Variant Selector */}
-        {isProtocol && onProtocolVariantChange && (
-          <div className="mb-5 flex flex-col items-center gap-2">
-            <span className="premium-body-sm font-medium text-[var(--text-on-light-muted)]">
-              Choose your ratio
-            </span>
-            <ProtocolVariantSelector
-              variant={protocolVariant}
-              onVariantChange={onProtocolVariantChange}
-              disabledVariants={disabledProtocolVariants}
-            />
           </div>
         )}
 
@@ -545,9 +413,7 @@ export default function ProductCard({
           {product.linkText && (
             <div className="mt-6 flex justify-center">
               <Link
-                href={
-                  isProtocol ? getProtocolLink(protocolVariant) : product.link
-                }
+                href={product.link}
                 className="premium-body-sm inline-block text-center px-5 py-2.5 rounded-full border border-gray-200 text-black hover:bg-black hover:text-white hover:border-black transition-colors"
               >
                 {product.linkText}

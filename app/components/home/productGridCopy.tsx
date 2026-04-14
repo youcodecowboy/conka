@@ -1,9 +1,7 @@
 import type { ReactNode } from "react";
-import type { ProtocolVariant } from "./ProtocolVariantSelector";
 
 export interface ProductGridCopyProps {
   exclude?: ("flow" | "clear" | "protocol")[];
-  disabledProtocolVariants?: ProtocolVariant[];
 }
 
 export interface ProductGridCopy {
@@ -22,10 +20,7 @@ const LANDING_SUBTITLE: ReactNode = (
 const CROSS_SELL_TITLE = "Explore Other Products";
 
 function isCrossSell(props?: ProductGridCopyProps): boolean {
-  if (!props) return false;
-  const hasExclude = (props.exclude?.length ?? 0) > 0;
-  const hasDisabledVariants = (props.disabledProtocolVariants?.length ?? 0) > 0;
-  return hasExclude || hasDisabledVariants;
+  return (props?.exclude?.length ?? 0) > 0;
 }
 
 /**

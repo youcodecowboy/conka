@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
@@ -89,14 +89,6 @@ export default function ProtocolPage() {
     }
   }, [selectedProtocolId, selectedTier]);
 
-  const handleProtocolChange = useCallback(
-    (id: ProtocolId) => {
-      setSelectedProtocolId(id);
-      router.replace(`/protocol/${id}`, { scroll: false });
-    },
-    [router],
-  );
-
   if (!protocol) {
     return null; // Will redirect
   }
@@ -183,7 +175,6 @@ export default function ProtocolPage() {
               purchaseType={purchaseType}
               onPurchaseTypeChange={setPurchaseType}
               onAddToCart={handleAddToCartFromHero}
-              onProtocolChange={handleProtocolChange}
             />
           </div>
         </section>
@@ -365,7 +356,6 @@ export default function ProtocolPage() {
             purchaseType={purchaseType}
             onPurchaseTypeChange={setPurchaseType}
             onAddToCart={handleAddToCartFromHero}
-            onProtocolChange={handleProtocolChange}
           />
         </div>
       </section>

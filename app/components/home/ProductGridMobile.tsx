@@ -7,34 +7,8 @@ import AssuranceBanner from "./AssuranceBanner";
 import ProductCard from "./ProductCard";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import { getProductAccent } from "@/app/lib/productColors";
-import type { ProtocolVariant } from "./ProtocolVariantSelector";
 import type { ProductGridProps } from "./ProductGrid";
 import { getProductGridCopy } from "./productGridCopy";
-
-const getProtocolVariantImage = (variant: ProtocolVariant): string => {
-  switch (variant) {
-    case "flow-heavy":
-      return getProtocolImage("1");
-    case "balance":
-      return getProtocolImage("3");
-    case "clear-heavy":
-      return getProtocolImage("2");
-    default:
-      return getProtocolImage("3");
-  }
-};
-
-const getProtocolLink = (variant: ProtocolVariant): string => {
-  switch (variant) {
-    case "flow-heavy":
-      return "/protocol/1";
-    case "clear-heavy":
-      return "/protocol/2";
-    case "balance":
-    default:
-      return "/protocol/3";
-  }
-};
 
 const ALL_CARDS = [
   { productType: "flow" as const, name: "CONKA Flow", accentId: "01" as const },
@@ -43,19 +17,18 @@ const ALL_CARDS = [
 ];
 
 export default function ProductGridMobile(props?: ProductGridProps) {
-  const { exclude = [], disabledProtocolVariants } = props ?? {};
+  const { exclude = [] } = props ?? {};
   const visibleCards = ALL_CARDS.filter((c) => !exclude.includes(c.productType));
   const maxIndex = Math.max(0, visibleCards.length - 1);
-  const copy = getProductGridCopy({ exclude, disabledProtocolVariants });
+  const copy = getProductGridCopy({ exclude });
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [protocolVariant, setProtocolVariant] = useState<ProtocolVariant>("balance");
   const carouselRef = useRef<HTMLDivElement>(null);
   const isScrollingProgrammaticallyRef = useRef(false);
 
   const handleAddToCart = useCallback((productType: "flow" | "clear" | "protocol") => {
-    console.log(`Add to cart: ${productType}`, { protocolVariant });
-  }, [protocolVariant]);
+    console.log(`Add to cart: ${productType}`);
+  }, []);
 
   const handleScroll = useCallback(() => {
     if (isScrollingProgrammaticallyRef.current || !carouselRef.current) return;
@@ -194,35 +167,26 @@ export default function ProductGridMobile(props?: ProductGridProps) {
             <div key="protocol" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
               <div className="flex flex-col items-center w-full">
                 <Link
-                  href={getProtocolLink(protocolVariant)}
+                  href="/protocol/3"
                   className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
                 >
                   <div className="relative w-full h-full">
                     <Image
-                      key={protocolVariant}
-                      src={getProtocolVariantImage(protocolVariant)}
+                      src={getProtocolImage("3")}
                       alt="CONKA Protocol"
                       fill
-                      className="object-cover transition-opacity duration-300"
+                      className="object-cover"
                       sizes="100vw"
                     />
                     <div
                       className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                      style={{
-                        backgroundColor: getProductAccent(protocolVariant === "flow-heavy" ? "1" : protocolVariant === "clear-heavy" ? "2" : "3") || "#3a9f7e",
-                      }}
+                      style={{ backgroundColor: getProductAccent("3") || "#3a9f7e" }}
                     >
                       Most Popular
                     </div>
                   </div>
                 </Link>
-                <ProductCard
-                  productType="protocol"
-                  protocolVariant={protocolVariant}
-                  onProtocolVariantChange={setProtocolVariant}
-                  onAddToCart={() => handleAddToCart("protocol")}
-                  disabledProtocolVariants={disabledProtocolVariants}
-                />
+                <ProductCard productType="protocol" onAddToCart={() => handleAddToCart("protocol")} />
               </div>
             </div>
           );
