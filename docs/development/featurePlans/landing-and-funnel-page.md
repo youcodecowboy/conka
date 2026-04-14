@@ -1,8 +1,8 @@
 # Landing & Funnel Page
 
-> **Status:** Landing page and funnel built. Phases A and B complete, funnel iteration complete, previously scoped funnel/upsell/terminology work complete. Awaiting lifestyle photography delivery and Freddy brand deck review.
+> **Status:** Landing page and funnel built. Phases A, B, D, E complete; funnel iteration + previously scoped funnel/upsell/terminology work complete. Phase C (funnel copy + nutrition modal) active. Friday 2026-04-10 lifestyle shoot pending delivery; Freddy brand deck review pending.
 > **Created:** 2026-03-24
-> **Last updated:** 2026-04-13
+> **Last updated:** 2026-04-14
 > **Routes:** `/start` (landing page), `/funnel` (purchase funnel)
 > **Design system:** `brand-base.css`
 
@@ -459,6 +459,131 @@ Half-day to one day. Single PR.
 
 ---
 
+## Phase E: Landing Reshape + 100-Day Guarantee Section -- DONE
+
+Two structural problems on `/start` motivate this phase:
+
+1. **Sections 2 + 3 are conceptually duplicative.** `LandingWhatItDoes` covers 3 generic benefit pillars (Mental Performance / Sustained Energy / Brain Health). `LandingWhatsInside` covers 3 functional ingredient groups (Focus & Clarity / Energy & Resilience / Protection & Recovery). The categories already map 1:1 — the page asks the visitor to read the same answer twice, once as benefits and once as evidence.
+2. **The 100-day guarantee is buried.** Category-leading risk reversal currently lives only as a trust badge and a footnote. The unused `LandingGuarantee` component (already built, currently dead code) is the natural home, with Magic Mind's "100-Day Risk Free Trial" pattern as the proven reference.
+
+| # | Task | Complexity | Status |
+|---|------|-----------|--------|
+| E.1 | Merge `LandingWhatItDoes` + `LandingWhatsInside` into single component | Medium | Done |
+| E.2 | Resurrect `LandingGuarantee` as dedicated 100-day section | Small | Done |
+| E.3 | Page composition update (`app/start/page.tsx`) | Small | Done |
+| E.4 | Lifestyle asset mapping (docs only) | Small | Done |
+| E.5 | Claims log entry for guarantee section + merged component re-audit | Small | Done |
+
+### E.1 Merge `LandingWhatItDoes` + `LandingWhatsInside`
+
+- **What:** Single component that pairs each functional pillar with its supporting ingredient evidence. Keep `LandingWhatItDoes`' 3-up tile shell (icon + heading + body), slot `LandingWhatsInside`' ingredient pills + tap-to-reveal evidence panel beneath each tile.
+- **Naming:** Reuse the `LandingWhatItDoes` filename to minimise import churn. Delete `LandingWhatsInside.tsx`. Refactor `WhatsInsideProductMini.tsx` into the merged component or delete if no longer needed.
+- **Must preserve:**
+  - `††` EFSA anchors on Vitamin C and B12 references (Brain Health pillar)
+  - Observational phrasing throughout (no quantified health claims)
+  - `IngredientsPanel` modal trigger from Phase D wiring
+  - `LandingTrustBadges` footer beneath CTA
+  - Mini Flow + Clear bottle visuals (currently in WhatsInside)
+- **Mobile:** Tiles collapse to single column. Tap-to-reveal stays default-collapsed to prevent excessive section height.
+- **Files:** `app/components/landing/LandingWhatItDoes.tsx` (rewritten), delete `LandingWhatsInside.tsx`, refactor or delete `WhatsInsideProductMini.tsx`, update `app/start/page.tsx` (remove section 3).
+
+### E.2 Resurrect `LandingGuarantee` as 100-day section
+
+- **What:** Re-frame around the 100-day money-back guarantee, keeping the app cognitive-score angle as the proof-of-credibility (the app is the receipt that the guarantee is meaningful).
+- **Copy direction (Magic Mind adapted):**
+  - Title: "100-Day Risk Free Trial"
+  - Body: "Try CONKA for 100 days. If your mental performance doesn't noticeably improve, we'll refund your purchase completely. No return necessary."
+  - Bullets: Free UK shipping · Money back guarantee · No return required · Nothing to lose (other than brain fog and burnout)
+  - CTA: "Try it 100% Risk Free Now"
+- **Layout:** Keep existing two-column shell (copy left, app phone mockup right). Do NOT replace the phone mockup with lifestyle imagery — the app-as-receipt is the visual story.
+- **Sizing:** Migrate `brand-h2` to `brand-h1` per Phase A.8 sizing rule.
+- **Bundle:** Mount via `next/dynamic` like other below-fold sections.
+- **Files:** `app/components/landing/LandingGuarantee.tsx`, `app/start/page.tsx`.
+
+### E.3 Page composition (`app/start/page.tsx`)
+
+- Sections 2 and 3 collapse into one (the merged `LandingWhatItDoes`).
+- New `LandingGuarantee` section inserted between Timeline (#7) and FAQ.
+- **No other reorder this phase.** Value Comparison, Testimonials, and Case Studies stay where they are. (User explicit: hold the broader reorder until Friday lifestyle assets land — that becomes Phase H.)
+- Re-validate white/tint background alternation across the new 10-section count.
+
+**Resulting flow:**
+
+| # | Section | Background |
+|---|---------|------------|
+| 1 | Hero | white |
+| 2 | What CONKA Does + Inside (merged) | tint |
+| 3 | Case Studies | white |
+| 4 | Product Split (AM/PM) | tint |
+| 5 | Value Comparison (vs Coffee) | white |
+| 6 | What to Expect Timeline | tint |
+| 7 | Testimonials | white |
+| 8 | **100-Day Guarantee (NEW)** | tint |
+| 9 | FAQ | white |
+| 10 | Disclaimer | tint |
+
+### E.4 Lifestyle asset mapping (docs only, no ship)
+
+Working draft of where existing `/public/lifestyle/*` assets could land, plus gaps the Friday 2026-04-10 shoot needs to fill. **No code changes in this phase** — placement decisions made when new assets arrive (Phase H).
+
+| Asset | Candidate placement | Notes |
+|-------|---------------------|-------|
+| `HoldBoth.jpg` | Header band on merged WhatItDoes section | Anchors the "two shots, one system" framing |
+| `FlowDrink.jpg` | ProductSplit Flow tile (replace/augment bottle render) | Lifestyle proof of the AM ritual |
+| `ClearDrink.jpg` | ProductSplit Clear tile (replace/augment bottle render) | Lifestyle proof of the PM ritual |
+| `FlowHold.jpg` | Hero alternative variant for A/B testing | Currently using `ShotsHero.jpg` (clean product) |
+| `FlowBoxOpen.jpg` | Funnel checkout assurance / unboxing context | Better suited to funnel than landing |
+| `HoldingBottle.jpg` | Testimonial card photo (when Phase H ships) | Generic lifestyle, fills in until customer-supplied photos arrive |
+| `WomanPink.jpg` | Testimonial card photo (when Phase H ships) | Same as above |
+| `SatWoman.jpg` | Already used in Timeline (Phase A.7) | No change |
+| `ClearFocusShot.jpg` | Hold for Phase H reorder (candidate for vs Coffee section visual) | Do NOT place in Guarantee section — phone mockup stays |
+
+**Gaps the Friday shoot should fill:**
+- Real customer testimonial photos (5–10 head-and-shoulders)
+- "Both" product hero shot (Flow + Clear together, lifestyle context)
+- Morning + evening ritual companion shots (cup of coffee on desk vs CONKA shot)
+- Outdoor / active lifestyle (gym, run, work commute) for ad creative reuse
+
+### E.5 Claims log
+
+- New entry in `LANDING_PAGE_CLAIMS_LOG.md` for the Guarantee section copy. Verify "100-day" wording, refund mechanics ("no return necessary"), and that no implied health claim slips in via the "mental performance doesn't noticeably improve" phrasing.
+- Re-audit merged `LandingWhatItDoes` to confirm no regression: every `††` anchor and observational phrase from the two source components ports across intact. Side-by-side pre/post diff.
+
+### Appetite
+
+Two days. Single PR.
+
+### Design system
+
+`brand-base.css`.
+
+### No-Gos (Phase E)
+
+- Not building the `IngredientCarousel` on landing (held; possibly never — `LandingWhatItDoes` merge already covers ingredient depth).
+- Not adding the absorption-speed "liquid hits in minutes, not hours" strip (held as TBC for Phase F; claims log entry required if pursued).
+- Not reordering vs Coffee, Testimonials, Case Studies, ProductSplit, or Timeline (user explicit hold; reshape lives in Phase H).
+- Not replacing testimonial cards or sourcing real customer photos (Phase H, gated on Friday shoot delivery).
+- Not integrating Friday shoot assets in this PR.
+- Not touching the funnel page.
+- Not modifying Hero, Case Studies, ProductSplit, Value Comparison, Timeline, Testimonials, FAQ, or Disclaimer beyond `page.tsx` orchestration.
+- Not replacing the Guarantee section's app phone mockup with lifestyle imagery.
+
+### Risks
+
+- **Claims regression on merge** — porting two compliant components into one risks dropping a `††` anchor or weakening observational phrasing. Mitigation: explicit pre/post copy diff in E.5.
+- **Mobile section length on the merged component** — 3 tiles × (heading + body + ingredient pills + reveal panel) + bottle visuals + CTA + trust badges in one section could exceed one-screen-per-idea. Mitigation: progressive disclosure (tap-to-reveal stays collapsed by default).
+- **Bundle weight from `LandingGuarantee`** — currently unused so it's tree-shaken. Wiring it adds `AppConkaRing.png` to the critical path. Mitigation: `next/dynamic` import.
+- **Background rhythm break** — net-zero section count, but indices shift. Validate white/tint alternation in `page.tsx` after the change.
+- **Guarantee copy phrasing under UK consumer law** — "money back guarantee" and "no return necessary" need verification against the existing footnote mechanics. Likely fine (the footnote already says this) but worth a 10-minute sanity check.
+
+### Future Phases (parked here, not active)
+
+- **Phase F** — Absorption-speed messaging strip ("liquid hits in minutes, not hours"). Magic Mind framing. Claims log entry required. Decision pending.
+- **Phase G** — Ingredient carousel as visual depth surface. On hold; merged `LandingWhatItDoes` may make this redundant.
+- **Phase H** — Friday lifestyle shoot integration + real testimonial photos + broader section reorder (move vs Coffee up, consolidate Disclaimer/Value Comparison). Gated on shoot delivery.
+
+---
+
 ## Previously Scoped Work -- DONE
 
 - ~~Funnel: Product Selection Page (header cleanup, outcome-focused copy, dynamic CTA)~~ Done
@@ -525,6 +650,10 @@ Half-day to one day. Single PR.
 | 2026-04-13 | Product-card copy decoupled from cadence | Step 1 = what you take, step 2 = how often you receive it. Separating concerns reduces cognitive load on the product picker. |
 | 2026-04-13 | Cadence labels use supply language ("1-month supply") | Johnny: plain-English supply framing reads clearer to cold traffic than "Monthly/Quarterly/One-Time". |
 | 2026-04-13 | Stacked nutrition layout for Both (not tabs) | Two items, no need for tabs overhead. Scrollable stack with labelled sections is simpler on mobile. |
+| 2026-04-14 | Merge `LandingWhatItDoes` + `LandingWhatsInside` (Phase E) | The two sections cover the same 3 functional pillars — once as generic benefits, once as ingredient evidence. Visitors read the same answer twice. Merging gives one "what + why" surface and earns space for a dedicated guarantee section without page bloat. |
+| 2026-04-14 | Resurrect `LandingGuarantee` as 100-day section, keep app phone mockup | 100-day guarantee is a category-leading differentiator currently buried in trust badges and footnotes. Magic Mind's "100-Day Risk Free Trial" pattern is proven. App phone mockup stays because the cognitive score is the proof the guarantee is credible — replacing it with lifestyle would weaken the story. |
+| 2026-04-14 | Hold broader section reorder (vs Coffee, Testimonials) until Phase H | Reorder is high-value but better executed alongside Friday lifestyle shoot integration so testimonial real photos ship at the same time as the new card positions. |
+| 2026-04-14 | Defer ingredient carousel on landing | Merged `LandingWhatItDoes` + ingredient evidence already covers the depth. Adding a carousel risks triple-covering ingredients on one page and adds bundle weight. Park as Phase G. |
 
 ---
 
@@ -536,7 +665,9 @@ Half-day to one day. Single PR.
 | SCRUM-870 | Landing page: What to Expect timeline section | A | Done |
 | SCRUM-871 | Landing page: Product education and ingredients sections | B | Done |
 | SCRUM-873 | Funnel: Pricing & layout iteration from January Brands feedback | Funnel Iteration | Done |
-| SCRUM-874 | Funnel: copy simplification + nutrition info modal | C | Not Started |
+| SCRUM-874 | Funnel: copy simplification + nutrition info modal | C | In Progress |
+| SCRUM-875 | Landing: ProductSplit blur fix + WhatItDoes copy + Ingredients modal | D | Done |
+| SCRUM-877 | Landing: merge WhatItDoes/WhatsInside + 100-day guarantee section | E | Done |
 
 ---
 

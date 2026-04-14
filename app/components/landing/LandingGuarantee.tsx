@@ -1,71 +1,92 @@
 "use client";
 
 import Image from "next/image";
-import { GUARANTEE_LABEL_FULL } from "@/app/lib/offerConstants";
+import { GUARANTEE_DAYS } from "@/app/lib/offerConstants";
 import LandingCTA from "./LandingCTA";
 
+const BULLETS = [
+  "Free UK shipping",
+  "Money back guarantee",
+  "No return required",
+  "Nothing to lose (other than brain fog and burnout)",
+];
+
 /**
- * Landing guarantee section.
+ * 100-day risk-free trial section.
  *
- * D2C framing: lead with the guarantee (risk reversal), not the app feature.
- * The app is proof the guarantee is credible.
+ * Magic Mind framing: lead with the guarantee promise, support with the
+ * refund mechanic. The CONKA app phone mockup stays as visual proof —
+ * the cognitive score is the receipt that the guarantee is meaningful.
  */
 export default function LandingGuarantee() {
   return (
     <div>
       {/* Headline */}
-      <div className="mb-10">
-        <h2 className="brand-h2 mb-0">
-          The only supplement you can measure.<sup className="text-[0.5em] text-black/40 align-super">^^</sup>
+      <div className="mb-8">
+        <h2
+          className="brand-h1 mb-0"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          {GUARANTEE_DAYS}-Day Risk Free Trial
         </h2>
       </div>
 
       {/* Two-col on desktop: copy left, phone right */}
       <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-        {/* Copy */}
-        <div className="flex-1 order-2 lg:order-1">
-          {/* Guarantee callout pill */}
-          <div className="flex justify-center lg:justify-start">
-            <div className="inline-flex items-center gap-3 px-5 py-3 rounded-[var(--brand-radius-interactive)] bg-brand-accent/10">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-accent shrink-0">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <polyline points="9 12 11 14 15 10" />
-              </svg>
-              <span className="text-sm font-semibold text-brand-accent">
-                {GUARANTEE_LABEL_FULL}<sup className="text-[0.5em] opacity-60 align-super">*</sup>
-              </span>
-            </div>
-          </div>
-
-          {/* Explanation */}
-          <p className="brand-body mt-6 text-black/60">
-            Track your cognitive performance with the CONKA app&apos;s
-            FDA-cleared assessment.<sup className="text-[0.5em] text-black/40 align-super">^^</sup> 5,000+ tests completed. If
-            you&apos;re not satisfied, full refund.<sup className="text-[0.5em] text-black/40 align-super">*</sup>
+        {/* Copy column */}
+        <div className="flex-1 order-2 lg:order-1 w-full">
+          <p className="brand-body text-black/70">
+            Try CONKA for {GUARANTEE_DAYS} days. If your mental performance
+            doesn&apos;t noticeably improve, we&apos;ll refund your purchase
+            completely. No return necessary.
+            <sup className="text-[0.5em] text-black/40 align-super">*</sup>
           </p>
 
-          {/* CTA + app link */}
-          <div className="mt-8 flex flex-col sm:flex-row items-start gap-3">
-            <LandingCTA className="sm:w-auto">Try Risk-Free →</LandingCTA>
-            <a
-              href="/app"
-              className="text-sm font-medium underline underline-offset-2 text-black/60"
-            >
-              Learn more about the app
-            </a>
+          {/* Bullets */}
+          <ul className="mt-6 space-y-3">
+            {BULLETS.map((bullet) => (
+              <li key={bullet} className="flex items-start gap-3">
+                <span className="w-6 h-6 flex items-center justify-center rounded-full bg-brand-accent/10 text-brand-accent shrink-0 mt-0.5">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="text-sm lg:text-base text-black/80">
+                  {bullet}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          {/* CTA */}
+          <div className="mt-8">
+            <LandingCTA className="sm:w-auto">
+              Try it 100% Risk Free Now
+            </LandingCTA>
           </div>
 
           {/* Footnote */}
           <p className="mt-4 text-xs text-black/40">
-            *First-time customers only. Not satisfied? Full refund, no returns needed.
+            *First-time customers only. Contact info@conka.io within{" "}
+            {GUARANTEE_DAYS} days of your first order for a full refund.
           </p>
         </div>
 
-        {/* Phone mockup */}
+        {/* Phone mockup — app is the receipt that the guarantee is credible */}
         <div className="relative flex justify-center order-1 lg:order-2">
           <Image
             src="/app/AppConkaRing.png"
-            alt="CONKA app showing cognitive performance score of 92"
+            alt="CONKA app showing cognitive performance score"
             width={240}
             height={480}
             loading="lazy"
