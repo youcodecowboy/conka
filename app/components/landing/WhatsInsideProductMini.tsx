@@ -28,7 +28,7 @@ export default function WhatsInsideProductMini({
     <>
       <div className={`grid grid-cols-2 gap-3 lg:gap-4 ${stretch ? "h-full" : ""}`}>
         {/* Flow */}
-        <div className="flex flex-col items-center text-center rounded-[var(--brand-radius-container)] bg-black/[0.02] border border-black/6 p-4 lg:p-6">
+        <div className="flex flex-col items-center text-center rounded-[var(--brand-radius-container)] bg-white border border-black/6 p-4 lg:p-6">
           <div className={`relative w-16 h-36 mb-3 ${stretch ? "lg:w-28 lg:h-64" : "lg:w-24 lg:h-52"}`}>
             <Image
               src="/formulas/conkaFlow/FlowNoBackground.png"
@@ -57,7 +57,7 @@ export default function WhatsInsideProductMini({
         </div>
 
         {/* Clear */}
-        <div className="flex flex-col items-center text-center rounded-[var(--brand-radius-container)] bg-black/[0.02] border border-black/6 p-4 lg:p-6">
+        <div className="flex flex-col items-center text-center rounded-[var(--brand-radius-container)] bg-white border border-black/6 p-4 lg:p-6">
           <div className={`relative w-16 h-36 mb-3 ${stretch ? "lg:w-28 lg:h-64" : "lg:w-24 lg:h-52"}`}>
             <Image
               src="/formulas/conkaClear/ClearNoBackground.png"

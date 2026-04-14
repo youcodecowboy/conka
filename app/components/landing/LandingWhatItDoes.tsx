@@ -138,23 +138,6 @@ export default function LandingWhatItDoes() {
                 {pillar.description}
               </p>
 
-              {/* Ingredient pills */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {pillar.ingredients.map((ingredient) => (
-                  <span
-                    key={ingredient.name}
-                    className="inline-flex items-center gap-1.5 rounded-[var(--brand-radius-interactive)] bg-black/[0.03] border border-black/6 px-3 py-1.5 text-sm"
-                  >
-                    <span className="font-semibold text-black/80">
-                      {ingredient.name}
-                    </span>
-                    {ingredient.efsaAnchor && (
-                      <span className="text-black/30 text-xs">††</span>
-                    )}
-                  </span>
-                ))}
-              </div>
-
               {/* Tap-to-reveal trigger — pinned to bottom of card */}
               <button
                 type="button"
@@ -163,7 +146,7 @@ export default function LandingWhatItDoes() {
                 aria-controls={`pillar-evidence-${pillar.id}`}
                 className="mt-auto inline-flex items-center justify-between gap-2 min-h-[44px] text-sm font-semibold text-brand-accent text-left cursor-pointer"
               >
-                <span>{isOpen ? "Hide research" : "See the research"}</span>
+                <span>{isOpen ? "Hide details" : "See ingredients & research"}</span>
                 <svg
                   width="20"
                   height="20"
@@ -180,12 +163,29 @@ export default function LandingWhatItDoes() {
                 </svg>
               </button>
 
-              {/* Reveal panel */}
+              {/* Reveal panel — ingredient pills + study observation */}
               {isOpen && (
                 <div
                   id={`pillar-evidence-${pillar.id}`}
                   className="mt-3 pt-3 border-t border-black/6"
                 >
+                  {/* Ingredient pills */}
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {pillar.ingredients.map((ingredient) => (
+                      <span
+                        key={ingredient.name}
+                        className="inline-flex items-center gap-1.5 rounded-[var(--brand-radius-interactive)] bg-black/[0.03] border border-black/6 px-3 py-1.5 text-sm"
+                      >
+                        <span className="font-semibold text-black/80">
+                          {ingredient.name}
+                        </span>
+                        {ingredient.efsaAnchor && (
+                          <span className="text-black/30 text-xs">††</span>
+                        )}
+                      </span>
+                    ))}
+                  </div>
+
                   <p className="text-xs leading-relaxed text-black/60">
                     {pillar.studyObservation}
                   </p>

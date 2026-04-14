@@ -92,23 +92,23 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 4. PRODUCT SPLIT — AM vs PM ===== */}
+      {/* ===== 4. CONKA vs COFFEE — VALUE COMPARISON ===== */}
       <section
         className="brand-section brand-bg-tint"
-        aria-label="Flow and Clear explained"
-      >
-        <div className="brand-track">
-          <LandingProductSplit />
-        </div>
-      </section>
-
-      {/* ===== 5. CONKA vs COFFEE — VALUE COMPARISON ===== */}
-      <section
-        className="brand-section brand-bg-white"
         aria-label="CONKA vs coffee cost comparison"
       >
         <div className="brand-track">
           <LandingValueComparison />
+        </div>
+      </section>
+
+      {/* ===== 5. PRODUCT SPLIT — AM vs PM ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="Flow and Clear explained"
+      >
+        <div className="brand-track">
+          <LandingProductSplit />
         </div>
       </section>
 

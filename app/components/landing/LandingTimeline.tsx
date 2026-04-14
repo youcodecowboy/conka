@@ -30,17 +30,19 @@ const TIMELINE_STEPS: LandingTimelineStep[] = [
 export default function LandingTimeline() {
   return (
     <div>
-      {/* Header */}
-      <div className="mb-8">
-        <h2
-          className="brand-h1 mb-2"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-        >
-          Your Brain, Optimised.
-        </h2>
-        <p className="brand-caption text-black/50">
-          What to expect after 30 days
-        </p>
+      {/* Header — branded asset carrying the title + subtitle text.
+          Mobile: full natural square, no crop, no rounded corners.
+          Desktop: cropped 16:6 banner with rounded corners. */}
+      <h2 className="sr-only">Your Brain, Optimised. What to expect after 30 days.</h2>
+      <div className="relative mb-8 w-full overflow-hidden aspect-square lg:aspect-[16/6] lg:rounded-[var(--brand-radius-container)]">
+        <Image
+          src="/story/YourBrainOptimised.jpg"
+          alt="CONKA Flow and Clear bottles. Your Brain, Optimised. What to expect after 30 days."
+          fill
+          sizes="(max-width: 1024px) 100vw, 1280px"
+          className="object-contain object-center lg:object-cover"
+          priority={false}
+        />
       </div>
 
       {/* Desktop: two-column layout with image on right */}
