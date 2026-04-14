@@ -29,21 +29,24 @@ const TIMELINE_STEPS: LandingTimelineStep[] = [
 
 export default function LandingTimeline() {
   return (
-    <div>
+    /* -mt-20 on mobile cancels the brand-section mobile padding-top
+       (5rem = 80px) so the banner sits flush with the section top edge.
+       Desktop is untouched. */
+    <div className="-mt-20 md:mt-0">
       {/* Header — branded asset carrying the title + subtitle text.
-          Mobile (<768px): full-bleed natural square, no crop, no rounded
-          corners. Negative margin + width calc cancels the brand-section
-          gutter (var(--brand-gutter-mobile) = 1.25rem each side).
-          Tablet+ (md, 768px+): cropped 16:6 banner contained within the
-          section gutter, with rounded corners. */}
+          Mobile (<768px): full-bleed (negative margin cancels the
+          1.25rem brand-section gutter), aspect-[1/1.8] crops about 10%
+          off the bottom of the natural 1:2 asset, no rounded corners.
+          Tablet+ (md, 768px+): unchanged from prior behaviour — 16:6
+          banner contained within the gutter with rounded corners. */}
       <h2 className="sr-only">Your Brain, Optimised. What to expect after 30 days.</h2>
-      <div className="relative mb-8 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-square md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)]">
+      <div className="relative mb-8 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/1.8] md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)]">
         <Image
           src="/story/YourBrainOptimised.jpg"
           alt="CONKA Flow and Clear bottles. Your Brain, Optimised. What to expect after 30 days."
           fill
           sizes="100vw"
-          className="object-contain object-center md:object-cover"
+          className="object-cover object-top md:object-center"
           priority={false}
         />
       </div>
