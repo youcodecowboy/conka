@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { getSupplementFacts } from "@/app/lib/supplementFacts";
 
 interface IngredientsPanelProps {
@@ -19,7 +20,6 @@ export default function IngredientsPanel({
   product,
   onClose,
 }: IngredientsPanelProps) {
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const onCloseRef = useRef(onClose);
 
   // Keep onClose reference fresh without re-triggering the effect below.
@@ -29,9 +29,11 @@ export default function IngredientsPanel({
 
   useEffect(() => {
     if (!isOpen) return;
+    // Capture focus source without calling .focus() on the dialog — focusing
+    // inside a freshly-mounted fixed node triggers scrollIntoView on iOS Safari
+    // and jumps the viewport.
     const previouslyFocused = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onCloseRef.current();
@@ -41,16 +43,20 @@ export default function IngredientsPanel({
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKey);
-      previouslyFocused?.focus?.();
+      // Defer focus restoration one frame so it does not re-trigger
+      // scrollIntoView while the close animation unmounts the dialog.
+      requestAnimationFrame(() => previouslyFocused?.focus?.());
     };
   }, [isOpen]);
 
+  // Panel only opens on a user click inside a Client Component, so by this
+  // point we are always in the browser — no SSR guard needed.
   if (!isOpen || !product) return null;
 
   const facts = getSupplementFacts(product);
   const hasNutrients = facts.nutrients.length > 0;
 
-  return (
+  return createPortal(
     <>
       <div
         className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm transition-opacity"
@@ -64,7 +70,7 @@ export default function IngredientsPanel({
         role="dialog"
         aria-modal="true"
         aria-labelledby="ingredients-panel-title"
-        className="fixed z-[70] bg-white shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto bottom-0 left-0 right-0 rounded-t-[var(--brand-radius-card)] lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:right-auto lg:w-full lg:max-w-xl lg:rounded-[var(--brand-radius-card)]"
+        className="fixed z-[70] bg-white shadow-2xl animate-slide-up overflow-y-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-h-[85vh] rounded-[var(--brand-radius-card)] lg:w-full lg:max-w-xl"
       >
         {/* Sticky header */}
         <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-black/6 px-5 py-4 lg:px-6 flex items-center justify-between">
@@ -75,7 +81,6 @@ export default function IngredientsPanel({
             {PRODUCT_LABEL[product]}
           </h2>
           <button
-            ref={closeButtonRef}
             type="button"
             onClick={onClose}
             aria-label="Close"
@@ -160,6 +165,7 @@ export default function IngredientsPanel({
           )}
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 }
