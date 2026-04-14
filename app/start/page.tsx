@@ -15,10 +15,6 @@ const CaseStudiesDataDriven = dynamic(
   () => import("../components/CaseStudiesDataDriven"),
   { loading: () => <div className="h-[600px]" /> },
 );
-const LandingProductSplit = dynamic(
-  () => import("../components/landing/LandingProductSplit"),
-  { loading: () => <div className="h-[400px]" /> },
-);
 const LandingValueComparison = dynamic(
   () => import("../components/landing/LandingValueComparison"),
   { loading: () => <div className="h-[300px]" /> },
@@ -102,13 +98,15 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 5. PRODUCT SPLIT — AM vs PM ===== */}
+      {/* ===== 5. 100-DAY GUARANTEE ===== */}
       <section
         className="brand-section brand-bg-white"
-        aria-label="Flow and Clear explained"
+        aria-label="100-day risk-free guarantee"
       >
         <div className="brand-track">
-          <LandingProductSplit />
+          <Reveal>
+            <LandingGuarantee />
+          </Reveal>
         </div>
       </section>
 
@@ -127,21 +125,9 @@ export default function StartPage() {
       {/* ===== 7. TESTIMONIALS ===== */}
       <TestimonialsSection />
 
-      {/* ===== 8. 100-DAY GUARANTEE ===== */}
+      {/* ===== 8. FAQ ===== */}
       <section
         className="brand-section brand-bg-tint"
-        aria-label="100-day risk-free guarantee"
-      >
-        <div className="brand-track">
-          <Reveal>
-            <LandingGuarantee />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ===== 9. FAQ ===== */}
-      <section
-        className="brand-section brand-bg-white"
         aria-label="FAQ"
       >
         <div className="brand-track">
@@ -149,9 +135,9 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 10. DISCLAIMER ===== */}
+      {/* ===== 9. DISCLAIMER ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="Important information and disclaimers"
       >
         <div className="brand-track">
