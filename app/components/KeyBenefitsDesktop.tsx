@@ -155,10 +155,13 @@ export default function KeyBenefitsDesktop({
     <div>
       {/* Heading block */}
       <div className="mb-10">
-        <h2 className="brand-h2 mb-0 text-black">
+        <h2
+          className="brand-h1 mb-6 text-black"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
           What you&apos;ll actually feel.
         </h2>
-        <p className="brand-body mt-2 text-black/60">
+        <p className="brand-body text-black/60">
           Select a benefit to see the evidence behind it.
         </p>
       </div>

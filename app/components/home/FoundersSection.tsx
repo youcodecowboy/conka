@@ -11,10 +11,13 @@ export default function FoundersSection() {
           <p className="brand-caption uppercase tracking-widest text-black/60 mb-4">
             Our Story
           </p>
-          <h2 className="brand-h2 mb-0 text-black">
+          <h2
+            className="brand-h1 mb-6 text-black"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
             Built from a brain injury. Backed by £500,000 of research.
           </h2>
-          <p className="brand-body mt-2 text-black/80 leading-relaxed">
+          <p className="brand-body text-black/80 leading-relaxed">
             After a trip to the Olympics and a career-ending concussion, two
             athletes set out to solve a problem nobody was talking about:
             recovery for the brain. CONKA is the result — two formulas, years

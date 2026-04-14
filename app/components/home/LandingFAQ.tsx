@@ -75,10 +75,13 @@ export default function LandingFAQ() {
           {/* Right: heading + accordion */}
           <div>
             <div className="mb-10">
-              <h2 className="brand-h2 mb-0 text-black">
+              <h2
+                className="brand-h1 mb-6 text-black"
+                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+              >
                 Questions?
               </h2>
-              <p className="brand-body mt-2 text-black/60">
+              <p className="brand-body text-black/60">
                 We&apos;re here to help
               </p>
             </div>
@@ -163,10 +166,13 @@ export default function LandingFAQ() {
         </div>
         <div className="py-6">
           <div className="mb-10">
-            <h2 className="brand-h2 mb-0 text-black text-2xl">
+            <h2
+              className="brand-h1 mb-6 text-black"
+              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            >
               Questions?
             </h2>
-            <p className="brand-body mt-2 text-black/60">
+            <p className="brand-body text-black/60">
               We&apos;re here to help
             </p>
           </div>

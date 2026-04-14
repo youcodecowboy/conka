@@ -20,10 +20,13 @@ export default function WhyConkaWorksDesktop() {
   return (
     <>
       <div className="mb-10">
-        <h2 className="brand-h2 mb-0 text-black">
+        <h2
+          className="brand-h1 mb-6 text-black"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
           Certified for Performance.
         </h2>
-        <p className="brand-body mt-2 text-black/60">
+        <p className="brand-body text-black/60">
           Every formula is third-party tested, university-trialled, and
           manufactured to the highest standards.
         </p>
@@ -58,8 +61,8 @@ export default function WhyConkaWorksDesktop() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Pillar 1 */}
-        <div className="brand-card-bordered border-t-4 border-t-[#3a9f7e] p-6 md:p-8 flex flex-col md:min-h-[400px]">
-          <div className="mb-6 h-24 md:h-32 flex items-center justify-center rounded-2xl bg-[var(--brand-tint)] p-8">
+        <div className="brand-card-bordered bg-[var(--brand-tint)] border-t-4 border-t-[#3a9f7e] p-6 md:p-8 flex flex-col md:min-h-[400px]">
+          <div className="mb-6 h-24 md:h-32 flex items-center justify-center rounded-2xl bg-white border border-[var(--brand-divider-subtle)] p-8">
             <Image
               src="/logos/InformedSportLogo.png"
               alt="Informed Sport certified"
@@ -106,8 +109,8 @@ export default function WhyConkaWorksDesktop() {
         </div>
 
         {/* Pillar 2 */}
-        <div className="brand-card-bordered p-6 md:p-8 flex flex-col md:min-h-[400px]">
-          <div className="mb-6 flex flex-col items-center justify-center gap-3 rounded-2xl bg-[var(--brand-tint)] p-6">
+        <div className="brand-card-bordered bg-[var(--brand-tint)] p-6 md:p-8 flex flex-col md:min-h-[400px]">
+          <div className="mb-6 flex flex-col items-center justify-center gap-3 rounded-2xl bg-white border border-[var(--brand-divider-subtle)] p-6">
             <div className="h-12 w-36 overflow-hidden flex items-center justify-center rounded-lg [&>img]:object-cover [&>img]:object-center">
               <Image
                 src="/logos/UniversityOfDurham.png"
@@ -157,8 +160,8 @@ export default function WhyConkaWorksDesktop() {
         </div>
 
         {/* Pillar 3 */}
-        <div className="brand-card-bordered p-6 md:p-8 flex flex-col md:min-h-[400px]">
-          <div className="mb-6 h-24 md:h-32 flex items-center justify-center rounded-2xl bg-[var(--brand-tint)] p-8">
+        <div className="brand-card-bordered bg-[var(--brand-tint)] p-6 md:p-8 flex flex-col md:min-h-[400px]">
+          <div className="mb-6 h-24 md:h-32 flex items-center justify-center rounded-2xl bg-white border border-[var(--brand-divider-subtle)] p-8">
             <Image
               src="/logos/MadeInBritain.png"
               alt="Made in Britain"

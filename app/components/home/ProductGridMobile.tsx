@@ -80,10 +80,15 @@ export default function ProductGridMobile(props?: ProductGridProps) {
 
   return (
     <>
-      <div className="text-left mb-8 px-4">
-        <h2 className="brand-h2 mb-0 mb-3">{copy.title}</h2>
+      <div className="mb-10 px-4">
+        <h2
+          className="brand-h1 mb-6"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
+          {copy.title}
+        </h2>
         {copy.subtitleNode && (
-          <p className="premium-body text-[var(--text-on-light-muted)] max-w-xl">
+          <p className="brand-body text-black/60 max-w-xl">
             {copy.subtitleNode}
           </p>
         )}

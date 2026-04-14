@@ -24,10 +24,13 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
     <div className="[animation:none] [&_*]:!animate-none">
       {/* 1. Section header */}
       <div className="mb-10">
-        <h2 className="brand-h2 mb-0">
+        <h2
+          className="brand-h1 mb-6"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
           What to Expect with CONKA
         </h2>
-        <p className="brand-body mt-2 text-black/60">
+        <p className="brand-body text-black/60">
           Real benefits that build over time, not overnight promises.
         </p>
       </div>

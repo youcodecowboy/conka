@@ -39,10 +39,13 @@ export default function WhyConkaWorksMobile() {
   return (
     <>
       <div className="mb-10">
-        <h2 className="brand-h2 mb-0 text-black text-2xl">
+        <h2
+          className="brand-h1 mb-6 text-black"
+          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        >
           Certified for Performance.
         </h2>
-        <p className="brand-body text-black/60 text-sm mt-2">
+        <p className="brand-body text-black/60 text-sm">
           Every formula is third-party tested, university-trialled, and
           manufactured to the highest standards.
         </p>
@@ -77,8 +80,8 @@ export default function WhyConkaWorksMobile() {
 
       <div className="flex flex-col gap-3">
         {/* Pillar 1 */}
-        <div className="brand-card-bordered border-t-4 border-t-[#3a9f7e] flex flex-col items-center">
-          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-[var(--brand-tint)] flex-shrink-0">
+        <div className="brand-card-bordered bg-[var(--brand-tint)] border-t-4 border-t-[#3a9f7e] flex flex-col items-center">
+          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-white border border-[var(--brand-divider-subtle)] flex-shrink-0">
             <Image
               src="/logos/InformedSportLogo.png"
               alt="Informed Sport certified"
@@ -139,7 +142,7 @@ export default function WhyConkaWorksMobile() {
         </div>
 
         {/* Pillar 2 */}
-        <div className="brand-card-bordered flex flex-col items-center">
+        <div className="brand-card-bordered bg-[var(--brand-tint)] flex flex-col items-center">
           <div className="mb-3 flex flex-col items-center justify-center gap-2 rounded-xl bg-[var(--brand-tint)] p-3 flex-shrink-0">
             <div className="h-10 w-28 overflow-hidden flex items-center justify-center rounded-lg [&>img]:object-cover [&>img]:object-center">
               <Image
@@ -205,8 +208,8 @@ export default function WhyConkaWorksMobile() {
         </div>
 
         {/* Pillar 3 */}
-        <div className="brand-card-bordered flex flex-col items-center">
-          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-[var(--brand-tint)] flex-shrink-0">
+        <div className="brand-card-bordered bg-[var(--brand-tint)] flex flex-col items-center">
+          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-white border border-[var(--brand-divider-subtle)] flex-shrink-0">
             <Image
               src="/logos/MadeInBritain.png"
               alt="Made in Britain"
