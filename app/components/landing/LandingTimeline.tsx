@@ -55,7 +55,7 @@ export default function LandingTimeline() {
 
       {/* Mobile + tablet banner — hidden on desktop where the title above
           + lifestyle sidebar below take over. */}
-      <div className="relative mb-2 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/2] md:mb-8 md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)] lg:hidden">
+      <div className="relative mb-2 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/1.9] md:mb-8 md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)] lg:hidden">
         <Image
           src="/story/YourBrainOptimised.jpg"
           alt="CONKA Flow and Clear bottles. Your Brain, Optimised. What to expect after 30 days."
