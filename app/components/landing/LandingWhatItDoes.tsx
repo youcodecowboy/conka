@@ -91,23 +91,26 @@ export default function LandingWhatItDoes() {
 
   return (
     <div>
-      {/* Header */}
-      <div className="mb-8">
-        <h2
-          className="brand-h1 mb-2"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-        >
-          Daily habit. Lifelong benefits.
-        </h2>
-        <p className="brand-caption text-black/50">
-          Two daily brain shots. 16 active ingredients. One system.
-        </p>
-      </div>
+      {/* Title 1 — frames the products */}
+      <h2
+        className="brand-h1 mb-6"
+        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+      >
+        Two shots. 16 active ingredients.
+      </h2>
 
-      {/* Bottle visuals — frames the two products before the pillars */}
-      <div className="mb-8">
+      {/* Bottle visuals */}
+      <div className="mb-12">
         <WhatsInsideProductMini />
       </div>
+
+      {/* Title 2 — frames the benefit pillars */}
+      <h2
+        className="brand-h1 mb-6"
+        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+      >
+        Daily habit. Lifelong benefits.
+      </h2>
 
       {/* Pillar tile grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5">
