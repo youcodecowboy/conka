@@ -40,20 +40,35 @@ export default function LandingTimeline() {
           corners.
           Tablet+ (md, 768px+): unchanged — 16:6 banner contained
           within the gutter with rounded corners. */}
+      {/* Mobile + tablet: top banner. Desktop (lg+): hidden — the asset
+          renders as a tall left sidebar inside the two-column block below. */}
       <h2 className="sr-only">Your Brain, Optimised. What to expect after 30 days.</h2>
-      <div className="relative mb-2 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/2] md:mb-8 md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)]">
+      <div className="relative mb-2 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/2] md:mb-8 md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)] lg:hidden">
         <Image
           src="/story/YourBrainOptimised.jpg"
           alt="CONKA Flow and Clear bottles. Your Brain, Optimised. What to expect after 30 days."
           fill
-          sizes="100vw"
+          sizes="(max-width: 1024px) 100vw, 0px"
           className="object-cover object-top md:object-center"
           priority={false}
         />
       </div>
 
-      {/* Desktop: two-column layout with image on right */}
+      {/* Desktop: two-column layout — branded asset on left, cards on right */}
       <div className="lg:flex lg:gap-10 lg:items-start">
+        {/* Branded asset — desktop only, left sidebar, full natural 1:2 aspect, sticky */}
+        <div className="hidden lg:block lg:w-[420px] lg:flex-shrink-0 lg:sticky lg:top-24">
+          <div className="relative aspect-[1/2] rounded-[var(--brand-radius-card)] overflow-hidden bg-white">
+            <Image
+              src="/story/YourBrainOptimised.jpg"
+              alt="CONKA bottle. Your Brain, Optimised. What to expect after 30 days."
+              fill
+              sizes="420px"
+              className="object-contain"
+            />
+          </div>
+        </div>
+
         {/* Timeline cards */}
         <div className="flex flex-col gap-4 lg:gap-5 lg:flex-1">
           {TIMELINE_STEPS.map((step, i) => (
@@ -74,19 +89,6 @@ export default function LandingTimeline() {
               </p>
             </div>
           ))}
-        </div>
-
-        {/* Lifestyle image -- desktop only */}
-        <div className="hidden lg:block lg:w-[450px] lg:flex-shrink-0 lg:sticky lg:top-24">
-          <div className="relative aspect-square rounded-[var(--brand-radius-card)] overflow-hidden">
-            <Image
-              src="/lifestyle/SatWoman.jpg"
-              alt="Woman holding CONKA Flow and Clear brain shots"
-              fill
-              sizes="450px"
-              className="object-cover"
-            />
-          </div>
         </div>
       </div>
 
