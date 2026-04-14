@@ -6,6 +6,30 @@
 
 ## April 2026
 
+### 2026-04-14 -- Landing page Phase E + iteration: merged WhatItDoes, 100-day guarantee, branded timeline, ProductSplit dropped (SCRUM-877)
+Three structural fixes shipped as one PR, plus a heavy iteration pass after the first cut.
+
+**Phase E core (SCRUM-877):**
+
+- **Merged `LandingWhatItDoes` + `LandingWhatsInside`.** The two sections covered the same 3 functional pillars twice — once as generic benefits, once as ingredient evidence. Merged into one component: each tile now carries the WhatItDoes heading + body and slots WhatsInside's ingredient pills + tap-to-reveal study observation + PMID beneath it. `LandingWhatsInside.tsx` and `IngredientAccordion.tsx` deleted (consumed only by the deleted WhatsInside). All `††` EFSA anchors and `¶` observational phrasing ported across without regression. Component became a Client Component for the per-tile expand state. After iteration, ingredient pills moved into the reveal panel (default-collapsed) so collapsed cards show only icon + heading + body + trigger — much lower cognitive load.
+- **Resurrected `LandingGuarantee` as a dedicated 100-day section.** Previously dead code. Now wired between Timeline and FAQ with Magic Mind copy adapted to CONKA voice: title "100-Day Risk Free Trial", four-bullet refund mechanic (Free UK shipping, Money back guarantee, No return required, Nothing to lose), CTA "Try it 100% Risk Free Now". `GUARANTEE_DAYS` constant templated throughout (no hardcoded "100"). Phone mockup retained as visual proof — the cognitive score is the receipt that the guarantee is meaningful. Mounted via `next/dynamic`.
+- **Branded timeline header asset.** `LandingTimeline` text title swapped for `/story/YourBrainOptimised.jpg` (1125x2250 portrait). Mobile renders full-bleed, edge-to-edge — negative margin + `calc()` width cancels the brand-section mobile gutter, `-mt-20` on the component root cancels the section's mobile padding-top so the asset sits flush with the section start, `aspect-[1/1.9]` trims ~5% off the bottom whitespace. Tablet (md+) keeps a contained 16:6 cropped banner with rounded corners. Desktop (lg+) hides the banner entirely and shows the original "Your Brain, Optimised." h2 + subtitle text with SatWoman.jpg lifestyle image as the right-side sticky sidebar (sr-only h2 on mobile/tablet so the asset image doesn't double up the heading).
+- **`AmPmConnector` shared component.** Morning ↔ Afternoon connector strip extracted from inline `LandingProductSplit` markup into a reusable component. Used in both `LandingProductSplit` and the merged `LandingWhatItDoes` (above the bottle tiles).
+- **`WhatsInsideProductMini` polish.** Bottle tile backgrounds flipped to white (was `bg-black/[0.02]`). Bottle image rendering aligned with `LandingProductSplit` — same `w-20 h-44 lg:w-32 lg:h-64` container + `scale-150` (was `scale-200` on a smaller container which upsampled visibly). Time badges made explicit ("Take in the morning" / "Take in the afternoon" instead of bare "Morning"/"Afternoon"). Ingredient-list line ("Lemon Balm · Ashwagandha · +4 more...") replaced with benefit-led summary sentences ("Calm focus without caffeine." / "Afternoon clarity ritual.") — observational phrasing, no new claim surface.
+
+**Section composition iteration (heavier than originally scoped):**
+
+- **Removed `LandingProductSplit` from `/start`.** Component file kept on disk in case it returns. Section count drops 10 → 9.
+- **Reorder.** `vs Coffee` ↔ `ProductSplit` swap (before ProductSplit was dropped). After ProductSplit removal: `Testimonials` moved up into its slot. Then `Testimonials` ↔ `Guarantee` swapped, putting the guarantee earlier in the page where risk reversal can do more work. Cascade-flipped backgrounds for sections 7-9 so white/tint alternation holds end-to-end with no adjacent same-bg breaks.
+- **Final flow (9 sections):** Hero (white) → WhatItDoes merged (tint) → Case Studies (white) → vs Coffee (tint) → 100-Day Guarantee (white) → Timeline (tint) → Testimonials (white) → FAQ (tint) → Disclaimer (white).
+- **Landing testimonial headlines overridden.** Loox-imported headlines are the customer's own opening sentence, often long, repetitive, or mid-thought. On the landing carousel, overridden via a name-keyed map in `TestimonialsSection.tsx` to short, varied summary titles ("Sharper training, no crash", "Words just flow", "An edge on the pitch", etc.). Body copy unchanged. Source data untouched.
+
+**Why:** Two of the original 10 sections were duplicative (WhatItDoes/WhatsInside) and the 100-day guarantee — a category-leading differentiator — was buried in trust badges and footnotes. Magic Mind landing page was the reference. Iterative tightening through the build dropped ProductSplit, reordered around the guarantee, and gave the timeline a branded full-bleed header.
+**Plan:** `docs/development/featurePlans/landing-and-funnel-page.md` (Phase E, marked Done)
+**Claims log:** entries 55-64
+**Ticket:** SCRUM-877
+**Branch:** `feature/landing-merge-whatItDoes-guarantee`
+
 ### 2026-04-13 -- Landing page Phase D: product education polish + Ingredients modal
 Three connected pieces on `/start` shipped as one Phase D.
 
