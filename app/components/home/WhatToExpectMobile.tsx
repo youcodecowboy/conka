@@ -22,12 +22,12 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
 
   return (
     <div className="[animation:none] [&_*]:!animate-none">
-      {/* 1. Section header — text-left, premium spacing */}
-      <div className="mb-8">
-        <h2 className="brand-h2 mb-0 mb-3 text-left">
+      {/* 1. Section header */}
+      <div className="mb-10">
+        <h2 className="brand-h2 mb-0">
           What to Expect with CONKA
         </h2>
-        <p className="brand-body text-black/60 text-left">
+        <p className="brand-body mt-2 text-black/60">
           Real benefits that build over time, not overnight promises.
         </p>
       </div>
@@ -193,7 +193,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
                 href={
                   selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"
                 }
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] font-semibold text-sm bg-black text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] font-semibold text-sm bg-[var(--brand-accent)] text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-accent)]"
               >
                 {selectedFormula === "01"
                   ? "View CONKA Flow"

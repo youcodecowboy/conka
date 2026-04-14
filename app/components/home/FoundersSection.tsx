@@ -7,26 +7,25 @@ export default function FoundersSection() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       {/* Left: Copy */}
       <div>
-        <p className="brand-caption uppercase tracking-widest text-black/60 mb-4">
-          Our Story
-        </p>
-        <h2
-          className="brand-h2 mb-0 text-black mb-6"
-          style={{ letterSpacing: "-0.01em" }}
-        >
-          Built from a brain injury. Backed by £500,000 of research.
-        </h2>
-        <p className="brand-body text-black/80 leading-relaxed mb-8">
-          After a trip to the Olympics and a career-ending concussion, two
-          athletes set out to solve a problem nobody was talking about:
-          recovery for the brain. CONKA is the result — two formulas, years
-          of research, and a belief that your brain deserves better than
-          caffeine and hope.
-        </p>
+        <div className="mb-10">
+          <p className="brand-caption uppercase tracking-widest text-black/60 mb-4">
+            Our Story
+          </p>
+          <h2 className="brand-h2 mb-0 text-black">
+            Built from a brain injury. Backed by £500,000 of research.
+          </h2>
+          <p className="brand-body mt-2 text-black/80 leading-relaxed">
+            After a trip to the Olympics and a career-ending concussion, two
+            athletes set out to solve a problem nobody was talking about:
+            recovery for the brain. CONKA is the result — two formulas, years
+            of research, and a belief that your brain deserves better than
+            caffeine and hope.
+          </p>
+        </div>
 
         <a
           href="/our-story"
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[var(--brand-radius-interactive)] font-semibold text-base border border-black text-black hover:bg-black hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[var(--brand-radius-interactive)] font-semibold text-base border border-[var(--brand-accent)] text-[var(--brand-accent)] hover:bg-[var(--brand-accent)] hover:text-white transition-colors"
         >
           Read Our Story
           <svg

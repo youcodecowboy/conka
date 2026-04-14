@@ -19,11 +19,11 @@ const CheckIcon = () => (
 export default function WhyConkaWorksDesktop() {
   return (
     <>
-      <div className="text-center mb-8 md:mb-12">
+      <div className="mb-10">
         <h2 className="brand-h2 mb-0 text-black">
           Certified for Performance.
         </h2>
-        <p className="brand-body text-black/80">
+        <p className="brand-body mt-2 text-black/60">
           Every formula is third-party tested, university-trialled, and
           manufactured to the highest standards.
         </p>

@@ -38,11 +38,11 @@ export default function WhyConkaWorksMobile() {
 
   return (
     <>
-      <div className="text-center mb-6">
+      <div className="mb-10">
         <h2 className="brand-h2 mb-0 text-black text-2xl">
           Certified for Performance.
         </h2>
-        <p className="brand-body text-black/80 text-sm mt-2">
+        <p className="brand-body text-black/60 text-sm mt-2">
           Every formula is third-party tested, university-trialled, and
           manufactured to the highest standards.
         </p>

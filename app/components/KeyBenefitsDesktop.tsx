@@ -154,14 +154,11 @@ export default function KeyBenefitsDesktop({
   return (
     <div>
       {/* Heading block */}
-      <div className="text-right mb-10">
-        <h2
-          className="brand-h2 mb-0 text-black"
-          style={{ letterSpacing: "-0.01em" }}
-        >
-          What you'll actually feel.
+      <div className="mb-10">
+        <h2 className="brand-h2 mb-0 text-black">
+          What you&apos;ll actually feel.
         </h2>
-        <p className="brand-body mt-2 text-black">
+        <p className="brand-body mt-2 text-black/60">
           Select a benefit to see the evidence behind it.
         </p>
       </div>
@@ -171,9 +168,9 @@ export default function KeyBenefitsDesktop({
         {/* Left: Benefit List (sticky on desktop) */}
         <div className="lg:sticky lg:top-8">
           <div
-            className="rounded-[40px] overflow-hidden"
+            className="rounded-[var(--brand-radius-card)] overflow-hidden"
             style={{
-              border: "1px solid rgba(0,0,0,0.06)",
+              border: "1px solid var(--brand-divider-subtle)",
               background: "white"
             }}
           >
@@ -189,11 +186,11 @@ export default function KeyBenefitsDesktop({
                     onClick={() => handleSelect(idx)}
                     onKeyDown={(e) => handleKeyDown(e, idx)}
                     className={`
-                      flex items-center gap-3 px-4 py-3.5 rounded-[20px] cursor-pointer 
+                      flex items-center gap-3 px-4 py-3.5 rounded-[var(--brand-radius-interactive)] cursor-pointer
                       transition-all duration-200 w-full text-left
                       ${isActive
                         ? "bg-black text-white"
-                        : "bg-white border border-[rgba(0,0,0,0.06)] hover:bg-[var(--brand-tint)]"
+                        : "bg-white border border-[var(--brand-divider-subtle)] hover:bg-[var(--brand-tint)]"
                       }
                     `}
                   >
@@ -242,8 +239,8 @@ export default function KeyBenefitsDesktop({
           {/* Ingredient asset card — updates with active benefit */}
           <div
             key={`ingredient-${activeBenefit}`}
-            className="mt-4 rounded-[24px] overflow-hidden [animation:fadeIn_0.3s_ease]"
-            style={{ border: "1px solid rgba(0,0,0,0.06)" }}
+            className="mt-4 rounded-[var(--brand-radius-container)] overflow-hidden [animation:fadeIn_0.3s_ease]"
+            style={{ border: "1px solid var(--brand-divider-subtle)" }}
           >
             {/* Square image */}
             <div className="relative w-full aspect-[2/1] bg-[var(--brand-tint)]">
@@ -299,10 +296,10 @@ export default function KeyBenefitsDesktop({
                 {parsedResults.stats.map((stat, idx) => (
                   <div
                     key={idx}
-                    className="rounded-[20px] p-4"
+                    className="rounded-[var(--brand-radius-container)] p-4"
                     style={{
                       background: "var(--brand-tint)",
-                      border: "1px solid rgba(0,0,0,0.06)",
+                      border: "1px solid var(--brand-divider-subtle)",
                     }}
                   >
                     <p
@@ -320,7 +317,7 @@ export default function KeyBenefitsDesktop({
             )}
 
             {/* 5. Radar chart — keep as-is, add explainer line above */}
-            <div className="brand-card p-6 rounded-[20px] mb-6" aria-hidden="true">
+            <div className="brand-card p-6 rounded-[var(--brand-radius-container)] mb-6" aria-hidden="true">
               <p className="brand-caption text-black/60 uppercase tracking-wider mb-1">
                 Performance impact
               </p>
@@ -339,15 +336,15 @@ export default function KeyBenefitsDesktop({
             {/* 6. Clinical breakdown — keep entirely as-is */}
             {currentBenefit.clinicalBreakdown && (
               <div
-                className="rounded-[20px] overflow-hidden mb-2"
-                style={{ border: "1px solid rgba(0,0,0,0.06)" }}
+                className="rounded-[var(--brand-radius-container)] overflow-hidden mb-2"
+                style={{ border: "1px solid var(--brand-divider-subtle)" }}
               >
                 {/* Header row */}
                 <div
                   className="px-5 py-3 space-y-1"
                   style={{
                     background: "var(--brand-tint)",
-                    borderBottom: "1px solid rgba(0,0,0,0.06)",
+                    borderBottom: "1px solid var(--brand-divider-subtle)",
                   }}
                 >
                   <div className="flex items-center justify-between">
