@@ -40,14 +40,14 @@ export default function WhatsInsideProductMini() {
             />
           </div>
           <span
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[var(--brand-radius-interactive)] text-[11px] lg:text-xs font-semibold mb-2"
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[var(--brand-radius-interactive)] text-[11px] lg:text-xs font-semibold mb-2 text-center"
             style={{ backgroundColor: "rgba(245, 158, 11, 0.1)", color: "rgb(180, 83, 9)" }}
           >
-            ☀️ Morning
+            ☀️ Take in the morning
           </span>
           <p className="text-sm lg:text-base font-semibold text-black">CONKA Flow</p>
-          <p className="text-[11px] lg:text-xs text-black/40 mt-1 mb-3">
-            Lemon Balm · Ashwagandha · +4 more ingredients
+          <p className="text-[11px] lg:text-xs text-black/60 mt-1 mb-3 max-w-[18ch]">
+            Calm focus without caffeine.
           </p>
           <IngredientsButton
             product="flow"
@@ -69,14 +69,14 @@ export default function WhatsInsideProductMini() {
             />
           </div>
           <span
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[var(--brand-radius-interactive)] text-[11px] lg:text-xs font-semibold mb-2"
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[var(--brand-radius-interactive)] text-[11px] lg:text-xs font-semibold mb-2 text-center"
             style={{ backgroundColor: "rgba(14, 165, 233, 0.1)", color: "rgb(3, 105, 161)" }}
           >
-            ☀️ Afternoon
+            ☀️ Take in the afternoon
           </span>
           <p className="text-sm lg:text-base font-semibold text-black">CONKA Clear</p>
-          <p className="text-[11px] lg:text-xs text-black/40 mt-1 mb-3">
-            Glutathione · Alpha GPC · +8 more ingredients
+          <p className="text-[11px] lg:text-xs text-black/60 mt-1 mb-3 max-w-[18ch]">
+            Afternoon clarity ritual.
           </p>
           <IngredientsButton
             product="clear"

@@ -10,6 +10,7 @@ import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 import LandingCTA from "./LandingCTA";
 import LandingTrustBadges from "./LandingTrustBadges";
 import WhatsInsideProductMini from "./WhatsInsideProductMini";
+import AmPmConnector from "./AmPmConnector";
 
 interface Ingredient {
   name: string;
@@ -98,6 +99,9 @@ export default function LandingWhatItDoes() {
       >
         Two shots. 16 active ingredients.
       </h2>
+
+      {/* AM/PM connector strip above the bottle tiles */}
+      <AmPmConnector />
 
       {/* Bottle visuals */}
       <div className="mb-12">
