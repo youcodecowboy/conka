@@ -1,3 +1,6 @@
+// TODO: Orphaned as of 2026-04-14 (SCRUM-877) — no longer mounted on /start.
+// Kept on disk in case the AM/PM product split returns. Safe to delete if
+// not revived within the next phase or two.
 "use client";
 
 import { useState } from "react";
