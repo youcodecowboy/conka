@@ -29,21 +29,44 @@ const TIMELINE_STEPS: LandingTimelineStep[] = [
 
 export default function LandingTimeline() {
   return (
-    <div>
-      {/* Header */}
-      <div className="mb-8">
-        <h2
-          className="brand-h1 mb-2"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-        >
-          Your Brain, Optimised.
-        </h2>
-        <p className="brand-caption text-black/50">
-          What to expect after 30 days
-        </p>
+    /* -mt-20 on mobile cancels the brand-section mobile padding-top
+       (5rem = 80px) so the banner sits flush with the section top edge.
+       Desktop is untouched. */
+    <div className="-mt-20 md:mt-0">
+      {/* Header — branded asset carrying the title + subtitle text.
+          Mobile (<768px): full-bleed (negative margin cancels the
+          1.25rem brand-section gutter), aspect-[1/2] matches the
+          natural asset dimensions (1125x2250) so no crop, no rounded
+          corners.
+          Tablet+ (md, 768px+): unchanged — 16:6 banner contained
+          within the gutter with rounded corners. */}
+      {/* Section title — sr-only on mobile/tablet (the banner asset
+          carries the visual title), visible on desktop where the
+          banner is hidden. */}
+      <h2
+        className="sr-only lg:not-sr-only brand-h1 lg:mb-2"
+        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+      >
+        Your Brain, Optimised.
+      </h2>
+      <p className="hidden lg:block brand-caption text-black/50 mb-8">
+        What to expect after 30 days
+      </p>
+
+      {/* Mobile + tablet banner — hidden on desktop where the title above
+          + lifestyle sidebar below take over. */}
+      <div className="relative mb-2 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/1.9] md:mb-8 md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)] lg:hidden">
+        <Image
+          src="/story/YourBrainOptimised.jpg"
+          alt="CONKA Flow and Clear bottles. Your Brain, Optimised. What to expect after 30 days."
+          fill
+          sizes="(max-width: 1024px) 100vw, 0px"
+          className="object-cover object-top md:object-center"
+          priority={false}
+        />
       </div>
 
-      {/* Desktop: two-column layout with image on right */}
+      {/* Desktop two-column layout — cards on left, lifestyle image on right */}
       <div className="lg:flex lg:gap-10 lg:items-start">
         {/* Timeline cards */}
         <div className="flex flex-col gap-4 lg:gap-5 lg:flex-1">
@@ -67,7 +90,7 @@ export default function LandingTimeline() {
           ))}
         </div>
 
-        {/* Lifestyle image -- desktop only */}
+        {/* Lifestyle image — desktop only, right sidebar, sticky */}
         <div className="hidden lg:block lg:w-[450px] lg:flex-shrink-0 lg:sticky lg:top-24">
           <div className="relative aspect-square rounded-[var(--brand-radius-card)] overflow-hidden">
             <Image

@@ -15,20 +15,16 @@ const CaseStudiesDataDriven = dynamic(
   () => import("../components/CaseStudiesDataDriven"),
   { loading: () => <div className="h-[600px]" /> },
 );
-const LandingProductSplit = dynamic(
-  () => import("../components/landing/LandingProductSplit"),
-  { loading: () => <div className="h-[400px]" /> },
-);
 const LandingValueComparison = dynamic(
   () => import("../components/landing/LandingValueComparison"),
   { loading: () => <div className="h-[300px]" /> },
 );
-const LandingWhatsInside = dynamic(
-  () => import("../components/landing/LandingWhatsInside"),
-  { loading: () => <div className="h-[400px]" /> },
-);
 const LandingTimeline = dynamic(
   () => import("../components/landing/LandingTimeline"),
+  { loading: () => <div className="h-[500px]" /> },
+);
+const LandingGuarantee = dynamic(
+  () => import("../components/landing/LandingGuarantee"),
   { loading: () => <div className="h-[500px]" /> },
 );
 const LandingFAQ = dynamic(
@@ -65,10 +61,10 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 2. WHAT CONKA DOES ===== */}
+      {/* ===== 2. WHAT CONKA DOES + WHAT'S INSIDE (merged) ===== */}
       <section
         className="brand-section brand-bg-tint"
-        aria-label="What CONKA does"
+        aria-label="What CONKA does and what's inside"
       >
         <div className="brand-track">
           <Reveal>
@@ -77,19 +73,9 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 3. WHAT'S INSIDE — INGREDIENT EDUCATION ===== */}
+      {/* ===== 3. ATHLETE PROOF / CASE STUDIES ===== */}
       <section
         className="brand-section brand-bg-white"
-        aria-label="What's inside CONKA"
-      >
-        <div className="brand-track">
-          <LandingWhatsInside />
-        </div>
-      </section>
-
-      {/* ===== 4. ATHLETE PROOF / CASE STUDIES ===== */}
-      <section
-        className="brand-section brand-bg-tint"
         aria-label="Clinically validated test scores"
       >
         <div className="brand-track">
@@ -102,17 +88,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 5. PRODUCT SPLIT — AM vs PM ===== */}
-      <section
-        className="brand-section brand-bg-white"
-        aria-label="Flow and Clear explained"
-      >
-        <div className="brand-track">
-          <LandingProductSplit />
-        </div>
-      </section>
-
-      {/* ===== 6. CONKA vs COFFEE — VALUE COMPARISON ===== */}
+      {/* ===== 4. CONKA vs COFFEE — VALUE COMPARISON ===== */}
       <section
         className="brand-section brand-bg-tint"
         aria-label="CONKA vs coffee cost comparison"
@@ -122,9 +98,21 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 7. WHAT TO EXPECT TIMELINE ===== */}
+      {/* ===== 5. 100-DAY GUARANTEE ===== */}
       <section
         className="brand-section brand-bg-white"
+        aria-label="100-day risk-free guarantee"
+      >
+        <div className="brand-track">
+          <Reveal>
+            <LandingGuarantee />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== 6. WHAT TO EXPECT TIMELINE ===== */}
+      <section
+        className="brand-section brand-bg-tint"
         aria-label="What to expect timeline"
       >
         <div className="brand-track">
@@ -134,12 +122,12 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 8. TESTIMONIALS ===== */}
+      {/* ===== 7. TESTIMONIALS ===== */}
       <TestimonialsSection />
 
-      {/* ===== 9. FAQ ===== */}
+      {/* ===== 8. FAQ ===== */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-tint"
         aria-label="FAQ"
       >
         <div className="brand-track">
@@ -147,9 +135,9 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 10. DISCLAIMER ===== */}
+      {/* ===== 9. DISCLAIMER ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="Important information and disclaimers"
       >
         <div className="brand-track">

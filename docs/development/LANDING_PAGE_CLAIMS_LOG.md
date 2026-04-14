@@ -1,6 +1,6 @@
 # Landing Page Claims Compliance Log
 
-> **Last updated:** 2026-04-13
+> **Last updated:** 2026-04-14
 > **Context:** Marketing/compliance review identified non-compliant health claims on `/start` landing page. Changes required under UK/EU food supplement regulations (EFSA 1924/2006, FIC 1169/2011).
 > **Scope:** Landing page (`/start`) + shared components used on landing page. This log feeds into main site updates later.
 >
@@ -144,6 +144,23 @@ Approach: Keep benefit titles (conversion value) but move ingredient names + dos
 |---|----------|----------|--------|--------|--------|
 | 53 | Tile label: `Change in test score` (for Total Score metric) | `Cognitive function` (Total Score), `Cognitive speed` (Speed), `Cognitive accuracy` (Accuracy) | Labels describe what the Cognetivity CognICA test measures, not a product-driven claim. Total Score as a proxy for cognitive function is peer-reviewed (Modarres et al., Front Aging Neurosci 2023, doi:10.3389/fnagi.2023.1243316) and the test is FDA-cleared as a cognitive assessment (21 CFR 882.1470). Percentage reads as change in that measurement. `^^` test-validation anchor and global disclaimer footer remain | ^^ | Done |
 | 54 | LandingWhatItDoes tile descriptions (entries 45-47) | Reverted to pre-Phase D longer copy on user call. Title "Daily habit. Lifelong benefits." kept. Vit C †† anchor retained on Brain Health tile. | Preference for fuller copy on this section | †† | Done |
+
+### Phase E: LandingWhatItDoes merge + 100-day guarantee (2026-04-14, SCRUM-877)
+
+`LandingWhatsInside.tsx` and `IngredientAccordion.tsx` deleted. Merged into `LandingWhatItDoes.tsx` so each pillar tile carries its own ingredient evidence. `LandingGuarantee.tsx` resurrected as dedicated 100-day section between Timeline and FAQ. Magic Mind copy adapted to CONKA voice.
+
+| # | Description | Anchor | Status |
+|---|-------------|--------|--------|
+| 55 | Merged tiles preserve all 3 study observations from old `IngredientAccordion`: Lemon Balm (Kennedy 2003, PMID 12888775), Ashwagandha (Chandrasekhar 2012, PMID 23439798), Vitamin C / Glutathione (Sinha 2018, PMID 29559699). Each ported verbatim with `¶` research anchor. | ¶ | Done |
+| 56 | `††` EFSA anchor preserved on (a) Brain Health tile body Vitamin C reference, (b) Vitamin C ingredient pill, (c) Vitamin B12 ingredient pill, (d) Vitamin C study observation (Sinha 2018). No regression vs old `LandingWhatsInside`. | †† | Done |
+| 57 | Tap-to-reveal default-collapsed. Per-tile "See the research" trigger button. Reveal panel shows observational study quote + PMID identifier. No quantified health claims surfaced. | ¶ | Done |
+| 58 | `LandingGuarantee.tsx` title: `{GUARANTEE_DAYS}-Day Risk Free Trial` (templated from `app/lib/offerConstants.ts`, currently renders "100-Day Risk Free Trial"). No quantified health claim. | — | Done |
+| 59 | `LandingGuarantee.tsx` body: "Try CONKA for 100 days. If your mental performance doesn't noticeably improve, we'll refund your purchase completely. No return necessary." Phrasing is **subjective satisfaction language** — "noticeably improve" is the customer's own perception, not a quantified or substantiated outcome. Offered as a refund condition, not a product claim. `*` anchor retained on the sentence. | * | Done |
+| 60 | Bullet list (4): "Free UK shipping", "Money back guarantee", "No return required", "Nothing to lose (other than brain fog and burnout)". Logistical / commercial facts only. No health claim. | — | Done |
+| 61 | CTA: "Try it 100% Risk Free Now". Offer language ("risk free") is a refund-policy descriptor, not a safety or efficacy claim. | — | Done |
+| 62 | Footnote: "*First-time customers only. Contact info@conka.io within 100 days of your first order for a full refund." Templated from `GUARANTEE_DAYS`. Refund mechanic only. | * | Done |
+| 63 | App phone mockup retained on right column (no copy attached). The cognitive-score visual stands as implicit proof the guarantee is credible without an explicit `^^` claim in this section. | — | Done |
+| 64 | Old `LandingGuarantee` entries 19–22 (30-day guarantee era) superseded by entries 58–63. The 30-day → 100-day shift was made earlier in `offerConstants.ts`; this is the first time the section ships to `/start`. | * | Done |
 
 ---
 
