@@ -35,12 +35,13 @@ export default function LandingTimeline() {
     <div className="-mt-20 md:mt-0">
       {/* Header — branded asset carrying the title + subtitle text.
           Mobile (<768px): full-bleed (negative margin cancels the
-          1.25rem brand-section gutter), aspect-[1/1.8] crops about 10%
-          off the bottom of the natural 1:2 asset, no rounded corners.
-          Tablet+ (md, 768px+): unchanged from prior behaviour — 16:6
-          banner contained within the gutter with rounded corners. */}
+          1.25rem brand-section gutter), aspect-[1/2] matches the
+          natural asset dimensions (1125x2250) so no crop, no rounded
+          corners.
+          Tablet+ (md, 768px+): unchanged — 16:6 banner contained
+          within the gutter with rounded corners. */}
       <h2 className="sr-only">Your Brain, Optimised. What to expect after 30 days.</h2>
-      <div className="relative mb-2 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/1.6] md:mb-8 md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)]">
+      <div className="relative mb-2 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/2] md:mb-8 md:mx-0 md:w-full md:aspect-[16/6] md:rounded-[var(--brand-radius-container)]">
         <Image
           src="/story/YourBrainOptimised.jpg"
           alt="CONKA Flow and Clear bottles. Your Brain, Optimised. What to expect after 30 days."
