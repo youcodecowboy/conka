@@ -116,7 +116,7 @@ export default function AthleteCredibilityCarousel() {
       {/* Section Header */}
       <div className="mb-10">
         <h2 className="brand-h2 mb-0">
-          Why Athletes Trust CONKA
+          Why High Performers Trust CONKA
         </h2>
       </div>
 

@@ -113,17 +113,15 @@ export default function Home() {
         </section>
       </div>
 
-      {/* ===== SECTION 5: TESTIMONIALS ===== */}
-      {shuffledTestimonials.length > 0 && (
-        <section
-          className="brand-section brand-bg-white"
-          aria-label="Customer reviews"
-        >
-          <div className="brand-track">
-            <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
-          </div>
-        </section>
-      )}
+      {/* ===== SECTION 5: CASE STUDIES (measurable outcomes first) ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="Clinically validated test scores"
+      >
+        <div className="brand-track">
+          <CaseStudiesDataDriven />
+        </div>
+      </section>
 
       {/* ===== SECTION 6: KEY BENEFITS ===== */}
       <section
@@ -155,15 +153,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 9: CASE STUDIES ===== */}
-      <section
-        className="brand-section brand-bg-white"
-        aria-label="Clinically validated test scores"
-      >
-        <div className="brand-track">
-          <CaseStudiesDataDriven />
-        </div>
-      </section>
+      {/* ===== SECTION 9: TESTIMONIALS (real voices after data proof) ===== */}
+      {shuffledTestimonials.length > 0 && (
+        <section
+          className="brand-section brand-bg-white"
+          aria-label="Customer reviews"
+        >
+          <div className="brand-track">
+            <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
+          </div>
+        </section>
+      )}
 
       {/* ===== SECTION 10: OUR STORY / FOUNDERS ===== */}
       <section
