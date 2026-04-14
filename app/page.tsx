@@ -15,7 +15,7 @@ import type { Testimonial } from "./components/testimonials/types";
 // Dynamically import heavy components to reduce initial bundle size
 const HomeWhatItDoes = dynamic(
   () => import("./components/home/HomeWhatItDoes"),
-  { loading: () => <div className="h-[900px]" /> },
+  { loading: () => <div className="h-[1400px] lg:h-[1000px]" /> },
 );
 
 const KeyBenefits = dynamic(() => import("./components/KeyBenefits"), {
