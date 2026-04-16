@@ -16,7 +16,7 @@ export interface ProtocolHeroImage {
 export const protocolHeroImages: Record<ProtocolId, string> = {
   "1": "/protocols/ResilienceBox.jpg",
   "2": "/protocols/PrecisionBox.jpg",
-  "3": "/protocols/BalanceBox.jpg",
+  "3": "/formulas/both/BothBox.jpg",
   "4": "/protocols/UltimateBox.jpg",
 };
 

@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import { PurchaseType, formulaContent } from "@/app/lib/productData";
 import { formulaPricing, protocolPricing } from "@/app/lib/productPricing";
-import { getProductAccent, getProductGradient } from "@/app/lib/productColors";
+import { getProductAccent } from "@/app/lib/productColors";
 import { getBillingLabel } from "@/app/lib/productHelpers";
 import {
   getFormulaImage,
@@ -151,13 +151,10 @@ export default function ProductCard({
     onAddToCartProp?.();
   }, [isProtocol, product.id, purchaseType, addToCart, onAddToCartProp]);
 
-  // Accent / gradient — Balance for protocol, formula-specific otherwise
+  // Accent colour for stat values
   const accentColor = isProtocol
     ? getProductAccent(BALANCE_PROTOCOL_ID)
     : getProductAccent(product.id);
-  const buttonGradient = isProtocol
-    ? getProductGradient(BALANCE_PROTOCOL_ID)
-    : null;
 
   // Get pricing - all 4-pack on landing grid (customer acquisition)
   let monthlyPrice: string;

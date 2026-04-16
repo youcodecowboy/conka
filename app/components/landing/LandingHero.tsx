@@ -79,7 +79,7 @@ export default function LandingHero() {
           {/* CTA — safe-area padding prevents mobile URL bar overlap */}
           <div className="mt-8 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0">
             <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
-              Try CONKA
+              Try CONKA Today
             </LandingCTA>
           </div>
 

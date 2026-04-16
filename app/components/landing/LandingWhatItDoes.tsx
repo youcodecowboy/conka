@@ -105,8 +105,18 @@ export default function LandingWhatItDoes() {
       <AmPmConnector />
 
       {/* Bottle visuals */}
-      <div className="mb-12">
+      <div className="mb-8">
         <WhatsInsideProductMini />
+      </div>
+
+      {/* CTA */}
+      <div className="mb-3 flex justify-start">
+        <LandingCTA>
+          Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot &rarr;
+        </LandingCTA>
+      </div>
+      <div className="mb-12">
+        <LandingTrustBadges />
       </div>
 
       {/* Lifestyle image + benefit pillars — side by side on desktop */}

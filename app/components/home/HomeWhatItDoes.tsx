@@ -7,6 +7,8 @@ import {
   BenefitIconSleep,
   BenefitIconStress,
 } from "../landing/icons";
+import LandingCTA from "../landing/LandingCTA";
+import LandingTrustBadges from "../landing/LandingTrustBadges";
 import WhatsInsideProductMini from "../landing/WhatsInsideProductMini";
 import AmPmConnector from "../landing/AmPmConnector";
 
@@ -114,8 +116,18 @@ export default function HomeWhatItDoes() {
       <AmPmConnector />
 
       {/* Bottle visuals */}
-      <div className="mb-12">
+      <div className="mb-8">
         <WhatsInsideProductMini />
+      </div>
+
+      {/* CTA */}
+      <div className="mb-3 flex justify-start">
+        <LandingCTA href="/protocol/3">
+          Try CONKA Today
+        </LandingCTA>
+      </div>
+      <div className="mb-12">
+        <LandingTrustBadges />
       </div>
 
       {/* Lifestyle image + benefit pillars — side by side on desktop */}
