@@ -38,7 +38,7 @@ export default function TierSelectorPremium({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <p className="premium-data uppercase opacity-70">Select Your Plan</p>
+      <p className="brand-data uppercase opacity-70">Select Your Plan</p>
       <div
         className={`grid gap-2 ${availableTiers.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}
       >
@@ -74,7 +74,7 @@ export default function TierSelectorPremium({
                   color: isSelected ? "var(--background)" : "var(--foreground)",
                 }}
               >
-                <p className="text-sm font-bold premium-data">
+                <p className="text-sm font-bold brand-data">
                   {getProtocolTierPackLabel(protocolId, tier)}
                 </p>
               </div>
@@ -94,7 +94,7 @@ export default function TierSelectorPremium({
                 </p>
                 {!(compact && purchaseType === "one-time") && (
                   <p
-                    className={`premium-data text-[11px] ${
+                    className={`brand-data text-[11px] ${
                       isSelected ? "opacity-90" : "opacity-70"
                     }`}
                   >

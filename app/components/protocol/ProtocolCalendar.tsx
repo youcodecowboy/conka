@@ -43,10 +43,10 @@ export default function ProtocolCalendar({
     <>
       {/* Header */}
       <div className="text-center mb-8">
-        <h2 className="premium-section-heading text-3xl md:text-4xl font-bold mb-2">
+        <h2 className="brand-h2 mb-0 text-3xl md:text-4xl font-bold mb-2">
           How to follow your protocol
         </h2>
-        <p className="premium-annotation text-xl">visualize your journey</p>
+        <p className="brand-caption italic text-xl">visualize your journey</p>
       </div>
 
       {/* Inline tier selector */}
@@ -65,8 +65,8 @@ export default function ProtocolCalendar({
               }`}
               style={
                 isSelected
-                  ? { backgroundColor: protocolAccent, borderRadius: "var(--premium-radius-nested)" }
-                  : { borderRadius: "var(--premium-radius-nested)" }
+                  ? { backgroundColor: protocolAccent, borderRadius: "var(--brand-radius-container)" }
+                  : { borderRadius: "var(--brand-radius-container)" }
               }
             >
                 {tierLabels[tier]}
@@ -83,7 +83,7 @@ export default function ProtocolCalendar({
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Calendar */}
           <div className="lg:w-2/3">
-            <div className="premium-box p-6">
+            <div className="brand-card-bordered p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-bold">4-Week View</h3>
                 <span className="font-clinical text-sm opacity-70">
@@ -179,7 +179,7 @@ export default function ProtocolCalendar({
           {/* Protocol Info Sidebar */}
           <div className="lg:w-1/3 space-y-6">
             {/* Tier Info */}
-            <div className="premium-box p-6">
+            <div className="brand-card-bordered p-6">
               <h3 className="text-lg font-bold mb-4">
                 {tierConfig.name} Plan Details
               </h3>
@@ -206,7 +206,7 @@ export default function ProtocolCalendar({
             </div>
 
             {/* Quick Tips */}
-            <div className="premium-box p-6">
+            <div className="brand-card-bordered p-6">
               <h3 className="text-lg font-bold mb-4">Pro Tips</h3>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">

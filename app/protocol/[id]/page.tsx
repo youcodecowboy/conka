@@ -158,16 +158,15 @@ export default function ProtocolPage() {
   // Mobile version
   if (isMobile) {
     return (
-      <div
-        className="min-h-screen theme-conka-flow"
-        style={{ background: "var(--background)", color: "var(--foreground)" }}
-      >
+      <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
         <Navigation />
+
+        {/* ===== SECTION 1: HERO ===== */}
         <section
-          className="premium-section-luxury premium-hero-first bg-white"
+          className="brand-section brand-hero-first brand-bg-white"
           aria-label="Product hero"
         >
-          <div className="premium-track">
+          <div className="brand-track">
             <ProtocolHeroMobile
               protocolId={selectedProtocolId}
               selectedTier={selectedTier}
@@ -179,176 +178,164 @@ export default function ProtocolPage() {
           </div>
         </section>
 
-        <div className="premium-pdp">
-          <section
-            className="premium-section-luxury premium-bg-bone"
-            aria-labelledby="why-two-formulas-heading"
-          >
-            <div className="premium-track">
-              <div
-                className="text-center"
-                style={{ marginBottom: "var(--space-text-gap)" }}
+        {/* ===== SECTION 2: WHY TWO FORMULAS ===== */}
+        <section
+          className="brand-section brand-bg-tint"
+          aria-labelledby="why-two-formulas-heading"
+        >
+          <div className="brand-track">
+            <div className="text-center" style={{ marginBottom: "var(--brand-text-gap)" }}>
+              <h2
+                id="why-two-formulas-heading"
+                className="brand-h2 mb-0 text-3xl md:text-4xl font-bold"
               >
-                <h2
-                  id="why-two-formulas-heading"
-                  className="premium-section-heading text-3xl md:text-4xl font-bold"
-                  style={{
-                    letterSpacing: "var(--letter-spacing-premium-title)",
-                  }}
-                >
-                  {protocolSynergyCopy.framing.headline}
-                </h2>
-                <p className="premium-annotation text-xl md:text-2xl opacity-80 hidden md:block mt-3">
-                  {protocolSynergyCopy.framing.subheadline}
-                </p>
-              </div>
+                {protocolSynergyCopy.framing.headline}
+              </h2>
+              <p className="brand-caption text-xl md:text-2xl opacity-80 hidden md:block mt-3">
+                {protocolSynergyCopy.framing.subheadline}
+              </p>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <CycleTrap
-            protocolId={selectedProtocolId}
-            initialNode={whyEntryNodeIndex}
-            selectedSymptomId={selectedSymptom}
-            onSelectSymptom={setSelectedSymptom}
-          />
+        {/* ===== SECTION 3: CYCLE TRAP (self-contained, owns bg) ===== */}
+        <CycleTrap
+          protocolId={selectedProtocolId}
+          initialNode={whyEntryNodeIndex}
+          selectedSymptomId={selectedSymptom}
+          onSelectSymptom={setSelectedSymptom}
+        />
 
-          <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-            aria-label="But there's a way out"
-          >
-            <div className="premium-track">
-              <div className="text-center">
-                <h2
-                  className="premium-section-heading text-2xl md:text-3xl font-bold mb-3"
-                  style={{
-                    letterSpacing: "var(--letter-spacing-premium-title)",
-                  }}
-                >
-                  But there's a way out.
-                </h2>
-                <h3
-                  className="premium-section-heading text-xl md:text-2xl font-bold"
-                  style={{
-                    letterSpacing: "var(--letter-spacing-premium-title)",
-                  }}
-                >
-                  Together: Break the Cycle
-                </h3>
-              </div>
+        {/* ===== SECTION 4: WAY OUT ===== */}
+        <section
+          className="brand-section brand-bg-white"
+          aria-label="But there's a way out"
+        >
+          <div className="brand-track">
+            <div className="text-center">
+              <h2 className="brand-h2 mb-0 text-2xl md:text-3xl font-bold mb-3">
+                But there's a way out.
+              </h2>
+              <h3 className="brand-h3 text-xl md:text-2xl font-bold">
+                Together: Break the Cycle
+              </h3>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <CycleBreak />
+        {/* ===== SECTION 5: CYCLE BREAK (self-contained, owns bg) ===== */}
+        <CycleBreak />
 
+        {/* ===== SECTION 6: TRANSFORMATION ===== */}
+        <section
+          className="brand-section brand-bg-tint"
+          aria-label="The outcome"
+        >
+          <div className="brand-track">
+            <CycleTransformation protocolId={selectedProtocolId} />
+          </div>
+        </section>
+
+        {/* ===== SECTION 7: TESTIMONIALS ===== */}
+        {protocolTestimonials.length > 0 && (
           <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-            aria-label="The outcome"
+            className="brand-section brand-bg-white"
+            aria-label="Customer reviews"
           >
-            <div className="premium-track">
-              <CycleTransformation protocolId={selectedProtocolId} />
-            </div>
-          </section>
-
-          {protocolTestimonials.length > 0 && (
-            <section
-              className="premium-section-luxury"
-              style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-            >
-              <div className="premium-track">
-                <Testimonials
-                  testimonials={protocolTestimonials}
-                  autoScrollOnly
-                />
-              </div>
-            </section>
-          )}
-
-          <section
-            className="premium-section-luxury premium-bg-bone"
-            aria-label="Expected results"
-          >
-            <div className="premium-track">
-              <WhatToExpectTimeline
-                productId={selectedProtocolId}
-                sectionTitle="Expected results"
+            <div className="brand-track">
+              <Testimonials
+                testimonials={protocolTestimonials}
+                autoScrollOnly
               />
             </div>
           </section>
+        )}
 
-          <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-            aria-label="How to follow your protocol"
-          >
-            <div className="premium-track">
-              <ProtocolCalendarMobile
-                protocolId={selectedProtocolId}
-                selectedTier={selectedTier}
-                onTierSelect={setSelectedTier}
-                availableTiers={
-                  protocolContent[selectedProtocolId].availableTiers
-                }
-              />
-            </div>
-          </section>
+        {/* ===== SECTION 8: EXPECTED RESULTS ===== */}
+        <section
+          className="brand-section brand-bg-tint"
+          aria-label="Expected results"
+        >
+          <div className="brand-track">
+            <WhatToExpectTimeline
+              productId={selectedProtocolId}
+              sectionTitle="Expected results"
+            />
+          </div>
+        </section>
 
-          <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-            aria-label="Case studies"
-          >
-            <div className="premium-track">
-              <FormulaCaseStudiesMobile productId={selectedProtocolId} />
-            </div>
-          </section>
+        {/* ===== SECTION 9: CALENDAR ===== */}
+        <section
+          className="brand-section brand-bg-white"
+          aria-label="How to follow your protocol"
+        >
+          <div className="brand-track">
+            <ProtocolCalendarMobile
+              protocolId={selectedProtocolId}
+              selectedTier={selectedTier}
+              onTierSelect={setSelectedTier}
+              availableTiers={
+                protocolContent[selectedProtocolId].availableTiers
+              }
+            />
+          </div>
+        </section>
 
-          <section
-            className="premium-section-luxury premium-bg-bone"
-            aria-label="FAQ"
-          >
-            <div className="premium-track">
-              <ProtocolFAQ protocolId={selectedProtocolId} />
-            </div>
-          </section>
+        {/* ===== SECTION 10: CASE STUDIES ===== */}
+        <section
+          className="brand-section brand-bg-tint"
+          aria-label="Case studies"
+        >
+          <div className="brand-track">
+            <FormulaCaseStudiesMobile productId={selectedProtocolId} />
+          </div>
+        </section>
 
-          <section
-            className="premium-section-luxury bg-white"
-            aria-label="Explore other protocols and formulas"
-          >
-            <div className="premium-track">
-              <ProductGrid exclude={["protocol"]} />
-            </div>
-          </section>
+        {/* ===== SECTION 11: FAQ ===== */}
+        <section
+          className="brand-section brand-bg-white"
+          aria-label="FAQ"
+        >
+          <div className="brand-track">
+            <ProtocolFAQ protocolId={selectedProtocolId} />
+          </div>
+        </section>
 
-          <Footer />
+        {/* ===== SECTION 12: EXPLORE ===== */}
+        <section
+          className="brand-section brand-bg-tint"
+          aria-label="Explore other protocols and formulas"
+        >
+          <div className="brand-track">
+            <ProductGrid exclude={["protocol"]} />
+          </div>
+        </section>
 
-          <StickyPurchaseFooterMobile
-            protocolId={selectedProtocolId}
-            selectedTier={selectedTier}
-            onTierSelect={setSelectedTier}
-            purchaseType={purchaseType}
-            onAddToCart={handleAddToCartFromFooter}
-            usePremium
-          />
-        </div>
+        <Footer />
+
+        <StickyPurchaseFooterMobile
+          protocolId={selectedProtocolId}
+          selectedTier={selectedTier}
+          onTierSelect={setSelectedTier}
+          purchaseType={purchaseType}
+          onAddToCart={handleAddToCartFromFooter}
+          usePremium
+        />
       </div>
     );
   }
 
   // Desktop version
   return (
-    <div
-      className="min-h-screen theme-conka-flow lg:pt-8"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
+    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
+
+      {/* ===== SECTION 1: HERO ===== */}
       <section
-        className="premium-section-luxury premium-hero-first bg-white"
+        className="brand-section brand-hero-first brand-bg-white"
         aria-label="Product hero"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <ProtocolHero
             protocolId={selectedProtocolId}
             selectedTier={selectedTier}
@@ -360,159 +347,150 @@ export default function ProtocolPage() {
         </div>
       </section>
 
-      <div className="premium-pdp">
-        <section
-          className="premium-section-luxury premium-bg-bone"
-          aria-labelledby="why-two-formulas-heading"
-        >
-          <div className="premium-track">
-            <div
-              className="text-center"
-              style={{ marginBottom: "var(--space-text-gap)" }}
+      {/* ===== SECTION 2: WHY TWO FORMULAS ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-labelledby="why-two-formulas-heading"
+      >
+        <div className="brand-track">
+          <div className="text-center" style={{ marginBottom: "var(--brand-text-gap)" }}>
+            <h2
+              id="why-two-formulas-heading"
+              className="brand-h2 mb-0 text-3xl md:text-4xl font-bold"
             >
-              <h2
-                id="why-two-formulas-heading"
-                className="premium-section-heading text-3xl md:text-4xl font-bold"
-                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-              >
-                {protocolSynergyCopy.framing.headline}
-              </h2>
-              <p className="premium-annotation text-xl md:text-2xl opacity-80 mt-3">
-                {protocolSynergyCopy.framing.subheadline}
-              </p>
-            </div>
+              {protocolSynergyCopy.framing.headline}
+            </h2>
+            <p className="brand-caption text-xl md:text-2xl opacity-80 mt-3">
+              {protocolSynergyCopy.framing.subheadline}
+            </p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <CycleTrap
-          protocolId={selectedProtocolId}
-          initialNode={whyEntryNodeIndex}
-          selectedSymptomId={selectedSymptom}
-          onSelectSymptom={setSelectedSymptom}
-        />
+      {/* ===== SECTION 3: CYCLE TRAP (self-contained, owns bg) ===== */}
+      <CycleTrap
+        protocolId={selectedProtocolId}
+        initialNode={whyEntryNodeIndex}
+        selectedSymptomId={selectedSymptom}
+        onSelectSymptom={setSelectedSymptom}
+      />
 
-        <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-          aria-label="But there's a way out"
-        >
-          <div className="premium-track">
-            <div className="text-center">
-              <h2
-                className="premium-section-heading text-2xl md:text-3xl font-bold mb-3"
-                style={{
-                  letterSpacing: "var(--letter-spacing-premium-title)",
-                }}
-              >
-                But there's a way out.
-              </h2>
-              <h3
-                className="premium-section-heading text-xl md:text-2xl font-bold"
-                style={{
-                  letterSpacing: "var(--letter-spacing-premium-title)",
-                }}
-              >
-                Together: Break the Cycle
-              </h3>
-            </div>
+      {/* ===== SECTION 4: WAY OUT ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="But there's a way out"
+      >
+        <div className="brand-track">
+          <div className="text-center">
+            <h2 className="brand-h2 mb-0 text-2xl md:text-3xl font-bold mb-3">
+              But there's a way out.
+            </h2>
+            <h3 className="brand-h3 text-xl md:text-2xl font-bold">
+              Together: Break the Cycle
+            </h3>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <CycleBreak />
+      {/* ===== SECTION 5: CYCLE BREAK (self-contained, owns bg) ===== */}
+      <CycleBreak />
 
+      {/* ===== SECTION 6: TRANSFORMATION ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="The outcome"
+      >
+        <div className="brand-track">
+          <CycleTransformation protocolId={selectedProtocolId} />
+        </div>
+      </section>
+
+      {/* ===== SECTION 7: TESTIMONIALS ===== */}
+      {protocolTestimonials.length > 0 && (
         <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-          aria-label="The outcome"
+          className="brand-section brand-bg-white"
+          aria-label="Customer reviews"
         >
-          <div className="premium-track">
-            <CycleTransformation protocolId={selectedProtocolId} />
-          </div>
-        </section>
-
-        {protocolTestimonials.length > 0 && (
-          <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-          >
-            <div className="premium-track">
-              <Testimonials
-                testimonials={protocolTestimonials}
-                autoScrollOnly
-              />
-            </div>
-          </section>
-        )}
-
-        <section
-          className="premium-section-luxury premium-bg-bone"
-          aria-label="Expected results"
-        >
-          <div className="premium-track">
-            <WhatToExpectTimeline
-              productId={selectedProtocolId}
-              sectionTitle="Expected results"
+          <div className="brand-track">
+            <Testimonials
+              testimonials={protocolTestimonials}
+              autoScrollOnly
             />
           </div>
         </section>
+      )}
 
-        <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-          aria-label="How to follow your protocol"
-        >
-          <div className="premium-track">
-            <ProtocolCalendar
-              protocolId={selectedProtocolId}
-              selectedTier={selectedTier}
-              onTierSelect={setSelectedTier}
-              availableTiers={
-                protocolContent[selectedProtocolId].availableTiers
-              }
-            />
-          </div>
-        </section>
+      {/* ===== SECTION 8: EXPECTED RESULTS ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="Expected results"
+      >
+        <div className="brand-track">
+          <WhatToExpectTimeline
+            productId={selectedProtocolId}
+            sectionTitle="Expected results"
+          />
+        </div>
+      </section>
 
-        <section
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-          aria-label="Case studies"
-        >
-          <div className="premium-track">
-            <FormulaCaseStudies productId={selectedProtocolId} />
-          </div>
-        </section>
+      {/* ===== SECTION 9: CALENDAR ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="How to follow your protocol"
+      >
+        <div className="brand-track">
+          <ProtocolCalendar
+            protocolId={selectedProtocolId}
+            selectedTier={selectedTier}
+            onTierSelect={setSelectedTier}
+            availableTiers={
+              protocolContent[selectedProtocolId].availableTiers
+            }
+          />
+        </div>
+      </section>
 
-        <section
-          className="premium-section-luxury premium-bg-bone"
-          aria-label="FAQ"
-        >
-          <div className="premium-track">
-            <ProtocolFAQ protocolId={selectedProtocolId} />
-          </div>
-        </section>
+      {/* ===== SECTION 10: CASE STUDIES ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="Case studies"
+      >
+        <div className="brand-track">
+          <FormulaCaseStudies productId={selectedProtocolId} />
+        </div>
+      </section>
 
-        <section
-          className="premium-section-luxury bg-white"
-          aria-label="Explore other protocols and formulas"
-        >
-          <div className="premium-track">
-            <ProductGrid exclude={["protocol"]} />
-          </div>
-        </section>
+      {/* ===== SECTION 11: FAQ ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="FAQ"
+      >
+        <div className="brand-track">
+          <ProtocolFAQ protocolId={selectedProtocolId} />
+        </div>
+      </section>
 
-        <Footer />
+      {/* ===== SECTION 12: EXPLORE ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="Explore other protocols and formulas"
+      >
+        <div className="brand-track">
+          <ProductGrid exclude={["protocol"]} />
+        </div>
+      </section>
 
-        <StickyPurchaseFooter
-          protocolId={selectedProtocolId}
-          selectedTier={selectedTier}
-          onTierSelect={setSelectedTier}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCartFromFooter}
-          usePremium
-        />
-      </div>
+      <Footer />
+
+      <StickyPurchaseFooter
+        protocolId={selectedProtocolId}
+        selectedTier={selectedTier}
+        onTierSelect={setSelectedTier}
+        purchaseType={purchaseType}
+        onPurchaseTypeChange={setPurchaseType}
+        onAddToCart={handleAddToCartFromFooter}
+        usePremium
+      />
     </div>
   );
 }

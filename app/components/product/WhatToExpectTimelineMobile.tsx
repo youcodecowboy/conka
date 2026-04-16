@@ -28,7 +28,7 @@ export default function WhatToExpectTimelineMobile({ productId }: WhatToExpectTi
             type="button"
             className="relative w-full text-left flex gap-4 bg-white p-4 min-h-[44px] transition-colors duration-200"
             style={{
-              borderRadius: "var(--premium-radius-card)",
+              borderRadius: "var(--brand-radius-card)",
               border: `2px solid ${accentHex}`,
             }}
             onClick={() => setExpandedIndex((prev) => (prev === i ? null : i))}
@@ -42,27 +42,27 @@ export default function WhatToExpectTimelineMobile({ productId }: WhatToExpectTi
               />
               {i < steps.length - 1 && (
                 <span
-                  className="w-px flex-1 min-h-[12px] mt-2 bg-[var(--premium-border-color)]"
+                  className="w-px flex-1 min-h-[12px] mt-2 bg-[var(--brand-border-color)]"
                   aria-hidden
                 />
               )}
             </div>
             <div className="flex-1 min-w-0 text-black">
               <p
-                className="premium-data uppercase tracking-wider text-xs font-medium mb-1.5"
+                className="brand-data uppercase tracking-wider text-xs font-medium mb-1.5"
                 style={{ color: accentHex }}
               >
                 {step.subheading}
               </p>
-              <h3 className="premium-heading text-lg leading-snug mb-2">{step.heading}</h3>
+              <h3 className="brand-h3 text-lg leading-snug mb-2">{step.heading}</h3>
               <div
                 className={`overflow-hidden transition-all duration-200 ${
                   isExpanded ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0"
                 }`}
               >
-                <p className="premium-body-sm text-xs leading-relaxed opacity-90">{step.body}</p>
+                <p className="brand-caption text-xs leading-relaxed opacity-90">{step.body}</p>
               </div>
-              <span className="premium-data text-[10px] uppercase tracking-wider opacity-50 mt-2 block">
+              <span className="brand-data text-[10px] uppercase tracking-wider opacity-50 mt-2 block">
                 {isExpanded ? "Tap to close" : "Tap for more"}
               </span>
             </div>

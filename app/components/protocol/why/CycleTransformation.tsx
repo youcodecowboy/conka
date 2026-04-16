@@ -27,24 +27,24 @@ export default function CycleTransformation({
   return (
     <div className="pt-6 md:pt-8">
       <h2
-        className="premium-section-heading text-xl md:text-2xl font-bold text-center mb-4 text-[var(--color-bone)]"
-        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        className="brand-h2 mb-0 text-xl md:text-2xl font-bold text-center mb-4 text-black"
+        style={{ letterSpacing: "-0.02em" }}
       >
         {sectionHeadings.transformation}
       </h2>
 
       <div
-        className="max-w-2xl mx-auto mt-6 bg-white overflow-hidden text-[var(--color-ink)]"
-        style={{ borderRadius: "var(--premium-radius-card)" }}
+        className="max-w-2xl mx-auto mt-6 bg-white overflow-hidden text-black"
+        style={{ borderRadius: "var(--brand-radius-card)" }}
       >
         <table className="w-full text-center">
             <thead>
               <tr className="border-b border-black/10">
-                <th className="premium-body text-sm font-semibold px-4 py-2.5 text-black/60">
+                <th className="brand-body text-sm font-semibold px-4 py-2.5 text-black/60">
                   Before Protocol
                 </th>
                 <th
-                  className={`premium-body text-sm font-semibold px-4 py-2.5 ${textClass}`}
+                  className={`brand-body text-sm font-semibold px-4 py-2.5 ${textClass}`}
                   style={rightColStyle}
                 >
                   After Protocol
@@ -54,11 +54,11 @@ export default function CycleTransformation({
             <tbody>
               {beforeAfterStates.map((pair, i) => (
                 <tr key={i} className="border-b border-black/10 last:border-0">
-                  <td className="premium-body text-sm px-4 py-2.5 text-black/60">
+                  <td className="brand-body text-sm px-4 py-2.5 text-black/60">
                     {pair.before}
                   </td>
                   <td
-                    className={`premium-body text-sm font-medium px-4 py-2.5 ${textClass}`}
+                    className={`brand-body text-sm font-medium px-4 py-2.5 ${textClass}`}
                     style={rightColStyle}
                   >
                     {pair.after}

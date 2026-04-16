@@ -22,7 +22,7 @@ export default function CycleBreakDesktop() {
 
   return (
     <section
-      className="premium-bg-bone text-black pb-0"
+      className="brand-bg-tint text-black pb-0"
       aria-label="How to break the cycle"
     >
       <div className="w-full max-w-full mx-auto px-6 md:px-12 lg:px-20">
@@ -41,7 +41,7 @@ export default function CycleBreakDesktop() {
                 style={{
                   backgroundColor:
                     hoveredSide === "clear" || expandedCards.has("clear")
-                      ? "var(--color-neuro-blue-dark)"
+                      ? "var(--brand-black)"
                       : "#fff",
                 }}
               />
@@ -71,11 +71,11 @@ export default function CycleBreakDesktop() {
               <div className="relative z-10 pt-4 pl-8 md:pl-12 lg:pl-16 max-w-[67%]">
                 {expandedCards.has("clear") ? (
                   <div className="text-white">
-                    <h3 className="premium-section-heading text-lg md:text-xl font-bold mb-8 text-white">
+                    <h3 className="brand-h2 mb-0 text-lg md:text-xl font-bold mb-8 text-white">
                       {copy.mechanisms.clear.title}
                     </h3>
                     <p
-                      className="premium-body text-sm leading-relaxed mb-6 pt-4"
+                      className="brand-body text-sm leading-relaxed mb-6 pt-4"
                       style={{ color: "#fff" }}
                     >
                       {copy.mechanisms.clear.description}
@@ -84,7 +84,7 @@ export default function CycleBreakDesktop() {
                       {copy.mechanisms.clear.keyPoints.map((point, idx) => (
                         <li
                           key={idx}
-                          className="premium-body text-sm flex items-start gap-3 text-white"
+                          className="brand-body text-sm flex items-start gap-3 text-white"
                         >
                           <span className="text-white mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-current opacity-50" />
                           <span className="flex-1 text-white">{point}</span>
@@ -94,10 +94,10 @@ export default function CycleBreakDesktop() {
                   </div>
                 ) : (
                   <div>
-                    <p className="premium-section-heading text-xl md:text-2xl font-bold text-black mb-2">
+                    <p className="brand-h2 mb-0 text-xl md:text-2xl font-bold text-black mb-2">
                       How does CONKA Clear help?
                     </p>
-                    <p className="premium-data text-xs uppercase tracking-wider opacity-60 text-black">
+                    <p className="brand-data text-xs uppercase tracking-wider opacity-60 text-black">
                       Hover to discover
                     </p>
                   </div>
@@ -117,7 +117,7 @@ export default function CycleBreakDesktop() {
                 style={{
                   backgroundColor:
                     hoveredSide === "flow" || expandedCards.has("flow")
-                      ? "var(--color-neuro-blue-dark)"
+                      ? "var(--brand-black)"
                       : "#fff",
                 }}
               />
@@ -148,11 +148,11 @@ export default function CycleBreakDesktop() {
                 <div className="max-w-[67%] text-right">
                   {expandedCards.has("flow") ? (
                     <div className="text-white text-right inline-block max-w-full">
-                      <h3 className="premium-section-heading text-lg md:text-xl font-bold mb-8 text-white">
+                      <h3 className="brand-h2 mb-0 text-lg md:text-xl font-bold mb-8 text-white">
                         {copy.mechanisms.flow.title}
                       </h3>
                       <p
-                        className="premium-body text-sm leading-relaxed mb-6 pt-4"
+                        className="brand-body text-sm leading-relaxed mb-6 pt-4"
                         style={{ color: "#fff" }}
                       >
                         {copy.mechanisms.flow.description}
@@ -161,7 +161,7 @@ export default function CycleBreakDesktop() {
                         {copy.mechanisms.flow.keyPoints.map((point, idx) => (
                           <li
                             key={idx}
-                            className="premium-body text-sm flex items-start gap-3 justify-end text-white"
+                            className="brand-body text-sm flex items-start gap-3 justify-end text-white"
                           >
                             <span className="text-white mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-current opacity-50 order-2" />
                             <span className="flex-1 text-white order-1 text-right">{point}</span>
@@ -171,10 +171,10 @@ export default function CycleBreakDesktop() {
                     </div>
                   ) : (
                     <div>
-                      <p className="premium-section-heading text-xl md:text-2xl font-bold text-black mb-2">
+                      <p className="brand-h2 mb-0 text-xl md:text-2xl font-bold text-black mb-2">
                         How does CONKA Flow help?
                       </p>
-                      <p className="premium-data text-xs uppercase tracking-wider opacity-60 text-black">
+                      <p className="brand-data text-xs uppercase tracking-wider opacity-60 text-black">
                         Hover to discover
                       </p>
                     </div>
