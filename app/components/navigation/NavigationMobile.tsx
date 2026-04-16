@@ -241,15 +241,15 @@ export default function NavigationMobile({
                     key={product.href}
                     href={product.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 p-3 border border-[var(--color-premium-stroke)] rounded-[var(--brand-radius-card)] bg-white"
+                    className="flex items-center gap-4 p-3 border border-[var(--color-premium-stroke)] rounded-[var(--brand-radius-card)] bg-white"
                   >
-                    <div className="relative w-14 h-14 rounded-[10px] overflow-hidden flex-shrink-0 border border-black/6">
+                    <div className="relative w-28 h-28 rounded-xl overflow-hidden flex-shrink-0 border border-black/6">
                       <Image
                         src={product.image}
                         alt={product.alt}
                         fill
                         className="object-cover"
-                        sizes="56px"
+                        sizes="112px"
                       />
                     </div>
                     <div className="flex-1">
