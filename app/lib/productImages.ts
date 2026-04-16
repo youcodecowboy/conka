@@ -7,6 +7,13 @@ export interface ProductImage {
   src: string;
 }
 
+/** Quarterly box images — shown as first slide when quarterly cadence is selected in the funnel. */
+export const quarterlyImages: Record<"flow" | "clear" | "both", ProductImage> = {
+  flow: { src: "/formulas/conkaFlow/FlowQuarterly.jpg" },
+  clear: { src: "/formulas/conkaClear/ClearQuarterly.jpg" },
+  both: { src: "/formulas/both/BothQuarterly.jpg" },
+};
+
 /** Carousel image arrays for formula product pages (Flow, Clear) and the Both/Balance offering. */
 export const formulaImages: Record<"flow" | "clear" | "both", ProductImage[]> = {
   flow: [
@@ -30,7 +37,7 @@ export const formulaImages: Record<"flow" | "clear" | "both", ProductImage[]> = 
     { src: "/formulas/conkaClear/ClearNutrition.jpg" },
   ],
   both: [
-    { src: "/formulas/BothBox.jpg" },
+    { src: "/formulas/both/BothBox.jpg" },
     { src: "/formulas/both/BothHow.jpg" },
     { src: "/formulas/both/BothDailyUse.jpg" },
     { src: "/formulas/both/AppProof.jpg" },
