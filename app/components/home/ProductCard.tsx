@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import { PurchaseType, formulaContent } from "@/app/lib/productData";
 import { formulaPricing, protocolPricing } from "@/app/lib/productPricing";
-import { getProductAccent, getProductGradient } from "@/app/lib/productColors";
+import { getProductAccent } from "@/app/lib/productColors";
 import { getBillingLabel } from "@/app/lib/productHelpers";
 import {
   getFormulaImage,
@@ -69,17 +69,17 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     };
   }
 
-  // Protocol (Balance only)
+  // Both (Flow + Clear)
   return {
     id: BALANCE_PROTOCOL_ID,
-    name: "CONKA Protocol",
-    benefitHeadline: "Complete daily performance",
+    name: "Both (Flow + Clear)",
+    benefitHeadline: "The full daily system",
     bodyCopy:
-      "Flow and Clear in precise ratios. All-day performance, fully covered.",
+      "Morning focus meets afternoon clarity. Two shots, 16 active ingredients, all-day coverage.",
     bestFor: [
       "All-day energy & focus",
-      "Full recovery & sleep",
-      "Optimised for training load",
+      "Full recovery & clarity",
+      "The complete daily routine",
     ],
     stats: [
       { value: "+63%", label: "Memory & Attention" },
@@ -151,13 +151,10 @@ export default function ProductCard({
     onAddToCartProp?.();
   }, [isProtocol, product.id, purchaseType, addToCart, onAddToCartProp]);
 
-  // Accent / gradient — Balance for protocol, formula-specific otherwise
+  // Accent colour for stat values
   const accentColor = isProtocol
     ? getProductAccent(BALANCE_PROTOCOL_ID)
     : getProductAccent(product.id);
-  const buttonGradient = isProtocol
-    ? getProductGradient(BALANCE_PROTOCOL_ID)
-    : null;
 
   // Get pricing - all 4-pack on landing grid (customer acquisition)
   let monthlyPrice: string;
@@ -201,17 +198,8 @@ export default function ProductCard({
     }
   }
 
-  // Button background color
-  const formulaGradient = !isProtocol ? getProductGradient(product.id) : null;
-  const buttonBg = isSubscribe
-    ? isProtocol
-      ? buttonGradient
-        ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
-        : (accentColor ?? "#000")
-      : formulaGradient
-        ? `linear-gradient(to right, ${formulaGradient.start}, ${formulaGradient.end})`
-        : (accentColor ?? "#111")
-    : "var(--color-ink)";
+  // Button background color — brand accent blue for subscribe, ink for one-time
+  const buttonBg = isSubscribe ? "var(--brand-accent)" : "var(--color-ink)";
 
   return (
     <div

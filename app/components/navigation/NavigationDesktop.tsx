@@ -10,8 +10,6 @@ export default function NavigationDesktop({
   hideBanner,
   shopDropdownOpen,
   setShopDropdownOpen,
-  hoveredSection,
-  setHoveredSection,
   shopDropdownRef,
   bannerConfig,
   isScrollingDown,
@@ -94,8 +92,6 @@ export default function NavigationDesktop({
               <ShopMegaMenu
                 isOpen={shopDropdownOpen}
                 onClose={() => setShopDropdownOpen(false)}
-                hoveredSection={hoveredSection}
-                setHoveredSection={setHoveredSection}
                 bannerConfig={bannerConfig}
                 hideBanner={hideBanner}
                 onShopAreaEnter={onShopAreaEnter}
@@ -140,15 +136,8 @@ export default function NavigationDesktop({
           {/* White Space */}
           <div className="flex-1"></div>
 
-          {/* Right: Take Quiz + Account + Cart */}
+          {/* Right: Account + Cart */}
           <div className="hidden xl:flex items-center gap-4">
-            {/* Take the Quiz */}
-            <a
-              href="/quiz"
-              className="font-clinical text-sm tracking-wide border-b-2 border-transparent hover:border-current transition-colors pb-0.5"
-            >
-              Take the Quiz
-            </a>
             {/* Account Icon */}
             <a
               href="/account/login"

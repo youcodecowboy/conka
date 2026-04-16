@@ -66,7 +66,7 @@ export default function Hero() {
               href="/protocol/3"
               className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg"
             >
-              Try CONKA
+              Try CONKA Today
             </LandingCTA>
           </div>
 

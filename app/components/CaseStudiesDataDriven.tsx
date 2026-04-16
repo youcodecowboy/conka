@@ -9,6 +9,7 @@ import {
   SportCategory,
   getAthleteById,
 } from "@/app/lib/caseStudiesData";
+import LandingTrustBadges from "./landing/LandingTrustBadges";
 
 // Helper to get readable sport labels
 function getSportLabel(sport: SportCategory): string {
@@ -224,6 +225,9 @@ export default function CaseStudiesDataDriven({
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </Link>
+            <div className="mt-4 flex justify-center">
+              <LandingTrustBadges />
+            </div>
           </div>
         )}
     </>

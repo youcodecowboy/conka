@@ -6,14 +6,13 @@ import Link from "next/link";
 import LandingTrustBadges from "../landing/LandingTrustBadges";
 import ProductCard from "./ProductCard";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
-import { getProductAccent } from "@/app/lib/productColors";
 import type { ProductGridProps } from "./ProductGrid";
 import { getProductGridCopy } from "./productGridCopy";
 
 const ALL_CARDS = [
-  { productType: "flow" as const, name: "CONKA Flow", accentId: "01" as const },
-  { productType: "clear" as const, name: "CONKA Clear", accentId: "02" as const },
-  { productType: "protocol" as const, name: "CONKA Protocol", accentId: "3" as const },
+  { productType: "protocol" as const, name: "Both — CONKA Flow and Clear" },
+  { productType: "flow" as const, name: "CONKA Flow" },
+  { productType: "clear" as const, name: "CONKA Clear" },
 ];
 
 export default function ProductGridMobile(props?: ProductGridProps) {
@@ -97,7 +96,6 @@ export default function ProductGridMobile(props?: ProductGridProps) {
       {visibleCards.length > 1 && (
         <div className="px-4 mb-4 flex items-center gap-2 flex-wrap">
           {visibleCards.map((card, idx) => {
-            const accent = getProductAccent(card.accentId);
             const isActive = currentIndex === idx;
             return (
               <button
@@ -106,9 +104,9 @@ export default function ProductGridMobile(props?: ProductGridProps) {
                 onClick={() => goToCard(idx)}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all"
                 style={{
-                  borderColor: isActive ? accent : "var(--foreground)",
+                  borderColor: isActive ? "var(--brand-accent)" : "var(--foreground)",
                   opacity: isActive ? 1 : 0.4,
-                  backgroundColor: isActive ? accent ?? "transparent" : "transparent",
+                  backgroundColor: isActive ? "var(--brand-accent)" : "transparent",
                   color: isActive ? "white" : "var(--foreground)",
                 }}
               >
@@ -134,6 +132,34 @@ export default function ProductGridMobile(props?: ProductGridProps) {
         </div>
 
         {visibleCards.map((card) => {
+          if (card.productType === "protocol") {
+            return (
+              <div key="protocol" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
+                <div className="flex flex-col items-center w-full">
+                  <Link
+                    href="/protocol/3"
+                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={getProtocolImage("3")}
+                        alt="Both — CONKA Flow and Clear"
+                        fill
+                        className="object-cover"
+                        sizes="100vw"
+                      />
+                      <div
+                        className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--brand-accent)]"
+                      >
+                        Most Popular
+                      </div>
+                    </div>
+                  </Link>
+                  <ProductCard productType="protocol" onAddToCart={() => handleAddToCart("protocol")} />
+                </div>
+              </div>
+            );
+          }
           if (card.productType === "flow") {
             return (
               <div key="flow" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
@@ -144,6 +170,11 @@ export default function ProductGridMobile(props?: ProductGridProps) {
                   >
                     <div className="relative w-full h-full">
                       <Image src={getFormulaImage("01")} alt="CONKA Flow" fill className="object-cover" sizes="100vw" />
+                      <div
+                        className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--brand-accent)]"
+                      >
+                        Morning
+                      </div>
                     </div>
                   </Link>
                   <ProductCard productType="flow" onAddToCart={() => handleAddToCart("flow")} />
@@ -151,47 +182,23 @@ export default function ProductGridMobile(props?: ProductGridProps) {
               </div>
             );
           }
-          if (card.productType === "clear") {
-            return (
-              <div key="clear" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
-                <div className="flex flex-col items-center w-full">
-                  <Link
-                    href="/conka-clarity"
-                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
-                  >
-                    <div className="relative w-full h-full">
-                      <Image src={getFormulaImage("02")} alt="CONKA Clear" fill className="object-cover" sizes="100vw" />
-                    </div>
-                  </Link>
-                  <ProductCard productType="clear" onAddToCart={() => handleAddToCart("clear")} />
-                </div>
-              </div>
-            );
-          }
           return (
-            <div key="protocol" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
+            <div key="clear" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
               <div className="flex flex-col items-center w-full">
                 <Link
-                  href="/protocol/3"
+                  href="/conka-clarity"
                   className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
                 >
                   <div className="relative w-full h-full">
-                    <Image
-                      src={getProtocolImage("3")}
-                      alt="CONKA Protocol"
-                      fill
-                      className="object-cover"
-                      sizes="100vw"
-                    />
+                    <Image src={getFormulaImage("02")} alt="CONKA Clear" fill className="object-cover" sizes="100vw" />
                     <div
-                      className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                      style={{ backgroundColor: getProductAccent("3") || "#3a9f7e" }}
+                      className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--brand-accent)]"
                     >
-                      Most Popular
+                      Afternoon
                     </div>
                   </div>
                 </Link>
-                <ProductCard productType="protocol" onAddToCart={() => handleAddToCart("protocol")} />
+                <ProductCard productType="clear" onAddToCart={() => handleAddToCart("clear")} />
               </div>
             </div>
           );

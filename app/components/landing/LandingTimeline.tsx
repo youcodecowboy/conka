@@ -94,8 +94,8 @@ export default function LandingTimeline() {
         <div className="hidden lg:block lg:w-[450px] lg:flex-shrink-0 lg:sticky lg:top-24">
           <div className="relative aspect-square rounded-[var(--brand-radius-card)] overflow-hidden">
             <Image
-              src="/lifestyle/SatWoman.jpg"
-              alt="Woman holding CONKA Flow and Clear brain shots"
+              src="/lifestyle/ConkaAtWorkDesk.jpg"
+              alt="CONKA bottle on a work desk beside a keyboard"
               fill
               sizes="450px"
               className="object-cover"

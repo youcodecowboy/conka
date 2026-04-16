@@ -9,19 +9,12 @@ export interface NavigationProps {
 }
 
 /**
- * Hovered section type for shop mega menu
- */
-export type HoveredSection = "protocols" | "formulas" | "quiz" | "professionals";
-
-/**
  * Props for NavigationDesktop component
  */
 export interface NavigationDesktopProps {
   hideBanner: boolean;
   shopDropdownOpen: boolean;
   setShopDropdownOpen: (open: boolean) => void;
-  hoveredSection: HoveredSection;
-  setHoveredSection: (section: HoveredSection) => void;
   shopDropdownRef: React.RefObject<HTMLDivElement | null>;
   bannerConfig: ReturnType<typeof import("@/app/components/banner").useBannerConfig>;
   isScrollingDown: boolean;
@@ -45,20 +38,10 @@ export interface NavigationMobileProps {
 export interface ShopMegaMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  hoveredSection: HoveredSection;
-  setHoveredSection: (section: HoveredSection) => void;
   bannerConfig: ReturnType<typeof import("@/app/components/banner").useBannerConfig>;
   hideBanner: boolean;
   onShopAreaEnter: () => void;
   onShopAreaLeave: () => void;
-}
-
-/**
- * Props for ShopMegaMenuContent component
- */
-export interface ShopMegaMenuContentProps {
-  hoveredSection: HoveredSection;
-  onNavigate: () => void;
 }
 
 /**

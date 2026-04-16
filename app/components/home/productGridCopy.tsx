@@ -14,7 +14,7 @@ const LANDING_SUBTITLE: ReactNode = (
   <>
     <span className="font-bold">Two formulas, one system.</span>
     <br />
-    CONKA Flow for daytime energy and focus. CONKA Clear for clarity and recovery. Use separately or combine as a Protocol.
+    CONKA Flow for morning energy and focus. CONKA Clear for afternoon clarity and recovery. Take both or choose one.
   </>
 );
 const CROSS_SELL_TITLE = "Explore Other Products";

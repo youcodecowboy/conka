@@ -1,6 +1,7 @@
 "use client";
 
 import LandingCTA from "./LandingCTA";
+import LandingTrustBadges from "./LandingTrustBadges";
 import { useInView } from "@/app/hooks/useInView";
 import { useCountUp } from "@/app/hooks/useCountUp";
 import {
@@ -231,6 +232,9 @@ export default function LandingValueComparison() {
       {/* CTA */}
       <div className="mt-8 flex justify-start">
         <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
+      </div>
+      <div className="mt-4">
+        <LandingTrustBadges />
       </div>
     </div>
   );

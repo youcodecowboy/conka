@@ -14,7 +14,9 @@ interface WhatToExpectDesktopProps {
   productId?: "01" | "02";
 }
 
-export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopProps) {
+export default function WhatToExpectDesktop({
+  productId,
+}: WhatToExpectDesktopProps) {
   const [toggleFormula, setToggleFormula] = useState<"01" | "02">("01");
   const selectedFormula = productId ?? toggleFormula;
   const timeline: TimelineStage[] =
@@ -116,7 +118,7 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
                 >
                   {selectedFormula === "01"
                     ? "Take one 30ml shot of CONKA Flow in the morning with or without food. Best as part of your morning routine for sustained energy throughout the day."
-                    : "Take one 30ml shot of CONKA Clear 30-60 minutes before peak performance, or in the afternoon to support recovery and sleep quality."}
+                    : "Take one 30ml shot of CONKA Clear in the afternoon to support recovery and sleep quality."}
                 </p>
                 {showToggle && (
                   <a
@@ -160,8 +162,8 @@ export default function WhatToExpectDesktop({ productId }: WhatToExpectDesktopPr
               <Image
                 src={
                   selectedFormula === "01"
-                    ? "/lifestyle/WomanPink.jpg"
-                    : "/lifestyle/SatWoman.jpg"
+                    ? "/lifestyle/FlowBoxOpen.jpg"
+                    : "/lifestyle/ClearLaugh.jpg"
                 }
                 alt={
                   selectedFormula === "01"
