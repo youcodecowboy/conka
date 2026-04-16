@@ -44,7 +44,7 @@ const PrimaryTile = memo(function PrimaryTile({
       className="p-8 md:p-10 rounded-3xl bg-white text-black transition-shadow duration-300"
       style={{ boxShadow: "0 0 40px rgba(0,0,0,0.08), 0 4px 24px rgba(0,0,0,0.06)" }}
     >
-      <p className="brand-h2 mb-0 text-2xl md:text-3xl font-bold mb-4 text-black">
+      <p className="brand-h2 text-2xl md:text-3xl font-bold mb-4 text-black">
         {selected.detailTitle}
       </p>
       <p className="text-sm md:text-base text-black/90 leading-relaxed" style={{ lineHeight: 1.65 }}>
@@ -329,7 +329,7 @@ export default function CycleTrap({
     >
       <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20">
         <h2
-          className="brand-h2 mb-0 text-2xl md:text-3xl font-bold text-[var(--brand-black)] text-left mb-8"
+          className="brand-h2 text-2xl md:text-3xl font-bold text-[var(--brand-black)] text-left mb-8"
           style={{ letterSpacing: "-0.02em" }}
         >
           You&rsquo;re stuck in a cycle

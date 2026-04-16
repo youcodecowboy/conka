@@ -29,8 +29,8 @@ export default function ProtocolRatioSelector({
           onClick={() => onChange(id)}
           className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all ${
             value === id
-              ? "bg-[var(--color-ink)] text-white shadow-md"
-              : "bg-white text-[var(--text-on-light-muted)] border-2 border-black/15 hover:bg-black/5 hover:border-black/25"
+              ? "bg-[var(--brand-black)] text-white shadow-md"
+              : "bg-white text-black/60 border-2 border-black/15 hover:bg-black/5 hover:border-black/25"
           }`}
         >
           {getProtocolShortLabel(id)}

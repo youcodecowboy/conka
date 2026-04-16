@@ -71,7 +71,7 @@ export default function CycleBreakDesktop() {
               <div className="relative z-10 pt-4 pl-8 md:pl-12 lg:pl-16 max-w-[67%]">
                 {expandedCards.has("clear") ? (
                   <div className="text-white">
-                    <h3 className="brand-h2 mb-0 text-lg md:text-xl font-bold mb-8 text-white">
+                    <h3 className="brand-h2 text-lg md:text-xl font-bold mb-8 text-white">
                       {copy.mechanisms.clear.title}
                     </h3>
                     <p
@@ -94,7 +94,7 @@ export default function CycleBreakDesktop() {
                   </div>
                 ) : (
                   <div>
-                    <p className="brand-h2 mb-0 text-xl md:text-2xl font-bold text-black mb-2">
+                    <p className="brand-h2 text-xl md:text-2xl font-bold text-black mb-2">
                       How does CONKA Clear help?
                     </p>
                     <p className="brand-data text-xs uppercase tracking-wider opacity-60 text-black">
@@ -148,7 +148,7 @@ export default function CycleBreakDesktop() {
                 <div className="max-w-[67%] text-right">
                   {expandedCards.has("flow") ? (
                     <div className="text-white text-right inline-block max-w-full">
-                      <h3 className="brand-h2 mb-0 text-lg md:text-xl font-bold mb-8 text-white">
+                      <h3 className="brand-h2 text-lg md:text-xl font-bold mb-8 text-white">
                         {copy.mechanisms.flow.title}
                       </h3>
                       <p
@@ -171,7 +171,7 @@ export default function CycleBreakDesktop() {
                     </div>
                   ) : (
                     <div>
-                      <p className="brand-h2 mb-0 text-xl md:text-2xl font-bold text-black mb-2">
+                      <p className="brand-h2 text-xl md:text-2xl font-bold text-black mb-2">
                         How does CONKA Flow help?
                       </p>
                       <p className="brand-data text-xs uppercase tracking-wider opacity-60 text-black">

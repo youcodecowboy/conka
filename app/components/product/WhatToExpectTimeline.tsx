@@ -22,7 +22,7 @@ export default function WhatToExpectTimeline({
     <>
       <header className={`mb-8 md:mb-10 ${isMobile ? "text-right" : "max-w-[75%] text-right"}`}>
         <h2
-          className="brand-h2 mb-0 mb-2"
+          className="brand-h2 mb-2"
           style={{ letterSpacing: "-0.02em" }}
         >
           {sectionTitle}

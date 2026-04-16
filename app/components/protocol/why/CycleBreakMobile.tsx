@@ -69,7 +69,7 @@ export default function CycleBreakMobile() {
               <div className="relative z-10 pt-4 pl-8 md:pl-12 lg:pl-16 max-w-[67%] flex flex-col min-h-[280px]">
                 {expandedCards.has("clear") ? (
                   <div className="text-white">
-                    <h3 className="brand-h2 mb-0 text-lg font-bold mb-4 pt-4 text-white">
+                    <h3 className="brand-h2 text-lg font-bold mb-4 pt-4 text-white">
                       {copy.mechanisms.clear.title}
                     </h3>
                     <ul className="space-y-2.5 mt-4">
@@ -86,7 +86,7 @@ export default function CycleBreakMobile() {
                   </div>
                 ) : (
                   <div className="flex flex-col flex-1">
-                    <p className="brand-h2 mb-0 text-xl md:text-2xl font-bold text-black mb-2">
+                    <p className="brand-h2 text-xl md:text-2xl font-bold text-black mb-2">
                       How does CONKA Clear help?
                     </p>
                     <span className="mt-auto pt-4 inline-flex w-fit rounded-full border-2 border-black px-4 py-2 brand-data text-xs uppercase tracking-wider opacity-70 text-black">
@@ -135,7 +135,7 @@ export default function CycleBreakMobile() {
                 <div className="max-w-[67%] text-right flex flex-col flex-1 items-end">
                   {expandedCards.has("flow") ? (
                     <div className="text-white text-right inline-block max-w-full">
-                      <h3 className="brand-h2 mb-0 text-lg font-bold mb-4 pt-4 text-white text-right">
+                      <h3 className="brand-h2 text-lg font-bold mb-4 pt-4 text-white text-right">
                         {copy.mechanisms.flow.title}
                       </h3>
                       <ul className="space-y-2.5 text-right mt-4">
@@ -152,7 +152,7 @@ export default function CycleBreakMobile() {
                     </div>
                   ) : (
                     <div className="flex flex-col flex-1 w-full items-end">
-                      <p className="brand-h2 mb-0 text-xl md:text-2xl font-bold text-black mb-2">
+                      <p className="brand-h2 text-xl md:text-2xl font-bold text-black mb-2">
                         How does CONKA Flow help?
                       </p>
                       <span className="mt-auto pt-4 inline-flex w-fit rounded-full border-2 border-black px-4 py-2 brand-data text-xs uppercase tracking-wider opacity-70 text-black">

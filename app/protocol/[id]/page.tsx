@@ -213,7 +213,7 @@ export default function ProtocolPage() {
         >
           <div className="brand-track">
             <div className="text-center">
-              <h2 className="brand-h2 mb-0 text-2xl md:text-3xl font-bold mb-3">
+              <h2 className="brand-h2 text-2xl md:text-3xl font-bold mb-3">
                 But there's a way out.
               </h2>
               <h3 className="brand-h3 text-xl md:text-2xl font-bold">
@@ -382,7 +382,7 @@ export default function ProtocolPage() {
       >
         <div className="brand-track">
           <div className="text-center">
-            <h2 className="brand-h2 mb-0 text-2xl md:text-3xl font-bold mb-3">
+            <h2 className="brand-h2 text-2xl md:text-3xl font-bold mb-3">
               But there's a way out.
             </h2>
             <h3 className="brand-h3 text-xl md:text-2xl font-bold">

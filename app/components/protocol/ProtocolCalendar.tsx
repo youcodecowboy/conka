@@ -43,7 +43,7 @@ export default function ProtocolCalendar({
     <>
       {/* Header */}
       <div className="text-center mb-8">
-        <h2 className="brand-h2 mb-0 text-3xl md:text-4xl font-bold mb-2">
+        <h2 className="brand-h2 text-3xl md:text-4xl font-bold mb-2">
           How to follow your protocol
         </h2>
         <p className="brand-caption italic text-xl">visualize your journey</p>

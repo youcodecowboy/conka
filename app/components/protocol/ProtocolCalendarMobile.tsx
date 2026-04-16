@@ -48,7 +48,7 @@ export default function ProtocolCalendarMobile({
     <>
       {/* Header */}
       <div className="text-center mb-4">
-        <h2 className="brand-h2 mb-0 text-2xl font-bold mb-2">
+        <h2 className="brand-h2 text-2xl font-bold mb-2">
           How to follow your protocol
         </h2>
         <p className="brand-caption italic text-base opacity-70">
