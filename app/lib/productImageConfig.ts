@@ -8,14 +8,14 @@
 export const protocolNavigationImages: Record<string, string> = {
   "1": "/protocols/ResilienceRed.jpg",
   "2": "/protocols/PrecisionPurple.jpg",
-  "3": "/protocols/BalanceGreen.jpg",
+  "3": "/formulas/both/BothHold.jpg",
   "4": "/protocols/UltimatePink.jpg",
 };
 
 // Formula navigation images (for cards, menus)
 export const formulaNavigationImages: Record<string, string> = {
-  "01": "/formulas/ConkaFlowColour.jpg",
-  "02": "/formulas/ConkaClearColour.jpg",
+  "01": "/formulas/conkaFlow/FlowHold.jpg",
+  "02": "/formulas/conkaClear/ClearHold.jpg",
 };
 
 /**
