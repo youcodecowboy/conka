@@ -69,17 +69,17 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     };
   }
 
-  // Protocol (Balance only)
+  // Both (Flow + Clear)
   return {
     id: BALANCE_PROTOCOL_ID,
-    name: "CONKA Protocol",
-    benefitHeadline: "Complete daily performance",
+    name: "Both (Flow + Clear)",
+    benefitHeadline: "The full daily system",
     bodyCopy:
-      "Flow and Clear in precise ratios. All-day performance, fully covered.",
+      "Morning focus meets afternoon clarity. Two shots, 16 active ingredients, all-day coverage.",
     bestFor: [
       "All-day energy & focus",
-      "Full recovery & sleep",
-      "Optimised for training load",
+      "Full recovery & clarity",
+      "The complete daily routine",
     ],
     stats: [
       { value: "+63%", label: "Memory & Attention" },
@@ -201,17 +201,8 @@ export default function ProductCard({
     }
   }
 
-  // Button background color
-  const formulaGradient = !isProtocol ? getProductGradient(product.id) : null;
-  const buttonBg = isSubscribe
-    ? isProtocol
-      ? buttonGradient
-        ? `linear-gradient(to right, ${buttonGradient.start}, ${buttonGradient.end})`
-        : (accentColor ?? "#000")
-      : formulaGradient
-        ? `linear-gradient(to right, ${formulaGradient.start}, ${formulaGradient.end})`
-        : (accentColor ?? "#111")
-    : "var(--color-ink)";
+  // Button background color — brand accent blue for subscribe, ink for one-time
+  const buttonBg = isSubscribe ? "var(--brand-accent)" : "var(--color-ink)";
 
   return (
     <div

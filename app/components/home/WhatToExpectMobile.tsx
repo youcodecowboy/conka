@@ -100,8 +100,8 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
           <Image
             src={
               selectedFormula === "01"
-                ? "/lifestyle/WomanPink.jpg"
-                : "/lifestyle/SatWoman.jpg"
+                ? "/lifestyle/FlowBoxOpen.jpg"
+                : "/lifestyle/ClearLaugh.jpg"
             }
             alt={
               selectedFormula === "01"

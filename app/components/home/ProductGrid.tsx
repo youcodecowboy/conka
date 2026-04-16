@@ -61,7 +61,36 @@ export default function ProductGrid(props?: ProductGridProps) {
         </div>
 
         <div className="product-grid-container grid grid-cols-3 gap-8 mb-8">
-          {/* Column 1: Flow or empty — always 3 columns so card size stays same with 2 cards */}
+          {/* Column 1: Both (Flow + Clear) or empty */}
+          {showProtocol ? (
+            <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
+              <Link
+                href="/protocol/3"
+                className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={getProtocolImage("3")}
+                    alt="Both — CONKA Flow and Clear"
+                    fill
+                    className="object-cover"
+                    sizes="33vw"
+                  />
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--brand-accent)]">
+                    Most Popular
+                  </div>
+                </div>
+              </Link>
+              <ProductCard
+                productType="protocol"
+                onAddToCart={() => handleAddToCart("protocol")}
+              />
+            </div>
+          ) : (
+            <div aria-hidden="true" />
+          )}
+
+          {/* Column 2: Flow or empty */}
           {showFlow ? (
             <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
               <Link
@@ -76,11 +105,8 @@ export default function ProductGrid(props?: ProductGridProps) {
                     className="object-cover"
                     sizes="33vw"
                   />
-                  <div
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                    style={{ backgroundColor: getProductAccent("01") || "#111" }}
-                  >
-                    Energy
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--brand-accent)]">
+                    Morning
                   </div>
                 </div>
               </Link>
@@ -93,7 +119,7 @@ export default function ProductGrid(props?: ProductGridProps) {
             <div aria-hidden="true" />
           )}
 
-          {/* Column 2: Clear or empty */}
+          {/* Column 3: Clear or empty */}
           {showClear ? (
             <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
               <Link
@@ -108,49 +134,14 @@ export default function ProductGrid(props?: ProductGridProps) {
                     className="object-cover"
                     sizes="33vw"
                   />
-                  <div
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                    style={{ backgroundColor: getProductAccent("02") || "#111" }}
-                  >
-                    Recovery
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--brand-accent)]">
+                    Afternoon
                   </div>
                 </div>
               </Link>
               <ProductCard
                 productType="clear"
                 onAddToCart={() => handleAddToCart("clear")}
-              />
-            </div>
-          ) : (
-            <div aria-hidden="true" />
-          )}
-
-          {/* Column 3: Protocol (Balance) or empty */}
-          {showProtocol ? (
-            <div className="product-card-wrapper product-card-formula product-card-protocol flex flex-col items-stretch h-full">
-              <Link
-                href="/protocol/3"
-                className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
-              >
-                <div className="relative w-full h-full">
-                  <Image
-                    src={getProtocolImage("3")}
-                    alt="CONKA Protocol"
-                    fill
-                    className="object-cover"
-                    sizes="33vw"
-                  />
-                  <div
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
-                    style={{ backgroundColor: getProductAccent("3") || "#3a9f7e" }}
-                  >
-                    Most Popular
-                  </div>
-                </div>
-              </Link>
-              <ProductCard
-                productType="protocol"
-                onAddToCart={() => handleAddToCart("protocol")}
               />
             </div>
           ) : (
