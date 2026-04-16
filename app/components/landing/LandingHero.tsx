@@ -4,12 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 import LandingCTA from "./LandingCTA";
-import { PRICE_PER_SHOT_BOTH, PRICE_PER_DAY_BOTH } from "@/app/lib/landingPricing";
-
 /* ------------------------------------------------------------------ */
 /*  A/B TEST CONFIG                                                    */
-/*  Change the active index to swap headline or CTA per campaign.      */
-/*  Only one of each is rendered on the live site.                     */
+/*  Change the active index to swap headline per campaign.             */
+/*  Only one is rendered on the live site.                             */
 /* ------------------------------------------------------------------ */
 
 /** Headline variants for A/B testing. */
@@ -25,20 +23,6 @@ const HEADLINES = [
 ] as const;
 
 const ACTIVE_HEADLINE_INDEX = 0;
-
-/** CTA label variants for A/B testing. */
-const CTA_LABELS = [
-  /* 0 — value-anchored, matches section CTAs */
-  `Get Both from £${PRICE_PER_SHOT_BOTH}/shot →`,
-  /* 1 — percentage-led (Johnny's recommendation) */
-  "Save 25% — subscribe today →",
-  /* 2 — daily cost anchor, cheaper than coffee */
-  `Start for £${PRICE_PER_DAY_BOTH}/day →`,
-  /* 3 — low-commitment, curiosity-driven */
-  "See your plan →",
-] as const;
-
-const ACTIVE_CTA_INDEX = 0;
 
 /* ------------------------------------------------------------------ */
 /*  Avatar data — photos at /public/avatars/, fallback to initials     */
@@ -72,12 +56,9 @@ export default function LandingHero() {
     <div>
       {/* Social proof pill — centered on mobile, left-aligned on desktop */}
       <div className="flex justify-center lg:justify-start mb-4">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white text-xs font-semibold whitespace-nowrap">
-          <span aria-hidden className="text-yellow-400">★★★★★</span>
-          <span>150,000+ bottles sold<sup className="text-[0.6em] text-white/30 align-super">§</sup></span>
-          <span className="text-white/40">·</span>
-          <span>4.7/5 rating</span>
-        </div>
+        <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]">
+          150,000+ bottles sold
+        </span>
       </div>
 
       <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
@@ -98,12 +79,12 @@ export default function LandingHero() {
           {/* CTA — safe-area padding prevents mobile URL bar overlap */}
           <div className="mt-8 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0">
             <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
-              {CTA_LABELS[ACTIVE_CTA_INDEX]}
+              Try CONKA
             </LandingCTA>
           </div>
 
           {/* Customer avatars + review count */}
-          <div className="flex items-center justify-center lg:justify-start gap-3 mt-5">
+          <div className="flex items-center justify-center lg:justify-start gap-3 mt-3">
             <div className="flex -space-x-2">
               {AVATARS.map((avatar, i) => (
                 <div
@@ -136,7 +117,7 @@ export default function LandingHero() {
             </div>
           </div>
 
-          <div className="flex justify-center lg:justify-start mt-6">
+          <div className="flex justify-center lg:justify-start mt-3">
             <HeroTrustBadges />
           </div>
         </div>
@@ -153,9 +134,14 @@ export default function LandingHero() {
               priority
               fetchPriority="high"
               sizes="(max-width: 1024px) 95vw, 60vw"
-              className="object-cover object-center"
+              className="object-cover object-[center_55%] lg:object-center"
             />
           </div>
+          {/* Star rating — plain text below image */}
+          <p className="text-center lg:text-left text-sm text-black/60 mt-3">
+            <span aria-hidden className="text-yellow-400">★★★★★</span>{" "}
+            <span className="font-medium">4.7/5</span> from 500+ reviews
+          </p>
         </div>
       </div>
     </div>
