@@ -13,7 +13,7 @@ export default function OurStoryPage() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
 
       {isMobile === undefined ? (
@@ -24,49 +24,39 @@ export default function OurStoryPage() {
         </div>
       ) : (
         <>
-          {/* Hero */}
+          {/* ===== SECTION 1: HERO ===== */}
           <section
-            className="premium-section-luxury premium-hero-first premium-hero-with-top-air premium-section-reduced-bottom premium-bg-bone"
+            className="brand-section brand-hero-first brand-bg-tint"
             aria-label="Our Story hero"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               {isMobile ? <OurStoryHeroMobile /> : <OurStoryHero />}
             </div>
           </section>
 
-          {/* Story sections – Option A: alternating light/dark with palette + air */}
-          {storySections.map((section) => {
-            const isLight = section.theme === "light";
-            return (
-              <section
-                key={section.id}
-                className={`premium-section-luxury ${
-                  isLight ? "" : "text-white"
-                }`}
-                style={{
-                  backgroundColor: isLight
-                    ? "var(--color-neuro-blue-light)"
-                    : "var(--color-neuro-blue-dark)",
-                }}
-                aria-label={`Story: ${section.headline}`}
-              >
-                <div className="premium-track">
-                  <StorySection
-                    section={section}
-                    totalSections={storySections.length}
-                    variant={isMobile ? "mobile" : "desktop"}
-                  />
-                </div>
-              </section>
-            );
-          })}
+          {/* ===== STORY SECTIONS: alternating white/tint ===== */}
+          {storySections.map((section, index) => (
+            <section
+              key={section.id}
+              className={`brand-section ${index % 2 === 0 ? "brand-bg-white" : "brand-bg-tint"}`}
+              aria-label={`Story: ${section.headline}`}
+            >
+              <div className="brand-track">
+                <StorySection
+                  section={section}
+                  totalSections={storySections.length}
+                  variant={isMobile ? "mobile" : "desktop"}
+                />
+              </div>
+            </section>
+          ))}
 
-          {/* Final CTA */}
+          {/* ===== FINAL CTA ===== */}
           <section
-            className="premium-section-luxury premium-bg-ink text-white"
+            className={`brand-section ${storySections.length % 2 === 0 ? "brand-bg-white" : "brand-bg-tint"}`}
             aria-label="Join the Journey"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               <OurStoryCTA />
             </div>
           </section>

@@ -29,7 +29,7 @@ CRO/Acquisition. Visual inconsistency undermines trust. A user clicking from the
 |-------|-------------|--------|
 | 1 | Product pages (conka-flow + conka-clarity) | Done |
 | 2 | Protocol page (Balance, id=3) | Done |
-| 3 | Content pages (science + our-story) | Not Started |
+| 3 | Content pages (science + our-story) | Done |
 
 ---
 

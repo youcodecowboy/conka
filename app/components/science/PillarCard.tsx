@@ -17,12 +17,12 @@ function getIconBgStyle(colorClass: string): React.CSSProperties {
     colorClass === "bg-emerald-500" ||
     colorClass === "bg-purple-500"
   ) {
-    return { backgroundColor: "var(--color-neuro-blue-end)" };
+    return { backgroundColor: "var(--brand-accent)" };
   }
   if (colorClass === "bg-blue-500" || colorClass === "bg-red-500") {
-    return { backgroundColor: "var(--color-neuro-blue-end)" };
+    return { backgroundColor: "var(--brand-accent)" };
   }
-  return { backgroundColor: "var(--color-neuro-blue-end)" };
+  return { backgroundColor: "var(--brand-accent)" };
 }
 
 const icons = {
@@ -120,18 +120,18 @@ export default function PillarCard({
 
   const formulaDotStyle: React.CSSProperties =
     pillar.forFormula === "01"
-      ? { backgroundColor: "var(--color-neuro-blue-end)" }
+      ? { backgroundColor: "var(--brand-accent)" }
       : pillar.forFormula === "02"
-        ? { backgroundColor: "var(--color-mid)" }
+        ? { backgroundColor: "var(--brand-neutral)" }
         : {
             background:
-              "linear-gradient(to right, var(--color-neuro-blue-end), var(--color-mid))",
+              "linear-gradient(to right, var(--brand-accent), var(--brand-neutral))",
           };
 
   return (
     <div
-      className="premium-card-soft premium-card-soft-stroke overflow-hidden text-[var(--color-ink)]"
-      style={{ borderRadius: "var(--premium-radius-card)" }}
+      className="brand-card-bordered overflow-hidden"
+      style={{ borderRadius: "var(--brand-radius-card)" }}
     >
       <button
         type="button"
@@ -146,14 +146,14 @@ export default function PillarCard({
             className="text-white p-3 rounded-lg w-fit self-center"
             style={{
               ...getIconBgStyle(pillar.color),
-              borderRadius: "var(--premium-radius-nested)",
+              borderRadius: "var(--brand-radius-container)",
             }}
           >
             {icons[pillar.icon]}
           </div>
           {/* Title and dropdown in a row */}
           <div className="flex items-start justify-between gap-4">
-            <h3 className={`premium-heading flex-1 min-w-0 ${isMobile ? "text-lg" : "text-xl"}`}>
+            <h3 className={`brand-h3 flex-1 min-w-0 ${isMobile ? "text-lg" : "text-xl"}`}>
               {pillar.name}
             </h3>
             <svg
@@ -174,7 +174,7 @@ export default function PillarCard({
             </svg>
           </div>
           {/* Tagline / description */}
-          <p className="premium-section-subtitle opacity-70">
+          <p className="brand-body opacity-70">
             {pillar.tagline}
           </p>
           {/* Formula label */}
@@ -183,7 +183,7 @@ export default function PillarCard({
               className="w-2 h-2 rounded-full flex-shrink-0"
               style={formulaDotStyle}
             />
-            <span className="premium-body-sm opacity-50">
+            <span className="brand-caption opacity-50">
               {formulaLabel}
             </span>
           </div>
@@ -192,15 +192,15 @@ export default function PillarCard({
 
       {isExpanded && (
         <div
-          className={`border-t border-[var(--color-premium-stroke)] ${isMobile ? "p-4 space-y-4" : "p-6 space-y-6"}`}
+          className={`border-t border-[var(--brand-stroke)] ${isMobile ? "p-4 space-y-4" : "p-6 space-y-6"}`}
         >
           <div className={isMobile ? "" : "mb-6"}>
-            <p className="premium-body-sm uppercase opacity-50 mb-2">
+            <p className="brand-caption uppercase opacity-50 mb-2">
               What Is It?
             </p>
             <p
-              className={`premium-body ${isMobile ? "text-sm" : "text-base"}`}
-              style={{ lineHeight: "var(--premium-font-body-leading)" }}
+              className={`brand-body${isMobile ? "text-sm" : "text-base"}`}
+              style={{ lineHeight: "var(--brand-body-leading)" }}
             >
               {pillar.description}
             </p>
@@ -209,24 +209,24 @@ export default function PillarCard({
           <div
             className={
               isMobile
-                ? "premium-card-soft-mobile premium-card-soft-stroke"
-                : "p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+                ? "brand-card-bordered"
+                : "p-4 rounded-[var(--brand-radius-container)] border border-[var(--brand-stroke)]"
             }
-            style={isMobile ? undefined : { backgroundColor: "var(--color-premium-bg-soft)" }}
+            style={isMobile ? undefined : { backgroundColor: "var(--brand-tint)" }}
           >
-            <p className="premium-body-sm uppercase opacity-50 mb-2">
+            <p className="brand-caption uppercase opacity-50 mb-2">
               How It Works
             </p>
             <p
-              className="premium-body-sm leading-relaxed opacity-80"
-              style={{ lineHeight: "var(--premium-font-body-leading)" }}
+              className="brand-caption leading-relaxed opacity-80"
+              style={{ lineHeight: "var(--brand-body-leading)" }}
             >
               {pillar.mechanism}
             </p>
           </div>
 
           <div className={isMobile ? "" : "mb-6"}>
-            <p className="premium-body-sm uppercase opacity-50 mb-3">
+            <p className="brand-caption uppercase opacity-50 mb-3">
               Clinical Evidence
             </p>
             <div
@@ -239,28 +239,28 @@ export default function PillarCard({
                   key={idx}
                   className={
                     isMobile
-                      ? "premium-card-soft-mobile premium-card-soft-stroke text-center"
-                      : "p-3 text-center rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+                      ? "brand-card-bordered text-center"
+                      : "p-3 text-center rounded-[var(--brand-radius-container)] border border-[var(--brand-stroke)]"
                   }
-                  style={isMobile ? undefined : { backgroundColor: "var(--color-premium-bg-soft)" }}
+                  style={isMobile ? undefined : { backgroundColor: "var(--brand-tint)" }}
                 >
                   <p
                     className="text-2xl font-bold font-clinical"
-                    style={{ color: "var(--color-neuro-blue-end)" }}
+                    style={{ color: "var(--brand-accent)" }}
                   >
                     {stat.value}
                   </p>
-                  <p className="premium-body-sm opacity-70 mt-1">
+                  <p className="brand-caption opacity-70 mt-1">
                     {stat.label}
                   </p>
                   <a
                     href={`https://pubmed.ncbi.nlm.nih.gov/${stat.pmid}/`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="premium-body-sm hover:underline mt-1 block"
+                    className="brand-caption hover:underline mt-1 block"
                     style={{
                       fontSize: "10px",
-                      color: "var(--color-neuro-blue-end)",
+                      color: "var(--brand-accent)",
                     }}
                   >
                     PMID: {stat.pmid}
@@ -271,7 +271,7 @@ export default function PillarCard({
           </div>
 
           <div>
-            <p className="premium-body-sm uppercase opacity-50 mb-3">
+            <p className="brand-caption uppercase opacity-50 mb-3">
               Key Ingredients
             </p>
             <div className="space-y-2">
@@ -280,31 +280,31 @@ export default function PillarCard({
                   key={idx}
                   className={
                     isMobile
-                      ? "premium-card-soft-mobile premium-card-soft-stroke flex items-center gap-3"
-                      : "flex items-center gap-3 p-3 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)]"
+                      ? "brand-card-bordered flex items-center gap-3"
+                      : "flex items-center gap-3 p-3 rounded-[var(--brand-radius-container)] border border-[var(--brand-stroke)]"
                   }
-                  style={isMobile ? undefined : { backgroundColor: "var(--color-premium-bg-soft)" }}
+                  style={isMobile ? undefined : { backgroundColor: "var(--brand-tint)" }}
                 >
                   <span
                     className="w-2 h-2 rounded-full flex-shrink-0"
                     style={
                       ingredient.formula === "01"
-                        ? { backgroundColor: "var(--color-neuro-blue-end)" }
+                        ? { backgroundColor: "var(--brand-accent)" }
                         : ingredient.formula === "02"
-                          ? { backgroundColor: "var(--color-mid)" }
+                          ? { backgroundColor: "var(--brand-neutral)" }
                           : {
                               background:
-                                "linear-gradient(to right, var(--color-neuro-blue-end), var(--color-mid))",
+                                "linear-gradient(to right, var(--brand-accent), var(--brand-neutral))",
                             }
                     }
                   />
                   <div className="flex-1">
                     <p className="font-bold text-sm">{ingredient.name}</p>
-                    <p className="premium-body-sm opacity-70">
+                    <p className="brand-caption opacity-70">
                       {ingredient.role}
                     </p>
                   </div>
-                  <span className="premium-body-sm opacity-50">
+                  <span className="brand-caption opacity-50">
                     {ingredient.formula === "01"
                       ? "F01"
                       : ingredient.formula === "02"

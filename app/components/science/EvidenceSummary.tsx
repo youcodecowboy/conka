@@ -15,20 +15,20 @@ export default function EvidenceSummary({
   return (
     <div className="flex flex-col items-center">
       <div className="text-center mb-6 md:mb-10">
-        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
+        <p className="brand-caption uppercase tracking-widest opacity-50 mb-2">
           Clinical Foundation
         </p>
         <h2
-          className={`premium-section-heading font-bold ${
+          className={`brand-h2 font-bold ${
             isMobile ? "text-2xl" : "text-3xl lg:text-4xl"
           }`}
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          style={{ letterSpacing: "-0.02em" }}
         >
           Evidence-Based Formulation
         </h2>
         <p
-          className="premium-section-subtitle opacity-80 mt-2 max-w-xl mx-auto"
-          style={{ maxWidth: "var(--premium-body-max-width)" }}
+          className="brand-body opacity-80 mt-2 max-w-xl mx-auto"
+          style={{ maxWidth: "var(--brand-body-max-width)" }}
         >
           Every ingredient is validated by peer-reviewed research
         </p>
@@ -37,9 +37,9 @@ export default function EvidenceSummary({
       <div
         className="w-full p-6 lg:p-10 text-white"
         style={{
-          backgroundColor: "var(--color-neuro-blue-dark)",
-          borderRadius: "var(--premium-radius-card)",
-          color: "var(--text-on-ink)",
+          backgroundColor: "var(--brand-black)",
+          borderRadius: "var(--brand-radius-card)",
+          color: "var(--brand-white)",
         }}
       >
         <div className="grid grid-cols-3 gap-4 md:gap-6">
@@ -47,29 +47,29 @@ export default function EvidenceSummary({
             <p className="text-3xl lg:text-4xl font-bold font-clinical">
               {evidence.totalStudies}
             </p>
-            <p className="premium-body-sm opacity-70 mt-1">Clinical Studies</p>
+            <p className="brand-caption opacity-70 mt-1">Clinical Studies</p>
           </div>
           <div className="text-center">
             <p className="text-3xl lg:text-4xl font-bold font-clinical">
               {evidence.totalParticipants.toLocaleString()}+
             </p>
-            <p className="premium-body-sm opacity-70 mt-1">Participants</p>
+            <p className="brand-caption opacity-70 mt-1">Participants</p>
           </div>
           <div className="text-center">
             <p className="text-3xl lg:text-4xl font-bold font-clinical">
               {evidence.peerReviewed}
             </p>
-            <p className="premium-body-sm opacity-70 mt-1">Peer Reviewed</p>
+            <p className="brand-caption opacity-70 mt-1">Peer Reviewed</p>
           </div>
           <div className="text-center">
             <p className="text-3xl lg:text-4xl font-bold font-clinical">16</p>
-            <p className="premium-body-sm opacity-70 mt-1">Active Ingredients</p>
+            <p className="brand-caption opacity-70 mt-1">Active Ingredients</p>
           </div>
           <div className="text-center">
             <p className="text-3xl lg:text-4xl font-bold font-clinical">
               {evidence.researchInvestment}
             </p>
-            <p className="premium-body-sm opacity-70 mt-1">
+            <p className="brand-caption opacity-70 mt-1">
               Research Investment
             </p>
           </div>
@@ -77,7 +77,7 @@ export default function EvidenceSummary({
             <p className="text-lg lg:text-xl font-bold font-clinical">
               {evidence.patentNumber}
             </p>
-            <p className="premium-body-sm opacity-70 mt-1">Patent Number</p>
+            <p className="brand-caption opacity-70 mt-1">Patent Number</p>
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@ export default function EvidenceSummary({
       <div
         className={`mt-6 text-center ${isMobile ? "px-2" : "max-w-2xl mx-auto"}`}
       >
-        <p className="premium-body-sm opacity-60 leading-relaxed">
+        <p className="brand-caption opacity-60 leading-relaxed">
           Research includes CONKA&apos;s proprietary studies plus peer-reviewed
           research from leading institutions including Oxford University, UCLA,
           Northumbria University, and others. All citations are PubMed indexed
@@ -115,7 +115,7 @@ export default function EvidenceSummary({
             <line x1="16" y1="17" x2="8" y2="17" />
             <polyline points="10 9 9 9 8 9" />
           </svg>
-          <span className="premium-body-sm opacity-70">
+          <span className="brand-caption opacity-70">
             All studies indexed in PubMed
           </span>
         </div>
@@ -136,7 +136,7 @@ export default function EvidenceSummary({
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
             <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
-          <span className="premium-body-sm opacity-70">
+          <span className="brand-caption opacity-70">
             Full citations available on ingredients page
           </span>
         </div>
@@ -145,20 +145,20 @@ export default function EvidenceSummary({
       <div className="mt-8 flex flex-wrap justify-center gap-4">
         <Link
           href="/ingredients"
-          className="px-6 py-3 font-bold text-sm transition-opacity hover:opacity-90 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)]"
+          className="px-6 py-3 font-bold text-sm transition-opacity hover:opacity-90 rounded-[var(--brand-radius-interactive)] border border-[var(--brand-stroke)]"
           style={{
-            backgroundColor: "var(--color-bone)",
-            color: "var(--color-ink)",
+            backgroundColor: "var(--brand-white)",
+            color: "var(--brand-black)",
           }}
         >
           Explore All Ingredients
         </Link>
         <Link
           href="/quiz"
-          className="px-6 py-3 font-bold text-sm transition-opacity hover:opacity-90 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)]"
+          className="px-6 py-3 font-bold text-sm transition-opacity hover:opacity-90 rounded-[var(--brand-radius-interactive)] border border-[var(--brand-stroke)]"
           style={{
-            backgroundColor: "var(--color-bone)",
-            color: "var(--color-ink)",
+            backgroundColor: "var(--brand-white)",
+            color: "var(--brand-black)",
           }}
         >
           Find Your Protocol

@@ -30,7 +30,7 @@ const CARDS = [
         <polyline points="10 9 9 9 8 9" />
       </svg>
     ),
-    iconBg: "var(--color-neuro-blue-end)",
+    iconBg: "var(--brand-accent)",
   },
   {
     title: "Bioavailability First",
@@ -55,7 +55,7 @@ const CARDS = [
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
       </svg>
     ),
-    iconBg: "var(--color-neuro-blue-end)",
+    iconBg: "var(--brand-accent)",
   },
   {
     title: "Full Transparency",
@@ -79,7 +79,7 @@ const CARDS = [
         <polyline points="22 4 12 14.01 9 11.01" />
       </svg>
     ),
-    iconBg: "var(--color-neuro-blue-end)",
+    iconBg: "var(--brand-accent)",
   },
 ];
 
@@ -89,12 +89,12 @@ export default function ScienceDifferent({
   return (
     <>
       <div className="text-center mb-10 md:mb-12">
-        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
+        <p className="brand-caption uppercase tracking-widest opacity-50 mb-2">
           Our Approach
         </p>
         <h2
-          className="premium-section-heading"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2"
+          style={{ letterSpacing: "-0.02em" }}
         >
           What Makes CONKA Different
         </h2>
@@ -110,8 +110,8 @@ export default function ScienceDifferent({
         {CARDS.map((card) => (
           <div
             key={card.title}
-            className="premium-card-soft premium-card-soft-stroke"
-            style={{ borderRadius: "var(--premium-radius-card)" }}
+            className="brand-card-bordered"
+            style={{ borderRadius: "var(--brand-radius-card)" }}
           >
             {isMobile ? (
               <div className="flex items-start gap-4 p-4">
@@ -122,8 +122,8 @@ export default function ScienceDifferent({
                   {card.icon}
                 </div>
                 <div>
-                  <h3 className="premium-heading mb-1">{card.title}</h3>
-                  <p className="premium-body-sm opacity-80">
+                  <h3 className="brand-h3 mb-1">{card.title}</h3>
+                  <p className="brand-caption opacity-80">
                     {card.descriptionMobile}
                   </p>
                 </div>
@@ -136,8 +136,8 @@ export default function ScienceDifferent({
                 >
                   {card.icon}
                 </div>
-                <h3 className="premium-heading mb-2">{card.title}</h3>
-                <p className="premium-body-sm opacity-80">{card.description}</p>
+                <h3 className="brand-h3 mb-2">{card.title}</h3>
+                <p className="brand-caption opacity-80">{card.description}</p>
               </div>
             )}
           </div>
