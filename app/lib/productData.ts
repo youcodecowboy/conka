@@ -11,3 +11,4 @@ export * from "./productPricing";
 export * from "./formulaContent";
 export * from "./protocolContent";
 export * from "./productHelpers";
+export * from "./productImages";

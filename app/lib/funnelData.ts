@@ -9,7 +9,7 @@
  * quarterly combos are empty until created in Shopify Admin.
  */
 
-import { formatPrice } from "./productData";
+import { formatPrice, formulaImages } from "./productData";
 import { GUARANTEE_DAYS } from "./offerConstants";
 
 // ============================================
@@ -342,34 +342,8 @@ export const FUNNEL_HERO_IMAGES: Record<FunnelProduct, { src: string; alt: strin
   },
 };
 
-/** Step 2: Slideshow images per product (carousel) */
-const FUNNEL_PRODUCT_SLIDESHOW_BASE: Record<FunnelProduct, { src: string }[]> = {
-  flow: [
-    { src: "/formulas/conkaFlow/FlowBox.jpg" },
-    { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
-    { src: "/formulas/conkaFlow/FlowStats.jpg" },
-    { src: "/formulas/conkaFlow/FlowEssentials.jpg" },
-    { src: "/formulas/conkaFlow/FlowCertified.jpg" },
-    { src: "/formulas/conkaFlow/FlowReviews.jpg" },
-  ],
-  clear: [
-    { src: "/formulas/conkaClear/ClearBox.jpg" },
-    { src: "/formulas/conkaClear/ClearIngredients.jpg" },
-    { src: "/formulas/conkaClear/ClearStats.jpg" },
-    { src: "/formulas/conkaClear/ClearEssentials.jpg" },
-    { src: "/formulas/conkaClear/ClearCertified.jpg" },
-    { src: "/formulas/conkaClear/ClearReviews.jpg" },
-  ],
-  both: [
-    { src: "/formulas/BothBox.jpg" },
-    { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
-    { src: "/formulas/conkaClear/ClearIngredients.jpg" },
-    { src: "/formulas/conkaFlow/FlowStats.jpg" },
-    { src: "/formulas/conkaClear/ClearStats.jpg" },
-    { src: "/formulas/conkaFlow/FlowReviews.jpg" },
-    { src: "/formulas/conkaClear/ClearReviews.jpg" },
-  ],
-};
+/** Step 2: Slideshow images per product (carousel) — sourced from central config */
+const FUNNEL_PRODUCT_SLIDESHOW_BASE: Record<FunnelProduct, { src: string }[]> = formulaImages;
 
 /** Quarterly swaps the first slide for "Both" only to show the larger shipment */
 const QUARTERLY_FIRST_SLIDE: Record<FunnelProduct, { src: string } | null> = {
