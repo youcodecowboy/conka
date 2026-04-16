@@ -6,6 +6,10 @@
 
 ## April 2026
 
+### 2026-04-16 — Hero simplification + new TQBF lifestyle assets
+Updated hero components (`Hero.tsx`, `LandingHero.tsx`) and funnel product images with new lifestyle photography from the recent TQBF shoot. Hero changes: social proof pill restyled to brand-accent badge with "150,000+ bottles sold", star rating moved to plain text line below hero image, CTA simplified to "Try CONKA", tightened vertical spacing between avatars and trust badges, 5% top crop on mobile hero image. Landing and funnel product assets replaced with new TQBF imagery.
+**Branch:** `New-assets-in-landing-funnel`
+
 ### 2026-04-14 -- Homepage Phase 3: landing parity + Balance-only ProductGrid (SCRUM-885/886/887/888)
 Four-part homepage upgrade that brings the organic entry point into parity with `/start` and locks the product offering to Balance ahead of the protocol deprecation.
 

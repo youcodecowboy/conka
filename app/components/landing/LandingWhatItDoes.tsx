@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   BenefitIconFocus,
   BenefitIconSleep,
@@ -108,16 +109,29 @@ export default function LandingWhatItDoes() {
         <WhatsInsideProductMini />
       </div>
 
-      {/* Title 2 — frames the benefit pillars */}
-      <h2
-        className="brand-h1 mb-6"
-        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-      >
-        Daily habit. Lifelong benefits.
-      </h2>
+      {/* Lifestyle image + benefit pillars — side by side on desktop */}
+      <div className="flex flex-col lg:flex-row lg:gap-10">
+        {/* Left: lifestyle image */}
+        <div className="relative overflow-hidden rounded-[var(--brand-radius-card)] aspect-[5/3] lg:aspect-auto mb-8 lg:mb-0 lg:flex-[2] lg:min-h-[500px] lg:sticky lg:top-24 lg:self-start">
+          <Image
+            src="/lifestyle/CreationOfConka.jpg"
+            alt="Two hands passing a CONKA bottle"
+            fill
+            sizes="(max-width: 1024px) 95vw, 500px"
+            className="object-cover"
+          />
+        </div>
 
-      {/* Pillar tile grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5">
+        {/* Right: title + pillar cards */}
+        <div className="lg:flex-[3]">
+          <h2
+            className="brand-h1 mb-6"
+            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          >
+            Daily habit. Lifelong benefits.
+          </h2>
+
+          <div className="grid grid-cols-1 gap-4">
         {PILLARS.map((pillar) => {
           const isOpen = openId === pillar.id;
 
@@ -204,6 +218,8 @@ export default function LandingWhatItDoes() {
             </div>
           );
         })}
+          </div>
+        </div>
       </div>
 
       {/* CTA */}
