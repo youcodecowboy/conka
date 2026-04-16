@@ -9,7 +9,7 @@
  * quarterly combos are empty until created in Shopify Admin.
  */
 
-import { formatPrice } from "./productData";
+import { formatPrice, formulaImages, quarterlyImages } from "./productData";
 import { GUARANTEE_DAYS } from "./offerConstants";
 
 // ============================================
@@ -236,7 +236,7 @@ export const FUNNEL_PRODUCTS: Record<FunnelProduct, FunnelProductDisplay> = {
     tagline: "The complete daily system",
     shotCount: 56,
     description: "The complete protocol. Flow sharpens your morning. Clear sustains your afternoon. Together they cover the full day.",
-    thumbnail: "/formulas/BothShots.jpg",
+    thumbnail: "/formulas/both/BothShots.jpg",
     badge: "Most Popular",
     accent: "#378ADD",
     timeLabel: "AM + PM",
@@ -329,7 +329,7 @@ export const FUNNEL_CADENCES: Record<FunnelCadence, FunnelCadenceDisplay> = {
 /** Product-specific hero images (used in static mode for step 2) */
 export const FUNNEL_HERO_IMAGES: Record<FunnelProduct, { src: string; alt: string }> = {
   both: {
-    src: "/formulas/BothBox.jpg",
+    src: "/formulas/both/BothBox.jpg",
     alt: "CONKA Flow and Clear — your AM and PM brain performance system",
   },
   flow: {
@@ -342,41 +342,11 @@ export const FUNNEL_HERO_IMAGES: Record<FunnelProduct, { src: string; alt: strin
   },
 };
 
-/** Step 2: Slideshow images per product (carousel) */
-const FUNNEL_PRODUCT_SLIDESHOW_BASE: Record<FunnelProduct, { src: string }[]> = {
-  flow: [
-    { src: "/formulas/conkaFlow/FlowBox.jpg" },
-    { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
-    { src: "/formulas/conkaFlow/FlowStats.jpg" },
-    { src: "/formulas/conkaFlow/FlowEssentials.jpg" },
-    { src: "/formulas/conkaFlow/FlowCertified.jpg" },
-    { src: "/formulas/conkaFlow/FlowReviews.jpg" },
-  ],
-  clear: [
-    { src: "/formulas/conkaClear/ClearBox.jpg" },
-    { src: "/formulas/conkaClear/ClearIngredients.jpg" },
-    { src: "/formulas/conkaClear/ClearStats.jpg" },
-    { src: "/formulas/conkaClear/ClearEssentials.jpg" },
-    { src: "/formulas/conkaClear/ClearCertified.jpg" },
-    { src: "/formulas/conkaClear/ClearReviews.jpg" },
-  ],
-  both: [
-    { src: "/formulas/BothBox.jpg" },
-    { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
-    { src: "/formulas/conkaClear/ClearIngredients.jpg" },
-    { src: "/formulas/conkaFlow/FlowStats.jpg" },
-    { src: "/formulas/conkaClear/ClearStats.jpg" },
-    { src: "/formulas/conkaFlow/FlowReviews.jpg" },
-    { src: "/formulas/conkaClear/ClearReviews.jpg" },
-  ],
-};
+/** Step 2: Slideshow images per product (carousel) — sourced from central config */
+const FUNNEL_PRODUCT_SLIDESHOW_BASE: Record<FunnelProduct, { src: string }[]> = formulaImages;
 
-/** Quarterly swaps the first slide for "Both" only to show the larger shipment */
-const QUARTERLY_FIRST_SLIDE: Record<FunnelProduct, { src: string } | null> = {
-  flow: null,
-  clear: null,
-  both: { src: "/formulas/QuartelyDouble.jpg" },
-};
+/** Quarterly swaps the first slide to show the larger shipment */
+const QUARTERLY_FIRST_SLIDE: Record<FunnelProduct, { src: string }> = quarterlyImages;
 
 /** Get slideshow images for a product, adjusted for cadence */
 export function getFunnelProductSlideshow(
@@ -384,9 +354,8 @@ export function getFunnelProductSlideshow(
   cadence: FunnelCadence,
 ): { src: string }[] {
   const base = FUNNEL_PRODUCT_SLIDESHOW_BASE[product];
-  const quarterlySlide = QUARTERLY_FIRST_SLIDE[product];
-  if (cadence === "quarterly-sub" && quarterlySlide) {
-    return [quarterlySlide, ...base.slice(1)];
+  if (cadence === "quarterly-sub") {
+    return [QUARTERLY_FIRST_SLIDE[product], ...base.slice(1)];
   }
   return base;
 }
@@ -459,7 +428,7 @@ export function getUpsellOffer(
   product: FunnelProduct,
   cadence: FunnelCadence,
 ): UpsellOffer | null {
-  const bothImage = { src: "/formulas/BothBox.jpg", alt: "CONKA Flow and Clear — AM and PM brain performance" };
+  const bothImage = { src: "/formulas/both/BothBox.jpg", alt: "CONKA Flow and Clear — AM and PM brain performance" };
 
   // --- Product upgrades: single product → Both ---
 
@@ -644,23 +613,24 @@ export function getFunnelCTALabels(
   // Step 2 — cadence-specific labels
   switch (cadence) {
     case "monthly-sub": {
+      const savings = pricing.compareAtPrice ? pricing.compareAtPrice - pricing.price : 0;
       return {
         label: `Start monthly · ${formatPrice(pricing.price)}/mo`,
-        subLabel: `${formatPrice(pricing.perShot)}/shot · cancel anytime`,
+        subLabel: savings > 0 ? `Save ${formatPrice(savings)}` : "",
       };
     }
     case "quarterly-sub": {
-      const monthlyPrice = getOfferPricing(product, "monthly-sub").price;
-      const yearlySavings = (monthlyPrice * 12) - (pricing.price * 4);
+      const savings = pricing.compareAtPrice ? pricing.compareAtPrice - pricing.price : 0;
       return {
         label: `Start quarterly · ${formatPrice(pricing.price)}/quarter`,
-        subLabel: `${formatPrice(pricing.perShot)}/shot · save ${formatPrice(yearlySavings)}/year · cancel anytime`,
+        subLabel: savings > 0 ? `Save ${formatPrice(savings)}` : "",
       };
     }
     case "monthly-otp": {
+      const savings = pricing.compareAtPrice ? pricing.compareAtPrice - pricing.price : 0;
       return {
         label: `Buy once · ${formatPrice(pricing.price)}`,
-        subLabel: `${formatPrice(pricing.perShot)}/shot · 100-day guarantee · no subscription`,
+        subLabel: savings > 0 ? `Save ${formatPrice(savings)}` : "",
       };
     }
   }

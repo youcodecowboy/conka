@@ -18,13 +18,13 @@ interface NutritionEntry {
 
 const NUTRITION_FLOW: NutritionEntry = {
   heading: "Flow",
-  src: "/formulas/FlowNutrition.jpg",
+  src: "/formulas/conkaFlow/FlowNutrition.jpg",
   alt: "CONKA Flow nutritional information and ingredients",
 };
 
 const NUTRITION_CLEAR: NutritionEntry = {
   heading: "Clear",
-  src: "/formulas/ClearNutrition.jpg",
+  src: "/formulas/conkaClear/ClearNutrition.jpg",
   alt: "CONKA Clear nutritional information and ingredients",
 };
 

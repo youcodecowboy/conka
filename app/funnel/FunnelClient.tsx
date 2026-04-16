@@ -341,6 +341,7 @@ export default function FunnelClient() {
                 <FunnelCTA
                   label={step2CTA.label}
                   subLabel={step2CTA.subLabel}
+                  highlightSubLabel={!!step2CTA.subLabel}
                   onClick={handleCheckout}
                   loading={isCheckingOut}
                   error={error}
@@ -366,6 +367,7 @@ export default function FunnelClient() {
           <FunnelCTA
             label={step2CTA.label}
             subLabel={step2CTA.subLabel}
+            highlightSubLabel={!!step2CTA.subLabel}
             onClick={handleCheckout}
             loading={isCheckingOut}
             error={error}

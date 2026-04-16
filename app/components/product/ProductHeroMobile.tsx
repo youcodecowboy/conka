@@ -9,6 +9,7 @@ import {
   formatPrice,
   getBillingLabel,
   FORMULA_GRADIENTS,
+  formulaImages,
 } from "@/app/lib/productData";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import PackSelectorPremium from "./PackSelectorPremium";
@@ -37,28 +38,6 @@ export default function ProductHeroMobile({
     purchaseType === "subscription"
       ? getBillingLabel((pricing as { billing: string }).billing)
       : "one-time";
-
-  const flowSlideshowImages = [
-    { src: "/formulas/conkaFlow/FlowBox.jpg" },
-    { src: "/formulas/conkaFlow/FlowIngredients.jpg" },
-    { src: "/formulas/conkaFlow/FlowStats.jpg" },
-    { src: "/formulas/conkaFlow/FlowReplaces.jpg" },
-    { src: "/formulas/conkaFlow/FlowEssentials.jpg" },
-    { src: "/formulas/conkaFlow/FlowSteps.jpg" },
-    { src: "/formulas/conkaFlow/FlowCertified.jpg" },
-    { src: "/formulas/conkaFlow/FlowReviews.jpg" },
-  ];
-
-  const claritySlideshowImages = [
-    { src: "/formulas/conkaClear/ClearBox.jpg" },
-    { src: "/formulas/conkaClear/ClearIngredients.jpg" },
-    { src: "/formulas/conkaClear/ClearStats.jpg" },
-    { src: "/formulas/conkaClear/ClearReplaces.jpg" },
-    { src: "/formulas/conkaClear/ClearEssentials.jpg" },
-    { src: "/formulas/conkaClear/ClearSteps.jpg" },
-    { src: "/formulas/conkaClear/ClearCertified.jpg" },
-    { src: "/formulas/conkaClear/ClearReviews.jpg" },
-  ];
 
   return (
     <>
@@ -125,7 +104,7 @@ export default function ProductHeroMobile({
       <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA]">
         <ProductImageSlideshow
           images={
-            formulaId === "01" ? flowSlideshowImages : claritySlideshowImages
+            formulaId === "01" ? formulaImages.flow : formulaImages.clear
           }
           alt={`${formula.name} bottle`}
           fullBleedThumbnails
