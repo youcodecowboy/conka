@@ -37,8 +37,8 @@ export default function FormulaBenefitsStatsDesktop({
       <div className="flex flex-col justify-center pt-6 md:pt-8">
         <h2
           id="benefits-stats-heading"
-          className="premium-section-heading text-white mb-8"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-8"
+          style={{ letterSpacing: "-0.02em" }}
         >
           {formula.subheadline}
         </h2>
@@ -50,10 +50,10 @@ export default function FormulaBenefitsStatsDesktop({
                 if (!solution) return null;
                 return (
                   <div key={struggle.id}>
-                    <p className="font-clinical text-2xl md:text-3xl font-bold text-white leading-tight">
+                    <p className="font-clinical text-2xl md:text-3xl font-bold text-black leading-tight">
                       {solution.stat}
                     </p>
-                    <p className="premium-data text-sm text-white/70 mt-0.5">
+                    <p className="brand-data text-sm text-black/60 mt-0.5">
                       {solution.statLabel}
                     </p>
                   </div>
@@ -63,7 +63,7 @@ export default function FormulaBenefitsStatsDesktop({
 
         <a
           href="#proof-and-science"
-          className="inline-flex items-center justify-center px-6 py-3 rounded-[var(--premium-radius-interactive)] bg-white text-[var(--color-ink)] font-semibold premium-body text-sm md:text-base hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black w-fit"
+          className="inline-flex items-center justify-center px-6 py-3 rounded-[var(--brand-radius-interactive)] bg-black text-white font-semibold brand-body text-sm md:text-base hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 w-fit"
         >
           See the science
         </a>
@@ -73,8 +73,8 @@ export default function FormulaBenefitsStatsDesktop({
       <div className="space-y-4">
         {/* Primary: same width as the row of three below; image fills the frame */}
         <div
-          className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
-          style={{ borderRadius: "var(--premium-radius-card)" }}
+          className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"
+          style={{ borderRadius: "var(--brand-radius-card)" }}
         >
           <Image
             src={productImage.src}
@@ -90,8 +90,8 @@ export default function FormulaBenefitsStatsDesktop({
           {SUPPORTING_ASSETS.map((asset, idx) => (
             <div
               key={idx}
-              className="relative aspect-square overflow-hidden bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
-              style={{ borderRadius: "var(--premium-radius-card)" }}
+              className="relative aspect-square overflow-hidden bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"
+              style={{ borderRadius: "var(--brand-radius-card)" }}
             >
               <Image
                 src={asset.src}

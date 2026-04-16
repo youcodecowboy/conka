@@ -21,7 +21,7 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
           <div className="flex items-start justify-start">
             <div
               className="relative w-full max-w-[520px] aspect-square overflow-hidden shadow-lg"
-              style={{ borderRadius: "var(--premium-radius-card)" }}
+              style={{ borderRadius: "var(--brand-radius-card)" }}
             >
               <img
                 src="/CONKA_21.jpg"
@@ -38,11 +38,11 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
             <div className="mb-8">
               <p
                 className="text-3xl lg:text-4xl font-bold text-black mb-2"
-                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                style={{ letterSpacing: "-0.02em" }}
               >
                 Questions?
               </p>
-              <p className="text-xl lg:text-2xl text-black/80 premium-body">
+              <p className="text-xl lg:text-2xl text-black/80 brand-body">
                 We're here to help
               </p>
             </div>
@@ -112,7 +112,7 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
         <div className="pt-6 pb-2">
           <div
             className="relative w-full max-w-[280px] mx-auto aspect-square overflow-hidden shadow-lg"
-            style={{ borderRadius: "var(--premium-radius-card)" }}
+            style={{ borderRadius: "var(--brand-radius-card)" }}
           >
             <img
               src="/CONKA_21.jpg"
@@ -127,11 +127,11 @@ export default function FormulaFAQ({ formulaId }: FormulaFAQProps) {
           <div className="mb-6">
             <p
               className="text-2xl font-bold text-black mb-1"
-              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+              style={{ letterSpacing: "-0.02em" }}
             >
               Questions?
             </p>
-            <p className="text-lg text-black/80 premium-body">
+            <p className="text-lg text-black/80 brand-body">
               We're here to help
             </p>
           </div>

@@ -28,6 +28,13 @@
   --brand-divider: var(--brand-neutral);
   --brand-divider-subtle: rgba(0, 0, 0, 0.06);
 
+  /* Legacy compatibility tokens — copied from premium-base.css during migration.
+     These allow migrated components to reference brand-base only.
+     Review and consolidate as the palette stabilises. */
+  --brand-surface: #f4f6f5;
+  --brand-stroke: rgba(0, 0, 0, 0.06);
+  --brand-border-color: rgba(0, 0, 0, 0.12);
+
   /* TODO: Product accent colours — used for Flow/Clear differentiation in cards,
      badges, and feature icons. Currently hardcoded in components. Need to decide
      if these belong in the brand system or stay as product-data-driven values.

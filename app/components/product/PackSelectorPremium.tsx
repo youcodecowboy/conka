@@ -43,10 +43,10 @@ export default function PackSelectorPremium({
   className = "",
   compact = false,
 }: PackSelectorPremiumProps) {
-  const accent = subscriptionAccentColor ?? "var(--color-neuro-blue-dark)";
+  const accent = subscriptionAccentColor ?? "var(--brand-black)";
   return (
     <div className={`space-y-2 ${className}`}>
-      <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">Select Pack Size</p>
+      <p className="brand-caption text-[var(--brand-black)] uppercase tracking-wide">Select Pack Size</p>
       <div className="grid grid-cols-4 gap-2">
         {packSizes.map((size) => {
           const pricing = formulaPricing[purchaseType][size];
@@ -64,39 +64,39 @@ export default function PackSelectorPremium({
               key={size}
               onClick={() => onSelect(size)}
               className={`
-                text-left transition-all duration-200 overflow-hidden flex flex-col rounded-[var(--premium-radius-nested)] w-full
+                text-left transition-all duration-200 overflow-hidden flex flex-col rounded-[var(--brand-radius-container)] w-full
                 border cursor-pointer
                 ${isSelected
-                  ? "bg-[var(--color-ink)] border-[var(--color-ink)] ring-2 ring-[var(--color-ink)]/20"
-                  : "bg-[var(--color-premium-bg-soft)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-light)] hover:bg-[var(--color-premium-stroke)]/20"
+                  ? "bg-[var(--brand-black)] border-[var(--brand-black)] ring-2 ring-[var(--brand-black)]/20"
+                  : "bg-[var(--brand-white)] border-[var(--brand-stroke)] hover:border-[var(--brand-tint)] hover:bg-[var(--brand-stroke)]/20"
                 }
               `}
             >
               <div
-                className={`w-full min-w-0 flex-shrink-0 px-2 py-1.5 rounded-t-[var(--premium-radius-nested)] ${
+                className={`w-full min-w-0 flex-shrink-0 px-2 py-1.5 rounded-t-[var(--brand-radius-container)] ${
                   isSelected
-                    ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
-                    : "bg-[var(--color-premium-stroke)] text-[var(--color-ink)]"
+                    ? "bg-[var(--brand-black)] text-[var(--brand-white)]"
+                    : "bg-[var(--brand-stroke)] text-[var(--brand-black)]"
                 }`}
               >
-                <p className="text-sm font-bold" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
+                <p className="text-sm font-bold" style={{ letterSpacing: "-0.02em" }}>
                   {packLabels[size]}
                 </p>
                 {tierLabel && (
-                  <p className={`text-[10px] font-semibold uppercase tracking-wide ${isSelected ? "text-[var(--text-on-ink)] opacity-90" : "text-[var(--text-on-light-muted)]"}`}>
+                  <p className={`text-[10px] font-semibold uppercase tracking-wide ${isSelected ? "text-[var(--brand-white)] opacity-90" : "text-[var(--brand-black)]"}`}>
                     {tierLabel}
                   </p>
                 )}
               </div>
               <div
-                className="w-full min-w-0 flex-1 flex flex-col justify-end px-2 py-1.5 rounded-b-[var(--premium-radius-nested)] min-h-[52px]"
+                className="w-full min-w-0 flex-1 flex flex-col justify-end px-2 py-1.5 rounded-b-[var(--brand-radius-container)] min-h-[52px]"
                 style={{
                   backgroundColor: isSelected
                     ? purchaseType === "subscription"
                       ? accent
-                      : "var(--color-ink)"
-                    : "var(--color-premium-bg-soft)",
-                  color: isSelected ? "var(--text-on-ink)" : "var(--color-ink)",
+                      : "var(--brand-black)"
+                    : "var(--brand-white)",
+                  color: isSelected ? "var(--brand-white)" : "var(--brand-black)",
                 }}
               >
                 <p className="text-base font-bold mb-0.5">
@@ -104,7 +104,7 @@ export default function PackSelectorPremium({
                 </p>
                 {!(compact && purchaseType === "one-time") && (
                   <p
-                    className={`premium-body-sm ${isSelected ? "opacity-90" : "text-[var(--text-on-light-muted)]"}`}
+                    className={`brand-caption ${isSelected ? "opacity-90" : "text-[var(--brand-black)]"}`}
                   >
                     {billingText}
                   </p>

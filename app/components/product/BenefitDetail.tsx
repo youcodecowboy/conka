@@ -201,20 +201,20 @@ export default function BenefitDetail({
     <div aria-live="polite">
       <div 
         key={struggleId} 
-        className="premium-card-soft !bg-white p-8 [animation:fadeIn_0.3s_ease]"
+        className="brand-card !bg-white p-8 [animation:fadeIn_0.3s_ease]"
       >
         {/* 1. Struggle statement — small, muted, italic */}
-        <p className="premium-body-sm italic opacity-50 mb-2 text-[var(--color-ink)]">
+        <p className="brand-caption italic opacity-50 mb-2 text-[var(--brand-black)]">
           {solution.struggle}
         </p>
 
         {/* 2. Outcome headline — large, bold, hero text */}
-        <h3 className="text-2xl lg:text-3xl font-bold mb-6 leading-tight text-[var(--color-ink)]">
+        <h3 className="text-2xl lg:text-3xl font-bold mb-6 leading-tight text-[var(--brand-black)]">
           {solution.outcome}
         </h3>
 
         {/* 3. Mechanism (description) — smaller, more muted */}
-        <p className="premium-body-sm opacity-60 leading-relaxed mb-6 text-[var(--color-ink)]">
+        <p className="brand-caption opacity-60 leading-relaxed mb-6 text-[var(--brand-black)]">
           {solution.description}
         </p>
 
@@ -226,17 +226,17 @@ export default function BenefitDetail({
                 key={idx}
                 className="rounded-[20px] p-4"
                 style={{
-                  background: "var(--color-premium-bg-soft)",
-                  border: "1px solid var(--color-premium-stroke)",
+                  background: "var(--brand-tint)",
+                  border: "1px solid var(--brand-stroke)",
                 }}
               >
                 <p
                   className={`text-3xl font-bold mb-1 ${accentColor.text}`}
-                  style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                  style={{ letterSpacing: "-0.02em" }}
                 >
                   {stat.value}
                 </p>
-                <p className="premium-body-sm opacity-70 text-[var(--color-ink)] leading-tight">
+                <p className="brand-caption opacity-70 text-[var(--brand-black)] leading-tight">
                   {stat.label}
                 </p>
               </div>
@@ -245,11 +245,11 @@ export default function BenefitDetail({
         )}
 
         {/* 5. Radar chart — keep as-is, add explainer line above */}
-        <div className="premium-card-soft p-6 rounded-[20px] mb-6" aria-hidden="true">
-          <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-1 text-[var(--color-ink)]">
+        <div className="brand-card p-6 rounded-[20px] mb-6" aria-hidden="true">
+          <p className="brand-caption opacity-50 uppercase tracking-wider mb-1 text-[var(--brand-black)]">
             Performance impact
           </p>
-          <p className="premium-body-sm opacity-70 mb-4 text-[var(--color-ink)]">
+          <p className="brand-caption opacity-70 mb-4 text-[var(--brand-black)]">
             How this benefit impacts your overall cognitive performance
           </p>
           <div className="grid grid-cols-2 gap-4">
@@ -273,31 +273,31 @@ export default function BenefitDetail({
         {/* 6. Clinical breakdown — keep entirely as-is */}
         <div
           className="rounded-[20px] overflow-hidden mb-2"
-          style={{ border: "1px solid var(--color-premium-stroke)" }}
+          style={{ border: "1px solid var(--brand-stroke)" }}
         >
           {/* Header row */}
           <div
             className="px-5 py-3 space-y-1"
             style={{
-              background: "var(--color-premium-bg-soft)",
-              borderBottom: "1px solid var(--color-premium-stroke)",
+              background: "var(--brand-tint)",
+              borderBottom: "1px solid var(--brand-stroke)",
             }}
           >
             <div className="flex items-center justify-between">
-              <p className="premium-body-sm uppercase tracking-wider opacity-50 text-[var(--color-ink)]">
+              <p className="brand-caption uppercase tracking-wider opacity-50 text-[var(--brand-black)]">
                 Clinical study
               </p>
-              <p className="premium-body-sm opacity-40 text-[var(--color-ink)]">
+              <p className="brand-caption opacity-40 text-[var(--brand-black)]">
                 {study.year}
               </p>
             </div>
-            <p className="premium-body-sm opacity-60 text-[var(--color-ink)]">
+            <p className="brand-caption opacity-60 text-[var(--brand-black)]">
               {solution.ingredientAsset?.name} • {solution.ingredientAsset?.dosage}
             </p>
           </div>
 
           {/* Study details */}
-          <div className="px-5 py-4 space-y-2 premium-body-sm text-[var(--color-ink)]">
+          <div className="px-5 py-4 space-y-2 brand-caption text-[var(--brand-black)]">
             <p>
               <span className="opacity-50">Study: </span>
               <span className="opacity-80">{study.name}</span>
@@ -314,13 +314,13 @@ export default function BenefitDetail({
 
           {/* Results list */}
           {study.results.length > 0 && (
-            <div className="px-5 pb-5 text-[var(--color-ink)]">
-              <p className="premium-body-sm opacity-50 uppercase tracking-wider mb-3">
+            <div className="px-5 pb-5 text-[var(--brand-black)]">
+              <p className="brand-caption opacity-50 uppercase tracking-wider mb-3">
                 Key findings
               </p>
               <ul className="space-y-2">
                 {study.results.map((result, idx) => (
-                  <li key={idx} className="flex items-start gap-2 premium-body-sm opacity-80">
+                  <li key={idx} className="flex items-start gap-2 brand-caption opacity-80">
                     <span className="opacity-40 shrink-0 mt-0.5">—</span>
                     <span>
                       <span className="font-semibold">{result.metric}:</span> {result.value} ({result.pValue})

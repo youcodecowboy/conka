@@ -11,20 +11,20 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
     <div className="flex flex-col gap-8 md:gap-12">
       {/* Main Header */}
       <header>
-        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
+        <p className="brand-caption uppercase tracking-widest opacity-50 mb-2">
           The Science Behind CONKA
         </p>
         <h1
-          className={`premium-section-heading font-bold text-[var(--color-ink)] ${
+          className={`brand-h1-bold font-bold text-[var(--brand-black)] ${
             isMobile ? "text-3xl mb-3" : "text-5xl lg:text-6xl mb-4"
           }`}
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          style={{ letterSpacing: "-0.02em" }}
         >
           Cognitive Performance,
           <br />
           <span
             style={{
-              background: "var(--gradient-neuro-blue-accent)",
+              background: "var(--brand-gradient-accent)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -34,8 +34,8 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
           </span>
         </h1>
         <p
-          className="premium-body opacity-80"
-          style={{ maxWidth: "var(--premium-body-max-width)" }}
+          className="brand-body opacity-80"
+          style={{ maxWidth: "var(--brand-body-max-width)" }}
         >
           Every ingredient in our formulas is backed by peer-reviewed clinical
           research. We&apos;ve studied the science of adaptogens, nootropics,
@@ -50,10 +50,10 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
         {headlineStats.map((stat, idx) => (
           <div
             key={idx}
-            className="p-4 lg:p-6 text-center text-white premium-card-soft-stroke"
+            className="p-4 lg:p-6 text-center text-white brand-card-bordered"
             style={{
-              borderRadius: "var(--premium-radius-card)",
-              backgroundColor: "var(--color-neuro-blue-dark)",
+              borderRadius: "var(--brand-radius-card)",
+              backgroundColor: "var(--brand-accent)",
               border: "1px solid rgba(255,255,255,0.15)",
             }}
           >
@@ -69,17 +69,17 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
                 </span>
               )}
             </p>
-            <p className="premium-body-sm text-white/80 mt-1">{stat.label}</p>
+            <p className="brand-caption text-white/80 mt-1">{stat.label}</p>
           </div>
         ))}
       </div>
 
       {/* Research Note */}
       <div
-        className={`premium-card-soft premium-card-soft-stroke p-4 ${isMobile ? "mt-2" : "mt-4"}`}
-        style={{ borderRadius: "var(--premium-radius-card)" }}
+        className={`brand-cardbrand-card-bordered p-4 ${isMobile ? "mt-2" : "mt-4"}`}
+        style={{ borderRadius: "var(--brand-radius-card)" }}
       >
-        <p className="premium-body-sm opacity-80">
+        <p className="brand-caption opacity-80">
           <span className="font-bold">Note:</span> These statistics represent
           the combined body of research supporting our formulations, including
           CONKA&apos;s proprietary clinical studies and peer-reviewed research
@@ -90,13 +90,13 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
 
       {/* Subtext pills */}
       <div className="flex flex-wrap gap-4 items-center">
-        <span className="premium-body-sm px-3 py-1.5 rounded-full border border-[var(--color-premium-stroke)]">
+        <span className="brand-caption px-3 py-1.5 rounded-full border border-[var(--brand-stroke)]">
           Patent #GB2620279
         </span>
-        <span className="premium-body-sm px-3 py-1.5 rounded-full border border-[var(--color-premium-stroke)]">
+        <span className="brand-caption px-3 py-1.5 rounded-full border border-[var(--brand-stroke)]">
           £500,000+ in Research
         </span>
-        <span className="premium-body-sm px-3 py-1.5 rounded-full border border-[var(--color-premium-stroke)]">
+        <span className="brand-caption px-3 py-1.5 rounded-full border border-[var(--brand-stroke)]">
           PubMed Indexed Studies
         </span>
       </div>

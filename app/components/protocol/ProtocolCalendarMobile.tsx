@@ -48,10 +48,10 @@ export default function ProtocolCalendarMobile({
     <>
       {/* Header */}
       <div className="text-center mb-4">
-        <h2 className="premium-section-heading text-2xl font-bold mb-2">
+        <h2 className="brand-h2 text-2xl font-bold mb-2">
           How to follow your protocol
         </h2>
-        <p className="premium-annotation text-base opacity-70">
+        <p className="brand-caption italic text-base opacity-70">
           visualize your journey
         </p>
       </div>
@@ -72,8 +72,8 @@ export default function ProtocolCalendarMobile({
               }`}
               style={
                 isSelected
-                  ? { backgroundColor: protocolAccent, borderRadius: "var(--premium-radius-nested)" }
-                  : { borderRadius: "var(--premium-radius-nested)" }
+                  ? { backgroundColor: protocolAccent, borderRadius: "var(--brand-radius-container)" }
+                  : { borderRadius: "var(--brand-radius-container)" }
               }
             >
                 {tierLabels[tier]}
@@ -176,7 +176,7 @@ export default function ProtocolCalendarMobile({
           </div>
 
           {/* Clarifying message */}
-          <p className="premium-annotation text-sm text-center mt-4 opacity-70">
+          <p className="brand-caption italic text-sm text-center mt-4 opacity-70">
             Repeat this cycle weekly for the month
           </p>
         </div>

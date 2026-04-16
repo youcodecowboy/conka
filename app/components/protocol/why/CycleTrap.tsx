@@ -44,7 +44,7 @@ const PrimaryTile = memo(function PrimaryTile({
       className="p-8 md:p-10 rounded-3xl bg-white text-black transition-shadow duration-300"
       style={{ boxShadow: "0 0 40px rgba(0,0,0,0.08), 0 4px 24px rgba(0,0,0,0.06)" }}
     >
-      <p className="premium-section-heading text-2xl md:text-3xl font-bold mb-4 text-black">
+      <p className="brand-h2 text-2xl md:text-3xl font-bold mb-4 text-black">
         {selected.detailTitle}
       </p>
       <p className="text-sm md:text-base text-black/90 leading-relaxed" style={{ lineHeight: 1.65 }}>
@@ -61,7 +61,7 @@ const SecondaryTile = memo(function SecondaryTile({
 }) {
   return (
     <div
-      className="p-8 md:p-10 rounded-3xl bg-[var(--color-surface)] text-black transition-shadow duration-300"
+      className="p-8 md:p-10 rounded-3xl bg-[var(--brand-surface)] text-black transition-shadow duration-300"
       style={{ boxShadow: "0 0 40px rgba(0,0,0,0.05), 0 2px 16px rgba(0,0,0,0.04)" }}
     >
       <p
@@ -224,7 +224,7 @@ export default function CycleTrap({
             key={step.id}
             type="button"
             onClick={() => handleNodeClick(step)}
-            className="cycle-node group absolute flex flex-col items-center justify-center rounded-full border-2 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ink)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-neuro-blue-light)]"
+            className="cycle-node group absolute flex flex-col items-center justify-center rounded-full border-2 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-black)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-tint)]"
             style={{
               left: `${pos.x}%`,
               top: `${pos.y}%`,
@@ -234,7 +234,7 @@ export default function CycleTrap({
               zIndex: isActive ? 100 : pos.zIndex,
               willChange: "transform",
               backgroundColor: isActive ? "white" : "rgba(255,255,255,0.92)",
-              borderColor: isActive ? "var(--color-ink)" : "rgba(0,0,0,0.18)",
+              borderColor: isActive ? "var(--brand-black)" : "rgba(0,0,0,0.18)",
               boxShadow: isActive
                 ? `0 0 0 3px ${accentHex}33, 0 8px 28px rgba(0,0,0,0.14)`
                 : "0 2px 8px rgba(0,0,0,0.06)",
@@ -249,7 +249,7 @@ export default function CycleTrap({
                 style={{
                   fontSize: isMobile ? "0.6875rem" : "0.8125rem",
                   letterSpacing: "0.06em",
-                  color: isActive ? "var(--color-ink)" : "rgba(0,0,0,0.7)",
+                  color: isActive ? "var(--brand-black)" : "rgba(0,0,0,0.7)",
                 }}
               >
                 {step.label}
@@ -283,11 +283,11 @@ export default function CycleTrap({
       <div key={activeNodeId} className="flex flex-col gap-5" style={{ animation: "fadeSlideUp 240ms ease-out" }}>
         <PrimaryTile selected={activeStep} />
         {isMobile ? (
-          <div className="rounded-3xl bg-[var(--color-surface)] overflow-hidden border border-black/10">
+          <div className="rounded-3xl bg-[var(--brand-surface)] overflow-hidden border border-black/10">
             <button
               type="button"
               onClick={() => setScienceExpanded((e) => !e)}
-              className="w-full p-4 text-left flex items-center justify-between gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-ink)]/50"
+              className="w-full p-4 text-left flex items-center justify-between gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--brand-black)]/50"
               aria-expanded={scienceExpanded}
             >
               <span className="text-sm font-semibold uppercase tracking-wider text-black/70" style={{ letterSpacing: "0.12em" }}>
@@ -323,14 +323,14 @@ export default function CycleTrap({
 
   return (
     <section
-      className="relative left-1/2 -translate-x-1/2 w-screen text-[var(--text-on-light)] pt-16 md:pt-20 pb-12 md:pb-16 overflow-x-hidden"
-      style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+      className="relative left-1/2 -translate-x-1/2 w-screen text-[var(--brand-black)] pt-16 md:pt-20 pb-12 md:pb-16 overflow-x-hidden"
+      style={{ backgroundColor: "var(--brand-tint)" }}
       aria-label="The problem cycle"
     >
       <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20">
         <h2
-          className="premium-section-heading text-2xl md:text-3xl font-bold text-[var(--text-on-light)] text-left mb-8"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 text-2xl md:text-3xl font-bold text-[var(--brand-black)] text-left mb-8"
+          style={{ letterSpacing: "-0.02em" }}
         >
           You&rsquo;re stuck in a cycle
         </h2>
@@ -338,7 +338,7 @@ export default function CycleTrap({
         {/* Symptom pills */}
         {onSelectSymptom != null && (
           <div className={`mb-10 ${isMobile ? "pt-4" : ""}`}>
-            <p className="premium-data text-xs text-[var(--text-on-light-muted)] mt-2 mb-3">
+            <p className="brand-data text-xs text-[var(--brand-black)] mt-2 mb-3">
               {sectionHeadings.recognitionSubline}
             </p>
             <div className="flex flex-wrap gap-2 min-w-0 max-w-full">
@@ -349,14 +349,14 @@ export default function CycleTrap({
                     key={entry.id}
                     type="button"
                     onClick={() => onSelectSymptom(entry.id)}
-                    className={`px-4 py-2 rounded-full border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ink)] text-left min-w-0 shrink-0 ${
+                    className={`px-4 py-2 rounded-full border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-black)] text-left min-w-0 shrink-0 ${
                       isSelected
-                        ? "bg-[var(--color-ink)] border-[var(--color-ink)] text-white"
+                        ? "bg-[var(--brand-black)] border-[var(--brand-black)] text-white"
                         : "bg-white border-black/20 text-black/70 hover:bg-white/90 hover:border-black/40"
                     }`}
                     aria-pressed={isSelected}
                   >
-                    <span className="premium-data text-xs font-medium">{entry.label}</span>
+                    <span className="brand-data text-xs font-medium">{entry.label}</span>
                   </button>
                 );
               })}

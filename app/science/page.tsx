@@ -15,7 +15,7 @@ export default function SciencePage() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
 
       {isMobile === undefined ? (
@@ -26,75 +26,72 @@ export default function SciencePage() {
         </div>
       ) : (
         <>
-          {/* Hero */}
+          {/* ===== SECTION 1: HERO ===== */}
           <section
-            className="premium-section-luxury premium-hero-first premium-hero-with-top-air premium-section-reduced-bottom premium-bg-bone"
+            className="brand-section brand-hero-first brand-bg-tint"
             aria-label="Science hero"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               <ScienceHero isMobile={!!isMobile} />
             </div>
           </section>
 
-          {/* Quote */}
+          {/* ===== SECTION 2: QUOTE ===== */}
           <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+            className="brand-section brand-bg-white"
             aria-label="Research philosophy"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               <ScienceQuote isMobile={!!isMobile} />
             </div>
           </section>
 
-          {/* What Are Adaptogens */}
+          {/* ===== SECTION 3: ADAPTOGENS ===== */}
           <section
-            className="premium-section-luxury premium-bg-bone"
+            className="brand-section brand-bg-tint"
             aria-label="What are adaptogens"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               <ScienceAdaptogens isMobile={!!isMobile} />
             </div>
           </section>
 
-          {/* Five Pillars */}
+          {/* ===== SECTION 4: FIVE PILLARS ===== */}
           <section
-            className="premium-section-luxury text-white"
-            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+            className="brand-section brand-bg-white"
             aria-label="The five pillars"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               <SciencePillars isMobile={!!isMobile} />
             </div>
           </section>
 
-          {/* Synergy Chart */}
+          {/* ===== SECTION 5: SYNERGY CHART ===== */}
           <section
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+            className="brand-section brand-bg-tint"
             aria-label="Formula synergy"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               <SynergyChart isMobile={!!isMobile} />
             </div>
           </section>
 
-          {/* How We're Different */}
+          {/* ===== SECTION 6: WHAT MAKES US DIFFERENT ===== */}
           <section
-            className="premium-section-luxury premium-bg-bone"
+            className="brand-section brand-bg-white"
             aria-label="What makes CONKA different"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               <ScienceDifferent isMobile={!!isMobile} />
             </div>
           </section>
 
-          {/* Evidence Summary */}
+          {/* ===== SECTION 7: EVIDENCE SUMMARY ===== */}
           <section
-            className="premium-section-luxury premium-bg-ink text-white"
+            className="brand-section brand-bg-tint"
             aria-label="Evidence-based formulation"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               <EvidenceSummary isMobile={!!isMobile} />
             </div>
           </section>

@@ -25,7 +25,7 @@ export default function CycleBreakMobile() {
 
   return (
     <section
-      className="premium-bg-bone text-black"
+      className="brand-bg-tint text-black"
       aria-label="How to break the cycle"
     >
       <div className="w-full max-w-full mx-auto px-6 md:px-12 lg:px-20">
@@ -41,7 +41,7 @@ export default function CycleBreakMobile() {
               <div
                 className="absolute inset-0 z-0 transition-colors duration-[400ms] ease-out"
                 style={{
-                  backgroundColor: expandedCards.has("clear") ? "var(--color-neuro-blue-dark)" : "#fff",
+                  backgroundColor: expandedCards.has("clear") ? "var(--brand-black)" : "#fff",
                 }}
               />
               {/* ClearHalf.png at right edge of column; grayscale until expanded; white glow when active */}
@@ -69,14 +69,14 @@ export default function CycleBreakMobile() {
               <div className="relative z-10 pt-4 pl-8 md:pl-12 lg:pl-16 max-w-[67%] flex flex-col min-h-[280px]">
                 {expandedCards.has("clear") ? (
                   <div className="text-white">
-                    <h3 className="premium-section-heading text-lg font-bold mb-4 pt-4 text-white">
+                    <h3 className="brand-h2 text-lg font-bold mb-4 pt-4 text-white">
                       {copy.mechanisms.clear.title}
                     </h3>
                     <ul className="space-y-2.5 mt-4">
                       {copy.mechanisms.clear.keyPoints.map((point, idx) => (
                         <li
                           key={idx}
-                          className="premium-body text-sm flex items-start gap-3 text-white"
+                          className="brand-body text-sm flex items-start gap-3 text-white"
                         >
                           <span className="text-white mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-current opacity-50" />
                           <span className="flex-1 text-white">{point}</span>
@@ -86,10 +86,10 @@ export default function CycleBreakMobile() {
                   </div>
                 ) : (
                   <div className="flex flex-col flex-1">
-                    <p className="premium-section-heading text-xl md:text-2xl font-bold text-black mb-2">
+                    <p className="brand-h2 text-xl md:text-2xl font-bold text-black mb-2">
                       How does CONKA Clear help?
                     </p>
-                    <span className="mt-auto pt-4 inline-flex w-fit rounded-full border-2 border-black px-4 py-2 premium-data text-xs uppercase tracking-wider opacity-70 text-black">
+                    <span className="mt-auto pt-4 inline-flex w-fit rounded-full border-2 border-black px-4 py-2 brand-data text-xs uppercase tracking-wider opacity-70 text-black">
                       Tap to discover
                     </span>
                   </div>
@@ -106,7 +106,7 @@ export default function CycleBreakMobile() {
               <div
                 className="absolute inset-0 z-0 transition-colors duration-[400ms] ease-out"
                 style={{
-                  backgroundColor: expandedCards.has("flow") ? "var(--color-neuro-blue-dark)" : "#fff",
+                  backgroundColor: expandedCards.has("flow") ? "var(--brand-black)" : "#fff",
                 }}
               />
               {/* FlowHalf.png at left edge of column; grayscale until expanded; white glow when active */}
@@ -135,14 +135,14 @@ export default function CycleBreakMobile() {
                 <div className="max-w-[67%] text-right flex flex-col flex-1 items-end">
                   {expandedCards.has("flow") ? (
                     <div className="text-white text-right inline-block max-w-full">
-                      <h3 className="premium-section-heading text-lg font-bold mb-4 pt-4 text-white text-right">
+                      <h3 className="brand-h2 text-lg font-bold mb-4 pt-4 text-white text-right">
                         {copy.mechanisms.flow.title}
                       </h3>
                       <ul className="space-y-2.5 text-right mt-4">
                         {copy.mechanisms.flow.keyPoints.map((point, idx) => (
                           <li
                             key={idx}
-                            className="premium-body text-sm flex items-start gap-3 justify-end text-white"
+                            className="brand-body text-sm flex items-start gap-3 justify-end text-white"
                           >
                             <span className="text-white mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-current opacity-50 order-2" />
                             <span className="flex-1 text-white order-1 text-right">{point}</span>
@@ -152,10 +152,10 @@ export default function CycleBreakMobile() {
                     </div>
                   ) : (
                     <div className="flex flex-col flex-1 w-full items-end">
-                      <p className="premium-section-heading text-xl md:text-2xl font-bold text-black mb-2">
+                      <p className="brand-h2 text-xl md:text-2xl font-bold text-black mb-2">
                         How does CONKA Flow help?
                       </p>
-                      <span className="mt-auto pt-4 inline-flex w-fit rounded-full border-2 border-black px-4 py-2 premium-data text-xs uppercase tracking-wider opacity-70 text-black">
+                      <span className="mt-auto pt-4 inline-flex w-fit rounded-full border-2 border-black px-4 py-2 brand-data text-xs uppercase tracking-wider opacity-70 text-black">
                         Tap to discover
                       </span>
                     </div>

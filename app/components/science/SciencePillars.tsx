@@ -24,19 +24,19 @@ export default function SciencePillars({ isMobile = false }: SciencePillarsProps
   return (
     <div className="flex flex-col gap-6 md:gap-10">
       <div>
-        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
+        <p className="brand-caption uppercase tracking-widest opacity-50 mb-2">
           The Five Pillars
         </p>
         <h2
-          className={`premium-section-heading font-bold ${
+          className={`brand-h2 font-bold ${
             isMobile ? "text-2xl" : "text-3xl lg:text-4xl"
           }`}
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          style={{ letterSpacing: "-0.02em" }}
         >
           How Our Formulas Work
         </h2>
         <p
-          className={`premium-section-subtitle opacity-80 mt-2 ${
+          className={`brand-body opacity-80 mt-2 ${
             isMobile ? "text-base" : "text-lg"
           }`}
         >

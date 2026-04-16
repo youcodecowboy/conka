@@ -1,7 +1,10 @@
 /**
- * CONKA Style Guide 02 – Premium Base
- * Tokens and semantic classes for PDP premium layer.
- * Applied only inside a premium wrapper (e.g. .premium-pdp) in Phase 3.
+ * CONKA Style Guide 02 – Premium Base (LEGACY)
+ *
+ * TODO: This file is being retired. New/migrated pages use brand-base.css.
+ * Do not add new classes here. Migrate remaining consumers to brand-* equivalents.
+ * Pages still on premium: /professionals, /account, quiz, funnel.
+ * See docs/development/featurePlans/visual-system-migration.md for migration plan.
  *
  * Typography: Display (Syne – geometric, premium; swap to New Haus when licensed).
  * Body: DM Sans – sharp, legible, neutral sans.

@@ -22,12 +22,12 @@ export default function WhatToExpectTimeline({
     <>
       <header className={`mb-8 md:mb-10 ${isMobile ? "text-right" : "max-w-[75%] text-right"}`}>
         <h2
-          className="premium-section-heading mb-2"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-2"
+          style={{ letterSpacing: "-0.02em" }}
         >
           {sectionTitle}
         </h2>
-        <p className="premium-annotation opacity-70">{sectionSubtitle}</p>
+        <p className="brand-caption italic opacity-70">{sectionSubtitle}</p>
       </header>
 
       {isMobile ? (

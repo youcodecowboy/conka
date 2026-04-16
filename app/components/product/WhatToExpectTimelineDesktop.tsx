@@ -24,7 +24,7 @@ export default function WhatToExpectTimelineDesktop({ productId }: WhatToExpectT
               style={{ backgroundColor: accentHex }}
               aria-hidden
             />
-            <span className="absolute -top-6 premium-data text-[10px] opacity-40 uppercase tracking-widest">
+            <span className="absolute -top-6 brand-data text-[10px] opacity-40 uppercase tracking-widest">
               Step {String(i + 1).padStart(2, "0")}
             </span>
           </div>
@@ -35,19 +35,19 @@ export default function WhatToExpectTimelineDesktop({ productId }: WhatToExpectT
         {steps.map((step: WhatToExpectStep, i: number) => (
           <div
             key={i}
-            className="bg-white p-6 flex flex-col min-h-[240px] border-2 border-[var(--premium-border-color)] transition-all duration-200 hover:border-[var(--accent)] hover:shadow-lg hover:-translate-y-1"
+            className="bg-white p-6 flex flex-col min-h-[240px] border-2 border-[var(--brand-border-color)] transition-all duration-200 hover:border-[var(--accent)] hover:shadow-lg hover:-translate-y-1"
             style={{
-              borderRadius: "var(--premium-radius-card)",
+              borderRadius: "var(--brand-radius-card)",
             }}
           >
             <p
-              className="premium-data uppercase text-[10px] font-bold mb-3 tracking-[0.1em]"
+              className="brand-data uppercase text-[10px] font-bold mb-3 tracking-[0.1em]"
               style={{ color: accentHex }}
             >
               {step.subheading}
             </p>
-            <h3 className="premium-heading text-lg leading-tight mb-3">{step.heading}</h3>
-            <p className="premium-body-sm leading-relaxed text-black/60">{step.body}</p>
+            <h3 className="brand-h3 text-lg leading-tight mb-3">{step.heading}</h3>
+            <p className="brand-caption leading-relaxed text-black/60">{step.body}</p>
           </div>
         ))}
       </div>

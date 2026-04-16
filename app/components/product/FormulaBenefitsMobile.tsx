@@ -53,7 +53,7 @@ function AccordionRow({
           isOpen ? "py-5" : "py-4"
         }`}
         style={{
-          background: isOpen ? "var(--color-neuro-blue-dark)" : "transparent",
+          background: isOpen ? "var(--brand-black)" : "transparent",
           color: isOpen ? "#ffffff" : undefined,
         }}
       >
@@ -64,21 +64,21 @@ function AccordionRow({
             className={`w-5 h-5 shrink-0 flex items-center justify-center transition-colors duration-200 ${
               isOpen
                 ? "opacity-100 text-white"
-                : "opacity-30 text-[var(--color-ink)]"
+                : "opacity-30 text-[var(--brand-black)]"
             }`}
           />
           <span
-            className={`flex-1 premium-body text-left transition-colors duration-200 ${
+            className={`flex-1 brand-body text-left transition-colors duration-200 ${
               isOpen
                 ? "text-white font-semibold"
-                : "text-[var(--color-ink)] font-medium"
+                : "text-[var(--brand-black)] font-medium"
             }`}
           >
             {struggle.label}
           </span>
           <span
             className={`text-xl font-extrabold shrink-0 transition-colors duration-200 ${
-              isOpen ? "text-[var(--color-bone)]" : "text-[var(--color-ink)]"
+              isOpen ? "text-[var(--brand-white)]" : "text-[var(--brand-black)]"
             }`}
           >
             {solution.stat}
@@ -94,8 +94,8 @@ function AccordionRow({
             strokeLinejoin="round"
             className={`shrink-0 transition-all duration-300 ${
               isOpen
-                ? "rotate-180 text-[var(--color-bone)] opacity-100"
-                : "rotate-0 text-[var(--color-ink)] opacity-30"
+                ? "rotate-180 text-[var(--brand-white)] opacity-100"
+                : "rotate-0 text-[var(--brand-black)] opacity-30"
             }`}
           >
             <polyline points="6 9 12 15 18 9" />
@@ -105,10 +105,10 @@ function AccordionRow({
         {/* Row 2: struggle text — full width */}
         {solution.struggle && (
           <p
-            className={`w-full text-left premium-body-sm mt-1 font-normal transition-colors duration-200 ${
+            className={`w-full text-left brand-caption mt-1 font-normal transition-colors duration-200 ${
               isOpen
                 ? "text-white opacity-60"
-                : "opacity-50 text-[var(--color-ink)]"
+                : "opacity-50 text-[var(--brand-black)]"
             }`}
           >
             {solution.struggle}
@@ -125,7 +125,7 @@ function AccordionRow({
           key={struggle.id}
           className="px-5 pb-6"
           style={{
-            background: "var(--color-neuro-blue-dark)",
+            background: "var(--brand-black)",
             color: "#ffffff",
             animation: "fadeSlideDown 0.3s ease forwards",
           }}
@@ -133,7 +133,7 @@ function AccordionRow({
           {/* 1. Outcome headline — first thing read */}
           <h3
             className="text-lg font-bold leading-tight mb-3"
-            style={{ color: "var(--color-bone)" }}
+            style={{ color: "var(--brand-white)" }}
           >
             {solution.outcome}
           </h3>
@@ -144,8 +144,8 @@ function AccordionRow({
             style={{
               fontSize: "clamp(2.8rem, 14vw, 3.8rem)",
               lineHeight: 1,
-              letterSpacing: "var(--letter-spacing-premium-title)",
-              color: "var(--color-bone)",
+              letterSpacing: "-0.02em",
+              color: "var(--brand-white)",
             }}
           >
             {solution.stat}
@@ -153,8 +153,8 @@ function AccordionRow({
 
           {/* 3. One-line mechanism — muted, capped via line clamp */}
           <p
-            className="premium-body-sm leading-relaxed mb-4 line-clamp-3"
-            style={{ color: "var(--color-bone)", opacity: 0.65 }}
+            className="brand-caption leading-relaxed mb-4 line-clamp-3"
+            style={{ color: "var(--brand-white)", opacity: 0.65 }}
           >
             {solution.description}
           </p>
@@ -169,20 +169,20 @@ function AccordionRow({
               }}
             >
               <span
-                className="premium-body-sm font-medium"
-                style={{ color: "var(--color-bone)", opacity: 0.9 }}
+                className="brand-caption font-medium"
+                style={{ color: "var(--brand-white)", opacity: 0.9 }}
               >
                 {solution.ingredientAsset.name}
               </span>
               <span
-                className="premium-body-sm"
-                style={{ color: "var(--color-bone)", opacity: 0.4 }}
+                className="brand-caption"
+                style={{ color: "var(--brand-white)", opacity: 0.4 }}
               >
                 ·
               </span>
               <span
-                className="premium-body-sm"
-                style={{ color: "var(--color-bone)", opacity: 0.5 }}
+                className="brand-caption"
+                style={{ color: "var(--brand-white)", opacity: 0.5 }}
               >
                 {solution.ingredientAsset.dosage}
               </span>
@@ -205,14 +205,14 @@ function AccordionRow({
                     {result.value}
                   </p>
                   <p
-                    className="premium-body-sm leading-tight"
-                    style={{ color: "var(--color-bone)" }}
+                    className="brand-caption leading-tight"
+                    style={{ color: "var(--brand-white)" }}
                   >
                     {result.metric}
                   </p>
                   <p
-                    className="premium-body-sm mt-1"
-                    style={{ color: "var(--color-bone)" }}
+                    className="brand-caption mt-1"
+                    style={{ color: "var(--brand-white)" }}
                   >
                     {result.pValue}
                   </p>
@@ -223,8 +223,8 @@ function AccordionRow({
 
           {/* 6. Study footnote */}
           <p
-            className="premium-body-sm"
-            style={{ color: "var(--color-bone)" }}
+            className="brand-caption"
+            style={{ color: "var(--brand-white)" }}
           >
             {solution.clinicalStudy.name} — {solution.clinicalStudy.university},{" "}
             {solution.clinicalStudy.year}
@@ -237,7 +237,7 @@ function AccordionRow({
         <div
           style={{
             height: "1px",
-            background: "var(--color-premium-stroke)",
+            background: "var(--brand-stroke)",
           }}
         />
       )}
@@ -261,12 +261,12 @@ export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobi
       {/* Heading block */}
       <div className="text-left md:text-center mb-8">
         <h2
-          className="premium-section-heading"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-0"
+          style={{ letterSpacing: "-0.02em" }}
         >
           What you'll actually feel.
         </h2>
-        <p className="premium-section-subtitle mt-2">
+        <p className="brand-body mt-2 text-black/80">
           Tap a benefit to see the evidence behind it.
         </p>
       </div>
@@ -275,7 +275,7 @@ export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobi
       <div
         className="overflow-hidden -mx-5 md:-mx-[5vw]"
         style={{
-          border: "1px solid var(--color-premium-stroke)",
+          border: "1px solid var(--brand-stroke)",
         }}
       >
         {STRUGGLE_OPTIONS.map((struggle, index) => (

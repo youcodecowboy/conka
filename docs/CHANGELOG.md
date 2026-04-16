@@ -6,6 +6,26 @@
 
 ## April 2026
 
+### 2026-04-16 -- Visual system migration: product, protocol, and content pages
+
+Migrated 5 pages and ~40 components from `premium-base.css` to `brand-base.css`, completing the visual system alignment started with the homepage upgrade on 2026-04-07.
+
+**Phase 1 -- Product pages (conka-flow + conka-clarity):**
+Rewrote both page wrappers from `premium-section-luxury`/`premium-track` to `brand-section`/`brand-track` with white/tint alternation. Migrated 15 shared product components: ProductHero, FormulaIngredients, FormulaBenefits (desktop + mobile + stats), BenefitDetail, BenefitList, HowItWorks, FormulaFAQ, FormulaCaseStudies, StickyPurchaseFooter, PackSelectorPremium. Flattened all dark `neuro-blue-dark` section backgrounds to `brand-bg-tint`. Removed `premium-pdp` overflow wrapper. Replaced `neo-button` with `brand-btn` in FormulaIngredients.
+
+**Phase 2 -- Protocol page (Balance, id=3):**
+Migrated 13 protocol components: ProtocolHero, CycleTrap, CycleBreak (desktop + mobile), CycleTransformation, ProtocolCalendar, ProtocolFAQ, TierSelectorPremium, WhatToExpectTimeline (+ desktop/mobile sub-components), ProtocolRatioSelector. CycleBreak hover/tap-to-reveal keeps `brand-black` for expanded state (UI feedback pattern, not section background).
+
+**Phase 3 -- Content pages (science + our-story):**
+Migrated 8 science components (ScienceHero, ScienceQuote, ScienceAdaptogens, SciencePillars, PillarCard, SynergyChart, ScienceDifferent, EvidenceSummary) and 4 our-story components (OurStoryHero, OurStoryHeroMobile, StorySection, OurStoryCTA). Replaced `neuro-blue-end` accent references with `brand-accent`. EvidenceSummary data card kept dark (`brand-black`) as a data-emphasis surface. OurStoryCTA fully flipped from dark-on-light to light-on-dark. Our-story page flattened from theme-based dark/light alternation to white/tint rhythm.
+
+**CSS prep:**
+Added compatibility tokens (`--brand-surface`, `--brand-stroke`, `--brand-border-color`) to `brand-base.css`. Marked `premium-base.css` header as LEGACY with migration TODO. Both CSS files remain loaded globally; no breaking changes for unmigrated pages.
+
+**Why:** Homepage was migrated to `brand-base.css` on 2026-04-07 but all other pages still used `premium-base.css` with dark dramatic sections, different card radii, and no accent colour. This created visual inconsistency across the site. Flattening to white/tint aligns with the Landing Page Visual System and competitive benchmarks (Headstrong, Overload, AG1, Magic Mind).
+**Plan:** `docs/development/featurePlans/visual-system-migration.md`
+**Branch:** `other-page-aesthetic-migration`
+
 ### 2026-04-16 — TQBF lifestyle assets, navigation simplification, ProductGrid reorder, CTA + trust badge pass
 
 Multi-part update integrating new TQBF lifestyle photography and simplifying the site towards the Flow/Clear/Both offering.

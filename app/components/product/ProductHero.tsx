@@ -43,7 +43,7 @@ export default function ProductHero({
       : "one-time";
 
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-center lg:items-start gap-[var(--premium-space-m)]">
+    <div className="flex flex-col lg:flex-row lg:justify-center lg:items-start gap-[var(--brand-space-m)]">
       {/* Left: Product Image – sticky on desktop so it stays visible while right column scrolls */}
       <div className="relative z-0 lg:w-[44%] lg:flex-shrink-0 order-1 lg:order-1 lg:sticky lg:top-24 lg:self-start">
         <div className="relative w-full group">
@@ -57,14 +57,14 @@ export default function ProductHero({
       </div>
 
       {/* Right: Product Info Box (bone background so it doesn’t feel like a white card) */}
-      <div className="flex flex-col gap-[var(--premium-space-s)] lg:gap-[var(--premium-space-l)] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
+      <div className="flex flex-col gap-[var(--brand-space-s)] lg:gap-[var(--brand-space-l)] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
         <div
-          className="premium-box flex flex-col gap-[var(--premium-space-s)] lg:gap-[var(--premium-space-m)] !border-0 relative z-10"
+          className="brand-card flex flex-col gap-[var(--brand-space-s)] lg:gap-[var(--brand-space-m)] !border-0 relative z-10"
           style={{
-            paddingLeft: "var(--premium-space-m)",
-            paddingRight: "var(--premium-space-m)",
-            paddingTop: "var(--premium-space-s)",
-            paddingBottom: "var(--premium-space-m)",
+            paddingLeft: "var(--brand-space-m)",
+            paddingRight: "var(--brand-space-m)",
+            paddingTop: "var(--brand-space-s)",
+            paddingBottom: "var(--brand-space-m)",
             backgroundColor: "#fff",
           }}
         >
@@ -88,15 +88,15 @@ export default function ProductHero({
                   </svg>
                 ))}
               </div>
-              <span className="premium-data text-current/90">
+              <span className="brand-data text-current/90">
                 {formulaId === "01"
                   ? "Over 90,000 bottles sold"
                   : "Over 60,000 bottles sold"}
               </span>
             </div>
             <h1
-              className="premium-display leading-tight font-primary text-current"
-              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+              className="brand-h1-bold leading-tight font-primary text-current"
+              style={{ letterSpacing: "-0.02em" }}
             >
               {formulaId === "01" ? (
                 <>
@@ -108,11 +108,11 @@ export default function ProductHero({
             </h1>
             <div className="mt-2">
               <span
-                className="inline-block py-1 premium-data text-current/90 text-sm"
+                className="inline-block py-1 brand-data text-current/90 text-sm"
                 style={{
-                  paddingLeft: "var(--premium-space-m)",
-                  paddingRight: "var(--premium-space-m)",
-                  borderRadius: "var(--premium-radius-interactive)",
+                  paddingLeft: "var(--brand-space-m)",
+                  paddingRight: "var(--brand-space-m)",
+                  borderRadius: "var(--brand-radius-interactive)",
                   background: "rgba(0,0,0,0.04)",
                 }}
               >
@@ -122,7 +122,7 @@ export default function ProductHero({
           </div>
 
           {/* Headline description */}
-          <p className="premium-title text-current/90 text-base md:text-lg leading-snug mb-1.5">
+          <p className="brand-body text-current/90 text-base md:text-lg leading-snug mb-1.5">
             {formula.headline}
           </p>
 
@@ -130,10 +130,10 @@ export default function ProductHero({
           <div
             className="w-full"
             style={{
-              background: "var(--color-surface)",
-              borderRadius: "var(--premium-radius-nested)",
+              background: "var(--brand-surface)",
+              borderRadius: "var(--brand-radius-container)",
               padding:
-                "var(--premium-space-m) var(--premium-space-m) var(--premium-space-l)",
+                "var(--brand-space-m) var(--brand-space-m) var(--brand-space-l)",
             }}
           >
             <div className="flex w-full justify-between gap-2">
@@ -173,20 +173,20 @@ export default function ProductHero({
           {/* Block 6: Purchase type + price */}
           <div className="flex flex-col gap-3">
             <div className="space-y-2">
-              <p className="premium-data uppercase opacity-70 mb-2">
+              <p className="brand-data uppercase opacity-70 mb-2">
                 How would you like to purchase?
               </p>
               <button
                 onClick={() => onPurchaseTypeChange("subscription")}
-                className={`w-full text-left p-3 transition-all flex items-start gap-3 cursor-pointer bg-white hover:shadow-[0_2px 8px_rgba(0,0,0,0.08)] ${
+                className={`w-full text-left p-3 transition-all flex items-start gap-3 cursor-pointer bg-white hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
                   purchaseType === "subscription"
-                    ? "ring-2 ring-black/10 shadow-[0_2px 8px_rgba(0,0,0,0.08)]"
+                    ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
                     : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
                 }`}
                 style={{
-                  borderRadius: "var(--premium-radius-nested)",
+                  borderRadius: "var(--brand-radius-container)",
                   borderWidth: 1,
-                  borderColor: "var(--premium-border-color)",
+                  borderColor: "var(--brand-border-color)",
                 }}
               >
                 <span
@@ -286,15 +286,15 @@ export default function ProductHero({
               </button>
               <button
                 onClick={() => onPurchaseTypeChange("one-time")}
-                className={`w-full text-left p-3 transition-all flex items-center gap-3 cursor-pointer bg-white hover:shadow-[0_2px 8px_rgba(0,0,0,0.08)] ${
+                className={`w-full text-left p-3 transition-all flex items-center gap-3 cursor-pointer bg-white hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
                   purchaseType === "one-time"
-                    ? "ring-2 ring-black/10 shadow-[0_2px 8px_rgba(0,0,0,0.08)]"
+                    ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
                     : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
                 }`}
                 style={{
-                  borderRadius: "var(--premium-radius-nested)",
+                  borderRadius: "var(--brand-radius-container)",
                   borderWidth: 1,
-                  borderColor: "var(--premium-border-color)",
+                  borderColor: "var(--brand-border-color)",
                 }}
               >
                 <span
@@ -314,13 +314,13 @@ export default function ProductHero({
             <div
               className="flex justify-between items-center py-4 bg-white px-4"
               style={{
-                borderRadius: "var(--premium-radius-nested)",
+                borderRadius: "var(--brand-radius-container)",
                 boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-                border: "1px solid var(--premium-border-color)",
+                border: "1px solid var(--brand-border-color)",
               }}
             >
               <div>
-                <p className="premium-data uppercase opacity-70">
+                <p className="brand-data uppercase opacity-70">
                   Your Selection
                 </p>
                 <p className="font-bold">
@@ -382,7 +382,7 @@ export default function ProductHero({
           <div
             className="pb-4 md:pb-6"
             style={{
-              paddingBottom: "var(--premium-space-m)",
+              paddingBottom: "var(--brand-space-m)",
             }}
           >
             <button
@@ -390,7 +390,7 @@ export default function ProductHero({
               className={`w-full px-8 py-4 font-bold text-lg border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)] ${ctaTextClass}`}
               style={{
                 background: `linear-gradient(90deg, ${FORMULA_GRADIENTS[formulaId].start} 0%, ${FORMULA_GRADIENTS[formulaId].end} 100%)`,
-                borderRadius: "var(--premium-radius-interactive)",
+                borderRadius: "var(--brand-radius-interactive)",
               }}
             >
               {purchaseType === "subscription"

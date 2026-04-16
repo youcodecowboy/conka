@@ -96,7 +96,7 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
           <div className="flex items-start justify-start">
             <div
               className="relative w-full max-w-[520px] aspect-square overflow-hidden shadow-lg"
-              style={{ borderRadius: "var(--premium-radius-card)" }}
+              style={{ borderRadius: "var(--brand-radius-card)" }}
             >
               <img
                 src="/CONKA_21.jpg"
@@ -184,7 +184,7 @@ export default function ProtocolFAQ({ protocolId }: ProtocolFAQProps) {
         <div className="pt-6 pb-2">
           <div
             className="relative w-full max-w-[280px] mx-auto aspect-square overflow-hidden shadow-lg"
-            style={{ borderRadius: "var(--premium-radius-card)" }}
+            style={{ borderRadius: "var(--brand-radius-card)" }}
           >
             <img
               src="/CONKA_21.jpg"

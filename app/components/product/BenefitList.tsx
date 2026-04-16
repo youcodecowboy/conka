@@ -36,8 +36,8 @@ export default function BenefitList({
       <div
         className="rounded-[40px] overflow-hidden"
         style={{ 
-          border: "1px solid var(--color-premium-stroke)",
-          background: "var(--color-bone)"
+          border: "1px solid var(--brand-stroke)",
+          background: "var(--brand-white)"
         }}
       >
         <div style={{ padding: "2em" }} className="space-y-2">
@@ -58,8 +58,8 @@ export default function BenefitList({
                   flex items-center gap-3 px-4 py-3.5 rounded-[20px] cursor-pointer 
                   transition-all duration-200 w-full text-left
                   ${isSelected
-                    ? "bg-[var(--color-ink)] text-white"
-                    : "bg-white border border-[var(--color-premium-stroke)] hover:bg-[var(--color-premium-bg-soft)]"
+                    ? "bg-[var(--brand-black)] text-white"
+                    : "bg-white border border-[var(--brand-stroke)] hover:bg-[var(--brand-tint)]"
                   }
                 `}
               >
@@ -69,7 +69,7 @@ export default function BenefitList({
                 </div>
 
                 {/* Benefit name */}
-                <span className={`premium-body font-medium flex-1 ${isSelected ? "text-white" : "text-[var(--color-ink)]"}`}>
+                <span className={`brand-body font-medium flex-1 ${isSelected ? "text-white" : "text-[var(--brand-black)]"}`}>
                   {struggle.label}
                 </span>
 
@@ -108,10 +108,10 @@ export default function BenefitList({
         <div
           key={`ingredient-${selectedStruggle}`}
           className="mt-4 rounded-[24px] overflow-hidden [animation:fadeIn_0.3s_ease]"
-          style={{ border: "1px solid var(--color-premium-stroke)" }}
+          style={{ border: "1px solid var(--brand-stroke)" }}
         >
           {/* Square image */}
-          <div className="relative w-full aspect-[2/1] bg-[var(--color-premium-bg-soft)]">
+          <div className="relative w-full aspect-[2/1] bg-[var(--brand-tint)]">
             <Image
               src={currentSolution.ingredientAsset.image}
               alt={currentSolution.ingredientAsset.name}
@@ -123,12 +123,12 @@ export default function BenefitList({
           {/* Label strip */}
           <div
             className="px-4 py-3"
-            style={{ background: "var(--color-bone)" }}
+            style={{ background: "var(--brand-white)" }}
           >
-            <p className="premium-body-sm font-medium text-[var(--color-ink)]">
+            <p className="brand-caption font-medium text-[var(--brand-black)]">
               {currentSolution.ingredientAsset.name}
             </p>
-            <p className="premium-body-sm opacity-50 text-[var(--color-ink)]">
+            <p className="brand-caption opacity-50 text-[var(--brand-black)]">
               {currentSolution.ingredientAsset.dosage}
             </p>
           </div>
@@ -155,13 +155,13 @@ export default function BenefitList({
               px-4 py-2 rounded-full text-sm flex items-center gap-1.5 whitespace-nowrap
               transition-all duration-200
               ${isSelected
-                ? "bg-[var(--color-ink)] text-[var(--color-bone)]"
-                : "bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)]"
+                ? "bg-[var(--brand-black)] text-[var(--brand-white)]"
+                : "bg-[var(--brand-tint)] text-[var(--brand-black)]"
               }
             `}
           >
             {/* Icon */}
-            <div className={`w-4 h-4 flex-shrink-0 ${isSelected ? "text-[var(--color-bone)]" : accentColor.text}`}>
+            <div className={`w-4 h-4 flex-shrink-0 ${isSelected ? "text-[var(--brand-white)]" : accentColor.text}`}>
               <StruggleIcon icon={struggle.icon} />
             </div>
 
