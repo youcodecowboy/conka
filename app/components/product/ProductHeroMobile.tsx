@@ -41,12 +41,12 @@ export default function ProductHeroMobile({
 
   return (
     <>
-      {/* Header – tight mobile gutter (premium token) */}
+      {/* Header */}
       <div
         className="w-full min-w-0 pt-3 pb-2"
         style={{
-          paddingLeft: "var(--premium-gutter-mobile-tight)",
-          paddingRight: "var(--premium-gutter-mobile-tight)",
+          paddingLeft: "var(--brand-space-xs)",
+          paddingRight: "var(--brand-space-xs)",
         }}
       >
         <div className="flex items-center gap-2 flex-wrap mb-2">
@@ -67,15 +67,15 @@ export default function ProductHeroMobile({
               </svg>
             ))}
           </div>
-          <span className="premium-data text-current/90">
+          <span className="brand-data text-current/90">
             {formulaId === "01"
               ? "Over 90,000 bottles sold"
               : "Over 60,000 bottles sold"}
           </span>
         </div>
         <h1
-          className="premium-display leading-tight font-primary text-current"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h1-bold leading-tight font-primary text-current"
+          style={{ letterSpacing: "-0.02em" }}
         >
           {formulaId === "01" ? (
             <>
@@ -87,11 +87,11 @@ export default function ProductHeroMobile({
         </h1>
         <div className="mt-2">
           <span
-            className="inline-block py-1 premium-data text-current/90 text-sm"
+            className="inline-block py-1 brand-data text-current/90 text-sm"
             style={{
-              paddingLeft: "var(--premium-space-m)",
-              paddingRight: "var(--premium-space-m)",
-              borderRadius: "var(--premium-radius-interactive)",
+              paddingLeft: "var(--brand-space-m)",
+              paddingRight: "var(--brand-space-m)",
+              borderRadius: "var(--brand-radius-interactive)",
               background: "rgba(0,0,0,0.04)",
             }}
           >
@@ -111,15 +111,15 @@ export default function ProductHeroMobile({
         />
       </div>
 
-      {/* Content – tight mobile gutter (premium token) */}
+      {/* Content */}
       <div
         className="pt-3 pb-4 space-y-3"
         style={{
-          paddingLeft: "var(--premium-gutter-mobile-tight)",
-          paddingRight: "var(--premium-gutter-mobile-tight)",
+          paddingLeft: "var(--brand-space-xs)",
+          paddingRight: "var(--brand-space-xs)",
         }}
       >
-        <p className="premium-title text-current/90 text-base leading-snug mb-1.5">
+        <p className="brand-body text-current/90 text-base leading-snug mb-1.5">
           {formula.headline}
         </p>
 
@@ -127,10 +127,10 @@ export default function ProductHeroMobile({
         <div
           className="w-full"
           style={{
-            background: "var(--color-surface)",
-            borderRadius: "var(--premium-radius-nested)",
+            background: "var(--brand-surface)",
+            borderRadius: "var(--brand-radius-container)",
             padding:
-              "var(--premium-space-m) var(--premium-space-m) var(--premium-space-l)",
+              "var(--brand-space-m) var(--brand-space-m) var(--brand-space-l)",
           }}
         >
           <div className="flex w-full justify-between gap-2">
@@ -164,7 +164,7 @@ export default function ProductHeroMobile({
         />
 
         <div className="space-y-2">
-          <p className="premium-data uppercase opacity-70 mb-2">
+          <p className="brand-data uppercase opacity-70 mb-2">
             How would you like to purchase?
           </p>
           <button
@@ -175,9 +175,9 @@ export default function ProductHeroMobile({
                 : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
             }`}
             style={{
-              borderRadius: "var(--premium-radius-nested)",
+              borderRadius: "var(--brand-radius-container)",
               borderWidth: 1,
-              borderColor: "var(--premium-border-color)",
+              borderColor: "var(--brand-border-color)",
             }}
           >
             <span
@@ -282,9 +282,9 @@ export default function ProductHeroMobile({
                 : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
             }`}
             style={{
-              borderRadius: "var(--premium-radius-nested)",
+              borderRadius: "var(--brand-radius-container)",
               borderWidth: 1,
-              borderColor: "var(--premium-border-color)",
+              borderColor: "var(--brand-border-color)",
             }}
           >
             <span
@@ -305,13 +305,13 @@ export default function ProductHeroMobile({
         <div
           className="flex justify-between items-center py-4 bg-white px-4"
           style={{
-            borderRadius: "var(--premium-radius-nested)",
+            borderRadius: "var(--brand-radius-container)",
             boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-            border: "1px solid var(--premium-border-color)",
+            border: "1px solid var(--brand-border-color)",
           }}
         >
           <div>
-            <p className="premium-data uppercase opacity-70">Your Selection</p>
+            <p className="brand-data uppercase opacity-70">Your Selection</p>
             <p className="font-bold">
               {selectedPack}-pack • {billingText}
             </p>
@@ -369,7 +369,7 @@ export default function ProductHeroMobile({
           className="w-full px-8 py-4 font-bold text-lg text-black border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
           style={{
             background: `linear-gradient(90deg, ${FORMULA_GRADIENTS[formulaId].start} 0%, ${FORMULA_GRADIENTS[formulaId].end} 100%)`,
-            borderRadius: "var(--premium-radius-interactive)",
+            borderRadius: "var(--brand-radius-interactive)",
           }}
         >
           {purchaseType === "subscription" ? "Subscribe Now" : "Add to Cart"}

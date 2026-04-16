@@ -82,21 +82,21 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
 
   return (
     <>
-      <header className="text-center mb-12 text-[var(--text-on-light)]">
+      <header className="text-center mb-12">
         <h2
           id="how-it-works-heading"
-          className="premium-section-heading mb-2"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-2"
+          style={{ letterSpacing: "-0.02em" }}
         >
           How {formula.name} Works
         </h2>
-        <p className="premium-annotation opacity-90">
+        <p className="brand-caption text-black/60">
           simple, effective, proven
         </p>
         {/* Mobile: square asset + circle asset in a row under header */}
         <div className="mt-6 flex justify-center gap-4 lg:hidden">
           <div
-            className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] sm:h-40 sm:w-40"
+            className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg bg-[var(--brand-tint)] border border-[var(--brand-stroke)] sm:h-40 sm:w-40"
           >
             <Image
               src={squareAsset.src}
@@ -106,7 +106,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
               sizes="160px"
             />
           </div>
-          <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] sm:h-40 sm:w-40">
+          <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-full bg-[var(--brand-tint)] border border-[var(--brand-stroke)] sm:h-40 sm:w-40">
             <Image
               src={circleAsset.src}
               alt={circleAsset.alt}
@@ -118,7 +118,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
         </div>
       </header>
 
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start text-[var(--text-on-light)]">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
           {/* Left: vertical 3-step section */}
           <div className="flex flex-col gap-12">
             {steps.map((step, idx) => (
@@ -131,10 +131,10 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
                   </span>
                 </div>
                 <div>
-                  <h3 className="premium-heading mb-1 text-lg">
+                  <h3 className="brand-h3 mb-1 text-lg">
                     {step.title}
                   </h3>
-                  <p className="premium-body opacity-90">
+                  <p className="brand-body opacity-90">
                     {step.description}
                   </p>
                 </div>
@@ -146,7 +146,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
           {/* Mobile/tablet: single square image */}
           <div
             className="relative w-full aspect-square overflow-hidden lg:hidden"
-            style={{ borderRadius: "var(--premium-radius-card)" }}
+            style={{ borderRadius: "var(--brand-radius-card)" }}
           >
             <Image
               src={assetSrc}
@@ -162,7 +162,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
           <div className="hidden lg:grid lg:sticky lg:top-24 w-full grid-cols-[2fr_1fr] grid-rows-[auto_auto] gap-3 md:gap-4">
             {/* Left: primary asset — spans both rows, height matches stacked support assets */}
             <div
-              className="relative row-span-2 h-full min-h-0 overflow-hidden rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+              className="relative row-span-2 h-full min-h-0 overflow-hidden rounded-[var(--brand-radius-card)] bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"
             >
               <Image
                 src={assetSrc}
@@ -175,7 +175,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
             </div>
             {/* Right: square then circle — row heights from aspect-square */}
             <div
-              className="relative aspect-square w-full overflow-hidden rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]"
+              className="relative aspect-square w-full overflow-hidden rounded-[var(--brand-radius-card)] bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"
             >
               <Image
                 src={squareAsset.src}
@@ -185,7 +185,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
                 sizes="16vw"
               />
             </div>
-            <div className="relative aspect-square w-full overflow-hidden rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)]">
+            <div className="relative aspect-square w-full overflow-hidden rounded-full bg-[var(--brand-tint)] border border-[var(--brand-stroke)]">
               <Image
                 src={circleAsset.src}
                 alt={circleAsset.alt}

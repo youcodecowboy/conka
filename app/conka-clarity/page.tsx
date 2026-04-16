@@ -82,20 +82,19 @@ export default function ConkaClarityPage() {
     }
   };
 
+  // Mobile version
   if (isMobile) {
     return (
-      <div
-        className="min-h-screen theme-conka-clarity"
-        style={{ background: "var(--background)", color: "var(--foreground)" }}
-      >
+      <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
         <Navigation />
-        {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
+
+        {/* ===== SECTION 1: HERO ===== */}
         <section
           id="hero"
-          className="premium-section-luxury premium-hero-first bg-white"
+          className="brand-section brand-hero-first brand-bg-white"
           aria-label="Product hero"
         >
-          <div className="premium-track">
+          <div className="brand-track">
             <ProductHeroMobile
               formulaId="02"
               selectedPack={selectedPack}
@@ -107,134 +106,133 @@ export default function ConkaClarityPage() {
           </div>
         </section>
 
-        <div className="premium-pdp">
-          <section
-            id="benefits-stats"
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-            aria-labelledby="benefits-stats-heading"
-          >
-            <div className="premium-track">
-              <FormulaBenefitsStats formulaId="02" />
-            </div>
-          </section>
+        {/* ===== SECTION 2: BENEFITS STATS ===== */}
+        <section
+          id="benefits-stats"
+          className="brand-section brand-bg-tint"
+          aria-labelledby="benefits-stats-heading"
+        >
+          <div className="brand-track">
+            <FormulaBenefitsStats formulaId="02" />
+          </div>
+        </section>
 
-          {/* Testimonials */}
-          <section
-            id="testimonials"
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-          >
-            <div className="premium-track">
-              <Testimonials
-                testimonials={getSiteTestimonialsClarity()}
-                autoScrollOnly
-              />
-            </div>
-          </section>
+        {/* ===== SECTION 3: TESTIMONIALS ===== */}
+        <section
+          id="testimonials"
+          className="brand-section brand-bg-white"
+          aria-label="Customer reviews"
+        >
+          <div className="brand-track">
+            <Testimonials
+              testimonials={getSiteTestimonialsClarity()}
+              autoScrollOnly
+            />
+          </div>
+        </section>
 
-          <section
-            id="ingredients"
-            className="premium-section-luxury premium-bg-bone"
-            aria-label="Formula ingredients"
-          >
-            <div className="premium-track">
-              <FormulaIngredients formulaId="02" />
-            </div>
-          </section>
+        {/* ===== SECTION 4: INGREDIENTS ===== */}
+        <section
+          id="ingredients"
+          className="brand-section brand-bg-tint"
+          aria-label="Formula ingredients"
+        >
+          <div className="brand-track">
+            <FormulaIngredients formulaId="02" />
+          </div>
+        </section>
 
-          {/* Formula Benefits — after ingredients */}
-          <section
-            id="proof-and-science"
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-            aria-labelledby="proof-and-science-heading"
-          >
-            <div className="premium-track">
-              <FormulaBenefitsMobile formulaId="02" />
-            </div>
-          </section>
+        {/* ===== SECTION 5: FORMULA BENEFITS ===== */}
+        <section
+          id="proof-and-science"
+          className="brand-section brand-bg-white"
+          aria-labelledby="proof-and-science-heading"
+        >
+          <div className="brand-track">
+            <FormulaBenefitsMobile formulaId="02" />
+          </div>
+        </section>
 
-          {/* What to expect */}
-          <section
-            id="what-to-expect"
-            className="premium-section-luxury premium-bg-bone"
-            aria-label="What to expect"
-          >
-            <div className="premium-track">
-              <WhatToExpect productId="02" />
-            </div>
-          </section>
+        {/* ===== SECTION 6: WHAT TO EXPECT ===== */}
+        <section
+          id="what-to-expect"
+          className="brand-section brand-bg-tint"
+          aria-label="What to expect"
+        >
+          <div className="brand-track">
+            <WhatToExpect productId="02" />
+          </div>
+        </section>
 
-          <section
-            id="how-it-works"
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-            aria-labelledby="how-it-works-heading"
-          >
-            <div className="premium-track">
-              <HowItWorks formulaId="02" />
-            </div>
-          </section>
+        {/* ===== SECTION 7: HOW IT WORKS ===== */}
+        <section
+          id="how-it-works"
+          className="brand-section brand-bg-white"
+          aria-labelledby="how-it-works-heading"
+        >
+          <div className="brand-track">
+            <HowItWorks formulaId="02" />
+          </div>
+        </section>
 
-          <section
-            id="case-studies"
-            className="premium-section-luxury"
-            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-            aria-label="CONKA Case Studies"
-          >
-            <div className="premium-track">
-              <FormulaCaseStudiesMobile formulaId="02" />
-            </div>
-          </section>
+        {/* ===== SECTION 8: CASE STUDIES ===== */}
+        <section
+          id="case-studies"
+          className="brand-section brand-bg-tint"
+          aria-label="CONKA Case Studies"
+        >
+          <div className="brand-track">
+            <FormulaCaseStudiesMobile formulaId="02" />
+          </div>
+        </section>
 
-          <section
-            id="faq"
-            className="premium-section-luxury premium-bg-bone"
-            aria-label="FAQ"
-          >
-            <div className="premium-track">
-              <FormulaFAQ formulaId="02" />
-            </div>
-          </section>
+        {/* ===== SECTION 9: FAQ ===== */}
+        <section
+          id="faq"
+          className="brand-section brand-bg-white"
+          aria-label="FAQ"
+        >
+          <div className="brand-track">
+            <FormulaFAQ formulaId="02" />
+          </div>
+        </section>
 
-          <section
-            id="explore"
-            className="premium-section-luxury bg-white"
-            aria-label="Explore other protocols and formulas"
-          >
-            <div className="premium-track">
-              <ProductGrid exclude={["clear"]} />
-            </div>
-          </section>
+        {/* ===== SECTION 10: EXPLORE ===== */}
+        <section
+          id="explore"
+          className="brand-section brand-bg-tint"
+          aria-label="Explore other protocols and formulas"
+        >
+          <div className="brand-track">
+            <ProductGrid exclude={["clear"]} />
+          </div>
+        </section>
 
-          <StickyPurchaseFooterMobile
-            formulaId="02"
-            selectedPack={selectedPack}
-            onPackSelect={setSelectedPack}
-            purchaseType={purchaseType}
-            onAddToCart={handleAddToCartFromFooter}
-            usePremium
-          />
-        </div>
+        <StickyPurchaseFooterMobile
+          formulaId="02"
+          selectedPack={selectedPack}
+          onPackSelect={setSelectedPack}
+          purchaseType={purchaseType}
+          onAddToCart={handleAddToCartFromFooter}
+          usePremium
+        />
+
         <Footer />
       </div>
     );
   }
 
   return (
-    <div
-      className="min-h-screen theme-conka-clarity lg:pt-8"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
+    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
-      {/* Hero outside premium-pdp so sticky left column is not trapped by overflow-x-hidden */}
+
+      {/* ===== SECTION 1: HERO ===== */}
       <section
         id="hero"
-        className="premium-section-luxury premium-hero-first bg-white"
+        className="brand-section brand-hero-first brand-bg-white"
         aria-label="Product hero"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <ProductHero
             formulaId="02"
             selectedPack={selectedPack}
@@ -246,119 +244,118 @@ export default function ConkaClarityPage() {
         </div>
       </section>
 
-      <div className="premium-pdp">
-        <section
-          id="benefits-stats"
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-          aria-labelledby="benefits-stats-heading"
-        >
-          <div className="premium-track">
-            <FormulaBenefitsStats formulaId="02" />
-          </div>
-        </section>
+      {/* ===== SECTION 2: BENEFITS STATS ===== */}
+      <section
+        id="benefits-stats"
+        className="brand-section brand-bg-tint"
+        aria-labelledby="benefits-stats-heading"
+      >
+        <div className="brand-track">
+          <FormulaBenefitsStats formulaId="02" />
+        </div>
+      </section>
 
-        {/* Testimonials */}
-        <section
-          id="testimonials"
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-        >
-          <div className="premium-track">
-            <Testimonials
-              testimonials={getSiteTestimonialsClarity()}
-              autoScrollOnly
-            />
-          </div>
-        </section>
+      {/* ===== SECTION 3: TESTIMONIALS ===== */}
+      <section
+        id="testimonials"
+        className="brand-section brand-bg-white"
+        aria-label="Customer reviews"
+      >
+        <div className="brand-track">
+          <Testimonials
+            testimonials={getSiteTestimonialsClarity()}
+            autoScrollOnly
+          />
+        </div>
+      </section>
 
-        <section
-          id="ingredients"
-          className="premium-section-luxury premium-bg-bone"
-          aria-label="Formula ingredients"
-        >
-          <div className="premium-track">
-            <FormulaIngredients formulaId="02" />
-          </div>
-        </section>
-      </div>
+      {/* ===== SECTION 4: INGREDIENTS ===== */}
+      <section
+        id="ingredients"
+        className="brand-section brand-bg-tint"
+        aria-label="Formula ingredients"
+      >
+        <div className="brand-track">
+          <FormulaIngredients formulaId="02" />
+        </div>
+      </section>
 
-      {/* Formula Benefits outside premium-pdp so sticky left column works (no overflow-x) */}
+      {/* ===== SECTION 5: FORMULA BENEFITS ===== */}
       <section
         id="proof-and-science"
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
+        className="brand-section brand-bg-white"
         aria-labelledby="proof-and-science-heading"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <FormulaBenefits formulaId="02" />
         </div>
       </section>
 
-      {/* What to expect */}
+      {/* ===== SECTION 6: WHAT TO EXPECT ===== */}
       <section
         id="what-to-expect"
-        className="premium-section-luxury premium-bg-bone"
+        className="brand-section brand-bg-tint"
         aria-label="What to expect"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <WhatToExpect productId="02" />
         </div>
       </section>
 
-      <div className="premium-pdp">
-        <section
-          id="how-it-works"
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-          aria-labelledby="how-it-works-heading"
-        >
-          <div className="premium-track">
-            <HowItWorks formulaId="02" />
-          </div>
-        </section>
+      {/* ===== SECTION 7: HOW IT WORKS ===== */}
+      <section
+        id="how-it-works"
+        className="brand-section brand-bg-white"
+        aria-labelledby="how-it-works-heading"
+      >
+        <div className="brand-track">
+          <HowItWorks formulaId="02" />
+        </div>
+      </section>
 
-        <section
-          id="case-studies"
-          className="premium-section-luxury"
-          style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-          aria-label="CONKA Case Studies"
-        >
-          <div className="premium-track">
-            <FormulaCaseStudies formulaId="02" />
-          </div>
-        </section>
+      {/* ===== SECTION 8: CASE STUDIES ===== */}
+      <section
+        id="case-studies"
+        className="brand-section brand-bg-tint"
+        aria-label="CONKA Case Studies"
+      >
+        <div className="brand-track">
+          <FormulaCaseStudies formulaId="02" />
+        </div>
+      </section>
 
-        <section
-          id="faq"
-          className="premium-section-luxury premium-bg-bone"
-          aria-label="FAQ"
-        >
-          <div className="premium-track">
-            <FormulaFAQ formulaId="02" />
-          </div>
-        </section>
+      {/* ===== SECTION 9: FAQ ===== */}
+      <section
+        id="faq"
+        className="brand-section brand-bg-white"
+        aria-label="FAQ"
+      >
+        <div className="brand-track">
+          <FormulaFAQ formulaId="02" />
+        </div>
+      </section>
 
-        <section
-          id="explore"
-          className="premium-section-luxury bg-white"
-          aria-label="Explore other protocols and formulas"
-        >
-          <div className="premium-track">
-            <ProductGrid exclude={["clear"]} />
-          </div>
-        </section>
+      {/* ===== SECTION 10: EXPLORE ===== */}
+      <section
+        id="explore"
+        className="brand-section brand-bg-tint"
+        aria-label="Explore other protocols and formulas"
+      >
+        <div className="brand-track">
+          <ProductGrid exclude={["clear"]} />
+        </div>
+      </section>
 
-        <StickyPurchaseFooter
-          formulaId="02"
-          selectedPack={selectedPack}
-          onPackSelect={setSelectedPack}
-          purchaseType={purchaseType}
-          onPurchaseTypeChange={setPurchaseType}
-          onAddToCart={handleAddToCartFromFooter}
-          usePremium
-        />
-      </div>
+      <StickyPurchaseFooter
+        formulaId="02"
+        selectedPack={selectedPack}
+        onPackSelect={setSelectedPack}
+        purchaseType={purchaseType}
+        onPurchaseTypeChange={setPurchaseType}
+        onAddToCart={handleAddToCartFromFooter}
+        usePremium
+      />
+
       <Footer />
     </div>
   );

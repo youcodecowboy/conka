@@ -17,12 +17,12 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
       {/* Heading block */}
       <div className="text-right mb-10">
         <h2
-          className="premium-section-heading text-[var(--color-ink)]"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-0"
+          style={{ letterSpacing: "-0.02em" }}
         >
           What you'll actually feel.
         </h2>
-        <p className="premium-section-subtitle mt-2 text-[var(--color-ink)]">
+        <p className="brand-body mt-2 text-black/80">
           Select a benefit to see the evidence behind it.
         </p>
       </div>

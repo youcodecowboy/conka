@@ -131,11 +131,11 @@ export default function StickyPurchaseFooterMobile({
       <div
         className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] shadow-[0_-4px_20px_rgba(0,0,0,0.15)]"
         style={{
-          borderTopWidth: "var(--premium-border-width)",
+          borderTopWidth: "1px",
           borderTopStyle: "solid",
           borderTopColor: isSubscription
             ? accentColor
-            : "var(--premium-border-color)",
+            : "var(--brand-border-color)",
         }}
       >
         <div className="px-5 py-3">
@@ -148,10 +148,10 @@ export default function StickyPurchaseFooterMobile({
                     onClick={() => setShowDropdown(!showDropdown)}
                     className="w-full bg-[var(--background)] px-4 py-2 text-left flex items-center gap-2 hover:bg-black/5 transition-colors min-w-0"
                     style={{
-                      borderWidth: "var(--premium-border-width)",
+                      borderWidth: "1px",
                       borderStyle: "solid",
-                      borderColor: "var(--premium-border-color)",
-                      borderRadius: "var(--premium-radius-nested)",
+                      borderColor: "var(--brand-border-color)",
+                      borderRadius: "var(--brand-radius-container)",
                     }}
                   >
                     <div className="flex-1 min-w-0">
@@ -189,10 +189,10 @@ export default function StickyPurchaseFooterMobile({
                     <div
                       className="absolute bottom-full left-0 mb-2 w-full min-w-[200px] bg-[var(--background)] overflow-hidden shadow-lg max-h-[60vh] overflow-y-auto"
                       style={{
-                        borderWidth: "var(--premium-border-width)",
+                        borderWidth: "1px",
                         borderStyle: "solid",
-                        borderColor: "var(--premium-border-color)",
-                        borderRadius: "var(--premium-radius-nested)",
+                        borderColor: "var(--brand-border-color)",
+                        borderRadius: "var(--brand-radius-container)",
                       }}
                     >
                       {showPackSelector &&
@@ -294,7 +294,7 @@ export default function StickyPurchaseFooterMobile({
                   : "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-white bg-black border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
               }
               style={{
-                borderRadius: "var(--premium-radius-interactive)",
+                borderRadius: "var(--brand-radius-interactive)",
                 ...(productGradient
                   ? {
                       background: `linear-gradient(to right, ${productGradient.start}, ${productGradient.end})`,

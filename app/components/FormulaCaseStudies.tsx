@@ -32,19 +32,19 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
 
   return (
     <article
-      className="overflow-hidden flex flex-col rounded-[var(--premium-radius-base)] border border-[var(--premium-border-color)] h-full text-[var(--color-ink)]"
+      className="overflow-hidden flex flex-col rounded-[var(--brand-radius-container)] border border-[var(--brand-border-color)] h-full text-[var(--brand-black)]"
     >
       {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
-      <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--premium-radius-base)] bg-[var(--premium-surface)]">
+      <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--brand-radius-container)] bg-[var(--brand-surface)]">
         {photoSrc ? (
           <img
             src={photoSrc}
             alt={athlete.name}
-            className="w-full h-full object-cover rounded-t-[var(--premium-radius-base)]"
+            className="w-full h-full object-cover rounded-t-[var(--brand-radius-container)]"
             style={{ objectPosition: imagePosition }}
           />
         ) : (
-          <div className="flex flex-col items-center justify-center gap-[var(--premium-space-xs)] text-current/50">
+          <div className="flex flex-col items-center justify-center gap-[var(--brand-space-xs)] text-current/50">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -60,7 +60,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
-            <span className="premium-data text-[10px] uppercase tracking-wider">
+            <span className="brand-data text-[10px] uppercase tracking-wider">
               Photo
             </span>
           </div>
@@ -68,11 +68,11 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
       </div>
 
       {/* Card body: showcase content (white, dark text) */}
-      <div className="flex flex-1 flex-col p-[var(--premium-space-m)] gap-[var(--premium-space-s)] bg-white text-[var(--color-ink)]">
-        <h3 className="premium-heading text-[var(--premium-font-heading-size)] font-bold leading-tight">
+      <div className="flex flex-1 flex-col p-[var(--brand-space-m)] gap-[var(--brand-space-s)] bg-white text-[var(--brand-black)]">
+        <h3 className="brand-h3 font-bold leading-tight">
           {athlete.name}
         </h3>
-        <p className="premium-data opacity-70 text-sm">
+        <p className="brand-data opacity-70 text-sm">
           {[athlete.position, athlete.organization].filter(Boolean).join(" • ")}
           {athlete.achievement != null && athlete.achievement !== ""
             ? ` · ${athlete.achievement}`
@@ -80,7 +80,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
         </p>
 
         {/* Improvement rings: Total, Accuracy, Speed */}
-        <div className="grid grid-cols-3 gap-[var(--premium-space-s)] py-[var(--premium-space-s)]">
+        <div className="grid grid-cols-3 gap-[var(--brand-space-s)] py-[var(--brand-space-s)]">
           {METRIC_RING_COLORS.map(({ label, color }, idx) => {
             const result =
               label === "Total"
@@ -92,7 +92,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
             return (
               <div
                 key={label}
-                className="flex flex-col items-center gap-[var(--premium-space-xs)]"
+                className="flex flex-col items-center gap-[var(--brand-space-xs)]"
               >
                 <div className="relative w-14 h-14 flex-shrink-0">
                   <svg
@@ -120,17 +120,17 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="premium-data text-xs font-semibold">
+                    <span className="brand-data text-xs font-semibold">
                       {result.toFixed(0)}
                     </span>
                   </div>
                 </div>
-                <span className="premium-data text-[10px] opacity-70">
+                <span className="brand-data text-[10px] opacity-70">
                   {label}
                 </span>
                 {change != null && (
                   <span
-                    className="premium-data text-[10px] font-medium"
+                    className="brand-data text-[10px] font-medium"
                     style={{ color }}
                   >
                     {change.value}
@@ -142,11 +142,11 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
         </div>
 
         {/* Tests & period */}
-        <div className="flex flex-wrap items-center gap-x-[var(--premium-space-m)] gap-y-[var(--premium-space-xs)] premium-data text-xs opacity-70">
+        <div className="flex flex-wrap items-center gap-x-[var(--brand-space-m)] gap-y-[var(--brand-space-xs)] brand-data text-xs opacity-70">
           <span>{athlete.testsCompleted} tests</span>
           <span>{athlete.testingPeriod}</span>
           {athlete.protocolUsed != null && athlete.protocolUsed !== "" && (
-            <span className="px-2 py-0.5 rounded-full bg-white border border-[var(--color-base-black)] premium-data text-xs">
+            <span className="px-2 py-0.5 rounded-full bg-white border border-[var(--brand-black)] brand-data text-xs">
               {athlete.protocolUsed}
             </span>
           )}
@@ -154,14 +154,14 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
 
         <div className={!descriptionExpanded ? "min-h-[4.5rem]" : ""}>
           <p
-            className={`premium-body text-sm opacity-80 leading-relaxed ${!descriptionExpanded ? "line-clamp-3" : ""}`}
+            className={`brand-body text-sm opacity-80 leading-relaxed ${!descriptionExpanded ? "line-clamp-3" : ""}`}
           >
             {athlete.description}
           </p>
           <button
             type="button"
             onClick={() => setDescriptionExpanded((prev) => !prev)}
-            className="premium-data text-xs font-medium mt-[var(--premium-space-xs)] underline underline-offset-2 hover:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-base-black)] focus-visible:ring-offset-1 rounded"
+            className="brand-data text-xs font-medium mt-[var(--brand-space-xs)] underline underline-offset-2 hover:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-black)] focus-visible:ring-offset-1 rounded"
           >
             {descriptionExpanded ? "Show less" : "Read more"}
           </button>
@@ -202,31 +202,31 @@ export default function FormulaCaseStudies({
 
   return (
     <>
-      <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)] text-[var(--color-bone)]">
-        <p className="premium-data text-xs uppercase tracking-wider">
+      <header className="mb-[var(--brand-space-l)] flex flex-col gap-[var(--brand-space-xs)] text-black">
+        <p className="brand-data text-xs uppercase tracking-wider">
           Verified Results
         </p>
         <h2
-          className="premium-section-heading"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-0"
+          style={{ letterSpacing: "-0.02em" }}
         >
           CONKA Case Studies
         </h2>
-        <p className="premium-annotation opacity-90">
+        <p className="brand-caption italic opacity-90">
           real data, measured improvement
         </p>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--premium-space-m)]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--brand-space-m)]">
         {athletes.map((athlete) => (
           <AthleteCard key={athlete.id} athlete={athlete} />
         ))}
       </div>
 
-      <div className="mt-[var(--premium-space-xl)] text-center">
+      <div className="mt-[var(--brand-space-xl)] text-center">
         <Link
           href="/case-studies"
-          className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-[var(--color-bone)] text-[var(--color-bone)] premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-bone)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-neuro-blue-dark)]"
+          className="inline-flex items-center justify-center gap-[var(--brand-space-s)] px-[var(--brand-space-l)] py-[var(--brand-space-s)] rounded-[var(--brand-radius-interactive)] border border-black text-black brand-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white"
         >
           View All Case Studies
           <svg
@@ -281,17 +281,17 @@ export function FormulaCaseStudiesMobile({
 
   return (
     <>
-      <header className="mb-[var(--premium-space-l)] flex flex-col gap-[var(--premium-space-xs)] text-[var(--color-bone)]">
-        <p className="premium-data text-xs uppercase tracking-wider">
+      <header className="mb-[var(--brand-space-l)] flex flex-col gap-[var(--brand-space-xs)] text-black">
+        <p className="brand-data text-xs uppercase tracking-wider">
           Verified Results
         </p>
         <h2
-          className="premium-section-heading"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 mb-0"
+          style={{ letterSpacing: "-0.02em" }}
         >
           CONKA Case Studies
         </h2>
-        <p className="premium-annotation opacity-90">
+        <p className="brand-caption italic opacity-90">
           real data, measured improvement
         </p>
       </header>
@@ -299,14 +299,14 @@ export function FormulaCaseStudiesMobile({
       {/* Swipeable horizontal carousel */}
       <div
         ref={caseStudiesCarouselRef}
-        className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-[var(--brand-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ WebkitOverflowScrolling: "touch" }}
         role="region"
         aria-label="CONKA case studies - swipe to view all"
         onScroll={() => {
           const el = caseStudiesCarouselRef.current;
           if (!el) return;
-          const cardWidth = el.offsetWidth * 0.85 + 16; // 16px = 1rem = --premium-space-m (carousel gap)
+          const cardWidth = el.offsetWidth * 0.85 + 16; // 16px = 1rem = --brand-space-m (carousel gap)
           const index = Math.min(
             athletes.length - 1,
             Math.max(0, Math.round(el.scrollLeft / cardWidth)),
@@ -328,7 +328,7 @@ export function FormulaCaseStudiesMobile({
         {athletes.map((_, idx) => (
           <div
             key={idx}
-            className={`w-2 h-2 rounded-full bg-[var(--color-bone)] transition-opacity ${
+            className={`w-2 h-2 rounded-full bg-black/30 transition-opacity ${
               caseStudiesCarouselIndex === idx ? "opacity-100" : "opacity-30"
             }`}
             aria-hidden
@@ -336,10 +336,10 @@ export function FormulaCaseStudiesMobile({
         ))}
       </div>
 
-      <div className="mt-[var(--premium-space-xl)] text-center">
+      <div className="mt-[var(--brand-space-xl)] text-center">
         <Link
           href="/case-studies"
-          className="inline-flex items-center justify-center gap-[var(--premium-space-s)] px-[var(--premium-space-l)] py-[var(--premium-space-s)] rounded-[var(--premium-radius-interactive)] border border-[var(--color-bone)] text-[var(--color-bone)] premium-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-bone)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-neuro-blue-dark)]"
+          className="inline-flex items-center justify-center gap-[var(--brand-space-s)] px-[var(--brand-space-l)] py-[var(--brand-space-s)] rounded-[var(--brand-radius-interactive)] border border-black text-black brand-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white"
         >
           View All Case Studies
           <svg

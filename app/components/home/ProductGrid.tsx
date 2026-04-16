@@ -8,7 +8,6 @@ import ProductCard from "./ProductCard";
 import ProductGridMobile from "./ProductGridMobile";
 import ProductGridTablet from "./ProductGridTablet";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
-import { getProductAccent } from "@/app/lib/productColors";
 import { getProductGridCopy } from "./productGridCopy";
 
 export interface ProductGridProps {
@@ -49,7 +48,7 @@ export default function ProductGrid(props?: ProductGridProps) {
         <div className="mb-10">
           <h2
             className="brand-h1 mb-6"
-            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            style={{ letterSpacing: "-0.02em" }}
           >
             {copy.title}
           </h2>
@@ -66,7 +65,7 @@ export default function ProductGrid(props?: ProductGridProps) {
             <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
               <Link
                 href="/protocol/3"
-                className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                className="block relative w-full mx-auto aspect-square mb-4 rounded-2xl overflow-hidden border border-black/10"
               >
                 <div className="relative w-full h-full">
                   <Image
@@ -95,7 +94,7 @@ export default function ProductGrid(props?: ProductGridProps) {
             <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
               <Link
                 href="/conka-flow"
-                className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                className="block relative w-full mx-auto aspect-square mb-4 rounded-2xl overflow-hidden border border-black/10"
               >
                 <div className="relative w-full h-full">
                   <Image
@@ -124,7 +123,7 @@ export default function ProductGrid(props?: ProductGridProps) {
             <div className="product-card-wrapper product-card-formula flex flex-col items-stretch h-full">
               <Link
                 href="/conka-clarity"
-                className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                className="block relative w-full mx-auto aspect-square mb-4 rounded-2xl overflow-hidden border border-black/10"
               >
                 <div className="relative w-full h-full">
                   <Image

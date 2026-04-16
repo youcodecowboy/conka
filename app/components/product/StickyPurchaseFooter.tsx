@@ -188,9 +188,9 @@ export default function StickyPurchaseFooter({
       <div
         className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
         style={{
-          borderTopWidth: "var(--premium-border-width)",
+          borderTopWidth: "1px",
           borderTopStyle: "solid",
-          borderTopColor: "var(--premium-border-color)",
+          borderTopColor: "var(--brand-border-color)",
         }}
       >
         <div className="max-w-6xl mx-auto lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%] px-4 md:px-6 lg:pl-0 lg:pr-16 py-3">
@@ -200,16 +200,16 @@ export default function StickyPurchaseFooter({
               <div
                 className="flex items-center gap-3 w-fit p-2 md:p-2.5 shrink-0"
                 style={{
-                  borderWidth: "var(--premium-border-width)",
+                  borderWidth: "1px",
                   borderStyle: "solid",
-                  borderColor: "var(--premium-border-color)",
-                  borderRadius: "var(--premium-radius-nested)",
+                  borderColor: "var(--brand-border-color)",
+                  borderRadius: "var(--brand-radius-container)",
                 }}
               >
                 {thumbnailSrc && (
                   <div
                     className="relative w-12 h-12 md:w-14 md:h-14 overflow-hidden flex-shrink-0 bg-black/5"
-                    style={{ borderRadius: "var(--premium-radius-nested)" }}
+                    style={{ borderRadius: "var(--brand-radius-container)" }}
                   >
                     <Image
                       src={thumbnailSrc}
@@ -221,10 +221,10 @@ export default function StickyPurchaseFooter({
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className={usePremium ? "premium-data font-bold truncate" : "font-clinical font-bold text-sm md:text-base truncate"}>
+                  <p className="brand-data font-bold truncate">
                     {productName}
                   </p>
-                  <p className={usePremium ? "premium-data text-xs opacity-70 truncate" : "font-clinical text-xs opacity-70 truncate"}>
+                  <p className="brand-data text-xs opacity-70 truncate">
                     {productLabel}
                   </p>
                 </div>
@@ -239,10 +239,10 @@ export default function StickyPurchaseFooter({
                       onClick={() => setShowPackDropdown(!showPackDropdown)}
                       className="flex items-center gap-2 px-4 py-2 font-clinical text-sm hover:bg-current/5 transition-colors min-w-[200px] text-left"
                       style={{
-                        borderWidth: "var(--premium-border-width)",
+                        borderWidth: "1px",
                         borderStyle: "solid",
-                        borderColor: "var(--premium-border-color)",
-                        borderRadius: "var(--premium-radius-nested)",
+                        borderColor: "var(--brand-border-color)",
+                        borderRadius: "var(--brand-radius-container)",
                       }}
                     >
                       <div className="flex-1 min-w-0">
@@ -281,10 +281,10 @@ export default function StickyPurchaseFooter({
                       <div
                         className="absolute bottom-full left-0 mb-2 bg-[var(--background)] overflow-hidden min-w-[240px] shadow-lg"
                         style={{
-                          borderWidth: "var(--premium-border-width)",
+                          borderWidth: "1px",
                           borderStyle: "solid",
-                          borderColor: "var(--premium-border-color)",
-                          borderRadius: "var(--premium-radius-nested)",
+                          borderColor: "var(--brand-border-color)",
+                          borderRadius: "var(--brand-radius-container)",
                         }}
                       >
                         {showPackSelector &&
@@ -377,10 +377,10 @@ export default function StickyPurchaseFooter({
                   }
                   className="flex items-center gap-2 px-3 py-2 font-clinical text-xs hover:bg-current/5 transition-colors"
                   style={{
-                    borderWidth: "var(--premium-border-width)",
+                    borderWidth: "1px",
                     borderStyle: "solid",
-                    borderColor: "var(--premium-border-color)",
-                    borderRadius: "var(--premium-radius-nested)",
+                    borderColor: "var(--brand-border-color)",
+                    borderRadius: "var(--brand-radius-container)",
                   }}
                 >
                   <div
@@ -417,7 +417,7 @@ export default function StickyPurchaseFooter({
                       : "min-w-[10rem] px-6 py-2.5 font-bold text-sm whitespace-nowrap text-white bg-black border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
                   }
                   style={{
-                    borderRadius: "var(--premium-radius-interactive)",
+                    borderRadius: "var(--brand-radius-interactive)",
                     ...(productGradient
                       ? {
                           background: `linear-gradient(to right, ${productGradient.start}, ${productGradient.end})`,

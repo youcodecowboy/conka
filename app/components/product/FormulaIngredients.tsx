@@ -123,8 +123,8 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
       >
         <div>
           <h2
-            className="premium-section-heading"
-            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            className="brand-h2 mb-0"
+            style={{ letterSpacing: "-0.02em" }}
           >
             Formulated with naturally beneficial{" "}
             <span className="font-semibold">{headingWord}</span>
@@ -136,7 +136,7 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
             </p>
             <Link
               href="/ingredients"
-              className="neo-button px-5 py-2.5 font-semibold text-sm w-fit inline-flex items-center gap-2"
+              className="brand-btn brand-btn-primary px-5 py-2.5 text-sm w-fit inline-flex items-center gap-2"
             >
               See all ingredients
               <svg
