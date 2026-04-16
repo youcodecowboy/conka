@@ -6,9 +6,33 @@
 
 ## April 2026
 
-### 2026-04-16 — Hero simplification + new TQBF lifestyle assets
-Updated hero components (`Hero.tsx`, `LandingHero.tsx`) and funnel product images with new lifestyle photography from the recent TQBF shoot. Hero changes: social proof pill restyled to brand-accent badge with "150,000+ bottles sold", star rating moved to plain text line below hero image, CTA simplified to "Try CONKA", tightened vertical spacing between avatars and trust badges, 5% top crop on mobile hero image. Landing and funnel product assets replaced with new TQBF imagery.
-**Branch:** `New-assets-in-landing-funnel`
+### 2026-04-16 — TQBF lifestyle assets, navigation simplification, ProductGrid reorder, CTA + trust badge pass
+
+Multi-part update integrating new TQBF lifestyle photography and simplifying the site towards the Flow/Clear/Both offering.
+
+**Hero simplification (LandingHero + Hero):**
+Social proof pill restyled to brand-accent badge ("150,000+ bottles sold"). Star rating moved to plain text line below hero image. CTA copy changed to "Try CONKA Today". Tightened vertical spacing between avatars and trust badges. 5% top crop on mobile hero image.
+
+**Product image overhaul (productImageConfig):**
+Flow, Clear, and Balance navigation/grid images replaced with TQBF lifestyle hold photos (`FlowHold.jpg`, `ClearHold.jpg`, `BothHold.jpg`). Single config change cascaded to 30+ consumers (ProductGrid, Navigation, subscriptions, account pages, B2B portal).
+
+**Navigation mega-menu simplification:**
+Replaced tabbed sidebar (Shop by Bundle / Shop Individual Formula / Help me Choose quiz) with simplified two-column layout: left sidebar has "Shop by Product" label + "Learn More" links (Ingredients, Why CONKA, CONKA App), right side shows 3 product cards (Both, Flow, Clear) with lifestyle images. Mobile menu updated with product cards, learn more section, and full nav links. Removed `HoveredSection` state, deleted `ShopMegaMenuContent.tsx`. Quiz link removed from desktop nav.
+
+**ProductGrid reorder + brand-accent buttons:**
+Reordered all three breakpoint variants (Desktop/Tablet/Mobile) to show Both first, then Flow, then Clear. Badge colours replaced from product-specific gradients to `var(--brand-accent)`. Badge labels updated to "Most Popular" / "Morning" / "Afternoon". CTA buttons simplified from product-specific gradients to brand-accent blue. Protocol renamed to "Both (Flow + Clear)" throughout ProductCard with updated copy removing protocol language.
+
+**Lifestyle images in WhatItDoes sections (Landing + Home):**
+Added `CreationOfConka.jpg` lifestyle image with desktop split layout (sticky image left, title + pillar cards right; stacked on mobile). Added CTA buttons between bottle visuals and lifestyle image ("Get Both from £X/shot" on landing, "Try CONKA Today" on homepage). LandingTrustBadges placed under each CTA.
+
+**LandingTrustBadges added under CTAs:**
+Trust badges (Free UK Shipping, Informed Sport, Every Batch Tested, Cancel Anytime) added beneath CTAs in `CaseStudiesDataDriven` and `LandingValueComparison`.
+
+**Other asset updates:**
+LandingTimeline desktop sidebar image swapped to `ConkaAtWorkDesk.jpg`. WhatToExpect (Desktop/Mobile) lifestyle images replaced with `FlowBoxOpen.jpg` (Flow) and `ClearLaugh.jpg` (Clear). Protocol 3 PDP hero image aligned with funnel (`BothBox.jpg`).
+
+**Why:** TQBF lifestyle shoot provided premium photography to replace colour-based product renders. Navigation and ProductGrid simplified ahead of full protocol deprecation. Trust badges and CTAs distributed across more sections to reduce friction.
+**Branch:** `lifestyle-asset-intergration`
 
 ### 2026-04-14 -- Homepage Phase 3: landing parity + Balance-only ProductGrid (SCRUM-885/886/887/888)
 Four-part homepage upgrade that brings the organic entry point into parity with `/start` and locks the product offering to Balance ahead of the protocol deprecation.
