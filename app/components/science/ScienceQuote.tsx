@@ -6,29 +6,21 @@ interface ScienceQuoteProps {
 
 export default function ScienceQuote({ isMobile = false }: ScienceQuoteProps) {
   return (
-    <div
-      className="brand-card-bordered flex items-center gap-6 md:gap-8"
-      style={{ borderRadius: "var(--brand-radius-card)" }}
-    >
-      <div
-        className="w-1 h-16 md:h-24 flex-shrink-0"
-        style={{ backgroundColor: "var(--brand-accent)" }}
-      />
-      <div>
-        <p
-          className={`brand-body leading-relaxed ${
-            isMobile ? "text-lg" : "text-2xl"
-          }`}
-          style={{ color: "inherit" }}
-        >
-          &ldquo;The brain is the most complex organ in the known universe. We
-          believe it deserves ingredients backed by rigorous science, not
-          marketing hype.&rdquo;
-        </p>
-        <p className="brand-caption opacity-70 mt-3 md:mt-4">
-          - The CONKA Research Philosophy
-        </p>
-      </div>
+    <div className="max-w-4xl">
+      <p
+        className={`leading-relaxed ${
+          isMobile ? "text-2xl" : "text-3xl lg:text-4xl"
+        }`}
+        style={{ lineHeight: 1.3 }}
+      >
+        <span className="text-[1.5em] font-bold leading-none">&ldquo;</span>
+        The brain is the most complex organ in the known universe. We believe it
+        deserves ingredients backed by rigorous science, not marketing hype.
+        <span className="text-[1.5em] font-bold leading-none">&rdquo;</span>
+      </p>
+      <p className="brand-caption text-black mt-4 lg:mt-6">
+        — The CONKA Research Philosophy
+      </p>
     </div>
   );
 }

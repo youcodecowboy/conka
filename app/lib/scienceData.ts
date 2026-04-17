@@ -6,6 +6,7 @@ export interface PillarStat {
   label: string;
   ingredient: string;
   pmid: string;
+  translation: string;
 }
 
 export interface PillarIngredient {
@@ -23,6 +24,7 @@ export interface SciencePillar {
   description: string;
   mechanism: string;
   keyStats: PillarStat[];
+  headlineStatIndex: number;
   ingredients: PillarIngredient[];
   forFormula: "01" | "02" | "both";
 }
@@ -44,26 +46,31 @@ export const sciencePillars: SciencePillar[] = [
         label: "Stress Score Reduction",
         ingredient: "Ashwagandha",
         pmid: "23439798",
+        translation: "Participants felt roughly half as stressed after 60 days",
       },
       {
         value: "-28%",
         label: "Serum Cortisol",
         ingredient: "Ashwagandha",
         pmid: "23439798",
+        translation: "Measurably lower stress hormone levels in blood",
       },
       {
         value: "+42%",
         label: "Sleep Quality",
         ingredient: "Ashwagandha",
         pmid: "32021735",
+        translation: "Significant improvement in sleep quality and onset",
       },
       {
         value: "-28%",
         label: "Burnout Score",
         ingredient: "Rhodiola rosea",
         pmid: "19016404",
+        translation: "Reduced burnout symptoms in high-stress professionals",
       },
     ],
+    headlineStatIndex: 0,
     ingredients: [
       {
         name: "Ashwagandha",
@@ -99,26 +106,31 @@ export const sciencePillars: SciencePillar[] = [
         label: "Cognitive Function (ADAS-Cog)",
         ingredient: "Alpha GPC",
         pmid: "12882463",
+        translation: "Clinically meaningful improvement in cognitive assessment scores",
       },
       {
         value: "+18%",
         label: "Memory Performance",
         ingredient: "Lemon Balm",
         pmid: "12888775",
+        translation: "Better recall and working memory in controlled testing",
       },
       {
         value: "+15%",
         label: "Processing Speed",
         ingredient: "Ginkgo Biloba",
         pmid: "19395013",
+        translation: "Faster reaction times and information processing",
       },
       {
         value: "+12%",
         label: "Verbal Memory",
         ingredient: "Lecithin",
         pmid: "22071706",
+        translation: "Improved ability to remember and recall verbal information",
       },
     ],
+    headlineStatIndex: 0,
     ingredients: [
       {
         name: "Alpha GPC",
@@ -159,26 +171,31 @@ export const sciencePillars: SciencePillar[] = [
         label: "Blood Glutathione",
         ingredient: "Glutathione",
         pmid: "29559699",
+        translation: "Significant boost in the body's master antioxidant",
       },
       {
         value: "-35%",
         label: "Mental Fatigue",
         ingredient: "Acetyl-L-Carnitine",
         pmid: "18937015",
+        translation: "Over a third less mental fatigue during demanding tasks",
       },
       {
         value: "+22%",
         label: "Cognitive Function",
         ingredient: "N-Acetyl Cysteine",
         pmid: "18436195",
+        translation: "Measurable improvement in overall cognitive performance",
       },
       {
         value: "-22%",
         label: "Anxiety Score",
         ingredient: "Vitamin C",
         pmid: "26327060",
+        translation: "Reduced anxiety in high-stress university students",
       },
     ],
+    headlineStatIndex: 0,
     ingredients: [
       {
         name: "Glutathione",
@@ -219,26 +236,31 @@ export const sciencePillars: SciencePillar[] = [
         label: "Cognition Score",
         ingredient: "Ginkgo Biloba",
         pmid: "22628390",
+        translation: "Better performance on standardised cognitive tests",
       },
       {
         value: "+24%",
         label: "Cognitive Function",
         ingredient: "Acetyl-L-Carnitine",
         pmid: "18937015",
+        translation: "Nearly a quarter improvement in cognitive assessment",
       },
       {
         value: "+8%",
         label: "Gait Speed",
         ingredient: "Bilberry",
         pmid: "25660920",
+        translation: "Improved physical coordination and blood flow",
       },
       {
         value: "+17%",
         label: "Physical Fitness",
         ingredient: "Rhodiola rosea",
         pmid: "10839209",
+        translation: "Enhanced endurance and reduced exercise-related fatigue",
       },
     ],
+    headlineStatIndex: 1,
     ingredients: [
       {
         name: "Ginkgo Biloba",
@@ -279,26 +301,31 @@ export const sciencePillars: SciencePillar[] = [
         label: "Brain Atrophy Rate",
         ingredient: "Vitamin B12 + B-vitamins",
         pmid: "23690582",
+        translation: "Nearly stopped age-related brain shrinkage in older adults",
       },
       {
         value: "+63%",
         label: "Memory (SRT)",
         ingredient: "Turmeric/Curcumin",
         pmid: "29246725",
+        translation: "Significant improvement in short-term recall ability",
       },
       {
         value: "+96%",
         label: "Attention Improvement",
         ingredient: "Turmeric/Curcumin",
         pmid: "29246725",
+        translation: "Near-doubling of sustained attention scores",
       },
       {
         value: "-65%",
         label: "Disease Progression",
         ingredient: "Alpha Lipoic Acid",
         pmid: "17982897",
+        translation: "Substantially slowed cognitive decline progression",
       },
     ],
+    headlineStatIndex: 0,
     ingredients: [
       {
         name: "Turmeric/Curcumin",
@@ -374,6 +401,85 @@ export const headlineStats = [
     suffix: "%",
   },
 ];
+
+// ===== RESEARCH TEAM =====
+
+export interface Researcher {
+  name: string;
+  title: string;
+  affiliation: string;
+  contribution: string;
+}
+
+export const researchTeam: Researcher[] = [
+  {
+    name: "Paul Chazot",
+    title: "Prof.",
+    affiliation: "Durham University",
+    contribution:
+      "Led the neuroscience research behind CONKA's formulations",
+  },
+  {
+    name: "Karen Hind",
+    title: "Prof.",
+    affiliation: "Durham University",
+    contribution:
+      "Oversaw clinical trial design and health outcome validation",
+  },
+  {
+    name: "Shankar Katekhaye",
+    title: "Dr.",
+    affiliation: "Independent Research",
+    contribution:
+      "Invented the alcohol-free extraction method for maximum potency",
+  },
+];
+
+export const researchPartnerships = [
+  {
+    institution: "Durham University",
+    focus: "Neuroscience research and clinical trials",
+  },
+  {
+    institution: "Cambridge University",
+    focus: "Cognitive testing technology (ICA)",
+  },
+];
+
+// ===== FORMULA COMPARISON =====
+
+export interface FormulaFocus {
+  formula: "01" | "02";
+  name: string;
+  tagline: string;
+  primaryPillars: string[];
+  description: string;
+}
+
+export const formulaComparison: FormulaFocus[] = [
+  {
+    formula: "01",
+    name: "CONKA Flow",
+    tagline: "Adaptogenic foundation",
+    primaryPillars: ["Stress Resilience", "Neuroprotection", "Circulation"],
+    description:
+      "Built around adaptogens like Ashwagandha, Rhodiola, and Curcumin. Targets your stress response, long-term brain health, and cerebral blood flow.",
+  },
+  {
+    formula: "02",
+    name: "CONKA Clear",
+    tagline: "Nootropic precision",
+    primaryPillars: [
+      "Neurotransmitter Support",
+      "Antioxidant Defense",
+      "Circulation",
+    ],
+    description:
+      "Built around Alpha GPC, Glutathione, and Ginkgo Biloba. Targets your brain's chemical messengers, oxidative protection, and nutrient delivery.",
+  },
+];
+
+// ===== HELPERS =====
 
 // Helper function to get pillar by ID
 export function getPillarById(id: string): SciencePillar | undefined {

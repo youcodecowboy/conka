@@ -4,7 +4,7 @@ import ScienceHero from "./ScienceHero";
 import ScienceQuote from "./ScienceQuote";
 import ScienceAdaptogens from "./ScienceAdaptogens";
 import SciencePillars from "./SciencePillars";
-import SynergyChart from "./SynergyChart";
+import FlowVsClear from "./FlowVsClear";
 import ScienceDifferent from "./ScienceDifferent";
 import EvidenceSummary from "./EvidenceSummary";
 
@@ -49,8 +49,8 @@ export default function SciencePageContent({ isMobile }: SciencePageContentProps
       </section>
 
       <section
-        className="premium-section-luxury text-white"
-        style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
         aria-label="The five pillars"
       >
         <div className="premium-track">
@@ -59,17 +59,17 @@ export default function SciencePageContent({ isMobile }: SciencePageContentProps
       </section>
 
       <section
-        className="premium-section-luxury"
-        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
-        aria-label="Formula synergy"
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="Flow vs Clear comparison"
       >
         <div className="premium-track">
-          <SynergyChart isMobile={isMobile} />
+          <FlowVsClear isMobile={isMobile} />
         </div>
       </section>
 
       <section
-        className="premium-section-luxury premium-bg-bone"
+        className="premium-section-luxury"
+        style={{ backgroundColor: "var(--color-neuro-blue-light)" }}
         aria-label="What makes CONKA different"
       >
         <div className="premium-track">
@@ -78,8 +78,8 @@ export default function SciencePageContent({ isMobile }: SciencePageContentProps
       </section>
 
       <section
-        className="premium-section-luxury premium-bg-ink text-white"
-        aria-label="Evidence-based formulation"
+        className="premium-section-luxury premium-bg-bone"
+        aria-label="Evidence and research"
       >
         <div className="premium-track">
           <EvidenceSummary isMobile={isMobile} />
