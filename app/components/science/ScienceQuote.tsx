@@ -18,7 +18,7 @@ export default function ScienceQuote({ isMobile = false }: ScienceQuoteProps) {
         deserves ingredients backed by rigorous science, not marketing hype.
         <span className="text-[1.5em] font-bold leading-none">&rdquo;</span>
       </p>
-      <p className="brand-caption text-black/60 mt-4 lg:mt-6">
+      <p className="brand-caption text-black mt-4 lg:mt-6">
         — The CONKA Research Philosophy
       </p>
     </div>

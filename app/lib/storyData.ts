@@ -26,7 +26,7 @@ export const storySections: StorySection[] = [
     subtitle: "two athletes, one shared obsession",
     body: "Humphrey Bodington and Harry Glover met at university as teammates. United by a relentless drive for performance, they pushed each other on and off the field. What started as camaraderie between athletes would soon evolve into a mission that neither could have predicted.",
     imagePlaceholder: "[FOUNDERS AT UNIVERSITY]",
-    image: "/story/Conka_Images_2.webp",
+    image: "/TwoFounders.jpg",
   },
   {
     id: 2,

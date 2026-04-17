@@ -25,7 +25,7 @@ export default function OurStoryPage() {
 
       {/* ===== SECTION 1: HERO ===== */}
       <section
-        className="brand-section brand-hero-first brand-bg-tint"
+        className="brand-section brand-hero-first brand-bg-white"
         aria-label="Our Story hero"
       >
         <div className="brand-track">
@@ -37,7 +37,7 @@ export default function OurStoryPage() {
       {storySections.map((section, index) => (
         <section
           key={section.id}
-          className={`brand-section ${index % 2 === 0 ? "brand-bg-white" : "brand-bg-tint"}`}
+          className={`brand-section ${index % 2 === 0 ? "brand-bg-tint" : "brand-bg-white"}`}
           aria-label={`Story: ${section.headline}`}
         >
           <div className="brand-track">
@@ -53,7 +53,7 @@ export default function OurStoryPage() {
 
       {/* ===== FINAL CTA ===== */}
       <section
-        className={`brand-section ${storySections.length % 2 === 0 ? "brand-bg-white" : "brand-bg-tint"}`}
+        className={`brand-section ${storySections.length % 2 === 0 ? "brand-bg-tint" : "brand-bg-white"}`}
         aria-label="Join the Journey"
       >
         <div className="brand-track">

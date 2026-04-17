@@ -24,7 +24,7 @@ export function StorySection({
           isEven ? "lg:order-2" : "lg:order-1"
         }`}
       >
-        <div className="brand-caption text-black/40 mb-4 lg:mb-6 tracking-widest">
+        <div className="brand-caption text-black mb-4 lg:mb-6 tracking-widest">
           {formattedId} / {totalSections.toString().padStart(2, "0")}
         </div>
 
@@ -33,14 +33,14 @@ export function StorySection({
             {section.headline}
           </h2>
           {section.subtitle && (
-            <p className="brand-body text-lg lg:text-2xl mt-2 text-black/60">
+            <p className="brand-body text-lg lg:text-2xl mt-2 text-black">
               {section.subtitle}
             </p>
           )}
         </div>
 
         <p
-          className="brand-body text-base lg:text-lg text-black/80"
+          className="brand-body text-base lg:text-lg text-black"
           style={{
             maxWidth: "var(--brand-body-max-width)",
             lineHeight: "var(--brand-body-leading)",
@@ -51,10 +51,10 @@ export function StorySection({
 
         {section.quote && (
           <div className="mt-8 lg:mt-10 border-l-4 border-[var(--brand-accent)] pl-5 lg:pl-6">
-            <blockquote className="brand-body text-lg lg:text-xl italic text-black/80 mb-3">
+            <blockquote className="brand-body text-lg lg:text-xl italic text-black mb-3">
               &ldquo;{section.quote.text}&rdquo;
             </blockquote>
-            <div className="brand-caption text-black/60">
+            <div className="brand-caption text-black">
               <span className="font-semibold">{section.quote.author}</span>
               <span className="mx-2">&bull;</span>
               <span>{section.quote.role}</span>
@@ -87,7 +87,7 @@ export function StorySection({
             className="w-full h-56 lg:h-[500px] border-2 border-dashed flex items-center justify-center border-black/20"
             style={{ borderRadius: "var(--brand-radius-card)" }}
           >
-            <span className="brand-caption text-center px-4 text-black/40">
+            <span className="brand-caption text-center px-4 text-black">
               {section.imagePlaceholder}
             </span>
           </div>

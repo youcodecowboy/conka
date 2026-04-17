@@ -58,7 +58,7 @@ export default function ScienceDifferent({
   return (
     <div>
       <div className="mb-8 lg:mb-10">
-        <p className="brand-caption uppercase tracking-widest text-black/40 mb-3">
+        <p className="brand-caption uppercase tracking-widest text-black mb-3">
           Our Approach
         </p>
         <h2 className="brand-h2 mb-0 tracking-tight">
@@ -86,7 +86,7 @@ export default function ScienceDifferent({
                   <h3 className="text-lg lg:text-xl font-semibold mb-1">
                     {card.title}
                   </h3>
-                  <p className="text-sm lg:text-base text-black/60 leading-relaxed">
+                  <p className="text-sm lg:text-base text-black leading-relaxed">
                     {isMobile ? card.descriptionMobile : card.description}
                   </p>
                 </div>

@@ -20,7 +20,7 @@ export default function EvidenceSummary({
     <div>
       {/* Header */}
       <div className="mb-8 lg:mb-10">
-        <p className="brand-caption uppercase tracking-widest text-black/40 mb-3">
+        <p className="brand-caption uppercase tracking-widest text-black mb-3">
           The Evidence
         </p>
         <h2 className="brand-h2 mb-0 tracking-tight">
@@ -30,7 +30,7 @@ export default function EvidenceSummary({
 
       {/* Narrative paragraph */}
       <p
-        className="brand-body text-lg lg:text-xl text-black/80 mb-8 lg:mb-10"
+        className="brand-body text-lg lg:text-xl text-black mb-8 lg:mb-10"
         style={{ maxWidth: "var(--brand-body-max-width)" }}
       >
         {evidence.totalStudies} peer-reviewed clinical studies.{" "}
@@ -50,14 +50,14 @@ export default function EvidenceSummary({
             <p className="font-semibold text-base mb-1">
               {partnership.institution}
             </p>
-            <p className="brand-caption text-black/60">{partnership.focus}</p>
+            <p className="brand-caption text-black">{partnership.focus}</p>
           </div>
         ))}
       </div>
 
       {/* Research team */}
       <div className="mb-8 lg:mb-10">
-        <p className="brand-caption uppercase tracking-widest text-black/40 mb-4">
+        <p className="brand-caption uppercase tracking-widest text-black mb-4">
           Research Team
         </p>
         <div className="space-y-3">
@@ -69,13 +69,13 @@ export default function EvidenceSummary({
               <span className="font-semibold text-sm whitespace-nowrap">
                 {researcher.title} {researcher.name}
               </span>
-              <span className="brand-caption text-black/40 hidden lg:inline">
+              <span className="brand-caption text-black hidden lg:inline">
                 {researcher.affiliation}
               </span>
-              <span className="brand-caption text-black/40 hidden lg:inline">
+              <span className="brand-caption text-black hidden lg:inline">
                 &bull;
               </span>
-              <span className="brand-caption text-black/60">
+              <span className="brand-caption text-black">
                 {researcher.contribution}
               </span>
             </div>
@@ -85,13 +85,13 @@ export default function EvidenceSummary({
 
       {/* Credential pills */}
       <div className="flex flex-wrap gap-3 mb-8">
-        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black/60">
+        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black">
           Patent #{evidence.patentNumber}
         </span>
-        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black/60">
+        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black">
           PubMed Indexed Studies
         </span>
-        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black/60">
+        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black">
           All citations verifiable
         </span>
       </div>

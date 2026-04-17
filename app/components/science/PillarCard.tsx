@@ -113,7 +113,7 @@ export default function PillarCard({
           </div>
 
           {/* Tagline */}
-          <p className="brand-body text-black/60">{pillar.tagline}</p>
+          <p className="brand-body text-black">{pillar.tagline}</p>
 
           {/* Headline stat preview */}
           <div className="flex items-center gap-2">
@@ -123,7 +123,7 @@ export default function PillarCard({
             >
               {headlineStat.value}
             </span>
-            <span className="brand-caption text-black/60">
+            <span className="brand-caption text-black">
               {headlineStat.label}
             </span>
           </div>
@@ -134,7 +134,7 @@ export default function PillarCard({
               className="w-2 h-2 rounded-full flex-shrink-0"
               style={formulaDotStyle}
             />
-            <span className="brand-caption text-black/40">
+            <span className="brand-caption text-black">
               {formulaLabel}
             </span>
           </div>
@@ -148,11 +148,11 @@ export default function PillarCard({
         >
           {/* What it does */}
           <div>
-            <p className="brand-caption uppercase text-black/40 mb-2">
+            <p className="brand-caption uppercase text-black mb-2">
               What it does
             </p>
             <p
-              className="brand-body text-black/80"
+              className="brand-body text-black"
               style={{ lineHeight: "var(--brand-body-leading)" }}
             >
               {pillar.description}
@@ -161,7 +161,7 @@ export default function PillarCard({
 
           {/* The evidence */}
           <div>
-            <p className="brand-caption uppercase text-black/40 mb-3">
+            <p className="brand-caption uppercase text-black mb-3">
               The evidence
             </p>
             <div
@@ -181,10 +181,10 @@ export default function PillarCard({
                   >
                     {stat.value}
                   </p>
-                  <p className="brand-caption text-black/60 mt-1">
+                  <p className="brand-caption text-black mt-1">
                     {stat.label}
                   </p>
-                  <p className="brand-caption text-black/40 mt-0.5 italic text-xs">
+                  <p className="brand-caption text-black mt-0.5 italic text-xs">
                     {stat.translation}
                   </p>
                   <a
@@ -203,7 +203,7 @@ export default function PillarCard({
 
           {/* Key ingredients */}
           <div>
-            <p className="brand-caption uppercase text-black/40 mb-3">
+            <p className="brand-caption uppercase text-black mb-3">
               Key Ingredients
             </p>
             <div className="space-y-2">
@@ -228,11 +228,11 @@ export default function PillarCard({
                   />
                   <div className="flex-1">
                     <p className="font-bold text-sm">{ingredient.name}</p>
-                    <p className="brand-caption text-black/60">
+                    <p className="brand-caption text-black">
                       {ingredient.role}
                     </p>
                   </div>
-                  <span className="brand-caption text-black/40">
+                  <span className="brand-caption text-black">
                     {ingredient.formula === "01"
                       ? "F01"
                       : ingredient.formula === "02"

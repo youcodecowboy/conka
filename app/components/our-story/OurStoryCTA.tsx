@@ -1,7 +1,7 @@
 export function OurStoryCTA() {
   return (
     <div className="text-center">
-      <p className="brand-body text-black/60 mb-4">
+      <p className="brand-body text-black mb-4">
         ready to experience it yourself?
       </p>
       <h2 className="brand-h1-bold text-4xl lg:text-5xl xl:text-6xl mb-8 tracking-tight">
@@ -30,7 +30,7 @@ export function OurStoryCTA() {
           Explore CONKA Clarity
         </a>
       </div>
-      <p className="brand-caption mt-8 text-black/60">
+      <p className="brand-caption mt-8 text-black">
         100-day money-back guarantee &bull; Free UK shipping
       </p>
     </div>

@@ -23,7 +23,7 @@ export default function ScienceAdaptogens({
     >
       {/* Text */}
       <div className={isMobile ? "order-2" : ""}>
-        <p className="brand-caption uppercase tracking-widest text-black/40 mb-3">
+        <p className="brand-caption uppercase tracking-widest text-black mb-3">
           The Foundation
         </p>
         <div className="mb-6">
@@ -36,17 +36,17 @@ export default function ScienceAdaptogens({
           className="space-y-4"
           style={{ maxWidth: "var(--brand-body-max-width)" }}
         >
-          <p className="brand-body text-black/80">
+          <p className="brand-body text-black">
             Adaptogens are natural compounds that help your body &ldquo;adapt&rdquo;
             to stress. Unlike stimulants that force a response, adaptogens work by
             normalizing physiological functions and maintaining homeostasis.
           </p>
-          <p className="brand-body text-black/60">
+          <p className="brand-body text-black">
             Your stress response was designed for acute threats, not 12-hour
             workdays. Adaptogens modulate the HPA axis to normalize cortisol, so
             you stay sharp under pressure without the crash.
           </p>
-          <p className="brand-body text-black/80">
+          <p className="brand-body text-black">
             Key adaptogens in our formulas include{" "}
             <strong>Ashwagandha</strong>, <strong>Rhodiola rosea</strong>, and{" "}
             <strong>Lemon Balm</strong> — each clinically proven to reduce cortisol
@@ -58,7 +58,7 @@ export default function ScienceAdaptogens({
           {TAGS.map((tag) => (
             <span
               key={tag}
-              className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black/60"
+              className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black"
             >
               {tag}
             </span>

@@ -11,14 +11,14 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
     <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
       {/* Copy */}
       <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
-        <p className="brand-caption uppercase tracking-widest text-black/40 mb-3">
+        <p className="brand-caption uppercase tracking-widest text-black mb-3">
           The Science
         </p>
         <h1 className="brand-h1-bold text-4xl lg:text-6xl xl:text-7xl mb-4 tracking-tight">
           Every ingredient. Clinically dosed. Peer-reviewed.
         </h1>
         <p
-          className="brand-body text-lg lg:text-xl text-black/80 mb-2"
+          className="brand-body text-lg lg:text-xl text-black mb-2"
           style={{ maxWidth: "var(--brand-body-max-width)" }}
         >
           CONKA&apos;s formulas are built on 32 peer-reviewed studies across
@@ -26,7 +26,7 @@ export default function ScienceHero({ isMobile = false }: ScienceHeroProps) {
           effective in clinical trials — not marketing doses, not pixie dust.
         </p>
         <p
-          className="brand-body text-base lg:text-lg text-black/60"
+          className="brand-body text-base lg:text-lg text-black"
           style={{ maxWidth: "var(--brand-body-max-width)" }}
         >
           We partnered with Durham and Cambridge universities to develop, test,

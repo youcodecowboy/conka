@@ -2,14 +2,14 @@ export function OurStoryHero() {
   return (
     <div className="flex flex-col gap-5 lg:gap-6 max-w-3xl">
       <header>
-        <p className="brand-caption uppercase tracking-widest text-black/40 mb-3">
+        <p className="brand-caption uppercase tracking-widest text-black mb-3">
           Our Story
         </p>
         <h1 className="brand-h1-bold text-4xl lg:text-6xl xl:text-7xl mb-4 tracking-tight">
           A concussion changed everything
         </h1>
         <p
-          className="brand-body text-lg lg:text-xl text-black/80 mb-2"
+          className="brand-body text-lg lg:text-xl text-black mb-2"
           style={{ maxWidth: "var(--brand-body-max-width)" }}
         >
           Humphrey and Harry met as university teammates. One played professional
@@ -18,7 +18,7 @@ export function OurStoryHero() {
           mission with Durham and Cambridge universities.
         </p>
         <p
-          className="brand-body text-base lg:text-lg text-black/60"
+          className="brand-body text-base lg:text-lg text-black"
           style={{ maxWidth: "var(--brand-body-max-width)" }}
         >
           This is how two athletes built a patented nootropic formula, invested
