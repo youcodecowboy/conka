@@ -118,8 +118,12 @@ function AthletePhotoTile({ athlete }: { athlete: AthleteData }) {
 
 export default function CaseStudiesDataDriven({
   hideCTA = false,
+  ctaLabel,
+  ctaHref,
 }: {
   hideCTA?: boolean;
+  ctaLabel?: string;
+  ctaHref?: string;
 } = {}) {
   const teaserAthletes = getTeaserAthletes();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -204,12 +208,12 @@ export default function CaseStudiesDataDriven({
 
         {/* CTA Button */}
         {!hideCTA && (
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center">
             <Link
-              href="/case-studies"
+              href={ctaHref ?? "/case-studies"}
               className="max-w-[500px] w-full px-8 py-4 rounded-[var(--brand-radius-interactive)] bg-[var(--brand-accent)] text-white font-semibold text-base hover:opacity-90 transition-all inline-flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-accent)]"
             >
-              View All CONKA App Case Studies
+              {ctaLabel ?? "View All CONKA App Case Studies"}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -225,7 +229,7 @@ export default function CaseStudiesDataDriven({
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </Link>
-            <div className="mt-4 flex justify-center">
+            <div className="mt-4 w-full">
               <LandingTrustBadges />
             </div>
           </div>

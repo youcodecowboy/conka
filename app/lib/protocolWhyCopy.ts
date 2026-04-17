@@ -1,3 +1,4 @@
+// TODO: Delete this file when protocol pages are fully removed. No longer imported.
 /**
  * Protocol Why v2 — copy for recognition → trap → break → transformation.
  * Single source for copywriters and legal. Phase 2 uses symptomEntries.

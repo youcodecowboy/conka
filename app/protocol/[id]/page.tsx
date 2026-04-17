@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
@@ -9,15 +9,7 @@ import {
   ProtocolHeroMobile,
   ProtocolCalendar,
   ProtocolCalendarMobile,
-  ProtocolFAQ,
 } from "@/app/components/protocol";
-import FormulaCaseStudies, {
-  FormulaCaseStudiesMobile,
-} from "@/app/components/FormulaCaseStudies";
-import CycleTrap from "@/app/components/protocol/why/CycleTrap";
-import CycleBreak from "@/app/components/protocol/why/CycleBreak";
-import CycleTransformation from "@/app/components/protocol/why/CycleTransformation";
-import { symptomEntries } from "@/app/lib/protocolWhyCopy";
 import {
   StickyPurchaseFooter,
   StickyPurchaseFooterMobile,
@@ -28,11 +20,14 @@ import {
   PurchaseType,
   protocolContent,
 } from "@/app/lib/productData";
-import WhatToExpectTimeline from "@/app/components/product/WhatToExpectTimeline";
+import HomeWhatItDoes from "@/app/components/home/HomeWhatItDoes";
+import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
+import LandingGuarantee from "@/app/components/landing/LandingGuarantee";
+import LandingTimeline from "@/app/components/landing/LandingTimeline";
+import LandingFAQ from "@/app/components/landing/LandingFAQ";
 import ProductGrid from "@/app/components/home/ProductGrid";
 import Testimonials from "@/app/components/testimonials/Testimonials";
 import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
-import { protocolSynergyCopy } from "@/app/lib/protocolSynergyCopy";
 import useIsMobile from "@/app/hooks/useIsMobile";
 import { useCart } from "@/app/context/CartContext";
 import { getProtocolVariantId } from "@/app/lib/shopifyProductMapping";
@@ -59,12 +54,6 @@ export default function ProtocolPage() {
   const [selectedTier, setSelectedTier] = useState<ProtocolTier>("pro");
   const [purchaseType, setPurchaseType] =
     useState<PurchaseType>("subscription");
-  const [selectedSymptom, setSelectedSymptom] = useState<string | null>(null);
-
-  const whyEntryNodeIndex = useMemo(
-    () => symptomEntries.find((s) => s.id === selectedSymptom)?.entryNode ?? 0,
-    [selectedSymptom],
-  );
 
   // Validate protocol ID from URL and redirect invalid to Balance
   useEffect(() => {
@@ -89,12 +78,9 @@ export default function ProtocolPage() {
     }
   }, [selectedProtocolId, selectedTier]);
 
-  if (!protocol) {
-    return null; // Will redirect
-  }
-
   // Meta ViewContent on initial load and when selected protocol changes
   useEffect(() => {
+    if (!protocol) return;
     const variantData = getProtocolVariantId(
       selectedProtocolId,
       "pro",
@@ -107,7 +93,11 @@ export default function ProtocolPage() {
         content_type: "product",
       });
     }
-  }, [selectedProtocolId]);
+  }, [selectedProtocolId, protocol]);
+
+  if (!protocol) {
+    return null; // Will redirect
+  }
 
   // Hero section handler
   const handleAddToCartFromHero = async () => {
@@ -155,6 +145,87 @@ export default function ProtocolPage() {
 
   const protocolTestimonials = getSiteTestimonialsProtocol();
 
+  // Shared sections used by both mobile and desktop
+  const testimonialSection = protocolTestimonials.length > 0 && (
+    <section
+      className="brand-section brand-bg-tint"
+      aria-label="Customer reviews"
+    >
+      <div className="brand-track">
+        <Testimonials
+          testimonials={protocolTestimonials}
+          autoScrollOnly
+        />
+      </div>
+    </section>
+  );
+
+  const whatItDoesSection = (
+    <section
+      className="brand-section brand-bg-white"
+      aria-label="What CONKA does"
+    >
+      <div className="brand-track">
+        <HomeWhatItDoes hideCTA />
+      </div>
+    </section>
+  );
+
+  const caseStudiesSection = (
+    <section
+      className="brand-section brand-bg-white"
+      aria-label="Clinically validated results"
+    >
+      <div className="brand-track">
+        <CaseStudiesDataDriven ctaLabel="See all case studies" ctaHref="/case-studies" />
+      </div>
+    </section>
+  );
+
+  const guaranteeSection = (
+    <section
+      className="brand-section brand-bg-white"
+      aria-label="Risk-free guarantee"
+    >
+      <div className="brand-track">
+        <LandingGuarantee ctaLabel="Learn more about the CONKA app" ctaHref="/app" />
+      </div>
+    </section>
+  );
+
+  const timelineSection = (
+    <section
+      className="brand-section brand-bg-tint"
+      aria-label="What to expect"
+    >
+      <div className="brand-track">
+        <LandingTimeline hideCTA />
+      </div>
+    </section>
+  );
+
+  const faqSection = (
+    <section
+      className="brand-section brand-bg-tint"
+      aria-label="FAQ"
+    >
+      <div className="brand-track">
+        <LandingFAQ hideCTA />
+      </div>
+    </section>
+  );
+
+  const exploreSection = (
+    <section
+      className="brand-section brand-bg-white"
+      aria-label="Explore other protocols and formulas"
+    >
+      <div className="brand-track">
+        <ProductGrid exclude={["protocol"]} />
+      </div>
+    </section>
+  );
+
   // Mobile version
   if (isMobile) {
     return (
@@ -178,95 +249,15 @@ export default function ProtocolPage() {
           </div>
         </section>
 
-        {/* ===== SECTION 2: WHY TWO FORMULAS ===== */}
+        {/* ===== SECTION 2: TESTIMONIALS ===== */}
+        {testimonialSection}
+
+        {/* ===== SECTION 3: WHAT CONKA DOES ===== */}
+        {whatItDoesSection}
+
+        {/* ===== SECTION 4: CALENDAR ===== */}
         <section
           className="brand-section brand-bg-tint"
-          aria-labelledby="why-two-formulas-heading"
-        >
-          <div className="brand-track">
-            <div className="text-center" style={{ marginBottom: "var(--brand-text-gap)" }}>
-              <h2
-                id="why-two-formulas-heading"
-                className="brand-h2 mb-0 text-3xl md:text-4xl font-bold"
-              >
-                {protocolSynergyCopy.framing.headline}
-              </h2>
-              <p className="brand-caption text-xl md:text-2xl opacity-80 hidden md:block mt-3">
-                {protocolSynergyCopy.framing.subheadline}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* ===== SECTION 3: CYCLE TRAP (self-contained, owns bg) ===== */}
-        <CycleTrap
-          protocolId={selectedProtocolId}
-          initialNode={whyEntryNodeIndex}
-          selectedSymptomId={selectedSymptom}
-          onSelectSymptom={setSelectedSymptom}
-        />
-
-        {/* ===== SECTION 4: WAY OUT ===== */}
-        <section
-          className="brand-section brand-bg-white"
-          aria-label="But there's a way out"
-        >
-          <div className="brand-track">
-            <div className="text-center">
-              <h2 className="brand-h2 text-2xl md:text-3xl font-bold mb-3">
-                But there's a way out.
-              </h2>
-              <h3 className="brand-h3 text-xl md:text-2xl font-bold">
-                Together: Break the Cycle
-              </h3>
-            </div>
-          </div>
-        </section>
-
-        {/* ===== SECTION 5: CYCLE BREAK (self-contained, owns bg) ===== */}
-        <CycleBreak />
-
-        {/* ===== SECTION 6: TRANSFORMATION ===== */}
-        <section
-          className="brand-section brand-bg-tint"
-          aria-label="The outcome"
-        >
-          <div className="brand-track">
-            <CycleTransformation protocolId={selectedProtocolId} />
-          </div>
-        </section>
-
-        {/* ===== SECTION 7: TESTIMONIALS ===== */}
-        {protocolTestimonials.length > 0 && (
-          <section
-            className="brand-section brand-bg-white"
-            aria-label="Customer reviews"
-          >
-            <div className="brand-track">
-              <Testimonials
-                testimonials={protocolTestimonials}
-                autoScrollOnly
-              />
-            </div>
-          </section>
-        )}
-
-        {/* ===== SECTION 8: EXPECTED RESULTS ===== */}
-        <section
-          className="brand-section brand-bg-tint"
-          aria-label="Expected results"
-        >
-          <div className="brand-track">
-            <WhatToExpectTimeline
-              productId={selectedProtocolId}
-              sectionTitle="Expected results"
-            />
-          </div>
-        </section>
-
-        {/* ===== SECTION 9: CALENDAR ===== */}
-        <section
-          className="brand-section brand-bg-white"
           aria-label="How to follow your protocol"
         >
           <div className="brand-track">
@@ -281,35 +272,20 @@ export default function ProtocolPage() {
           </div>
         </section>
 
-        {/* ===== SECTION 10: CASE STUDIES ===== */}
-        <section
-          className="brand-section brand-bg-tint"
-          aria-label="Case studies"
-        >
-          <div className="brand-track">
-            <FormulaCaseStudiesMobile productId={selectedProtocolId} />
-          </div>
-        </section>
+        {/* ===== SECTION 5: CASE STUDIES ===== */}
+        {caseStudiesSection}
 
-        {/* ===== SECTION 11: FAQ ===== */}
-        <section
-          className="brand-section brand-bg-white"
-          aria-label="FAQ"
-        >
-          <div className="brand-track">
-            <ProtocolFAQ protocolId={selectedProtocolId} />
-          </div>
-        </section>
+        {/* ===== SECTION 6: TIMELINE ===== */}
+        {timelineSection}
 
-        {/* ===== SECTION 12: EXPLORE ===== */}
-        <section
-          className="brand-section brand-bg-tint"
-          aria-label="Explore other protocols and formulas"
-        >
-          <div className="brand-track">
-            <ProductGrid exclude={["protocol"]} />
-          </div>
-        </section>
+        {/* ===== SECTION 7: GUARANTEE ===== */}
+        {guaranteeSection}
+
+        {/* ===== SECTION 8: FAQ ===== */}
+        {faqSection}
+
+        {/* ===== SECTION 9: EXPLORE ===== */}
+        {exploreSection}
 
         <Footer />
 
@@ -319,7 +295,6 @@ export default function ProtocolPage() {
           onTierSelect={setSelectedTier}
           purchaseType={purchaseType}
           onAddToCart={handleAddToCartFromFooter}
-
         />
       </div>
     );
@@ -347,95 +322,15 @@ export default function ProtocolPage() {
         </div>
       </section>
 
-      {/* ===== SECTION 2: WHY TWO FORMULAS ===== */}
+      {/* ===== SECTION 2: TESTIMONIALS ===== */}
+      {testimonialSection}
+
+      {/* ===== SECTION 3: WHAT CONKA DOES ===== */}
+      {whatItDoesSection}
+
+      {/* ===== SECTION 4: CALENDAR ===== */}
       <section
         className="brand-section brand-bg-tint"
-        aria-labelledby="why-two-formulas-heading"
-      >
-        <div className="brand-track">
-          <div className="text-center" style={{ marginBottom: "var(--brand-text-gap)" }}>
-            <h2
-              id="why-two-formulas-heading"
-              className="brand-h2 mb-0 text-3xl md:text-4xl font-bold"
-            >
-              {protocolSynergyCopy.framing.headline}
-            </h2>
-            <p className="brand-caption text-xl md:text-2xl opacity-80 mt-3">
-              {protocolSynergyCopy.framing.subheadline}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION 3: CYCLE TRAP (self-contained, owns bg) ===== */}
-      <CycleTrap
-        protocolId={selectedProtocolId}
-        initialNode={whyEntryNodeIndex}
-        selectedSymptomId={selectedSymptom}
-        onSelectSymptom={setSelectedSymptom}
-      />
-
-      {/* ===== SECTION 4: WAY OUT ===== */}
-      <section
-        className="brand-section brand-bg-white"
-        aria-label="But there's a way out"
-      >
-        <div className="brand-track">
-          <div className="text-center">
-            <h2 className="brand-h2 text-2xl md:text-3xl font-bold mb-3">
-              But there's a way out.
-            </h2>
-            <h3 className="brand-h3 text-xl md:text-2xl font-bold">
-              Together: Break the Cycle
-            </h3>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION 5: CYCLE BREAK (self-contained, owns bg) ===== */}
-      <CycleBreak />
-
-      {/* ===== SECTION 6: TRANSFORMATION ===== */}
-      <section
-        className="brand-section brand-bg-tint"
-        aria-label="The outcome"
-      >
-        <div className="brand-track">
-          <CycleTransformation protocolId={selectedProtocolId} />
-        </div>
-      </section>
-
-      {/* ===== SECTION 7: TESTIMONIALS ===== */}
-      {protocolTestimonials.length > 0 && (
-        <section
-          className="brand-section brand-bg-white"
-          aria-label="Customer reviews"
-        >
-          <div className="brand-track">
-            <Testimonials
-              testimonials={protocolTestimonials}
-              autoScrollOnly
-            />
-          </div>
-        </section>
-      )}
-
-      {/* ===== SECTION 8: EXPECTED RESULTS ===== */}
-      <section
-        className="brand-section brand-bg-tint"
-        aria-label="Expected results"
-      >
-        <div className="brand-track">
-          <WhatToExpectTimeline
-            productId={selectedProtocolId}
-            sectionTitle="Expected results"
-          />
-        </div>
-      </section>
-
-      {/* ===== SECTION 9: CALENDAR ===== */}
-      <section
-        className="brand-section brand-bg-white"
         aria-label="How to follow your protocol"
       >
         <div className="brand-track">
@@ -450,35 +345,20 @@ export default function ProtocolPage() {
         </div>
       </section>
 
-      {/* ===== SECTION 10: CASE STUDIES ===== */}
-      <section
-        className="brand-section brand-bg-tint"
-        aria-label="Case studies"
-      >
-        <div className="brand-track">
-          <FormulaCaseStudies productId={selectedProtocolId} />
-        </div>
-      </section>
+      {/* ===== SECTION 5: CASE STUDIES ===== */}
+      {caseStudiesSection}
 
-      {/* ===== SECTION 11: FAQ ===== */}
-      <section
-        className="brand-section brand-bg-white"
-        aria-label="FAQ"
-      >
-        <div className="brand-track">
-          <ProtocolFAQ protocolId={selectedProtocolId} />
-        </div>
-      </section>
+      {/* ===== SECTION 6: TIMELINE ===== */}
+      {timelineSection}
 
-      {/* ===== SECTION 12: EXPLORE ===== */}
-      <section
-        className="brand-section brand-bg-tint"
-        aria-label="Explore other protocols and formulas"
-      >
-        <div className="brand-track">
-          <ProductGrid exclude={["protocol"]} />
-        </div>
-      </section>
+      {/* ===== SECTION 7: GUARANTEE ===== */}
+      {guaranteeSection}
+
+      {/* ===== SECTION 8: FAQ ===== */}
+      {faqSection}
+
+      {/* ===== SECTION 9: EXPLORE ===== */}
+      {exploreSection}
 
       <Footer />
 

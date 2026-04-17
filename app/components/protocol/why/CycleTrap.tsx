@@ -1,3 +1,4 @@
+// TODO: Delete this file when protocol pages are fully removed. No longer imported.
 "use client";
 
 import { useState, useCallback, useEffect, memo, startTransition } from "react";

@@ -27,7 +27,7 @@ const TIMELINE_STEPS: LandingTimelineStep[] = [
   },
 ];
 
-export default function LandingTimeline() {
+export default function LandingTimeline({ hideCTA = false }: { hideCTA?: boolean } = {}) {
   return (
     /* -mt-20 on mobile cancels the brand-section mobile padding-top
        (5rem = 80px) so the banner sits flush with the section top edge.
@@ -110,14 +110,18 @@ export default function LandingTimeline() {
       </p>
 
       {/* CTA */}
-      <div className="flex flex-col items-start gap-2">
-        <LandingCTA>Try Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
-      </div>
+      {!hideCTA && (
+        <>
+          <div className="flex flex-col items-start gap-2">
+            <LandingCTA>Try Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
+          </div>
 
-      {/* Trust Badges */}
-      <div className="mt-6">
-        <LandingTrustBadges />
-      </div>
+          {/* Trust Badges */}
+          <div className="mt-6">
+            <LandingTrustBadges />
+          </div>
+        </>
+      )}
     </div>
   );
 }

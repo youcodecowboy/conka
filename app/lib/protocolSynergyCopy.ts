@@ -1,3 +1,4 @@
+// TODO: Delete this file when protocol pages are fully removed. No longer imported.
 /**
  * Protocol Synergy Copy — Why Two Formulas Work Better Than One
  *

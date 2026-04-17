@@ -1,3 +1,4 @@
+// TODO: Delete this file when protocol pages are fully removed. No longer imported.
 "use client";
 
 import { sectionHeadings, beforeAfterStates } from "@/app/lib/protocolWhyCopy";

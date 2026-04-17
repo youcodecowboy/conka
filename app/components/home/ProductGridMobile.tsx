@@ -94,7 +94,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
       </div>
 
       {visibleCards.length > 1 && (
-        <div className="px-4 mb-4 flex items-center gap-2 flex-wrap">
+        <div className="px-4 mb-4 flex items-center justify-center gap-2 flex-wrap">
           {visibleCards.map((card, idx) => {
             const isActive = currentIndex === idx;
             return (
