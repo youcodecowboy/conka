@@ -6,7 +6,6 @@ import {
   PurchaseType,
   formulaPricing,
   formatPrice,
-  getBillingLabel,
 } from "@/app/lib/productData";
 
 interface PackSelectorPremiumProps {
@@ -22,17 +21,10 @@ interface PackSelectorPremiumProps {
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
 
 const packLabels: Record<PackSize, string> = {
-  "4": "4-pack",
-  "8": "8-pack",
-  "12": "12-pack",
-  "28": "28-pack",
-};
-
-/** Tier name for protocol mapping (4=Starter, 12=Pro, 28=Max; 8 has no tier) */
-const packTierLabel: Partial<Record<PackSize, string>> = {
-  "4": "Starter",
-  "12": "Pro",
-  "28": "Max",
+  "4": "4 Bottles",
+  "8": "8 Bottles",
+  "12": "12 Bottles",
+  "28": "28 Bottles",
 };
 
 export default function PackSelectorPremium({
@@ -41,7 +33,6 @@ export default function PackSelectorPremium({
   purchaseType,
   subscriptionAccentColor,
   className = "",
-  compact = false,
 }: PackSelectorPremiumProps) {
   const accent = subscriptionAccentColor ?? "var(--brand-black)";
   return (
@@ -53,11 +44,6 @@ export default function PackSelectorPremium({
           if (!pricing) return null;
 
           const isSelected = selectedPack === size;
-          const billingText =
-            purchaseType === "subscription"
-              ? getBillingLabel((pricing as { billing: string }).billing)
-              : "one-time";
-          const tierLabel = packTierLabel[size as PackSize];
 
           return (
             <button
@@ -82,14 +68,9 @@ export default function PackSelectorPremium({
                 <p className="text-sm font-bold" style={{ letterSpacing: "-0.02em" }}>
                   {packLabels[size]}
                 </p>
-                {tierLabel && (
-                  <p className={`text-[10px] font-semibold uppercase tracking-wide ${isSelected ? "text-[var(--brand-white)] opacity-90" : "text-[var(--brand-black)]"}`}>
-                    {tierLabel}
-                  </p>
-                )}
               </div>
               <div
-                className="w-full min-w-0 flex-1 flex flex-col justify-end px-2 py-1.5 rounded-b-[var(--brand-radius-container)] min-h-[52px]"
+                className="w-full min-w-0 flex-1 flex flex-col justify-center px-2 py-2 rounded-b-[var(--brand-radius-container)]"
                 style={{
                   backgroundColor: isSelected
                     ? purchaseType === "subscription"
@@ -99,16 +80,9 @@ export default function PackSelectorPremium({
                   color: isSelected ? "var(--brand-white)" : "var(--brand-black)",
                 }}
               >
-                <p className="text-base font-bold mb-0.5">
+                <p className="text-base font-bold">
                   {formatPrice(pricing.price)}
                 </p>
-                {!(compact && purchaseType === "one-time") && (
-                  <p
-                    className={`brand-caption ${isSelected ? "opacity-90" : "text-[var(--brand-black)]"}`}
-                  >
-                    {billingText}
-                  </p>
-                )}
               </div>
             </button>
           );

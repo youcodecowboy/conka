@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FormulaId, STRUGGLE_OPTIONS, formulaContent } from "@/app/lib/productData";
+import { FormulaId, formulaContent } from "@/app/lib/productData";
 
 const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   "01": {
@@ -28,6 +28,62 @@ const SUPPORTING_ASSETS: Record<FormulaId, { src: string; alt: string }[]> = {
   ],
 };
 
+/**
+ * Curated stats per formula -- 3 compliant stats only.
+ *
+ * Flow:
+ *  - Tiredness/fatigue: EFSA Vitamin C claim (††)
+ *  - Memory: observational ingredient-level research (¶)
+ *  - Sleep quality: observational ingredient-level research (¶)
+ *
+ * Clear:
+ *  - Memory: observational ingredient-level research (¶)
+ *  - Fatigue resistance: ties to EFSA tiredness/fatigue claim (††)
+ *  - Cerebral blood flow: observational ingredient-level research (¶)
+ *
+ * Dropped: stress scores, anxiety ratings (RED -- mood/stress claims
+ * not authorised for any CONKA ingredient per CLAIMS_COMPLIANCE.md)
+ */
+const CURATED_STATS: Record<
+  FormulaId,
+  Array<{ stat: string; label: string; anchor: string }>
+> = {
+  "01": [
+    {
+      stat: "+42%",
+      label: "improvement in sleep quality",
+      anchor: "¶",
+    },
+    {
+      stat: "+18%",
+      label: "improvement in memory performance",
+      anchor: "¶",
+    },
+    {
+      stat: "Reduces",
+      label: "tiredness and fatigue",
+      anchor: "††",
+    },
+  ],
+  "02": [
+    {
+      stat: "+63%",
+      label: "improvement in memory performance",
+      anchor: "¶",
+    },
+    {
+      stat: "+30%",
+      label: "improvement in fatigue resistance",
+      anchor: "¶",
+    },
+    {
+      stat: "+57%",
+      label: "increase in cerebral blood flow",
+      anchor: "¶",
+    },
+  ],
+};
+
 interface FormulaBenefitsStatsDesktopProps {
   formulaId: FormulaId;
 }
@@ -37,6 +93,7 @@ export default function FormulaBenefitsStatsDesktop({
 }: FormulaBenefitsStatsDesktopProps) {
   const formula = formulaContent[formulaId];
   const productImage = PRODUCT_IMAGE[formulaId];
+  const stats = CURATED_STATS[formulaId];
 
   return (
     <div className="grid grid-cols-2 md:min-h-[480px] gap-12 md:gap-16 lg:gap-20 items-center">
@@ -50,23 +107,22 @@ export default function FormulaBenefitsStatsDesktop({
           {formula.subheadline}
         </h2>
 
-        {/* Stat facts grid (Huel-style) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-8">
-              {STRUGGLE_OPTIONS.map((struggle) => {
-                const solution = formula.struggleSolutions[struggle.id];
-                if (!solution) return null;
-                return (
-                  <div key={struggle.id}>
-                    <p className="font-clinical text-2xl md:text-3xl font-bold text-black leading-tight">
-                      {solution.stat}
-                    </p>
-                    <p className="brand-data text-sm text-black/60 mt-0.5">
-                      {solution.statLabel}
-                    </p>
-                  </div>
-                );
-              })}
+        {/* 3 large stats */}
+        <div className="flex flex-col gap-6 mb-8">
+          {stats.map((item, idx) => (
+            <div key={idx}>
+              <p className="font-clinical text-4xl md:text-5xl font-bold text-black leading-none">
+                {item.stat}
+                <sup className="text-sm font-normal opacity-50 ml-0.5">
+                  {item.anchor}
+                </sup>
+              </p>
+              <p className="brand-data text-sm md:text-base text-black/60 mt-1">
+                {item.label}
+              </p>
             </div>
+          ))}
+        </div>
 
         <a
           href="#proof-and-science"
@@ -76,9 +132,8 @@ export default function FormulaBenefitsStatsDesktop({
         </a>
       </div>
 
-      {/* Right: Seed-style — primary rectangular asset + 3 small square placeholders (desktop only) */}
+      {/* Right: lifestyle imagery */}
       <div className="space-y-4">
-        {/* Primary: same width as the row of three below; image fills the frame */}
         <div
           className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"
           style={{ borderRadius: "var(--brand-radius-card)" }}
@@ -92,7 +147,6 @@ export default function FormulaBenefitsStatsDesktop({
             priority={false}
           />
         </div>
-        {/* Three supporting assets — full width to match primary above */}
         <div className="grid grid-cols-3 gap-3 w-full">
           {SUPPORTING_ASSETS[formulaId].map((asset, idx) => (
             <div
