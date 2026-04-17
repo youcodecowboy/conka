@@ -143,6 +143,11 @@ export default function ProtocolPage() {
     }
   };
 
+  // Navigate to a different protocol (ratio selector for non-Balance)
+  const handleProtocolChange = (id: ProtocolId) => {
+    router.push(`/protocol/${id}`);
+  };
+
   const protocolTestimonials = getSiteTestimonialsProtocol();
 
   // Shared sections used by both mobile and desktop
@@ -245,6 +250,7 @@ export default function ProtocolPage() {
               purchaseType={purchaseType}
               onPurchaseTypeChange={setPurchaseType}
               onAddToCart={handleAddToCartFromHero}
+              onProtocolChange={selectedProtocolId !== "3" ? handleProtocolChange : undefined}
             />
           </div>
         </section>
@@ -255,22 +261,24 @@ export default function ProtocolPage() {
         {/* ===== SECTION 3: WHAT CONKA DOES ===== */}
         {whatItDoesSection}
 
-        {/* ===== SECTION 4: CALENDAR ===== */}
-        <section
-          className="brand-section brand-bg-tint"
-          aria-label="How to follow your protocol"
-        >
-          <div className="brand-track">
-            <ProtocolCalendarMobile
-              protocolId={selectedProtocolId}
-              selectedTier={selectedTier}
-              onTierSelect={setSelectedTier}
-              availableTiers={
-                protocolContent[selectedProtocolId].availableTiers
-              }
-            />
-          </div>
-        </section>
+        {/* ===== SECTION 4: CALENDAR (hidden for Balance) ===== */}
+        {selectedProtocolId !== "3" && (
+          <section
+            className="brand-section brand-bg-tint"
+            aria-label="How to follow your protocol"
+          >
+            <div className="brand-track">
+              <ProtocolCalendarMobile
+                protocolId={selectedProtocolId}
+                selectedTier={selectedTier}
+                onTierSelect={setSelectedTier}
+                availableTiers={
+                  protocolContent[selectedProtocolId].availableTiers
+                }
+              />
+            </div>
+          </section>
+        )}
 
         {/* ===== SECTION 5: CASE STUDIES ===== */}
         {caseStudiesSection}
@@ -318,6 +326,7 @@ export default function ProtocolPage() {
             purchaseType={purchaseType}
             onPurchaseTypeChange={setPurchaseType}
             onAddToCart={handleAddToCartFromHero}
+            onProtocolChange={selectedProtocolId !== "3" ? handleProtocolChange : undefined}
           />
         </div>
       </section>
@@ -328,22 +337,24 @@ export default function ProtocolPage() {
       {/* ===== SECTION 3: WHAT CONKA DOES ===== */}
       {whatItDoesSection}
 
-      {/* ===== SECTION 4: CALENDAR ===== */}
-      <section
-        className="brand-section brand-bg-tint"
-        aria-label="How to follow your protocol"
-      >
-        <div className="brand-track">
-          <ProtocolCalendar
-            protocolId={selectedProtocolId}
-            selectedTier={selectedTier}
-            onTierSelect={setSelectedTier}
-            availableTiers={
-              protocolContent[selectedProtocolId].availableTiers
-            }
-          />
-        </div>
-      </section>
+      {/* ===== SECTION 4: CALENDAR (hidden for Balance) ===== */}
+      {selectedProtocolId !== "3" && (
+        <section
+          className="brand-section brand-bg-tint"
+          aria-label="How to follow your protocol"
+        >
+          <div className="brand-track">
+            <ProtocolCalendar
+              protocolId={selectedProtocolId}
+              selectedTier={selectedTier}
+              onTierSelect={setSelectedTier}
+              availableTiers={
+                protocolContent[selectedProtocolId].availableTiers
+              }
+            />
+          </div>
+        </section>
+      )}
 
       {/* ===== SECTION 5: CASE STUDIES ===== */}
       {caseStudiesSection}
