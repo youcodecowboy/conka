@@ -6,6 +6,26 @@
 
 ## April 2026
 
+### 2026-04-16 -- Larger nav tiles, lifestyle asset refresh, homepage hero copy, asset cleanup
+
+**Mobile nav product tiles (NavigationMobile):**
+Enlarged "Shop by Product" tile images from 56px (`w-14 h-14`) to 112px (`w-28 h-28`) so product photos are clearly visible on mobile. Tile padding kept at `p-3`, gap bumped to `gap-4`, image border radius to `rounded-xl`.
+
+**Homepage hero copy (Hero):**
+Synced homepage hero messaging with landing page (`LandingHero`). Headline now reads "The only brain supplement you can measure." with matching body copy.
+
+**FormulaBenefitsStats asset refresh (Desktop + Mobile):**
+Replaced generic product bottle images with lifestyle photography. Primary images: Flow uses `ConkaAtWorkDesk.jpg`, Clear uses `BlurGrab.jpg`. Supporting thumbnails (desktop only) now per-formula: Flow shows `FlowBoxOpen.jpg`, `FlowDrink.jpg`, `FlowLeaf.jpg`; Clear shows `ConkaJeansHold.jpg`, `ClearTable.jpg`, `ClearBag.jpg`.
+
+**HowItWorks asset refresh:**
+Primary images: Flow uses `FlowDrink.jpg`, Clear uses `ClearBoxOpen.jpg`. Supporting assets: Flow uses `FlowConkaRing.jpg` + `ConkaDesk.jpg`; Clear uses `ClearJeansTwo.jpg` + `ClearDesk.jpg`.
+
+**Asset cleanup (15 files deleted):**
+Removed unused assets after audit: `HoldBoth.jpg`, `FlowTaste.jpg`, `ClearTaste.jpg`, `HoneyTaste.jpg`, `CitrusTaste.jpg`, `WomanPink.jpg`, `SatWoman.jpg`, and 8 unused hero images (`Hero.jpg`, `SamHero.jpg`, `ClearHero.jpg`, `HeroBannerH.jpg`, `HeroBannerW.jpg`, `AppShotsHero.jpg`, `HeroBanner.jpg`, `HeroBannerMobileH.jpg`). Only `ShotsHero.jpg` retained in `/hero/`.
+
+**Why:** Nav tile images were too small to see products. Lifestyle photography from TQBF shoot replaces older product renders across PDP sections. Hero copy aligned for consistency. Unused assets removed to reduce repo size.
+**Branch:** `larger-nav-shop-tiles`
+
 ### 2026-04-16 -- Visual system migration: product, protocol, and content pages
 
 Migrated 5 pages and ~40 components from `premium-base.css` to `brand-base.css`, completing the visual system alignment started with the homepage upgrade on 2026-04-07.
