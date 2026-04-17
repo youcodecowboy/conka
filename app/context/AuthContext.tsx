@@ -7,8 +7,10 @@ export interface CustomerAddress {
   address2: string | null;
   city: string | null;
   province: string | null;
+  zoneCode: string | null;
   zip: string | null;
   country: string | null;
+  territoryCode: string | null;
 }
 
 export interface CustomerInfo {

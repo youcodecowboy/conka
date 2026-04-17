@@ -11,21 +11,22 @@ import { getSubscriptionImage } from '@/app/account/subscriptions/utils';
 interface ProfileFormData {
   firstName: string;
   lastName: string;
-  email: string;
   phone: string;
   address: {
     address1: string;
     address2: string;
     city: string;
     province: string;
+    zoneCode: string;
     zip: string;
     country: string;
+    territoryCode: string;
   };
 }
 
 export default function AccountPage() {
   const router = useRouter();
-  const { customer, loading, isAuthenticated, logout } = useAuth();
+  const { customer, loading, isAuthenticated, logout, checkSession } = useAuth();
   const { subscriptions, fetchSubscriptions, loading: subsLoading } = useSubscriptions();
   const [orderCount, setOrderCount] = useState<number | null>(null);
   const [showEditProfile, setShowEditProfile] = useState(false);
@@ -35,9 +36,8 @@ export default function AccountPage() {
   const [profileForm, setProfileForm] = useState<ProfileFormData>({
     firstName: '',
     lastName: '',
-    email: '',
     phone: '',
-    address: { address1: '', address2: '', city: '', province: '', zip: '', country: 'United Kingdom' },
+    address: { address1: '', address2: '', city: '', province: '', zoneCode: '', zip: '', country: 'United Kingdom', territoryCode: 'GB' },
   });
 
   useEffect(() => {
@@ -62,15 +62,16 @@ export default function AccountPage() {
     setProfileForm({
       firstName: customer?.firstName ?? '',
       lastName: customer?.lastName ?? '',
-      email: customer?.email ?? '',
       phone: customer?.phone ?? '',
       address: {
         address1: customer?.defaultAddress?.address1 ?? '',
         address2: customer?.defaultAddress?.address2 ?? '',
         city: customer?.defaultAddress?.city ?? '',
         province: customer?.defaultAddress?.province ?? '',
+        zoneCode: customer?.defaultAddress?.zoneCode ?? '',
         zip: customer?.defaultAddress?.zip ?? '',
         country: customer?.defaultAddress?.country ?? 'United Kingdom',
+        territoryCode: customer?.defaultAddress?.territoryCode ?? 'GB',
       },
     });
     setProfileError(null);
@@ -78,10 +79,22 @@ export default function AccountPage() {
     setShowEditProfile(true);
   };
 
+  const countryToCode: Record<string, string> = {
+    'United Kingdom': 'GB', 'United States': 'US', 'Canada': 'CA', 'Australia': 'AU', 'Ireland': 'IE',
+  };
+
   const handleProfileChange = (field: string, value: string) => {
     if (field.startsWith('address.')) {
       const key = field.replace('address.', '');
-      setProfileForm((prev) => ({ ...prev, address: { ...prev.address, [key]: value } }));
+      setProfileForm((prev) => ({
+        ...prev,
+        address: {
+          ...prev.address,
+          [key]: value,
+          // Keep territoryCode in sync when country changes
+          ...(key === 'country' ? { territoryCode: countryToCode[value] || value } : {}),
+        },
+      }));
     } else {
       setProfileForm((prev) => ({ ...prev, [field]: value }));
     }
@@ -99,7 +112,8 @@ export default function AccountPage() {
       });
       if (res.ok) {
         setProfileSuccess(true);
-        setTimeout(() => { setShowEditProfile(false); router.refresh(); }, 1500);
+        await checkSession();
+        setTimeout(() => { setShowEditProfile(false); }, 1500);
       } else {
         const d = await res.json();
         setProfileError(d.error || 'Failed to update profile');
@@ -346,7 +360,8 @@ export default function AccountPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Email</label>
-                  <input type="email" value={profileForm.email} onChange={(e) => handleProfileChange('email', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
+                  <input type="email" value={customer?.email ?? ''} readOnly className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)]/20 text-[var(--color-ink)]/60 premium-body-sm cursor-not-allowed" />
+                  <p className="text-xs text-[var(--text-on-light-muted)] mt-1">Email is managed by Shopify and cannot be changed here.</p>
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Phone</label>

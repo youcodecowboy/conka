@@ -415,7 +415,7 @@ On clicking Update:
 
 ## Profile and orders
 
-- **Profile:** Edit Profile modal on the account dashboard. POSTs to `/api/auth/customer/update` with `firstName`, `lastName`, `email`, `phone`, `address`. The update route reads the access token from the session cookie server-side.
+- **Profile:** Edit Profile modal on the account dashboard. POSTs to `/api/auth/customer/update` with `firstName`, `lastName`, `phone`, `address`. The update route reads the `customer_access_token` cookie and calls the **Customer Account API** (same endpoint as session and orders: `https://shopify.com/{shopId}/account/customer/api/2024-10/graphql`). Email is read-only in the modal — Shopify manages email via its own account flow, not the Customer Account API `customerUpdate` mutation. `CustomerUpdateInput` only supports `firstName` and `lastName`; phone number is set via `CustomerAddressInput.phoneNumber` on the address mutation. Address handling: if the customer already has a default address (queried via `customer { defaultAddress { id } }`), the route uses `customerAddressUpdate`; otherwise it uses `customerAddressCreate`. Both mutations accept a `defaultAddress: Boolean` parameter to set/keep the address as default in a single call (no separate `customerDefaultAddressUpdate` mutation in the Customer Account API). `CustomerAddressInput` uses `territoryCode` (ISO country code, e.g. "GB") and `zoneCode` (province/state code) — the route maps frontend country names to ISO codes via `COUNTRY_CODE_MAP`.
 - **Orders:** `GET /api/auth/orders` — uses Customer Account API with the session cookie to fetch the customer's order list and count.
 
 ---

@@ -1,36 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
-import { shopifyFetch } from '@/app/lib/shopify';
 
 // Zod schema for profile update validation
+// Frontend sends both display values (country, province) and API codes (territoryCode, zoneCode)
 const profileUpdateSchema = z.object({
   firstName: z.string().optional(),
   lastName: z.string().optional(),
-  email: z.string().email().optional(),
   phone: z.string().optional(),
   address: z.object({
     address1: z.string().optional(),
     address2: z.string().optional(),
     city: z.string().optional(),
     province: z.string().optional(),
+    zoneCode: z.string().optional(),
     zip: z.string().optional(),
     country: z.string().optional(),
+    territoryCode: z.string().optional(),
   }).optional(),
 });
 
-// GraphQL mutation to update customer
+// Customer Account API: fetch customer to get default address ID
+const CUSTOMER_ADDRESSES_QUERY = `
+  query CustomerAddresses {
+    customer {
+      defaultAddress {
+        id
+      }
+    }
+  }
+`;
+
+// Customer Account API mutation to update customer profile
+// CustomerUpdateInput only supports firstName and lastName
 const CUSTOMER_UPDATE = `
-  mutation customerUpdate($customerAccessToken: String!, $customer: CustomerUpdateInput!) {
-    customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {
+  mutation customerUpdate($input: CustomerUpdateInput!) {
+    customerUpdate(input: $input) {
       customer {
         id
-        email
         firstName
         lastName
-        phone
       }
-      customerUserErrors {
+      userErrors {
         field
         message
         code
@@ -39,20 +50,15 @@ const CUSTOMER_UPDATE = `
   }
 `;
 
-// GraphQL mutation to update customer address
+// Customer Account API mutation to create an address and set as default
+// Uses defaultAddress param to set as default in a single call
 const CUSTOMER_ADDRESS_CREATE = `
-  mutation customerAddressCreate($customerAccessToken: String!, $address: MailingAddressInput!) {
-    customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {
+  mutation customerAddressCreate($address: CustomerAddressInput!, $defaultAddress: Boolean) {
+    customerAddressCreate(address: $address, defaultAddress: $defaultAddress) {
       customerAddress {
         id
-        address1
-        address2
-        city
-        province
-        zip
-        country
       }
-      customerUserErrors {
+      userErrors {
         field
         message
         code
@@ -61,14 +67,14 @@ const CUSTOMER_ADDRESS_CREATE = `
   }
 `;
 
-// GraphQL mutation to update default address
-const CUSTOMER_DEFAULT_ADDRESS_UPDATE = `
-  mutation customerDefaultAddressUpdate($customerAccessToken: String!, $addressId: ID!) {
-    customerDefaultAddressUpdate(customerAccessToken: $customerAccessToken, addressId: $addressId) {
-      customer {
+// Customer Account API mutation to update an existing address
+const CUSTOMER_ADDRESS_UPDATE = `
+  mutation customerAddressUpdate($addressId: ID!, $address: CustomerAddressInput!, $defaultAddress: Boolean) {
+    customerAddressUpdate(addressId: $addressId, address: $address, defaultAddress: $defaultAddress) {
+      customerAddress {
         id
       }
-      customerUserErrors {
+      userErrors {
         field
         message
         code
@@ -77,40 +83,80 @@ const CUSTOMER_DEFAULT_ADDRESS_UPDATE = `
   }
 `;
 
-interface CustomerUpdateResponse {
+interface CustomerAccountApiResponse<T> {
+  data?: T;
+  errors?: Array<{ message: string }>;
+}
+
+interface UserError {
+  field: string[];
+  message: string;
+  code: string;
+}
+
+interface CustomerUpdateData {
   customerUpdate: {
-    customer: {
-      id: string;
-      email: string;
-      firstName: string | null;
-      lastName: string | null;
-      phone: string | null;
-    } | null;
-    customerUserErrors: Array<{
-      field: string[];
-      message: string;
-      code: string;
-    }>;
+    customer: { id: string } | null;
+    userErrors: UserError[];
   };
 }
 
-interface AddressCreateResponse {
-  customerAddressCreate: {
-    customerAddress: {
-      id: string;
-      address1: string;
-      address2: string | null;
-      city: string;
-      province: string | null;
-      zip: string;
-      country: string;
-    } | null;
-    customerUserErrors: Array<{
-      field: string[];
-      message: string;
-      code: string;
-    }>;
+interface CustomerAddressesData {
+  customer: {
+    defaultAddress: { id: string } | null;
+  } | null;
+}
+
+interface AddressMutationData {
+  customerAddressCreate?: {
+    customerAddress: { id: string } | null;
+    userErrors: UserError[];
   };
+  customerAddressUpdate?: {
+    customerAddress: { id: string } | null;
+    userErrors: UserError[];
+  };
+}
+
+async function customerAccountFetch<T>(
+  accessToken: string,
+  query: string,
+  variables: Record<string, unknown> = {},
+): Promise<T> {
+  const shopId = process.env.SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID;
+  if (!shopId) {
+    throw new Error('SHOPIFY_CUSTOMER_ACCOUNT_SHOP_ID not configured');
+  }
+
+  const apiUrl = `https://shopify.com/${shopId}/account/customer/api/2024-10/graphql`;
+
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': accessToken,
+    },
+    body: JSON.stringify({ query, variables }),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    console.error('Customer Account API HTTP error:', response.status, text);
+    throw new Error(`Customer Account API returned ${response.status}`);
+  }
+
+  const result: CustomerAccountApiResponse<T> = await response.json();
+
+  if (result.errors?.length) {
+    console.error('Customer Account API GraphQL errors:', result.errors);
+    throw new Error(result.errors[0].message);
+  }
+
+  if (!result.data) {
+    throw new Error('Customer Account API returned no data');
+  }
+
+  return result.data;
 }
 
 export async function POST(request: NextRequest) {
@@ -129,7 +175,7 @@ export async function POST(request: NextRequest) {
     // Parse and validate request body
     const body = await request.json();
     const validationResult = profileUpdateSchema.safeParse(body);
-    
+
     if (!validationResult.success) {
       const firstError = validationResult.error.issues[0];
       return NextResponse.json(
@@ -138,28 +184,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { firstName, lastName, email, phone, address } = validationResult.data;
+    const { firstName, lastName, phone, address } = validationResult.data;
 
-    // Update customer profile
+    // Update customer profile (CustomerUpdateInput only supports firstName/lastName)
     const customerInput: Record<string, string> = {};
     if (firstName !== undefined) customerInput.firstName = firstName;
     if (lastName !== undefined) customerInput.lastName = lastName;
-    if (email !== undefined) customerInput.email = email;
-    if (phone !== undefined) customerInput.phone = phone;
 
     if (Object.keys(customerInput).length > 0) {
-      const customerResponse = await shopifyFetch<CustomerUpdateResponse>(
+      const result = await customerAccountFetch<CustomerUpdateData>(
+        accessToken,
         CUSTOMER_UPDATE,
-        {
-          customerAccessToken: accessToken,
-          customer: customerInput,
-        }
+        { input: customerInput },
       );
 
-      const { customerUpdate } = customerResponse.data || {};
-      
-      if (customerUpdate?.customerUserErrors && customerUpdate.customerUserErrors.length > 0) {
-        const error = customerUpdate.customerUserErrors[0];
+      if (result.customerUpdate.userErrors.length > 0) {
+        const error = result.customerUpdate.userErrors[0];
+        console.error('Customer update userError:', error);
         return NextResponse.json(
           { error: error.message },
           { status: 400 }
@@ -167,44 +208,63 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create/update address if provided
-    if (address && (address.address1 || address.city || address.zip)) {
-      const addressInput = {
-        address1: address.address1 || '',
-        address2: address.address2 || '',
-        city: address.city || '',
-        province: address.province || '',
-        zip: address.zip || '',
-        country: address.country || 'United Kingdom',
-      };
+    // Create or update address if provided (also triggers on phone-only change,
+    // since phone lives on CustomerAddressInput, not CustomerUpdateInput)
+    const hasAddressFields = address && (address.address1 || address.city || address.zip);
+    const hasPhoneChange = phone !== undefined;
+    if (hasAddressFields || hasPhoneChange) {
+      // CustomerAddressInput uses territoryCode (ISO country code) and zoneCode (ISO subdivision code)
+      // These are round-tripped from the session query, not mapped from display names
+      const addressInput: Record<string, string> = {};
+      if (address?.address1) addressInput.address1 = address.address1;
+      if (address?.address2) addressInput.address2 = address.address2;
+      if (address?.city) addressInput.city = address.city;
+      if (address?.zoneCode) addressInput.zoneCode = address.zoneCode;
+      if (address?.zip) addressInput.zip = address.zip;
+      if (address?.territoryCode) addressInput.territoryCode = address.territoryCode;
+      // Phone goes on address (CustomerUpdateInput does not support phone)
+      if (phone) addressInput.phoneNumber = phone;
 
-      const addressResponse = await shopifyFetch<AddressCreateResponse>(
-        CUSTOMER_ADDRESS_CREATE,
-        {
-          customerAccessToken: accessToken,
-          address: addressInput,
-        }
+      // Check if customer already has a default address
+      const customerData = await customerAccountFetch<CustomerAddressesData>(
+        accessToken,
+        CUSTOMER_ADDRESSES_QUERY,
       );
+      const existingAddressId = customerData.customer?.defaultAddress?.id;
 
-      const { customerAddressCreate } = addressResponse.data || {};
-      
-      if (customerAddressCreate?.customerUserErrors && customerAddressCreate.customerUserErrors.length > 0) {
-        const error = customerAddressCreate.customerUserErrors[0];
-        return NextResponse.json(
-          { error: error.message },
-          { status: 400 }
+      if (existingAddressId) {
+        // Update existing default address
+        const updateResult = await customerAccountFetch<AddressMutationData>(
+          accessToken,
+          CUSTOMER_ADDRESS_UPDATE,
+          { addressId: existingAddressId, address: addressInput, defaultAddress: true },
         );
-      }
 
-      // Set as default address
-      if (customerAddressCreate?.customerAddress?.id) {
-        await shopifyFetch(
-          CUSTOMER_DEFAULT_ADDRESS_UPDATE,
-          {
-            customerAccessToken: accessToken,
-            addressId: customerAddressCreate.customerAddress.id,
-          }
+        const errors = updateResult.customerAddressUpdate?.userErrors || [];
+        if (errors.length > 0) {
+          console.error('Address update userError:', errors[0]);
+          return NextResponse.json(
+            { error: errors[0].message },
+            { status: 400 }
+          );
+        }
+      } else if (hasAddressFields) {
+        // Create new address and set as default in one call
+        // (only when there are actual address fields -- phone-only with no existing address is skipped)
+        const createResult = await customerAccountFetch<AddressMutationData>(
+          accessToken,
+          CUSTOMER_ADDRESS_CREATE,
+          { address: addressInput, defaultAddress: true },
         );
+
+        const errors = createResult.customerAddressCreate?.userErrors || [];
+        if (errors.length > 0) {
+          console.error('Address create userError:', errors[0]);
+          return NextResponse.json(
+            { error: errors[0].message },
+            { status: 400 }
+          );
+        }
       }
     }
 
@@ -220,6 +280,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-
-
