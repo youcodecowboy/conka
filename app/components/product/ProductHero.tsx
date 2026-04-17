@@ -184,7 +184,7 @@ export default function ProductHero({
                     <p className="text-2xl font-bold text-[var(--brand-black)]">
                       {formatPrice(subscriptionPricing.price)}
                     </p>
-                    <p className="font-clinical text-xs text-black/60">
+                    <p className="font-clinical text-xs text-black">
                       {formatPrice(subscriptionPricing.perShot)}/shot
                     </p>
                   </div>
@@ -245,7 +245,7 @@ export default function ProductHero({
                   <p className="text-2xl font-bold text-[var(--brand-black)]">
                     {formatPrice(oneTimePricing.price)}
                   </p>
-                  <p className="font-clinical text-xs text-black/60">
+                  <p className="font-clinical text-xs text-black">
                     {formatPrice(oneTimePricing.perShot)}/shot
                   </p>
                 </div>

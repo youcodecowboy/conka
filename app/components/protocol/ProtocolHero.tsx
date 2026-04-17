@@ -231,7 +231,7 @@ export default function ProtocolHero({
                     <p className="text-2xl font-bold text-[var(--brand-black)]">
                       {formatPrice(subPrice)}
                     </p>
-                    <p className="font-clinical text-xs text-black/60">
+                    <p className="font-clinical text-xs text-black">
                       {formatPrice(subPerShot)}/shot
                     </p>
                   </div>
@@ -290,7 +290,7 @@ export default function ProtocolHero({
                   <p className="text-2xl font-bold text-[var(--brand-black)]">
                     {formatPrice(otpPrice)}
                   </p>
-                  <p className="font-clinical text-xs text-black/60">
+                  <p className="font-clinical text-xs text-black">
                     {formatPrice(otpPerShot)}/shot
                   </p>
                 </div>
