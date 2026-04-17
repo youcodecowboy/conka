@@ -4,25 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 import LandingCTA from "./LandingCTA";
-/* ------------------------------------------------------------------ */
-/*  A/B TEST CONFIG                                                    */
-/*  Change the active index to swap headline per campaign.             */
-/*  Only one is rendered on the live site.                             */
-/* ------------------------------------------------------------------ */
-
-/** Headline variants for A/B testing. */
-const HEADLINES = [
-  /* 0 — proof-led, differentiator (current) */
-  "The only brain supplement\nyou can measure.",
-  /* 1 — pain-led, direct, urgency */
-  "Your brain fades by 2pm.\nFix it.",
-  /* 2 — identity-led, aspirational */
-  "For people who refuse\nto fade by 2pm.",
-  /* 3 — counterintuitive question */
-  "What if your supplement\ncould prove it works?",
-] as const;
-
-const ACTIVE_HEADLINE_INDEX = 0;
 
 /* ------------------------------------------------------------------ */
 /*  Avatar data — photos at /public/avatars/, fallback to initials     */
@@ -69,7 +50,7 @@ export default function LandingHero() {
           </h1>
 
           <p className="brand-body mt-4 text-black/60">
-            With a daily dose of CONKA, you&apos;ll experience a noticeable boost in focus, memory, stress resilience &amp; neuroplasticity through our patented formula.
+            With a daily dose of CONKA, you&apos;ll experience a noticeable boost in focus, memory, stress resilience & neuroplasticity through our patented formula.
           </p>
 
           {/* CTA — safe-area padding prevents mobile URL bar overlap */}

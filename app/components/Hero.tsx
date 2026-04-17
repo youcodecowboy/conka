@@ -49,7 +49,7 @@ export default function Hero() {
           </h1>
 
           <p className="brand-body mt-4 text-black/60">
-            With a daily dose of CONKA, you&apos;ll experience a noticeable boost in focus, memory, stress resilience &amp; neuroplasticity through our patented formula.
+            With a daily dose of CONKA, you&apos;ll experience a noticeable boost in focus, memory, stress resilience & neuroplasticity through our patented formula.
           </p>
 
           {/* CTA — safe-area padding prevents mobile URL bar overlap */}
