@@ -75,7 +75,7 @@ function TestimonialCard({
       style={{ width: cardWidth }}
     >
       {/* Text content */}
-      <div className="p-5 flex flex-col gap-3 flex-1">
+      <div className="p-5 flex flex-col gap-3">
         {/* Name + verified */}
         <div className="flex items-center gap-2">
           <p className="text-sm font-semibold text-black">
@@ -95,7 +95,7 @@ function TestimonialCard({
         )}
 
         {/* Body */}
-        <p className="text-sm text-black leading-relaxed whitespace-pre-line flex-1">
+        <p className="text-sm text-black leading-relaxed whitespace-pre-line">
           &ldquo;{displayBody}&rdquo;
           {needsTruncation && (
             <button
@@ -188,13 +188,13 @@ export default function LandingTestimonials({
 
   // Stop-start auto-advance
   useEffect(() => {
-    if (isPaused || totalCards <= 1) return;
+    if (isPaused || expandedIndex !== null || totalCards <= 1) return;
     const interval = setInterval(() => {
       setSmooth(true);
       setPos((p) => p + 1);
     }, AUTO_ADVANCE_MS);
     return () => clearInterval(interval);
-  }, [isPaused, totalCards]);
+  }, [isPaused, expandedIndex, totalCards]);
 
   const pauseAndScheduleResume = useCallback(() => {
     setIsPaused(true);
