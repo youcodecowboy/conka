@@ -1,69 +1,69 @@
-"use client";
-
-import { useIsMobile } from "@/app/hooks/useIsMobile";
+import type { Metadata } from "next";
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
 import { OurStoryHero } from "@/app/components/our-story/OurStoryHero";
-import { OurStoryHeroMobile } from "@/app/components/our-story/OurStoryHeroMobile";
 import { StorySection } from "@/app/components/our-story/StorySection";
 import { OurStoryCTA } from "@/app/components/our-story/OurStoryCTA";
+import Reveal from "@/app/components/landing/Reveal";
 import { storySections } from "@/app/lib/storyData";
 
-export default function OurStoryPage() {
-  const isMobile = useIsMobile();
+export const metadata: Metadata = {
+  title: "Our Story | CONKA",
+  description:
+    "From a concussion injury to a patented nootropic formula. How two founders invested £500K+ into brain performance research with Durham and Cambridge universities.",
+  openGraph: {
+    title: "Our Story | CONKA",
+    description:
+      "From a concussion injury to a patented nootropic formula. How two founders invested £500K+ into brain performance research with Durham and Cambridge universities.",
+  },
+};
 
+export default function OurStoryPage() {
   return (
     <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
 
-      {isMobile === undefined ? (
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-pulse text-center">
-            <p className="font-clinical text-sm opacity-50">Loading...</p>
-          </div>
+      {/* ===== SECTION 1: HERO ===== */}
+      <section
+        className="brand-section brand-hero-first brand-bg-tint"
+        aria-label="Our Story hero"
+      >
+        <div className="brand-track">
+          <OurStoryHero />
         </div>
-      ) : (
-        <>
-          {/* ===== SECTION 1: HERO ===== */}
-          <section
-            className="brand-section brand-hero-first brand-bg-tint"
-            aria-label="Our Story hero"
-          >
-            <div className="brand-track">
-              {isMobile ? <OurStoryHeroMobile /> : <OurStoryHero />}
-            </div>
-          </section>
+      </section>
 
-          {/* ===== STORY SECTIONS: alternating white/tint ===== */}
-          {storySections.map((section, index) => (
-            <section
-              key={section.id}
-              className={`brand-section ${index % 2 === 0 ? "brand-bg-white" : "brand-bg-tint"}`}
-              aria-label={`Story: ${section.headline}`}
-            >
-              <div className="brand-track">
-                <StorySection
-                  section={section}
-                  totalSections={storySections.length}
-                  variant={isMobile ? "mobile" : "desktop"}
-                />
-              </div>
-            </section>
-          ))}
+      {/* ===== STORY SECTIONS: alternating white/tint ===== */}
+      {storySections.map((section, index) => (
+        <section
+          key={section.id}
+          className={`brand-section ${index % 2 === 0 ? "brand-bg-white" : "brand-bg-tint"}`}
+          aria-label={`Story: ${section.headline}`}
+        >
+          <div className="brand-track">
+            <Reveal>
+              <StorySection
+                section={section}
+                totalSections={storySections.length}
+              />
+            </Reveal>
+          </div>
+        </section>
+      ))}
 
-          {/* ===== FINAL CTA ===== */}
-          <section
-            className={`brand-section ${storySections.length % 2 === 0 ? "brand-bg-white" : "brand-bg-tint"}`}
-            aria-label="Join the Journey"
-          >
-            <div className="brand-track">
-              <OurStoryCTA />
-            </div>
-          </section>
+      {/* ===== FINAL CTA ===== */}
+      <section
+        className={`brand-section ${storySections.length % 2 === 0 ? "brand-bg-white" : "brand-bg-tint"}`}
+        aria-label="Join the Journey"
+      >
+        <div className="brand-track">
+          <Reveal>
+            <OurStoryCTA />
+          </Reveal>
+        </div>
+      </section>
 
-          <Footer />
-        </>
-      )}
+      <Footer />
     </div>
   );
 }
