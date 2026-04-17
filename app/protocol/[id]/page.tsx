@@ -143,6 +143,11 @@ export default function ProtocolPage() {
     }
   };
 
+  // Navigate to a different protocol (ratio selector for non-Balance)
+  const handleProtocolChange = (id: ProtocolId) => {
+    router.push(`/protocol/${id}`);
+  };
+
   const protocolTestimonials = getSiteTestimonialsProtocol();
 
   // Shared sections used by both mobile and desktop
@@ -245,6 +250,7 @@ export default function ProtocolPage() {
               purchaseType={purchaseType}
               onPurchaseTypeChange={setPurchaseType}
               onAddToCart={handleAddToCartFromHero}
+              onProtocolChange={selectedProtocolId !== "3" ? handleProtocolChange : undefined}
             />
           </div>
         </section>
@@ -318,6 +324,7 @@ export default function ProtocolPage() {
             purchaseType={purchaseType}
             onPurchaseTypeChange={setPurchaseType}
             onAddToCart={handleAddToCartFromHero}
+            onProtocolChange={selectedProtocolId !== "3" ? handleProtocolChange : undefined}
           />
         </div>
       </section>

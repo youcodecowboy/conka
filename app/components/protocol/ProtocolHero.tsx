@@ -12,6 +12,7 @@ import {
 import { getProtocolHeroImages } from "@/app/components/navigation/protocolHeroConfig";
 import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
 import LandingTrustBadges from "@/app/components/landing/LandingTrustBadges";
+import ProtocolRatioSelector from "./ProtocolRatioSelector";
 
 interface ProtocolHeroProps {
   protocolId: ProtocolId;
@@ -20,6 +21,7 @@ interface ProtocolHeroProps {
   purchaseType: PurchaseType;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onAddToCart: () => void;
+  onProtocolChange?: (id: ProtocolId) => void;
 }
 
 const TIER_OPTIONS: ProtocolTier[] = ["starter", "pro", "max"];
@@ -30,16 +32,12 @@ const TIER_LABELS: Record<ProtocolTier, string> = {
   max: "28 Shots",
 };
 
-/** What the customer receives, in plain language */
-function getDeliveryDescription(tier: ProtocolTier): string {
-  switch (tier) {
-    case "starter":
-      return "4 shots delivered every week (2 Flow + 2 Clear)";
-    case "pro":
-      return "12 shots delivered every 2 weeks (6 Flow + 6 Clear)";
-    case "max":
-      return "28 shots delivered every month (14 Flow + 14 Clear)";
-  }
+/** What the customer receives, derived from tier config */
+function getDeliveryDescription(protocolId: ProtocolId, tier: ProtocolTier): string {
+  const tierConfig = protocolContent[protocolId].tiers[tier];
+  if (!tierConfig) return "";
+  const totalShots = getProtocolTierTotalShots(protocolId, tier);
+  return `${totalShots} shots (${tierConfig.conkaFlowCount} Flow + ${tierConfig.conkaClarityCount} Clear per week)`;
 }
 
 export default function ProtocolHero({
@@ -49,6 +47,7 @@ export default function ProtocolHero({
   purchaseType,
   onPurchaseTypeChange,
   onAddToCart,
+  onProtocolChange,
 }: ProtocolHeroProps) {
   const protocol = protocolContent[protocolId];
 
@@ -135,7 +134,7 @@ export default function ProtocolHero({
                   background: "rgba(0,0,0,0.04)",
                 }}
               >
-                A 50:50 split of Flow and Clear · {totalShots} shots
+                {protocol.subtitle} · {totalShots} shots
               </span>
             </div>
           </div>
@@ -144,6 +143,14 @@ export default function ProtocolHero({
           <p className="brand-body text-black/80 text-base md:text-lg leading-snug mb-1.5">
             {protocol.description}
           </p>
+
+          {/* Ratio selector for non-Balance protocols */}
+          {onProtocolChange && (
+            <ProtocolRatioSelector
+              value={protocolId}
+              onChange={onProtocolChange}
+            />
+          )}
 
           {/* Pack Selector (tiers as pack sizes) */}
           <div>
@@ -238,7 +245,7 @@ export default function ProtocolHero({
                 </div>
 
                 <p className="text-sm text-black/80 mt-3 ml-8">
-                  📦 {getDeliveryDescription(selectedTier)}
+                  📦 {getDeliveryDescription(protocolId, selectedTier)}
                 </p>
 
                 <div className="mt-2 ml-8 space-y-1">
