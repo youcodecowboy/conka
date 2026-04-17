@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { z } from 'zod';
 import { shopifyFetch } from '@/app/lib/shopify';
 
@@ -114,16 +115,16 @@ interface AddressCreateResponse {
 
 export async function POST(request: NextRequest) {
   try {
-    // Get access token from Authorization header
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    // Get access token from cookie (consistent with other auth routes)
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get('customer_access_token')?.value;
+
+    if (!accessToken) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
-
-    const accessToken = authHeader.replace('Bearer ', '');
 
     // Parse and validate request body
     const body = await request.json();
