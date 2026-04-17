@@ -4,25 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { HeroTrustBadges } from "../HeroShared";
 import LandingCTA from "./LandingCTA";
-/* ------------------------------------------------------------------ */
-/*  A/B TEST CONFIG                                                    */
-/*  Change the active index to swap headline per campaign.             */
-/*  Only one is rendered on the live site.                             */
-/* ------------------------------------------------------------------ */
-
-/** Headline variants for A/B testing. */
-const HEADLINES = [
-  /* 0 — proof-led, differentiator (current) */
-  "The only brain supplement\nyou can measure.",
-  /* 1 — pain-led, direct, urgency */
-  "Your brain fades by 2pm.\nFix it.",
-  /* 2 — identity-led, aspirational */
-  "For people who refuse\nto fade by 2pm.",
-  /* 3 — counterintuitive question */
-  "What if your supplement\ncould prove it works?",
-] as const;
-
-const ACTIVE_HEADLINE_INDEX = 0;
 
 /* ------------------------------------------------------------------ */
 /*  Avatar data — photos at /public/avatars/, fallback to initials     */
@@ -65,15 +46,11 @@ export default function LandingHero() {
         {/* Copy — below image on mobile, left on desktop */}
         <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
           <h1 className="brand-h1-bold mb-0 whitespace-pre-line">
-            {HEADLINES[ACTIVE_HEADLINE_INDEX]}
+            {"Brain Performance\nin One Daily Shot."}
           </h1>
 
           <p className="brand-body mt-4 text-black/60">
-            Your brain fades by 2pm. Coffee masks it.
-            <br className="hidden lg:inline" />{" "}
-            Willpower can&apos;t fix it. A 2-shot system built for
-            <br className="hidden lg:inline" />{" "}
-            people who don&apos;t leave their performance to chance.
+            With a daily dose of CONKA, you&apos;ll experience a noticeable boost in focus, memory, stress resilience & neuroplasticity through our patented formula.
           </p>
 
           {/* CTA — safe-area padding prevents mobile URL bar overlap */}

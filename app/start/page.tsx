@@ -98,17 +98,8 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 5. 100-DAY GUARANTEE ===== */}
-      <section
-        className="brand-section brand-bg-white"
-        aria-label="100-day risk-free guarantee"
-      >
-        <div className="brand-track">
-          <Reveal>
-            <LandingGuarantee />
-          </Reveal>
-        </div>
-      </section>
+      {/* ===== 5. TESTIMONIALS ===== */}
+      <TestimonialsSection />
 
       {/* ===== 6. WHAT TO EXPECT TIMELINE ===== */}
       <section
@@ -122,8 +113,17 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 7. TESTIMONIALS ===== */}
-      <TestimonialsSection />
+      {/* ===== 7. 100-DAY GUARANTEE ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="100-day risk-free guarantee"
+      >
+        <div className="brand-track">
+          <Reveal>
+            <LandingGuarantee />
+          </Reveal>
+        </div>
+      </section>
 
       {/* ===== 8. FAQ ===== */}
       <section

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Button from "@/app/components/Button";
 import {
   AthleteData,
   athletes,
@@ -209,10 +209,7 @@ export default function CaseStudiesDataDriven({
         {/* CTA Button */}
         {!hideCTA && (
           <div className="flex flex-col items-center">
-            <Link
-              href={ctaHref ?? "/case-studies"}
-              className="max-w-[500px] w-full px-8 py-4 rounded-[var(--brand-radius-interactive)] bg-[var(--brand-accent)] text-white font-semibold text-base hover:opacity-90 transition-all inline-flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-accent)]"
-            >
+            <Button href={ctaHref ?? "/case-studies"}>
               {ctaLabel ?? "View All CONKA App Case Studies"}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -225,10 +222,11 @@ export default function CaseStudiesDataDriven({
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 aria-hidden="true"
+                className="ml-2"
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
-            </Link>
+            </Button>
             <div className="mt-4 w-full">
               <LandingTrustBadges />
             </div>

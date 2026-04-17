@@ -7,9 +7,11 @@ import type { Testimonial } from "@/app/components/testimonials/types";
 const CARD_WIDTH_MOBILE = 300;
 const CARD_WIDTH_DESKTOP = 340;
 const GAP = 16;
-const AUTO_ADVANCE_MS = 4000;
+const AUTO_ADVANCE_MS = 3500;
+const TRANSITION_MS = 600;
 const RESUME_DELAY_MS = 5000;
 const CHAR_LIMIT = 200;
+const SWIPE_THRESHOLD = 50;
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -18,6 +20,7 @@ function StarRating({ rating }: { rating: number }) {
         <span
           key={i}
           className={i < rating ? "text-yellow-400" : "text-black/10"}
+          style={{ fontSize: "1rem" }}
           aria-hidden
         >
           ★
@@ -27,14 +30,39 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
+function VerifiedBadge() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      className="flex-shrink-0"
+      aria-label="Verified buyer"
+    >
+      <circle cx="8" cy="8" r="8" fill="#22c55e" />
+      <path
+        d="M5 8.5L7 10.5L11 6"
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function TestimonialCard({
   testimonial,
   cardWidth,
+  expanded,
+  onToggleExpand,
 }: {
   testimonial: Testimonial;
   cardWidth: number;
+  expanded: boolean;
+  onToggleExpand: () => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
   const needsTruncation = testimonial.body.length > CHAR_LIMIT;
   const displayBody =
     expanded || !needsTruncation
@@ -43,57 +71,59 @@ function TestimonialCard({
 
   return (
     <div
-      className="flex-shrink-0 snap-center bg-white rounded-[var(--brand-radius-container)] border border-black/[0.06] shadow-[0_1px_4px_rgba(0,0,0,0.04)] p-5 flex flex-col gap-3"
+      className="flex-shrink-0 self-start bg-white rounded-[var(--brand-radius-container)] border border-black/[0.06] shadow-[0_1px_4px_rgba(0,0,0,0.04)] flex flex-col overflow-hidden"
       style={{ width: cardWidth }}
     >
-      {/* Header: photo/initial + name + product */}
-      <div className="flex items-center gap-3">
-        {testimonial.photo ? (
-          <Image
-            src={testimonial.photo}
-            alt={testimonial.name}
-            width={40}
-            height={40}
-            className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-          />
-        ) : (
-          <div className="w-10 h-10 rounded-full bg-[var(--brand-bg-tint)] flex items-center justify-center text-sm font-bold text-black/40 flex-shrink-0">
-            {testimonial.name.charAt(0)}
-          </div>
-        )}
-        <div className="min-w-0">
-          <p className="text-sm font-semibold text-black truncate">
+      {/* Text content */}
+      <div className="p-5 flex flex-col gap-3">
+        {/* Name + verified */}
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-semibold text-black">
             {testimonial.name}
           </p>
-          {testimonial.productLabel && (
-            <p className="text-xs text-black/40">{testimonial.productLabel}</p>
-          )}
+          <VerifiedBadge />
         </div>
+
+        {/* Rating */}
+        <StarRating rating={testimonial.rating} />
+
+        {/* Headline */}
+        {testimonial.headline && (
+          <p className="text-sm font-semibold text-black leading-snug">
+            {testimonial.headline}
+          </p>
+        )}
+
+        {/* Body */}
+        <p className="text-sm text-black leading-relaxed whitespace-pre-line">
+          &ldquo;{displayBody}&rdquo;
+          {needsTruncation && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleExpand();
+              }}
+              className="ml-1 text-brand-accent font-medium"
+            >
+              {expanded ? "Show less" : "Read more"}
+            </button>
+          )}
+        </p>
       </div>
 
-      {/* Rating */}
-      <StarRating rating={testimonial.rating} />
-
-      {/* Headline */}
-      {testimonial.headline && (
-        <p className="text-sm font-semibold text-black leading-snug">
-          {testimonial.headline}
-        </p>
+      {/* Lifestyle photo */}
+      {testimonial.photo && (
+        <div className="relative w-full aspect-[4/3]">
+          <Image
+            src={testimonial.photo}
+            alt={`${testimonial.name} using CONKA`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 300px, 340px"
+          />
+        </div>
       )}
-
-      {/* Body */}
-      <p className="text-sm text-black/60 leading-relaxed flex-1">
-        {displayBody}
-        {needsTruncation && (
-          <button
-            type="button"
-            onClick={() => setExpanded(!expanded)}
-            className="ml-1 text-brand-accent font-medium"
-          >
-            {expanded ? "Show less" : "Read more"}
-          </button>
-        )}
-      </p>
     </div>
   );
 }
@@ -103,73 +133,113 @@ export default function LandingTestimonials({
 }: {
   testimonials: Testimonial[];
 }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const totalCards = testimonials.length;
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [cardWidth, setCardWidth] = useState(CARD_WIDTH_MOBILE);
+  const step = cardWidth + GAP;
 
   // Responsive card width
   useEffect(() => {
     const update = () =>
-      setCardWidth(window.innerWidth >= 1024 ? CARD_WIDTH_DESKTOP : CARD_WIDTH_MOBILE);
+      setCardWidth(
+        window.innerWidth >= 1024 ? CARD_WIDTH_DESKTOP : CARD_WIDTH_MOBILE
+      );
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const totalCards = testimonials.length;
-  const step = cardWidth + GAP;
+  // Infinite loop: render 3 copies [clone | real | clone]
+  // Real slides live at indices totalCards .. 2*totalCards-1
+  const extended = [...testimonials, ...testimonials, ...testimonials];
 
-  // Track scroll position to update dots
+  const [pos, setPos] = useState(totalCards); // start at first real slide
+  const [smooth, setSmooth] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartRef = useRef<number>(0);
+
+  const realIndex = ((pos % totalCards) + totalCards) % totalCards;
+  const offset = -(pos * step);
+
+  // After a smooth transition ends, snap back to real zone if in clone territory
+  const handleTransitionEnd = useCallback(() => {
+    if (pos >= totalCards * 2) {
+      setSmooth(false);
+      setPos(totalCards + (pos % totalCards));
+    } else if (pos < totalCards) {
+      setSmooth(false);
+      setPos(totalCards + (pos % totalCards));
+    }
+  }, [pos, totalCards]);
+
+  // Re-enable smooth transitions after a snap (needs 2 rAF to let browser apply the jump first)
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+    if (!smooth) {
+      let id: number;
+      id = requestAnimationFrame(() => {
+        id = requestAnimationFrame(() => {
+          setSmooth(true);
+        });
+      });
+      return () => cancelAnimationFrame(id);
+    }
+  }, [smooth]);
 
-    const handleScroll = () => {
-      const index = Math.round(el.scrollLeft / step);
-      setActiveIndex(Math.min(index, totalCards - 1));
-    };
-
-    el.addEventListener("scroll", handleScroll, { passive: true });
-    return () => el.removeEventListener("scroll", handleScroll);
-  }, [step, totalCards]);
-
-  // Auto-advance
+  // Stop-start auto-advance
   useEffect(() => {
-    if (isPaused || totalCards <= 1) return;
-
+    if (isPaused || expandedIndex !== null || totalCards <= 1) return;
     const interval = setInterval(() => {
-      const el = scrollRef.current;
-      if (!el) return;
-
-      const nextIndex = activeIndex + 1;
-      if (nextIndex >= totalCards) {
-        el.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        el.scrollBy({ left: step, behavior: "smooth" });
-      }
+      setSmooth(true);
+      setPos((p) => p + 1);
     }, AUTO_ADVANCE_MS);
-
     return () => clearInterval(interval);
-  }, [isPaused, activeIndex, step, totalCards]);
+  }, [isPaused, expandedIndex, totalCards]);
 
   const pauseAndScheduleResume = useCallback(() => {
     setIsPaused(true);
     if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
-    resumeTimerRef.current = setTimeout(() => setIsPaused(false), RESUME_DELAY_MS);
+    resumeTimerRef.current = setTimeout(
+      () => setIsPaused(false),
+      RESUME_DELAY_MS
+    );
   }, []);
 
-  // Cleanup resume timer
+  // Cleanup
   useEffect(() => {
     return () => {
       if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
     };
   }, []);
 
-  const scrollToIndex = (index: number) => {
-    scrollRef.current?.scrollTo({ left: index * step, behavior: "smooth" });
+  // Dot navigation
+  const goToSlide = (targetReal: number) => {
+    const currentReal = ((pos % totalCards) + totalCards) % totalCards;
+    const diff = targetReal - currentReal;
+    setSmooth(true);
+    setPos((p) => p + diff);
     pauseAndScheduleResume();
+  };
+
+  // Arrow navigation
+  const navigate = (direction: 1 | -1) => {
+    setSmooth(true);
+    setPos((p) => p + direction);
+    pauseAndScheduleResume();
+  };
+
+  // Touch swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = e.touches[0].clientX;
+    pauseAndScheduleResume();
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const delta = touchStartRef.current - e.changedTouches[0].clientX;
+    if (Math.abs(delta) > SWIPE_THRESHOLD) {
+      setSmooth(true);
+      setPos((p) => p + (delta > 0 ? 1 : -1));
+    }
   };
 
   return (
@@ -188,34 +258,86 @@ export default function LandingTestimonials({
       </div>
 
       {/* Carousel */}
-      <div
-        ref={scrollRef}
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 -mx-4 px-4 lg:mx-0 lg:px-0"
-        onTouchStart={pauseAndScheduleResume}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {testimonials.map((t, i) => (
-          <TestimonialCard key={t.name + i} testimonial={t} cardWidth={cardWidth} />
-        ))}
+      <div className="relative group">
+        {/* Prev / Next arrows — desktop only */}
+        <button
+          type="button"
+          aria-label="Previous review"
+          onClick={() => navigate(-1)}
+          className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white/90 border border-black/[0.08] shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          aria-label="Next review"
+          onClick={() => navigate(1)}
+          className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white/90 border border-black/[0.08] shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+
+        <div
+          className="overflow-hidden -mx-4 px-4 lg:mx-0 lg:px-0"
+          onMouseEnter={pauseAndScheduleResume}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div
+            className="flex"
+            style={{
+              gap: GAP,
+              transform: `translate3d(${offset}px, 0, 0)`,
+              transition: smooth
+                ? `transform ${TRANSITION_MS}ms ease`
+                : "none",
+            }}
+            onTransitionEnd={handleTransitionEnd}
+          >
+            {extended.map((t, i) => {
+              const realIdx = i % totalCards;
+              return (
+                <TestimonialCard
+                  key={`slide-${i}`}
+                  testimonial={t}
+                  cardWidth={cardWidth}
+                  expanded={expandedIndex === realIdx}
+                  onToggleExpand={() =>
+                    setExpandedIndex((prev) =>
+                      prev === realIdx ? null : realIdx
+                    )
+                  }
+                />
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* Dot indicators */}
-      <div className="flex justify-center gap-1.5 mt-4" role="tablist" aria-label="Review navigation">
+      <div
+        className="flex justify-center gap-1.5 mt-4"
+        role="tablist"
+        aria-label="Review navigation"
+      >
         {testimonials.map((_, i) => (
           <button
             key={i}
             type="button"
             role="tab"
-            aria-selected={i === activeIndex}
+            aria-selected={i === realIndex}
             aria-label={`Review ${i + 1}`}
-            onClick={() => scrollToIndex(i)}
+            onClick={() => goToSlide(i)}
             className="flex items-center justify-center w-6 h-6"
           >
             <span
               className={`block rounded-full transition-all ${
-                i === activeIndex
+                i === realIndex
                   ? "bg-black/60 w-4 h-2"
                   : "bg-black/15 hover:bg-black/30 w-2 h-2"
               }`}

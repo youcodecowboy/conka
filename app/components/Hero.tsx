@@ -45,15 +45,11 @@ export default function Hero() {
         {/* Copy — below image on mobile, left on desktop */}
         <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
           <h1 className="brand-h1-bold mb-0 whitespace-pre-line">
-            {"The only brain supplement\nyou can measure."}
+            {"Brain Performance\nin One Daily Shot."}
           </h1>
 
           <p className="brand-body mt-4 text-black/60">
-            Your brain fades by 2pm. Coffee masks it.
-            <br className="hidden lg:inline" />{" "}
-            Willpower can&apos;t fix it. A 2-shot system built for
-            <br className="hidden lg:inline" />{" "}
-            people who don&apos;t leave their performance to chance.
+            With a daily dose of CONKA, you&apos;ll experience a noticeable boost in focus, memory, stress resilience & neuroplasticity through our patented formula.
           </p>
 
           {/* CTA — safe-area padding prevents mobile URL bar overlap */}
