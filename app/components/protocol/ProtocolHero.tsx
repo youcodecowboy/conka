@@ -7,18 +7,11 @@ import {
   protocolContent,
   protocolPricing,
   formatPrice,
-  getBillingLabel,
-  getProtocolTierPackLabel,
   getProtocolTierTotalShots,
-  FORMULA_COLORS,
-  getProtocolGradient,
-  getProtocolAccent,
-  getGradientTextColor,
 } from "@/app/lib/productData";
 import { getProtocolHeroImages } from "@/app/components/navigation/protocolHeroConfig";
 import ProductImageSlideshow from "@/app/components/product/ProductImageSlideshow";
-import TierSelectorPremium from "./TierSelectorPremium";
-import ProtocolRatioSelector from "./ProtocolRatioSelector";
+import LandingTrustBadges from "@/app/components/landing/LandingTrustBadges";
 
 interface ProtocolHeroProps {
   protocolId: ProtocolId;
@@ -27,7 +20,26 @@ interface ProtocolHeroProps {
   purchaseType: PurchaseType;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onAddToCart: () => void;
-  onProtocolChange?: (id: ProtocolId) => void;
+}
+
+const TIER_OPTIONS: ProtocolTier[] = ["starter", "pro", "max"];
+
+const TIER_LABELS: Record<ProtocolTier, string> = {
+  starter: "4 Shots",
+  pro: "12 Shots",
+  max: "28 Shots",
+};
+
+/** What the customer receives, in plain language */
+function getDeliveryDescription(tier: ProtocolTier): string {
+  switch (tier) {
+    case "starter":
+      return "4 shots delivered every week (2 Flow + 2 Clear)";
+    case "pro":
+      return "12 shots delivered every 2 weeks (6 Flow + 6 Clear)";
+    case "max":
+      return "28 shots delivered every month (14 Flow + 14 Clear)";
+  }
 }
 
 export default function ProtocolHero({
@@ -37,35 +49,29 @@ export default function ProtocolHero({
   purchaseType,
   onPurchaseTypeChange,
   onAddToCart,
-  onProtocolChange,
 }: ProtocolHeroProps) {
   const protocol = protocolContent[protocolId];
-  const tierConfig = protocol.tiers[selectedTier];
-  const availableTiers = protocol.availableTiers;
-  const protocolAccent = getProtocolAccent(protocolId);
-  const protocolGradient = getProtocolGradient(protocolId);
-  const ctaTextClass =
-    getGradientTextColor(protocolId) === "white" ? "text-white" : "text-black";
 
   // Get pricing
   const pricingType = protocolId === "4" ? "ultimate" : "standard";
   const tierPricing = protocolPricing[pricingType][purchaseType];
   const pricing = tierPricing[selectedTier as keyof typeof tierPricing];
+  const totalShots = getProtocolTierTotalShots(protocolId, selectedTier);
 
-  const billingText =
-    purchaseType === "subscription" && pricing && "billing" in pricing
-      ? getBillingLabel(pricing.billing)
-      : "one-time";
+  const subscriptionPricing =
+    protocolPricing[pricingType]["subscription"][
+      selectedTier as keyof (typeof protocolPricing)[typeof pricingType]["subscription"]
+    ];
+  const oneTimePricing =
+    protocolPricing[pricingType]["one-time"][
+      selectedTier as keyof (typeof protocolPricing)[typeof pricingType]["one-time"]
+    ];
 
-  const oneTimePrice =
-    selectedTier in protocolPricing[pricingType]["one-time"]
-      ? ((
-          protocolPricing[pricingType]["one-time"] as Record<
-            string,
-            { price: number }
-          >
-        )[selectedTier]?.price ?? 0)
-      : 0;
+  const currentPrice = pricing?.price ?? 0;
+  const subPrice = subscriptionPricing?.price ?? 0;
+  const otpPrice = oneTimePricing?.price ?? 0;
+  const subPerShot = totalShots > 0 ? subPrice / totalShots : 0;
+  const otpPerShot = totalShots > 0 ? otpPrice / totalShots : 0;
 
   return (
     <div className="flex flex-col lg:flex-row lg:justify-center lg:items-start gap-[var(--brand-space-m)]">
@@ -79,7 +85,7 @@ export default function ProtocolHero({
         </div>
       </div>
 
-      {/* Right: Product Info Box — structure matches ProductHero */}
+      {/* Right: Product Info */}
       <div className="flex flex-col gap-[var(--brand-space-s)] lg:gap-[var(--brand-space-l)] flex-1 lg:w-[48%] lg:flex-shrink-0 min-w-0 order-2 lg:order-2 relative z-10">
         <div
           className="brand-card flex flex-col gap-[var(--brand-space-s)] lg:gap-[var(--brand-space-m)] !border-0 relative z-10"
@@ -91,7 +97,7 @@ export default function ProtocolHero({
             backgroundColor: "#fff",
           }}
         >
-          {/* Top section: stars above title + title + subline bubble */}
+          {/* Top section: stars + title + meta pill */}
           <div className="mb-0">
             <div className="flex items-center gap-2 flex-wrap mb-2">
               <div className="flex" aria-hidden>
@@ -103,25 +109,25 @@ export default function ProtocolHero({
                     height="18"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    style={{ color: protocolAccent }}
+                    className="text-amber-500"
                   >
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
                 ))}
               </div>
-              <span className="brand-data text-current/90">
+              <span className="brand-data text-black/60">
                 Over 150,000 bottles sold
               </span>
             </div>
             <h1
-              className="brand-h1-bold leading-tight font-primary text-current"
+              className="brand-h1-bold leading-tight"
               style={{ letterSpacing: "-0.02em" }}
             >
               {protocol.name}
             </h1>
             <div className="mt-2">
               <span
-                className="inline-block py-1 brand-data text-current/90 text-sm"
+                className="inline-block py-1 brand-data text-black/60 text-sm"
                 style={{
                   paddingLeft: "var(--brand-space-m)",
                   paddingRight: "var(--brand-space-m)",
@@ -129,363 +135,183 @@ export default function ProtocolHero({
                   background: "rgba(0,0,0,0.04)",
                 }}
               >
-                {protocol.subtitle}
+                A 50:50 split of Flow and Clear · {totalShots} shots
               </span>
             </div>
           </div>
 
           {/* Headline description */}
-          <p className="brand-body text-current/90 text-base md:text-lg leading-snug mb-1.5">
+          <p className="brand-body text-black/80 text-base md:text-lg leading-snug mb-1.5">
             {protocol.description}
           </p>
 
-          {/* Ratio selector – choose ratio first, then see bundle */}
-          {onProtocolChange && (
-            <div>
-              <p className="brand-data uppercase opacity-70 mb-2">
-                Choose your ratio
-              </p>
-              <ProtocolRatioSelector
-                value={protocolId}
-                onChange={onProtocolChange}
-              />
-            </div>
-          )}
-
-          {/* What you get – one coloured square per shot, rows = weeks, total per plan */}
-          {tierConfig && (() => {
-            const totalShots = getProtocolTierTotalShots(protocolId, selectedTier);
-            const shotsPerWeek = tierConfig.shotsPerWeek;
-            const flowPerWeek = tierConfig.conkaFlowCount;
-            const clearPerWeek = tierConfig.conkaClarityCount;
-            const fullRows = Math.floor(totalShots / shotsPerWeek);
-            const remainder = totalShots % shotsPerWeek;
-            const flowInRemainder = remainder > 0 ? Math.round(remainder * (flowPerWeek / shotsPerWeek)) : 0;
-            const clearInRemainder = remainder - flowInRemainder;
-            const totalFlow = fullRows * flowPerWeek + flowInRemainder;
-            const totalClear = fullRows * clearPerWeek + clearInRemainder;
-            return (
-              <div
-                className="w-full"
-                style={{
-                  background: "var(--brand-surface)",
-                  borderRadius: "var(--brand-radius-container)",
-                  padding: "var(--brand-space-m)",
-                }}
-              >
-                <p className="brand-data uppercase opacity-70 mb-1">
-                  Your Bundle:
-                </p>
-                <p className="brand-data text-sm mb-2">
-                  <span className="font-bold text-current">
-                    {totalShots} shots total per plan
-                  </span>
-                  <br />
-                  <span className="opacity-70">{shotsPerWeek} shots per week</span>
-                </p>
-                <div className="flex flex-col gap-1 mb-2">
-                  {Array.from({ length: fullRows }, (_, rowIdx) => (
-                    <div key={`row-${rowIdx}`} className="flex flex-wrap items-center gap-1">
-                      {Array.from({ length: flowPerWeek }, (_, i) => (
-                        <span
-                          key={`f-${rowIdx}-${i}`}
-                          className="inline-block rounded-sm flex-shrink-0"
-                          style={{
-                            width: 10,
-                            height: 10,
-                            backgroundColor: FORMULA_COLORS["01"].hex,
-                          }}
-                          aria-hidden
-                        />
-                      ))}
-                      {Array.from({ length: clearPerWeek }, (_, i) => (
-                        <span
-                          key={`c-${rowIdx}-${i}`}
-                          className="inline-block rounded-sm flex-shrink-0"
-                          style={{
-                            width: 10,
-                            height: 10,
-                            backgroundColor: FORMULA_COLORS["02"].hex,
-                          }}
-                          aria-hidden
-                        />
-                      ))}
-                    </div>
-                  ))}
-                  {remainder > 0 && (
-                    <div className="flex flex-wrap items-center gap-1">
-                      {Array.from({ length: flowInRemainder }, (_, i) => (
-                        <span
-                          key={`fr-${i}`}
-                          className="inline-block rounded-sm flex-shrink-0"
-                          style={{
-                            width: 10,
-                            height: 10,
-                            backgroundColor: FORMULA_COLORS["01"].hex,
-                          }}
-                          aria-hidden
-                        />
-                      ))}
-                      {Array.from({ length: clearInRemainder }, (_, i) => (
-                        <span
-                          key={`cr-${i}`}
-                          className="inline-block rounded-sm flex-shrink-0"
-                          style={{
-                            width: 10,
-                            height: 10,
-                            backgroundColor: FORMULA_COLORS["02"].hex,
-                          }}
-                          aria-hidden
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <p className="brand-data text-sm opacity-70">
-                  {totalFlow} Flow, {totalClear} Clear
-                </p>
-              </div>
-            );
-          })()}
-
-          {/* Tier Selector */}
+          {/* Pack Selector (tiers as pack sizes) */}
           <div>
-            <TierSelectorPremium
-              protocolId={protocolId}
-              selectedTier={selectedTier}
-              onSelect={onTierSelect}
-              purchaseType={purchaseType}
-              availableTiers={availableTiers}
-              subscriptionAccentColor={protocolAccent}
-            />
-          </div>
-
-          {/* Block 6: Purchase type + price (match ProductHero) */}
-          <div className="flex flex-col gap-3">
-            <div className="space-y-2">
-              <p className="brand-data uppercase opacity-70 mb-2">
-                How would you like to purchase?
-              </p>
-              <button
-                onClick={() => onPurchaseTypeChange("subscription")}
-                className={`w-full text-left p-3 transition-all flex items-start gap-3 cursor-pointer bg-white hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
-                  purchaseType === "subscription"
-                    ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                    : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
-                }`}
-                style={{
-                  borderRadius: "var(--brand-radius-container)",
-                  borderWidth: 1,
-                  borderColor: "var(--brand-border-color)",
-                }}
-              >
-                <span
-                  className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
-                    purchaseType === "subscription"
-                      ? "border-current bg-current/10"
-                      : "border-black/30"
-                  }`}
-                >
-                  {purchaseType === "subscription" && (
-                    <span className="w-2.5 h-2.5 rounded-full bg-current" />
-                  )}
-                </span>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold">Subscribe</span>
-                    <span
-                      className="px-2 py-0.5 rounded-full text-xs font-clinical text-white flex-shrink-0"
-                      style={{ backgroundColor: protocolAccent }}
-                    >
-                      20% off
-                    </span>
-                  </div>
-                  {purchaseType === "subscription" && (
-                    <ul className="mt-2 space-y-1.5 font-clinical text-xs opacity-80">
-                      <li className="flex items-center gap-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className="flex-shrink-0"
-                        >
-                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                        </svg>
-                        100-day guarantee
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className="flex-shrink-0"
-                        >
-                          <rect x="1" y="3" width="15" height="13" />
-                          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                          <circle cx="5.5" cy="18.5" r="2.5" />
-                          <circle cx="18.5" cy="18.5" r="2.5" />
-                        </svg>
-                        Free UK shipping
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className="flex-shrink-0"
-                        >
-                          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                          <path d="M3 3v5h5" />
-                        </svg>
-                        Cancel anytime
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className="flex-shrink-0"
-                        >
-                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                          <polyline points="22 4 12 14.01 9 11.01" />
-                        </svg>
-                        No minimum commitment
-                      </li>
-                    </ul>
-                  )}
-                </div>
-              </button>
-              <button
-                onClick={() => onPurchaseTypeChange("one-time")}
-                className={`w-full text-left p-3 transition-all flex items-center gap-3 cursor-pointer bg-white hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] ${
-                  purchaseType === "one-time"
-                    ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                    : "shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
-                }`}
-                style={{
-                  borderRadius: "var(--brand-radius-container)",
-                  borderWidth: 1,
-                  borderColor: "var(--brand-border-color)",
-                }}
-              >
-                <span
-                  className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                    purchaseType === "one-time"
-                      ? "border-current bg-current/10"
-                      : "border-black/30"
-                  }`}
-                >
-                  {purchaseType === "one-time" && (
-                    <span className="w-2.5 h-2.5 rounded-full bg-current" />
-                  )}
-                </span>
-                <span className="font-bold">One-time</span>
-              </button>
-            </div>
-            {pricing && (
-              <div
-                className="flex justify-between items-center py-4 bg-white px-4"
-                style={{
-                  borderRadius: "var(--brand-radius-container)",
-                  boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-                  border: "1px solid var(--brand-border-color)",
-                }}
-              >
-                <div>
-                  <p className="brand-data uppercase opacity-70">
-                    Your Selection
-                  </p>
-                  <p className="font-bold">
-                    {getProtocolTierPackLabel(protocolId, selectedTier)} •{" "}
-                    {billingText}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <div className="flex items-baseline justify-end gap-2">
-                    {purchaseType === "subscription" && oneTimePrice > 0 && (
-                      <span className="text-xl font-clinical line-through opacity-50">
-                        {formatPrice(oneTimePrice)}
+            <div className="grid grid-cols-3 gap-2">
+              {TIER_OPTIONS.map((tier) => {
+                const isSelected = selectedTier === tier;
+                return (
+                  <button
+                    key={tier}
+                    onClick={() => onTierSelect(tier)}
+                    className={`
+                      relative text-center transition-all duration-200 rounded-xl w-full
+                      border-2 cursor-pointer px-2 py-2.5 font-semibold text-xs
+                      ${isSelected
+                        ? "bg-[var(--brand-black)] border-[var(--brand-black)] text-white"
+                        : "bg-white border-black/10 text-[var(--brand-black)] hover:border-black/20"
+                      }
+                    `}
+                  >
+                    {tier === "pro" && (
+                      <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-px text-[7px] font-bold uppercase tracking-wide bg-[var(--brand-accent)] text-white rounded-full whitespace-nowrap leading-tight">
+                        Most Popular
                       </span>
                     )}
-                    <span
-                      className="text-3xl font-bold"
-                      style={
-                        purchaseType === "subscription"
-                          ? { color: protocolAccent }
-                          : undefined
-                      }
-                    >
-                      {formatPrice(pricing.price)}
-                    </span>
-                  </div>
-                  <p className="font-clinical text-xs opacity-70 mt-0.5">
-                    {formatPrice(
-                      pricing.price /
-                        getProtocolTierTotalShots(protocolId, selectedTier),
-                    )}
-                    /shot
-                  </p>
-                  {purchaseType === "subscription" && (
-                    <span
-                      className="inline-flex items-center gap-1 mt-1 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
-                      style={{ backgroundColor: protocolAccent }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="10"
-                        height="10"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      SAVE 20%
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
+                    {TIER_LABELS[tier]}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Block 7: CTA (match ProductHero) */}
-          <div
-            style={{
-              paddingBottom: "var(--brand-space-m)",
-            }}
-          >
+          {/* Purchase type tiles */}
+          <div className="space-y-2">
+            {/* Subscribe tile - always expanded */}
             <button
-              onClick={onAddToCart}
-              className={`w-full px-8 py-4 font-bold text-lg border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)] ${ctaTextClass}`}
+              onClick={() => onPurchaseTypeChange("subscription")}
+              className={`w-full text-left transition-all cursor-pointer bg-white overflow-hidden ${
+                purchaseType === "subscription"
+                  ? "ring-2 shadow-md"
+                  : "border border-black/10 shadow-sm"
+              }`}
               style={{
-                background: `linear-gradient(90deg, ${protocolGradient.start} 0%, ${protocolGradient.end} 100%)`,
-                borderRadius: "var(--brand-radius-interactive)",
+                borderRadius: "var(--brand-radius-container)",
+                ...(purchaseType === "subscription"
+                  ? { ringColor: "var(--brand-accent)", borderColor: "var(--brand-accent)" }
+                  : {}),
               }}
             >
-              {purchaseType === "subscription"
-                ? "Subscribe Now"
-                : "Add to Cart"}
+              {purchaseType === "subscription" && (
+                <div
+                  className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
+                  style={{ backgroundColor: "var(--brand-accent)" }}
+                >
+                  Best Value · Save 20%
+                </div>
+              )}
+
+              <div className="p-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3 flex-1 min-w-0">
+                    <span
+                      className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
+                        purchaseType === "subscription"
+                          ? "border-[var(--brand-accent)] bg-[var(--brand-accent)]"
+                          : "border-black/30"
+                      }`}
+                    >
+                      {purchaseType === "subscription" && (
+                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+                          <path d="M2.5 8.5L6.5 12L13.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <span className="font-bold text-[var(--brand-black)]">Subscribe</span>
+                      <span className="ml-2 inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]">
+                        Save 20% off every order
+                      </span>
+                    </div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-sm font-clinical line-through text-black/50">
+                      {formatPrice(otpPrice)}
+                    </p>
+                    <p className="text-2xl font-bold text-[var(--brand-black)]">
+                      {formatPrice(subPrice)}
+                    </p>
+                    <p className="font-clinical text-xs text-black/60">
+                      {formatPrice(subPerShot)}/shot
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-sm text-black/80 mt-3 ml-8">
+                  📦 {getDeliveryDescription(selectedTier)}
+                </p>
+
+                <div className="mt-2 ml-8 space-y-1">
+                  {["Free UK shipping", "Pause, skip, or cancel anytime", "100-day money-back guarantee"].map((feature) => (
+                    <div key={feature} className="flex items-center gap-2 text-sm text-black/80">
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0 text-[var(--brand-accent)]">
+                        <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </button>
+
+            {/* Buy Once tile */}
+            <button
+              onClick={() => onPurchaseTypeChange("one-time")}
+              className={`w-full text-left p-4 transition-all cursor-pointer bg-white ${
+                purchaseType === "one-time"
+                  ? "ring-2 shadow-md"
+                  : "border border-black/10 shadow-sm"
+              }`}
+              style={{
+                borderRadius: "var(--brand-radius-container)",
+                ...(purchaseType === "one-time"
+                  ? { ringColor: "var(--brand-accent)", borderColor: "var(--brand-accent)" }
+                  : {}),
+              }}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      purchaseType === "one-time"
+                        ? "border-[var(--brand-accent)] bg-[var(--brand-accent)]"
+                        : "border-black/30"
+                    }`}
+                  >
+                    {purchaseType === "one-time" && (
+                      <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+                        <path d="M2.5 8.5L6.5 12L13.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                  </span>
+                  <span className="font-bold text-[var(--brand-black)]">Buy Once</span>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-2xl font-bold text-[var(--brand-black)]">
+                    {formatPrice(otpPrice)}
+                  </p>
+                  <p className="font-clinical text-xs text-black/60">
+                    {formatPrice(otpPerShot)}/shot
+                  </p>
+                </div>
+              </div>
             </button>
           </div>
+
+          {/* CTA with price */}
+          <button
+            onClick={onAddToCart}
+            className="w-full px-8 py-4 font-bold text-lg text-white border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
+            style={{
+              backgroundColor: "var(--brand-accent)",
+              borderRadius: "var(--brand-radius-interactive)",
+            }}
+          >
+            Add to Cart · {formatPrice(currentPrice)}
+          </button>
+
+          {/* Trust badges */}
+          <LandingTrustBadges />
         </div>
       </div>
     </div>

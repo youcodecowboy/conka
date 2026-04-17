@@ -11,10 +11,10 @@ interface PackSelectorPremiumProps {
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
 
 const packLabels: Record<PackSize, string> = {
-  "4": "4 Bottles",
-  "8": "8 Bottles",
-  "12": "12 Bottles",
-  "28": "28 Bottles",
+  "4": "4 Shots",
+  "8": "8 Shots",
+  "12": "12 Shots",
+  "28": "28 Shots",
 };
 
 export default function PackSelectorPremium({

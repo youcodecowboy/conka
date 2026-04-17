@@ -69,12 +69,12 @@ export default function ProductHeroMobile({
           </span>
         </div>
         <h1
-          className="brand-h1-bold leading-tight font-primary text-current"
+          className="brand-h1-bold leading-tight"
           style={{ letterSpacing: "-0.02em" }}
         >
           {formulaId === "01" ? (
             <>
-              CONKA <span className="font-primary">FL0W</span>
+              CONKA FL0W
             </>
           ) : (
             formula.name
@@ -171,6 +171,9 @@ export default function ProductHeroMobile({
                   </span>
                   <div className="flex-1 min-w-0">
                     <span className="font-bold text-[var(--brand-black)]">Subscribe</span>
+                    <span className="ml-2 inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]">
+                      Save 20% off every order
+                    </span>
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
@@ -193,7 +196,7 @@ export default function ProductHeroMobile({
 
               {/* Feature bullets - always visible */}
               <div className="mt-2 ml-8 space-y-1">
-                {["Free UK shipping", "20% off every order", "Pause, skip, or cancel anytime", "100-day money-back guarantee"].map((feature) => (
+                {["Free UK shipping", "Pause, skip, or cancel anytime", "100-day money-back guarantee"].map((feature) => (
                   <div key={feature} className="flex items-center gap-2 text-sm text-black/80">
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0 text-[var(--brand-accent)]">
                       <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
