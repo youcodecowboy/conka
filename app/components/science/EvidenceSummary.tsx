@@ -19,7 +19,7 @@ export default function EvidenceSummary({
   return (
     <div>
       {/* Header */}
-      <div className="mb-8 lg:mb-10">
+      <div className="mb-10 lg:mb-12">
         <p className="brand-caption uppercase tracking-widest text-black mb-3">
           The Evidence
         </p>
@@ -28,72 +28,69 @@ export default function EvidenceSummary({
         </h2>
       </div>
 
-      {/* Narrative paragraph */}
-      <p
-        className="brand-body text-lg lg:text-xl text-black mb-8 lg:mb-10"
-        style={{ maxWidth: "var(--brand-body-max-width)" }}
-      >
-        {evidence.totalStudies} peer-reviewed clinical studies.{" "}
-        {evidence.totalParticipants.toLocaleString()}+ participants. Over{" "}
-        {evidence.researchInvestment} invested in research with Durham and
-        Cambridge universities. The result: UK Patent {evidence.patentNumber} and
-        formulas that actually work.
-      </p>
-
-      {/* Research partnerships */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        {researchPartnerships.map((partnership) => (
-          <div
-            key={partnership.institution}
-            className="brand-card-bordered p-5 lg:p-6"
-          >
-            <p className="font-semibold text-base mb-1">
-              {partnership.institution}
-            </p>
-            <p className="brand-caption text-black">{partnership.focus}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Research team */}
-      <div className="mb-8 lg:mb-10">
-        <p className="brand-caption uppercase tracking-widest text-black mb-4">
-          Research Team
-        </p>
-        <div className="space-y-3">
-          {researchTeam.map((researcher) => (
-            <div
-              key={researcher.name}
-              className="flex items-baseline gap-2 lg:gap-3"
-            >
-              <span className="font-semibold text-sm whitespace-nowrap">
-                {researcher.title} {researcher.name}
-              </span>
-              <span className="brand-caption text-black hidden lg:inline">
-                {researcher.affiliation}
-              </span>
-              <span className="brand-caption text-black hidden lg:inline">
-                &bull;
-              </span>
-              <span className="brand-caption text-black">
-                {researcher.contribution}
-              </span>
-            </div>
-          ))}
+      {/* Key numbers */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-8 lg:mb-10">
+        <div className="rounded-[var(--brand-radius-card)] bg-white border border-black/6 p-5 lg:p-6">
+          <p className="text-3xl lg:text-4xl font-bold font-clinical">
+            {evidence.totalStudies}
+          </p>
+          <p className="brand-caption mt-1">Peer-reviewed studies</p>
+        </div>
+        <div className="rounded-[var(--brand-radius-card)] bg-white border border-black/6 p-5 lg:p-6">
+          <p className="text-3xl lg:text-4xl font-bold font-clinical">
+            {evidence.totalParticipants.toLocaleString()}+
+          </p>
+          <p className="brand-caption mt-1">Research participants</p>
+        </div>
+        <div className="rounded-[var(--brand-radius-card)] bg-white border border-black/6 p-5 lg:p-6">
+          <p className="text-3xl lg:text-4xl font-bold font-clinical">
+            {evidence.researchInvestment}
+          </p>
+          <p className="brand-caption mt-1">Research investment</p>
+        </div>
+        <div className="rounded-[var(--brand-radius-card)] bg-white border border-black/6 p-5 lg:p-6">
+          <p className="text-lg lg:text-xl font-bold font-clinical">
+            {evidence.patentNumber}
+          </p>
+          <p className="brand-caption mt-1">UK Patent</p>
         </div>
       </div>
 
-      {/* Credential pills */}
-      <div className="flex flex-wrap gap-3 mb-8">
-        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black">
-          Patent #{evidence.patentNumber}
-        </span>
-        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black">
-          PubMed Indexed Studies
-        </span>
-        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black">
-          All citations verifiable
-        </span>
+      {/* Research partners + team — two columns on desktop */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 mb-8 lg:mb-10">
+        {/* University partnerships */}
+        {researchPartnerships.map((partnership) => (
+          <div
+            key={partnership.institution}
+            className="rounded-[var(--brand-radius-card)] bg-white border border-black/6 p-5 lg:p-6"
+          >
+            <p className="brand-caption uppercase tracking-widest text-black mb-2">
+              University Partner
+            </p>
+            <p className="font-semibold text-base">
+              {partnership.institution}
+            </p>
+            <p className="brand-caption mt-0.5">{partnership.focus}</p>
+          </div>
+        ))}
+
+        {/* Research team */}
+        {researchTeam.map((researcher) => (
+          <div
+            key={researcher.name}
+            className="rounded-[var(--brand-radius-card)] bg-white border border-black/6 p-5 lg:p-6"
+          >
+            <p className="brand-caption uppercase tracking-widest text-black mb-2">
+              Researcher
+            </p>
+            <p className="font-semibold text-base">
+              {researcher.title} {researcher.name}
+            </p>
+            <p className="brand-caption mt-0.5">
+              {researcher.contribution}
+            </p>
+          </div>
+        ))}
       </div>
 
       {/* CTAs */}
