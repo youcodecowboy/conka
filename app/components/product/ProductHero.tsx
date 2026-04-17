@@ -12,6 +12,7 @@ import {
 import PackSelectorPremium from "./PackSelectorPremium";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import LandingTrustBadges from "../landing/LandingTrustBadges";
+import { getDeliveryDescription } from "./formulaStatsData";
 
 interface ProductHeroProps {
   formulaId: FormulaId;
@@ -20,20 +21,6 @@ interface ProductHeroProps {
   purchaseType: PurchaseType;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onAddToCart: () => void;
-}
-
-/** What the customer receives, in plain language */
-function getDeliveryDescription(pack: PackSize): string {
-  switch (pack) {
-    case "4":
-      return "4 shots delivered every week";
-    case "8":
-      return "8 shots delivered every 2 weeks";
-    case "12":
-      return "12 shots delivered every 2 weeks";
-    case "28":
-      return "28 shots delivered every month";
-  }
 }
 
 export default function ProductHero({
@@ -136,7 +123,6 @@ export default function ProductHero({
             <PackSelectorPremium
               selectedPack={selectedPack}
               onSelect={onPackSelect}
-              purchaseType={purchaseType}
             />
           </div>
 

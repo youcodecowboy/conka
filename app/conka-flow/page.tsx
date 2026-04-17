@@ -215,7 +215,7 @@ export default function ConkaFlowPage() {
           onPackSelect={setSelectedPack}
           purchaseType={purchaseType}
           onAddToCart={handleAddToCartFromFooter}
-          usePremium
+
         />
 
         <Footer />
@@ -355,7 +355,6 @@ export default function ConkaFlowPage() {
         purchaseType={purchaseType}
         onPurchaseTypeChange={setPurchaseType}
         onAddToCart={handleAddToCartFromFooter}
-        usePremium
       />
 
       <Footer />

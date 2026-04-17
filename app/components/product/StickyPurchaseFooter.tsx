@@ -15,8 +15,6 @@ import {
   ProtocolId,
   protocolContent,
   formulaContent,
-  FORMULA_COLORS,
-  getProductGradient,
 } from "@/app/lib/productData";
 import { getProductHeroImages } from "@/app/components/navigation/productHeroConfig";
 import { getProtocolImage } from "@/app/lib/productImageConfig";
@@ -34,7 +32,6 @@ interface StickyPurchaseFooterProps {
   purchaseType: PurchaseType;
   onPurchaseTypeChange: (type: PurchaseType) => void;
   onAddToCart: () => void;
-  usePremium?: boolean;
 }
 
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
@@ -55,7 +52,6 @@ export default function StickyPurchaseFooter({
   purchaseType,
   onPurchaseTypeChange,
   onAddToCart,
-  usePremium = false,
 }: StickyPurchaseFooterProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [showPackDropdown, setShowPackDropdown] = useState(false);
@@ -96,7 +92,6 @@ export default function StickyPurchaseFooter({
 
   // Calculate price based on formula or protocol
   let price = 0;
-  let originalPrice = 0;
   let billingText = "";
   let productLabel = "";
   let showPackSelector = false;
@@ -107,8 +102,6 @@ export default function StickyPurchaseFooter({
   if (formulaId && selectedPack) {
     const pricing = formulaPricing[purchaseType][selectedPack];
     price = pricing.price;
-    // Get original price for comparison
-    originalPrice = formulaPricing["one-time"][selectedPack].price;
     billingText = isSubscription
       ? getBillingLabel((pricing as { billing: string }).billing)
       : "one-time";
@@ -120,13 +113,6 @@ export default function StickyPurchaseFooter({
     if (selectedTier in tierPricing) {
       const pricing = tierPricing[selectedTier as keyof typeof tierPricing];
       price = pricing.price;
-      // Get original price for comparison
-      const oneTimePricing = protocolPricing[pricingType]["one-time"];
-      if (selectedTier in oneTimePricing) {
-        originalPrice =
-          (oneTimePricing as Record<string, { price: number }>)[selectedTier]
-            ?.price || 0;
-      }
       billingText =
         isSubscription && "billing" in pricing
           ? getBillingLabel(pricing.billing)
@@ -165,13 +151,6 @@ export default function StickyPurchaseFooter({
     selectorVariantLabel = getProtocolTierPackLabel(protocolId, selectedTier);
     selectorPriceLine = formatPrice(price);
   }
-  const accentColor = formulaId ? FORMULA_COLORS[formulaId] : null;
-  const selectorAccentTextClass = accentColor ? accentColor.text : "";
-  const productGradient = formulaId
-    ? getProductGradient(formulaId)
-    : protocolId
-      ? getProductGradient(protocolId)
-      : null;
 
   if (!isVisible) return null;
 
@@ -253,7 +232,7 @@ export default function StickyPurchaseFooter({
                         <p
                           className={`text-xs mt-0.5 whitespace-nowrap truncate ${
                             isSubscription
-                              ? selectorAccentTextClass
+                              ? "text-[var(--brand-accent)]"
                               : "opacity-70"
                           }`}
                         >

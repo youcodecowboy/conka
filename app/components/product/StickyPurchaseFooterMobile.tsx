@@ -13,9 +13,6 @@ import {
   getProtocolTierPackLabel,
   FormulaId,
   ProtocolId,
-  getProductGradient,
-  getProductAccent,
-  getGradientTextColor,
 } from "@/app/lib/productData";
 
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
@@ -34,7 +31,6 @@ interface StickyPurchaseFooterMobileProps {
   onTierSelect?: (tier: ProtocolTier) => void;
   purchaseType: PurchaseType;
   onAddToCart: () => void;
-  usePremium?: boolean;
 }
 
 export default function StickyPurchaseFooterMobile({
@@ -46,7 +42,6 @@ export default function StickyPurchaseFooterMobile({
   onTierSelect,
   purchaseType,
   onAddToCart,
-  usePremium = false,
 }: StickyPurchaseFooterMobileProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -96,28 +91,6 @@ export default function StickyPurchaseFooterMobile({
   const hasSelector =
     (showPackSelector && selectedPack) ||
     (showTierSelector && selectedTier && availableTiers.length > 0);
-
-  // Get accent color for border and text
-  const accentColor = formulaId
-    ? formulaId === "01"
-      ? "#f59e0b" // amber-500
-      : "#94b9ff" // Clear blue
-    : protocolId
-      ? getProductAccent(protocolId)
-      : "#14b8a6"; // fallback teal
-
-  const productGradient = formulaId
-    ? getProductGradient(formulaId)
-    : protocolId
-      ? getProductGradient(protocolId)
-      : null;
-
-  const productId = formulaId ?? protocolId;
-  const gradientTextClass = productId
-    ? getGradientTextColor(productId) === "white"
-      ? "text-white"
-      : "text-black"
-    : "text-black";
 
   return (
     <>

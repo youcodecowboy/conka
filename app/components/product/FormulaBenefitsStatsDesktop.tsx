@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { FormulaId, formulaContent } from "@/app/lib/productData";
+import { CURATED_STATS } from "./formulaStatsData";
 
 const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   "01": {
@@ -25,62 +26,6 @@ const SUPPORTING_ASSETS: Record<FormulaId, { src: string; alt: string }[]> = {
     { src: "/lifestyle/ConkaJeansHold.jpg", alt: "Holding CONKA Clear casually" },
     { src: "/lifestyle/ClearTable.jpg", alt: "CONKA Clear on a desk" },
     { src: "/lifestyle/ClearBag.jpg", alt: "CONKA Clear in a bag" },
-  ],
-};
-
-/**
- * Curated stats per formula -- 3 compliant stats only.
- *
- * Flow:
- *  - Tiredness/fatigue: EFSA Vitamin C claim (††)
- *  - Memory: observational ingredient-level research (¶)
- *  - Sleep quality: observational ingredient-level research (¶)
- *
- * Clear:
- *  - Memory: observational ingredient-level research (¶)
- *  - Fatigue resistance: ties to EFSA tiredness/fatigue claim (††)
- *  - Cerebral blood flow: observational ingredient-level research (¶)
- *
- * Dropped: stress scores, anxiety ratings (RED -- mood/stress claims
- * not authorised for any CONKA ingredient per CLAIMS_COMPLIANCE.md)
- */
-const CURATED_STATS: Record<
-  FormulaId,
-  Array<{ stat: string; label: string; anchor: string }>
-> = {
-  "01": [
-    {
-      stat: "+42%",
-      label: "improvement in sleep quality",
-      anchor: "¶",
-    },
-    {
-      stat: "+18%",
-      label: "improvement in memory performance",
-      anchor: "¶",
-    },
-    {
-      stat: "Reduces",
-      label: "tiredness and fatigue",
-      anchor: "††",
-    },
-  ],
-  "02": [
-    {
-      stat: "+63%",
-      label: "improvement in memory performance",
-      anchor: "¶",
-    },
-    {
-      stat: "+30%",
-      label: "improvement in fatigue resistance",
-      anchor: "¶",
-    },
-    {
-      stat: "+57%",
-      label: "increase in cerebral blood flow",
-      anchor: "¶",
-    },
   ],
 };
 

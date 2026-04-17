@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { FormulaId, formulaContent } from "@/app/lib/productData";
+import { CURATED_STATS } from "./formulaStatsData";
 
 const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   "01": {
@@ -12,50 +13,6 @@ const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
     src: "/lifestyle/BlurGrab.jpg",
     alt: "Reaching for CONKA Clear",
   },
-};
-
-/**
- * Curated stats per formula -- 3 compliant stats only.
- * See FormulaBenefitsStatsDesktop.tsx for compliance rationale.
- */
-const CURATED_STATS: Record<
-  FormulaId,
-  Array<{ stat: string; label: string; anchor: string }>
-> = {
-  "01": [
-    {
-      stat: "+42%",
-      label: "improvement in sleep quality",
-      anchor: "¶",
-    },
-    {
-      stat: "+18%",
-      label: "improvement in memory performance",
-      anchor: "¶",
-    },
-    {
-      stat: "Reduces",
-      label: "tiredness and fatigue",
-      anchor: "††",
-    },
-  ],
-  "02": [
-    {
-      stat: "+63%",
-      label: "improvement in memory performance",
-      anchor: "¶",
-    },
-    {
-      stat: "+30%",
-      label: "improvement in fatigue resistance",
-      anchor: "¶",
-    },
-    {
-      stat: "+57%",
-      label: "increase in cerebral blood flow",
-      anchor: "¶",
-    },
-  ],
 };
 
 interface FormulaBenefitsStatsMobileProps {

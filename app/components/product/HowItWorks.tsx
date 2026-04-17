@@ -4,7 +4,6 @@ import Image from "next/image";
 import {
   FormulaId,
   formulaContent,
-  FORMULA_COLORS,
 } from "@/app/lib/productData";
 
 const FORMULA_ASSETS: Record<FormulaId, string> = {
@@ -74,8 +73,6 @@ interface HowItWorksProps {
 
 export default function HowItWorks({ formulaId }: HowItWorksProps) {
   const formula = formulaContent[formulaId];
-  // Using brand-accent for step numbers instead of product-specific colors
-  const _accentColor = FORMULA_COLORS[formulaId];
   const steps = STEPS[formulaId];
   const assetSrc = FORMULA_ASSETS[formulaId];
   const squareAsset = SUPPORTING_SQUARE[formulaId];
