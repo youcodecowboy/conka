@@ -7,9 +7,9 @@ import type { Testimonial } from "@/app/components/testimonials/types";
 const CARD_WIDTH_MOBILE = 300;
 const CARD_WIDTH_DESKTOP = 340;
 const GAP = 16;
-const AUTO_ADVANCE_MS = 2500;
+const AUTO_ADVANCE_MS = 3500;
 const TRANSITION_MS = 600;
-const RESUME_DELAY_MS = 6000;
+const RESUME_DELAY_MS = 5000;
 const CHAR_LIMIT = 200;
 const SWIPE_THRESHOLD = 50;
 
@@ -55,11 +55,14 @@ function VerifiedBadge() {
 function TestimonialCard({
   testimonial,
   cardWidth,
+  expanded,
+  onToggleExpand,
 }: {
   testimonial: Testimonial;
   cardWidth: number;
+  expanded: boolean;
+  onToggleExpand: () => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
   const needsTruncation = testimonial.body.length > CHAR_LIMIT;
   const displayBody =
     expanded || !needsTruncation
@@ -68,7 +71,7 @@ function TestimonialCard({
 
   return (
     <div
-      className="flex-shrink-0 bg-white rounded-[var(--brand-radius-container)] border border-black/[0.06] shadow-[0_1px_4px_rgba(0,0,0,0.04)] flex flex-col overflow-hidden"
+      className="flex-shrink-0 self-start bg-white rounded-[var(--brand-radius-container)] border border-black/[0.06] shadow-[0_1px_4px_rgba(0,0,0,0.04)] flex flex-col overflow-hidden"
       style={{ width: cardWidth }}
     >
       {/* Text content */}
@@ -99,7 +102,7 @@ function TestimonialCard({
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setExpanded(!expanded);
+                onToggleExpand();
               }}
               className="ml-1 text-brand-accent font-medium"
             >
@@ -131,6 +134,7 @@ export default function LandingTestimonials({
   testimonials: Testimonial[];
 }) {
   const totalCards = testimonials.length;
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [cardWidth, setCardWidth] = useState(CARD_WIDTH_MOBILE);
   const step = cardWidth + GAP;
 
@@ -217,6 +221,13 @@ export default function LandingTestimonials({
     pauseAndScheduleResume();
   };
 
+  // Arrow navigation
+  const navigate = (direction: 1 | -1) => {
+    setSmooth(true);
+    setPos((p) => p + direction);
+    pauseAndScheduleResume();
+  };
+
   // Touch swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartRef.current = e.touches[0].clientX;
@@ -247,31 +258,64 @@ export default function LandingTestimonials({
       </div>
 
       {/* Carousel */}
-      <div
-        className="overflow-hidden -mx-4 px-4 lg:mx-0 lg:px-0"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div
-          className="flex"
-          style={{
-            gap: GAP,
-            transform: `translate3d(${offset}px, 0, 0)`,
-            transition: smooth
-              ? `transform ${TRANSITION_MS}ms ease`
-              : "none",
-          }}
-          onTransitionEnd={handleTransitionEnd}
+      <div className="relative group">
+        {/* Prev / Next arrows — desktop only */}
+        <button
+          type="button"
+          aria-label="Previous review"
+          onClick={() => navigate(-1)}
+          className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white/90 border border-black/[0.08] shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
         >
-          {extended.map((t, i) => (
-            <TestimonialCard
-              key={`slide-${i}`}
-              testimonial={t}
-              cardWidth={cardWidth}
-            />
-          ))}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          aria-label="Next review"
+          onClick={() => navigate(1)}
+          className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white/90 border border-black/[0.08] shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+
+        <div
+          className="overflow-hidden -mx-4 px-4 lg:mx-0 lg:px-0"
+          onMouseEnter={pauseAndScheduleResume}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div
+            className="flex"
+            style={{
+              gap: GAP,
+              transform: `translate3d(${offset}px, 0, 0)`,
+              transition: smooth
+                ? `transform ${TRANSITION_MS}ms ease`
+                : "none",
+            }}
+            onTransitionEnd={handleTransitionEnd}
+          >
+            {extended.map((t, i) => {
+              const realIdx = i % totalCards;
+              return (
+                <TestimonialCard
+                  key={`slide-${i}`}
+                  testimonial={t}
+                  cardWidth={cardWidth}
+                  expanded={expandedIndex === realIdx}
+                  onToggleExpand={() =>
+                    setExpandedIndex((prev) =>
+                      prev === realIdx ? null : realIdx
+                    )
+                  }
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
 
