@@ -29,7 +29,7 @@ export default function SciencePage() {
         <>
           {/* ===== SECTION 1: HERO ===== */}
           <section
-            className="brand-section brand-hero-first brand-bg-tint"
+            className="brand-section brand-hero-first brand-bg-white"
             aria-label="Science hero"
           >
             <div className="brand-track">
@@ -39,7 +39,7 @@ export default function SciencePage() {
 
           {/* ===== SECTION 2: QUOTE ===== */}
           <section
-            className="brand-section brand-bg-white"
+            className="brand-section brand-bg-tint"
             aria-label="Research philosophy"
           >
             <div className="brand-track">
@@ -51,7 +51,7 @@ export default function SciencePage() {
 
           {/* ===== SECTION 3: ADAPTOGENS ===== */}
           <section
-            className="brand-section brand-bg-tint"
+            className="brand-section brand-bg-white"
             aria-label="What are adaptogens"
           >
             <div className="brand-track">
@@ -63,7 +63,7 @@ export default function SciencePage() {
 
           {/* ===== SECTION 4: FIVE PILLARS ===== */}
           <section
-            className="brand-section brand-bg-white"
+            className="brand-section brand-bg-tint"
             aria-label="The five pillars"
           >
             <div className="brand-track">
@@ -75,7 +75,7 @@ export default function SciencePage() {
 
           {/* ===== SECTION 5: FLOW VS CLEAR ===== */}
           <section
-            className="brand-section brand-bg-tint"
+            className="brand-section brand-bg-white"
             aria-label="Flow vs Clear comparison"
           >
             <div className="brand-track">
@@ -87,7 +87,7 @@ export default function SciencePage() {
 
           {/* ===== SECTION 6: WHAT MAKES US DIFFERENT ===== */}
           <section
-            className="brand-section brand-bg-white"
+            className="brand-section brand-bg-tint"
             aria-label="What makes CONKA different"
           >
             <div className="brand-track">
@@ -99,7 +99,7 @@ export default function SciencePage() {
 
           {/* ===== SECTION 7: EVIDENCE & RESEARCH ===== */}
           <section
-            className="brand-section brand-bg-tint"
+            className="brand-section brand-bg-white"
             aria-label="Evidence and research"
           >
             <div className="brand-track">

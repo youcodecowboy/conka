@@ -75,8 +75,8 @@ export default function ScienceAdaptogens({
           className={`relative overflow-hidden ${isMobile ? "aspect-video" : "aspect-square"}`}
         >
           <Image
-            src="/CONKA_07.jpg"
-            alt="Adaptogenic herbs used in CONKA Flow: Ashwagandha, Rhodiola rosea, and Lemon Balm"
+            src="/lifestyle/FlowLeaf.jpg"
+            alt="CONKA Flow bottle held among leaves, showing natural ingredient origin"
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
