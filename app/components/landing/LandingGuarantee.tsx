@@ -18,7 +18,15 @@ const BULLETS = [
  * refund mechanic. The CONKA app phone mockup stays as visual proof —
  * the cognitive score is the receipt that the guarantee is meaningful.
  */
-export default function LandingGuarantee() {
+export default function LandingGuarantee({
+  hideCTA = false,
+  ctaLabel,
+  ctaHref,
+}: {
+  hideCTA?: boolean;
+  ctaLabel?: string;
+  ctaHref?: string;
+} = {}) {
   return (
     <div>
       {/* Headline */}
@@ -69,11 +77,13 @@ export default function LandingGuarantee() {
           </ul>
 
           {/* CTA */}
-          <div className="mt-8">
-            <LandingCTA className="sm:w-auto">
-              Try it 100% Risk Free Now
-            </LandingCTA>
-          </div>
+          {!hideCTA && (
+            <div className="mt-8">
+              <LandingCTA href={ctaHref} className="sm:w-auto">
+                {ctaLabel ?? "Try it 100% Risk Free Now"}
+              </LandingCTA>
+            </div>
+          )}
 
           {/* Footnote */}
           <p className="mt-4 text-xs text-black/40">

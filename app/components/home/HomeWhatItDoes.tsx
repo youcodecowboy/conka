@@ -99,7 +99,7 @@ const PILLARS: Pillar[] = [
   },
 ];
 
-export default function HomeWhatItDoes() {
+export default function HomeWhatItDoes({ hideCTA = false }: { hideCTA?: boolean } = {}) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
@@ -121,14 +121,19 @@ export default function HomeWhatItDoes() {
       </div>
 
       {/* CTA */}
-      <div className="mb-3 flex justify-start">
-        <LandingCTA href="/protocol/3">
-          Try CONKA Today
-        </LandingCTA>
-      </div>
-      <div className="mb-12">
-        <LandingTrustBadges />
-      </div>
+      {!hideCTA && (
+        <>
+          <div className="mb-3 flex justify-start">
+            <LandingCTA href="/protocol/3">
+              Try CONKA Today
+            </LandingCTA>
+          </div>
+          <div className="mb-12">
+            <LandingTrustBadges />
+          </div>
+        </>
+      )}
+      {hideCTA && <div className="mb-12" />}
 
       {/* Lifestyle image + benefit pillars — side by side on desktop */}
       <div className="flex flex-col lg:flex-row lg:gap-10">

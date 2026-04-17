@@ -34,7 +34,7 @@ const FAQ_ITEMS = [
   },
 ];
 
-export default function LandingFAQ() {
+export default function LandingFAQ({ hideCTA = false }: { hideCTA?: boolean } = {}) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
@@ -117,9 +117,11 @@ export default function LandingFAQ() {
           </div>
 
           {/* CTA */}
-          <div className="mt-8 flex justify-center lg:justify-start">
-            <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
-          </div>
+          {!hideCTA && (
+            <div className="mt-8 flex justify-center lg:justify-start">
+              <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
+            </div>
+          )}
         </div>
       </div>
     </div>
