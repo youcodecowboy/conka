@@ -4,7 +4,6 @@ import Image from "next/image";
 import {
   FormulaId,
   formulaContent,
-  FORMULA_COLORS,
 } from "@/app/lib/productData";
 
 const FORMULA_ASSETS: Record<FormulaId, string> = {
@@ -74,7 +73,6 @@ interface HowItWorksProps {
 
 export default function HowItWorks({ formulaId }: HowItWorksProps) {
   const formula = formulaContent[formulaId];
-  const accentColor = FORMULA_COLORS[formulaId];
   const steps = STEPS[formulaId];
   const assetSrc = FORMULA_ASSETS[formulaId];
   const squareAsset = SUPPORTING_SQUARE[formulaId];
@@ -124,7 +122,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
             {steps.map((step, idx) => (
               <div key={idx} className="flex gap-4 items-start">
                 <div
-                  className={`w-14 h-14 shrink-0 ${accentColor.bg} text-white rounded-full flex items-center justify-center`}
+                  className="w-14 h-14 shrink-0 bg-[var(--brand-accent)] text-white rounded-full flex items-center justify-center"
                 >
                   <span className="font-clinical text-lg font-bold">
                     {step.number}

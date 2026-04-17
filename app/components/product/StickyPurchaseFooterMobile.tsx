@@ -13,9 +13,6 @@ import {
   getProtocolTierPackLabel,
   FormulaId,
   ProtocolId,
-  getProductGradient,
-  getProductAccent,
-  getGradientTextColor,
 } from "@/app/lib/productData";
 
 const packSizes: PackSize[] = ["4", "8", "12", "28"];
@@ -34,7 +31,6 @@ interface StickyPurchaseFooterMobileProps {
   onTierSelect?: (tier: ProtocolTier) => void;
   purchaseType: PurchaseType;
   onAddToCart: () => void;
-  usePremium?: boolean;
 }
 
 export default function StickyPurchaseFooterMobile({
@@ -46,7 +42,6 @@ export default function StickyPurchaseFooterMobile({
   onTierSelect,
   purchaseType,
   onAddToCart,
-  usePremium = false,
 }: StickyPurchaseFooterMobileProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -97,28 +92,6 @@ export default function StickyPurchaseFooterMobile({
     (showPackSelector && selectedPack) ||
     (showTierSelector && selectedTier && availableTiers.length > 0);
 
-  // Get accent color for border and text
-  const accentColor = formulaId
-    ? formulaId === "01"
-      ? "#f59e0b" // amber-500
-      : "#94b9ff" // Clear blue
-    : protocolId
-      ? getProductAccent(protocolId)
-      : "#14b8a6"; // fallback teal
-
-  const productGradient = formulaId
-    ? getProductGradient(formulaId)
-    : protocolId
-      ? getProductGradient(protocolId)
-      : null;
-
-  const productId = formulaId ?? protocolId;
-  const gradientTextClass = productId
-    ? getGradientTextColor(productId) === "white"
-      ? "text-white"
-      : "text-black"
-    : "text-black";
-
   return (
     <>
       {showDropdown && (
@@ -134,7 +107,7 @@ export default function StickyPurchaseFooterMobile({
           borderTopWidth: "1px",
           borderTopStyle: "solid",
           borderTopColor: isSubscription
-            ? accentColor
+            ? "var(--brand-accent)"
             : "var(--brand-border-color)",
         }}
       >
@@ -162,7 +135,7 @@ export default function StickyPurchaseFooterMobile({
                       <p
                         className="font-clinical text-xs mt-0.5"
                         style={{
-                          color: isSubscription ? accentColor : undefined,
+                          color: isSubscription ? "var(--brand-accent)" : undefined,
                           opacity: isSubscription ? undefined : 0.7,
                         }}
                       >
@@ -277,7 +250,7 @@ export default function StickyPurchaseFooterMobile({
                   <p
                     className="font-clinical text-xs mt-0.5"
                     style={{
-                      color: isSubscription ? accentColor : undefined,
+                      color: isSubscription ? "var(--brand-accent)" : undefined,
                       opacity: isSubscription ? undefined : 0.7,
                     }}
                   >
@@ -288,18 +261,10 @@ export default function StickyPurchaseFooterMobile({
             </div>
             <button
               onClick={onAddToCart}
-              className={
-                formulaId || protocolId
-                  ? `px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5 ${gradientTextClass}`
-                  : "px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-white bg-black border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
-              }
+              className="px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-white border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
               style={{
                 borderRadius: "var(--brand-radius-interactive)",
-                ...(productGradient
-                  ? {
-                      background: `linear-gradient(to right, ${productGradient.start}, ${productGradient.end})`,
-                    }
-                  : {}),
+                backgroundColor: "var(--brand-accent)",
               }}
             >
               <span>Add</span>

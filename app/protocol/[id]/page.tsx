@@ -319,7 +319,7 @@ export default function ProtocolPage() {
           onTierSelect={setSelectedTier}
           purchaseType={purchaseType}
           onAddToCart={handleAddToCartFromFooter}
-          usePremium
+
         />
       </div>
     );
@@ -489,7 +489,6 @@ export default function ProtocolPage() {
         purchaseType={purchaseType}
         onPurchaseTypeChange={setPurchaseType}
         onAddToCart={handleAddToCartFromFooter}
-        usePremium
       />
     </div>
   );

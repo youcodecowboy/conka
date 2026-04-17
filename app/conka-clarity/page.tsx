@@ -214,7 +214,7 @@ export default function ConkaClarityPage() {
           onPackSelect={setSelectedPack}
           purchaseType={purchaseType}
           onAddToCart={handleAddToCartFromFooter}
-          usePremium
+
         />
 
         <Footer />
@@ -353,7 +353,6 @@ export default function ConkaClarityPage() {
         purchaseType={purchaseType}
         onPurchaseTypeChange={setPurchaseType}
         onAddToCart={handleAddToCartFromFooter}
-        usePremium
       />
 
       <Footer />

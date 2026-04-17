@@ -6,6 +6,57 @@
 
 ## April 2026
 
+### 2026-04-16 -- PDP purchase flow overhaul + ProtocolHero alignment
+
+Complete redesign of the purchase flow on Flow, Clear, and Both (Protocol) product pages, inspired by Magic Mind's PDP pattern.
+
+**Hero declutter (ProductHero + ProductHeroMobile):**
+Removed 4-stat benefit grid (data lives in FormulaBenefitsStats further down), removed "Your Selection" summary box, removed "How would you like to purchase?" label, removed "No minimum commitment" (redundant with "Cancel anytime"). Meta pill moved below carousel on mobile.
+
+**PackSelectorPremium simplification:**
+Stripped to minimal radio-button style. Labels changed to "4 Shots / 8 Shots / 12 Shots / 28 Shots". Removed prices, billing text, tier labels ("Starter"/"Pro"/"Max"), and accent colors. "Most Popular" badge (brand-accent) on 12-pack. Reduced font size and border radius for cleaner look.
+
+**Purchase tile redesign (Magic Mind-inspired):**
+Subscribe tile always expanded with bullet list visible. "Save 20% off every order" badge (light brand-accent) next to "Subscribe" title. Delivery description in plain language ("4 shots delivered every week", "28 shots delivered every month"). Checkmark bullets: Free UK shipping, Pause/skip/cancel, 100-day guarantee. Crossed-out one-time price always visible. Buy Once tile shows price + per-shot only. Selected state uses brand-accent ring + banner (matching funnel pattern).
+
+**FormulaBenefitsStats overhaul (Desktop + Mobile):**
+Reduced from 6 stats to 3 per formula for EFSA compliance. Flow: sleep quality (+42% ¶), memory (+18% ¶), tiredness/fatigue (†† EFSA). Clear: memory (+63% ¶), fatigue resistance (+30% ¶), cerebral blood flow (+57% ¶). Dropped stress and anxiety stats (RED claims per CLAIMS_COMPLIANCE.md). Stats enlarged to single-column layout (4xl/5xl desktop, 3xl mobile). Shared `CURATED_STATS` and `getDeliveryDescription` extracted to `formulaStatsData.ts`.
+
+**ProtocolHero alignment:**
+Rewrote to match ProductHero pattern. Removed ProtocolRatioSelector (protocols being deprecated). Removed "Your Bundle" shot visualization grid. Meta pill states "A 50:50 split of Flow and Clear". Replaced TierSelectorPremium with inline 3-column selector (4/12/28 Shots). Same subscribe/buy-once tiles, brand-accent CTA, LandingTrustBadges.
+
+**Brand-accent unification:**
+Replaced all product-specific colors (Flow amber, Clear blue, protocol gradients) with `var(--brand-accent)` across: CTA buttons (solid, no gradient), subscribe tile badges/ring, HowItWorks step numbers, StickyPurchaseFooter (desktop + mobile) toggle and CTA, star ratings (all amber). Removed `FORMULA_COLORS`, `getProductGradient`, `getProtocolAccent`, `getGradientTextColor` imports from all updated components.
+
+**Font update:**
+Removed `font-primary` class (Poppins) from ProductHero and ProductHeroMobile H1 elements. `brand-h1-bold` class now correctly applies Neue Haas Grotesk via `var(--font-brand-primary)`.
+
+**Dead code cleanup:**
+Removed `usePremium` prop from StickyPurchaseFooter and StickyPurchaseFooterMobile (+ all 6 call sites). Removed unused imports across 8 files. Zero lint warnings.
+
+**Why:** Purchase flow had too much noise (6 stats, summary box, confusing pack labels, collapsing subscribe tile, product-specific color soup). Magic Mind's PDP is the category benchmark. Stats included non-compliant stress/anxiety claims. Brand-accent unification creates visual consistency across all product pages.
+**Branch:** `product-page-improvements`
+
+### 2026-04-16 -- Larger nav tiles, lifestyle asset refresh, homepage hero copy, asset cleanup
+
+**Mobile nav product tiles (NavigationMobile):**
+Enlarged "Shop by Product" tile images from 56px (`w-14 h-14`) to 112px (`w-28 h-28`) so product photos are clearly visible on mobile. Tile padding kept at `p-3`, gap bumped to `gap-4`, image border radius to `rounded-xl`.
+
+**Homepage hero copy (Hero):**
+Synced homepage hero messaging with landing page (`LandingHero`). Headline now reads "The only brain supplement you can measure." with matching body copy.
+
+**FormulaBenefitsStats asset refresh (Desktop + Mobile):**
+Replaced generic product bottle images with lifestyle photography. Primary images: Flow uses `ConkaAtWorkDesk.jpg`, Clear uses `BlurGrab.jpg`. Supporting thumbnails (desktop only) now per-formula: Flow shows `FlowBoxOpen.jpg`, `FlowDrink.jpg`, `FlowLeaf.jpg`; Clear shows `ConkaJeansHold.jpg`, `ClearTable.jpg`, `ClearBag.jpg`.
+
+**HowItWorks asset refresh:**
+Primary images: Flow uses `FlowDrink.jpg`, Clear uses `ClearBoxOpen.jpg`. Supporting assets: Flow uses `FlowConkaRing.jpg` + `ConkaDesk.jpg`; Clear uses `ClearJeansTwo.jpg` + `ClearDesk.jpg`.
+
+**Asset cleanup (15 files deleted):**
+Removed unused assets after audit: `HoldBoth.jpg`, `FlowTaste.jpg`, `ClearTaste.jpg`, `HoneyTaste.jpg`, `CitrusTaste.jpg`, `WomanPink.jpg`, `SatWoman.jpg`, and 8 unused hero images (`Hero.jpg`, `SamHero.jpg`, `ClearHero.jpg`, `HeroBannerH.jpg`, `HeroBannerW.jpg`, `AppShotsHero.jpg`, `HeroBanner.jpg`, `HeroBannerMobileH.jpg`). Only `ShotsHero.jpg` retained in `/hero/`.
+
+**Why:** Nav tile images were too small to see products. Lifestyle photography from TQBF shoot replaces older product renders across PDP sections. Hero copy aligned for consistency. Unused assets removed to reduce repo size.
+**Branch:** `larger-nav-shop-tiles`
+
 ### 2026-04-16 -- Visual system migration: product, protocol, and content pages
 
 Migrated 5 pages and ~40 components from `premium-base.css` to `brand-base.css`, completing the visual system alignment started with the homepage upgrade on 2026-04-07.
