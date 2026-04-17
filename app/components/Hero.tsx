@@ -44,20 +44,16 @@ export default function Hero() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
         {/* Copy — below image on mobile, left on desktop */}
         <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
-          <h1 className="brand-h1-bold mb-0">
-            Your brain fades
-            <br />
-            by 2pm. Why?
+          <h1 className="brand-h1-bold mb-0 whitespace-pre-line">
+            {"The only brain supplement\nyou can measure."}
           </h1>
 
           <p className="brand-body mt-4 text-black/60">
-            Coffee masks it. Willpower can&apos;t fix it.
+            Your brain fades by 2pm. Coffee masks it.
             <br className="hidden lg:inline" />{" "}
-            CONKA is a daily 2-shot system with 16 active
+            Willpower can&apos;t fix it. A 2-shot system built for
             <br className="hidden lg:inline" />{" "}
-            ingredients built for people who don&apos;t leave
-            <br className="hidden lg:inline" />{" "}
-            their performance to chance.
+            people who don&apos;t leave their performance to chance.
           </p>
 
           {/* CTA — safe-area padding prevents mobile URL bar overlap */}
