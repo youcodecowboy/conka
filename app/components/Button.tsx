@@ -20,7 +20,7 @@ export default function Button({
   onClick?: React.MouseEventHandler;
 }) {
   const base =
-    "inline-flex items-center justify-center w-full max-w-md text-center py-4 px-8 rounded-[var(--brand-radius-interactive)] font-semibold text-base text-white bg-brand-accent transition-transform hover:scale-[1.02] active:scale-[0.98]";
+    "inline-flex items-center justify-center w-full lg:w-auto lg:max-w-md text-center py-4 px-14 rounded-[var(--brand-radius-interactive)] font-semibold text-base text-white bg-brand-accent transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-accent)]";
 
   const classes = `${base} ${className}`;
 
