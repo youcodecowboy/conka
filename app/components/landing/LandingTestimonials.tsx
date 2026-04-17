@@ -7,7 +7,7 @@ import type { Testimonial } from "@/app/components/testimonials/types";
 const CARD_WIDTH_MOBILE = 300;
 const CARD_WIDTH_DESKTOP = 340;
 const GAP = 16;
-const AUTO_ADVANCE_MS = 2000;
+const AUTO_ADVANCE_MS = 2500;
 const TRANSITION_MS = 600;
 const RESUME_DELAY_MS = 6000;
 const CHAR_LIMIT = 200;
