@@ -1,7 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { clinicalEvidenceSummary } from "@/app/lib/scienceData";
+import {
+  clinicalEvidenceSummary,
+  researchTeam,
+  researchPartnerships,
+} from "@/app/lib/scienceData";
 
 interface EvidenceSummaryProps {
   isMobile?: boolean;
@@ -13,155 +17,107 @@ export default function EvidenceSummary({
   const evidence = clinicalEvidenceSummary;
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="text-center mb-6 md:mb-10">
-        <p className="brand-caption uppercase tracking-widest opacity-50 mb-2">
-          Clinical Foundation
+    <div>
+      {/* Header */}
+      <div className="mb-8 lg:mb-10">
+        <p className="brand-caption uppercase tracking-widest text-black/40 mb-3">
+          The Evidence
         </p>
-        <h2
-          className={`brand-h2 font-bold ${
-            isMobile ? "text-2xl" : "text-3xl lg:text-4xl"
-          }`}
-          style={{ letterSpacing: "-0.02em" }}
-        >
-          Evidence-Based Formulation
+        <h2 className="brand-h2 mb-0 tracking-tight">
+          Research-backed. University-validated. Patented.
         </h2>
-        <p
-          className="brand-body opacity-80 mt-2 max-w-xl mx-auto"
-          style={{ maxWidth: "var(--brand-body-max-width)" }}
-        >
-          Every ingredient is validated by peer-reviewed research
-        </p>
       </div>
 
-      <div
-        className="w-full p-6 lg:p-10 text-white"
-        style={{
-          backgroundColor: "var(--brand-black)",
-          borderRadius: "var(--brand-radius-card)",
-          color: "var(--brand-white)",
-        }}
+      {/* Narrative paragraph */}
+      <p
+        className="brand-body text-lg lg:text-xl text-black/80 mb-8 lg:mb-10"
+        style={{ maxWidth: "var(--brand-body-max-width)" }}
       >
-        <div className="grid grid-cols-3 gap-4 md:gap-6">
-          <div className="text-center">
-            <p className="text-3xl lg:text-4xl font-bold font-clinical">
-              {evidence.totalStudies}
-            </p>
-            <p className="brand-caption opacity-70 mt-1">Clinical Studies</p>
-          </div>
-          <div className="text-center">
-            <p className="text-3xl lg:text-4xl font-bold font-clinical">
-              {evidence.totalParticipants.toLocaleString()}+
-            </p>
-            <p className="brand-caption opacity-70 mt-1">Participants</p>
-          </div>
-          <div className="text-center">
-            <p className="text-3xl lg:text-4xl font-bold font-clinical">
-              {evidence.peerReviewed}
-            </p>
-            <p className="brand-caption opacity-70 mt-1">Peer Reviewed</p>
-          </div>
-          <div className="text-center">
-            <p className="text-3xl lg:text-4xl font-bold font-clinical">16</p>
-            <p className="brand-caption opacity-70 mt-1">Active Ingredients</p>
-          </div>
-          <div className="text-center">
-            <p className="text-3xl lg:text-4xl font-bold font-clinical">
-              {evidence.researchInvestment}
-            </p>
-            <p className="brand-caption opacity-70 mt-1">
-              Research Investment
-            </p>
-          </div>
-          <div className="text-center col-span-3 md:col-span-1">
-            <p className="text-lg lg:text-xl font-bold font-clinical">
-              {evidence.patentNumber}
-            </p>
-            <p className="brand-caption opacity-70 mt-1">Patent Number</p>
-          </div>
-        </div>
-      </div>
+        {evidence.totalStudies} peer-reviewed clinical studies.{" "}
+        {evidence.totalParticipants.toLocaleString()}+ participants. Over{" "}
+        {evidence.researchInvestment} invested in research with Durham and
+        Cambridge universities. The result: UK Patent {evidence.patentNumber} and
+        formulas that actually work.
+      </p>
 
-      <div
-        className={`mt-6 text-center ${isMobile ? "px-2" : "max-w-2xl mx-auto"}`}
-      >
-        <p className="brand-caption opacity-60 leading-relaxed">
-          Research includes CONKA&apos;s proprietary studies plus peer-reviewed
-          research from leading institutions including Oxford University, UCLA,
-          Northumbria University, and others. All citations are PubMed indexed
-          with direct links to original publications.
-        </p>
-      </div>
-
-      <div
-        className={`mt-4 flex ${isMobile ? "flex-col" : "flex-row"} items-center justify-center gap-4 text-center`}
-      >
-        <div className="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="opacity-50"
+      {/* Research partnerships */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        {researchPartnerships.map((partnership) => (
+          <div
+            key={partnership.institution}
+            className="brand-card-bordered p-5 lg:p-6"
           >
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-            <polyline points="14 2 14 8 20 8" />
-            <line x1="16" y1="13" x2="8" y2="13" />
-            <line x1="16" y1="17" x2="8" y2="17" />
-            <polyline points="10 9 9 9 8 9" />
-          </svg>
-          <span className="brand-caption opacity-70">
-            All studies indexed in PubMed
-          </span>
-        </div>
-        <span className="hidden md:inline opacity-30">•</span>
-        <div className="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="opacity-50"
-          >
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-            <polyline points="22 4 12 14.01 9 11.01" />
-          </svg>
-          <span className="brand-caption opacity-70">
-            Full citations available on ingredients page
-          </span>
+            <p className="font-semibold text-base mb-1">
+              {partnership.institution}
+            </p>
+            <p className="brand-caption text-black/60">{partnership.focus}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Research team */}
+      <div className="mb-8 lg:mb-10">
+        <p className="brand-caption uppercase tracking-widest text-black/40 mb-4">
+          Research Team
+        </p>
+        <div className="space-y-3">
+          {researchTeam.map((researcher) => (
+            <div
+              key={researcher.name}
+              className="flex items-baseline gap-2 lg:gap-3"
+            >
+              <span className="font-semibold text-sm whitespace-nowrap">
+                {researcher.title} {researcher.name}
+              </span>
+              <span className="brand-caption text-black/40 hidden lg:inline">
+                {researcher.affiliation}
+              </span>
+              <span className="brand-caption text-black/40 hidden lg:inline">
+                &bull;
+              </span>
+              <span className="brand-caption text-black/60">
+                {researcher.contribution}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="mt-8 flex flex-wrap justify-center gap-4">
+      {/* Credential pills */}
+      <div className="flex flex-wrap gap-3 mb-8">
+        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black/60">
+          Patent #{evidence.patentNumber}
+        </span>
+        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black/60">
+          PubMed Indexed Studies
+        </span>
+        <span className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black/60">
+          All citations verifiable
+        </span>
+      </div>
+
+      {/* CTAs */}
+      <div className="flex flex-col sm:flex-row gap-4">
         <Link
           href="/ingredients"
-          className="px-6 py-3 font-bold text-sm transition-opacity hover:opacity-90 rounded-[var(--brand-radius-interactive)] border border-[var(--brand-stroke)]"
+          className="px-6 py-3 font-semibold text-sm text-white hover:opacity-90 transition-opacity text-center"
           style={{
-            backgroundColor: "var(--brand-white)",
-            color: "var(--brand-black)",
+            borderRadius: "var(--brand-radius-interactive)",
+            backgroundColor: "var(--brand-accent)",
           }}
         >
           Explore All Ingredients
         </Link>
         <Link
-          href="/quiz"
-          className="px-6 py-3 font-bold text-sm transition-opacity hover:opacity-90 rounded-[var(--brand-radius-interactive)] border border-[var(--brand-stroke)]"
+          href="/conka-flow"
+          className="px-6 py-3 font-semibold text-sm border hover:opacity-80 transition-opacity text-center"
           style={{
-            backgroundColor: "var(--brand-white)",
-            color: "var(--brand-black)",
+            borderRadius: "var(--brand-radius-interactive)",
+            color: "var(--brand-accent)",
+            borderColor: "rgba(64, 88, 187, 0.3)",
           }}
         >
-          Find Your Protocol
+          Try CONKA
         </Link>
       </div>
     </div>

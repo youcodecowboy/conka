@@ -17,79 +17,48 @@ export default function ScienceAdaptogens({
 }: ScienceAdaptogensProps) {
   return (
     <div
-      className={`grid gap-8 md:gap-12 ${
-        isMobile ? "grid-cols-1" : "lg:grid-cols-2 lg:gap-12 lg:items-center"
+      className={`grid gap-8 lg:gap-12 ${
+        isMobile ? "grid-cols-1" : "lg:grid-cols-2 lg:items-center"
       }`}
     >
-      {/* Text: second on mobile, first on desktop */}
-      <div className={isMobile ? "order-2 space-y-6" : ""}>
-        <p className="brand-caption uppercase tracking-widest opacity-50 mb-2">
-          Understanding The Basics
+      {/* Text */}
+      <div className={isMobile ? "order-2" : ""}>
+        <p className="brand-caption uppercase tracking-widest text-black/40 mb-3">
+          The Foundation
         </p>
-        <h2
-          className="brand-h2 mb-4"
-          style={{ letterSpacing: "-0.02em" }}
+        <div className="mb-6">
+          <h2 className="brand-h2 mb-0 tracking-tight">
+            What Are Adaptogens?
+          </h2>
+        </div>
+
+        <div
+          className="space-y-4"
+          style={{ maxWidth: "var(--brand-body-max-width)" }}
         >
-          What Are Adaptogens?
-        </h2>
-        {isMobile ? (
-          <>
-            {/* Mobile: lead in a card so it's not a wall of text */}
-            <div
-              className="p-4 rounded-[var(--brand-radius-container)] border border-[var(--brand-stroke)]"
-              style={{ backgroundColor: "var(--brand-tint)" }}
-            >
-              <p className="brand-body font-medium">
-                Adaptogens are natural compounds that help your body
-                &ldquo;adapt&rdquo; to stress by normalizing physiological
-                functions—unlike stimulants that force a response.
-              </p>
-            </div>
-            <div className="space-y-5">
-              <p className="brand-body opacity-80">
-                The term was coined by Soviet scientist Dr. Nikolai Lazarev in
-                1947, and these compounds have been used in traditional medicine
-                for thousands of years. Modern research has validated their
-                effects on the hypothalamic-pituitary-adrenal (HPA) axis.
-              </p>
-              <p className="brand-body opacity-80">
-                Key adaptogens in our formulas include{" "}
-                <strong>Ashwagandha</strong>, <strong>Rhodiola rosea</strong>,
-                and <strong>Lemon Balm</strong>, each clinically proven to
-                reduce cortisol and improve stress resilience.
-              </p>
-            </div>
-          </>
-        ) : (
-          <div
-            className="space-y-4 opacity-80"
-            style={{ maxWidth: "var(--brand-body-max-width)" }}
-          >
-            <p className="brand-body">
-              Adaptogens are a unique class of natural compounds that help your
-              body &ldquo;adapt&rdquo; to stress. Unlike stimulants that force a
-              response, adaptogens work by normalizing physiological functions
-              and maintaining homeostasis.
-            </p>
-            <p className="brand-body">
-              The term was coined by Soviet scientist Dr. Nikolai Lazarev in
-              1947, and these compounds have been used in traditional medicine
-              for thousands of years. Modern research has validated their
-              effects on the hypothalamic-pituitary-adrenal (HPA) axis.
-            </p>
-            <p className="brand-body">
-              Key adaptogens in our formulas include{" "}
-              <strong>Ashwagandha</strong>, <strong>Rhodiola rosea</strong>, and{" "}
-              <strong>Lemon Balm</strong>, each clinically proven to reduce
-              cortisol and improve stress resilience.
-            </p>
-          </div>
-        )}
-        <div className="flex flex-wrap gap-2 md:gap-3 mt-6">
+          <p className="brand-body text-black/80">
+            Adaptogens are natural compounds that help your body &ldquo;adapt&rdquo;
+            to stress. Unlike stimulants that force a response, adaptogens work by
+            normalizing physiological functions and maintaining homeostasis.
+          </p>
+          <p className="brand-body text-black/60">
+            Your stress response was designed for acute threats, not 12-hour
+            workdays. Adaptogens modulate the HPA axis to normalize cortisol, so
+            you stay sharp under pressure without the crash.
+          </p>
+          <p className="brand-body text-black/80">
+            Key adaptogens in our formulas include{" "}
+            <strong>Ashwagandha</strong>, <strong>Rhodiola rosea</strong>, and{" "}
+            <strong>Lemon Balm</strong> — each clinically proven to reduce cortisol
+            and improve stress resilience.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2 lg:gap-3 mt-6">
           {TAGS.map((tag) => (
             <span
               key={tag}
-              className="brand-caption px-3 py-1.5 rounded-full border border-[var(--brand-stroke)]"
+              className="brand-caption px-3 py-1.5 rounded-full border border-black/10 text-black/60"
             >
               {tag}
             </span>
@@ -99,25 +68,25 @@ export default function ScienceAdaptogens({
 
       {/* Visual */}
       <div
-        className={`brand-card overflow-hidden ${isMobile ? "order-1" : ""}`}
-        style={{ borderRadius: "var(--brand-radius-card)" }}
+        className={isMobile ? "order-1" : ""}
+        style={{ borderRadius: "var(--brand-radius-card)", overflow: "hidden" }}
       >
         <div
           className={`relative overflow-hidden ${isMobile ? "aspect-video" : "aspect-square"}`}
-          style={{ borderRadius: "var(--brand-radius-card)" }}
         >
           <Image
             src="/CONKA_07.jpg"
-            alt="Adaptogenic herbs"
+            alt="Adaptogenic herbs used in CONKA Flow: Ashwagandha, Rhodiola rosea, and Lemon Balm"
             fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 text-white">
-            <p className="brand-caption opacity-70 mb-1">
+          <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6 text-white">
+            <p className="brand-caption text-white/70 mb-1">
               CONKA Flow Contains
             </p>
-            <p className="font-bold text-lg md:text-xl">
+            <p className="font-bold text-lg lg:text-xl">
               3 Research-Backed Adaptogens
             </p>
           </div>

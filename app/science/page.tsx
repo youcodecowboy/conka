@@ -6,9 +6,10 @@ import ScienceHero from "@/app/components/science/ScienceHero";
 import ScienceQuote from "@/app/components/science/ScienceQuote";
 import ScienceAdaptogens from "@/app/components/science/ScienceAdaptogens";
 import SciencePillars from "@/app/components/science/SciencePillars";
-import SynergyChart from "@/app/components/science/SynergyChart";
+import FlowVsClear from "@/app/components/science/FlowVsClear";
 import ScienceDifferent from "@/app/components/science/ScienceDifferent";
 import EvidenceSummary from "@/app/components/science/EvidenceSummary";
+import Reveal from "@/app/components/landing/Reveal";
 import useIsMobile from "@/app/hooks/useIsMobile";
 
 export default function SciencePage() {
@@ -42,7 +43,9 @@ export default function SciencePage() {
             aria-label="Research philosophy"
           >
             <div className="brand-track">
-              <ScienceQuote isMobile={!!isMobile} />
+              <Reveal>
+                <ScienceQuote isMobile={!!isMobile} />
+              </Reveal>
             </div>
           </section>
 
@@ -52,7 +55,9 @@ export default function SciencePage() {
             aria-label="What are adaptogens"
           >
             <div className="brand-track">
-              <ScienceAdaptogens isMobile={!!isMobile} />
+              <Reveal>
+                <ScienceAdaptogens isMobile={!!isMobile} />
+              </Reveal>
             </div>
           </section>
 
@@ -62,17 +67,21 @@ export default function SciencePage() {
             aria-label="The five pillars"
           >
             <div className="brand-track">
-              <SciencePillars isMobile={!!isMobile} />
+              <Reveal>
+                <SciencePillars isMobile={!!isMobile} />
+              </Reveal>
             </div>
           </section>
 
-          {/* ===== SECTION 5: SYNERGY CHART ===== */}
+          {/* ===== SECTION 5: FLOW VS CLEAR ===== */}
           <section
             className="brand-section brand-bg-tint"
-            aria-label="Formula synergy"
+            aria-label="Flow vs Clear comparison"
           >
             <div className="brand-track">
-              <SynergyChart isMobile={!!isMobile} />
+              <Reveal>
+                <FlowVsClear isMobile={!!isMobile} />
+              </Reveal>
             </div>
           </section>
 
@@ -82,17 +91,21 @@ export default function SciencePage() {
             aria-label="What makes CONKA different"
           >
             <div className="brand-track">
-              <ScienceDifferent isMobile={!!isMobile} />
+              <Reveal>
+                <ScienceDifferent isMobile={!!isMobile} />
+              </Reveal>
             </div>
           </section>
 
-          {/* ===== SECTION 7: EVIDENCE SUMMARY ===== */}
+          {/* ===== SECTION 7: EVIDENCE & RESEARCH ===== */}
           <section
             className="brand-section brand-bg-tint"
-            aria-label="Evidence-based formulation"
+            aria-label="Evidence and research"
           >
             <div className="brand-track">
-              <EvidenceSummary isMobile={!!isMobile} />
+              <Reveal>
+                <EvidenceSummary isMobile={!!isMobile} />
+              </Reveal>
             </div>
           </section>
 
