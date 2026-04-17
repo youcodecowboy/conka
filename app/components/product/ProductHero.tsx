@@ -7,8 +7,6 @@ import {
   formulaContent,
   formulaPricing,
   formatPrice,
-  FORMULA_GRADIENTS,
-  getGradientTextColor,
   formulaImages,
 } from "@/app/lib/productData";
 import PackSelectorPremium from "./PackSelectorPremium";
@@ -24,17 +22,17 @@ interface ProductHeroProps {
   onAddToCart: () => void;
 }
 
-/** Shipping frequency badge text based on pack billing cycle */
-function getShippingBadge(billing: string): string {
-  switch (billing) {
-    case "weekly":
-      return "Ships weekly";
-    case "bi-weekly":
-      return "Ships bi-weekly";
-    case "monthly":
-      return "Ships monthly";
-    default:
-      return `Ships ${billing}`;
+/** What the customer receives, in plain language */
+function getDeliveryDescription(pack: PackSize): string {
+  switch (pack) {
+    case "4":
+      return "4 shots delivered every week";
+    case "8":
+      return "8 shots delivered every 2 weeks";
+    case "12":
+      return "12 shots delivered every 2 weeks";
+    case "28":
+      return "28 shots delivered every month";
   }
 }
 
@@ -50,11 +48,6 @@ export default function ProductHero({
   const pricing = formulaPricing[purchaseType][selectedPack];
   const subscriptionPricing = formulaPricing["subscription"][selectedPack];
   const oneTimePricing = formulaPricing["one-time"][selectedPack];
-  const ctaTextClass =
-    getGradientTextColor(formulaId) === "white" ? "text-white" : "text-black";
-  const shippingBadge = getShippingBadge(
-    (subscriptionPricing as { billing: string }).billing,
-  );
 
   return (
     <div className="flex flex-col lg:flex-row lg:justify-center lg:items-start gap-[var(--brand-space-m)]">
@@ -94,9 +87,7 @@ export default function ProductHero({
                     height="18"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className={
-                      formulaId === "01" ? "text-amber-500" : "text-[#94b9ff]"
-                    }
+                    className="text-amber-500"
                   >
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
@@ -146,133 +137,139 @@ export default function ProductHero({
               selectedPack={selectedPack}
               onSelect={onPackSelect}
               purchaseType={purchaseType}
-              subscriptionAccentColor={
-                formulaId === "01" ? "#f59e0b" : "#94b9ff"
-              }
             />
           </div>
 
           {/* Purchase type tiles */}
-          <div className="flex flex-col gap-3">
-            <div className="space-y-2">
-              {/* Subscribe tile */}
-              <button
-                onClick={() => onPurchaseTypeChange("subscription")}
-                className={`w-full text-left p-4 transition-all cursor-pointer bg-white ${
-                  purchaseType === "subscription"
-                    ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                    : "border border-[var(--brand-border-color)] shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
-                }`}
-                style={{ borderRadius: "var(--brand-radius-container)" }}
-              >
+          <div className="space-y-2">
+            {/* Subscribe tile - always expanded */}
+            <button
+              onClick={() => onPurchaseTypeChange("subscription")}
+              className={`w-full text-left transition-all cursor-pointer bg-white overflow-hidden ${
+                purchaseType === "subscription"
+                  ? "ring-2 shadow-md"
+                  : "border border-black/10 shadow-sm"
+              }`}
+              style={{
+                borderRadius: "var(--brand-radius-container)",
+                ...(purchaseType === "subscription"
+                  ? { ringColor: "var(--brand-accent)", borderColor: "var(--brand-accent)" }
+                  : {}),
+              }}
+            >
+              {/* Badge banner when selected */}
+              {purchaseType === "subscription" && (
+                <div
+                  className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
+                  style={{ backgroundColor: "var(--brand-accent)" }}
+                >
+                  Best Value · Save 20%
+                </div>
+              )}
+
+              <div className="p-4">
+                {/* Header row */}
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3 flex-1 min-w-0">
                     <span
                       className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
                         purchaseType === "subscription"
-                          ? "border-current bg-current/10"
+                          ? "border-[var(--brand-accent)] bg-[var(--brand-accent)]"
                           : "border-black/30"
                       }`}
                     >
                       {purchaseType === "subscription" && (
-                        <span className="w-2.5 h-2.5 rounded-full bg-current" />
+                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+                          <path d="M2.5 8.5L6.5 12L13.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
                       )}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold">Subscribe</span>
-                        <span
-                          className="px-2 py-0.5 rounded-full text-xs font-clinical text-white flex-shrink-0"
-                          style={{
-                            backgroundColor:
-                              formulaId === "01" ? "#f59e0b" : "#94b9ff",
-                          }}
-                        >
-                          Save 20%
-                        </span>
-                        <span className="px-2 py-0.5 rounded-full text-xs font-clinical text-black/60 bg-black/[0.04] flex-shrink-0">
-                          {shippingBadge}
-                        </span>
-                      </div>
-                      {purchaseType === "subscription" && (
-                        <ul className="mt-2 space-y-1 font-clinical text-xs text-black/60">
-                          <li>Free UK shipping</li>
-                          <li>20% off every order</li>
-                          <li>Pause, skip, or cancel anytime</li>
-                        </ul>
-                      )}
+                      <span className="font-bold text-[var(--brand-black)]">Subscribe</span>
                     </div>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    {purchaseType === "subscription" && (
-                      <p className="text-sm font-clinical line-through text-black/40">
-                        {formatPrice(oneTimePricing.price)}
-                      </p>
-                    )}
-                    <p
-                      className="text-2xl font-bold"
-                      style={
-                        purchaseType === "subscription"
-                          ? {
-                              color:
-                                formulaId === "01" ? "#d97706" : "#94b9ff",
-                            }
-                          : undefined
-                      }
-                    >
+                    <p className="text-sm font-clinical line-through text-black/50">
+                      {formatPrice(oneTimePricing.price)}
+                    </p>
+                    <p className="text-2xl font-bold text-[var(--brand-black)]">
                       {formatPrice(subscriptionPricing.price)}
                     </p>
-                    <p className="font-clinical text-xs text-black/40">
+                    <p className="font-clinical text-xs text-black/60">
                       {formatPrice(subscriptionPricing.perShot)}/shot
                     </p>
                   </div>
                 </div>
-              </button>
 
-              {/* Buy Once tile */}
-              <button
-                onClick={() => onPurchaseTypeChange("one-time")}
-                className={`w-full text-left p-4 transition-all cursor-pointer bg-white ${
-                  purchaseType === "one-time"
-                    ? "ring-2 ring-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                    : "border border-[var(--brand-border-color)] shadow-[0_1px_4px_rgba(0,0,0,0.06)]"
-                }`}
-                style={{ borderRadius: "var(--brand-radius-container)" }}
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        purchaseType === "one-time"
-                          ? "border-current bg-current/10"
-                          : "border-black/30"
-                      }`}
-                    >
-                      {purchaseType === "one-time" && (
-                        <span className="w-2.5 h-2.5 rounded-full bg-current" />
-                      )}
-                    </span>
-                    <span className="font-bold">Buy Once</span>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <p className="text-2xl font-bold">
-                      {formatPrice(oneTimePricing.price)}
-                    </p>
-                    <p className="font-clinical text-xs text-black/40">
-                      {formatPrice(oneTimePricing.perShot)}/shot
-                    </p>
-                  </div>
+                {/* Delivery description */}
+                <p className="text-sm text-black/80 mt-3 ml-8">
+                  📦 {getDeliveryDescription(selectedPack)}
+                </p>
+
+                {/* Feature bullets - always visible */}
+                <div className="mt-2 ml-8 space-y-1">
+                  {["Free UK shipping", "20% off every order", "Pause, skip, or cancel anytime", "100-day money-back guarantee"].map((feature) => (
+                    <div key={feature} className="flex items-center gap-2 text-sm text-black/80">
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0 text-[var(--brand-accent)]">
+                        <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
                 </div>
-              </button>
-            </div>
+              </div>
+            </button>
+
+            {/* Buy Once tile */}
+            <button
+              onClick={() => onPurchaseTypeChange("one-time")}
+              className={`w-full text-left p-4 transition-all cursor-pointer bg-white ${
+                purchaseType === "one-time"
+                  ? "ring-2 shadow-md"
+                  : "border border-black/10 shadow-sm"
+              }`}
+              style={{
+                borderRadius: "var(--brand-radius-container)",
+                ...(purchaseType === "one-time"
+                  ? { ringColor: "var(--brand-accent)", borderColor: "var(--brand-accent)" }
+                  : {}),
+              }}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      purchaseType === "one-time"
+                        ? "border-[var(--brand-accent)] bg-[var(--brand-accent)]"
+                        : "border-black/30"
+                    }`}
+                  >
+                    {purchaseType === "one-time" && (
+                      <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+                        <path d="M2.5 8.5L6.5 12L13.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                  </span>
+                  <span className="font-bold text-[var(--brand-black)]">Buy Once</span>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-2xl font-bold text-[var(--brand-black)]">
+                    {formatPrice(oneTimePricing.price)}
+                  </p>
+                  <p className="font-clinical text-xs text-black/60">
+                    {formatPrice(oneTimePricing.perShot)}/shot
+                  </p>
+                </div>
+              </div>
+            </button>
           </div>
 
-          {/* CTA with price */}
+          {/* CTA with price - brand accent */}
           <button
             onClick={onAddToCart}
-            className={`w-full px-8 py-4 font-bold text-lg border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)] ${ctaTextClass}`}
+            className="w-full px-8 py-4 font-bold text-lg text-white border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
             style={{
-              background: `linear-gradient(90deg, ${FORMULA_GRADIENTS[formulaId].start} 0%, ${FORMULA_GRADIENTS[formulaId].end} 100%)`,
+              backgroundColor: "var(--brand-accent)",
               borderRadius: "var(--brand-radius-interactive)",
             }}
           >

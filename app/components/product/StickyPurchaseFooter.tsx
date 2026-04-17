@@ -385,19 +385,10 @@ export default function StickyPurchaseFooter({
                 >
                   <div
                     className={`w-8 h-4 rounded-full relative transition-colors ${
-                      purchaseType === "subscription" && accentColor
-                        ? accentColor.bg
-                        : purchaseType === "subscription" && productGradient
-                          ? ""
-                          : "bg-gray-300"
+                      purchaseType === "subscription"
+                        ? "bg-[var(--brand-accent)]"
+                        : "bg-gray-300"
                     }`}
-                    style={
-                      purchaseType === "subscription" && productGradient
-                        ? {
-                            background: `linear-gradient(to right, ${productGradient.start}, ${productGradient.end})`,
-                          }
-                        : undefined
-                    }
                   >
                     <div
                       className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${
@@ -408,21 +399,13 @@ export default function StickyPurchaseFooter({
                   <span className="hidden sm:inline">Subscribe</span>
                 </button>
 
-                {/* Add to Cart Button: pill, no border; formula = gradient + black text, protocol = protocol gradient + black text; price inside */}
+                {/* Add to Cart Button */}
                 <button
                   onClick={onAddToCart}
-                  className={
-                    formulaId || protocolId
-                      ? "min-w-[10rem] px-6 py-2.5 font-bold text-sm whitespace-nowrap text-black transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
-                      : "min-w-[10rem] px-6 py-2.5 font-bold text-sm whitespace-nowrap text-white bg-black border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
-                  }
+                  className="min-w-[10rem] px-6 py-2.5 font-bold text-sm whitespace-nowrap text-white border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
                   style={{
                     borderRadius: "var(--brand-radius-interactive)",
-                    ...(productGradient
-                      ? {
-                          background: `linear-gradient(to right, ${productGradient.start}, ${productGradient.end})`,
-                        }
-                      : {}),
+                    backgroundColor: "var(--brand-accent)",
                   }}
                 >
                   <span>Add to Cart</span>
