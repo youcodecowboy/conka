@@ -8,18 +8,18 @@ import {
 } from "@/app/lib/productData";
 
 const FORMULA_ASSETS: Record<FormulaId, string> = {
-  "01": "/formulas/conkaFlow/FlowTaste.jpg",
-  "02": "/formulas/conkaClear/ClearTaste.jpg",
+  "01": "/lifestyle/FlowDrink.jpg",
+  "02": "/lifestyle/ClearBoxOpen.jpg",
 };
 
 /** Desktop supporting assets: square (lifestyle) and circle (vibe/taste) */
 const SUPPORTING_SQUARE: Record<FormulaId, { src: string; alt: string }> = {
-  "01": { src: "/lifestyle/FlowDrink.jpg", alt: "Drinking CONKA Flow" },
-  "02": { src: "/lifestyle/ClearDrink.jpg", alt: "Drinking CONKA Clear" },
+  "01": { src: "/lifestyle/FlowConkaRing.jpg", alt: "CONKA Flow with app and headphones" },
+  "02": { src: "/lifestyle/ClearJeansTwo.jpg", alt: "Holding CONKA Clear casually" },
 };
 const SUPPORTING_CIRCLE: Record<FormulaId, { src: string; alt: string }> = {
-  "01": { src: "/vibe/HoneyTaste.jpg", alt: "Honey taste" },
-  "02": { src: "/vibe/CitrusTaste.jpg", alt: "Citrus taste" },
+  "01": { src: "/lifestyle/ConkaDesk.jpg", alt: "Opening CONKA at a desk" },
+  "02": { src: "/lifestyle/ClearDesk.jpg", alt: "CONKA Clear at a desk" },
 };
 
 const STEPS: Record<

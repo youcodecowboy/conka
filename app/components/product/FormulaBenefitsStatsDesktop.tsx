@@ -5,21 +5,28 @@ import { FormulaId, STRUGGLE_OPTIONS, formulaContent } from "@/app/lib/productDa
 
 const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   "01": {
-    src: "/CONKA_01.jpg",
-    alt: "CONKA Flow bottle",
+    src: "/lifestyle/ConkaAtWorkDesk.jpg",
+    alt: "CONKA Flow at a work desk",
   },
   "02": {
-    src: "/CONKA_06.jpg",
-    alt: "CONKA Clear bottle",
+    src: "/lifestyle/BlurGrab.jpg",
+    alt: "Reaching for CONKA Clear",
   },
 };
 
-/** Shared lifestyle assets for benefits stats (Flow and Clear) */
-const SUPPORTING_ASSETS = [
-  { src: "/lifestyle/FlowBoxOpen.jpg", alt: "Unboxing CONKA" },
-  { src: "/lifestyle/HoldingBottle.jpg", alt: "Holding CONKA bottle" },
-  { src: "/lifestyle/HoldBoth.jpg", alt: "CONKA Flow and Clear bottles" },
-];
+/** Per-formula lifestyle assets for the 3 supporting thumbnails */
+const SUPPORTING_ASSETS: Record<FormulaId, { src: string; alt: string }[]> = {
+  "01": [
+    { src: "/lifestyle/FlowBoxOpen.jpg", alt: "Unboxing CONKA Flow" },
+    { src: "/lifestyle/FlowDrink.jpg", alt: "Drinking CONKA Flow" },
+    { src: "/lifestyle/FlowLeaf.jpg", alt: "Holding CONKA Flow bottle" },
+  ],
+  "02": [
+    { src: "/lifestyle/ConkaJeansHold.jpg", alt: "Holding CONKA Clear casually" },
+    { src: "/lifestyle/ClearTable.jpg", alt: "CONKA Clear on a desk" },
+    { src: "/lifestyle/ClearBag.jpg", alt: "CONKA Clear in a bag" },
+  ],
+};
 
 interface FormulaBenefitsStatsDesktopProps {
   formulaId: FormulaId;
@@ -87,7 +94,7 @@ export default function FormulaBenefitsStatsDesktop({
         </div>
         {/* Three supporting assets — full width to match primary above */}
         <div className="grid grid-cols-3 gap-3 w-full">
-          {SUPPORTING_ASSETS.map((asset, idx) => (
+          {SUPPORTING_ASSETS[formulaId].map((asset, idx) => (
             <div
               key={idx}
               className="relative aspect-square overflow-hidden bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"

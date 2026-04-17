@@ -5,12 +5,12 @@ import { FormulaId, STRUGGLE_OPTIONS, formulaContent } from "@/app/lib/productDa
 
 const PRODUCT_IMAGE: Record<FormulaId, { src: string; alt: string }> = {
   "01": {
-    src: "/CONKA_01x.jpg",
-    alt: "CONKA Flow bottle",
+    src: "/lifestyle/ConkaAtWorkDesk.jpg",
+    alt: "CONKA Flow at a work desk",
   },
   "02": {
-    src: "/CONKA_06.jpg",
-    alt: "CONKA Clear bottle",
+    src: "/lifestyle/BlurGrab.jpg",
+    alt: "Reaching for CONKA Clear",
   },
 };
 
