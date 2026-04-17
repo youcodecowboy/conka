@@ -10,12 +10,12 @@ interface FlowVsClearProps {
 
 const FORMULA_IMAGES: Record<string, { src: string; alt: string }> = {
   "01": {
-    src: "/lifestyle/ConkaJeansHold.jpg",
-    alt: "Hand holding a CONKA Flow bottle",
+    src: "/lifestyle/ConkaDesk.jpg",
+    alt: "CONKA Flow bottle on a desk beside a keyboard",
   },
   "02": {
-    src: "/lifestyle/ConkaDesk.jpg",
-    alt: "CONKA Clear bottle on a desk beside a keyboard",
+    src: "/lifestyle/ConkaJeansHold.jpg",
+    alt: "Hand holding a CONKA Clear bottle",
   },
 };
 

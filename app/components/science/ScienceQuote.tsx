@@ -13,10 +13,10 @@ export default function ScienceQuote({ isMobile = false }: ScienceQuoteProps) {
         }`}
         style={{ lineHeight: 1.3 }}
       >
-        <span className="font-light text-black/30">&ldquo;</span>
+        <span className="text-[1.5em] font-bold leading-none">&ldquo;</span>
         The brain is the most complex organ in the known universe. We believe it
         deserves ingredients backed by rigorous science, not marketing hype.
-        <span className="font-light text-black/30">&rdquo;</span>
+        <span className="text-[1.5em] font-bold leading-none">&rdquo;</span>
       </p>
       <p className="brand-caption text-black/60 mt-4 lg:mt-6">
         — The CONKA Research Philosophy

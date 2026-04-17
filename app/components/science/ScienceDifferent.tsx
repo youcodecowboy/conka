@@ -95,10 +95,10 @@ export default function ScienceDifferent({
           ))}
         </div>
 
-        {/* Lifestyle image — desktop only, sticky sidebar */}
-        <div className="hidden lg:block lg:w-[400px] lg:flex-shrink-0 lg:sticky lg:top-24">
+        {/* Lifestyle image — below cards on mobile, sticky sidebar on desktop */}
+        <div className="mt-6 lg:mt-0 lg:w-[400px] lg:flex-shrink-0 lg:sticky lg:top-24">
           <div
-            className="relative aspect-[3/4] overflow-hidden"
+            className="relative aspect-square overflow-hidden"
             style={{ borderRadius: "var(--brand-radius-card)" }}
           >
             <Image
