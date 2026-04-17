@@ -124,19 +124,21 @@ export default function ProtocolHero({
             >
               {protocol.name}
             </h1>
-            <div className="mt-2">
-              <span
-                className="inline-block py-1 brand-data text-black/60 text-sm"
-                style={{
-                  paddingLeft: "var(--brand-space-m)",
-                  paddingRight: "var(--brand-space-m)",
-                  borderRadius: "var(--brand-radius-interactive)",
-                  background: "rgba(0,0,0,0.04)",
-                }}
-              >
-                {protocol.subtitle} · {totalShots} shots
-              </span>
-            </div>
+            {protocolId !== "3" && (
+              <div className="mt-2">
+                <span
+                  className="inline-block py-1 brand-data text-black/60 text-sm"
+                  style={{
+                    paddingLeft: "var(--brand-space-m)",
+                    paddingRight: "var(--brand-space-m)",
+                    borderRadius: "var(--brand-radius-interactive)",
+                    background: "rgba(0,0,0,0.04)",
+                  }}
+                >
+                  {protocol.subtitle} · {totalShots} shots
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Headline description */}
@@ -155,7 +157,7 @@ export default function ProtocolHero({
           {/* Pack Selector (tiers as pack sizes) */}
           <div>
             <div className="grid grid-cols-3 gap-2">
-              {TIER_OPTIONS.map((tier) => {
+              {TIER_OPTIONS.filter((tier) => protocol.availableTiers.includes(tier)).map((tier) => {
                 const isSelected = selectedTier === tier;
                 return (
                   <button

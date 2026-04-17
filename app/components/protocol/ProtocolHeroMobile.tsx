@@ -97,19 +97,21 @@ export default function ProtocolHeroMobile({
         >
           {protocol.name}
         </h1>
-        <div className="mt-2">
-          <span
-            className="inline-block py-1 brand-data text-black/60 text-sm"
-            style={{
-              paddingLeft: "var(--brand-space-m)",
-              paddingRight: "var(--brand-space-m)",
-              borderRadius: "var(--brand-radius-interactive)",
-              background: "rgba(0,0,0,0.04)",
-            }}
-          >
-            {protocol.subtitle} · {totalShots} shots
-          </span>
-        </div>
+        {protocolId !== "3" && (
+          <div className="mt-2">
+            <span
+              className="inline-block py-1 brand-data text-black/60 text-sm"
+              style={{
+                paddingLeft: "var(--brand-space-m)",
+                paddingRight: "var(--brand-space-m)",
+                borderRadius: "var(--brand-radius-interactive)",
+                background: "rgba(0,0,0,0.04)",
+              }}
+            >
+              {protocol.subtitle} · {totalShots} shots
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Product Image */}
