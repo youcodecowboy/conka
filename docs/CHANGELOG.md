@@ -6,6 +6,25 @@
 
 ## April 2026
 
+### 2026-04-17 -- Fix account profile update (was completely broken)
+
+The Edit Profile modal on `/account` was returning 200 OK but never actually updating anything in Shopify. Two root causes:
+
+**Wrong API:** The `/api/auth/customer/update` route was calling the **Storefront API** via `shopifyFetch`, but the auth token (`shcat_...`) is a **Customer Account API** OAuth token. The Storefront API silently ignored the invalid token. Rewrote the entire route to use the Customer Account API (`https://shopify.com/{shopId}/account/customer/api/2024-10/graphql`) with the token as the `Authorization` header, matching the session and orders routes.
+
+**Auth not sent:** Before the API rewrite, the route also expected a `Bearer` token in the `Authorization` header, but the frontend never sent one (the token lives in cookies). Fixed by reading from the `customer_access_token` cookie.
+
+**Additional fixes found during code review:**
+- Address updates were always creating new addresses (duplicates). Now queries for existing default address ID and uses `customerAddressUpdate` when one exists, `customerAddressCreate` only for first-time addresses. Both use `defaultAddress: true` param (the `customerDefaultAddressUpdate` mutation does not exist in the Customer Account API).
+- Email field made read-only with explanation. The Customer Account API `customerUpdate` mutation only supports `firstName` and `lastName` -- no email, no phone.
+- Phone number moved to `CustomerAddressInput.phoneNumber` on the address mutation (the only place the Customer Account API accepts it).
+- Country names mapped to ISO codes (GB, US, CA, AU, IE) via `territoryCode` field. Province uses `zoneCode` (not `provinceCode`). These are Customer Account API field names, which differ from the Storefront API.
+- GraphQL-level errors now checked (previously only HTTP status was checked, so schema mismatches returned silent 200s).
+- UI refresh fixed: `checkSession()` now called after save instead of `router.refresh()`, which only refreshes server components while customer data lives in client-side `AuthContext`.
+
+**Why:** Customer reported 401 on profile update. Investigation revealed the entire update flow was non-functional since it was built (wrong API, wrong auth method, address duplication, silent email no-op).
+**Branch:** `account-update-details-bug`
+
 ### 2026-04-16 -- PDP purchase flow overhaul + ProtocolHero alignment
 
 Complete redesign of the purchase flow on Flow, Clear, and Both (Protocol) product pages, inspired by Magic Mind's PDP pattern.

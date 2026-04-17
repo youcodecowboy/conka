@@ -19,8 +19,10 @@ interface CustomerResponse {
         address2: string | null;
         city: string | null;
         province: string | null;
+        zoneCode: string | null;
         zip: string | null;
         country: string | null;
+        territoryCode: string | null;
       };
     };
   };
@@ -45,8 +47,10 @@ const CUSTOMER_QUERY = `
         address2
         city
         province
+        zoneCode
         zip
         country
+        territoryCode
       }
     }
   }
