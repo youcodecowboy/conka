@@ -1,8 +1,9 @@
 import { FUNNEL_URL } from "@/app/lib/landingConstants";
+import Button from "@/app/components/Button";
 
 /**
- * Shared CTA button for the /start landing page.
- * Uses brand accent (#4058bb) as primary action color.
+ * Convenience wrapper: a Button that defaults to the funnel URL.
+ * Use Button directly when linking elsewhere.
  */
 export default function LandingCTA({
   children,
@@ -14,11 +15,8 @@ export default function LandingCTA({
   className?: string;
 }) {
   return (
-    <a
-      href={href}
-      className={`block w-full lg:w-auto text-center py-4 px-14 rounded-[var(--brand-radius-interactive)] font-semibold text-base text-white bg-brand-accent transition-transform hover:scale-[1.02] active:scale-[0.98] ${className}`}
-    >
+    <Button href={href} className={className}>
       {children}
-    </a>
+    </Button>
   );
 }
