@@ -4,31 +4,20 @@ import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import LabHero from "./LabHero";
 import LabCTA from "./LabCTA";
+import LabWhatItDoes from "./LabWhatItDoes";
+import LabValueComparison from "./LabValueComparison";
+import LabTimeline from "./LabTimeline";
+import LabGuarantee from "./LabGuarantee";
+import LabFAQ from "./LabFAQ";
+import LabTestimonialsSection from "./LabTestimonialsSection";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
-import LandingWhatItDoes from "../components/landing/LandingWhatItDoes";
 import Reveal from "../components/landing/Reveal";
 import { PRICE_PER_SHOT_BOTH } from "../lib/landingPricing";
-import TestimonialsSection from "../start/TestimonialsSection";
+import "./lab.css";
 
 const CaseStudiesDataDriven = dynamic(
   () => import("../components/CaseStudiesDataDriven"),
   { loading: () => <div className="h-[600px]" /> },
-);
-const LandingValueComparison = dynamic(
-  () => import("../components/landing/LandingValueComparison"),
-  { loading: () => <div className="h-[300px]" /> },
-);
-const LandingTimeline = dynamic(
-  () => import("../components/landing/LandingTimeline"),
-  { loading: () => <div className="h-[500px]" /> },
-);
-const LandingGuarantee = dynamic(
-  () => import("../components/landing/LandingGuarantee"),
-  { loading: () => <div className="h-[500px]" /> },
-);
-const LandingFAQ = dynamic(
-  () => import("../components/landing/LandingFAQ"),
-  { loading: () => <div className="h-[400px]" /> },
 );
 
 export const metadata: Metadata = {
@@ -39,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function StartV1Page() {
   return (
-    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+    <div className="lab-theme min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
 
       {/* ===== 1. HERO ===== */}
@@ -59,7 +48,7 @@ export default function StartV1Page() {
       >
         <div className="brand-track">
           <Reveal>
-            <LandingWhatItDoes />
+            <LabWhatItDoes />
           </Reveal>
         </div>
       </section>
@@ -85,12 +74,12 @@ export default function StartV1Page() {
         aria-label="CONKA vs coffee cost comparison"
       >
         <div className="brand-track">
-          <LandingValueComparison />
+          <LabValueComparison />
         </div>
       </section>
 
       {/* ===== 5. TESTIMONIALS ===== */}
-      <TestimonialsSection />
+      <LabTestimonialsSection />
 
       {/* ===== 6. TIMELINE ===== */}
       <section
@@ -99,7 +88,7 @@ export default function StartV1Page() {
       >
         <div className="brand-track">
           <Reveal>
-            <LandingTimeline />
+            <LabTimeline />
           </Reveal>
         </div>
       </section>
@@ -111,7 +100,7 @@ export default function StartV1Page() {
       >
         <div className="brand-track">
           <Reveal>
-            <LandingGuarantee />
+            <LabGuarantee />
           </Reveal>
         </div>
       </section>
@@ -122,7 +111,7 @@ export default function StartV1Page() {
         aria-label="FAQ"
       >
         <div className="brand-track">
-          <LandingFAQ />
+          <LabFAQ />
         </div>
       </section>
 

@@ -1,0 +1,16 @@
+/* Clinical token overrides — scoped to /startV1 only.
+   Applied via .lab-theme on the page root div.
+   CSS variable inheritance cascades these through every shared component. */
+.lab-theme {
+  /* Zero radius — precision lab aesthetic throughout */
+  --brand-radius-card: 0px;
+  --brand-radius-container: 0px;
+  --brand-radius-interactive: 0px;
+
+  /* Navy accent replaces brand blue */
+  --brand-accent: #1B2757;
+  --color-brand-accent: #1B2757;
+
+  /* Slightly cooler tint for clinical whitespace feel */
+  --brand-tint: #f5f5f5;
+}

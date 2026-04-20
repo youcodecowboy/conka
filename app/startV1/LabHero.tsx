@@ -19,8 +19,8 @@ const STATS = [
 export default function LabHero() {
   return (
     <div>
-      {/* Full-bleed hero with gradient scrim + text overlay */}
-      <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] aspect-[4/3] lg:aspect-[16/9]">
+      {/* Full-bleed hero — no rounding, bleeds to screen edges on mobile */}
+      <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full aspect-[4/3] lg:aspect-[16/9]">
         <Image
           src="/lifestyle/CreationOfConka.jpg"
           alt="Two hands exchanging a CONKA brain performance shot"
