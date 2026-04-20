@@ -202,7 +202,7 @@ export default function LabValueComparison() {
       </div>
 
       <div className="mt-8 flex justify-start">
-        <LabCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LabCTA>
+        <LabCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</LabCTA>
       </div>
       <div className="mt-4">
         <LandingTrustBadges />

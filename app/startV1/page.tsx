@@ -62,7 +62,7 @@ export default function StartV1Page() {
           <Reveal>
             <CaseStudiesDataDriven hideCTA />
             <div className="mt-8 flex justify-start">
-              <LabCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LabCTA>
+              <LabCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</LabCTA>
             </div>
           </Reveal>
         </div>

@@ -94,7 +94,7 @@ export default function LabTimeline({ hideCTA = false }: { hideCTA?: boolean } =
       {!hideCTA && (
         <>
           <div className="flex flex-col items-start gap-2">
-            <LabCTA>Try Both from £{PRICE_PER_SHOT_BOTH}/shot →</LabCTA>
+            <LabCTA>Try Both from £{PRICE_PER_SHOT_BOTH}/shot</LabCTA>
           </div>
           <div className="mt-6">
             <LandingTrustBadges />

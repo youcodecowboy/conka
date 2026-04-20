@@ -37,3 +37,10 @@
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
 }
+
+/* ===== Clipped-corner primitive — the lab-language for interactive tiles =====
+   Chamfer pattern matches LabCTA exactly. Applied to ingredient buttons,
+   pillar cards, and anything else that invites a tap. */
+.lab-clip-tr {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}

@@ -111,7 +111,7 @@ export default function LabFAQ({ hideCTA = false }: { hideCTA?: boolean } = {}) 
 
           {!hideCTA && (
             <div className="mt-8 flex justify-center lg:justify-start">
-              <LabCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LabCTA>
+              <LabCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</LabCTA>
             </div>
           )}
         </div>

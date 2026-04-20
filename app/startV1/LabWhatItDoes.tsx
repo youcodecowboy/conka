@@ -11,10 +11,11 @@ import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 import LabCTA from "./LabCTA";
 import LabTrustBadges from "./LabTrustBadges";
 import LabWhatsInsideMini from "./LabWhatsInsideMini";
-import AmPmConnector from "../components/landing/AmPmConnector";
+import LabDosingWindows from "./LabDosingWindows";
 
 interface Ingredient {
   name: string;
+  imageSrc: string;
   efsaAnchor?: boolean;
 }
 
@@ -36,9 +37,9 @@ const PILLARS: Pillar[] = [
     description:
       "Clinically-studied ingredients for your daily focus and clarity routine. Stay locked in past 2pm instead of reaching for another coffee.",
     ingredients: [
-      { name: "Lemon Balm" },
-      { name: "Alpha GPC" },
-      { name: "Rhodiola" },
+      { name: "Lemon Balm", imageSrc: "/ingredients/flow/lemon-balm.webp" },
+      { name: "Alpha GPC", imageSrc: "/ingredients/clear/alpha-gpc.webp" },
+      { name: "Rhodiola", imageSrc: "/ingredients/flow/rhodiola.webp" },
     ],
     studyObservation:
       "In one study, participants taking Lemon Balm showed improvements in calmness and alertness (Kennedy et al. 2003)¶",
@@ -51,9 +52,9 @@ const PILLARS: Pillar[] = [
     description:
       "All-day mental energy without caffeine, jitters, or crashes. Adaptogens help your body manage the demands of a full day, not just the first few hours.",
     ingredients: [
-      { name: "Ashwagandha" },
-      { name: "Turmeric" },
-      { name: "Vitamin B12", efsaAnchor: true },
+      { name: "Ashwagandha", imageSrc: "/ingredients/flow/ashwagandha.webp" },
+      { name: "Turmeric", imageSrc: "/ingredients/flow/turmeric.jpg" },
+      { name: "Vitamin B12", imageSrc: "/ingredients/clear/vitamin-b12.webp", efsaAnchor: true },
     ],
     studyObservation:
       "In one study, participants taking Ashwagandha showed a significant reduction in perceived stress (Chandrasekhar et al. 2012)¶",
@@ -72,9 +73,9 @@ const PILLARS: Pillar[] = [
       </>
     ),
     ingredients: [
-      { name: "Glutathione" },
-      { name: "NAC" },
-      { name: "Vitamin C", efsaAnchor: true },
+      { name: "Glutathione", imageSrc: "/ingredients/clear/glutathione.webp" },
+      { name: "NAC", imageSrc: "/ingredients/clear/nac.webp" },
+      { name: "Vitamin C", imageSrc: "/ingredients/clear/vitamin-c.webp", efsaAnchor: true },
     ],
     studyObservation: (
       <>
@@ -103,7 +104,7 @@ export default function LabWhatItDoes() {
         Two shots. 16 active ingredients.
       </h2>
 
-      <AmPmConnector />
+      <LabDosingWindows />
 
       <div className="mb-8">
         <LabWhatsInsideMini />
@@ -111,7 +112,7 @@ export default function LabWhatItDoes() {
 
       <div className="mb-3 flex justify-start">
         <LabCTA>
-          Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot &rarr;
+          Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot
         </LabCTA>
       </div>
       <div className="mb-12">
@@ -147,17 +148,17 @@ export default function LabWhatItDoes() {
               return (
                 <div
                   key={pillar.id}
-                  className={`rounded-[var(--brand-radius-card)] bg-white p-5 lg:p-6 flex flex-col shadow-sm ${
+                  className={`lab-clip-tr bg-white p-5 lg:p-6 flex flex-col shadow-sm ${
                     isOpen
-                      ? "border-l-4 border-l-black border border-black/6"
-                      : "border border-black/6"
+                      ? "border-l-4 border-l-black border border-black/8"
+                      : "border border-black/8"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-2xl lg:text-3xl font-semibold text-black">
                       {pillar.heading}
                     </h3>
-                    <div className="w-10 h-10 flex items-center justify-center rounded-[var(--brand-radius-interactive)] bg-black/5 text-black flex-shrink-0 ml-3">
+                    <div className="w-10 h-10 flex items-center justify-center bg-black/5 text-black flex-shrink-0 ml-3">
                       {pillar.icon}
                     </div>
                   </div>
@@ -193,21 +194,33 @@ export default function LabWhatItDoes() {
                   {isOpen && (
                     <div
                       id={`pillar-evidence-${pillar.id}`}
-                      className="mt-3 pt-3 border-t border-black/6"
+                      className="mt-4 pt-4 border-t border-black/8"
                     >
-                      <div className="flex flex-wrap gap-2 mb-3">
+                      {/* Ingredient mini-cards — asset + name, rectangular, no clip */}
+                      <div className="grid grid-cols-3 gap-2 mb-4">
                         {pillar.ingredients.map((ingredient) => (
-                          <span
+                          <div
                             key={ingredient.name}
-                            className="inline-flex items-center gap-1.5 rounded-[var(--brand-radius-interactive)] bg-black/[0.03] border border-black/6 px-3 py-1.5 text-sm font-mono"
+                            className="bg-[var(--brand-tint)] border border-black/6 overflow-hidden"
                           >
-                            <span className="font-semibold text-black/80">
-                              {ingredient.name}
-                            </span>
-                            {ingredient.efsaAnchor && (
-                              <span className="text-black/30 text-xs">††</span>
-                            )}
-                          </span>
+                            <div className="relative w-full aspect-square bg-white">
+                              <Image
+                                src={ingredient.imageSrc}
+                                alt={ingredient.name}
+                                fill
+                                sizes="(max-width: 1024px) 30vw, 120px"
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="px-2 py-2 flex items-center justify-center gap-1">
+                              <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-black/80 text-center leading-tight">
+                                {ingredient.name}
+                              </p>
+                              {ingredient.efsaAnchor && (
+                                <span className="text-black/30 text-[9px]">††</span>
+                              )}
+                            </div>
+                          </div>
                         ))}
                       </div>
 
@@ -228,7 +241,7 @@ export default function LabWhatItDoes() {
 
       <div className="mt-8 flex justify-start">
         <LabCTA>
-          Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot &rarr;
+          Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot
         </LabCTA>
       </div>
       <div className="mt-6">

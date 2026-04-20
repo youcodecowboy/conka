@@ -97,6 +97,105 @@ Co-located at `app/startV1/lab.css`, imported from `page.tsx`. Scoped to `.lab-t
 - Desktop split layout (hero): broke visual flow, user rejected immediately
 - Cropped aspect ratio (`5/3 / 20/7`): made the hero feel like a banner ad rather than an editorial image
 
+---
+
+## LabWhatItDoes Rebuild — Formulation & Benefits Section
+
+A significant visual upgrade to the `LabWhatItDoes` section of `/startV1`, keeping the existing headlines but rebuilding the interaction model and ingredient presentation. Primary goal: stop the section from feeling like a styled copy of `/start` and start using interaction as a premium signal.
+
+### Unifying visual primitive: the clipped corner
+
+The chamfered top-right corner (first used on `LabCTA`) is elevated to the **lab's signature visual language for interactivity**. Any tappable element gets the clip; static elements don't.
+
+Utility class added to `lab.css`:
+```css
+.lab-clip-tr {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+```
+
+Applied to: ingredient buttons on bottle tiles, benefit pillar cards. Intentionally **not** applied to the ingredient mini-cards (purely informational).
+
+### LabAmPmConnector — new component replacing `AmPmConnector`
+
+The original used sunrise emoji (`☀️`) and a warm-to-cool gradient line. Both felt cheap. Replaced with a pure-typographic clinical time-axis:
+
+- `AM · 07:00` on the left, `PM · 14:00` on the right (monospace, bold dose code + muted time)
+- Hairline axis between them with 8 evenly-spaced tick marks — reads like a lab-instrument scale
+- No colour, no emoji
+
+### LabWhatsInsideMini — 2×2 mirror grid (product ↔ info)
+
+First explored as **flip cards** with divergent back faces (Flow → lifestyle aspirational overlay, Clear → pure spec card). That test revealed the spec card was the stronger direction *and* that hiding half the content behind a tap was fighting the scannability of a clinical page. The flip was scrapped in favour of exposing everything at once.
+
+Current layout — static 2×2 grid, "mirror" pattern:
+
+```
+[ FLOW product ]   [ FLOW info-spec ]
+[ CLEAR info-spec ] [ CLEAR product ]
+```
+
+Products sit on the outside, info spec cards in the middle — reads like a paired dossier. Each row is one product; the product tile + its spec tile are always adjacent.
+
+**Product tiles (white):** dose label (`AM 06:00–10:00` / `PM 12:00–16:00`), bottle, product name, full-width clipped `INGREDIENTS` button that opens the existing `IngredientsPanel` modal. No change to the ingredients modal behavior.
+
+**Info tiles (white with `lab-asset-frame` double-border, black text):** four data rows with `border-l-2 border-black/25` clinical accent bars — `ONSET`, `DURATION`, `KEY ACTIVES`, `USE CASE`. Reads like an architectural spec sheet. Values are product-specific (Flow: lemon balm · rhodiola · ashwagandha · "calm morning focus"; Clear: alpha-gpc · alcar · ginkgo · "afternoon reset").
+
+**Colour discipline:** an early draft had the info cards navy-filled to mirror the CTA buttons. With two info cards plus the CTA buttons plus the dosing-window bands all in the same `#1B2757`, the page started to feel over-accented. Navy is now reserved strictly for **interactive/CTA signals** — CTA buttons, ingredients button, dosing-window bands on the timeline. Static data surfaces (info cards) use the `lab-asset-frame` double-border in black on white, so the signature architectural frame — not the colour — is what carries the "this is clinical content" signal.
+
+The 2×2 layout **doubles the information density** of the section (4 tiles vs 2) while keeping the product-to-info pairing visually obvious via the mirror.
+
+### LabDosingWindows — new timeline above the grid (replaces LabAmPmConnector)
+
+The original AM/PM connector — and the first-draft clinical time-axis that replaced it — communicated two single clock times (`AM 07:00` / `PM 14:00`). That read as arbitrary. The upgraded component shows the actual **recommended dosing windows** as filled bands on a real timeline:
+
+```
+   06   08   10   12   14   16   18
+   ├────────────┤       ├────────────┤
+   ▓▓▓▓ FLOW ▓▓▓▓       ▓▓▓▓ CLEAR ▓▓▓▓
+   6–10 AM              12–4 PM
+```
+
+- 12-hour scale (06:00–18:00) with hour-labelled axis
+- Two navy-filled bands for Flow (6–10) and Clear (12–4), positioned proportionally
+- Centred labels under each band with dose + range
+- Header: `RECOMMENDED DOSING WINDOWS`
+
+Reads as a protocol schedule rather than a time-of-day mood.
+
+`LabAmPmConnector.tsx` was deleted.
+
+### Benefit pillars — clipped cards + ingredient mini-cards
+
+**Pillar cards:**
+- Clipped top-right corner (was: rounded)
+- Left accent changed from navy to pure black on the open state (was: `border-l-brand-accent`)
+- Icon container square (was: circle), black-on-muted-grey (was: accent-on-tinted-accent)
+- "See ingredients & research" expand button now monospace uppercase with the chevron icon — matches the section-label register throughout the page
+
+**Ingredient badges → ingredient mini-cards:**
+
+The original inline chip list (`<span>` with text only) is replaced with a **3-column grid of small rectangular cards**. Each card:
+- Square asset area (top) with the ingredient photo — uses the existing `/ingredients/flow/` and `/ingredients/clear/` webp/jpg library
+- Tinted footer (`var(--brand-tint)`) with the ingredient name in monospace uppercase + EFSA anchor (`††`) where applicable
+
+Effect: the section goes from "text tags" to "mini-catalogue of proven inputs" — conveys research caliber without needing copy to claim it.
+
+### What Worked (this round)
+
+- Clipped corner as visual language: unified the CTA, ingredients button, and pillar cards without needing copy
+- Divergent back faces: concrete side-by-side test of two premium-framing strategies in a single deploy
+- Ingredient mini-cards: the single largest perceived-quality upgrade in this section — images do the trust-building that text chips were trying to fake
+- Clinical time-axis replacing the emoji strip: small change, outsized elevation effect
+
+### Open — things to watch on this rebuild
+
+- Flip height is pinned at `min-h: 22rem` — may need tuning when Clear's spec back is content-taller than Flow's bottle front
+- The Option 1 vs Option 2 A/B decision is an explicit next step — whichever wins likely gets applied to both tiles
+- Mini-card grid at 3 columns on mobile (390px with 5vw page gutter + card padding) is tight; watch for cramped ingredient names on narrow viewports
+
+---
+
 ## Open Questions for Next Round
 
 - Does the full-bleed image need to be a different photo with darker tones to support an overlay layout?
