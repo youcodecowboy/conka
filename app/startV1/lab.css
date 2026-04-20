@@ -16,13 +16,13 @@
 }
 
 /* Double-line border for contained (non-bleed) assets.
-   Creates: 2px black → 4px white gap → 2px black.
+   Creates: 2px inner black → 4px white gap → 1px outer black.
    Architectural drawing / lab spec-sheet convention. */
 .lab-asset-frame {
   box-shadow:
     0 0 0 2px rgba(0, 0, 0, 0.85),
     0 0 0 6px rgba(255, 255, 255, 0.95),
-    0 0 0 8px rgba(0, 0, 0, 0.85);
+    0 0 0 7px rgba(0, 0, 0, 0.75);
 }
 
 /* Terminal cursor blink for CTA button */

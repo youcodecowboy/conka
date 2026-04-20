@@ -9,8 +9,8 @@ import {
 } from "../components/landing/icons";
 import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 import LabCTA from "./LabCTA";
-import LandingTrustBadges from "../components/landing/LandingTrustBadges";
-import WhatsInsideProductMini from "../components/landing/WhatsInsideProductMini";
+import LabTrustBadges from "./LabTrustBadges";
+import LabWhatsInsideMini from "./LabWhatsInsideMini";
 import AmPmConnector from "../components/landing/AmPmConnector";
 
 interface Ingredient {
@@ -106,7 +106,7 @@ export default function LabWhatItDoes() {
       <AmPmConnector />
 
       <div className="mb-8">
-        <WhatsInsideProductMini />
+        <LabWhatsInsideMini />
       </div>
 
       <div className="mb-3 flex justify-start">
@@ -115,7 +115,7 @@ export default function LabWhatItDoes() {
         </LabCTA>
       </div>
       <div className="mb-12">
-        <LandingTrustBadges />
+        <LabTrustBadges />
       </div>
 
       <div className="flex flex-col lg:flex-row lg:gap-10">
@@ -232,7 +232,7 @@ export default function LabWhatItDoes() {
         </LabCTA>
       </div>
       <div className="mt-6">
-        <LandingTrustBadges />
+        <LabTrustBadges />
       </div>
     </div>
   );
