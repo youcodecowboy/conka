@@ -3,20 +3,18 @@ import dynamic from "next/dynamic";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import LabHero from "./LabHero";
-import LabCTA from "./LabCTA";
 import LabWhatItDoes from "./LabWhatItDoes";
 import LabValueComparison from "./LabValueComparison";
 import LabTimeline from "./LabTimeline";
 import LabGuarantee from "./LabGuarantee";
 import LabFAQ from "./LabFAQ";
-import LabTestimonialsSection from "./LabTestimonialsSection";
+import LabTestimonials from "./LabTestimonials";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
 import Reveal from "../components/landing/Reveal";
-import { PRICE_PER_SHOT_BOTH } from "../lib/landingPricing";
 import "./lab.css";
 
-const CaseStudiesDataDriven = dynamic(
-  () => import("../components/CaseStudiesDataDriven"),
+const LabCaseStudies = dynamic(
+  () => import("./LabCaseStudies"),
   { loading: () => <div className="h-[600px]" /> },
 );
 
@@ -60,10 +58,7 @@ export default function StartV1Page() {
       >
         <div className="brand-track">
           <Reveal>
-            <CaseStudiesDataDriven hideCTA />
-            <div className="mt-8 flex justify-start">
-              <LabCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</LabCTA>
-            </div>
+            <LabCaseStudies />
           </Reveal>
         </div>
       </section>
@@ -79,7 +74,14 @@ export default function StartV1Page() {
       </section>
 
       {/* ===== 5. TESTIMONIALS ===== */}
-      <LabTestimonialsSection />
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="Customer reviews"
+      >
+        <div className="brand-track">
+          <LabTestimonials />
+        </div>
+      </section>
 
       {/* ===== 6. TIMELINE ===== */}
       <section

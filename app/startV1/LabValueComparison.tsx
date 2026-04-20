@@ -1,7 +1,7 @@
 "use client";
 
 import LabCTA from "./LabCTA";
-import LandingTrustBadges from "../components/landing/LandingTrustBadges";
+import LabTrustBadges from "./LabTrustBadges";
 import { useInView } from "@/app/hooks/useInView";
 import { useCountUp } from "@/app/hooks/useCountUp";
 import {
@@ -55,7 +55,7 @@ export default function LabValueComparison() {
         </p>
       </div>
 
-      <div className="rounded-[var(--brand-radius-card)] bg-white border border-black/10 overflow-hidden">
+      <div className="lab-asset-frame bg-white overflow-hidden">
         <div className="flex flex-col lg:flex-row">
           {/* Coffee side */}
           <div className="flex-1 p-5 lg:p-8">
@@ -135,13 +135,13 @@ export default function LabValueComparison() {
             </div>
           </div>
 
-          {/* CONKA side */}
-          <div className="flex-1 p-5 lg:p-8 bg-black/[0.02]">
+          {/* CONKA side — subtle navy wash signals the "winning" column */}
+          <div className="flex-1 p-5 lg:p-8 bg-[#1B2757]/[0.04]">
             <div className="flex items-center gap-2 mb-5">
-              <div className="w-5 h-5 rounded-[var(--brand-radius-interactive)] bg-black/10 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-sm bg-black" />
+              <div className="w-5 h-5 bg-[#1B2757]/15 flex items-center justify-center">
+                <div className="w-2 h-2 bg-[#1B2757]" />
               </div>
-              <span className="font-mono text-xs font-semibold text-black uppercase tracking-[0.15em]">
+              <span className="font-mono text-xs font-semibold text-[#1B2757] uppercase tracking-[0.15em]">
                 CONKA (Both)
               </span>
             </div>
@@ -189,23 +189,23 @@ export default function LabValueComparison() {
         </div>
       </div>
 
-      {/* Savings strip */}
-      <div className="mt-4 px-5 py-3 rounded-[var(--brand-radius-interactive)] bg-black/[0.04] border border-black/8 text-center lg:text-left">
-        <span className="font-mono text-sm font-semibold text-black uppercase tracking-[0.08em]">
+      {/* Savings strip — chamfered corner, data-callout tone */}
+      <div className="lab-clip-tr mt-5 px-5 py-3 bg-black text-white text-left">
+        <span className="font-mono text-sm font-semibold uppercase tracking-[0.1em] tabular-nums">
           Save{" "}
           <span ref={savingsRef}>~£{MONTHLY_SAVINGS_VS_COFFEE}</span>
           /month vs coffee
         </span>
-        <span className="text-sm text-black/50 ml-1.5">
-          · 2 shots, {CONKA_INGREDIENTS_COUNT} ingredients, no crash
+        <span className="font-mono text-[11px] text-white/60 ml-1.5 uppercase tracking-[0.1em]">
+          · 2 shots · {CONKA_INGREDIENTS_COUNT} ingredients · no crash
         </span>
       </div>
 
       <div className="mt-8 flex justify-start">
         <LabCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</LabCTA>
       </div>
-      <div className="mt-4">
-        <LandingTrustBadges />
+      <div className="mt-6">
+        <LabTrustBadges />
       </div>
     </div>
   );

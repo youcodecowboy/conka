@@ -203,3 +203,45 @@ Effect: the section goes from "text tags" to "mini-catalogue of proven inputs" �
 - Would a monochrome/desaturated version of the hero image reinforce the lab feel?
 - Is `#1B2757` the right navy, or should it go darker/cooler (closer to `#0e1f3f`)?
 - A/B test: which `LabCTA` metadata variant drives higher click-through?
+
+---
+
+## Full-Page Aesthetic Sweep (5 sections)
+
+Pulled the lab vocabulary through the remaining sections so the page reads as one consistent clinical experience. Accepted duplicate code between `LandingX` and `LabX` as a temporary cost — consistency was the goal.
+
+### Scope of the sweep
+
+| File | Type | Change |
+|---|---|---|
+| `app/startV1/LabCaseStudies.tsx` | Net new | Specimen-card grid with dense 3-metric stat row + product + test-count footer. Replaces the one-metric overlay teaser from `CaseStudiesDataDriven`. |
+| `app/startV1/LabTestimonials.tsx` | Net new | Standalone component (no more `LandingTestimonials` wrapper). Mono spec header, hairline stars, hanging open-quote, chamfered navy carousel buttons. |
+| `app/startV1/LabTimeline.tsx` | Upgrade | Timeframe pills → navy `lab-clip-tr` tags with `T+1D / T+14D / T+30D` spec codes. Per-card spec footer (`Outcome · N=150+`). Mobile banner wrapped in `lab-asset-frame`. |
+| `app/startV1/LabGuarantee.tsx` | Upgrade | Phone mockup wrapped in `lab-asset-frame`. Numbered mono bullets (`01.` `02.` `03.` `04.`). Oversized mono `100d` display. |
+| `app/startV1/LabValueComparison.tsx` | Audit + finish | Comparison card gets `lab-asset-frame`. CONKA column wash switched from black/2 to navy/4 so navy signals the "winning" side. Savings strip now `lab-clip-tr` on a black fill. Trust badges swapped to `LabTrustBadges`. |
+
+Also deleted `LabTestimonialsSection.tsx` (the wrapper — `page.tsx` now renders `LabTestimonials` directly inside a `brand-section brand-bg-white` block).
+
+### Colour grammar held through the sweep
+
+- **Navy `#1B2757`:** interactive/CTA only — `LabCTA`, ingredients button, dosing bands, timeline code chips, CONKA-column wash in the comparison card
+- **Black double-border (`lab-asset-frame`):** data surfaces — hero stat strip, dataset summary strip, info spec cards, comparison card, phone mockup, sidebar + mobile timeline banner
+- **Black fill:** the "savings vs coffee" callout — small, chamfered, white mono text (treat once like a moment of emphasis rather than a pattern)
+- **Thin black border (`border-black/12`):** neutral containers for tiles that sit on white sections (athlete cards, testimonial cards, timeline cards, guarantee bullets)
+
+### Data density bump
+
+`LabCaseStudies` was the section the user explicitly wanted to surface more data on. The old teaser showed one metric per athlete; the new card shows:
+
+- Name + sport + position
+- Three improvement metrics (Total / Accuracy / Speed) as a mono tabular grid
+- Product used (`FLOW` / `CLEAR` / `FLOW · CLEAR`) + test count (`N=12`)
+
+Also added a third stat column to the dataset summary strip (`+28.96%` avg improvement) so the section opens with three hard numbers instead of two.
+
+### What was NOT changed
+
+- No copy changes outside eyebrow labels and spec row labels
+- No analytics events, no data-layer changes, no cart changes
+- `/start` (the live landing page) untouched
+- `LandingX` components left in place — still used elsewhere

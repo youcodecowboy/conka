@@ -21,18 +21,30 @@ export default function LabGuarantee({
   return (
     <div>
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
-        Risk-Free Trial
+        Trial Terms · Protocol 100
       </p>
+
       <div className="mb-8">
         <h2
-          className="brand-h1 mb-0"
+          className="brand-h1 mb-2"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
           {GUARANTEE_DAYS}-Day Risk Free Trial
         </h2>
+        {/* Oversized mono spec display — the number as data, not promise */}
+        <div className="flex items-baseline gap-3">
+          <span className="font-mono text-5xl lg:text-6xl font-bold tabular-nums text-black leading-none">
+            {GUARANTEE_DAYS}d
+          </span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 leading-tight">
+            Evaluation window
+            <br />
+            Full refund eligible
+          </span>
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+      <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-16">
         <div className="flex-1 order-2 lg:order-1 w-full">
           <p className="brand-body text-black/70">
             Try CONKA for {GUARANTEE_DAYS} days. If your mental performance
@@ -41,25 +53,19 @@ export default function LabGuarantee({
             <sup className="text-[0.5em] text-black/40 align-super">*</sup>
           </p>
 
-          <ul className="mt-6 space-y-3">
-            {BULLETS.map((bullet) => (
-              <li key={bullet} className="flex items-start gap-3">
-                <span className="w-6 h-6 flex items-center justify-center rounded-[var(--brand-radius-interactive)] bg-black/6 text-black shrink-0 mt-0.5">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+          {/* Numbered mono checklist — clinical-trial-protocol framing */}
+          <ul className="mt-6 border-t border-black/10">
+            {BULLETS.map((bullet, i) => (
+              <li
+                key={bullet}
+                className="flex items-baseline gap-4 py-3 border-b border-black/8"
+              >
+                <span className="font-mono text-[11px] font-bold tabular-nums text-black/50 leading-none shrink-0 w-7">
+                  {String(i + 1).padStart(2, "0")}.
                 </span>
-                <span className="text-sm lg:text-base text-black/80">{bullet}</span>
+                <span className="text-sm lg:text-base text-black/80 leading-snug">
+                  {bullet}
+                </span>
               </li>
             ))}
           </ul>
@@ -78,16 +84,21 @@ export default function LabGuarantee({
           </p>
         </div>
 
-        <div className="relative flex justify-center order-1 lg:order-2">
-          <Image
-            src="/app/AppConkaRing.png"
-            alt="CONKA app showing cognitive performance score"
-            width={240}
-            height={480}
-            loading="lazy"
-            className="relative z-[1] h-auto"
+        {/* Phone mockup — lab-asset-frame wraps it as a data surface */}
+        <div className="relative flex justify-center order-1 lg:order-2 w-full lg:w-auto">
+          <div
+            className="lab-asset-frame relative overflow-hidden bg-white"
             style={{ width: "clamp(180px, 40vw, 240px)" }}
-          />
+          >
+            <Image
+              src="/app/AppConkaRing.png"
+              alt="CONKA app showing cognitive performance score"
+              width={240}
+              height={480}
+              loading="lazy"
+              className="block w-full h-auto"
+            />
+          </div>
         </div>
       </div>
     </div>

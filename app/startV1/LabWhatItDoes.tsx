@@ -196,19 +196,20 @@ export default function LabWhatItDoes() {
                       id={`pillar-evidence-${pillar.id}`}
                       className="mt-4 pt-4 border-t border-black/8"
                     >
-                      {/* Ingredient mini-cards — asset + name, rectangular, no clip */}
-                      <div className="grid grid-cols-3 gap-2 mb-4">
+                      {/* Ingredient mini-cards — asset + name, rectangular, no clip.
+                          On desktop, each card shrinks to ~70% width and centres in its cell. */}
+                      <div className="grid grid-cols-3 gap-2 mb-4 lg:justify-items-center">
                         {pillar.ingredients.map((ingredient) => (
                           <div
                             key={ingredient.name}
-                            className="bg-[var(--brand-tint)] border border-black/6 overflow-hidden"
+                            className="w-full lg:w-[70%] bg-[var(--brand-tint)] border border-black/6 overflow-hidden"
                           >
                             <div className="relative w-full aspect-square bg-white">
                               <Image
                                 src={ingredient.imageSrc}
                                 alt={ingredient.name}
                                 fill
-                                sizes="(max-width: 1024px) 30vw, 120px"
+                                sizes="(max-width: 1024px) 30vw, 90px"
                                 className="object-cover"
                               />
                             </div>
