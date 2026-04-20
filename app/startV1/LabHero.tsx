@@ -2,18 +2,18 @@ import Image from "next/image";
 import LabCTA from "./LabCTA";
 
 const STATS = [
-  { value: "32", label: "PEER-REVIEWED\nSTUDIES" },
-  { value: "INFORMED\nSPORT", label: "BATCH TESTED\nCERTIFIED" },
-  { value: "CAMBRIDGE\n+ DURHAM", label: "R&D\nORIGIN" },
+  { value: "32", label: "PEER-REVIEWED\nSTUDIES CITED" },
+  { value: "150,000+", label: "DOSES\nDELIVERED" },
+  { value: "4.7/5", label: "VERIFIED\nCUSTOMER RATING" },
 ];
 
 export default function LabHero() {
   return (
     <div>
-      {/* Full-bleed image — no text overlay, light bg reads cleanly without scrim */}
-      <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full aspect-[5/3] lg:aspect-[20/7]">
+      {/* Full-bleed image with narrow frosted-white strip at bottom */}
+      <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full aspect-[4/3] lg:aspect-[16/7]">
         <Image
-          src="/lifestyle/CreationOfConka.jpg"
+          src="/lifestyle/CreationOfConkaBlack.jpg"
           alt="Two hands exchanging a CONKA brain performance shot"
           fill
           priority
@@ -21,33 +21,47 @@ export default function LabHero() {
           sizes="(max-width: 1024px) 100vw, 90vw"
           className="object-cover object-center"
         />
+
+        {/* Short white gradient at bottom — legibility for the title overlay */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-24 lg:h-28"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.75) 55%, rgba(255,255,255,0.0) 100%)",
+          }}
+        />
+
+        {/* Section label — top left */}
+        <div className="absolute top-0 left-0 px-5 pt-5 lg:px-8 lg:pt-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-black/55">
+            Daily Brain Performance
+          </p>
+        </div>
+
+        {/* Title — bottom left */}
+        <div className="absolute bottom-0 left-0 right-0 px-5 pb-5 lg:px-8 lg:pb-7 lg:max-w-3xl">
+          <h1 className="text-black font-semibold text-3xl lg:text-5xl leading-[1.08] tracking-[-0.02em]">
+            Brain Performance in<br className="hidden lg:block" /> One Daily Shot.
+          </h1>
+        </div>
       </div>
 
-      {/* Text block — below image, black on white */}
-      <div className="mt-8 lg:mt-10 lg:max-w-3xl">
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-black/40 mb-3">
-          Daily Brain Performance
-        </p>
-        <h1 className="text-black font-semibold text-3xl lg:text-5xl leading-[1.08] tracking-[-0.02em] mb-4">
-          The only brain supplement<br className="hidden lg:block" /> you can measure.
-        </h1>
-        <p className="text-black/55 text-sm lg:text-base mb-8 max-w-lg leading-relaxed">
-          16 active ingredients. Two shots per day. Formulated at Cambridge and Durham.
-        </p>
+      {/* CTA below the asset */}
+      <div className="mt-6 lg:mt-8">
         <LabCTA>Get Started Today</LabCTA>
       </div>
 
-      {/* Clinical stat strip — stacked on mobile, 3-col on desktop */}
-      <div className="lab-asset-frame mt-10 grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-black/8 overflow-hidden">
+      {/* Clinical stat strip — single row, 3 columns across all breakpoints */}
+      <div className="lab-asset-frame mt-10 grid grid-cols-3 divide-x divide-black/10 overflow-hidden">
         {STATS.map((stat) => (
           <div
             key={stat.value}
-            className="flex items-center gap-5 px-5 py-4 lg:flex-col lg:items-start lg:gap-1 lg:px-6 lg:py-5"
+            className="flex flex-col items-center text-center gap-1.5 px-3 py-4 lg:px-6 lg:py-5"
           >
-            <p className="font-mono text-base lg:text-xl font-bold text-black tracking-tight whitespace-pre-line leading-snug min-w-[5rem] lg:min-w-0">
+            <p className="font-mono text-base lg:text-2xl font-bold text-black tracking-tight leading-none tabular-nums">
               {stat.value}
             </p>
-            <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-black/40 leading-snug whitespace-pre-line lg:mt-1">
+            <p className="font-mono text-[8px] lg:text-[9px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
               {stat.label}
             </p>
           </div>

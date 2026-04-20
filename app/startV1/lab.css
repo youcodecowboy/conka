@@ -15,6 +15,13 @@
   --brand-tint: #f5f5f5;
 }
 
+/* Mobile: hero sits flush with navigation — no top padding */
+@media (max-width: 768px) {
+  .lab-theme .brand-section.brand-hero-first {
+    padding-top: 0;
+  }
+}
+
 /* Double-line border for contained (non-bleed) assets.
    Creates: 2px inner black → 4px white gap → 1px outer black.
    Architectural drawing / lab spec-sheet convention. */
