@@ -216,8 +216,8 @@ Pulled the lab vocabulary through the remaining sections so the page reads as on
 |---|---|---|
 | `app/startV1/LabCaseStudies.tsx` | Net new | Specimen-card grid with dense 3-metric stat row + product + test-count footer. Replaces the one-metric overlay teaser from `CaseStudiesDataDriven`. |
 | `app/startV1/LabTestimonials.tsx` | Net new | Standalone component (no more `LandingTestimonials` wrapper). Mono spec header, hairline stars, hanging open-quote, chamfered navy carousel buttons. |
-| `app/startV1/LabTimeline.tsx` | Upgrade | Timeframe pills → navy `lab-clip-tr` tags with `T+1D / T+14D / T+30D` spec codes. Per-card spec footer (`Outcome · N=150+`). Mobile banner wrapped in `lab-asset-frame`. |
-| `app/startV1/LabGuarantee.tsx` | Upgrade | Phone mockup wrapped in `lab-asset-frame`. Numbered mono bullets (`01.` `02.` `03.` `04.`). Oversized mono `100d` display. |
+| `app/startV1/LabTimeline.tsx` | Upgrade | Timeframe pills → navy `lab-clip-tr` tags with `T+1D / T+14D / T+30D` spec codes. Per-card spec footer (`Outcome · N=150+`). Mobile banner + desktop sidebar both use `/lifestyle/FlowConkaRing.jpg` (full-bleed mobile, `lab-asset-frame` desktop). |
+| `app/startV1/LabGuarantee.tsx` | Upgrade | Borderless phone mockup, numbered mono bullets (`01.` `02.` `03.` `04.`) with original shipping/refund copy retained. Protocol eyebrow (`Trial Terms · Protocol 100`) kept; the oversized `100d` display was explored and removed — heading plus numbered list carries the clinical register without it. |
 | `app/startV1/LabValueComparison.tsx` | Audit + finish | Comparison card gets `lab-asset-frame`. CONKA column wash switched from black/2 to navy/4 so navy signals the "winning" side. Savings strip now `lab-clip-tr` on a black fill. Trust badges swapped to `LabTrustBadges`. |
 
 Also deleted `LabTestimonialsSection.tsx` (the wrapper — `page.tsx` now renders `LabTestimonials` directly inside a `brand-section brand-bg-white` block).
@@ -245,3 +245,180 @@ Also added a third stat column to the dataset summary strip (`+28.96%` avg impro
 - No analytics events, no data-layer changes, no cart changes
 - `/start` (the live landing page) untouched
 - `LandingX` components left in place — still used elsewhere
+
+---
+
+## Core Design Principles — Candidate for a Lab Brand Base
+
+If we decide to move this aesthetic out of prototype and into a named design system (e.g. `lab-base.css` sitting alongside `brand-base.css`), here is the distilled system. Every rule below has been applied consistently across the 9 sections of `/startV1` and survived review.
+
+### 1. Foundation
+
+**Zero radius · black ink on white canvas · single navy accent for interaction.**
+
+- All containers, cards, buttons, tiles: `border-radius: 0`
+- Canvas: white (primary) alternating with neutral grey `#f5f5f5` for section rhythm
+- Single accent: navy `#1B2757` — strictly **interactive / "this is active" only**; never decorative
+- Pure black reserved for data-surface borders, emphasis callouts, and body text on white
+- Every numeric uses `tabular-nums`
+
+### 2. Surface typology (three kinds of container, no others)
+
+Every box on the page is one of these three. The choice is not aesthetic — it tells the user what the surface *means*.
+
+| Type | Treatment | Meaning | Used on |
+|---|---|---|---|
+| **Data surface** | `lab-asset-frame` double-border (2px black · 4px white · 1px black) | "This is a measured fact / instrument readout" | Hero stat strip, dataset summary strip, info spec cards, comparison card, hero/sidebar lifestyle images |
+| **Interactive tile** | `lab-clip-tr` chamfer (12px top-right clip) | "You can tap this" | CTA buttons, ingredients button, carousel nav, timeline code tags, savings callout |
+| **Neutral container** | `border border-black/12` hairline | "Grouped content, read it" | Testimonial cards, athlete spec cards, timeline cards, list rows, benefit pillars |
+
+When a surface is both data and interactive, the chamfer wins. When a surface is neither, no frame — just the hairline.
+
+### 3. Type system
+
+- **Display headings:** `brand-h1` / `brand-h2` with `letter-spacing: var(--letter-spacing-premium-title)` (-0.03em)
+- **Body copy:** default sans, `text-black/70`, leading-relaxed
+- **Spec / label register:** `font-mono` (JetBrains or IBM Plex Mono), uppercase
+  - **Eyebrow** — opens every section: `font-mono text-[10px] tracking-[0.2em] text-black/40 uppercase`
+  - **Extended eyebrow pattern** — `LABEL · Code` (e.g. `Trial Terms · Protocol 100`, `Clinical Outcomes · CognICA Total Score`)
+  - **Caption under heading** — mono `text-[10px] tracking-[0.18em] tabular-nums text-black/50` for spec context (e.g. `N=500+ · Verified reviews`)
+  - **In-card label** — `font-mono text-[8–9px] tracking-[0.16–0.2em] text-black/40`
+  - **In-card value** — `font-mono font-bold tabular-nums text-black`
+  - **Inline codes** — `T+1D`, `N=150+`, `AM 07:00`, `6–10 AM`, `92/100`
+
+### 4. Colour grammar (strict — collapsing any two breaks the system)
+
+| Colour | When to use | Examples |
+|---|---|---|
+| Navy `#1B2757` | Interactivity · "winning" signal | CTA, carousel nav, timeline code chips, CONKA-column wash, dosing bands |
+| Pure black | Data-surface borders · emphasis callout · body text · ornaments | `lab-asset-frame`, savings strip, headings, checkmarks, filled stars |
+| `black/40–60` | Mono labels | Eyebrows, in-card labels, spec-row labels |
+| `black/8–12` | Hairlines | Dividers, neutral tile borders |
+| `black/70–80` | Body copy on white | Paragraph text |
+| White | Canvas · text-on-navy | Section background, CTA text |
+| Neutral `#f5f5f5` | Secondary canvas | Alternating section background only |
+
+No green, no red, no yellow. Binary states use filled vs empty black (e.g. stars). Status is communicated by mono code (`✓ Verified`), not by colour.
+
+### 5. Data vocabulary — surface numbers as code
+
+Wherever a number or fact exists, surface it through the clinical code grammar:
+
+- **Timeframes as codes:** `T+0`, `T+1D`, `T+14D`, `T+30D`
+- **Counts as `N=` codes:** `N=12`, `N=150+`, `N=500+`
+- **Measures with suffix units:** `100d`, `+28.96%`, `£1.25/day`, `92/100`
+- **Dose ranges with en-dash:** `6–10 AM`, `AM 06:00–10:00`
+- **Product variants uppercase:** `FLOW`, `CLEAR`, `FLOW · CLEAR`
+- **Verified state as inline spec:** `✓ Verified · 2025-11-14`
+- **Ratio / score displays:** `{rating}/5`, always with `tabular-nums`
+
+### 6. Ornaments — what we allow
+
+The system rejects warmth. These are the only graphic elements allowed:
+
+- **Checkmarks / crosses:** polyline SVG, `strokeLinecap="square"`, `strokeLinejoin="miter"`, black stroke
+- **Chevrons (carousel nav):** same treatment — square cap, miter join, no rounded corners
+- **Star ratings:** hairline `★` character, filled = `text-black`, empty = `text-black/15`, `fontSize: 11px` (no yellow)
+- **Numbered list markers:** mono tabular-nums, `{String(i+1).padStart(2, "0")}.` → `01.` `02.`
+- **Verified badge:** 12×12px black square with white `✓` glyph, mono caption adjacent
+- **Hanging open-quote:** `"` in mono `text-2xl font-bold text-black/25`, `position: absolute` at card's top-left of quote body
+- **Axis tick marks:** hairline vertical lines (used in `LabDosingWindows`)
+
+Icons replaced: emoji (`☀️`, `🌅`), yellow stars, coloured pills, gradient lines, rounded icon containers, filled circular check bubbles.
+
+### 7. Motion
+
+- CSS `@keyframes` only — no inline `transition` / `animation` styles
+- Animate `transform` and `opacity` only (compositor-safe)
+- Blink cursor (`LabCTA`): `step-end` timing, `1.1s` interval — no interpolation, zero paint
+- Carousel: `600ms ease` transform, snap-back via `onTransitionEnd` + 2-frame `requestAnimationFrame` re-enable trick (see `LabTestimonials`)
+- Hover reveal: `opacity-0 group-hover:opacity-100 transition-opacity`
+
+### 8. Layout patterns
+
+- **Page orchestration:** `<section className="brand-section brand-bg-{white|neutral}">` owns the wrapper; `<div className="brand-track">` owns the max-width; the component is content-only
+- **Mobile full-bleed:** `-mx-5 w-[calc(100%+2.5rem)]` for edge-to-edge lifestyle assets; reset on desktop via `lg:mx-0 lg:w-auto`
+- **Sticky desktop sidebar:** `lg:sticky lg:top-24 lg:self-start lg:flex-[2]` with the main content at `lg:flex-[3]`
+- **Horizontal snap-scroll** on mobile where tiles are too tall to stack: `flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide` + dot indicators
+- **Alternating section rhythm:** white → neutral → white → neutral... no three consecutive same-colour sections
+
+### 9. Interactive minimums
+
+- Tap targets: 44×44px on buttons and dot indicators (dots currently 24×24 on `LabTestimonials` — flagged in review)
+- Every interactive tile carries the top-right chamfer — it's the system's tap affordance
+- Navy fill + white text + `lab-clip-tr` = the CTA primitive
+- Hover on desktop-only carousel nav; on mobile, rely on swipe + dots
+
+### 10. Section anatomy template
+
+Every `/startV1` section follows this cadence:
+
+```
+[ EYEBROW          ]   mono 10px, optionally "LABEL · Code"
+[ H1/H2 Heading    ]   brand-h1/h2 with tight tracking
+[ Mono caption     ]   optional — tabular-nums spec line (e.g. "N=500+ · Verified")
+
+[ Content surface  ]   grid · carousel · comparison · spec table
+                       (built from the 3 container types in §2)
+
+[ LabCTA           ]   navy chamfered, left-aligned
+[ LabTrustBadges   ]   compact mono grid
+```
+
+This gives every section the same "spec-sheet opener" without dictating what goes in the middle.
+
+### 11. Primitives to promote into `lab-base.css`
+
+If we migrate, these become the first-class tokens and utilities:
+
+```css
+:root {
+  --lab-accent:            #1B2757;
+  --lab-canvas:            #ffffff;
+  --lab-canvas-alt:        #f5f5f5;
+  --lab-ink:               #000000;
+  --lab-body:              rgb(0 0 0 / 0.7);
+  --lab-label:             rgb(0 0 0 / 0.4);
+  --lab-label-strong:      rgb(0 0 0 / 0.6);
+  --lab-hairline:          rgb(0 0 0 / 0.08);
+  --lab-hairline-strong:   rgb(0 0 0 / 0.12);
+
+  --lab-radius:            0;
+  --lab-clip-size:         12px;
+
+  --lab-mono-eyebrow:      10px;
+  --lab-mono-label:         9px;
+  --lab-mono-label-sm:      8px;
+  --lab-tracking-label:    0.18em;
+  --lab-tracking-eyebrow:  0.2em;
+}
+
+/* Container primitives */
+.lab-asset-frame { /* 2px black · 4px white · 1px black box-shadow stack */ }
+.lab-clip-tr     { /* clip-path polygon, 12px top-right chamfer */ }
+.lab-tile        { /* border: 1px solid var(--lab-hairline-strong); background: white */ }
+
+/* Typography utilities */
+.lab-eyebrow     { /* font-mono, uppercase, 10px, tracking 0.2em, black/40 */ }
+.lab-label       { /* font-mono, uppercase, 9px, tracking 0.18em, black/60 */ }
+.lab-data-value  { /* font-mono, bold, tabular-nums, black */ }
+.lab-code-tag    { /* lab-clip-tr + navy bg + white mono tabular-nums */ }
+.lab-spec-row    { /* flex justify-between items-baseline pt-3 border-t border-black/8 */ }
+.lab-divider     { /* border-t border-black/8 */ }
+```
+
+### 12. Non-negotiables if we port this
+
+The three most fragile rules — if any of these slip, the system degrades fast:
+
+1. **Accent reach.** Navy *only* where the user can tap or where navy is doing signal work (winning column, active protocol step). Decorative navy breaks the system in one commit.
+2. **Tabular-nums everywhere.** Most sites that attempt "clinical" miss this. It's the single highest-leverage typographic rule — it makes the numbers look measured instead of marketed.
+3. **The three-surface split.** Black double-border = data. Chamfer = interactive. Hairline = grouped content. Collapse any two into one treatment and the grammar is gone.
+
+### 13. Known debt to clean up before migration
+
+- Inline `#1B2757` literals in 6 call sites — trivial swap to `var(--lab-accent)` once the tokens exist
+- Carousel dot hit-area is 24×24 on `LabTestimonials` — bump to 44×44 wrapper (noted in `/review-code` on commit `baccd42`)
+- Duplicate logic between `LandingTestimonials` and `LabTestimonials` — accepted during prototype, consolidate before the system ships
+- Several `Lab*` components have a `hideCTA` / `ctaLabel` / `ctaHref` prop triad that is currently unused — prune or commit to using it
+

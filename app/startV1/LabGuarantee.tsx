@@ -26,30 +26,19 @@ export default function LabGuarantee({
 
       <div className="mb-8">
         <h2
-          className="brand-h1 mb-2"
+          className="brand-h1 mb-0"
           style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
         >
           {GUARANTEE_DAYS}-Day Risk Free Trial
         </h2>
-        {/* Oversized mono spec display — the number as data, not promise */}
-        <div className="flex items-baseline gap-3">
-          <span className="font-mono text-5xl lg:text-6xl font-bold tabular-nums text-black leading-none">
-            {GUARANTEE_DAYS}d
-          </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 leading-tight">
-            Evaluation window
-            <br />
-            Full refund eligible
-          </span>
-        </div>
       </div>
 
       <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-16">
         <div className="flex-1 order-2 lg:order-1 w-full">
           <p className="brand-body text-black/70">
-            Try CONKA for {GUARANTEE_DAYS} days. If your mental performance
-            doesn&apos;t noticeably improve, we&apos;ll refund your purchase
-            completely. No return necessary.
+            Install the app, take your baseline, track your improvement. If
+            your cognitive score doesn&apos;t move after {GUARANTEE_DAYS} days,
+            we&apos;ll refund you completely. No return necessary.
             <sup className="text-[0.5em] text-black/40 align-super">*</sup>
           </p>
 
@@ -84,10 +73,10 @@ export default function LabGuarantee({
           </p>
         </div>
 
-        {/* Phone mockup — lab-asset-frame wraps it as a data surface */}
+        {/* Phone mockup — borderless, lets the asset speak */}
         <div className="relative flex justify-center order-1 lg:order-2 w-full lg:w-auto">
           <div
-            className="lab-asset-frame relative overflow-hidden bg-white"
+            className="relative"
             style={{ width: "clamp(180px, 40vw, 240px)" }}
           >
             <Image

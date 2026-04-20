@@ -41,28 +41,31 @@ export default function LabTimeline({
   hideCTA?: boolean;
 } = {}) {
   return (
-    <div className="-mt-20 md:mt-0">
-      <p className="hidden lg:block font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
-        Expected Outcomes
-      </p>
-      <h2 className="sr-only lg:not-sr-only brand-h1 lg:mb-2">
-        Your Brain, Optimised.
-      </h2>
-      <p className="hidden lg:block font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-8">
-        Protocol window: T+0 to T+30D · N=150+ participants
-      </p>
-
-      {/* Mobile/tablet banner — wrapped in lab-asset-frame for clinical framing */}
-      <div className="lab-asset-frame relative mb-6 -mx-5 w-[calc(100%+2.5rem)] overflow-hidden aspect-[1/1.9] md:mb-10 md:mx-4 md:w-[calc(100%-2rem)] md:aspect-[16/6] lg:hidden">
+    <div>
+      {/* Mobile/tablet banner — full-bleed lifestyle asset, pulled up to flush with prior section */}
+      <div className="relative -mt-20 md:mt-0 -mx-5 w-[calc(100%+2.5rem)] mb-6 overflow-hidden aspect-[4/3] md:mb-8 md:aspect-[16/9] lg:hidden">
         <Image
-          src="/story/YourBrainOptimised.jpg"
-          alt="CONKA Flow and Clear bottles. Your Brain, Optimised. What to expect after 30 days."
+          src="/lifestyle/FlowConkaRing.jpg"
+          alt="CONKA Flow bottle beside a phone showing a CONKA cognitive score of 92"
           fill
           sizes="(max-width: 1024px) 100vw, 0px"
-          className="object-cover object-top md:object-center"
+          className="object-cover"
           priority={false}
         />
       </div>
+
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+        Expected Outcomes
+      </p>
+      <h2
+        className="brand-h1 mb-2"
+        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+      >
+        Your Brain, Optimised.
+      </h2>
+      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-8">
+        Protocol window: T+0 to T+30D · N=150+ participants
+      </p>
 
       <div className="lg:flex lg:gap-10 lg:items-start">
         {/* Timeline cards */}
@@ -105,8 +108,8 @@ export default function LabTimeline({
         <div className="hidden lg:block lg:w-[450px] lg:flex-shrink-0 lg:sticky lg:top-24">
           <div className="relative aspect-square overflow-hidden lab-asset-frame">
             <Image
-              src="/lifestyle/ConkaAtWorkDesk.jpg"
-              alt="CONKA bottle on a work desk beside a keyboard"
+              src="/lifestyle/FlowConkaRing.jpg"
+              alt="CONKA Flow bottle beside a phone showing a CONKA cognitive score of 92"
               fill
               sizes="450px"
               className="object-cover"

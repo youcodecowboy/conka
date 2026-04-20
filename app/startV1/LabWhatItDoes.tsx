@@ -122,11 +122,12 @@ export default function LabWhatItDoes() {
       <div className="flex flex-col lg:flex-row lg:gap-10">
         <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-auto aspect-[5/3] lg:aspect-auto mb-8 lg:mb-0 lg:flex-[2] lg:min-h-[500px] lg:sticky lg:top-24 lg:self-start lg:lab-asset-frame">
           <Image
-            src="/lifestyle/CreationOfConka.jpg"
+            src="/lifestyle/ClearCloseTwoHands.jpg"
             alt="Two hands passing a CONKA bottle"
             fill
             sizes="(max-width: 1024px) 95vw, 500px"
-            className="object-cover"
+            className="object-cover scale-[1.35]"
+            style={{ objectPosition: "center 38%" }}
           />
         </div>
 
