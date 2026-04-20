@@ -129,7 +129,7 @@ export default function LabValueComparison() {
               Fig. 02 · Time in effect
             </p>
             <h3 className="text-lg lg:text-xl font-semibold text-black leading-snug">
-              Same spend. Longer window. No crash.
+              Who&apos;s covering you, hour by hour.
             </h3>
           </div>
           <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/40 tabular-nums shrink-0 leading-tight text-right pt-1">
@@ -170,15 +170,15 @@ export default function LabValueComparison() {
         />
         <ChartRow
           label="CONKA Flow"
-          caption="Morning focus · 06:00 — 10:00"
+          caption="Morning focus · 06:00 — 12:00"
           tone="conka"
-          bands={[{ start: 6, end: 10, kind: "peak" }]}
+          bands={[{ start: 6, end: 12, kind: "peak" }]}
         />
         <ChartRow
           label="CONKA Clear"
-          caption="Afternoon reset · 12:00 — 16:00"
+          caption="Afternoon reset · 12:00 — 18:00"
           tone="conka"
-          bands={[{ start: 12, end: 16, kind: "peak" }]}
+          bands={[{ start: 12, end: 18, kind: "peak" }]}
           isLast
         />
 
