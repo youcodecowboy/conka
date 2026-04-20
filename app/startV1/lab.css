@@ -25,6 +25,11 @@
     0 0 0 7px rgba(0, 0, 0, 0.75);
 }
 
+/* Hero flush with nav — remove top padding on the hero section */
+.lab-theme .brand-section.brand-hero-first {
+  padding-top: 0;
+}
+
 /* Terminal cursor blink for CTA button */
 @keyframes lab-blink {
   0%, 49% { opacity: 1; }
