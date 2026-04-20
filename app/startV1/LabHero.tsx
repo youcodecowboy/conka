@@ -11,7 +11,7 @@ export default function LabHero() {
   return (
     <div>
       {/* Full-bleed image — no text overlay, light bg reads cleanly without scrim */}
-      <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full aspect-[4/3] lg:aspect-[16/7]">
+      <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full aspect-[5/3] lg:aspect-[20/7]">
         <Image
           src="/lifestyle/CreationOfConka.jpg"
           alt="Two hands exchanging a CONKA brain performance shot"
