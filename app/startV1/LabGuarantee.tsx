@@ -85,7 +85,7 @@ export default function LabGuarantee({
             width={240}
             height={480}
             loading="lazy"
-            className="relative z-[1] h-auto lab-asset-frame"
+            className="relative z-[1] h-auto"
             style={{ width: "clamp(180px, 40vw, 240px)" }}
           />
         </div>
