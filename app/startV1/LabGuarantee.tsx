@@ -85,11 +85,8 @@ export default function LabGuarantee({
             width={240}
             height={480}
             loading="lazy"
-            className="relative z-[1] h-auto rounded-[var(--brand-radius-container)]"
-            style={{
-              width: "clamp(180px, 40vw, 240px)",
-              boxShadow: "0 24px 48px rgba(0,0,0,0.15)",
-            }}
+            className="relative z-[1] h-auto lab-asset-frame"
+            style={{ width: "clamp(180px, 40vw, 240px)" }}
           />
         </div>
       </div>

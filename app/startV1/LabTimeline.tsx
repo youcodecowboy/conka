@@ -75,7 +75,7 @@ export default function LabTimeline({ hideCTA = false }: { hideCTA?: boolean } =
 
         {/* Desktop sidebar image */}
         <div className="hidden lg:block lg:w-[450px] lg:flex-shrink-0 lg:sticky lg:top-24">
-          <div className="relative aspect-square rounded-[var(--brand-radius-card)] overflow-hidden">
+          <div className="relative aspect-square overflow-hidden lab-asset-frame">
             <Image
               src="/lifestyle/ConkaAtWorkDesk.jpg"
               alt="CONKA bottle on a work desk beside a keyboard"

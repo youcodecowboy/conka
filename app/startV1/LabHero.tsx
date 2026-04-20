@@ -49,8 +49,8 @@ export default function LabHero() {
         </div>
       </div>
 
-      {/* Clinical stat strip */}
-      <div className="mt-5 grid grid-cols-3 divide-x divide-black/10 border border-black/10 rounded-[4px] overflow-hidden">
+      {/* Clinical stat strip — double-line frame */}
+      <div className="lab-asset-frame mt-5 grid grid-cols-3 divide-x divide-black/10 overflow-hidden">
         {STATS.map((stat) => (
           <div key={stat.value} className="px-4 py-4 lg:px-6 lg:py-5">
             <p className="font-mono text-base lg:text-xl font-semibold text-black tracking-tight whitespace-pre-line leading-snug">

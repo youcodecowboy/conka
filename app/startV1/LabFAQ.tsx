@@ -40,7 +40,7 @@ export default function LabFAQ({ hideCTA = false }: { hideCTA?: boolean } = {}) 
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
         {/* Lifestyle image */}
         <div className="lg:w-2/5 lg:sticky lg:top-8 mb-8 lg:mb-0">
-          <div className="overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full max-w-none">
+          <div className="overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full max-w-none lg:lab-asset-frame">
             <Image
               src="/lifestyle/ClearDrink.jpg"
               alt="Woman drinking CONKA Clear in the gym"
