@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { FormulaId, formulaContent } from "@/app/lib/productData";
 import { CURATED_STATS } from "./formulaStatsData";
