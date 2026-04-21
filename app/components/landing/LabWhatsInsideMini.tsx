@@ -149,14 +149,12 @@ export default function LabWhatsInsideMini() {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 lg:gap-4">
-        {/* Row 1 — Flow: product | info */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+        {/* Order: FLOW product · FLOW info · CLEAR product · CLEAR info (product/info pairs) */}
         <ProductCard tile={FLOW_PRODUCT} onOpenIngredients={openIngredients} />
         <InfoCard tile={FLOW_INFO} />
-
-        {/* Row 2 — Clear: info | product  (mirrored, so products bookend) */}
-        <InfoCard tile={CLEAR_INFO} />
         <ProductCard tile={CLEAR_PRODUCT} onOpenIngredients={openIngredients} />
+        <InfoCard tile={CLEAR_INFO} />
       </div>
 
       <IngredientsPanel

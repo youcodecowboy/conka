@@ -48,6 +48,11 @@ const LabFAQ = dynamic(() => import("./components/landing/LabFAQ"), {
   loading: () => <div className="h-[350px]" />,
 });
 
+const LabGuarantee = dynamic(
+  () => import("./components/landing/LabGuarantee"),
+  { loading: () => <div className="h-[500px]" /> },
+);
+
 const WhatToExpect = dynamic(() => import("./components/home/WhatToExpect"), {
   loading: () => <div className="h-[450px]" />,
 });
@@ -158,9 +163,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 11: FAQ ===== */}
+      {/* ===== SECTION 11: 100-DAY GUARANTEE ===== */}
       <section
         className="brand-section brand-bg-white"
+        aria-label="100-day risk-free guarantee"
+      >
+        <div className="brand-track">
+          <LabGuarantee ctaHref="/protocol/3" />
+        </div>
+      </section>
+
+      {/* ===== SECTION 12: FAQ ===== */}
+      <section
+        className="brand-section brand-bg-tint"
         aria-label="FAQ"
       >
         <div className="brand-track">
