@@ -48,8 +48,8 @@ Apply the already-defined clinical aesthetic (`docs/branding/CLINICAL_AESTHETIC.
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| 1 | Product PDPs (`/conka-flow` + `/conka-clarity`) paired | Not Started |
-| 2 | Balance protocol (`/protocol/3`) | Not Started |
+| 1 | Product PDPs (`/conka-flow` + `/conka-clarity`) paired | Done |
+| 2 | Balance protocol (`/protocol/3`) | Done |
 | 3 | Science page | Not Started |
 | 4 | Our Story page | Not Started |
 | 5 | Case Studies page (one-pass: legacy premium-base to clinical) | Not Started |
@@ -72,10 +72,28 @@ Pages are structurally identical, migrate together to share QA.
 
 ### Phase 2: `/protocol/3` (Balance)
 
-1. Add `brand-clinical` wrapper (mobile and desktop).
-2. Audit `ProtocolHero` / `ProtocolHeroMobile` using the same checklist as `ProductHero`.
-3. Verify shared components render correctly: `LandingGuarantee`, `LandingTimeline`, `LandingFAQ`, `HomeWhatItDoes`, `CaseStudiesDataDriven` (all already clinical).
-4. `ProtocolCalendar` audit is not required for Balance (id 3 skips the calendar section).
+Scope evolved during implementation. Rather than restyle each Landing* component in place, swap them for the Lab* equivalents already used on `/` and `/start`. Each shared component exposes `hideCTA` / `ctaHref` / `ctaLabel` props so CTA targeting stays under the page's control.
+
+**2A. Hero restyle.** Apply the clinical treatment already in `ProductHero` / `ProductHeroMobile` to `ProtocolHero` / `ProtocolHeroMobile`. Square tier tiles (PackSelectorPremium pattern), navy selected state, square Subscribe/Buy-Once tiles, `FunnelCTA` replica for the Add-to-Cart button, em-dash bullets, mono tabular-nums on prices, remove emoji. Balance-specific: no ratio selector, no subtitle pill.
+
+**2B. Section component swaps** on `app/protocol/[id]/page.tsx` (mobile and desktop branches):
+
+| Current | Swap to | CTA handling |
+|---------|---------|--------------|
+| `HomeWhatItDoes` | `LandingWhatItDoes` | inherits |
+| (new section) | `WhyConkaWorks` | inserted between WhatItDoes and CaseStudies |
+| `CaseStudiesDataDriven` | `LabCaseStudies` | `hideCTA` (self-link) |
+| `LandingGuarantee` | `LabGuarantee` | keep `ctaHref="/app"` |
+| `LandingTimeline` | `LabTimeline` | `hideCTA` |
+| `LandingFAQ` | `LabFAQ` | `hideCTA` |
+
+**2C. Add `brand-clinical` wrapper** to both mobile and desktop page roots.
+
+**2D. Deprecation sweep.** For each `LandingFAQ`, `LandingGuarantee`, `LandingTimeline`, `HomeWhatItDoes`, grep usages. If the only remaining import was `/protocol/[id]/page.tsx`, delete the component file. `CaseStudiesDataDriven` stays — still used on `/app` and `/professionals/protocol`.
+
+**Out of scope.** `/protocol/1`, `/protocol/2`, `/protocol/4` are slated for removal per `WEBSITE_SIMPLIFICATION_PLAN.md`. Do not restyle their sections. `ProtocolCalendar` audit skipped — Balance hides the calendar.
+
+**Known deviations from plan-doc base rules.** Swapping components changes copy by definition (different component = different content). Also adds `WhyConkaWorks` as a new section, which is an IA change. Accepted trade in service of alignment goal.
 
 ### Phase 3: `/science`
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   ProtocolId,
   ProtocolTier,
@@ -45,7 +46,6 @@ export default function ProtocolHeroMobile({
   const totalShots = getProtocolTierTotalShots(protocolId, selectedTier);
   const tierConfig = protocol.tiers[selectedTier];
 
-  // Get pricing
   const pricingType = protocolId === "4" ? "ultimate" : "standard";
   const subscriptionPricing =
     protocolPricing[pricingType]["subscription"][
@@ -62,15 +62,24 @@ export default function ProtocolHeroMobile({
   const subPerShot = totalShots > 0 ? subPrice / totalShots : 0;
   const otpPerShot = totalShots > 0 ? otpPrice / totalShots : 0;
 
-  // Delivery description from tier config
   const deliveryDesc = tierConfig
     ? `${totalShots} shots (${tierConfig.conkaFlowCount} Flow + ${tierConfig.conkaClarityCount} Clear per week)`
     : "";
 
+  const availableTiers = TIER_OPTIONS.filter((tier) =>
+    protocol.availableTiers.includes(tier),
+  );
+
   return (
     <>
       {/* Header */}
-      <div className="pt-3 pb-2">
+      <div
+        className="w-full min-w-0 pt-3 pb-2"
+        style={{
+          paddingLeft: "var(--brand-space-xs)",
+          paddingRight: "var(--brand-space-xs)",
+        }}
+      >
         <div className="flex items-center gap-2 flex-wrap mb-2">
           <div className="flex" aria-hidden>
             {[1, 2, 3, 4, 5].map((i) => (
@@ -97,8 +106,27 @@ export default function ProtocolHeroMobile({
         >
           {protocol.name}
         </h1>
+      </div>
+
+      {/* Product Image + thumbnails */}
+      <div className="relative w-screen left-1/2 -translate-x-1/2 bg-[#FAFAFA]">
+        <ProductImageSlideshow
+          images={getProtocolHeroImages(protocolId)}
+          alt={`${protocol.name} - Both formulas`}
+          fullBleedThumbnails
+        />
+      </div>
+
+      {/* Content */}
+      <div
+        className="pt-3 pb-4 space-y-3"
+        style={{
+          paddingLeft: "var(--brand-space-xs)",
+          paddingRight: "var(--brand-space-xs)",
+        }}
+      >
         {protocolId !== "3" && (
-          <div className="mt-2">
+          <div>
             <span
               className="inline-block py-1 brand-data text-black/60 text-sm"
               style={{
@@ -112,21 +140,8 @@ export default function ProtocolHeroMobile({
             </span>
           </div>
         )}
-      </div>
 
-      {/* Product Image */}
-      <div className="relative w-full bg-[#FAFAFA]">
-        <ProductImageSlideshow
-          images={getProtocolHeroImages(protocolId)}
-          alt={`${protocol.name} - Both formulas`}
-          fullBleedThumbnails
-        />
-      </div>
-
-      {/* Content */}
-      <div className="pt-3 pb-4 space-y-3">
-        {/* Description */}
-        <p className="brand-body text-black/80 text-base leading-snug">
+        <p className="brand-body text-black/80 text-base leading-snug mb-1.5">
           {protocol.description}
         </p>
 
@@ -138,17 +153,17 @@ export default function ProtocolHeroMobile({
           />
         )}
 
-        {/* Pack Selector */}
-        <div className="grid grid-cols-3 gap-2">
-          {TIER_OPTIONS.filter((tier) => protocol.availableTiers.includes(tier)).map((tier) => {
+        {/* Tier selector (pack-selector pattern) */}
+        <div className="grid grid-cols-3 gap-2 pt-3">
+          {availableTiers.map((tier) => {
             const isSelected = selectedTier === tier;
             return (
               <button
                 key={tier}
                 onClick={() => onTierSelect(tier)}
                 className={`
-                  relative text-center transition-all duration-200 rounded-xl w-full
-                  border-2 cursor-pointer px-2 py-2.5 font-semibold text-xs
+                  relative text-center transition-colors duration-200 w-full
+                  border-2 cursor-pointer px-2 py-2.5 font-mono font-bold tracking-[0.08em] uppercase tabular-nums text-[11px]
                   ${isSelected
                     ? "bg-[var(--brand-black)] border-[var(--brand-black)] text-white"
                     : "bg-white border-black/10 text-[var(--brand-black)] hover:border-black/20"
@@ -156,7 +171,7 @@ export default function ProtocolHeroMobile({
                 `}
               >
                 {tier === "pro" && (
-                  <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-px text-[7px] font-bold uppercase tracking-wide bg-[var(--brand-accent)] text-white rounded-full whitespace-nowrap leading-tight">
+                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 pl-2 pr-3 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.16em] bg-[var(--brand-accent)] text-white whitespace-nowrap leading-none tabular-nums [clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,0_100%)]">
                     Most Popular
                   </span>
                 )}
@@ -166,25 +181,20 @@ export default function ProtocolHeroMobile({
           })}
         </div>
 
-        {/* Subscribe tile */}
+        {/* Purchase type tiles */}
         <div className="space-y-2">
+          {/* Subscribe tile */}
           <button
             onClick={() => onPurchaseTypeChange("subscription")}
-            className={`w-full text-left transition-all cursor-pointer bg-white overflow-hidden ${
+            className={`w-full text-left transition-colors cursor-pointer bg-white overflow-hidden ${
               purchaseType === "subscription"
-                ? "ring-2 shadow-md"
-                : "border border-black/10 shadow-sm"
+                ? "border-2 border-[#1B2757]"
+                : "border border-black/10"
             }`}
-            style={{
-              borderRadius: "var(--brand-radius-container)",
-              ...(purchaseType === "subscription"
-                ? { ringColor: "var(--brand-accent)", borderColor: "var(--brand-accent)" }
-                : {}),
-            }}
           >
             {purchaseType === "subscription" && (
               <div
-                className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
+                className="py-1.5 pl-4 font-mono text-[10px] uppercase tracking-[0.18em] text-white tabular-nums"
                 style={{ backgroundColor: "var(--brand-accent)" }}
               >
                 Best Value · Save 20%
@@ -192,10 +202,10 @@ export default function ProtocolHeroMobile({
             )}
 
             <div className="p-4">
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3 flex-1 min-w-0">
                   <span
-                    className={`flex-shrink-0 w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
+                    className={`flex-shrink-0 w-5 h-5 border-2 mt-0.5 flex items-center justify-center ${
                       purchaseType === "subscription"
                         ? "border-[var(--brand-accent)] bg-[var(--brand-accent)]"
                         : "border-black/30"
@@ -209,19 +219,19 @@ export default function ProtocolHeroMobile({
                   </span>
                   <div className="flex-1 min-w-0">
                     <span className="font-bold text-[var(--brand-black)]">Subscribe</span>
-                    <span className="ml-2 inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]">
+                    <span className="ml-2 inline-block px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] tabular-nums bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]">
                       Save 20%
                     </span>
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <p className="text-sm font-clinical line-through text-black/50">
+                  <p className="font-mono text-sm tabular-nums line-through text-black/50">
                     {formatPrice(otpPrice)}
                   </p>
-                  <p className="text-2xl font-bold text-[var(--brand-black)]">
+                  <p className="text-xl font-bold tabular-nums text-[var(--brand-black)]">
                     {formatPrice(subPrice)}
                   </p>
-                  <p className="font-clinical text-xs text-black">
+                  <p className="font-mono text-xs tabular-nums text-black">
                     {formatPrice(subPerShot)}/shot
                   </p>
                 </div>
@@ -230,18 +240,17 @@ export default function ProtocolHeroMobile({
               {purchaseType === "subscription" && (
                 <>
                   <p className="text-sm text-black/80 mt-3 ml-8">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/60 mr-1.5">Ships ·</span>
                     {deliveryDesc}
                   </p>
-                  <div className="mt-2 ml-8 space-y-1">
+                  <ul className="mt-2 ml-8 space-y-1">
                     {["Free UK shipping", "Pause, skip, or cancel anytime", "100-day money-back guarantee"].map((feature) => (
-                      <div key={feature} className="flex items-center gap-2 text-sm text-black/80">
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0 text-[var(--brand-accent)]">
-                          <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
+                      <li key={feature} className="flex items-start gap-2 text-sm text-black/80">
+                        <span className="font-mono text-black/30 shrink-0" aria-hidden>—</span>
                         <span>{feature}</span>
-                      </div>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </>
               )}
             </div>
@@ -250,22 +259,16 @@ export default function ProtocolHeroMobile({
           {/* Buy Once tile */}
           <button
             onClick={() => onPurchaseTypeChange("one-time")}
-            className={`w-full text-left p-4 transition-all cursor-pointer bg-white ${
+            className={`w-full text-left p-4 transition-colors cursor-pointer bg-white ${
               purchaseType === "one-time"
-                ? "ring-2 shadow-md"
-                : "border border-black/10 shadow-sm"
+                ? "border-2 border-[#1B2757]"
+                : "border border-black/10"
             }`}
-            style={{
-              borderRadius: "var(--brand-radius-container)",
-              ...(purchaseType === "one-time"
-                ? { ringColor: "var(--brand-accent)", borderColor: "var(--brand-accent)" }
-                : {}),
-            }}
           >
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <span
-                  className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                  className={`flex-shrink-0 w-5 h-5 border-2 flex items-center justify-center ${
                     purchaseType === "one-time"
                       ? "border-[var(--brand-accent)] bg-[var(--brand-accent)]"
                       : "border-black/30"
@@ -280,10 +283,10 @@ export default function ProtocolHeroMobile({
                 <span className="font-bold text-[var(--brand-black)]">Buy Once</span>
               </div>
               <div className="text-right flex-shrink-0">
-                <p className="text-2xl font-bold text-[var(--brand-black)]">
+                <p className="text-xl font-bold tabular-nums text-[var(--brand-black)]">
                   {formatPrice(otpPrice)}
                 </p>
-                <p className="font-clinical text-xs text-black">
+                <p className="font-mono text-xs tabular-nums text-black">
                   {formatPrice(otpPerShot)}/shot
                 </p>
               </div>
@@ -291,16 +294,52 @@ export default function ProtocolHeroMobile({
           </button>
         </div>
 
-        {/* CTA */}
+        {/* CTA — FunnelCTA replica (handler-based, clinical) */}
         <button
+          type="button"
           onClick={onAddToCart}
-          className="w-full px-8 py-4 font-bold text-lg text-white border-0 transition-opacity hover:opacity-90 active:opacity-80 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
-          style={{
-            backgroundColor: "var(--brand-accent)",
-            borderRadius: "var(--brand-radius-interactive)",
-          }}
+          className="w-full inline-flex flex-row items-center gap-4 py-3.5 pl-5 pr-8 text-white bg-[#1B2757] transition-opacity hover:opacity-85 active:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757] [clip-path:polygon(0_0,calc(100%-12px)_0,100%_12px,100%_100%,0_100%)]"
         >
-          Add to Cart · {formatPrice(currentPrice)}
+          <span className="relative w-7 h-7 shrink-0" aria-hidden>
+            <Image
+              src="/logos/ConkaO.png"
+              alt=""
+              fill
+              sizes="28px"
+              className="object-contain"
+              style={{ filter: "brightness(0) invert(1)" }}
+            />
+          </span>
+          <span className="flex flex-col items-start flex-1 min-w-0 text-left">
+            <span className="font-mono font-bold text-sm uppercase tracking-[0.12em] flex items-center gap-0.5">
+              <span>Add to Cart</span>
+              <span
+                className="inline-block ml-0.5"
+                style={{ animation: "lab-blink 1s step-end infinite" }}
+                aria-hidden
+              >
+                _
+              </span>
+            </span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/70 mt-1 leading-none tabular-nums">
+              {formatPrice(currentPrice)}
+            </span>
+          </span>
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
+            className="shrink-0"
+            aria-hidden
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="13 6 19 12 13 18" />
+          </svg>
         </button>
 
         {/* Trust badges */}

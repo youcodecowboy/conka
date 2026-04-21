@@ -20,13 +20,16 @@ import {
   PurchaseType,
   protocolContent,
 } from "@/app/lib/productData";
-import HomeWhatItDoes from "@/app/components/home/HomeWhatItDoes";
-import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
-import LandingGuarantee from "@/app/components/landing/LandingGuarantee";
-import LandingTimeline from "@/app/components/landing/LandingTimeline";
-import LandingFAQ from "@/app/components/landing/LandingFAQ";
+import LandingWhatItDoes from "@/app/components/landing/LandingWhatItDoes";
+import WhyConkaWorks from "@/app/components/WhyConkaWorks";
+import FormulaCaseStudies, {
+  FormulaCaseStudiesMobile,
+} from "@/app/components/FormulaCaseStudies";
+import LabGuarantee from "@/app/components/landing/LabGuarantee";
+import LabTimeline from "@/app/components/landing/LabTimeline";
+import LabFAQ from "@/app/components/landing/LabFAQ";
 import ProductGrid from "@/app/components/home/ProductGrid";
-import Testimonials from "@/app/components/testimonials/Testimonials";
+import LandingTestimonials from "@/app/components/landing/LandingTestimonials";
 import { getSiteTestimonialsProtocol } from "@/app/lib/testimonialsFilter";
 import useIsMobile from "@/app/hooks/useIsMobile";
 import { useCart } from "@/app/context/CartContext";
@@ -157,10 +160,7 @@ export default function ProtocolPage() {
       aria-label="Customer reviews"
     >
       <div className="brand-track">
-        <Testimonials
-          testimonials={protocolTestimonials}
-          autoScrollOnly
-        />
+        <LandingTestimonials testimonials={protocolTestimonials} hideCTA />
       </div>
     </section>
   );
@@ -171,18 +171,40 @@ export default function ProtocolPage() {
       aria-label="What CONKA does"
     >
       <div className="brand-track">
-        <HomeWhatItDoes hideCTA />
+        <LandingWhatItDoes />
       </div>
     </section>
   );
 
-  const caseStudiesSection = (
+  const whyConkaWorksSection = (
+    <section
+      className="brand-section brand-bg-white"
+      aria-label="Why CONKA works"
+    >
+      <div className="brand-track">
+        <WhyConkaWorks />
+      </div>
+    </section>
+  );
+
+  const caseStudiesSectionDesktop = (
     <section
       className="brand-section brand-bg-white"
       aria-label="Clinically validated results"
     >
       <div className="brand-track">
-        <CaseStudiesDataDriven ctaLabel="See all case studies" ctaHref="/case-studies" />
+        <FormulaCaseStudies productId={selectedProtocolId} />
+      </div>
+    </section>
+  );
+
+  const caseStudiesSectionMobile = (
+    <section
+      className="brand-section brand-bg-white"
+      aria-label="Clinically validated results"
+    >
+      <div className="brand-track">
+        <FormulaCaseStudiesMobile productId={selectedProtocolId} />
       </div>
     </section>
   );
@@ -193,7 +215,7 @@ export default function ProtocolPage() {
       aria-label="Risk-free guarantee"
     >
       <div className="brand-track">
-        <LandingGuarantee ctaLabel="Learn more about the CONKA app" ctaHref="/app" />
+        <LabGuarantee ctaLabel="Learn more about the CONKA app" ctaHref="/app" />
       </div>
     </section>
   );
@@ -204,7 +226,7 @@ export default function ProtocolPage() {
       aria-label="What to expect"
     >
       <div className="brand-track">
-        <LandingTimeline hideCTA />
+        <LabTimeline hideCTA />
       </div>
     </section>
   );
@@ -215,7 +237,7 @@ export default function ProtocolPage() {
       aria-label="FAQ"
     >
       <div className="brand-track">
-        <LandingFAQ hideCTA />
+        <LabFAQ hideCTA />
       </div>
     </section>
   );
@@ -234,7 +256,7 @@ export default function ProtocolPage() {
   // Mobile version
   if (isMobile) {
     return (
-      <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+      <div className="brand-clinical min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
         <Navigation />
 
         {/* ===== SECTION 1: HERO ===== */}
@@ -261,6 +283,9 @@ export default function ProtocolPage() {
         {/* ===== SECTION 3: WHAT CONKA DOES ===== */}
         {whatItDoesSection}
 
+        {/* ===== SECTION 3b: WHY CONKA WORKS ===== */}
+        {whyConkaWorksSection}
+
         {/* ===== SECTION 4: CALENDAR (hidden for Balance) ===== */}
         {selectedProtocolId !== "3" && (
           <section
@@ -281,7 +306,7 @@ export default function ProtocolPage() {
         )}
 
         {/* ===== SECTION 5: CASE STUDIES ===== */}
-        {caseStudiesSection}
+        {caseStudiesSectionMobile}
 
         {/* ===== SECTION 6: TIMELINE ===== */}
         {timelineSection}
@@ -310,7 +335,7 @@ export default function ProtocolPage() {
 
   // Desktop version
   return (
-    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+    <div className="brand-clinical min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
 
       {/* ===== SECTION 1: HERO ===== */}
@@ -357,7 +382,7 @@ export default function ProtocolPage() {
       )}
 
       {/* ===== SECTION 5: CASE STUDIES ===== */}
-      {caseStudiesSection}
+      {caseStudiesSectionDesktop}
 
       {/* ===== SECTION 6: TIMELINE ===== */}
       {timelineSection}
