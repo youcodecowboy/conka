@@ -597,17 +597,16 @@ export function getFunnelCTALabels(
   const display = FUNNEL_PRODUCTS[product];
 
   if (step === 1) {
-    const productLabel = product === "both" ? "Both" : display.label;
-    const label = `Get ${productLabel} · ${formatPrice(pricing.perShot)}/shot`;
+    const label = `Get for ${formatPrice(pricing.perShot)}/shot`;
 
     if (product === "both") {
       const separatePrice = getBuySeparatelyPrice(cadence);
       const savings = separatePrice - pricing.price;
-      const subLabel = `${pricing.shotCount} shots · save ${formatPrice(savings)}`;
+      const subLabel = `// ${display.label} · save ${formatPrice(savings)}`;
       return { label, subLabel };
     }
 
-    return { label, subLabel: `${pricing.shotCount} shots/mo` };
+    return { label, subLabel: `// ${display.label} · ${pricing.shotCount} shots/mo` };
   }
 
   // Step 2 — cadence-specific labels
@@ -615,14 +614,14 @@ export function getFunnelCTALabels(
     case "monthly-sub": {
       const savings = pricing.compareAtPrice ? pricing.compareAtPrice - pricing.price : 0;
       return {
-        label: `Start monthly · ${formatPrice(pricing.price)}/mo`,
+        label: `${formatPrice(pricing.price)}/mo`,
         subLabel: savings > 0 ? `Save ${formatPrice(savings)}` : "",
       };
     }
     case "quarterly-sub": {
       const savings = pricing.compareAtPrice ? pricing.compareAtPrice - pricing.price : 0;
       return {
-        label: `Start quarterly · ${formatPrice(pricing.price)}/quarter`,
+        label: `${formatPrice(pricing.price)}/quarter`,
         subLabel: savings > 0 ? `Save ${formatPrice(savings)}` : "",
       };
     }

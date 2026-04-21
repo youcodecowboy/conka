@@ -21,7 +21,7 @@ const PRODUCT_ORDER: FunnelProduct[] = ["flow", "both", "clear"];
 
 /** Static per-product "what ships" label — decoupled from cadence */
 function getWhatShipsLabel(product: FunnelProduct): string {
-  return product === "both" ? "2 boxes · 28 shots each" : "1 box · 28 shots";
+  return product === "both" ? "2 Boxes · 28 Shots Each" : "1 Box · 28 Shots";
 }
 
 /** Cadence-aware frequency label for price display */
@@ -50,6 +50,9 @@ export default function ProductSelector({
 
   return (
     <div>
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-2">
+        Step 01 · Product
+      </p>
       <h2
         className="text-2xl lg:text-3xl font-semibold tracking-[var(--brand-h2-tracking)] mb-5"
         style={{ color: "var(--brand-black)" }}
@@ -58,7 +61,7 @@ export default function ProductSelector({
       </h2>
 
       <div className="flex flex-col gap-3">
-        {PRODUCT_ORDER.map((productKey) => {
+        {PRODUCT_ORDER.map((productKey, i) => {
           const display = FUNNEL_PRODUCTS[productKey];
           const isActive = product === productKey;
           const pricing = getOfferPricing(productKey, cadence);
@@ -72,44 +75,36 @@ export default function ProductSelector({
               key={isActive ? `active-${pulseKey}` : productKey}
               type="button"
               onClick={() => handleChange(productKey)}
-              className={`relative w-full text-left rounded-[var(--brand-radius-card)] border-2 transition-all duration-200 select-none overflow-hidden ${
+              className={`relative w-full text-left border-2 bg-white transition-all duration-200 select-none overflow-hidden ${
                 isActive
-                  ? "card-pulse border-brand-accent bg-white shadow-md lg:scale-[1.01]"
-                  : "border-black/10 hover:border-black/20 bg-white shadow-sm"
+                  ? "card-pulse border-[#1B2757] shadow-md lg:scale-[1.01]"
+                  : "border-black/10 hover:border-black/25 shadow-sm"
               }`}
             >
-              {/* Top accent bar for Both */}
+              {/* Top accent bar for Both — solid navy (replaces gradient) */}
               {isBoth && (
-                <div
-                  className="h-1 w-full"
-                  style={{ background: "var(--brand-gradient-accent)" }}
-                />
+                <div className="h-1 w-full bg-[#1B2757]" />
               )}
 
-              {/* Badge banner */}
+              {/* Badge banner — navy fill, mono register */}
               {display.badge && (
-                <div
-                  className="text-center py-1.5 text-xs font-bold uppercase tracking-wider text-white"
-                  style={{ backgroundColor: "var(--brand-black)" }}
-                >
+                <div className="py-1.5 px-4 font-mono text-[10px] font-bold uppercase tracking-[0.16em] leading-none text-white bg-[#1B2757] text-center">
                   {isBoth && savings > 0
-                    ? `★ ${display.badge} · Save ${formatPrice(savings)}`
-                    : `★ ${display.badge}`}
+                    ? `${display.badge} · Save ${formatPrice(savings)}`
+                    : display.badge}
                 </div>
               )}
 
               <div className="p-4">
+                {/* Row number — mono spec counter */}
+                <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.18em] text-black/35 leading-none mb-3 tabular-nums">
+                  {String(i + 1).padStart(2, "0")} · {display.timeLabel}
+                </p>
+
                 {/* Main card content — thumbnail + details */}
                 <div className="flex gap-4">
-                  {/* Product thumbnail */}
-                  <div
-                    className="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center transition-all"
-                    style={{
-                      backgroundColor: `${display.accent}10`,
-                      outline: isActive ? `2px solid ${display.accent}` : undefined,
-                      outlineOffset: isActive ? "2px" : undefined,
-                    }}
-                  >
+                  {/* Product thumbnail — square, colored accent strip acts as product identifier */}
+                  <div className="flex-shrink-0 relative w-16 h-16 bg-[var(--brand-tint)] flex items-center justify-center overflow-hidden">
                     <Image
                       src={display.thumbnail}
                       alt={display.label}
@@ -117,47 +112,43 @@ export default function ProductSelector({
                       height={64}
                       className="w-full h-full object-cover"
                     />
+                    {/* Small left accent bar — per-product decision aid */}
+                    <span
+                      aria-hidden
+                      className="absolute left-0 top-0 bottom-0 w-[3px]"
+                      style={{ backgroundColor: display.accent }}
+                    />
                   </div>
 
                   {/* Text content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        {/* Time badge */}
-                        <span
-                          className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider mb-1"
-                          style={{ color: display.accent }}
-                        >
-                          {display.timeEmoji} {display.timeLabel}
-                        </span>
-
                         <p className="text-base font-semibold text-[var(--brand-black)]">
                           {display.label}
                         </p>
-
-                        <span
-                          className={`inline-flex items-center gap-1 text-xs mt-1 px-2 py-0.5 rounded-full font-medium ${
-                            isActive
-                              ? "bg-[var(--brand-neutral)] text-[var(--brand-black)]"
-                              : "bg-black/[0.04] text-black/50"
-                          }`}
-                        >
-                          📦 {getWhatShipsLabel(productKey)}
-                        </span>
+                        <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-black/55 mt-1 leading-tight">
+                          {getWhatShipsLabel(productKey)}
+                        </p>
                       </div>
 
-                      {/* Per-shot price — primary anchor */}
+                      {/* Per-shot price — primary anchor, tabular-nums */}
                       <div className="text-right flex-shrink-0">
-                        <p className="text-base font-semibold text-[var(--brand-black)]">
-                          <span className="brand-data">{formatPrice(pricing.perShot)}</span><span className="brand-data-label text-black/40">/shot</span>
+                        <p className="text-base font-semibold text-[var(--brand-black)] tabular-nums">
+                          {formatPrice(pricing.perShot)}
+                          <span className="font-mono text-[10px] font-normal uppercase tracking-[0.14em] text-black/40">
+                            /shot
+                          </span>
                         </p>
-                        {/* Total price underneath */}
-                        <p className="text-xs text-black/50 mt-0.5">
-                          <span className="brand-data-label">{formatPrice(pricing.price)}</span>{frequency}
+                        <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-black/50 mt-0.5 tabular-nums">
+                          {formatPrice(pricing.price)}
+                          {frequency}
                         </p>
                         {pricing.compareAtPrice && (
-                          <p className="text-xs text-black/40 mt-0.5">
-                            <span className="line-through">{formatPrice(pricing.compareAtPrice)}</span>
+                          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-black/35 mt-0.5 tabular-nums">
+                            <span className="line-through">
+                              {formatPrice(pricing.compareAtPrice)}
+                            </span>
                           </p>
                         )}
                       </div>
@@ -167,24 +158,21 @@ export default function ProductSelector({
 
                 {/* Expanded details for selected product */}
                 {isActive && (
-                  <div className="mt-4 pt-4" style={{ borderTop: "1px solid var(--brand-divider-subtle)" }}>
+                  <div className="mt-4 pt-4 border-t border-black/10">
                     <p className="text-sm text-black/60 leading-relaxed mb-3">
                       {display.description}
                     </p>
 
-                    <span
-                      className="inline-flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
-                      style={{ backgroundColor: `${display.accent}12`, color: display.accent }}
-                    >
-                      <span className="brand-data">{formatPrice(pricing.perShot)}</span>/shot · {isBoth ? "2" : "1"} shot{isBoth ? "s" : ""} per day
-                    </span>
+                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#1B2757] mb-3 tabular-nums">
+                      {formatPrice(pricing.perShot)}/shot · {isBoth ? "2" : "1"} shot{isBoth ? "s" : ""} per day
+                    </p>
 
-                    {/* Feature bullets */}
+                    {/* Feature bullets — navy checks */}
                     <div className="space-y-1.5">
                       {display.features.map((feature) => (
                         <div key={feature} className="flex items-center gap-2 text-sm text-[var(--brand-black)]">
-                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0" style={{ color: display.accent }}>
-                            <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="flex-shrink-0 text-[#1B2757]">
+                            <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="square" strokeLinejoin="miter" />
                           </svg>
                           <span>{feature}</span>
                         </div>
@@ -194,12 +182,9 @@ export default function ProductSelector({
                 )}
               </div>
 
-              {/* Selection indicator — bottom accent bar */}
+              {/* Selection indicator — bottom accent bar (solid navy) */}
               {isActive && (
-                <div
-                  className="h-1 w-full"
-                  style={{ background: "var(--brand-gradient-accent)" }}
-                />
+                <div className="h-1 w-full bg-[#1B2757]" />
               )}
             </button>
           );
