@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Navigation from "./components/navigation";
 import Footer from "./components/footer";
-import Hero from "./components/Hero";
+import LandingHero from "./components/landing/LandingHero";
 import { keyBenefits } from "./components/KeyBenefits";
 import {
   getSiteTestimonialsGeneral,
@@ -13,8 +13,8 @@ import {
 import type { Testimonial } from "./components/testimonials/types";
 
 // Dynamically import heavy components to reduce initial bundle size
-const HomeWhatItDoes = dynamic(
-  () => import("./components/home/HomeWhatItDoes"),
+const LandingWhatItDoes = dynamic(
+  () => import("./components/landing/LandingWhatItDoes"),
   { loading: () => <div className="h-[1400px] lg:h-[1000px]" /> },
 );
 
@@ -50,7 +50,7 @@ const FoundersSection = dynamic(
   { loading: () => <div className="h-[350px]" /> },
 );
 
-const LandingFAQ = dynamic(() => import("./components/home/LandingFAQ"), {
+const LandingFAQ = dynamic(() => import("./components/landing/LandingFAQ"), {
   loading: () => <div className="h-[350px]" />,
 });
 
@@ -69,7 +69,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+    <div className="brand-clinical min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       {/* ===== SECTION 1: HERO ===== */}
       <Navigation />
       <section
@@ -77,7 +77,7 @@ export default function Home() {
         aria-label="Homepage hero"
       >
         <div className="brand-track">
-          <Hero />
+          <LandingHero />
         </div>
       </section>
 
@@ -87,7 +87,7 @@ export default function Home() {
         aria-label="What CONKA does"
       >
         <div className="brand-track">
-          <HomeWhatItDoes />
+          <LandingWhatItDoes />
         </div>
       </section>
 
