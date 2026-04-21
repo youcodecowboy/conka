@@ -109,19 +109,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 6: FORMULATION (replaces KeyBenefits) ===== */}
+      {/* ===== SECTION 6: WHY CONKA WORKS ===== */}
       <section
         className="brand-section brand-bg-tint"
-        aria-label="Formulation"
-      >
-        <div className="brand-track">
-          <LandingWhatItDoes />
-        </div>
-      </section>
-
-      {/* ===== SECTION 7: WHY CONKA WORKS ===== */}
-      <section
-        className="brand-section brand-bg-white"
         aria-label="Why CONKA Works"
       >
         <div className="brand-track">
@@ -129,9 +119,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 8: WHAT TO EXPECT (LabTimeline) ===== */}
+      {/* ===== SECTION 7: WHAT TO EXPECT (LabTimeline) ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="What to Expect with CONKA"
       >
         <div className="brand-track">
@@ -139,9 +129,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 9: TESTIMONIALS (real voices after data proof) ===== */}
+      {/* ===== SECTION 8: TESTIMONIALS (real voices after data proof) ===== */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-tint"
         aria-label="Customer reviews"
       >
         <div className="brand-track">
@@ -149,9 +139,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 10: OUR STORY / FOUNDERS ===== */}
+      {/* ===== SECTION 9: OUR STORY / FOUNDERS ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="Our Story"
       >
         <div className="brand-track">
@@ -159,9 +149,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 11: 100-DAY GUARANTEE ===== */}
+      {/* ===== SECTION 10: 100-DAY GUARANTEE ===== */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-tint"
         aria-label="100-day risk-free guarantee"
       >
         <div className="brand-track">
@@ -169,9 +159,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 12: FAQ ===== */}
+      {/* ===== SECTION 11: FAQ ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="FAQ"
       >
         <div className="brand-track">
