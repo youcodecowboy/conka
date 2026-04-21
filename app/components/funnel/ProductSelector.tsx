@@ -86,9 +86,9 @@ export default function ProductSelector({
                 <div className="h-1 w-full bg-[#1B2757]" />
               )}
 
-              {/* Badge banner — navy fill, mono register, chamfered right corner */}
+              {/* Badge banner — navy fill, mono register */}
               {display.badge && (
-                <div className="lab-clip-tr py-1.5 px-4 font-mono text-[10px] font-bold uppercase tracking-[0.16em] leading-none text-white bg-[#1B2757] text-center">
+                <div className="py-1.5 px-4 font-mono text-[10px] font-bold uppercase tracking-[0.16em] leading-none text-white bg-[#1B2757] text-center">
                   {isBoth && savings > 0
                     ? `${display.badge} · Save ${formatPrice(savings)}`
                     : display.badge}
