@@ -44,45 +44,60 @@ export default function FormulaBenefitsStatsDesktop({
     <div className="grid grid-cols-2 md:min-h-[480px] gap-12 md:gap-16 lg:gap-20 items-center">
       {/* Left: content */}
       <div className="flex flex-col justify-center pt-6 md:pt-8">
+        {/* Trio header */}
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Measured Outcomes · Clinical Validation
+        </p>
         <h2
           id="benefits-stats-heading"
-          className="brand-h2 mb-8"
+          className="brand-h1 mb-2 text-black"
           style={{ letterSpacing: "-0.02em" }}
         >
           {formula.subheadline}
         </h2>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-8">
+          {stats.length} Stats · Peer-reviewed · Observed
+        </p>
 
-        {/* 3 large stats */}
-        <div className="flex flex-col gap-6 mb-8">
-          {stats.map((item, idx) => (
-            <div key={idx}>
-              <p className="font-clinical text-4xl md:text-5xl font-bold text-black leading-none">
-                {item.stat}
-                <sup className="text-sm font-normal opacity-50 ml-0.5">
-                  {item.anchor}
-                </sup>
-              </p>
-              <p className="brand-data text-sm md:text-base text-black/60 mt-1">
-                {item.label}
-              </p>
-            </div>
-          ))}
+        {/* Lab asset frame — spec strip */}
+        <div className="lab-asset-frame bg-white mb-8">
+          <div className="flex flex-col">
+            {stats.map((item, idx) => (
+              <div
+                key={idx}
+                className={`flex items-baseline justify-between gap-4 p-5 ${
+                  idx < stats.length - 1 ? "border-b border-black/8" : ""
+                }`}
+              >
+                <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50 max-w-[55%]">
+                  {item.label}
+                </p>
+                <p className="font-mono text-3xl md:text-4xl font-bold tabular-nums text-black leading-none">
+                  {item.stat}
+                  <sup className="text-sm font-normal opacity-50 ml-0.5 tabular-nums">
+                    {item.anchor}
+                  </sup>
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <a
           href="#proof-and-science"
-          className="inline-flex items-center justify-center px-6 py-3 rounded-[var(--brand-radius-interactive)] bg-black text-white font-semibold brand-body text-sm md:text-base hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 w-fit"
+          className="inline-flex items-center gap-4 py-3 pl-5 pr-7 text-white bg-[#1B2757] font-mono text-xs uppercase tracking-[0.12em] font-bold hover:opacity-85 active:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1B2757] w-fit [clip-path:polygon(0_0,calc(100%-12px)_0,100%_12px,100%_100%,0_100%)]"
         >
-          See the science
+          <span>See the science</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter" aria-hidden>
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="13 6 19 12 13 18" />
+          </svg>
         </a>
       </div>
 
       {/* Right: lifestyle imagery */}
       <div className="space-y-4">
-        <div
-          className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"
-          style={{ borderRadius: "var(--brand-radius-card)" }}
-        >
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--brand-tint)] border border-black/8">
           <Image
             src={productImage.src}
             alt={productImage.alt}
@@ -96,8 +111,7 @@ export default function FormulaBenefitsStatsDesktop({
           {SUPPORTING_ASSETS[formulaId].map((asset, idx) => (
             <div
               key={idx}
-              className="relative aspect-square overflow-hidden bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"
-              style={{ borderRadius: "var(--brand-radius-card)" }}
+              className="relative aspect-square overflow-hidden bg-[var(--brand-tint)] border border-black/8"
             >
               <Image
                 src={asset.src}

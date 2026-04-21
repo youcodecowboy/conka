@@ -140,7 +140,7 @@ function AccordionRow({
 
           {/* 2. Hero stat — large, immediate */}
           <div
-            className="font-bold font-clinical mb-4"
+            className="font-bold font-mono tabular-nums mb-4"
             style={{
               fontSize: "clamp(2.8rem, 14vw, 3.8rem)",
               lineHeight: 1,
@@ -162,27 +162,25 @@ function AccordionRow({
           {/* 4. Ingredient pill */}
           {solution.ingredientAsset && (
             <div
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5"
+              className="inline-flex items-center gap-2 px-3 py-1.5 mb-5 font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums"
               style={{
                 background: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.12)",
+                border: "1px solid rgba(255,255,255,0.18)",
               }}
             >
               <span
-                className="brand-caption font-medium"
-                style={{ color: "var(--brand-white)", opacity: 0.9 }}
+                className="font-medium"
+                style={{ color: "var(--brand-white)", opacity: 0.95 }}
               >
                 {solution.ingredientAsset.name}
               </span>
               <span
-                className="brand-caption"
                 style={{ color: "var(--brand-white)", opacity: 0.4 }}
               >
                 ·
               </span>
               <span
-                className="brand-caption"
-                style={{ color: "var(--brand-white)", opacity: 0.5 }}
+                style={{ color: "var(--brand-white)", opacity: 0.6 }}
               >
                 {solution.ingredientAsset.dosage}
               </span>
@@ -195,24 +193,24 @@ function AccordionRow({
               {solution.clinicalStudy.results.slice(0, 2).map((result, idx) => (
                 <div
                   key={idx}
-                  className="rounded-[20px] px-4 py-3"
+                  className="px-4 py-3"
                   style={{
                     background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    border: "1px solid rgba(255,255,255,0.14)",
                   }}
                 >
-                  <p className={`text-2xl font-bold mb-0.5 ${accentColor.text}`}>
+                  <p className={`text-2xl font-bold font-mono tabular-nums mb-0.5 ${accentColor.text}`}>
                     {result.value}
                   </p>
                   <p
-                    className="brand-caption leading-tight"
-                    style={{ color: "var(--brand-white)" }}
+                    className="font-mono text-[10px] uppercase tracking-[0.14em] leading-tight"
+                    style={{ color: "var(--brand-white)", opacity: 0.8 }}
                   >
                     {result.metric}
                   </p>
                   <p
-                    className="brand-caption mt-1"
-                    style={{ color: "var(--brand-white)" }}
+                    className="font-mono text-[10px] uppercase tracking-[0.14em] tabular-nums mt-1"
+                    style={{ color: "var(--brand-white)", opacity: 0.5 }}
                   >
                     {result.pValue}
                   </p>
@@ -233,14 +231,7 @@ function AccordionRow({
       )}
 
       {/* Divider between rows (omit on last row) */}
-      {!isLast && (
-        <div
-          style={{
-            height: "1px",
-            background: "var(--brand-stroke)",
-          }}
-        />
-      )}
+      {!isLast && <div className="h-px bg-black/8" />}
     </div>
   );
 }
@@ -258,26 +249,24 @@ export default function FormulaBenefitsMobile({ formulaId }: FormulaBenefitsMobi
 
   return (
     <div>
-      {/* Heading block */}
-      <div className="text-left md:text-center mb-8">
+      {/* Trio header */}
+      <div className="mb-8">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Outcome Profile · Peer-reviewed Evidence
+        </p>
         <h2
-          className="brand-h2 mb-0"
+          className="brand-h1 mb-2 text-black"
           style={{ letterSpacing: "-0.02em" }}
         >
           What you'll actually feel.
         </h2>
-        <p className="brand-body mt-2 text-black/80">
-          Tap a benefit to see the evidence behind it.
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          Tap a benefit · See the evidence
         </p>
       </div>
 
       {/* Accordion list - breaks out of gutter, full width */}
-      <div
-        className="overflow-hidden -mx-5 md:-mx-[5vw]"
-        style={{
-          border: "1px solid var(--brand-stroke)",
-        }}
-      >
+      <div className="overflow-hidden -mx-5 md:-mx-[5vw] border border-black/8">
         {STRUGGLE_OPTIONS.map((struggle, index) => (
           <AccordionRow
             key={struggle.id}

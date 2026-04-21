@@ -33,8 +33,8 @@ export default function PackSelectorPremium({
               key={size}
               onClick={() => onSelect(size)}
               className={`
-                relative text-center transition-all duration-200 rounded-xl w-full
-                border-2 cursor-pointer px-2 py-2.5 font-semibold text-xs
+                relative text-center transition-colors duration-200 w-full
+                border-2 cursor-pointer px-2 py-2.5 font-mono font-bold tracking-[0.08em] uppercase tabular-nums text-[11px]
                 ${isSelected
                   ? "bg-[var(--brand-black)] border-[var(--brand-black)] text-white"
                   : "bg-white border-black/10 text-[var(--brand-black)] hover:border-black/20"
@@ -42,7 +42,7 @@ export default function PackSelectorPremium({
               `}
             >
               {size === "12" && (
-                <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-px text-[7px] font-bold uppercase tracking-wide bg-[var(--brand-accent)] text-white rounded-full whitespace-nowrap leading-tight">
+                <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-px font-mono text-[7px] font-bold uppercase tracking-[0.14em] bg-[var(--brand-accent)] text-white whitespace-nowrap leading-tight [clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,0_100%)]">
                   Most Popular
                 </span>
               )}

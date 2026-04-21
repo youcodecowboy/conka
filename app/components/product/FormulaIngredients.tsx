@@ -2,10 +2,10 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { FormulaId } from "@/app/lib/productData";
 import { getIngredientsByFormula } from "@/app/lib/ingredientsData";
 import type { IngredientData } from "@/app/lib/ingredientsData";
+import ConkaCTAButton from "../landing/ConkaCTAButton";
 
 const HEADING_WORD: Record<FormulaId, string> = {
   "01": "adaptogens",
@@ -35,8 +35,8 @@ function IngredientCard({ ingredient }: IngredientCardProps) {
       className="flex-shrink-0 w-[200px] sm:w-[240px] snap-start"
       style={{ scrollSnapAlign: "start" }}
     >
-      {/* Image: vertical pill shape (2 semicircles + short rect), 75% of card width; desktop: hover scale */}
-      <div className="relative w-3/4 mx-auto aspect-[2/3] rounded-full overflow-hidden md:transition-transform md:duration-300 md:hover:scale-105">
+      {/* Image: vertical frame, 75% of card width; desktop: hover scale */}
+      <div className="relative w-3/4 mx-auto aspect-[2/3] overflow-hidden border border-black/8 md:transition-transform md:duration-300 md:hover:scale-105">
         {ingredient.image ? (
           <Image
             src={ingredient.image}
@@ -46,8 +46,8 @@ function IngredientCard({ ingredient }: IngredientCardProps) {
             className="object-cover object-center"
           />
         ) : (
-          <div className="w-full h-full bg-current/5 flex items-center justify-center rounded-full">
-            <span className="font-clinical text-xs text-center px-2 opacity-60">
+          <div className="w-full h-full bg-black/[0.04] flex items-center justify-center">
+            <span className="font-mono text-xs text-center px-2 opacity-60">
               {ingredient.name}
             </span>
           </div>
@@ -116,52 +116,42 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
 
   return (
     <>
-      {/* Header: split in half */}
+      {/* Trio header */}
       <div
         id="formula-ingredients-heading"
-        className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-10 md:mb-12"
+        className="mb-10 md:mb-12"
       >
-        <div>
-          <h2
-            className="brand-h2 mb-0"
-            style={{ letterSpacing: "-0.02em" }}
-          >
-            Formulated with naturally beneficial{" "}
-            <span className="font-semibold">{headingWord}</span>
-          </h2>
-        </div>
-          <div className="flex flex-col gap-4 justify-center items-end text-right">
-            <p className="text-sm md:text-base text-black/80 max-w-lg">
-              {SUBHEADING}
-            </p>
-            <Link
-              href="/ingredients"
-              className="brand-btn brand-btn-primary px-5 py-2.5 text-sm w-fit inline-flex items-center gap-2"
-            >
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Formula Inputs · Sourced · Tested
+        </p>
+        <h2
+          className="brand-h1 mb-2 text-black"
+          style={{ letterSpacing: "-0.02em" }}
+        >
+          Formulated with naturally beneficial{" "}
+          <span className="font-semibold">{headingWord}</span>
+        </h2>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-6">
+          {ingredients.length} Ingredients · Highest quality sources
+        </p>
+
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <p className="text-sm md:text-base text-black/70 max-w-lg">
+            {SUBHEADING}
+          </p>
+          <div className="flex items-center gap-3">
+            <ConkaCTAButton href="/ingredients" meta="// all formula inputs">
               See all ingredients
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </Link>
-            {/* Nav toggles – Huel-style, below CTA */}
-            <div className="flex items-center gap-2 mt-1">
+            </ConkaCTAButton>
+            {/* Nav toggles — chamfered navy squares */}
+            <div className="flex items-center gap-2">
               <button
                 onClick={scrollLeft}
                 disabled={!canScrollLeft}
-                className={`w-10 h-10 flex items-center justify-center border-2 border-[var(--foreground)] transition-all ${
+                className={`w-11 h-11 flex items-center justify-center lab-clip-tr transition-all ${
                   canScrollLeft
-                    ? "bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 cursor-pointer"
-                    : "bg-transparent text-current/30 cursor-not-allowed pointer-events-none"
+                    ? "bg-[#1B2757] text-white hover:opacity-85 cursor-pointer"
+                    : "bg-black/10 text-black/30 cursor-not-allowed pointer-events-none"
                 }`}
                 aria-label="Previous ingredient"
               >
@@ -173,8 +163,8 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
                 >
                   <polyline points="15 18 9 12 15 6" />
                 </svg>
@@ -182,10 +172,10 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
               <button
                 onClick={scrollRight}
                 disabled={!canScrollRight}
-                className={`w-10 h-10 flex items-center justify-center border-2 border-[var(--foreground)] transition-all ${
+                className={`w-11 h-11 flex items-center justify-center lab-clip-tr transition-all ${
                   canScrollRight
-                    ? "bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 cursor-pointer"
-                    : "bg-transparent text-current/30 cursor-not-allowed pointer-events-none"
+                    ? "bg-[#1B2757] text-white hover:opacity-85 cursor-pointer"
+                    : "bg-black/10 text-black/30 cursor-not-allowed pointer-events-none"
                 }`}
                 aria-label="Next ingredient"
               >
@@ -197,14 +187,15 @@ export default function FormulaIngredients({ formulaId }: FormulaIngredientsProp
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
                 >
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
               </button>
             </div>
           </div>
+        </div>
       </div>
 
       {/* Carousel */}

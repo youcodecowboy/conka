@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Link from "next/link";
 import {
   AthleteData,
   getAthletesForFormula,
@@ -9,6 +8,7 @@ import {
   getCaseStudyPhotoPath,
 } from "@/app/lib/caseStudiesData";
 import type { ProductId, FormulaId, ProtocolId } from "@/app/lib/productData";
+import ConkaCTAButton from "./landing/ConkaCTAButton";
 
 interface FormulaCaseStudiesProps {
   formulaId?: FormulaId;
@@ -32,15 +32,15 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
 
   return (
     <article
-      className="overflow-hidden flex flex-col rounded-[var(--brand-radius-container)] border border-[var(--brand-border-color)] h-full text-[var(--brand-black)]"
+      className="overflow-hidden flex flex-col border border-black/8 h-full text-[var(--brand-black)] bg-white"
     >
-      {/* Image: fixed aspect ratio, rounded top corners, asset-ready */}
-      <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-t-[var(--brand-radius-container)] bg-[var(--brand-surface)]">
+      {/* Image: fixed aspect ratio, square corners, asset-ready */}
+      <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden bg-[var(--brand-surface)]">
         {photoSrc ? (
           <img
             src={photoSrc}
             alt={athlete.name}
-            className="w-full h-full object-cover rounded-t-[var(--brand-radius-container)]"
+            className="w-full h-full object-cover"
             style={{ objectPosition: imagePosition }}
           />
         ) : (
@@ -146,7 +146,7 @@ function AthleteCard({ athlete }: { athlete: AthleteData }) {
           <span>{athlete.testsCompleted} tests</span>
           <span>{athlete.testingPeriod}</span>
           {athlete.protocolUsed != null && athlete.protocolUsed !== "" && (
-            <span className="px-2 py-0.5 rounded-full bg-white border border-[var(--brand-black)] brand-data text-xs">
+            <span className="px-2 py-0.5 bg-white border border-[var(--brand-black)] font-mono text-[10px] uppercase tracking-[0.14em] tabular-nums">
               {athlete.protocolUsed}
             </span>
           )}
@@ -202,18 +202,18 @@ export default function FormulaCaseStudies({
 
   return (
     <>
-      <header className="mb-[var(--brand-space-l)] flex flex-col gap-[var(--brand-space-xs)] text-black">
-        <p className="brand-data text-xs uppercase tracking-wider">
-          Verified Results
+      <header className="mb-10">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Verified Results · Measured Outcomes
         </p>
         <h2
-          className="brand-h2 mb-0"
+          className="brand-h1 mb-2 text-black"
           style={{ letterSpacing: "-0.02em" }}
         >
           CONKA Case Studies
         </h2>
-        <p className="brand-caption italic opacity-90">
-          real data, measured improvement
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          {athletes.length} Athletes · Real data · Measured improvement
         </p>
       </header>
 
@@ -223,26 +223,10 @@ export default function FormulaCaseStudies({
         ))}
       </div>
 
-      <div className="mt-[var(--brand-space-xl)] text-center">
-        <Link
-          href="/case-studies"
-          className="inline-flex items-center justify-center gap-[var(--brand-space-s)] px-[var(--brand-space-l)] py-[var(--brand-space-s)] rounded-[var(--brand-radius-interactive)] border border-black text-black brand-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-        >
+      <div className="mt-10 flex justify-start">
+        <ConkaCTAButton href="/case-studies" meta="// all measured outcomes">
           View All Case Studies
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </Link>
+        </ConkaCTAButton>
       </div>
     </>
   );
@@ -281,18 +265,18 @@ export function FormulaCaseStudiesMobile({
 
   return (
     <>
-      <header className="mb-[var(--brand-space-l)] flex flex-col gap-[var(--brand-space-xs)] text-black">
-        <p className="brand-data text-xs uppercase tracking-wider">
-          Verified Results
+      <header className="mb-10">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Verified Results · Measured Outcomes
         </p>
         <h2
-          className="brand-h2 mb-0"
+          className="brand-h1 mb-2 text-black"
           style={{ letterSpacing: "-0.02em" }}
         >
           CONKA Case Studies
         </h2>
-        <p className="brand-caption italic opacity-90">
-          real data, measured improvement
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          {athletes.length} Athletes · Real data · Measured improvement
         </p>
       </header>
 
@@ -328,7 +312,7 @@ export function FormulaCaseStudiesMobile({
         {athletes.map((_, idx) => (
           <div
             key={idx}
-            className={`w-2 h-2 rounded-full bg-black/30 transition-opacity ${
+            className={`w-2 h-2 bg-black/30 transition-opacity ${
               caseStudiesCarouselIndex === idx ? "opacity-100" : "opacity-30"
             }`}
             aria-hidden
@@ -336,26 +320,10 @@ export function FormulaCaseStudiesMobile({
         ))}
       </div>
 
-      <div className="mt-[var(--brand-space-xl)] text-center">
-        <Link
-          href="/case-studies"
-          className="inline-flex items-center justify-center gap-[var(--brand-space-s)] px-[var(--brand-space-l)] py-[var(--brand-space-s)] rounded-[var(--brand-radius-interactive)] border border-black text-black brand-body font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-        >
+      <div className="mt-10 flex justify-start">
+        <ConkaCTAButton href="/case-studies" meta="// all measured outcomes">
           View All Case Studies
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </Link>
+        </ConkaCTAButton>
       </div>
     </>
   );

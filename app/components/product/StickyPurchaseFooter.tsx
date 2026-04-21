@@ -164,32 +164,14 @@ export default function StickyPurchaseFooter({
         />
       )}
 
-      <div
-        className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
-        style={{
-          borderTopWidth: "1px",
-          borderTopStyle: "solid",
-          borderTopColor: "var(--brand-border-color)",
-        }}
-      >
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-black/12">
         <div className="max-w-6xl mx-auto lg:ml-auto lg:mr-0 lg:max-w-[90%] xl:max-w-[85%] px-4 md:px-6 lg:pl-0 lg:pr-16 py-3">
           <div className="flex flex-col gap-2">
             <div className="flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4">
               {/* Left: Thumbnail + Product name + Variant (im8-style) - single bordered component */}
-              <div
-                className="flex items-center gap-3 w-fit p-2 md:p-2.5 shrink-0"
-                style={{
-                  borderWidth: "1px",
-                  borderStyle: "solid",
-                  borderColor: "var(--brand-border-color)",
-                  borderRadius: "var(--brand-radius-container)",
-                }}
-              >
+              <div className="flex items-center gap-3 w-fit p-2 md:p-2.5 shrink-0 border border-black/8">
                 {thumbnailSrc && (
-                  <div
-                    className="relative w-12 h-12 md:w-14 md:h-14 overflow-hidden flex-shrink-0 bg-black/5"
-                    style={{ borderRadius: "var(--brand-radius-container)" }}
-                  >
+                  <div className="relative w-12 h-12 md:w-14 md:h-14 overflow-hidden flex-shrink-0 bg-black/5">
                     <Image
                       src={thumbnailSrc}
                       alt=""
@@ -200,10 +182,10 @@ export default function StickyPurchaseFooter({
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="brand-data font-bold truncate">
+                  <p className="font-mono text-sm font-bold truncate">
                     {productName}
                   </p>
-                  <p className="brand-data text-xs opacity-70 truncate">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] opacity-70 truncate">
                     {productLabel}
                   </p>
                 </div>
@@ -216,13 +198,7 @@ export default function StickyPurchaseFooter({
                   <div className="relative" ref={dropdownRef}>
                     <button
                       onClick={() => setShowPackDropdown(!showPackDropdown)}
-                      className="flex items-center gap-2 px-4 py-2 font-clinical text-sm hover:bg-current/5 transition-colors min-w-[200px] text-left"
-                      style={{
-                        borderWidth: "1px",
-                        borderStyle: "solid",
-                        borderColor: "var(--brand-border-color)",
-                        borderRadius: "var(--brand-radius-container)",
-                      }}
+                      className="flex items-center gap-2 px-4 py-2 font-mono tabular-nums text-sm hover:bg-current/5 transition-colors min-w-[200px] text-left border border-black/8"
                     >
                       <div className="flex-1 min-w-0">
                         <p className="font-bold whitespace-nowrap truncate">
@@ -230,7 +206,7 @@ export default function StickyPurchaseFooter({
                           {isSubscription ? " (Save 20%)" : ""}
                         </p>
                         <p
-                          className={`text-xs mt-0.5 whitespace-nowrap truncate ${
+                          className={`text-xs mt-0.5 whitespace-nowrap truncate tabular-nums ${
                             isSubscription
                               ? "text-[var(--brand-accent)]"
                               : "opacity-70"
@@ -257,15 +233,7 @@ export default function StickyPurchaseFooter({
 
                     {/* Pack/Tier Dropdown (drops UP from footer) */}
                     {showPackDropdown && (
-                      <div
-                        className="absolute bottom-full left-0 mb-2 bg-[var(--background)] overflow-hidden min-w-[240px] shadow-lg"
-                        style={{
-                          borderWidth: "1px",
-                          borderStyle: "solid",
-                          borderColor: "var(--brand-border-color)",
-                          borderRadius: "var(--brand-radius-container)",
-                        }}
-                      >
+                      <div className="absolute bottom-full left-0 mb-2 bg-white overflow-hidden min-w-[240px] border border-black/8">
                         {showPackSelector &&
                           packSizes.map((pack) => {
                             const packPricing =
@@ -284,7 +252,7 @@ export default function StickyPurchaseFooter({
                                   onPackSelect?.(pack);
                                   setShowPackDropdown(false);
                                 }}
-                                className={`w-full px-4 py-2 text-left font-clinical text-sm hover:bg-current/10 transition-colors ${
+                                className={`w-full px-4 py-2 text-left font-mono tabular-nums text-sm hover:bg-current/10 transition-colors ${
                                   selectedPack === pack
                                     ? "bg-current/10 font-bold"
                                     : ""
@@ -323,7 +291,7 @@ export default function StickyPurchaseFooter({
                                   onTierSelect?.(tier);
                                   setShowPackDropdown(false);
                                 }}
-                                className={`w-full px-4 py-2 text-left font-clinical text-sm hover:bg-current/10 transition-colors ${
+                                className={`w-full px-4 py-2 text-left font-mono tabular-nums text-sm hover:bg-current/10 transition-colors ${
                                   selectedTier === tier
                                     ? "bg-current/10 font-bold"
                                     : ""
@@ -354,23 +322,17 @@ export default function StickyPurchaseFooter({
                         : "subscription",
                     )
                   }
-                  className="flex items-center gap-2 px-3 py-2 font-clinical text-xs hover:bg-current/5 transition-colors"
-                  style={{
-                    borderWidth: "1px",
-                    borderStyle: "solid",
-                    borderColor: "var(--brand-border-color)",
-                    borderRadius: "var(--brand-radius-container)",
-                  }}
+                  className="flex items-center gap-2 px-3 py-2 font-mono text-xs uppercase tracking-[0.14em] hover:bg-current/5 transition-colors border border-black/8"
                 >
                   <div
-                    className={`w-8 h-4 rounded-full relative transition-colors ${
+                    className={`w-8 h-4 relative transition-colors ${
                       purchaseType === "subscription"
                         ? "bg-[var(--brand-accent)]"
                         : "bg-gray-300"
                     }`}
                   >
                     <div
-                      className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${
+                      className={`absolute top-0.5 w-3 h-3 bg-white transition-transform ${
                         purchaseType === "subscription" ? "left-4" : "left-0.5"
                       }`}
                     />
@@ -381,11 +343,7 @@ export default function StickyPurchaseFooter({
                 {/* Add to Cart Button */}
                 <button
                   onClick={onAddToCart}
-                  className="min-w-[10rem] px-6 py-2.5 font-bold text-sm whitespace-nowrap text-white border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
-                  style={{
-                    borderRadius: "var(--brand-radius-interactive)",
-                    backgroundColor: "var(--brand-accent)",
-                  }}
+                  className="min-w-[10rem] px-6 py-2.5 font-mono uppercase tracking-[0.14em] tabular-nums font-bold text-sm whitespace-nowrap text-white border-0 bg-[#1B2757] lab-clip-tr transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-2"
                 >
                   <span>Add to Cart</span>
                   <span className="opacity-90">·</span>
