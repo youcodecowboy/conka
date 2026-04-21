@@ -208,7 +208,7 @@ export default function FunnelClient() {
 
 
   return (
-    <div className="min-h-screen bg-white text-[var(--brand-black)]">
+    <div className="brand-clinical min-h-screen bg-white text-[var(--brand-black)]">
       {/* Fixed header with step breadcrumb */}
       <FunnelStepIndicator
         currentStep={currentStep}
@@ -221,7 +221,7 @@ export default function FunnelClient() {
       {/* Main funnel content */}
       <main className="lg:flex lg:min-h-[calc(100vh-56px)]">
         {/* Desktop: Left column — sticky hero asset */}
-        <div className="hidden lg:flex lg:w-1/2 lg:sticky lg:top-14 lg:h-[calc(100vh-56px)] lg:items-center lg:justify-center lg:p-8" style={{ backgroundColor: "#d3d7e3" }}>
+        <div className="hidden lg:flex lg:w-1/2 lg:sticky lg:top-14 lg:h-[calc(100vh-56px)] lg:items-center lg:justify-center lg:p-8 bg-[var(--brand-tint)]">
           <FunnelHeroAsset
             product={product}
             cadence={cadence}
@@ -280,16 +280,18 @@ export default function FunnelClient() {
           {currentStep === 2 && (
             <>
               {/* Mobile: product confirmation bar */}
-              <div className="lg:hidden mx-5 mt-5 flex items-center gap-3 px-4 py-3 rounded-[var(--brand-radius-interactive)] bg-black/[0.03] border border-black/6">
+              <div className="lg:hidden mx-5 mt-5 flex items-center gap-3 px-4 py-3 bg-white border border-black/10">
                 <Image
                   src={FUNNEL_PRODUCTS[product].thumbnail}
                   alt={FUNNEL_PRODUCTS[product].label}
                   width={32}
                   height={32}
-                  className="w-8 h-8 rounded-lg object-cover"
+                  className="w-8 h-8 object-cover"
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-black/50">You chose</p>
+                  <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-black/45">
+                    You chose
+                  </p>
                   <p className="text-sm font-semibold text-[var(--brand-black)] truncate">
                     {FUNNEL_PRODUCTS[product].label}
                   </p>
@@ -297,7 +299,7 @@ export default function FunnelClient() {
                 <button
                   type="button"
                   onClick={() => goToStep(1)}
-                  className="text-xs font-medium text-brand-accent"
+                  className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#1B2757] hover:opacity-70"
                 >
                   Change
                 </button>
@@ -319,15 +321,15 @@ export default function FunnelClient() {
                     safeTrack("funnel:nutrition_viewed", { product, cadence });
                     setIsNutritionOpen(true);
                   }}
-                  className="flex w-full min-h-11 items-center gap-2 py-3 text-left text-sm text-black/60 hover:text-black/80 transition-colors"
+                  className="flex w-full min-h-11 items-center gap-2 py-3 text-left font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-black/60 hover:text-black/80 transition-colors"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" className="flex-shrink-0">
                     <circle cx="12" cy="12" r="10" />
                     <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                     <line x1="12" y1="17" x2="12.01" y2="17" />
                   </svg>
                   <span className="underline underline-offset-4 decoration-black/20">
-                    Nutritional facts & ingredients
+                    Spec · Nutritional facts & ingredients
                   </span>
                 </button>
               </div>
