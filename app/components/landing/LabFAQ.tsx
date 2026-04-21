@@ -53,7 +53,7 @@ export default function LabFAQ({ hideCTA = false }: { hideCTA?: boolean } = {}) 
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
         {/* Lifestyle image */}
         <div className="lg:w-2/5 lg:sticky lg:top-8 mb-8 lg:mb-0">
-          <div className="overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full max-w-none lg:lab-asset-frame">
+          <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full max-w-none">
             <Image
               src="/lifestyle/FlowDeskClutter.jpg"
               alt="CONKA Flow bottle on a desk next to a keyboard, pen, notebook and sticky note"
@@ -61,6 +61,14 @@ export default function LabFAQ({ hideCTA = false }: { hideCTA?: boolean } = {}) 
               height={1000}
               loading="lazy"
               className="w-full h-auto"
+            />
+            <span
+              aria-hidden
+              className="hidden lg:block pointer-events-none absolute top-0 left-0 w-[25%] h-[25%] border-t-2 border-l-2 border-black"
+            />
+            <span
+              aria-hidden
+              className="hidden lg:block pointer-events-none absolute bottom-0 right-0 w-[25%] h-[25%] border-b-2 border-r-2 border-black"
             />
           </div>
         </div>
