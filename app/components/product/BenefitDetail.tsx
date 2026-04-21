@@ -33,9 +33,8 @@ const CustomTick = ({
   payload: { value: string };
   isDark: boolean;
 }) => {
-  // Shorten labels for better fit
   const shortLabels: Record<string, string> = {
-    "Concentration": "Focus",
+    Concentration: "Focus",
     "Processing Speed": "Speed",
     "Attention Span": "Attention",
     "Mental Clarity": "Clarity",
@@ -46,12 +45,12 @@ const CustomTick = ({
     "Sleep Onset": "Onset",
     "Night Waking": "Waking",
     "Morning Energy": "Morning",
-    "Recovery": "Recovery",
+    Recovery: "Recovery",
     "Energy Levels": "Energy",
-    "Endurance": "Endurance",
-    "Motivation": "Motivation",
-    "Stamina": "Stamina",
-    "Vitality": "Vitality",
+    Endurance: "Endurance",
+    Motivation: "Motivation",
+    Stamina: "Stamina",
+    Vitality: "Vitality",
     "Energy Stability": "Stability",
     "Afternoon Focus": "Afternoon",
     "Blood Sugar": "Sugar",
@@ -59,7 +58,7 @@ const CustomTick = ({
     "Mood Stability": "Mood",
     "Stress Response": "Stress",
     "Cortisol Levels": "Cortisol",
-    "Resilience": "Resilience",
+    Resilience: "Resilience",
     "Calm Focus": "Calm",
     "Recovery Speed": "Recovery",
     "Emotional Balance": "Emotion",
@@ -79,11 +78,12 @@ const CustomTick = ({
       x={x}
       y={y}
       textAnchor="middle"
-      fill={isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)"}
-      fontSize={11}
+      fill={isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)"}
+      fontSize={10}
       fontFamily="var(--font-ibm-plex-mono)"
+      letterSpacing="0.06em"
     >
-      {shortLabel}
+      {shortLabel.toUpperCase()}
     </text>
   );
 };
@@ -92,30 +92,41 @@ function MiniRadarChart({
   data,
   dataKey,
   label,
+  sub,
   color,
   isDark,
 }: {
   data: RadarDataPoint[];
   dataKey: "before" | "after";
   label: string;
+  sub: string;
   color: string;
   isDark: boolean;
 }) {
   return (
-    <div className="flex flex-col items-center overflow-visible w-full" aria-hidden="true">
+    <div
+      className="flex flex-col items-center overflow-visible w-full"
+      aria-hidden="true"
+    >
       <div className="w-full min-w-[180px] min-h-[180px] aspect-square max-w-[280px] mx-auto overflow-visible">
-        <ResponsiveContainer width="100%" height="100%" minWidth={180} minHeight={180}>
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
+          minWidth={180}
+          minHeight={180}
+        >
           <RechartsRadarChart
             data={data}
             outerRadius="60%"
             margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
           >
             <PolarGrid
-              stroke={isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)"}
+              stroke={isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)"}
               strokeWidth={1}
             />
             <PolarAngleAxis
               dataKey="category"
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               tick={(props: any) => {
                 if (
                   typeof props.x === "number" &&
@@ -135,28 +146,28 @@ function MiniRadarChart({
               }}
               tickLine={false}
             />
-            <PolarRadiusAxis angle={90} domain={[0, 50]} tick={false} axisLine={false} />
+            <PolarRadiusAxis
+              angle={90}
+              domain={[0, 50]}
+              tick={false}
+              axisLine={false}
+            />
             <Radar
               name={label}
               dataKey={dataKey}
               stroke={color}
               fill={color}
-              fillOpacity={0.25}
+              fillOpacity={0.22}
               strokeWidth={2}
             />
           </RechartsRadarChart>
         </ResponsiveContainer>
       </div>
-      <p
-        className={`font-clinical text-lg font-semibold -mt-6 ${
-          isDark ? "text-white" : "text-black"
-        }`}
-      >
+      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-black/70 -mt-4">
         {label}
       </p>
-      <p className={`font-commentary text-base -mt-1 ${isDark ? "text-white/60" : "text-black/60"}`}>
-        {dataKey === "before" && "baseline"}
-        {dataKey === "after" && "90 days"}
+      <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 tabular-nums mt-1">
+        {sub}
       </p>
     </div>
   );
@@ -170,168 +181,189 @@ export default function BenefitDetail({
   const solution = formula.struggleSolutions[struggleId];
   const accentColor = FORMULA_COLORS[formulaId];
   const study = solution.clinicalStudy;
-  const isDark = false; // Both formulas use light mode
 
-  // Get first result for display
-  const firstResult = study.results[0];
-
-  // Parse clinical results into stats (with values like +18%, -56%) and text-only items
+  // Parse clinical results into stats (+18%, -56%) and text-only items
   const parsedResults = (() => {
     const stats: { value: string; label: string }[] = [];
-    const textOnly: string[] = [];
 
     study.results.forEach((result) => {
-      // Match patterns like "+18%", "-56%", "2x", etc. at start of value
-      const statMatch = result.value.match(/^([+\-]?\d+\.?\d*[%x]?)\s*(.*)$/i);
-
-      if (statMatch && result.value.match(/^[+\-]?\d/)) {
-        stats.push({
-          value: result.value, // e.g. "+18%"
-          label: result.metric, // e.g. "Memory Performance"
-        });
-      } else {
-        textOnly.push(`${result.metric}: ${result.value}`);
+      if (result.value.match(/^[+\-]?\d/)) {
+        stats.push({ value: result.value, label: result.metric });
       }
     });
 
-    return { stats, textOnly };
+    return { stats };
   })();
 
   return (
     <div aria-live="polite">
-      <div 
-        key={struggleId} 
-        className="brand-card !bg-white p-8 [animation:fadeIn_0.3s_ease]"
+      <article
+        key={struggleId}
+        className="bg-white border border-black/12 [animation:fadeIn_0.3s_ease]"
       >
-        {/* 1. Struggle statement — small, muted, italic */}
-        <p className="brand-caption italic opacity-50 mb-2 text-[var(--brand-black)]">
-          {solution.struggle}
-        </p>
-
-        {/* 2. Outcome headline — large, bold, hero text */}
-        <h3 className="text-2xl lg:text-3xl font-bold mb-6 leading-tight text-[var(--brand-black)]">
-          {solution.outcome}
-        </h3>
-
-        {/* 3. Mechanism (description) — smaller, more muted */}
-        <p className="brand-caption opacity-60 leading-relaxed mb-6 text-[var(--brand-black)]">
-          {solution.description}
-        </p>
-
-        {/* Stat tiles grid — only render if there are parsed stats */}
-        {parsedResults.stats.length > 0 && (
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            {parsedResults.stats.map((stat, idx) => (
-              <div
-                key={idx}
-                className="rounded-[20px] p-4"
-                style={{
-                  background: "var(--brand-tint)",
-                  border: "1px solid var(--brand-stroke)",
-                }}
-              >
-                <p
-                  className={`text-3xl font-bold mb-1 ${accentColor.text}`}
-                  style={{ letterSpacing: "-0.02em" }}
-                >
-                  {stat.value}
-                </p>
-                <p className="brand-caption opacity-70 text-[var(--brand-black)] leading-tight">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* 5. Radar chart — keep as-is, add explainer line above */}
-        <div className="brand-card p-6 rounded-[20px] mb-6" aria-hidden="true">
-          <p className="brand-caption opacity-50 uppercase tracking-wider mb-1 text-[var(--brand-black)]">
-            Performance impact
-          </p>
-          <p className="brand-caption opacity-70 mb-4 text-[var(--brand-black)]">
-            How this benefit impacts your overall cognitive performance
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <MiniRadarChart
-              data={solution.radarData}
-              dataKey="before"
-              label="Baseline"
-              color={isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)"}
-              isDark={isDark}
-            />
-            <MiniRadarChart
-              data={solution.radarData}
-              dataKey="after"
-              label="90 days"
-              color={accentColor.hex}
-              isDark={isDark}
-            />
-          </div>
+        {/* Card header row */}
+        <div className="flex items-center justify-between px-6 py-3 border-b border-black/8">
+          <span className="font-mono text-[11px] font-bold tabular-nums text-black/40">
+            EVIDENCE
+          </span>
+          <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50">
+            Peer-Reviewed Study
+          </span>
         </div>
 
-        {/* 6. Clinical breakdown — keep entirely as-is */}
-        <div
-          className="rounded-[20px] overflow-hidden mb-2"
-          style={{ border: "1px solid var(--brand-stroke)" }}
-        >
-          {/* Header row */}
-          <div
-            className="px-5 py-3 space-y-1"
-            style={{
-              background: "var(--brand-tint)",
-              borderBottom: "1px solid var(--brand-stroke)",
-            }}
+        <div className="p-6 lg:p-8">
+          {/* Struggle statement */}
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+            {solution.struggle}
+          </p>
+
+          {/* Outcome headline */}
+          <h3
+            className="text-2xl lg:text-3xl font-bold mb-5 leading-tight text-black"
+            style={{ letterSpacing: "-0.02em" }}
           >
-            <div className="flex items-center justify-between">
-              <p className="brand-caption uppercase tracking-wider opacity-50 text-[var(--brand-black)]">
-                Clinical study
-              </p>
-              <p className="brand-caption opacity-40 text-[var(--brand-black)]">
-                {study.year}
-              </p>
-            </div>
-            <p className="brand-caption opacity-60 text-[var(--brand-black)]">
-              {solution.ingredientAsset?.name} • {solution.ingredientAsset?.dosage}
-            </p>
-          </div>
+            {solution.outcome}
+          </h3>
 
-          {/* Study details */}
-          <div className="px-5 py-4 space-y-2 brand-caption text-[var(--brand-black)]">
-            <p>
-              <span className="opacity-50">Study: </span>
-              <span className="opacity-80">{study.name}</span>
-            </p>
-            <p>
-              <span className="opacity-50">Participants: </span>
-              <span className="opacity-80">{study.participants.total} ({study.participants.ageRange})</span>
-            </p>
-            <p>
-              <span className="opacity-50">Duration: </span>
-              <span className="opacity-80">{study.duration}</span>
-            </p>
-          </div>
+          {/* Mechanism description */}
+          <p className="brand-body text-black/70 leading-relaxed mb-8 max-w-[60ch]">
+            {solution.description}
+          </p>
 
-          {/* Results list */}
-          {study.results.length > 0 && (
-            <div className="px-5 pb-5 text-[var(--brand-black)]">
-              <p className="brand-caption opacity-50 uppercase tracking-wider mb-3">
-                Key findings
-              </p>
-              <ul className="space-y-2">
-                {study.results.map((result, idx) => (
-                  <li key={idx} className="flex items-start gap-2 brand-caption opacity-80">
-                    <span className="opacity-40 shrink-0 mt-0.5">—</span>
-                    <span>
-                      <span className="font-semibold">{result.metric}:</span> {result.value} ({result.pValue})
+          {/* Stat tiles — spec-strip pattern inside lab-asset-frame */}
+          {parsedResults.stats.length > 0 && (
+            <div className="lab-asset-frame bg-white grid grid-cols-2 mb-8">
+              {parsedResults.stats.slice(0, 2).map((stat, idx) => {
+                const isLast = idx === Math.min(1, parsedResults.stats.length - 1);
+                return (
+                  <div
+                    key={idx}
+                    className={`flex flex-col items-start gap-2 px-5 py-5 ${
+                      isLast ? "" : "border-r border-black/8"
+                    }`}
+                  >
+                    <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 leading-none">
+                      {stat.label}
                     </span>
-                  </li>
-                ))}
-              </ul>
+                    <span
+                      className={`font-mono text-3xl lg:text-4xl font-bold tabular-nums leading-none ${accentColor.text}`}
+                      style={{ letterSpacing: "-0.02em" }}
+                    >
+                      {stat.value}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           )}
+
+          {/* Radar chart — lab-asset-frame data surface */}
+          <div className="lab-asset-frame bg-white mb-8">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-black/8">
+              <span className="font-mono text-[11px] font-bold tabular-nums text-black/40">
+                PERFORMANCE IMPACT
+              </span>
+              <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50">
+                Baseline · 90 Days
+              </span>
+            </div>
+            <div
+              className="grid grid-cols-2 gap-4 px-4 py-6"
+              aria-hidden="true"
+            >
+              <MiniRadarChart
+                data={solution.radarData}
+                dataKey="before"
+                label="Baseline"
+                sub="T=0"
+                color="rgba(0,0,0,0.55)"
+                isDark={false}
+              />
+              <MiniRadarChart
+                data={solution.radarData}
+                dataKey="after"
+                label="90 Days"
+                sub="T=90D"
+                color={accentColor.hex}
+                isDark={false}
+              />
+            </div>
+          </div>
+
+          {/* Clinical study block — flat hairline card */}
+          <div className="border border-black/12 bg-white">
+            {/* Header row */}
+            <div className="flex items-center justify-between px-5 py-3 bg-[var(--brand-tint)] border-b border-black/8">
+              <span className="font-mono text-[11px] font-bold tabular-nums text-black/40">
+                CLINICAL STUDY
+              </span>
+              <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50 tabular-nums">
+                {study.year}
+              </span>
+            </div>
+
+            {/* Meta rows */}
+            <dl className="divide-y divide-black/8">
+              <div className="grid grid-cols-[120px_1fr] gap-4 px-5 py-3">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45">
+                  Ingredient
+                </dt>
+                <dd className="text-sm text-black/80">
+                  {solution.ingredientAsset?.name}
+                  {solution.ingredientAsset?.dosage
+                    ? ` · ${solution.ingredientAsset.dosage}`
+                    : ""}
+                </dd>
+              </div>
+              <div className="grid grid-cols-[120px_1fr] gap-4 px-5 py-3">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45">
+                  Study
+                </dt>
+                <dd className="text-sm text-black/80">{study.name}</dd>
+              </div>
+              <div className="grid grid-cols-[120px_1fr] gap-4 px-5 py-3">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45">
+                  Participants
+                </dt>
+                <dd className="text-sm text-black/80 tabular-nums">
+                  N={study.participants.total} · {study.participants.ageRange}
+                </dd>
+              </div>
+              <div className="grid grid-cols-[120px_1fr] gap-4 px-5 py-3">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45">
+                  Duration
+                </dt>
+                <dd className="text-sm text-black/80">{study.duration}</dd>
+              </div>
+            </dl>
+
+            {/* Key findings */}
+            {study.results.length > 0 && (
+              <div className="px-5 py-4 border-t border-black/8">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 mb-3">
+                  Key Findings
+                </p>
+                <ul className="space-y-2 text-sm text-black/80">
+                  {study.results.map((result, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="font-mono text-black/30 shrink-0">
+                        —
+                      </span>
+                      <span>
+                        <span className="font-semibold">{result.metric}:</span>{" "}
+                        <span className="tabular-nums">{result.value}</span>{" "}
+                        <span className="font-mono text-xs text-black/45 tabular-nums">
+                          ({result.pValue})
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </article>
     </div>
   );
 }
