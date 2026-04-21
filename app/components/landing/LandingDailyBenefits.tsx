@@ -93,7 +93,7 @@ export default function LandingDailyBenefits() {
   return (
     <div>
       <div className="flex flex-col lg:flex-row lg:gap-10">
-        <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-auto aspect-[5/3] lg:aspect-auto mb-8 lg:mb-0 lg:flex-[2] lg:min-h-[500px] lg:sticky lg:top-24 lg:self-start lg:lab-asset-frame">
+        <div className="relative overflow-hidden -mt-20 lg:mt-0 -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-auto aspect-[5/3] lg:aspect-auto mb-8 lg:mb-0 lg:flex-[2] lg:min-h-[500px] lg:sticky lg:top-24 lg:self-start lg:lab-asset-frame">
           <Image
             src="/lifestyle/ClearCloseTwoHands.jpg"
             alt="Two hands passing a CONKA bottle"
