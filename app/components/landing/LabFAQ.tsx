@@ -55,10 +55,10 @@ export default function LabFAQ({ hideCTA = false }: { hideCTA?: boolean } = {}) 
         <div className="lg:w-2/5 lg:sticky lg:top-8 mb-8 lg:mb-0">
           <div className="overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full max-w-none lg:lab-asset-frame">
             <Image
-              src="/lifestyle/ClearDrink.jpg"
-              alt="Woman drinking CONKA Clear in the gym"
-              width={800}
-              height={800}
+              src="/lifestyle/FlowDeskClutter.jpg"
+              alt="CONKA Flow bottle on a desk next to a keyboard, pen, notebook and sticky note"
+              width={1500}
+              height={1000}
               loading="lazy"
               className="w-full h-auto"
             />
