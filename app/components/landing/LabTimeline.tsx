@@ -106,13 +106,21 @@ export default function LabTimeline({
 
         {/* Desktop sidebar image */}
         <div className="hidden lg:block lg:w-[450px] lg:flex-shrink-0 lg:sticky lg:top-24">
-          <div className="relative aspect-square overflow-hidden lab-asset-frame">
+          <div className="relative aspect-square overflow-hidden">
             <Image
               src="/lifestyle/FlowConkaRing.jpg"
               alt="CONKA Flow bottle beside a phone showing a CONKA cognitive score of 92"
               fill
               sizes="450px"
               className="object-cover"
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute top-3 left-3 w-[20%] h-[20%] border-t-[6px] border-l-[6px] border-white"
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute bottom-3 right-3 w-[20%] h-[20%] border-b-[6px] border-r-[6px] border-white"
             />
           </div>
         </div>
