@@ -1,125 +1,71 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
-import { HeroTrustBadges } from "../HeroShared";
-import LandingCTA from "./LandingCTA";
+import ConkaCTAButton from "./ConkaCTAButton";
 
-/* ------------------------------------------------------------------ */
-/*  Avatar data — photos at /public/avatars/, fallback to initials     */
-/* ------------------------------------------------------------------ */
-
-const AVATARS = [
-  { src: "/avatars/1.jpg", initials: "JM", bg: "#e8d5b7" },
-  { src: "/avatars/2.jpg", initials: "SR", bg: "#b7cfe8" },
-  { src: "/avatars/3.jpg", initials: "AK", bg: "#d5e8b7" },
-  { src: "/avatars/4.jpg", initials: "TW", bg: "#e8b7d5" },
-  { src: "/avatars/5.jpg", initials: "LP", bg: "#b7e8d5" },
+const STATS = [
+  { value: "32", label: "PEER-REVIEWED\nSTUDIES CITED" },
+  { value: "150,000+", label: "DOSES\nDELIVERED" },
+  { value: "4.7/5", label: "VERIFIED\nCUSTOMER RATING" },
 ];
 
-/**
- * Landing page hero — renders immediately, no mount-based animation.
- *
- * Mobile: social proof pill > image > copy > CTA > avatars (stacked).
- * Desktop: copy left, image right (split).
- *
- * Hero is paid-traffic landing content; readable and tappable on first paint.
- * Below-fold sections use scroll-triggered fades (Reveal) which don't affect LCP.
- */
 export default function LandingHero() {
-  const [failedAvatars, setFailedAvatars] = useState<Set<number>>(new Set());
-
-  const handleAvatarError = (index: number) => {
-    setFailedAvatars((prev) => new Set(prev).add(index));
-  };
-
   return (
     <div>
-      {/* Social proof pill — centered on mobile, left-aligned on desktop */}
-      <div className="flex justify-center lg:justify-start mb-4">
-        <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]">
-          150,000+ bottles sold
-        </span>
+      {/* Full-bleed image with narrow frosted-white strip at bottom */}
+      <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full aspect-[4/3] lg:aspect-[16/7]">
+        <Image
+          src="/lifestyle/CreationOfConkaBlack.jpg"
+          alt="Two hands exchanging a CONKA brain performance shot"
+          fill
+          priority
+          fetchPriority="high"
+          sizes="(max-width: 1024px) 100vw, 90vw"
+          className="object-cover object-center"
+        />
+
+        {/* Short white gradient at bottom — legibility for the title overlay */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-24 lg:h-28"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.75) 55%, rgba(255,255,255,0.0) 100%)",
+          }}
+        />
+
+        {/* Section label — top left */}
+        <div className="absolute top-0 left-0 px-5 pt-5 lg:px-8 lg:pt-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-black/55">
+            Daily Brain Performance
+          </p>
+        </div>
+
+        {/* Title — bottom left */}
+        <div className="absolute bottom-0 left-0 right-0 px-5 pb-5 lg:px-8 lg:pb-7 lg:max-w-3xl">
+          <h1 className="text-black font-semibold text-3xl lg:text-5xl leading-[1.08] tracking-[-0.02em]">
+            Brain Performance in<br className="hidden lg:block" /> One Daily Shot.
+          </h1>
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
-        {/* Copy — below image on mobile, left on desktop */}
-        <div className="order-2 lg:order-1 lg:flex-1 text-center lg:text-left mt-8 lg:mt-0">
-          <h1 className="brand-h1-bold mb-0 whitespace-pre-line">
-            {"Brain Performance\nin One Daily Shot."}
-          </h1>
+      {/* CTA below the asset */}
+      <div className="mt-6 lg:mt-8">
+        <ConkaCTAButton>Get Started Today</ConkaCTAButton>
+      </div>
 
-          <p className="brand-body mt-4 text-black/60">
-            With a daily dose of CONKA, you&apos;ll experience a noticeable boost in focus, memory, stress resilience & neuroplasticity through our patented formula.
-          </p>
-
-          {/* CTA — safe-area padding prevents mobile URL bar overlap */}
-          <div className="mt-8 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0">
-            <LandingCTA className="lg:inline-block shadow-lg hover:shadow-xl font-bold lg:text-lg">
-              Try CONKA Today
-            </LandingCTA>
+      {/* Clinical stat strip — single row, 3 columns across all breakpoints */}
+      <div className="lab-asset-frame mt-10 grid grid-cols-3 divide-x divide-black/10 overflow-hidden">
+        {STATS.map((stat) => (
+          <div
+            key={stat.value}
+            className="flex flex-col items-center text-center gap-1.5 px-3 py-4 lg:px-6 lg:py-5"
+          >
+            <p className="font-mono text-base lg:text-2xl font-bold text-black tracking-tight leading-none tabular-nums">
+              {stat.value}
+            </p>
+            <p className="font-mono text-[8px] lg:text-[9px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
+              {stat.label}
+            </p>
           </div>
-
-          {/* Customer avatars + review count */}
-          <div className="flex items-center justify-center lg:justify-start gap-3 mt-3">
-            <div className="flex -space-x-2">
-              {AVATARS.map((avatar, i) => (
-                <div
-                  key={avatar.initials}
-                  className="relative w-8 h-8 rounded-full border-2 border-white overflow-hidden flex-shrink-0"
-                >
-                  {failedAvatars.has(i) ? (
-                    <div
-                      className="w-full h-full flex items-center justify-center text-[10px] font-bold text-black/60"
-                      style={{ backgroundColor: avatar.bg }}
-                    >
-                      {avatar.initials}
-                    </div>
-                  ) : (
-                    <Image
-                      src={avatar.src}
-                      alt={`${avatar.initials}, verified buyer`}
-                      width={48}
-                      height={48}
-                      className="w-full h-full object-cover"
-                      onError={() => handleAvatarError(i)}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="text-sm">
-              <span className="font-semibold text-black">500+ reviews</span>
-              <span className="text-black/40 ml-1">· verified buyers</span>
-            </div>
-          </div>
-
-          <div className="flex justify-center lg:justify-start mt-3">
-            <HeroTrustBadges />
-          </div>
-        </div>
-
-        {/* Product image — constrained height, square source cropped */}
-        <div
-          className="relative order-1 lg:order-2 lg:flex-[1.5] w-full"
-        >
-          <div className="relative overflow-hidden rounded-[var(--brand-radius-container)] lg:rounded-[var(--brand-radius-card)] aspect-[5/3]">
-            <Image
-              src="/hero/ShotsHero.jpg"
-              alt="CONKA Flow and Clear daily brain performance shots"
-              fill
-              priority
-              fetchPriority="high"
-              sizes="(max-width: 1024px) 95vw, 60vw"
-              className="object-cover object-[center_55%] lg:object-center"
-            />
-          </div>
-          {/* Star rating — plain text below image */}
-          <p className="text-center lg:text-left text-sm text-black/60 mt-3">
-            <span aria-hidden className="text-yellow-400">★★★★★</span>{" "}
-            <span className="font-medium">4.7/5</span> from 500+ reviews
-          </p>
-        </div>
+        ))}
       </div>
     </div>
   );

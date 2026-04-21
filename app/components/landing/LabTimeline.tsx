@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LabCTA from "./LabCTA";
+import ConkaCTAButton from "./ConkaCTAButton";
 import LabTrustBadges from "./LabTrustBadges";
 import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
 
@@ -125,7 +125,7 @@ export default function LabTimeline({
       {!hideCTA && (
         <>
           <div className="flex flex-col items-start gap-2">
-            <LabCTA>Try Both from £{PRICE_PER_SHOT_BOTH}/shot</LabCTA>
+            <ConkaCTAButton>Try Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
           </div>
           <div className="mt-6">
             <LabTrustBadges />

@@ -19,7 +19,7 @@ const ACTIVE_META: string = META_VARIANTS.aspirational;
 const OUTER =
   "inline-flex flex-row items-center gap-4 w-full lg:w-auto lg:max-w-md py-3.5 pl-5 pr-8 rounded-none text-white bg-[#1B2757] transition-opacity hover:opacity-85 active:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757] [clip-path:polygon(0_0,calc(100%-12px)_0,100%_12px,100%_100%,0_100%)]";
 
-export default function LabCTA({
+export default function ConkaCTAButton({
   children,
   href = FUNNEL_URL,
   meta = ACTIVE_META,

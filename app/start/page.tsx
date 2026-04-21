@@ -3,32 +3,30 @@ import dynamic from "next/dynamic";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import LandingHero from "../components/landing/LandingHero";
-import LandingCTA from "../components/landing/LandingCTA";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
 import LandingWhatItDoes from "../components/landing/LandingWhatItDoes";
+import LandingTestimonials from "../components/landing/LandingTestimonials";
 import Reveal from "../components/landing/Reveal";
-import { PRICE_PER_SHOT_BOTH } from "../lib/landingPricing";
-import TestimonialsSection from "./TestimonialsSection";
 
 /* Below-fold sections: dynamic import to reduce initial JS bundle */
-const CaseStudiesDataDriven = dynamic(
-  () => import("../components/CaseStudiesDataDriven"),
+const LabCaseStudies = dynamic(
+  () => import("../components/LabCaseStudies"),
   { loading: () => <div className="h-[600px]" /> },
 );
 const LandingValueComparison = dynamic(
   () => import("../components/landing/LandingValueComparison"),
   { loading: () => <div className="h-[300px]" /> },
 );
-const LandingTimeline = dynamic(
-  () => import("../components/landing/LandingTimeline"),
+const LabTimeline = dynamic(
+  () => import("../components/landing/LabTimeline"),
   { loading: () => <div className="h-[500px]" /> },
 );
-const LandingGuarantee = dynamic(
-  () => import("../components/landing/LandingGuarantee"),
+const LabGuarantee = dynamic(
+  () => import("../components/landing/LabGuarantee"),
   { loading: () => <div className="h-[500px]" /> },
 );
-const LandingFAQ = dynamic(
-  () => import("../components/landing/LandingFAQ"),
+const LabFAQ = dynamic(
+  () => import("../components/landing/LabFAQ"),
   { loading: () => <div className="h-[400px]" /> },
 );
 
@@ -48,7 +46,7 @@ export const metadata: Metadata = {
 
 export default function StartPage() {
   return (
-    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+    <div className="brand-clinical min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
 
       {/* ===== 1. HERO ===== */}
@@ -80,10 +78,7 @@ export default function StartPage() {
       >
         <div className="brand-track">
           <Reveal>
-            <CaseStudiesDataDriven hideCTA />
-            <div className="mt-8 flex justify-start">
-              <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
-            </div>
+            <LabCaseStudies />
           </Reveal>
         </div>
       </section>
@@ -99,7 +94,11 @@ export default function StartPage() {
       </section>
 
       {/* ===== 5. TESTIMONIALS ===== */}
-      <TestimonialsSection />
+      <section className="brand-section brand-bg-white" aria-label="Customer reviews">
+        <div className="brand-track">
+          <LandingTestimonials />
+        </div>
+      </section>
 
       {/* ===== 6. WHAT TO EXPECT TIMELINE ===== */}
       <section
@@ -108,7 +107,7 @@ export default function StartPage() {
       >
         <div className="brand-track">
           <Reveal>
-            <LandingTimeline />
+            <LabTimeline />
           </Reveal>
         </div>
       </section>
@@ -120,7 +119,7 @@ export default function StartPage() {
       >
         <div className="brand-track">
           <Reveal>
-            <LandingGuarantee />
+            <LabGuarantee />
           </Reveal>
         </div>
       </section>
@@ -131,7 +130,7 @@ export default function StartPage() {
         aria-label="FAQ"
       >
         <div className="brand-track">
-          <LandingFAQ />
+          <LabFAQ />
         </div>
       </section>
 

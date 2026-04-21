@@ -7,21 +7,21 @@ import {
   SportCategory,
   getAthleteById,
 } from "@/app/lib/caseStudiesData";
-import LabCTA from "./LabCTA";
-import LabTrustBadges from "./LabTrustBadges";
+import ConkaCTAButton from "./landing/ConkaCTAButton";
+import LabTrustBadges from "./landing/LabTrustBadges";
 
 /* ============================================================================
  * LabCaseStudies
  *
- * Clinical reskin of CaseStudiesDataDriven for /startV1. Surfaces more of the
- * dataset than the original teaser: each tile becomes a specimen card with
- * photo + dense mono spec block (3-metric grid + product + testing period).
+ * Clinical reskin of CaseStudiesDataDriven. Surfaces more of the dataset than
+ * the original teaser: each tile becomes a specimen card with photo + dense
+ * mono spec block (3-metric grid + product + testing period).
  *
  * Visual grammar:
  *   - Stats strip: lab-asset-frame (double-border, data surface)
  *   - Tiles: zero-radius, thin black border, photo + spec band
  *   - Mono labels (tabular-nums) for all numerics
- *   - CTA: LabCTA, trust: LabTrustBadges
+ *   - CTA: ConkaCTAButton, trust: LabTrustBadges
  * ========================================================================== */
 
 const SPORT_LABELS: Record<SportCategory, string> = {
@@ -260,9 +260,9 @@ export default function LabCaseStudies({
       {!hideCTA && (
         <>
           <div className="mt-8 flex justify-start">
-            <LabCTA href={ctaHref ?? "/case-studies"}>
+            <ConkaCTAButton href={ctaHref ?? "/case-studies"}>
               {ctaLabel ?? "View All Case Studies"}
-            </LabCTA>
+            </ConkaCTAButton>
           </div>
           <div className="mt-6">
             <LabTrustBadges />

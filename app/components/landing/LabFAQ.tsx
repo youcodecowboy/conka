@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { GUARANTEE_LABEL_FULL, GUARANTEE_COPY_TRIAL } from "@/app/lib/offerConstants";
 import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
-import LabCTA from "./LabCTA";
+import ConkaCTAButton from "./ConkaCTAButton";
 
 const FAQ_ITEMS = [
   {
@@ -111,7 +111,7 @@ export default function LabFAQ({ hideCTA = false }: { hideCTA?: boolean } = {}) 
 
           {!hideCTA && (
             <div className="mt-8 flex justify-center lg:justify-start">
-              <LabCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</LabCTA>
+              <ConkaCTAButton>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
             </div>
           )}
         </div>

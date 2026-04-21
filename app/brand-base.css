@@ -115,6 +115,49 @@
   --brand-text-gap: 1.5rem;
 }
 
+/* ===== Clinical scope ===== */
+/* Opt-in aesthetic for acquisition surfaces (see /start). Apply .brand-clinical
+   to a page root div to override radius, accent, and tint tokens. Scope stays
+   isolated via CSS variable inheritance — siblings above the class are unaffected. */
+.brand-clinical {
+  --brand-radius-card: 0px;
+  --brand-radius-container: 0px;
+  --brand-radius-interactive: 0px;
+
+  --brand-accent: #1B2757;
+  --color-brand-accent: #1B2757;
+
+  --brand-tint: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+  .brand-clinical .brand-section.brand-hero-first {
+    padding-top: 0;
+  }
+}
+
+/* ===== Clinical utilities (unscoped, opt-in) ===== */
+
+/* Double-line border for contained assets — 2px inner, 4px white gap, 1px outer.
+   Architectural spec-sheet convention. */
+.lab-asset-frame {
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.85),
+    0 0 0 6px rgba(255, 255, 255, 0.95),
+    0 0 0 7px rgba(0, 0, 0, 0.75);
+}
+
+/* Top-right chamfer for interactive tiles — matches ConkaCTAButton. */
+.lab-clip-tr {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+
+/* Terminal cursor blink — consumed inline by ConkaCTAButton. */
+@keyframes lab-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
 /* ===== Layout classes ===== */
 
 /* Content track — max-width + centred */
