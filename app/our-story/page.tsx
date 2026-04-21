@@ -20,10 +20,9 @@ export const metadata: Metadata = {
 
 export default function OurStoryPage() {
   return (
-    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+    <div className="brand-clinical min-h-screen bg-white text-black">
       <Navigation />
 
-      {/* ===== SECTION 1: HERO ===== */}
       <section
         className="brand-section brand-hero-first brand-bg-white"
         aria-label="Our Story hero"
@@ -33,7 +32,6 @@ export default function OurStoryPage() {
         </div>
       </section>
 
-      {/* ===== STORY SECTIONS: alternating white/tint ===== */}
       {storySections.map((section, index) => (
         <section
           key={section.id}
@@ -51,7 +49,6 @@ export default function OurStoryPage() {
         </section>
       ))}
 
-      {/* ===== FINAL CTA ===== */}
       <section
         className={`brand-section ${storySections.length % 2 === 0 ? "brand-bg-tint" : "brand-bg-white"}`}
         aria-label="Join the Journey"

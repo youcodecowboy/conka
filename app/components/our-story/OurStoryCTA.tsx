@@ -1,38 +1,66 @@
+import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
+
 export function OurStoryCTA() {
   return (
-    <div className="text-center">
-      <p className="brand-body text-black mb-4">
-        ready to experience it yourself?
+    <div className="max-w-3xl">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+        Join the Journey · Balance Protocol · Start here
       </p>
-      <h2 className="brand-h1-bold text-4xl lg:text-5xl xl:text-6xl mb-8 tracking-tight">
-        Join the Journey
+      <h2
+        className="brand-h1 text-black mb-3"
+        style={{ letterSpacing: "-0.02em" }}
+      >
+        Ready to experience it yourself?
       </h2>
-      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <a
-          href="/conka-flow"
-          className="px-8 py-4 font-semibold text-lg text-white hover:opacity-90 transition-opacity"
-          style={{
-            borderRadius: "var(--brand-radius-interactive)",
-            backgroundColor: "var(--brand-accent)",
-          }}
-        >
-          Explore CONKA Flow
-        </a>
-        <a
-          href="/conka-clarity"
-          className="px-8 py-4 font-semibold text-lg border hover:opacity-80 transition-opacity"
-          style={{
-            borderRadius: "var(--brand-radius-interactive)",
-            color: "var(--brand-accent)",
-            borderColor: "rgba(64, 88, 187, 0.3)",
-          }}
-        >
-          Explore CONKA Clarity
-        </a>
-      </div>
-      <p className="brand-caption mt-8 text-black">
-        100-day money-back guarantee &bull; Free UK shipping
+      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-8">
+        100-Day money-back guarantee · Free UK shipping · Cancel anytime
       </p>
+
+      <div className="bg-white border border-black/12">
+        <div className="grid grid-cols-3 border-b border-black/8">
+          <div className="p-4 lg:p-5 border-r border-black/8">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+              Research
+            </p>
+            <p className="font-mono text-xl lg:text-2xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+              £500K+
+            </p>
+          </div>
+          <div className="p-4 lg:p-5 border-r border-black/8">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+              Clinical trials
+            </p>
+            <p className="font-mono text-xl lg:text-2xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+              25+
+            </p>
+          </div>
+          <div className="p-4 lg:p-5">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+              Formula
+            </p>
+            <p className="font-mono text-xl lg:text-2xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+              Patented
+            </p>
+          </div>
+        </div>
+
+        <div className="p-5 lg:p-6 flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/50">
+              Recommended start
+            </p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/40 tabular-nums">
+              Protocol 03 · Balance
+            </p>
+          </div>
+          <ConkaCTAButton
+            href="/protocol/3"
+            meta="// balance protocol · 14 shots · 7-day cadence"
+          >
+            Try CONKA now
+          </ConkaCTAButton>
+        </div>
+      </div>
     </div>
   );
 }
