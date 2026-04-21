@@ -28,14 +28,17 @@ export default function WhatToExpectDesktop({
       {/* Section Header (+ Toggle only when landing) */}
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
         <div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+            Protocol Timeline · Day 1 → Day 90
+          </p>
           <h2
-            className="brand-h1 mb-6"
-            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            className="brand-h1 mb-2"
+            style={{ letterSpacing: "-0.02em" }}
           >
             What to Expect with CONKA
           </h2>
-          <p className="brand-body text-black/60 max-w-2xl">
-            Real benefits that build over time, not overnight promises.
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+            {timeline.length} Stages · Compounds over time · Not overnight
           </p>
         </div>
 

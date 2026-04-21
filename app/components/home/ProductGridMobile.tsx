@@ -1,23 +1,22 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import LandingTrustBadges from "../landing/LandingTrustBadges";
+import LabTrustBadges from "../landing/LabTrustBadges";
 import ProductCard from "./ProductCard";
-import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
 import type { ProductGridProps } from "./ProductGrid";
 import { getProductGridCopy } from "./productGridCopy";
 
 const ALL_CARDS = [
-  { productType: "protocol" as const, name: "Both — CONKA Flow and Clear" },
-  { productType: "flow" as const, name: "CONKA Flow" },
-  { productType: "clear" as const, name: "CONKA Clear" },
+  { productType: "protocol" as const, label: "Both", number: "03" },
+  { productType: "flow" as const, label: "Flow", number: "01" },
+  { productType: "clear" as const, label: "Clear", number: "02" },
 ];
 
 export default function ProductGridMobile(props?: ProductGridProps) {
   const { exclude = [] } = props ?? {};
-  const visibleCards = ALL_CARDS.filter((c) => !exclude.includes(c.productType));
+  const visibleCards = ALL_CARDS.filter(
+    (c) => !exclude.includes(c.productType),
+  );
   const maxIndex = Math.max(0, visibleCards.length - 1);
   const copy = getProductGridCopy({ exclude });
 
@@ -25,16 +24,15 @@ export default function ProductGridMobile(props?: ProductGridProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const isScrollingProgrammaticallyRef = useRef(false);
 
-  const handleAddToCart = useCallback((productType: "flow" | "clear" | "protocol") => {
-    console.log(`Add to cart: ${productType}`);
-  }, []);
-
   const handleScroll = useCallback(() => {
     if (isScrollingProgrammaticallyRef.current || !carouselRef.current) return;
     const el = carouselRef.current;
     const gapPx = 16;
     const cardWidth = el.offsetWidth * 0.85 + gapPx;
-    const index = Math.min(maxIndex, Math.max(0, Math.round(el.scrollLeft / cardWidth)));
+    const index = Math.min(
+      maxIndex,
+      Math.max(0, Math.round(el.scrollLeft / cardWidth)),
+    );
     setCurrentIndex(index);
   }, [maxIndex]);
 
@@ -46,7 +44,9 @@ export default function ProductGridMobile(props?: ProductGridProps) {
     isScrollingProgrammaticallyRef.current = true;
     setCurrentIndex(index);
     el.scrollTo({ left: index * cardWidth, behavior: "smooth" });
-    setTimeout(() => { isScrollingProgrammaticallyRef.current = false; }, 400);
+    setTimeout(() => {
+      isScrollingProgrammaticallyRef.current = false;
+    }, 400);
   }, []);
 
   const handleKeyDown = useCallback(
@@ -74,46 +74,71 @@ export default function ProductGridMobile(props?: ProductGridProps) {
   const currentCard = visibleCards[currentIndex] ?? visibleCards[0];
 
   if (visibleCards.length === 0) {
-    return <LandingTrustBadges />;
+    return (
+      <div className="px-4">
+        <LabTrustBadges />
+      </div>
+    );
   }
 
   return (
     <>
-      <div className="mb-10 px-4">
+      <div className="mb-8 px-4">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          {copy.eyebrow}
+        </p>
         <h2
-          className="brand-h1 mb-6"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h1 mb-2 text-black"
+          style={{ letterSpacing: "-0.02em" }}
         >
           {copy.title}
         </h2>
-        {copy.subtitleNode && (
-          <p className="brand-body text-black/60 max-w-xl">
-            {copy.subtitleNode}
-          </p>
-        )}
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          {copy.monoSub}
+        </p>
       </div>
 
       {visibleCards.length > 1 && (
-        <div className="px-4 mb-4 flex items-center justify-center gap-2 flex-wrap">
-          {visibleCards.map((card, idx) => {
-            const isActive = currentIndex === idx;
-            return (
-              <button
-                key={card.productType}
-                type="button"
-                onClick={() => goToCard(idx)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all"
-                style={{
-                  borderColor: isActive ? "var(--brand-accent)" : "var(--foreground)",
-                  opacity: isActive ? 1 : 0.4,
-                  backgroundColor: isActive ? "var(--brand-accent)" : "transparent",
-                  color: isActive ? "white" : "var(--foreground)",
-                }}
-              >
-                <span className="font-clinical text-xs">{card.name}</span>
-              </button>
-            );
-          })}
+        <div className="px-4 mb-4">
+          <div
+            className="grid border border-black/12"
+            style={{
+              gridTemplateColumns: `repeat(${visibleCards.length}, minmax(0, 1fr))`,
+            }}
+            role="tablist"
+            aria-label="Product filter"
+          >
+            {visibleCards.map((card, idx) => {
+              const isActive = currentIndex === idx;
+              return (
+                <button
+                  key={card.productType}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => goToCard(idx)}
+                  className={`min-h-[44px] px-3 py-2.5 text-left transition-colors ${
+                    idx > 0 ? "border-l border-black/12" : ""
+                  } ${
+                    isActive
+                      ? "bg-black text-white"
+                      : "bg-white text-black hover:bg-[var(--brand-tint)]"
+                  }`}
+                >
+                  <span
+                    className={`block font-mono text-[8px] font-bold tabular-nums mb-1 leading-none ${
+                      isActive ? "text-white/60" : "text-black/40"
+                    }`}
+                  >
+                    {card.number}
+                  </span>
+                  <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.18em] leading-none">
+                    {card.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
 
@@ -121,92 +146,36 @@ export default function ProductGridMobile(props?: ProductGridProps) {
         ref={carouselRef}
         role="region"
         aria-label="Product options"
-        className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ WebkitOverflowScrolling: "touch" }}
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
         tabIndex={0}
       >
-        <div className="sr-only" aria-live="polite" aria-atomic="true" key={currentIndex}>
-          Showing {currentCard?.name}
+        <div
+          className="sr-only"
+          aria-live="polite"
+          aria-atomic="true"
+          key={currentIndex}
+        >
+          Showing {currentCard?.label}
         </div>
 
-        {visibleCards.map((card) => {
-          if (card.productType === "protocol") {
-            return (
-              <div key="protocol" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
-                <div className="flex flex-col items-center w-full">
-                  <Link
-                    href="/protocol/3"
-                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
-                  >
-                    <div className="relative w-full h-full">
-                      <Image
-                        src={getProtocolImage("3")}
-                        alt="Both — CONKA Flow and Clear"
-                        fill
-                        className="object-cover"
-                        sizes="100vw"
-                      />
-                      <div
-                        className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--brand-accent)]"
-                      >
-                        Most Popular
-                      </div>
-                    </div>
-                  </Link>
-                  <ProductCard productType="protocol" onAddToCart={() => handleAddToCart("protocol")} />
-                </div>
-              </div>
-            );
-          }
-          if (card.productType === "flow") {
-            return (
-              <div key="flow" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
-                <div className="flex flex-col items-center w-full">
-                  <Link
-                    href="/conka-flow"
-                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
-                  >
-                    <div className="relative w-full h-full">
-                      <Image src={getFormulaImage("01")} alt="CONKA Flow" fill className="object-cover" sizes="100vw" />
-                      <div
-                        className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--brand-accent)]"
-                      >
-                        Morning
-                      </div>
-                    </div>
-                  </Link>
-                  <ProductCard productType="flow" onAddToCart={() => handleAddToCart("flow")} />
-                </div>
-              </div>
-            );
-          }
-          return (
-            <div key="clear" className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center">
-              <div className="flex flex-col items-center w-full">
-                <Link
-                  href="/conka-clarity"
-                  className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
-                >
-                  <div className="relative w-full h-full">
-                    <Image src={getFormulaImage("02")} alt="CONKA Clear" fill className="object-cover" sizes="100vw" />
-                    <div
-                      className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--brand-accent)]"
-                    >
-                      Afternoon
-                    </div>
-                  </div>
-                </Link>
-                <ProductCard productType="clear" onAddToCart={() => handleAddToCart("clear")} />
-              </div>
-            </div>
-          );
-        })}
+        {visibleCards.map((card) => (
+          <div
+            key={card.productType}
+            className="flex-shrink-0 w-[85vw] max-w-[340px] snap-center"
+          >
+            <ProductCard
+              productType={card.productType}
+              imageAspect="wide"
+            />
+          </div>
+        ))}
       </div>
 
-      <div className="mt-6 px-4">
-        <LandingTrustBadges />
+      <div className="mt-8 px-4">
+        <LabTrustBadges />
       </div>
     </>
   );

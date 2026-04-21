@@ -4,272 +4,214 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const CheckIcon = () => (
-  <svg
-    className="w-3 h-3 text-emerald-600 flex-shrink-0"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="3"
-    aria-hidden="true"
-  >
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-);
+type PillarLogo = { src: string; alt: string };
 
-const PillRow = ({ children }: { children: React.ReactNode }) => (
-  <div
-    className="flex flex-row flex-wrap justify-center gap-1.5"
-    aria-hidden="true"
-  >
-    {children}
-  </div>
-);
+interface Pillar {
+  number: string;
+  category: string;
+  logo?: string;
+  logoAlt?: string;
+  logos?: PillarLogo[];
+  heading: string;
+  body: string;
+  tags: string[];
+  link?: { href: string; label: string; external: boolean };
+}
 
-const Pill = ({ children }: { children: React.ReactNode }) => (
-  <span className="px-2 py-1 rounded-full text-[10px] font-medium border border-[rgba(0,0,0,0.06)] bg-white text-black inline-flex items-center gap-1 flex-shrink-0">
-    <CheckIcon />
-    {children}
-  </span>
-);
+const PILLARS: Pillar[] = [
+  {
+    number: "01",
+    category: "CERTIFICATION",
+    logo: "/logos/InformedSportLogo.png",
+    logoAlt: "Informed Sport certified",
+    heading: "Certified Safe for Elite Sport",
+    body:
+      "Every batch of CONKA Flow and CONKA Clear is tested by Informed Sport for over 280 banned substances. Trusted by WADA, Olympic committees, and professional sports leagues worldwide.",
+    tags: ["Banned Substance Tested", "Heavy Metal Tested", "Batch Verified"],
+    link: {
+      href: "https://sport.wetestyoutrust.com/supplement-search/brand/conka",
+      label: "View Certificate",
+      external: true,
+    },
+  },
+  {
+    number: "02",
+    category: "RESEARCH",
+    logos: [
+      { src: "/logos/UniversityOfDurham.png", alt: "Durham University" },
+      { src: "/logos/UniversityOfExeter.png", alt: "University of Exeter" },
+    ],
+    heading: "University-Tested, Clinically Dosed",
+    body:
+      "Formulated in partnership with Durham and Exeter universities. Every ingredient is dosed at clinically effective levels based on peer-reviewed research. Not pixie-dusted — real science, real results.",
+    tags: ["Clinical Dosing", "Peer-Reviewed", "University-Backed"],
+  },
+  {
+    number: "03",
+    category: "MANUFACTURING",
+    logo: "/logos/MadeInBritain.png",
+    logoAlt: "Made in Britain",
+    heading: "UK Manufactured to GMP Standards",
+    body:
+      "Made in England to Good Manufacturing Practice (GMP) standards. Every batch is tested for purity, potency, and consistency. No cutting corners, no outsourcing — just rigorous British quality control.",
+    tags: ["GMP Certified", "Batch Tested", "Made in England"],
+  },
+];
 
 export default function WhyConkaWorksMobile() {
-  const [expandedPillar, setExpandedPillar] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState<number | null>(null);
 
   return (
-    <>
-      <div className="mb-10">
+    <div>
+      {/* Heading trio */}
+      <div className="mb-8">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Credentials · Testing · Manufacturing
+        </p>
         <h2
-          className="brand-h1 mb-6 text-black"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h1 mb-2 text-black"
+          style={{ letterSpacing: "-0.02em" }}
         >
           Certified for Performance.
         </h2>
-        <p className="brand-body text-black/60 text-sm">
-          Every formula is third-party tested, university-trialled, and
-          manufactured to the highest standards.
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          Third-party tested · University-trialled · GMP
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-2 mb-6 p-4 rounded-2xl bg-white border border-[rgba(0,0,0,0.06)]">
-        <div className="text-center">
-          <p className="text-2xl font-bold font-clinical text-black">
+      {/* Spec strip */}
+      <div className="lab-asset-frame bg-white grid grid-cols-3 mb-8">
+        <div className="px-3 py-3 border-r border-black/8">
+          <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 mb-1 leading-none">
+            Substances
+          </p>
+          <p className="font-mono text-lg font-bold tabular-nums text-black leading-none">
             280+
           </p>
-          <p className="brand-caption text-black/60 mt-0.5 text-[10px]">
-            Substances Tested
-          </p>
         </div>
-        <div className="text-center border-l border-r border-[rgba(0,0,0,0.06)]">
-          <p className="text-2xl font-bold font-clinical text-black">
+        <div className="px-3 py-3 border-r border-black/8">
+          <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 mb-1 leading-none">
+            Universities
+          </p>
+          <p className="font-mono text-lg font-bold tabular-nums text-black leading-none">
             2
           </p>
-          <p className="brand-caption text-black/60 mt-0.5 text-[10px]">
-            University Partners
-          </p>
         </div>
-        <div className="text-center">
-          <p className="text-2xl font-bold font-clinical text-black">
-            100%
-          </p>
-          <p className="brand-caption text-black/60 mt-0.5 text-[10px]">
+        <div className="px-3 py-3">
+          <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 mb-1 leading-none">
             Batch Verified
           </p>
+          <p className="font-mono text-lg font-bold tabular-nums text-black leading-none">
+            100%
+          </p>
         </div>
       </div>
 
+      {/* Pillar cards */}
       <div className="flex flex-col gap-3">
-        {/* Pillar 1 */}
-        <div
-          className="brand-card-bordered border-t-4 border-t-[#3a9f7e] flex flex-col items-center"
-          style={{ backgroundColor: "#f4f5f8" }}
-        >
-          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-white border border-[var(--brand-divider-subtle)] flex-shrink-0">
-            <Image
-              src="/logos/InformedSportLogo.png"
-              alt="Informed Sport certified"
-              width={80}
-              height={80}
-              loading="lazy"
-              className="h-20 w-auto object-contain"
-            />
-          </div>
-          <h3
-            className="brand-h3 text-lg font-bold mb-2"
-            style={{ letterSpacing: "-0.01em" }}
-          >
-            Certified Safe for Elite Sport
-          </h3>
-          <PillRow>
-            <Pill>Banned substance tested</Pill>
-            <Pill>Heavy metal tested</Pill>
-            <Pill>Batch verified</Pill>
-          </PillRow>
-          <div
-            className={`overflow-hidden transition-all duration-300 ${expandedPillar === 0 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
-            id="pillar-1-content"
-          >
-            <p className="brand-caption text-black/60 leading-relaxed mt-3 mb-3 text-left">
-              Every batch of CONKA Flow and CONKA Clear is tested by Informed
-              Sport for over 280 banned substances. Trusted by WADA, Olympic
-              committees, and professional sports leagues worldwide. Safe for
-              athletes at every level.
-            </p>
-            <Link
-              href="https://sport.wetestyoutrust.com/supplement-search/brand/conka"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="brand-caption text-black font-medium hover:underline"
+        {PILLARS.map((p, i) => {
+          const isOpen = expanded === i;
+          return (
+            <div
+              key={p.number}
+              className="bg-white border border-black/12 overflow-hidden"
             >
-              View Certificate →
-            </Link>
-          </div>
-          <button
-            onClick={() => setExpandedPillar(expandedPillar === 0 ? null : 0)}
-            className="mt-2 brand-caption font-medium text-black hover:underline flex items-center gap-1"
-            aria-expanded={expandedPillar === 0}
-            aria-controls="pillar-1-content"
-          >
-            {expandedPillar === 0 ? "Show less" : "Learn more"}
-            <svg
-              className={`w-4 h-4 transition-transform ${expandedPillar === 0 ? "rotate-180" : ""}`}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-        </div>
+              <div className="p-5">
+                {/* Number + category */}
+                <div className="flex items-center justify-between mb-4 pb-3 border-b border-black/8">
+                  <span className="font-mono text-[11px] font-bold tabular-nums text-black/40">
+                    {p.number}.
+                  </span>
+                  <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50">
+                    {p.category}
+                  </span>
+                </div>
 
-        {/* Pillar 2 */}
-        <div
-          className="brand-card-bordered flex flex-col items-center"
-          style={{ backgroundColor: "#f4f5f8" }}
-        >
-          <div className="mb-3 flex flex-col items-center justify-center gap-2 rounded-xl bg-[#f4f5f8] p-3 flex-shrink-0">
-            <div className="h-10 w-28 overflow-hidden flex items-center justify-center rounded-lg [&>img]:object-cover [&>img]:object-center">
-              <Image
-                src="/logos/UniversityOfDurham.png"
-                alt="Durham University"
-                width={112}
-                height={40}
-                loading="lazy"
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-            <div className="h-10 w-28 overflow-hidden flex items-center justify-center rounded-lg [&>img]:object-cover [&>img]:object-center">
-              <Image
-                src="/logos/UniversityOfExeter.png"
-                alt="University of Exeter"
-                width={112}
-                height={40}
-                loading="lazy"
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-          </div>
-          <h3
-            className="brand-h3 text-lg font-bold mb-2"
-            style={{ letterSpacing: "-0.01em" }}
-          >
-            University-Tested, Clinically Dosed
-          </h3>
-          <PillRow>
-            <Pill>Clinical dosing</Pill>
-            <Pill>Peer-reviewed</Pill>
-            <Pill>University-backed</Pill>
-          </PillRow>
-          <div
-            className={`overflow-hidden transition-all duration-300 ${expandedPillar === 1 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
-            id="pillar-2-content"
-          >
-            <p className="brand-caption text-black/60 leading-relaxed mt-3 mb-3 text-left">
-              Formulated in partnership with Durham and Exeter universities.
-              Every ingredient is dosed at clinically effective levels based on
-              peer-reviewed research. Not pixie-dusted—real science, real
-              results.
-            </p>
-          </div>
-          <button
-            onClick={() => setExpandedPillar(expandedPillar === 1 ? null : 1)}
-            className="mt-2 brand-caption font-medium text-black hover:underline flex items-center gap-1"
-            aria-expanded={expandedPillar === 1}
-            aria-controls="pillar-2-content"
-          >
-            {expandedPillar === 1 ? "Show less" : "Learn more"}
-            <svg
-              className={`w-4 h-4 transition-transform ${expandedPillar === 1 ? "rotate-180" : ""}`}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-        </div>
+                {/* Logo frame */}
+                <div className="mb-4 h-24 flex items-center justify-center bg-[var(--brand-tint)] border border-black/8 p-3">
+                  {p.logos ? (
+                    <div className="flex items-center justify-center gap-4 w-full h-full">
+                      {p.logos.map((l) => (
+                        <div key={l.src} className="relative h-14 w-28">
+                          <Image
+                            src={l.src}
+                            alt={l.alt}
+                            fill
+                            loading="lazy"
+                            className="object-contain"
+                            sizes="112px"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="relative h-16 w-full">
+                      <Image
+                        src={p.logo!}
+                        alt={p.logoAlt!}
+                        fill
+                        loading="lazy"
+                        className="object-contain"
+                        sizes="40vw"
+                      />
+                    </div>
+                  )}
+                </div>
 
-        {/* Pillar 3 */}
-        <div
-          className="brand-card-bordered flex flex-col items-center"
-          style={{ backgroundColor: "#f4f5f8" }}
-        >
-          <div className="mb-3 h-20 w-20 flex items-center justify-center rounded-xl bg-white border border-[var(--brand-divider-subtle)] flex-shrink-0">
-            <Image
-              src="/logos/MadeInBritain.png"
-              alt="Made in Britain"
-              width={80}
-              height={40}
-              loading="lazy"
-              className="h-20 w-auto object-contain"
-            />
-          </div>
-          <h3
-            className="brand-h3 text-lg font-bold mb-2"
-            style={{ letterSpacing: "-0.01em" }}
-          >
-            UK Manufactured to GMP Standards
-          </h3>
-          <PillRow>
-            <Pill>GMP certified</Pill>
-            <Pill>Batch tested</Pill>
-            <Pill>Made in England</Pill>
-          </PillRow>
-          <div
-            className={`overflow-hidden transition-all duration-300 ${expandedPillar === 2 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
-            id="pillar-3-content"
-          >
-            <p className="brand-caption text-black/60 leading-relaxed mt-3 mb-3 text-left">
-              Made in England to Good Manufacturing Practice (GMP) standards.
-              Every batch is tested for purity, potency, and consistency. No
-              cutting corners, no outsourcing—just rigorous British quality
-              control.
-            </p>
-          </div>
-          <button
-            onClick={() => setExpandedPillar(expandedPillar === 2 ? null : 2)}
-            className="mt-2 brand-caption font-medium text-black hover:underline flex items-center gap-1"
-            aria-expanded={expandedPillar === 2}
-            aria-controls="pillar-3-content"
-          >
-            {expandedPillar === 2 ? "Show less" : "Learn more"}
-            <svg
-              className={`w-4 h-4 transition-transform ${expandedPillar === 2 ? "rotate-180" : ""}`}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-        </div>
+                <h3 className="text-base font-semibold text-black leading-snug mb-3">
+                  {p.heading}
+                </h3>
+
+                {/* Mono tag row */}
+                <div className="flex flex-wrap gap-x-3 gap-y-1 mb-2">
+                  {p.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-black/60 tabular-nums"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Expanded body */}
+                <div
+                  className="overflow-hidden transition-all duration-300 ease-out"
+                  style={{
+                    maxHeight: isOpen ? "400px" : "0px",
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                >
+                  <div className="pt-3 border-t border-black/8 mt-3">
+                    <p className="text-sm text-black/70 leading-relaxed mb-3">
+                      {p.body}
+                    </p>
+                    {p.link && (
+                      <Link
+                        href={p.link.href}
+                        target={p.link.external ? "_blank" : undefined}
+                        rel={p.link.external ? "noopener noreferrer" : undefined}
+                        className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-black underline decoration-black/30 underline-offset-4"
+                      >
+                        {p.link.label} →
+                      </Link>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setExpanded(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="mt-3 w-full font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-black underline decoration-black/30 underline-offset-4 text-left"
+                >
+                  {isOpen ? "[−] Show less" : "[+] Read more"}
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 }
