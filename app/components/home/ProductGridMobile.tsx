@@ -82,7 +82,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
       <div className="mb-10 px-4">
         <h2
           className="brand-h1 mb-6"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          style={{ letterSpacing: "-0.02em" }}
         >
           {copy.title}
         </h2>
@@ -121,7 +121,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
         ref={carouselRef}
         role="region"
         aria-label="Product options"
-        className="flex gap-[var(--premium-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-[var(--brand-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ WebkitOverflowScrolling: "touch" }}
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
@@ -138,7 +138,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
                 <div className="flex flex-col items-center w-full">
                   <Link
                     href="/protocol/3"
-                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--brand-radius-card)] overflow-hidden border border-black/10"
                   >
                     <div className="relative w-full h-full">
                       <Image
@@ -166,7 +166,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
                 <div className="flex flex-col items-center w-full">
                   <Link
                     href="/conka-flow"
-                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                    className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--brand-radius-card)] overflow-hidden border border-black/10"
                   >
                     <div className="relative w-full h-full">
                       <Image src={getFormulaImage("01")} alt="CONKA Flow" fill className="object-cover" sizes="100vw" />
@@ -187,7 +187,7 @@ export default function ProductGridMobile(props?: ProductGridProps) {
               <div className="flex flex-col items-center w-full">
                 <Link
                   href="/conka-clarity"
-                  className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+                  className="block relative w-full mx-auto aspect-[4/3] mb-4 rounded-[var(--brand-radius-card)] overflow-hidden border border-black/10"
                 >
                   <div className="relative w-full h-full">
                     <Image src={getFormulaImage("02")} alt="CONKA Clear" fill className="object-cover" sizes="100vw" />

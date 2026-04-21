@@ -199,26 +199,30 @@ export default function ProductCard({
   }
 
   // Button background color — brand accent blue for subscribe, ink for one-time
-  const buttonBg = isSubscribe ? "var(--brand-accent)" : "var(--color-ink)";
+  const buttonBg = isSubscribe ? "var(--brand-accent)" : "var(--brand-black)";
 
   return (
     <div
-      className="premium-card-soft premium-card-soft-stroke relative group flex flex-col overflow-hidden text-[var(--text-on-light)] flex-1 w-full"
-      style={{ padding: "1rem", backgroundColor: "white" }}
+      className="relative group flex flex-col overflow-hidden flex-1 w-full border border-black/8 text-black"
+      style={{
+        padding: "1rem",
+        backgroundColor: "white",
+        borderRadius: "var(--brand-radius-card)",
+      }}
     >
       {/* Product Info */}
       <div className="flex-1 flex flex-col px-0 pb-0 pt-4">
         {/* Product Name */}
         <div className="mb-1">
-          <p className="premium-body-sm uppercase tracking-widest text-[var(--text-on-light-muted)] mb-2">
+          <p className="brand-caption uppercase tracking-widest text-black/60 mb-2">
             {product.name}
           </p>
           <span
-            className="inline-block py-1 premium-data text-current/90 text-sm"
+            className="inline-block py-1 brand-data text-current/90 text-sm"
             style={{
-              paddingLeft: "var(--premium-space-m)",
-              paddingRight: "var(--premium-space-m)",
-              borderRadius: "var(--premium-radius-interactive)",
+              paddingLeft: "var(--brand-space-m)",
+              paddingRight: "var(--brand-space-m)",
+              borderRadius: "var(--brand-radius-interactive)",
               background: "rgba(0,0,0,0.04)",
             }}
           >
@@ -228,14 +232,14 @@ export default function ProductCard({
 
         {/* Benefit Headline */}
         <h3
-          className="premium-heading text-2xl md:text-3xl font-bold mb-2 min-h-[4.5rem] md:min-h-[5rem]"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="text-2xl md:text-3xl font-bold leading-tight mb-2 min-h-[4.5rem] md:min-h-[5rem]"
+          style={{ letterSpacing: "-0.02em" }}
         >
           {product.benefitHeadline}
         </h3>
 
         {/* Body Copy */}
-        <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-3 min-h-[3rem]">
+        <p className="brand-caption text-black/60 mb-3 min-h-[3rem]">
           {product.bodyCopy}
         </p>
 
@@ -245,12 +249,12 @@ export default function ProductCard({
             {product.stats.map((stat, idx) => (
               <span
                 key={idx}
-                className="inline-flex items-baseline gap-1 px-2 py-1 rounded-full text-[10px] font-clinical font-medium border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]"
+                className="inline-flex items-baseline gap-1 px-2 py-1 rounded-full text-[10px] font-clinical font-medium border border-black/8 bg-white"
               >
                 <span style={{ color: accentColor }} className="font-bold">
                   {stat.value}
                 </span>
-                <span className="text-[var(--text-on-light-muted)]">
+                <span className="text-black/60">
                   {stat.label}
                 </span>
               </span>
@@ -264,7 +268,7 @@ export default function ProductCard({
             {(product.bestFor as string[]).map((item, idx) => (
               <li
                 key={idx}
-                className="flex items-start gap-2 premium-body-sm text-[var(--text-on-light-muted)]"
+                className="flex items-start gap-2 brand-caption text-black/60"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -289,18 +293,18 @@ export default function ProductCard({
         </div>
 
         {/* Divider */}
-        <div className="mt-auto pt-4 border-t border-[var(--color-premium-stroke)] pb-6 -mx-0 w-full">
+        <div className="mt-auto pt-4 border-t border-black/8 pb-6 -mx-0 w-full">
           {/* Subscribe / One-time Option Cards */}
           <div className="space-y-2 mb-4 w-full">
             {/* Subscribe Option */}
             <label
-              className={`flex items-center justify-between py-3 px-4 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all w-full ${
+              className={`flex items-center justify-between py-3 px-4 rounded-[var(--brand-radius-container)] cursor-pointer transition-all w-full ${
                 isSubscribe
                   ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
                   : "border border-black/8"
               }`}
               style={
-                !isSubscribe ? { backgroundColor: "var(--color-bone)" } : {}
+                !isSubscribe ? { backgroundColor: "var(--brand-tint)" } : {}
               }
             >
               <input
@@ -312,10 +316,10 @@ export default function ProductCard({
                 className="sr-only"
               />
               <div className="flex-1">
-                <div className="font-semibold text-[13px] mb-0.5 text-[var(--color-ink)]">
+                <div className="font-semibold text-[13px] mb-0.5 text-black">
                   Subscribe & Save 20%
                 </div>
-                <div className="text-[11px] text-[var(--text-on-light-muted)]">
+                <div className="text-[11px] text-black/60">
                   Cancel anytime
                   {subscriptionBillingLabel != null
                     ? ` · ${subscriptionBillingLabel}`
@@ -324,7 +328,7 @@ export default function ProductCard({
               </div>
               <div className="text-right">
                 {subscriptionOriginalPrice && (
-                  <div className="text-[12px] text-[var(--text-on-light-muted)] line-through mb-0.5">
+                  <div className="text-[12px] text-black/60 line-through mb-0.5">
                     {subscriptionOriginalPrice}
                   </div>
                 )}
@@ -334,13 +338,13 @@ export default function ProductCard({
 
             {/* One-time Option */}
             <label
-              className={`flex items-center justify-between py-3 px-4 rounded-[var(--premium-radius-nested)] cursor-pointer transition-all w-full ${
+              className={`flex items-center justify-between py-3 px-4 rounded-[var(--brand-radius-container)] cursor-pointer transition-all w-full ${
                 !isSubscribe
                   ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
                   : "border border-black/8"
               }`}
               style={
-                isSubscribe ? { backgroundColor: "var(--color-bone)" } : {}
+                isSubscribe ? { backgroundColor: "var(--brand-tint)" } : {}
               }
             >
               <input
@@ -367,7 +371,7 @@ export default function ProductCard({
             type="button"
             onClick={handleAddToCart}
             disabled={loading}
-            className="w-full py-6 rounded-[var(--premium-radius-interactive)] text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-base font-semibold disabled:opacity-70 disabled:pointer-events-none"
+            className="w-full py-6 rounded-[var(--brand-radius-interactive)] text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-base font-semibold disabled:opacity-70 disabled:pointer-events-none"
             style={{
               background: buttonBg,
               paddingLeft: "2rem",
@@ -390,7 +394,7 @@ export default function ProductCard({
             <div className="mt-6 flex justify-center">
               <Link
                 href={product.link}
-                className="premium-body-sm inline-block text-center px-5 py-2.5 rounded-full border border-gray-200 text-black hover:bg-black hover:text-white hover:border-black transition-colors"
+                className="brand-caption inline-block text-center px-5 py-2.5 rounded-full border border-gray-200 text-black hover:bg-black hover:text-white hover:border-black transition-colors"
               >
                 {product.linkText}
               </Link>

@@ -13,7 +13,7 @@ export default function FoundersSection() {
           </p>
           <h2
             className="brand-h1 mb-6 text-black"
-            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            style={{ letterSpacing: "-0.02em" }}
           >
             Built from a brain injury. Backed by £500,000 of research.
           </h2>

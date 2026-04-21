@@ -116,7 +116,7 @@ export default function AthleteCredibilityCarousel() {
       {/* Section Header */}
       <h2
         className="brand-h1 mb-6"
-        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+        style={{ letterSpacing: "-0.02em" }}
       >
         Why High Performers Trust CONKA
       </h2>

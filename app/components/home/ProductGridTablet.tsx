@@ -26,7 +26,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
       <div className="mb-10">
         <h2
           className="brand-h1 mb-6"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          style={{ letterSpacing: "-0.02em" }}
         >
           {copy.title}
         </h2>
@@ -43,7 +43,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
           <div className="flex flex-col items-center">
             <Link
               href="/protocol/3"
-              className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+              className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--brand-radius-card)] overflow-hidden border border-black/10"
             >
               <div className="relative w-full h-full">
                 <Image
@@ -74,7 +74,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
           <div className="flex flex-col items-center">
             <Link
               href="/conka-flow"
-              className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+              className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--brand-radius-card)] overflow-hidden border border-black/10"
             >
               <div className="relative w-full h-full">
                 <Image
@@ -105,7 +105,7 @@ export default function ProductGridTablet(props?: ProductGridProps) {
           <div className="flex flex-col items-center">
             <Link
               href="/conka-clarity"
-              className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--premium-radius-card)] overflow-hidden border border-black/10"
+              className="block relative w-full mx-auto aspect-square mb-4 rounded-[var(--brand-radius-card)] overflow-hidden border border-black/10"
             >
               <div className="relative w-full h-full">
                 <Image

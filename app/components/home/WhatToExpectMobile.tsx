@@ -26,7 +26,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
       <div className="mb-10">
         <h2
           className="brand-h1 mb-6"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          style={{ letterSpacing: "-0.02em" }}
         >
           What to Expect with CONKA
         </h2>

@@ -30,7 +30,7 @@ export default function WhatToExpectDesktop({
         <div>
           <h2
             className="brand-h1 mb-6"
-            style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+            style={{ letterSpacing: "-0.02em" }}
           >
             What to Expect with CONKA
           </h2>
