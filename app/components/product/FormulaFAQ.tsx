@@ -28,7 +28,7 @@ export default function FormulaFAQ({ formulaId, hideCTA = false }: FormulaFAQPro
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
         {/* Lifestyle image — sticky on desktop */}
         <div className="lg:w-2/5 lg:sticky lg:top-8 mb-8 lg:mb-0">
-          <div className="overflow-hidden max-w-md mx-auto lg:max-w-none border border-black/8">
+          <div className="overflow-hidden max-w-md mx-auto lg:max-w-none">
             <Image
               src={asset.src}
               alt={asset.alt}
@@ -49,16 +49,13 @@ export default function FormulaFAQ({ formulaId, hideCTA = false }: FormulaFAQPro
 
           {/* Heading */}
           <div className="mb-10">
-            <h2 className="brand-h1 mb-2 text-black" style={{ letterSpacing: "-0.02em" }}>
+            <h2 className="brand-h1 mb-0" style={{ letterSpacing: "-0.02em" }}>
               Frequently asked questions
             </h2>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
-              {faqs.length} Questions · Answered
-            </p>
           </div>
 
           {/* Accordion */}
-          <div className="overflow-hidden bg-white border border-black/8">
+          <div className="overflow-hidden bg-white border border-black/6">
             {faqs.map((item, i) => {
               const isOpen = openIndex === i;
               const isLast = i === faqs.length - 1;

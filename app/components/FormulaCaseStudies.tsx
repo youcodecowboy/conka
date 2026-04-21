@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
 import {
   AthleteData,
+  SportCategory,
   getAthletesForFormula,
   getAthletesForProtocol,
   getCaseStudyPhotoPath,
@@ -16,158 +18,111 @@ interface FormulaCaseStudiesProps {
   athletes?: AthleteData[];
 }
 
-const METRIC_RING_COLORS = [
-  { label: "Total", color: "#10b981" },
-  { label: "Accuracy", color: "#3b82f6" },
-  { label: "Speed", color: "#f59e0b" },
-] as const;
+const SPORT_LABELS: Record<SportCategory, string> = {
+  rugby: "RUGBY UNION",
+  rugby7s: "RUGBY 7s",
+  football: "FOOTBALL",
+  motorsport: "MOTORSPORT",
+  business: "BUSINESS",
+  other: "OTHER",
+};
 
-function AthleteCard({ athlete }: { athlete: AthleteData }) {
-  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
-  const imagePosition =
-    athlete.focalPoint != null
-      ? `${athlete.focalPoint.x}% ${athlete.focalPoint.y}%`
-      : "center";
+const STAT_KEYS = ["Total Score", "Accuracy", "Speed"] as const;
+const STAT_ABBR: Record<(typeof STAT_KEYS)[number], string> = {
+  "Total Score": "TOT",
+  Accuracy: "ACC",
+  Speed: "SPD",
+};
+
+function productLabel(v?: AthleteData["productVersion"]): string {
+  if (v === "01") return "FLOW";
+  if (v === "02") return "CLEAR";
+  if (v === "both") return "FLOW · CLEAR";
+  return "—";
+}
+
+function getStat(athlete: AthleteData, key: (typeof STAT_KEYS)[number]) {
+  return athlete.improvements.find((i) => i.metric === key);
+}
+
+function AthleteSpecCard({ athlete }: { athlete: AthleteData }) {
   const photoSrc = getCaseStudyPhotoPath(athlete.id) || athlete.photo || "";
+  const focal = athlete.focalPoint ?? { x: 50, y: 50 };
 
   return (
-    <article
-      className="overflow-hidden flex flex-col border border-black/8 h-full text-[var(--brand-black)] bg-white"
-    >
-      {/* Image: fixed aspect ratio, square corners, asset-ready */}
-      <div className="relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden bg-[var(--brand-surface)]">
+    <div className="flex flex-col bg-white border border-black/12 overflow-hidden h-full">
+      {/* Photo */}
+      <div className="relative w-full aspect-[3/4] overflow-hidden bg-[var(--brand-surface)]">
         {photoSrc ? (
-          <img
+          <Image
             src={photoSrc}
             alt={athlete.name}
-            className="w-full h-full object-cover"
-            style={{ objectPosition: imagePosition }}
+            fill
+            loading="lazy"
+            sizes="(max-width: 768px) 85vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover"
+            style={{ objectPosition: `${focal.x}% ${focal.y}%` }}
           />
         ) : (
-          <div className="flex flex-col items-center justify-center gap-[var(--brand-space-xs)] text-current/50">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="opacity-40"
-            >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-            <span className="brand-data text-[10px] uppercase tracking-wider">
+          <div className="flex h-full w-full items-center justify-center text-black/30">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
               Photo
             </span>
           </div>
         )}
       </div>
 
-      {/* Card body: showcase content (white, dark text) */}
-      <div className="flex flex-1 flex-col p-[var(--brand-space-m)] gap-[var(--brand-space-s)] bg-white text-[var(--brand-black)]">
-        <h3 className="brand-h3 font-bold leading-tight">
-          {athlete.name}
-        </h3>
-        <p className="brand-data opacity-70 text-sm">
-          {[athlete.position, athlete.organization].filter(Boolean).join(" • ")}
-          {athlete.achievement != null && athlete.achievement !== ""
-            ? ` · ${athlete.achievement}`
-            : ""}
-        </p>
+      {/* Spec band */}
+      <div className="flex flex-col flex-1 p-4 lg:p-5">
+        {/* Identity */}
+        <div className="mb-3">
+          <p className="text-base lg:text-lg font-semibold text-black leading-tight">
+            {athlete.name}
+          </p>
+          <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-black/50 mt-1 leading-tight">
+            {SPORT_LABELS[athlete.sport]}
+            {athlete.position ? ` · ${athlete.position.toUpperCase()}` : ""}
+          </p>
+        </div>
 
-        {/* Improvement rings: Total, Accuracy, Speed */}
-        <div className="grid grid-cols-3 gap-[var(--brand-space-s)] py-[var(--brand-space-s)]">
-          {METRIC_RING_COLORS.map(({ label, color }, idx) => {
-            const result =
-              label === "Total"
-                ? (athlete.results.totalScore ?? 0)
-                : label === "Accuracy"
-                  ? (athlete.results.accuracy ?? 0)
-                  : (athlete.results.speed ?? 0);
-            const change = athlete.improvements[idx];
+        {/* 3-metric grid */}
+        <div className="grid grid-cols-3 gap-1 py-3 border-y border-black/8">
+          {STAT_KEYS.map((key) => {
+            const stat = getStat(athlete, key);
             return (
-              <div
-                key={label}
-                className="flex flex-col items-center gap-[var(--brand-space-xs)]"
-              >
-                <div className="relative w-14 h-14 flex-shrink-0">
-                  <svg
-                    className="w-full h-full transform -rotate-90"
-                    viewBox="0 0 36 36"
-                  >
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="15.915"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeOpacity={0.12}
-                      strokeWidth="2"
-                    />
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="15.915"
-                      fill="none"
-                      stroke={color}
-                      strokeWidth="2"
-                      strokeDasharray={`${result} 100`}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="brand-data text-xs font-semibold">
-                      {result.toFixed(0)}
-                    </span>
-                  </div>
-                </div>
-                <span className="brand-data text-[10px] opacity-70">
-                  {label}
+              <div key={key} className="flex flex-col items-start gap-1">
+                <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                  {STAT_ABBR[key]}
                 </span>
-                {change != null && (
-                  <span
-                    className="brand-data text-[10px] font-medium"
-                    style={{ color }}
-                  >
-                    {change.value}
-                  </span>
-                )}
+                <span className="font-mono text-sm lg:text-base font-bold tabular-nums text-black leading-none">
+                  {stat?.value ?? "—"}
+                </span>
               </div>
             );
           })}
         </div>
 
-        {/* Tests & period */}
-        <div className="flex flex-wrap items-center gap-x-[var(--brand-space-m)] gap-y-[var(--brand-space-xs)] brand-data text-xs opacity-70">
-          <span>{athlete.testsCompleted} tests</span>
-          <span>{athlete.testingPeriod}</span>
-          {athlete.protocolUsed != null && athlete.protocolUsed !== "" && (
-            <span className="px-2 py-0.5 bg-white border border-[var(--brand-black)] font-mono text-[10px] uppercase tracking-[0.14em] tabular-nums">
-              {athlete.protocolUsed}
-            </span>
-          )}
-        </div>
-
-        <div className={!descriptionExpanded ? "min-h-[4.5rem]" : ""}>
-          <p
-            className={`brand-body text-sm opacity-80 leading-relaxed ${!descriptionExpanded ? "line-clamp-3" : ""}`}
-          >
-            {athlete.description}
-          </p>
-          <button
-            type="button"
-            onClick={() => setDescriptionExpanded((prev) => !prev)}
-            className="brand-data text-xs font-medium mt-[var(--brand-space-xs)] underline underline-offset-2 hover:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-black)] focus-visible:ring-offset-1 rounded"
-          >
-            {descriptionExpanded ? "Show less" : "Read more"}
-          </button>
+        {/* Footer: product + tests */}
+        <div className="mt-auto flex items-start justify-between gap-3 pt-3">
+          <div className="min-w-0">
+            <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 leading-none">
+              Product
+            </p>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-black mt-1 leading-none truncate">
+              {productLabel(athlete.productVersion)}
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 leading-none">
+              Tests
+            </p>
+            <p className="font-mono text-[10px] font-bold tabular-nums text-black mt-1 leading-none">
+              N={athlete.testsCompleted}
+            </p>
+          </div>
         </div>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -175,11 +130,9 @@ export default function FormulaCaseStudies({
   formulaId,
   productId,
 }: FormulaCaseStudiesProps) {
-  // Determine athletes: use productId or formulaId
   let athletes: AthleteData[] = [];
 
   if (productId) {
-    // Check if it's a protocol (1-4) or formula (01-02)
     if (
       productId === "1" ||
       productId === "2" ||
@@ -217,9 +170,9 @@ export default function FormulaCaseStudies({
         </p>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--brand-space-m)]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {athletes.map((athlete) => (
-          <AthleteCard key={athlete.id} athlete={athlete} />
+          <AthleteSpecCard key={athlete.id} athlete={athlete} />
         ))}
       </div>
 
@@ -237,13 +190,11 @@ export function FormulaCaseStudiesMobile({
   productId,
   athletes: providedAthletes,
 }: FormulaCaseStudiesProps) {
-  // Determine athletes: use provided, or compute based on productId/formulaId
   let athletes: AthleteData[] = [];
 
   if (providedAthletes) {
     athletes = providedAthletes;
   } else if (productId) {
-    // Check if it's a protocol (1-4) or formula (01-02)
     if (
       productId === "1" ||
       productId === "2" ||
@@ -258,10 +209,10 @@ export function FormulaCaseStudiesMobile({
     athletes = getAthletesForFormula(formulaId);
   }
 
-  if (athletes.length === 0) return null;
-
   const caseStudiesCarouselRef = useRef<HTMLDivElement>(null);
   const [caseStudiesCarouselIndex, setCaseStudiesCarouselIndex] = useState(0);
+
+  if (athletes.length === 0) return null;
 
   return (
     <>
@@ -283,14 +234,14 @@ export function FormulaCaseStudiesMobile({
       {/* Swipeable horizontal carousel */}
       <div
         ref={caseStudiesCarouselRef}
-        className="flex gap-[var(--brand-space-m)] overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ WebkitOverflowScrolling: "touch" }}
         role="region"
         aria-label="CONKA case studies - swipe to view all"
         onScroll={() => {
           const el = caseStudiesCarouselRef.current;
           if (!el) return;
-          const cardWidth = el.offsetWidth * 0.85 + 16; // 16px = 1rem = --brand-space-m (carousel gap)
+          const cardWidth = el.offsetWidth * 0.75 + 16;
           const index = Math.min(
             athletes.length - 1,
             Math.max(0, Math.round(el.scrollLeft / cardWidth)),
@@ -301,9 +252,9 @@ export function FormulaCaseStudiesMobile({
         {athletes.map((athlete) => (
           <div
             key={athlete.id}
-            className="flex-shrink-0 w-[85vw] max-w-[320px] snap-center"
+            className="flex-shrink-0 w-[75vw] max-w-[280px] snap-center"
           >
-            <AthleteCard athlete={athlete} />
+            <AthleteSpecCard athlete={athlete} />
           </div>
         ))}
       </div>
@@ -312,8 +263,10 @@ export function FormulaCaseStudiesMobile({
         {athletes.map((_, idx) => (
           <div
             key={idx}
-            className={`w-2 h-2 bg-black/30 transition-opacity ${
-              caseStudiesCarouselIndex === idx ? "opacity-100" : "opacity-30"
+            className={`h-1.5 transition-all ${
+              caseStudiesCarouselIndex === idx
+                ? "bg-black w-6"
+                : "bg-black/25 w-1.5"
             }`}
             aria-hidden
           />
