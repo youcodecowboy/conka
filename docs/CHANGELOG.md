@@ -6,6 +6,28 @@
 
 ## April 2026
 
+### 2026-04-21 -- Home page clinical aesthetic alignment
+
+Pulled the home page onto the clinical aesthetic established on `/start` and `/funnel`, tightened the section order around earlier social proof, and refreshed the reference doc.
+
+**LabWhatsInsideMini 4-col desktop:**
+`grid-cols-2 lg:grid-cols-4` with child order `FLOW product - FLOW info - CLEAR product - CLEAR info` so desktop reads as paired product/info bookends and mobile keeps the product-left/info-right pairing on each row.
+
+**Home section reorder + swaps:**
+- Section 6 `KeyBenefits` -> `LandingDailyBenefits` (3 pillars variant matching the clinical section rhythm).
+- Section 8 `WhatToExpect` -> `LabTimeline` with `ctaHref="/protocol/3"`; sub-copy simplified from `"Protocol window: T+0 to T+30D - N=150+ participants"` to `"What to expect when taking CONKA"`. Added `ctaHref` + `ctaLabel` props so the same component can be retargeted per page.
+- New Section 11 `LabGuarantee` above FAQ with `ctaHref="/protocol/3"`; FAQ flipped to `brand-bg-tint` to preserve white/tint alternation.
+- `KeyBenefits` and `WhatToExpect` kept in the repo with a `REVIEW:` banner noting they're no longer on the home but may still be reused on PDPs.
+
+**Cleanup surfaced by `/review-code`:**
+Removed `console.log` add-to-cart wrappers in `ProductGrid` / `ProductGridMobile` / `ProductGridTablet`, deleted the now-dead `onAddToCart` prop plumbing, removed the unused `getProductBadge` export, and collapsed `ProductCard.handleAddToCart` into a single-path early-return (replaces the previous silent-failure branch). Dropped orphaned imports from `app/page.tsx` (`useState`, `useEffect`, `keyBenefits`, testimonial helpers).
+
+**`docs/branding/CLINICAL_AESTHETIC.md` rewrite:**
+Restructured the doc around patterns actually in use: `brand-clinical` token overrides table, utility list (`lab-clip-tr` / `lab-asset-frame` / `lab-blink` / 10px overlay chamfer), standard patterns (trio header, data card, card header row, spec strip, segmented tabs, em-dash bullets, chamfer nav), typography + colour grammar, `ConkaCTAButton` rules, component prop conventions (`hideCTA`/`ctaHref`/`ctaLabel` + content-only structural contract), responsive patterns, trust grid, corner brackets, and an explicit "do not" list.
+
+**Why:** The home page still leaned on the pre-clinical `KeyBenefits` + `WhatToExpect` components, so the jump from hero to the rest of the scroll felt inconsistent with `/start` and `/funnel`. Cleanup came out of the code review and fixes a real silent-failure path in add-to-cart. Doc rewrite was needed so the next session can extend the aesthetic without re-reading source.
+**Branch:** `main-page-and-navigation-alingment`
+
 ### 2026-04-21 -- Lab-to-brand-base migration complete + landing polish (SCRUM-901)
 
 Promoted the clinical `/startV1` aesthetic into `/start` and shipped a round of landing-page refinements on top.
