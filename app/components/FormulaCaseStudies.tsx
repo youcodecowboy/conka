@@ -83,7 +83,7 @@ function AthleteSpecCard({
 
       {/* Photo — portrait aspect, lab-asset-frame treatment */}
       <div className="px-6 pt-6">
-        <div className="relative w-full aspect-[4/5] overflow-hidden bg-[var(--brand-surface)] lab-asset-frame">
+        <div className="relative w-full aspect-[4/5] overflow-hidden bg-[var(--brand-surface)]">
           {photoSrc ? (
             <Image
               src={photoSrc}
@@ -118,21 +118,21 @@ function AthleteSpecCard({
 
       {/* Spec strip — 3 metrics inside lab-asset-frame, border-r dividers */}
       <div className="px-6 pt-5">
-        <div className="lab-asset-frame bg-white grid grid-cols-3">
+        <div className="bg-white grid grid-cols-3 border-y border-black/10">
           {STAT_KEYS.map((key, i) => {
             const stat = getStat(athlete, key);
             const isLast = i === STAT_KEYS.length - 1;
             return (
               <div
                 key={key}
-                className={`flex flex-col items-start gap-2 px-3 py-4 ${
+                className={`flex flex-col items-start gap-1.5 px-3 py-3.5 ${
                   isLast ? "" : "border-r border-black/8"
                 }`}
               >
                 <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 leading-none">
                   {STAT_ABBR[key]}
                 </span>
-                <span className="font-mono text-2xl lg:text-3xl font-bold tabular-nums text-black leading-none">
+                <span className="font-mono text-base lg:text-lg font-bold tabular-nums text-black leading-none">
                   {stat?.value ?? "—"}
                 </span>
               </div>
