@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { GUARANTEE_LABEL_FULL, GUARANTEE_COPY_TRIAL } from "@/app/lib/offerConstants";
 import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
-import LandingCTA from "./LandingCTA";
+import ConkaCTAButton from "./ConkaCTAButton";
 
 const FAQ_ITEMS = [
   {
@@ -58,6 +58,11 @@ export default function LandingFAQ({ hideCTA = false }: { hideCTA?: boolean } = 
 
         {/* Content column */}
         <div className="lg:w-3/5">
+          {/* Eyebrow */}
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+            Common Questions · Quick Answers
+          </p>
+
           {/* Heading */}
           <div className="mb-10">
             <h2 className="brand-h1 mb-0">
@@ -118,8 +123,8 @@ export default function LandingFAQ({ hideCTA = false }: { hideCTA?: boolean } = 
 
           {/* CTA */}
           {!hideCTA && (
-            <div className="mt-8 flex justify-center lg:justify-start">
-              <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
+            <div className="mt-8 flex justify-start">
+              <ConkaCTAButton>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
             </div>
           )}
         </div>

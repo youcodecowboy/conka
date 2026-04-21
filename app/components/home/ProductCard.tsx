@@ -2,9 +2,9 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { PurchaseType, formulaContent } from "@/app/lib/productData";
 import { formulaPricing, protocolPricing } from "@/app/lib/productPricing";
-import { getProductAccent } from "@/app/lib/productColors";
 import { getBillingLabel } from "@/app/lib/productHelpers";
 import {
   getFormulaImage,
@@ -20,31 +20,55 @@ import {
 interface ProductCardProps {
   productType: "flow" | "clear" | "protocol";
   onAddToCart?: () => void;
+  /** Image aspect. Square for desktop/tablet cards, wide for mobile carousel. */
+  imageAspect?: "square" | "wide";
 }
 
-// Fixed Balance protocol id — ProductGrid no longer offers flow-heavy/clear-heavy variants.
 const BALANCE_PROTOCOL_ID: ProtocolId = "3";
 
-// Get product data from productData.ts
-const getProductData = (productType: "flow" | "clear" | "protocol") => {
+interface Stat {
+  value: string;
+  label: string;
+}
+
+interface ProductCardData {
+  id: FormulaId | ProtocolId;
+  number: string;
+  name: string;
+  categoryTag: string;
+  imageTag: string;
+  benefitHeadline: string;
+  bodyCopy: string;
+  bestFor: string[];
+  stats: Stat[];
+  image: string;
+  link: string;
+  spec: string;
+}
+
+const getProductData = (
+  productType: "flow" | "clear" | "protocol",
+): ProductCardData => {
   if (productType === "flow") {
     const flow = formulaContent["01"];
     return {
       id: "01" as FormulaId,
+      number: "01",
       name: flow.name,
+      categoryTag: "CONKA · FLOW",
+      imageTag: "MORNING",
       benefitHeadline: "Energy without the crash",
       bodyCopy:
         "Sustained focus for training and work — no caffeine, no crash.",
       bestFor: ["Morning training", "Long workdays", "Clean mental stamina"],
       stats: [
-        { value: "-56%", label: "Stress" },
-        { value: "+18%", label: "Memory" },
-        { value: "+42%", label: "Sleep Quality" },
+        { value: "-56%", label: "STRESS" },
+        { value: "+18%", label: "MEMORY" },
+        { value: "+42%", label: "SLEEP" },
       ],
       image: getFormulaImage("01"),
       link: "/conka-flow",
-      linkText: "View More Packs →",
-      badge: null,
+      spec: "Liquid · 1 shot (30ml) daily · 4-pack",
     };
   }
 
@@ -52,27 +76,31 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
     const clear = formulaContent["02"];
     return {
       id: "02" as FormulaId,
+      number: "02",
       name: clear.name,
+      categoryTag: "CONKA · CLEAR",
+      imageTag: "AFTERNOON",
       benefitHeadline: "Mental clarity and complete recovery",
       bodyCopy:
         "Sharpen performance when you need it. Support recovery when you're done.",
       bestFor: ["Post-training recovery", "Afternoon clarity", "Sleep quality"],
       stats: [
-        { value: "+63%", label: "Memory & Attention" },
-        { value: "+57%", label: "Brain Blood Flow" },
-        { value: "-42%", label: "Anxiety" },
+        { value: "+63%", label: "MEMORY" },
+        { value: "+57%", label: "BLOOD FLOW" },
+        { value: "-42%", label: "ANXIETY" },
       ],
       image: getFormulaImage("02"),
       link: "/conka-clarity",
-      linkText: "View More Packs →",
-      badge: null,
+      spec: "Liquid · 1 shot (30ml) daily · 4-pack",
     };
   }
 
-  // Both (Flow + Clear)
   return {
     id: BALANCE_PROTOCOL_ID,
+    number: "03",
     name: "Both (Flow + Clear)",
+    categoryTag: "CONKA · DAILY SYSTEM",
+    imageTag: "MOST POPULAR",
     benefitHeadline: "The full daily system",
     bodyCopy:
       "Morning focus meets afternoon clarity. Two shots, 16 active ingredients, all-day coverage.",
@@ -82,30 +110,28 @@ const getProductData = (productType: "flow" | "clear" | "protocol") => {
       "The complete daily routine",
     ],
     stats: [
-      { value: "+63%", label: "Memory & Attention" },
-      { value: "-56%", label: "Stress" },
-      { value: "+42%", label: "Sleep Quality" },
+      { value: "+63%", label: "MEMORY" },
+      { value: "-56%", label: "STRESS" },
+      { value: "+42%", label: "SLEEP" },
     ],
     image: getProtocolImage("3"),
     link: "/protocol/3",
-    linkText: "View More Packs →",
-    badge: "Most Popular",
+    spec: "2 Liquid shots · 30ml × 2 daily · 4-pack",
   };
 };
 
-// Export badge info for use in wrapper
+// Export for grids that want to show badge separately
 export function getProductBadge(
   productType: "flow" | "clear" | "protocol",
 ): string | null {
-  if (productType === "protocol") {
-    return "Most Popular";
-  }
+  if (productType === "protocol") return "Most Popular";
   return null;
 }
 
 export default function ProductCard({
   productType,
   onAddToCart: onAddToCartProp,
+  imageAspect = "square",
 }: ProductCardProps) {
   const { addToCart, loading } = useCart();
   const [purchaseType, setPurchaseType] =
@@ -151,255 +177,245 @@ export default function ProductCard({
     onAddToCartProp?.();
   }, [isProtocol, product.id, purchaseType, addToCart, onAddToCartProp]);
 
-  // Accent colour for stat values
-  const accentColor = isProtocol
-    ? getProductAccent(BALANCE_PROTOCOL_ID)
-    : getProductAccent(product.id);
-
-  // Get pricing - all 4-pack on landing grid (customer acquisition)
-  let monthlyPrice: string;
-  let originalMonthlyPrice: string | null = null;
-  let subscriptionBillingLabel: string | null = null;
-  const formulaPackSize = "4" as const;
-
+  // Pricing
   let subscriptionPrice: string;
   let subscriptionOriginalPrice: string | null = null;
   let oneTimePrice: string;
+  let subscriptionBillingLabel: string | null = null;
 
   if (isProtocol) {
     const subPricing = protocolPricing.standard.subscription.starter;
     const oneTimePricing = protocolPricing.standard["one-time"].starter;
     subscriptionPrice = `£${subPricing.price.toFixed(2)}`;
-    subscriptionOriginalPrice = "basePrice" in subPricing ? `£${subPricing.basePrice.toFixed(2)}` : null;
+    subscriptionOriginalPrice =
+      "basePrice" in subPricing
+        ? `£${subPricing.basePrice.toFixed(2)}`
+        : null;
     oneTimePrice = `£${oneTimePricing.price.toFixed(2)}`;
-
-    const pricing = protocolPricing.standard[purchaseType].starter;
-    monthlyPrice = `£${pricing.price.toFixed(2)}`;
-    if (isSubscribe && "basePrice" in pricing) {
-      originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
-    }
-    if (isSubscribe && "billing" in subPricing) {
-      subscriptionBillingLabel = getBillingLabel((subPricing as { billing: string }).billing);
+    if ("billing" in subPricing) {
+      subscriptionBillingLabel = getBillingLabel(
+        (subPricing as { billing: string }).billing,
+      );
     }
   } else {
-    const subPricing = formulaPricing.subscription[formulaPackSize];
-    const oneTimePricing = formulaPricing["one-time"][formulaPackSize];
+    const subPricing = formulaPricing.subscription["4"];
+    const oneTimePricing = formulaPricing["one-time"]["4"];
     subscriptionPrice = `£${subPricing.price.toFixed(2)}`;
     subscriptionOriginalPrice = `£${subPricing.basePrice.toFixed(2)}`;
     oneTimePrice = `£${oneTimePricing.price.toFixed(2)}`;
-
-    const pricing = formulaPricing[purchaseType][formulaPackSize];
-    monthlyPrice = `£${pricing.price.toFixed(2)}`;
-    if (isSubscribe && "basePrice" in pricing) {
-      originalMonthlyPrice = `£${pricing.basePrice.toFixed(2)}`;
-    }
-    if (isSubscribe && "billing" in pricing) {
-      subscriptionBillingLabel = getBillingLabel((pricing as { billing: string }).billing);
+    if ("billing" in subPricing) {
+      subscriptionBillingLabel = getBillingLabel(
+        (subPricing as { billing: string }).billing,
+      );
     }
   }
 
-  // Button background color — brand accent blue for subscribe, ink for one-time
-  const buttonBg = isSubscribe ? "var(--brand-accent)" : "var(--brand-black)";
+  const displayPrice = isSubscribe ? subscriptionPrice : oneTimePrice;
+  const imageAspectClass =
+    imageAspect === "wide" ? "aspect-[4/3]" : "aspect-square";
 
   return (
-    <div
-      className="relative group flex flex-col overflow-hidden flex-1 w-full border border-black/8 text-black"
-      style={{
-        padding: "1rem",
-        backgroundColor: "white",
-        borderRadius: "var(--brand-radius-card)",
-      }}
-    >
-      {/* Product Info */}
-      <div className="flex-1 flex flex-col px-0 pb-0 pt-4">
-        {/* Product Name */}
-        <div className="mb-1">
-          <p className="brand-caption uppercase tracking-widest text-black/60 mb-2">
-            {product.name}
-          </p>
-          <span
-            className="inline-block py-1 brand-data text-current/90 text-sm"
-            style={{
-              paddingLeft: "var(--brand-space-m)",
-              paddingRight: "var(--brand-space-m)",
-              borderRadius: "var(--brand-radius-interactive)",
-              background: "rgba(0,0,0,0.04)",
-            }}
-          >
-            Liquid · 1 shot (30ml) daily · 4-pack
+    <div className="flex flex-col bg-white border border-black/12 overflow-hidden h-full">
+      {/* Category row */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
+        <span className="font-mono text-[11px] font-bold tabular-nums text-black/40 leading-none">
+          {product.number}.
+        </span>
+        <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/60 leading-none">
+          {product.categoryTag}
+        </span>
+      </div>
+
+      {/* Product image → PDP link, with chamfered navy tag */}
+      <Link
+        href={product.link}
+        className={`relative block w-full ${imageAspectClass} overflow-hidden border-b border-black/8 group`}
+      >
+        <Image
+          src={product.image}
+          alt={product.name}
+          fill
+          loading="lazy"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 85vw, (max-width: 1024px) 33vw, 25vw"
+        />
+        <div className="absolute top-0 right-0 bg-[#1B2757] text-white px-3 py-1.5 [clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,0_100%)]">
+          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] leading-none">
+            {product.imageTag}
           </span>
         </div>
+      </Link>
 
-        {/* Benefit Headline */}
-        <h3
-          className="text-2xl md:text-3xl font-bold leading-tight mb-2 min-h-[4.5rem] md:min-h-[5rem]"
-          style={{ letterSpacing: "-0.02em" }}
-        >
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-5 lg:p-6">
+        {/* Mono product-name eyebrow */}
+        <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-black/50 mb-2 leading-none">
+          {product.name}
+        </p>
+
+        {/* Benefit headline */}
+        <h3 className="text-xl lg:text-2xl font-semibold text-black leading-tight mb-3">
           {product.benefitHeadline}
         </h3>
 
-        {/* Body Copy */}
-        <p className="brand-caption text-black/60 mb-3 min-h-[3rem]">
+        {/* Body copy */}
+        <p className="text-sm text-black/60 leading-relaxed mb-4">
           {product.bodyCopy}
         </p>
 
-        {/* Clinical Stats */}
-        {product.stats && product.stats.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-            {product.stats.map((stat, idx) => (
-              <span
-                key={idx}
-                className="inline-flex items-baseline gap-1 px-2 py-1 rounded-full text-[10px] font-clinical font-medium border border-black/8 bg-white"
-              >
-                <span style={{ color: accentColor }} className="font-bold">
-                  {stat.value}
-                </span>
-                <span className="text-black/60">
-                  {stat.label}
-                </span>
+        {/* 3-metric stat grid */}
+        <div className="grid grid-cols-3 gap-1 py-3 border-y border-black/8 mb-4">
+          {product.stats.map((stat) => (
+            <div key={stat.label} className="flex flex-col items-start gap-1">
+              <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                {stat.label}
               </span>
-            ))}
-          </div>
-        )}
-
-        {/* Best For */}
-        <div className="mb-4">
-          <ul className="space-y-2">
-            {(product.bestFor as string[]).map((item, idx) => (
-              <li
-                key={idx}
-                className="flex items-start gap-2 brand-caption text-black/60"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="flex-shrink-0 mt-0.5"
-                  aria-hidden
-                >
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
-                {item}
-              </li>
-            ))}
-          </ul>
+              <span className="font-mono text-sm lg:text-base font-bold tabular-nums text-black leading-none">
+                {stat.value}
+              </span>
+            </div>
+          ))}
         </div>
 
-        {/* Divider */}
-        <div className="mt-auto pt-4 border-t border-black/8 pb-6 -mx-0 w-full">
-          {/* Subscribe / One-time Option Cards */}
-          <div className="space-y-2 mb-4 w-full">
-            {/* Subscribe Option */}
-            <label
-              className={`flex items-center justify-between py-3 px-4 rounded-[var(--brand-radius-container)] cursor-pointer transition-all w-full ${
-                isSubscribe
-                  ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
-                  : "border border-black/8"
-              }`}
-              style={
-                !isSubscribe ? { backgroundColor: "var(--brand-tint)" } : {}
-              }
+        {/* Best-for list — em-dash bullets */}
+        <ul className="space-y-1.5 mb-4">
+          {product.bestFor.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-2 text-sm text-black/70 leading-snug"
             >
-              <input
-                type="radio"
-                name={`purchase-${productType}`}
-                value="subscription"
-                checked={isSubscribe}
-                onChange={() => setPurchaseType("subscription")}
-                className="sr-only"
-              />
-              <div className="flex-1">
-                <div className="font-semibold text-[13px] mb-0.5 text-black">
-                  Subscribe & Save 20%
-                </div>
-                <div className="text-[11px] text-black/60">
-                  Cancel anytime
-                  {subscriptionBillingLabel != null
-                    ? ` · ${subscriptionBillingLabel}`
-                    : ""}
-                </div>
-              </div>
-              <div className="text-right">
-                {subscriptionOriginalPrice && (
-                  <div className="text-[12px] text-black/60 line-through mb-0.5">
-                    {subscriptionOriginalPrice}
-                  </div>
-                )}
-                <div className="font-semibold text-[13px]">{subscriptionPrice}</div>
-              </div>
-            </label>
+              <span className="font-mono text-black/30 shrink-0 leading-snug">
+                —
+              </span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
 
-            {/* One-time Option */}
-            <label
-              className={`flex items-center justify-between py-3 px-4 rounded-[var(--brand-radius-container)] cursor-pointer transition-all w-full ${
-                !isSubscribe
-                  ? "border-2 border-black/24 shadow-[0_1px_0_rgba(0,0,0,0.06)]"
-                  : "border border-black/8"
+        {/* Spec row */}
+        <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 tabular-nums pb-4 border-b border-black/8 mb-4">
+          {product.spec}
+        </p>
+
+        {/* Pricing block — pinned to bottom */}
+        <div className="mt-auto">
+          {/* Segmented Subscribe / One-time tabs */}
+          <div
+            className="grid grid-cols-2 border border-black/12 mb-3"
+            role="radiogroup"
+            aria-label="Purchase type"
+          >
+            <button
+              type="button"
+              role="radio"
+              aria-checked={isSubscribe}
+              onClick={() => setPurchaseType("subscription")}
+              className={`py-3 px-3 text-left transition-colors min-h-[44px] ${
+                isSubscribe
+                  ? "bg-black text-white"
+                  : "bg-white text-black hover:bg-[var(--brand-tint)]"
               }`}
-              style={
-                isSubscribe ? { backgroundColor: "var(--brand-tint)" } : {}
-              }
             >
-              <input
-                type="radio"
-                name={`purchase-${productType}`}
-                value="one-time"
-                checked={!isSubscribe}
-                onChange={() => setPurchaseType("one-time")}
-                className="sr-only"
-              />
-              <div className="flex-1">
-                <div className="font-semibold text-[13px]">
-                  One-time purchase
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="font-semibold text-[13px]">{oneTimePrice}</div>
-              </div>
-            </label>
+              <span className="block font-mono text-[9px] font-bold uppercase tracking-[0.18em] leading-none mb-1.5">
+                Subscribe −20%
+              </span>
+              <span className="flex items-baseline gap-1 font-mono text-sm font-bold tabular-nums leading-none">
+                <span>{subscriptionPrice}</span>
+                {subscriptionOriginalPrice && (
+                  <span className="text-[10px] font-normal line-through opacity-60">
+                    {subscriptionOriginalPrice}
+                  </span>
+                )}
+              </span>
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={!isSubscribe}
+              onClick={() => setPurchaseType("one-time")}
+              className={`py-3 px-3 text-left transition-colors border-l border-black/12 min-h-[44px] ${
+                !isSubscribe
+                  ? "bg-black text-white"
+                  : "bg-white text-black hover:bg-[var(--brand-tint)]"
+              }`}
+            >
+              <span className="block font-mono text-[9px] font-bold uppercase tracking-[0.18em] leading-none mb-1.5">
+                One-Time
+              </span>
+              <span className="block font-mono text-sm font-bold tabular-nums leading-none">
+                {oneTimePrice}
+              </span>
+            </button>
           </div>
 
-          {/* CTA Button with Price */}
+          {/* Billing / cancel note */}
+          <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 tabular-nums mb-3">
+            {isSubscribe
+              ? `${subscriptionBillingLabel ?? "Ships monthly"} · Cancel anytime`
+              : "One-time purchase · No subscription"}
+          </p>
+
+          {/* Primary CTA — navy chamfer, CONKA "O" ring, blinking cursor */}
           <button
             type="button"
             onClick={handleAddToCart}
             disabled={loading}
-            className="w-full py-6 rounded-[var(--brand-radius-interactive)] text-white transition-transform duration-200 hover:scale-105 hover:shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3 flex items-center justify-between text-base font-semibold disabled:opacity-70 disabled:pointer-events-none"
-            style={{
-              background: buttonBg,
-              paddingLeft: "2rem",
-              paddingRight: "2rem",
-            }}
+            className="w-full inline-flex items-center gap-3 py-3.5 pl-4 pr-5 bg-[#1B2757] text-white transition-opacity hover:opacity-85 active:opacity-70 disabled:opacity-60 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757] [clip-path:polygon(0_0,calc(100%-12px)_0,100%_12px,100%_100%,0_100%)]"
           >
-            <span>{loading ? "Adding…" : "Add to Cart"}</span>
-            <div className="flex items-baseline gap-1.5">
-              {isSubscribe && originalMonthlyPrice && (
-                <span className="text-[12px] line-through opacity-70">
-                  {originalMonthlyPrice}
+            <span className="relative w-6 h-6 shrink-0" aria-hidden>
+              <Image
+                src="/logos/ConkaO.png"
+                alt=""
+                fill
+                sizes="24px"
+                className="object-contain"
+                style={{ filter: "brightness(0) invert(1)" }}
+              />
+            </span>
+            <span className="flex-1 flex flex-col items-start min-w-0">
+              <span className="flex items-center font-mono font-bold text-sm uppercase tracking-[0.12em] leading-none">
+                {loading ? "Adding" : "Add to Cart"}
+                <span
+                  className="inline-block ml-0.5"
+                  style={{ animation: "lab-blink 1s step-end infinite" }}
+                  aria-hidden
+                >
+                  _
                 </span>
-              )}
-              <span>{monthlyPrice}</span>
-            </div>
+              </span>
+              <span className="font-mono text-[9px] uppercase tracking-[0.18em] mt-1 leading-none tabular-nums flex items-baseline gap-1">
+                <span>{displayPrice}</span>
+                {isSubscribe && subscriptionOriginalPrice && (
+                  <span className="line-through opacity-70">
+                    {subscriptionOriginalPrice}
+                  </span>
+                )}
+              </span>
+            </span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+              className="shrink-0"
+              aria-hidden
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="13 6 19 12 13 18" />
+            </svg>
           </button>
 
-          {/* View Product link */}
-          {product.linkText && (
-            <div className="mt-6 flex justify-center">
-              <Link
-                href={product.link}
-                className="brand-caption inline-block text-center px-5 py-2.5 rounded-full border border-gray-200 text-black hover:bg-black hover:text-white hover:border-black transition-colors"
-              >
-                {product.linkText}
-              </Link>
-            </div>
-          )}
+          {/* Quiet tertiary link */}
+          <Link
+            href={product.link}
+            className="block mt-3 text-center font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-black/70 underline decoration-black/30 underline-offset-4 hover:text-black hover:decoration-black"
+          >
+            View All Packs →
+          </Link>
         </div>
       </div>
     </div>

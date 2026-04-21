@@ -155,14 +155,17 @@ export default function KeyBenefitsDesktop({
     <div>
       {/* Heading block */}
       <div className="mb-10">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Key Benefits · Clinically Backed
+        </p>
         <h2
-          className="brand-h1 mb-6 text-black"
+          className="brand-h1 mb-2 text-black"
           style={{ letterSpacing: "-0.02em" }}
         >
           What you&apos;ll actually feel.
         </h2>
-        <p className="brand-body text-black/60">
-          Select a benefit to see the evidence behind it.
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          N={benefits.length} · Peer-reviewed · Select to view evidence
         </p>
       </div>
 

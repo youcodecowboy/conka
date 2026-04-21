@@ -1,58 +1,45 @@
 "use client";
 
 import Image from "next/image";
+import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
 
 export default function FoundersSection() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       {/* Left: Copy */}
       <div>
-        <div className="mb-10">
-          <p className="brand-caption uppercase tracking-widest text-black/60 mb-4">
-            Our Story
-          </p>
-          <h2
-            className="brand-h1 mb-6 text-black"
-            style={{ letterSpacing: "-0.02em" }}
-          >
-            Built from a brain injury. Backed by £500,000 of research.
-          </h2>
-          <p className="brand-body text-black/80 leading-relaxed">
-            After a trip to the Olympics and a career-ending concussion, two
-            athletes set out to solve a problem nobody was talking about:
-            recovery for the brain. CONKA is the result — two formulas, years
-            of research, and a belief that your brain deserves better than
-            caffeine and hope.
-          </p>
-        </div>
+        {/* Eyebrow */}
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Our Story · Founders
+        </p>
 
-        <a
-          href="/our-story"
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[var(--brand-radius-interactive)] font-semibold text-base border border-[var(--brand-accent)] text-[var(--brand-accent)] hover:bg-[var(--brand-accent)] hover:text-white transition-colors"
+        <h2
+          className="brand-h1 mb-2 text-black"
+          style={{ letterSpacing: "-0.02em" }}
         >
+          Built from a brain injury. Backed by £500,000 of research.
+        </h2>
+
+        {/* Mono sub-line */}
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-8">
+          Est. 2020 · Two founders · One mission
+        </p>
+
+        <p className="brand-body text-black/80 leading-relaxed mb-8">
+          After a trip to the Olympics and a career-ending concussion, two
+          athletes set out to solve a problem nobody was talking about:
+          recovery for the brain. CONKA is the result — two formulas, years
+          of research, and a belief that your brain deserves better than
+          caffeine and hope.
+        </p>
+
+        <ConkaCTAButton href="/our-story" meta="// read the founders' story">
           Read Our Story
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
-        </a>
+        </ConkaCTAButton>
       </div>
 
-      {/* Right: Image */}
-      <div
-        className="relative w-full aspect-square lg:aspect-[4/5] overflow-hidden shadow-lg"
-        style={{ borderRadius: "var(--brand-radius-card)" }}
-      >
+      {/* Right: Image with clinical corner brackets */}
+      <div className="relative w-full aspect-square lg:aspect-[4/5] overflow-hidden">
         <Image
           src="/TwoFounders.jpg"
           alt="CONKA founders"
@@ -60,6 +47,14 @@ export default function FoundersSection() {
           loading="lazy"
           className="object-cover"
           sizes="(max-width: 1024px) 100vw, 50vw"
+        />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute top-3 left-3 w-[20%] h-[20%] border-t-[6px] border-l-[6px] border-white"
+        />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute bottom-3 right-3 w-[20%] h-[20%] border-b-[6px] border-r-[6px] border-white"
         />
       </div>
     </div>

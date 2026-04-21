@@ -1,16 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Navigation from "./components/navigation";
 import Footer from "./components/footer";
 import LandingHero from "./components/landing/LandingHero";
 import { keyBenefits } from "./components/KeyBenefits";
-import {
-  getSiteTestimonialsGeneral,
-  shuffleTestimonials,
-} from "./lib/testimonialsFilter";
-import type { Testimonial } from "./components/testimonials/types";
 
 // Dynamically import heavy components to reduce initial bundle size
 const LandingWhatItDoes = dynamic(
@@ -30,13 +24,13 @@ const WhyConkaWorks = dynamic(() => import("./components/WhyConkaWorks"), {
   loading: () => <div className="h-[600px]" />,
 });
 
-const CaseStudiesDataDriven = dynamic(
-  () => import("./components/CaseStudiesDataDriven"),
+const LabCaseStudies = dynamic(
+  () => import("./components/LabCaseStudies"),
   { loading: () => <div className="h-[1200px]" /> },
 );
 
-const Testimonials = dynamic(
-  () => import("./components/testimonials/Testimonials"),
+const LandingTestimonials = dynamic(
+  () => import("./components/landing/LandingTestimonials"),
   { loading: () => <div className="h-[450px]" /> },
 );
 
@@ -50,7 +44,7 @@ const FoundersSection = dynamic(
   { loading: () => <div className="h-[350px]" /> },
 );
 
-const LandingFAQ = dynamic(() => import("./components/landing/LandingFAQ"), {
+const LabFAQ = dynamic(() => import("./components/landing/LabFAQ"), {
   loading: () => <div className="h-[350px]" />,
 });
 
@@ -59,15 +53,6 @@ const WhatToExpect = dynamic(() => import("./components/home/WhatToExpect"), {
 });
 
 export default function Home() {
-  const [shuffledTestimonials, setShuffledTestimonials] = useState<
-    Testimonial[]
-  >([]);
-
-  // Shuffle landing page set (Flow + Clarity + Protocol mix) on client to avoid hydration mismatch
-  useEffect(() => {
-    setShuffledTestimonials(shuffleTestimonials(getSiteTestimonialsGeneral()));
-  }, []);
-
   return (
     <div className="brand-clinical min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       {/* ===== SECTION 1: HERO ===== */}
@@ -119,7 +104,7 @@ export default function Home() {
         aria-label="Clinically validated test scores"
       >
         <div className="brand-track">
-          <CaseStudiesDataDriven />
+          <LabCaseStudies />
         </div>
       </section>
 
@@ -154,16 +139,14 @@ export default function Home() {
       </section>
 
       {/* ===== SECTION 9: TESTIMONIALS (real voices after data proof) ===== */}
-      {shuffledTestimonials.length > 0 && (
-        <section
-          className="brand-section brand-bg-white"
-          aria-label="Customer reviews"
-        >
-          <div className="brand-track">
-            <Testimonials testimonials={shuffledTestimonials} autoScrollOnly />
-          </div>
-        </section>
-      )}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="Customer reviews"
+      >
+        <div className="brand-track">
+          <LandingTestimonials />
+        </div>
+      </section>
 
       {/* ===== SECTION 10: OUR STORY / FOUNDERS ===== */}
       <section
@@ -181,7 +164,7 @@ export default function Home() {
         aria-label="FAQ"
       >
         <div className="brand-track">
-          <LandingFAQ />
+          <LabFAQ />
         </div>
       </section>
 

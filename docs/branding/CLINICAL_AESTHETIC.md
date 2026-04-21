@@ -39,7 +39,7 @@ All components that use these tokens (`var(--brand-radius-card)` etc.) update au
 Defined in `app/brand-base.css`. Use anywhere — no scope class required.
 
 ### `lab-clip-tr`
-Top-right 12px chamfer. Use on primary CTAs, hero tags, and badge banners.
+Top-right 12px chamfer. **Interactive signifier only** — apply to primary CTAs, hero tags, and badge banners. The chamfer reads as "something you can click"; never apply it to cards, asset frames, section containers, or other non-interactive surfaces.
 ```
 clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)
 ```
@@ -96,12 +96,21 @@ Step-end opacity blink for the terminal cursor `_`. Reference via inline `style=
 
 `app/components/landing/ConkaCTAButton.tsx`
 
-Use this on all acquisition surfaces instead of creating a new CTA. Props:
-- `children` — main label (e.g. `Get Both from £1.50/shot`)
+**This is the standard CTA across every clinical surface.** Do not hand-roll a navy button or reach for `LandingCTA`/`LandingHero`-style buttons — use `ConkaCTAButton` so the visual identity stays consistent everywhere the user is being asked to act.
+
+Anatomy:
+- **Inverted CONKA "O" ring** (`/logos/ConkaO.png`, recoloured to white) on the left. Always present — this is what makes the button recognisably CONKA, not a generic navy rectangle.
+- **Label** in mono uppercase, trailed by the blinking `_` terminal cursor (`lab-blink`)
+- **Meta line** in mono — tagline or proof point
+- **Arrow** on the right
+- **Top-right chamfer** via `lab-clip-tr` — the interactive signifier
+
+Props:
+- `children` — main label (e.g. `Get Both from £1.50/shot`). Do **not** include a trailing `→` — the button renders its own arrow.
 - `href` — defaults to `FUNNEL_URL`
 - `meta` — second row text. Defaults to `// your brain, optimised.`
 
-The button is a `<Link>` or `<a>`. For interactive trigger buttons (e.g. inside a funnel step), replicate the visual pattern directly — see `FunnelCTA.tsx` for the button implementation.
+The button renders as a `<Link>` (internal href) or `<a>` (external). For interactive trigger buttons (e.g. inside a funnel step that fires a handler), replicate the visual pattern directly — see `FunnelCTA.tsx`.
 
 ---
 
@@ -130,6 +139,8 @@ Use `border-white` on dark or high-contrast images. Requires `relative overflow-
 
 - Do not add `border-radius` anywhere — tokens handle it
 - Do not use `var(--brand-gradient-accent)` — solid navy `#1B2757` only
+- Do not apply `lab-clip-tr` (or any clip-path chamfer) to non-interactive elements — the clipped corner is a button/tag signifier, not a decorative card treatment
+- Do not hand-roll a primary CTA — always use `ConkaCTAButton`; the CONKA "O" ring mark is part of the button identity
 - Do not use the product accent colour as a primary selected-state signal — navy border is the selection indicator
 - Do not centre-align headings
 - Do not add decorative colour blocks or background fills other than white/tint

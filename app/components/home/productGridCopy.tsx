@@ -1,35 +1,28 @@
-import type { ReactNode } from "react";
-
 export interface ProductGridCopyProps {
   exclude?: ("flow" | "clear" | "protocol")[];
 }
 
 export interface ProductGridCopy {
+  eyebrow: string;
   title: string;
-  subtitleNode: ReactNode | null;
+  monoSub: string;
 }
 
-const LANDING_TITLE = "Find Your Formula";
-const LANDING_SUBTITLE: ReactNode = (
-  <>
-    <span className="font-bold">Two formulas, one system.</span>
-    <br />
-    CONKA Flow for morning energy and focus. CONKA Clear for afternoon clarity and recovery. Take both or choose one.
-  </>
-);
-const CROSS_SELL_TITLE = "Explore Other Products";
+const LANDING = {
+  eyebrow: "Find Your Formula · Build Your Routine",
+  title: "Find Your Formula",
+  monoSub: "2 Formulas · 1 Daily System · Morning + Afternoon",
+} as const;
 
-function isCrossSell(props?: ProductGridCopyProps): boolean {
-  return (props?.exclude?.length ?? 0) > 0;
-}
+const CROSS_SELL = {
+  eyebrow: "More From CONKA · Complete Your Stack",
+  title: "Explore Other Products",
+  monoSub: "Handpicked additions · Same standards",
+} as const;
 
-/**
- * Returns section title and subtitle for ProductGrid. Use when rendering the section header in ProductGrid, ProductGridTablet, and ProductGridMobile.
- */
-export function getProductGridCopy(props?: ProductGridCopyProps): ProductGridCopy {
-  const crossSell = isCrossSell(props);
-  return {
-    title: crossSell ? CROSS_SELL_TITLE : LANDING_TITLE,
-    subtitleNode: LANDING_SUBTITLE,
-  };
+export function getProductGridCopy(
+  props?: ProductGridCopyProps,
+): ProductGridCopy {
+  const crossSell = (props?.exclude?.length ?? 0) > 0;
+  return crossSell ? { ...CROSS_SELL } : { ...LANDING };
 }
