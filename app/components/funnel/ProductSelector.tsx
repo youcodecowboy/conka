@@ -75,7 +75,7 @@ export default function ProductSelector({
               key={isActive ? `active-${pulseKey}` : productKey}
               type="button"
               onClick={() => handleChange(productKey)}
-              className={`lab-clip-tr relative w-full text-left border-2 bg-white transition-all duration-200 select-none overflow-hidden ${
+              className={`relative w-full text-left border-2 bg-white transition-all duration-200 select-none overflow-hidden ${
                 isActive
                   ? "card-pulse border-[#1B2757] shadow-md lg:scale-[1.01]"
                   : "border-black/10 hover:border-black/25 shadow-sm"
@@ -86,9 +86,9 @@ export default function ProductSelector({
                 <div className="h-1 w-full bg-[#1B2757]" />
               )}
 
-              {/* Badge banner — navy fill, mono register */}
+              {/* Badge banner — navy fill, mono register, chamfered right corner */}
               {display.badge && (
-                <div className="py-1.5 px-4 font-mono text-[10px] font-bold uppercase tracking-[0.16em] leading-none text-white bg-[#1B2757] text-center">
+                <div className="lab-clip-tr py-1.5 px-4 font-mono text-[10px] font-bold uppercase tracking-[0.16em] leading-none text-white bg-[#1B2757] text-center">
                   {isBoth && savings > 0
                     ? `${display.badge} · Save ${formatPrice(savings)}`
                     : display.badge}

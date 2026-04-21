@@ -65,7 +65,7 @@ export default function FunnelCTA({
 
             {/* CENTER — title with blinking cursor + meta */}
             <span className="flex flex-col items-start flex-1 min-w-0 text-left">
-              <span className="font-mono font-bold text-sm uppercase tracking-[0.12em] flex items-center gap-0.5">
+              <span className="font-mono font-bold text-xs lg:text-sm uppercase tracking-[0.12em] flex items-center gap-0.5">
                 <span className="truncate">{label}</span>
                 <span
                   className="inline-block ml-0.5"
