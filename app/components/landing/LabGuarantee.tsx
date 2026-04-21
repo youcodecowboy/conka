@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { GUARANTEE_DAYS } from "@/app/lib/offerConstants";
-import LabCTA from "./LabCTA";
+import ConkaCTAButton from "./ConkaCTAButton";
 
 const BULLETS = [
   "Free UK shipping",
@@ -61,9 +61,9 @@ export default function LabGuarantee({
 
           {!hideCTA && (
             <div className="mt-8">
-              <LabCTA href={ctaHref} className="sm:w-auto">
+              <ConkaCTAButton href={ctaHref} className="sm:w-auto">
                 {ctaLabel ?? "Try it 100% Risk Free Now"}
-              </LabCTA>
+              </ConkaCTAButton>
             </div>
           )}
 

@@ -1,3 +1,4 @@
+// TODO: Phase out and delete once /home and /protocol/[id] adopt ConkaCTAButton.
 import { FUNNEL_URL } from "@/app/lib/landingConstants";
 import Button from "@/app/components/Button";
 

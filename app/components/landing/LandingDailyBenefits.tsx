@@ -6,12 +6,10 @@ import {
   BenefitIconFocus,
   BenefitIconSleep,
   BenefitIconStress,
-} from "../components/landing/icons";
+} from "./icons";
 import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
-import LabCTA from "./LabCTA";
+import ConkaCTAButton from "./ConkaCTAButton";
 import LabTrustBadges from "./LabTrustBadges";
-import LabWhatsInsideMini from "./LabWhatsInsideMini";
-import LabDosingWindows from "./LabDosingWindows";
 
 interface Ingredient {
   name: string;
@@ -89,38 +87,13 @@ const PILLARS: Pillar[] = [
   },
 ];
 
-export default function LabWhatItDoes() {
+export default function LandingDailyBenefits() {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
     <div>
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
-        Formulation
-      </p>
-      <h2
-        className="brand-h1 mb-6"
-        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-      >
-        Two shots. 16 active ingredients.
-      </h2>
-
-      <LabDosingWindows />
-
-      <div className="mb-8">
-        <LabWhatsInsideMini />
-      </div>
-
-      <div className="mb-3 flex justify-start">
-        <LabCTA>
-          Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot
-        </LabCTA>
-      </div>
-      <div className="mb-12">
-        <LabTrustBadges />
-      </div>
-
       <div className="flex flex-col lg:flex-row lg:gap-10">
-        <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-auto aspect-[5/3] lg:aspect-auto mb-8 lg:mb-0 lg:flex-[2] lg:min-h-[500px] lg:sticky lg:top-24 lg:self-start lg:lab-asset-frame">
+        <div className="relative overflow-hidden -mt-20 lg:mt-0 -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-auto aspect-[5/3] lg:aspect-auto mb-8 lg:mb-0 lg:flex-[2] lg:min-h-[500px] lg:sticky lg:top-24 lg:self-start">
           <Image
             src="/lifestyle/ClearCloseTwoHands.jpg"
             alt="Two hands passing a CONKA bottle"
@@ -128,6 +101,14 @@ export default function LabWhatItDoes() {
             sizes="(max-width: 1024px) 95vw, 500px"
             className="object-cover scale-[1.35]"
             style={{ objectPosition: "center 38%" }}
+          />
+          <span
+            aria-hidden
+            className="hidden lg:block pointer-events-none absolute top-3 left-3 w-[20%] h-[20%] border-t-[6px] border-l-[6px] border-black"
+          />
+          <span
+            aria-hidden
+            className="hidden lg:block pointer-events-none absolute bottom-3 right-3 w-[20%] h-[20%] border-b-[6px] border-r-[6px] border-black"
           />
         </div>
 
@@ -197,8 +178,6 @@ export default function LabWhatItDoes() {
                       id={`pillar-evidence-${pillar.id}`}
                       className="mt-4 pt-4 border-t border-black/8"
                     >
-                      {/* Ingredient mini-cards — asset + name, rectangular, no clip.
-                          On desktop, each card shrinks to ~70% width and centres in its cell. */}
                       <div className="grid grid-cols-3 gap-2 mb-4 lg:justify-items-center">
                         {pillar.ingredients.map((ingredient) => (
                           <div
@@ -242,9 +221,9 @@ export default function LabWhatItDoes() {
       </div>
 
       <div className="mt-8 flex justify-start">
-        <LabCTA>
+        <ConkaCTAButton>
           Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot
-        </LabCTA>
+        </ConkaCTAButton>
       </div>
       <div className="mt-6">
         <LabTrustBadges />

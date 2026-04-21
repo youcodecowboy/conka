@@ -6,6 +6,35 @@
 
 ## April 2026
 
+### 2026-04-21 -- Lab-to-brand-base migration complete + landing polish (SCRUM-901)
+
+Promoted the clinical `/startV1` aesthetic into `/start` and shipped a round of landing-page refinements on top.
+
+**SCRUM-901 migration:**
+- Added `.brand-clinical` scope to `app/brand-base.css` (zero radii, navy `#1B2757` accent, light tint, mobile hero flush rule) plus `.lab-asset-frame`, `.lab-clip-tr`, and `lab-blink` keyframe as unscoped utilities.
+- New `ConkaCTAButton` (navy, chamfer clip, blinking cursor) used on `/start` only. `LandingCTA` kept untouched on `/` and `/protocol/[id]` with a phase-out TODO.
+- Content-swapped `LandingHero`, `LandingWhatItDoes`, `LandingValueComparison`, `LandingTestimonials` to the Lab* bodies; relocated 6 Lab* components into `app/components/landing/` and `LabCaseStudies` into `app/components/`. Deleted `app/startV1/` and `app/start/TestimonialsSection.tsx`. `/start` root now carries `brand-clinical`.
+
+**Landing reorder for earlier social proof:**
+- Split `LandingWhatItDoes` (formulation) and `LandingDailyBenefits` (3 pillars) into separate sections with `LabCaseStudies` between them. `LandingWhatItDoes` dropped `"use client"` now that the pillar state lives on DailyBenefits. Section backgrounds re-flipped to preserve white/tint alternation.
+- Mobile flush fix on DailyBenefits asset (`-mt-20 lg:mt-0`) to match LabTimeline's edge-to-edge banner pattern.
+
+**LabFAQ clinical elevation (6 changes, one pass):**
+Spec header row (`Section Q&A / Entries N=5 / Updated 2026-04`) in `lab-asset-frame`, `01.`-`05.` mono numbering, category tags (`TRIAL`/`PRODUCT`/`SHIPPING`/`SUBSCRIPTION`), mono `[+]`/`[-]` indicators replacing the chevron, left-border accent + `Response` mono label on the open answer, `Still stuck? info@conka.io - Avg response 4h` footer. Asset swapped from `ClearDrink.jpg` to `FlowDeskClutter.jpg`.
+
+**Corner-bracket framing system (new aesthetic primitive):**
+Two absolute-positioned L-shaped spans (20% of container width/height, 6px thick, 12px inset from the corners) replace full `lab-asset-frame` double-borders on select assets. Applied to:
+- LabFAQ lifestyle asset (black, desktop-only)
+- LandingDailyBenefits asset (black, desktop-only; lab-asset-frame removed)
+- LabTimeline desktop sidebar (white, always-on; lab-asset-frame removed)
+
+Guarantee phone mockup stays frame-free.
+
+**Why:** `/startV1` was the validated landing direction but paid traffic still hit the older `/start` look. Reordering social proof higher addresses the "proof before product education" concern for cold traffic. Corner brackets give assets an angular, logo-adjacent framing without the heaviness of a full double-border - reads more editorial than catalogue.
+**Plan:** `docs/development/featurePlans/lab-to-brand-base-migration.md`
+**Ticket:** SCRUM-901
+**Branch:** `New-Stylng-extraction-landing-page`
+
 ### 2026-04-17 -- Fix account profile update (was completely broken)
 
 The Edit Profile modal on `/account` was returning 200 OK but never actually updating anything in Shopify. Two root causes:

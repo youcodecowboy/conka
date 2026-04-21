@@ -3,6 +3,20 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import type { Testimonial } from "@/app/components/testimonials/types";
+import { CURATED_TESTIMONIALS } from "@/app/lib/customerTestimonials";
+import ConkaCTAButton from "./ConkaCTAButton";
+import LabTrustBadges from "./LabTrustBadges";
+import { PRICE_PER_SHOT_BOTH } from "@/app/lib/landingPricing";
+
+/* ============================================================================
+ * LandingTestimonials
+ *
+ * Clinical reskin carousel: mono spec header, hairline stars, hanging
+ * open-quote, zero-radius cards, chamfered navy carousel controls.
+ *
+ * Carousel logic: auto-advance, infinite loop via 3x render, touch swipe,
+ * dot nav.
+ * ========================================================================== */
 
 const CARD_WIDTH_MOBILE = 300;
 const CARD_WIDTH_DESKTOP = 340;
@@ -13,42 +27,59 @@ const RESUME_DELAY_MS = 5000;
 const CHAR_LIMIT = 200;
 const SWIPE_THRESHOLD = 50;
 
-function StarRating({ rating }: { rating: number }) {
+/* ------------------------------ Sub-components --------------------------- */
+
+function HairlineStars({ rating }: { rating: number }) {
   return (
-    <div className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
+    <span
+      className="inline-flex items-center gap-0.5 text-black"
+      aria-label={`${rating} out of 5`}
+    >
       {Array.from({ length: 5 }, (_, i) => (
         <span
           key={i}
-          className={i < rating ? "text-yellow-400" : "text-black/10"}
-          style={{ fontSize: "1rem" }}
+          className={i < rating ? "text-black" : "text-black/15"}
+          style={{ fontSize: "11px", lineHeight: 1 }}
           aria-hidden
         >
           ★
         </span>
       ))}
-    </div>
+    </span>
   );
 }
 
-function VerifiedBadge() {
+function SpecHeader({ testimonial }: { testimonial: Testimonial }) {
+  const product = (testimonial.productLabel ?? "—").toUpperCase();
+  const rating = testimonial.rating.toFixed(1);
+
   return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      className="flex-shrink-0"
-      aria-label="Verified buyer"
-    >
-      <circle cx="8" cy="8" r="8" fill="#22c55e" />
-      <path
-        d="M5 8.5L7 10.5L11 6"
-        stroke="white"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+    <div className="flex flex-col gap-1 pb-3 border-b border-black/8">
+      {/* Row 1: verified · date */}
+      <div className="flex items-center gap-2">
+        <span
+          className="inline-flex w-3 h-3 items-center justify-center bg-black text-white text-[8px] font-bold leading-none"
+          aria-hidden
+        >
+          ✓
+        </span>
+        <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.18em] text-black/60 tabular-nums">
+          Verified · {testimonial.date}
+        </span>
+      </div>
+      {/* Row 2: rating + product */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-[11px] font-bold tabular-nums text-black leading-none">
+            {rating}/5
+          </span>
+          <HairlineStars rating={testimonial.rating} />
+        </div>
+        <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-black/50 truncate">
+          {product}
+        </span>
+      </div>
+    </div>
   );
 }
 
@@ -71,21 +102,14 @@ function TestimonialCard({
 
   return (
     <div
-      className="flex-shrink-0 self-start bg-white rounded-[var(--brand-radius-container)] border border-black/[0.06] shadow-[0_1px_4px_rgba(0,0,0,0.04)] flex flex-col overflow-hidden"
+      className="flex-shrink-0 self-start bg-white border border-black/12 flex flex-col overflow-hidden"
       style={{ width: cardWidth }}
     >
-      {/* Text content */}
       <div className="p-5 flex flex-col gap-3">
-        {/* Name + verified */}
-        <div className="flex items-center gap-2">
-          <p className="text-sm font-semibold text-black">
-            {testimonial.name}
-          </p>
-          <VerifiedBadge />
-        </div>
+        <SpecHeader testimonial={testimonial} />
 
-        {/* Rating */}
-        <StarRating rating={testimonial.rating} />
+        {/* Name */}
+        <p className="text-sm font-semibold text-black">{testimonial.name}</p>
 
         {/* Headline */}
         {testimonial.headline && (
@@ -94,31 +118,40 @@ function TestimonialCard({
           </p>
         )}
 
-        {/* Body */}
-        <p className="text-sm text-black leading-relaxed whitespace-pre-line">
-          &ldquo;{displayBody}&rdquo;
-          {needsTruncation && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleExpand();
-              }}
-              className="ml-1 text-brand-accent font-medium"
-            >
-              {expanded ? "Show less" : "Read more"}
-            </button>
-          )}
-        </p>
+        {/* Body with hanging mono open-quote */}
+        <div className="relative pl-5">
+          <span
+            className="absolute left-0 top-0 font-mono text-2xl font-bold text-black/25 leading-none select-none"
+            aria-hidden
+          >
+            &ldquo;
+          </span>
+          <p className="text-sm text-black/80 leading-relaxed whitespace-pre-line">
+            {displayBody}
+            {needsTruncation && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleExpand();
+                }}
+                className="ml-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-black underline underline-offset-2"
+              >
+                {expanded ? "Show less" : "Read more"}
+              </button>
+            )}
+          </p>
+        </div>
       </div>
 
       {/* Lifestyle photo */}
       {testimonial.photo && (
-        <div className="relative w-full aspect-[4/3]">
+        <div className="relative w-full aspect-[4/3] border-t border-black/12">
           <Image
             src={testimonial.photo}
             alt={`${testimonial.name} using CONKA`}
             fill
+            loading="lazy"
             className="object-cover"
             sizes="(max-width: 1024px) 300px, 340px"
           />
@@ -128,32 +161,74 @@ function TestimonialCard({
   );
 }
 
-export default function LandingTestimonials({
-  testimonials,
+function NavButton({
+  direction,
+  onClick,
+  className = "",
 }: {
-  testimonials: Testimonial[];
+  direction: "prev" | "next";
+  onClick: () => void;
+  className?: string;
 }) {
+  return (
+    <button
+      type="button"
+      aria-label={direction === "prev" ? "Previous review" : "Next review"}
+      onClick={onClick}
+      className={`hidden lg:flex absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 items-center justify-center bg-[#1B2757] text-white opacity-0 group-hover:opacity-100 transition-opacity hover:opacity-90 lab-clip-tr ${className}`}
+    >
+      {direction === "prev" ? (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <polyline
+            points="15 6 9 12 15 18"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
+          />
+        </svg>
+      ) : (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <polyline
+            points="9 6 15 12 9 18"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
+          />
+        </svg>
+      )}
+    </button>
+  );
+}
+
+/* ------------------------------ Main ------------------------------------- */
+
+export default function LandingTestimonials({
+  testimonials = CURATED_TESTIMONIALS,
+  hideCTA = false,
+}: {
+  testimonials?: Testimonial[];
+  hideCTA?: boolean;
+} = {}) {
   const totalCards = testimonials.length;
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [cardWidth, setCardWidth] = useState(CARD_WIDTH_MOBILE);
   const step = cardWidth + GAP;
 
-  // Responsive card width
   useEffect(() => {
     const update = () =>
       setCardWidth(
-        window.innerWidth >= 1024 ? CARD_WIDTH_DESKTOP : CARD_WIDTH_MOBILE
+        window.innerWidth >= 1024 ? CARD_WIDTH_DESKTOP : CARD_WIDTH_MOBILE,
       );
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // Infinite loop: render 3 copies [clone | real | clone]
-  // Real slides live at indices totalCards .. 2*totalCards-1
   const extended = [...testimonials, ...testimonials, ...testimonials];
 
-  const [pos, setPos] = useState(totalCards); // start at first real slide
+  const [pos, setPos] = useState(totalCards);
   const [smooth, setSmooth] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -162,7 +237,6 @@ export default function LandingTestimonials({
   const realIndex = ((pos % totalCards) + totalCards) % totalCards;
   const offset = -(pos * step);
 
-  // After a smooth transition ends, snap back to real zone if in clone territory
   const handleTransitionEnd = useCallback(() => {
     if (pos >= totalCards * 2) {
       setSmooth(false);
@@ -173,20 +247,16 @@ export default function LandingTestimonials({
     }
   }, [pos, totalCards]);
 
-  // Re-enable smooth transitions after a snap (needs 2 rAF to let browser apply the jump first)
   useEffect(() => {
     if (!smooth) {
       let id: number;
       id = requestAnimationFrame(() => {
-        id = requestAnimationFrame(() => {
-          setSmooth(true);
-        });
+        id = requestAnimationFrame(() => setSmooth(true));
       });
       return () => cancelAnimationFrame(id);
     }
   }, [smooth]);
 
-  // Stop-start auto-advance
   useEffect(() => {
     if (isPaused || expandedIndex !== null || totalCards <= 1) return;
     const interval = setInterval(() => {
@@ -201,18 +271,16 @@ export default function LandingTestimonials({
     if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
     resumeTimerRef.current = setTimeout(
       () => setIsPaused(false),
-      RESUME_DELAY_MS
+      RESUME_DELAY_MS,
     );
   }, []);
 
-  // Cleanup
   useEffect(() => {
     return () => {
       if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
     };
   }, []);
 
-  // Dot navigation
   const goToSlide = (targetReal: number) => {
     const currentReal = ((pos % totalCards) + totalCards) % totalCards;
     const diff = targetReal - currentReal;
@@ -221,14 +289,12 @@ export default function LandingTestimonials({
     pauseAndScheduleResume();
   };
 
-  // Arrow navigation
   const navigate = (direction: 1 | -1) => {
     setSmooth(true);
     setPos((p) => p + direction);
     pauseAndScheduleResume();
   };
 
-  // Touch swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartRef.current = e.touches[0].clientX;
     pauseAndScheduleResume();
@@ -244,6 +310,11 @@ export default function LandingTestimonials({
 
   return (
     <div>
+      {/* Eyebrow */}
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+        Field Observations
+      </p>
+
       {/* Header */}
       <div className="mb-8">
         <h2
@@ -252,37 +323,18 @@ export default function LandingTestimonials({
         >
           Real people. Real results.
         </h2>
-        <p className="brand-body text-black/60">
-          500+ verified reviews from athletes, founders, and professionals.
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          N=500+ · Verified reviews · Trustpilot + direct
         </p>
       </div>
 
       {/* Carousel */}
       <div className="relative group">
-        {/* Prev / Next arrows — desktop only */}
-        <button
-          type="button"
-          aria-label="Previous review"
-          onClick={() => navigate(-1)}
-          className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white/90 border border-black/[0.08] shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-            <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          aria-label="Next review"
-          onClick={() => navigate(1)}
-          className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white/90 border border-black/[0.08] shadow-sm backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-            <path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
+        <NavButton direction="prev" onClick={() => navigate(-1)} className="left-0 -translate-x-1/2" />
+        <NavButton direction="next" onClick={() => navigate(1)} className="right-0 translate-x-1/2" />
 
         <div
-          className="overflow-hidden -mx-4 px-4 lg:mx-0 lg:px-0"
+          className="overflow-hidden -mx-5 px-5 lg:mx-0 lg:px-0"
           onMouseEnter={pauseAndScheduleResume}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={handleTouchStart}
@@ -293,9 +345,7 @@ export default function LandingTestimonials({
             style={{
               gap: GAP,
               transform: `translate3d(${offset}px, 0, 0)`,
-              transition: smooth
-                ? `transform ${TRANSITION_MS}ms ease`
-                : "none",
+              transition: smooth ? `transform ${TRANSITION_MS}ms ease` : "none",
             }}
             onTransitionEnd={handleTransitionEnd}
           >
@@ -309,7 +359,7 @@ export default function LandingTestimonials({
                   expanded={expandedIndex === realIdx}
                   onToggleExpand={() =>
                     setExpandedIndex((prev) =>
-                      prev === realIdx ? null : realIdx
+                      prev === realIdx ? null : realIdx,
                     )
                   }
                 />
@@ -319,9 +369,9 @@ export default function LandingTestimonials({
         </div>
       </div>
 
-      {/* Dot indicators */}
+      {/* Dots */}
       <div
-        className="flex justify-center gap-1.5 mt-4"
+        className="flex justify-center gap-1.5 mt-5"
         role="tablist"
         aria-label="Review navigation"
       >
@@ -336,15 +386,27 @@ export default function LandingTestimonials({
             className="flex items-center justify-center w-6 h-6"
           >
             <span
-              className={`block rounded-full transition-all ${
+              className={`block transition-all ${
                 i === realIndex
-                  ? "bg-black/60 w-4 h-2"
-                  : "bg-black/15 hover:bg-black/30 w-2 h-2"
+                  ? "bg-black w-4 h-1.5"
+                  : "bg-black/20 hover:bg-black/40 w-1.5 h-1.5"
               }`}
             />
           </button>
         ))}
       </div>
+
+      {/* CTA */}
+      {!hideCTA && (
+        <>
+          <div className="mt-10 flex justify-start">
+            <ConkaCTAButton>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
+          </div>
+          <div className="mt-6">
+            <LabTrustBadges />
+          </div>
+        </>
+      )}
     </div>
   );
 }

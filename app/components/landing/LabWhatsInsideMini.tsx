@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { track } from "@vercel/analytics/react";
-import IngredientsPanel from "../components/landing/IngredientsPanel";
+import IngredientsPanel from "./IngredientsPanel";
 
 type ProductId = "flow" | "clear";
 

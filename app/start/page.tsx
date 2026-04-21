@@ -3,32 +3,31 @@ import dynamic from "next/dynamic";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import LandingHero from "../components/landing/LandingHero";
-import LandingCTA from "../components/landing/LandingCTA";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
 import LandingWhatItDoes from "../components/landing/LandingWhatItDoes";
+import LandingDailyBenefits from "../components/landing/LandingDailyBenefits";
+import LandingTestimonials from "../components/landing/LandingTestimonials";
 import Reveal from "../components/landing/Reveal";
-import { PRICE_PER_SHOT_BOTH } from "../lib/landingPricing";
-import TestimonialsSection from "./TestimonialsSection";
 
 /* Below-fold sections: dynamic import to reduce initial JS bundle */
-const CaseStudiesDataDriven = dynamic(
-  () => import("../components/CaseStudiesDataDriven"),
+const LabCaseStudies = dynamic(
+  () => import("../components/LabCaseStudies"),
   { loading: () => <div className="h-[600px]" /> },
 );
 const LandingValueComparison = dynamic(
   () => import("../components/landing/LandingValueComparison"),
   { loading: () => <div className="h-[300px]" /> },
 );
-const LandingTimeline = dynamic(
-  () => import("../components/landing/LandingTimeline"),
+const LabTimeline = dynamic(
+  () => import("../components/landing/LabTimeline"),
   { loading: () => <div className="h-[500px]" /> },
 );
-const LandingGuarantee = dynamic(
-  () => import("../components/landing/LandingGuarantee"),
+const LabGuarantee = dynamic(
+  () => import("../components/landing/LabGuarantee"),
   { loading: () => <div className="h-[500px]" /> },
 );
-const LandingFAQ = dynamic(
-  () => import("../components/landing/LandingFAQ"),
+const LabFAQ = dynamic(
+  () => import("../components/landing/LabFAQ"),
   { loading: () => <div className="h-[400px]" /> },
 );
 
@@ -48,7 +47,7 @@ export const metadata: Metadata = {
 
 export default function StartPage() {
   return (
-    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+    <div className="brand-clinical min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
 
       {/* ===== 1. HERO ===== */}
@@ -61,10 +60,10 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 2. WHAT CONKA DOES + WHAT'S INSIDE (merged) ===== */}
+      {/* ===== 2. FORMULATION — TWO SHOTS, 16 ACTIVES ===== */}
       <section
         className="brand-section brand-bg-tint"
-        aria-label="What CONKA does and what's inside"
+        aria-label="Formulation and dosing windows"
       >
         <div className="brand-track">
           <Reveal>
@@ -80,17 +79,26 @@ export default function StartPage() {
       >
         <div className="brand-track">
           <Reveal>
-            <CaseStudiesDataDriven hideCTA />
-            <div className="mt-8 flex justify-start">
-              <LandingCTA>Get Both from £{PRICE_PER_SHOT_BOTH}/shot →</LandingCTA>
-            </div>
+            <LabCaseStudies />
           </Reveal>
         </div>
       </section>
 
-      {/* ===== 4. CONKA vs COFFEE — VALUE COMPARISON ===== */}
+      {/* ===== 4. DAILY BENEFITS — LIFELONG PILLARS ===== */}
       <section
         className="brand-section brand-bg-tint"
+        aria-label="Daily habit, lifelong benefits"
+      >
+        <div className="brand-track">
+          <Reveal>
+            <LandingDailyBenefits />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== 5. CONKA vs COFFEE — VALUE COMPARISON ===== */}
+      <section
+        className="brand-section brand-bg-white"
         aria-label="CONKA vs coffee cost comparison"
       >
         <div className="brand-track">
@@ -98,46 +106,50 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* ===== 5. TESTIMONIALS ===== */}
-      <TestimonialsSection />
+      {/* ===== 6. TESTIMONIALS ===== */}
+      <section className="brand-section brand-bg-tint" aria-label="Customer reviews">
+        <div className="brand-track">
+          <LandingTestimonials />
+        </div>
+      </section>
 
-      {/* ===== 6. WHAT TO EXPECT TIMELINE ===== */}
+      {/* ===== 7. WHAT TO EXPECT TIMELINE ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="What to expect timeline"
       >
         <div className="brand-track">
           <Reveal>
-            <LandingTimeline />
+            <LabTimeline />
           </Reveal>
         </div>
       </section>
 
-      {/* ===== 7. 100-DAY GUARANTEE ===== */}
+      {/* ===== 8. 100-DAY GUARANTEE ===== */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-tint"
         aria-label="100-day risk-free guarantee"
       >
         <div className="brand-track">
           <Reveal>
-            <LandingGuarantee />
+            <LabGuarantee />
           </Reveal>
         </div>
       </section>
 
-      {/* ===== 8. FAQ ===== */}
+      {/* ===== 9. FAQ ===== */}
       <section
-        className="brand-section brand-bg-tint"
+        className="brand-section brand-bg-white"
         aria-label="FAQ"
       >
         <div className="brand-track">
-          <LandingFAQ />
+          <LabFAQ />
         </div>
       </section>
 
-      {/* ===== 9. DISCLAIMER ===== */}
+      {/* ===== 10. DISCLAIMER ===== */}
       <section
-        className="brand-section brand-bg-white"
+        className="brand-section brand-bg-tint"
         aria-label="Important information and disclaimers"
       >
         <div className="brand-track">
