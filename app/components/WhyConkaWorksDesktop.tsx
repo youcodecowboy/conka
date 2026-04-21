@@ -110,16 +110,19 @@ export default function WhyConkaWorksDesktop() {
             {/* Logo frame */}
             <div className="mb-5 h-24 lg:h-28 flex items-center justify-center bg-[var(--brand-tint)] border border-black/8 p-4">
               {"logos" in p ? (
-                <div className="flex items-center justify-center gap-4">
+                <div className="flex items-center justify-center gap-5 lg:gap-6 w-full h-full">
                   {p.logos.map((l) => (
-                    <div key={l.src} className="relative h-10 w-28">
+                    <div
+                      key={l.src}
+                      className="relative h-16 lg:h-20 w-36 lg:w-44"
+                    >
                       <Image
                         src={l.src}
                         alt={l.alt}
                         fill
                         loading="lazy"
                         className="object-contain"
-                        sizes="112px"
+                        sizes="(max-width: 1024px) 144px, 176px"
                       />
                     </div>
                   ))}

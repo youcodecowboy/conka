@@ -128,18 +128,18 @@ export default function WhyConkaWorksMobile() {
                 </div>
 
                 {/* Logo frame */}
-                <div className="mb-4 h-20 flex items-center justify-center bg-[var(--brand-tint)] border border-black/8 p-3">
+                <div className="mb-4 h-24 flex items-center justify-center bg-[var(--brand-tint)] border border-black/8 p-3">
                   {p.logos ? (
-                    <div className="flex items-center justify-center gap-3">
+                    <div className="flex items-center justify-center gap-4 w-full h-full">
                       {p.logos.map((l) => (
-                        <div key={l.src} className="relative h-8 w-20">
+                        <div key={l.src} className="relative h-14 w-28">
                           <Image
                             src={l.src}
                             alt={l.alt}
                             fill
                             loading="lazy"
                             className="object-contain"
-                            sizes="80px"
+                            sizes="112px"
                           />
                         </div>
                       ))}
