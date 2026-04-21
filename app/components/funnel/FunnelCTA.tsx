@@ -81,7 +81,7 @@ export default function FunnelCTA({
                     highlightSubLabel ? "text-white" : "text-white/70"
                   }`}
                 >
-                  {highlightSubLabel ? `// ${subLabel}` : subLabel}
+                  {subLabel}
                 </span>
               )}
             </span>
