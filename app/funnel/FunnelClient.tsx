@@ -299,9 +299,13 @@ export default function FunnelClient() {
                 <button
                   type="button"
                   onClick={() => goToStep(1)}
-                  className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#1B2757] hover:opacity-70"
+                  className="lab-clip-tr inline-flex items-center gap-1.5 bg-[#1B2757] text-white font-mono text-[10px] font-bold uppercase tracking-[0.14em] leading-none px-3 py-2 shrink-0 hover:opacity-85 active:opacity-70 transition-opacity"
                 >
                   Change
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter" aria-hidden>
+                    <path d="M5 12h14" />
+                    <path d="M12 5l7 7-7 7" />
+                  </svg>
                 </button>
               </div>
 
