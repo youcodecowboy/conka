@@ -10,37 +10,17 @@ import {
   getAverageImprovementAcrossAll,
 } from "@/app/lib/caseStudiesData";
 import SportIcon from "./SportIcon";
-import PremiumCarouselToggle from "../premium/PremiumCarouselToggle";
+import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
 
 const STAT_LABELS = ["Total", "Acc.", "Speed"];
 
 function ProductBadge({ version }: { version?: "01" | "02" | "both" }) {
   if (!version) return null;
-  const getLabel = () => {
-    switch (version) {
-      case "01":
-        return "CONKA Flow";
-      case "02":
-        return "CONKA Clear";
-      case "both":
-        return "Flow + Clear";
-    }
-  };
-  const getColor = () => {
-    switch (version) {
-      case "01":
-        return "bg-amber-500";
-      case "02":
-        return "bg-[#AAB9BC]";
-      case "both":
-        return "bg-gradient-to-r from-amber-500 to-[#AAB9BC]";
-    }
-  };
+  const label =
+    version === "01" ? "CONKA Flow" : version === "02" ? "CONKA Clear" : "Flow + Clear";
   return (
-    <span
-      className={`px-2 py-0.5 rounded-full text-[10px] font-clinical font-medium text-white ${getColor()}`}
-    >
-      {getLabel()}
+    <span className="font-mono text-[9px] uppercase tracking-[0.18em] tabular-nums bg-white text-[#1B2757] border border-white/60 px-1.5 py-0.5">
+      {label}
     </span>
   );
 }
@@ -51,6 +31,43 @@ function shortenMetric(metric: string): string {
   if (m.includes("accuracy") || m.includes("acc")) return "Acc.";
   if (m.includes("speed")) return "Speed";
   return metric;
+}
+
+function ChamferNav({
+  direction,
+  onClick,
+  ariaLabel,
+}: {
+  direction: "prev" | "next";
+  onClick: () => void;
+  ariaLabel: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className="flex items-center justify-center w-11 h-11 bg-[#1B2757] text-white hover:opacity-85 active:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757] lab-clip-tr"
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        {direction === "prev" ? (
+          <polyline points="15 18 9 12 15 6" />
+        ) : (
+          <polyline points="9 18 15 12 9 6" />
+        )}
+      </svg>
+    </button>
+  );
 }
 
 export default function CaseStudiesPageMobile() {
@@ -89,44 +106,30 @@ export default function CaseStudiesPageMobile() {
   };
 
   return (
-    <div className="-mx-[var(--premium-gutter-mobile)] pb-8 min-h-screen">
-      {/* 1. Header — hero style with gradient accent */}
-      <div className="px-[var(--premium-gutter-mobile)] mb-2">
-        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-0.5 text-[var(--color-ink)]">
-          Research & Results
+    <div className="pb-8 min-h-screen">
+      <div className="mb-6">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Research & Results · Peer-Validated
         </p>
         <h1
-          className="premium-section-heading font-bold text-[var(--color-ink)] text-3xl mb-1"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h1 text-black mb-2"
+          style={{ letterSpacing: "-0.02em" }}
         >
-          Case{" "}
-          <span
-            style={{
-              background: "var(--gradient-neuro-blue-accent)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Studies
-          </span>
+          Case studies
         </h1>
-        <p className="premium-body-sm text-[var(--color-ink)] opacity-70">
-          {athletes.length} Athletes • {totalTests} Tests • +{avgImprovement}%
-          Avg
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          {String(athletes.length).padStart(2, "0")} Athletes · {totalTests.toLocaleString()} Tests · +{avgImprovement}% Avg
         </p>
       </div>
 
-      {/* 2. Sport filter pills — sticky; white bar on bone */}
-      <div className="sticky top-0 z-10 py-2 mb-3 bg-white border-y border-[var(--color-premium-stroke)] overflow-x-auto scrollbar-hide">
-        <div className="px-[var(--premium-gutter-mobile)]">
-        <div className="flex gap-2 pb-0.5">
+      <div className="sticky top-0 z-10 -mx-[var(--brand-gutter-mobile,1.25rem)] px-[var(--brand-gutter-mobile,1.25rem)] py-3 mb-5 bg-white border-y border-black/12 overflow-x-auto scrollbar-hide">
+        <div className="flex gap-1.5 pb-0.5">
           <button
             onClick={() => setSelectedSport("all")}
-            className={`flex-shrink-0 px-3 py-1.5 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
+            className={`flex-shrink-0 px-3 py-1.5 border transition-colors font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums ${
               selectedSport === "all"
-                ? "bg-[var(--color-ink)] text-white"
-                : "bg-transparent text-[var(--color-ink)]"
+                ? "bg-[#1B2757] text-white border-[#1B2757]"
+                : "bg-white text-black/70 border-black/12"
             }`}
           >
             All
@@ -137,10 +140,10 @@ export default function CaseStudiesPageMobile() {
               <button
                 key={sport}
                 onClick={() => setSelectedSport(sport)}
-                className={`flex-shrink-0 px-3 py-1.5 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
+                className={`flex-shrink-0 px-3 py-1.5 border transition-colors font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums flex items-center gap-1.5 ${
                   selectedSport === sport
-                    ? "bg-[var(--color-ink)] text-white"
-                    : "bg-transparent text-[var(--color-ink)]"
+                    ? "bg-[#1B2757] text-white border-[#1B2757]"
+                    : "bg-white text-black/70 border-black/12"
                 }`}
               >
                 <SportIcon sport={sport} size={12} />
@@ -149,141 +152,144 @@ export default function CaseStudiesPageMobile() {
             );
           })}
         </div>
-        </div>
       </div>
 
-      {/* 3. Trading-card: photo tile with gradient + all info on card + overlay toggles (tight gutter) */}
       {activeAthlete ? (
-        <div className="px-[var(--premium-gutter-mobile-tight)]">
-          <div className="relative w-full aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden border border-[var(--color-premium-stroke)]">
-          {(() => {
-            const photoSrc =
-              getCaseStudyPhotoPath(activeAthlete.id) || activeAthlete.photo;
-            const showPlaceholder =
-              !photoSrc || photoErrorIds.has(activeAthlete.id);
-            if (showPlaceholder) {
+        <>
+          <div className="relative w-full aspect-[3/4] overflow-hidden border border-black/12 bg-white">
+            {(() => {
+              const photoSrc =
+                getCaseStudyPhotoPath(activeAthlete.id) || activeAthlete.photo;
+              const showPlaceholder =
+                !photoSrc || photoErrorIds.has(activeAthlete.id);
+              if (showPlaceholder) {
+                return (
+                  <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black/[0.03]">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40">
+                      {activeAthlete.name || "Photo"}
+                    </span>
+                  </div>
+                );
+              }
               return (
-                <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-neutral-200">
-                  <span className="premium-body-sm text-[var(--text-on-light-muted)]">
-                    {activeAthlete.name || "Photo"}
-                  </span>
-                </div>
+                <img
+                  src={photoSrc}
+                  alt={activeAthlete.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{
+                    objectPosition: activeAthlete.focalPoint
+                      ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
+                      : "center",
+                  }}
+                  onError={() => addPhotoError(activeAthlete.id)}
+                />
               );
-            }
-            return (
-              <img
-                src={photoSrc}
-                alt={activeAthlete.name}
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{
-                  objectPosition: activeAthlete.focalPoint
-                    ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
-                    : "center",
-                }}
-                onError={() => addPhotoError(activeAthlete.id)}
-              />
-            );
-          })()}
-          {/* Dark gradient from bottom — darker near bottom for legibility */}
-          <div
-            className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/50 to-transparent"
-            aria-hidden
-          />
-          {/* Chevrons: white transparent circle, black icons */}
-          <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
-            <PremiumCarouselToggle
-              variant="overlayLight"
+            })()}
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/45 to-transparent"
+              aria-hidden
+            />
+            <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+              <span className="font-mono text-[10px] font-bold tabular-nums text-white bg-black/50 px-2 py-1 uppercase tracking-[0.16em]">
+                {String(activeAthleteIndex + 1).padStart(2, "0")} / {String(filteredAthletes.length).padStart(2, "0")}
+              </span>
+              <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white bg-black/50 px-2 py-1 tabular-nums">
+                {SPORT_INFO[activeAthlete.sport].name}
+              </span>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-semibold text-base leading-tight">
+                  {activeAthlete.name}
+                </span>
+                <ProductBadge version={activeAthlete.productVersion} />
+              </div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/75 line-clamp-1 tabular-nums mb-3">
+                {activeAthlete.achievement ?? activeAthlete.profession}
+              </p>
+              <div className="border-t border-white/25 pt-3">
+                <div className="grid grid-cols-3 gap-1">
+                  {[0, 1, 2].map((i) => {
+                    const stat = activeAthlete.improvements[i];
+                    const label = stat
+                      ? shortenMetric(stat.metric)
+                      : STAT_LABELS[i];
+                    const value = stat?.value ?? "—";
+                    return (
+                      <div key={i} className={i < 2 ? "border-r border-white/20" : ""}>
+                        <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/70 leading-none">
+                          {label}
+                        </p>
+                        <p className="font-mono text-xl font-bold tabular-nums text-white mt-1.5 leading-none">
+                          {value}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/55 tabular-nums mt-3">
+                {activeAthlete.testingPeriod} · {activeAthlete.testsCompleted} Tests
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between gap-4 mt-6">
+            <ChamferNav
               direction="prev"
               onClick={handlePrev}
               ariaLabel="Previous athlete"
             />
-          </div>
-          <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
-            <PremiumCarouselToggle
-              variant="overlayLight"
+            <div className="flex items-center gap-1.5 flex-wrap justify-center">
+              {filteredAthletes.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setActiveAthleteIndex(i)}
+                  aria-label={`Go to athlete ${i + 1}`}
+                  aria-current={i === activeAthleteIndex}
+                  className={`w-1.5 h-1.5 transition-colors ${
+                    i === activeAthleteIndex
+                      ? "bg-[#1B2757]"
+                      : "bg-black/20 hover:bg-black/35"
+                  }`}
+                />
+              ))}
+            </div>
+            <ChamferNav
               direction="next"
               onClick={handleNext}
               ariaLabel="Next athlete"
             />
           </div>
-          {/* Info overlay — bottom of card, white text */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 pt-10 text-white">
-            {/* Row 1: name, sport, product on one line */}
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-1">
-              <span className="font-bold text-[15px]">{activeAthlete.name}</span>
-              <span className="text-xs opacity-90">
-                {SPORT_INFO[activeAthlete.sport].name}
-              </span>
-              <ProductBadge version={activeAthlete.productVersion} />
-            </div>
-            {/* Row 2: one-line description/detail (achievement or profession) */}
-            <p className="text-xs opacity-85 mb-2 line-clamp-1">
-              {activeAthlete.achievement ?? activeAthlete.profession}
-            </p>
-            <div className="border-t border-white/30 my-2" />
-            <div className="grid grid-cols-3 text-center gap-1">
-              {[0, 1, 2].map((i) => {
-                const stat = activeAthlete.improvements[i];
-                const label = stat
-                  ? shortenMetric(stat.metric)
-                  : STAT_LABELS[i];
-                const value = stat?.value ?? "—";
-                return (
-                  <div key={i}>
-                    <div className="text-xl font-bold font-clinical text-emerald-300">
-                      {value}
-                    </div>
-                    <div className="text-[9px] uppercase tracking-wider opacity-85">
-                      {label}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="border-t border-white/30 my-2" />
-            <p className="text-[11px] opacity-85">
-              {activeAthlete.testingPeriod} • {activeAthlete.testsCompleted} tests
-            </p>
-            <p className="font-clinical text-xs opacity-80 text-center mt-1.5">
-              {activeAthleteIndex + 1} of {filteredAthletes.length}
-            </p>
-          </div>
-        </div>
-        </div>
+        </>
       ) : (
-        <div className="px-[var(--premium-gutter-mobile)] mt-2">
-          <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-6 text-center">
-            <p className="premium-body text-[var(--color-ink)] opacity-70">
-              No athletes found for this filter
-            </p>
-          </div>
+        <div className="bg-white border border-black/12 p-6 text-center">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40">
+            No athletes found for this filter
+          </p>
         </div>
       )}
 
-      {/* 5. Bottom CTA */}
-      <div className="px-[var(--premium-gutter-mobile)] mt-8">
-        <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-5 text-center">
-          <h3 className="font-bold mb-2 text-[var(--color-ink)]">
-            Start your journey
-          </h3>
-          <p className="premium-body-sm text-[var(--color-ink)] opacity-70 mb-4">
-            Join hundreds of athletes
-          </p>
-          <div className="flex gap-2">
-            <a
-              href="/conka-flow"
-              className="flex-1 neo-button-outline px-4 py-2 font-semibold text-xs text-center rounded-[var(--premium-radius-interactive)]"
-            >
-              CONKA Flow
-            </a>
-            <a
-              href="/conka-clarity"
-              className="flex-1 neo-button px-4 py-2 font-semibold text-xs text-center rounded-[var(--premium-radius-interactive)]"
-            >
-              CONKA Clear
-            </a>
-          </div>
-        </div>
+      <div className="mt-10 bg-white border border-black/12 p-5">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Start your journey · Balance Protocol
+        </p>
+        <h3
+          className="brand-h2 text-black mb-3"
+          style={{ letterSpacing: "-0.02em" }}
+        >
+          Start your journey
+        </h3>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-5">
+          100-Day guarantee · Free UK shipping
+        </p>
+        <ConkaCTAButton
+          href="/protocol/3"
+          meta="// balance protocol · 14 shots · 7-day cadence"
+        >
+          Try CONKA now
+        </ConkaCTAButton>
       </div>
     </div>
   );

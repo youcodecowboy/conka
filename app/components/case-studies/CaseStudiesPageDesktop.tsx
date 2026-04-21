@@ -12,6 +12,7 @@ import {
 import AthleteSidebar from "./AthleteSidebar";
 import { ComparisonChart } from "./AthleteStats";
 import FeaturedAthletesCarousel from "./FeaturedAthletesCarousel";
+import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
 
 export default function CaseStudiesPageDesktop() {
   const [activeAthleteId, setActiveAthleteId] = useState(athletes[0]?.id || "");
@@ -24,12 +25,6 @@ export default function CaseStudiesPageDesktop() {
     athletes.find((a) => a.id === activeAthleteId) || athletes[0];
   const featuredAthletes = getFeaturedAthletes();
 
-  const filteredAthletes =
-    selectedSport === "all"
-      ? athletes
-      : athletes.filter((a) => a.sport === selectedSport);
-
-  // Reset photo error when switching athlete
   useEffect(() => {
     setPhotoError(false);
   }, [activeAthleteId]);
@@ -42,67 +37,62 @@ export default function CaseStudiesPageDesktop() {
     setActiveAthleteId(id);
   };
 
+  const activeIndex = athletes.findIndex((a) => a.id === activeAthleteId);
+
   return (
     <div className="pb-8 md:pb-6">
-      {/* Header Section */}
-      <div className="mb-8">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-6">
+      <div className="mb-10">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
           <header>
-            <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2 text-[var(--color-ink)]">
-              Research & Results
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+              Research & Results · Peer-Validated · Measured
             </p>
             <h1
-              className="premium-section-heading font-bold text-[var(--color-ink)] text-4xl lg:text-5xl mb-2"
-              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+              className="brand-h1 text-black mb-2"
+              style={{ letterSpacing: "-0.02em" }}
             >
-              Case{" "}
-              <span
-                style={{
-                  background: "var(--gradient-neuro-blue-accent)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Studies
-              </span>
+              Case studies
             </h1>
-            <p className="premium-section-subtitle text-[var(--color-ink)] opacity-80">
-              real athletes, measurable results
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+              {String(athletes.length).padStart(2, "0")} Athletes · {getTotalTestsCompleted().toLocaleString()} Cognitive tests · +{getAverageImprovementAcrossAll().toFixed(1)}% Avg. improvement
+            </p>
+            <p className="text-sm md:text-base text-black/70 mt-4 max-w-xl leading-relaxed">
+              Every case is tracked with the same 5-minute cognitive assessment, compared against baseline, and reported without adjustment.
             </p>
           </header>
 
-          {/* Stats overview */}
-          <div className="flex gap-4">
-            <div className="text-right">
-              <p className="text-2xl md:text-3xl font-bold font-clinical text-[var(--color-ink)]">
+          <div className="grid grid-cols-3 gap-0 border border-black/12 bg-white">
+            <div className="p-4 border-r border-black/8">
+              <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                Athletes
+              </p>
+              <p className="font-mono text-2xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
                 {athletes.length}
               </p>
-              <p className="premium-body-sm text-[var(--color-ink)] opacity-70">
-                Athletes & Professionals
-              </p>
             </div>
-            <div className="text-right">
-              <p className="text-2xl md:text-3xl font-bold font-clinical text-[var(--color-ink)]">
+            <div className="p-4 border-r border-black/8">
+              <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                Tests
+              </p>
+              <p className="font-mono text-2xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
                 {getTotalTestsCompleted().toLocaleString()}
               </p>
-              <p className="premium-body-sm text-[var(--color-ink)] opacity-70">
-                Cognitive Tests
-              </p>
             </div>
-            <div className="text-right">
-              <p className="text-2xl md:text-3xl font-bold font-clinical text-emerald-600">
-                +{getAverageImprovementAcrossAll().toFixed(1)}%
+            <div className="p-4">
+              <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                Avg. lift
               </p>
-              <p className="premium-body-sm text-[var(--color-ink)] opacity-70">
-                Avg. Improvement
+              <p className="font-mono text-2xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+                +{getAverageImprovementAcrossAll().toFixed(1)}%
               </p>
             </div>
           </div>
         </div>
 
-        {/* Featured Athletes - Small photo tiles in a row */}
-        <div className="mb-6">
+        <div className="mb-2">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+            Featured · {String(featuredAthletes.length).padStart(2, "0")} Studies
+          </p>
           <FeaturedAthletesCarousel
             athletes={featuredAthletes}
             activeAthleteId={activeAthleteId}
@@ -111,11 +101,9 @@ export default function CaseStudiesPageDesktop() {
         </div>
       </div>
 
-      {/* Main Content - Split View */}
       <div className="flex gap-8">
-        {/* Left Side - Sidebar */}
         <div className="w-80 flex-shrink-0 lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-3">
+          <div className="bg-white border border-black/12 p-4">
             <AthleteSidebar
               athletes={athletes}
               activeAthleteId={activeAthleteId}
@@ -126,123 +114,132 @@ export default function CaseStudiesPageDesktop() {
           </div>
         </div>
 
-        {/* Right Side - Active Athlete Detail (horizontal layout) */}
         <div className="flex-1 min-w-0">
           {activeAthlete ? (
-            <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-6">
-              {/* Row 1: [asset] [high level info / bars] */}
-              <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-8 mb-8">
-                <div className="relative aspect-square rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-bg-soft)]">
-                  {(() => {
-                    const photoSrc =
-                      getCaseStudyPhotoPath(activeAthlete.id) ||
-                      activeAthlete.photo;
-                    const showPlaceholder = !photoSrc || photoError;
-                    if (showPlaceholder) {
+            <div className="bg-white border border-black/12 overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-3 border-b border-black/8">
+                <span className="font-mono text-[11px] font-bold tabular-nums text-black/40">
+                  {String(activeIndex + 1).padStart(2, "0")}.
+                </span>
+                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50">
+                  Case Study · {activeAthlete.sport}
+                </span>
+              </div>
+
+              <div className="p-6">
+                <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-8 mb-8">
+                  <div className="relative aspect-square overflow-hidden border border-black/12 bg-black/[0.03]">
+                    {(() => {
+                      const photoSrc =
+                        getCaseStudyPhotoPath(activeAthlete.id) ||
+                        activeAthlete.photo;
+                      const showPlaceholder = !photoSrc || photoError;
+                      if (showPlaceholder) {
+                        return (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40">
+                              {activeAthlete.name || "No photo available"}
+                            </span>
+                          </div>
+                        );
+                      }
                       return (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <p className="premium-body-sm text-[var(--color-ink)] opacity-70">
-                            {activeAthlete.name || "No photo available"}
-                          </p>
-                        </div>
+                        <img
+                          src={photoSrc}
+                          alt={activeAthlete.name}
+                          className="w-full h-full object-cover"
+                          style={{
+                            objectPosition: activeAthlete.focalPoint
+                              ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
+                              : "center center",
+                          }}
+                          onError={() => setPhotoError(true)}
+                        />
                       );
-                    }
-                    return (
-                      <img
-                        src={photoSrc}
-                        alt={activeAthlete.name}
-                        className="w-full h-full object-cover"
-                        style={{
-                          objectPosition: activeAthlete.focalPoint
-                            ? `${activeAthlete.focalPoint.x}% ${activeAthlete.focalPoint.y}%`
-                            : "center center",
-                        }}
-                        onError={() => setPhotoError(true)}
-                      />
-                    );
-                  })()}
-                </div>
-                <div className="flex flex-col">
-                  <div className="mb-6">
-                    <h2 className="text-2xl font-bold mb-1 text-[var(--color-ink)]">
-                      {activeAthlete.name}
-                    </h2>
-                    <p className="premium-body-sm text-[var(--color-ink)] opacity-70">
-                      {[activeAthlete.position, activeAthlete.organization]
-                        .filter(Boolean)
-                        .join(" • ")}
-                    </p>
-                    {activeAthlete.achievement && (
-                      <p className="premium-body-sm text-[var(--color-ink)] opacity-70 mt-1">
-                        {activeAthlete.achievement}
+                    })()}
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="mb-6">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 mb-2 tabular-nums">
+                        {[activeAthlete.position, activeAthlete.organization]
+                          .filter(Boolean)
+                          .join(" · ")}
                       </p>
-                    )}
-                  </div>
-                  <div className="border-t border-[var(--color-premium-stroke)] mb-6" />
-                  <div>
-                    <p className="premium-body-sm font-medium text-[var(--color-ink)] mb-3">
-                      Baseline vs Results
-                    </p>
-                    <ComparisonChart athlete={activeAthlete} />
+                      <h2 className="text-3xl font-semibold leading-tight text-black mb-2">
+                        {activeAthlete.name}
+                      </h2>
+                      {activeAthlete.achievement && (
+                        <p className="text-sm text-black/70 leading-relaxed">
+                          {activeAthlete.achievement}
+                        </p>
+                      )}
+                    </div>
+                    <div className="border-t border-black/8 mb-6" />
+                    <div>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 mb-3">
+                        Baseline vs Results
+                      </p>
+                      <ComparisonChart athlete={activeAthlete} />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Row 2: [stat][stat][stat] */}
-              <div className="grid grid-cols-3 gap-4 mb-8">
-                {[
-                  {
-                    label: "Total Improvement",
-                    value: activeAthlete.improvements[0]?.value || "+0%",
-                  },
-                  {
-                    label: "Accuracy",
-                    value: activeAthlete.improvements[1]?.value || "+0%",
-                  },
-                  {
-                    label: "Speed",
-                    value: activeAthlete.improvements[2]?.value || "+0%",
-                  },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-[var(--premium-radius-nested)] bg-white border border-[var(--color-premium-stroke)] text-center py-6 px-5"
-                  >
-                    <p className="text-4xl md:text-5xl font-bold font-clinical text-emerald-600 mb-2">
-                      {stat.value}
-                    </p>
-                    <p className="premium-body-sm text-[var(--color-ink)] opacity-70 uppercase tracking-wider">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
+                <div className="grid grid-cols-3 gap-0 border border-black/12 mb-8">
+                  {[
+                    {
+                      label: "Total Improvement",
+                      value: activeAthlete.improvements[0]?.value || "+0%",
+                    },
+                    {
+                      label: "Accuracy",
+                      value: activeAthlete.improvements[1]?.value || "+0%",
+                    },
+                    {
+                      label: "Speed",
+                      value: activeAthlete.improvements[2]?.value || "+0%",
+                    },
+                  ].map((stat, idx) => (
+                    <div
+                      key={stat.label}
+                      className={`py-6 px-5 ${idx < 2 ? "border-r border-black/8" : ""}`}
+                    >
+                      <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                        {stat.label}
+                      </p>
+                      <p className="font-mono text-4xl md:text-5xl font-bold tabular-nums text-[#1B2757] mt-3 leading-none">
+                        {stat.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
 
-              {/* Row 3: [test count][date][product] */}
-              <div className="flex flex-wrap gap-2 mb-8">
-                <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--color-ink)] opacity-70">
-                  {activeAthlete.testsCompleted} tests
-                </span>
-                <span className="px-3 py-1 rounded-full bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] premium-body-sm text-[var(--color-ink)] opacity-70">
-                  {activeAthlete.testingPeriod}
-                </span>
-                {activeAthlete.protocolUsed && (
-                  <span className="px-3 py-1 rounded-full bg-[var(--color-ink)] text-white premium-body-sm font-medium">
-                    {activeAthlete.protocolUsed}
+                <div className="flex flex-wrap gap-1.5 mb-8">
+                  <span className="px-3 py-1 border border-black/12 bg-white font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums text-black/70">
+                    {activeAthlete.testsCompleted} Tests
                   </span>
-                )}
-              </div>
+                  <span className="px-3 py-1 border border-black/12 bg-white font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums text-black/70">
+                    {activeAthlete.testingPeriod}
+                  </span>
+                  {activeAthlete.protocolUsed && (
+                    <span className="px-3 py-1 bg-[#1B2757] text-white font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums">
+                      {activeAthlete.protocolUsed}
+                    </span>
+                  )}
+                </div>
 
-              {/* Row 4: description */}
-              <div>
-                <p className="premium-body-sm text-[var(--color-ink)] opacity-70 leading-relaxed">
-                  {activeAthlete.description}
-                </p>
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+                    Field notes
+                  </p>
+                  <p className="text-sm text-black/75 leading-relaxed">
+                    {activeAthlete.description}
+                  </p>
+                </div>
               </div>
             </div>
           ) : (
-            <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-12 text-center">
-              <p className="premium-body text-[var(--color-ink)] opacity-70">
+            <div className="bg-white border border-black/12 p-12 text-center">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40">
                 Select an athlete to view their case study
               </p>
             </div>
@@ -250,31 +247,26 @@ export default function CaseStudiesPageDesktop() {
         </div>
       </div>
 
-      {/* Bottom CTA */}
-      <div className="mt-16 rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-2xl font-bold mb-2 text-[var(--color-ink)]">
-              Ready to start your own journey?
-            </h3>
-            <p className="premium-body text-[var(--color-ink)] opacity-70">
-              Join hundreds of athletes improving their cognitive performance
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <a
-              href="/conka-flow"
-              className="neo-button-outline px-6 py-3 font-semibold text-sm rounded-[var(--premium-radius-interactive)]"
-            >
-              Try CONKA Flow
-            </a>
-            <a
-              href="/conka-clarity"
-              className="neo-button px-6 py-3 font-semibold text-sm rounded-[var(--premium-radius-interactive)]"
-            >
-              Try CONKA Clear
-            </a>
-          </div>
+      <div className="mt-16 bg-white border border-black/12 p-6 lg:p-8">
+        <div className="max-w-3xl">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+            Start your journey · Balance Protocol
+          </p>
+          <h3
+            className="brand-h2 text-black mb-3"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            Ready to start your own journey?
+          </h3>
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-6">
+            100-Day money-back guarantee · Free UK shipping · Cancel anytime
+          </p>
+          <ConkaCTAButton
+            href="/protocol/3"
+            meta="// balance protocol · 14 shots · 7-day cadence"
+          >
+            Try CONKA now
+          </ConkaCTAButton>
         </div>
       </div>
     </div>
