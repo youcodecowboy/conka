@@ -1,3 +1,6 @@
+// REVIEW: replaced on home page by LabTimeline (2026-04). Kept for reuse on
+// PDPs where the Flow/Clear toggle is needed. Safe to delete if no remaining usage.
+
 "use client";
 
 import useIsMobile from "@/app/hooks/useIsMobile";

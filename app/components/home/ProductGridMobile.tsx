@@ -24,13 +24,6 @@ export default function ProductGridMobile(props?: ProductGridProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const isScrollingProgrammaticallyRef = useRef(false);
 
-  const handleAddToCart = useCallback(
-    (productType: "flow" | "clear" | "protocol") => {
-      console.log(`Add to cart: ${productType}`);
-    },
-    [],
-  );
-
   const handleScroll = useCallback(() => {
     if (isScrollingProgrammaticallyRef.current || !carouselRef.current) return;
     const el = carouselRef.current;
@@ -175,7 +168,6 @@ export default function ProductGridMobile(props?: ProductGridProps) {
           >
             <ProductCard
               productType={card.productType}
-              onAddToCart={() => handleAddToCart(card.productType)}
               imageAspect="wide"
             />
           </div>

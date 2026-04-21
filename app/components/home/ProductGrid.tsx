@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LabTrustBadges from "../landing/LabTrustBadges";
 import ProductCard from "./ProductCard";
 import ProductGridMobile from "./ProductGridMobile";
@@ -21,13 +21,6 @@ export default function ProductGrid(props?: ProductGridProps) {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
-
-  const handleAddToCart = useCallback(
-    (productType: "flow" | "clear" | "protocol") => {
-      console.log(`Add to cart: ${productType}`);
-    },
-    [],
-  );
 
   const showFlow = !exclude.includes("flow");
   const showClear = !exclude.includes("clear");
@@ -62,28 +55,19 @@ export default function ProductGrid(props?: ProductGridProps) {
 
         <div className="grid grid-cols-3 gap-6 items-stretch mb-8">
           {showProtocol ? (
-            <ProductCard
-              productType="protocol"
-              onAddToCart={() => handleAddToCart("protocol")}
-            />
+            <ProductCard productType="protocol" />
           ) : (
             <div aria-hidden="true" />
           )}
 
           {showFlow ? (
-            <ProductCard
-              productType="flow"
-              onAddToCart={() => handleAddToCart("flow")}
-            />
+            <ProductCard productType="flow" />
           ) : (
             <div aria-hidden="true" />
           )}
 
           {showClear ? (
-            <ProductCard
-              productType="clear"
-              onAddToCart={() => handleAddToCart("clear")}
-            />
+            <ProductCard productType="clear" />
           ) : (
             <div aria-hidden="true" />
           )}

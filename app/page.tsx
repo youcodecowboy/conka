@@ -4,17 +4,12 @@ import dynamic from "next/dynamic";
 import Navigation from "./components/navigation";
 import Footer from "./components/footer";
 import LandingHero from "./components/landing/LandingHero";
-import { keyBenefits } from "./components/KeyBenefits";
 
 // Dynamically import heavy components to reduce initial bundle size
 const LandingWhatItDoes = dynamic(
   () => import("./components/landing/LandingWhatItDoes"),
   { loading: () => <div className="h-[1400px] lg:h-[1000px]" /> },
 );
-
-const KeyBenefits = dynamic(() => import("./components/KeyBenefits"), {
-  loading: () => <div className="h-[800px]" />,
-});
 
 const ProductGrid = dynamic(() => import("./components/home/ProductGrid"), {
   loading: () => <div className="h-[900px]" />,
@@ -53,9 +48,10 @@ const LabGuarantee = dynamic(
   { loading: () => <div className="h-[500px]" /> },
 );
 
-const WhatToExpect = dynamic(() => import("./components/home/WhatToExpect"), {
-  loading: () => <div className="h-[450px]" />,
-});
+const LabTimeline = dynamic(
+  () => import("./components/landing/LabTimeline"),
+  { loading: () => <div className="h-[600px]" /> },
+);
 
 export default function Home() {
   return (
@@ -113,13 +109,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 6: KEY BENEFITS ===== */}
+      {/* ===== SECTION 6: FORMULATION (replaces KeyBenefits) ===== */}
       <section
         className="brand-section brand-bg-tint"
-        aria-label="Key Benefits"
+        aria-label="Formulation"
       >
         <div className="brand-track">
-          <KeyBenefits benefits={keyBenefits} />
+          <LandingWhatItDoes />
         </div>
       </section>
 
@@ -133,13 +129,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 8: WHAT TO EXPECT ===== */}
+      {/* ===== SECTION 8: WHAT TO EXPECT (LabTimeline) ===== */}
       <section
         className="brand-section brand-bg-tint"
         aria-label="What to Expect with CONKA"
       >
         <div className="brand-track">
-          <WhatToExpect />
+          <LabTimeline ctaHref="/protocol/3" />
         </div>
       </section>
 

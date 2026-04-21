@@ -37,8 +37,12 @@ const TIMELINE_STEPS: TimelineStep[] = [
 
 export default function LabTimeline({
   hideCTA = false,
+  ctaHref,
+  ctaLabel,
 }: {
   hideCTA?: boolean;
+  ctaHref?: string;
+  ctaLabel?: string;
 } = {}) {
   return (
     <div>
@@ -64,7 +68,7 @@ export default function LabTimeline({
         Your Brain, Optimised.
       </h2>
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-8">
-        Protocol window: T+0 to T+30D · N=150+ participants
+        What to expect when taking CONKA
       </p>
 
       <div className="lg:flex lg:gap-10 lg:items-start">
@@ -133,7 +137,9 @@ export default function LabTimeline({
       {!hideCTA && (
         <>
           <div className="flex flex-col items-start gap-2">
-            <ConkaCTAButton>Try Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
+            <ConkaCTAButton href={ctaHref}>
+              {ctaLabel ?? `Try Both from £${PRICE_PER_SHOT_BOTH}/shot`}
+            </ConkaCTAButton>
           </div>
           <div className="mt-6">
             <LabTrustBadges />

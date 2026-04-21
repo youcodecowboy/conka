@@ -1,3 +1,6 @@
+// REVIEW: replaced on home page by LandingWhatItDoes (2026-04). Kept for reuse
+// on other pages. Safe to delete if no remaining usage.
+
 "use client";
 
 import useIsMobile from "../hooks/useIsMobile";

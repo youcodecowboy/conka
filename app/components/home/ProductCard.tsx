@@ -19,7 +19,6 @@ import {
 
 interface ProductCardProps {
   productType: "flow" | "clear" | "protocol";
-  onAddToCart?: () => void;
   /** Image aspect. Square for desktop/tablet cards, wide for mobile carousel. */
   imageAspect?: "square" | "wide";
 }
@@ -120,17 +119,8 @@ const getProductData = (
   };
 };
 
-// Export for grids that want to show badge separately
-export function getProductBadge(
-  productType: "flow" | "clear" | "protocol",
-): string | null {
-  if (productType === "protocol") return "Most Popular";
-  return null;
-}
-
 export default function ProductCard({
   productType,
-  onAddToCart: onAddToCartProp,
   imageAspect = "square",
 }: ProductCardProps) {
   const { addToCart, loading } = useCart();
@@ -144,38 +134,19 @@ export default function ProductCard({
     const packSize = "4" as const;
     const protocolTier = "starter" as const;
 
-    if (isProtocol) {
-      const variantData = getProtocolVariantId(
-        BALANCE_PROTOCOL_ID,
-        protocolTier,
-        purchaseType,
-      );
-      if (variantData?.variantId) {
-        await addToCart(
-          variantData.variantId,
-          1,
-          variantData.sellingPlanId,
-          { location: "product_grid", source: "product_grid" },
-        );
-      }
-    } else {
-      const formulaId = product.id as FormulaId;
-      const variantData = getFormulaVariantId(
-        formulaId,
-        packSize,
-        purchaseType,
-      );
-      if (variantData?.variantId) {
-        await addToCart(
-          variantData.variantId,
-          1,
-          variantData.sellingPlanId,
-          { location: "product_grid", source: "product_grid" },
-        );
-      }
-    }
-    onAddToCartProp?.();
-  }, [isProtocol, product.id, purchaseType, addToCart, onAddToCartProp]);
+    const variantData = isProtocol
+      ? getProtocolVariantId(BALANCE_PROTOCOL_ID, protocolTier, purchaseType)
+      : getFormulaVariantId(product.id as FormulaId, packSize, purchaseType);
+
+    if (!variantData?.variantId) return;
+
+    await addToCart(
+      variantData.variantId,
+      1,
+      variantData.sellingPlanId,
+      { location: "product_grid", source: "product_grid" },
+    );
+  }, [isProtocol, product.id, purchaseType, addToCart]);
 
   // Pricing
   let subscriptionPrice: string;
