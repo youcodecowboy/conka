@@ -24,7 +24,7 @@ export default function PackSelectorPremium({
 }: PackSelectorPremiumProps) {
   return (
     <div className={className}>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 gap-2 pt-3">
         {packSizes.map((size) => {
           const isSelected = selectedPack === size;
 
@@ -42,7 +42,7 @@ export default function PackSelectorPremium({
               `}
             >
               {size === "12" && (
-                <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-px font-mono text-[7px] font-bold uppercase tracking-[0.14em] bg-[var(--brand-accent)] text-white whitespace-nowrap leading-tight [clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,0_100%)]">
+                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 pl-2 pr-3 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.16em] bg-[var(--brand-accent)] text-white whitespace-nowrap leading-none tabular-nums [clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,0_100%)]">
                   Most Popular
                 </span>
               )}
