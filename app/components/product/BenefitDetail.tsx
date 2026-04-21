@@ -230,9 +230,9 @@ export default function BenefitDetail({
             {solution.description}
           </p>
 
-          {/* Stat tiles — spec-strip pattern inside lab-asset-frame */}
+          {/* Stat tiles — spec-strip pattern */}
           {parsedResults.stats.length > 0 && (
-            <div className="lab-asset-frame bg-white grid grid-cols-2 mb-8">
+            <div className="bg-white border border-black/12 grid grid-cols-2 mb-8">
               {parsedResults.stats.slice(0, 2).map((stat, idx) => {
                 const isLast = idx === Math.min(1, parsedResults.stats.length - 1);
                 return (
@@ -257,8 +257,8 @@ export default function BenefitDetail({
             </div>
           )}
 
-          {/* Radar chart — lab-asset-frame data surface */}
-          <div className="lab-asset-frame bg-white mb-8">
+          {/* Radar chart — hairline data surface */}
+          <div className="bg-white border border-black/12 mb-8">
             <div className="flex items-center justify-between px-5 py-3 border-b border-black/8">
               <span className="font-mono text-[11px] font-bold tabular-nums text-black/40">
                 PERFORMANCE IMPACT

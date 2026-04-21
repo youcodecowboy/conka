@@ -148,9 +148,9 @@ export default function BenefitList({
             </span>
           </div>
 
-          {/* Photo — lab-asset-frame data surface */}
+          {/* Photo */}
           <div className="px-4 pt-4">
-            <div className="relative w-full aspect-[2/1] overflow-hidden bg-[var(--brand-tint)] lab-asset-frame">
+            <div className="relative w-full aspect-[2/1] overflow-hidden bg-[var(--brand-tint)]">
               <Image
                 src={currentSolution.ingredientAsset.image}
                 alt={currentSolution.ingredientAsset.name}
