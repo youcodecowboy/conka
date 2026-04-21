@@ -1,6 +1,7 @@
 "use client";
 
-import { IngredientData, CATEGORY_INFO } from "@/app/lib/ingredientsData";
+import Image from "next/image";
+import { IngredientData } from "@/app/lib/ingredientsData";
 
 interface IngredientSelectorProps {
   ingredients: IngredientData[];
@@ -14,41 +15,63 @@ export default function IngredientSelector({
   onSelect,
 }: IngredientSelectorProps) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {ingredients.map((ingredient) => {
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(110px,1fr))] gap-2">
+      {ingredients.map((ingredient, idx) => {
         const isActive = ingredient.id === activeIngredientId;
-        const categoryInfo = CATEGORY_INFO[ingredient.category];
-        
+
         return (
           <button
             key={ingredient.id}
+            type="button"
             onClick={() => onSelect(ingredient.id)}
-            className={`group flex items-center gap-2 px-4 py-2 rounded-full border transition-all premium-body-sm ${
+            aria-pressed={isActive}
+            className={`text-left bg-white transition-colors ${
               isActive
-                ? "bg-[var(--color-ink)] text-white border-[var(--color-ink)]"
-                : "bg-white border-[var(--color-premium-stroke)] hover:border-[var(--color-ink)]/30 text-[var(--color-ink)]"
+                ? "border-2 border-[#1B2757]"
+                : "border border-black/12 hover:border-black/40"
             }`}
           >
-            {/* Category dot */}
-            <span
-              className={`w-2 h-2 rounded-full ${
-                isActive ? "bg-current opacity-50" : categoryInfo.color
-              }`}
-            />
-            {/* Ingredient name */}
-            <span className="font-medium">
-              {ingredient.name}
-            </span>
-            {/* Percentage badge */}
-            <span
-              className={isActive ? "opacity-70" : "opacity-50"}
-            >
-              {ingredient.percentage}
-            </span>
+            <div className="relative aspect-square border-b border-black/8 bg-white overflow-hidden">
+              {ingredient.image ? (
+                <Image
+                  src={ingredient.image}
+                  alt={ingredient.name}
+                  fill
+                  sizes="110px"
+                  className="object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-black/[0.03]">
+                  <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 text-center px-1">
+                    {ingredient.name}
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className="p-2">
+              <div className="flex items-center justify-between mb-0.5">
+                <span className="font-mono text-[9px] font-bold tabular-nums text-black/35">
+                  {String(idx + 1).padStart(2, "0")}.
+                </span>
+                <span
+                  className={`font-mono text-[8px] uppercase tracking-[0.14em] tabular-nums truncate ${
+                    isActive ? "text-[#1B2757]" : "text-black/40"
+                  }`}
+                >
+                  {ingredient.functionalCategory}
+                </span>
+              </div>
+              <p
+                className={`text-[11px] font-semibold leading-tight truncate ${
+                  isActive ? "text-[#1B2757]" : "text-black"
+                }`}
+              >
+                {ingredient.name}
+              </p>
+            </div>
           </button>
         );
       })}
     </div>
   );
 }
-

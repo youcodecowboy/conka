@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import Image from "next/image";
-import { IngredientData, CATEGORY_INFO } from "@/app/lib/ingredientsData";
+import { IngredientData } from "@/app/lib/ingredientsData";
 
 interface IngredientCarouselProps {
   ingredients: IngredientData[];
@@ -18,7 +18,6 @@ export default function IngredientCarousel({
   const scrollRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
-  // Scroll to active ingredient when it changes
   useEffect(() => {
     const activeElement = itemRefs.current.get(activeIngredientId);
     if (activeElement && scrollRef.current) {
@@ -33,14 +32,12 @@ export default function IngredientCarousel({
 
   return (
     <div className="relative">
-      {/* Scrollable Container */}
       <div
         ref={scrollRef}
-        className="flex gap-3 overflow-x-auto scrollbar-hide px-4 py-2 -mx-4"
+        className="flex gap-2 overflow-x-auto scrollbar-hide px-4 py-1 -mx-4 snap-x snap-mandatory scroll-smooth"
       >
-        {ingredients.map((ingredient) => {
+        {ingredients.map((ingredient, idx) => {
           const isActive = ingredient.id === activeIngredientId;
-          const categoryInfo = CATEGORY_INFO[ingredient.category];
 
           return (
             <button
@@ -48,63 +45,60 @@ export default function IngredientCarousel({
               ref={(el) => {
                 if (el) itemRefs.current.set(ingredient.id, el);
               }}
+              type="button"
               onClick={() => onSelect(ingredient.id)}
-              className={`flex-shrink-0 w-32 transition-all ${
-                isActive ? "scale-105" : "opacity-70"
+              aria-pressed={isActive}
+              className={`flex-shrink-0 w-[108px] snap-start text-left bg-white transition-colors ${
+                isActive
+                  ? "border-2 border-[#1B2757]"
+                  : "border border-black/12 hover:border-black/40"
               }`}
             >
-              <div
-                className={`rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] overflow-hidden p-0 transition-colors ${
-                  isActive
-                    ? "ring-2 ring-[var(--color-ink)]"
-                    : ""
-                }`}
-              >
-                {/* Image */}
-                <div className="relative aspect-square">
-                  {ingredient.image ? (
-                    <Image
-                      src={ingredient.image}
-                      alt={ingredient.name}
-                      fill
-                      sizes="128px"
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-[var(--color-premium-stroke)]/20 rounded-b-[var(--premium-radius-card)]">
-                      <span className="font-clinical text-[8px] text-center px-1 text-[var(--color-ink)] opacity-60">
-                        [{ingredient.name.toUpperCase()}]
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Info */}
-                <div className="p-2 text-[var(--color-ink)]">
-                  <div className="flex items-center gap-1 mb-1">
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${categoryInfo.color}`}
-                    />
-                    <span className="premium-body-sm opacity-60 truncate">
-                      {categoryInfo.name}
+              <div className="relative aspect-square border-b border-black/8 bg-white overflow-hidden">
+                {ingredient.image ? (
+                  <Image
+                    src={ingredient.image}
+                    alt={ingredient.name}
+                    fill
+                    sizes="108px"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-black/[0.03]">
+                    <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 text-center px-1">
+                      {ingredient.name}
                     </span>
                   </div>
-                  <p className="font-bold text-xs truncate">
-                    {ingredient.name}
-                  </p>
-                  <p className="premium-body-sm font-medium">
-                    {ingredient.percentage}
-                  </p>
+                )}
+              </div>
+              <div className="p-2">
+                <div className="flex items-center justify-between mb-0.5">
+                  <span className="font-mono text-[9px] font-bold tabular-nums text-black/35">
+                    {String(idx + 1).padStart(2, "0")}.
+                  </span>
+                  <span
+                    className={`font-mono text-[8px] uppercase tracking-[0.14em] tabular-nums ${
+                      isActive ? "text-[#1B2757]" : "text-black/40"
+                    }`}
+                  >
+                    {ingredient.functionalCategory}
+                  </span>
                 </div>
+                <p
+                  className={`text-[11px] font-semibold leading-tight truncate ${
+                    isActive ? "text-[#1B2757]" : "text-black"
+                  }`}
+                >
+                  {ingredient.name}
+                </p>
               </div>
             </button>
           );
         })}
       </div>
 
-      {/* Scroll Hint */}
-      <p className="premium-body-sm text-center mt-2 opacity-60">
-        swipe to explore
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums text-center mt-3">
+        Swipe to explore · {String(ingredients.length).padStart(2, "0")} Inputs
       </p>
     </div>
   );

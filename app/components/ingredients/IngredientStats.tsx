@@ -4,31 +4,39 @@ import { IngredientStat } from "@/app/lib/ingredientsData";
 
 interface IngredientStatsProps {
   stats: IngredientStat[];
+  /** Retained for API compatibility; clinical styling uses a fixed navy accent. */
   accentColor?: string;
-  /** When true, use subtle background (e.g. inside a section card) */
+  /** Retained for API compatibility. */
   nested?: boolean;
 }
 
-export default function IngredientStats({ stats, accentColor = "text-current", nested = false }: IngredientStatsProps) {
+export default function IngredientStats({ stats }: IngredientStatsProps) {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {stats.map((stat, idx) => (
-        <div
-          key={idx}
-          className={`p-4 text-center ${
-            nested
-              ? "rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)]/15 border border-[var(--color-premium-stroke)]"
-              : "rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)]"
-          }`}
-        >
-          <p className={`text-3xl lg:text-4xl font-bold font-clinical ${accentColor}`}>
-            {stat.value}
-          </p>
-          <p className="font-medium premium-body-sm mt-1 text-[var(--color-ink)]">{stat.label}</p>
-          <p className="premium-body-sm opacity-50 mt-1">{stat.source}</p>
-        </div>
-      ))}
+    <div className="grid grid-cols-2 lg:grid-cols-4 border border-black/12">
+      {stats.map((stat, idx) => {
+        const isLastRow = idx >= stats.length - (stats.length % 4 || 4);
+        const isLastCol = (idx + 1) % 4 === 0;
+        return (
+          <div
+            key={idx}
+            className={`p-4 bg-white ${
+              !isLastCol ? "lg:border-r lg:border-black/8" : ""
+            } ${!isLastRow ? "border-b border-black/8 lg:border-b-0" : ""} ${
+              idx % 2 === 0 ? "border-r border-black/8 lg:border-r" : ""
+            }`}
+          >
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none mb-3">
+              {stat.label}
+            </p>
+            <p className="font-mono text-2xl lg:text-3xl font-bold tabular-nums text-[#1B2757] leading-none">
+              {stat.value}
+            </p>
+            <p className="font-mono text-[10px] tabular-nums text-black/45 mt-3 leading-snug">
+              {stat.source}
+            </p>
+          </div>
+        );
+      })}
     </div>
   );
 }
-

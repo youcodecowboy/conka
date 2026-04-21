@@ -31,10 +31,10 @@ export default function FormulaToggle({
         <button
           type="button"
           onClick={() => onChange("01")}
-          className={`flex items-center justify-center w-24 h-24 rounded-[var(--premium-radius-nested)] bg-white border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-all ${
+          className={`flex items-center justify-center w-24 h-24 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757] transition-colors ${
             value === "01"
-              ? "border-[var(--color-ink)] opacity-100"
-              : "border-[var(--color-premium-stroke)] opacity-60 hover:opacity-80"
+              ? "border-2 border-[#1B2757]"
+              : "border border-black/12 hover:border-black/40"
           }`}
           aria-pressed={value === "01"}
         >
@@ -49,7 +49,11 @@ export default function FormulaToggle({
             />
           </span>
         </button>
-        <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+        <span
+          className={`mt-2 font-mono text-[10px] uppercase tracking-[0.18em] tabular-nums ${
+            value === "01" ? "text-[#1B2757]" : "text-black/50"
+          }`}
+        >
           CONKA Flow
         </span>
       </div>
@@ -57,10 +61,10 @@ export default function FormulaToggle({
         <button
           type="button"
           onClick={() => onChange("02")}
-          className={`flex items-center justify-center w-24 h-24 rounded-[var(--premium-radius-nested)] bg-white border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-ink)] transition-all ${
+          className={`flex items-center justify-center w-24 h-24 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757] transition-colors ${
             value === "02"
-              ? "border-[var(--color-ink)] opacity-100"
-              : "border-[var(--color-premium-stroke)] opacity-60 hover:opacity-80"
+              ? "border-2 border-[#1B2757]"
+              : "border border-black/12 hover:border-black/40"
           }`}
           aria-pressed={value === "02"}
         >
@@ -75,7 +79,11 @@ export default function FormulaToggle({
             />
           </span>
         </button>
-        <span className="mt-1.5 text-xs font-semibold text-center text-[var(--text-on-light)]">
+        <span
+          className={`mt-2 font-mono text-[10px] uppercase tracking-[0.18em] tabular-nums ${
+            value === "02" ? "text-[#1B2757]" : "text-black/50"
+          }`}
+        >
           CONKA Clear
         </span>
       </div>

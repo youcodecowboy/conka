@@ -6,120 +6,141 @@ import StudyBarChart from "./StudyBarChart";
 
 interface IngredientStudiesProps {
   studies: ClinicalStudyData[];
+  /** Retained for API compatibility; clinical styling uses a fixed navy accent. */
   accentColor?: string;
 }
 
-export default function IngredientStudies({ studies, accentColor = "text-current" }: IngredientStudiesProps) {
+export default function IngredientStudies({ studies }: IngredientStudiesProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
 
   return (
-    <div className="space-y-4">
-      {studies.map((study, idx) => (
-        <div
-          key={idx}
-          className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] overflow-hidden"
-        >
-          {/* Study Header */}
-          <button
-            onClick={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
-            className="w-full p-4 text-left hover:bg-[var(--color-premium-stroke)]/30 transition-colors text-[var(--color-ink)]"
+    <div className="space-y-3">
+      {studies.map((study, idx) => {
+        const expanded = expandedIndex === idx;
+        return (
+          <div
+            key={idx}
+            className="bg-white border border-black/12 overflow-hidden"
           >
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <h4 className="font-bold premium-body-sm">{study.title}</h4>
-                <p className="premium-body-sm opacity-70 mt-1">
-                  {study.university} • {study.year}
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className={`premium-body-sm px-2 py-1 rounded bg-[var(--color-premium-stroke)]/50 ${accentColor}`}>
-                  {study.pValue}
-                </span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className={`transition-transform flex-shrink-0 ${expandedIndex === idx ? "rotate-180" : ""}`}
-                >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </div>
-            </div>
-          </button>
-
-          {/* Expanded Content */}
-          {expandedIndex === idx && (
-            <div className="px-4 pb-4 border-t border-[var(--color-premium-stroke)]">
-              {/* Authors & Journal */}
-              <div className="py-3 border-b border-[var(--color-premium-stroke)]">
-                <p className="premium-body-sm opacity-70 text-[var(--color-ink)]">{study.authors}</p>
-                <p className="premium-body-sm opacity-50 mt-1 text-[var(--color-ink)]">
-                  <span className="italic">{study.journal}</span> ({study.year})
-                </p>
-              </div>
-
-              {/* Study Meta */}
-              <div className="grid grid-cols-3 gap-4 py-4 border-b border-[var(--color-premium-stroke)]">
-                <div>
-                  <p className="premium-body-sm opacity-50 uppercase text-[var(--color-ink)]">Participants</p>
-                  <p className="font-bold text-lg text-[var(--color-ink)]">{study.participants.toLocaleString()}</p>
+            <button
+              type="button"
+              onClick={() => setExpandedIndex(expanded ? null : idx)}
+              aria-expanded={expanded}
+              className="w-full p-4 text-left hover:bg-[var(--brand-tint)] transition-colors text-black"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/45 tabular-nums leading-none mb-2">
+                    Study {String(idx + 1).padStart(2, "0")} · {study.university} · {study.year}
+                  </p>
+                  <h4 className="font-semibold text-sm text-black leading-snug">
+                    {study.title}
+                  </h4>
                 </div>
-                <div>
-                  <p className="premium-body-sm opacity-50 uppercase text-[var(--color-ink)]">Duration</p>
-                  <p className="font-bold text-lg text-[var(--color-ink)]">{study.duration}</p>
-                </div>
-                <div>
-                  <p className="premium-body-sm opacity-50 uppercase text-[var(--color-ink)]">Significance</p>
-                  <p className={`font-bold text-lg font-clinical ${accentColor}`}>{study.pValue}</p>
+                <div className="flex items-center gap-3 shrink-0">
+                  <span className="font-mono text-[10px] font-bold tabular-nums text-[#1B2757] bg-[var(--brand-tint)] border border-black/8 px-2 py-1">
+                    {study.pValue}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
+                    className={`transition-transform text-black/40 ${expanded ? "rotate-180" : ""}`}
+                    aria-hidden="true"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
                 </div>
               </div>
+            </button>
 
-              {/* Key Finding */}
-              <div className="py-4 border-b border-[var(--color-premium-stroke)]">
-                <p className="premium-body-sm opacity-50 uppercase mb-2 text-[var(--color-ink)]">Key Finding</p>
-                <p className="premium-body-sm font-medium text-[var(--color-ink)]">{study.keyFinding}</p>
-              </div>
+            {expanded && (
+              <div className="px-4 pb-4 border-t border-black/8">
+                <div className="py-3 border-b border-black/8">
+                  <p className="text-sm text-black/70 leading-snug">
+                    {study.authors}
+                  </p>
+                  <p className="font-mono text-[11px] italic text-black/55 mt-1 tabular-nums">
+                    {study.journal} ({study.year})
+                  </p>
+                </div>
 
-              {/* Chart */}
-              {study.chartData && study.chartData.length > 0 && (
-                <div className="pt-4 border-b border-[var(--color-premium-stroke)]">
-                  <p className="premium-body-sm opacity-50 uppercase mb-3 text-[var(--color-ink)]">Results</p>
-                  <div className="h-48">
-                    <StudyBarChart data={study.chartData} />
+                <div className="grid grid-cols-3 border-b border-black/8">
+                  <div className="py-3 pr-3 border-r border-black/8">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                      Participants
+                    </p>
+                    <p className="font-mono text-lg font-bold tabular-nums text-black mt-2 leading-none">
+                      {study.participants.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="py-3 px-3 border-r border-black/8">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                      Duration
+                    </p>
+                    <p className="font-mono text-lg font-bold tabular-nums text-black mt-2 leading-none">
+                      {study.duration}
+                    </p>
+                  </div>
+                  <div className="py-3 pl-3">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                      Significance
+                    </p>
+                    <p className="font-mono text-lg font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+                      {study.pValue}
+                    </p>
                   </div>
                 </div>
-              )}
 
-              {/* Citation & Links */}
-              <div className="pt-4 flex flex-wrap items-center gap-3">
-                <a
-                  href={`https://pubmed.ncbi.nlm.nih.gov/${study.pmid}/`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`premium-body-sm px-3 py-1.5 rounded-full border border-[var(--color-premium-stroke)] hover:bg-[var(--color-premium-stroke)]/30 transition-colors ${accentColor}`}
-                >
-                  PMID: {study.pmid}
-                </a>
-                <a
-                  href={`https://doi.org/${study.doi}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="premium-body-sm px-3 py-1.5 rounded-full border border-[var(--color-premium-stroke)] hover:bg-[var(--color-premium-stroke)]/30 transition-colors opacity-70 text-[var(--color-ink)]"
-                >
-                  DOI: {study.doi}
-                </a>
+                <div className="py-4 border-b border-black/8">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none mb-2">
+                    Key Finding
+                  </p>
+                  <p className="text-sm font-medium text-black leading-snug">
+                    {study.keyFinding}
+                  </p>
+                </div>
+
+                {study.chartData && study.chartData.length > 0 && (
+                  <div className="pt-4 pb-4 border-b border-black/8">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none mb-3">
+                      Results
+                    </p>
+                    <div className="h-48">
+                      <StudyBarChart data={study.chartData} />
+                    </div>
+                  </div>
+                )}
+
+                <div className="pt-4 flex flex-wrap items-center gap-2">
+                  <a
+                    href={`https://pubmed.ncbi.nlm.nih.gov/${study.pmid}/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[10px] uppercase tracking-[0.14em] tabular-nums text-[#1B2757] border border-black/12 hover:border-[#1B2757] hover:bg-[var(--brand-tint)] px-3 py-1.5 transition-colors"
+                  >
+                    PMID · {study.pmid}
+                  </a>
+                  <a
+                    href={`https://doi.org/${study.doi}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[10px] uppercase tracking-[0.14em] tabular-nums text-black/60 border border-black/12 hover:border-black/40 hover:bg-[var(--brand-tint)] px-3 py-1.5 transition-colors"
+                  >
+                    DOI · {study.doi}
+                  </a>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      ))}
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
-
