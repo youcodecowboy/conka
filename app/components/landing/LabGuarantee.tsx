@@ -87,6 +87,14 @@ export default function LabGuarantee({
               loading="lazy"
               className="block w-full h-auto"
             />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute top-3 left-3 w-[20%] h-[20%] border-t-[6px] border-l-[6px] border-white"
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute bottom-3 right-3 w-[20%] h-[20%] border-b-[6px] border-r-[6px] border-white"
+            />
           </div>
         </div>
       </div>

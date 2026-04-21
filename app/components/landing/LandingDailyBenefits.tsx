@@ -93,7 +93,7 @@ export default function LandingDailyBenefits() {
   return (
     <div>
       <div className="flex flex-col lg:flex-row lg:gap-10">
-        <div className="relative overflow-hidden -mt-20 lg:mt-0 -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-auto aspect-[5/3] lg:aspect-auto mb-8 lg:mb-0 lg:flex-[2] lg:min-h-[500px] lg:sticky lg:top-24 lg:self-start lg:lab-asset-frame">
+        <div className="relative overflow-hidden -mt-20 lg:mt-0 -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-auto aspect-[5/3] lg:aspect-auto mb-8 lg:mb-0 lg:flex-[2] lg:min-h-[500px] lg:sticky lg:top-24 lg:self-start">
           <Image
             src="/lifestyle/ClearCloseTwoHands.jpg"
             alt="Two hands passing a CONKA bottle"
@@ -101,6 +101,14 @@ export default function LandingDailyBenefits() {
             sizes="(max-width: 1024px) 95vw, 500px"
             className="object-cover scale-[1.35]"
             style={{ objectPosition: "center 38%" }}
+          />
+          <span
+            aria-hidden
+            className="hidden lg:block pointer-events-none absolute top-3 left-3 w-[20%] h-[20%] border-t-[6px] border-l-[6px] border-black"
+          />
+          <span
+            aria-hidden
+            className="hidden lg:block pointer-events-none absolute bottom-3 right-3 w-[20%] h-[20%] border-b-[6px] border-r-[6px] border-black"
           />
         </div>
 
