@@ -10,6 +10,8 @@ const FAQ_ASSETS: Record<FormulaId, { src: string; alt: string }> = {
   "02": { src: "/lifestyle/ClearDrink.jpg", alt: "Drinking CONKA Clear" },
 };
 
+const UPDATED_LABEL = "2026-04";
+
 interface FormulaFAQProps {
   formulaId: FormulaId;
   hideCTA?: boolean;
@@ -23,42 +25,72 @@ export default function FormulaFAQ({ formulaId, hideCTA = false }: FormulaFAQPro
 
   return (
     <div>
-      {/* Desktop: two-column (image left, content right) */}
-      {/* Mobile: image above heading, then accordion */}
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
-        {/* Lifestyle image — sticky on desktop */}
+        {/* Lifestyle image with corner accents */}
         <div className="lg:w-2/5 lg:sticky lg:top-8 mb-8 lg:mb-0">
-          <div className="overflow-hidden max-w-md mx-auto lg:max-w-none">
+          <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] lg:mx-0 lg:w-full max-w-none">
             <Image
               src={asset.src}
               alt={asset.alt}
-              width={800}
-              height={800}
+              width={1500}
+              height={1000}
               loading="lazy"
               className="w-full h-auto"
+            />
+            <span
+              aria-hidden
+              className="hidden lg:block pointer-events-none absolute top-3 left-3 w-[20%] h-[20%] border-t-[6px] border-l-[6px] border-black"
+            />
+            <span
+              aria-hidden
+              className="hidden lg:block pointer-events-none absolute bottom-3 right-3 w-[20%] h-[20%] border-b-[6px] border-r-[6px] border-black"
             />
           </div>
         </div>
 
         {/* Content column */}
         <div className="lg:w-3/5">
-          {/* Eyebrow */}
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
-            Common Questions · Quick Answers
+            Common Questions
           </p>
+          <div className="mb-6">
+            <h2 className="brand-h1 mb-0">Frequently asked questions</h2>
+          </div>
 
-          {/* Heading */}
-          <div className="mb-10">
-            <h2 className="brand-h1 mb-0" style={{ letterSpacing: "-0.02em" }}>
-              Frequently asked questions
-            </h2>
+          {/* Spec header row */}
+          <div className="lab-asset-frame bg-white grid grid-cols-3 mb-6">
+            <div className="px-3 py-3 lg:px-4 lg:py-4 border-r border-black/8">
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 mb-1 leading-none">
+                Section
+              </p>
+              <p className="font-mono text-sm lg:text-base font-bold tabular-nums text-black leading-none">
+                Q&amp;A
+              </p>
+            </div>
+            <div className="px-3 py-3 lg:px-4 lg:py-4 border-r border-black/8">
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 mb-1 leading-none">
+                Entries
+              </p>
+              <p className="font-mono text-sm lg:text-base font-bold tabular-nums text-black leading-none">
+                N={faqs.length}
+              </p>
+            </div>
+            <div className="px-3 py-3 lg:px-4 lg:py-4">
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 mb-1 leading-none">
+                Updated
+              </p>
+              <p className="font-mono text-sm lg:text-base font-bold tabular-nums text-black leading-none">
+                {UPDATED_LABEL}
+              </p>
+            </div>
           </div>
 
           {/* Accordion */}
-          <div className="overflow-hidden bg-white border border-black/6">
+          <div className="overflow-hidden bg-white border border-black/8">
             {faqs.map((item, i) => {
               const isOpen = openIndex === i;
               const isLast = i === faqs.length - 1;
+              const number = String(i + 1).padStart(2, "0");
 
               return (
                 <div key={item.question}>
@@ -66,38 +98,47 @@ export default function FormulaFAQ({ formulaId, hideCTA = false }: FormulaFAQPro
                     onClick={() => setOpenIndex(isOpen ? null : i)}
                     aria-expanded={isOpen}
                     aria-controls={`formula-faq-${formulaId}-${i}`}
-                    className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left"
+                    className="w-full flex items-start justify-between gap-4 px-5 py-4 min-h-[44px] text-left"
                   >
-                    <span className={`text-base text-black ${isOpen ? "font-semibold" : "font-medium"}`}>
-                      {item.question}
-                    </span>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className={`shrink-0 transition-transform duration-300 ${
-                        isOpen ? "rotate-180 text-black/80" : "text-black/40"
+                    <div className="flex items-start gap-3 min-w-0 flex-1">
+                      <span className="font-mono text-[11px] font-bold tabular-nums text-black/35 leading-6 shrink-0">
+                        {number}.
+                      </span>
+                      <span
+                        className={`block text-base text-black leading-snug ${
+                          isOpen ? "font-semibold" : "font-medium"
+                        }`}
+                      >
+                        {item.question}
+                      </span>
+                    </div>
+                    <span
+                      className={`font-mono text-sm font-bold tabular-nums shrink-0 leading-6 ${
+                        isOpen ? "text-black" : "text-black/40"
                       }`}
+                      aria-hidden
                     >
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
+                      {isOpen ? "[\u2212]" : "[+]"}
+                    </span>
                   </button>
 
                   <div
                     id={`formula-faq-${formulaId}-${i}`}
                     className="overflow-hidden transition-all duration-300 ease-out"
                     style={{
-                      maxHeight: isOpen ? "400px" : "0px",
+                      maxHeight: isOpen ? "500px" : "0px",
                       opacity: isOpen ? 1 : 0,
                     }}
                   >
-                    <div className="px-5 pb-5 text-sm leading-relaxed text-black/60">
-                      {item.answer}
+                    <div className="px-5 pb-5">
+                      <div className="border-l-2 border-black pl-4 py-1">
+                        <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 mb-2 leading-none">
+                          Response
+                        </p>
+                        <p className="text-sm leading-relaxed text-black/70">
+                          {item.answer}
+                        </p>
+                      </div>
                     </div>
                   </div>
 
@@ -107,7 +148,22 @@ export default function FormulaFAQ({ formulaId, hideCTA = false }: FormulaFAQPro
             })}
           </div>
 
-          {/* CTA — scrolls back to hero for purchase */}
+          {/* Support footer */}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-black/8 pt-4">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50">
+              Still stuck?{" "}
+              <a
+                href="mailto:info@conka.io"
+                className="text-black underline decoration-black/20 hover:decoration-black"
+              >
+                info@conka.io
+              </a>
+            </p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/40 tabular-nums">
+              Avg response 4h
+            </p>
+          </div>
+
           {!hideCTA && (
             <div className="mt-8 flex justify-start">
               <ConkaCTAButton href="#hero" meta={`// order ${formula.name.toLowerCase()}`}>

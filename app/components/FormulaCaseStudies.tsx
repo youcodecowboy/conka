@@ -46,13 +46,14 @@ function getStat(athlete: AthleteData, key: (typeof STAT_KEYS)[number]) {
 }
 
 function AthleteSpecCard({ athlete }: { athlete: AthleteData }) {
+  const [bioOpen, setBioOpen] = useState(false);
   const photoSrc = getCaseStudyPhotoPath(athlete.id) || athlete.photo || "";
   const focal = athlete.focalPoint ?? { x: 50, y: 50 };
 
   return (
     <div className="flex flex-col bg-white border border-black/12 overflow-hidden h-full">
       {/* Photo */}
-      <div className="relative w-full aspect-[3/4] overflow-hidden bg-[var(--brand-surface)]">
+      <div className="relative w-full aspect-[4/3] overflow-hidden bg-[var(--brand-surface)]">
         {photoSrc ? (
           <Image
             src={photoSrc}
@@ -75,8 +76,8 @@ function AthleteSpecCard({ athlete }: { athlete: AthleteData }) {
       {/* Spec band */}
       <div className="flex flex-col flex-1 p-4 lg:p-5">
         {/* Identity */}
-        <div className="mb-3">
-          <p className="text-base lg:text-lg font-semibold text-black leading-tight">
+        <div className="mb-4">
+          <p className="text-base font-semibold text-black leading-tight">
             {athlete.name}
           </p>
           <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-black/50 mt-1 leading-tight">
@@ -85,16 +86,16 @@ function AthleteSpecCard({ athlete }: { athlete: AthleteData }) {
           </p>
         </div>
 
-        {/* 3-metric grid */}
-        <div className="grid grid-cols-3 gap-1 py-3 border-y border-black/8">
+        {/* 3-metric grid — hero data */}
+        <div className="grid grid-cols-3 gap-2 py-4 border-y border-black/8">
           {STAT_KEYS.map((key) => {
             const stat = getStat(athlete, key);
             return (
-              <div key={key} className="flex flex-col items-start gap-1">
-                <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 leading-none">
+              <div key={key} className="flex flex-col items-start gap-1.5">
+                <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 leading-none">
                   {STAT_ABBR[key]}
                 </span>
-                <span className="font-mono text-sm lg:text-base font-bold tabular-nums text-black leading-none">
+                <span className="font-mono text-2xl lg:text-3xl font-bold tabular-nums text-black leading-none">
                   {stat?.value ?? "—"}
                 </span>
               </div>
@@ -102,8 +103,28 @@ function AthleteSpecCard({ athlete }: { athlete: AthleteData }) {
           })}
         </div>
 
+        {/* Bio with expand */}
+        {athlete.description ? (
+          <div className="pt-3">
+            <p
+              className={`text-xs leading-relaxed text-black/60 ${
+                !bioOpen ? "line-clamp-2" : ""
+              }`}
+            >
+              {athlete.description}
+            </p>
+            <button
+              type="button"
+              onClick={() => setBioOpen((p) => !p)}
+              className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/60 mt-2 underline decoration-black/20 underline-offset-2 hover:decoration-black focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1"
+            >
+              {bioOpen ? "Show less" : "Read more"}
+            </button>
+          </div>
+        ) : null}
+
         {/* Footer: product + tests */}
-        <div className="mt-auto flex items-start justify-between gap-3 pt-3">
+        <div className="mt-auto flex items-start justify-between gap-3 pt-4">
           <div className="min-w-0">
             <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/40 leading-none">
               Product
