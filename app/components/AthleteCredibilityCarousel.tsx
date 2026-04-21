@@ -240,49 +240,66 @@ export default function AthleteCredibilityCarousel() {
           </div>
 
           {/* Text column */}
-          <div className="p-6 lg:p-8 flex flex-col">
-            {/* Spec row: counter + achievement */}
-            <div className="flex items-center justify-between mb-5 pb-3 border-b border-black/8">
-              <span className="font-mono text-[11px] font-bold tabular-nums text-black/50 leading-none">
-                {currentLabel}
-              </span>
-              <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/60 leading-none">
-                {active.achievementMono}
-              </span>
-            </div>
-
-            {/* Crossfade on text block */}
-            <div key={activeIndex} className="flex flex-col flex-1">
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-black/50 mb-2 leading-none">
-                {active.sport}
-              </p>
-              <h3 className="text-3xl lg:text-4xl font-semibold text-black leading-tight mb-2">
-                {active.name}
-              </h3>
-              <p className="text-sm text-black/60 leading-relaxed mb-5">
-                {active.bio}
-              </p>
-
-              <blockquote className="relative pl-5 mb-6 lg:mb-8">
-                <span
-                  aria-hidden
-                  className="absolute left-0 top-0 font-mono text-3xl font-bold text-black/25 leading-none select-none"
-                >
-                  &ldquo;
-                </span>
-                <p className="text-base lg:text-lg text-black leading-relaxed">
-                  {active.quote}
-                </p>
-              </blockquote>
-            </div>
-
-            {/* Nav */}
-            <div className="flex items-center justify-between gap-3 mt-auto pt-4 border-t border-black/8">
+          <div className="flex flex-col">
+            {/* Mobile-only nav strip — sits directly under the portrait */}
+            <div className="flex lg:hidden items-center justify-between gap-3 px-4 py-3 border-b border-black/8">
               <ChamferNav direction="prev" onClick={goPrev} />
-              <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 tabular-nums">
-                Browse Roster
-              </span>
+              <div className="flex-1 flex flex-col items-center min-w-0">
+                <span className="font-mono text-[11px] font-bold tabular-nums text-black/50 leading-none">
+                  {currentLabel}
+                </span>
+                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/60 leading-none mt-1 truncate max-w-full">
+                  {active.achievementMono}
+                </span>
+              </div>
               <ChamferNav direction="next" onClick={goNext} />
+            </div>
+
+            {/* Content block */}
+            <div className="p-6 lg:p-8 flex flex-col flex-1">
+              {/* Desktop spec row */}
+              <div className="hidden lg:flex items-center justify-between mb-5 pb-3 border-b border-black/8">
+                <span className="font-mono text-[11px] font-bold tabular-nums text-black/50 leading-none">
+                  {currentLabel}
+                </span>
+                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/60 leading-none">
+                  {active.achievementMono}
+                </span>
+              </div>
+
+              {/* Crossfade on text block */}
+              <div key={activeIndex} className="flex flex-col flex-1">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-black/50 mb-2 leading-none">
+                  {active.sport}
+                </p>
+                <h3 className="text-3xl lg:text-4xl font-semibold text-black leading-tight mb-2">
+                  {active.name}
+                </h3>
+                <p className="text-sm text-black/60 leading-relaxed mb-5">
+                  {active.bio}
+                </p>
+
+                <blockquote className="relative pl-5 mb-6 lg:mb-8">
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-0 font-mono text-3xl font-bold text-black/25 leading-none select-none"
+                  >
+                    &ldquo;
+                  </span>
+                  <p className="text-base lg:text-lg text-black leading-relaxed">
+                    {active.quote}
+                  </p>
+                </blockquote>
+              </div>
+
+              {/* Desktop-only bottom nav */}
+              <div className="hidden lg:flex items-center justify-between gap-3 mt-auto pt-4 border-t border-black/8">
+                <ChamferNav direction="prev" onClick={goPrev} />
+                <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 tabular-nums">
+                  Browse Roster
+                </span>
+                <ChamferNav direction="next" onClick={goNext} />
+              </div>
             </div>
           </div>
         </div>
