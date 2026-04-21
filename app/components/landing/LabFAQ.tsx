@@ -64,11 +64,11 @@ export default function LabFAQ({ hideCTA = false }: { hideCTA?: boolean } = {}) 
             />
             <span
               aria-hidden
-              className="hidden lg:block pointer-events-none absolute top-0 left-0 w-[20%] h-[20%] border-t-[6px] border-l-[6px] border-black"
+              className="hidden lg:block pointer-events-none absolute top-3 left-3 w-[20%] h-[20%] border-t-[6px] border-l-[6px] border-black"
             />
             <span
               aria-hidden
-              className="hidden lg:block pointer-events-none absolute bottom-0 right-0 w-[20%] h-[20%] border-b-[6px] border-r-[6px] border-black"
+              className="hidden lg:block pointer-events-none absolute bottom-3 right-3 w-[20%] h-[20%] border-b-[6px] border-r-[6px] border-black"
             />
           </div>
         </div>
