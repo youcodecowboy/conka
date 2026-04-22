@@ -2,6 +2,40 @@
 
 import { useState, useCallback } from "react";
 
+type FooterLink = { label: string; href: string };
+
+const DISCOVER: FooterLink[] = [
+  { label: "The Science", href: "/science" },
+  { label: "Ingredients", href: "/ingredients" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "The CONKA App", href: "/app" },
+];
+
+const SHOP: FooterLink[] = [
+  { label: "CONKA Flow", href: "/conka-flow" },
+  { label: "CONKA Clear", href: "/conka-clarity" },
+  { label: "Flow + Clear", href: "/protocol/3" },
+];
+
+const COMPANY: FooterLink[] = [
+  { label: "Our Story", href: "/our-story" },
+  { label: "Why CONKA", href: "/why-conka" },
+];
+
+const SUPPORT: FooterLink[] = [
+  { label: "Terms & Conditions", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Cookie Policy", href: "/cookies" },
+  { label: "Account", href: "/account" },
+];
+
+const COLUMNS: { title: string; links: FooterLink[] }[] = [
+  { title: "Discover", links: DISCOVER },
+  { title: "Shop", links: SHOP },
+  { title: "Company", links: COMPANY },
+  { title: "Support", links: SUPPORT },
+];
+
 export default function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterStatus, setNewsletterStatus] = useState<
@@ -47,35 +81,32 @@ export default function Footer() {
     [newsletterEmail],
   );
 
+  const year = new Date().getFullYear();
+
   return (
     <footer
-      className="bg-black text-white px-6 md:px-16 py-12 md:py-16 pb-24 md:pb-28 border-t-2 border-white/10"
+      className="brand-clinical bg-black text-white border-t border-white/12"
       role="contentinfo"
     >
-      <div className="max-w-6xl mx-auto">
-        {/* Row 1: Logo (left) + Newsletter (right) */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10 pb-10 md:pb-12">
-          <a
-            href="/"
-            className="flex items-center hover:opacity-70 transition-all w-fit shrink-0"
-            aria-label="CONKA home"
-          >
-            <img
-              src="/conka-logo.webp"
-              alt="CONKA logo"
-              width={220}
-              height={56}
-              className="h-14 md:h-16 w-auto invert"
-            />
-          </a>
-          <div className="flex-1 lg:max-w-xl w-full">
-            <p className="font-clinical text-sm md:text-base font-medium mb-1">
-              Never miss out
+      <div className="max-w-[1920px] mx-auto px-6 md:px-16 py-12 md:py-16 pb-24 md:pb-28">
+        {/* Newsletter */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 pb-10 md:pb-14 border-b border-white/12">
+          <div className="flex flex-col items-start">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50 tabular-nums mb-3">
+              // Newsletter · Dispatch-00
             </p>
-            <p className="font-commentary text-sm text-white/80 mb-4">
-              —sign up for newsletters from CONKA. Tips, research and offers. No
-              spam.
+            <h2
+              className="brand-h3 text-white mb-3"
+              style={{ letterSpacing: "-0.02em" }}
+            >
+              Unlock a new state of mind.
+            </h2>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/55 tabular-nums">
+              Tips · Research · Offers · No spam
             </p>
+          </div>
+
+          <div className="flex flex-col">
             <form
               onSubmit={handleNewsletterSubmit}
               className="flex flex-col sm:flex-row gap-2"
@@ -92,8 +123,8 @@ export default function Footer() {
                   setNewsletterEmail(e.target.value);
                   setNewsletterError(null);
                 }}
-                placeholder="Email address"
-                className="flex-1 min-h-[48px] md:min-h-[52px] px-4 py-3 border-2 border-white/30 rounded-lg bg-white/5 text-white placeholder:text-white/50 font-clinical text-base focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50"
+                placeholder="email@domain.com"
+                className="flex-1 min-h-[48px] px-4 py-3 bg-white/5 border border-white/20 text-white placeholder:text-white/40 font-mono text-sm tabular-nums focus:outline-none focus:border-white disabled:opacity-50"
                 disabled={newsletterStatus === "loading"}
                 required
                 aria-invalid={!!newsletterError}
@@ -108,167 +139,98 @@ export default function Footer() {
               <button
                 type="submit"
                 disabled={newsletterStatus === "loading"}
-                className="bg-white text-black border-2 border-white px-6 py-3 font-semibold text-sm min-h-[48px] md:min-h-[52px] rounded-full shrink-0 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="lab-clip-tr bg-white text-black hover:bg-[#1B2757] hover:text-white transition-colors min-h-[48px] px-6 font-mono text-[11px] uppercase tracking-[0.2em] tabular-nums disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
               >
-                {newsletterStatus === "loading" ? "Submitting..." : "Submit"}
+                {newsletterStatus === "loading"
+                  ? "Submitting"
+                  : "Subscribe ↗"}
               </button>
             </form>
             {newsletterError && (
               <p
                 id="footer-email-error"
-                className="font-clinical text-xs opacity-90 mt-2"
+                className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/70 tabular-nums mt-3"
                 role="alert"
               >
-                {newsletterError}
+                Error · {newsletterError}
               </p>
             )}
             {newsletterStatus === "success" && (
               <p
                 id="footer-email-success"
-                className="font-commentary text-sm opacity-90 mt-2"
+                className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/70 tabular-nums mt-3"
                 role="status"
                 aria-live="polite"
               >
-                You&apos;re in.
+                Confirmed · You&apos;re in.
               </p>
             )}
           </div>
         </div>
 
-        {/* Link columns */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-4">
-          <nav aria-label="Discover" className="flex flex-col gap-3">
-            <h3 className="font-clinical text-xs uppercase tracking-widest opacity-70">
-              Discover
-            </h3>
-            <ul className="flex flex-col gap-2">
-              <li>
-                <a
-                  href="/science"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  The Science
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/ingredients"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  Ingredients
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/case-studies"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  Case Studies
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/app"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  The CONKA App
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <nav aria-label="Shop" className="flex flex-col gap-3">
-            <h3 className="font-clinical text-xs uppercase tracking-widest opacity-70">
-              Shop
-            </h3>
-            <ul className="flex flex-col gap-2">
-              <li>
-                <a
-                  href="/conka-flow"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  CONKA Flow
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/conka-clarity"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  CONKA Clarity
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/quiz"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  Take the Quiz
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <nav aria-label="Company" className="flex flex-col gap-3">
-            <h3 className="font-clinical text-xs uppercase tracking-widest opacity-70">
-              Company
-            </h3>
-            <ul className="flex flex-col gap-2">
-              <li>
-                <a
-                  href="/our-story"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  Our Story
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/why-conka"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  Why CONKA
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <nav aria-label="Support and legal" className="flex flex-col gap-3">
-            <h3 className="font-clinical text-xs uppercase tracking-widest opacity-70">
-              Support
-            </h3>
-            <ul className="flex flex-col gap-2">
-              <li>
-                <a
-                  href="/terms"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  Terms &amp; Conditions
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/privacy"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/cookies"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  Cookie Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/account"
-                  className="font-clinical text-sm hover:opacity-70 transition-all"
-                >
-                  Account
-                </a>
-              </li>
-            </ul>
-          </nav>
+        {/* Logo + Link columns */}
+        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-16 py-10 md:py-14 border-b border-white/12">
+          <a
+            href="/"
+            className="flex items-start hover:opacity-70 transition-opacity w-fit shrink-0"
+            aria-label="CONKA home"
+          >
+            <img
+              src="/conka-logo.webp"
+              alt="CONKA logo"
+              width={220}
+              height={56}
+              className="h-14 md:h-16 w-auto invert"
+            />
+          </a>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {COLUMNS.map((col) => (
+              <nav
+                key={col.title}
+                aria-label={col.title}
+                className="flex flex-col"
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50 tabular-nums mb-4">
+                  // {col.title}
+                </p>
+                <ul className="flex flex-col">
+                  {col.links.map((link, idx) => (
+                    <li
+                      key={link.href}
+                      className={
+                        idx < col.links.length - 1
+                          ? "border-b border-white/8"
+                          : ""
+                      }
+                    >
+                      <a
+                        href={link.href}
+                        className="flex items-center gap-3 py-2.5 group"
+                      >
+                        <span className="font-mono text-[9px] tabular-nums text-white/35 group-hover:text-white/60 transition-colors">
+                          {String(idx + 1).padStart(2, "0")}
+                        </span>
+                        <span className="font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums text-white/75 group-hover:text-white transition-colors">
+                          {link.label}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+          </div>
+        </div>
+
+        {/* Meta row */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 pt-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40 tabular-nums">
+            © CONKA {year} · Made in UK · All rights reserved
+          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40 tabular-nums">
+            Doc-FT-001 · Informed Sport · Batch tested
+          </p>
         </div>
       </div>
     </footer>

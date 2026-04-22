@@ -2,18 +2,19 @@
 
 export default function ShopHeroMobile() {
   return (
-    <section className="px-6 py-10 bg-white">
-      <div className="max-w-3xl mx-auto text-center flex flex-col gap-6">
-        {/* ===== Headline ===== */}
-        <h1 className="text-3xl font-bold leading-snug">
-          Clarity and Focus You Can Feel
-        </h1>
-        {/* ===== Subhead ===== */}
-        <p className="font-clinical text-base opacity-70">
-          Explore our formulas designed to help you start simple and feel the
-          difference.
-        </p>
-      </div>
-    </section>
+    <div className="flex flex-col items-start text-left">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-3">
+        01 · Shop · 03 formulas
+      </p>
+      <h1
+        className="brand-h1 text-black mb-3"
+        style={{ letterSpacing: "-0.02em" }}
+      >
+        Clarity and focus you can feel.
+      </h1>
+      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+        Start simple · Feel the difference · 100-day guarantee
+      </p>
+    </div>
   );
 }

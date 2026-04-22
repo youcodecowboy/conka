@@ -1,43 +1,47 @@
 "use client";
 
+import Image from "next/image";
+
 export function WhyConkaHero() {
   return (
-    <div className="flex flex-col gap-6 md:gap-8">
-      <header>
-        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
-          the reasons behind the formula
+    <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-12 lg:gap-16">
+      <div className="flex-1 w-full">
+        <div className="relative w-full aspect-[4/5] border border-black/12 overflow-hidden bg-[#f5f5f5]">
+          <Image
+            src="/lifestyle/ClearJeansTwo.jpg"
+            alt="CONKA Clear shot held at the hip"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover object-center"
+            priority
+          />
+          <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+            Fig. 00
+          </span>
+          <span className="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+            Overview
+          </span>
+        </div>
+      </div>
+      <div className="flex-1 w-full flex flex-col items-start text-left justify-center">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-4">
+          // The CONKA framework · 07 reasons
         </p>
         <h1
-          className="premium-section-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-1 md:mb-2 text-[var(--color-ink)]"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          id="why-conka-hero-heading"
+          className="brand-h1 text-black mb-4 max-w-[22ch]"
+          style={{ letterSpacing: "-0.02em" }}
         >
-          Why{" "}
-          <span
-            style={{
-              background: "var(--gradient-neuro-blue-accent)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            CONKA
-          </span>
-          ?
+          Why CONKA?
         </h1>
-        <p
-          className="premium-body text-base md:text-lg opacity-60"
-          style={{ maxWidth: "var(--premium-body-max-width)" }}
-        >
-          CONKA could change your life. Here&apos;s why.
+        <p className="text-base md:text-lg text-black/75 leading-relaxed mb-4 max-w-2xl">
+          CONKA could change your life. Below are the seven reasons high-performing
+          people choose research-backed cognitive enhancement.
         </p>
-        <p
-          className="premium-body text-base md:text-lg opacity-80 leading-relaxed mt-2"
-          style={{ maxWidth: "var(--premium-body-max-width)" }}
-        >
-          Here are the top seven reasons why so many smart people are choosing
-          CONKA&apos;s research-backed cognitive enhancement.
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          32 PubMed studies · 25+ clinical trials · Informed Sport certified
         </p>
-      </header>
+      </div>
     </div>
   );
 }

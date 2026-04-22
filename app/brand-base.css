@@ -1,25 +1,46 @@
 /**
  * CONKA Brand Design System
- * New token system aligned with 2026 brand guidelines.
+ * ================================================================
  *
- * Coexists with premium-base.css during migration.
- * New/refactored pages use brand-* classes; legacy pages keep premium-* classes.
+ * This file is organised in three clearly separated layers:
+ *
+ *   1. BASE TOKENS + CLASSES — default brand system. Rounded corners,
+ *      `#4058bb` accent, `#f4f5f8` tint. Used by organic/legacy surfaces
+ *      that have not yet been pulled onto the clinical grammar.
+ *
+ *   2. CLINICAL SCOPE + UTILITIES — the `/start`, home, `/funnel`,
+ *      `/science`, `/our-story`, `/case-studies`, `/ingredients`,
+ *      `/app`, `/why-conka`, PDP, and protocol aesthetic. Opt-in via
+ *      `.brand-clinical` on a page root. Zero radii, navy `#1B2757`
+ *      accent, neutral `#f5f5f5` tint. This is the DEFAULT for all new
+ *      acquisition and content pages.
+ *
+ *   3. LEGACY COMPAT + DEPRECATION CANDIDATES — tokens that exist only
+ *      for components mid-migration. Marked with `@deprecated` headers.
+ *
+ * Companion file: `app/premium-base.css` (legacy `premium-*` classes).
+ * All new work goes here and adds the `.brand-clinical` scope.
  *
  * Typography:
- *   Primary: Neue Haas Grotesk (commercial — load via next/font/local when .woff2 available)
- *   Data:    JetBrains Mono (free — load via next/font/google)
- *   Until Neue Haas Grotesk is available, system sans-serif fallback applies.
+ *   Primary: Neue Haas Grotesk (commercial — next/font/local)
+ *   Data:    JetBrains Mono (next/font/google, var `--font-jetbrains-mono`)
  */
 
+/* ================================================================
+ * LAYER 1 — BASE TOKENS (default brand system)
+ * ================================================================ */
+
 :root {
-  /* ===== Colour palette ===== */
+  /* ---- Colour palette ---- */
   --brand-white: #ffffff;
   --brand-neutral: #ccccca;
-  --brand-accent: #4058bb;
   --brand-deep-grey: #212121;
   --brand-black: #000000;
 
-  /* Background tint (landing page visual system — see docs/branding/LANDING_PAGE_VISUAL_SYSTEM.md) */
+  /* Accent and tint — OVERRIDDEN in `.brand-clinical` (Layer 2).
+     Base values are the pre-clinical "soft-blue" palette used by
+     non-clinical surfaces (B2B portal, account, etc). */
+  --brand-accent: #4058bb;
   --brand-tint: #f4f5f8;
 
   /* Functional aliases */
@@ -28,29 +49,8 @@
   --brand-divider: var(--brand-neutral);
   --brand-divider-subtle: rgba(0, 0, 0, 0.06);
 
-  /* Legacy compatibility tokens — copied from premium-base.css during migration.
-     These allow migrated components to reference brand-base only.
-     Review and consolidate as the palette stabilises. */
-  --brand-surface: #f4f6f5;
-  --brand-stroke: rgba(0, 0, 0, 0.06);
-  --brand-border-color: rgba(0, 0, 0, 0.12);
-
-  /* TODO: Product accent colours — used for Flow/Clear differentiation in cards,
-     badges, and feature icons. Currently hardcoded in components. Need to decide
-     if these belong in the brand system or stay as product-data-driven values.
-     Fallback: kept as component-level constants for now. */
-  --brand-flow-accent: #d97706;
-  --brand-clear-accent: #0369a1;
-
-  /* TODO: Gradient accent — used for upsell buttons and funnel accent bars.
-     Legacy --gradient-neuro-blue-accent. Needs design decision on whether
-     gradients survive in the new system (design system says "subtle, soft
-     gradients only"). Fallback: kept as linear-gradient with brand-accent. */
-  --brand-gradient-accent: linear-gradient(135deg, #4058bb 0%, #2a3d8f 100%);
-
-  /* ===== Typography ===== */
-  /* Font families
-     --font-brand-primary is set by next/font/local on <body> (layout.tsx).
+  /* ---- Typography ---- */
+  /* --font-brand-primary is set by next/font/local on <body> (layout.tsx).
      The :root fallback applies only if the font class is missing. */
   --font-brand-primary: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
     Arial, sans-serif;
@@ -87,15 +87,14 @@
 
   --brand-body-max-width: 65ch;
 
-  /* ===== Radius ===== */
-  /* TODO: Marketing direction says 12px-24px for buttons/containers, 32px for cards.
-     Current interactive is 16px (1rem). May need to adjust to 12px (0.75rem)
-     based on visual review. The 12-24px range suggests flexibility, not a fixed value. */
+  /* ---- Radius ---- */
+  /* Base values are rounded. CLINICAL SCOPE overrides to zero.
+     Non-clinical pages keep the rounded values below. */
   --brand-radius-interactive: 1rem; /* 16px — buttons, inputs, pills */
   --brand-radius-container: 1.5rem; /* 24px — image containers, nested surfaces */
   --brand-radius-card: 2rem; /* 32px — cards, major surfaces */
 
-  /* ===== Spacing ===== */
+  /* ---- Spacing ---- */
   --brand-space-xs: 0.25rem; /* 4px */
   --brand-space-s: 0.5rem; /* 8px */
   --brand-space-m: 1rem; /* 16px */
@@ -103,7 +102,7 @@
   --brand-space-xl: 2rem; /* 32px */
   --brand-space-2xl: 3rem; /* 48px */
 
-  /* ===== Layout ===== */
+  /* ---- Layout ---- */
   --brand-max-width: 1280px;
   --brand-gutter-mobile: 1.25rem;
   --brand-gutter-desktop: 5vw;
@@ -115,59 +114,19 @@
   --brand-text-gap: 1.5rem;
 }
 
-/* ===== Clinical scope ===== */
-/* Opt-in aesthetic for acquisition surfaces (see /start). Apply .brand-clinical
-   to a page root div to override radius, accent, and tint tokens. Scope stays
-   isolated via CSS variable inheritance — siblings above the class are unaffected. */
-.brand-clinical {
-  --brand-radius-card: 0px;
-  --brand-radius-container: 0px;
-  --brand-radius-interactive: 0px;
+/* ================================================================
+ * LAYER 1 — BASE CLASSES
+ * ================================================================ */
 
-  --brand-accent: #1B2757;
-  --color-brand-accent: #1B2757;
-
-  --brand-tint: #f5f5f5;
-}
-
-@media (max-width: 768px) {
-  .brand-clinical .brand-section.brand-hero-first {
-    padding-top: 0;
-  }
-}
-
-/* ===== Clinical utilities (unscoped, opt-in) ===== */
-
-/* Double-line border for contained assets — 2px inner, 4px white gap, 1px outer.
-   Architectural spec-sheet convention. */
-.lab-asset-frame {
-  box-shadow:
-    0 0 0 2px rgba(0, 0, 0, 0.85),
-    0 0 0 6px rgba(255, 255, 255, 0.95),
-    0 0 0 7px rgba(0, 0, 0, 0.75);
-}
-
-/* Top-right chamfer for interactive tiles — matches ConkaCTAButton. */
-.lab-clip-tr {
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
-}
-
-/* Terminal cursor blink — consumed inline by ConkaCTAButton. */
-@keyframes lab-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
-/* ===== Layout classes ===== */
-
-/* Content track — max-width + centred */
+/* Content track — max-width + centred. Consumed by every page. */
 .brand-track {
   max-width: var(--brand-max-width);
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Section wrapper — vertical rhythm + gutters */
+/* Section wrapper — vertical rhythm + gutters. Pages own these,
+   components are content-only. */
 .brand-section {
   padding-top: var(--brand-section-padding);
   padding-bottom: var(--brand-section-padding);
@@ -193,26 +152,11 @@
   }
 }
 
-/* ===== Section backgrounds ===== */
+/* ---- Section backgrounds ---- */
 
 .brand-bg-white {
   background-color: var(--brand-white);
   color: var(--brand-black);
-}
-
-.brand-bg-neutral {
-  background-color: var(--brand-neutral);
-  color: var(--brand-white);
-}
-
-.brand-bg-black {
-  background-color: var(--brand-black);
-  color: var(--brand-white);
-}
-
-.brand-bg-deep-grey {
-  background-color: var(--brand-deep-grey);
-  color: var(--brand-white);
 }
 
 .brand-bg-tint {
@@ -220,7 +164,26 @@
   color: var(--brand-black);
 }
 
-/* ===== Typography classes ===== */
+.brand-bg-black {
+  background-color: var(--brand-black);
+  color: var(--brand-white);
+}
+
+/* @deprecated — not used by clinical pages. Kept for legacy surfaces
+   (B2B portal, account). Prefer brand-bg-white / brand-bg-tint. */
+.brand-bg-neutral {
+  background-color: var(--brand-neutral);
+  color: var(--brand-white);
+}
+
+/* @deprecated — not used by clinical pages. Kept for legacy surfaces.
+   Prefer brand-bg-black. */
+.brand-bg-deep-grey {
+  background-color: var(--brand-deep-grey);
+  color: var(--brand-white);
+}
+
+/* ---- Typography classes ---- */
 /* All left-aligned by default. No centred headers. */
 
 .brand-h1 {
@@ -287,9 +250,133 @@
   line-height: normal;
 }
 
-/* ===== Component patterns ===== */
+/* ---- Layout utility ---- */
 
-/* Card — major surface */
+/* Prevent horizontal overflow from full-bleed content */
+.brand-page {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Spacing helpers */
+.brand-stack-s { margin-bottom: var(--brand-space-s); }
+.brand-stack-s:last-child { margin-bottom: 0; }
+.brand-stack-m { margin-bottom: var(--brand-space-m); }
+.brand-stack-m:last-child { margin-bottom: 0; }
+
+/* Divider */
+.brand-divider {
+  border: none;
+  border-top: 1px solid var(--brand-divider);
+  margin: var(--brand-space-xl) 0;
+}
+
+.brand-divider-subtle {
+  border: none;
+  border-top: 1px solid var(--brand-divider-subtle);
+  margin: var(--brand-space-xl) 0;
+}
+
+/* ================================================================
+ * LAYER 2 — CLINICAL SCOPE + UTILITIES
+ * ================================================================
+ * The acquisition/content grammar. Default for every new page.
+ * Full spec: docs/branding/CLINICAL_AESTHETIC.md
+ *
+ * Active pages using `.brand-clinical`:
+ *   /start · / · /funnel · /science · /our-story · /case-studies
+ *   /ingredients · /app · /why-conka · /conka-flow · /conka-clarity
+ *   /protocol/[id] · + Navigation + Footer
+ *
+ * Rules:
+ *   - Zero radius everywhere (token overrides)
+ *   - Navy `#1B2757` is interactive-only, never decorative
+ *   - Neutral `#f5f5f5` tint for section rhythm
+ *   - Hairline borders only (`border-black/8`–`/12`)
+ *   - No gradients, no shadows (one exception: figure-plate overlay)
+ * ================================================================ */
+
+.brand-clinical {
+  --brand-radius-card: 0px;
+  --brand-radius-container: 0px;
+  --brand-radius-interactive: 0px;
+
+  --brand-accent: #1b2757;
+  --color-brand-accent: #1b2757;
+
+  --brand-tint: #f5f5f5;
+}
+
+/* Hero on mobile inside clinical scope — flush to nav edge. */
+@media (max-width: 768px) {
+  .brand-clinical .brand-section.brand-hero-first {
+    padding-top: 0;
+  }
+}
+
+/* ---- Clinical utilities (unscoped, opt-in) ---- */
+
+/* Double-line border for contained assets — 2px inner, 4px white gap,
+   1px outer. Architectural spec-sheet convention. */
+.lab-asset-frame {
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.85),
+    0 0 0 6px rgba(255, 255, 255, 0.95),
+    0 0 0 7px rgba(0, 0, 0, 0.75);
+}
+
+/* Top-right 12px chamfer — interactive signifier. Apply to primary CTAs,
+   nav buttons, tags. Never apply to cards, asset frames, or any
+   non-interactive surface. Matches ConkaCTAButton. */
+.lab-clip-tr {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+
+/* Terminal cursor blink — consumed inline by ConkaCTAButton. */
+@keyframes lab-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ================================================================
+ * LAYER 3 — LEGACY COMPAT + DEPRECATION CANDIDATES
+ * ================================================================
+ * Tokens and components kept only to unblock migration. Each block
+ * should be audited and removed as its consumers are pulled onto the
+ * clinical grammar.
+ * ================================================================ */
+
+:root {
+  /* @deprecated — compatibility tokens copied from premium-base.css
+     during the `premium-*` → `brand-*` migration. They let migrated
+     components reference only brand-base while the palette stabilises.
+     Audit + remove once all consumers are clinical. */
+  --brand-surface: #f4f6f5;
+  --brand-stroke: rgba(0, 0, 0, 0.06);
+  --brand-border-color: rgba(0, 0, 0, 0.12);
+
+  /* @deprecated — product-specific accent pairs used by the pre-clinical
+     Flow/Clear differentiation (amber/blue cards, badges, icons).
+     Clinical pages use navy `#1B2757` only and identify formulas with
+     `F-01` / `F-02` mono codes instead. Remove after every PDP and
+     protocol surface is on the clinical grammar. */
+  --brand-flow-accent: #d97706;
+  --brand-clear-accent: #0369a1;
+
+  /* @deprecated — gradient accent. Clinical forbids gradients outside
+     figure-plate legibility overlays. Still referenced by the legacy
+     upsell button and funnel accent bar; replace with solid
+     `var(--brand-accent)` when those surfaces are revisited. */
+  --brand-gradient-accent: linear-gradient(135deg, #4058bb 0%, #2a3d8f 100%);
+}
+
+/* ---- Legacy component patterns ----
+   These `.brand-*` component classes predate the clinical grammar.
+   Clinical surfaces use Tailwind utilities directly
+   (`bg-white border border-black/12 p-5 lg:p-6`) per CLINICAL_AESTHETIC.md.
+   Kept for non-clinical consumers (legacy B2B portal, account).
+   @deprecated — do not reach for these on new work. */
+
 .brand-card {
   border-radius: var(--brand-radius-card);
   background-color: var(--brand-white);
@@ -304,13 +391,11 @@
   padding: var(--brand-space-xl);
 }
 
-/* Container — image wrappers, nested blocks */
 .brand-container {
   border-radius: var(--brand-radius-container);
   overflow: hidden;
 }
 
-/* Button base */
 .brand-btn {
   border-radius: var(--brand-radius-interactive);
   font-family: var(--font-brand-primary);
@@ -341,49 +426,11 @@
   color: var(--brand-white);
 }
 
-/* ===== Utility ===== */
-
-/* Prevent horizontal overflow from full-bleed content */
-.brand-page {
-  overflow-x: hidden;
-  max-width: 100%;
-}
-
-/* Spacing helpers */
-.brand-stack-s {
-  margin-bottom: var(--brand-space-s);
-}
-.brand-stack-s:last-child {
-  margin-bottom: 0;
-}
-
-.brand-stack-m {
-  margin-bottom: var(--brand-space-m);
-}
-.brand-stack-m:last-child {
-  margin-bottom: 0;
-}
-
-/* Divider */
-.brand-divider {
-  border: none;
-  border-top: 1px solid var(--brand-divider);
-  margin: var(--brand-space-xl) 0;
-}
-
-.brand-divider-subtle {
-  border: none;
-  border-top: 1px solid var(--brand-divider-subtle);
-  margin: var(--brand-space-xl) 0;
-}
-
-/* ===== Animations ===== */
+/* ================================================================
+ * ANIMATIONS
+ * ================================================================ */
 
 @keyframes checkmark-draw {
-  from {
-    stroke-dashoffset: 20;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+  from { stroke-dashoffset: 20; }
+  to   { stroke-dashoffset: 0; }
 }

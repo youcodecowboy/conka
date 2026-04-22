@@ -1,27 +1,38 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { getFormulaImage, getProtocolImage } from "@/app/lib/productImageConfig";
+import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
 import type { ShopMegaMenuProps } from "./types";
 
 const PRODUCTS = [
   {
+    code: "F-03",
     name: "Both (Flow + Clear)",
-    description: "The full daily system — morning focus meets afternoon clarity.",
+    shortLabel: "Flow + Clear",
+    description: "The full daily system. Morning focus meets afternoon clarity.",
+    ctaMeta: "// the full daily system",
     href: "/protocol/3",
     image: getProtocolImage("3"),
     alt: "CONKA Flow and Clear",
   },
   {
+    code: "F-01",
     name: "CONKA Flow",
+    shortLabel: "Flow",
     description: "Morning focus & energy. Rhodiola, Ashwagandha, Lemon Balm.",
+    ctaMeta: "// morning focus · energy",
     href: "/conka-flow",
     image: getFormulaImage("01"),
     alt: "CONKA Flow",
   },
   {
+    code: "F-02",
     name: "CONKA Clear",
+    shortLabel: "Clear",
     description: "Afternoon clarity & recovery. Glutathione, Ginkgo, Alpha GPC.",
+    ctaMeta: "// afternoon clarity · recovery",
     href: "/conka-clarity",
     image: getFormulaImage("02"),
     alt: "CONKA Clear",
@@ -29,18 +40,8 @@ const PRODUCTS = [
 ];
 
 const LEARN_MORE = [
-  {
-    label: "What is in CONKA Flow and Clear?",
-    href: "/ingredients",
-  },
-  {
-    label: "Why CONKA?",
-    href: "/why-conka",
-  },
-  {
-    label: "What is the CONKA App?",
-    href: "/app",
-  },
+  { label: "Why CONKA works", href: "/why-conka" },
+  { label: "The CONKA App", href: "/app" },
 ];
 
 export default function ShopMegaMenu({
@@ -55,7 +56,7 @@ export default function ShopMegaMenu({
 
   return (
     <div
-      className="fixed left-0 right-0 bg-[var(--background)] border-b border-[var(--color-premium-stroke)] shadow-lg z-50"
+      className="fixed left-0 right-0 bg-white border-b border-black/12 z-50"
       style={{
         top: bannerConfig && !hideBanner ? "136px" : "80px",
       }}
@@ -63,61 +64,81 @@ export default function ShopMegaMenu({
       onMouseLeave={onShopAreaLeave}
     >
       <div className="w-full px-6 md:px-16 py-8">
-        <div className="flex gap-12 max-w-[1920px] mx-auto">
-          {/* Left sidebar — thin nav column */}
-          <div className="w-64 flex-shrink-0 border-r border-[var(--color-premium-stroke)] pr-8">
-            <div className="flex flex-col gap-2">
-              <p className="px-4 py-3 font-clinical text-sm font-bold">
-                Shop by Product
-              </p>
-
-              {/* Divider */}
-              <div className="border-t border-[var(--color-premium-stroke)] my-2" />
-
-              <p className="font-clinical text-xs uppercase tracking-wide opacity-50 mb-2 px-4">
-                Learn More
-              </p>
+        <div className="flex gap-10 max-w-[1920px] mx-auto">
+          {/* Left sidebar */}
+          <div className="w-64 flex-shrink-0 border-r border-black/12 pr-8">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-3">
+              Learn more
+            </p>
+            <div className="flex flex-col">
               {LEARN_MORE.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={onClose}
-                  className="px-4 py-3 text-left font-clinical text-sm font-bold transition-all rounded-[var(--brand-radius-interactive)] border border-transparent opacity-60 hover:opacity-100 hover:border-[var(--color-premium-stroke)] hover:bg-current/5"
+                  className="flex items-center justify-between py-2 group transition-colors"
                 >
-                  {link.label}
+                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums text-black/70 group-hover:text-[#1B2757]">
+                    {link.label}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="font-mono text-[11px] text-black/30 group-hover:text-[#1B2757]"
+                  >
+                    ↗
+                  </span>
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Right content — product cards in a row */}
+          {/* Right content — product cards */}
           <div className="flex-1 min-w-0">
-            <div className="grid grid-cols-3 gap-6">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-4">
+              Featured · 03 formulas · 100-day guarantee
+            </p>
+            <div className="grid grid-cols-3 gap-5">
               {PRODUCTS.map((product) => (
-                <a
+                <div
                   key={product.href}
-                  href={product.href}
-                  onClick={onClose}
-                  className="group rounded-[var(--brand-radius-container)] border border-black/6 hover:border-black/15 overflow-hidden transition-all"
+                  className="group bg-white border border-black/12 hover:border-[#1B2757] overflow-hidden transition-colors flex flex-col"
                 >
-                  <div className="relative aspect-square overflow-hidden">
+                  <Link
+                    href={product.href}
+                    onClick={onClose}
+                    className="relative aspect-square overflow-hidden bg-[#f5f5f5] block"
+                    aria-label={product.alt}
+                  >
                     <Image
                       src={product.image}
                       alt={product.alt}
                       fill
-                      className="object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                      className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
                       sizes="(max-width: 1920px) 25vw, 500px"
                     />
-                  </div>
-                  <div className="p-4">
-                    <p className="font-semibold text-base text-black">
+                    <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+                      {product.shortLabel}
+                    </span>
+                  </Link>
+                  <div className="p-4 flex-1 flex flex-col">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-1">
+                      {product.code}
+                    </p>
+                    <p className="text-base font-semibold text-black mb-1">
                       {product.name}
                     </p>
-                    <p className="font-clinical text-xs text-black/50 mt-1 leading-relaxed">
+                    <p className="text-xs text-black/60 leading-relaxed flex-1 mb-4">
                       {product.description}
                     </p>
+                    <ConkaCTAButton
+                      href={product.href}
+                      meta={product.ctaMeta}
+                      className="lg:!w-full lg:!max-w-none"
+                    >
+                      Shop {product.shortLabel}
+                    </ConkaCTAButton>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
           </div>
