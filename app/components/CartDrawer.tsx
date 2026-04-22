@@ -98,20 +98,18 @@ function LineItemPrice({
 }) {
   const { display, compareAt, showCompare } = getLinePriceInfo(item);
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 mt-1">
       {showCompare && compareAt && (
-        <span className="text-xs line-through opacity-50">
+        <span className="font-mono text-[10px] tabular-nums text-black/35 line-through">
           {formatPrice(compareAt.amount, compareAt.currencyCode)}
         </span>
       )}
-      <span
-        className={`font-bold text-sm ${showCompare ? "text-amber-600" : ""}`}
-      >
+      <span className="font-mono text-sm font-bold tabular-nums text-black">
         {formatPrice(display.amount, display.currencyCode)}
       </span>
       {showCompare && (
-        <span className="text-[10px] font-bold text-green-600 bg-green-100 px-1 py-0.5 rounded">
-          SAVE 20%
+        <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#1B2757] bg-[#1B2757]/6 border border-[#1B2757]/20 px-1.5 py-0.5 tabular-nums">
+          -20%
         </span>
       )}
     </div>
@@ -156,7 +154,6 @@ export default function CartDrawer() {
     return () => clearTimeout(t);
   }, [b2bTierUpdatedTo, clearB2BTierMessage]);
 
-  // Format price from Shopify format
   const formatPrice = (amount: string, currencyCode: string = "GBP") => {
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
@@ -187,32 +184,35 @@ export default function CartDrawer() {
       />
 
       {/* Drawer */}
-      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-[var(--background)] border-l-2 border-current shadow-2xl flex flex-col">
+      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white border-l border-black/12 flex flex-col">
+
         {/* Header */}
-        <div className="flex justify-between items-center p-4 border-b-2 border-current">
-          <div className="flex items-center gap-2">
-            <h2 className="text-lg font-bold">Your Cart</h2>
+        <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
+          <div className="flex items-baseline gap-3">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40">
+              Cart
+            </p>
             {itemCount > 0 && (
-              <span className="bg-amber-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                {itemCount}
+              <span className="font-mono text-[10px] tabular-nums font-bold text-[#1B2757]">
+                {String(itemCount).padStart(2, "0")} {itemCount === 1 ? "item" : "items"}
               </span>
             )}
           </div>
           <button
             onClick={closeCart}
-            className="p-2 hover:opacity-70 transition-opacity"
+            className="flex items-center justify-center w-8 h-8 text-black/40 hover:text-black transition-colors"
             aria-label="Close cart"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
             >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
@@ -220,23 +220,23 @@ export default function CartDrawer() {
           </button>
         </div>
 
-        {/* B2B tier / error message */}
+        {/* B2B tier message */}
         {b2bTierUpdatedTo && (
-          <div className="px-4 py-2 bg-emerald-500/10 border-b border-emerald-500/20">
-            <p className="font-clinical text-sm text-black">
+          <div className="px-4 py-2.5 bg-[#f5f5f5] border-b border-black/8">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/60 tabular-nums">
               Pricing tier updated to {b2bTierUpdatedTo.charAt(0).toUpperCase() + b2bTierUpdatedTo.slice(1)}.
             </p>
           </div>
         )}
         {b2bNormalizeError && (
-          <div className="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center justify-between gap-2">
-            <p className="font-clinical text-sm text-black">
+          <div className="px-4 py-2.5 bg-[#f5f5f5] border-b border-black/8 flex items-center justify-between gap-3">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/60 tabular-nums">
               {b2bNormalizeError}
             </p>
             <button
               type="button"
               onClick={clearB2BNormalizeError}
-              className="shrink-0 font-clinical text-xs underline"
+              className="shrink-0 font-mono text-[9px] uppercase tracking-[0.14em] text-black/40 hover:text-black transition-colors underline tabular-nums"
               aria-label="Dismiss"
             >
               Dismiss
@@ -244,49 +244,53 @@ export default function CartDrawer() {
           </div>
         )}
 
-        {/* Cart Content */}
+        {/* Cart content */}
         <div className="flex-1 overflow-y-auto">
           {loading && cartItems.length === 0 ? (
             <div className="flex items-center justify-center h-full">
-              <div className="text-center opacity-50">
-                <div className="w-8 h-8 border-2 border-current/20 border-t-current rounded-full animate-spin mx-auto mb-2" />
-                <p className="font-clinical text-sm">Loading cart...</p>
+              <div className="text-center">
+                <div className="w-6 h-6 border border-black/15 border-t-black/50 rounded-full animate-spin mx-auto mb-3" />
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/35">
+                  Loading...
+                </p>
               </div>
             </div>
           ) : cartItems.length === 0 ? (
-            <div className="flex items-center justify-center h-full p-4 text-center opacity-50">
+            <div className="flex items-center justify-center h-full p-4 text-center">
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="48"
-                  height="48"
+                  width="40"
+                  height="40"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="mx-auto mb-4 opacity-50"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
+                  className="mx-auto mb-4 text-black/20"
                 >
                   <circle cx="9" cy="21" r="1" />
                   <circle cx="20" cy="21" r="1" />
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                <p className="font-clinical text-sm">Your cart is empty</p>
-                <p className="font-commentary text-sm mt-1">
-                  add some brain fuel!
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40">
+                  Your cart is empty
+                </p>
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/25 tabular-nums mt-2">
+                  Add something to get started
                 </p>
               </div>
             </div>
           ) : (
-            <div className="p-4 space-y-4">
+            <div className="p-4 space-y-3">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex gap-4 p-3 border-2 border-current/10 rounded-lg"
+                  className="flex gap-3 p-3 bg-white border border-black/12"
                 >
-                  {/* Product Image */}
-                  <div className="w-20 h-20 flex-shrink-0 bg-current/5 rounded overflow-hidden">
+                  {/* Product image */}
+                  <div className="w-20 h-20 flex-shrink-0 bg-black/[0.03] border border-black/8 overflow-hidden">
                     <Image
                       src={
                         item.merchandise.product.featuredImage?.url ||
@@ -302,83 +306,64 @@ export default function CartDrawer() {
                     />
                   </div>
 
-                  {/* Product Info */}
+                  {/* Product info */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-sm truncate">
+                    <p className="text-sm font-semibold text-black truncate leading-tight">
                       {item.merchandise.product.title}
-                    </h3>
-                    <p className="font-clinical text-xs opacity-70 truncate">
+                    </p>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/45 tabular-nums truncate mt-0.5">
                       {item.merchandise.title}
                     </p>
 
-                    <div className="mt-1">
-                      {isSubscription(item) && (
-                        <span className="inline-flex items-center gap-1 bg-amber-500/10 text-amber-600 text-[10px] font-bold px-1.5 py-0.5 rounded mb-1">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="10"
-                            height="10"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-                            <path d="m9 12 2 2 4-4" />
-                          </svg>
-                          SUBSCRIPTION
-                        </span>
-                      )}
-                      <LineItemPrice item={item} formatPrice={formatPrice} />
-                    </div>
+                    {isSubscription(item) && (
+                      <span className="inline-block mt-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[#1B2757] bg-[#1B2757]/6 border border-[#1B2757]/20 px-2 py-0.5 tabular-nums">
+                        Subscribe
+                      </span>
+                    )}
 
-                    {/* Quantity Controls */}
-                    <div className="flex items-center gap-2 mt-2">
+                    <LineItemPrice item={item} formatPrice={formatPrice} />
+
+                    {/* Quantity controls */}
+                    <div className="flex items-center gap-2 mt-2.5">
                       <button
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
-                        }
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         disabled={loading}
-                        className="w-7 h-7 flex items-center justify-center border-2 border-current rounded hover:bg-current/10 transition-colors disabled:opacity-50"
+                        className="w-7 h-7 flex items-center justify-center border border-black/12 hover:border-black/40 transition-colors disabled:opacity-40"
                         aria-label="Decrease quantity"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
+                          width="12"
+                          height="12"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                          strokeLinecap="square"
+                          strokeLinejoin="miter"
                         >
                           <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
                       </button>
-                      <span className="font-clinical text-sm w-8 text-center">
+                      <span className="font-mono text-sm tabular-nums w-6 text-center text-black">
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
-                        }
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         disabled={loading}
-                        className="w-7 h-7 flex items-center justify-center border-2 border-current rounded hover:bg-current/10 transition-colors disabled:opacity-50"
+                        className="w-7 h-7 flex items-center justify-center border border-black/12 hover:border-black/40 transition-colors disabled:opacity-40"
                         aria-label="Increase quantity"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
+                          width="12"
+                          height="12"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                          strokeLinecap="square"
+                          strokeLinejoin="miter"
                         >
                           <line x1="12" y1="5" x2="12" y2="19" />
                           <line x1="5" y1="12" x2="19" y2="12" />
@@ -387,23 +372,10 @@ export default function CartDrawer() {
                       <button
                         onClick={() => removeItem(item.id)}
                         disabled={loading}
-                        className="ml-auto p-1 text-red-500 hover:bg-red-50 rounded transition-colors disabled:opacity-50"
+                        className="ml-auto font-mono text-[9px] uppercase tracking-[0.14em] text-black/30 hover:text-black/60 transition-colors disabled:opacity-40 tabular-nums"
                         aria-label="Remove item"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="3 6 5 6 21 6" />
-                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                        </svg>
+                        Remove
                       </button>
                     </div>
                   </div>
@@ -414,13 +386,15 @@ export default function CartDrawer() {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t-2 border-current bg-[var(--background)]">
+        <div className="border-t border-black/8 bg-white">
           {cart && cartItems.length > 0 && (
-            <>
+            <div className="px-4 pt-4 pb-3 space-y-3">
               {/* Subtotal */}
-              <div className="flex justify-between items-center mb-4">
-                <span className="font-clinical text-sm">Subtotal</span>
-                <span className="font-bold text-lg">
+              <div className="flex items-baseline justify-between">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40">
+                  Subtotal
+                </span>
+                <span className="font-mono text-lg font-bold tabular-nums text-black">
                   {formatPrice(
                     cart.cost.subtotalAmount.amount,
                     cart.cost.subtotalAmount.currencyCode,
@@ -428,58 +402,60 @@ export default function CartDrawer() {
                 </span>
               </div>
 
-              {/* B2B VAT message and breakdown */}
+              {/* B2B VAT breakdown */}
               {b2bVatBreakdown && (
-                <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2">
-                  <p className="font-clinical text-xs text-black mb-2">
+                <div className="border border-black/12 bg-[#f5f5f5] px-3 py-2.5">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/55 tabular-nums mb-1.5">
                     Prices include VAT at 20%. Please email sales@conka.io for an invoice after purchase.
                   </p>
-                  <p className="font-clinical text-[11px] opacity-80">
-                    Breakdown: {formatPrice(b2bVatBreakdown.net.toFixed(2), b2bVatBreakdown.currencyCode)} net + {formatPrice(b2bVatBreakdown.vat.toFixed(2), b2bVatBreakdown.currencyCode)} VAT (20%) = {formatPrice(b2bVatBreakdown.total.toFixed(2), b2bVatBreakdown.currencyCode)} (included in subtotal above)
+                  <p className="font-mono text-[9px] text-black/40 tabular-nums">
+                    {formatPrice(b2bVatBreakdown.net.toFixed(2), b2bVatBreakdown.currencyCode)} net
+                    {" · "}{formatPrice(b2bVatBreakdown.vat.toFixed(2), b2bVatBreakdown.currencyCode)} VAT (20%)
+                    {" · "}{formatPrice(b2bVatBreakdown.total.toFixed(2), b2bVatBreakdown.currencyCode)} total
                   </p>
                 </div>
               )}
 
-              {/* Shipping Note */}
-              <p className="font-clinical text-xs text-center opacity-60 mb-4">
-                Shipping & taxes calculated at checkout
+              <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/30 tabular-nums text-center">
+                Shipping &amp; taxes calculated at checkout
               </p>
-            </>
+            </div>
           )}
 
-          {/* Checkout Button */}
-          <a
-            href={cart?.checkoutUrl || "#"}
-            onClick={(e) => {
-              if (!cart?.checkoutUrl || cartItems.length === 0) {
-                e.preventDefault();
-                return;
-              }
-              // Meta Pixel + CAPI InitiateCheckout (non-blocking)
-              trackMetaInitiateCheckout({
-                content_ids: cartItems.map((line) =>
-                  toContentId(line.merchandise.id)
-                ),
-                value: parseFloat(cart.cost.subtotalAmount.amount),
-                currency: cart.cost.subtotalAmount.currencyCode ?? "GBP",
-                num_items: cart.totalQuantity ?? 0,
-              });
-            }}
-            className={`block w-full neo-button py-3 font-semibold text-center ${
-              cartItems.length === 0 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <div className="w-4 h-4 border-2 border-current/20 border-t-current rounded-full animate-spin" />
-                Updating...
-              </span>
-            ) : cartItems.length === 0 ? (
-              "Cart is Empty"
-            ) : (
-              "Checkout"
-            )}
-          </a>
+          {/* Checkout CTA */}
+          <div className="px-4 pb-4">
+            <a
+              href={cart?.checkoutUrl || "#"}
+              onClick={(e) => {
+                if (!cart?.checkoutUrl || cartItems.length === 0) {
+                  e.preventDefault();
+                  return;
+                }
+                trackMetaInitiateCheckout({
+                  content_ids: cartItems.map((line) =>
+                    toContentId(line.merchandise.id)
+                  ),
+                  value: parseFloat(cart.cost.subtotalAmount.amount),
+                  currency: cart.cost.subtotalAmount.currencyCode ?? "GBP",
+                  num_items: cart.totalQuantity ?? 0,
+                });
+              }}
+              className={`relative block w-full bg-[#1B2757] text-white px-5 py-3.5 font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums text-center [clip-path:polygon(0_0,calc(100%-12px)_0,100%_12px,100%_100%,0_100%)] transition-opacity ${
+                cartItems.length === 0 ? "opacity-40 cursor-not-allowed" : "hover:opacity-90"
+              }`}
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="w-3.5 h-3.5 border border-white/30 border-t-white rounded-full animate-spin inline-block" />
+                  Updating
+                </span>
+              ) : cartItems.length === 0 ? (
+                "Cart is empty"
+              ) : (
+                "Checkout →"
+              )}
+            </a>
+          </div>
         </div>
       </div>
     </div>
