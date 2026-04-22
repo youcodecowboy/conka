@@ -6,6 +6,38 @@
 
 ## April 2026
 
+### 2026-04-21 -- /app page + cognitive test section full clinical refactor
+
+Completed the `/app` page migration started under SCRUM-906. The page-level `brand-clinical` wrapper and a couple of neighbouring components had landed, but the four child components (`AppHero`, `AppStickyPhoneBlock`, `AppSubscribersSection`, `AppDownloadSection`) and the entire cognitive-test section were still on the pre-clinical premium surfaces -- dark ink hero with floating-phone animation, gradient neuro-blue sticky scroll block, premium-card-soft surfaces with 40px radii, gradient-ringed benefit circles, pill-radius CTAs. This pass brings all of it onto the clinical grammar.
+
+**/app child components:**
+- `AppHero` consolidated from a 3-file split (`AppHeroDesktop`, `AppHeroMobile`, local `types.ts` all deleted) into a single responsive content-only component. Dark ink background replaced with brand white; trio header (mono eyebrow + `brand-h1` + mono sub-line), 3-col hairline stat strip, `Fig. 01 -- Conka app` figure plate on the phone mockup (`bg-[#f5f5f5] border border-black/12` with `aspect-[4/5] lg:aspect-[5/6]`), clinical `AppInstallButtons`. Float + mount animations renamed (`app-hero-float` / `app-hero-mount`) and retained.
+- `AppStickyPhoneBlock` desktop rewritten to the clinical sticky-panel pattern: white background, mono `01 / 04 -- eyebrow -- Measurable` counter per section, hairline `StatCard`s with navy `#1B2757` values, grid-distributed bottom tab strip (`grid-template-columns: repeat(N, 1fr)`) so each tab anchors at the start of its progress segment and lines up with the navy scroll fill, plus 5 boundary tick marks that flip grey -> navy as sections are passed. `useScrollTrack`, `SCROLL_MULTIPLIER = 0.85`, `scrollToSection`, and all swipe/nav behaviour preserved unchanged.
+- `AppStickyPhoneBlockMobile` rebuilt on the same vocabulary: mono counter, navy progress bar, `ChamferNav` prev/next (navy + `lab-clip-tr`), 2-col tab roster with active `bg-[#1B2757] text-white` tiles, `SWIPE_THRESHOLD_PX=50` retained.
+- `AppSubscribersSection` swapped to hairline 3-col rewards spec strip (Token +10 / Tier up 30 / Redeem Free) with `Fig. 06 -- Rewards interface` + `Subscribers only` plates on the mockup.
+- `AppDownloadSection` reduced to a minimal hairline closing CTA card -- trio header, clinical install buttons, mono credibility line.
+- `AppInstallButtons` gained a `variant?: "gradient" | "clinical"` prop. Clinical renders navy solid (App Store) + hairline `#1B2757` bordered white (Play Store), `font-mono text-[11px] uppercase tracking-[0.2em]`, `lab-clip-tr`, `↗` arrow. Gradient variant preserved for `/why-conka` which hasn't migrated yet.
+- `PhoneFrame` (exported shared primitive) reworked so the phone image sits in an explicit inset box (`top-16 right-6 bottom-16 left-32` desktop, `top-10 right-3 bottom-10 left-20` mobile) with `object-contain object-right`. Result: phone is anchored right, "peeking" into frame at a smaller scale, with a dedicated left zone for the Fig plate. Plate bulked up (`top-4 left-4`, `px-3 py-1.5`, `text-[10px]`, `bg-black/65`) so it reads cleanly without crowding the phone.
+
+**Cognitive-test section (all sub-components):**
+- `CognitiveTestSection` + `CognitiveTestSectionMobile` re-chrome: trio header (`Test Your Brain -- Cognetivity SDK -- 2-Min Assessment`), hairline `BenefitsSpecStrip` (Validation / Results / Profile with navy tabular values) replacing the gradient neuro-blue circles, testing-state frame wrapped in a top spec bar (`Fig. 07 -- Cognetivity SDK` + live pulse dot) + hairline frame + bottom 3-col spec strip (J / F / Speed + Accuracy). Play-again CTA flipped to hairline-with-navy-fill-on-hover + `lab-clip-tr` + `↻`.
+- `CognitiveTestIdleCard` moved to hairline + navy tile brain icon (44x44, stroke 1.75, `strokeLinecap="square"`, `strokeLinejoin="miter"`) + clinical start CTA.
+- `EmailCaptureForm` swapped to square-cornered inputs with navy focus ring, custom square checkbox with navy fill, navy submit button + trio header + mono back link.
+- `CognitiveTestLoader` replaced progress ring + premium card with hairline card + navy tile (pulse -> checkmark), mono `XXX%` counter, navy hairline progress bar, `01 02 03` stage counter in mono.
+- `CognitiveTestScores` swapped from premium-card-soft + gradient score text to hairline card with `Fig. 08 -- Speed of Processing` top bar + 3-col score grid (navy tabular values) + email footer spec line.
+- `CognitiveTestRecommendation` converted to hairline card with navy left edge, navy primary + hairline secondary buttons (both `lab-clip-tr`).
+- `CognitiveTestAppPromo` restyled as hairline card with dot-bullet feature strip, navy App Store + hairline Google Play buttons.
+- `CognicaSDK` iframe wrapper loading state swapped to the navy-tile + mono "Initialising assessment" shimmer pattern so the boot state matches the rest of the section (heavier chrome like the Fig plate and spec bars moved up to `CognitiveTestSection` where it belongs -- the SDK wrapper just serves the iframe now).
+
+**Section rhythm + nav alignment on `/app`:**
+- Section ordering held but backgrounds re-flipped: cognitive-test moved to `brand-bg-tint` and case-studies to `brand-bg-white` so we don't get two adjacent white sections after the download CTA.
+- The scroll-hijack bottom nav was previously a wrapping flex row, which put tab 3 and tab 4 mid-line on narrow viewports and left no positional relationship with the progress bar. Now a grid with `numSections` equal columns, text-left per cell, so tab N sits at `((N-1) / N) * 100%` which matches the start of segment N on the fill bar.
+
+**Why:** `/app` was advertised as "migrated" but the four child components still ran the dark ink hero + gradient sticky block + gradient benefit circles + pill CTAs, so the page jumped aesthetic mid-scroll -- clinical header, premium body, clinical footer. The cognitive-test sub-components in particular were the heaviest remaining island of premium styling on the site, and they render on both `/app` and (via embedded SDK) as the primary conversion moment on that page. The phone-frame and nav-alignment fixes came out of the first preview: phone was flush to the frame edge which crowded the Fig plate, and the flex-wrap tabs looked arbitrarily spaced against the continuous scroll bar.
+**Plan:** `docs/development/featurePlans/clinical-aesthetic-page-alignment.md` (extends the /app treatment under SCRUM-906)
+**Commit:** `cfd1fed`
+**Branch:** `full-website-realignment`
+
 ### 2026-04-21 -- Full-website clinical aesthetic realignment (SCRUM-906)
 
 Extended the clinical aesthetic from `/start` + `/` into the rest of the site -- product PDPs, ingredients, our story, /protocol/3, /case-studies, /science, and /app -- then reshuffled the Balance PDP and added a per-athlete "what they took" card on case studies.
