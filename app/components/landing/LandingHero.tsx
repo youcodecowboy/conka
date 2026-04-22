@@ -10,7 +10,7 @@ const STATS = [
 function StatStrip({ dense }: { dense?: boolean }) {
   if (dense) {
     return (
-      <div className="w-full border border-black/12 overflow-hidden">
+      <div className="w-full border border-black/12 overflow-hidden lab-asset-frame">
         {STATS.map((stat, idx) => (
           <div
             key={stat.value}
