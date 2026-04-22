@@ -133,38 +133,38 @@ export function MultiLineEditModal({ isOpen, onClose, subscription, onSave, load
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
       <div className="fixed inset-0 bg-black/50" onClick={onClose} aria-hidden />
-      <div className="relative bg-[var(--color-bone)] rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="relative bg-white border border-black/12 max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
 
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-[var(--color-premium-stroke)]">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
           <div>
             <h3
-              className="font-bold text-lg text-[var(--color-ink)]"
-              style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+              className="font-semibold text-black"
+              style={{ letterSpacing: "-0.02em" }}
             >
               Edit subscription
             </h3>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-0.5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mt-0.5">
               {subscription.lines?.length ?? 0} products · shared delivery schedule
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] transition-colors"
+            className="p-2 hover:bg-[#f5f5f5] transition-colors"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
         </div>
 
         {/* Body */}
-        <div className="p-5 overflow-y-auto flex-1 space-y-6">
+        <div className="p-4 overflow-y-auto flex-1 space-y-6">
 
           {/* Per-line editors */}
           <div>
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-3">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-3">
               Products
             </p>
             <div className="space-y-4">
@@ -174,15 +174,15 @@ export function MultiLineEditModal({ isOpen, onClose, subscription, onSave, load
                 return (
                   <div
                     key={String(edit.lineId)}
-                    className="rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)] p-4 space-y-3"
+                    className="border border-black/12 bg-[#f5f5f5] p-4 space-y-3"
                   >
-                    <p className="premium-body-sm font-medium text-[var(--text-on-light-muted)] uppercase tracking-wide">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
                       Line {index + 1}
                     </p>
 
                     {/* Product picker */}
                     <div>
-                      <label className="block premium-body-sm text-[var(--text-on-light-muted)] mb-1.5">
+                      <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1.5">
                         Product
                       </label>
                       <div className="flex items-center gap-3">
@@ -190,13 +190,13 @@ export function MultiLineEditModal({ isOpen, onClose, subscription, onSave, load
                           <img
                             src={product.image}
                             alt=""
-                            className="w-10 h-10 rounded-[var(--premium-radius-nested)] object-cover flex-shrink-0"
+                            className="w-10 h-10 object-cover flex-shrink-0 border border-black/8"
                           />
                         )}
                         <select
                           value={edit.productKey}
                           onChange={e => handleProductChange(index, e.target.value)}
-                          className="flex-1 px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-bone)] text-[var(--color-ink)] premium-body-sm"
+                          className="flex-1 px-3 py-2 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757] transition-colors"
                         >
                           {CATALOG.map(p => (
                             <option key={p.key} value={p.key}>{p.label}</option>
@@ -207,7 +207,7 @@ export function MultiLineEditModal({ isOpen, onClose, subscription, onSave, load
 
                     {/* Size picker */}
                     <div>
-                      <label className="block premium-body-sm text-[var(--text-on-light-muted)] mb-1.5">
+                      <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1.5">
                         Pack size
                       </label>
                       <div className="flex flex-wrap gap-2">
@@ -216,10 +216,10 @@ export function MultiLineEditModal({ isOpen, onClose, subscription, onSave, load
                             key={size}
                             type="button"
                             onClick={() => handleSizeChange(index, size)}
-                            className={`px-4 py-2 rounded-[var(--premium-radius-interactive)] premium-body-sm font-semibold transition-colors border-2 ${
+                            className={`px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums transition-colors border ${
                               edit.size === size
-                                ? "bg-[var(--color-ink)] text-white border-[var(--color-ink)]"
-                                : "bg-[var(--color-bone)] text-[var(--color-ink)] border-[var(--color-premium-stroke)] hover:border-[var(--color-ink)]/30"
+                                ? "bg-[#1B2757] text-white border-[#1B2757]"
+                                : "bg-white text-black border-black/12 hover:border-black/40"
                             }`}
                           >
                             {size} shots
@@ -234,39 +234,39 @@ export function MultiLineEditModal({ isOpen, onClose, subscription, onSave, load
           </div>
 
           {/* Shared delivery frequency — auto-derived, read-only */}
-          <div className="rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)] p-4 flex items-center justify-between gap-4">
+          <div className="border border-black/12 bg-[#f5f5f5] p-4 flex items-center justify-between gap-4">
             <div>
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-0.5">
+              <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-0.5">
                 Delivery schedule
               </p>
-              <p className="font-semibold text-[var(--color-ink)]">
+              <p className="font-semibold text-black">
                 {PLAN_CADENCE[requiredPlan].label}
-                <span className="font-normal text-[var(--text-on-light-muted)] ml-2 text-sm">
+                <span className="font-normal text-black/60 ml-2 text-sm">
                   {PLAN_CADENCE[requiredPlan].detail}
                 </span>
               </p>
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+              <p className="text-sm text-black/60 mt-1">
                 Set by your largest pack. Your next delivery date stays the same.
               </p>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="flex-shrink-0 text-[var(--text-on-light-muted)]">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" className="flex-shrink-0 text-black/40">
+              <rect x="3" y="4" width="18" height="18" rx="0" ry="0"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
             </svg>
           </div>
 
           {error && (
-            <div className="rounded-[var(--premium-radius-nested)] border border-red-200 bg-red-50 p-4">
-              <p className="premium-body-sm text-red-700">{error}</p>
+            <div className="border border-red-200 bg-red-50/50 p-4">
+              <p className="text-sm text-red-700">{error}</p>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="p-5 border-t border-[var(--color-premium-stroke)] flex gap-3">
+        <div className="px-4 py-3 border-t border-black/8 flex gap-2">
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 py-2.5 premium-body-sm font-semibold border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-interactive)] text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
+            className="flex-1 py-3 border border-black/12 hover:border-black/40 text-black font-mono text-[10px] uppercase tracking-[0.16em] transition-colors"
           >
             Cancel
           </button>
@@ -274,11 +274,11 @@ export function MultiLineEditModal({ isOpen, onClose, subscription, onSave, load
             type="button"
             onClick={handleSave}
             disabled={loading || lineEdits.length === 0}
-            className="flex-1 py-2.5 premium-body-sm font-semibold bg-[var(--color-ink)] text-white rounded-[var(--premium-radius-interactive)] hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 py-3 bg-[#1B2757] text-white font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-opacity"
           >
             {loading ? (
               <>
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-3.5 h-3.5 border border-white/30 border-t-white rounded-full animate-spin" />
                 Saving...
               </>
             ) : "Save changes"}

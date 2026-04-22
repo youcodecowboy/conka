@@ -8,23 +8,41 @@ const STATS = [
 ];
 
 function StatStrip({ dense }: { dense?: boolean }) {
+  if (dense) {
+    return (
+      <div className="w-full border border-black/12 overflow-hidden lab-asset-frame">
+        {STATS.map((stat, idx) => (
+          <div
+            key={stat.value}
+            className={`flex flex-row items-center gap-6 px-5 py-4 ${
+              idx < STATS.length - 1 ? "border-b border-black/10" : ""
+            }`}
+          >
+            <p className="font-mono text-2xl font-bold text-black tracking-tight leading-none tabular-nums w-36 flex-shrink-0">
+              {stat.value}
+            </p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
+              {stat.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={`grid grid-cols-3 border border-black/12 overflow-hidden ${
-        dense ? "" : "lab-asset-frame"
-      }`}
-    >
+    <div className="grid grid-cols-3 border border-black/12 overflow-hidden lab-asset-frame">
       {STATS.map((stat, idx) => (
         <div
           key={stat.value}
-          className={`flex flex-col gap-1.5 px-3 py-4 lg:px-5 lg:py-5 ${
+          className={`flex flex-col gap-1.5 px-3 py-4 ${
             idx < STATS.length - 1 ? "border-r border-black/10" : ""
           }`}
         >
-          <p className="font-mono text-base lg:text-2xl font-bold text-black tracking-tight leading-none tabular-nums">
+          <p className="font-mono text-base font-bold text-black tracking-tight leading-none tabular-nums">
             {stat.value}
           </p>
-          <p className="font-mono text-[8px] lg:text-[9px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
+          <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
             {stat.label}
           </p>
         </div>
@@ -80,7 +98,7 @@ export default function LandingHero() {
       </div>
 
       {/* Desktop — content left, asset right */}
-      <div className="hidden lg:grid lg:grid-cols-[1fr_1fr] lg:gap-12 xl:gap-16 lg:items-center">
+      <div className="hidden lg:grid lg:grid-cols-[1fr_2fr] lg:gap-12 xl:gap-16 lg:items-center">
         {/* Left — eyebrow, title, CTA, stats */}
         <div className="flex flex-col items-start">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-black/55 tabular-nums mb-5">
@@ -102,14 +120,14 @@ export default function LandingHero() {
         </div>
 
         {/* Right — asset with figure plates */}
-        <div className="relative w-full aspect-[4/5] border border-black/12 overflow-hidden bg-[#f5f5f5]">
+        <div className="relative w-full aspect-[4/3] border border-black/12 overflow-hidden bg-[#f5f5f5]">
           <Image
             src="/lifestyle/CreationOfConkaBlack.jpg"
             alt="Two hands exchanging a CONKA brain performance shot"
             fill
             priority
             fetchPriority="high"
-            sizes="(max-width: 1024px) 100vw, 45vw"
+            sizes="(max-width: 1024px) 100vw, 60vw"
             className="object-cover object-center"
           />
           <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">

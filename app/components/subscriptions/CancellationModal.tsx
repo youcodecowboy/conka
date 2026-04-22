@@ -158,37 +158,37 @@ export function CancellationModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/50"
         onClick={handleClose}
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-white border border-black/12 max-w-lg w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b px-6 py-4 rounded-t-2xl">
+        <div className="sticky top-0 bg-white border-b border-black/8 px-4 py-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold">
+            <h2 className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>
               {step === 'reason' && 'Cancel Subscription'}
               {step === 'retention' && 'Before you go'}
               {step === 'confirm' && 'Confirm Cancellation'}
             </h2>
             <button
               onClick={handleClose}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              className="p-2 hover:bg-[#f5f5f5] transition-colors"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
           </div>
-          <p className="text-sm text-gray-500 mt-1">{subscriptionName}</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mt-1">{subscriptionName}</p>
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4">
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="mb-4 p-3 border border-red-200 bg-red-50/50 text-red-700 text-sm">
               {error}
             </div>
           )}
@@ -196,7 +196,7 @@ export function CancellationModal({
           {/* Step 1: Reason Selection */}
           {step === 'reason' && (
             <div className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-sm text-black/60">
                 We&apos;re sorry to see you go. Please let us know why you&apos;re cancelling:
               </p>
 
@@ -204,10 +204,10 @@ export function CancellationModal({
                 {CANCELLATION_REASONS.map((reason) => (
                   <label
                     key={reason.id}
-                    className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                    className={`flex items-center p-3 border cursor-pointer transition-colors ${
                       selectedReason === reason.id
-                        ? 'border-amber-500 bg-amber-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-[#1B2757] bg-[#1B2757]/5'
+                        : 'border-black/12 hover:border-black/40'
                     }`}
                   >
                     <input
@@ -218,16 +218,16 @@ export function CancellationModal({
                       onChange={(e) => setSelectedReason(e.target.value)}
                       className="sr-only"
                     />
-                    <div className={`w-4 h-4 rounded-full border-2 mr-3 flex items-center justify-center ${
+                    <div className={`w-4 h-4 border-2 mr-3 flex items-center justify-center ${
                       selectedReason === reason.id
-                        ? 'border-amber-500'
-                        : 'border-gray-300'
+                        ? 'border-[#1B2757]'
+                        : 'border-black/20'
                     }`}>
                       {selectedReason === reason.id && (
-                        <div className="w-2 h-2 rounded-full bg-amber-500" />
+                        <div className="w-2 h-2 bg-[#1B2757]" />
                       )}
                     </div>
-                    <span className="text-sm">{reason.label}</span>
+                    <span className="text-sm text-black">{reason.label}</span>
                   </label>
                 ))}
               </div>
@@ -237,22 +237,22 @@ export function CancellationModal({
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="Please tell us more..."
-                  className="w-full p-3 border border-gray-200 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full p-3 border border-black/12 bg-white text-black text-sm resize-none focus:outline-none focus:border-[#1B2757]"
                   rows={3}
                 />
               )}
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-2 pt-4">
                 <button
                   onClick={handleClose}
-                  className="flex-1 py-3 border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                  className="flex-1 py-3 border border-black/12 hover:border-black/40 text-black font-mono text-[10px] uppercase tracking-[0.16em] transition-colors"
                 >
                   Keep Subscription
                 </button>
                 <button
                   onClick={handleReasonSubmit}
                   disabled={!selectedReason}
-                  className="flex-1 py-3 bg-gray-900 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 transition-colors"
+                  className="flex-1 py-3 bg-[#1B2757] text-white font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                 >
                   Continue
                 </button>
@@ -264,15 +264,15 @@ export function CancellationModal({
           {step === 'retention' && retentionOffer && (
             <div className="space-y-4">
               <div className="text-center mb-2">
-                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+                <div className="w-16 h-16 bg-[#f5f5f5] border border-black/12 flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" className="text-black/40">
                     <circle cx="12" cy="12" r="10" />
                     <path d="M12 16v-4" />
                     <path d="M12 8h.01" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold">{retentionOffer.title}</h3>
-                <p className="text-gray-600 text-sm mt-2">
+                <h3 className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>{retentionOffer.title}</h3>
+                <p className="text-sm text-black/60 mt-2">
                   {retentionOffer.description}
                 </p>
               </div>
@@ -282,7 +282,7 @@ export function CancellationModal({
                   <button
                     onClick={handleRetentionAction}
                     disabled={discountLoading}
-                    className="w-full py-3 bg-[var(--color-neuro-blue-dark)] text-white rounded-lg font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+                    className="w-full py-3 bg-[#1B2757] text-white font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums hover:opacity-90 transition-opacity disabled:opacity-50"
                   >
                     {discountLoading ? (
                       <span className="flex items-center justify-center gap-2">
@@ -300,13 +300,13 @@ export function CancellationModal({
                 <button
                   onClick={() => setStep('confirm')}
                   disabled={discountLoading}
-                  className="w-full py-3 border border-gray-200 rounded-lg font-medium text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
+                  className="w-full py-3 border border-black/12 hover:border-black/40 text-black font-mono text-[10px] uppercase tracking-[0.16em] transition-colors disabled:opacity-50"
                 >
                   I still want to cancel
                 </button>
                 <button
                   onClick={handleClose}
-                  className="w-full py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                  className="w-full py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-black/40 hover:text-black transition-colors"
                 >
                   Never mind, keep my subscription
                 </button>
@@ -318,49 +318,49 @@ export function CancellationModal({
           {step === 'confirm' && (
             <div className="space-y-4">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-600">
+                <div className="w-16 h-16 bg-red-50/50 border border-red-200 flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" className="text-red-600">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="15" y1="9" x2="9" y2="15" />
                     <line x1="9" y1="9" x2="15" y2="15" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold">Are you sure?</h3>
-                <p className="text-gray-600 text-sm mt-1">
+                <h3 className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>Are you sure?</h3>
+                <p className="text-sm text-black/60 mt-1">
                   This will cancel your subscription immediately. You won&apos;t receive any more deliveries.
                 </p>
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="bg-[#f5f5f5] border border-black/12 p-4">
                 <div className="text-sm">
-                  <div className="font-medium">Cancellation reason:</div>
-                  <div className="text-gray-600">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Cancellation reason</div>
+                  <div className="text-black">
                     {CANCELLATION_REASONS.find(r => r.id === selectedReason)?.label}
                   </div>
                   {comment && (
-                    <div className="text-gray-500 mt-1 italic">&quot;{comment}&quot;</div>
+                    <div className="text-black/60 mt-1 italic">&quot;{comment}&quot;</div>
                   )}
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                <p className="text-sm text-blue-800">
+              <div className="border border-[#1B2757]/20 bg-[#1B2757]/5 p-4">
+                <p className="text-sm text-[#1B2757]">
                   You can reactivate your subscription at any time from your account page.
                 </p>
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-2 pt-4">
                 <button
                   onClick={() => setStep(retentionOffer ? 'retention' : 'reason')}
                   disabled={loading}
-                  className="flex-1 py-3 border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
+                  className="flex-1 py-3 border border-black/12 hover:border-black/40 text-black font-mono text-[10px] uppercase tracking-[0.16em] transition-colors disabled:opacity-50"
                 >
                   Go Back
                 </button>
                 <button
                   onClick={handleConfirmCancel}
                   disabled={loading}
-                  className="flex-1 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
+                  className="flex-1 py-3 bg-red-600 text-white font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums hover:bg-red-700 transition-colors disabled:opacity-50"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">

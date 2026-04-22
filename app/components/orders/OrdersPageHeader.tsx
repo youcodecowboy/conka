@@ -5,7 +5,7 @@ export function OrdersPageHeader() {
     <div className="flex items-center gap-4 mb-8">
       <Link
         href="/account"
-        className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] transition-colors"
+        className="p-2 hover:bg-[#f5f5f5] transition-colors"
         aria-label="Back to account"
       >
         <svg
@@ -16,21 +16,21 @@ export function OrdersPageHeader() {
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
         >
           <line x1="19" y1="12" x2="5" y2="12" />
           <polyline points="12 19 5 12 12 5" />
         </svg>
       </Link>
       <div>
-        <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-0.5">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-0.5">
           Your
         </p>
         <h1
           id="orders-heading"
-          className="premium-section-heading mb-0"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="text-3xl font-semibold text-black mb-0"
+          style={{ letterSpacing: "-0.02em" }}
         >
           Order History
         </h1>

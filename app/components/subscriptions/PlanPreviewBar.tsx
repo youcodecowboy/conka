@@ -49,13 +49,13 @@ function ProtocolMiniCard({
 
   return (
     <div className="flex-1 min-w-0">
-      <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1.5">
+      <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1.5">
         {label}
       </p>
       <div className="flex items-center gap-2.5">
         {img && (
           <div
-            className={`${compact ? 'w-10 h-10' : 'w-12 h-12'} flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)]`}
+            className={`${compact ? 'w-10 h-10' : 'w-12 h-12'} flex-shrink-0 overflow-hidden border border-black/8`}
           >
             <Image
               src={img}
@@ -67,19 +67,19 @@ function ProtocolMiniCard({
           </div>
         )}
         <div className="min-w-0">
-          <p className="font-semibold text-sm text-[var(--color-ink)] truncate">
+          <p className="font-semibold text-sm text-black truncate">
             {protocol?.name ?? 'Protocol'}
           </p>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)] truncate">
+          <p className="text-sm text-black/60 truncate">
             {tierInfo?.deliveryShots} shots · {tierInfo?.frequency}
           </p>
           {breakdown && (
             <div className="flex items-center gap-1.5 mt-0.5">
-              <Image src="/formulas/ConkaFlowColour.jpg" alt="" width={14} height={14} className="rounded-full" />
-              <span className="text-xs text-[var(--text-on-light-muted)]">{breakdown.flowCount}</span>
-              <span className="text-xs text-[var(--text-on-light-muted)] opacity-40">+</span>
-              <Image src="/formulas/ConkaClearColour.jpg" alt="" width={14} height={14} className="rounded-full" />
-              <span className="text-xs text-[var(--text-on-light-muted)]">{breakdown.clarityCount}</span>
+              <Image src="/formulas/ConkaFlowColour.jpg" alt="" width={14} height={14} className="overflow-hidden" />
+              <span className="font-mono text-[10px] tabular-nums text-black/60">{breakdown.flowCount}</span>
+              <span className="font-mono text-[10px] tabular-nums text-black/40">+</span>
+              <Image src="/formulas/ConkaClearColour.jpg" alt="" width={14} height={14} className="overflow-hidden" />
+              <span className="font-mono text-[10px] tabular-nums text-black/60">{breakdown.clarityCount}</span>
             </div>
           )}
         </div>
@@ -105,13 +105,13 @@ function FormulaMiniCard({
 
   return (
     <div className="flex-1 min-w-0">
-      <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1.5">
+      <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1.5">
         {label}
       </p>
       <div className="flex items-center gap-2.5">
         {img && (
           <div
-            className={`${compact ? 'w-10 h-10' : 'w-12 h-12'} flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)]`}
+            className={`${compact ? 'w-10 h-10' : 'w-12 h-12'} flex-shrink-0 overflow-hidden border border-black/8`}
           >
             <Image
               src={img}
@@ -123,10 +123,10 @@ function FormulaMiniCard({
           </div>
         )}
         <div className="min-w-0">
-          <p className="font-semibold text-sm text-[var(--color-ink)] truncate">
+          <p className="font-semibold text-sm text-black truncate">
             {formula?.name ?? 'Formula'}
           </p>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+          <p className="text-sm text-black/60">
             {FORMULA_PACK_LABELS[packSize]}
           </p>
         </div>
@@ -152,8 +152,7 @@ export function PlanPreviewBar({
 
   return (
     <div
-      className={`${compact ? 'p-3' : 'p-4'} rounded-[var(--premium-radius-nested)] border border-[var(--color-neuro-blue-start)] mb-4`}
-      style={{ backgroundColor: 'var(--color-neuro-blue-light)' }}
+      className={`${compact ? 'p-3' : 'p-4'} border border-[#1B2757]/20 bg-[#1B2757]/5 mb-4`}
     >
       <div className="flex items-stretch gap-3">
         {isProtocol ? (
@@ -173,9 +172,9 @@ export function PlanPreviewBar({
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-[var(--color-neuro-blue-dark)] flex-shrink-0"
+                strokeLinecap="square"
+                strokeLinejoin="miter"
+                className="text-[#1B2757] flex-shrink-0"
               >
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
@@ -205,9 +204,9 @@ export function PlanPreviewBar({
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-[var(--color-neuro-blue-dark)] flex-shrink-0"
+                strokeLinecap="square"
+                strokeLinejoin="miter"
+                className="text-[#1B2757] flex-shrink-0"
               >
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />

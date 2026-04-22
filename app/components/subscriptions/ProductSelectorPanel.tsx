@@ -46,10 +46,10 @@ export function ProductSelectorPanel({
   if (isProtocol) {
     return (
       <>
-        <h3 className="premium-body-sm text-[var(--color-neuro-blue-dark)] uppercase tracking-wide mb-3 font-semibold">
+        <h3 className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#1B2757] tabular-nums mb-3 font-semibold">
           Switch protocol
         </h3>
-        <p className="premium-body-sm text-[var(--color-neuro-blue-dark)]/80 mb-4">
+        <p className="text-sm text-[#1B2757]/80 mb-4">
           Same pack size, same price. Pick the mix that suits you.
         </p>
         <div className={spaceClass}>
@@ -64,17 +64,17 @@ export function ProductSelectorPanel({
                 key={protocol.id}
                 type="button"
                 onClick={() => onSelectProtocol(protocol.id)}
-                className={`w-full text-left rounded-[var(--premium-radius-nested)] border-2 overflow-hidden ${
+                className={`w-full text-left border overflow-hidden ${
                   isSelected
-                    ? 'bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]'
+                    ? 'bg-[#1B2757] text-white border-[#1B2757]'
                     : isCurrent
-                      ? 'bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)] hover:border-[var(--color-neuro-blue-dark)]'
-                      : 'bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]'
+                      ? 'bg-white border-[#1B2757] hover:border-[#1B2757]'
+                      : 'bg-white border-black/12 hover:border-black/40'
                 }`}
               >
                 <div className={`flex ${gapClass} p-3`}>
                   <div
-                    className={`${imgClass} flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)]`}
+                    className={`${imgClass} flex-shrink-0 overflow-hidden border border-black/8`}
                   >
                     {img ? (
                       <Image
@@ -85,37 +85,37 @@ export function ProductSelectorPanel({
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-full h-full flex items-center justify-center bg-[#f5f5f5]">
                         <SubscriptionIcon
                           name={protocol.icon}
-                          className={`w-8 h-8 ${isSelected ? 'text-white' : 'text-[var(--color-ink)]'}`}
+                          className={`w-8 h-8 ${isSelected ? 'text-white' : 'text-black'}`}
                         />
                       </div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className={`font-bold ${textClass}`}>{protocol.name}</span>
+                      <span className={`font-semibold ${textClass}`}>{protocol.name}</span>
                       {protocol.id === '4' && (
-                        <span className="text-xs font-semibold text-[var(--color-neuro-blue-dark)]">
+                        <span className={`font-mono text-[9px] uppercase tracking-[0.16em] tabular-nums ${isSelected ? 'text-white/70' : 'text-[#1B2757]'}`}>
                           Different pricing
                         </span>
                       )}
                       {isCurrent && (
                         <span
-                          className={`text-xs font-bold px-2 py-0.5 rounded ${
+                          className={`font-mono text-[9px] uppercase tracking-[0.16em] tabular-nums px-2 py-0.5 ${
                             isSelected
-                              ? 'bg-white/20'
-                              : 'bg-[var(--color-premium-stroke)] text-[var(--color-ink)]'
+                              ? 'bg-white/20 text-white'
+                              : 'bg-[#f5f5f5] border border-black/12 text-black/60'
                           }`}
                         >
-                          CURRENT
+                          Current
                         </span>
                       )}
                     </div>
                     <p
-                      className={`premium-body-sm mt-0.5 ${
-                        isSelected ? 'opacity-90' : 'text-[var(--text-on-light-muted)]'
+                      className={`text-sm mt-0.5 ${
+                        isSelected ? 'opacity-90' : 'text-black/60'
                       }`}
                     >
                       {protocol.subtitle}
@@ -128,14 +128,14 @@ export function ProductSelectorPanel({
         </div>
         {/* Callout: single formulas — with product assets */}
         <div
-          className={`${calloutMt} ${calloutPad} rounded-[var(--premium-radius-nested)] border border-[var(--color-neuro-blue-start)] bg-[var(--color-bone)]`}
+          className={`${calloutMt} ${calloutPad} border border-black/12 bg-[#f5f5f5]`}
         >
-          <p className="premium-body-sm font-medium text-[var(--color-ink)] mb-2">
+          <p className="text-sm font-medium text-black mb-2">
             Want CONKA Flow only or CONKA Clear only?
           </p>
           <div className="flex items-center gap-3 mb-2">
             <div
-              className={`${imgThumbClass} rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)] flex-shrink-0`}
+              className={`${imgThumbClass} overflow-hidden border border-black/8 flex-shrink-0`}
             >
               {getFormulaImage('01') && (
                 <Image
@@ -148,7 +148,7 @@ export function ProductSelectorPanel({
               )}
             </div>
             <div
-              className={`${imgThumbClass} rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)] flex-shrink-0`}
+              className={`${imgThumbClass} overflow-hidden border border-black/8 flex-shrink-0`}
             >
               {getFormulaImage('02') && (
                 <Image
@@ -161,7 +161,7 @@ export function ProductSelectorPanel({
               )}
             </div>
           </div>
-          <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+          <p className="text-sm text-black/60">
             Cancel this subscription and start a new one from the shop.
           </p>
         </div>
@@ -172,10 +172,10 @@ export function ProductSelectorPanel({
   // Formula selector
   return (
     <>
-      <h3 className="premium-body-sm text-[var(--color-neuro-blue-dark)] uppercase tracking-wide mb-3 font-semibold">
+      <h3 className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#1B2757] tabular-nums mb-3 font-semibold">
         Switch formula
       </h3>
-      <p className="premium-body-sm text-[var(--text-on-light-muted)] mb-4">
+      <p className="text-sm text-black/60 mb-4">
         Same pack size. Switch between Flow and Clear.
       </p>
       <div className={spaceClass}>
@@ -188,17 +188,17 @@ export function ProductSelectorPanel({
               key={formula.id}
               type="button"
               onClick={() => onSelectFormula(formula.id)}
-              className={`w-full text-left rounded-[var(--premium-radius-nested)] border-2 overflow-hidden ${
+              className={`w-full text-left border overflow-hidden ${
                 isSelected
-                  ? 'bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]'
+                  ? 'bg-[#1B2757] text-white border-[#1B2757]'
                   : isCurrent
-                    ? 'bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)] hover:border-[var(--color-neuro-blue-dark)]'
-                    : 'bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]'
+                    ? 'bg-white border-[#1B2757] hover:border-[#1B2757]'
+                    : 'bg-white border-black/12 hover:border-black/40'
               }`}
             >
               <div className={`flex ${gapClass} p-3`}>
                 <div
-                  className={`${imgClass} flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden bg-[var(--color-premium-stroke)]`}
+                  className={`${imgClass} flex-shrink-0 overflow-hidden border border-black/8`}
                 >
                   {img ? (
                     <Image
@@ -209,32 +209,32 @@ export function ProductSelectorPanel({
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-full h-full flex items-center justify-center bg-[#f5f5f5]">
                       <SubscriptionIcon
                         name="beaker"
-                        className={`w-8 h-8 ${isSelected ? 'text-white' : 'text-[var(--color-ink)]'}`}
+                        className={`w-8 h-8 ${isSelected ? 'text-white' : 'text-black'}`}
                       />
                     </div>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className={`font-bold ${textClass}`}>{formula.name}</span>
+                    <span className={`font-semibold ${textClass}`}>{formula.name}</span>
                     {isCurrent && (
                       <span
-                        className={`text-xs font-bold px-2 py-0.5 rounded ${
+                        className={`font-mono text-[9px] uppercase tracking-[0.16em] tabular-nums px-2 py-0.5 ${
                           isSelected
-                            ? 'bg-white/20'
-                            : 'bg-[var(--color-premium-stroke)] text-[var(--color-ink)]'
+                            ? 'bg-white/20 text-white'
+                            : 'bg-[#f5f5f5] border border-black/12 text-black/60'
                         }`}
                       >
-                        CURRENT
+                        Current
                       </span>
                     )}
                   </div>
                   <p
-                    className={`premium-body-sm mt-0.5 ${
-                      isSelected ? 'opacity-90' : 'text-[var(--text-on-light-muted)]'
+                    className={`text-sm mt-0.5 ${
+                      isSelected ? 'opacity-90' : 'text-black/60'
                     }`}
                   >
                     {formula.subtitle}
@@ -247,12 +247,12 @@ export function ProductSelectorPanel({
       </div>
       {/* Callout: protocol bundles require new subscription */}
       <div
-        className={`${calloutMt} ${calloutPad} rounded-[var(--premium-radius-nested)] border border-[var(--color-neuro-blue-start)] bg-[var(--color-bone)]`}
+        className={`${calloutMt} ${calloutPad} border border-black/12 bg-[#f5f5f5]`}
       >
-        <p className="premium-body-sm font-medium text-[var(--color-ink)] mb-1">
+        <p className="text-sm font-medium text-black mb-1">
           Want a protocol bundle (Resilience, Precision, Balance)?
         </p>
-        <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+        <p className="text-sm text-black/60">
           Cancel this subscription and start a new one from the shop.
         </p>
       </div>

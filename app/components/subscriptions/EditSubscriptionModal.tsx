@@ -128,26 +128,26 @@ export function EditSubscriptionModal({
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       {/* Modal - Desktop */}
-      <div className="relative bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] w-full max-w-4xl max-h-[90vh] overflow-hidden hidden md:flex flex-col shadow-xl">
+      <div className="relative bg-white border border-black/12 w-full max-w-4xl max-h-[90vh] overflow-hidden hidden md:flex flex-col">
         {/* Header */}
-        <div className="border-b border-[var(--color-premium-stroke)] px-6 py-4">
+        <div className="border-b border-black/8 px-6 py-4">
           <div className="flex items-start justify-between mb-3">
-            <h2 className="text-xl font-bold text-[var(--color-ink)]" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
+            <h2 className="text-xl font-semibold text-black" style={{ letterSpacing: "-0.02em" }}>
               Edit Plan
             </h2>
             <button
               onClick={onClose}
-              className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] transition-colors text-[var(--color-ink)]"
+              className="p-2 hover:bg-[#f5f5f5] transition-colors text-black"
             >
               <SubscriptionIcon name="close" className="w-5 h-5" />
             </button>
           </div>
           {/* Current plan visual summary */}
-          <div className="flex items-center gap-3 p-3 rounded-[var(--premium-radius-nested)] bg-[var(--color-surface)] border border-[var(--color-premium-stroke)]">
+          <div className="flex items-center gap-3 p-3 bg-[#f5f5f5] border border-black/12">
             {isProtocol ? (
               <>
                 {getProtocolImage(currentProtocolId) && (
-                  <div className="w-12 h-12 flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden">
+                  <div className="w-12 h-12 flex-shrink-0 overflow-hidden border border-black/8">
                     <Image
                       src={getProtocolImage(currentProtocolId)}
                       alt={currentProtocolName ?? 'Protocol'}
@@ -158,11 +158,11 @@ export function EditSubscriptionModal({
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="premium-body-sm text-[var(--text-on-light-muted)]">Your current plan</p>
-                  <p className="font-semibold text-sm text-[var(--color-ink)]">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums">Your current plan</p>
+                  <p className="font-semibold text-sm text-black">
                     {currentProtocolName ?? 'Protocol'} · {currentPlanShots ?? '–'} shots · {currentTierInfo?.frequency ?? '–'}
                   </p>
-                  <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+                  <p className="text-sm text-black/60">
                     £{currentTierInfo?.price.toFixed(2) ?? '–'} · {currentTierInfo?.billing ?? '–'}
                   </p>
                 </div>
@@ -170,7 +170,7 @@ export function EditSubscriptionModal({
             ) : (
               <>
                 {getFormulaImage(currentFormulaId) && (
-                  <div className="w-12 h-12 flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden">
+                  <div className="w-12 h-12 flex-shrink-0 overflow-hidden border border-black/8">
                     <Image
                       src={getFormulaImage(currentFormulaId)}
                       alt={currentFormulaName ?? 'Formula'}
@@ -181,8 +181,8 @@ export function EditSubscriptionModal({
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="premium-body-sm text-[var(--text-on-light-muted)]">Your current plan</p>
-                  <p className="font-semibold text-sm text-[var(--color-ink)]">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums">Your current plan</p>
+                  <p className="font-semibold text-sm text-black">
                     {currentFormulaName ?? 'Formula'} · {currentPackSize} shots
                   </p>
                 </div>
@@ -194,7 +194,7 @@ export function EditSubscriptionModal({
         {/* Content */}
         <div className="flex flex-1 overflow-hidden">
           {/* Left: Protocol or Formula selector */}
-          <div className="w-2/5 border-r border-[var(--color-neuro-blue-start)] p-6 overflow-y-auto" style={{ backgroundColor: "var(--color-neuro-blue-light)" }}>
+          <div className="w-2/5 border-r border-black/12 p-6 overflow-y-auto bg-[#1B2757]/5">
             <ProductSelectorPanel
               isProtocol={isProtocol}
               selectedProtocol={selectedProtocol}
@@ -210,7 +210,7 @@ export function EditSubscriptionModal({
           </div>
 
           {/* Right: Pack size / tier */}
-          <div className="flex-1 p-6 overflow-y-auto bg-[var(--color-bone)]">
+          <div className="flex-1 p-6 overflow-y-auto bg-white">
             <TierSelectorPanel
               isProtocol={isProtocol}
               selectedProtocol={selectedProtocol}
@@ -230,7 +230,7 @@ export function EditSubscriptionModal({
         </div>
 
         {/* Desktop Footer */}
-        <div className="border-t border-[var(--color-premium-stroke)] p-6 bg-[var(--color-bone)]">
+        <div className="border-t border-black/8 p-6 bg-white">
           <PlanPreviewBar
             isProtocol={isProtocol}
             currentProtocolId={currentProtocolId}
@@ -244,7 +244,7 @@ export function EditSubscriptionModal({
             hasChanges={hasChanges}
           />
           {hasUnfulfilledFirstOrder && hasChanges && (
-            <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] bg-[var(--color-neuro-blue-light)] border border-[var(--color-neuro-blue-start)]">
+            <div className="mb-4 p-3 bg-[#1B2757]/5 border border-[#1B2757]/20">
               <div className="flex items-start gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -254,15 +254,15 @@ export function EditSubscriptionModal({
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-[var(--color-neuro-blue-dark)] flex-shrink-0 mt-0.5"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
+                  className="text-[#1B2757] flex-shrink-0 mt-0.5"
                 >
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 16v-4" />
                   <path d="M12 8h.01" />
                 </svg>
-                <p className="premium-body-sm text-[var(--color-neuro-blue-dark)]">
+                <p className="text-sm text-[#1B2757]">
                   This change will take effect on your{" "}
                   <strong>next delivery</strong>. Your first order is already
                   being prepared. Need to adjust it?{" "}
@@ -287,9 +287,9 @@ export function EditSubscriptionModal({
                 variant="link-blue"
                 icon="envelope-small"
               />
-              <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+              <span className="text-sm text-black/60">
                 {hasChanges ? (
-                  <span className="text-[var(--color-ink)] font-medium">
+                  <span className="text-black font-medium">
                     {isProtocol
                       ? `→ ${PROTOCOLS.find((p) => p.id === selectedProtocol)?.name} · ${getTierInfo(selectedProtocol, selectedTier)?.deliveryShots} shots per delivery`
                       : `→ ${FORMULAS.find((f) => f.id === selectedFormulaId)?.name} · ${selectedPackSize} shots`}
@@ -302,19 +302,18 @@ export function EditSubscriptionModal({
             <div className="flex gap-3">
               <button
                 onClick={onClose}
-                className="rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] px-6 py-2.5 font-semibold premium-body-sm text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors"
+                className="border border-black/12 hover:border-black/40 px-6 py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-black transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={!hasChanges || saving || loading || (!isProtocol && !onSaveFormula)}
-                className="rounded-[var(--premium-radius-interactive)] px-6 py-2.5 font-semibold premium-body-sm text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+                className="bg-[#1B2757] px-6 py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums text-white disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
               >
                 {saving ? (
                   <span className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                    <div className="w-3.5 h-3.5 border border-white/30 border-t-white rounded-full animate-spin" />
                     Updating...
                   </span>
                 ) : (
@@ -327,21 +326,21 @@ export function EditSubscriptionModal({
       </div>
 
       {/* Modal - Mobile */}
-      <div className="relative bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] w-full max-h-[90vh] overflow-hidden flex flex-col md:hidden shadow-xl">
+      <div className="relative bg-white border border-black/12 w-full max-h-[90vh] overflow-hidden flex flex-col md:hidden">
         {/* Header */}
-        <div className="border-b border-[var(--color-premium-stroke)] px-4 py-3">
+        <div className="border-b border-black/8 px-4 py-3">
           <div className="flex items-start justify-between mb-2">
-            <h2 className="font-bold text-[var(--color-ink)]" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>Edit Plan</h2>
-            <button onClick={onClose} className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] text-[var(--color-ink)]">
+            <h2 className="font-semibold text-black" style={{ letterSpacing: "-0.02em" }}>Edit Plan</h2>
+            <button onClick={onClose} className="p-2 hover:bg-[#f5f5f5] text-black">
               <SubscriptionIcon name="close" className="w-5 h-5" />
             </button>
           </div>
           {/* Current plan visual summary — mobile */}
-          <div className="flex items-center gap-2.5 p-2.5 rounded-[var(--premium-radius-nested)] bg-[var(--color-surface)] border border-[var(--color-premium-stroke)]">
+          <div className="flex items-center gap-2.5 p-2.5 bg-[#f5f5f5] border border-black/12">
             {isProtocol ? (
               <>
                 {getProtocolImage(currentProtocolId) && (
-                  <div className="w-10 h-10 flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden">
+                  <div className="w-10 h-10 flex-shrink-0 overflow-hidden border border-black/8">
                     <Image
                       src={getProtocolImage(currentProtocolId)}
                       alt={currentProtocolName ?? 'Protocol'}
@@ -352,8 +351,8 @@ export function EditSubscriptionModal({
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="text-xs text-[var(--text-on-light-muted)]">Current plan</p>
-                  <p className="font-semibold text-sm text-[var(--color-ink)] truncate">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums">Current plan</p>
+                  <p className="font-semibold text-sm text-black truncate">
                     {currentProtocolName ?? 'Protocol'} · {currentPlanShots ?? '–'} shots · {currentTierInfo?.frequency ?? '–'}
                   </p>
                 </div>
@@ -361,7 +360,7 @@ export function EditSubscriptionModal({
             ) : (
               <>
                 {getFormulaImage(currentFormulaId) && (
-                  <div className="w-10 h-10 flex-shrink-0 rounded-[var(--premium-radius-nested)] overflow-hidden">
+                  <div className="w-10 h-10 flex-shrink-0 overflow-hidden border border-black/8">
                     <Image
                       src={getFormulaImage(currentFormulaId)}
                       alt={currentFormulaName ?? 'Formula'}
@@ -372,8 +371,8 @@ export function EditSubscriptionModal({
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="text-xs text-[var(--text-on-light-muted)]">Current plan</p>
-                  <p className="font-semibold text-sm text-[var(--color-ink)] truncate">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums">Current plan</p>
+                  <p className="font-semibold text-sm text-black truncate">
                     {currentFormulaName ?? 'Formula'} · {currentPackSize} shots
                   </p>
                 </div>
@@ -383,24 +382,26 @@ export function EditSubscriptionModal({
         </div>
 
         {/* Mobile Steps */}
-        <div className="flex border-b border-[var(--color-premium-stroke)]">
+        <div className="flex border-b border-black/8">
           <button
             type="button"
             onClick={() => setMobileStep("product")}
-            className={`flex-1 py-3 premium-body-sm font-semibold ${
-              mobileStep === "product" ? "text-[var(--text-on-ink)]" : "text-[var(--color-ink)] bg-[var(--color-bone)]"
+            className={`flex-1 py-3 font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums transition-colors ${
+              mobileStep === "product"
+                ? "bg-[#1B2757] text-white"
+                : "text-black bg-white hover:bg-[#f5f5f5]"
             }`}
-            style={mobileStep === "product" ? { backgroundColor: "var(--color-neuro-blue-dark)" } : undefined}
           >
             1. {isProtocol ? "Protocol" : "Formula"}
           </button>
           <button
             type="button"
             onClick={() => setMobileStep("tier")}
-            className={`flex-1 py-3 premium-body-sm font-semibold border-l border-[var(--color-premium-stroke)] ${
-              mobileStep === "tier" ? "text-[var(--text-on-ink)]" : "text-[var(--color-ink)] bg-[var(--color-bone)]"
+            className={`flex-1 py-3 font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums border-l border-black/8 transition-colors ${
+              mobileStep === "tier"
+                ? "bg-[#1B2757] text-white"
+                : "text-black bg-white hover:bg-[#f5f5f5]"
             }`}
-            style={mobileStep === "tier" ? { backgroundColor: "var(--color-neuro-blue-dark)" } : undefined}
           >
             2. Pack size
           </button>
@@ -442,7 +443,7 @@ export function EditSubscriptionModal({
         </div>
 
         {/* Mobile Footer */}
-        <div className="border-t border-[var(--color-premium-stroke)] p-4 bg-[var(--color-bone)]">
+        <div className="border-t border-black/8 p-4 bg-white">
           <PlanPreviewBar
             isProtocol={isProtocol}
             currentProtocolId={currentProtocolId}
@@ -457,7 +458,7 @@ export function EditSubscriptionModal({
             compact={true}
           />
           {hasUnfulfilledFirstOrder && hasChanges && (
-            <div className="mb-3 p-2 rounded-[var(--premium-radius-nested)] bg-[var(--color-neuro-blue-light)] border border-[var(--color-neuro-blue-start)]">
+            <div className="mb-3 p-2 bg-[#1B2757]/5 border border-[#1B2757]/20">
               <div className="flex items-start gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -467,15 +468,15 @@ export function EditSubscriptionModal({
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-[var(--color-neuro-blue-dark)] flex-shrink-0 mt-0.5"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
+                  className="text-[#1B2757] flex-shrink-0 mt-0.5"
                 >
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 16v-4" />
                   <path d="M12 8h.01" />
                 </svg>
-                <p className="premium-body-sm text-[var(--color-neuro-blue-dark)]">
+                <p className="text-sm text-[#1B2757]">
                   Changes apply to your <strong>next delivery</strong>.{" "}
                   <ContactSupportLink variant="inline" icon={false} className="ml-1" />
                   {" "}to adjust your first order.
@@ -502,8 +503,7 @@ export function EditSubscriptionModal({
           <button
             onClick={handleSave}
             disabled={!hasChanges || saving || loading || (!isProtocol && !onSaveFormula)}
-            className="w-full rounded-[var(--premium-radius-interactive)] py-3 font-semibold premium-body-sm text-white disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
+            className="w-full py-3 bg-[#1B2757] text-white font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
           >
             {saving
               ? "Updating..."

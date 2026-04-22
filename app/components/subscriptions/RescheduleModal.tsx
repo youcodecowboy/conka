@@ -112,96 +112,96 @@ export function RescheduleModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/50"
         onClick={handleClose}
       />
 
-      <div className="relative bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b px-6 py-4 rounded-t-2xl">
+      <div className="relative bg-white border border-black/12 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white border-b border-black/8 px-4 py-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold">Reschedule Delivery</h2>
+            <h2 className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>Reschedule Delivery</h2>
             <button
               onClick={handleClose}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              className="p-2 hover:bg-[#f5f5f5] transition-colors"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
           </div>
-          <p className="text-sm text-gray-500 mt-1">{subscriptionName}</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mt-1">{subscriptionName}</p>
         </div>
 
-        <div className="p-6">
+        <div className="p-4">
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="mb-4 p-3 border border-red-200 bg-red-50/50 text-red-700 text-sm">
               {error}
             </div>
           )}
 
           {hasUnfulfilledOrder && (
-            <div className="mb-4 p-3 bg-[var(--color-neuro-blue-light)]/30 border border-[var(--color-neuro-blue-light)] rounded-lg">
-              <p className="text-sm text-[var(--color-neuro-blue-dark)]">
+            <div className="mb-4 p-3 bg-[#1B2757]/5 border border-[#1B2757]/20">
+              <p className="text-sm text-[#1B2757]">
                 Your next order is already being prepared. Rescheduling will move the <strong>following</strong> delivery after that.
               </p>
             </div>
           )}
 
           {currentDateFormatted && (
-            <p className="text-gray-600 mb-2">
-              Currently scheduled for <span className="font-semibold">{currentDateFormatted}</span>.
+            <p className="text-sm text-black/60 mb-2">
+              Currently scheduled for <span className="font-semibold tabular-nums">{currentDateFormatted}</span>.
             </p>
           )}
 
-          <p className="text-gray-600 mb-4">
+          <p className="text-sm text-black/60 mb-4">
             Choose a new date within your current billing cycle.
           </p>
 
           <div className="space-y-3">
             <label className="block">
-              <span className="text-sm font-medium text-gray-700 mb-1 block">New delivery date</span>
+              <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1 block">New delivery date</span>
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
                 min={minDate}
                 max={maxDateStr}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-neuro-blue-dark)]/30 focus:border-[var(--color-neuro-blue-dark)] transition-colors"
+                className="w-full px-4 py-3 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757] transition-colors"
               />
             </label>
-            <p className="text-xs text-gray-400">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-black/40 tabular-nums">
               Select a date at least {MIN_LEAD_DAYS} days from now, up to {cycleDays} days ahead.
             </p>
           </div>
 
           {selectedDate && (
-            <div className="mt-4 p-3 bg-[var(--color-neuro-blue-light)]/30 border border-[var(--color-neuro-blue-light)] rounded-lg space-y-2">
-              <p className="text-sm text-gray-700">
+            <div className="mt-4 p-3 bg-[#f5f5f5] border border-black/12 space-y-2">
+              <p className="text-sm text-black">
                 Your next delivery will move to{' '}
-                <span className="font-semibold">
+                <span className="font-semibold tabular-nums">
                   {formatDateForDisplay(selectedDate)}
                 </span>
                 .
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-black/50 tabular-nums">
                 This will shift your entire delivery schedule. All future deliveries will follow from this new date.
               </p>
             </div>
           )}
 
-          <div className="flex gap-3 pt-6">
+          <div className="flex gap-2 pt-6">
             <button
               onClick={handleClose}
               disabled={loading}
-              className="flex-1 py-3 border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="flex-1 py-3 border border-black/12 hover:border-black/40 text-black font-mono text-[10px] uppercase tracking-[0.16em] transition-colors disabled:opacity-50"
             >
               Keep Current Date
             </button>
             <button
               onClick={handleConfirm}
               disabled={!selectedDate || loading}
-              className="flex-1 py-3 bg-[var(--color-neuro-blue-dark)] text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+              className="flex-1 py-3 bg-[#1B2757] text-white font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">

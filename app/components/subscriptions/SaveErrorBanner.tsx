@@ -26,7 +26,7 @@ export function SaveErrorBanner({
     : `Subscription support: ${subscriptionName}${subscriptionId ? ` (${subscriptionId})` : ''}`;
 
   const colorClasses = errorMultiLine
-    ? 'border-[var(--color-neuro-blue-dark)]/30 bg-[var(--color-neuro-blue-light)] text-[var(--color-neuro-blue-dark)]'
+    ? 'border-[#1B2757]/30 bg-[#1B2757]/5 text-[#1B2757]'
     : errorPartial
       ? 'border-amber-500 bg-amber-50 text-amber-900'
       : 'border-red-300 bg-red-50 text-red-800';
@@ -45,10 +45,10 @@ export function SaveErrorBanner({
 
   return (
     <div
-      className={`${compact ? 'mb-3' : 'mb-4'} p-4 rounded-[var(--premium-radius-nested)] border-2 ${colorClasses}`}
+      className={`${compact ? 'mb-3' : 'mb-4'} p-4 border ${colorClasses}`}
     >
       <p className="font-semibold mb-2">{heading}</p>
-      <p className={`premium-body-sm ${compact ? 'mb-3' : 'mb-4'}`}>{body}</p>
+      <p className={`text-sm ${compact ? 'mb-3' : 'mb-4'}`}>{body}</p>
       <ContactSupportLink
         subject={supportSubject}
         variant={compact ? 'button-primary-small-full' : 'button-primary-small'}

@@ -255,10 +255,10 @@ export default function SubscriptionsPage() {
 
   if (authLoading || (!initialFetchDone && loading)) {
     return (
-      <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)] flex items-center justify-center">
+      <div className="brand-clinical min-h-screen bg-white text-black flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[var(--color-ink)]/20 border-t-[var(--color-ink)] rounded-full animate-spin mx-auto mb-4" />
-          <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+          <div className="w-8 h-8 border border-black/15 border-t-black/50 rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-sm text-black/60">
             Loading subscriptions...
           </p>
         </div>
@@ -278,15 +278,15 @@ export default function SubscriptionsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)]">
+    <div className="brand-clinical min-h-screen bg-white text-black">
       <Navigation />
 
       <main className="pt-3 pb-24 lg:pt-4">
         <section
-          className="premium-section-luxury bg-[var(--color-surface)]"
+          className="brand-section brand-bg-white"
           aria-labelledby="subscriptions-heading"
         >
-          <div className="premium-track">
+          <div className="brand-track">
             <SubscriptionsPageHeader />
 
             {subscriptions.length > 0 && (
@@ -298,8 +298,8 @@ export default function SubscriptionsPage() {
             )}
 
             {error && (
-              <div className="rounded-[var(--premium-radius-card)] border border-red-200 bg-red-50 p-6 mb-8">
-                <p className="premium-body text-red-700">{error}</p>
+              <div className="border border-red-200 bg-red-50/50 p-6 mb-8">
+                <p className="text-sm text-red-700">{error}</p>
               </div>
             )}
 
@@ -309,7 +309,7 @@ export default function SubscriptionsPage() {
               <div className="space-y-6">
                 {activeSubscriptions.length > 0 ? (
                   <div>
-                    <h2 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-6">
+                    <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-6">
                       {activeSubscriptions.length === 1
                         ? "Active & paused"
                         : `Active & paused (${activeSubscriptions.length} subscriptions)`}
@@ -349,7 +349,7 @@ export default function SubscriptionsPage() {
 
                 {inactiveSubscriptions.length > 0 && (
                   <div className="mt-10">
-                    <h2 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-6">
+                    <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-6">
                       Past subscriptions
                     </h2>
                     <div className="space-y-4">

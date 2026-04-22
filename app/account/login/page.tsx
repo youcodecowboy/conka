@@ -44,29 +44,32 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bone)] text-[var(--color-ink)]">
+    <div className="brand-clinical min-h-screen bg-white text-black">
       <Navigation />
 
       <main className="pt-24 pb-24 px-4 lg:px-[5vw]">
         <div className="mx-auto max-w-[28rem]">
-          <h1
-            className="text-2xl font-bold mb-1"
-            style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}
-          >
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-2">
             Account
+          </p>
+          <h1
+            className="text-2xl font-semibold text-black mb-1"
+            style={{ letterSpacing: '-0.02em' }}
+          >
+            Sign in
           </h1>
-          <p className="text-[var(--text-on-light-muted)] text-sm mb-6">
+          <p className="text-sm text-black/60 mb-6">
             Sign in to view orders, manage subscriptions, and update your details.
           </p>
 
-          <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] p-6">
+          <div className="bg-white border border-black/12 p-6">
             {error && (
-              <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+              <div className="mb-4 border border-red-200 bg-red-50/50 p-3 text-sm text-red-700">
                 {error}
               </div>
             )}
 
-            <p className="text-[var(--text-on-light-muted)] text-sm mb-4">
+            <p className="text-sm text-black/60 mb-4">
               We&apos;ll send a one-time code to your email. No password.
             </p>
 
@@ -74,11 +77,11 @@ export default function LoginPage() {
               type="button"
               onClick={handleLogin}
               disabled={loading}
-              className="w-full rounded-[var(--premium-radius-interactive)] bg-[var(--color-ink)] py-3.5 font-semibold text-white text-sm hover:opacity-90 disabled:opacity-50"
+              className="w-full bg-[#1B2757] text-white font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums py-3.5 [clip-path:polygon(0_0,calc(100%-12px)_0,100%_12px,100%_100%,0_100%)] hover:opacity-90 disabled:opacity-50 transition-opacity"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <span className="h-4 w-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  <span className="h-4 w-4 border border-white/30 border-t-white rounded-full animate-spin" />
                   Loading...
                 </span>
               ) : (
@@ -91,14 +94,14 @@ export default function LoginPage() {
                 type="button"
                 onClick={handleMockLogin}
                 disabled={mockLoading}
-                className="w-full mt-3 rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] py-3.5 font-semibold text-[var(--color-ink)] text-sm hover:bg-black/5 disabled:opacity-50"
+                className="w-full mt-3 border border-black/12 hover:border-black/40 text-black font-mono text-[10px] uppercase tracking-[0.16em] py-3.5 transition-colors disabled:opacity-50"
               >
                 {mockLoading ? 'Loading...' : 'Use mock account (dev)'}
               </button>
             )}
 
-            <p className="mt-4 text-center text-[var(--text-on-light-muted)] text-sm">
-              <Link href="/" className="font-medium text-[var(--color-ink)] underline hover:opacity-70">
+            <p className="mt-4 text-center text-sm text-black/60">
+              <Link href="/" className="font-medium text-black underline hover:opacity-70">
                 Continue as guest
               </Link>{' '}
               to checkout without an account.

@@ -43,14 +43,11 @@ export function TierSelectorPanel({
   return (
     <>
       {formattedNextBilling && (
-        <div
-          className="mb-4 p-3 rounded-[var(--premium-radius-nested)] border border-[var(--color-neuro-blue-start)]"
-          style={{ backgroundColor: 'var(--color-neuro-blue-light)' }}
-        >
-          <div className="flex items-center gap-2 premium-body-sm">
-            <SubscriptionIcon name="calendar" className="w-4 h-4 text-[var(--color-neuro-blue-dark)]" />
-            <span className="text-[var(--color-neuro-blue-dark)]">Next billing:</span>
-            <span className="font-semibold text-[var(--color-neuro-blue-dark)]">
+        <div className="mb-4 p-3 border border-[#1B2757]/20 bg-[#1B2757]/5">
+          <div className="flex items-center gap-2 text-sm">
+            <SubscriptionIcon name="calendar" className="w-4 h-4 text-[#1B2757]" />
+            <span className="text-[#1B2757]">Next billing:</span>
+            <span className="font-semibold text-[#1B2757] tabular-nums">
               {formattedNextBilling}
             </span>
           </div>
@@ -59,7 +56,7 @@ export function TierSelectorPanel({
 
       {isProtocol ? (
         <>
-          <h3 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-3">
+          <h3 className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-3">
             Pack size
           </h3>
           <div className="space-y-3">
@@ -75,44 +72,44 @@ export function TierSelectorPanel({
                   key={tier}
                   type="button"
                   onClick={() => onSelectTier(tier)}
-                  className={`w-full p-4 text-left rounded-[var(--premium-radius-nested)] border-2 ${
+                  className={`w-full p-4 text-left border ${
                     isSelected
-                      ? 'bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]'
+                      ? 'bg-[#1B2757] text-white border-[#1B2757]'
                       : isCurrent
-                        ? 'bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)] hover:border-[var(--color-neuro-blue-dark)]'
-                        : 'bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]'
+                        ? 'bg-white border-[#1B2757] hover:border-[#1B2757]'
+                        : 'bg-white border-black/12 hover:border-black/40'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <span className="font-bold">{tierInfo.deliveryShots} shots per delivery</span>
+                        <span className="font-semibold text-sm">{tierInfo.deliveryShots} shots per delivery</span>
                         {isCurrent && (
                           <span
-                            className={`text-xs font-bold px-2 py-0.5 rounded ${
+                            className={`font-mono text-[9px] uppercase tracking-[0.16em] tabular-nums px-2 py-0.5 ${
                               isSelected
-                                ? 'bg-white/20'
-                                : 'bg-[var(--color-premium-stroke)] text-[var(--color-ink)]'
+                                ? 'bg-white/20 text-white'
+                                : 'bg-[#f5f5f5] border border-black/12 text-black/60'
                             }`}
                           >
-                            CURRENT
+                            Current
                           </span>
                         )}
                         {tier === 'pro' && !isCurrent && (
                           <span
-                            className={`text-xs font-bold px-2 py-0.5 rounded ${
+                            className={`font-mono text-[9px] uppercase tracking-[0.16em] tabular-nums px-2 py-0.5 ${
                               isSelected
-                                ? 'bg-white/20'
-                                : 'bg-[var(--color-neuro-blue-light)] text-[var(--color-neuro-blue-dark)]'
+                                ? 'bg-white/20 text-white'
+                                : 'bg-[#1B2757]/5 border border-[#1B2757]/20 text-[#1B2757]'
                             }`}
                           >
-                            POPULAR
+                            Popular
                           </span>
                         )}
                       </div>
                       <p
-                        className={`premium-body-sm mt-1 ${
-                          isSelected ? 'opacity-90' : 'text-[var(--text-on-light-muted)]'
+                        className={`text-sm mt-1 ${
+                          isSelected ? 'opacity-90' : 'text-black/60'
                         }`}
                       >
                         {tierInfo.name} · {tierInfo.frequency}
@@ -124,18 +121,18 @@ export function TierSelectorPanel({
                         isUltimate={isUltimate}
                       />
                       <p
-                        className={`premium-body-sm mt-2 ${
-                          isSelected ? 'opacity-80' : 'text-[var(--text-on-light-muted)]'
+                        className={`text-sm mt-2 ${
+                          isSelected ? 'opacity-80' : 'text-black/60'
                         }`}
                       >
                         {tierInfo.billing}
                       </p>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-lg">£{tierInfo.price.toFixed(2)}</div>
+                      <div className="font-semibold text-lg tabular-nums">£{tierInfo.price.toFixed(2)}</div>
                       <div
-                        className={`premium-body-sm ${
-                          isSelected ? 'opacity-80' : 'text-[var(--text-on-light-muted)]'
+                        className={`font-mono text-[10px] tabular-nums ${
+                          isSelected ? 'opacity-80' : 'text-black/60'
                         }`}
                       >
                         £{tierInfo.pricePerShot.toFixed(2)}/shot
@@ -143,7 +140,7 @@ export function TierSelectorPanel({
                     </div>
                   </div>
                   {isSelected && (
-                    <div className="mt-3 pt-3 border-t border-white/20 flex items-center gap-2 premium-body-sm">
+                    <div className="mt-3 pt-3 border-t border-white/20 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums">
                       <SubscriptionIcon name="check" className="w-4 h-4" />
                       <span>20% subscription discount applied</span>
                     </div>
@@ -155,7 +152,7 @@ export function TierSelectorPanel({
         </>
       ) : (
         <>
-          <h3 className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-3">
+          <h3 className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-3">
             Pack size
           </h3>
           <div className="grid grid-cols-2 gap-2">
@@ -167,22 +164,22 @@ export function TierSelectorPanel({
                   key={size}
                   type="button"
                   onClick={() => onSelectPackSize(size)}
-                  className={`p-4 text-left rounded-[var(--premium-radius-nested)] border-2 ${
+                  className={`p-4 text-left border ${
                     isSelected
-                      ? 'bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] border-[var(--color-neuro-blue-dark)]'
+                      ? 'bg-[#1B2757] text-white border-[#1B2757]'
                       : isCurrent
-                        ? 'bg-[var(--color-bone)] border-[var(--color-neuro-blue-dark)] hover:border-[var(--color-neuro-blue-dark)]'
-                        : 'bg-[var(--color-bone)] border-[var(--color-premium-stroke)] hover:border-[var(--color-neuro-blue-start)]'
+                        ? 'bg-white border-[#1B2757] hover:border-[#1B2757]'
+                        : 'bg-white border-black/12 hover:border-black/40'
                   }`}
                 >
-                  <span className="font-bold">{FORMULA_PACK_LABELS[size]}</span>
+                  <span className="font-semibold text-sm tabular-nums">{FORMULA_PACK_LABELS[size]}</span>
                   {isCurrent && (
                     <span
-                      className={`block text-xs font-bold mt-1 ${
-                        isSelected ? 'opacity-90' : 'text-[var(--text-on-light-muted)]'
+                      className={`block font-mono text-[9px] uppercase tracking-[0.16em] tabular-nums mt-1 ${
+                        isSelected ? 'opacity-90' : 'text-black/50'
                       }`}
                     >
-                      CURRENT
+                      Current
                     </span>
                   )}
                 </button>
