@@ -139,10 +139,10 @@ export default function AccountPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--color-surface)] flex items-center justify-center">
+      <div className="brand-clinical min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[var(--color-ink)]/20 border-t-[var(--color-ink)] rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm text-[var(--text-on-light-muted)]">Loading...</p>
+          <div className="w-8 h-8 border border-black/15 border-t-black/50 rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-black/60">Loading...</p>
         </div>
       </div>
     );
@@ -151,7 +151,7 @@ export default function AccountPage() {
   if (!isAuthenticated || !customer) return null;
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)]">
+    <div className="brand-clinical min-h-screen bg-white text-black">
       <Navigation />
 
       <main className="pt-8 pb-16 px-4 lg:pt-10 lg:px-[5vw]">
@@ -159,10 +159,13 @@ export default function AccountPage() {
           {/* Header */}
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-2xl font-bold" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>
-                Account{customer.firstName ? ` · ${customer.firstName}` : ''}
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-1">
+                Account
+              </p>
+              <h1 className="text-2xl font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>
+                {customer.firstName ? customer.firstName : 'Your account'}
               </h1>
-              <p className="text-sm text-[var(--text-on-light-muted)] mt-0.5">
+              <p className="text-sm text-black/60 mt-0.5 tabular-nums">
                 {orderCount !== null && `${orderCount} order${orderCount !== 1 ? 's' : ''}`}
                 {orderCount !== null && activeSubscriptions.length > 0 && ' · '}
                 {activeSubscriptions.length > 0 && `${activeSubscriptions.length} active subscription${activeSubscriptions.length !== 1 ? 's' : ''}`}
@@ -172,25 +175,25 @@ export default function AccountPage() {
             <button
               type="button"
               onClick={handleLogout}
-              className="text-sm font-semibold text-[var(--color-ink)] border border-[var(--color-ink)]/30 rounded-[var(--premium-radius-interactive)] px-4 py-2 hover:bg-[var(--color-ink)]/5"
+              className="border border-black/12 hover:border-black/40 text-black font-mono text-[10px] uppercase tracking-[0.16em] px-4 py-2 transition-colors"
             >
               Sign out
             </button>
           </div>
 
           {/* What you can do */}
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-[var(--text-on-light-muted)] mb-3">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
             What you can do
-          </h2>
-          <p className="text-sm text-[var(--text-on-light-muted)] mb-4">
+          </p>
+          <p className="text-sm text-black/60 mb-4">
             View orders, manage subscriptions, or find your protocol.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             <Link
               href="/account/orders"
-              className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
+              className="flex flex-col bg-white border border-black/12 hover:border-black/40 overflow-hidden transition-colors group"
             >
-              <span className="flex h-36 w-full shrink-0 overflow-hidden bg-[var(--color-premium-stroke)]/30">
+              <span className="flex h-36 w-full shrink-0 overflow-hidden border-b border-black/8">
                 <img
                   src="/lifestyle/HoldingBottle.jpg"
                   alt=""
@@ -199,19 +202,19 @@ export default function AccountPage() {
               </span>
               <div className="flex items-center justify-between gap-3 p-4">
                 <div className="min-w-0 flex-1">
-                  <span className="font-semibold text-[var(--color-ink)]">Orders</span>
-                  <p className="text-sm text-[var(--text-on-light-muted)]">View history & track</p>
+                  <span className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>Orders</span>
+                  <p className="text-sm text-black/60">View history & track</p>
                 </div>
-                <span className="shrink-0 text-[var(--text-on-light-muted)] group-hover:text-[var(--color-ink)]">→</span>
+                <span className="shrink-0 text-black/40 group-hover:text-black transition-colors">→</span>
               </div>
             </Link>
 
             <Link
               href="/account/subscriptions"
-              className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
+              className="flex flex-col bg-white border border-black/12 hover:border-black/40 overflow-hidden transition-colors group"
             >
               {activeSubscriptions.length > 0 && getSubscriptionImage(activeSubscriptions[0]) ? (
-                <span className="flex h-36 w-full shrink-0 overflow-hidden bg-[var(--color-premium-stroke)]/30">
+                <span className="flex h-36 w-full shrink-0 overflow-hidden border-b border-black/8">
                   <img
                     src={getSubscriptionImage(activeSubscriptions[0])}
                     alt=""
@@ -219,55 +222,55 @@ export default function AccountPage() {
                   />
                 </span>
               ) : (
-                <span className="flex h-36 w-full items-center justify-center bg-[var(--color-premium-stroke)]/40 text-[var(--color-ink)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
+                <span className="flex h-36 w-full items-center justify-center bg-[#f5f5f5] text-black/30 border-b border-black/8">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" className="opacity-60">
                     <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>
                   </svg>
                 </span>
               )}
               <div className="flex items-center justify-between gap-3 p-4">
                 <div className="min-w-0 flex-1">
-                  <span className="font-semibold text-[var(--color-ink)]">Subscriptions</span>
-                  <p className="text-sm text-[var(--text-on-light-muted)]">
+                  <span className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>Subscriptions</span>
+                  <p className="text-sm text-black/60">
                     {subsLoading ? '…' : `${activeSubscriptions.length} active`}
                   </p>
                 </div>
-                <span className="shrink-0 text-[var(--text-on-light-muted)] group-hover:text-[var(--color-ink)]">→</span>
+                <span className="shrink-0 text-black/40 group-hover:text-black transition-colors">→</span>
               </div>
             </Link>
 
             <Link
               href="/quiz"
-              className="flex flex-col rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden hover:border-[var(--color-neuro-blue-light)] transition-colors group"
+              className="flex flex-col bg-white border border-black/12 hover:border-black/40 overflow-hidden transition-colors group"
             >
-              <span className="flex h-36 w-full items-center justify-center bg-[var(--color-ink)]/10 text-[var(--color-ink)]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
+              <span className="flex h-36 w-full items-center justify-center bg-[#f5f5f5] text-black/30 border-b border-black/8">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" className="opacity-60">
                   <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
               </span>
               <div className="flex items-center justify-between gap-3 p-4">
                 <div className="min-w-0 flex-1">
-                  <span className="font-semibold text-[var(--color-ink)]">Find your protocol</span>
-                  <p className="text-sm text-[var(--text-on-light-muted)]">Take the quiz</p>
+                  <span className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>Find your protocol</span>
+                  <p className="text-sm text-black/60">Take the quiz</p>
                 </div>
-                <span className="shrink-0 text-[var(--text-on-light-muted)] group-hover:text-[var(--color-ink)]">→</span>
+                <span className="shrink-0 text-black/40 group-hover:text-black transition-colors">→</span>
               </div>
             </Link>
           </div>
 
           {/* Subscriptions strip (only if any) */}
           {!subsLoading && activeSubscriptions.length > 0 && (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--premium-radius-card)] bg-[var(--color-neuro-blue-dark)] text-[var(--text-on-ink)] p-4 mb-6">
+            <div className="flex flex-wrap items-center justify-between gap-3 bg-[#1B2757] text-white p-4 mb-6">
               <div className="flex flex-wrap items-center gap-3 min-w-0">
                 {activeSubscriptions.slice(0, 3).map((s: Subscription) => {
                   const img = getSubscriptionImage(s);
                   return img ? (
-                    <span key={s.id} className="flex h-10 w-10 shrink-0 overflow-hidden rounded-[var(--premium-radius-nested)] border border-white/20">
+                    <span key={s.id} className="flex h-10 w-10 shrink-0 overflow-hidden border border-white/20">
                       <img src={img} alt="" className="h-full w-full object-cover" />
                     </span>
                   ) : null;
                 })}
-                <p className="text-sm">
+                <p className="text-sm tabular-nums">
                   {activeSubscriptions.length} active subscription{activeSubscriptions.length !== 1 ? 's' : ''}
                   {' — '}
                   {activeSubscriptions.slice(0, 2)
@@ -290,37 +293,37 @@ export default function AccountPage() {
           )}
 
           {/* Your details */}
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-[var(--text-on-light-muted)] mb-3">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
             Your details
-          </h2>
-          <p className="text-sm text-[var(--text-on-light-muted)] mb-4">
+          </p>
+          <p className="text-sm text-black/60 mb-4">
             Update your name, email, and delivery address.
           </p>
-          <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm p-5">
+          <div className="bg-white border border-black/12 p-5">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-[var(--color-ink)]">Contact & address</h3>
+              <h3 className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>Contact & address</h3>
               <button
                 type="button"
                 onClick={openEditProfile}
-                className="text-sm font-semibold text-[var(--color-ink)] underline hover:no-underline"
+                className="text-sm font-semibold text-black underline hover:no-underline"
               >
                 Edit
               </button>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 text-sm">
               <div>
-                <p className="text-[var(--text-on-light-muted)] text-xs uppercase tracking-wide">Name</p>
-                <p className="font-medium text-[var(--color-ink)]">
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Name</p>
+                <p className="font-medium text-black">
                   {[customer.firstName, customer.lastName].filter(Boolean).join(' ') || customer.displayName || '—'}
                 </p>
               </div>
               <div>
-                <p className="text-[var(--text-on-light-muted)] text-xs uppercase tracking-wide">Email</p>
-                <p className="font-medium text-[var(--color-ink)]">{customer.email}</p>
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Email</p>
+                <p className="font-medium text-black">{customer.email}</p>
               </div>
               <div className="sm:col-span-2">
-                <p className="text-[var(--text-on-light-muted)] text-xs uppercase tracking-wide">Delivery address</p>
-                <p className="font-medium text-[var(--color-ink)]">
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Delivery address</p>
+                <p className="font-medium text-black">
                   {customer.defaultAddress?.address1
                     ? [customer.defaultAddress.address1, customer.defaultAddress.city].filter(Boolean).join(', ')
                     : 'Not set'}
@@ -335,57 +338,57 @@ export default function AccountPage() {
       {showEditProfile && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="fixed inset-0 bg-black/50" onClick={() => setShowEditProfile(false)} aria-hidden />
-          <div className="relative bg-[var(--color-bone)] rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b border-[var(--color-premium-stroke)]">
-              <h3 className="font-bold text-lg text-[var(--color-ink)]" style={{ letterSpacing: 'var(--letter-spacing-premium-title)' }}>Edit profile</h3>
-              <button type="button" onClick={() => setShowEditProfile(false)} className="p-2 rounded-[var(--premium-radius-nested)] hover:bg-[var(--color-premium-stroke)] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <div className="relative bg-white border border-black/12 max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
+              <h3 className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>Edit profile</h3>
+              <button type="button" onClick={() => setShowEditProfile(false)} className="p-2 hover:bg-[#f5f5f5] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
             <div className="p-4 overflow-y-auto flex-1">
               {profileSuccess && (
-                <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] border border-[var(--color-premium-stroke)] text-[var(--color-ink)] premium-body-sm">Profile updated.</div>
+                <div className="mb-4 p-3 border border-black/12 bg-[#f5f5f5] text-black text-sm">Profile updated.</div>
               )}
               {profileError && (
-                <div className="mb-4 p-3 rounded-[var(--premium-radius-nested)] border border-red-200 bg-red-50 text-red-700 premium-body-sm">{profileError}</div>
+                <div className="mb-4 p-3 border border-red-200 bg-red-50/50 text-red-700 text-sm">{profileError}</div>
               )}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">First name</label>
-                  <input type="text" value={profileForm.firstName} onChange={(e) => handleProfileChange('firstName', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
+                  <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">First name</label>
+                  <input type="text" value={profileForm.firstName} onChange={(e) => handleProfileChange('firstName', e.target.value)} className="w-full px-3 py-2 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757]" />
                 </div>
                 <div>
-                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Last name</label>
-                  <input type="text" value={profileForm.lastName} onChange={(e) => handleProfileChange('lastName', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
+                  <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Last name</label>
+                  <input type="text" value={profileForm.lastName} onChange={(e) => handleProfileChange('lastName', e.target.value)} className="w-full px-3 py-2 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757]" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Email</label>
-                  <input type="email" value={customer?.email ?? ''} readOnly className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)]/20 text-[var(--color-ink)]/60 premium-body-sm cursor-not-allowed" />
-                  <p className="text-xs text-[var(--text-on-light-muted)] mt-1">Email is managed by Shopify and cannot be changed here.</p>
+                  <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Email</label>
+                  <input type="email" value={customer?.email ?? ''} readOnly className="w-full px-3 py-2 border border-black/12 bg-[#f5f5f5] text-black/50 text-sm cursor-not-allowed" />
+                  <p className="text-xs text-black/50 mt-1">Email is managed by Shopify and cannot be changed here.</p>
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Phone</label>
-                  <input type="tel" value={profileForm.phone} onChange={(e) => handleProfileChange('phone', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" placeholder="Optional" />
+                  <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Phone</label>
+                  <input type="tel" value={profileForm.phone} onChange={(e) => handleProfileChange('phone', e.target.value)} className="w-full px-3 py-2 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757]" placeholder="Optional" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Address line 1</label>
-                  <input type="text" value={profileForm.address.address1} onChange={(e) => handleProfileChange('address.address1', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
+                  <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Address line 1</label>
+                  <input type="text" value={profileForm.address.address1} onChange={(e) => handleProfileChange('address.address1', e.target.value)} className="w-full px-3 py-2 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757]" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Address line 2</label>
-                  <input type="text" value={profileForm.address.address2} onChange={(e) => handleProfileChange('address.address2', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" placeholder="Optional" />
+                  <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Address line 2</label>
+                  <input type="text" value={profileForm.address.address2} onChange={(e) => handleProfileChange('address.address2', e.target.value)} className="w-full px-3 py-2 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757]" placeholder="Optional" />
                 </div>
                 <div>
-                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">City</label>
-                  <input type="text" value={profileForm.address.city} onChange={(e) => handleProfileChange('address.city', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
+                  <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">City</label>
+                  <input type="text" value={profileForm.address.city} onChange={(e) => handleProfileChange('address.city', e.target.value)} className="w-full px-3 py-2 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757]" />
                 </div>
                 <div>
-                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Postcode</label>
-                  <input type="text" value={profileForm.address.zip} onChange={(e) => handleProfileChange('address.zip', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm" />
+                  <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Postcode</label>
+                  <input type="text" value={profileForm.address.zip} onChange={(e) => handleProfileChange('address.zip', e.target.value)} className="w-full px-3 py-2 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757]" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-xs text-[var(--text-on-light-muted)] uppercase tracking-wide mb-1">Country</label>
-                  <select value={profileForm.address.country} onChange={(e) => handleProfileChange('address.country', e.target.value)} className="w-full px-3 py-2 border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-bg-soft)] text-[var(--color-ink)] premium-body-sm">
+                  <label className="block font-mono text-[9px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-1">Country</label>
+                  <select value={profileForm.address.country} onChange={(e) => handleProfileChange('address.country', e.target.value)} className="w-full px-3 py-2 border border-black/12 bg-white text-black text-sm focus:outline-none focus:border-[#1B2757]">
                     <option value="United Kingdom">United Kingdom</option>
                     <option value="Ireland">Ireland</option>
                     <option value="United States">United States</option>
@@ -395,11 +398,11 @@ export default function AccountPage() {
                 </div>
               </div>
             </div>
-            <div className="p-4 border-t border-[var(--color-premium-stroke)] flex gap-3">
-              <button type="button" onClick={() => setShowEditProfile(false)} className="flex-1 py-2.5 premium-body-sm font-semibold border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-interactive)] text-[var(--color-ink)] hover:bg-[var(--color-premium-stroke)] transition-colors">
+            <div className="px-4 py-3 border-t border-black/8 flex gap-2">
+              <button type="button" onClick={() => setShowEditProfile(false)} className="flex-1 py-2.5 text-sm font-semibold border border-black/12 hover:border-black/40 text-black transition-colors">
                 Cancel
               </button>
-              <button type="button" onClick={handleSaveProfile} disabled={profileSaving} className="flex-1 py-2.5 premium-body-sm font-semibold bg-[var(--color-ink)] text-white rounded-[var(--premium-radius-interactive)] hover:opacity-90 disabled:opacity-50">
+              <button type="button" onClick={handleSaveProfile} disabled={profileSaving} className="flex-1 py-2.5 text-sm font-semibold bg-[#1B2757] text-white hover:opacity-90 disabled:opacity-50 transition-opacity">
                 {profileSaving ? 'Saving...' : 'Save'}
               </button>
             </div>

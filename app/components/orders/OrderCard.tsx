@@ -39,8 +39,8 @@ function OrderStatusIcon({ status }: { status: string }) {
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
           className="text-green-600"
         >
           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -57,8 +57,8 @@ function OrderStatusIcon({ status }: { status: string }) {
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
           className="text-green-600"
         >
           <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
@@ -76,9 +76,9 @@ function OrderStatusIcon({ status }: { status: string }) {
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-blue-600"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
+          className="text-[#1B2757]"
         >
           <circle cx="12" cy="12" r="10" />
           <polyline points="12 6 12 12 16 14" />
@@ -94,9 +94,9 @@ function OrderStatusIcon({ status }: { status: string }) {
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-gray-400"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
+          className="text-black/30"
         >
           <circle cx="12" cy="12" r="10" />
         </svg>
@@ -118,16 +118,16 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
   const itemCount = order.lineItems.reduce((acc, i) => acc + i.quantity, 0);
 
   return (
-    <div className="rounded-[var(--premium-radius-card)] bg-[var(--color-bone)] border border-[var(--color-premium-stroke)] shadow-sm overflow-hidden">
+    <div className="bg-white border border-black/12 overflow-hidden">
       <button
         type="button"
         onClick={onToggle}
-        className="w-full p-6 text-left hover:bg-[var(--color-premium-bg-soft)] transition-colors"
+        className="w-full p-6 text-left hover:bg-[#f5f5f5] transition-colors"
       >
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
           <div className="flex items-start gap-4 min-w-0">
             {firstItemImage?.url ? (
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 overflow-hidden">
+              <div className="w-24 h-24 md:w-28 md:h-28 border border-black/8 flex-shrink-0 overflow-hidden">
                 <img
                   src={firstItemImage.url}
                   alt={firstItemImage.altText || "Order item"}
@@ -135,20 +135,20 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                 />
               </div>
             ) : (
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex-shrink-0 flex items-center justify-center">
+              <div className="w-24 h-24 md:w-28 md:h-28 bg-[#f5f5f5] border border-black/8 flex-shrink-0 flex items-center justify-center">
                 <OrderStatusIcon status={displayStatus} />
               </div>
             )}
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 mb-1">
                 <h3
-                  className="font-semibold text-lg text-[var(--color-ink)]"
-                  style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                  className="font-semibold text-lg text-black tabular-nums"
+                  style={{ letterSpacing: "-0.02em" }}
                 >
                   Order #{order.orderNumber}
                 </h3>
                 <span
-                  className={`px-2.5 py-1 rounded-[var(--premium-radius-nested)] text-xs font-semibold ${
+                  className={`px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums ${
                     progress.cancelled
                       ? "bg-red-100 text-red-800"
                       : getStatusColor(displayStatus)
@@ -159,11 +159,11 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                     : displayStatus}
                 </span>
               </div>
-              <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+              <p className="text-sm text-black/60 tabular-nums">
                 {formatDate(order.processedAt)} ·{" "}
                 {formatRelativeTime(order.processedAt)}
               </p>
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] mt-1">
+              <p className="text-sm text-black/60 mt-1">
                 {order.lineItems
                   .map((item) => item.title)
                   .slice(0, 2)
@@ -176,15 +176,15 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
           <div className="flex items-center gap-4 flex-shrink-0">
             <div className="text-right">
               <p
-                className="font-semibold text-lg text-[var(--color-ink)]"
-                style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+                className="font-semibold text-lg text-black tabular-nums"
+                style={{ letterSpacing: "-0.02em" }}
               >
                 {formatPrice(
                   order.totalPrice.amount,
                   order.totalPrice.currencyCode
                 )}
               </p>
-              <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+              <p className="text-sm text-black/60 tabular-nums">
                 {itemCount} item{itemCount !== 1 ? "s" : ""}
               </p>
             </div>
@@ -196,9 +196,9 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={`transition-transform flex-shrink-0 text-[var(--color-ink)] ${isExpanded ? "rotate-180" : ""}`}
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+              className={`transition-transform flex-shrink-0 text-black ${isExpanded ? "rotate-180" : ""}`}
             >
               <polyline points="6 9 12 15 18 9" />
             </svg>
@@ -207,13 +207,13 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
       </button>
 
       {isExpanded && (
-        <div className="border-t border-[var(--color-premium-stroke)]">
-          <div className="p-6 rounded-b-[var(--premium-radius-card)]" style={{ backgroundColor: "var(--color-neuro-blue-light)" }}>
-            <p className="premium-body-sm text-[var(--color-neuro-blue-dark)] uppercase tracking-wide font-semibold mb-4">
+        <div className="border-t border-black/8">
+          <div className="p-6 bg-[#f5f5f5]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums font-semibold mb-4">
               Order Status
             </p>
             {progress.cancelled ? (
-              <div className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-[var(--premium-radius-nested)]">
+              <div className="flex items-center gap-3 p-4 bg-red-50/50 border border-red-200">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -222,8 +222,8 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
                   className="text-red-600 flex-shrink-0"
                 >
                   <circle cx="12" cy="12" r="10" />
@@ -235,7 +235,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                     Order Cancelled
                   </p>
                   {order.cancelReason && (
-                    <p className="premium-body-sm text-red-700 mt-0.5">
+                    <p className="text-sm text-red-700 mt-0.5">
                       Reason: {order.cancelReason}
                     </p>
                   )}
@@ -243,7 +243,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
               </div>
             ) : (
               <div className="relative">
-                <div className="absolute top-3 left-0 right-0 h-0.5 bg-[var(--color-premium-stroke)] mx-[calc(10%)]" />
+                <div className="absolute top-3 left-0 right-0 h-0.5 bg-black/10 mx-[calc(10%)]" />
                 <div
                   className="absolute top-3 left-0 h-0.5 bg-green-500 mx-[calc(10%)] transition-all duration-500"
                   style={{
@@ -263,12 +263,12 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                         style={{ width: "20%" }}
                       >
                         <div
-                          className={`w-6 h-6 rounded-full flex items-center justify-center relative z-10 transition-all ${
+                          className={`w-6 h-6 flex items-center justify-center relative z-10 transition-all ${
                             isCompleted || isPast
                               ? "bg-green-500 text-white"
                               : isCurrent
                                 ? "bg-green-500 text-white ring-4 ring-green-100"
-                                : "bg-[var(--color-premium-stroke)] text-[var(--text-on-light-muted)]"
+                                : "bg-black/10 text-black/40"
                           }`}
                         >
                           {isCompleted || isPast ? (
@@ -280,20 +280,20 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                               fill="none"
                               stroke="currentColor"
                               strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
+                              strokeLinecap="square"
+                              strokeLinejoin="miter"
                             >
                               <polyline points="20 6 9 17 4 12" />
                             </svg>
                           ) : (
-                            <span className="text-xs font-bold">{index + 1}</span>
+                            <span className="font-mono text-[10px] font-bold tabular-nums">{index + 1}</span>
                           )}
                         </div>
                         <p
-                          className={`premium-body-sm mt-2 text-center ${
+                          className={`text-sm mt-2 text-center ${
                             isActive
-                              ? "text-[var(--color-ink)] font-semibold"
-                              : "text-[var(--text-on-light-muted)]"
+                              ? "text-black font-semibold"
+                              : "text-black/50"
                           }`}
                         >
                           {step}
@@ -307,8 +307,8 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
           </div>
 
           {order.shippingAddress && (
-            <div className="p-6 bg-[var(--color-bone)]">
-              <div className="p-4 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]">
+            <div className="p-6 bg-white">
+              <div className="p-4 border border-black/12 bg-[#f5f5f5]">
                 <div className="flex items-start gap-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -318,18 +318,18 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-[var(--text-on-light-muted)] flex-shrink-0 mt-0.5"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
+                    className="text-black/40 flex-shrink-0 mt-0.5"
                   >
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                     <circle cx="12" cy="10" r="3" />
                   </svg>
                   <div>
-                    <p className="font-semibold text-sm text-[var(--color-ink)] mb-1">
+                    <p className="font-semibold text-sm text-black mb-1" style={{ letterSpacing: "-0.02em" }}>
                       Delivery Address
                     </p>
-                    <div className="premium-body-sm text-[var(--text-on-light-muted)] space-y-0.5">
+                    <div className="text-sm text-black/60 space-y-0.5">
                       {order.shippingAddress.address1 && (
                         <p>{order.shippingAddress.address1}</p>
                       )}
@@ -355,19 +355,19 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
             </div>
           )}
 
-          <div className="p-6 pt-0 bg-[var(--color-bone)]">
-            <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-4">
+          <div className="p-6 pt-0 bg-white">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-4">
               Items
             </p>
             <div className="space-y-3">
               {order.lineItems.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 rounded-[var(--premium-radius-nested)] border border-[var(--color-premium-stroke)] bg-[var(--color-premium-bg-soft)]"
+                  className="flex items-center justify-between p-3 border border-black/12 bg-[#f5f5f5]"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     {item.image?.url ? (
-                      <div className="w-12 h-12 rounded-[var(--premium-radius-nested)] overflow-hidden flex-shrink-0">
+                      <div className="w-12 h-12 border border-black/8 overflow-hidden flex-shrink-0">
                         <img
                           src={item.image.url}
                           alt={item.image.altText || item.title}
@@ -375,7 +375,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                         />
                       </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-[var(--premium-radius-nested)] bg-[var(--color-premium-stroke)] flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 bg-white border border-black/8 flex items-center justify-center flex-shrink-0">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"
@@ -384,9 +384,9 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="text-[var(--text-on-light-muted)]"
+                          strokeLinecap="square"
+                          strokeLinejoin="miter"
+                          className="text-black/40"
                         >
                           <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
                           <path d="M22 12A10 10 0 0 0 12 2v10z" />
@@ -394,10 +394,10 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                       </div>
                     )}
                     <div className="min-w-0">
-                      <span className="font-semibold text-sm text-[var(--color-ink)] block">
+                      <span className="font-semibold text-sm text-black block" style={{ letterSpacing: "-0.02em" }}>
                         {item.title}
                       </span>
-                      <span className="premium-body-sm text-[var(--text-on-light-muted)]">
+                      <span className="text-sm text-black/60 tabular-nums">
                         {formatPrice(
                           item.price.amount,
                           item.price.currencyCode
@@ -406,24 +406,24 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                       </span>
                     </div>
                   </div>
-                  <span className="premium-body-sm text-[var(--text-on-light-muted)] flex-shrink-0">
+                  <span className="text-sm text-black/60 tabular-nums flex-shrink-0">
                     × {item.quantity}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 pt-4 border-t border-[var(--color-premium-stroke)]">
-              <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide mb-3">
+            <div className="mt-6 pt-4 border-t border-black/8">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-3">
                 Order Summary
               </p>
               <div className="space-y-2">
                 {order.subtotal && (
-                  <div className="flex justify-between premium-body-sm">
-                    <span className="text-[var(--text-on-light-muted)]">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-black/60">
                       Subtotal
                     </span>
-                    <span className="text-[var(--color-ink)]">
+                    <span className="text-black tabular-nums">
                       {formatPrice(
                         order.subtotal.amount,
                         order.subtotal.currencyCode
@@ -433,11 +433,11 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                 )}
                 {order.totalShipping &&
                   parseFloat(order.totalShipping.amount) > 0 && (
-                    <div className="flex justify-between premium-body-sm">
-                      <span className="text-[var(--text-on-light-muted)]">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-black/60">
                         Shipping
                       </span>
-                      <span className="text-[var(--color-ink)]">
+                      <span className="text-black tabular-nums">
                         {formatPrice(
                           order.totalShipping.amount,
                           order.totalShipping.currencyCode
@@ -447,19 +447,19 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                   )}
                 {order.totalShipping &&
                   parseFloat(order.totalShipping.amount) === 0 && (
-                    <div className="flex justify-between premium-body-sm">
-                      <span className="text-[var(--text-on-light-muted)]">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-black/60">
                         Shipping
                       </span>
                       <span className="text-green-600 font-medium">Free</span>
                     </div>
                   )}
                 {order.totalTax && parseFloat(order.totalTax.amount) > 0 && (
-                  <div className="flex justify-between premium-body-sm">
-                    <span className="text-[var(--text-on-light-muted)]">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-black/60">
                       Tax
                     </span>
-                    <span className="text-[var(--color-ink)]">
+                    <span className="text-black tabular-nums">
                       {formatPrice(
                         order.totalTax.amount,
                         order.totalTax.currencyCode
@@ -467,15 +467,13 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                     </span>
                   </div>
                 )}
-                <div className="flex justify-between items-center pt-2 border-t border-[var(--color-premium-stroke)]">
-                  <span className="font-semibold text-[var(--color-ink)]">
+                <div className="flex justify-between items-center pt-2 border-t border-black/8">
+                  <span className="font-semibold text-black" style={{ letterSpacing: "-0.02em" }}>
                     Total
                   </span>
                   <span
-                    className="font-semibold text-xl text-[var(--color-ink)]"
-                    style={{
-                      letterSpacing: "var(--letter-spacing-premium-title)",
-                    }}
+                    className="font-semibold text-xl text-black tabular-nums"
+                    style={{ letterSpacing: "-0.02em" }}
                   >
                     {formatPrice(
                       order.totalPrice.amount,
@@ -500,7 +498,7 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                 return (
                   <Link
                     href={href}
-                    className="inline-flex items-center gap-2 rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-6 py-2.5 premium-body-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                    className="inline-flex items-center gap-2 bg-[#1B2757] text-white font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums px-6 py-2.5 [clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,0_100%)] hover:opacity-90 transition-opacity"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -510,8 +508,8 @@ export function OrderCard({ order, isExpanded, onToggle }: OrderCardProps) {
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                      strokeLinecap="square"
+                      strokeLinejoin="miter"
                     >
                       <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
                       <path d="M22 12A10 10 0 0 0 12 2v10z" />

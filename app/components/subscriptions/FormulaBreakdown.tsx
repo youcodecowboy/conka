@@ -26,9 +26,9 @@ export function FormulaBreakdown({
           alt=""
           width={16}
           height={16}
-          className={`rounded-full ${isSelected ? 'ring-1 ring-white/30' : ''}`}
+          className="overflow-hidden"
         />
-        <span className="premium-body-sm">{flowCount}x Flow</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums">{flowCount}x Flow</span>
       </div>
       <span className={isSelected ? 'opacity-50' : 'opacity-30'}>+</span>
       <div className="flex items-center gap-1">
@@ -37,11 +37,11 @@ export function FormulaBreakdown({
           alt=""
           width={16}
           height={16}
-          className={`rounded-full ${isSelected ? 'ring-1 ring-white/30' : ''}`}
+          className="overflow-hidden"
         />
-        <span className="premium-body-sm">{clarityCount}x Clear</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums">{clarityCount}x Clear</span>
       </div>
-      <span className={`premium-body-sm ${isSelected ? 'opacity-50' : 'opacity-40'}`}>
+      <span className={`font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums ${isSelected ? 'opacity-50' : 'opacity-40'}`}>
         {perDeliveryText}
       </span>
     </div>

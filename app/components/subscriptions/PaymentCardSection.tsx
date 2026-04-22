@@ -30,15 +30,15 @@ export function PaymentCardSection({
   return (
     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
       {/* Card mockup */}
-      <div className={`relative rounded-[var(--premium-radius-nested)] p-5 overflow-hidden text-white select-none w-full sm:w-80 flex-shrink-0 ${
+      <div className={`relative p-5 overflow-hidden text-white select-none w-full sm:w-80 flex-shrink-0 ${
         cardStatus === 'expired'
           ? 'bg-red-900'
           : cardStatus === 'expiring_soon'
           ? 'bg-amber-800'
-          : 'bg-[var(--color-ink)]'
+          : 'bg-[#1B2757]'
       }`}>
-        <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/5 pointer-events-none" />
-        <div className="absolute -bottom-12 -left-6 w-36 h-36 rounded-full bg-white/5 pointer-events-none" />
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 pointer-events-none" />
+        <div className="absolute -bottom-12 -left-6 w-36 h-36 bg-white/5 pointer-events-none" />
 
         {/* Top row: chip + brand */}
         <div className="flex items-start justify-between mb-6">
@@ -50,36 +50,36 @@ export function PaymentCardSection({
             <line x1="1" y1="17" x2="33" y2="17" stroke="#B8902F" strokeWidth="0.8"/>
             <rect x="11" y="9" width="12" height="8" rx="1" fill="#C49A30" stroke="#B8902F" strokeWidth="0.5"/>
           </svg>
-          <span className="text-white/90 font-semibold text-sm tracking-wide">{brandLabel}</span>
+          <span className="text-white/90 font-mono text-[10px] uppercase tracking-[0.18em] tabular-nums">{brandLabel}</span>
         </div>
 
         {/* Card number */}
-        <p className="font-mono text-base tracking-[0.2em] text-white mb-5">
+        <p className="font-mono text-base tracking-[0.2em] text-white mb-5 tabular-nums">
           ···· ···· ···· {last4}
         </p>
 
         {/* Bottom row: expiry + status badge */}
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-white/50 text-[10px] uppercase tracking-widest mb-0.5">Expires</p>
-            <p className="font-mono text-sm text-white">{expiry}</p>
+            <p className="text-white/50 font-mono text-[10px] uppercase tracking-[0.2em] tabular-nums mb-0.5">Expires</p>
+            <p className="font-mono text-sm text-white tabular-nums">{expiry}</p>
           </div>
           {cardStatus === 'safe' && (
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/20 border border-green-400/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400" aria-hidden="true" />
-              <span className="text-[10px] uppercase tracking-wide text-green-300 font-medium">Active</span>
+            <span className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/20 border border-green-400/30">
+              <span className="w-1.5 h-1.5 bg-green-400" aria-hidden="true" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums text-green-300">Active</span>
             </span>
           )}
           {cardStatus === 'expiring_soon' && (
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-400/20 border border-amber-300/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-300" aria-hidden="true" />
-              <span className="text-[10px] uppercase tracking-wide text-amber-200 font-medium">Expiring soon</span>
+            <span className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-400/20 border border-amber-300/30">
+              <span className="w-1.5 h-1.5 bg-amber-300" aria-hidden="true" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums text-amber-200">Expiring soon</span>
             </span>
           )}
           {cardStatus === 'expired' && (
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-400/20 border border-red-300/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-300" aria-hidden="true" />
-              <span className="text-[10px] uppercase tracking-wide text-red-200 font-medium">Expired</span>
+            <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-400/20 border border-red-300/30">
+              <span className="w-1.5 h-1.5 bg-red-300" aria-hidden="true" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums text-red-200">Expired</span>
             </span>
           )}
         </div>
@@ -88,22 +88,22 @@ export function PaymentCardSection({
       {/* Update action / feedback */}
       <div className="flex flex-col justify-center gap-2">
         {paymentUpdateMessage != null && !paymentUpdateMessage.includes('support') ? (
-          <p className="premium-body-sm text-green-700">{paymentUpdateMessage}</p>
+          <p className="text-sm text-green-700">{paymentUpdateMessage}</p>
         ) : onTriggerUpdateEmail ? (
           <button
             type="button"
             onClick={() => onTriggerUpdateEmail(primaryMethod.id)}
             disabled={paymentUpdateLoading || Date.now() < (paymentCooldownUntil ?? 0)}
-            className="rounded-[var(--premium-radius-interactive)] border-2 border-[var(--color-neuro-blue-dark)] bg-[var(--color-neuro-blue-dark)] px-4 py-2 premium-body-sm font-semibold text-white hover:opacity-90 disabled:opacity-50 flex items-center gap-2 transition-opacity"
+            className="bg-[#1B2757] text-white font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums px-4 py-2 [clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,0_100%)] hover:opacity-90 disabled:opacity-50 flex items-center gap-2 transition-opacity"
           >
             {paymentUpdateLoading ? (
               <>
-                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-3.5 h-3.5 border border-white/30 border-t-white rounded-full animate-spin" />
                 Sending…
               </>
             ) : (
               <>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
                   <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
                 </svg>
                 Update payment method
@@ -112,7 +112,7 @@ export function PaymentCardSection({
           </button>
         ) : null}
         {paymentUpdateMessage != null && paymentUpdateMessage.includes('support') && (
-          <p className="premium-body-sm text-red-600">{paymentUpdateMessage}</p>
+          <p className="text-sm text-red-600">{paymentUpdateMessage}</p>
         )}
       </div>
     </div>

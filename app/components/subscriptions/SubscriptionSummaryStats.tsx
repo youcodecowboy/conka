@@ -11,36 +11,36 @@ export function SubscriptionSummaryStats({
 }: SubscriptionSummaryStatsProps) {
   return (
     <div className="grid grid-cols-3 gap-3 mb-6">
-      <div className="rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] bg-[var(--color-bone)] p-4 text-center shadow-sm">
+      <div className="bg-white border border-black/12 p-4 text-center">
         <p
-          className="text-xl font-semibold text-[var(--color-ink)] mb-0.5"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="text-xl font-semibold text-black mb-0.5 tabular-nums"
+          style={{ letterSpacing: "-0.02em" }}
         >
           {activeCount}
         </p>
-        <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
           Active
         </p>
       </div>
-      <div className="rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] bg-[var(--color-bone)] p-4 text-center shadow-sm">
+      <div className="bg-white border border-black/12 p-4 text-center">
         <p
-          className="text-xl font-semibold text-[var(--color-ink)] mb-0.5"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="text-xl font-semibold text-black mb-0.5 tabular-nums"
+          style={{ letterSpacing: "-0.02em" }}
         >
           {pausedCount}
         </p>
-        <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
           Paused
         </p>
       </div>
-      <div className="rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)] bg-[var(--color-bone)] p-4 text-center shadow-sm">
+      <div className="bg-white border border-black/12 p-4 text-center">
         <p
-          className="text-xl font-semibold text-[var(--color-ink)] mb-0.5 opacity-60"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="text-xl font-semibold text-black mb-0.5 tabular-nums opacity-60"
+          style={{ letterSpacing: "-0.02em" }}
         >
           {pastCount}
         </p>
-        <p className="premium-body-sm text-[var(--text-on-light-muted)] uppercase tracking-wide">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
           Past
         </p>
       </div>

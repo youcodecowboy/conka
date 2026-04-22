@@ -61,10 +61,10 @@ export default function OrdersPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)] flex items-center justify-center">
+      <div className="brand-clinical min-h-screen bg-white text-black flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[var(--color-ink)]/20 border-t-[var(--color-ink)] rounded-full animate-spin mx-auto mb-4" />
-          <p className="premium-body-sm text-[var(--text-on-light-muted)]">
+          <div className="w-8 h-8 border border-black/15 border-t-black/50 rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-sm text-black/60">
             Loading orders...
           </p>
         </div>
@@ -86,18 +86,18 @@ export default function OrdersPage() {
   ).length;
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-ink)]">
+    <div className="brand-clinical min-h-screen bg-white text-black">
       <Navigation />
 
       <main className="pt-3 pb-24 lg:pt-4">
         <section
-          className="premium-section-luxury bg-[var(--color-surface)]"
+          className="brand-section brand-bg-white"
           aria-labelledby="orders-heading"
         >
-          <div className="premium-track">
+          <div className="brand-track">
             <OrdersPageHeader />
 
-          {orders.length > 0 && (
+            {orders.length > 0 && (
               <OrderSummaryStats
                 totalCount={orders.length}
                 deliveredCount={deliveredCount}
@@ -105,13 +105,13 @@ export default function OrdersPage() {
               />
             )}
 
-          {error && (
-              <div className="rounded-[var(--premium-radius-card)] border border-red-200 bg-red-50 p-6 mb-8">
-                <p className="premium-body text-red-700">{error}</p>
-            </div>
-          )}
+            {error && (
+              <div className="border border-red-200 bg-red-50/50 p-6 mb-8">
+                <p className="text-sm text-red-700">{error}</p>
+              </div>
+            )}
 
-          {orders.length === 0 ? (
+            {orders.length === 0 ? (
               <EmptyOrdersState />
             ) : (
               <div className="space-y-6">
@@ -123,11 +123,11 @@ export default function OrdersPage() {
                     onToggle={() => toggleOrder(order.id)}
                   />
                 ))}
-            </div>
-          )}
+              </div>
+            )}
 
             {orders.length > 0 && <OrdersHelpCard />}
-            </div>
+          </div>
         </section>
       </main>
     </div>
