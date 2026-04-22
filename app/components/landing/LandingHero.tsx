@@ -8,23 +8,41 @@ const STATS = [
 ];
 
 function StatStrip({ dense }: { dense?: boolean }) {
+  if (dense) {
+    return (
+      <div className="w-full border border-black/12 overflow-hidden">
+        {STATS.map((stat, idx) => (
+          <div
+            key={stat.value}
+            className={`flex flex-row items-center gap-6 px-5 py-4 ${
+              idx < STATS.length - 1 ? "border-b border-black/10" : ""
+            }`}
+          >
+            <p className="font-mono text-2xl font-bold text-black tracking-tight leading-none tabular-nums w-36 flex-shrink-0">
+              {stat.value}
+            </p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
+              {stat.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={`grid grid-cols-3 border border-black/12 overflow-hidden ${
-        dense ? "" : "lab-asset-frame"
-      }`}
-    >
+    <div className="grid grid-cols-3 border border-black/12 overflow-hidden lab-asset-frame">
       {STATS.map((stat, idx) => (
         <div
           key={stat.value}
-          className={`flex flex-col gap-1.5 px-3 py-4 lg:px-5 lg:py-5 ${
+          className={`flex flex-col gap-1.5 px-3 py-4 ${
             idx < STATS.length - 1 ? "border-r border-black/10" : ""
           }`}
         >
-          <p className="font-mono text-base lg:text-2xl font-bold text-black tracking-tight leading-none tabular-nums">
+          <p className="font-mono text-base font-bold text-black tracking-tight leading-none tabular-nums">
             {stat.value}
           </p>
-          <p className="font-mono text-[8px] lg:text-[9px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
+          <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
             {stat.label}
           </p>
         </div>

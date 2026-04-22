@@ -186,9 +186,9 @@ export default function AccountPage() {
             What you can do
           </p>
           <p className="text-sm text-black/60 mb-4">
-            View orders, manage subscriptions, or find your protocol.
+            View orders and manage subscriptions.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
             <Link
               href="/account/orders"
               className="flex flex-col bg-white border border-black/12 hover:border-black/40 overflow-hidden transition-colors group"
@@ -239,23 +239,6 @@ export default function AccountPage() {
               </div>
             </Link>
 
-            <Link
-              href="/quiz"
-              className="flex flex-col bg-white border border-black/12 hover:border-black/40 overflow-hidden transition-colors group"
-            >
-              <span className="flex h-36 w-full items-center justify-center bg-[#f5f5f5] text-black/30 border-b border-black/8">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" className="opacity-60">
-                  <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-              </span>
-              <div className="flex items-center justify-between gap-3 p-4">
-                <div className="min-w-0 flex-1">
-                  <span className="font-semibold text-black" style={{ letterSpacing: '-0.02em' }}>Find your protocol</span>
-                  <p className="text-sm text-black/60">Take the quiz</p>
-                </div>
-                <span className="shrink-0 text-black/40 group-hover:text-black transition-colors">→</span>
-              </div>
-            </Link>
           </div>
 
           {/* Subscriptions strip (only if any) */}
