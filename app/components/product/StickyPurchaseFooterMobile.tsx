@@ -102,14 +102,9 @@ export default function StickyPurchaseFooterMobile({
         />
       )}
       <div
-        className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--background)] shadow-[0_-4px_20px_rgba(0,0,0,0.15)]"
-        style={{
-          borderTopWidth: "1px",
-          borderTopStyle: "solid",
-          borderTopColor: isSubscription
-            ? "var(--brand-accent)"
-            : "var(--brand-border-color)",
-        }}
+        className={`fixed bottom-0 left-0 right-0 z-50 bg-white border-t ${
+          isSubscription ? "border-[var(--brand-accent)]" : "border-black/12"
+        }`}
       >
         <div className="px-5 py-3">
           <div className="flex items-center justify-between gap-4">
@@ -119,21 +114,15 @@ export default function StickyPurchaseFooterMobile({
                   <button
                     type="button"
                     onClick={() => setShowDropdown(!showDropdown)}
-                    className="w-full bg-[var(--background)] px-4 py-2 text-left flex items-center gap-2 hover:bg-black/5 transition-colors min-w-0"
-                    style={{
-                      borderWidth: "1px",
-                      borderStyle: "solid",
-                      borderColor: "var(--brand-border-color)",
-                      borderRadius: "var(--brand-radius-container)",
-                    }}
+                    className="w-full bg-white px-4 py-2 text-left flex items-center gap-2 hover:bg-black/5 transition-colors min-w-0 border border-black/8"
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="font-clinical text-sm font-medium truncate">
+                      <p className="font-mono text-sm font-medium truncate tabular-nums">
                         {variantLabel}
                         {isSubscription ? " (Save 20%)" : ""}
                       </p>
                       <p
-                        className="font-clinical text-xs mt-0.5"
+                        className="font-mono text-xs mt-0.5 tabular-nums"
                         style={{
                           color: isSubscription ? "var(--brand-accent)" : undefined,
                           opacity: isSubscription ? undefined : 0.7,
@@ -159,15 +148,7 @@ export default function StickyPurchaseFooterMobile({
                   </button>
 
                   {showDropdown && (
-                    <div
-                      className="absolute bottom-full left-0 mb-2 w-full min-w-[200px] bg-[var(--background)] overflow-hidden shadow-lg max-h-[60vh] overflow-y-auto"
-                      style={{
-                        borderWidth: "1px",
-                        borderStyle: "solid",
-                        borderColor: "var(--brand-border-color)",
-                        borderRadius: "var(--brand-radius-container)",
-                      }}
-                    >
+                    <div className="absolute bottom-full left-0 mb-2 w-full min-w-[200px] bg-white overflow-hidden max-h-[60vh] overflow-y-auto border border-black/8">
                       {showPackSelector &&
                         packSizes.map((pack) => {
                           const packPricing =
@@ -191,10 +172,10 @@ export default function StickyPurchaseFooterMobile({
                                   : ""
                               }`}
                             >
-                              <span className="font-clinical">
+                              <span className="font-mono tabular-nums">
                                 {packLabels[pack]} {billingText}
                               </span>
-                              <span className="font-clinical text-xs opacity-70 whitespace-nowrap">
+                              <span className="font-mono tabular-nums text-xs opacity-70 whitespace-nowrap">
                                 {formatPrice(packPricing.price)}
                               </span>
                             </button>
@@ -229,10 +210,10 @@ export default function StickyPurchaseFooterMobile({
                                   : ""
                               }`}
                             >
-                              <span className="font-clinical">
+                              <span className="font-mono tabular-nums">
                                 {getProtocolTierPackLabel(protocolId!, tier)} {billingText}
                               </span>
-                              <span className="font-clinical text-xs opacity-70 whitespace-nowrap">
+                              <span className="font-mono tabular-nums text-xs opacity-70 whitespace-nowrap">
                                 {formatPrice(tierData.price)}
                               </span>
                             </button>
@@ -243,12 +224,12 @@ export default function StickyPurchaseFooterMobile({
                 </div>
               ) : (
                 <>
-                  <p className="font-clinical text-sm font-medium truncate">
+                  <p className="font-mono text-sm font-medium truncate tabular-nums">
                     {variantLabel}
                     {isSubscription ? " (Save 20%)" : ""}
                   </p>
                   <p
-                    className="font-clinical text-xs mt-0.5"
+                    className="font-mono text-xs mt-0.5 tabular-nums"
                     style={{
                       color: isSubscription ? "var(--brand-accent)" : undefined,
                       opacity: isSubscription ? undefined : 0.7,
@@ -261,11 +242,7 @@ export default function StickyPurchaseFooterMobile({
             </div>
             <button
               onClick={onAddToCart}
-              className="px-5 py-2.5 font-bold text-sm whitespace-nowrap shrink-0 text-white border-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
-              style={{
-                borderRadius: "var(--brand-radius-interactive)",
-                backgroundColor: "var(--brand-accent)",
-              }}
+              className="px-5 py-2.5 font-mono uppercase tracking-[0.14em] tabular-nums font-bold text-sm whitespace-nowrap shrink-0 text-white border-0 bg-[#1B2757] lab-clip-tr transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 inline-flex items-center justify-center gap-1.5"
             >
               <span>Add</span>
               <span className="opacity-90">·</span>

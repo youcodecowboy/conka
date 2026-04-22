@@ -76,6 +76,20 @@ Hairline border, no shadow. Token enforces 0 radius.
 </div>
 ```
 
+### Card header row (labelled counter + right-aligned identity)
+Use when the counter needs a prefix (pillar, partner, researcher, principle). Right cell names the formula, affiliation, or dominant tag — it's navy (`text-[#1B2757]`) because it's the card's identity, not a divider.
+```tsx
+<div className="flex items-center justify-between px-4 py-2.5 border-b border-black/8">
+  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums">
+    P-01 · Pillar 01 / 05
+  </span>
+  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1B2757] tabular-nums">
+    CONKA Flow
+  </span>
+</div>
+```
+Counter prefixes we're using: `P-` pillar · `U-` university partner · `R-` researcher · `F-` formula · `Fig.` figure plate. Keep them two digits with leading zeros.
+
 ### Spec strip (3-col stats inside `lab-asset-frame`)
 Small mono label above a `tabular-nums` value; `border-r border-black/8` between cells. See `WhyConkaWorksDesktop`.
 
@@ -93,6 +107,137 @@ Zero-radius 2-col grid. Active = `bg-black text-white`. Inactive = `bg-white`. `
 ### Chamfer nav buttons (prev/next)
 44×44 navy square with `lab-clip-tr`. Paired; navigation only. See `AthleteCredibilityCarousel#ChamferNav`.
 
+### Figure plates (imagery overlay)
+Any lifestyle, product, or portrait image inside a hairline frame gets at least one plate. Plates turn decorative imagery into spec-sheet imagery. Two-corner pattern: top-left = figure number + subject, bottom-right = metadata (location, score, partner, reading).
+
+```tsx
+<div className="relative aspect-[4/5] border border-black/12 bg-white overflow-hidden">
+  <Image {...props} />
+  {/* Optional gradient for overlay legibility when plates sit over busy areas */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" aria-hidden />
+  <div className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums">
+    Fig. 01 · Research Context
+  </div>
+  <div className="absolute bottom-3 right-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums">
+    Durham · Cambridge
+  </div>
+</div>
+```
+Rules: `bg-black/55` (never fully opaque, never fully transparent). `px-2 py-1` only — plates are tight. Number plates sequentially across a page (`Fig. 01` … `Fig. 05`) so the page reads like a document. Omit the gradient when the plate sits over a naturally dark region.
+
+### Hairline data table (numbered rows)
+Use instead of chip/tag clouds when items have a consistent two-part shape (name + role, stat + label, partner + focus). Reads as catalogue, not card.
+```tsx
+<div className="bg-white border border-black/12">
+  {items.map((item, idx) => (
+    <div
+      key={item.name}
+      className={`flex items-baseline justify-between gap-4 px-4 py-3 ${
+        idx < items.length - 1 ? "border-b border-black/8" : ""
+      }`}
+    >
+      <div className="flex items-baseline gap-3 min-w-0">
+        <span className="font-mono text-[10px] text-black/35 tabular-nums flex-shrink-0">
+          {String(idx + 1).padStart(2, "0")}
+        </span>
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-black truncate">{item.name}</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-black/55 tabular-nums mt-0.5">
+            {item.role}
+          </p>
+        </div>
+      </div>
+      {/* optional right-aligned mono badge */}
+    </div>
+  ))}
+</div>
+```
+Pair with a header row (above) when the table is the body of a card. Standalone tables can skip the header row.
+
+### Evidence grid (nested hairlines)
+Multi-cell data surface for stats, study results, or comparison cells. Outer border + inner `border-r` / `border-b` dividers, not gaps. Responsive: 2-col mobile, 4-col desktop. See `PillarCard#keyStats`.
+```
+border border-black/12  →  each cell: p-3 lg:p-4 bg-white, !lastCol: border-r border-black/8, !lastRow: border-b border-black/8
+```
+
+### Spec strip (dashboard stat row)
+Horizontal stats bar used under a trio header or inside a data card. 3-col (hero) or 4-col (evidence). Small mono label above an oversized `tabular-nums` value; `border-r border-black/8` between cells; outer hairline wrap.
+```tsx
+<div className="grid grid-cols-3 gap-0 border border-black/12 bg-white">
+  <div className="p-4 border-r border-black/8">
+    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">Studies</p>
+    <p className="font-mono text-2xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">32</p>
+  </div>
+  {/* … */}
+</div>
+```
+Mix value sizes in one strip if one cell holds a long identifier (patent number, SKU) — drop that cell to `text-sm` or `text-base` while others stay `text-2xl lg:text-4xl`. Keeps the grid balanced.
+
+### Icon tile (card signifier)
+Square navy tile, 44×44 (`w-11 h-11`), white stroke icon, placed flush-left inside a principle/pillar/card body. Not interactive, so no chamfer.
+```tsx
+<div className="w-11 h-11 flex items-center justify-center text-white flex-shrink-0" style={{ backgroundColor: "#1B2757" }}>
+  <svg width="22" height="22" {...} strokeWidth="1.75" strokeLinecap="square" strokeLinejoin="miter" />
+</div>
+```
+Icon stroke weight: `1.75` with `strokeLinecap="square"` `strokeLinejoin="miter"`. Softer rounded strokes read as consumer — square caps match the spec-sheet grammar.
+
+### Formula / variant tag
+Inline badge that names which formula an item belongs to. Reserved for F01 / F02 / BOTH in scientific contexts. Navy-on-tinted-navy, hairline-boxed, mono.
+```tsx
+<span className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#1B2757] bg-[#1B2757]/6 border border-[#1B2757]/20 px-2 py-0.5 tabular-nums">
+  F01
+</span>
+```
+
+### Quote block (research philosophy, manifesto)
+Large text with a 2px navy left rule — not blockquotes, not oversized quotation marks. Eyebrow reads as a document code (`// Research Philosophy · Doc-RP-001`). Attribution uses an em-dash and separates location/date with `·`.
+```tsx
+<p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-6">
+  // Research Philosophy · Doc-RP-001
+</p>
+<div className="border-l-2 border-[#1B2757] pl-5 lg:pl-6">
+  <p className="text-3xl lg:text-4xl text-black leading-tight" style={{ letterSpacing: "-0.02em" }}>
+    {quote}
+  </p>
+  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/50 tabular-nums mt-5">
+    — {author} · Durham, 2023
+  </p>
+</div>
+```
+
+### PubMed / citation link
+Every stat that can be cited should be. Navy mono, trailing `↗`, tabular.
+```tsx
+<a
+  href={`https://pubmed.ncbi.nlm.nih.gov/${pmid}/`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#1B2757] hover:underline tabular-nums"
+>
+  PMID {pmid} ↗
+</a>
+```
+
+### Closing CTA card
+Final section pattern across `/science`, `/case-studies`, `/our-story`: a hairline card containing eyebrow → heading → mono guarantee line → `ConkaCTAButton`. Always points at `/protocol/3` unless the page has a stronger product affinity.
+```tsx
+<div className="bg-white border border-black/12 p-5 lg:p-8">
+  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+    Recommended start · Balance protocol
+  </p>
+  <h3 className="brand-h3 text-black mb-3" style={{ letterSpacing: "-0.02em" }}>
+    Put the science to work.
+  </h3>
+  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-6">
+    100-Day money-back guarantee · Free UK shipping · Cancel anytime
+  </p>
+  <ConkaCTAButton href="/protocol/3" meta="// balance protocol · 14 shots · 7-day cadence">
+    Try CONKA now
+  </ConkaCTAButton>
+</div>
+```
+
 ---
 
 ## Typography rules
@@ -100,9 +245,31 @@ Zero-radius 2-col grid. Active = `bg-black text-white`. Inactive = `bg-white`. `
 - **Eyebrow:** `font-mono text-[10px] uppercase tracking-[0.2em] text-black/40`
 - **Mono sub:** `font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums`
 - **Row counter / spec label:** `font-mono text-[9px]–[11px] uppercase tracking-[0.18em] tabular-nums`, opacity `text-black/35–60`
+- **Figure plate:** `font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums`
+- **PMID / citation:** `font-mono text-[9px] uppercase tracking-[0.2em] text-[#1B2757] tabular-nums`, trailing `↗`
+- **Body paragraph inside a clinical card:** `text-sm md:text-base text-black/70–/75 leading-relaxed`. Never use `brand-body` at full opacity in clinical surfaces — the type is too dense against the hairline frames.
 - Any number that can change → `tabular-nums`
 - Units, labels, percentages, PMIDs → `font-mono`
 - Canonical separator is the middle-dot `·` (U+00B7). Not `|`, not `—`.
+- Use `//` as a prefix for "document code" eyebrows (philosophy, lab notes, meta lines). Reserved — not for section eyebrows.
+- Headings get `letterSpacing: "-0.02em"` inline. The stock `brand-h1`/`brand-h2` classes don't tighten enough for clinical.
+
+## Counter conventions
+
+Counter format signals what you're counting. Keep zero-padded to 2 digits unless the total exceeds 99.
+
+| Prefix | Use | Example |
+|--------|-----|---------|
+| `01` | Generic item index | Hairline table rows |
+| `01.` | List item (trailing dot) | Sidebar case study rows |
+| `01 / 05` | Position in a fixed set | Carousel counter, pillar position |
+| `P-01` | Pillar | Science pillars |
+| `F-01` / `F01` | Formula | Flow/Clear identification |
+| `U-01` | University partner | Evidence summary |
+| `R-01` | Researcher | Evidence summary |
+| `Fig. 01` | Figure plate on imagery | Any hairline-framed asset |
+
+Numbering is sequential across a page — `Fig. 01` through `Fig. 05` should read as one continuous document.
 
 ---
 
@@ -172,11 +339,15 @@ Requires `relative overflow-hidden` parent. Use `border-white` on dark images. N
 ## Do not
 
 - Add `border-radius` — tokens handle it
-- Use gradients — solid navy `#1B2757` only
-- Apply `lab-clip-tr` (or any chamfer) to non-interactive elements
+- Use gradients — solid navy `#1B2757` only. Exception: `bg-gradient-to-t from-black/70 via-black/25 to-transparent` is allowed *over imagery* for figure-plate legibility, never on UI surfaces.
+- Apply `lab-clip-tr` (or any chamfer) to non-interactive elements (cards, icon tiles, figure plates)
 - Hand-roll a primary CTA — always `ConkaCTAButton`
 - Add shadows to cards — hairline border only
 - Use product accent as a selected-state signal — navy border handles selection
 - Centre-align headings
 - Use emoji in labels — mono tags instead (`Ships ·`, `Note ·`, `01 ·`)
 - Use `bg-brand-accent` fills outside CTAs
+- Use rounded SVG strokes in icon tiles (`strokeLinecap="round"`) — square caps, miter joins
+- Use oversized quotation marks or blockquote styling — 2px navy left rule instead
+- Use `•` bullets anywhere — em-dash (`—`) only
+- Leave imagery un-plated in a clinical layout — every framed asset gets at least one `Fig. 0X` corner plate

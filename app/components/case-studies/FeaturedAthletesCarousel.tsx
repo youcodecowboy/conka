@@ -18,8 +18,8 @@ export default function FeaturedAthletesCarousel({
   onSelectAthlete,
 }: FeaturedAthletesCarouselProps) {
   return (
-    <div className="flex gap-4 overflow-x-auto overflow-y-visible px-4 pb-2 pt-2 scrollbar-hide">
-      {athletes.map((athlete) => {
+    <div className="flex gap-2 overflow-x-auto overflow-y-visible pb-2 scrollbar-hide snap-x snap-mandatory scroll-smooth">
+      {athletes.map((athlete, idx) => {
         const improvement = athlete.improvements.find(
           (i) => i.metric === "Total Score",
         );
@@ -33,10 +33,10 @@ export default function FeaturedAthletesCarousel({
             key={athlete.id}
             type="button"
             onClick={() => onSelectAthlete(athlete.id)}
-            className={`relative flex-shrink-0 w-[140px] aspect-[3/4] rounded-[var(--premium-radius-card)] overflow-hidden text-left transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)] focus:ring-offset-2 border border-[var(--color-premium-stroke)] ${
+            className={`relative flex-shrink-0 w-[140px] aspect-[3/4] overflow-hidden text-left transition-colors focus:outline-none focus:ring-2 focus:ring-[#1B2757] focus:ring-offset-2 bg-white snap-start ${
               isActive
-                ? "ring-2 ring-[var(--color-ink)] ring-offset-2"
-                : "hover:opacity-95"
+                ? "border-2 border-[#1B2757]"
+                : "border border-black/12 hover:border-black/40"
             }`}
             aria-pressed={isActive}
             aria-label={`View case study: ${athlete.name}, ${improvement?.value ?? "+0%"} improvement`}
@@ -51,18 +51,26 @@ export default function FeaturedAthletesCarousel({
                 }}
               />
             ) : (
-              <div className="absolute inset-0 bg-[var(--color-premium-bg-soft)]" />
+              <div className="absolute inset-0 bg-black/[0.03]" />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
-              <p className="text-xs font-semibold truncate mb-0.5">
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"
+              aria-hidden
+            />
+            <div className="absolute top-2 left-2 right-2 flex items-center justify-between">
+              <span className="font-mono text-[9px] font-bold tabular-nums text-white/85 bg-black/45 px-1.5 py-0.5">
+                {String(idx + 1).padStart(2, "0")}
+              </span>
+              <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-white/85 bg-black/45 px-1.5 py-0.5">
+                {SPORT_INFO[athlete.sport]?.name ?? athlete.sport}
+              </span>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-2.5 text-white">
+              <p className="font-mono text-[11px] font-semibold truncate leading-tight mb-1">
                 {athlete.name}
               </p>
-              <p className="text-lg font-bold font-clinical text-emerald-400">
+              <p className="font-mono text-lg font-bold tabular-nums leading-none">
                 {improvement?.value ?? "+0%"}
-              </p>
-              <p className="text-[10px] uppercase tracking-wide opacity-80">
-                {SPORT_INFO[athlete.sport]?.name ?? athlete.sport}
               </p>
             </div>
           </button>

@@ -85,7 +85,7 @@ export default function ConkaClarityPage() {
   // Mobile version
   if (isMobile) {
     return (
-      <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+      <div className="brand-clinical min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
         <Navigation />
 
         {/* ===== SECTION 1: HERO ===== */}
@@ -223,7 +223,7 @@ export default function ConkaClarityPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+    <div className="brand-clinical min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
       <Navigation />
 
       {/* ===== SECTION 1: HERO ===== */}

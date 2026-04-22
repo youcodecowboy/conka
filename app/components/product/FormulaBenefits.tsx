@@ -14,16 +14,19 @@ export default function FormulaBenefits({ formulaId }: FormulaBenefitsProps) {
 
   return (
     <div>
-      {/* Heading block */}
-      <div className="text-right mb-10">
+      {/* Trio header */}
+      <div className="mb-10">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Outcome Profile · Peer-reviewed Evidence
+        </p>
         <h2
-          className="brand-h2 mb-0"
+          className="brand-h1 mb-2 text-black"
           style={{ letterSpacing: "-0.02em" }}
         >
           What you'll actually feel.
         </h2>
-        <p className="brand-body mt-2 text-black/80">
-          Select a benefit to see the evidence behind it.
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          Select a benefit · See the evidence
         </p>
       </div>
 

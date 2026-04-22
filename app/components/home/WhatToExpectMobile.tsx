@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
 import {
   timelineFlow,
   timelineClear,
@@ -45,10 +46,10 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
             <button
               type="button"
               onClick={() => setToggleFormula("01")}
-              className={`flex items-center justify-center w-20 h-20 rounded-[var(--brand-radius-container)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black ${
+              className={`flex items-center justify-center w-20 h-20 bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black ${
                 selectedFormula === "01"
                   ? "border-black opacity-100"
-                  : "border-[rgba(0,0,0,0.06)] opacity-60"
+                  : "border-black/8 opacity-60"
               }`}
               aria-pressed={selectedFormula === "01"}
             >
@@ -72,10 +73,10 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
             <button
               type="button"
               onClick={() => setToggleFormula("02")}
-              className={`flex items-center justify-center w-20 h-20 rounded-[var(--brand-radius-container)] bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black ${
+              className={`flex items-center justify-center w-20 h-20 bg-white border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black ${
                 selectedFormula === "02"
                   ? "border-black opacity-100"
-                  : "border-[rgba(0,0,0,0.06)] opacity-60"
+                  : "border-black/8 opacity-60"
               }`}
               aria-pressed={selectedFormula === "02"}
             >
@@ -99,7 +100,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
 
       {/* 3. Main lifestyle image */}
       <div className="mb-8">
-        <div className="relative aspect-[4/3] rounded-[var(--brand-radius-card)] overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[var(--brand-tint)] border border-black/8">
           <Image
             src={
               selectedFormula === "01"
@@ -117,7 +118,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
             priority
           />
         </div>
-        <p className="brand-caption text-center text-black/60 mt-3">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mt-3">
           {selectedFormula === "01"
             ? "CONKA Flow for clean sustained energy"
             : "CONKA Clear for peak performance"}
@@ -133,7 +134,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
           >
             <div className="flex flex-col items-center flex-shrink-0">
               <div
-                className="w-2.5 h-2.5 rounded-full bg-[var(--brand-accent)] flex-shrink-0"
+                className="w-2.5 h-2.5 bg-[var(--brand-accent)] flex-shrink-0"
                 aria-hidden
               />
               <div
@@ -144,7 +145,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
 
             <div className="flex-1 -mt-1 min-w-0">
               <span
-                className="inline-block brand-data text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[var(--brand-accent)] text-white mb-2"
+                className="inline-block font-mono text-[10px] uppercase tracking-[0.2em] tabular-nums px-2.5 py-1 bg-[var(--brand-accent)] text-white mb-2"
                 aria-hidden
               >
                 {stage.subheading}
@@ -161,9 +162,9 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
       </div>
 
       {/* 5. How to use card */}
-      <div className="mb-8 brand-card p-6">
+      <div className="mb-8 bg-white border border-black/8 p-6">
         <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-16 h-16 relative rounded-[var(--brand-radius-container)] bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)] overflow-hidden flex items-center justify-center p-1">
+          <div className="flex-shrink-0 w-16 h-16 relative bg-[var(--brand-tint)] border border-black/8 overflow-hidden flex items-center justify-center p-1">
             <Image
               src={
                 selectedFormula === "01"
@@ -195,31 +196,20 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
             </p>
 
             {showToggle && (
-              <a
+              <ConkaCTAButton
                 href={
                   selectedFormula === "01" ? "/conka-flow" : "/conka-clarity"
                 }
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] font-semibold text-sm bg-[var(--brand-accent)] text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-accent)]"
+                meta={
+                  selectedFormula === "01"
+                    ? "// morning formula"
+                    : "// afternoon formula"
+                }
               >
                 {selectedFormula === "01"
                   ? "View CONKA Flow"
                   : "View CONKA Clear"}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden
-                >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </a>
+              </ConkaCTAButton>
             )}
           </div>
         </div>
@@ -227,7 +217,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
 
       {/* 6. Supporting images — 2-column grid */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="relative aspect-square rounded-[var(--brand-radius-container)] overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
+        <div className="relative aspect-square overflow-hidden bg-[var(--brand-tint)] border border-black/8">
           <Image
             src={
               selectedFormula === "01"
@@ -245,7 +235,7 @@ export default function WhatToExpectMobile({ productId }: WhatToExpectMobileProp
             loading="lazy"
           />
         </div>
-        <div className="relative aspect-square rounded-full overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
+        <div className="relative aspect-square overflow-hidden bg-[var(--brand-tint)] border border-black/8">
           <Image
             src={
               selectedFormula === "01" ? "/vibe/water.jpg" : "/vibe/sky.jpg"

@@ -13,21 +13,21 @@ export default function IngredientsPage() {
   const [activeFormula, setActiveFormula] = useState<FormulaId>("01");
 
   return (
-    <div className="min-h-screen">
+    <div className="brand-clinical min-h-screen bg-white">
       <Navigation />
 
       {isMobile === undefined ? (
         <div className="min-h-screen pt-32 pb-16 flex items-center justify-center">
-          <div className="animate-pulse text-center">
-            <p className="font-clinical text-sm opacity-50">Loading...</p>
-          </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums">
+            Loading ingredients…
+          </p>
         </div>
       ) : (
         <section
-          className="premium-section-luxury premium-hero-first premium-hero-with-top-air premium-section-reduced-bottom premium-bg-bone"
+          className="brand-section brand-hero-first brand-bg-white"
           aria-label="Ingredients"
         >
-          <div className="premium-track">
+          <div className="brand-track">
             {isMobile ? (
               <IngredientsPageMobile
                 activeFormula={activeFormula}

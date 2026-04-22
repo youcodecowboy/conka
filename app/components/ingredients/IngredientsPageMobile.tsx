@@ -6,12 +6,13 @@ import {
   CATEGORY_INFO,
   getIngredientsByFormula,
 } from "@/app/lib/ingredientsData";
-import { FormulaId, FORMULA_COLORS } from "@/app/lib/productData";
+import { FormulaId } from "@/app/lib/productData";
 import FormulaToggle from "@/app/components/FormulaToggle";
 import IngredientCarousel from "./IngredientCarousel";
 import IngredientStats from "./IngredientStats";
 import IngredientBenefits from "./IngredientBenefits";
 import IngredientStudies from "./IngredientStudies";
+import { MolecularStructure } from "./MolecularStructure";
 
 interface IngredientsPageMobileProps {
   activeFormula: FormulaId;
@@ -29,12 +30,13 @@ export default function IngredientsPageMobile({
 
   const activeIngredient =
     ingredients.find((ing) => ing.id === activeIngredientId) || ingredients[0];
-  const accentColor = FORMULA_COLORS[activeFormula];
   const categoryInfo = activeIngredient
     ? CATEGORY_INFO[activeIngredient.category]
     : null;
+  const activeIndex = ingredients.findIndex(
+    (ing) => ing.id === activeIngredientId,
+  );
 
-  // Reset to first ingredient when formula changes
   const handleFormulaChange = (formula: FormulaId) => {
     setActiveFormula(formula);
     const newIngredients = getIngredientsByFormula(formula);
@@ -43,35 +45,30 @@ export default function IngredientsPageMobile({
 
   if (!activeIngredient) return null;
 
+  const qualityLine = [
+    activeIngredient.functionalCategory,
+    ...activeIngredient.qualityTags,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
-    <div className="min-h-screen pt-6 pb-8">
-      {/* Hero */}
+    <div className="pt-4 pb-8">
       <div className="mb-6">
-        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-1">
-          Explore every ingredient
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Formula Inputs · Sourced · Tested
         </p>
         <h1
-          className="premium-section-heading font-bold text-[var(--color-ink)] text-3xl mb-1"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h1 text-black mb-2"
+          style={{ letterSpacing: "-0.02em" }}
         >
-          The Science{" "}
-          <span
-            style={{
-              background: "var(--gradient-neuro-blue-accent)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Inside
-          </span>
+          The science inside every shot
         </h1>
-        <p className="premium-body-sm opacity-70">
-          Formula breakdown and clinical evidence for each ingredient.
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          {String(ingredients.length).padStart(2, "0")} Ingredients · Clinical doses · Peer-reviewed
         </p>
       </div>
 
-      {/* Formula Toggle */}
       <div className="mb-6">
         <FormulaToggle
           value={activeFormula}
@@ -80,7 +77,6 @@ export default function IngredientsPageMobile({
         />
       </div>
 
-      {/* Ingredient Carousel */}
       <div className="mb-6">
         <IngredientCarousel
           ingredients={ingredients}
@@ -89,39 +85,18 @@ export default function IngredientsPageMobile({
         />
       </div>
 
-      {/* Active Ingredient Content */}
-      <div className="space-y-6">
-        {/* Main Card - no thick padding, bone-friendly */}
-        <div className="overflow-hidden rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)]">
-          <div
-            className="p-4 text-white"
-            style={{ backgroundColor: "var(--color-neuro-blue-dark)" }}
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-white text-xs font-clinical ${categoryInfo?.color}`}
-                  >
-                    {categoryInfo?.name}
-                  </span>
-                </div>
-                <h2 className="text-xl font-bold">{activeIngredient.name}</h2>
-                <p className="premium-body-sm opacity-70">
-                  {activeIngredient.scientificName}
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="premium-body-sm opacity-70">of formula</p>
-                <p className="text-2xl font-bold font-clinical">
-                  {activeIngredient.percentage}
-                </p>
-              </div>
-            </div>
+      <div className="space-y-4">
+        <div className="bg-white border border-black/12 overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
+            <span className="font-mono text-[11px] font-bold tabular-nums text-black/40">
+              {String(activeIndex + 1).padStart(2, "0")}.
+            </span>
+            <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50">
+              {categoryInfo?.name}
+            </span>
           </div>
 
-          {/* Image */}
-          <div className="relative aspect-video">
+          <div className="relative aspect-[4/3]">
             {activeIngredient.image ? (
               <Image
                 src={activeIngredient.image}
@@ -131,164 +106,142 @@ export default function IngredientsPageMobile({
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-[var(--color-premium-stroke)]/20">
-                <span className="font-clinical text-sm text-[var(--color-ink)] opacity-60">
-                  [{activeIngredient.name.toUpperCase()} IMAGE]
+              <div className="w-full h-full flex items-center justify-center bg-black/[0.03]">
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/40">
+                  {activeIngredient.name}
                 </span>
               </div>
             )}
           </div>
 
-          {/* Description - white background, bottom padding so text isn't clipped */}
-          <div className="bg-white pt-4 pb-6 px-4">
-            <p className="premium-body-sm text-[var(--color-ink)] leading-relaxed">
+          <div
+            className="p-4 text-white"
+            style={{ backgroundColor: "#1B2757" }}
+          >
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">
+              {qualityLine}
+            </p>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <h2 className="text-2xl font-semibold leading-tight">
+                  {activeIngredient.name}
+                </h2>
+                <p className="font-mono text-[11px] italic text-white/65 mt-1 tabular-nums">
+                  {activeIngredient.scientificName}
+                </p>
+              </div>
+              <div className="shrink-0 text-right">
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/50 leading-none">
+                  Share
+                </p>
+                <p className="font-mono text-2xl font-bold tabular-nums mt-1.5 leading-none">
+                  {activeIngredient.percentage}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 border-t border-black/8">
+            <p className="text-sm text-black/80 leading-relaxed">
+              {activeIngredient.oneLineClaim}
+            </p>
+            <p className="text-sm text-black/70 leading-relaxed mt-3">
               {activeIngredient.description}
             </p>
           </div>
         </div>
 
-        {/* Key Stats */}
-        <div>
-          <h3 className="premium-heading text-[var(--color-ink)] text-lg mb-3 flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="18" y1="20" x2="18" y2="10" />
-              <line x1="12" y1="20" x2="12" y2="4" />
-              <line x1="6" y1="20" x2="6" y2="14" />
-            </svg>
-            Key Statistics
+        <section
+          className="bg-white border border-black/12 p-4"
+          aria-labelledby="mobile-stats-heading"
+        >
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+            Mechanism · Evidence · Outcomes
+          </p>
+          <h3
+            id="mobile-stats-heading"
+            className="brand-h3 text-black mb-4"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            Key statistics
           </h3>
-          <IngredientStats
-            stats={activeIngredient.keyStats}
-            accentColor={accentColor.text}
-          />
-        </div>
+          <IngredientStats stats={activeIngredient.keyStats} />
+        </section>
 
-        {/* How It Works - bone, no border */}
-        <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-4">
-          <h3 className="font-bold text-[var(--color-ink)] mb-2 flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-              <line x1="12" y1="17" x2="12.01" y2="17" />
-            </svg>
-            How It Works
+        <section className="bg-white border border-black/12 p-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+            How it works · Mechanism of action
+          </p>
+          <h3
+            className="brand-h3 text-black mb-3"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            How it works
           </h3>
-          <p className="premium-body-sm text-[var(--color-ink)] opacity-80 leading-relaxed">
+          <p className="text-sm text-black/75 leading-relaxed">
             {activeIngredient.mechanismOfAction}
           </p>
-        </div>
+        </section>
 
-        {/* Benefits */}
-        <div>
-          <h3 className="premium-heading text-[var(--color-ink)] text-lg mb-3 flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
+        <section className="bg-white border border-black/12 p-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
             Key Benefits
-          </h3>
-          <IngredientBenefits
-            benefits={activeIngredient.benefits}
-            accentColor={accentColor.text}
-          />
-        </div>
-
-        {/* Clinical Studies */}
-        <div>
-          <h3 className="premium-heading text-[var(--color-ink)] text-lg mb-3 flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-              <line x1="16" y1="13" x2="8" y2="13" />
-              <line x1="16" y1="17" x2="8" y2="17" />
-              <polyline points="10 9 9 9 8 9" />
-            </svg>
-            Clinical Studies
-          </h3>
-          <IngredientStudies
-            studies={activeIngredient.clinicalStudies}
-            accentColor={accentColor.text}
-          />
-        </div>
-
-        {/* Synergies - bone, no border */}
-        <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] p-4">
-          <h3 className="font-bold text-[var(--color-ink)] mb-3 flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-            </svg>
-            Works Well With
-          </h3>
-            <div className="flex flex-wrap gap-2">
-              {activeIngredient.synergies.map((synergy, idx) => (
-                <span
-                  key={idx}
-                  className="px-3 py-1 rounded-full bg-[var(--color-premium-stroke)]/30 premium-body-sm text-[var(--color-ink)]"
-                >
-                  {synergy}
-                </span>
-              ))}
-            </div>
-        </div>
-
-        {/* Navigation Hint */}
-        <div className="text-center py-4">
-          <p className="premium-body-sm opacity-50">
-            scroll up and swipe to explore more ingredients
           </p>
-        </div>
+          <h3
+            className="brand-h3 text-black mb-4"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            What it does
+          </h3>
+          <IngredientBenefits benefits={activeIngredient.benefits} nested />
+        </section>
+
+        <section>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+            Peer-Reviewed · PubMed · DOI
+          </p>
+          <h3
+            className="brand-h3 text-black mb-4"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            Clinical studies
+          </h3>
+          <IngredientStudies studies={activeIngredient.clinicalStudies} />
+        </section>
+
+        {activeIngredient.molecularStructure && (
+          <MolecularStructure
+            structure={activeIngredient.molecularStructure}
+            ingredientName={activeIngredient.name}
+          />
+        )}
+
+        <section className="bg-white border border-black/12 p-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+            Formula Context · Stacking
+          </p>
+          <h3
+            className="brand-h3 text-black mb-3"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            Works well with
+          </h3>
+          <ul className="space-y-2">
+            {activeIngredient.synergies.map((synergy, idx) => (
+              <li
+                key={idx}
+                className="flex items-start gap-2 text-sm text-black/80"
+              >
+                <span className="font-mono text-black/30 shrink-0">—</span>
+                <span>{synergy}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums text-center py-4">
+          Scroll up · swipe to explore
+        </p>
       </div>
     </div>
   );

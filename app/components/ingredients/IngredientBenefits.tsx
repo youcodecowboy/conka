@@ -107,28 +107,28 @@ const defaultIcon: React.ReactNode = (
   </svg>
 );
 
-export default function IngredientBenefits({ benefits, accentColor = "text-current", nested = false }: IngredientBenefitsProps) {
+export default function IngredientBenefits({ benefits, nested = false }: IngredientBenefitsProps) {
   const content = benefits.map((benefit, idx) => (
     <div
       key={idx}
-      className="flex items-start gap-3 py-3 px-4 text-[var(--color-ink)]"
+      className="flex items-start gap-3 py-3 px-4 text-black"
     >
-      <div className={`shrink-0 mt-0.5 ${accentColor}`}>
+      <div className="shrink-0 mt-0.5 text-[#1B2757]">
         {iconMap[benefit.icon] || defaultIcon}
       </div>
       <div className="min-w-0">
-        <p className="font-semibold premium-body-sm">{benefit.title}</p>
-        <p className="premium-body-sm opacity-80 mt-0.5">{benefit.description}</p>
+        <p className="font-semibold text-sm text-black">{benefit.title}</p>
+        <p className="text-sm text-black/70 mt-0.5 leading-relaxed">{benefit.description}</p>
       </div>
     </div>
   ));
 
   if (nested) {
-    return <div className="divide-y divide-[var(--color-premium-stroke)]/50">{content}</div>;
+    return <div className="divide-y divide-black/8">{content}</div>;
   }
 
   return (
-    <div className="rounded-[var(--premium-radius-card)] bg-white border border-[var(--color-premium-stroke)] divide-y divide-[var(--color-premium-stroke)]/50 overflow-hidden">
+    <div className="bg-white border border-black/12 divide-y divide-black/8 overflow-hidden">
       {content}
     </div>
   );

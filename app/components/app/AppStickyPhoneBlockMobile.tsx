@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import PremiumDotIndicator from "@/app/components/premium/PremiumDotIndicator";
-import PremiumCarouselToggle from "@/app/components/premium/PremiumCarouselToggle";
 import { PhoneFrame } from "./AppStickyPhoneBlock";
 import {
   SECTIONS_DATA,
@@ -11,53 +9,49 @@ import {
   type SectionData,
 } from "./appStickyPhoneBlockData";
 
-const GRAIN_DATA_URI =
-  "data:image/svg+xml," +
-  encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" /></filter><rect width="100%" height="100%" filter="url(%23n)" /></svg>`
-  );
-
 const SWIPE_THRESHOLD_PX = 50;
 
-const styles = {
-  eyebrow: {
-    backgroundColor: "rgba(255,255,255,0.07)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    color: "var(--color-bone)",
-  },
-  bodySmall: {
-    color: "var(--color-bone)",
-    fontSize: "0.85rem",
-  },
-  card: {
-    backgroundColor: "rgba(255,255,255,0.04)",
-    border: "1px solid rgba(255,255,255,0.08)",
-  },
-  valueGradient: {
-    fontSize: "clamp(1.25rem, 2.5vw, 1.5rem)",
-    background: "var(--gradient-neuro-blue-accent)",
-    WebkitBackgroundClip: "text" as const,
-    WebkitTextFillColor: "transparent" as const,
-    backgroundClip: "text" as const,
-  },
-  gradientText: {
-    background: "var(--gradient-neuro-blue-accent)",
-    WebkitBackgroundClip: "text" as const,
-    WebkitTextFillColor: "transparent" as const,
-    backgroundClip: "text" as const,
-  },
-};
+const PHONE_ALT_LABELS = [
+  "Cognitive test screen",
+  "Wellness and metrics",
+  "Progress graph",
+  "Leaderboard",
+];
 
-function GrainOverlay() {
+const FIG_LABELS = [
+  "Fig. 02 · Cognitive test",
+  "Fig. 03 · Wellness log",
+  "Fig. 04 · Progress graph",
+  "Fig. 05 · Leaderboard",
+];
+
+function ChamferNav({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: "prev" | "next";
+  onClick: () => void;
+  disabled?: boolean;
+}) {
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute inset-0 z-[1] opacity-[0.03]"
-      style={{
-        backgroundImage: `url("${GRAIN_DATA_URI}")`,
-        backgroundRepeat: "repeat",
-      }}
-    />
+    <button
+      type="button"
+      aria-label={direction === "prev" ? "Previous section" : "Next section"}
+      onClick={onClick}
+      disabled={disabled}
+      className="w-11 h-11 flex items-center justify-center bg-[#1B2757] text-white transition-opacity hover:opacity-85 active:opacity-70 disabled:opacity-30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757] lab-clip-tr"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <polyline
+          points={direction === "prev" ? "15 6 9 12 15 18" : "9 6 15 12 9 18"}
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
+        />
+      </svg>
+    </button>
   );
 }
 
@@ -71,15 +65,15 @@ function StatCard({
   source?: string;
 }) {
   return (
-    <div className="rounded-[var(--premium-radius-nested)] p-3" style={styles.card}>
-      <div className="font-bold" style={styles.valueGradient}>
-        {value}
-      </div>
-      <p className="mt-0.5 leading-[1.4] text-[0.7rem]" style={styles.bodySmall}>
+    <div className="bg-white border border-black/12 p-3">
+      <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
         {label}
       </p>
+      <p className="font-mono text-xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+        {value}
+      </p>
       {source && (
-        <p className="mt-1 text-[0.55rem] italic opacity-60" style={{ color: "var(--color-bone)" }}>
+        <p className="font-mono text-[8px] text-black/45 mt-2 leading-tight tabular-nums">
           {source}
         </p>
       )}
@@ -87,119 +81,76 @@ function StatCard({
   );
 }
 
-/** Section 0 on mobile: headline + one-line teaser + stats + "Read more" for full copy */
-function Section0MobileContent({
+function MobileSectionContent({
   data,
-  expanded,
-  onToggle,
   contentVisible,
 }: {
   data: SectionData;
-  expanded: boolean;
-  onToggle: () => void;
   contentVisible: boolean;
 }) {
-  const firstSentence = data.body.split(/\.\s+/)[0] + (data.body.includes(". ") ? "." : "");
+  const headingParts = data.heading.split("<br/>").filter(Boolean);
   return (
     <div
       className="flex flex-col items-start text-left"
       style={{
         opacity: contentVisible ? 1 : 0,
-        transform: contentVisible ? "translateY(0)" : "translateY(12px)",
+        transform: contentVisible ? "translateY(0)" : "translateY(8px)",
         transition: "opacity 0.35s ease, transform 0.35s ease",
       }}
     >
-      {data.eyebrow && (
-        <div
-          className="mb-3 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[0.65rem] uppercase tracking-widest"
-          style={styles.eyebrow}
-        >
-          {data.eyebrow}
-        </div>
-      )}
-      <h2 className="mb-3 max-w-[22ch] font-bold leading-[1.08] text-white" style={{ fontSize: "clamp(1.35rem, 3vw, 1.6rem)", letterSpacing: "-0.035em" }}>
-        {data.heading}{" "}
-        <span style={styles.gradientText}>{data.headingAccent}</span>
-      </h2>
-      <p className="mb-4 max-w-[52ch] text-sm leading-[1.6]" style={styles.bodySmall}>
-        {firstSentence}
-      </p>
-      {data.stats && data.stats.length > 0 && (
-        <div className="mt-4 w-full grid grid-cols-2 gap-2">
-          {data.stats.map((s, i) => (
-            <StatCard key={i} value={s.value} label={s.label} source={s.source} />
-          ))}
-        </div>
-      )}
-      <button
-        type="button"
-        onClick={onToggle}
-        className="mt-4 text-left text-sm font-medium underline underline-offset-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded"
-        style={{ color: "var(--color-bone)" }}
+      <h3
+        className="text-[1.35rem] font-medium text-black leading-tight max-w-[22ch] mb-3"
+        style={{ letterSpacing: "-0.02em" }}
       >
-        {expanded ? "Show less" : "Read more"}
-      </button>
-      {expanded && (
-        <div className="mt-4 space-y-3">
-          <p className="max-w-[52ch] text-sm leading-[1.7]" style={styles.bodySmall}>
-            {data.body}
-          </p>
-          {data.footnote && (
-            <p className="max-w-[52ch] text-[0.7rem] italic" style={styles.bodySmall}>
-              {data.footnote}
-            </p>
-          )}
-          <p className="max-w-[42ch] text-[0.6rem] italic opacity-60" style={{ color: "var(--color-bone)" }}>
-            Validated across NHS Memory Clinics. Developed from Cambridge University research. FDA cleared.
-          </p>
-        </div>
+        {headingParts.map((line, i) => (
+          <span key={i}>
+            {line}
+            {i < headingParts.length - 1 && <br />}
+          </span>
+        ))}
+        {data.headingAccent && (
+          <>
+            {" "}
+            <span className="text-[#1B2757]">{data.headingAccent}</span>
+          </>
+        )}
+      </h3>
+      <p className="text-sm text-black/75 leading-relaxed mb-3">{data.body}</p>
+      {data.footnote && (
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          {data.footnote}
+        </p>
       )}
-    </div>
-  );
-}
-
-/** Other sections: simple headline + body, left-aligned */
-function SectionContentMobile({
-  data,
-  contentVisible,
-}: {
-  data: SectionData;
-  contentVisible: boolean;
-}) {
-  return (
-    <div
-      className="flex flex-col items-start text-left"
-      style={{
-        opacity: contentVisible ? 1 : 0,
-        transform: contentVisible ? "translateY(0)" : "translateY(12px)",
-        transition: "opacity 0.35s ease, transform 0.35s ease",
-      }}
-    >
-      <h2 className="mb-4 max-w-[22ch] font-bold leading-[1.08] text-white" style={{ fontSize: "clamp(1.35rem, 3vw, 1.6rem)", letterSpacing: "-0.035em" }}>
-        {data.heading}
-      </h2>
-      <p className="max-w-[52ch] text-sm leading-[1.7]" style={styles.bodySmall}>
-        {data.body}
-      </p>
+      {data.stats && data.stats.length > 0 && (
+        <>
+          <div className="w-full grid grid-cols-2 gap-2 mt-5">
+            {data.stats.map((s, i) => (
+              <StatCard key={i} value={s.value} label={s.label} source={s.source} />
+            ))}
+          </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums mt-4">
+            NHS Memory Clinics · Cambridge-derived · FDA cleared
+          </p>
+        </>
+      )}
     </div>
   );
 }
 
 export function AppStickyPhoneBlockMobile() {
   const numSections = SECTIONS_DATA.length;
-  const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
-  const [section0Expanded, setSection0Expanded] = useState(false);
-  const [mobileContentVisible, setMobileContentVisible] = useState(true);
-  const mobilePrevIndexRef = useRef(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [contentVisible, setContentVisible] = useState(true);
+  const prevIndexRef = useRef(0);
   const touchStartXRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (mobilePrevIndexRef.current === mobileActiveIndex) return;
-    mobilePrevIndexRef.current = mobileActiveIndex;
-    setMobileContentVisible(false);
-    const t = setTimeout(() => setMobileContentVisible(true), 180);
+    if (prevIndexRef.current === activeIndex) return;
+    prevIndexRef.current = activeIndex;
+    setContentVisible(false);
+    const t = setTimeout(() => setContentVisible(true), 180);
     return () => clearTimeout(t);
-  }, [mobileActiveIndex]);
+  }, [activeIndex]);
 
   const handleSwipeStart = useCallback((e: React.TouchEvent) => {
     touchStartXRef.current = e.touches[0].clientX;
@@ -213,90 +164,117 @@ export function AppStickyPhoneBlockMobile() {
       const end = e.changedTouches[0].clientX;
       const deltaX = end - start;
       if (deltaX < -SWIPE_THRESHOLD_PX) {
-        setMobileActiveIndex((i) => Math.min(i + 1, numSections - 1));
+        setActiveIndex((i) => Math.min(i + 1, numSections - 1));
       } else if (deltaX > SWIPE_THRESHOLD_PX) {
-        setMobileActiveIndex((i) => Math.max(i - 1, 0));
+        setActiveIndex((i) => Math.max(i - 1, 0));
       }
     },
     [numSections]
   );
 
-  const isSection0 = mobileActiveIndex === 0;
+  const counter = `${String(activeIndex + 1).padStart(2, "0")} / ${String(numSections).padStart(2, "0")}`;
 
   return (
     <section
-      className="relative w-full overflow-hidden text-white"
+      className="w-full bg-white"
       style={{
-        background: "var(--color-ink)",
-        paddingTop: "var(--space-section-padding)",
-        paddingBottom: "var(--space-section-padding)",
-        paddingLeft: "var(--premium-gutter-mobile)",
-        paddingRight: "var(--premium-gutter-mobile)",
+        paddingTop: "5rem",
+        paddingBottom: "5rem",
+        paddingLeft: "1.25rem",
+        paddingRight: "1.25rem",
       }}
+      aria-label="CONKA app feature walkthrough"
     >
-      <GrainOverlay />
-      <div
-        className="relative z-[2] mx-auto w-full max-w-[var(--premium-max-width)] flex flex-col gap-8"
-        onTouchStart={handleSwipeStart}
-        onTouchEnd={handleSwipeEnd}
-        role="region"
-        aria-label="Swipe left or right to change section"
-      >
-        <h2
-          className="text-left font-bold text-white"
-          style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", letterSpacing: "var(--letter-spacing-premium-title)" }}
-        >
-          {SECTION_TAB_LABELS[mobileActiveIndex]}
-        </h2>
+      <div className="mx-auto w-full max-w-[var(--brand-max-width)]">
+        {/* Trio header */}
+        <div className="mb-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+            The App · 04 Features · Measurable
+          </p>
+          <h2
+            className="brand-h2 text-black mb-2"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            Four features. One outcome.
+          </h2>
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+            Swipe · Tap arrows · Tap dots
+          </p>
+        </div>
 
-        <div className="flex flex-col items-center gap-4">
-          <div className="relative flex items-center justify-center w-full gap-2">
-            <PremiumCarouselToggle
-              direction="prev"
-              onClick={() => setMobileActiveIndex((i) => Math.max(i - 1, 0))}
-              ariaLabel="Previous section"
-              className="shrink-0 z-10"
-              variant="default"
-            />
-            <div className="flex justify-center flex-1 min-w-0">
-              <PhoneFrame
-                sources={PHONE_SOURCES}
-                activeIndex={mobileActiveIndex}
-                altLabels={["Cognitive test screen", "Wellness and metrics", "Progress graph", "Leaderboard"]}
-                size="mobile"
-              />
-            </div>
-            <PremiumCarouselToggle
-              direction="next"
-              onClick={() => setMobileActiveIndex((i) => Math.min(i + 1, numSections - 1))}
-              ariaLabel="Next section"
-              className="shrink-0 z-10"
-              variant="default"
-            />
-          </div>
-          <PremiumDotIndicator
-            total={numSections}
-            currentIndex={mobileActiveIndex}
-            onDotClick={setMobileActiveIndex}
-            variant="light-on-dark"
-            ariaLabel="App feature sections"
-            getDotAriaLabel={(i) => `Section ${i + 1}: ${SECTION_TAB_LABELS[i]}`}
+        {/* Section label + counter */}
+        <div className="flex items-baseline justify-between mb-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#1B2757] tabular-nums">
+            {SECTION_TAB_LABELS[activeIndex]}
+          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums">
+            {counter}
+          </p>
+        </div>
+
+        {/* Progress bar */}
+        <div className="h-px w-full bg-black/10 mb-6 relative overflow-hidden">
+          <div
+            className="h-full bg-[#1B2757] transition-[width] duration-300 ease-out"
+            style={{ width: `${((activeIndex + 1) / numSections) * 100}%` }}
           />
         </div>
 
-        {isSection0 ? (
-          <Section0MobileContent
-            data={SECTIONS_DATA[0]}
-            expanded={section0Expanded}
-            onToggle={() => setSection0Expanded((x) => !x)}
-            contentVisible={mobileContentVisible}
+        {/* Phone mockup with nav */}
+        <div
+          className="flex items-center justify-center gap-3 mb-6"
+          onTouchStart={handleSwipeStart}
+          onTouchEnd={handleSwipeEnd}
+          role="region"
+          aria-label="Swipe left or right to change section"
+        >
+          <ChamferNav
+            direction="prev"
+            onClick={() => setActiveIndex((i) => Math.max(i - 1, 0))}
+            disabled={activeIndex === 0}
           />
-        ) : (
-          <SectionContentMobile
-            data={SECTIONS_DATA[mobileActiveIndex]}
-            contentVisible={mobileContentVisible}
+          <div className="flex-1 flex justify-center">
+            <PhoneFrame
+              sources={PHONE_SOURCES}
+              activeIndex={activeIndex}
+              altLabels={PHONE_ALT_LABELS}
+              figLabel={FIG_LABELS[activeIndex]}
+              size="mobile"
+            />
+          </div>
+          <ChamferNav
+            direction="next"
+            onClick={() => setActiveIndex((i) => Math.min(i + 1, numSections - 1))}
+            disabled={activeIndex === numSections - 1}
           />
-        )}
+        </div>
+
+        {/* Content */}
+        <MobileSectionContent
+          data={SECTIONS_DATA[activeIndex]}
+          contentVisible={contentVisible}
+        />
+
+        {/* Tab roster */}
+        <div className="mt-8 grid grid-cols-2 gap-2">
+          {SECTION_TAB_LABELS.map((label, i) => {
+            const isActive = i === activeIndex;
+            return (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setActiveIndex(i)}
+                className={`text-left font-mono text-[10px] uppercase tracking-[0.2em] tabular-nums px-3 py-2.5 transition-colors ${
+                  isActive
+                    ? "bg-[#1B2757] text-white"
+                    : "bg-white border border-black/12 text-black/55 hover:border-black/25"
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

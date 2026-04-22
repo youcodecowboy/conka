@@ -3,13 +3,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import type { EmailCaptureFormProps, EmailSubmission } from "./types";
 
-/**
- * EmailCaptureForm
- *
- * An inline form for capturing the user's email before starting the cognitive test.
- * This is NOT a modal - it renders directly within the card area.
- * Follows CONKA's neo-brutalist design with sharp corners and bold styling.
- */
 export default function EmailCaptureForm({
   onSubmit,
   onBack,
@@ -20,7 +13,6 @@ export default function EmailCaptureForm({
   const [consentError, setConsentError] = useState("");
   const emailInputRef = useRef<HTMLInputElement>(null);
 
-  // Focus email input when component mounts
   useEffect(() => {
     if (emailInputRef.current) {
       emailInputRef.current.focus();
@@ -36,13 +28,11 @@ export default function EmailCaptureForm({
     (e: React.FormEvent) => {
       e.preventDefault();
 
-      // Reset errors
       setEmailError("");
       setConsentError("");
 
       let hasError = false;
 
-      // Validate email
       if (!email.trim()) {
         setEmailError("Email is required");
         hasError = true;
@@ -51,7 +41,6 @@ export default function EmailCaptureForm({
         hasError = true;
       }
 
-      // Validate consent
       if (!consent) {
         setConsentError("You must agree to receive your results");
         hasError = true;
@@ -59,7 +48,6 @@ export default function EmailCaptureForm({
 
       if (hasError) return;
 
-      // Submit the email
       const submission: EmailSubmission = {
         email: email.trim(),
         consentGiven: consent,
@@ -74,23 +62,23 @@ export default function EmailCaptureForm({
   const isFormValid = email.trim() !== "" && validateEmail(email) && consent;
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Back Link */}
+    <div className="flex flex-col h-full text-black">
+      {/* Back link */}
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-sm opacity-70 hover:opacity-100 transition-opacity mb-6 self-start"
+        className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-black/55 hover:text-[#1B2757] transition-colors mb-6 self-start tabular-nums"
         type="button"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
         >
           <line x1="19" y1="12" x2="5" y2="12" />
           <polyline points="12 19 5 12 12 5" />
@@ -99,10 +87,18 @@ export default function EmailCaptureForm({
       </button>
 
       {/* Header */}
-      <div className="text-center mb-6">
-        <h3 className="text-xl font-bold mb-2">Before You Begin</h3>
-        <p className="font-commentary text-lg">
-          we&apos;ll send you a detailed breakdown of your results
+      <div className="mb-6">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+          Step 01 · Email · Before You Begin
+        </p>
+        <h3
+          className="brand-h3 text-black mb-2"
+          style={{ letterSpacing: "-0.02em" }}
+        >
+          We&apos;ll send you the full breakdown.
+        </h3>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          Detailed results · Personal benchmarks · In-app follow-up
         </p>
       </div>
 
@@ -112,9 +108,9 @@ export default function EmailCaptureForm({
         <div>
           <label
             htmlFor="email-capture"
-            className="font-clinical text-sm block mb-2"
+            className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/55 block mb-2 tabular-nums"
           >
-            Email Address
+            Email address
           </label>
           <input
             ref={emailInputRef}
@@ -125,14 +121,14 @@ export default function EmailCaptureForm({
               setEmail(e.target.value);
               if (emailError) setEmailError("");
             }}
-            className={`w-full border p-3 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-current/20 rounded-[var(--premium-radius-nested)] ${
-              emailError ? "border-red-500" : "border-[var(--color-premium-stroke)]"
+            className={`w-full border bg-white p-3 text-base text-black focus:outline-none focus:ring-2 focus:ring-[#1B2757]/40 transition-colors ${
+              emailError ? "border-red-500" : "border-black/25 focus:border-[#1B2757]"
             }`}
             placeholder="you@example.com"
             autoComplete="email"
           />
           {emailError && (
-            <p className="text-red-500 text-sm mt-1 font-clinical">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-red-600 mt-2 tabular-nums">
               {emailError}
             </p>
           )}
@@ -152,11 +148,11 @@ export default function EmailCaptureForm({
                 className="sr-only"
               />
               <div
-                className={`w-5 h-5 border rounded ${
-                  consentError ? "border-red-500" : "border-[var(--color-premium-stroke)]"
-                } flex items-center justify-center transition-all ${
-                  consent ? "bg-[var(--color-ink)]" : "bg-transparent"
-                }`}
+                className={`w-5 h-5 border flex items-center justify-center transition-colors ${
+                  consentError
+                    ? "border-red-500"
+                    : "border-black/25"
+                } ${consent ? "bg-[#1B2757] border-[#1B2757]" : "bg-white"}`}
               >
                 {consent && (
                   <svg
@@ -165,39 +161,40 @@ export default function EmailCaptureForm({
                     height="14"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="var(--color-bone)"
+                    stroke="white"
                     strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
                   >
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 )}
               </div>
             </div>
-            <span className="text-sm">
+            <span className="text-sm text-black/75 leading-relaxed">
               I agree to receive my cognitive test results via email
             </span>
           </label>
           {consentError && (
-            <p className="text-red-500 text-sm mt-1 font-clinical ml-8">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-red-600 mt-2 ml-8 tabular-nums">
               {consentError}
             </p>
           )}
         </div>
 
-        {/* Spacer to push button to bottom */}
+        {/* Spacer */}
         <div className="flex-1" />
 
         {/* Submit Button */}
         <button
           type="submit"
           disabled={!isFormValid}
-          className={`px-8 py-4 font-bold text-base w-full transition-opacity rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-[var(--color-ink)] text-[var(--color-bone)] hover:opacity-90 ${
-            !isFormValid ? "opacity-50 cursor-not-allowed" : ""
+          className={`inline-flex items-center justify-center gap-3 w-full bg-[#1B2757] text-white font-mono text-[11px] uppercase tracking-[0.2em] tabular-nums px-6 py-4 lab-clip-tr transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757] focus-visible:ring-offset-2 ${
+            !isFormValid ? "opacity-40 cursor-not-allowed" : "hover:opacity-85 active:opacity-70"
           }`}
         >
-          Continue to Game
+          <span>Continue to game</span>
+          <span aria-hidden>↗</span>
         </button>
       </form>
     </div>

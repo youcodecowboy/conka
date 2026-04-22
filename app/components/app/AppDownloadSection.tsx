@@ -4,39 +4,26 @@ import { AppInstallButtons } from "@/app/components/AppInstallButtons";
 
 export function AppDownloadSection() {
   return (
-    <section
-      className="w-full px-[var(--premium-gutter-mobile)] py-[var(--space-section-padding)] text-center md:px-[var(--premium-gutter-desktop)]"
-      style={{
-        background: "var(--color-neuro-blue-light)",
-        color: "var(--color-ink)",
-      }}
-    >
-      <div className="mx-auto flex w-full max-w-[var(--premium-max-width)] flex-col items-center">
-        <h2
-          className="mb-8 max-w-[20ch] font-bold leading-tight"
-          style={{
-            color: "var(--color-ink)",
-            fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-            letterSpacing: "var(--letter-spacing-premium-title)",
-          }}
-        >
-          Start measuring your brain today. It&apos;s free.
-        </h2>
+    <div className="bg-white border border-black/12 p-6 lg:p-10">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+        Download · Free · iOS &amp; Android
+      </p>
+      <h2
+        className="brand-h2 text-black mb-3 max-w-[20ch]"
+        style={{ letterSpacing: "-0.02em" }}
+      >
+        Start measuring your brain today.
+      </h2>
+      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-8">
+        Free to use · No subscription required · Core features included
+      </p>
 
-        <AppInstallButtons inverted={true} className="mb-8" />
+      <AppInstallButtons variant="clinical" />
 
-        <p
-          className="max-w-[36ch] text-center opacity-70"
-          style={{
-            color: "var(--color-ink)",
-            fontSize: "clamp(0.9rem, 1.2vw, 1rem)",
-            lineHeight: 1.5,
-          }}
-        >
-          Free to use. No subscription required to access core features.
-        </p>
-      </div>
-    </section>
+      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums mt-6 max-w-md">
+        Cambridge-derived cognitive testing · FDA cleared · Validated across NHS Memory Clinics
+      </p>
+    </div>
   );
 }
 

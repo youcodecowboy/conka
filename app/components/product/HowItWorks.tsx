@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import {
   FormulaId,
@@ -80,22 +78,23 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
 
   return (
     <>
-      <header className="text-center mb-12">
+      <header className="mb-12">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Protocol · Three Steps · Proven
+        </p>
         <h2
           id="how-it-works-heading"
-          className="brand-h2 mb-2"
+          className="brand-h1 mb-2 text-black"
           style={{ letterSpacing: "-0.02em" }}
         >
           How {formula.name} Works
         </h2>
-        <p className="brand-caption text-black/60">
-          simple, effective, proven
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          {steps.length} Steps · Simple · Effective
         </p>
-        {/* Mobile: square asset + circle asset in a row under header */}
-        <div className="mt-6 flex justify-center gap-4 lg:hidden">
-          <div
-            className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg bg-[var(--brand-tint)] border border-[var(--brand-stroke)] sm:h-40 sm:w-40"
-          >
+        {/* Mobile: two square lifestyle assets in a row under header */}
+        <div className="mt-6 flex gap-3 lg:hidden">
+          <div className="relative h-32 w-32 shrink-0 overflow-hidden bg-[var(--brand-tint)] border border-black/8 sm:h-40 sm:w-40">
             <Image
               src={squareAsset.src}
               alt={squareAsset.alt}
@@ -104,7 +103,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
               sizes="160px"
             />
           </div>
-          <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-full bg-[var(--brand-tint)] border border-[var(--brand-stroke)] sm:h-40 sm:w-40">
+          <div className="relative h-32 w-32 shrink-0 overflow-hidden bg-[var(--brand-tint)] border border-black/8 sm:h-40 sm:w-40">
             <Image
               src={circleAsset.src}
               alt={circleAsset.alt}
@@ -121,10 +120,8 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
           <div className="flex flex-col gap-12">
             {steps.map((step, idx) => (
               <div key={idx} className="flex gap-4 items-start">
-                <div
-                  className="w-14 h-14 shrink-0 bg-[var(--brand-accent)] text-white rounded-full flex items-center justify-center"
-                >
-                  <span className="font-clinical text-lg font-bold">
+                <div className="w-14 h-14 shrink-0 bg-[var(--brand-accent)] text-white flex items-center justify-center">
+                  <span className="font-mono text-lg font-bold tabular-nums">
                     {step.number}
                   </span>
                 </div>
@@ -140,12 +137,9 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
             ))}
           </div>
 
-          {/* Right: assets — mobile/tablet: single square; desktop (lg): sticky column with primary + 2 placeholders (WhatToExpectDesktop-style) */}
+          {/* Right: assets — mobile/tablet: single square; desktop (lg): sticky column with primary + 2 supporting */}
           {/* Mobile/tablet: single square image */}
-          <div
-            className="relative w-full aspect-square overflow-hidden lg:hidden"
-            style={{ borderRadius: "var(--brand-radius-card)" }}
-          >
+          <div className="relative w-full aspect-square overflow-hidden lg:hidden border border-black/8">
             <Image
               src={assetSrc}
               alt={`${formula.name} – How it works`}
@@ -156,12 +150,9 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
             />
           </div>
 
-          {/* Desktop (lg): left = primary (2× width, height matches right stack), right = [square], [circle] */}
+          {/* Desktop (lg): left = primary, right = [square], [square] */}
           <div className="hidden lg:grid lg:sticky lg:top-24 w-full grid-cols-[2fr_1fr] grid-rows-[auto_auto] gap-3 md:gap-4">
-            {/* Left: primary asset — spans both rows, height matches stacked support assets */}
-            <div
-              className="relative row-span-2 h-full min-h-0 overflow-hidden rounded-[var(--brand-radius-card)] bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"
-            >
+            <div className="relative row-span-2 h-full min-h-0 overflow-hidden bg-[var(--brand-tint)] border border-black/8">
               <Image
                 src={assetSrc}
                 alt={`${formula.name} – How it works`}
@@ -171,10 +162,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
                 priority={false}
               />
             </div>
-            {/* Right: square then circle — row heights from aspect-square */}
-            <div
-              className="relative aspect-square w-full overflow-hidden rounded-[var(--brand-radius-card)] bg-[var(--brand-tint)] border border-[var(--brand-stroke)]"
-            >
+            <div className="relative aspect-square w-full overflow-hidden bg-[var(--brand-tint)] border border-black/8">
               <Image
                 src={squareAsset.src}
                 alt={squareAsset.alt}
@@ -183,7 +171,7 @@ export default function HowItWorks({ formulaId }: HowItWorksProps) {
                 sizes="16vw"
               />
             </div>
-            <div className="relative aspect-square w-full overflow-hidden rounded-full bg-[var(--brand-tint)] border border-[var(--brand-stroke)]">
+            <div className="relative aspect-square w-full overflow-hidden bg-[var(--brand-tint)] border border-black/8">
               <Image
                 src={circleAsset.src}
                 alt={circleAsset.alt}

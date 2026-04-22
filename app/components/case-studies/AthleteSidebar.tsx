@@ -23,26 +23,26 @@ export default function AthleteSidebar({
   const addPhotoError = (id: string) => setPhotoErrorIds((prev) => new Set(prev).add(id));
   const availableSports = getAllSports();
 
-  // Filter athletes by sport
   const filteredAthletes = selectedSport === "all"
     ? athletes
     : athletes.filter(a => a.sport === selectedSport);
 
   return (
     <div className="space-y-6">
-      {/* Sport Filter */}
       <div>
-        <p className="premium-body-sm uppercase tracking-wider text-[var(--text-on-light-muted)] mb-3">Filter by Sport</p>
-        <div className="flex flex-wrap gap-2">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Filter by Sport
+        </p>
+        <div className="flex flex-wrap gap-1.5">
           <button
             onClick={() => onSelectSport("all")}
-            className={`px-2.5 py-1 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs ${
+            className={`px-3 py-1.5 border transition-colors font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums ${
               selectedSport === "all"
-                ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
-                : "bg-transparent hover:bg-black/5 text-[var(--text-on-light)]"
+                ? "bg-[#1B2757] text-white border-[#1B2757]"
+                : "bg-white text-black/70 border-black/12 hover:border-black/40"
             }`}
           >
-            All ({athletes.length})
+            All · {String(athletes.length).padStart(2, "0")}
           </button>
           {availableSports.map((sport) => {
             const count = athletes.filter(a => a.sport === sport).length;
@@ -51,28 +51,27 @@ export default function AthleteSidebar({
               <button
                 key={sport}
                 onClick={() => onSelectSport(sport)}
-                className={`px-2.5 py-1 rounded-[var(--premium-radius-interactive)] border-2 border-current transition-all font-clinical text-xs flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 border transition-colors font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums flex items-center gap-1.5 ${
                   selectedSport === sport
-                    ? "bg-[var(--color-ink)] text-[var(--text-on-ink)]"
-                    : "bg-transparent hover:bg-black/5 text-[var(--text-on-light)]"
+                    ? "bg-[#1B2757] text-white border-[#1B2757]"
+                    : "bg-white text-black/70 border-black/12 hover:border-black/40"
                 }`}
               >
                 <SportIcon sport={sport} size={12} />
                 <span>{info.name}</span>
-                <span className="opacity-50">({count})</span>
+                <span className="opacity-60">· {String(count).padStart(2, "0")}</span>
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Athletes List */}
       <div>
-        <p className="premium-body-sm uppercase tracking-wider text-[var(--text-on-light-muted)] mb-3">
-          Athletes ({filteredAthletes.length})
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+          Athletes · {String(filteredAthletes.length).padStart(2, "0")}
         </p>
-        <div className="space-y-2 max-h-[calc(100vh-400px)] overflow-y-auto pr-2">
-          {filteredAthletes.map((athlete) => {
+        <div className="space-y-1.5 max-h-[calc(100vh-400px)] overflow-y-auto pr-2">
+          {filteredAthletes.map((athlete, idx) => {
             const isActive = athlete.id === activeAthleteId;
             const topImprovement = athlete.improvements[0];
             const photoSrc = getCaseStudyPhotoPath(athlete.id) || athlete.photo;
@@ -81,18 +80,18 @@ export default function AthleteSidebar({
               <button
                 key={athlete.id}
                 onClick={() => onSelectAthlete(athlete.id)}
-                className={`w-full text-left p-3 rounded-[var(--premium-radius-nested)] border-2 transition-all ${
+                className={`w-full text-left p-3 border transition-colors ${
                   isActive
-                    ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-[var(--text-on-ink)]"
-                    : "border-[var(--color-premium-stroke)] hover:border-black/20 hover:bg-black/5 bg-transparent text-[var(--text-on-light)]"
+                    ? "border-[#1B2757] border-2 bg-white"
+                    : "border-black/12 hover:border-black/40 bg-white"
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
-                    isActive ? "bg-white/20" : "bg-black/10"
-                  }`}>
+                  <div className="w-12 h-12 flex-shrink-0 overflow-hidden border border-black/8 bg-black/[0.03]">
                     {showPhotoPlaceholder ? (
-                      <SportIcon sport={athlete.sport} size={20} className={isActive ? "opacity-80" : "opacity-50"} />
+                      <div className="w-full h-full flex items-center justify-center">
+                        <SportIcon sport={athlete.sport} size={20} className="opacity-40" />
+                      </div>
                     ) : (
                       <img
                         src={photoSrc}
@@ -108,23 +107,28 @@ export default function AthleteSidebar({
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="font-medium text-sm truncate">{athlete.name}</p>
+                    <div className="flex items-center justify-between gap-2 mb-0.5">
+                      <span className="font-mono text-[9px] font-bold tabular-nums text-black/35">
+                        {String(idx + 1).padStart(2, "0")}.
+                      </span>
                       {athlete.featured && (
-                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-clinical ${
-                          isActive ? "bg-white/20" : "bg-black/10"
-                        }`}>
-                          ★
+                        <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-[#1B2757] tabular-nums">
+                          Featured
                         </span>
                       )}
                     </div>
-                    <p className={`premium-body-sm truncate ${isActive ? "text-[var(--text-on-ink-muted)]" : "text-[var(--text-on-light-muted)]"}`}>
+                    <p className={`text-[13px] font-semibold truncate leading-tight ${isActive ? "text-[#1B2757]" : "text-black"}`}>
+                      {athlete.name}
+                    </p>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/50 truncate mt-0.5 tabular-nums">
                       {athlete.profession}
                     </p>
                     {topImprovement && (
-                      <div className={`mt-1 flex items-center gap-1 ${isActive ? "text-emerald-300" : "text-emerald-600"}`}>
-                        <span className="font-clinical text-xs font-bold">{topImprovement.value}</span>
-                        <span className={`premium-body-sm ${isActive ? "opacity-80" : "opacity-70"}`}>
+                      <div className="mt-1.5 flex items-baseline gap-1.5">
+                        <span className="font-mono text-sm font-bold tabular-nums text-[#1B2757]">
+                          {topImprovement.value}
+                        </span>
+                        <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/45 tabular-nums truncate">
                           {topImprovement.metric}
                         </span>
                       </div>
@@ -139,4 +143,3 @@ export default function AthleteSidebar({
     </div>
   );
 }
-

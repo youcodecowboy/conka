@@ -6,6 +6,95 @@
 
 ## April 2026
 
+### 2026-04-21 -- /app page + cognitive test section full clinical refactor
+
+Completed the `/app` page migration started under SCRUM-906. The page-level `brand-clinical` wrapper and a couple of neighbouring components had landed, but the four child components (`AppHero`, `AppStickyPhoneBlock`, `AppSubscribersSection`, `AppDownloadSection`) and the entire cognitive-test section were still on the pre-clinical premium surfaces -- dark ink hero with floating-phone animation, gradient neuro-blue sticky scroll block, premium-card-soft surfaces with 40px radii, gradient-ringed benefit circles, pill-radius CTAs. This pass brings all of it onto the clinical grammar.
+
+**/app child components:**
+- `AppHero` consolidated from a 3-file split (`AppHeroDesktop`, `AppHeroMobile`, local `types.ts` all deleted) into a single responsive content-only component. Dark ink background replaced with brand white; trio header (mono eyebrow + `brand-h1` + mono sub-line), 3-col hairline stat strip, `Fig. 01 -- Conka app` figure plate on the phone mockup (`bg-[#f5f5f5] border border-black/12` with `aspect-[4/5] lg:aspect-[5/6]`), clinical `AppInstallButtons`. Float + mount animations renamed (`app-hero-float` / `app-hero-mount`) and retained.
+- `AppStickyPhoneBlock` desktop rewritten to the clinical sticky-panel pattern: white background, mono `01 / 04 -- eyebrow -- Measurable` counter per section, hairline `StatCard`s with navy `#1B2757` values, grid-distributed bottom tab strip (`grid-template-columns: repeat(N, 1fr)`) so each tab anchors at the start of its progress segment and lines up with the navy scroll fill, plus 5 boundary tick marks that flip grey -> navy as sections are passed. `useScrollTrack`, `SCROLL_MULTIPLIER = 0.85`, `scrollToSection`, and all swipe/nav behaviour preserved unchanged.
+- `AppStickyPhoneBlockMobile` rebuilt on the same vocabulary: mono counter, navy progress bar, `ChamferNav` prev/next (navy + `lab-clip-tr`), 2-col tab roster with active `bg-[#1B2757] text-white` tiles, `SWIPE_THRESHOLD_PX=50` retained.
+- `AppSubscribersSection` swapped to hairline 3-col rewards spec strip (Token +10 / Tier up 30 / Redeem Free) with `Fig. 06 -- Rewards interface` + `Subscribers only` plates on the mockup.
+- `AppDownloadSection` reduced to a minimal hairline closing CTA card -- trio header, clinical install buttons, mono credibility line.
+- `AppInstallButtons` gained a `variant?: "gradient" | "clinical"` prop. Clinical renders navy solid (App Store) + hairline `#1B2757` bordered white (Play Store), `font-mono text-[11px] uppercase tracking-[0.2em]`, `lab-clip-tr`, `↗` arrow. Gradient variant preserved for `/why-conka` which hasn't migrated yet.
+- `PhoneFrame` (exported shared primitive) reworked so the phone image sits in an explicit inset box (`top-16 right-6 bottom-16 left-32` desktop, `top-10 right-3 bottom-10 left-20` mobile) with `object-contain object-right`. Result: phone is anchored right, "peeking" into frame at a smaller scale, with a dedicated left zone for the Fig plate. Plate bulked up (`top-4 left-4`, `px-3 py-1.5`, `text-[10px]`, `bg-black/65`) so it reads cleanly without crowding the phone.
+
+**Cognitive-test section (all sub-components):**
+- `CognitiveTestSection` + `CognitiveTestSectionMobile` re-chrome: trio header (`Test Your Brain -- Cognetivity SDK -- 2-Min Assessment`), hairline `BenefitsSpecStrip` (Validation / Results / Profile with navy tabular values) replacing the gradient neuro-blue circles, testing-state frame wrapped in a top spec bar (`Fig. 07 -- Cognetivity SDK` + live pulse dot) + hairline frame + bottom 3-col spec strip (J / F / Speed + Accuracy). Play-again CTA flipped to hairline-with-navy-fill-on-hover + `lab-clip-tr` + `↻`.
+- `CognitiveTestIdleCard` moved to hairline + navy tile brain icon (44x44, stroke 1.75, `strokeLinecap="square"`, `strokeLinejoin="miter"`) + clinical start CTA.
+- `EmailCaptureForm` swapped to square-cornered inputs with navy focus ring, custom square checkbox with navy fill, navy submit button + trio header + mono back link.
+- `CognitiveTestLoader` replaced progress ring + premium card with hairline card + navy tile (pulse -> checkmark), mono `XXX%` counter, navy hairline progress bar, `01 02 03` stage counter in mono.
+- `CognitiveTestScores` swapped from premium-card-soft + gradient score text to hairline card with `Fig. 08 -- Speed of Processing` top bar + 3-col score grid (navy tabular values) + email footer spec line.
+- `CognitiveTestRecommendation` converted to hairline card with navy left edge, navy primary + hairline secondary buttons (both `lab-clip-tr`).
+- `CognitiveTestAppPromo` restyled as hairline card with dot-bullet feature strip, navy App Store + hairline Google Play buttons.
+- `CognicaSDK` iframe wrapper loading state swapped to the navy-tile + mono "Initialising assessment" shimmer pattern so the boot state matches the rest of the section (heavier chrome like the Fig plate and spec bars moved up to `CognitiveTestSection` where it belongs -- the SDK wrapper just serves the iframe now).
+
+**Section rhythm + nav alignment on `/app`:**
+- Section ordering held but backgrounds re-flipped: cognitive-test moved to `brand-bg-tint` and case-studies to `brand-bg-white` so we don't get two adjacent white sections after the download CTA.
+- The scroll-hijack bottom nav was previously a wrapping flex row, which put tab 3 and tab 4 mid-line on narrow viewports and left no positional relationship with the progress bar. Now a grid with `numSections` equal columns, text-left per cell, so tab N sits at `((N-1) / N) * 100%` which matches the start of segment N on the fill bar.
+
+**Why:** `/app` was advertised as "migrated" but the four child components still ran the dark ink hero + gradient sticky block + gradient benefit circles + pill CTAs, so the page jumped aesthetic mid-scroll -- clinical header, premium body, clinical footer. The cognitive-test sub-components in particular were the heaviest remaining island of premium styling on the site, and they render on both `/app` and (via embedded SDK) as the primary conversion moment on that page. The phone-frame and nav-alignment fixes came out of the first preview: phone was flush to the frame edge which crowded the Fig plate, and the flex-wrap tabs looked arbitrarily spaced against the continuous scroll bar.
+**Plan:** `docs/development/featurePlans/clinical-aesthetic-page-alignment.md` (extends the /app treatment under SCRUM-906)
+**Commit:** `cfd1fed`
+**Branch:** `full-website-realignment`
+
+### 2026-04-21 -- Full-website clinical aesthetic realignment (SCRUM-906)
+
+Extended the clinical aesthetic from `/start` + `/` into the rest of the site -- product PDPs, ingredients, our story, /protocol/3, /case-studies, /science, and /app -- then reshuffled the Balance PDP and added a per-athlete "what they took" card on case studies.
+
+**PDP alignment (Phase 1 -- /conka-flow + /conka-clarity):**
+- `FormulaCaseStudies` elevated to the clinical carousel treatment: hero stat row, spec-sheet `AthleteSpecCard`, hairline borders, navy `#1B2757` focus ring, mono eyebrows, `tabular-nums`, em-dash separators. `FormulaFAQ` tightened to the `LabFAQ` pattern (spec header row, `01.`-`NN.` mono numbering, category tags, `[+]`/`[-]` indicators, left-border accent).
+- `FormulaBenefits` desktop + mobile moved onto the clinical surface -- double-border `lab-asset-frame` removed from internal panels, benefit stat scales reduced (`4xl`/`5xl` -> `3xl`/`4xl`) so the data doesn't overshadow the copy.
+- `FormulaIngredients` rebuilt as a compact accordion card list (replacing the split desktop/mobile layouts). Most Popular badge clipping fixed on the pack selector (moved from `overflow-hidden` parent to an isolated positioning context).
+- Dropped leftover `"use client"` directives from static presentational components (stats, HowItWorks).
+
+**Phase 2 -- /protocol/3 (Balance):**
+- `ProtocolHero` / `ProtocolHeroMobile` rewritten to the `ProductHero` pattern: packselect grid (`grid grid-cols-3 gap-2`), navy selected state, `ConkaCTAButton` with inverted-ring ConkaO + blinking underscore + 12px polygon chamfer. Removed `rounded-xl` / `rounded-full` / `shadow-md` / `ring-2` / emoji badge.
+- Section components swapped wholesale for their clinical equivalents: `LandingWhatItDoes`, `WhyConkaWorks`, `LabTimeline`, `LabGuarantee`, `LabFAQ`, `LandingTestimonials` (with `hideCTA`), `FormulaCaseStudies` / `FormulaCaseStudiesMobile` routed by `productId={selectedProtocolId}` (Balance has its own athlete set).
+- `brand-clinical` wrapper on both mobile + desktop root divs.
+- Deprecation sweep: deleted `HomeWhatItDoes`, `LandingFAQ`, `LandingGuarantee`, `LandingTimeline` -- all superseded by the Lab* / shared variants consumed above.
+- Post-swap reorder: Hero -> Case Studies -> What It Does -> Why CONKA Works -> Timeline -> Testimonials -> Guarantee -> FAQ -> Explore, mobile and desktop now share an identical sequence. Backgrounds alternate W-T-W-T-W-T-W-T-W. `WhyConkaWorks` added to desktop (previously mobile-only) so the rhythm holds on both breakpoints without forking the sequence.
+
+**Phase 5 -- /case-studies:**
+- `CaseStudiesPageDesktop` + `CaseStudiesPageMobile` rewritten with the trio header pattern (mono eyebrow + `brand-h1` + mono sub), hairline borders, `tabular-nums`, em-dash + middle-dot separators. Desktop gets a 3-cell stat strip (Athletes / Tests / Avg. lift) in a bordered grid.
+- `AthleteSidebar` given clinical filter chips, hairline-bordered athlete tiles with `SportIcon` thumbnails, navy highlight for active/featured.
+- `FeaturedAthletesCarousel` polished: hairline cards, mono labels, navy focus ring, `snap-x snap-mandatory scroll-smooth` for tactile swiping -- kept to visual alignment, no nav-arrow additions.
+- `AthleteStats.tsx` trimmed to only export `ComparisonChart` (the sole live consumer); hairline bars + navy fill, em-dash baseline-vs-results labels. Deleted `AthleteCard.tsx`, `FeaturedAthletes.tsx`, `AthleteFilterBar.tsx` (all orphaned after the rewrite); pruned barrel in `index.ts`. Net -500 lines.
+- `/case-studies` root: `brand-clinical` wrapper, `brand-section brand-hero-first brand-bg-white`, clinical loading state.
+
+**"What they took" per-athlete card (new):**
+`WhatTheyTook` replaces the generic "Try CONKA now" footer on the mobile case study and sits inline on desktop below Field Notes. Reads `athlete.productVersion` and resolves to one of three product configs (Flow / Clear / Both) with matching bottles, label, and destination (`/conka-flow` / `/conka-clarity` / `/protocol/3`). Noah Curtis corrected from `productVersion: "02"` to `"both"` + Balance Protocol to match attribution.
+
+**Static content pages (/ingredients, /our-story, /science, /app):**
+Each page migrated onto `brand-clinical` with `brand-section` / `brand-track` composition, hairline borders, navy accent, left-aligned trio headers, em-dash separators, and `tabular-nums` on stat blocks. `/app` carried the cognitive test section across to the same treatment.
+
+**Why:** The clinical aesthetic was contained to `/start` and `/` while the rest of the site still ran the pre-clinical `premium-base` surfaces, dark dramatic sections, and pill CTAs -- jumping from a paid-traffic landing page into a PDP felt like two different sites. /protocol/3 in particular was still running the old ProtocolHero + FAQ pair against the already-elevated /conka-flow and /conka-clarity, which made Balance read as an older product. Reordering Balance to lead with Case Studies puts social proof in front of product education -- same promotion that worked on /start. The per-athlete "what they took" card is a lower-friction hand-off than a generic Balance CTA at the bottom of every case study.
+**Plan:** `docs/development/featurePlans/clinical-aesthetic-page-alignment.md` (Phases 1, 2, 5 Done; 3-4 Done via /science + /our-story commits; /app + /ingredients extensions beyond original scope)
+**Ticket:** SCRUM-906
+**Branch:** `full-website-realignment`
+
+### 2026-04-21 -- Home page clinical aesthetic alignment
+
+Pulled the home page onto the clinical aesthetic established on `/start` and `/funnel`, tightened the section order around earlier social proof, and refreshed the reference doc.
+
+**LabWhatsInsideMini 4-col desktop:**
+`grid-cols-2 lg:grid-cols-4` with child order `FLOW product - FLOW info - CLEAR product - CLEAR info` so desktop reads as paired product/info bookends and mobile keeps the product-left/info-right pairing on each row.
+
+**Home section reorder + swaps:**
+- Section 6 `KeyBenefits` -> `LandingDailyBenefits` (3 pillars variant matching the clinical section rhythm).
+- Section 8 `WhatToExpect` -> `LabTimeline` with `ctaHref="/protocol/3"`; sub-copy simplified from `"Protocol window: T+0 to T+30D - N=150+ participants"` to `"What to expect when taking CONKA"`. Added `ctaHref` + `ctaLabel` props so the same component can be retargeted per page.
+- New Section 11 `LabGuarantee` above FAQ with `ctaHref="/protocol/3"`; FAQ flipped to `brand-bg-tint` to preserve white/tint alternation.
+- `KeyBenefits` and `WhatToExpect` kept in the repo with a `REVIEW:` banner noting they're no longer on the home but may still be reused on PDPs.
+
+**Cleanup surfaced by `/review-code`:**
+Removed `console.log` add-to-cart wrappers in `ProductGrid` / `ProductGridMobile` / `ProductGridTablet`, deleted the now-dead `onAddToCart` prop plumbing, removed the unused `getProductBadge` export, and collapsed `ProductCard.handleAddToCart` into a single-path early-return (replaces the previous silent-failure branch). Dropped orphaned imports from `app/page.tsx` (`useState`, `useEffect`, `keyBenefits`, testimonial helpers).
+
+**`docs/branding/CLINICAL_AESTHETIC.md` rewrite:**
+Restructured the doc around patterns actually in use: `brand-clinical` token overrides table, utility list (`lab-clip-tr` / `lab-asset-frame` / `lab-blink` / 10px overlay chamfer), standard patterns (trio header, data card, card header row, spec strip, segmented tabs, em-dash bullets, chamfer nav), typography + colour grammar, `ConkaCTAButton` rules, component prop conventions (`hideCTA`/`ctaHref`/`ctaLabel` + content-only structural contract), responsive patterns, trust grid, corner brackets, and an explicit "do not" list.
+
+**Why:** The home page still leaned on the pre-clinical `KeyBenefits` + `WhatToExpect` components, so the jump from hero to the rest of the scroll felt inconsistent with `/start` and `/funnel`. Cleanup came out of the code review and fixes a real silent-failure path in add-to-cart. Doc rewrite was needed so the next session can extend the aesthetic without re-reading source.
+**Branch:** `main-page-and-navigation-alingment`
+
 ### 2026-04-21 -- Lab-to-brand-base migration complete + landing polish (SCRUM-901)
 
 Promoted the clinical `/startV1` aesthetic into `/start` and shipped a round of landing-page refinements on top.

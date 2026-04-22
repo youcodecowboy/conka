@@ -5,54 +5,21 @@ import useIsMobile from "@/app/hooks/useIsMobile";
 import { AppStickyPhoneBlockMobile } from "./AppStickyPhoneBlockMobile";
 import { SECTIONS_DATA, PHONE_SOURCES, SECTION_TAB_LABELS, type SectionData } from "./appStickyPhoneBlockData";
 
-// ─── Constants ───────────────────────────────────────────────────────────────
-
-const GRAIN_DATA_URI =
-  "data:image/svg+xml," +
-  encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" /></filter><rect width="100%" height="100%" filter="url(%23n)" /></svg>`
-  );
-
 const SCROLL_MULTIPLIER = 0.85;
 
-// ─── Styles ──────────────────────────────────────────────────────────────────
+const PHONE_ALT_LABELS = [
+  "Cognitive test screen",
+  "Wellness and metrics",
+  "Progress graph",
+  "Leaderboard",
+];
 
-const styles = {
-  eyebrow: {
-    backgroundColor: "rgba(255,255,255,0.07)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    color: "var(--color-bone)",
-  },
-  h2: {
-    fontSize: "clamp(2.2rem, 5vw, 3.75rem)",
-    letterSpacing: "-0.035em",
-  },
-  body: {
-    color: "var(--color-bone)",
-    fontSize: "clamp(1rem, 1.6vw, 1.15rem)",
-  },
-  bodySmall: {
-    color: "var(--color-bone)",
-    fontSize: "0.85rem",
-  },
-  card: {
-    backgroundColor: "rgba(255,255,255,0.04)",
-    border: "1px solid rgba(255,255,255,0.08)",
-  },
-  valueGradient: {
-    fontSize: "clamp(2rem, 4vw, 2.75rem)",
-    background: "var(--gradient-neuro-blue-accent)",
-    WebkitBackgroundClip: "text" as const,
-    WebkitTextFillColor: "transparent" as const,
-    backgroundClip: "text" as const,
-  },
-  gradientText: {
-    background: "var(--gradient-neuro-blue-accent)",
-    WebkitBackgroundClip: "text" as const,
-    WebkitTextFillColor: "transparent" as const,
-    backgroundClip: "text" as const,
-  },
-};
+const FIG_LABELS = [
+  "Fig. 02 · Cognitive test",
+  "Fig. 03 · Wellness log",
+  "Fig. 04 · Progress graph",
+  "Fig. 05 · Leaderboard",
+];
 
 // ─── useScrollTrack hook ──────────────────────────────────────────────────────
 
@@ -108,29 +75,21 @@ function StatCard({
   value,
   label,
   source,
-  compact,
 }: {
   value: string;
   label: string;
   source?: string;
-  compact?: boolean;
 }) {
   return (
-    <div
-      className={`rounded-[var(--premium-radius-nested)] ${compact ? "p-3" : "p-6"}`}
-      style={styles.card}
-    >
-      <div
-        className="font-bold"
-        style={compact ? { ...styles.valueGradient, fontSize: "clamp(1.25rem, 2.5vw, 1.5rem)" } : styles.valueGradient}
-      >
-        {value}
-      </div>
-      <p className={`leading-[1.4] ${compact ? "mt-0.5" : "mt-1"}`} style={{ ...styles.bodySmall, fontSize: compact ? "0.7rem" : undefined }}>
+    <div className="bg-white border border-black/12 p-4">
+      <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
         {label}
       </p>
+      <p className="font-mono text-2xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+        {value}
+      </p>
       {source && (
-        <p className={`italic opacity-60 ${compact ? "mt-1 text-[0.55rem]" : "mt-2 text-[0.65rem]"}`} style={{ color: "var(--color-bone)" }}>
+        <p className="font-mono text-[9px] text-black/45 mt-3 leading-tight tabular-nums">
           {source}
         </p>
       )}
@@ -138,23 +97,28 @@ function StatCard({
   );
 }
 
-// ─── SectionContent (data-driven) ─────────────────────────────────────────────
+// ─── SectionContent ───────────────────────────────────────────────────────────
 
-function SectionContent({ data, compact: compactMode, alignLeft }: { data: SectionData; compact?: boolean; alignLeft?: boolean }) {
+function SectionContent({
+  data,
+  sectionNumber,
+  totalSections,
+}: {
+  data: SectionData;
+  sectionNumber: number;
+  totalSections: number;
+}) {
   const headingParts = data.heading.split("<br/>").filter(Boolean);
+  const counter = `${String(sectionNumber).padStart(2, "0")} / ${String(totalSections).padStart(2, "0")}`;
+
   return (
-    <div className={`flex flex-col ${alignLeft ? "items-start text-left" : "items-center text-center lg:items-start lg:text-left"}`}>
-      {data.eyebrow && (
-        <div
-          className={`inline-flex items-center gap-2 rounded-full px-4 py-2 uppercase tracking-widest ${compactMode ? "mb-3 text-[0.65rem]" : "mb-6 text-xs"}`}
-          style={styles.eyebrow}
-        >
-          {data.eyebrow}
-        </div>
-      )}
+    <div className="flex flex-col items-start text-left">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+        {counter} · {data.eyebrow ? data.eyebrow : "App Feature · Measurable"}
+      </p>
       <h2
-        className={`max-w-[22ch] font-bold leading-[1.08] text-white ${compactMode ? "mb-3" : "mb-6"}`}
-        style={compactMode ? { ...styles.h2, fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)" } : styles.h2}
+        className="brand-h2 text-black mb-3 max-w-[22ch]"
+        style={{ letterSpacing: "-0.02em" }}
       >
         {headingParts.map((line, i) => (
           <span key={i}>
@@ -165,30 +129,27 @@ function SectionContent({ data, compact: compactMode, alignLeft }: { data: Secti
         {data.headingAccent && (
           <>
             {" "}
-            <span style={styles.gradientText}>{data.headingAccent}</span>
+            <span className="text-[#1B2757]">{data.headingAccent}</span>
           </>
         )}
       </h2>
-      <p
-        className={`max-w-[52ch] leading-[1.7] ${compactMode ? "mb-2 text-sm" : "mb-4"}`}
-        style={compactMode ? { ...styles.body, fontSize: "0.875rem" } : styles.body}
-      >
+      <p className="text-sm md:text-base text-black/75 leading-relaxed max-w-xl mb-3">
         {data.body}
       </p>
       {data.footnote && (
-        <p className={`max-w-[52ch] italic ${compactMode ? "text-[0.7rem]" : ""}`} style={styles.bodySmall}>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums max-w-xl">
           {data.footnote}
         </p>
       )}
       {data.stats && data.stats.length > 0 && (
         <>
-          <div className={`w-full grid grid-cols-2 gap-2 ${compactMode ? "mt-5" : "mt-10 gap-4"}`}>
+          <div className="w-full grid grid-cols-2 gap-3 mt-6 max-w-xl">
             {data.stats.map((s, i) => (
-              <StatCard key={i} value={s.value} label={s.label} source={s.source} compact={compactMode} />
+              <StatCard key={i} value={s.value} label={s.label} source={s.source} />
             ))}
           </div>
-          <p className={`max-w-[42ch] italic opacity-60 ${compactMode ? "mt-3 text-[0.6rem]" : "mt-6 text-[0.7rem]"}`} style={{ color: "var(--color-bone)" }}>
-            Validated across NHS Memory Clinics. Developed from Cambridge University research. FDA cleared.
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums mt-4">
+            NHS Memory Clinics · Cambridge-derived · FDA cleared
           </p>
         </>
       )}
@@ -202,85 +163,57 @@ export function PhoneFrame({
   sources,
   activeIndex,
   altLabels,
+  figLabel,
   size = "desktop",
 }: {
   sources: readonly string[];
   activeIndex: number;
   altLabels?: string[];
+  figLabel?: string;
   size?: "desktop" | "mobile";
 }) {
-  const [scaleReady, setScaleReady] = useState(true);
-  const prevActiveRef = useRef(activeIndex);
-
-  useEffect(() => {
-    if (prevActiveRef.current === activeIndex) return;
-    prevActiveRef.current = activeIndex;
-    setScaleReady(false);
-    const id = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setScaleReady(true));
-    });
-    return () => cancelAnimationFrame(id);
-  }, [activeIndex]);
-
-  const transition = "opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
-  const frameWidth = size === "mobile"
-    ? "clamp(200px, 60vw, 280px)"
-    : "clamp(240px, 18vw, 300px)";
+  const isMobile = size === "mobile";
+  const frameWidth = isMobile
+    ? "clamp(280px, 78vw, 360px)"
+    : "clamp(380px, 30vw, 480px)";
+  const imgInsetClass = isMobile
+    ? "top-10 right-3 bottom-10 left-20"
+    : "top-16 right-6 bottom-16 left-32";
 
   return (
     <div className="relative flex justify-center items-center">
       <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{
-          width: "90%",
-          height: "90%",
-          background: "radial-gradient(circle, rgba(64,88,187,0.3) 0%, transparent 70%)",
-          filter: "blur(56px)",
-        }}
-      />
-      <div
-        className="relative z-[1] overflow-hidden rounded-xl"
+        className="relative bg-[#f5f5f5] border border-black/12 overflow-hidden"
         style={{
           width: frameWidth,
-          aspectRatio: "9/19",
-          boxShadow: "0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06)",
+          aspectRatio: "4/5",
         }}
       >
+        {/* Fig plate — sits in the empty left zone, clear of the phone */}
+        {figLabel && (
+          <div className="absolute top-4 left-4 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-3 py-1.5 tabular-nums z-10">
+            {figLabel}
+          </div>
+        )}
+
+        {/* Phone images, inset from frame edges */}
         {sources.map((src, i) => {
           const isActive = i === activeIndex;
-          const scale = isActive ? (scaleReady ? 1 : 0.97) : 1.02;
           return (
             <img
               key={src}
               src={src}
               alt={altLabels?.[i] ?? `App screen ${i + 1}`}
-              className="absolute inset-0 h-full w-full object-contain object-center"
+              className={`absolute ${imgInsetClass} object-contain object-right`}
               style={{
                 opacity: isActive ? 1 : 0,
-                transform: `scale(${scale})`,
-                transition,
+                transition: "opacity 0.35s ease",
               }}
             />
           );
         })}
       </div>
     </div>
-  );
-}
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function GrainOverlay() {
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute inset-0 z-[1] opacity-[0.03]"
-      style={{
-        backgroundImage: `url("${GRAIN_DATA_URI}")`,
-        backgroundRepeat: "repeat",
-      }}
-    />
   );
 }
 
@@ -322,50 +255,54 @@ export function AppStickyPhoneBlock() {
     [numSections]
   );
 
-  // ─── Mobile: separate component per MOBILE_OPTIMIZATION.md ───────────────────
+  // ─── Mobile: separate component ──────────────────────────────────────────────
   if (isMobile === true || isMobile === undefined) {
     return <AppStickyPhoneBlockMobile />;
   }
 
-  // ─── Desktop: scroll track + sticky panel ───────────────────────────────────
+  // ─── Desktop: scroll track + sticky panel (clinical) ─────────────────────────
   return (
     <div
       ref={scrollTrackRef}
-      className="relative w-full"
+      className="relative w-full bg-white"
       style={{ height: `${trackHeightVh}vh` }}
     >
       <div
-        className="sticky top-0 w-full overflow-hidden text-white flex flex-col"
-        style={{
-          height: "100vh",
-          background: "var(--color-ink)",
-        }}
+        className="sticky top-0 w-full overflow-hidden bg-white flex flex-col"
+        style={{ height: "100vh" }}
       >
-        <GrainOverlay />
+        {/* Trio header strip */}
+        <div className="relative z-[2] w-full px-[5vw] pt-[clamp(3rem,6vw,5rem)] pb-4">
+          <div className="mx-auto" style={{ maxWidth: "1280px" }}>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+              The App · 04 Features · Measurable
+            </p>
+            <h3
+              className="brand-h3 text-black"
+              style={{ letterSpacing: "-0.02em" }}
+            >
+              Four features. One outcome: measurable brain performance.
+            </h3>
+          </div>
+        </div>
 
         <div
-          className="relative z-[2] flex-1 mx-auto flex items-center gap-8 px-[var(--premium-gutter-mobile)] lg:px-[var(--premium-gutter-desktop)]"
-          style={{ maxWidth: "var(--premium-max-width)", width: "100%" }}
+          className="relative z-[2] flex-1 mx-auto flex items-center gap-12 px-[5vw] w-full"
+          style={{ maxWidth: "1280px" }}
         >
-          <div className="flex-1 flex flex-col justify-center pr-8">
-            <div className="mb-6 flex items-baseline gap-1.5">
-              <span className="text-white font-semibold" style={{ fontSize: "1.5rem" }}>
-                {String(activeIndex + 1).padStart(2, "0")}
-              </span>
-              <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.35)" }}>/</span>
-              <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.35)" }}>
-                {String(numSections).padStart(2, "0")}
-              </span>
-            </div>
-
+          <div className="flex-1 flex flex-col justify-center pr-4">
             <div
               style={{
                 opacity: contentVisible ? 1 : 0,
-                transform: contentVisible ? "translateY(0)" : "translateY(12px)",
+                transform: contentVisible ? "translateY(0)" : "translateY(8px)",
                 transition: "opacity 0.35s ease, transform 0.35s ease",
               }}
             >
-              <SectionContent data={SECTIONS_DATA[activeIndex]} compact={activeIndex === 0} />
+              <SectionContent
+                data={SECTIONS_DATA[activeIndex]}
+                sectionNumber={activeIndex + 1}
+                totalSections={numSections}
+              />
             </div>
           </div>
 
@@ -373,41 +310,57 @@ export function AppStickyPhoneBlock() {
             <PhoneFrame
               sources={PHONE_SOURCES}
               activeIndex={activeIndex}
-              altLabels={["Cognitive test screen", "Wellness and metrics", "Progress graph", "Leaderboard"]}
+              altLabels={PHONE_ALT_LABELS}
+              figLabel={FIG_LABELS[activeIndex]}
             />
           </div>
         </div>
 
-        {/* Bottom progress bar + section tabs */}
-        <div className="relative z-[2] w-full px-[var(--premium-gutter-mobile)] lg:px-[var(--premium-gutter-desktop)] pb-6">
-          <div className="mx-auto flex flex-col gap-3" style={{ maxWidth: "var(--premium-max-width)" }}>
-            <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1">
-              {SECTION_TAB_LABELS.map((label, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => scrollToSection(i)}
-                  className="text-left font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-ink)]"
-                  style={{
-                    fontSize: "0.7rem",
-                    color: i === activeIndex ? "white" : "rgba(255,255,255,0.35)",
-                  }}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+        {/* Bottom tabs + progress bar — evenly distributed, aligned with scroll */}
+        <div className="relative z-[2] w-full px-[5vw] pb-[clamp(2rem,4vw,3rem)]">
+          <div className="mx-auto flex flex-col gap-3" style={{ maxWidth: "1280px" }}>
             <div
-              className="h-0.5 w-full rounded-full overflow-hidden"
-              style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+              className="grid items-center gap-3"
+              style={{ gridTemplateColumns: `repeat(${numSections}, minmax(0, 1fr))` }}
             >
-              <div
-                className="h-full rounded-full transition-[width] duration-150 ease-out"
-                style={{
-                  width: `${overallProgress}%`,
-                  background: "var(--gradient-neuro-blue-accent)",
-                }}
-              />
+              {SECTION_TAB_LABELS.map((label, i) => {
+                const isActive = i === activeIndex;
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => scrollToSection(i)}
+                    className="text-left font-mono text-[10px] uppercase tracking-[0.2em] tabular-nums transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757]/60 focus-visible:ring-offset-2 whitespace-nowrap overflow-hidden text-ellipsis"
+                    style={{
+                      color: isActive ? "#1B2757" : "rgba(0,0,0,0.35)",
+                    }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="relative">
+              <div className="h-px w-full bg-black/10 relative overflow-hidden">
+                <div
+                  className="h-full transition-[width] duration-150 ease-out bg-[#1B2757]"
+                  style={{ width: `${overallProgress}%` }}
+                />
+              </div>
+              {/* Section boundary ticks above the bar */}
+              {Array.from({ length: numSections + 1 }).map((_, i) => {
+                const isActiveOrPast = i <= activeIndex;
+                return (
+                  <div
+                    key={i}
+                    className="absolute -top-[3px] w-px h-[7px] transition-colors"
+                    style={{
+                      left: `calc(${(i / numSections) * 100}% - 0.5px)`,
+                      backgroundColor: isActiveOrPast ? "#1B2757" : "rgba(0,0,0,0.25)",
+                    }}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

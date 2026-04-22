@@ -1,104 +1,125 @@
 "use client";
 
 /**
- * AppComparisonTable — Us vs Them differentiation table.
- * Content only; page wraps in premium-section-luxury + premium-track and sets section background/color.
+ * AppComparisonTable — CONKA App vs Them differentiation table.
+ * Content only. Clinical grammar: hairline card, mono counter header row,
+ * navy-tinted "Us" column vs neutral "Them" column.
  */
+
+const ROWS = [
+  {
+    feature: "Purpose",
+    us: "Measures and trains your brain for real performance improvement",
+    them: "Tracks general wellness or gives broad lifestyle advice",
+  },
+  {
+    feature: "Measurement",
+    us: "Objective cognitive data that shows when you're actually underperforming",
+    them: "Relies on how you feel or surface-level metrics",
+  },
+  {
+    feature: "Focus",
+    us: "Brain-first. The organ that drives everything",
+    them: "Mostly heart rate, steps, sleep or mood tracking",
+  },
+  {
+    feature: "Scientific backing",
+    us: "FDA cleared medical device with clinical grounding",
+    them: "Often unverified or loosely science-informed",
+  },
+  {
+    feature: "Testing method",
+    us: "Uses visual tests (animals) to avoid learning, language or education bias",
+    them: "Many tests are affected by prior knowledge or IQ factors",
+  },
+  {
+    feature: "Progress over time",
+    us: "Shows measurable cognitive improvement without learning effects",
+    them: "Score increases are often just familiarity with the test",
+  },
+  {
+    feature: "Guidance",
+    us: "Pairs data with the CONKA formula to actively improve performance",
+    them: "Gives numbers with little direction or actionable change",
+  },
+  {
+    feature: "Motivation",
+    us: "Keeps you competitive by benchmarking against pro athletes",
+    them: "No high-performance comparison or motivational challenge",
+  },
+];
+
 export function AppComparisonTable() {
   return (
-    <>
-      <h2
-        className="text-3xl md:text-4xl font-bold mb-8 text-center"
-        style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
-      >
-        Why our App has the best functionality
-      </h2>
-      <div className="overflow-x-auto rounded-[var(--premium-radius-card)] p-6" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
-              <th className="text-left p-4 font-bold" style={{ padding: "var(--premium-space-m)" }}>Feature</th>
-              <th className="text-left p-4 font-bold" style={{ padding: "var(--premium-space-m)" }}>Us</th>
-              <th className="text-left p-4 font-bold" style={{ padding: "var(--premium-space-m)" }}>Them</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Purpose</td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Measures and trains your brain for real performance improvement
-              </td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Tracks general wellness or gives broad lifestyle advice
-              </td>
-            </tr>
-            <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Measurement</td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Objective cognitive data that shows when you&apos;re actually underperforming
-              </td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Relies on how you feel or surface-level metrics
-              </td>
-            </tr>
-            <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Focus</td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Brain-first. The organ that drives everything
-              </td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Mostly heart rate, steps, sleep or mood tracking
-              </td>
-            </tr>
-            <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Scientific Backing</td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                FDA cleared medical device with clinical grounding
-              </td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Often unverified or loosely science-informed
-              </td>
-            </tr>
-            <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Testing Method</td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Uses visual tests (animals) to avoid learning, language or education bias
-              </td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Many tests are affected by prior knowledge or IQ factors
-              </td>
-            </tr>
-            <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Progress Over Time</td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Shows measurable cognitive improvement without learning effects
-              </td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Score increases are often just familiarity with the test
-              </td>
-            </tr>
-            <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Guidance</td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Pairs data with the CONKA formula to actively improve performance
-              </td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Gives numbers with little direction or actionable change
-              </td>
-            </tr>
-            <tr>
-              <td className="p-4 font-semibold" style={{ padding: "var(--premium-space-m)" }}>Motivation</td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                Keeps you competitive by benchmarking against pro athletes
-              </td>
-              <td className="p-4 opacity-90" style={{ padding: "var(--premium-space-m)" }}>
-                No high-performance comparison or motivational challenge
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div>
+      {/* Trio header */}
+      <div className="mb-8 lg:mb-10">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+          Feature Comparison · 08 Criteria · Us vs Them
+        </p>
+        <h2
+          className="brand-h2 text-black mb-2"
+          style={{ letterSpacing: "-0.02em" }}
+        >
+          Why our app has the best functionality
+        </h2>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          FDA cleared · Brain-first · Measurable outcomes
+        </p>
       </div>
-    </>
+
+      {/* Comparison table */}
+      <div className="bg-white border border-black/12 overflow-hidden">
+        {/* Header row */}
+        <div className="grid grid-cols-[1.1fr_1.35fr_1.35fr] border-b border-black/8">
+          <div className="px-4 py-3 border-r border-black/8">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums">
+              Feature
+            </p>
+          </div>
+          <div className="px-4 py-3 border-r border-black/8 bg-[#1B2757]/[0.04]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#1B2757] tabular-nums">
+              CONKA App
+            </p>
+          </div>
+          <div className="px-4 py-3">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums">
+              Them
+            </p>
+          </div>
+        </div>
+
+        {/* Rows */}
+        {ROWS.map((row, idx) => {
+          const isLast = idx === ROWS.length - 1;
+          return (
+            <div
+              key={row.feature}
+              className={`grid grid-cols-[1.1fr_1.35fr_1.35fr] ${!isLast ? "border-b border-black/8" : ""}`}
+            >
+              <div className="px-4 py-4 border-r border-black/8 flex items-baseline gap-3">
+                <span className="font-mono text-[10px] text-black/35 tabular-nums flex-shrink-0">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <span className="text-sm font-semibold text-black leading-snug">
+                  {row.feature}
+                </span>
+              </div>
+              <div className="px-4 py-4 border-r border-black/8 bg-[#1B2757]/[0.04]">
+                <p className="text-sm text-black/80 leading-relaxed">
+                  {row.us}
+                </p>
+              </div>
+              <div className="px-4 py-4">
+                <p className="text-sm text-black/55 leading-relaxed">
+                  {row.them}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

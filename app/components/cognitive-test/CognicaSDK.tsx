@@ -13,25 +13,20 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
   const [isLoading, setIsLoading] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  // Build SDK URL with query parameters
   const sdkUrl = new URL("https://conkasdkdev.cognetivity.com/");
   sdkUrl.searchParams.set("shortVersion", "true");
-  sdkUrl.searchParams.set("websiteExperience", "true"); // Required for postMessage to work in web iframe
+  sdkUrl.searchParams.set("websiteExperience", "true");
   if (subjectId) {
     sdkUrl.searchParams.set("subjectId", subjectId);
   }
-  // Cache bust to force fresh SDK load
   sdkUrl.searchParams.set("_cb", Date.now().toString());
 
-  // Memoize the message handler to avoid recreating on each render
   const handleMessage = useCallback(
     (event: MessageEvent) => {
       try {
-        // Parse the message data (could be string or object)
         const data =
           typeof event.data === "string" ? JSON.parse(event.data) : event.data;
 
-        // Check if this is a test completion event with the correct type and score data
         if (
           data.type === "cognetivity-test-complete" &&
           data.score !== undefined
@@ -46,13 +41,12 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
           onComplete(result);
         }
       } catch {
-        // Not a JSON message or not our event, ignore silently
+        // Ignore non-JSON or unrelated messages
       }
     },
     [onComplete],
   );
 
-  // Set up postMessage listener
   useEffect(() => {
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
@@ -63,52 +57,52 @@ export default function CognicaSDK({ onComplete, subjectId }: CognicaSDKProps) {
   }, []);
 
   return (
-    <div className="relative w-full h-full flex flex-col overflow-hidden">
-      {/* Loading State */}
+    <div className="relative w-full h-full flex flex-col overflow-hidden bg-white">
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-[var(--background)] z-10">
-          <div className="text-center">
-            {/*  brain icon */}
-            <div className="w-16 h-16 mx-auto mb-4 animate-pulse">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white">
+          <div className="flex flex-col items-center">
+            <div className="w-11 h-11 flex items-center justify-center bg-[#1B2757] text-white mb-5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="64"
-                height="64"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="opacity-50"
+                strokeWidth="1.75"
+                strokeLinecap="square"
+                strokeLinejoin="miter"
+                className="animate-pulse"
               >
                 <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
                 <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
                 <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
               </svg>
             </div>
-            <p className="font-clinical text-sm opacity-50">Loading game...</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums">
+              Initialising assessment
+            </p>
+            <div className="mt-5 h-px w-32 bg-black/10 relative overflow-hidden">
+              <div className="absolute inset-y-0 left-0 w-1/3 bg-[#1B2757] animate-pulse" />
+            </div>
           </div>
         </div>
       )}
 
-      {/* SDK Iframe */}
-      <div className="w-full h-full overflow-hidden">
-        <iframe
-          ref={iframeRef}
-          src={sdkUrl.toString()}
-          title="Cognitive Assessment"
-          className="w-full h-full min-h-[500px]"
-          style={{
-            border: "none",
-            display: "block",
-            overflow: "hidden",
-          }}
-          scrolling="no"
-          allow="fullscreen"
-          onLoad={handleIframeLoad}
-        />
-      </div>
+      <iframe
+        ref={iframeRef}
+        src={sdkUrl.toString()}
+        title="Cognitive Assessment"
+        className="w-full h-full min-h-[500px]"
+        style={{
+          border: "none",
+          display: "block",
+          overflow: "hidden",
+        }}
+        scrolling="no"
+        allow="fullscreen"
+        onLoad={handleIframeLoad}
+      />
     </div>
   );
 }

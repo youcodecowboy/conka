@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { FormulaId, StruggleId, STRUGGLE_OPTIONS, formulaContent, FORMULA_COLORS } from "@/app/lib/productData";
+import {
+  FormulaId,
+  StruggleId,
+  STRUGGLE_OPTIONS,
+  formulaContent,
+  FORMULA_COLORS,
+} from "@/app/lib/productData";
 import { StruggleIcon } from "./StruggleIcons";
 
 interface BenefitListProps {
@@ -17,9 +23,6 @@ export default function BenefitList({
 }: BenefitListProps) {
   const formula = formulaContent[formulaId];
   const accentColor = FORMULA_COLORS[formulaId];
-  
-  // Get formula name for pill
-  const formulaName = formulaId === "01" ? "CONKA Flow" : "CONKA Clear";
 
   const handleKeyDown = (e: React.KeyboardEvent, struggleId: StruggleId) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -33,102 +36,137 @@ export default function BenefitList({
   // Desktop: Vertical list + ingredient asset card
   const desktopList = (
     <div className="hidden lg:block">
-      <div
-        className="rounded-[40px] overflow-hidden"
-        style={{ 
-          border: "1px solid var(--brand-stroke)",
-          background: "var(--brand-white)"
-        }}
-      >
-        <div style={{ padding: "2em" }} className="space-y-2">
-          {STRUGGLE_OPTIONS.map((struggle) => {
+      {/* Benefit spec list — flat hairline container */}
+      <div className="bg-white border border-black/12">
+        {/* Header row */}
+        <div className="flex items-center justify-between px-5 py-3 border-b border-black/8">
+          <span className="font-mono text-[11px] font-bold tabular-nums text-black/40">
+            BENEFITS
+          </span>
+          <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50">
+            {STRUGGLE_OPTIONS.length} Outcomes
+          </span>
+        </div>
+
+        {/* Rows */}
+        <ul>
+          {STRUGGLE_OPTIONS.map((struggle, i) => {
             const isSelected = selectedStruggle === struggle.id;
+            const isLast = i === STRUGGLE_OPTIONS.length - 1;
             const solution = formula.struggleSolutions[struggle.id];
             const stat = solution?.stat || "";
 
             return (
-              <button
-                key={struggle.id}
-                role="button"
-                tabIndex={0}
-                aria-pressed={isSelected}
-                onClick={() => onSelect(struggle.id)}
-                onKeyDown={(e) => handleKeyDown(e, struggle.id)}
-                className={`
-                  flex items-center gap-3 px-4 py-3.5 rounded-[20px] cursor-pointer 
-                  transition-all duration-200 w-full text-left
-                  ${isSelected
-                    ? "bg-[var(--brand-black)] text-white"
-                    : "bg-white border border-[var(--brand-stroke)] hover:bg-[var(--brand-tint)]"
-                  }
-                `}
-              >
-                {/* Icon */}
-                <div className={`w-5 h-5 flex-shrink-0 ${isSelected ? "text-white" : "opacity-60"}`}>
-                  <StruggleIcon icon={struggle.icon} />
-                </div>
-
-                {/* Benefit name */}
-                <span className={`brand-body font-medium flex-1 ${isSelected ? "text-white" : "text-[var(--brand-black)]"}`}>
-                  {struggle.label}
-                </span>
-
-                {/* Spacer */}
-                <span className="flex-1" />
-
-                {/* Stat */}
-                <span className={`font-bold ${isSelected ? "text-white" : accentColor.text}`}>
-                  {stat}
-                </span>
-
-                {/* Chevron */}
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className={`shrink-0 transition-opacity duration-200 ${
-                    isSelected ? "text-white opacity-90" : "opacity-30"
-                  }`}
+              <li key={struggle.id}>
+                <button
+                  type="button"
+                  aria-pressed={isSelected}
+                  onClick={() => onSelect(struggle.id)}
+                  onKeyDown={(e) => handleKeyDown(e, struggle.id)}
+                  className={`group flex items-center gap-3 w-full text-left px-5 py-4 min-h-[44px] transition-colors duration-150 ${
+                    isSelected
+                      ? "bg-[var(--brand-accent)] text-white"
+                      : "bg-white hover:bg-[var(--brand-tint)] text-black"
+                  } ${isLast ? "" : "border-b border-black/8"}`}
                 >
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
+                  {/* Row counter */}
+                  <span
+                    className={`font-mono text-[10px] font-bold tabular-nums leading-none shrink-0 ${
+                      isSelected ? "text-white/70" : "text-black/35"
+                    }`}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+
+                  {/* Icon */}
+                  <div
+                    className={`w-5 h-5 shrink-0 flex items-center justify-center ${
+                      isSelected ? "text-white" : "text-black/60"
+                    }`}
+                  >
+                    <StruggleIcon icon={struggle.icon} />
+                  </div>
+
+                  {/* Label */}
+                  <span
+                    className={`brand-body flex-1 font-medium ${
+                      isSelected ? "text-white" : "text-black"
+                    }`}
+                  >
+                    {struggle.label}
+                  </span>
+
+                  {/* Stat — mono tabular-nums */}
+                  <span
+                    className={`font-mono text-sm font-bold tabular-nums shrink-0 ${
+                      isSelected
+                        ? "text-white"
+                        : accentColor.text
+                    }`}
+                  >
+                    {stat}
+                  </span>
+
+                  {/* Chevron */}
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`shrink-0 transition-opacity duration-150 ${
+                      isSelected
+                        ? "text-white opacity-90"
+                        : "text-black/30 group-hover:opacity-60"
+                    }`}
+                  >
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
 
-      {/* Ingredient asset card — updates with active benefit */}
+      {/* Ingredient asset — flat hairline card with lab-asset-frame photo */}
       {currentSolution?.ingredientAsset && (
         <div
           key={`ingredient-${selectedStruggle}`}
-          className="mt-4 rounded-[24px] overflow-hidden [animation:fadeIn_0.3s_ease]"
-          style={{ border: "1px solid var(--brand-stroke)" }}
+          className="mt-6 bg-white border border-black/12 [animation:fadeIn_0.3s_ease]"
         >
-          {/* Square image */}
-          <div className="relative w-full aspect-[2/1] bg-[var(--brand-tint)]">
-            <Image
-              src={currentSolution.ingredientAsset.image}
-              alt={currentSolution.ingredientAsset.name}
-              fill
-              className="object-cover"
-            />
+          {/* Header row */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
+            <span className="font-mono text-[11px] font-bold tabular-nums text-black/40">
+              INGREDIENT
+            </span>
+            <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50">
+              Key Actives
+            </span>
           </div>
 
-          {/* Label strip */}
-          <div
-            className="px-4 py-3"
-            style={{ background: "var(--brand-white)" }}
-          >
-            <p className="brand-caption font-medium text-[var(--brand-black)]">
+          {/* Photo */}
+          <div className="px-4 pt-4">
+            <div className="relative w-full aspect-[2/1] overflow-hidden bg-[var(--brand-tint)]">
+              <Image
+                src={currentSolution.ingredientAsset.image}
+                alt={currentSolution.ingredientAsset.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 38vw"
+              />
+            </div>
+          </div>
+
+          {/* Mono label strip */}
+          <div className="px-4 pt-4 pb-4">
+            <p className="text-base font-semibold text-black leading-tight">
               {currentSolution.ingredientAsset.name}
             </p>
-            <p className="brand-caption opacity-50 text-[var(--brand-black)]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mt-1.5 leading-tight">
               {currentSolution.ingredientAsset.dosage}
             </p>
           </div>
@@ -137,35 +175,32 @@ export default function BenefitList({
     </div>
   );
 
-  // Tablet/Mobile: Horizontal pill row
+  // Tablet/Mobile: squared segmented row
   const mobilePills = (
-    <div className="lg:hidden overflow-x-auto flex gap-2 pb-2">
+    <div className="lg:hidden overflow-x-auto flex gap-2 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {STRUGGLE_OPTIONS.map((struggle) => {
         const isSelected = selectedStruggle === struggle.id;
 
         return (
           <button
             key={struggle.id}
-            role="button"
-            tabIndex={0}
+            type="button"
             aria-pressed={isSelected}
             onClick={() => onSelect(struggle.id)}
             onKeyDown={(e) => handleKeyDown(e, struggle.id)}
-            className={`
-              px-4 py-2 rounded-full text-sm flex items-center gap-1.5 whitespace-nowrap
-              transition-all duration-200
-              ${isSelected
-                ? "bg-[var(--brand-black)] text-[var(--brand-white)]"
-                : "bg-[var(--brand-tint)] text-[var(--brand-black)]"
-              }
-            `}
+            className={`px-4 py-2 min-h-[44px] flex items-center gap-2 whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.12em] border transition-colors duration-150 ${
+              isSelected
+                ? "bg-[var(--brand-accent)] text-white border-[var(--brand-accent)]"
+                : "bg-white text-black border-black/12"
+            }`}
           >
-            {/* Icon */}
-            <div className={`w-4 h-4 flex-shrink-0 ${isSelected ? "text-[var(--brand-white)]" : accentColor.text}`}>
+            <div
+              className={`w-4 h-4 shrink-0 ${
+                isSelected ? "text-white" : "text-black/60"
+              }`}
+            >
               <StruggleIcon icon={struggle.icon} />
             </div>
-
-            {/* Label */}
             <span>{struggle.label}</span>
           </button>
         );

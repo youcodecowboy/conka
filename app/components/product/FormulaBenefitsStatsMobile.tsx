@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { FormulaId, formulaContent } from "@/app/lib/productData";
 import { CURATED_STATS } from "./formulaStatsData";
@@ -29,7 +27,7 @@ export default function FormulaBenefitsStatsMobile({
   return (
     <div className="flex flex-col">
       {/* Photo */}
-      <div className="relative w-[90%] aspect-square overflow-hidden mx-auto" style={{ borderRadius: "var(--brand-radius-card)" }}>
+      <div className="relative w-full aspect-square overflow-hidden border border-black/8">
         <Image
           src={productImage.src}
           alt={productImage.alt}
@@ -44,41 +42,58 @@ export default function FormulaBenefitsStatsMobile({
         />
       </div>
 
-      {/* Title */}
+      {/* Trio header */}
       <div className="pt-6">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+          Measured Outcomes · Clinical Validation
+        </p>
         <h2
           id="benefits-stats-heading"
-          className="brand-h2 mb-2"
+          className="brand-h1 mb-2 text-black"
           style={{ letterSpacing: "-0.02em" }}
         >
           {formula.subheadline}
         </h2>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          {stats.length} Stats · Peer-reviewed · Observed
+        </p>
       </div>
 
-      {/* 3 large stats - single column for impact */}
-      <div className="flex flex-col gap-5 py-6">
-        {stats.map((item, idx) => (
-          <div key={idx}>
-            <p className="font-clinical text-3xl font-bold text-black leading-none">
-              {item.stat}
-              <sup className="text-xs font-normal opacity-50 ml-0.5">
-                {item.anchor}
-              </sup>
-            </p>
-            <p className="brand-data text-sm text-black/60 mt-1">
-              {item.label}
-            </p>
-          </div>
-        ))}
+      {/* Lab asset frame — spec strip */}
+      <div className="lab-asset-frame bg-white mt-6">
+        <div className="flex flex-col">
+          {stats.map((item, idx) => (
+            <div
+              key={idx}
+              className={`flex items-baseline justify-between gap-3 p-4 ${
+                idx < stats.length - 1 ? "border-b border-black/8" : ""
+              }`}
+            >
+              <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-black/50 max-w-[55%]">
+                {item.label}
+              </p>
+              <p className="font-mono text-2xl font-bold tabular-nums text-black leading-none">
+                {item.stat}
+                <sup className="text-xs font-normal opacity-50 ml-0.5 tabular-nums">
+                  {item.anchor}
+                </sup>
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* CTA */}
-      <div className="pb-8">
+      <div className="pt-6 pb-8">
         <a
           href="#proof-and-science"
-          className="inline-flex items-center justify-center w-full py-3 rounded-[var(--brand-radius-interactive)] bg-black text-white font-semibold text-sm hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+          className="w-full inline-flex items-center gap-4 py-3 pl-5 pr-7 text-white bg-[#1B2757] font-mono text-xs uppercase tracking-[0.12em] font-bold hover:opacity-85 active:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1B2757] [clip-path:polygon(0_0,calc(100%-12px)_0,100%_12px,100%_100%,0_100%)]"
         >
-          See the science
+          <span className="flex-1 text-left">See the science</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter" aria-hidden>
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="13 6 19 12 13 18" />
+          </svg>
         </a>
       </div>
     </div>

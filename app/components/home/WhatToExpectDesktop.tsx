@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import FormulaToggle from "@/app/components/FormulaToggle";
+import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
 import {
   timelineFlow,
   timelineClear,
@@ -63,7 +64,7 @@ export default function WhatToExpectDesktop({
               {/* Dot + connecting line (neuro blue accent) */}
               <div className="flex flex-col items-center flex-shrink-0">
                 <div
-                  className="w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full bg-[var(--brand-accent)] flex-shrink-0"
+                  className="w-2.5 h-2.5 lg:w-3 lg:h-3 bg-[var(--brand-accent)] flex-shrink-0"
                   aria-hidden
                 />
                 <div
@@ -75,7 +76,7 @@ export default function WhatToExpectDesktop({
               {/* Content */}
               <div className="flex-1 -mt-1 min-w-0">
                 <span
-                  className="inline-block brand-data text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[var(--brand-accent)] text-white mb-2"
+                  className="inline-block font-mono text-[10px] uppercase tracking-[0.2em] tabular-nums px-2.5 py-1 bg-[var(--brand-accent)] text-white mb-2"
                   aria-hidden
                 >
                   {stage.subheading}
@@ -91,9 +92,9 @@ export default function WhatToExpectDesktop({
           ))}
 
           {/* How to Use — under last step, left column */}
-          <div className="mt-8 brand-card p-6">
+          <div className="mt-8 bg-white border border-black/8 p-6">
             <div className="flex items-start gap-4 lg:gap-6">
-              <div className="flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative rounded-[var(--brand-radius-container)] bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)] overflow-hidden flex items-center justify-center p-1">
+              <div className="flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 relative bg-[var(--brand-tint)] border border-black/8 overflow-hidden flex items-center justify-center p-1">
                 <Image
                   src={
                     selectedFormula === "01"
@@ -124,33 +125,22 @@ export default function WhatToExpectDesktop({
                     : "Take one 30ml shot of CONKA Clear in the afternoon to support recovery and sleep quality."}
                 </p>
                 {showToggle && (
-                  <a
+                  <ConkaCTAButton
                     href={
                       selectedFormula === "01"
                         ? "/conka-flow"
                         : "/conka-clarity"
                     }
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--brand-radius-interactive)] font-semibold text-sm bg-[var(--brand-accent)] text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-accent)] transition-opacity"
+                    meta={
+                      selectedFormula === "01"
+                        ? "// morning formula"
+                        : "// afternoon formula"
+                    }
                   >
                     {selectedFormula === "01"
                       ? "View CONKA Flow"
                       : "View CONKA Clear"}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden
-                    >
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg>
-                  </a>
+                  </ConkaCTAButton>
                 )}
               </div>
             </div>
@@ -161,7 +151,7 @@ export default function WhatToExpectDesktop({
         <div className="lg:sticky lg:top-24">
           <div className="space-y-4">
             {/* Main lifestyle image */}
-            <div className="relative aspect-[4/3] rounded-[var(--brand-radius-card)] overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
+            <div className="relative aspect-[4/3] overflow-hidden bg-[var(--brand-tint)] border border-black/8">
               <Image
                 src={
                   selectedFormula === "01"
@@ -182,7 +172,7 @@ export default function WhatToExpectDesktop({
 
             {/* Two supporting images */}
             <div className="grid grid-cols-2 gap-3 md:gap-4">
-              <div className="relative aspect-square rounded-[var(--brand-radius-container)] overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
+              <div className="relative aspect-square overflow-hidden bg-[var(--brand-tint)] border border-black/8">
                 <Image
                   src={
                     selectedFormula === "01"
@@ -200,7 +190,7 @@ export default function WhatToExpectDesktop({
                   sizes="(max-width: 1024px) 50vw, 25vw"
                 />
               </div>
-              <div className="relative aspect-square rounded-full overflow-hidden bg-[var(--brand-tint)] border border-[rgba(0,0,0,0.06)]">
+              <div className="relative aspect-square overflow-hidden bg-[var(--brand-tint)] border border-black/8">
                 <Image
                   src={
                     selectedFormula === "01"
@@ -217,7 +207,7 @@ export default function WhatToExpectDesktop({
             </div>
           </div>
 
-          <p className="brand-caption text-center text-black/60 mt-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mt-4">
             {selectedFormula === "01"
               ? "CONKA Flow for clean sustained energy"
               : "CONKA Clear for peak performance"}

@@ -16,14 +16,14 @@ export default function SciencePage() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen bg-[var(--brand-white)] text-[var(--brand-black)]">
+    <div className="brand-clinical min-h-screen bg-white text-black flex flex-col">
       <Navigation />
 
       {isMobile === undefined ? (
         <div className="min-h-screen pt-32 pb-16 flex items-center justify-center">
-          <div className="animate-pulse text-center">
-            <p className="font-clinical text-sm opacity-50">Loading...</p>
-          </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 animate-pulse">
+            // Loading research
+          </p>
         </div>
       ) : (
         <>
