@@ -6,6 +6,41 @@
 
 ## April 2026
 
+### 2026-04-21 -- Full-website clinical aesthetic realignment (SCRUM-906)
+
+Extended the clinical aesthetic from `/start` + `/` into the rest of the site -- product PDPs, ingredients, our story, /protocol/3, /case-studies, /science, and /app -- then reshuffled the Balance PDP and added a per-athlete "what they took" card on case studies.
+
+**PDP alignment (Phase 1 -- /conka-flow + /conka-clarity):**
+- `FormulaCaseStudies` elevated to the clinical carousel treatment: hero stat row, spec-sheet `AthleteSpecCard`, hairline borders, navy `#1B2757` focus ring, mono eyebrows, `tabular-nums`, em-dash separators. `FormulaFAQ` tightened to the `LabFAQ` pattern (spec header row, `01.`-`NN.` mono numbering, category tags, `[+]`/`[-]` indicators, left-border accent).
+- `FormulaBenefits` desktop + mobile moved onto the clinical surface -- double-border `lab-asset-frame` removed from internal panels, benefit stat scales reduced (`4xl`/`5xl` -> `3xl`/`4xl`) so the data doesn't overshadow the copy.
+- `FormulaIngredients` rebuilt as a compact accordion card list (replacing the split desktop/mobile layouts). Most Popular badge clipping fixed on the pack selector (moved from `overflow-hidden` parent to an isolated positioning context).
+- Dropped leftover `"use client"` directives from static presentational components (stats, HowItWorks).
+
+**Phase 2 -- /protocol/3 (Balance):**
+- `ProtocolHero` / `ProtocolHeroMobile` rewritten to the `ProductHero` pattern: packselect grid (`grid grid-cols-3 gap-2`), navy selected state, `ConkaCTAButton` with inverted-ring ConkaO + blinking underscore + 12px polygon chamfer. Removed `rounded-xl` / `rounded-full` / `shadow-md` / `ring-2` / emoji badge.
+- Section components swapped wholesale for their clinical equivalents: `LandingWhatItDoes`, `WhyConkaWorks`, `LabTimeline`, `LabGuarantee`, `LabFAQ`, `LandingTestimonials` (with `hideCTA`), `FormulaCaseStudies` / `FormulaCaseStudiesMobile` routed by `productId={selectedProtocolId}` (Balance has its own athlete set).
+- `brand-clinical` wrapper on both mobile + desktop root divs.
+- Deprecation sweep: deleted `HomeWhatItDoes`, `LandingFAQ`, `LandingGuarantee`, `LandingTimeline` -- all superseded by the Lab* / shared variants consumed above.
+- Post-swap reorder: Hero -> Case Studies -> What It Does -> Why CONKA Works -> Timeline -> Testimonials -> Guarantee -> FAQ -> Explore, mobile and desktop now share an identical sequence. Backgrounds alternate W-T-W-T-W-T-W-T-W. `WhyConkaWorks` added to desktop (previously mobile-only) so the rhythm holds on both breakpoints without forking the sequence.
+
+**Phase 5 -- /case-studies:**
+- `CaseStudiesPageDesktop` + `CaseStudiesPageMobile` rewritten with the trio header pattern (mono eyebrow + `brand-h1` + mono sub), hairline borders, `tabular-nums`, em-dash + middle-dot separators. Desktop gets a 3-cell stat strip (Athletes / Tests / Avg. lift) in a bordered grid.
+- `AthleteSidebar` given clinical filter chips, hairline-bordered athlete tiles with `SportIcon` thumbnails, navy highlight for active/featured.
+- `FeaturedAthletesCarousel` polished: hairline cards, mono labels, navy focus ring, `snap-x snap-mandatory scroll-smooth` for tactile swiping -- kept to visual alignment, no nav-arrow additions.
+- `AthleteStats.tsx` trimmed to only export `ComparisonChart` (the sole live consumer); hairline bars + navy fill, em-dash baseline-vs-results labels. Deleted `AthleteCard.tsx`, `FeaturedAthletes.tsx`, `AthleteFilterBar.tsx` (all orphaned after the rewrite); pruned barrel in `index.ts`. Net -500 lines.
+- `/case-studies` root: `brand-clinical` wrapper, `brand-section brand-hero-first brand-bg-white`, clinical loading state.
+
+**"What they took" per-athlete card (new):**
+`WhatTheyTook` replaces the generic "Try CONKA now" footer on the mobile case study and sits inline on desktop below Field Notes. Reads `athlete.productVersion` and resolves to one of three product configs (Flow / Clear / Both) with matching bottles, label, and destination (`/conka-flow` / `/conka-clarity` / `/protocol/3`). Noah Curtis corrected from `productVersion: "02"` to `"both"` + Balance Protocol to match attribution.
+
+**Static content pages (/ingredients, /our-story, /science, /app):**
+Each page migrated onto `brand-clinical` with `brand-section` / `brand-track` composition, hairline borders, navy accent, left-aligned trio headers, em-dash separators, and `tabular-nums` on stat blocks. `/app` carried the cognitive test section across to the same treatment.
+
+**Why:** The clinical aesthetic was contained to `/start` and `/` while the rest of the site still ran the pre-clinical `premium-base` surfaces, dark dramatic sections, and pill CTAs -- jumping from a paid-traffic landing page into a PDP felt like two different sites. /protocol/3 in particular was still running the old ProtocolHero + FAQ pair against the already-elevated /conka-flow and /conka-clarity, which made Balance read as an older product. Reordering Balance to lead with Case Studies puts social proof in front of product education -- same promotion that worked on /start. The per-athlete "what they took" card is a lower-friction hand-off than a generic Balance CTA at the bottom of every case study.
+**Plan:** `docs/development/featurePlans/clinical-aesthetic-page-alignment.md` (Phases 1, 2, 5 Done; 3-4 Done via /science + /our-story commits; /app + /ingredients extensions beyond original scope)
+**Ticket:** SCRUM-906
+**Branch:** `full-website-realignment`
+
 ### 2026-04-21 -- Home page clinical aesthetic alignment
 
 Pulled the home page onto the clinical aesthetic established on `/start` and `/funnel`, tightened the section order around earlier social proof, and refreshed the reference doc.
