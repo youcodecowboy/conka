@@ -178,7 +178,7 @@ export default function ProtocolPage() {
 
   const whyConkaWorksSection = (
     <section
-      className="brand-section brand-bg-white"
+      className="brand-section brand-bg-tint"
       aria-label="Why CONKA works"
     >
       <div className="brand-track">
@@ -189,7 +189,7 @@ export default function ProtocolPage() {
 
   const caseStudiesSectionDesktop = (
     <section
-      className="brand-section brand-bg-white"
+      className="brand-section brand-bg-tint"
       aria-label="Clinically validated results"
     >
       <div className="brand-track">
@@ -200,7 +200,7 @@ export default function ProtocolPage() {
 
   const caseStudiesSectionMobile = (
     <section
-      className="brand-section brand-bg-white"
+      className="brand-section brand-bg-tint"
       aria-label="Clinically validated results"
     >
       <div className="brand-track">
@@ -222,7 +222,7 @@ export default function ProtocolPage() {
 
   const timelineSection = (
     <section
-      className="brand-section brand-bg-tint"
+      className="brand-section brand-bg-white"
       aria-label="What to expect"
     >
       <div className="brand-track">
@@ -277,16 +277,16 @@ export default function ProtocolPage() {
           </div>
         </section>
 
-        {/* ===== SECTION 2: TESTIMONIALS ===== */}
-        {testimonialSection}
+        {/* ===== CASE STUDIES ===== */}
+        {caseStudiesSectionMobile}
 
-        {/* ===== SECTION 3: WHAT CONKA DOES ===== */}
+        {/* ===== WHAT CONKA DOES ===== */}
         {whatItDoesSection}
 
-        {/* ===== SECTION 3b: WHY CONKA WORKS ===== */}
+        {/* ===== WHY CONKA WORKS ===== */}
         {whyConkaWorksSection}
 
-        {/* ===== SECTION 4: CALENDAR (hidden for Balance) ===== */}
+        {/* ===== CALENDAR (hidden for Balance) ===== */}
         {selectedProtocolId !== "3" && (
           <section
             className="brand-section brand-bg-tint"
@@ -305,19 +305,19 @@ export default function ProtocolPage() {
           </section>
         )}
 
-        {/* ===== SECTION 5: CASE STUDIES ===== */}
-        {caseStudiesSectionMobile}
-
-        {/* ===== SECTION 6: TIMELINE ===== */}
+        {/* ===== TIMELINE ===== */}
         {timelineSection}
 
-        {/* ===== SECTION 7: GUARANTEE ===== */}
+        {/* ===== TESTIMONIALS ===== */}
+        {testimonialSection}
+
+        {/* ===== GUARANTEE ===== */}
         {guaranteeSection}
 
-        {/* ===== SECTION 8: FAQ ===== */}
+        {/* ===== FAQ ===== */}
         {faqSection}
 
-        {/* ===== SECTION 9: EXPLORE ===== */}
+        {/* ===== EXPLORE ===== */}
         {exploreSection}
 
         <Footer />
@@ -356,13 +356,16 @@ export default function ProtocolPage() {
         </div>
       </section>
 
-      {/* ===== SECTION 2: TESTIMONIALS ===== */}
-      {testimonialSection}
+      {/* ===== CASE STUDIES ===== */}
+      {caseStudiesSectionDesktop}
 
-      {/* ===== SECTION 3: WHAT CONKA DOES ===== */}
+      {/* ===== WHAT CONKA DOES ===== */}
       {whatItDoesSection}
 
-      {/* ===== SECTION 4: CALENDAR (hidden for Balance) ===== */}
+      {/* ===== WHY CONKA WORKS ===== */}
+      {whyConkaWorksSection}
+
+      {/* ===== CALENDAR (hidden for Balance) ===== */}
       {selectedProtocolId !== "3" && (
         <section
           className="brand-section brand-bg-tint"
@@ -381,19 +384,19 @@ export default function ProtocolPage() {
         </section>
       )}
 
-      {/* ===== SECTION 5: CASE STUDIES ===== */}
-      {caseStudiesSectionDesktop}
-
-      {/* ===== SECTION 6: TIMELINE ===== */}
+      {/* ===== TIMELINE ===== */}
       {timelineSection}
 
-      {/* ===== SECTION 7: GUARANTEE ===== */}
+      {/* ===== TESTIMONIALS ===== */}
+      {testimonialSection}
+
+      {/* ===== GUARANTEE ===== */}
       {guaranteeSection}
 
-      {/* ===== SECTION 8: FAQ ===== */}
+      {/* ===== FAQ ===== */}
       {faqSection}
 
-      {/* ===== SECTION 9: EXPLORE ===== */}
+      {/* ===== EXPLORE ===== */}
       {exploreSection}
 
       <Footer />
