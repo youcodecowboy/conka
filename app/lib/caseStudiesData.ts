@@ -1104,7 +1104,8 @@ export const athletes: AthleteData[] = [
     organization: "Revolut",
     description:
       "Account Executive at Revolut, one of the world's leading fintech companies.",
-    productVersion: "02",
+    productVersion: "both",
+    protocolUsed: "Balance Protocol",
     testsCompleted: 64,
     baselineTests: 3,
     postBaselineTests: 61,

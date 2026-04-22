@@ -10,7 +10,7 @@ import {
   getAverageImprovementAcrossAll,
 } from "@/app/lib/caseStudiesData";
 import SportIcon from "./SportIcon";
-import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
+import WhatTheyTook from "./WhatTheyTook";
 
 const STAT_LABELS = ["Total", "Acc.", "Speed"];
 
@@ -234,6 +234,13 @@ export default function CaseStudiesPageMobile() {
             </div>
           </div>
 
+          <div className="mt-6">
+            <WhatTheyTook
+              version={activeAthlete.productVersion}
+              variant="mobile"
+            />
+          </div>
+
           <div className="flex items-center justify-between gap-4 mt-6">
             <ChamferNav
               direction="prev"
@@ -271,26 +278,6 @@ export default function CaseStudiesPageMobile() {
         </div>
       )}
 
-      <div className="mt-10 bg-white border border-black/12 p-5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
-          Start your journey · Balance Protocol
-        </p>
-        <h3
-          className="brand-h2 text-black mb-3"
-          style={{ letterSpacing: "-0.02em" }}
-        >
-          Start your journey
-        </h3>
-        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-5">
-          100-Day guarantee · Free UK shipping
-        </p>
-        <ConkaCTAButton
-          href="/protocol/3"
-          meta="// balance protocol · 14 shots · 7-day cadence"
-        >
-          Try CONKA now
-        </ConkaCTAButton>
-      </div>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import AthleteSidebar from "./AthleteSidebar";
 import { ComparisonChart } from "./AthleteStats";
 import FeaturedAthletesCarousel from "./FeaturedAthletesCarousel";
 import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
+import WhatTheyTook from "./WhatTheyTook";
 
 export default function CaseStudiesPageDesktop() {
   const [activeAthleteId, setActiveAthleteId] = useState(athletes[0]?.id || "");
@@ -227,7 +228,7 @@ export default function CaseStudiesPageDesktop() {
                   )}
                 </div>
 
-                <div>
+                <div className="mb-8">
                   <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
                     Field notes
                   </p>
@@ -235,6 +236,11 @@ export default function CaseStudiesPageDesktop() {
                     {activeAthlete.description}
                   </p>
                 </div>
+
+                <WhatTheyTook
+                  version={activeAthlete.productVersion}
+                  variant="desktop"
+                />
               </div>
             </div>
           ) : (
