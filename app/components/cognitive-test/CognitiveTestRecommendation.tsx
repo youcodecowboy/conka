@@ -2,103 +2,80 @@
 
 import type { CognitiveTestRecommendationProps } from "./types";
 
-/**
- * CognitiveTestRecommendation - Smart protocol recommendation
- *
- * Displays a personalized protocol recommendation based on the
- * user's test results (accuracy and speed scores).
- */
 export default function CognitiveTestRecommendation({
   result,
 }: CognitiveTestRecommendationProps) {
   const getRecommendation = () => {
     if (result.accuracy < 70 && result.speed < 70) {
       return {
-        headline: "Consider the Balance Protocol",
+        headline: "Consider the Balance Protocol.",
         description:
-          "Your scores suggest both accuracy and speed could benefit from support. The Balance Protocol alternates between CONKA Flow and CONKA Clear daily for comprehensive cognitive coverage.",
+          "Your scores suggest both accuracy and speed could benefit from support. The Balance Protocol alternates CONKA Flow and CONKA Clear daily for comprehensive cognitive coverage.",
         buttonText: "Try Balance Protocol",
         href: "/protocol/3",
+        eyebrow: "Recommendation · Balance",
       };
     }
     if (result.accuracy < 70) {
       return {
-        headline: "Precision Protocol may help",
+        headline: "Precision Protocol may help.",
         description:
           "Your accuracy score suggests room for improvement. Clinical studies show CONKA Clear ingredients improve cognition by +16% and attention by +14%.",
         buttonText: "Try Precision Protocol",
         href: "/protocol/2",
+        eyebrow: "Recommendation · Precision",
       };
     }
     if (result.speed < 70) {
       return {
-        headline: "Resilience Protocol may help",
+        headline: "Resilience Protocol may help.",
         description:
-          "Your speed score suggests room for improvement. Clinical studies show CONKA Flow ingredients improve memory by +18% and overall cognitive performance.",
+          "Your speed score suggests room for improvement. Clinical studies show CONKA Flow ingredients improve memory by +18% and cognitive performance.",
         buttonText: "Try Resilience Protocol",
         href: "/protocol/1",
+        eyebrow: "Recommendation · Resilience",
       };
     }
     return {
-      headline: "Great baseline!",
+      headline: "Great baseline.",
       description:
-        "Your scores show strong cognitive function. The Ultimate Protocol—taking both CONKA Flow and CONKA Clear daily—helps maintain and further enhance peak performance.",
+        "Your scores show strong cognitive function. The Ultimate Protocol — CONKA Flow and CONKA Clear daily — helps maintain and further enhance peak performance.",
       buttonText: "Try Ultimate Protocol",
       href: "/protocol/4",
+      eyebrow: "Recommendation · Ultimate",
     };
   };
 
   const recommendation = getRecommendation();
 
   return (
-    <div
-      className="premium-card-soft premium-card-soft-stroke p-4 lg:p-6 border-l-4"
-      style={{
-        color: "var(--color-ink)",
-        borderLeftColor: "var(--color-neuro-blue-end)",
-      }}
-    >
-      <p
-        className="text-xs uppercase tracking-widest mb-3 opacity-70"
-        style={{ fontSize: "var(--premium-font-data-size)" }}
-      >
-        Based on Your Performance
+    <div className="bg-white border border-black/12 p-5 lg:p-6 border-l-[3px] border-l-[#1B2757]">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+        {recommendation.eyebrow} · Based on your performance
       </p>
-      <h4 className="font-bold text-lg mb-2" style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}>
+      <h4
+        className="brand-h4 text-black mb-3 max-w-[24ch]"
+        style={{ letterSpacing: "-0.02em" }}
+      >
         {recommendation.headline}
       </h4>
-      <p
-        className="text-sm mb-4 opacity-80"
-        style={{ lineHeight: "var(--premium-font-body-leading)" }}
-      >
+      <p className="text-sm text-black/75 leading-relaxed mb-5 max-w-xl">
         {recommendation.description}
       </p>
-      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+      <div className="flex flex-col sm:flex-row gap-3">
         <a
           href={recommendation.href}
-          className="px-5 py-2 text-sm font-bold inline-flex items-center justify-center rounded-[var(--premium-radius-interactive)] border border-[var(--color-premium-stroke)] bg-[var(--color-ink)] text-[var(--color-bone)] hover:opacity-90"
+          className="inline-flex items-center justify-center gap-3 bg-[#1B2757] text-white font-mono text-[11px] uppercase tracking-[0.2em] tabular-nums px-5 py-3.5 lab-clip-tr transition-opacity hover:opacity-85 active:opacity-70"
         >
-          {recommendation.buttonText}
+          <span>{recommendation.buttonText}</span>
+          <span aria-hidden>↗</span>
         </a>
         <a
           href="/quiz"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-[var(--premium-radius-interactive)] font-semibold text-sm border border-[var(--color-premium-stroke)] bg-[var(--color-ink)] text-[var(--color-bone)] hover:opacity-90 transition-opacity"
+          className="inline-flex items-center justify-center gap-3 bg-white border border-black/25 text-[#1B2757] font-mono text-[11px] uppercase tracking-[0.2em] tabular-nums px-5 py-3.5 lab-clip-tr transition-colors hover:border-[#1B2757] hover:bg-[#1B2757] hover:text-white"
         >
-          Take the Quiz
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
+          <span>Take the quiz</span>
+          <span aria-hidden>→</span>
         </a>
       </div>
     </div>

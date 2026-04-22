@@ -3,12 +3,6 @@
 import { useEffect, useState } from "react";
 import type { CognitiveTestLoaderProps } from "./types";
 
-/**
- * CognitiveTestLoader - Processing animation
- *
- * Displays an animated progress ring with stage messages while
- * "analyzing" the test results. Mirrors the QuizLoader pattern.
- */
 export default function CognitiveTestLoader({
   onComplete,
   duration = 2500,
@@ -17,9 +11,9 @@ export default function CognitiveTestLoader({
   const [stage, setStage] = useState(0);
 
   const stages = [
-    "Processing your results...",
-    "Analyzing your performance...",
-    "Generating insights...",
+    "Processing your results",
+    "Analyzing your performance",
+    "Generating insights",
   ];
 
   useEffect(() => {
@@ -48,82 +42,67 @@ export default function CognitiveTestLoader({
     }
   }, [progress]);
 
+  const isComplete = progress >= 100;
+
   return (
-    <div
-      className="premium-card-soft premium-card-soft-stroke p-12 flex flex-col items-center text-center"
-      style={{ color: "var(--color-ink)" }}
-    >
-      {/* Animated Progress Ring */}
-      <div className="relative w-24 h-24 mb-8">
-        {/* Outer ring */}
-        <div className="absolute inset-0 rounded-full border-4 border-current/10" />
+    <div className="bg-white border border-black/12 p-10 flex flex-col items-start">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-6 tabular-nums">
+        Processing · Cognetivity SDK · {progress.toString().padStart(3, "0")}%
+      </p>
 
-        {/* Progress ring */}
+      {/* Navy tile icon */}
+      <div className="w-11 h-11 flex items-center justify-center bg-[#1B2757] text-white mb-6 lab-clip-tr">
         <svg
-          className="absolute inset-0 w-full h-full -rotate-90"
-          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
+          className={isComplete ? "" : "animate-pulse"}
         >
-          <circle
-            cx="50"
-            cy="50"
-            r="46"
-            fill="none"
-            stroke="var(--color-neuro-blue-end)"
-            strokeWidth="8"
-            strokeLinecap="round"
-            strokeDasharray={`${progress * 2.89} 289`}
-            className="transition-all duration-100"
-          />
+          {isComplete ? (
+            <polyline points="20 6 9 17 4 12" />
+          ) : (
+            <>
+              <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
+              <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
+              <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
+            </>
+          )}
         </svg>
-
-        {/* Center icon */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="36"
-            height="36"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={`transition-opacity ${
-              progress >= 100 ? "opacity-100" : "opacity-50"
-            }`}
-          >
-            {progress >= 100 ? (
-              // Checkmark when complete
-              <polyline points="20 6 9 17 4 12" />
-            ) : (
-              // Brain icon while loading
-              <>
-                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
-                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
-              </>
-            )}
-          </svg>
-        </div>
       </div>
 
-      {/* Stage Text */}
-      <div className="min-h-[60px] lg:min-h-0 flex items-center justify-center">
-        <p className="font-bold text-xl mb-2">{stages[stage]}</p>
+      {/* Stage text */}
+      <p
+        className="brand-h4 text-black mb-6"
+        style={{ letterSpacing: "-0.02em" }}
+      >
+        {stages[stage]}.
+      </p>
+
+      {/* Progress bar */}
+      <div className="h-px w-full bg-black/10 relative overflow-hidden mb-4">
+        <div
+          className="absolute inset-y-0 left-0 bg-[#1B2757] transition-[width] duration-100 ease-out"
+          style={{ width: `${progress}%` }}
+        />
       </div>
 
-      {/* Progress Percentage */}
-      <p className="text-sm opacity-70" style={{ fontSize: "var(--premium-font-data-size)" }}>{progress}%</p>
-
-      {/* Stage dots */}
-      <div className="flex gap-1.5 mt-6">
+      {/* Stage counter */}
+      <div className="flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.2em] tabular-nums">
         {[0, 1, 2].map((dot) => (
-          <div
+          <span
             key={dot}
-            className="w-2 h-2 rounded-full transition-colors"
             style={{
-              background: stage >= dot ? "var(--color-neuro-blue-end)" : "rgba(0,0,0,0.2)",
+              color: stage >= dot ? "#1B2757" : "rgba(0,0,0,0.3)",
             }}
-          />
+          >
+            0{dot + 1}
+          </span>
         ))}
       </div>
     </div>

@@ -3,7 +3,7 @@
 import Navigation from "@/app/components/navigation";
 import Footer from "@/app/components/footer";
 import { AppHero, AppStickyPhoneBlock, AppSubscribersSection, AppDownloadSection, AppComparisonTable } from "@/app/components/app";
-import CaseStudiesDataDriven from "@/app/components/CaseStudiesDataDriven";
+import LabCaseStudies from "@/app/components/LabCaseStudies";
 import {
   CognitiveTestSection,
   CognitiveTestSectionMobile,
@@ -14,54 +14,70 @@ export default function AppPage() {
   const isMobile = useIsMobile();
 
   return (
-    <div
-      className="min-h-screen theme-conka-flow"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
-    >
+    <div className="brand-clinical min-h-screen bg-white text-black flex flex-col">
       <Navigation />
 
-      <AppHero />
+      {/* ===== HERO ===== */}
+      <section
+        className="brand-section brand-hero-first brand-bg-white"
+        aria-labelledby="app-hero-heading"
+      >
+        <div className="brand-track">
+          <AppHero />
+        </div>
+      </section>
 
+      {/* ===== STICKY PHONE BLOCK ===== */}
       <AppStickyPhoneBlock />
 
-      <AppSubscribersSection />
+      {/* ===== SUBSCRIBERS ===== */}
+      <section
+        className="brand-section brand-bg-tint"
+        aria-label="CONKA app rewards for subscribers"
+      >
+        <div className="brand-track">
+          <AppSubscribersSection />
+        </div>
+      </section>
 
-      <AppDownloadSection />
+      {/* ===== DOWNLOAD CTA ===== */}
+      <section
+        className="brand-section brand-bg-white"
+        aria-label="Download the CONKA app"
+      >
+        <div className="brand-track">
+          <AppDownloadSection />
+        </div>
+      </section>
 
-      {/* Cognitive Test Section — only mount when we know breakpoint to avoid grey flash */}
+      {/* ===== COGNITIVE TEST ===== */}
       {isMobile !== undefined && (
         <section
-          className="premium-section-luxury premium-bg-bone"
-          style={{ color: "var(--color-ink)" }}
+          className="brand-section brand-bg-tint"
           aria-labelledby="cognitive-test-heading"
         >
-          <div className="premium-track">
+          <div className="brand-track">
             {isMobile ? <CognitiveTestSectionMobile /> : <CognitiveTestSection />}
           </div>
         </section>
       )}
 
+      {/* ===== CASE STUDIES ===== */}
       <section
-        className="premium-section-luxury"
-        style={{
-          background: "var(--color-neuro-blue-light)",
-          color: "var(--color-ink)",
-        }}
+        className="brand-section brand-bg-white"
+        aria-label="Clinically validated test scores"
       >
-        <div className="premium-track">
-          <CaseStudiesDataDriven />
+        <div className="brand-track">
+          <LabCaseStudies />
         </div>
       </section>
 
-      {/* Comparison Table Section — dark neuro blue + bone text (page owns section styling) */}
+      {/* ===== COMPARISON TABLE ===== */}
       <section
-        className="premium-section-luxury"
-        style={{
-          background: "var(--color-neuro-blue-dark)",
-          color: "var(--color-bone)",
-        }}
+        className="brand-section brand-bg-white"
+        aria-label="App feature comparison"
       >
-        <div className="premium-track">
+        <div className="brand-track">
           <AppComparisonTable />
         </div>
       </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo, type ReactNode } from "react";
+import { useState, useCallback, useMemo } from "react";
 import type {
   TestState,
   TestResult,
@@ -16,59 +16,35 @@ import CognitiveTestRecommendation from "./CognitiveTestRecommendation";
 import CognitiveTestAppPromo from "./CognitiveTestAppPromo";
 import { trackCognitiveTest } from "@/app/lib/klaviyo";
 
-/** Distinct icons per benefit so each row gives immediate visual meaning */
-const BENEFIT_ITEMS: { label: string; icon: ReactNode }[] = [
-  {
-    label: "Clinically-validated",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Instant results",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-      </svg>
-    ),
-  },
-  {
-    label: "Personalized",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-        <circle cx="12" cy="7" r="4" />
-      </svg>
-    ),
-  },
+const BENEFIT_SPECS: { label: string; value: string; note: string }[] = [
+  { label: "Validation", value: "Clinical", note: "Cambridge-derived" },
+  { label: "Results", value: "~ 30s", note: "Instant score" },
+  { label: "Profile", value: "Personal", note: "Benchmarked" },
 ];
 
-function BenefitsRow() {
+function BenefitsSpecStrip() {
   return (
-    <div className="flex justify-center gap-8 mt-8">
-      {BENEFIT_ITEMS.map(({ label, icon }) => (
-        <div key={label} className="flex items-center gap-2">
-          <div
-            className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-            style={{ background: "var(--gradient-neuro-blue-accent)" }}
-          >
-            {icon}
-          </div>
-          <span className="text-sm opacity-80" style={{ color: "var(--color-ink)" }}>{label}</span>
+    <div className="grid grid-cols-3 gap-0 border border-black/12 bg-white mt-8">
+      {BENEFIT_SPECS.map((b, i) => (
+        <div
+          key={b.label}
+          className={`p-4 ${i < BENEFIT_SPECS.length - 1 ? "border-r border-black/8" : ""}`}
+        >
+          <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+            {b.label}
+          </p>
+          <p className="font-mono text-xl font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+            {b.value}
+          </p>
+          <p className="font-mono text-[9px] text-black/50 mt-2 leading-tight tabular-nums">
+            {b.note}
+          </p>
         </div>
       ))}
     </div>
   );
 }
 
-/**
- * CognitiveTestSection - Desktop version (Hero-style layout)
- *
- * Orchestrates the cognitive test flow through 5 states:
- * idle → email → testing → processing → results
- */
 export default function CognitiveTestSection({
   className = "",
 }: CognitiveTestSectionProps) {
@@ -77,7 +53,6 @@ export default function CognitiveTestSection({
     useState<EmailSubmission | null>(null);
   const [testResult, setTestResult] = useState<TestResult | null>(null);
 
-  // Generate a unique subject ID for tracking
   const subjectId = useMemo(() => {
     if (emailSubmission) {
       return `website_${emailSubmission.submittedAt.getTime()}`;
@@ -85,7 +60,6 @@ export default function CognitiveTestSection({
     return `website_${Date.now()}`;
   }, [emailSubmission]);
 
-  // State transition handlers
   const handleStartTest = useCallback(() => {
     setTestState("email");
   }, []);
@@ -107,10 +81,8 @@ export default function CognitiveTestSection({
   }, []);
 
   const handleProcessingComplete = useCallback(() => {
-    // Always transition to results state first (critical for graceful failure)
     setTestState("results");
 
-    // Track to Klaviyo (fire and forget - never blocks UI)
     if (emailSubmission && testResult) {
       trackCognitiveTest(
         emailSubmission.email,
@@ -118,7 +90,6 @@ export default function CognitiveTestSection({
         testResult.accuracy,
         testResult.speed,
       ).catch((err) => {
-        // Silently fail - user already sees results
         console.error("Failed to track to Klaviyo:", err);
       });
     }
@@ -131,59 +102,62 @@ export default function CognitiveTestSection({
 
   return (
     <div className={className}>
-      {/* Header Area - Static */}
-      <div className="mb-12">
-        <p
-          className="text-xs uppercase tracking-widest mb-3 opacity-70"
-          style={{ color: "var(--color-ink)", fontSize: "var(--premium-font-data-size)" }}
-        >
-          Test Your Brain
+      {/* Trio header */}
+      <div className="mb-10">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+          Test Your Brain · Cognetivity SDK · 2-Min Assessment
         </p>
         <h2
           id="cognitive-test-heading"
-          className="text-4xl lg:text-5xl font-bold mb-3"
-          style={{ color: "var(--color-ink)", letterSpacing: "var(--letter-spacing-premium-title)" }}
+          className="brand-h2 text-black mb-3 max-w-[24ch]"
+          style={{ letterSpacing: "-0.02em" }}
         >
-          Measure Your Cognitive Performance
+          Measure your cognitive performance.
         </h2>
-        <p
-          className="text-xl lg:text-2xl opacity-80"
-          style={{ color: "var(--color-ink)", lineHeight: "var(--premium-font-body-leading)" }}
-        >
-          A short version of the full cognitive test in the CONKA app
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          Short version · In-app full test · Clinically derived
         </p>
       </div>
 
       {/* Content Area - Changes based on state */}
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-start">
         {/* IDLE STATE */}
         {testState === "idle" && (
           <div className="w-full max-w-2xl">
             <CognitiveTestIdleCard onStart={handleStartTest} />
-            <BenefitsRow />
+            <BenefitsSpecStrip />
           </div>
         )}
 
         {/* EMAIL STATE */}
         {testState === "email" && (
           <div className="w-full max-w-2xl">
-            <div className="premium-card-soft premium-card-soft-stroke p-10" style={{ color: "var(--color-ink)" }}>
+            <div className="bg-white border border-black/12 p-6 lg:p-10">
               <EmailCaptureForm
                 onSubmit={handleEmailSubmit}
                 onBack={handleBackToIdle}
               />
             </div>
-            <BenefitsRow />
+            <BenefitsSpecStrip />
           </div>
         )}
 
         {/* TESTING STATE */}
         {testState === "testing" && (
           <div className="w-full">
-            <div
-              className="p-0 h-[650px] overflow-hidden relative rounded-[var(--premium-radius-card)] border border-[var(--color-premium-stroke)]"
-              style={{ background: "var(--color-premium-bg-soft)" }}
-            >
+            {/* Top spec bar */}
+            <div className="flex items-center justify-between border border-black/12 border-b-0 bg-white px-4 py-2.5">
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/50 tabular-nums">
+                Fig. 07 · Cognetivity SDK
+              </p>
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#1B2757] tabular-nums flex items-center gap-2">
+                <span className="inline-block w-1.5 h-1.5 bg-[#1B2757] animate-pulse" />
+                Live session · In progress
+              </p>
+            </div>
+
+            {/* SDK frame */}
+            <div className="relative h-[650px] overflow-hidden border border-black/12 bg-[#f5f5f5]">
               <div
                 className="absolute top-0 left-0"
                 style={{
@@ -199,12 +173,33 @@ export default function CognitiveTestSection({
                 />
               </div>
             </div>
-            <div className="flex justify-center gap-8 mt-6 text-sm opacity-70" style={{ color: "var(--color-ink)" }}>
-              <span>Press J for animals</span>
-              <span>•</span>
-              <span>Press F for anything else</span>
-              <span>•</span>
-              <span>Speed and accuracy both count</span>
+
+            {/* Bottom spec strip */}
+            <div className="grid grid-cols-3 gap-0 border border-black/12 border-t-0 bg-white">
+              <div className="p-4 border-r border-black/8">
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                  Animals
+                </p>
+                <p className="font-mono text-sm font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+                  Press J
+                </p>
+              </div>
+              <div className="p-4 border-r border-black/8">
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                  Anything else
+                </p>
+                <p className="font-mono text-sm font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+                  Press F
+                </p>
+              </div>
+              <div className="p-4">
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/40 leading-none">
+                  Scored on
+                </p>
+                <p className="font-mono text-sm font-bold tabular-nums text-[#1B2757] mt-2 leading-none">
+                  Speed + Accuracy
+                </p>
+              </div>
             </div>
           </div>
         )}
@@ -225,13 +220,13 @@ export default function CognitiveTestSection({
             />
             <CognitiveTestRecommendation result={testResult} />
             <CognitiveTestAppPromo />
-            <div className="flex justify-center">
+            <div className="flex justify-start">
               <button
                 onClick={handleRetakeTest}
-                className="px-8 py-3 font-bold rounded-[var(--premium-radius-interactive)] border border-[var(--color-ink)] bg-transparent hover:bg-[var(--color-ink)] hover:text-[var(--color-bone)] transition-colors"
-                style={{ color: "var(--color-ink)" }}
+                className="inline-flex items-center gap-3 bg-white border border-black/25 text-[#1B2757] font-mono text-[11px] uppercase tracking-[0.2em] tabular-nums px-6 py-4 lab-clip-tr transition-colors hover:border-[#1B2757] hover:bg-[#1B2757] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757] focus-visible:ring-offset-2"
               >
-                Play Again
+                <span>Play again</span>
+                <span aria-hidden>↻</span>
               </button>
             </div>
           </div>

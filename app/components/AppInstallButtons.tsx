@@ -5,12 +5,13 @@ interface AppInstallButtonsProps {
   buttonClassName?: string;
   iconSize?: number;
   inverted?: boolean;
+  /** 'gradient' (legacy premium) | 'clinical' (navy, square, mono) */
+  variant?: "gradient" | "clinical";
 }
 
 const APP_STORE_URL = "https://apps.apple.com/gb/app/conka-app/id6450399391";
 const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.conka.conkaApp&hl=en_GB";
 
-// Official App Store icon (rounded square with stylized "A")
 const AppStoreIcon = ({ size }: { size: number }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +24,6 @@ const AppStoreIcon = ({ size }: { size: number }) => (
   </svg>
 );
 
-// Official Google Play Store icon (triangle play button)
 const PlayStoreIcon = ({ size }: { size: number }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,43 @@ export function AppInstallButtons({
   buttonClassName = "",
   iconSize = 20,
   inverted = false,
+  variant = "gradient",
 }: AppInstallButtonsProps) {
+  if (variant === "clinical") {
+    return (
+      <div className={`flex flex-row flex-wrap gap-3 items-center ${className}`}>
+        <a
+          href={APP_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Download CONKA app from the App Store"
+          className={`group relative inline-flex items-center gap-2.5 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white bg-[#1B2757] hover:bg-[#151f45] transition-colors lab-clip-tr ${buttonClassName}`}
+        >
+          <AppStoreIcon size={iconSize} />
+          <span>App Store</span>
+          <span aria-hidden className="text-white/50">
+            ↗
+          </span>
+        </a>
+        <a
+          href={PLAY_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Download CONKA app from Google Play"
+          className={`group relative inline-flex items-center gap-2.5 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.2em] text-[#1B2757] bg-white border border-[#1B2757] hover:bg-[#1B2757]/5 transition-colors lab-clip-tr ${buttonClassName}`}
+        >
+          <PlayStoreIcon size={iconSize} />
+          <span>Play Store</span>
+          <span aria-hidden className="text-[#1B2757]/60">
+            ↗
+          </span>
+        </a>
+      </div>
+    );
+  }
+
+  // Legacy gradient variant (unchanged — still used by /why-conka)
+  void inverted;
   return (
     <div className={`flex flex-row flex-wrap gap-4 justify-center items-center ${className}`}>
       <a
