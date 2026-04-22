@@ -80,7 +80,7 @@ export default function LandingHero() {
       </div>
 
       {/* Desktop — content left, asset right */}
-      <div className="hidden lg:grid lg:grid-cols-[1fr_1fr] lg:gap-12 xl:gap-16 lg:items-center">
+      <div className="hidden lg:grid lg:grid-cols-[1fr_2fr] lg:gap-12 xl:gap-16 lg:items-center">
         {/* Left — eyebrow, title, CTA, stats */}
         <div className="flex flex-col items-start">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-black/55 tabular-nums mb-5">
@@ -102,14 +102,14 @@ export default function LandingHero() {
         </div>
 
         {/* Right — asset with figure plates */}
-        <div className="relative w-full aspect-[4/5] border border-black/12 overflow-hidden bg-[#f5f5f5]">
+        <div className="relative w-full aspect-[4/3] border border-black/12 overflow-hidden bg-[#f5f5f5]">
           <Image
             src="/lifestyle/CreationOfConkaBlack.jpg"
             alt="Two hands exchanging a CONKA brain performance shot"
             fill
             priority
             fetchPriority="high"
-            sizes="(max-width: 1024px) 100vw, 45vw"
+            sizes="(max-width: 1024px) 100vw, 60vw"
             className="object-cover object-center"
           />
           <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
