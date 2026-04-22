@@ -6,6 +6,30 @@
 
 ## April 2026
 
+### 2026-04-22 -- /app hero unified responsive layout + download section phone asset
+
+Iterated the `/app` hero on an experimentation branch. Replaced the split mobile/desktop implementations with a single responsive layout mirroring `OurStoryHero` (stacked on mobile, 60/40 grid on desktop) and swapped the phone-mockup hero for a landscape lifestyle asset. `AppDownloadSection` got the old phone render added on the left as a separate figure frame, and its outer card wrapper was removed so the asset and copy sit as siblings.
+
+**`AppHero` (`app/components/app/AppHero.tsx`):**
+- Collapsed the split mobile/desktop trees into one layout: `flex flex-col` on mobile, `lg:grid lg:grid-cols-[3fr_2fr] lg:items-center` on desktop. Same copy and hierarchy render at every breakpoint, so the two views can no longer drift apart.
+- New asset: landscape `/app/NothingAppRing.jpg` inside a `lg:aspect-[3/2]` hairline frame on `bg-[#f5f5f5]`. Plates `Fig. 01` top-left, `The Future In Your Hands` bottom-right.
+- Copy refresh: eyebrow `Brain Performance Technology`, H1 `The Gold Standard of Cognitive Testing`, mono sub `3-min test · Wellness log · Measurable progress`, body `This isn't an IQ test. It measures how efficiently your brain processes information, tracked over time. Most brands ask you to trust their claims. We hand you the instrument to see CONKA working for yourself.` Meta line under CTAs trimmed to `Free to use`.
+- Install buttons: passed `flex-1 justify-center whitespace-nowrap !text-[10px] !tracking-[0.16em] !px-4 !gap-2` via `buttonClassName` + `iconSize={16}` so iOS and Android share a single row, Play Store cannot wrap, and the pair caps at `max-w-md`.
+- Dead code removed: `STATS` array, `appHeroFloat` keyframe, `app-hero-mount-left` / `app-hero-mount-right` / `app-hero-float` classes, `order-1`/`order-2` shuffling.
+
+**`AppDownloadSection` (`app/components/app/AppDownloadSection.tsx`):**
+- Outer `bg-white border border-black/12 p-6 lg:p-10` card wrapper dropped. Phone asset and copy now live as siblings inside a `lg:grid-cols-[1fr_1fr]` grid.
+- Left cell: `/app/AppConkaRing.png` (the old hero phone render) inside a `bg-[#f5f5f5]` hairline frame, `aspect-[4/5]` on mobile, `lg:aspect-[5/6]` on desktop, with a gentle `appDownloadFloat` animation.
+- Plates: `Fig. 07` top-left, `App Interface` bottom-right. Other page assets keep their existing figure numbers for now.
+
+**Assets:**
+- `public/app/NothingAppRing.jpg` (new) - landscape hero photo.
+- `public/app/AppConkaRing.png` (updated).
+
+**Why:** Previous `/app` hero had mobile and desktop diverging on both copy and structure (different headlines, stats on desktop only, full-bleed image on mobile only). Collapsing to a single layout guarantees message parity and removes a whole branch of conditional rendering. The new "not an IQ test" body positions the app around information-processing efficiency and leads with a show-don't-tell stance ("we give you the instrument, not just claims") that differentiates CONKA from supplement marketing in general. `AppDownloadSection` gained visual weight by bringing the phone render back into the conversion surface rather than leaving it as a text-only closing card.
+**Branch:** `app-page-experimentation` (exploratory)
+**Commit:** `efb32aa`
+
 ### 2026-04-21 -- Navigation, footer, /why-conka clinical refactor + brand-base.css reorganisation
 
 Pulled the last three site-wide surfaces -- desktop + mobile navigation, the global footer, and `/why-conka` -- onto the clinical grammar, then reorganised `app/brand-base.css` around the clinical-vs-legacy split so the next session can see at a glance what is the default and what is legacy carry-over.
