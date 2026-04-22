@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { formulaComparison } from "@/app/lib/scienceData";
-import { FORMULA_COLORS } from "@/app/lib/productColors";
 
 interface FlowVsClearProps {
   isMobile?: boolean;
@@ -24,61 +23,72 @@ export default function FlowVsClear({ isMobile = false }: FlowVsClearProps) {
     <div>
       {/* Header */}
       <div className="mb-8 lg:mb-10">
-        <p className="brand-caption uppercase tracking-widest text-black mb-3">
-          Choose Your Formula
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+          Formula Comparison · 02 Formulas · 05 Pillars
         </p>
-        <h2 className="brand-h2 mb-0 tracking-tight">Flow vs Clear</h2>
-        <p className="brand-body text-base lg:text-lg mt-2 text-black">
-          Two formulas. Five pillars. Complete coverage together.
+        <h2
+          className="brand-h2 text-black mb-2"
+          style={{ letterSpacing: "-0.02em" }}
+        >
+          Flow vs Clear
+        </h2>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          Two formulas · Distinct targets · Complete coverage together
         </p>
       </div>
 
       {/* Formula cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-6">
-        {formulaComparison.map((formula) => {
-          const colors = FORMULA_COLORS[formula.formula];
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 mb-4">
+        {formulaComparison.map((formula, idx) => {
           const image = FORMULA_IMAGES[formula.formula];
           return (
             <div
               key={formula.formula}
-              className="brand-card-bordered overflow-hidden"
+              className="bg-white border border-black/12 overflow-hidden flex flex-col"
             >
+              {/* Header row */}
+              <div className="flex items-center justify-between px-4 py-2.5 border-b border-black/8">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums">
+                  F{String(idx + 1).padStart(2, "0")} · {formula.formula}
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1B2757] tabular-nums">
+                  {formula.name}
+                </span>
+              </div>
+
               {/* Image */}
-              <div className="relative aspect-[16/9] lg:aspect-[3/2]">
+              <div className="relative aspect-[16/9] lg:aspect-[3/2] bg-white overflow-hidden">
                 <Image
                   src={image.src}
                   alt={image.alt}
                   fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  sizes={isMobile ? "95vw" : "50vw"}
                   className="object-cover"
                 />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent"
+                  aria-hidden
+                />
+                <div className="absolute bottom-3 left-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums">
+                  Fig. {String(idx + 3).padStart(2, "0")} · {formula.name}
+                </div>
               </div>
 
               {/* Content */}
-              <div className="p-5 lg:p-8">
-                {/* Formula name + accent bar */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className="w-1 h-8 rounded-full"
-                    style={{ backgroundColor: colors.hex }}
-                  />
-                  <div>
-                    <h3 className="brand-h3 mb-0 text-lg lg:text-xl">
-                      {formula.name}
-                    </h3>
-                    <p className="brand-caption text-black">
-                      {formula.tagline}
-                    </p>
-                  </div>
-                </div>
+              <div className="p-5 lg:p-6 flex-1 flex flex-col">
+                <h3 className="text-lg lg:text-xl font-semibold leading-tight text-black mb-1">
+                  {formula.name}
+                </h3>
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/55 tabular-nums mb-4">
+                  {formula.tagline}
+                </p>
 
                 {/* Primary pillars */}
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-1.5 mb-4">
                   {formula.primaryPillars.map((pillar) => (
                     <span
                       key={pillar}
-                      className="brand-caption px-3 py-1 rounded-full border border-black/10"
-                      style={{ backgroundColor: `${colors.hex}10` }}
+                      className="font-mono text-[10px] uppercase tracking-[0.16em] tabular-nums px-2.5 py-1 border border-black/12 bg-white text-black/70"
                     >
                       {pillar}
                     </span>
@@ -86,7 +96,7 @@ export default function FlowVsClear({ isMobile = false }: FlowVsClearProps) {
                 </div>
 
                 {/* Description */}
-                <p className="brand-body text-sm lg:text-base text-black">
+                <p className="text-sm text-black/75 leading-relaxed">
                   {formula.description}
                 </p>
               </div>
@@ -96,15 +106,38 @@ export default function FlowVsClear({ isMobile = false }: FlowVsClearProps) {
       </div>
 
       {/* Combined banner */}
-      <div
-        className="brand-card-bordered p-4 lg:p-6 text-center"
-        style={{ backgroundColor: "rgba(64, 88, 187, 0.04)" }}
-      >
-        <p className="brand-body text-base lg:text-lg text-black">
-          <span className="font-semibold">Take both</span> for complete
-          coverage across all five pillars. Circulation is the shared foundation
-          in both formulas.
-        </p>
+      <div className="bg-white border border-black/12 p-5 lg:p-6">
+        <div className="flex items-start gap-4">
+          <div
+            className="w-10 h-10 flex items-center justify-center text-white flex-shrink-0"
+            style={{ backgroundColor: "#1B2757" }}
+            aria-hidden
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <line x1="12" y1="5" x2="12" y2="19" />
+            </svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-1 tabular-nums">
+              Balance Protocol · F01 + F02
+            </p>
+            <p className="text-sm lg:text-base text-black leading-relaxed">
+              <span className="font-semibold">Take both</span> for complete
+              coverage across all five pillars. Circulation is the shared
+              foundation in both formulas.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

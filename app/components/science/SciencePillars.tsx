@@ -22,33 +22,29 @@ export default function SciencePillars({ isMobile = false }: SciencePillarsProps
   };
 
   return (
-    <div className="flex flex-col gap-6 md:gap-10">
-      <div>
-        <p className="brand-caption uppercase tracking-widest mb-2">
-          The Five Pillars
+    <div>
+      <div className="mb-8 lg:mb-10">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
+          The Five Pillars · 05 Systems · Interconnected
         </p>
         <h2
-          className={`brand-h2 font-bold ${
-            isMobile ? "text-2xl" : "text-3xl lg:text-4xl"
-          }`}
+          className="brand-h2 text-black mb-2"
           style={{ letterSpacing: "-0.02em" }}
         >
-          How Our Formulas Work
+          How our formulas work
         </h2>
-        <p
-          className={`brand-body mt-2 ${
-            isMobile ? "text-base" : "text-lg"
-          }`}
-        >
-          Five interconnected systems that power cognitive performance
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          Five systems · Mechanism-first · PubMed-linked
         </p>
       </div>
 
-      <div className="space-y-4">
-        {sciencePillars.map((pillar) => (
+      <div className="flex flex-col gap-3">
+        {sciencePillars.map((pillar, idx) => (
           <PillarCard
             key={pillar.id}
             pillar={pillar}
+            index={idx}
+            total={sciencePillars.length}
             isExpanded={expandedId === pillar.id}
             onToggle={() => handleToggle(pillar.id)}
             isMobile={isMobile}
