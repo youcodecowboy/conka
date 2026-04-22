@@ -10,9 +10,14 @@ interface IngredientsPanelProps {
   onClose: () => void;
 }
 
-const PRODUCT_LABEL: Record<"flow" | "clear", string> = {
-  flow: "CONKA Flow — Ingredients",
-  clear: "CONKA Clear — Ingredients",
+const FORMULA_CODE: Record<"flow" | "clear", "F-01" | "F-02"> = {
+  flow: "F-01",
+  clear: "F-02",
+};
+
+const PRODUCT_NAME: Record<"flow" | "clear", string> = {
+  flow: "Flow",
+  clear: "Clear",
 };
 
 export default function IngredientsPanel({
@@ -22,16 +27,12 @@ export default function IngredientsPanel({
 }: IngredientsPanelProps) {
   const onCloseRef = useRef(onClose);
 
-  // Keep onClose reference fresh without re-triggering the effect below.
   useEffect(() => {
     onCloseRef.current = onClose;
   });
 
   useEffect(() => {
     if (!isOpen) return;
-    // Capture focus source without calling .focus() on the dialog — focusing
-    // inside a freshly-mounted fixed node triggers scrollIntoView on iOS Safari
-    // and jumps the viewport.
     const previouslyFocused = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
 
@@ -43,23 +44,21 @@ export default function IngredientsPanel({
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKey);
-      // Defer focus restoration one frame so it does not re-trigger
-      // scrollIntoView while the close animation unmounts the dialog.
       requestAnimationFrame(() => previouslyFocused?.focus?.());
     };
   }, [isOpen]);
 
-  // Panel only opens on a user click inside a Client Component, so by this
-  // point we are always in the browser — no SSR guard needed.
   if (!isOpen || !product) return null;
 
   const facts = getSupplementFacts(product);
   const hasNutrients = facts.nutrients.length > 0;
+  const formulaCode = FORMULA_CODE[product];
+  const productName = PRODUCT_NAME[product];
 
   return createPortal(
     <>
       <div
-        className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 z-[60] bg-black/50 transition-opacity"
         onClick={onClose}
         role="button"
         aria-label="Close ingredients panel"
@@ -70,99 +69,160 @@ export default function IngredientsPanel({
         role="dialog"
         aria-modal="true"
         aria-labelledby="ingredients-panel-title"
-        className="fixed z-[70] bg-white shadow-2xl animate-slide-up overflow-y-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-h-[85vh] rounded-[var(--brand-radius-card)] lg:w-full lg:max-w-xl"
+        className="brand-clinical fixed z-[70] bg-white border border-black/12 animate-slide-up flex flex-col bottom-0 left-0 right-0 top-[10vh] lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:right-auto lg:w-full lg:max-w-xl lg:max-h-[85vh]"
       >
-        {/* Sticky header */}
-        <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-black/6 px-5 py-4 lg:px-6 flex items-center justify-between">
-          <h2
-            id="ingredients-panel-title"
-            className="text-lg lg:text-xl font-semibold text-[var(--brand-black)] tracking-[var(--brand-h2-tracking)]"
-          >
-            {PRODUCT_LABEL[product]}
-          </h2>
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4 px-5 pt-5 pb-4 lg:px-6 lg:pt-6 border-b border-black/12">
+          <div className="min-w-0">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-2">
+              // Spec · Formulation · Doc-IP-001
+            </p>
+            <h2
+              id="ingredients-panel-title"
+              className="text-xl lg:text-2xl font-medium text-black leading-tight mb-2"
+              style={{ letterSpacing: "-0.02em" }}
+            >
+              Ingredients panel.
+            </h2>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+              {formulaCode} · CONKA {productName} · Serving {facts.servingSize} · Made in UK
+            </p>
+          </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-black/5 active:bg-black/10 transition-colors"
+            className="lab-clip-tr flex h-11 w-11 items-center justify-center border border-black/12 bg-white text-black/70 hover:bg-[#1B2757] hover:text-white hover:border-[#1B2757] transition-colors shrink-0"
           >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-              <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
 
-        <div className="px-5 pt-5 pb-8 lg:p-6 lg:pb-8">
-          <p className="text-sm lg:text-base text-black/70 leading-relaxed">
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto px-5 py-5 lg:px-6 lg:py-6">
+          <p className="text-sm lg:text-base text-black/70 leading-relaxed max-w-[60ch]">
             {facts.ingredientsParagraph}
           </p>
 
-          <p className="mt-4 text-xs uppercase tracking-wider text-black/40 font-semibold">
-            Serving size: {facts.servingSize}
+          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums">
+            Listed in descending order of concentration
           </p>
 
-          <p className="mt-1 text-[11px] text-black/45 leading-relaxed">
-            Ingredients listed in descending order of concentration.
-          </p>
-
-          <div className="mt-4 rounded-[var(--brand-radius-container)] border border-black/10 overflow-hidden">
-            {/* Nutrients rows (Clear only) */}
-            {hasNutrients && (
-              <>
-                <div className="px-4 py-2 bg-black/[0.03] border-b border-black/10 grid grid-cols-[1fr_auto] gap-3 text-[11px] uppercase tracking-wider text-black/50 font-semibold">
-                  <span>Vitamins &amp; Nutrients</span>
-                  <span className="text-right">%NRV</span>
-                </div>
-                {facts.nutrients.map((n) => (
+          {/* Nutrients (Clear only) */}
+          {hasNutrients && (
+            <div className="mt-5 flex flex-col">
+              <div className="flex items-center justify-between px-4 py-2.5 border border-black/12 border-b-0 bg-white">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums">
+                  {formulaCode} · Vitamins & nutrients
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1B2757] tabular-nums">
+                  %NRV
+                </span>
+              </div>
+              <div className="border border-black/12">
+                {facts.nutrients.map((n, idx) => (
                   <div
                     key={n.name}
-                    className="grid grid-cols-[1fr_auto] gap-3 px-4 py-3 border-b border-black/6 text-sm"
+                    className={`grid grid-cols-[1fr_auto] gap-3 px-4 py-3 ${
+                      idx < facts.nutrients.length - 1 ? "border-b border-black/8" : ""
+                    }`}
                   >
-                    <div>
-                      <div className="text-black font-medium">{n.name}</div>
-                      <div className="text-xs text-black/50 mt-0.5">{n.source}</div>
+                    <div className="min-w-0">
+                      <div className="text-sm text-black font-medium">{n.name}</div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums mt-1">
+                        {n.source}
+                      </div>
                     </div>
-                    <div className="text-right text-black tabular-nums self-center">{n.nrv}</div>
+                    <div className="font-mono text-sm text-[#1B2757] tabular-nums self-center">
+                      {n.nrv}
+                    </div>
                   </div>
                 ))}
-              </>
-            )}
-
-            {/* Actives rows */}
-            <div className="px-4 py-2 bg-black/[0.03] border-b border-black/10 text-[11px] uppercase tracking-wider text-black/50 font-semibold">
-              Active Ingredients
-            </div>
-            {facts.actives.map((a) => (
-              <div
-                key={a.name}
-                className="px-4 py-3 border-b border-black/6 last:border-b-0 text-sm"
-              >
-                <div className="text-black font-medium">{a.name}</div>
-                <div className="text-xs text-black/50 mt-0.5">{a.source}</div>
               </div>
-            ))}
+            </div>
+          )}
+
+          {/* Actives */}
+          <div className="mt-5 flex flex-col">
+            <div className="flex items-center justify-between px-4 py-2.5 border border-black/12 border-b-0 bg-white">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums">
+                {formulaCode} · Active ingredients
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1B2757] tabular-nums">
+                {String(facts.actives.length).padStart(2, "0")} actives
+              </span>
+            </div>
+            <div className="border border-black/12">
+              {facts.actives.map((a, idx) => (
+                <div
+                  key={a.name}
+                  className={`flex items-baseline gap-3 px-4 py-3 ${
+                    idx < facts.actives.length - 1 ? "border-b border-black/8" : ""
+                  }`}
+                >
+                  <span className="font-mono text-[10px] text-black/35 tabular-nums shrink-0 w-6">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm text-black font-medium">{a.name}</div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums mt-1">
+                      {a.source}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Base ingredients */}
-          <div className="mt-4">
-            <p className="text-[11px] uppercase tracking-wider text-black/50 font-semibold mb-2">
-              Base
-            </p>
-            <ul className="text-sm text-black/70 space-y-1">
-              {facts.base.map((b) => (
-                <li key={b.name} className="flex justify-between gap-3">
-                  <span>{b.name}</span>
-                  <span className="text-black/40 text-xs">{b.role}</span>
-                </li>
+          {/* Base */}
+          <div className="mt-5 flex flex-col">
+            <div className="flex items-center justify-between px-4 py-2.5 border border-black/12 border-b-0 bg-white">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums">
+                {formulaCode} · Base & carriers
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1B2757] tabular-nums">
+                {String(facts.base.length).padStart(2, "0")} items
+              </span>
+            </div>
+            <div className="border border-black/12">
+              {facts.base.map((b, idx) => (
+                <div
+                  key={b.name}
+                  className={`flex items-center justify-between gap-3 px-4 py-3 ${
+                    idx < facts.base.length - 1 ? "border-b border-black/8" : ""
+                  }`}
+                >
+                  <span className="text-sm text-black">{b.name}</span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums text-right">
+                    {b.role}
+                  </span>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
 
           {hasNutrients && (
-            <p className="mt-3 text-[11px] text-black/45 leading-relaxed">
-              †† EFSA-authorised health claim. NRV = Nutrient Reference Value (EU minimum for labelling).
+            <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums leading-relaxed">
+              †† EFSA-authorised health claim · NRV = Nutrient Reference Value (EU minimum for labelling)
             </p>
           )}
+
+          <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums">
+            Source · FORMULATION_SPEC · Last verified 2026-04
+          </p>
         </div>
       </div>
     </>,
