@@ -8,96 +8,54 @@ import type { NavigationMobileProps } from "./types";
 
 const PRODUCTS = [
   {
+    code: "F-03",
     name: "Both (Flow + Clear)",
-    description: "The full daily system",
+    shortLabel: "Flow + Clear",
+    description: "The full daily system.",
     href: "/protocol/3",
     image: getProtocolImage("3"),
     alt: "CONKA Flow and Clear",
   },
   {
+    code: "F-01",
     name: "CONKA Flow",
-    description: "Morning focus & energy",
+    shortLabel: "Flow",
+    description: "Morning focus & energy.",
     href: "/conka-flow",
     image: getFormulaImage("01"),
     alt: "CONKA Flow",
   },
   {
+    code: "F-02",
     name: "CONKA Clear",
-    description: "Afternoon clarity & recovery",
+    shortLabel: "Clear",
+    description: "Afternoon clarity & recovery.",
     href: "/conka-clarity",
     image: getFormulaImage("02"),
     alt: "CONKA Clear",
   },
 ];
 
-const LEARN_MORE = [
-  { label: "What is in CONKA Flow and Clear?", href: "/ingredients" },
-  { label: "Why CONKA?", href: "/why-conka" },
-  { label: "What is the CONKA App?", href: "/app" },
-];
-
-const NAV_LINKS = [
+const MENU_GROUPS: { title: string; links: { label: string; href: string }[] }[] = [
   {
-    label: "The Science",
-    href: "/science",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0">
-        <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 1 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-      </svg>
-    ),
+    title: "Learn more",
+    links: [
+      { label: "Ingredients", href: "/ingredients" },
+      { label: "Our Story", href: "/our-story" },
+      { label: "Why CONKA", href: "/why-conka" },
+    ],
   },
   {
-    label: "Ingredients",
-    href: "/ingredients",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0">
-        <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2" />
-        <path d="M8.5 2h7" />
-      </svg>
-    ),
+    title: "Science",
+    links: [
+      { label: "Science", href: "/science" },
+      { label: "Ingredients", href: "/ingredients" },
+      { label: "Case Studies", href: "/case-studies" },
+    ],
   },
   {
-    label: "Case Studies",
-    href: "/case-studies",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-        <polyline points="22 4 12 14.01 9 11.01" />
-      </svg>
-    ),
-  },
-  {
-    label: "Why CONKA?",
-    href: "/why-conka",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-        <line x1="12" y1="17" x2="12.01" y2="17" />
-      </svg>
-    ),
-  },
-  {
-    label: "CONKA App",
-    href: "/app",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0">
-        <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-        <path d="M3 9h18" />
-        <path d="M9 21V9" />
-      </svg>
-    ),
-  },
-  {
-    label: "Our Story",
-    href: "/our-story",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 flex-shrink-0">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
+    title: "Technology",
+    links: [{ label: "CONKA App", href: "/app" }],
   },
 ];
 
@@ -111,29 +69,27 @@ export default function NavigationMobile({
 
   return (
     <>
-      {/* Founding Member Banner */}
       {!hideBanner && bannerConfig && <Banner config={bannerConfig} />}
 
-      {/* Mobile Header - Always visible; tight gutter on mobile */}
-      <header className="relative w-full bg-[var(--background)] border-b border-[var(--color-premium-stroke)]">
+      <header className="relative w-full bg-white border-b border-black/12">
         <div className="px-[var(--premium-gutter-mobile-tight)] md:px-16 py-1 flex items-center justify-between min-h-[4.5rem]">
-          {/* Left: Hamburger */}
           <div className="xl:hidden w-10 flex-shrink-0 flex items-center justify-start">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 hover:opacity-70 transition-all"
+              className="p-2 text-black/70 hover:text-[#1B2757] transition-colors"
               aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeWidth="1.75"
+                strokeLinecap="square"
+                strokeLinejoin="miter"
               >
                 {mobileMenuOpen ? (
                   <>
@@ -151,7 +107,6 @@ export default function NavigationMobile({
             </button>
           </div>
 
-          {/* Center: Logo */}
           <a
             href="/"
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center pointer-events-auto"
@@ -167,14 +122,23 @@ export default function NavigationMobile({
             />
           </a>
 
-          {/* Right: Account + Cart */}
-          <div className="xl:hidden min-w-[5.5rem] flex-shrink-0 flex items-center justify-end gap-2">
+          <div className="xl:hidden min-w-[5.5rem] flex-shrink-0 flex items-center justify-end gap-1">
             <a
               href="/account/login"
-              className="p-2 hover:opacity-70 transition-all"
+              className="p-2 text-black/70 hover:text-[#1B2757] transition-colors"
               aria-label="Account"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="square"
+                strokeLinejoin="miter"
+              >
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
               </svg>
@@ -184,16 +148,26 @@ export default function NavigationMobile({
                 openCart();
                 setMobileMenuOpen(false);
               }}
-              className="p-2 hover:opacity-70 transition-all relative"
+              className="p-2 text-black/70 hover:text-[#1B2757] transition-colors relative"
               aria-label="Open cart"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="square"
+                strokeLinejoin="miter"
+              >
                 <circle cx="9" cy="21" r="1" />
                 <circle cx="20" cy="21" r="1" />
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
               </svg>
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute top-0.5 right-0.5 bg-[#1B2757] text-white font-mono text-[9px] font-bold tabular-nums min-w-[16px] h-4 px-1 flex items-center justify-center leading-none">
                   {itemCount > 99 ? "99+" : itemCount}
                 </span>
               )}
@@ -204,113 +178,131 @@ export default function NavigationMobile({
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="xl:hidden fixed inset-0 z-40 bg-[var(--background)] flex flex-col">
-          <div className="flex-1 overflow-y-auto p-6 pb-16 flex flex-col">
-            {/* Header */}
-            <div className="flex justify-between items-center mb-6">
-              <a href="/" className="flex items-center">
+        <div className="xl:hidden fixed inset-0 z-40 bg-white flex flex-col">
+          <div className="flex-1 overflow-y-auto pb-16">
+            {/* Header bar */}
+            <div className="flex justify-between items-center px-5 py-4 border-b border-black/12">
+              <a
+                href="/"
+                className="flex items-center"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="CONKA home"
+              >
                 <Image
                   src="/conka-logo.webp"
                   alt="CONKA logo"
                   width={440}
                   height={112}
-                  className="h-7 w-auto invert"
+                  className="h-7 w-auto"
                   priority
                 />
               </a>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2"
+                className="p-2 text-black/70"
                 aria-label="Close menu"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
+                >
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
             </div>
 
-            <div className="mt-4">
-              {/* Shop by Product */}
-              <p className="font-clinical text-xs uppercase tracking-wide opacity-50 mb-3">
-                Shop by Product
+            {/* Shop by Product */}
+            <div className="px-5 pt-6">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-4">
+                01 · Shop by product
               </p>
-              <div className="flex flex-col gap-2 mb-6">
+              <div className="flex flex-col gap-4">
                 {PRODUCTS.map((product) => (
                   <a
                     key={product.href}
                     href={product.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-4 p-3 border border-[var(--color-premium-stroke)] rounded-[var(--brand-radius-card)] bg-white"
+                    className="flex flex-col border border-black/12 bg-white hover:border-[#1B2757] transition-colors overflow-hidden"
                   >
-                    <div className="relative w-28 h-28 rounded-xl overflow-hidden flex-shrink-0 border border-black/6">
+                    <div className="relative aspect-[4/3] w-full bg-[#f5f5f5] overflow-hidden">
                       <Image
                         src={product.image}
                         alt={product.alt}
                         fill
                         className="object-cover"
-                        sizes="112px"
+                        sizes="(max-width: 640px) 100vw, 50vw"
                       />
+                      <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+                        {product.shortLabel}
+                      </span>
                     </div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-sm text-black">
-                        {product.name}
-                      </p>
-                      <p className="font-clinical text-xs text-black/50 mt-0.5">
-                        {product.description}
-                      </p>
+                    <div className="flex items-start justify-between gap-3 px-4 py-4">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-1">
+                          {product.code}
+                        </p>
+                        <p className="text-base font-semibold text-black">
+                          {product.name}
+                        </p>
+                        <p className="text-xs text-black/60 mt-1 leading-snug">
+                          {product.description}
+                        </p>
+                      </div>
+                      <span
+                        aria-hidden
+                        className="font-mono text-sm text-black/30 shrink-0 pt-1"
+                      >
+                        ↗
+                      </span>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 flex-shrink-0">
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg>
                   </a>
                 ))}
               </div>
+            </div>
 
-              {/* Learn More */}
-              <p className="font-clinical text-xs uppercase tracking-wide opacity-50 mb-3">
-                Learn More
-              </p>
-              <div className="flex flex-col gap-2 mb-6">
-                {LEARN_MORE.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-2.5 px-3 border border-[var(--color-premium-stroke)] rounded-[var(--brand-radius-card)] bg-white"
-                  >
-                    <span className="font-clinical text-sm">{link.label}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 flex-shrink-0">
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg>
-                  </a>
-                ))}
-              </div>
-
-              {/* Navigation */}
-              <div className="bg-neutral-100 py-4 px-4 -mx-6 mb-4">
-                <p className="font-clinical text-xs uppercase opacity-50 mb-3">
-                  Navigation
+            {/* Categorised groups */}
+            {MENU_GROUPS.map((group, groupIdx) => (
+              <div key={group.title} className="px-5 pt-8">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-4">
+                  {String(groupIdx + 2).padStart(2, "0")} · {group.title}
                 </p>
-                <nav className="flex flex-col gap-2">
-                  {NAV_LINKS.map((link) => (
+                <div className="border border-black/12 bg-white">
+                  {group.links.map((link, idx) => (
                     <a
-                      key={link.href}
+                      key={`${group.title}-${link.href}`}
                       href={link.href}
-                      className="flex items-center gap-2 py-2 px-3 bg-white border border-[var(--color-premium-stroke)] rounded-[var(--premium-radius-card)] hover:border-black/20 transition-all"
                       onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center justify-between px-4 py-4 ${
+                        idx < group.links.length - 1 ? "border-b border-black/8" : ""
+                      } hover:bg-[#f5f5f5] transition-colors`}
                     >
-                      {link.icon}
-                      <span className="font-clinical text-sm tracking-wide">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums text-black/75">
                         {link.label}
+                      </span>
+                      <span
+                        aria-hidden
+                        className="font-mono text-xs text-black/30"
+                      >
+                        ↗
                       </span>
                     </a>
                   ))}
-                </nav>
+                </div>
               </div>
-            </div>
+            ))}
+
+            {/* Footer meta */}
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/40 tabular-nums px-5 pt-8">
+              100-day guarantee · Free UK shipping · Cancel anytime
+            </p>
           </div>
         </div>
       )}

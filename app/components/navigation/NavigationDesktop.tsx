@@ -6,6 +6,14 @@ import { Banner } from "@/app/components/banner";
 import ShopMegaMenu from "./ShopMegaMenu";
 import type { NavigationDesktopProps } from "./types";
 
+const NAV_LINKS = [
+  { label: "Science", href: "/science" },
+  { label: "Ingredients", href: "/ingredients" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "CONKA App", href: "/app" },
+  { label: "Our Story", href: "/our-story" },
+];
+
 export default function NavigationDesktop({
   hideBanner,
   shopDropdownOpen,
@@ -25,14 +33,11 @@ export default function NavigationDesktop({
       }`}
       ref={shopDropdownRef}
     >
-      {/* Founding Member Banner */}
       {!hideBanner && bannerConfig && <Banner config={bannerConfig} />}
 
-      {/* Header - Edge to edge (nav does not use premium gutter/track) */}
-      <header className="w-full bg-[var(--background)] border-b border-[var(--color-premium-stroke)]">
+      <header className="w-full bg-white border-b border-black/12">
         <div className="px-6 md:px-16 py-1 md:py-4 flex items-center relative">
-          {/* Logo - Left */}
-          <a href="/" className="flex items-center">
+          <a href="/" className="flex items-center" aria-label="CONKA home">
             <Image
               src="/conka-logo.webp"
               alt="CONKA logo"
@@ -43,9 +48,7 @@ export default function NavigationDesktop({
             />
           </a>
 
-          {/* Shop + Navigation Links */}
-          <div className="hidden xl:flex items-center gap-6 ml-6">
-            {/* Shop Mega Menu */}
+          <div className="hidden xl:flex items-center gap-6 ml-10">
             <div
               className="relative"
               onMouseEnter={onShopAreaEnter}
@@ -53,18 +56,20 @@ export default function NavigationDesktop({
             >
               <button
                 onClick={() => setShopDropdownOpen(!shopDropdownOpen)}
-                className="px-6 py-1.5 rounded-full bg-transparent font-clinical text-sm border border-[var(--color-premium-stroke)] hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)] transition-all flex items-center gap-2"
+                aria-expanded={shopDropdownOpen}
+                aria-haspopup="true"
+                className="flex items-center gap-2 bg-white text-black border border-black/15 px-5 py-2 font-mono text-[11px] uppercase tracking-[0.2em] tabular-nums lab-clip-tr transition-colors hover:bg-[#1B2757] hover:text-white hover:border-[#1B2757]"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  strokeWidth="1.75"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
                 >
                   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
                   <line x1="3" y1="6" x2="21" y2="6" />
@@ -73,17 +78,15 @@ export default function NavigationDesktop({
                 Shop
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
+                  width="10"
+                  height="10"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className={`transition-transform ${
-                    shopDropdownOpen ? "rotate-180" : ""
-                  }`}
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
+                  className={`transition-transform ${shopDropdownOpen ? "rotate-180" : ""}`}
                 >
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
@@ -99,61 +102,37 @@ export default function NavigationDesktop({
               />
             </div>
 
-            <nav className="flex items-center gap-6">
-              <a
-                href="/science"
-                className="font-clinical text-sm tracking-wide border-b-2 border-transparent hover:border-current transition-colors pb-0.5"
-              >
-                The Science
-              </a>
-              <a
-                href="/ingredients"
-                className="font-clinical text-sm tracking-wide border-b-2 border-transparent hover:border-current transition-colors pb-0.5"
-              >
-                Ingredients
-              </a>
-              <a
-                href="/case-studies"
-                className="font-clinical text-sm tracking-wide border-b-2 border-transparent hover:border-current transition-colors pb-0.5"
-              >
-                Case Studies
-              </a>
-              <a
-                href="/app"
-                className="font-clinical text-sm tracking-wide border-b-2 border-transparent hover:border-current transition-colors pb-0.5"
-              >
-                CONKA App
-              </a>
-              <a
-                href="/our-story"
-                className="font-clinical text-sm tracking-wide border-b-2 border-transparent hover:border-current transition-colors pb-0.5"
-              >
-                Our Story
-              </a>
+            <nav className="flex items-center gap-7">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="font-mono text-[11px] uppercase tracking-[0.2em] tabular-nums text-black/65 hover:text-[#1B2757] transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
             </nav>
           </div>
 
-          {/* White Space */}
-          <div className="flex-1"></div>
+          <div className="flex-1" />
 
-          {/* Right: Account + Cart */}
-          <div className="hidden xl:flex items-center gap-4">
-            {/* Account Icon */}
+          <div className="hidden xl:flex items-center gap-2">
             <a
               href="/account/login"
-              className="p-2 hover:opacity-70 transition-all"
+              className="p-2 text-black/70 hover:text-[#1B2757] transition-colors"
               aria-label="Account"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeWidth="1.75"
+                strokeLinecap="square"
+                strokeLinejoin="miter"
               >
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
@@ -161,26 +140,26 @@ export default function NavigationDesktop({
             </a>
             <button
               onClick={openCart}
-              className="p-2 hover:opacity-70 transition-all relative"
+              className="p-2 text-black/70 hover:text-[#1B2757] transition-colors relative"
               aria-label="Open cart"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeWidth="1.75"
+                strokeLinecap="square"
+                strokeLinejoin="miter"
               >
                 <circle cx="9" cy="21" r="1" />
                 <circle cx="20" cy="21" r="1" />
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
               </svg>
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute top-0.5 right-0.5 bg-[#1B2757] text-white font-mono text-[9px] font-bold tabular-nums min-w-[16px] h-4 px-1 flex items-center justify-center leading-none">
                   {itemCount > 99 ? "99+" : itemCount}
                 </span>
               )}

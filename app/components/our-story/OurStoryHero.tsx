@@ -1,6 +1,26 @@
+import Image from "next/image";
+
 export function OurStoryHero() {
   return (
-    <div className="flex flex-col gap-5 lg:gap-6 max-w-3xl">
+    <div className="flex flex-col gap-8 lg:gap-16 lg:grid lg:grid-cols-[1fr_1fr] lg:items-center">
+      <div className="relative w-full aspect-[4/5] border border-black/12 overflow-hidden bg-[#f5f5f5]">
+        <Image
+          src="/lifestyle/FlowShadow.jpg"
+          alt="CONKA Flow bottle resting on its side casting a long shadow"
+          fill
+          priority
+          fetchPriority="high"
+          sizes="(max-width: 1024px) 100vw, 45vw"
+          className="object-cover object-center"
+        />
+        <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+          Fig. 00
+        </span>
+        <span className="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+          Origin
+        </span>
+      </div>
+
       <header>
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
           Our Story · Founders · Research · Mission

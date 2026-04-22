@@ -13,42 +13,37 @@ export default function WhyConkaPage() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen">
+    <div className="brand-clinical min-h-screen bg-white text-black flex flex-col">
       <Navigation />
 
       {isMobile === undefined ? (
         <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-pulse text-center">
-            <p className="font-clinical text-sm opacity-50">Loading...</p>
-          </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums">
+            // loading
+          </p>
         </div>
       ) : (
         <>
           {/* Hero */}
           <section
-            className="premium-section-luxury premium-hero-first premium-hero-with-top-air premium-section-reduced-bottom premium-bg-bone"
-            aria-label="Why CONKA"
+            className="brand-section brand-hero-first brand-bg-white"
+            aria-labelledby="why-conka-hero-heading"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               {isMobile ? <WhyConkaHeroMobile /> : <WhyConkaHero />}
             </div>
           </section>
 
-          {/* Why CONKA points — alternating light/dark with palette */}
+          {/* Why CONKA points — alternating white/tint for rhythm */}
           {whyConkaPoints.map((point) => {
             const isLight = point.theme === "light";
             return (
               <section
                 key={point.id}
-                className={`premium-section-luxury ${isLight ? "" : "text-white"}`}
-                style={{
-                  backgroundColor: isLight
-                    ? "var(--color-neuro-blue-light)"
-                    : "var(--color-neuro-blue-dark)",
-                }}
+                className={`brand-section ${isLight ? "brand-bg-white" : "brand-bg-tint"}`}
                 aria-label={point.headline}
               >
-                <div className="premium-track">
+                <div className="brand-track">
                   <WhyConkaSection
                     point={point}
                     totalPoints={whyConkaPoints.length}
@@ -61,10 +56,10 @@ export default function WhyConkaPage() {
 
           {/* Final CTA */}
           <section
-            className="premium-section-luxury premium-bg-ink text-white"
+            className="brand-section brand-bg-white"
             aria-label="Explore CONKA"
           >
-            <div className="premium-track">
+            <div className="brand-track">
               <WhyConkaCTA />
             </div>
           </section>

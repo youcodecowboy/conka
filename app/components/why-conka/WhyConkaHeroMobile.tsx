@@ -1,37 +1,45 @@
 "use client";
 
+import Image from "next/image";
+
 export function WhyConkaHeroMobile() {
   return (
-    <div className="flex flex-col gap-4">
-      <header>
-        <p className="premium-body-sm uppercase tracking-widest opacity-50 mb-2">
-          the reasons behind the formula
+    <div className="flex flex-col gap-6">
+      <div className="relative w-full aspect-[4/5] border border-black/12 overflow-hidden bg-[#f5f5f5]">
+        <Image
+          src="/lifestyle/ClearJeansTwo.jpg"
+          alt="CONKA Clear shot held at the hip"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+          priority
+        />
+        <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+          Fig. 00
+        </span>
+        <span className="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+          Overview
+        </span>
+      </div>
+      <div className="flex flex-col items-start text-left">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 tabular-nums mb-3">
+          // The CONKA framework · 07 reasons
         </p>
         <h1
-          className="premium-section-heading text-4xl font-bold mb-1 text-[var(--color-ink)]"
-          style={{ letterSpacing: "var(--letter-spacing-premium-title)" }}
+          id="why-conka-hero-heading"
+          className="brand-h1 text-black mb-3"
+          style={{ letterSpacing: "-0.02em" }}
         >
-          Why{" "}
-          <span
-            style={{
-              background: "var(--gradient-neuro-blue-accent)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            CONKA
-          </span>
-          ?
+          Why CONKA?
         </h1>
-        <p className="premium-body text-base opacity-60" style={{ maxWidth: "var(--premium-body-max-width)" }}>
-          CONKA could change your life. Here&apos;s why.
+        <p className="text-sm text-black/75 leading-relaxed mb-3">
+          CONKA could change your life. Below are the seven reasons high-performing
+          people choose research-backed cognitive enhancement.
         </p>
-        <p className="premium-body text-sm opacity-60 leading-relaxed mt-2" style={{ maxWidth: "var(--premium-body-max-width)" }}>
-          Here are the top seven reasons why so many smart people are choosing
-          CONKA&apos;s research-backed cognitive enhancement.
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+          32 PubMed studies · 25+ clinical trials
         </p>
-      </header>
+      </div>
     </div>
   );
 }

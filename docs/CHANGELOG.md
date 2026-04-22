@@ -6,6 +6,41 @@
 
 ## April 2026
 
+### 2026-04-21 -- Navigation, footer, /why-conka clinical refactor + brand-base.css reorganisation
+
+Pulled the last three site-wide surfaces -- desktop + mobile navigation, the global footer, and `/why-conka` -- onto the clinical grammar, then reorganised `app/brand-base.css` around the clinical-vs-legacy split so the next session can see at a glance what is the default and what is legacy carry-over.
+
+**Navigation (`NavigationDesktop`, `NavigationMobile`, `ShopMegaMenu`):**
+- Desktop header gets `border-b border-black/12` hairline (was ad-hoc shadow). Shop trigger is now a hairline tag with `lab-clip-tr` chamfer that fills navy on hover. Nav links: `font-mono text-[11px] uppercase tracking-[0.2em] tabular-nums text-black/65 hover:text-[#1B2757]`. Cart badge flipped from amber pill to navy square (`bg-[#1B2757] text-white font-mono text-[9px] tabular-nums`). All SVG icons standardised on `strokeWidth="1.75" strokeLinecap="square" strokeLinejoin="miter"`.
+- Mobile menu reorganised into three doc-code columns -- `// Learn more` (Ingredients / Our Story / Why CONKA), `// Science` (Science / Ingredients / Case Studies), `// Technology` (CONKA App). "What's inside Flow & Clear" copy block removed. Product cards flipped vertical (full-width `aspect-[4/3]` image + stacked info), product names normalised (`Both (Flow + Clear)` / `Flow` / `Clear`).
+- Shop mega menu left sidebar simplified back to a single "Learn more" section (Why CONKA works / The CONKA App) after a brief experiment with three grouped sections was rejected as redundant with the main nav. Product card CTA replaced hand-rolled "Explore ↗" with `ConkaCTAButton` (per-product meta lines `// the full daily system`, `// morning focus · energy`, `// afternoon clarity · recovery`, width-forced full via `lg:!w-full lg:!max-w-none`). Overlay badges now read just `Flow + Clear` / `Flow` / `Clear`. Product cards restructured so the image is its own `<Link>` and the CTA is a sibling link -- avoided nested anchors.
+
+**Footer (`Footer.tsx`):**
+Kept the black background, rebuilt everything else on the clinical grammar. Newsletter block now a 2-col layout: trio header on the left (`// Newsletter · Dispatch-00` + `brand-h3` "Unlock a new state of mind." + mono sub `Tips · Research · Offers · No spam`), square form on the right with `bg-white/5 border border-white/20` input and a `lab-clip-tr` white-to-navy-on-hover Subscribe button (`Subscribe ↗`). Logo + link columns grid now `auto_1fr` split by a hairline `border-white/12`. Each column header is a mono doc-code (`// Discover` / `// Shop` / `// Company` / `// Support`). Links numbered `01`–`NN` mono with hairline `border-white/8` row dividers. Shop column drops the Quiz link (scheduled for removal) and adds "Flow + Clear". New bottom meta row: `© CONKA {year} · Made in UK · All rights reserved` left, `Doc-FT-001 · Informed Sport · Batch tested` right. Submit button resting state black-on-white flips to `hover:bg-[#1B2757] hover:text-white`. Em-dash opener in the old subcopy ("—sign up for newsletters") removed -- canonical dot separator throughout.
+
+**`/why-conka`:**
+- Page root wrapped in `brand-clinical`, loading state re-chromed to mono `// loading`.
+- Hero split into two-column desktop (image LEFT, content RIGHT) and stacked mobile. Image is the ring lifestyle shot at `/lifestyle/ClearJeansTwo.jpg` inside a hairline `aspect-[4/5]` frame with `Fig. 00` + `Overview` plates, anchoring the page-wide figure sequence (0 → 7).
+- Section backgrounds flipped so the hero (white) alternates cleanly through all seven points (tint → white → tint → white → tint → white → tint) and the closing CTA (`/protocol/3` Balance) lands on white. Theme keys in `whyConkaData` inverted accordingly.
+- `WhyConkaSection` rewritten: `R-{id}` researcher counter + `Reason {id} / 07` plates, hairline image frame with `Fig. 0X` top-left + `Reason 0X / 07` bottom-right, navy subheading, alternating image-side by parity. `AppInstallButtons` on point 4 swapped to `variant="clinical"`.
+- `WhyConkaCTA` rewritten as the canonical clinical closing card (eyebrow + `brand-h2` "Unlock your cognitive potential." + body + mono guarantee line + `ConkaCTAButton` + `LabTrustBadges`) pointing at `/protocol/3`. The separate Quiz CTA was dropped -- quiz is being redirected per `WEBSITE_SIMPLIFICATION_PLAN.md`.
+- Em-dashes purged from every headline / subheading / description in `app/lib/whyConkaData.ts` (7 replacements across 5 points) -- middle-dot / colon / period depending on grammar. Reason 6 image swapped from `/story/clinical-trial.jpg` to `/lifestyle/FlowConkaRing.jpg`. Navy `<span>` around "CONKA" in the hero headline removed on both desktop and mobile -- plain black, accent reserved for interactive.
+
+**`/shop` hero mobile alignment (`ShopHeroMobile.tsx`):**
+Stripped the root `<section>` wrapper (page owns it now), converted to the trio header pattern: `01 · Shop · 03 formulas` mono eyebrow + `brand-h1` "Clarity and focus you can feel." + mono sub `Start simple · Feel the difference · 100-day guarantee`. Left-aligned, no centred text.
+
+**`app/brand-base.css` reorganisation (no behaviour change, comments + section markers only):**
+- Top-of-file legend now names three explicit layers: Layer 1 base tokens + classes, Layer 2 clinical scope + utilities (the default for new work), Layer 3 legacy compat + deprecation candidates.
+- Each layer boundary gets a banner comment (`LAYER 1 — BASE TOKENS`, etc.) so the clinical block is visually separated from the pre-clinical block.
+- Moved the compatibility tokens (`--brand-surface`, `--brand-stroke`, `--brand-border-color`), product accent pairs (`--brand-flow-accent`, `--brand-clear-accent`), and gradient accent (`--brand-gradient-accent`) into a dedicated Layer 3 `:root` block, each marked `@deprecated` with the migration rationale and the condition for removal.
+- Moved the `.brand-card` / `.brand-card-bordered` / `.brand-container` / `.brand-btn` component classes into Layer 3 with a `@deprecated — do not reach for these on new work` header, pointing clinical consumers at the Tailwind utility pattern (`bg-white border border-black/12 p-5 lg:p-6`) from `CLINICAL_AESTHETIC.md`.
+- Marked `brand-bg-neutral` and `brand-bg-deep-grey` as legacy alongside the clinical-active backgrounds (`brand-bg-white`, `brand-bg-tint`, `brand-bg-black`).
+- The clinical scope block (`.brand-clinical`) now sits in its own clearly labelled Layer 2 section with a list of every page currently using it, the token overrides, the hero-flush media query, and the three unscoped utilities (`.lab-asset-frame`, `.lab-clip-tr`, `@keyframes lab-blink`).
+
+**Why:** Header, footer, and `/why-conka` were the last three surfaces still running pre-clinical styling -- a user entering the site through the nav saw amber cart badges, pill-radius CTAs, and the old blue-accent "Why CONKA?" hero before any clinical section loaded. The CSS reorg is the first time the file has distinguished default-brand tokens from clinical overrides from deprecation candidates; previously the three were interleaved and the TODOs weren't actionable because there was no structure to point at. With the clinical grammar now dominant across every user-facing surface, Layer 3 becomes the explicit hit-list for future cleanup.
+**Spec:** `docs/branding/CLINICAL_AESTHETIC.md`
+**Branch:** `header-footer-upgrade`
+
 ### 2026-04-21 -- /app page + cognitive test section full clinical refactor
 
 Completed the `/app` page migration started under SCRUM-906. The page-level `brand-clinical` wrapper and a couple of neighbouring components had landed, but the four child components (`AppHero`, `AppStickyPhoneBlock`, `AppSubscribersSection`, `AppDownloadSection`) and the entire cognitive-test section were still on the pre-clinical premium surfaces -- dark ink hero with floating-phone animation, gradient neuro-blue sticky scroll block, premium-card-soft surfaces with 40px radii, gradient-ringed benefit circles, pill-radius CTAs. This pass brings all of it onto the clinical grammar.
