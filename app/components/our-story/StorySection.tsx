@@ -82,6 +82,12 @@ export function StorySection({
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover object-center"
             />
+            <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+              Fig. {formattedId}
+            </span>
+            <span className="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
+              Ch-{formattedId} / {formattedTotal}
+            </span>
           </div>
         ) : (
           <div className="w-full h-56 lg:h-[500px] border border-black/12 bg-black/[0.03] flex items-center justify-center">
