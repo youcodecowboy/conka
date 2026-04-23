@@ -115,11 +115,19 @@ export default function LandingHero() {
           </p>
 
           <h1
-            className="text-black font-semibold text-5xl xl:text-6xl leading-[1.05] mb-8 max-w-[18ch]"
+            className="text-black font-semibold text-5xl xl:text-6xl leading-[1.05] mb-5 max-w-[18ch]"
             style={{ letterSpacing: "-0.02em" }}
           >
             Brain Performance in One Daily Shot.
           </h1>
+
+          <p className="text-base lg:text-lg leading-snug text-black/70 mb-10 max-w-[42ch]">
+            For minds that demand more. A patented nootropic shot, clinically
+            formulated to support focus, memory, and mental endurance every day.
+            <sup className="ml-0.5 text-[0.6em] text-black/40 align-super">
+              †
+            </sup>
+          </p>
 
           <div className="mb-10">
             <ConkaCTAButton meta={null}>Get Started Today</ConkaCTAButton>
@@ -128,8 +136,8 @@ export default function LandingHero() {
           <StatStrip dense />
         </div>
 
-        {/* Right — asset with figure plates */}
-        <div className="relative w-full aspect-[4/3] border border-black/12 overflow-hidden bg-[#f5f5f5]">
+        {/* Right — clean asset, no overlays */}
+        <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#f5f5f5]">
           <Image
             src="/lifestyle/CreationOfConkaBlack.jpg"
             alt="Two hands exchanging a CONKA brain performance shot"
@@ -139,12 +147,6 @@ export default function LandingHero() {
             sizes="(max-width: 1024px) 100vw, 60vw"
             className="object-cover object-center"
           />
-          <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
-            Fig. 01
-          </span>
-          <span className="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white bg-black/65 px-2 py-1 tabular-nums">
-            Creation of CONKA
-          </span>
         </div>
       </div>
     </div>
