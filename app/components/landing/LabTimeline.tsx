@@ -183,7 +183,7 @@ export default function LabTimeline({
         Your Brain, Optimised.
       </h2>
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-8">
-        What to expect when taking CONKA
+        Based on N=150+ participants · 5,000+ cognitive tests
       </p>
 
       <div className="lg:flex lg:gap-10 lg:items-start">
@@ -229,36 +229,50 @@ export default function LabTimeline({
                     </span>
                   </div>
 
-                  {/* Card — indented to clear the rail */}
-                  <div className="ml-8 bg-white border border-black/12 p-4 lg:p-5">
-                    <h3 className="text-lg lg:text-xl font-semibold text-black mb-3 leading-snug">
-                      {step.title}
-                    </h3>
+                  {/* Card — hairline frame; header strip carries the active state. */}
+                  <div className="ml-8 bg-white border border-black/12 overflow-hidden">
+                    {/* Header — title sits here. Active state = navy fill. */}
+                    <div
+                      className={`px-4 py-3 border-b motion-safe:transition-colors motion-safe:duration-300 ${
+                        isPassed
+                          ? "bg-[#1B2757] border-[#1B2757]"
+                          : "bg-white border-black/8"
+                      }`}
+                    >
+                      <h3
+                        className={`text-base lg:text-lg font-semibold leading-snug motion-safe:transition-colors motion-safe:duration-300 ${
+                          isPassed ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {step.title}
+                      </h3>
+                    </div>
 
-                    <ul className="flex flex-col gap-2 mb-1">
-                      {step.bullets.map((b) => (
-                        <li
-                          key={b}
-                          className="flex items-start gap-2 text-sm text-black/70 leading-relaxed"
-                        >
-                          <span
-                            className="font-mono text-black/30 shrink-0"
-                            aria-hidden
+                    {/* Body — bracketed mono bullet list (study-protocol read) */}
+                    <div className="p-4 lg:p-5">
+                      <ul className="flex flex-col gap-2.5">
+                        {step.bullets.map((b, bIdx) => (
+                          <li
+                            key={b}
+                            className="flex items-baseline gap-2.5 text-sm text-black/75 leading-relaxed"
                           >
-                            —
-                          </span>
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
+                            <span
+                              className="font-mono text-[10px] uppercase tracking-[0.1em] text-black/40 tabular-nums shrink-0"
+                              aria-hidden
+                            >
+                              [{String(bIdx + 1).padStart(2, "0")}]
+                            </span>
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                    {/* Spec footer row */}
-                    <div className="mt-4 pt-3 border-t border-black/8 flex items-center justify-between gap-3">
-                      <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-black/55">
-                        Outcome · {step.outcome}
-                      </span>
-                      <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/35 tabular-nums">
-                        N=150+
+                    {/* Footer — phase identity */}
+                    <div className="px-4 py-2.5 border-t border-black/8">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/55 tabular-nums">
+                        Phase {String(idx + 1).padStart(2, "0")} ·{" "}
+                        <span className="text-[#1B2757]">{step.outcome}</span>
                       </span>
                     </div>
                   </div>
@@ -288,13 +302,9 @@ export default function LabTimeline({
         </div>
       </div>
 
-      <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-black/30 mt-6 mb-6 tabular-nums">
-        Based on 5,000+ cognitive tests across 150+ participants
-      </p>
-
       {!hideCTA && (
         <>
-          <div className="flex flex-col items-start gap-2">
+          <div className="mt-10 flex flex-col items-start gap-2">
             <ConkaCTAButton href={ctaHref} meta={null}>
               {ctaLabel ?? `Try Both from £${PRICE_PER_SHOT_BOTH}/shot`}
             </ConkaCTAButton>
