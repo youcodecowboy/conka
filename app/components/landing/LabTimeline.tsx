@@ -82,12 +82,31 @@ export default function LabTimeline({
   const [railOffsetPx, setRailOffsetPx] = useState(0);
   const [railTotalPx, setRailTotalPx] = useState(0);
   const [railFillPx, setRailFillPx] = useState(0);
+  const [isNearViewport, setIsNearViewport] = useState(false);
+
+  // Gate: the scroll listener below only runs while the timeline is in or
+  // near the viewport (300px buffer). Stops the rAF tick from firing for
+  // every scroll event on the page when the section is far above/below.
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setIsNearViewport(entries[0].isIntersecting);
+      },
+      { rootMargin: "300px 0px 300px 0px" },
+    );
+    observer.observe(list);
+    return () => observer.disconnect();
+  }, []);
 
   // Single scroll-driven update: derives both the active step and the rail
   // fill from pill positions. The rail spans first-pill-centre to
   // last-pill-centre; fill grows linearly between adjacent pills as the
-  // viewport centre moves through them. rAF-throttled.
+  // viewport centre moves through them. rAF-throttled. Only attached while
+  // the section is in or near the viewport (see gate above).
   useEffect(() => {
+    if (!isNearViewport) return;
     if (typeof window === "undefined") return;
 
     let rafId: number | null = null;
@@ -156,7 +175,7 @@ export default function LabTimeline({
       window.removeEventListener("resize", onScroll);
       if (rafId != null) cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isNearViewport]);
 
   return (
     <div>
