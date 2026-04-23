@@ -16,13 +16,12 @@ const META_VARIANTS = {
 
 const ACTIVE_META: string = META_VARIANTS.aspirational;
 
-/* Default variant — responsive: compact on mobile (text + ↗ light-up
-   arrow, fills container), full on desktop (O-icon + text + meta line
-   + horizontal arrow, shrinks to content with min/max bounds). Shape:
-   12px diagonal notches on top-left + bottom-right ("cut from a sheet"
-   lab feel). */
+/* Default variant — full CTA (O-icon + text + meta + horizontal arrow)
+   at every viewport. Shrink-to-content with min/max bounds. Mobile has
+   tighter gap/padding so longer labels still fit on one line. Shape:
+   12px diagonal notches on top-left + bottom-right. */
 const OUTER =
-  "group inline-flex flex-row items-center justify-between lg:justify-start w-full lg:w-auto lg:min-w-[14rem] lg:max-w-md gap-3 lg:gap-4 py-2.5 lg:py-3.5 px-4 lg:pl-5 lg:pr-8 rounded-none text-white bg-[#1B2757] transition-opacity hover:opacity-85 active:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757] [clip-path:polygon(12px_0,100%_0,100%_calc(100%-12px),calc(100%-12px)_100%,0_100%,0_12px)]";
+  "inline-flex flex-row items-center gap-3 lg:gap-4 min-w-[14rem] max-w-md py-3.5 pl-3 pr-5 lg:pl-5 lg:pr-8 rounded-none text-white bg-[#1B2757] transition-opacity hover:opacity-85 active:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757] [clip-path:polygon(12px_0,100%_0,100%_calc(100%-12px),calc(100%-12px)_100%,0_100%,0_12px)]";
 
 /* Compact variant — forces the compact treatment on every viewport
    (e.g. in-card ingredients button where the full desktop treatment
@@ -65,8 +64,8 @@ export default function ConkaCTAButton({
     </>
   ) : (
     <>
-      {/* LEFT — O-mark · desktop only */}
-      <span className="hidden lg:block relative w-7 h-7 shrink-0" aria-hidden>
+      {/* LEFT — Conka "O" mark, inverted to white for the navy fill */}
+      <span className="relative w-7 h-7 shrink-0" aria-hidden>
         <Image
           src="/logos/ConkaO.png"
           alt=""
@@ -77,12 +76,12 @@ export default function ConkaCTAButton({
         />
       </span>
 
-      {/* CENTER — title + (desktop) cursor + (desktop) meta */}
+      {/* CENTER — title + blinking cursor, with optional meta line */}
       <span className="flex flex-col items-start">
-        <span className="font-mono font-bold text-xs lg:text-sm uppercase tracking-[0.14em] lg:tracking-[0.12em] flex items-center gap-0.5 whitespace-nowrap">
+        <span className="font-mono font-bold text-sm uppercase tracking-[0.12em] flex items-center gap-0.5 whitespace-nowrap">
           {children}
           <span
-            className="hidden lg:inline-block ml-0.5"
+            className="inline-block ml-0.5"
             style={{ animation: "lab-blink 1s step-end infinite" }}
             aria-hidden
           >
@@ -90,13 +89,13 @@ export default function ConkaCTAButton({
           </span>
         </span>
         {showMeta && (
-          <span className="hidden lg:inline-block font-mono text-[9px] uppercase tracking-[0.18em] text-white mt-1 leading-none">
+          <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white mt-1 leading-none">
             {meta}
           </span>
         )}
       </span>
 
-      {/* RIGHT — desktop horizontal arrow */}
+      {/* RIGHT — arrow icon */}
       <svg
         width="18"
         height="18"
@@ -106,20 +105,12 @@ export default function ConkaCTAButton({
         strokeWidth="2.5"
         strokeLinecap="square"
         strokeLinejoin="miter"
-        className="hidden lg:block shrink-0"
+        className="shrink-0"
         aria-hidden
       >
         <line x1="5" y1="12" x2="19" y2="12" />
         <polyline points="13 6 19 12 13 18" />
       </svg>
-
-      {/* RIGHT — mobile light-up ↗ arrow */}
-      <span
-        aria-hidden
-        className="lg:hidden font-mono text-base leading-none text-white/55 group-hover:text-white transition-colors"
-      >
-        ↗
-      </span>
     </>
   );
 
