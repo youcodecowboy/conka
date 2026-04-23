@@ -43,7 +43,7 @@ Three primitives extracted first, then Overview rebuilt, then the subscriptions 
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| 1 | Sub-nav, primitives, Overview rebuild | In Progress |
+| 1 | Sub-nav, primitives, Overview rebuild | Done (pending review) |
 | 2 | Subscriptions list and modals visual pass | Not Started |
 | 3 | Orders, Details page, auth pages | Not Started |
 | Future | Deferred bug sweep | Not Started |
