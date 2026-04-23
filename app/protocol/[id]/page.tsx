@@ -20,7 +20,7 @@ import {
   PurchaseType,
   protocolContent,
 } from "@/app/lib/productData";
-import LandingWhatItDoes from "@/app/components/landing/LandingWhatItDoes";
+import LandingProductShowcase from "@/app/components/landing/LandingProductShowcase";
 import WhyConkaWorks from "@/app/components/WhyConkaWorks";
 import FormulaCaseStudies, {
   FormulaCaseStudiesMobile,
@@ -171,7 +171,7 @@ export default function ProtocolPage() {
       aria-label="What CONKA does"
     >
       <div className="brand-track">
-        <LandingWhatItDoes />
+        <LandingProductShowcase />
       </div>
     </section>
   );

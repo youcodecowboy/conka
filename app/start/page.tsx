@@ -4,7 +4,7 @@ import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import LandingHero from "../components/landing/LandingHero";
 import LandingDisclaimer from "../components/landing/LandingDisclaimer";
-import LandingWhatItDoes from "../components/landing/LandingWhatItDoes";
+import LandingProductShowcase from "../components/landing/LandingProductShowcase";
 import LandingDailyBenefits from "../components/landing/LandingDailyBenefits";
 import LandingTestimonials from "../components/landing/LandingTestimonials";
 import Reveal from "../components/landing/Reveal";
@@ -67,7 +67,7 @@ export default function StartPage() {
       >
         <div className="brand-track">
           <Reveal>
-            <LandingWhatItDoes />
+            <LandingProductShowcase />
           </Reveal>
         </div>
       </section>

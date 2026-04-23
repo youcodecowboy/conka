@@ -92,7 +92,7 @@ export default function IngredientsPanel({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="lab-clip-tr flex h-11 w-11 items-center justify-center border border-black/12 bg-white text-black/70 hover:bg-[#1B2757] hover:text-white hover:border-[#1B2757] transition-colors shrink-0"
+            className="lab-clip-tr flex h-11 w-11 items-center justify-center bg-[#1B2757] text-white transition-opacity hover:opacity-85 active:opacity-70 shrink-0"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -182,33 +182,6 @@ export default function IngredientsPanel({
                       {a.source}
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Base */}
-          <div className="mt-5 flex flex-col">
-            <div className="flex items-center justify-between px-4 py-2.5 border border-black/12 border-b-0 bg-white">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums">
-                {formulaCode} · Base & carriers
-              </span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#1B2757] tabular-nums">
-                {String(facts.base.length).padStart(2, "0")} items
-              </span>
-            </div>
-            <div className="border border-black/12">
-              {facts.base.map((b, idx) => (
-                <div
-                  key={b.name}
-                  className={`flex items-center justify-between gap-3 px-4 py-3 ${
-                    idx < facts.base.length - 1 ? "border-b border-black/8" : ""
-                  }`}
-                >
-                  <span className="text-sm text-black">{b.name}</span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/45 tabular-nums text-right">
-                    {b.role}
-                  </span>
                 </div>
               ))}
             </div>

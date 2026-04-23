@@ -6,6 +6,69 @@
 
 ## April 2026
 
+### 2026-04-23 -- Acquisition surface pass: landing hero, value comparison, timeline, product showcase + CTA system
+
+Multi-component tune-up across the `/start` and `/` acquisition flow. Reframed the landing hero's copy + asset, rebuilt `LandingValueComparison` around the 2pm-crash framing, replaced the protocol-style "What it does" section with a Seed-style two-product showcase, rebuilt `LabTimeline` as a scroll-driven progress rail with study-protocol bullets, reshaped the primary CTA, and removed engineering-flavoured detail from the ingredients sheet. Single working branch (`Component-Improvements`); one logical commit per surface.
+
+**`LandingHero`:**
+- New eyebrow `// A New State Of Mind` (was `// Daily Brain Performance`). Hero CTA copy `Get Started Today` -> `Try CONKA Today`.
+- Aspirational subhead under the H1 with a `†` claim anchor: *"For minds that demand more. A patented nootropic shot, clinically formulated to support focus, memory, and mental endurance every day."* Mirrored on mobile and desktop.
+- Mobile asset: dropped the title overlay + bottom-gradient mask; replaced with a clean image plus a short `h-10` white feather at the bottom for a soft hand-off into the page.
+- Desktop asset: aspect changed `4/3` -> `3/2` (shorter, less aggressively cropped), single light border added.
+- Stat strip collapsed from a separate `dense` desktop variant + 3-col mobile into one responsive 3-col layout with single light border (no more `lab-asset-frame` double-border). Centered cells, value above label, scales up on desktop (`text-2xl` values, `text-[10px]` labels).
+- Hero CTA call sites pass `meta={null}` to suppress the `// ...` meta line on the primary action.
+
+**`ConkaCTAButton`:**
+- Clip-path now notches the top-left **and** bottom-right corners (was top-right only) for a "cut from a sheet" lab feel.
+- Width changed from `w-full lg:w-auto lg:max-w-md` to `min-w-[14rem] max-w-md` -- the button hugs its content at every breakpoint with a sensible floor and ceiling.
+- Title span gains `whitespace-nowrap`; inner column drops `flex-1 / min-w-0` so long labels stay on one line instead of wrapping and forcing the button to full width on mobile.
+- Tighter mobile gap and padding (`gap-3 lg:gap-4`, `pl-3 pr-5 lg:pl-5 lg:pr-8`) so longer labels comfortably fit within the mobile content column.
+- New `onClick` prop renders the button as `<button>` instead of `<a>` / `<Link>` -- needed for modal triggers like the ingredients button.
+- New `compact` variant: text + light-up `↗` angle arrow, no O-icon, fills its container, same notched navy shape. Pulled from the `ShopMegaMenu` LEARN_MORE arrow pattern. For in-card / secondary placements where the default treatment would overflow.
+- All `/start`-rendered components (`LandingHero`, `LandingWhatItDoes` -> `LandingProductShowcase`, `LandingDailyBenefits`, `LandingValueComparison`, `LandingTestimonials`, `LabTimeline`, `LabGuarantee`, `LabFAQ`, `LabCaseStudies`) now pass `meta={null}` so the `// ...` line is suppressed across the landing experience. `LabGuarantee` drops the now-redundant `sm:w-auto` className override.
+
+**`LandingProductShowcase` (renamed from `LandingWhatItDoes`):**
+- New eyebrow `// The Formulation` + H2 *Two shots. Built around your day.* + Seed-style grounded subhead.
+- `LabDosingWindows` bar removed; `InfoCard` text tiles inside `LabWhatsInsideMini` removed (the spec rows for ONSET / DURATION / KEY ACTIVES / USE CASE). Section is now just two product cards plus CTA + trust badges.
+- Each product card: tag (AM / PM + window), bigger desktop bottle, larger product name, and a one-line tagline (Flow: *Calm morning focus.* / Clear: *Afternoon reset.*).
+- Ingredients button swapped from a hand-rolled `<button>` to `<ConkaCTAButton compact onClick={...}>` so the secondary action shares the CTA family while staying in-card.
+- Wired into `/`, `/start`, `/protocol/[id]`. `LandingWhatItDoes.tsx` and `LabDosingWindows.tsx` deleted as orphaned.
+
+**`IngredientsPanel`:**
+- "Base & carriers" block dropped (carriers / solvents are formulation process detail, not interesting to the average reader).
+- Close button now solid navy by default for clearer visibility (was a hairline outline that filled on hover).
+
+**`LabCaseStudies`:**
+- Title: *Athletes, Founders, Corporates.* -> *Athletes, Founders, Execs.*
+- Stats strip flipped: number now sits **above** the label, content centred, swapped the `lab-asset-frame` double-border for a single light border to match the hero stat strip.
+
+**`LandingValueComparison` reframe (CRO + Sutherland):**
+- Eyebrow `// Get More For Less` + H2 *The 2pm crash isn't you.* (loss frame -- reframes the afternoon dip as the product's fault, not the user's). Subhead grounds the chart that follows.
+- Dropped the "cost per active" math frame (engineer's metric) and the standalone savings strip (positioned CONKA as a coffee substitute).
+- **Fig. 01 - Time in effect chart:** three rows (Coffee, CONKA Flow, CONKA Clear). Coffee = solid-black peak `08-11` + diagonal-hash crash `11-14`. Flow / Clear = solid navy `#1B2757` bands. Bars animate `scaleX(0 -> 1)` from the left when the section enters view, staggered 180ms so the reveal sweeps L->R like a timeline. Header cleaned: eyebrow + bold heading, no top-right time range.
+- **Fig. 02 - Monthly saving card:** header mirrors Fig. 01's eyebrow + bold heading pattern; the bold title IS the headline claim (`£X/month less than a daily coffee`). Two clean price-per-day rows (Coffee vs CONKA Both), prices bumped to `text-2xl` / `text-3xl` for prominence. "Actives" mentions removed throughout; savings line promoted from footer strip to section title.
+
+**`LabTimeline` rebuild (scroll-driven progress rail):**
+- Three steps (24h / 14d / 30d), each a navy timeframe pill on a vertical rail with a compact card of bulleted outcomes beneath. Pills simplified from `T+24H · 24 hours` to just `24 hours`.
+- Card layout: title sits in the header strip (white text on navy when active, black on white when inactive). Body is just the bullet list; footer carries phase identity (`Phase 01 · Focus stabilisation` with the identity in navy). Cards are noticeably shorter than before -- title and 2-cell footer collapsed.
+- Bullets switched from em-dash markers to bracketed mono numbers `[01]` `[02]` `[03]` in IBM Plex Mono. Reads as a study-protocol entry rather than a generic dash list; pulls the brand mono voice into the densest part of the card.
+- Section sub-header replaces *"What to expect when taking CONKA"* with the proof-scale line *"Based on N=150+ participants · 5,000+ cognitive tests"*. Caption below the cards removed (de-duplicated).
+- **Interaction:** single rAF-throttled scroll handler derives both `activeIndex` and rail fill from pill positions; `IntersectionObserver` removed for one source of truth. Rail base + fill bookended by first-pill-centre and last-pill-centre so the line literally starts at badge 1 and ends at badge 3. Fill grows linearly between adjacent pill centres so it always reaches the active checkpoint rather than stalling early. **Cumulative lit state:** every step at or before the active one stays illuminated.
+- Rail visible on every viewport (not just desktop), so the metaphor holds on mobile.
+- Desktop sidebar image bumped `450px -> 600px` so the cards lose width and the asset carries more weight. Sidebar gains a `Fig. 03` plate per the clinical aesthetic plates rule (replaces the old corner brackets).
+- Copy lifted with more aspirational + sensory language while staying grounded in measurable outcomes:
+  - 24h title: *Focus without the noise.* / bullets reference duration + the 2pm-dip framing from the same page's value comparison.
+  - 14d title: *Your sharpest weeks yet.* / first bullet hooks directly to the CONKA app's measured data ("Cognitive scores trending consistently higher").
+  - 30d title: *A measurably sharper baseline.* / first bullet is the consistency claim ("Less variation in your daily cognitive function") -- harder to dispute than peak-performance claims.
+  - Outcome labels: `Momentum` -> `Cognitive momentum`; `Baseline reset` -> `Baseline shift` (more accurate; you're not resetting to a default).
+- **Compliance:** section H2 gains a `^^` superscript anchoring to the existing `Cognitive test` footnote in `LandingDisclaimer`, since steps 2 and 3 reference cognitive test data. Resolves on `/start` (matches the pattern `LabCaseStudies` uses on the same page).
+- **Perf:** component is dynamic-imported at every call site (`/`, `/start`, `/protocol/[id]`) so JS stays off the initial bundle. Observer + scroll listener ride inside the deferred chunk. Bundle growth ~1 KB inside the existing lazy chunk; zero impact on initial paint. All transitions use `motion-safe:*` so `prefers-reduced-motion` disables them; activation still works, just instantly.
+
+**Why:** Acquisition pages were lifted aesthetically in the prior pass but several surfaces still read as engineering-spec rather than consumer-grade. Hero needed a clearer premise + cleaner asset hand-off; CTA was visually heavy with a distracting meta line; product section was over-explaining with spec text instead of letting the bottles carry the showcase; value comparison was leading with arithmetic when the felt argument (coffee crashes by 2pm) was below the fold; timeline was a stack of generic content cards rather than a visualised progression. Each change tightens message hierarchy and trades clever framing for plainly understood claims, while still earning the clinical aesthetic through the `lab-` grammar (mono labels, hairline borders, bracketed counters, navy interactive). Every cognitive-performance claim that touches the CONKA app's measured data is now anchored to the existing `^^` footnote.
+
+**Branch:** `Component-Improvements`
+**Commits:** `786ed8c`, `7b93364`, `d33965c`, `d08e6a4`, `b1dd96e`, `06b48e3`, `5570138`, `c45f8ac`, `af005cf`, `cdb24ba`
+
 ### 2026-04-22 -- /app hero unified responsive layout + download section phone asset
 
 Iterated the `/app` hero on an experimentation branch. Replaced the split mobile/desktop implementations with a single responsive layout mirroring `OurStoryHero` (stacked on mobile, 60/40 grid on desktop) and swapped the phone-mockup hero for a landscape lifestyle asset. `AppDownloadSection` got the old phone render added on the left as a separate figure frame, and its outer card wrapper was removed so the asset and copy sit as siblings.

@@ -179,43 +179,43 @@ export default function LabCaseStudies({
     <div>
       {/* Eyebrow */}
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
-        Clinical Outcomes · CognICA Total Score
+        Clinical Outcomes · Cognitive Function Score
       </p>
 
       {/* Header */}
       <div className="mb-8">
         <h2 className="brand-h1 mb-0">
-          Athletes, Founders, Corporates.
+          Athletes, Founders, Execs.
           <br />
           They all take CONKA.
           <sup className="text-[0.5em] text-black/30 align-super">^^</sup>
         </h2>
       </div>
 
-      {/* Dataset summary strip — lab-asset-frame, data-surface treatment */}
-      <div className="lab-asset-frame bg-white grid grid-cols-3 mb-10">
-        <div className="px-4 py-4 lg:px-6 lg:py-5 border-r border-black/8">
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 mb-2 leading-none">
-            Total Tests
-          </p>
+      {/* Dataset summary strip — value on top, label below, centered */}
+      <div className="border border-black/12 bg-white grid grid-cols-3 mb-10">
+        <div className="flex flex-col items-center justify-center text-center gap-2 px-4 py-4 lg:px-6 lg:py-5 border-r border-black/8">
           <p className="font-mono text-xl lg:text-3xl font-bold tabular-nums text-black leading-none">
             5,000+
           </p>
-        </div>
-        <div className="px-4 py-4 lg:px-6 lg:py-5 border-r border-black/8">
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 mb-2 leading-none">
-            Participants
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 leading-none">
+            Total Tests
           </p>
+        </div>
+        <div className="flex flex-col items-center justify-center text-center gap-2 px-4 py-4 lg:px-6 lg:py-5 border-r border-black/8">
           <p className="font-mono text-xl lg:text-3xl font-bold tabular-nums text-black leading-none">
             150+
           </p>
-        </div>
-        <div className="px-4 py-4 lg:px-6 lg:py-5">
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 mb-2 leading-none">
-            Avg Improvement
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 leading-none">
+            Participants
           </p>
+        </div>
+        <div className="flex flex-col items-center justify-center text-center gap-2 px-4 py-4 lg:px-6 lg:py-5">
           <p className="font-mono text-xl lg:text-3xl font-bold tabular-nums text-black leading-none">
             +28.96%
+          </p>
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/40 leading-none">
+            Avg Improvement
           </p>
         </div>
       </div>
@@ -260,7 +260,7 @@ export default function LabCaseStudies({
       {!hideCTA && (
         <>
           <div className="mt-8 flex justify-start">
-            <ConkaCTAButton href={ctaHref ?? "/case-studies"}>
+            <ConkaCTAButton href={ctaHref ?? "/case-studies"} meta={null}>
               {ctaLabel ?? "View All Case Studies"}
             </ConkaCTAButton>
           </div>

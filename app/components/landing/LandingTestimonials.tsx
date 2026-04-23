@@ -324,14 +324,22 @@ export default function LandingTestimonials({
           Real people. Real results.
         </h2>
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
-          N=500+ · Verified reviews · Trustpilot + direct
+          N=500+ · Verified reviews
         </p>
       </div>
 
       {/* Carousel */}
       <div className="relative group">
-        <NavButton direction="prev" onClick={() => navigate(-1)} className="left-0 -translate-x-1/2" />
-        <NavButton direction="next" onClick={() => navigate(1)} className="right-0 translate-x-1/2" />
+        <NavButton
+          direction="prev"
+          onClick={() => navigate(-1)}
+          className="left-0 -translate-x-1/2"
+        />
+        <NavButton
+          direction="next"
+          onClick={() => navigate(1)}
+          className="right-0 translate-x-1/2"
+        />
 
         <div
           className="overflow-hidden -mx-5 px-5 lg:mx-0 lg:px-0"
@@ -400,7 +408,9 @@ export default function LandingTestimonials({
       {!hideCTA && (
         <>
           <div className="mt-10 flex justify-start">
-            <ConkaCTAButton>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
+            <ConkaCTAButton meta={null}>
+              Get Both from £{PRICE_PER_SHOT_BOTH}/shot
+            </ConkaCTAButton>
           </div>
           <div className="mt-6">
             <LabTrustBadges />
