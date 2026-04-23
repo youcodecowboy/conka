@@ -16,7 +16,7 @@ export function AccountSubNav() {
   return (
     <nav
       aria-label="Account navigation"
-      className="sticky top-0 xl:top-20 z-30 bg-white border-b border-black/12"
+      className="bg-white border-b border-black/12"
     >
       <div className="grid grid-cols-4">
         {TABS.map((tab) => {

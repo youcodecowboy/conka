@@ -56,14 +56,17 @@ export function getProtocolFromSubscription(subscription: Subscription): string 
   return "";
 }
 
-/** Returns the best available image for a subscription (Loop image → formula image → protocol image). */
+/** Returns the best available image for a subscription. Prefers our curated
+ *  assets (FlowHold / ClearHold / BothHold / protocol renders) over whatever
+ *  Loop returns, since Loop images can be stale. Falls back to the Loop
+ *  image only if we cannot identify the product type. */
 export function getSubscriptionImage(subscription: Subscription): string {
-  if (subscription.product.image) return subscription.product.image;
   const type = getSubscriptionType(subscription);
   if (type === "flow") return getFormulaImage("01");
   if (type === "clear") return getFormulaImage("02");
   const protocolId = getProtocolFromSubscription(subscription);
-  return getProtocolImage(protocolId);
+  if (protocolId) return getProtocolImage(protocolId);
+  return subscription.product.image || "";
 }
 
 /** "protocol" = bundle (Resilience/Precision/Balance/Ultimate); "flow" | "clear" = single formula */
