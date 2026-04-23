@@ -7,45 +7,22 @@ const STATS = [
   { value: "4.7/5", label: "VERIFIED\nCUSTOMER RATING" },
 ];
 
-function StatStrip({ dense }: { dense?: boolean }) {
-  // Desktop sidebar — stacked rows, value left, label right.
-  if (dense) {
-    return (
-      <div className="w-full border border-black/12 overflow-hidden lab-asset-frame">
-        {STATS.map((stat, idx) => (
-          <div
-            key={stat.value}
-            className={`flex flex-row items-center gap-6 px-5 py-4 ${
-              idx < STATS.length - 1 ? "border-b border-black/10" : ""
-            }`}
-          >
-            <p className="font-mono text-2xl font-bold text-black tracking-tight leading-none tabular-nums w-36 flex-shrink-0">
-              {stat.value}
-            </p>
-            <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  // Mobile (3-col grid) — centered, deliberately understated so the CTA
-  // above stays the primary visual anchor.
+function StatStrip() {
+  // 3-col row on every breakpoint. Text scales up on desktop; kept
+  // deliberately understated so the CTA above stays the primary anchor.
   return (
-    <div className="grid grid-cols-3 border border-black/12 overflow-hidden">
+    <div className="w-full grid grid-cols-3 border border-black/12 overflow-hidden">
       {STATS.map((stat, idx) => (
         <div
           key={stat.value}
-          className={`flex flex-col items-center justify-center gap-1.5 px-2 py-3 text-center ${
+          className={`flex flex-col items-center justify-center gap-1.5 lg:gap-2 px-2 py-3 lg:px-4 lg:py-5 text-center ${
             idx < STATS.length - 1 ? "border-r border-black/10" : ""
           }`}
         >
-          <p className="font-mono text-base font-bold text-black tracking-tight leading-none tabular-nums">
+          <p className="font-mono text-base lg:text-2xl font-bold text-black tracking-tight leading-none tabular-nums">
             {stat.value}
           </p>
-          <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
+          <p className="font-mono text-[8px] lg:text-[10px] uppercase tracking-[0.14em] text-black/45 leading-snug whitespace-pre-line">
             {stat.label}
           </p>
         </div>
@@ -133,11 +110,12 @@ export default function LandingHero() {
             <ConkaCTAButton meta={null}>Try CONKA Today</ConkaCTAButton>
           </div>
 
-          <StatStrip dense />
+          <StatStrip />
         </div>
 
-        {/* Right — clean asset, no overlays */}
-        <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#f5f5f5]">
+        {/* Right — clean asset, no overlays. Wider/shorter aspect on desktop
+            so the source crop reads less zoomed. */}
+        <div className="relative w-full aspect-[3/2] overflow-hidden border border-black/12 bg-[#f5f5f5]">
           <Image
             src="/lifestyle/CreationOfConkaBlack.jpg"
             alt="Two hands exchanging a CONKA brain performance shot"
