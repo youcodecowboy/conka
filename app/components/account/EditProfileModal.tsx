@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth, CustomerInfo } from "@/app/context/AuthContext";
 
 interface ProfileFormData {
@@ -58,12 +58,17 @@ export function EditProfileModal({ isOpen, onClose, customer }: EditProfileModal
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  // Reset form state only when the modal opens (false → true). Keying on
+  // `customer` identity would wipe in-progress edits if AuthContext refreshes
+  // the customer object mid-edit (e.g. a background `checkSession`).
+  const wasOpen = useRef(false);
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !wasOpen.current) {
       setForm(initialForm(customer));
       setError(null);
       setSuccess(false);
     }
+    wasOpen.current = isOpen;
   }, [isOpen, customer]);
 
   const handleChange = (field: string, value: string) => {
