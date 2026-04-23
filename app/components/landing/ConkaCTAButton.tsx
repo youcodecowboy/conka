@@ -27,11 +27,13 @@ export default function ConkaCTAButton({
 }: {
   children: React.ReactNode;
   href?: string;
-  meta?: string;
+  /** Pass `null` (or empty string) to hide the meta line entirely. */
+  meta?: string | null;
   className?: string;
 }) {
   const classes = `${OUTER} ${className}`;
   const isExternal = href.startsWith("http") || href.startsWith("//");
+  const showMeta = Boolean(meta);
 
   const inner = (
     <>
@@ -47,7 +49,7 @@ export default function ConkaCTAButton({
         />
       </span>
 
-      {/* CENTER — two stacked rows: title + blinking cursor, then meta */}
+      {/* CENTER — title + blinking cursor, with optional meta line */}
       <span className="flex flex-col items-start flex-1 min-w-0">
         <span className="font-mono font-bold text-sm uppercase tracking-[0.12em] flex items-center gap-0.5">
           {children}
@@ -59,9 +61,11 @@ export default function ConkaCTAButton({
             _
           </span>
         </span>
-        <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white mt-1 leading-none">
-          {meta}
-        </span>
+        {showMeta && (
+          <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white mt-1 leading-none">
+            {meta}
+          </span>
+        )}
       </span>
 
       {/* RIGHT — arrow icon */}

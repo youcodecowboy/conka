@@ -8,6 +8,7 @@ const STATS = [
 ];
 
 function StatStrip({ dense }: { dense?: boolean }) {
+  // Desktop sidebar — stacked rows, value left, label right.
   if (dense) {
     return (
       <div className="w-full border border-black/12 overflow-hidden lab-asset-frame">
@@ -30,12 +31,14 @@ function StatStrip({ dense }: { dense?: boolean }) {
     );
   }
 
+  // Mobile (3-col grid) — centered, deliberately understated so the CTA
+  // above stays the primary visual anchor.
   return (
-    <div className="grid grid-cols-3 border border-black/12 overflow-hidden lab-asset-frame">
+    <div className="grid grid-cols-3 border border-black/12 overflow-hidden">
       {STATS.map((stat, idx) => (
         <div
           key={stat.value}
-          className={`flex flex-col gap-1.5 px-3 py-4 ${
+          className={`flex flex-col items-center justify-center gap-1.5 px-2 py-3 text-center ${
             idx < STATS.length - 1 ? "border-r border-black/10" : ""
           }`}
         >
@@ -54,7 +57,7 @@ function StatStrip({ dense }: { dense?: boolean }) {
 export default function LandingHero() {
   return (
     <div>
-      {/* Mobile — full-bleed image with title overlay, stats + CTA below */}
+      {/* Mobile — full-bleed image (clean, soft fade at bottom), title + CTA below */}
       <div className="lg:hidden">
         <div className="relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] aspect-[4/3]">
           <Image
@@ -67,29 +70,35 @@ export default function LandingHero() {
             className="object-cover object-center"
           />
           <div
-            className="absolute inset-x-0 bottom-0 h-24"
+            className="absolute inset-x-0 bottom-0 h-10 pointer-events-none"
             style={{
               background:
-                "linear-gradient(to top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.75) 55%, rgba(255,255,255,0.0) 100%)",
+                "linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)",
             }}
           />
-          <div className="absolute top-0 left-0 px-5 pt-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-black/55 tabular-nums">
-              // Daily Brain Performance
-            </p>
-          </div>
-          <div className="absolute bottom-0 left-0 right-0 px-5 pb-5">
-            <h1
-              className="text-black font-semibold text-3xl leading-[1.08]"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              Brain Performance in One Daily Shot.
-            </h1>
-          </div>
         </div>
 
+        <header className="mt-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-black/55 tabular-nums mb-3">
+            // A New State Of Mind
+          </p>
+          <h1
+            className="text-black font-semibold text-3xl leading-[1.08]"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            Brain Performance in One Daily Shot.
+          </h1>
+          <p className="mt-4 text-[15px] leading-snug text-black/70">
+            For minds that demand more. A patented nootropic shot, clinically
+            formulated to support focus, memory, and mental endurance every day.
+            <sup className="ml-0.5 text-[0.6em] text-black/40 align-super">
+              †
+            </sup>
+          </p>
+        </header>
+
         <div className="mt-6">
-          <ConkaCTAButton>Get Started Today</ConkaCTAButton>
+          <ConkaCTAButton meta={null}>Get Started Today</ConkaCTAButton>
         </div>
 
         <div className="mt-10">
@@ -102,7 +111,7 @@ export default function LandingHero() {
         {/* Left — eyebrow, title, CTA, stats */}
         <div className="flex flex-col items-start">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-black/55 tabular-nums mb-5">
-            // Daily Brain Performance
+            // A New State Of Mind
           </p>
 
           <h1
@@ -113,7 +122,7 @@ export default function LandingHero() {
           </h1>
 
           <div className="mb-10">
-            <ConkaCTAButton>Get Started Today</ConkaCTAButton>
+            <ConkaCTAButton meta={null}>Get Started Today</ConkaCTAButton>
           </div>
 
           <StatStrip dense />

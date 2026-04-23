@@ -185,7 +185,7 @@ export default function LabCaseStudies({
       {/* Header */}
       <div className="mb-8">
         <h2 className="brand-h1 mb-0">
-          Athletes, Founders, Corporates.
+          Athletes, Founders, Execs.
           <br />
           They all take CONKA.
           <sup className="text-[0.5em] text-black/30 align-super">^^</sup>
