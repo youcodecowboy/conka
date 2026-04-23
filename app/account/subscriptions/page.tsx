@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
+import { AccountSubNav } from "@/app/components/account/AccountSubNav";
 import { useAuth } from "@/app/context/AuthContext";
 import { useSubscriptions, Subscription } from "@/app/hooks/useSubscriptions";
 import { usePaymentMethods } from "@/app/hooks/usePaymentMethods";
@@ -276,10 +277,32 @@ export default function SubscriptionsPage() {
   const inactiveSubscriptions = subscriptions.filter(
     (s) => s.status === "cancelled" || s.status === "expired"
   );
+  const activeOnly = activeSubscriptions.filter((s) => s.status === "active");
+  const pausedOnly = activeSubscriptions.filter((s) => s.status === "paused");
+  const nextDeliveryFormatted = (() => {
+    if (!activeOnly.length) return null;
+    const dates = activeOnly
+      .map((s) => new Date(s.nextBillingDate))
+      .filter((d) => !isNaN(d.getTime()));
+    if (!dates.length) return null;
+    return new Date(Math.min(...dates.map((d) => d.getTime()))).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  })();
+  const headerSubtitle = activeSubscriptions.length === 0
+    ? "No active subscriptions"
+    : [
+        `${activeOnly.length} active`,
+        pausedOnly.length > 0 ? `${pausedOnly.length} paused` : null,
+        nextDeliveryFormatted ? `next delivery ${nextDeliveryFormatted}` : null,
+      ].filter(Boolean).join(" · ");
 
   return (
     <div className="brand-clinical min-h-screen bg-white text-black">
       <Navigation />
+      <AccountSubNav />
 
       <main className="pt-3 pb-24 lg:pt-4">
         <section
@@ -287,7 +310,7 @@ export default function SubscriptionsPage() {
           aria-labelledby="subscriptions-heading"
         >
           <div className="brand-track">
-            <SubscriptionsPageHeader />
+            <SubscriptionsPageHeader subtitle={headerSubtitle} />
 
             {subscriptions.length > 0 && (
               <SubscriptionSummaryStats

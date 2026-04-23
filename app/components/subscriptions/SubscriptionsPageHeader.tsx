@@ -1,40 +1,23 @@
-import Link from "next/link";
+interface SubscriptionsPageHeaderProps {
+  subtitle: string;
+}
 
-export function SubscriptionsPageHeader() {
+export function SubscriptionsPageHeader({ subtitle }: SubscriptionsPageHeaderProps) {
   return (
-    <div className="flex items-center gap-4 mb-8">
-      <Link
-        href="/account"
-        className="p-2 hover:bg-[#f5f5f5] transition-colors"
-        aria-label="Back to account"
+    <div className="mb-8">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
+        Account · Subscriptions
+      </p>
+      <h1
+        id="subscriptions-heading"
+        className="text-3xl lg:text-4xl font-semibold text-black mb-2"
+        style={{ letterSpacing: "-0.02em" }}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="square"
-          strokeLinejoin="miter"
-        >
-          <line x1="19" y1="12" x2="5" y2="12" />
-          <polyline points="12 19 5 12 12 5" />
-        </svg>
-      </Link>
-      <div>
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-0.5">
-          Manage your
-        </p>
-        <h1
-          id="subscriptions-heading"
-          className="text-3xl font-semibold text-black mb-0"
-          style={{ letterSpacing: "-0.02em" }}
-        >
-          Subscriptions
-        </h1>
-      </div>
+        Subscriptions
+      </h1>
+      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
+        {subtitle}
+      </p>
     </div>
   );
 }

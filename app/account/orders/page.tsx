@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navigation from "@/app/components/navigation";
+import { AccountSubNav } from "@/app/components/account/AccountSubNav";
 import { useAuth } from "@/app/context/AuthContext";
 import type { Order } from "@/app/account/orders/utils";
+import { formatDate } from "@/app/account/orders/utils";
 import { OrdersPageHeader } from "@/app/components/orders/OrdersPageHeader";
 import { OrderSummaryStats } from "@/app/components/orders/OrderSummaryStats";
 import { EmptyOrdersState } from "@/app/components/orders/EmptyOrdersState";
@@ -84,10 +86,20 @@ export default function OrdersPage() {
       o.fulfillmentStatus?.toLowerCase() !== "fulfilled" &&
       o.financialStatus?.toLowerCase() === "paid"
   ).length;
+  const mostRecentProcessedAt = orders[0]?.processedAt;
+  const lastOrderFormatted = mostRecentProcessedAt ? formatDate(mostRecentProcessedAt) : null;
+  const headerSubtitle = orders.length === 0
+    ? "No orders yet"
+    : [
+        `${orders.length} order${orders.length !== 1 ? "s" : ""}`,
+        deliveredCount > 0 ? `${deliveredCount} delivered` : null,
+        lastOrderFormatted ? `last on ${lastOrderFormatted}` : null,
+      ].filter(Boolean).join(" · ");
 
   return (
     <div className="brand-clinical min-h-screen bg-white text-black">
       <Navigation />
+      <AccountSubNav />
 
       <main className="pt-3 pb-24 lg:pt-4">
         <section
@@ -95,7 +107,7 @@ export default function OrdersPage() {
           aria-labelledby="orders-heading"
         >
           <div className="brand-track">
-            <OrdersPageHeader />
+            <OrdersPageHeader subtitle={headerSubtitle} />
 
             {orders.length > 0 && (
               <OrderSummaryStats
