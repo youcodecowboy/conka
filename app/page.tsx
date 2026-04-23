@@ -6,8 +6,8 @@ import Footer from "./components/footer";
 import LandingHero from "./components/landing/LandingHero";
 
 // Dynamically import heavy components to reduce initial bundle size
-const LandingWhatItDoes = dynamic(
-  () => import("./components/landing/LandingWhatItDoes"),
+const LandingProductShowcase = dynamic(
+  () => import("./components/landing/LandingProductShowcase"),
   { loading: () => <div className="h-[1400px] lg:h-[1000px]" /> },
 );
 
@@ -78,7 +78,7 @@ export default function Home() {
         aria-label="What CONKA does"
       >
         <div className="brand-track">
-          <LandingWhatItDoes />
+          <LandingProductShowcase />
         </div>
       </section>
 
