@@ -137,7 +137,7 @@ export default function LabTimeline({
       {!hideCTA && (
         <>
           <div className="flex flex-col items-start gap-2">
-            <ConkaCTAButton href={ctaHref}>
+            <ConkaCTAButton href={ctaHref} meta={null}>
               {ctaLabel ?? `Try Both from £${PRICE_PER_SHOT_BOTH}/shot`}
             </ConkaCTAButton>
           </div>

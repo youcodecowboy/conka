@@ -24,7 +24,7 @@ export default function LandingWhatItDoes() {
       </div>
 
       <div className="mb-3 flex justify-start">
-        <ConkaCTAButton>
+        <ConkaCTAButton meta={null}>
           Get Both from &pound;{PRICE_PER_SHOT_BOTH}/shot
         </ConkaCTAButton>
       </div>

@@ -260,7 +260,7 @@ export default function LabCaseStudies({
       {!hideCTA && (
         <>
           <div className="mt-8 flex justify-start">
-            <ConkaCTAButton href={ctaHref ?? "/case-studies"}>
+            <ConkaCTAButton href={ctaHref ?? "/case-studies"} meta={null}>
               {ctaLabel ?? "View All Case Studies"}
             </ConkaCTAButton>
           </div>

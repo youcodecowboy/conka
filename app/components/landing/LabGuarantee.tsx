@@ -61,7 +61,7 @@ export default function LabGuarantee({
 
           {!hideCTA && (
             <div className="mt-8">
-              <ConkaCTAButton href={ctaHref} className="sm:w-auto">
+              <ConkaCTAButton href={ctaHref} meta={null}>
                 {ctaLabel ?? "Try it 100% Risk Free Now"}
               </ConkaCTAButton>
             </div>

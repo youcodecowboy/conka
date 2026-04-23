@@ -98,7 +98,7 @@ export default function LandingHero() {
         </header>
 
         <div className="mt-6">
-          <ConkaCTAButton meta={null}>Get Started Today</ConkaCTAButton>
+          <ConkaCTAButton meta={null}>Try CONKA Today</ConkaCTAButton>
         </div>
 
         <div className="mt-10">
@@ -130,7 +130,7 @@ export default function LandingHero() {
           </p>
 
           <div className="mb-10">
-            <ConkaCTAButton meta={null}>Get Started Today</ConkaCTAButton>
+            <ConkaCTAButton meta={null}>Try CONKA Today</ConkaCTAButton>
           </div>
 
           <StatStrip dense />

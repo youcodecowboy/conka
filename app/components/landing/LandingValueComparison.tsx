@@ -206,7 +206,7 @@ export default function LandingValueComparison() {
       </div>
 
       <div className="flex justify-start">
-        <ConkaCTAButton>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
+        <ConkaCTAButton meta={null}>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
       </div>
       <div className="mt-6">
         <LabTrustBadges />

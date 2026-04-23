@@ -400,7 +400,7 @@ export default function LandingTestimonials({
       {!hideCTA && (
         <>
           <div className="mt-10 flex justify-start">
-            <ConkaCTAButton>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
+            <ConkaCTAButton meta={null}>Get Both from £{PRICE_PER_SHOT_BOTH}/shot</ConkaCTAButton>
           </div>
           <div className="mt-6">
             <LabTrustBadges />
