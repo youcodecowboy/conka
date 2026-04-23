@@ -16,9 +16,9 @@ export function AccountSubNav() {
   return (
     <nav
       aria-label="Account navigation"
-      className="bg-white border-b border-black/12"
+      className="bg-white pt-5 pb-4 px-4 lg:pt-8 lg:pb-5 lg:px-[5vw]"
     >
-      <div className="grid grid-cols-4">
+      <div className="mx-auto max-w-[1280px] grid grid-cols-4 gap-2 lg:gap-3">
         {TABS.map((tab) => {
           const isActive =
             tab.href === "/account"
@@ -29,10 +29,10 @@ export function AccountSubNav() {
               key={tab.href}
               href={tab.href}
               aria-current={isActive ? "page" : undefined}
-              className={`min-h-[44px] flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.18em] tabular-nums transition-colors ${
+              className={`min-h-[44px] flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.18em] tabular-nums border transition-colors ${
                 isActive
-                  ? "bg-black text-white"
-                  : "bg-white text-black/70 hover:text-black hover:bg-black/[0.03]"
+                  ? "bg-black text-white border-black"
+                  : "bg-white text-black/70 border-black/12 hover:text-black hover:border-black/40"
               }`}
             >
               {tab.label}
