@@ -62,14 +62,12 @@ export default function LabFAQ({ hideCTA = false }: { hideCTA?: boolean } = {}) 
               loading="lazy"
               className="w-full h-auto"
             />
-            <span
-              aria-hidden
-              className="hidden lg:block pointer-events-none absolute top-3 left-3 w-[20%] h-[20%] border-t-[6px] border-l-[6px] border-black"
-            />
-            <span
-              aria-hidden
-              className="hidden lg:block pointer-events-none absolute bottom-3 right-3 w-[20%] h-[20%] border-b-[6px] border-r-[6px] border-black"
-            />
+            <span className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums">
+              Fig. 04 · Field Use
+            </span>
+            <span className="absolute bottom-3 right-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums">
+              CONKA Flow · Workspace
+            </span>
           </div>
         </div>
 
