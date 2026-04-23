@@ -37,32 +37,32 @@ interface TimelineStep {
 const TIMELINE_STEPS: TimelineStep[] = [
   {
     timeframe: "24 hours",
-    title: "Focus without the noise",
+    title: "Focus without the noise.",
     outcome: "Focus stabilisation",
     bullets: [
-      "Sharper focus, no jitters",
-      "No afternoon fog",
-      "Mental chatter quiets",
+      "Sharper focus that holds for hours",
+      "No jitters. No crash. No 2pm dip.",
+      "Deep work feels effortless",
     ],
   },
   {
     timeframe: "14 days",
-    title: "All-day momentum",
-    outcome: "Momentum",
+    title: "Your sharpest weeks yet.",
+    outcome: "Cognitive momentum",
     bullets: [
-      "Mornings feel sharper",
-      "Afternoons hold",
-      "Stress rolls off, not up",
+      "Cognitive scores trending consistently higher",
+      "Mornings start sharp, afternoons hold the line",
+      "Stress rolls off, recovery shortens",
     ],
   },
   {
     timeframe: "30 days",
-    title: "Your new normal",
-    outcome: "Baseline reset",
+    title: "A measurably sharper baseline.",
+    outcome: "Baseline shift",
     bullets: [
-      "Decisions come faster",
-      "Thinking flows, problems feel simpler",
-      "Your everyday, not a good day",
+      "Less variation in your daily cognitive function",
+      "Decisions come faster, problems feel simpler",
+      "Your everyday performance, not just a good day",
     ],
   },
 ];
@@ -181,6 +181,7 @@ export default function LabTimeline({
         style={{ letterSpacing: "-0.02em" }}
       >
         Your Brain, Optimised.
+        <sup className="text-[0.5em] text-black/30 align-super">^^</sup>
       </h2>
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mb-8">
         Based on N=150+ participants · 5,000+ cognitive tests
@@ -283,7 +284,7 @@ export default function LabTimeline({
         </div>
 
         {/* Desktop sidebar image with figure plate */}
-        <div className="hidden lg:block lg:w-[450px] lg:flex-shrink-0 lg:sticky lg:top-24">
+        <div className="hidden lg:block lg:w-[600px] lg:flex-shrink-0 lg:sticky lg:top-24">
           <div className="relative aspect-square border border-black/12 overflow-hidden bg-[#f5f5f5]">
             <Image
               src="/lifestyle/FlowConkaRing.jpg"
