@@ -62,14 +62,16 @@ export default function AppUSPSection() {
           <div className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums z-10">
             Fig. 01 · CONKA App
           </div>
-          <Image
-            src="/app/AppConkaRing.png"
-            alt="CONKA companion app showing the cognitive score ring and daily tracking"
-            fill
-            sizes="(max-width: 1024px) 100vw, 600px"
-            className="object-contain object-top"
-            priority={false}
-          />
+          <div className="absolute left-1/2 -translate-x-1/2 top-[25%] w-[60%] lg:w-[55%] aspect-[1/2]">
+            <Image
+              src="/app/AppConkaRing.png"
+              alt="CONKA companion app showing the cognitive score ring and daily tracking"
+              fill
+              sizes="(max-width: 1024px) 60vw, 330px"
+              className="object-contain"
+              priority={false}
+            />
+          </div>
           <div className="absolute bottom-3 right-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums z-10">
             iOS · Android
           </div>
