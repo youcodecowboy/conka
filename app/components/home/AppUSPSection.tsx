@@ -36,10 +36,11 @@ export default function AppUSPSection() {
         Your score · Your data · Your proof
       </p>
 
-      {/* Two-column content: copy card + cropped asset */}
+      {/* Two-column content: copy card + cropped asset. On mobile, asset
+          sits above the tiles; desktop keeps copy-left / asset-right. */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
         {/* Copy card */}
-        <div className="bg-white border border-black/12 flex flex-col">
+        <div className="order-2 lg:order-1 bg-white border border-black/12 flex flex-col">
           {ROWS.map((row, idx) => (
             <div
               key={row.counter}
@@ -58,7 +59,7 @@ export default function AppUSPSection() {
         </div>
 
         {/* Cropped phone asset inside hairline square frame */}
-        <div className="relative aspect-square border border-black/12 bg-[#f5f5f5] overflow-hidden">
+        <div className="order-1 lg:order-2 relative aspect-square border border-black/12 bg-[#f5f5f5] overflow-hidden">
           <div className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums z-10">
             Fig. 01 · CONKA App
           </div>
