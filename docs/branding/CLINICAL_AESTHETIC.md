@@ -50,17 +50,28 @@ For badge overlays inside images (`MORNING`, `AFTERNOON`, `MOST POPULAR`). Inlin
 ## Standard patterns
 
 ### Trio header (every section opens with one)
+
+Three elements, three distinct roles:
+
+| Element | Role | Format |
+|---------|------|--------|
+| **Eyebrow** | Identifies the topic the section belongs to | `// <short concept> · <TOPIC-0X>`. Topic code mandatory; concept optional flavor. |
+| **Heading** | The bold positioning statement | Single black. No accent spans. No gradients. No navy fills. `letterSpacing: "-0.02em"` inline. |
+| **Sub-line** | What the heading cannot fit: clarifier, proof, or scale | Mono, middle-dot separated, ≤10 words. |
+
 ```tsx
 <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3">
-  Eyebrow · Sub-context
+  {"// Short concept · TOPIC-0X"}
 </p>
 <h2 className="brand-h1 mb-2 text-black" style={{ letterSpacing: "-0.02em" }}>
-  Section heading.
+  Section heading, single black.
 </h2>
 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums">
-  Mono sub · Proof · Scale
+  Clarifier · Proof · Scale
 </p>
 ```
+
+**JSX note:** wrap `// ...` as `{"// ..."}` to avoid `react/jsx-no-comment-textnodes`. Topic codes are always UPPERCASE with two-digit padding (`APP-01`, not `app-1`). See [Topic codes](#topic-codes) for the catalog.
 
 ### Data card
 ```
@@ -251,8 +262,9 @@ Final section pattern across `/science`, `/case-studies`, `/our-story`: a hairli
 - Any number that can change → `tabular-nums`
 - Units, labels, percentages, PMIDs → `font-mono`
 - Canonical separator is the middle-dot `·` (U+00B7). Not `|`, not `—`.
-- Use `//` as a prefix for "document code" eyebrows (philosophy, lab notes, meta lines). Reserved — not for section eyebrows.
+- Every section eyebrow opens with `//`. Format: `// <short concept> · <TOPIC-0X>`. Topic code mandatory; short concept optional. Wrap as `{"// ..."}` in JSX to avoid `react/jsx-no-comment-textnodes`. Longer-form "document code" eyebrows (`// Research Philosophy · Doc-RP-001`) remain valid where the context is a named document rather than a section.
 - Headings get `letterSpacing: "-0.02em"` inline. The stock `brand-h1`/`brand-h2` classes don't tighten enough for clinical.
+- Headings are single `text-black`. No accent spans, no navy fills, no gradient text. Navy `#1B2757` is interactive-only; headings are not interactive.
 
 ## Counter conventions
 
@@ -270,6 +282,33 @@ Counter format signals what you're counting. Keep zero-padded to 2 digits unless
 | `Fig. 01` | Figure plate on imagery | Any hairline-framed asset |
 
 Numbering is sequential across a page — `Fig. 01` through `Fig. 05` should read as one continuous document.
+
+---
+
+## Topic codes
+
+Every section eyebrow ends with a topic code identifying its subject. Codes are **global**, not per-page — one canonical code per topic so the same subject reads the same wherever it appears across the site.
+
+| Code | Topic |
+|------|-------|
+| `CONKA-01` | CONKA Flow (product) |
+| `CONKA-02` | CONKA Clear (product) |
+| `CONKA-03` | Both / Protocol / combined bundle |
+| `APP-01` | The companion app |
+| `SCI-01` | How it works / mechanism |
+| `SCI-02` | Deep science / research / clinical trials |
+| `ING-01` | Ingredients / formula breakdown |
+| `STORY-01` | Our story / founders |
+| `PROOF-01` | Case studies / athlete improvements |
+| `PROOF-02` | 100-day guarantee / risk reversal |
+| `PROOF-03` | Testimonials / customer reviews |
+| `FAQ-01` | FAQ |
+
+**Rules:**
+- UPPERCASE stem, hyphen, two-digit padding. Example: `APP-01`, not `app-1`.
+- Global scope: one canonical code per topic. If a section doesn't fit an existing code, add a new row to this catalog before using it.
+- Topic codes are distinct from element counters (`P-01`, `F-01`, `U-01`, `R-01`, `Fig. 01`). Element counters live inside a section body; topic codes live in the section eyebrow.
+- New topics: pick a meaningful 3–6 char stem + `-01`. Expand to `-02` if a second surface covers the same topic from a different angle (e.g. `SCI-01` mechanism, `SCI-02` deep research).
 
 ---
 
@@ -340,6 +379,8 @@ Requires `relative overflow-hidden` parent. Use `border-white` on dark images. N
 
 - Add `border-radius` — tokens handle it
 - Use gradients — solid navy `#1B2757` only. Exception: `bg-gradient-to-t from-black/70 via-black/25 to-transparent` is allowed *over imagery* for figure-plate legibility, never on UI surfaces.
+- Colour headings — single black only. No accent spans, no navy spans, no gradient text. Headings are not interactive; navy `#1B2757` is reserved for interactive elements (CTAs, selected state, citation links).
+- Omit the topic code in a section eyebrow — every section eyebrow ends with `· TOPIC-0X`. See [Topic codes](#topic-codes).
 - Apply `lab-clip-tr` (or any chamfer) to non-interactive elements (cards, icon tiles, figure plates)
 - Hand-roll a primary CTA — always `ConkaCTAButton`
 - Add shadows to cards — hairline border only

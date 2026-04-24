@@ -24,14 +24,13 @@ export default function AppUSPSection() {
     <div className="w-full">
       {/* Trio header */}
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/40 mb-3 tabular-nums">
-        {"// Proof, not promises · App-01"}
+        {"// Proof, not promises · APP-01"}
       </p>
       <h2
         className="brand-h1 text-black"
         style={{ letterSpacing: "-0.02em" }}
       >
-        Most brands claim results.{" "}
-        <span className="text-[#1B2757]">We let you measure yours.</span>
+        Most brands claim results. We let you measure yours.
       </h2>
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/50 tabular-nums mt-3 mb-8 lg:mb-12">
         Your score · Your data · Your proof
