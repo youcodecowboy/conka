@@ -1,25 +1,58 @@
+"use client";
+
+import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
 
 const ROWS = [
   {
     counter: "01",
+    tabLabel: "Difference",
     label: "The difference",
     body: "Other brands tell you it works. CONKA gives you a cognitive test and a daily log so you can watch it happen.",
+    asset: "/app/AppConkaRing.png",
+    assetAlt: "CONKA app cognitive score ring with daily tracking",
   },
   {
     counter: "02",
+    tabLabel: "The app",
     label: "What it is",
     body: "A companion app with a two-minute cognitive test backed by NHS clinical validation, a daily wellness log, and a progress graph you own.",
+    asset: "/app/AppTestBreakdown.png",
+    assetAlt: "CONKA app cognitive test breakdown and results screen",
   },
   {
     counter: "03",
+    tabLabel: "The value",
     label: "Why it matters",
     body: "See processing speed, sleep, stress and training line up on one screen. If it is working, the graph says so. If it is not, you know what to adjust.",
+    asset: "/app/AppWellness.png",
+    assetAlt: "CONKA app wellness log showing sleep, stress and training trends",
   },
 ];
 
 export default function AppUSPSection() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>, idx: number) => {
+      let nextIdx: number | null = null;
+      if (e.key === "ArrowRight") nextIdx = (idx + 1) % ROWS.length;
+      else if (e.key === "ArrowLeft") nextIdx = (idx - 1 + ROWS.length) % ROWS.length;
+      else if (e.key === "Home") nextIdx = 0;
+      else if (e.key === "End") nextIdx = ROWS.length - 1;
+      if (nextIdx !== null) {
+        e.preventDefault();
+        setActiveIndex(nextIdx);
+        tabRefs.current[nextIdx]?.focus();
+      }
+    },
+    [],
+  );
+
+  const active = ROWS[activeIndex];
+
   return (
     <div className="w-full">
       {/* Trio header */}
@@ -36,43 +69,95 @@ export default function AppUSPSection() {
         Your score · Your data · Your proof
       </p>
 
-      {/* Two-column content: copy card + cropped asset. On mobile, asset
-          sits above the tiles; desktop keeps copy-left / asset-right. */}
+      {/* Two-column content: tabs + panel | asset. Mobile: asset first,
+          then tabs + panel. Desktop: tabs + panel left, asset right. */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
-        {/* Copy card */}
-        <div className="order-2 lg:order-1 bg-white border border-black/12 flex flex-col">
-          {ROWS.map((row, idx) => (
-            <div
-              key={row.counter}
-              className={`px-5 py-5 lg:px-6 lg:py-6 ${
-                idx < ROWS.length - 1 ? "border-b border-black/8" : ""
-              }`}
-            >
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums mb-2">
-                {row.counter} · {row.label}
-              </p>
-              <p className="text-sm md:text-base text-black/75 leading-relaxed">
-                {row.body}
-              </p>
-            </div>
-          ))}
+        {/* Tabs + active panel */}
+        <div className="order-2 lg:order-1 flex flex-col">
+          <div
+            role="tablist"
+            aria-label="CONKA app features"
+            aria-orientation="horizontal"
+            className="grid grid-cols-3 border border-black/12"
+          >
+            {ROWS.map((row, idx) => {
+              const isActive = idx === activeIndex;
+              return (
+                <button
+                  key={row.counter}
+                  ref={(el) => {
+                    tabRefs.current[idx] = el;
+                  }}
+                  type="button"
+                  role="tab"
+                  id={`app-usp-tab-${idx}`}
+                  aria-selected={isActive}
+                  aria-controls={`app-usp-panel-${idx}`}
+                  tabIndex={isActive ? 0 : -1}
+                  onClick={() => setActiveIndex(idx)}
+                  onKeyDown={(e) => handleKeyDown(e, idx)}
+                  className={`min-h-[56px] px-3 py-3 text-left font-mono uppercase tabular-nums transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757]/60 focus-visible:ring-offset-2 ${
+                    idx < ROWS.length - 1 ? "border-r border-black/12" : ""
+                  } ${
+                    isActive
+                      ? "bg-black text-white"
+                      : "bg-white text-black/55 hover:text-black"
+                  }`}
+                >
+                  <span className="block text-[10px] tracking-[0.2em] leading-none">
+                    {row.counter}
+                  </span>
+                  <span className="block text-[10px] tracking-[0.14em] leading-tight mt-1.5 whitespace-nowrap overflow-hidden text-ellipsis">
+                    {row.tabLabel}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            role="tabpanel"
+            id={`app-usp-panel-${activeIndex}`}
+            aria-labelledby={`app-usp-tab-${activeIndex}`}
+            tabIndex={0}
+            className="bg-white border border-t-0 border-black/12 px-5 py-6 lg:px-6 lg:py-8 flex-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757]/30"
+          >
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums mb-3">
+              {active.counter} · {active.label}
+            </p>
+            <p className="text-sm md:text-base text-black/75 leading-relaxed">
+              {active.body}
+            </p>
+          </div>
         </div>
 
-        {/* Cropped phone asset inside hairline square frame */}
+        {/* Phone asset inside hairline square frame. All three images
+            stack absolutely; active one at opacity-100, others fade. */}
         <div className="order-1 lg:order-2 relative aspect-square border border-black/12 bg-[#f5f5f5] overflow-hidden">
           <div className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums z-10">
             Fig. 01 · CONKA App
           </div>
-          <div className="absolute left-1/2 -translate-x-1/2 top-[25%] w-[60%] lg:w-[55%] aspect-[1/2]">
-            <Image
-              src="/app/AppConkaRing.png"
-              alt="CONKA companion app showing the cognitive score ring and daily tracking"
-              fill
-              sizes="(max-width: 1024px) 60vw, 330px"
-              className="object-contain"
-              priority={false}
-            />
-          </div>
+          {ROWS.map((row, idx) => {
+            const isActive = idx === activeIndex;
+            return (
+              <div
+                key={row.asset}
+                aria-hidden={!isActive}
+                className={`absolute left-1/2 -translate-x-1/2 top-[25%] w-[60%] lg:w-[55%] aspect-[1/2] transition-opacity duration-300 ease-out ${
+                  isActive ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <Image
+                  src={row.asset}
+                  alt={row.assetAlt}
+                  fill
+                  sizes="(max-width: 1024px) 60vw, 330px"
+                  className="object-contain"
+                  priority={false}
+                />
+              </div>
+            );
+          })}
           <div className="absolute bottom-3 right-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums z-10">
             iOS · Android
           </div>
