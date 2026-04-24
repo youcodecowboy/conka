@@ -34,8 +34,7 @@ const ROWS = [
 export default function AppUSPSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   // Track which tabs have been visited so inactive phone images do not
-  // load until the user first clicks into them. First paint mounts only
-  // the tab-0 Image; tabs 1 and 2 mount on first activation.
+  // load until the user first clicks into them.
   const [visited, setVisited] = useState<Set<number>>(() => new Set([0]));
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
@@ -83,71 +82,13 @@ export default function AppUSPSection() {
         Your score · Your data · Your proof
       </p>
 
-      {/* Two-column content: tabs + panel | asset. Mobile: asset first,
-          then tabs + panel. Desktop: tabs + panel left, asset right. */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
-        {/* Tabs + active panel */}
-        <div className="order-2 lg:order-1 flex flex-col">
-          <div
-            role="tablist"
-            aria-label="CONKA app features"
-            aria-orientation="horizontal"
-            className="grid grid-cols-3 border border-black/12"
-          >
-            {ROWS.map((row, idx) => {
-              const isActive = idx === activeIndex;
-              return (
-                <button
-                  key={row.counter}
-                  ref={(el) => {
-                    tabRefs.current[idx] = el;
-                  }}
-                  type="button"
-                  role="tab"
-                  id={`app-usp-tab-${idx}`}
-                  aria-selected={isActive}
-                  aria-controls={`app-usp-panel-${idx}`}
-                  tabIndex={isActive ? 0 : -1}
-                  onClick={() => selectTab(idx)}
-                  onKeyDown={(e) => handleKeyDown(e, idx)}
-                  className={`min-h-[56px] px-3 py-3 text-left font-mono uppercase tabular-nums transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757]/60 focus-visible:ring-offset-2 ${
-                    idx < ROWS.length - 1 ? "border-r border-black/12" : ""
-                  } ${
-                    isActive
-                      ? "bg-black text-white"
-                      : "bg-white text-black/55 hover:text-black"
-                  }`}
-                >
-                  <span className="block text-[10px] tracking-[0.2em] leading-none">
-                    {row.counter}
-                  </span>
-                  <span className="block text-[10px] tracking-[0.14em] leading-tight mt-1.5 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {row.tabLabel}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div
-            role="tabpanel"
-            id={`app-usp-panel-${activeIndex}`}
-            aria-labelledby={`app-usp-tab-${activeIndex}`}
-            tabIndex={0}
-            className="bg-white border border-t-0 border-black/12 px-5 py-6 lg:px-6 lg:py-8 flex-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757]/30"
-          >
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums mb-3">
-              {active.counter} · {active.label}
-            </p>
-            <p className="text-sm md:text-base text-black/75 leading-relaxed">
-              {active.body}
-            </p>
-          </div>
-        </div>
-
-        {/* Phone asset inside hairline square frame. All three images
-            stack absolutely; active one at opacity-100, others fade. */}
-        <div className="order-1 lg:order-2 relative aspect-square border border-black/12 bg-[#f5f5f5] overflow-hidden">
+      {/* Mobile stacks naturally (asset, tabs, panel). Desktop switches
+          to a 2-col grid: tabs span both cols on row 1, panel on row 2
+          col 1, asset on row 2 col 2. Panel vertical-centers its content
+          so the tall asset does not leave a hollow card next to it. */}
+      <div className="lg:grid lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6">
+        {/* Phone asset — mobile row 1; desktop row 2 col 2 */}
+        <div className="relative aspect-square border border-black/12 bg-[#f5f5f5] overflow-hidden mb-6 lg:mb-0 lg:col-start-2 lg:row-start-2">
           <div className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums z-10">
             Fig. 01 · CONKA App
           </div>
@@ -176,6 +117,66 @@ export default function AppUSPSection() {
           <div className="absolute bottom-3 right-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums z-10">
             iOS · Android
           </div>
+        </div>
+
+        {/* Tabs — mobile row 2; desktop row 1 spanning both cols */}
+        <div
+          role="tablist"
+          aria-label="CONKA app features"
+          aria-orientation="horizontal"
+          className="grid grid-cols-3 border border-black/12 lg:col-span-2 lg:row-start-1"
+        >
+          {ROWS.map((row, idx) => {
+            const isActive = idx === activeIndex;
+            return (
+              <button
+                key={row.counter}
+                ref={(el) => {
+                  tabRefs.current[idx] = el;
+                }}
+                type="button"
+                role="tab"
+                id={`app-usp-tab-${idx}`}
+                aria-selected={isActive}
+                aria-controls={`app-usp-panel-${idx}`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => selectTab(idx)}
+                onKeyDown={(e) => handleKeyDown(e, idx)}
+                className={`min-h-[56px] lg:min-h-[64px] px-3 py-3 lg:px-6 lg:py-4 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757]/60 focus-visible:ring-offset-2 flex flex-col items-start lg:flex-row lg:items-baseline lg:gap-3 ${
+                  idx < ROWS.length - 1 ? "border-r border-black/12" : ""
+                } ${
+                  isActive
+                    ? "bg-black text-white"
+                    : "bg-white text-black/55 hover:text-black"
+                }`}
+              >
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] leading-none tabular-nums">
+                  {row.counter}
+                </span>
+                <span className="font-mono text-[10px] lg:text-[11px] uppercase tracking-[0.14em] leading-tight mt-1.5 lg:mt-0 whitespace-nowrap">
+                  {row.tabLabel}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Panel — mobile row 3 (connected to tabs above); desktop row 2
+            col 1, stretches to asset height with content vertically
+            centered so the card reads as intentional whitespace. */}
+        <div
+          role="tabpanel"
+          id={`app-usp-panel-${activeIndex}`}
+          aria-labelledby={`app-usp-tab-${activeIndex}`}
+          tabIndex={0}
+          className="bg-white border border-black/12 border-t-0 px-5 py-6 lg:px-8 lg:py-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757]/30 lg:border-t lg:col-start-1 lg:row-start-2 lg:flex lg:flex-col lg:justify-center"
+        >
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 tabular-nums mb-3">
+            {active.counter} · {active.label}
+          </p>
+          <p className="text-sm md:text-base lg:text-lg text-black/75 leading-relaxed">
+            {active.body}
+          </p>
         </div>
       </div>
 
