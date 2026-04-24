@@ -67,7 +67,7 @@ export default function AppUSPSection() {
             alt="CONKA companion app showing the cognitive score ring and daily tracking"
             fill
             sizes="(max-width: 1024px) 100vw, 600px"
-            className="object-cover object-[center_20%]"
+            className="object-cover object-top"
             priority={false}
           />
           <div className="absolute bottom-3 right-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-black/55 px-2 py-1 tabular-nums z-10">
@@ -78,8 +78,8 @@ export default function AppUSPSection() {
 
       {/* CTA */}
       <div className="mt-8 lg:mt-12">
-        <ConkaCTAButton href="/app" meta="// track your own results">
-          See the app
+        <ConkaCTAButton href="/app" meta="// the conka app">
+          Learn More
         </ConkaCTAButton>
       </div>
     </div>
