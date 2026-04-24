@@ -33,7 +33,21 @@ const ROWS = [
 
 export default function AppUSPSection() {
   const [activeIndex, setActiveIndex] = useState(0);
+  // Track which tabs have been visited so inactive phone images do not
+  // load until the user first clicks into them. First paint mounts only
+  // the tab-0 Image; tabs 1 and 2 mount on first activation.
+  const [visited, setVisited] = useState<Set<number>>(() => new Set([0]));
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  const selectTab = useCallback((idx: number) => {
+    setActiveIndex(idx);
+    setVisited((prev) => {
+      if (prev.has(idx)) return prev;
+      const next = new Set(prev);
+      next.add(idx);
+      return next;
+    });
+  }, []);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLButtonElement>, idx: number) => {
@@ -44,11 +58,11 @@ export default function AppUSPSection() {
       else if (e.key === "End") nextIdx = ROWS.length - 1;
       if (nextIdx !== null) {
         e.preventDefault();
-        setActiveIndex(nextIdx);
+        selectTab(nextIdx);
         tabRefs.current[nextIdx]?.focus();
       }
     },
-    [],
+    [selectTab],
   );
 
   const active = ROWS[activeIndex];
@@ -94,7 +108,7 @@ export default function AppUSPSection() {
                   aria-selected={isActive}
                   aria-controls={`app-usp-panel-${idx}`}
                   tabIndex={isActive ? 0 : -1}
-                  onClick={() => setActiveIndex(idx)}
+                  onClick={() => selectTab(idx)}
                   onKeyDown={(e) => handleKeyDown(e, idx)}
                   className={`min-h-[56px] px-3 py-3 text-left font-mono uppercase tabular-nums transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2757]/60 focus-visible:ring-offset-2 ${
                     idx < ROWS.length - 1 ? "border-r border-black/12" : ""
@@ -138,6 +152,7 @@ export default function AppUSPSection() {
             Fig. 01 · CONKA App
           </div>
           {ROWS.map((row, idx) => {
+            if (!visited.has(idx)) return null;
             const isActive = idx === activeIndex;
             return (
               <div
