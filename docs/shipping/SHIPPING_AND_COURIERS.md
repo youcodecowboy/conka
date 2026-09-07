@@ -119,6 +119,13 @@ long-haul zones (a 168 to New Zealand cost ~£200, charged £38). Every rate sta
 **Decisions (June 2026):**
 - **All international = Evri.** (DHL `International Priority` upgrade remains a future
   fast-follow, not built.)
+> ⚠️ **SUPERSEDED (2026-09-07) — the DAP decision below is being reversed.** The EU
+> abolished the €150 duty exemption on 1 Jul 2026 and France added a national parcel tax
+> on 1 Mar 2026, so DAP now lands French customers a punitive doorstep bill. The US $800
+> de minimis is also gone, which invalidates the flat £22 US rate. Plan of record:
+> `docs/development/featurePlans/international-duties-and-ddp.md`. Do not re-derive the
+> incoterm model from this section until that plan is folded back in here.
+
 - **Incoterm = DAP / Evri DDU service: the customer pays import duty/VAT on arrival.** So
   costs below are the Evri **duty-unpaid (DDU) / commercial** rates (the customer-pays-duty
   service), which is the true cost under DAP. EU customers get a duty bill on delivery —
@@ -209,6 +216,10 @@ Express              | Evri    | Standard     | UK     | n/a
 24 Hour Delivery     | DPD     | Next Day     | UK     | n/a
 Express International | Evri    | International | ROW    | DAP
 ```
+
+⚠️ The `DAP` incoterm on row 3 is the direct cause of the Sept 2026 France surprise-charge
+problem and is due to change to `DDP` for EU destinations. See
+`docs/development/featurePlans/international-duties-and-ddp.md`.
 
 **Test observation (2026-06-17):** all 3 Synergy test orders shipped back via **Evri
 (EVRICORP tracking)**, including the `24 Hour Delivery` order that is mapped to DPD —
