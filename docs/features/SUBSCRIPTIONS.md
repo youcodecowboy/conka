@@ -80,6 +80,39 @@ first live order that it exploded into components.
 **Synergy rules:** the connector pulls only open, paid, unfulfilled orders. Never remove the
 `IMPORTSYNERGY` tag. Orders cannot be edited once Synergy has pulled them.
 
+### Shipping on renewals
+
+The shipping line on a renewal order comes from the **delivery method stored on the Shopify
+subscription contract**, not from a rate picked at billing time. That name is what Synergy routes
+couriers on, and it rejects anything outside its configured list.
+
+**Every contract migrated from Loop stores a null title.** All 296 carry `null` for `title`,
+`presentmentTitle` and `code`; all 33 created through Skio checkout carry `Express`. So renewals
+from the first group print `Subscription shipping` and are held by Synergy as "Invalid Dispatch
+Method", while checkout orders print `Express`. Nothing is re-rated at billing: our cheapest UK
+rate is already `Express` at £0.00, and `Subscription shipping` is not a rate we have ever
+configured. Our profile holds only `Express`, `24 Hour Delivery` and `Express International`.
+
+**This predates Skio.** Order `#3935` was billed by **Loop** on 27 Aug 2026 carrying the identical
+label. Renewals on this store have always behaved this way; it surfaced now because Synergy's
+routing is new, not because the platform changed. Do not raise it with Skio as a migration fault.
+
+**The fix** is Skio's per-contract **"Re-sync with Shopify"** in the Update delivery method dialog.
+It pulls the rate name off our Shopify profile, picks correctly from the address, and leaves the
+price alone (`Delivery price: Synced with Shopify`, override unchecked). The API equivalent is
+`changeSubscriptionDeliveryMethod`.
+
+**Never disturb the price while correcting a title.** Leave `setOverride` false. UK contracts are
+£0 either way, but the 12 international ones store Loop-era delivery prices (EUR 26.95, EUR 38.95,
+USD 28-31) that do not match our current Express International bands, so a re-rate would change
+what real customers pay.
+
+**Gotcha: our own Shopify apps cannot read subscription contracts.** `read_own_subscription_contracts`
+only covers contracts the calling app created, and Skio owns all of ours. Contract-level checks go
+through Skio's API (`getCurrentSubscriptionDeliveryMethod`), not Shopify's.
+
+Status and the open verification: **SCRUM-1311**.
+
 ### Fulfilment staging
 
 Plans and variants stay constant as box formats change; only `bundlecomposition` moves. The

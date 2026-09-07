@@ -17,6 +17,35 @@ no longer has anything to bite on. See `docs/development/featurePlans/archive/lo
 
 ---
 
+### Renewal orders ship as "Subscription shipping" and Synergy holds them (SCRUM-1311)
+
+**Status:** Open, urgent. Controlled test resolves 8 Sept 2026.
+**Files:** None in this repo. Skio dashboard / Skio API.
+
+**Symptom:** all 296 contracts migrated from Loop store a null delivery method title, so their
+renewal orders print `Subscription shipping` instead of a configured rate name. Synergy routes on
+that name and holds them as "Invalid Dispatch Method". 220 active contracts affected (208 UK, 8
+France, 4 US); ~23 orders already stamped and held.
+
+**Not a Skio migration defect:** Loop produced the identical label on `#3935` (27 Aug 2026), before
+the migration. Synergy's routing is what is new.
+
+**Fix, pending verification:** Skio's per-contract "Re-sync with Shopify" populates the title from
+our Shopify profile and leaves the price alone. Unproven is whether a populated title actually
+reaches the renewal order, because no Skio-native contract has renewed yet (earliest ~1 Oct). Test
+armed: contract `140576719222` re-synced, `140578652534` left null, both billing 8 Sept 07:00 UTC.
+
+**What closes it:** read both orders on 9 Sept. If the treated one prints `Express`, backfill the
+208 UK actives via `changeSubscriptionDeliveryMethod` (test on one first, `setOverride` false), do
+the 12 international ones by hand with the price checked either side, and release the held orders
+with Synergy manually.
+
+**Open with Synergy:** `#3935` carries the same unrecognised label and *was* fulfilled on 4 Sept,
+while `#4036` / `#4037` are held. Settle whether the method name is truly the sole cause before
+touching 208 live contracts.
+
+---
+
 ### Klaviyo email templates still link to the deleted `/account/subscriptions`
 
 **Status:** Open, low urgency. Covered by a redirect in the meantime.
