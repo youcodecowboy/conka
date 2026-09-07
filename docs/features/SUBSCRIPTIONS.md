@@ -107,6 +107,20 @@ price alone (`Delivery price: Synced with Shopify`, override unchecked). The API
 USD 28-31) that do not match our current Express International bands, so a re-rate would change
 what real customers pay.
 
+**The mapping is unambiguous, and simpler than it looks.** UK is the only zone carrying two rates
+(`Express` at £0 and `24 Hour Delivery` at £6.54+). All eleven overseas zones carry exactly one,
+`Express International`. So a subscription contract maps to `Express` if the shipping address is
+UK and `Express International` otherwise, with no exceptions. Two traps to check before ever
+re-deriving this: **Jersey sits in its own `Express International` zone**, so a Channel Islands
+address labelled "United Kingdom" would be mis-mapped, and a country with no configured zone has
+no rate at all. Neither is present today (audited 2026-09-07).
+
+**A subscription always resolves to `Express` in the UK, even when the customer paid for next-day.**
+Order `#4042` carries two shipping lines, `24 Hour Delivery £6.54` and `Express £0.00`, and the
+contract took the second. The paid upgrade applies to the first order only; renewals revert to
+standard silently. All 34 Skio-native contracts behave this way. Tracked as a behaviour question in
+`docs/TODO.md`, not a defect.
+
 **Gotcha: our own Shopify apps cannot read subscription contracts.** `read_own_subscription_contracts`
 only covers contracts the calling app created, and Skio owns all of ours. Contract-level checks go
 through Skio's API (`getCurrentSubscriptionDeliveryMethod`), not Shopify's.
