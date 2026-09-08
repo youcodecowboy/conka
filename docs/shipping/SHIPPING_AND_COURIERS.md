@@ -211,14 +211,25 @@ Synergy maps each method name to a carrier + service. Current sheet (3 rows — 
 test orders):
 
 ```
-Shipping Method      | Carrier | Service      | Market | INCOTERMS
-Express              | Evri    | Standard     | UK     | n/a
-24 Hour Delivery     | DPD     | Next Day     | UK     | n/a
-Express International | Evri    | International | ROW    | DAP
+Shipping Method           | Carrier | Service       | Market | INCOTERMS
+Express                   | Evri    | Standard      | UK     | n/a
+24 Hour Delivery          | DPD     | Next Day      | UK     | n/a
+Express International     | Evri    | International | ROW    | DAP
+Express International DHL | DHL     | International | ROW    | DAP
 ```
 
-⚠️ The `DAP` incoterm on row 3 is the direct cause of the Sept 2026 France surprise-charge
-problem and is due to change to `DDP` for EU destinations. See
+**`Express International DHL` is live** (DHL **Air** service, set up 5 Aug 2026, confirmed by
+Mihaela Lapadus). It sits alongside the Evri method as the premium international option, not
+as a replacement. It was added after Evri failed to produce a label for a France order
+(`13234918031734`), which went back to stock through returns.
+
+Synergy's portal has no view of the agreed method list; this table is the record. Terms of
+Sale are a per-method menu choice (DAP or DDP) that Synergy can change on request.
+
+⚠️ The `DAP` terms of sale are the direct cause of the Sept 2026 France surprise-charge
+problem. Plan of record is to flip **`Express International DHL` to `DDP`** and route EU (and
+later US) traffic to it, leaving the Evri row on DAP. Because DHL is already a separate
+method, this needs no new rate name. See
 `docs/development/featurePlans/international-duties-and-ddp.md`.
 
 **Test observation (2026-06-17):** all 3 Synergy test orders shipped back via **Evri
