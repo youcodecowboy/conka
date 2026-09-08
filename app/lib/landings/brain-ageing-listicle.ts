@@ -304,9 +304,5 @@ export const brainAgeingListicle: ListicleConfig = {
     "app-optional",
     "guarantee",
   ],
-  stickyBar: {
-    label: "Protect your sharpest asset.",
-    cta: "Get started",
-    sub: "100-day guarantee",
-  },
+  stickyBar: { cta: "Get started" },
 };

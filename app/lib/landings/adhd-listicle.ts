@@ -361,9 +361,5 @@ export const adhdListicle: ListicleConfig = {
     "how-to-take",
     "guarantee",
   ],
-  stickyBar: {
-    label: "Stop fighting your brain.",
-    cta: "Get started",
-    sub: "100-day guarantee",
-  },
+  stickyBar: { cta: "Get started" },
 };

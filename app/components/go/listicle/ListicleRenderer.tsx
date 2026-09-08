@@ -27,6 +27,11 @@ import SymptomExplainer from "@/app/components/landing/SymptomExplainer";
 import SegmentToggle from "@/app/components/landing/SegmentToggle";
 import LogoMarquee, { PRESS_LOGOS } from "@/app/components/landing/LogoMarquee";
 import ListicleProofTier, { ListicleLogoBand } from "./ListicleProofTier";
+import {
+  PRICE_PER_SHOT_BOTH,
+  PRICE_PER_SHOT_CLEAR,
+  PRICE_PER_SHOT_FLOW,
+} from "@/app/lib/landingPricing";
 import LabFAQ from "@/app/components/landing/LabFAQ";
 import { pickFaqItems, stripClaimAnchors } from "@/app/lib/faqContent";
 import { useHashScroll } from "./useHashScroll";
@@ -87,6 +92,18 @@ const NAVY = "var(--brand-navy, #1b2757)";
    this page sells, following the buy box's productHeroId, rather than scrolling
    to the in-page buy zone. Flow "01" -> /conka-flow, Clear "02" -> /conka-clarity,
    Both "03" (and the default) -> /conka-both. */
+/**
+ * Per-shot price for the sticky bar, keyed off the same `productHeroId` that
+ * decides the CTA target, so a page that switches product cannot end up
+ * anchoring on another product's price. Read from `landingPricing.ts`: offer
+ * terms never get retyped into a landing config.
+ */
+const PRICE_PER_SHOT: Record<ProductHeroId, string> = {
+  "01": PRICE_PER_SHOT_FLOW,
+  "02": PRICE_PER_SHOT_CLEAR,
+  "03": PRICE_PER_SHOT_BOTH,
+};
+
 const PDP_HREF: Record<ProductHeroId, string> = {
   "01": "/conka-flow",
   "02": "/conka-clarity",
@@ -94,6 +111,37 @@ const PDP_HREF: Record<ProductHeroId, string> = {
 };
 /* Light-navy tint strip for the sticky bar (Simple DTC tint, not soft-blue). */
 const TINT = "var(--brand-tint, #f4f5f8)";
+
+/**
+ * The 4.7 star row: a grey five-star run with an amber copy clipped over it at
+ * 94% width. Shared by the hero micro-row and the sticky bar so the two cannot
+ * drift; `fontSize` is the only thing that differs between them.
+ *
+ * It is 4.7 specifically, not rating-agnostic: the figure is baked into both
+ * the 94% fill and the aria-label. Callers read the number itself out of
+ * `hero.socialProof`, so if the sitewide rating ever moves, this component has
+ * to move with it or the stars will quietly disagree with the digits.
+ */
+function StarRow({ fontSize }: { fontSize: string }) {
+  return (
+    <span
+      className="relative inline-block leading-none"
+      style={{ fontSize, letterSpacing: "0.05em" }}
+      aria-label="4.7 out of 5 stars"
+    >
+      <span className="text-black/15" aria-hidden="true">
+        ★★★★★
+      </span>
+      <span
+        className="absolute left-0 top-0 overflow-hidden whitespace-nowrap"
+        style={{ color: "#F59E0B", width: "94%" }}
+        aria-hidden="true"
+      >
+        ★★★★★
+      </span>
+    </span>
+  );
+}
 
 /** LandingHero's avatar + star micro-row, compacted to the IM8 scale.
  *  Content only: the caller owns the surrounding spacing. */
@@ -119,22 +167,7 @@ function TrustMicroRow({ label, sub }: { label: string; sub: string }) {
       </div>
       <div className="flex flex-col leading-tight">
         <div className="flex items-center gap-1.5">
-          <div
-            className="relative inline-block leading-none"
-            style={{ fontSize: "15px", letterSpacing: "0.05em" }}
-            aria-label="4.7 out of 5 stars"
-          >
-            <span className="text-black/15" aria-hidden="true">
-              ★★★★★
-            </span>
-            <span
-              className="absolute left-0 top-0 overflow-hidden whitespace-nowrap"
-              style={{ color: "#F59E0B", width: "94%" }}
-              aria-hidden="true"
-            >
-              ★★★★★
-            </span>
-          </div>
+          <StarRow fontSize="15px" />
           <span className="text-[13px] font-bold tabular-nums">{label}</span>
         </div>
         <span className="mt-0.5 text-[11px] text-black/60">{sub}</span>
@@ -775,6 +808,13 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
   const needsStickyClearance =
     Boolean(config.stickyBar) && !config.faqIds.length;
 
+  // The sticky bar reuses the hero's proof figures rather than restating them,
+  // so a page holds its rating in exactly one place. `socialProof.label` reads
+  // "Excellent 4.7" and `.sub` reads "622+ reviews · 5,000+ daily users"; the
+  // bar has room for the bare number and the review count only.
+  const rating = config.hero.socialProof?.label.match(/[\d.]+\s*$/)?.[0];
+  const reviewCount = config.hero.socialProof?.sub.split("·")[0].trim();
+
   return (
     <main
       className={`min-h-screen overflow-x-clip${needsStickyClearance ? " pb-32" : ""}`}
@@ -1016,23 +1056,34 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
         <aside
           aria-label="Offer bar"
           className="fixed bottom-0 left-0 right-0 z-40 px-5 py-2 md:px-[5vw]"
-          style={{ background: TINT, color: NAVY }}
+          style={{ background: TINT, color: "#111" }}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
-            <div className="flex min-w-0 flex-col gap-1">
+            {/* Price first: this bar is the highest-closing surface on the page,
+                and it carried no price at all before SCRUM-1322. */}
+            <div className="flex min-w-0 flex-col gap-0.5">
               <span className="truncate text-[13px] font-semibold leading-tight md:text-sm">
-                {config.stickyBar.label}
+                From £{PRICE_PER_SHOT[config.product.productHeroId ?? "03"]} a
+                shot
               </span>
-              {config.stickyBar.sub ? (
-                <span className="truncate text-[11px] leading-tight opacity-70">
-                  {config.stickyBar.sub}
+              {rating ? (
+                <span className="flex min-w-0 items-center gap-1.5 leading-tight">
+                  <StarRow fontSize="11px" />
+                  <span className="text-[11px] font-bold tabular-nums">
+                    {rating}
+                  </span>
+                  {reviewCount ? (
+                    <span className="truncate text-[11px] text-black/60">
+                      {reviewCount}
+                    </span>
+                  ) : null}
                 </span>
               ) : null}
             </div>
             <Link
               href={withSrc(buyHref, SECTION.sticky)}
               onClick={() => fireCta(SECTION.sticky)}
-              className="flex shrink-0 flex-col items-center justify-center rounded-full px-7 py-2 text-center text-white"
+              className="flex min-h-[44px] shrink-0 flex-col items-center justify-center rounded-full px-7 py-2 text-center text-white"
               style={{ background: NAVY }}
             >
               <span className="text-sm font-bold leading-tight">

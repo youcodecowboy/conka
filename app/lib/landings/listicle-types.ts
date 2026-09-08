@@ -315,8 +315,14 @@ interface ListicleBase {
    * fails the build. The `/go` surface is noindex and strips claim anchors.
    */
   faqIds: string[];
-  /** Fixed bottom bar anchoring to #product */
-  stickyBar?: { label: string; cta: string; sub?: string };
+  /**
+   * Fixed bottom bar. Only the CTA label is configurable: since SCRUM-1322 the
+   * bar states the per-shot price (from `landingPricing.ts`, keyed off
+   * `product.productHeroId`) and the hero's rating, so a page cannot hold a
+   * second, drifting copy of either. The old `label` and `sub` are gone rather
+   * than left populated and unread.
+   */
+  stickyBar?: { cta: string };
 }
 
 /** IM8 template: dense layout, product-image hero, section-block library. */
@@ -343,11 +349,6 @@ export interface Im8ListicleConfig extends ListicleBase {
      * @deprecated `hero` - not rendered. Put the offer in `cta` instead.
      */
     offerBadge?: { hero?: string; sticky: string };
-    /**
-     * Per-serving price anchor for the sticky bar (SCRUM-1322). Sourced from
-     * `app/lib/landingPricing.ts`, never hardcoded in a config.
-     */
-    priceAnchor?: string;
     /** Trust chips under the CTA; each gets its own icon */
     trustPills?: { label: string; icon: TrustPillIcon }[];
     asset: ListicleAsset;

@@ -267,9 +267,5 @@ export const productivityListicle: ListicleConfig = {
     "with-coffee",
     "guarantee",
   ],
-  stickyBar: {
-    label: "Have it all, without the burnout.",
-    cta: "Get started",
-    sub: "100-day guarantee",
-  },
+  stickyBar: { cta: "Get started" },
 };
