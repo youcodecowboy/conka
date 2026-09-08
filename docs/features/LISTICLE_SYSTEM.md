@@ -105,7 +105,15 @@ That is the whole thing. No route, component, or analytics wiring to touch.
 
 ## Shared fields (both templates)
 
-`slug`, `persona`, `format: "listicle"`, `template`, `title`, `faqIds`, an optional `proof` object, plus `stickyBar` (`{ label, cta, sub? }`).
+`slug`, `persona`, `format: "listicle"`, `template`, `title`, `faqIds`, an optional `proof` object, plus `stickyBar` (`{ cta }`).
+
+- `stickyBar` carries **only the CTA label**. Since SCRUM-1322 the bar states the
+  per-shot price and the rating itself: the price from `app/lib/landingPricing.ts`,
+  keyed off `product.productHeroId` so it always matches what the page sells, and
+  the rating read out of `hero.socialProof` so a page holds that figure once. The
+  old `label` and `sub` are gone rather than left populated and unread. Do not add
+  a price or a rating to a config; if the bar needs to say something new, it comes
+  from the same single source the rest of the page uses.
 
 - `faqIds` are ids from `app/lib/faqContent.ts`, in display order. An unknown id fails the build. The `/go` surface strips claim anchors from answers, renders via `LabFAQ` with no image column and no hub link.
 - `proof` is the post-reasons proof tier, rendered by `ListicleProofTier` for both templates. Four optional moments, each doing a different job, in fixed order:

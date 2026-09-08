@@ -1,6 +1,13 @@
 # Listicle First-Half Upgrade
 
-> **Status:** Phases 1 to 3 active, Phase 4 deferred.
+> **Status:** Phases 1 to 3 **built** (all three tickets For review, unpushed on
+> the branch below). Phase 4 still deferred, so this plan stays live rather than
+> being archived.
+>
+> **Not yet deployed.** Nothing here has reached production. On deploy: plant a
+> `/notion-flag` and append the timeline entry already drafted in
+> `docs/analytics/LISTICLE_PERFORMANCE.md`, so the CPA and retention trends carry
+> a marker at the right date.
 > **Branch:** `feature/listicle-preframe-upgrade`
 > **Scope owner:** Rudh. Origin: agency feedback (Ash), Sept 2026, with an annotated ARMRA comparison.
 > **Applies to:** the three `im8` listicles at `/go/adhd-listicle`, `/go/productivity-listicle`, `/go/brain-ageing-listicle`.
@@ -14,7 +21,7 @@
 |-------|-------------|--------|
 | 1 | Hero preframe rebuild | **Done** (SCRUM-1320, For review) |
 | 2 | Proof wall raised + reasons section header | **Done** (SCRUM-1321, For review) |
-| 3 | Sticky bar rework with price anchoring | Not Started (SCRUM-1322) |
+| 3 | Sticky bar rework with price anchoring | **Done** (SCRUM-1322, For review) |
 | 4 | Reasons consolidation, 7 to 5, cross-page dedup | Future |
 
 ## Problem
@@ -265,7 +272,7 @@ other; SCRUM-1321 is also linked to SCRUM-1176.
 |--------|-------|-------|--------|
 | [SCRUM-1320](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1320) | Listicle hero: rebuild as a soft educational preframe | 1 | For review |
 | [SCRUM-1321](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1321) | Listicle: raise the proof wall and add a reasons section header | 2 | For review |
-| [SCRUM-1322](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1322) | Listicle sticky bar: rework layout and add per-serving price anchoring | 3 | To Do |
+| [SCRUM-1322](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1322) | Listicle sticky bar: rework layout and add per-serving price anchoring | 3 | For review |
 
 Phase 4 is deliberately unticketed. It is re-scoped when the first three have
 shipped and been read.
