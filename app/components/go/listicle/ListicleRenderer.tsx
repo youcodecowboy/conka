@@ -58,6 +58,14 @@ import {
 
 /** White DTC canvas. */
 const CANVAS = "#fff";
+/* Decorative Neuro Blue (--brand-accent #4058bb) splash washing out to the
+ * white canvas. Anchored top-right, which is the copy column on desktop and
+ * the top of the copy block on mobile, so it sits behind the headline and
+ * never under the photo. Soft decorative gradients are sanctioned on Simple
+ * DTC surfaces (DESIGN_SYSTEM.md §8.5); this stays under 20% alpha so the
+ * canvas still reads monochrome-first. */
+const HERO_WASH =
+  "radial-gradient(115% 85% at 100% 0%, rgba(64,88,187,0.20) 0%, rgba(64,88,187,0.07) 40%, rgba(64,88,187,0) 72%)";
 /**
  * Filled navy (--brand-navy). Serves both the dark decorative proof bands
  * (stats band, bridge, dark stat panel) and the primary/interactive +
@@ -610,7 +618,10 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
           asset still bleeds to the left/top/bottom edges at ~half viewport
           width; on mobile the copy comes FIRST (reversing SCRUM-1166) so the
           outcome headline is the first thing a cold visitor reads. */}
-      <section aria-label="Hero" style={{ background: CANVAS, color: "#111" }}>
+      <section
+        aria-label="Hero"
+        style={{ background: `${HERO_WASH}, ${CANVAS}`, color: "#111" }}
+      >
         <div className="grid items-center md:grid-cols-[52fr_48fr]">
           <div
             className="relative order-2 w-full md:order-1"
@@ -645,14 +656,14 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
             <h1
               className="mb-4 text-balance font-semibold text-black"
               style={{
-                fontSize: "clamp(2.5rem, 8vw, 3.5rem)",
+                fontSize: "clamp(3rem, 9vw, 3.75rem)",
                 lineHeight: 1.05,
                 letterSpacing: "-0.02em",
               }}
             >
               {config.hero.headline}
             </h1>
-            <p className="mb-6 max-w-[34rem] text-[15px] leading-relaxed text-black md:text-base">
+            <p className="mb-6 max-w-[34rem] text-base leading-relaxed text-black md:text-[17px]">
               {config.hero.subcopy}
             </p>
             <Link
