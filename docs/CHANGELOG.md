@@ -5,6 +5,7 @@
 ---
 
 <!-- changelog:newest - new entries are inserted directly below this line, newest first, one line each -->
+- **2026-09-08** | Listicle reasons section restyled: centred section title with a left-side blue wash, reason headings in black with the number as an eyebrow above, and the hairline under the title removed
 - **2026-09-08** | Listicle reasons block now opens with its own eyebrow and "N Reasons ..." section header, restoring the list promise the new soft hero gave up (SCRUM-1321)
 - **2026-09-08** | Listicle proof wall moved up: the partner logo band now sits directly under the hero on all three /go pages, and the navy proof ticker is removed (SCRUM-1321)
 - **2026-09-08** | Listicle heroes rebuilt as a soft educational preframe: outcome headline, one offer CTA with the rating beneath it, and a person-with-product photo on all three /go pages (SCRUM-1320)

@@ -160,7 +160,18 @@ and it read as chrome rather than proof.
 
 **The reasons block announces itself (SCRUM-1321).** `reasonsHeader` renders an
 eyebrow plus the "N Reasons ..." title directly above the first body block,
-tracked as the fixed zone `reasonsHeader`. It exists because the hero H1 is now
+tracked as the fixed zone `reasonsHeader`. It is **centred**, which is a
+deliberate exception to the design system's left-alignment default: it is the
+one place on the page that acts as a title card for everything below it, and
+the reference lander centres the same moment. Everything else on the page stays
+left-aligned. The block immediately below it drops its top hairline, because the
+header is the separator.
+
+**Numbered headings.** `reason`, `symptomExplainer` and `segmentToggle` all
+render through the shared `ReasonHeading`: the counter sits above the title as a
+quiet `text-black/40` eyebrow, and the title is solid black. The old inline
+"01." prefix and navy title are gone, and with them the last im8 exception to
+the Simple DTC heading rule. It exists because the hero H1 is now
 a soft outcome line, so without it the list starts with no framing at all. Keep
 its `headline` in sync with the config's `title`: they are the same promise, one
 in the tab and one on the page.

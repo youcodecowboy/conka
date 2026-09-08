@@ -69,6 +69,12 @@ const CANVAS = "#fff";
  * never under the photo. Soft decorative gradients are sanctioned on Simple
  * DTC surfaces (DESIGN_SYSTEM.md §8.5); this stays under 20% alpha so the
  * canvas still reads monochrome-first. */
+/* The same Neuro Blue splash on the reasons section, mirrored to the left.
+ * Sized in absolute px rather than percentages: the reasons section is as tall
+ * as the whole list, and a percentage-sized gradient would stretch into a wash
+ * over the entire page instead of staying a splash at the top corner. */
+const REASONS_WASH =
+  "radial-gradient(760px 520px at 0% 0%, rgba(64,88,187,0.16) 0%, rgba(64,88,187,0.05) 45%, rgba(64,88,187,0) 75%)";
 const HERO_WASH =
   "radial-gradient(115% 85% at 100% 0%, rgba(64,88,187,0.20) 0%, rgba(64,88,187,0.07) 40%, rgba(64,88,187,0) 72%)";
 /**
@@ -133,6 +139,41 @@ function TrustMicroRow({ label, sub }: { label: string; sub: string }) {
         </div>
         <span className="mt-0.5 text-[11px] text-black/60">{sub}</span>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Numbered reason heading: the counter sits above the title as a quiet eyebrow
+ * rather than inline with it, and the title is solid black.
+ *
+ * The counter used to be an inline "01." prefix and the title navy, which was
+ * the one deliberate im8 exception to the Simple DTC rule that headings are
+ * solid black. Dropping it puts the listicle back on the house grammar and
+ * lets the number read as a list marker instead of as part of the sentence.
+ *
+ * Shared by `reason`, `symptomExplainer` and `segmentToggle` so the numbered
+ * spine stays visually identical across all three numbered block kinds.
+ */
+function ReasonHeading({
+  n,
+  className,
+  children,
+}: {
+  n?: number;
+  className: string;
+  children: string;
+}) {
+  return (
+    <div className={className}>
+      {n ? (
+        <p className="mb-2 text-[13px] font-semibold tabular-nums text-black/40">
+          {String(n).padStart(2, "0")}
+        </p>
+      ) : null}
+      <h3 className="text-balance text-[32px] font-semibold leading-[1.1] text-black md:text-[44px] md:leading-[1.05]">
+        {children}
+      </h3>
     </div>
   );
 }
@@ -432,15 +473,12 @@ function BodyBlock({
   if (block.kind === "reason") {
     const mediaFirst = index % 2 === 1;
     return (
-      <div className="border-t border-black/10 py-14">
+      <div className={`${index === 0 ? "" : "border-t border-black/10"} py-14`}>
         <article className="grid items-center gap-8 md:grid-cols-2 md:gap-16">
           <div className={mediaFirst ? "md:order-2" : ""}>
-            <h3 className="mb-4 text-balance text-[32px] font-semibold leading-[1.1] text-[var(--brand-navy)] md:text-[44px] md:leading-[1.05]">
-              <span className="tabular-nums">
-                {String(block.n).padStart(2, "0")}.
-              </span>{" "}
+            <ReasonHeading n={block.n} className="mb-4">
               {block.headline}
-            </h3>
+            </ReasonHeading>
             <p className="mb-5 max-w-[36rem] text-[15px] font-semibold leading-relaxed text-black md:text-base">
               {block.body}
             </p>
@@ -541,15 +579,10 @@ function BodyBlock({
 
   if (block.kind === "symptomExplainer") {
     return (
-      <div className="border-t border-black/10 py-14">
-        <h3 className="mb-6 text-balance text-[32px] font-semibold leading-[1.1] text-[var(--brand-navy)] md:text-[44px] md:leading-[1.05]">
-          {block.n ? (
-            <span className="tabular-nums">
-              {String(block.n).padStart(2, "0")}.
-            </span>
-          ) : null}{" "}
+      <div className={`${index === 0 ? "" : "border-t border-black/10"} py-14`}>
+        <ReasonHeading n={block.n} className="mb-6">
           {block.headline}
-        </h3>
+        </ReasonHeading>
         <SymptomExplainer
           intro={block.intro}
           symptoms={block.symptoms}
@@ -563,15 +596,10 @@ function BodyBlock({
 
   if (block.kind === "segmentToggle") {
     return (
-      <div className="border-t border-black/10 py-14">
-        <h3 className="mb-6 text-balance text-[32px] font-semibold leading-[1.1] text-[var(--brand-navy)] md:text-[44px] md:leading-[1.05]">
-          {block.n ? (
-            <span className="tabular-nums">
-              {String(block.n).padStart(2, "0")}.
-            </span>
-          ) : null}{" "}
+      <div className={`${index === 0 ? "" : "border-t border-black/10"} py-14`}>
+        <ReasonHeading n={block.n} className="mb-6">
           {block.headline}
-        </h3>
+        </ReasonHeading>
         <SegmentToggle
           segments={block.segments}
           onSelect={(label) =>
@@ -729,7 +757,7 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
         aria-label="Reasons"
         id="reasons"
         className="px-5 py-16 md:px-[5vw]"
-        style={{ background: CANVAS, color: "#111" }}
+        style={{ background: `${REASONS_WASH}, ${CANVAS}`, color: "#111" }}
       >
         <div className="mx-auto max-w-7xl">
           {config.reasonsHeader ? (
@@ -737,16 +765,16 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
               // The first body block already opens with `border-t ... py-14`,
               // so this only needs to clear the hairline, not the whole gap.
               section={SECTION.reasonsHeader}
-              className="mb-8 md:mb-10"
+              className="mb-8 text-center md:mb-10"
             >
-              <p className="mb-3 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-black">
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-black">
                 {config.reasonsHeader.eyebrow}
               </p>
               {/* Sized between the reason headings (32/44, navy) and the hero
                   H1 (48/60), and solid black rather than navy, so it reads as
                   the section title rather than as another reason. */}
               <h2
-                className="max-w-[24ch] text-balance font-semibold text-black"
+                className="mx-auto max-w-[24ch] text-balance font-semibold text-black"
                 style={{
                   fontSize: "clamp(2.125rem, 6.5vw, 3rem)",
                   lineHeight: 1.08,
