@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import Image from "next/image";
 import type {
   ListicleAsset,
@@ -155,6 +155,20 @@ function TrustMicroRow({ label, sub }: { label: string; sub: string }) {
  * Shared by `reason`, `symptomExplainer` and `segmentToggle` so the numbered
  * spine stays visually identical across all three numbered block kinds.
  */
+/**
+ * Splits a stat value into the large stem and its smaller tail, the way
+ * BrainFuelBand does with its explicit `value` / `small` pair: the integer
+ * carries the weight and everything after it drops to 60%.
+ *
+ * "19.3%" -> "19" + ".3%" · "26%" -> "26" + "%" · "£10k" -> "£10" + "k" ·
+ * "+14.86%" -> "+14" + ".86%". A leading sign or currency mark stays with the
+ * stem, and a plain "75" gets no tail at all.
+ */
+function splitStatValue(value: string): [string, string] {
+  const match = /^([^\d]*\d+)(.*)$/.exec(value);
+  return match ? [match[1], match[2]] : [value, ""];
+}
+
 function ReasonHeading({
   n,
   className,
@@ -174,6 +188,71 @@ function ReasonHeading({
       <h3 className="text-balance text-[32px] font-semibold leading-[1.1] text-black md:text-[44px] md:leading-[1.05]">
         {children}
       </h3>
+    </div>
+  );
+}
+
+/**
+ * A reason clip that only decodes while it is on screen.
+ *
+ * These used to carry a bare `autoPlay loop`, which keeps a video decoding
+ * long after it has scrolled away: wasted battery and CPU on the phones 74%
+ * of this traffic arrives on, and there can be several clips on one page.
+ * Same treatment BottleVideo uses on the PDPs, so the two agree: no autoPlay,
+ * an IntersectionObserver plays at 40% visible and pauses on exit.
+ */
+function ReasonVideo({
+  asset,
+}: {
+  asset: Extract<ListicleAsset, { kind: "video" }>;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (el.paused) el.play().catch(() => {});
+        } else if (!el.paused) {
+          el.pause();
+        }
+      },
+      { threshold: 0.4 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // "contain": full-width black tile, clip centred (product renders).
+  // "cover" (default): inset 4/5 frame, clip fills it (texture loops).
+  const contain = asset.fit === "contain";
+  const video = videoTrio(asset.src);
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-md border border-black/10 w-full ${
+        contain ? "bg-black" : ""
+      }`}
+      style={{ aspectRatio: contain ? "4/3" : (asset.aspect ?? "4/3") }}
+    >
+      <video
+        ref={videoRef}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={video.poster}
+        className={`absolute inset-0 h-full w-full ${
+          contain ? "object-contain" : "object-cover"
+        }`}
+      >
+        {video.webm && <source src={video.webm} type="video/webm" />}
+        <source src={video.mp4} type="video/mp4" />
+      </video>
     </div>
   );
 }
@@ -236,33 +315,7 @@ function AssetBlock({ asset }: { asset: ListicleAsset }) {
   }
 
   if (asset.kind === "video") {
-    // "contain": full-width black tile, clip centred (product renders).
-    // "cover" (default): inset 4/5 frame, clip fills it (texture loops).
-    const contain = asset.fit === "contain";
-    const video = videoTrio(asset.src);
-    return (
-      <div
-        className={`relative overflow-hidden rounded-md border border-black/10 w-full ${
-          contain ? "bg-black" : ""
-        }`}
-        style={{ aspectRatio: contain ? "4/3" : (asset.aspect ?? "4/3") }}
-      >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={video.poster}
-          className={`absolute inset-0 h-full w-full ${
-            contain ? "object-contain" : "object-cover"
-          }`}
-        >
-          {video.webm && <source src={video.webm} type="video/webm" />}
-          <source src={video.mp4} type="video/mp4" />
-        </video>
-      </div>
-    );
+    return <ReasonVideo asset={asset} />;
   }
 
   const note =
@@ -596,7 +649,22 @@ function BodyBlock({
                     color: "#000",
                   }}
                 >
-                  {st.value}
+                  {(() => {
+                    const [stem, tail] = splitStatValue(st.value);
+                    return (
+                      <>
+                        {stem}
+                        {tail ? (
+                          // 0.6em resolves to the reference's 24.96px against
+                          // its 41.6px stem, and keeps that ratio as the stem
+                          // clamps down on narrow screens.
+                          <small style={{ fontSize: "0.6em", fontWeight: 850 }}>
+                            {tail}
+                          </small>
+                        ) : null}
+                      </>
+                    );
+                  })()}
                 </div>
                 <p
                   className="m-0"
