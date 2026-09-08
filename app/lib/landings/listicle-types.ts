@@ -312,10 +312,21 @@ export interface Im8ListicleConfig extends ListicleBase {
     cta: string;
     /**
      * Free-offer copy (message-match for "first week free" ad angles).
-     * `hero` is the full green badge above the hero CTA (centred on mobile);
-     * `sticky` is the short sub-line under the sticky-bar CTA. Omit for no badge.
+     * `sticky` is the short sub-line under the sticky-bar CTA.
+     *
+     * `hero` is a legacy green badge that used to sit above the hero CTA. It is
+     * no longer rendered: SCRUM-1320 collapsed the hero to a single outcome-led
+     * offer CTA, because the badge plus the CTA read as two competing offer
+     * surfaces. Kept optional so an older config still type-checks.
+     *
+     * @deprecated `hero` - not rendered. Put the offer in `cta` instead.
      */
-    offerBadge?: { hero: string; sticky: string };
+    offerBadge?: { hero?: string; sticky: string };
+    /**
+     * Per-serving price anchor for the sticky bar (SCRUM-1322). Sourced from
+     * `app/lib/landingPricing.ts`, never hardcoded in a config.
+     */
+    priceAnchor?: string;
     /** Trust chips under the CTA; each gets its own icon */
     trustPills?: { label: string; icon: TrustPillIcon }[];
     asset: ListicleAsset;

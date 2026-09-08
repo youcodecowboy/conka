@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, type ReactNode } from "react";
+import { Fragment } from "react";
 import Image from "next/image";
 import type {
   ListicleAsset,
@@ -76,28 +76,11 @@ const PDP_HREF: Record<ProductHeroId, string> = {
 /* Light-navy tint strip for the sticky bar (Simple DTC tint, not soft-blue). */
 const TINT = "var(--brand-tint, #f4f5f8)";
 
-/** Green free-offer badge (--brand-positive at /10), matching the "+N free"
- *  pill used on PDPs and the funnel. Sits above the hero CTA. */
-function OfferPill({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <span
-      className={`inline-flex items-center justify-center rounded-full bg-[#1a7f4f]/[0.1] font-semibold text-[#1a7f4f] ${className}`}
-    >
-      {children}
-    </span>
-  );
-}
-
-/** LandingHero's avatar + star micro-row, compacted to the IM8 scale */
+/** LandingHero's avatar + star micro-row, compacted to the IM8 scale.
+ *  Content only: the caller owns the surrounding spacing. */
 function TrustMicroRow({ label, sub }: { label: string; sub: string }) {
   return (
-    <div className="mb-5 flex items-center justify-start gap-2.5">
+    <div className="flex items-center justify-start gap-2.5">
       <div className="flex items-center">
         {Array.from({ length: 5 }, (_, i) => (
           <div
@@ -623,12 +606,14 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
       className={`min-h-screen overflow-x-clip${needsStickyClearance ? " pb-32" : ""}`}
       style={{ background: CANVAS, color: "#111" }}
     >
-      {/* Zone 1: hero — IM8 pattern: asset bleeds to the left/top/bottom edges
-          on desktop at ~half viewport width; content column centres beside. */}
+      {/* Zone 1: hero — a soft educational preframe (SCRUM-1320). On desktop the
+          asset still bleeds to the left/top/bottom edges at ~half viewport
+          width; on mobile the copy comes FIRST (reversing SCRUM-1166) so the
+          outcome headline is the first thing a cold visitor reads. */}
       <section aria-label="Hero" style={{ background: CANVAS, color: "#111" }}>
         <div className="grid items-center md:grid-cols-[52fr_48fr]">
           <div
-            className="relative order-1 w-full"
+            className="relative order-2 w-full md:order-1"
             style={{
               aspectRatio:
                 config.hero.asset.kind === "image"
@@ -654,28 +639,26 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
               </div>
             )}
           </div>
-          <div className="order-2 px-5 pt-6 pb-8 md:flex md:flex-col md:justify-center md:px-14 md:py-0">
-            <h1 className="mb-3 text-balance text-[1.75rem] font-semibold leading-[1.1] text-black md:mb-4 md:text-5xl md:leading-[1.05]">
+          <div className="order-1 px-5 pt-10 pb-8 md:order-2 md:flex md:flex-col md:justify-center md:px-14 md:py-0">
+            {/* Simple DTC display tier (DESIGN_SYSTEM.md §8.5): on a stripped-back
+                hero the oversized heading carries the hierarchy on its own. */}
+            <h1
+              className="mb-4 text-balance font-semibold text-black"
+              style={{
+                fontSize: "clamp(2.5rem, 8vw, 3.5rem)",
+                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+              }}
+            >
               {config.hero.headline}
             </h1>
-            <p className="mb-5 max-w-[34rem] text-[15px] leading-relaxed text-black md:text-base">
+            <p className="mb-6 max-w-[34rem] text-[15px] leading-relaxed text-black md:text-base">
               {config.hero.subcopy}
             </p>
-            {config.hero.socialProof ? (
-              <TrustMicroRow
-                label={config.hero.socialProof.label}
-                sub={config.hero.socialProof.sub}
-              />
-            ) : null}
-            {config.hero.offerBadge ? (
-              <OfferPill className="mb-4 mx-auto w-fit max-w-full px-4 py-1.5 text-center text-[13px] leading-snug md:mx-0 md:text-sm">
-                {config.hero.offerBadge.hero}
-              </OfferPill>
-            ) : null}
             <Link
               href={withSrc(buyHref, SECTION.hero)}
               onClick={() => fireCta(SECTION.hero)}
-              className="mb-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-center text-base font-semibold text-white transition-opacity hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-navy)] md:w-auto"
+              className="mb-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-center text-base font-semibold text-white transition-opacity hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-navy)] md:w-auto"
               style={{ background: NAVY }}
             >
               {config.hero.cta}
@@ -695,6 +678,14 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
                 <polyline points="12 5 19 12 12 19" />
               </svg>
             </Link>
+            {/* Proof lands AFTER the ask, not before it: it reassures the click
+                rather than being spent above the fold on its own. */}
+            {config.hero.socialProof ? (
+              <TrustMicroRow
+                label={config.hero.socialProof.label}
+                sub={config.hero.socialProof.sub}
+              />
+            ) : null}
           </div>
         </div>
       </section>

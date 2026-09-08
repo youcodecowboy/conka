@@ -30,19 +30,24 @@ export const productivityListicle: ListicleConfig = {
       eyebrow: "World's Largest",
       body: "Consumer brain-research project. 1,000+ brains tested through our app.",
     },
-    headline: "7 Reasons High Performers Run on CONKA",
+    // Soft educational preframe (SCRUM-1320). The "7 Reasons..." list promise
+    // moves off the H1; it comes back as the reasons section header in
+    // SCRUM-1321. `title` deliberately keeps it so the tab and the Meta
+    // content_name stay comparable with earlier data. The founder origin from
+    // SCRUM-1187 is not lost: it still carries reason 3 (the cheat-code reason).
+    headline: "Discover the natural way to stay sharp all day.",
     subcopy:
-      "You want it all, the career and the life, without one costing you the other. So did the two founders who built CONKA: one an Olympian with Team GB at Tokyo, the other juggling a full-time team whilst training for ultramarathons. Two caffeine-free shots, Flow and Clear.",
+      "Coffee buys you an hour and takes back two. CONKA works from within, supporting the pathways behind focus and recovery, so you can have the career and still have something left for the evening.",
     socialProof: {
       label: "Excellent 4.7",
       sub: "622+ reviews · 5,000+ daily users",
     },
-    cta: "Have it all, risk-free for 100 days",
-    // Message-match for the "first week free" productivity ad angle (Flow's
-    // monthly-sub first-order bonus is 8 shots, ~a week). Green badge above the
-    // hero CTA and compact on the sticky bar.
+    // One offer surface, outcome first. The old green "+1 week free" pill sat
+    // directly above this and read as a second, competing offer.
+    cta: "Save 46% on a sharper day",
+    // Only `sticky` is rendered now; it keeps the free-shots value cue on the
+    // bar, which closes more orders than any other zone.
     offerBadge: {
-      hero: "+1 week of free brain supplements on your first order",
       sticky: "+8 free shots",
     },
     trustPills: [
@@ -52,10 +57,10 @@ export const productivityListicle: ListicleConfig = {
     ],
     asset: {
       kind: "image",
-      src: "/TwoFounders.jpg",
-      alt: "CONKA founders Harry Glover and Humphrey Bodington",
-      // Native 1840x1226 (3:2); frame matches so nothing crops
-      aspect: "1840/1226",
+      src: "/lifestyle/flow/FlowDrink.jpg",
+      alt: "A woman taking a CONKA Flow shot",
+      // Native 1500x1000 (3:2); frame matches so nothing crops
+      aspect: "1500/1000",
     },
   },
   ticker: [

@@ -26,19 +26,23 @@ export const adhdListicle: ListicleConfig = {
       eyebrow: "World's Largest",
       body: "Consumer brain-research project. Trusted by 1,000+ ADHD brains, tested through our app.",
     },
-    headline: "7 Reasons an ADHD Brain Runs Better on CONKA",
+    // Soft educational preframe (SCRUM-1320). The "7 Reasons..." list promise
+    // moves off the H1; it comes back as the reasons section header in
+    // SCRUM-1321. `title` deliberately keeps it so the tab and the Meta
+    // content_name stay comparable with earlier data.
+    headline: "Discover the natural way to finally calm racing thoughts.",
     subcopy:
-      "It isn't that you're not trying. An ADHD brain runs low on the exact chemicals that start tasks and hold focus. CONKA is built around that, not another 'just try harder': two caffeine-free shots, Flow to get going and Clear for the afternoon, with an app to prove it's working.",
+      "Coffee and willpower push at the problem from the outside. CONKA works from within, supporting the pathways an ADHD brain runs low on, so starting a task stops feeling like a fight.",
     socialProof: {
       label: "Excellent 4.7",
       sub: "622+ reviews · 5,000+ daily users",
     },
-    cta: "Try it risk free, now 46% off",
-    // Message-match for the "first week free" ad angle (Flow's monthly-sub
-    // first-order bonus is 8 shots, ~a week). Green badge above the hero CTA
-    // and compact on the sticky bar.
+    // One offer surface, outcome first. The old green "+1 week free" pill sat
+    // directly above this and read as a second, competing offer.
+    cta: "Save 46% on a calmer mind",
+    // Only `sticky` is rendered now; it keeps the free-shots value cue on the
+    // bar, which closes more orders than any other zone.
     offerBadge: {
-      hero: "+1 week of free brain supplements on your first order",
       sticky: "+8 free shots",
     },
     trustPills: [
@@ -48,10 +52,13 @@ export const adhdListicle: ListicleConfig = {
     ],
     asset: {
       kind: "image",
-      src: "/lifestyle/BlurGrab.jpg",
-      alt: "A hand reaching for a CONKA shot on a bedside table beside a mug",
-      // Native 1500x1000; frame matches so nothing crops
-      aspect: "1500/1000",
+      src: "/lifestyle/GirlsLaughing.jpg",
+      alt: "Three women holding CONKA shots together",
+      // Native 1500x1500. The 3:2 frame keeps the hero the same height as the
+      // other two personas; anchoring to the top crops the empty lower third
+      // rather than the faces or the bottles.
+      aspect: "3/2",
+      objectPosition: "center top",
     },
   },
   ticker: [
