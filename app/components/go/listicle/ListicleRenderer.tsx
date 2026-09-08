@@ -27,11 +27,7 @@ import SymptomExplainer from "@/app/components/landing/SymptomExplainer";
 import SegmentToggle from "@/app/components/landing/SegmentToggle";
 import LogoMarquee, { PRESS_LOGOS } from "@/app/components/landing/LogoMarquee";
 import ListicleProofTier, { ListicleLogoBand } from "./ListicleProofTier";
-import {
-  PRICE_PER_SHOT_BOTH,
-  PRICE_PER_SHOT_CLEAR,
-  PRICE_PER_SHOT_FLOW,
-} from "@/app/lib/landingPricing";
+import { getOfferPricing, type OfferProduct } from "@/app/lib/offerData";
 import LabFAQ from "@/app/components/landing/LabFAQ";
 import { pickFaqItems, stripClaimAnchors } from "@/app/lib/faqContent";
 import { useHashScroll } from "./useHashScroll";
@@ -92,17 +88,37 @@ const NAVY = "var(--brand-navy, #1b2757)";
    this page sells, following the buy box's productHeroId, rather than scrolling
    to the in-page buy zone. Flow "01" -> /conka-flow, Clear "02" -> /conka-clarity,
    Both "03" (and the default) -> /conka-both. */
-/**
- * Per-shot price for the sticky bar, keyed off the same `productHeroId` that
- * decides the CTA target, so a page that switches product cannot end up
- * anchoring on another product's price. Read from `landingPricing.ts`: offer
- * terms never get retyped into a landing config.
- */
-const PRICE_PER_SHOT: Record<ProductHeroId, string> = {
-  "01": PRICE_PER_SHOT_FLOW,
-  "02": PRICE_PER_SHOT_CLEAR,
-  "03": PRICE_PER_SHOT_BOTH,
+/** The buy-box product, in the vocabulary `offerData` uses. */
+const OFFER_PRODUCT: Record<ProductHeroId, OfferProduct> = {
+  "01": "flow",
+  "02": "clear",
+  "03": "both",
 };
+
+/**
+ * What the sticky bar says about money, straight out of `offerData`, which is
+ * the only place prices we can sell at are allowed to live.
+ *
+ * Quarterly, not monthly: the bar makes an "as low as" claim, so it has to
+ * quote the cheapest cadence on offer or the claim is not true. Flow quarterly
+ * is £1.83 a shot against £2.00 monthly.
+ *
+ * The gift figure is the same sum the PDP gift stack and the cart upsell show,
+ * bonus shots plus every gift RRP, and it is floored to the nearest ten for the
+ * same reason the upsell badge floors it: a round number is read in one beat
+ * and never overstates what is actually given away. Flow quarterly is £118.96,
+ * so the bar says £110.
+ */
+function stickyOffer(heroId: ProductHeroId) {
+  const sub = getOfferPricing(OFFER_PRODUCT[heroId], "quarterly-sub");
+  const kitValue =
+    (sub.freeShotsValue ?? 0) +
+    (sub.gifts ?? []).reduce((total, gift) => total + gift.rrp, 0);
+  return {
+    perShot: sub.perShot.toFixed(2),
+    giftValue: kitValue ? Math.floor(kitValue / 10) * 10 : null,
+  };
+}
 
 const PDP_HREF: Record<ProductHeroId, string> = {
   "01": "/conka-flow",
@@ -812,6 +828,7 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
   // so a page holds its rating in exactly one place. `socialProof.label` reads
   // "Excellent 4.7" and `.sub` reads "622+ reviews · 5,000+ daily users"; the
   // bar has room for the bare number and the review count only.
+  const offer = stickyOffer(config.product.productHeroId ?? "03");
   const rating = config.hero.socialProof?.label.match(/[\d.]+\s*$/)?.[0];
   const reviewCount = config.hero.socialProof?.sub.split("·")[0].trim();
 
@@ -1055,17 +1072,22 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
       {config.stickyBar ? (
         <aside
           aria-label="Offer bar"
-          className="fixed bottom-0 left-0 right-0 z-40 px-5 py-2 md:px-[5vw]"
+          className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 px-5 py-3.5 md:px-[5vw] md:py-4"
           style={{ background: TINT, color: "#111" }}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
-            {/* Price first: this bar is the highest-closing surface on the page,
-                and it carried no price at all before SCRUM-1322. */}
-            <div className="flex min-w-0 flex-col gap-0.5">
-              <span className="truncate text-[13px] font-semibold leading-tight md:text-sm">
-                From £{PRICE_PER_SHOT[config.product.productHeroId ?? "03"]} a
-                shot
+            {/* Money first: this is the highest-closing surface on the page and
+                it carried no price at all before SCRUM-1322. Price, then what
+                a subscription adds, then the proof that backs both. */}
+            <div className="flex min-w-0 flex-col gap-1">
+              <span className="truncate text-[14px] font-bold leading-tight md:text-[15px]">
+                As low as £{offer.perShot} a shot
               </span>
+              {offer.giftValue ? (
+                <span className="truncate text-[11.5px] font-semibold leading-tight text-[#1a7f4f]">
+                  +£{offer.giftValue} of free gifts with a subscription
+                </span>
+              ) : null}
               {rating ? (
                 <span className="flex min-w-0 items-center gap-1.5 leading-tight">
                   <StarRow fontSize="11px" />
@@ -1083,19 +1105,12 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
             <Link
               href={withSrc(buyHref, SECTION.sticky)}
               onClick={() => fireCta(SECTION.sticky)}
-              className="flex min-h-[44px] shrink-0 flex-col items-center justify-center rounded-full px-7 py-2 text-center text-white"
+              className="flex min-h-[48px] shrink-0 items-center justify-center rounded-full px-7 text-center text-white"
               style={{ background: NAVY }}
             >
-              <span className="text-sm font-bold leading-tight">
+              <span className="text-[15px] font-bold leading-tight">
                 {config.stickyBar.cta}
               </span>
-              {config.hero.offerBadge ? (
-                // Lighter mint than --brand-positive (#1a7f4f), which is too
-                // dark to read on the navy CTA; reads as the "free" value cue.
-                <span className="text-[11px] font-medium leading-tight text-[#8fe3b4]">
-                  {config.hero.offerBadge.sticky}
-                </span>
-              ) : null}
             </Link>
           </div>
         </aside>

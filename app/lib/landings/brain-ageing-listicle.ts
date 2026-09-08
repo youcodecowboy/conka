@@ -39,11 +39,6 @@ export const brainAgeingListicle: ListicleConfig = {
     // One offer surface, outcome first. The old green "+1 week free" pill sat
     // directly above this and read as a second, competing offer.
     cta: "Save 46% on a sharper mind",
-    // Only `sticky` is rendered now; it keeps the free-shots value cue on the
-    // bar, which closes more orders than any other zone.
-    offerBadge: {
-      sticky: "+8 free shots",
-    },
     trustPills: [
       { label: "Zero caffeine", icon: "no-caffeine" },
       { label: "Informed Sport Certified", icon: "informed-sport" },
