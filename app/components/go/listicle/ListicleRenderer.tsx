@@ -1075,20 +1075,35 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
       {config.stickyBar ? (
         <aside
           aria-label="Offer bar"
-          className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#1B2757]/12 px-5 py-3.5 md:px-[5vw] md:py-4"
+          className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#1B2757]/12 px-5 py-4 md:px-[5vw]"
           style={{ background: STICKY_TINT, color: "#111" }}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
             {/* Money only: this is the highest-closing surface on the page and
-                it carried no price at all before SCRUM-1322. Price, then what a
-                subscription adds on top of it. */}
+                it carried no price at all before SCRUM-1322. The reference bar
+                is bold headline over a quieter second line, so the price leads
+                and the gift value supports it rather than shouting alongside.
+
+                No green here. Savings green earns its place as a badge on a
+                white surface; as a bare 12px line on the navy tint it read as a
+                second accent competing with the CTA. Navy ties the line to the
+                button instead, and the "free" does the work the colour was
+                doing. */}
             <div className="flex min-w-0 flex-col gap-1">
-              <span className="truncate text-[14px] font-bold leading-tight md:text-[15px]">
+              <span className="text-[15px] font-bold leading-tight md:text-base">
                 As low as £{offer.perShot} a shot
               </span>
               {offer.giftValue ? (
-                <span className="truncate text-[11.5px] font-semibold leading-tight text-[#1a7f4f]">
-                  +£{offer.giftValue} of free gifts with a subscription
+                <span className="text-[12px] font-medium leading-tight text-[#1B2757]">
+                  +£{offer.giftValue} of gifts free
+                  {/* The qualifier is the first thing to go when space is
+                      short: at 390px the full sentence was ellipsing, which
+                      turned the number into "+£110 of free gifts with a sub…"
+                      and lost the point of the line. */}
+                  <span className="hidden sm:inline">
+                    {" "}
+                    with a subscription
+                  </span>
                 </span>
               ) : null}
             </div>

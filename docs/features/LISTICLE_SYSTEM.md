@@ -120,6 +120,13 @@ That is the whole thing. No route, component, or analytics wiring to touch.
   - **No rating in the bar.** Proof already runs twice above it, in the hero
     micro-row and the logo band, and a third copy competed with the price on a
     two-line strip. The bar sells; the page proves.
+  - **No savings green.** It earns its place as a badge on a white surface; as a
+    bare 12px line on the navy tint it read as a second accent competing with the
+    CTA. The gift line is navy, which ties it to the button, and the word "free"
+    does the work the colour was doing.
+  - The "with a subscription" qualifier is `hidden sm:inline`. At 390px the full
+    sentence ellipsed to "+£110 of free gifts with a sub...", which lost the
+    point of the line; the number and "gifts free" always survive.
   - Background is `#eef1f8`, the flat sibling of the hero's Neuro Blue wash, and
     the CTA takes `ConkaCTAButton`'s inverted contract (white fill, navy border
     and text, flipping to navy on hover) rather than the component itself: that
