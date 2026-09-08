@@ -10,7 +10,8 @@ Georgina Anderson-Marshall (Synergy) confirmed the orders shipped DAP because te
 were never mapped at onboarding.
 **Relates to:** `docs/shipping/SHIPPING_AND_COURIERS.md` (canonical; §4 and §6 are superseded
 by this plan until it is folded back in), `order-size-shipping-tiers.md`,
-`archive/synergy-3pl-integration.md`
+`archive/synergy-3pl-integration.md`, **SCRUM-1311** (renewal shipping titles — see
+§ Interaction with SCRUM-1311)
 **Retirement:** when the switch ships, fold the rates, the mapping sheet and the incoterm
 model into `SHIPPING_AND_COURIERS.md` and archive this plan. Do not leave two live
 descriptions of the model.
@@ -264,7 +265,46 @@ See § Open questions.
 8. Repoint all other international zones at `Express International DHL`.
 9. Reprice every band off DHL cost + fuel surcharge + DTP fee.
 10. Delete the 1-box and 2-box weight bands on all international zones (the minimum).
-11. Publish the shipping policy line.
+11. **Re-sync the 12 international Skio contracts** onto the new method names. These were
+    deliberately held back from the SCRUM-1311 bulk fix so they are corrected once, against
+    the final names, rather than twice (§ Interaction with SCRUM-1311). Use Skio's per-contract
+    "Re-sync with Shopify", or `changeSubscriptionDeliveryMethod`. **Leave `setOverride` false**:
+    these contracts store Loop-era delivery prices (EUR 26.95, EUR 38.95, USD 28-31) and a
+    re-rate would change what real customers pay. Decide the price question deliberately at
+    step 9, not as a side effect of fixing a title.
+12. Publish the shipping policy line.
+
+## Interaction with SCRUM-1311
+
+SCRUM-1311 fixes a separate, unrelated failure: every subscription contract migrated from Loop
+stores a null delivery-method title, so renewals print `Subscription shipping` and Synergy holds
+them as "Invalid Dispatch Method". Contracts created through Skio checkout carry `Express` and
+are fine. See `docs/features/SUBSCRIPTIONS.md` § Shipping on renewals.
+
+The two overlap on exactly **12 contracts**. Active subscription state, pulled from Skio
+8 Sept 2026:
+
+| | Loop-migrated (needs the SCRUM-1311 fix) | Skio-native (already correct) |
+|---|---|---|
+| UK | **207** | 37 |
+| International | **12** (8 France, 4 USA) | 0 |
+
+**Every international subscriber is Loop-migrated, and there are no Skio-native international
+contracts at all.**
+
+**The split:** the 207 UK contracts map to `Express`, which this plan does not change. Fix them
+under SCRUM-1311 now and they never need touching again. The 12 international ones would be set
+to `Express International`, which this plan **retires**, so fixing them now means fixing them
+twice.
+
+**So hold the 12 and correct them at Phase 4 step 11.** They are getting touched again
+regardless: four of them are the French monthly subscribers being migrated to quarterly
+(Phase 3), and all 12 carry stale Loop-era delivery prices that no current rate matches.
+
+**One line in `SUBSCRIPTIONS.md` goes stale when this ships.** It currently states that a
+contract maps to `Express` if the address is UK and `Express International` otherwise, with no
+exceptions. After the switch that is three methods: `Express` (UK), `European Delivery` (EU),
+`Express International DHL` (rest of world). Update it as part of Phase 4.
 
 ### Phase 5 — Later
 
