@@ -63,6 +63,12 @@ export const productivityListicle: ListicleConfig = {
       aspect: "1500/1000",
     },
   },
+  // Reintroduces the list promise at the point the list starts, now that
+  // the hero H1 is a soft outcome line (SCRUM-1320/1321). Matches `title`.
+  reasonsHeader: {
+    eyebrow: "Brain health at the cellular level",
+    headline: "7 Reasons High Performers Run on CONKA",
+  },
   // Post-reasons proof tier. Four moments, each doing a different job.
   proof: {
     logoBand: true,

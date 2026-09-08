@@ -59,6 +59,12 @@ export const brainAgeingListicle: ListicleConfig = {
       objectPosition: "center top",
     },
   },
+  // Reintroduces the list promise at the point the list starts, now that
+  // the hero H1 is a soft outcome line (SCRUM-1320/1321). Matches `title`.
+  reasonsHeader: {
+    eyebrow: "Brain health at the cellular level",
+    headline: "7 Reasons Word-Slips Don't Have to Get Worse",
+  },
   // Post-reasons proof tier. Four moments, each doing a different job.
   proof: {
     logoBand: true,

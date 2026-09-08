@@ -732,6 +732,31 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
         style={{ background: CANVAS, color: "#111" }}
       >
         <div className="mx-auto max-w-7xl">
+          {config.reasonsHeader ? (
+            <TrackedSection
+              // The first body block already opens with `border-t ... py-14`,
+              // so this only needs to clear the hairline, not the whole gap.
+              section={SECTION.reasonsHeader}
+              className="mb-8 md:mb-10"
+            >
+              <p className="mb-3 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-black">
+                {config.reasonsHeader.eyebrow}
+              </p>
+              {/* Sized between the reason headings (32/44, navy) and the hero
+                  H1 (48/60), and solid black rather than navy, so it reads as
+                  the section title rather than as another reason. */}
+              <h2
+                className="max-w-[24ch] text-balance font-semibold text-black"
+                style={{
+                  fontSize: "clamp(2.125rem, 6.5vw, 3rem)",
+                  lineHeight: 1.08,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {config.reasonsHeader.headline}
+              </h2>
+            </TrackedSection>
+          ) : null}
           {config.body.map((block, i) => (
             <Fragment key={i}>
               <TrackedSection section={sectionId(block.kind, i)}>

@@ -331,6 +331,16 @@ export interface Im8ListicleConfig extends ListicleBase {
     trustPills?: { label: string; icon: TrustPillIcon }[];
     asset: ListicleAsset;
   };
+  /**
+   * Eyebrow + title introducing the reasons block (SCRUM-1321). Carries the
+   * "N Reasons ..." list promise that SCRUM-1320 took off the hero H1, so the
+   * list still announces itself, just at the point the list actually starts.
+   *
+   * A fixed renderer zone, deliberately NOT a `body` entry: `section` ids are
+   * indexed over `body`, so adding a block here would rebase every id below it
+   * and void the scroll-funnel history. Tracked as `reasonsHeader`.
+   */
+  reasonsHeader?: { eyebrow: string; headline: string };
   /** Reasons with bands / strips woven between */
   body: ListicleBodyBlock[];
   /** Dark CTA card bridging the last reason into the product zone */
