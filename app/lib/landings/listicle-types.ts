@@ -172,7 +172,17 @@ export type ListicleBodyBlock =
     }
   | {
       kind: "statsBand";
+      /**
+       * Card title. Still called `eyebrow` for the configs that already set
+       * it, but since the band was restyled to the /lander proof card it
+       * renders as a large bold h3, not a small uppercase marker. Write it in
+       * sentence case; ALL CAPS at this size shouts.
+       */
       eyebrow: string;
+      /**
+       * Two per row on mobile. An odd count is fine: the last stat spans the
+       * full width rather than leaving a hole in the grid.
+       */
       stats: { value: string; label: string }[];
       footnote?: string;
     }

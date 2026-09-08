@@ -211,7 +211,7 @@ export const adhdListicle: ListicleConfig = {
     },
     {
       kind: "statsBand",
-      eyebrow: "ADHD BY THE NUMBERS",
+      eyebrow: "ADHD by the numbers",
       stats: [
         { value: "26%", label: "of people report ADHD traits" },
         { value: "£10k", label: "lower yearly earnings with untreated ADHD" },

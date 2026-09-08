@@ -551,29 +551,40 @@ function BodyBlock({
         className="my-10 overflow-hidden rounded-md p-6 md:p-8"
         style={{ background: TINT, color: "#111" }}
       >
-        <p className="mb-6 text-[11px] font-semibold uppercase tracking-[0.14em] text-black/50">
+        <h3
+          className="mb-6 max-w-[20ch] text-balance text-[1.625rem] font-bold leading-[1.1] text-black md:text-[2rem]"
+          style={{ letterSpacing: "-0.02em" }}
+        >
           {block.eyebrow}
-        </p>
+        </h3>
         <div
           className={`grid grid-cols-2 gap-px ${
             block.stats.length === 3 ? "md:grid-cols-3" : "md:grid-cols-4"
           }`}
           style={{ background: "rgba(0,0,0,0.10)" }}
         >
-          {block.stats.map((s, i) => (
-            <div
-              key={i}
-              className="px-4 py-6 md:px-5"
-              style={{ background: TINT }}
-            >
-              <div className="text-[2.25rem] font-semibold leading-none tabular-nums text-black md:text-[2.75rem]">
-                {s.value}
+          {block.stats.map((s, i) => {
+            // An odd count leaves a hole in a 2-col grid, and the grid's
+            // background shows through it as an empty grey block. The last
+            // cell spans both columns instead, so 3 stats read 2-then-1.
+            // Desktop has its own column count, so the span is reset there.
+            const fillsRow =
+              block.stats.length % 2 === 1 && i === block.stats.length - 1;
+            return (
+              <div
+                key={i}
+                className={`px-4 py-6 md:px-5 ${fillsRow ? "col-span-2 md:col-span-1" : ""}`}
+                style={{ background: TINT }}
+              >
+                <div className="text-[2.5rem] font-bold leading-none tabular-nums text-black md:text-[3rem]">
+                  {s.value}
+                </div>
+                <div className="mt-2.5 text-[13px] leading-snug text-black/60">
+                  {s.label}
+                </div>
               </div>
-              <div className="mt-2.5 text-[13px] leading-snug text-black/60">
-                {s.label}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {block.footnote ? (
           <p className="mt-6 text-[11px] leading-relaxed text-black/50">

@@ -197,7 +197,7 @@ export const brainAgeingListicle: ListicleConfig = {
     },
     {
       kind: "statsBand",
-      eyebrow: "CLINICALLY PROVEN",
+      eyebrow: "Clinically proven, not just claimed",
       stats: [
         { value: "+14.86%", label: "Sharper thinking vs placebo" },
         { value: "+19.3%", label: "Sharper focus in pro athletes" },

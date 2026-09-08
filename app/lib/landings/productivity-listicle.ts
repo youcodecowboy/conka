@@ -150,7 +150,7 @@ export const productivityListicle: ListicleConfig = {
     },
     {
       kind: "statsBand",
-      eyebrow: "CLINICALLY PROVEN",
+      eyebrow: "Clinically proven, not just claimed",
       stats: [
         { value: "18.1%", label: "Faster processing than caffeine" },
         { value: "80%", label: "Improved cognitive scores in week one" },
