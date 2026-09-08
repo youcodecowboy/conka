@@ -108,8 +108,8 @@ That is the whole thing. No route, component, or analytics wiring to touch.
 `slug`, `persona`, `format: "listicle"`, `template`, `title`, `faqIds`, an optional `proof` object, plus `stickyBar` (`{ cta }`).
 
 - `stickyBar` carries **only the CTA label**. Since SCRUM-1322 the bar states the
-  offer itself, in three lines: the **quarterly** per-shot price, the gift value,
-  then the rating. Nothing there is configurable, deliberately.
+  offer itself, in two lines: the **quarterly** per-shot price and the gift value.
+  Nothing there is configurable, deliberately.
   - Price and gift value come from `getOfferPricing(product, "quarterly-sub")` in
     `app/lib/offerData.ts`, keyed off `product.productHeroId` so they always match
     what the page sells. **Quarterly, not monthly:** the bar says "as low as", so
@@ -117,7 +117,14 @@ That is the whole thing. No route, component, or analytics wiring to touch.
   - The gift value is `freeShotsValue` plus every gift RRP, floored to the nearest
     ten. Same sum the PDP gift stack and the cart upsell show, so all three agree,
     and flooring means the figure can never overstate what actually ships.
-  - The rating is read out of `hero.socialProof`, so a page holds it once.
+  - **No rating in the bar.** Proof already runs twice above it, in the hero
+    micro-row and the logo band, and a third copy competed with the price on a
+    two-line strip. The bar sells; the page proves.
+  - Background is `#eef1f8`, the flat sibling of the hero's Neuro Blue wash, and
+    the CTA takes `ConkaCTAButton`'s inverted contract (white fill, navy border
+    and text, flipping to navy on hover) rather than the component itself: that
+    component renders a mono uppercase label and an O-mark, which is clinical
+    grammar on a Simple DTC surface.
   - `label` and `sub` are gone, and so is `hero.offerBadge`: the hero stopped
     rendering it in SCRUM-1320 and the sticky chip was its last reader.
 

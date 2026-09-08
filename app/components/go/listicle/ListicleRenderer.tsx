@@ -125,13 +125,19 @@ const PDP_HREF: Record<ProductHeroId, string> = {
   "02": "/conka-clarity",
   "03": "/conka-both",
 };
-/* Light-navy tint strip for the sticky bar (Simple DTC tint, not soft-blue). */
+/* Light-navy tint strip (Simple DTC tint, not soft-blue). */
 const TINT = "var(--brand-tint, #f4f5f8)";
+/* Flat sibling of HERO_WASH for the sticky bar: the same Neuro Blue over white,
+ * at roughly the strength the wash reaches mid-fade, so the bar reads as part
+ * of the same surface as the hero rather than a grey strip stuck to the bottom.
+ * This is the sanctioned Simple DTC light-navy tint (DESIGN_SYSTEM.md §8.5). */
+const STICKY_TINT = "#eef1f8";
 
 /**
  * The 4.7 star row: a grey five-star run with an amber copy clipped over it at
- * 94% width. Shared by the hero micro-row and the sticky bar so the two cannot
- * drift; `fontSize` is the only thing that differs between them.
+ * 94% width. Only the hero micro-row uses it now, since the sticky bar dropped
+ * its rating line, but it stays extracted: it is twenty lines of clipped-overlay
+ * trickery that reads far better named than inlined.
  *
  * It is 4.7 specifically, not rating-agnostic: the figure is baked into both
  * the 94% fill and the aria-label. Callers read the number itself out of
@@ -824,13 +830,10 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
   const needsStickyClearance =
     Boolean(config.stickyBar) && !config.faqIds.length;
 
-  // The sticky bar reuses the hero's proof figures rather than restating them,
-  // so a page holds its rating in exactly one place. `socialProof.label` reads
-  // "Excellent 4.7" and `.sub` reads "622+ reviews · 5,000+ daily users"; the
-  // bar has room for the bare number and the review count only.
+  // The bar states the offer and nothing else. Proof already runs twice above
+  // it, in the hero micro-row and the logo band; stars and a review count down
+  // here were a third copy competing with the price on a two-line strip.
   const offer = stickyOffer(config.product.productHeroId ?? "03");
-  const rating = config.hero.socialProof?.label.match(/[\d.]+\s*$/)?.[0];
-  const reviewCount = config.hero.socialProof?.sub.split("·")[0].trim();
 
   return (
     <main
@@ -1072,13 +1075,13 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
       {config.stickyBar ? (
         <aside
           aria-label="Offer bar"
-          className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 px-5 py-3.5 md:px-[5vw] md:py-4"
-          style={{ background: TINT, color: "#111" }}
+          className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#1B2757]/12 px-5 py-3.5 md:px-[5vw] md:py-4"
+          style={{ background: STICKY_TINT, color: "#111" }}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
-            {/* Money first: this is the highest-closing surface on the page and
-                it carried no price at all before SCRUM-1322. Price, then what
-                a subscription adds, then the proof that backs both. */}
+            {/* Money only: this is the highest-closing surface on the page and
+                it carried no price at all before SCRUM-1322. Price, then what a
+                subscription adds on top of it. */}
             <div className="flex min-w-0 flex-col gap-1">
               <span className="truncate text-[14px] font-bold leading-tight md:text-[15px]">
                 As low as £{offer.perShot} a shot
@@ -1088,25 +1091,16 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
                   +£{offer.giftValue} of free gifts with a subscription
                 </span>
               ) : null}
-              {rating ? (
-                <span className="flex min-w-0 items-center gap-1.5 leading-tight">
-                  <StarRow fontSize="11px" />
-                  <span className="text-[11px] font-bold tabular-nums">
-                    {rating}
-                  </span>
-                  {reviewCount ? (
-                    <span className="truncate text-[11px] text-black/60">
-                      {reviewCount}
-                    </span>
-                  ) : null}
-                </span>
-              ) : null}
             </div>
             <Link
               href={withSrc(buyHref, SECTION.sticky)}
               onClick={() => fireCta(SECTION.sticky)}
-              className="flex min-h-[48px] shrink-0 items-center justify-center rounded-full px-7 text-center text-white"
-              style={{ background: NAVY }}
+              // ConkaCTAButton's inverted contract (CTA_BASE_INVERTED): white
+              // fill, navy border and text, flipping to the navy fill on hover.
+              // The treatment, not the component: ConkaCTAButton renders a mono
+              // uppercase label and an O-mark, which is clinical grammar and
+              // would read as a foreign object on a Simple DTC bar.
+              className="flex min-h-[48px] shrink-0 items-center justify-center rounded-full border-2 border-[#1B2757] bg-white px-7 text-center text-[#1B2757] transition-colors duration-200 hover:bg-[#1B2757] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757]"
             >
               <span className="text-[15px] font-bold leading-tight">
                 {config.stickyBar.cta}
