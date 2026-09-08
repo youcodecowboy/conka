@@ -538,56 +538,93 @@ function BodyBlock({
   }
 
   if (block.kind === "statsBand") {
-    // Restyled to the /lander BrainFuelBand proof card: light tint surface,
-    // hairline-divided stat grid, solid-black figures. Two-up on mobile rather
-    // than one-per-row, which is what made the old navy version run a full
-    // viewport tall on a phone for four numbers.
+    // Styled from app/lander/sections/BrainFuelBand/BrainFuelBand.module.css,
+    // value for value: #f1f1f3 card at 8px radius, title at weight 800, and a
+    // 2-up metric grid whose 1px gaps over a darker container read as hairline
+    // dividers. Cells are centred, which also handles an odd stat count: the
+    // last cell spans the full width and its content centres in it.
     //
-    // The dividers are the grid's own background showing through a 1px gap,
-    // so a 2-col mobile / 3- or 4-col desktop layout needs no per-cell border
-    // rules and never doubles a line at a wrap point.
+    // One deliberate deviation. The reference hard-sets the value at 41.6px
+    // with `white-space: nowrap`, which works for its own short figures ("75",
+    // "19.3%") but clips a listicle value like "+14.86%" in a half-width cell
+    // at 390px. The clamp keeps 41.6px wherever it fits and shrinks only on the
+    // narrowest screens, so nothing is ever cut off.
     return (
       <div
-        className="my-10 overflow-hidden rounded-md p-6 md:p-8"
-        style={{ background: TINT, color: "#111" }}
+        className="my-10 flex flex-col gap-6 rounded-lg px-5 py-6 md:gap-7 md:px-7 md:py-8"
+        style={{ background: "#f1f1f3", color: "#000" }}
       >
         <h3
-          className="mb-6 max-w-[20ch] text-balance text-[1.625rem] font-bold leading-[1.1] text-black md:text-[2rem]"
-          style={{ letterSpacing: "-0.02em" }}
+          className="m-0 text-balance"
+          style={{
+            fontWeight: 800,
+            fontSize: "clamp(1.9rem, 1.2rem + 3vw, 2.75rem)",
+            lineHeight: 1.05,
+            letterSpacing: "-0.02em",
+            color: "#000",
+          }}
         >
           {block.eyebrow}
         </h3>
+
         <div
           className={`grid grid-cols-2 gap-px ${
             block.stats.length === 3 ? "md:grid-cols-3" : "md:grid-cols-4"
           }`}
-          style={{ background: "rgba(0,0,0,0.10)" }}
+          style={{ background: "rgba(0, 0, 0, 0.12)" }}
         >
-          {block.stats.map((s, i) => {
-            // An odd count leaves a hole in a 2-col grid, and the grid's
-            // background shows through it as an empty grey block. The last
-            // cell spans both columns instead, so 3 stats read 2-then-1.
-            // Desktop has its own column count, so the span is reset there.
+          {block.stats.map((st, i) => {
+            // An odd count would otherwise leave a hole in a 2-col grid, and
+            // the grid's own background shows through it as an empty block.
             const fillsRow =
               block.stats.length % 2 === 1 && i === block.stats.length - 1;
             return (
               <div
                 key={i}
-                className={`px-4 py-6 md:px-5 ${fillsRow ? "col-span-2 md:col-span-1" : ""}`}
-                style={{ background: TINT }}
+                className={`flex flex-col items-center justify-center gap-2 px-2.5 py-4 text-center md:px-4 md:py-6 ${
+                  fillsRow ? "col-span-2 md:col-span-1" : ""
+                }`}
+                style={{ background: "#f1f1f3" }}
               >
-                <div className="text-[2.5rem] font-bold leading-none tabular-nums text-black md:text-[3rem]">
-                  {s.value}
+                <div
+                  className="tabular-nums"
+                  style={{
+                    fontWeight: 850,
+                    fontSize: "clamp(2rem, 9vw, 41.6px)",
+                    lineHeight: "36px",
+                    letterSpacing: "-0.058em",
+                    color: "#000",
+                  }}
+                >
+                  {st.value}
                 </div>
-                <div className="mt-2.5 text-[13px] leading-snug text-black/60">
-                  {s.label}
-                </div>
+                <p
+                  className="m-0"
+                  style={{
+                    fontWeight: 500,
+                    fontSize: "12.48px",
+                    lineHeight: "16px",
+                    letterSpacing: "-0.12px",
+                    color: "rgba(0, 0, 0, 0.6)",
+                  }}
+                >
+                  {st.label}
+                </p>
               </div>
             );
           })}
         </div>
+
         {block.footnote ? (
-          <p className="mt-6 text-[11px] leading-relaxed text-black/50">
+          <p
+            className="m-0"
+            style={{
+              fontWeight: 500,
+              fontSize: "12.48px",
+              lineHeight: "18px",
+              color: "rgba(0, 0, 0, 0.6)",
+            }}
+          >
             {block.footnote}
           </p>
         ) : null}
