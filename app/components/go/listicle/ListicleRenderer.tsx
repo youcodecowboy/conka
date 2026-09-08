@@ -1075,7 +1075,7 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
       {config.stickyBar ? (
         <aside
           aria-label="Offer bar"
-          className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#1B2757]/12 px-5 py-4 md:px-[5vw]"
+          className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 px-5 py-4 md:px-[5vw]"
           style={{ background: STICKY_TINT, color: "#111" }}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
@@ -1094,7 +1094,7 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
                 As low as £{offer.perShot} a shot
               </span>
               {offer.giftValue ? (
-                <span className="text-[12px] font-medium leading-tight text-[#1B2757]">
+                <span className="text-[12px] font-medium leading-tight text-[var(--brand-navy)]">
                   +£{offer.giftValue} of gifts free
                   {/* The qualifier is the first thing to go when space is
                       short: at 390px the full sentence was ellipsing, which
@@ -1115,7 +1115,7 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
               // The treatment, not the component: ConkaCTAButton renders a mono
               // uppercase label and an O-mark, which is clinical grammar and
               // would read as a foreign object on a Simple DTC bar.
-              className="flex min-h-[48px] shrink-0 items-center justify-center rounded-full border-2 border-[#1B2757] bg-white px-7 text-center text-[#1B2757] transition-colors duration-200 hover:bg-[#1B2757] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B2757]"
+              className="flex min-h-[48px] shrink-0 items-center justify-center rounded-full border-2 border-[var(--brand-navy)] bg-white px-7 text-center text-[var(--brand-navy)] transition-colors duration-200 hover:bg-[var(--brand-navy)] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-navy)]"
             >
               <span className="text-[15px] font-bold leading-tight">
                 {config.stickyBar.cta}

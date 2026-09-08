@@ -213,6 +213,37 @@ all three pages, since `title` and the Meta `content_name` both carry the number
 This phase **will** rebase the `section_viewed` ids, so it ships alone and gets
 its own timeline annotation.
 
+## Open question: where the CTAs should land
+
+Raised 2026-09-08 against the finished bar. The reference lander scrolls its
+sticky CTA to an on-page buy anchor; ours hands off to the PDP. Not changed, and
+not a small change, so it is written down rather than guessed at.
+
+**What is actually true today.** Every listicle CTA has pointed at a PDP since
+2026-07-24 (`b224d714`), with `?src=<slug>-<section>` appended. Before that they
+scrolled to the in-page buy zone. The in-page zone still exists: `#product`
+renders `ProductHeroV3` and sells in place via `funnelCheckout()`.
+
+**The case for leaving it.** The PDP hand-off is the path all 69 attributed
+orders took. It works, and it is the only configuration we have evidence for.
+
+**The case for testing an anchor.** A scroll is cheaper than a page load, keeps
+the visitor inside the page they were persuaded on, and removes a navigation
+that costs a paint on a 74%-mobile audience.
+
+**The trap in the data.** The `product` zone has closed **0 of 69** orders, which
+looks like proof the in-page box does not sell. It is not: only 8-17% of
+visitors ever reach it, so it has never had the traffic to convert. The zone is
+untested, not disproven. Do not read that zero as an answer either way.
+
+**Attribution is not the blocker.** `?src=` is read on landing and persisted to
+`sessionStorage`, and the im8 buy zone tags `source` from context when it sells
+in place, so either route stays attributable.
+
+**Recommendation:** treat it as a conversion test on one page, not a change to
+all three. Productivity is the natural candidate: confirmed conversion problem,
+smallest budget, so the cheapest place to be wrong.
+
 ## Rabbit holes
 
 - **Rewriting reason copy while "in there".** Explicitly out of Phases 1 to 3.
