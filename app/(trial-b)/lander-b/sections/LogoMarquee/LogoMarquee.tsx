@@ -13,20 +13,20 @@ import styles from './LogoMarquee.module.css';
 // competing with it. The source PNGs are ~500px crests (70–115 KB each) but
 // only ever render ~50 px tall — the optimizer collapses them to a few KB.
 const LOGOS = [
-  { src: '/lander/partners/bath-rugby.png', alt: 'Bath Rugby', h: 52, nw: 200, nh: 200 },
-  { src: '/lander/partners/southampton.png', alt: 'Southampton FC', h: 54, nw: 500, nh: 571 },
-  { src: '/lander/partners/england-rugby.png', alt: 'England Rugby', h: 58, nw: 500, nh: 834 },
-  { src: '/lander/partners/bayern.png', alt: 'FC Bayern Munich', h: 52, nw: 500, nh: 500 },
-  { src: '/lander/partners/team-gb.png', alt: 'Team GB', h: 58, nw: 500, nh: 682 },
-  { src: '/lander/partners/wales-rugby.png', alt: 'Wales Rugby', h: 56, nw: 500, nh: 662 },
-  { src: '/lander/partners/leeds.png', alt: 'Leeds United', h: 54, nw: 500, nh: 623 },
-  { src: '/lander/partners/wolves.png', alt: 'Wolves', h: 48, nw: 500, nh: 434 },
-  { src: '/lander/partners/f1.png', alt: 'Formula 1', h: 26, nw: 500, nh: 125 },
-  { src: '/lander/partners/barrys.png', alt: "Barry's", h: 22, nw: 500, nh: 103 },
-  { src: '/lander/partners/army.png', alt: 'British Army', h: 46, nw: 500, nh: 427 },
-  { src: '/lander/partners/british-airways.png', alt: 'British Airways', h: 18, nw: 500, nh: 79 },
-  { src: '/lander/partners/goldman-sachs.png', alt: 'Goldman Sachs', h: 36, nw: 500, nh: 210 },
-  { src: '/lander/partners/equinox.png', alt: 'Equinox', h: 19, nw: 500, nh: 95 },
+  { src: '/lander/partners/bath-rugby.webp', alt: 'Bath Rugby', h: 52, nw: 104, nh: 104 },
+  { src: '/lander/partners/southampton.webp', alt: 'Southampton FC', h: 54, nw: 94, nh: 108 },
+  { src: '/lander/partners/england-rugby.webp', alt: 'England Rugby', h: 58, nw: 69, nh: 116 },
+  { src: '/lander/partners/bayern.webp', alt: 'FC Bayern Munich', h: 52, nw: 104, nh: 104 },
+  { src: '/lander/partners/team-gb.webp', alt: 'Team GB', h: 58, nw: 85, nh: 116 },
+  { src: '/lander/partners/wales-rugby.webp', alt: 'Wales Rugby', h: 56, nw: 84, nh: 112 },
+  { src: '/lander/partners/leeds.webp', alt: 'Leeds United', h: 54, nw: 86, nh: 108 },
+  { src: '/lander/partners/wolves.webp', alt: 'Wolves', h: 48, nw: 110, nh: 96 },
+  { src: '/lander/partners/f1.webp', alt: 'Formula 1', h: 26, nw: 208, nh: 52 },
+  { src: '/lander/partners/barrys.webp', alt: "Barry's", h: 22, nw: 213, nh: 44 },
+  { src: '/lander/partners/army.webp', alt: 'British Army', h: 46, nw: 107, nh: 92 },
+  { src: '/lander/partners/british-airways.webp', alt: 'British Airways', h: 18, nw: 228, nh: 36 },
+  { src: '/lander/partners/goldman-sachs.webp', alt: 'Goldman Sachs', h: 36, nw: 171, nh: 72 },
+  { src: '/lander/partners/equinox.webp', alt: 'Equinox', h: 19, nw: 200, nh: 38 },
 ];
 
 function Group({ hidden = false }: { hidden?: boolean }) {
