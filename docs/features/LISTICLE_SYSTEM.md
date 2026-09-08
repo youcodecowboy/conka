@@ -143,13 +143,32 @@ The hero is text-only (no image, no CTA button); the sticky bar carries the pers
 ```ts
 {
   slug, persona, format: "listicle", template: "im8", title,
-  hero: { laurel?, headline, subcopy, socialProof?, cta, trustPills?, asset },
+  hero: { laurel?, headline, subcopy, socialProof?, cta, offerBadge?, priceAnchor?, trustPills?, asset },
   ticker?: string[],
   body: [ /* the section-block library, in order */ ],
   bridge?, product: { headline, subline?, productHeroId?, whoItsFor? },
   // shared proof + faqIds + stickyBar
 }
 ```
+
+**The hero is a preframe, not a summary (SCRUM-1320).** It renders in one fixed
+order: headline, subcopy, CTA, rating. The headline is a soft outcome line at the
+Simple DTC display tier (`clamp(2.5rem, 8vw, 3.5rem)`), *not* the "N reasons"
+list promise, which belongs to the reasons section header further down. The
+subcopy is one educational sentence contrasting an outside-in fix with working
+from within. There is exactly **one offer surface**, the CTA, which pairs the
+discount with the outcome ("Save 46% on a calmer mind"). Proof sits *below* the
+CTA so it reassures the ask rather than being spent before it.
+
+On mobile the copy column comes **before** the asset; on `md:` and up the asset
+returns to the left half. Two hero fields are not what they look like:
+
+- `offerBadge.hero` is **deprecated and not rendered.** It used to be a green pill
+  above the CTA and read as a second, competing offer. Only `offerBadge.sticky`
+  still renders, as the mint free-shots chip on the sticky bar.
+- `trustPills` is **dead config**: it is set on all three personas and typed, but
+  nothing reads it, and its three values already lead the `ticker` directly below
+  the hero. Do not wire it up without first removing the duplication.
 
 The `body` array is a plug-and-play library. Blocks: `reason`, `statsBand`, `reviewStrip`, `symptomExplainer`, `segmentToggle`. An IM8 `reason` takes a rich `asset` (`kind`): `image`, `video`, `crashChart`, `researchBacked`, `measureTile`, `cognitionBars`, `scoreByGroup`, `dayEnergyCurve`, `focusBars`, `athleteQuote`, `ingredientGrid`, `statPanel`, or `placeholder`. Each maps to a component in `ListicleRenderer`; see `listicle-types.ts` for the exact fields per kind.
 

@@ -32,6 +32,34 @@ no longer has anything to bite on. See `docs/development/featurePlans/archive/lo
 
 ---
 
+## Listicles (`/go`)
+
+### `trustPills` is dead config on all three im8 listicles
+
+**Status:** Open, cosmetic. Discovered during SCRUM-1320.
+**Files:** `app/lib/landings/listicle-types.ts` (`Im8ListicleConfig.hero.trustPills`), `app/lib/landings/{adhd,productivity,brain-ageing}-listicle.ts`
+
+**Symptom:** `trustPills` is typed and populated on all three personas (Zero caffeine, Informed Sport Certified, 100-day guarantee) and **nothing in the codebase renders it**. A grep for `trustPills` returns only the type and the three configs.
+
+**Why it was not simply wired up:** those three values are already the first three items of the navy `ticker` immediately below the hero, so rendering them would duplicate content on the exact surface SCRUM-1320 set out to de-noise.
+
+**What closes it:** either delete the field from the type and the three configs, or decide the pills replace the ticker and wire one of them up. Do not add pills alongside the ticker.
+
+---
+
+### The 46% discount is hardcoded in three listicle CTA strings
+
+**Status:** Open. Pre-existing, carried through SCRUM-1320.
+**Files:** `app/lib/landings/{adhd,productivity,brain-ageing}-listicle.ts` (`hero.cta`)
+
+**Symptom:** each hero CTA hardcodes the discount ("Save 46% on a calmer mind"), which contradicts the MASTER_CONTEXT rule that offer terms come from `app/lib/offerConstants.ts` and never from a literal. If the offer changes, three configs go stale silently.
+
+**What closes it:** SCRUM-1322 introduces per-serving price sourcing from `app/lib/landingPricing.ts` for the sticky bar. Extend the same pattern to the CTA discount, or template the CTA around an offer token the way the `mm` configs do with `offer.{percent}`.
+
+**Why deferred:** SCRUM-1320 was a hero restructure, and swapping the offer plumbing at the same time would have mixed a copy change with a data-sourcing change on a live paid surface.
+
+---
+
 ## Shopify / Pricing
 
 ### Formally move one-time shipping out of the SKU prices and into a real Shopify shipping rate

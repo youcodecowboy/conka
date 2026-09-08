@@ -12,7 +12,7 @@
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| 1 | Hero preframe rebuild | Not Started (SCRUM-1320) |
+| 1 | Hero preframe rebuild | **Done** (SCRUM-1320, For review) |
 | 2 | Proof wall raised + reasons section header | Not Started (SCRUM-1321) |
 | 3 | Sticky bar rework with price anchoring | Not Started (SCRUM-1322) |
 | 4 | Reasons consolidation, 7 to 5, cross-page dedup | Future |
@@ -258,7 +258,7 @@ other; SCRUM-1321 is also linked to SCRUM-1176.
 
 | Ticket | Title | Phase | Status |
 |--------|-------|-------|--------|
-| [SCRUM-1320](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1320) | Listicle hero: rebuild as a soft educational preframe | 1 | To Do |
+| [SCRUM-1320](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1320) | Listicle hero: rebuild as a soft educational preframe | 1 | For review |
 | [SCRUM-1321](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1321) | Listicle: raise the proof wall and add a reasons section header | 2 | To Do |
 | [SCRUM-1322](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1322) | Listicle sticky bar: rework layout and add per-serving price anchoring | 3 | To Do |
 

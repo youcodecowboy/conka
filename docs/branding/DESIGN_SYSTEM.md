@@ -428,6 +428,7 @@ The consumer PDP hero (`ProductHeroV3` on `/conka-flow`) runs a larger, bolder h
 | Element | Treatment |
 |---------|-----------|
 | Product name (hero H1) | `brand-h1` bumped to `lg:text-[3.25rem]`, `leading-none` |
+| Landing hero H1 (`/go` im8 listicles) | inline `fontSize: clamp(2.5rem, 8vw, 3.5rem)`, `lineHeight: 1.05` - a fluid variant of the tier, since a paid-social hero has to hold the whole hierarchy at 390px with no eyebrow above it |
 | Keyword subline | `text-[2.25rem]` `leading-tight`, lead clause `font-bold` + tail `font-medium text-black/75` |
 | Outcome-group titles | `text-3xl font-bold`, no italics (larger and bolder than `brand-h3`) |
 | Sub-section headings (Ingredients / Who is it for / Try risk free) | `text-2xl font-bold` |
