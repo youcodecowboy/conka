@@ -538,30 +538,47 @@ function BodyBlock({
   }
 
   if (block.kind === "statsBand") {
+    // Restyled to the /lander BrainFuelBand proof card: light tint surface,
+    // hairline-divided stat grid, solid-black figures. Two-up on mobile rather
+    // than one-per-row, which is what made the old navy version run a full
+    // viewport tall on a phone for four numbers.
+    //
+    // The dividers are the grid's own background showing through a 1px gap,
+    // so a 2-col mobile / 3- or 4-col desktop layout needs no per-cell border
+    // rules and never doubles a line at a wrap point.
     return (
       <div
-        className="my-10 rounded-md px-8 py-12 text-center"
-        style={{ background: NAVY, color: "#fff" }}
+        className="my-10 overflow-hidden rounded-md p-6 md:p-8"
+        style={{ background: TINT, color: "#111" }}
       >
-        <div className="mb-8 text-[13px] font-semibold opacity-60">
+        <p className="mb-6 text-[11px] font-semibold uppercase tracking-[0.14em] text-black/50">
           {block.eyebrow}
-        </div>
+        </p>
         <div
-          className={`mx-auto grid max-w-5xl grid-cols-1 gap-8 md:gap-6 ${
+          className={`grid grid-cols-2 gap-px ${
             block.stats.length === 3 ? "md:grid-cols-3" : "md:grid-cols-4"
           }`}
+          style={{ background: "rgba(0,0,0,0.10)" }}
         >
           {block.stats.map((s, i) => (
-            <div key={i}>
-              <div className="text-4xl font-semibold tabular-nums md:text-5xl">
+            <div
+              key={i}
+              className="px-4 py-6 md:px-5"
+              style={{ background: TINT }}
+            >
+              <div className="text-[2.25rem] font-semibold leading-none tabular-nums text-black md:text-[2.75rem]">
                 {s.value}
               </div>
-              <div className="mt-2 text-sm opacity-70">{s.label}</div>
+              <div className="mt-2.5 text-[13px] leading-snug text-black/60">
+                {s.label}
+              </div>
             </div>
           ))}
         </div>
         {block.footnote ? (
-          <div className="mt-8 text-xs opacity-50">{block.footnote}</div>
+          <p className="mt-6 text-[11px] leading-relaxed text-black/50">
+            {block.footnote}
+          </p>
         ) : null}
       </div>
     );

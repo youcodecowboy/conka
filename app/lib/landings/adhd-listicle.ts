@@ -224,8 +224,11 @@ export const adhdListicle: ListicleConfig = {
       n: 2,
       headline: "It Helps You Start, Not Just Focus",
       body: "Most focus products help you concentrate once you've started. With ADHD the hard part is starting at all. CONKA Flow gives you the calm, steady drive to get from 'I should' to 'I'm doing it', no caffeine and none of the jittery push.",
-      // 9:16 source centre-cropped to 3:4, the animated Flow shot
-      asset: { kind: "video", src: "/videos/flow/FlowLiquid.mp4", aspect: "3/4" },
+      // The Flow "neuron" clip: the bottle floating over a neural network, the
+      // same footage BottleVideo runs in PDP section 4. Flow rather than Clear
+      // or Both because every listicle is Flow-primary (productHeroId "01").
+      // Still a 9:16 source centre-cropped to 3:4 by object-cover.
+      asset: { kind: "video", src: "/videos/flow/FlowFloat.mp4", aspect: "3/4" },
     },
     {
       kind: "reason",
