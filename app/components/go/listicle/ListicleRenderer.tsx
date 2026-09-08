@@ -69,14 +69,14 @@ const CANVAS = "#fff";
  * never under the photo. Soft decorative gradients are sanctioned on Simple
  * DTC surfaces (DESIGN_SYSTEM.md §8.5); this stays under 20% alpha so the
  * canvas still reads monochrome-first. */
-/* The same Neuro Blue splash on the reasons section, mirrored to the left.
- * Sized in absolute px rather than percentages: the reasons section is as tall
- * as the whole list, and a percentage-sized gradient would stretch into a wash
- * over the entire page instead of staying a splash at the top corner. */
-const REASONS_WASH =
-  "radial-gradient(760px 520px at 0% 0%, rgba(64,88,187,0.16) 0%, rgba(64,88,187,0.05) 45%, rgba(64,88,187,0) 75%)";
 const HERO_WASH =
   "radial-gradient(115% 85% at 100% 0%, rgba(64,88,187,0.20) 0%, rgba(64,88,187,0.07) 40%, rgba(64,88,187,0) 72%)";
+/* The same splash on the reasons section, mirrored to the left. Sized in
+ * absolute px rather than percentages: that section is as tall as the whole
+ * list, and a percentage-sized gradient would stretch into a wash over the
+ * entire page instead of staying a splash at the top corner. */
+const REASONS_WASH =
+  "radial-gradient(760px 520px at 0% 0%, rgba(64,88,187,0.16) 0%, rgba(64,88,187,0.05) 45%, rgba(64,88,187,0) 75%)";
 /**
  * Filled navy (--brand-navy). Serves both the dark decorative proof bands
  * (stats band, bridge, dark stat panel) and the primary/interactive +
