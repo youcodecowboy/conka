@@ -105,7 +105,39 @@ That is the whole thing. No route, component, or analytics wiring to touch.
 
 ## Shared fields (both templates)
 
-`slug`, `persona`, `format: "listicle"`, `template`, `title`, `faqIds`, an optional `proof` object, plus `stickyBar` (`{ label, cta, sub? }`).
+`slug`, `persona`, `format: "listicle"`, `template`, `title`, `faqIds`, an optional `proof` object, plus `stickyBar` (`{ cta }`).
+
+- `stickyBar` carries **only the CTA label**. Since SCRUM-1322 the bar states the
+  offer itself, in two lines: the **quarterly** per-shot price and the gift value.
+  Nothing there is configurable, deliberately.
+  - Price and gift value come from `getOfferPricing(product, "quarterly-sub")` in
+    `app/lib/offerData.ts`, keyed off `product.productHeroId` so they always match
+    what the page sells. **Quarterly, not monthly:** the bar says "as low as", so
+    it has to quote the cheapest cadence or the line is untrue.
+  - The gift value is `freeShotsValue` plus every gift RRP, floored to the nearest
+    ten. Same sum the PDP gift stack and the cart upsell show, so all three agree,
+    and flooring means the figure can never overstate what actually ships.
+  - **No rating in the bar.** Proof already runs twice above it, in the hero
+    micro-row and the logo band, and a third copy competed with the price on a
+    two-line strip. The bar sells; the page proves.
+  - **No savings green.** It earns its place as a badge on a white surface; as a
+    bare 12px line on the navy tint it read as a second accent competing with the
+    CTA. The gift line is navy, which ties it to the button, and the word "free"
+    does the work the colour was doing.
+  - The "with a subscription" qualifier is `hidden sm:inline`. At 390px the full
+    sentence ellipsed to "+£110 of free gifts with a sub...", which lost the
+    point of the line; the number and "gifts free" always survive.
+  - Background is `#eef1f8`, the flat sibling of the hero's Neuro Blue wash, and
+    the CTA takes `ConkaCTAButton`'s inverted contract (white fill, navy border
+    and text, flipping to navy on hover) rather than the component itself: that
+    component renders a mono uppercase label and an O-mark, which is clinical
+    grammar on a Simple DTC surface.
+  - `label` and `sub` are gone, and so is `hero.offerBadge`: the hero stopped
+    rendering it in SCRUM-1320 and the sticky chip was its last reader.
+
+  Do not add a price, a gift figure or a rating to a config. If the bar needs to
+  say something new about money, it comes from `offerData`, like everything else
+  that can be sold.
 
 - `faqIds` are ids from `app/lib/faqContent.ts`, in display order. An unknown id fails the build. The `/go` surface strips claim anchors from answers, renders via `LabFAQ` with no image column and no hub link.
 - `proof` is the post-reasons proof tier, rendered by `ListicleProofTier` for both templates. Four optional moments, each doing a different job, in fixed order:
@@ -143,13 +175,66 @@ The hero is text-only (no image, no CTA button); the sticky bar carries the pers
 ```ts
 {
   slug, persona, format: "listicle", template: "im8", title,
-  hero: { laurel?, headline, subcopy, socialProof?, cta, trustPills?, asset },
-  ticker?: string[],
+  hero: { laurel?, headline, subcopy, socialProof?, cta, offerBadge?, priceAnchor?, trustPills?, asset },
+  reasonsHeader?: { eyebrow, headline },
   body: [ /* the section-block library, in order */ ],
   bridge?, product: { headline, subline?, productHeroId?, whoItsFor? },
   // shared proof + faqIds + stickyBar
 }
 ```
+
+**The proof wall sits directly under the hero (SCRUM-1321).** `ListicleLogoBand`
+renders once, between the hero and the reasons, tracked as the fixed zone
+`proofWall`. It used to sit above the buy box, which only 8-17% of visitors ever
+reach, so the institutional proof was invisible to most of the traffic. The navy
+proof ticker that occupied this slot is gone: its claims duplicated `trustPills`
+and it read as chrome rather than proof.
+
+**The reasons block announces itself (SCRUM-1321).** `reasonsHeader` renders an
+eyebrow plus the "N Reasons ..." title directly above the first body block,
+tracked as the fixed zone `reasonsHeader`. It is **centred**, which is a
+deliberate exception to the design system's left-alignment default: it is the
+one place on the page that acts as a title card for everything below it, and
+the reference lander centres the same moment. Everything else on the page stays
+left-aligned. The block immediately below it drops its top hairline, because the
+header is the separator.
+
+**Numbered headings.** `reason`, `symptomExplainer` and `segmentToggle` all
+render through the shared `ReasonHeading`: the counter sits above the title as a
+quiet `text-black/40` eyebrow, and the title is solid black. The old inline
+"01." prefix and navy title are gone, and with them the last im8 exception to
+the Simple DTC heading rule. It exists because the hero H1 is now
+a soft outcome line, so without it the list starts with no framing at all. Keep
+its `headline` in sync with the config's `title`: they are the same promise, one
+in the tab and one on the page.
+
+**Both new zones are fixed renderer zones, never `body` entries.** That is load
+bearing, not stylistic: `section` ids are `${kind}_${index}` over `config.body`,
+so anything added to that array rebases every id below it and silently voids the
+scroll-funnel history. Add page furniture as a zone; add content as a block, and
+accept the rebase.
+
+**The hero is a preframe, not a summary (SCRUM-1320).** It renders in one fixed
+order: headline, subcopy, CTA, rating. The headline is a soft outcome line at the
+Simple DTC display tier (`clamp(2.5rem, 8vw, 3.5rem)`), *not* the "N reasons"
+list promise, which belongs to the reasons section header further down. The
+subcopy is one educational sentence contrasting an outside-in fix with working
+from within. There is exactly **one offer surface**, the CTA, which pairs the
+discount with the outcome ("Save 46% on a calmer mind"). Proof sits *below* the
+CTA so it reassures the ask rather than being spent before it.
+
+On mobile the copy column comes **before** the asset; on `md:` and up the asset
+returns to the left half. Two hero fields are not what they look like:
+
+- `offerBadge.hero` is **deprecated and not rendered.** It used to be a green pill
+  above the CTA and read as a second, competing offer. Only `offerBadge.sticky`
+  still renders, as the mint free-shots chip on the sticky bar.
+- `trustPills` is **dead config**: it is set on all three personas and typed, but
+  nothing reads it. It used to duplicate the navy `ticker` marquee under the
+  hero; that marquee and its `ticker` field were both removed in SCRUM-1321, so
+  these trust claims now live only in the reasons, the sticky bar sub-line and
+  the FAQ. Either wire `trustPills` up or delete it, but do not leave it typed
+  and populated and unread.
 
 The `body` array is a plug-and-play library. Blocks: `reason`, `statsBand`, `reviewStrip`, `symptomExplainer`, `segmentToggle`. An IM8 `reason` takes a rich `asset` (`kind`): `image`, `video`, `crashChart`, `researchBacked`, `measureTile`, `cognitionBars`, `scoreByGroup`, `dayEnergyCurve`, `focusBars`, `athleteQuote`, `ingredientGrid`, `statPanel`, or `placeholder`. Each maps to a component in `ListicleRenderer`; see `listicle-types.ts` for the exact fields per kind.
 

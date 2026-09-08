@@ -428,6 +428,7 @@ The consumer PDP hero (`ProductHeroV3` on `/conka-flow`) runs a larger, bolder h
 | Element | Treatment |
 |---------|-----------|
 | Product name (hero H1) | `brand-h1` bumped to `lg:text-[3.25rem]`, `leading-none` |
+| Landing hero H1 (`/go` im8 listicles) | inline `fontSize: clamp(2.5rem, 8vw, 3.5rem)`, `lineHeight: 1.05` - a fluid variant of the tier, since a paid-social hero has to hold the whole hierarchy at 390px with no eyebrow above it |
 | Keyword subline | `text-[2.25rem]` `leading-tight`, lead clause `font-bold` + tail `font-medium text-black/75` |
 | Outcome-group titles | `text-3xl font-bold`, no italics (larger and bolder than `brand-h3`) |
 | Sub-section headings (Ingredients / Who is it for / Try risk free) | `text-2xl font-bold` |
@@ -467,7 +468,9 @@ Simple DTC is added **alongside** Clinical (§8) and App-Dark (§10), not as a g
 | `/app`, `/app-insights` dark pages | **App-Dark** (§10) — clinical grammar on a dark canvas |
 | B2B order/management UIs | Clinical for now (mono data labels aid scanning); convert opportunistically |
 
-Both `/go` listicle renderers are now Simple DTC: `SimpleListicleRenderer` (`mm`) and, as of SCRUM-1189, `ListicleRenderer` (`im8`). The im8 conversion moved its chrome and its ~15 shared `components/landing/*` graphics to the DTC grammar (white canvas, black/navy headings, tokenised navy/tint, DTC radius); graphics shared with other live landers (`CrashChart`, `LaurelBadge`) took an opt-in `variant="dtc"` so their default path (`/lander`, `/start`, home, PDPs) is unchanged. One deliberate im8 exception: the numbered reason titles are navy (`--brand-navy`), not black.
+Both `/go` listicle renderers are now Simple DTC: `SimpleListicleRenderer` (`mm`) and, as of SCRUM-1189, `ListicleRenderer` (`im8`). The im8 conversion moved its chrome and its ~15 shared `components/landing/*` graphics to the DTC grammar (white canvas, black/navy headings, tokenised navy/tint, DTC radius); graphics shared with other live landers (`CrashChart`, `LaurelBadge`) took an opt-in `variant="dtc"` so their default path (`/lander`, `/start`, home, PDPs) is unchanged.
+
+> The im8 template used to carry one deliberate exception here: its numbered reason titles were navy (`--brand-navy`) rather than solid black. **That exception was retired on 2026-09-08.** Reason titles are now solid black like every other heading, and the counter moved out of the title to sit above it as a quiet `text-black/40` eyebrow, so the number reads as a list marker rather than as the first word of the sentence. There is no longer an im8 heading exception; navy on these pages is interactive and decorative only.
 
 ### Programme + learnings
 

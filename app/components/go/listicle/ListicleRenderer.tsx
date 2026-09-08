@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, type ReactNode } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import Image from "next/image";
 import type {
   ListicleAsset,
@@ -27,6 +27,7 @@ import SymptomExplainer from "@/app/components/landing/SymptomExplainer";
 import SegmentToggle from "@/app/components/landing/SegmentToggle";
 import LogoMarquee, { PRESS_LOGOS } from "@/app/components/landing/LogoMarquee";
 import ListicleProofTier, { ListicleLogoBand } from "./ListicleProofTier";
+import { getOfferPricing, type OfferProduct } from "@/app/lib/offerData";
 import LabFAQ from "@/app/components/landing/LabFAQ";
 import { pickFaqItems, stripClaimAnchors } from "@/app/lib/faqContent";
 import { useHashScroll } from "./useHashScroll";
@@ -44,9 +45,14 @@ import {
 /**
  * Listicle landing renderer (/go/[slug], format: "listicle"), IM8 template.
  *
- * Zones: hero, proof ticker, reasons (the plug-and-play block library), a logo
- * band, the product buy box, the post-buy-box proof tier, FAQ, plus an optional
- * sticky bar. The logo band (ListicleLogoBand) and proof tier (ListicleProofTier)
+ * Zones: hero, the partner logo band, reasons (the plug-and-play block
+ * library), the product buy box, the post-buy-box proof tier, FAQ, plus an
+ * optional sticky bar. The band sits directly under the hero (SCRUM-1321):
+ * institutional proof has to land while people are still on the page, and
+ * reach-to-product runs 8-17%, so above the buy box it was invisible to most
+ * of them. The navy proof ticker that used to sit here is gone; its claims
+ * duplicated the trust pills and it read as chrome rather than proof.
+ * The logo band (ListicleLogoBand) and proof tier (ListicleProofTier)
  * both live in ListicleProofTier.tsx and are shared with SimpleListicleRenderer;
  * the reason-block library is still inline here.
  *
@@ -58,6 +64,20 @@ import {
 
 /** White DTC canvas. */
 const CANVAS = "#fff";
+/* Decorative Neuro Blue (--brand-accent #4058bb) splash washing out to the
+ * white canvas. Anchored top-right, which is the copy column on desktop and
+ * the top of the copy block on mobile, so it sits behind the headline and
+ * never under the photo. Soft decorative gradients are sanctioned on Simple
+ * DTC surfaces (DESIGN_SYSTEM.md §8.5); this stays under 20% alpha so the
+ * canvas still reads monochrome-first. */
+const HERO_WASH =
+  "radial-gradient(115% 85% at 100% 0%, rgba(64,88,187,0.20) 0%, rgba(64,88,187,0.07) 40%, rgba(64,88,187,0) 72%)";
+/* The same splash on the reasons section, mirrored to the left. Sized in
+ * absolute px rather than percentages: that section is as tall as the whole
+ * list, and a percentage-sized gradient would stretch into a wash over the
+ * entire page instead of staying a splash at the top corner. */
+const REASONS_WASH =
+  "radial-gradient(760px 520px at 0% 0%, rgba(64,88,187,0.16) 0%, rgba(64,88,187,0.05) 45%, rgba(64,88,187,0) 75%)";
 /**
  * Filled navy (--brand-navy). Serves both the dark decorative proof bands
  * (stats band, bridge, dark stat panel) and the primary/interactive +
@@ -68,36 +88,88 @@ const NAVY = "var(--brand-navy, #1b2757)";
    this page sells, following the buy box's productHeroId, rather than scrolling
    to the in-page buy zone. Flow "01" -> /conka-flow, Clear "02" -> /conka-clarity,
    Both "03" (and the default) -> /conka-both. */
+/** The buy-box product, in the vocabulary `offerData` uses. */
+const OFFER_PRODUCT: Record<ProductHeroId, OfferProduct> = {
+  "01": "flow",
+  "02": "clear",
+  "03": "both",
+};
+
+/**
+ * What the sticky bar says about money, straight out of `offerData`, which is
+ * the only place prices we can sell at are allowed to live.
+ *
+ * Quarterly, not monthly: the bar makes an "as low as" claim, so it has to
+ * quote the cheapest cadence on offer or the claim is not true. Flow quarterly
+ * is £1.83 a shot against £2.00 monthly.
+ *
+ * The gift figure is the same sum the PDP gift stack and the cart upsell show,
+ * bonus shots plus every gift RRP, and it is floored to the nearest ten for the
+ * same reason the upsell badge floors it: a round number is read in one beat
+ * and never overstates what is actually given away. Flow quarterly is £118.96,
+ * so the bar says £110.
+ */
+function stickyOffer(heroId: ProductHeroId) {
+  const sub = getOfferPricing(OFFER_PRODUCT[heroId], "quarterly-sub");
+  const kitValue =
+    (sub.freeShotsValue ?? 0) +
+    (sub.gifts ?? []).reduce((total, gift) => total + gift.rrp, 0);
+  return {
+    perShot: sub.perShot.toFixed(2),
+    giftValue: kitValue ? Math.floor(kitValue / 10) * 10 : null,
+  };
+}
+
 const PDP_HREF: Record<ProductHeroId, string> = {
   "01": "/conka-flow",
   "02": "/conka-clarity",
   "03": "/conka-both",
 };
-/* Light-navy tint strip for the sticky bar (Simple DTC tint, not soft-blue). */
+/* Light-navy tint strip (Simple DTC tint, not soft-blue). */
 const TINT = "var(--brand-tint, #f4f5f8)";
+/* Flat sibling of HERO_WASH for the sticky bar: the same Neuro Blue over white,
+ * at roughly the strength the wash reaches mid-fade, so the bar reads as part
+ * of the same surface as the hero rather than a grey strip stuck to the bottom.
+ * This is the sanctioned Simple DTC light-navy tint (DESIGN_SYSTEM.md §8.5). */
+const STICKY_TINT = "#eef1f8";
 
-/** Green free-offer badge (--brand-positive at /10), matching the "+N free"
- *  pill used on PDPs and the funnel. Sits above the hero CTA. */
-function OfferPill({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+/**
+ * The 4.7 star row: a grey five-star run with an amber copy clipped over it at
+ * 94% width. Only the hero micro-row uses it now, since the sticky bar dropped
+ * its rating line, but it stays extracted: it is twenty lines of clipped-overlay
+ * trickery that reads far better named than inlined.
+ *
+ * It is 4.7 specifically, not rating-agnostic: the figure is baked into both
+ * the 94% fill and the aria-label. Callers read the number itself out of
+ * `hero.socialProof`, so if the sitewide rating ever moves, this component has
+ * to move with it or the stars will quietly disagree with the digits.
+ */
+function StarRow({ fontSize }: { fontSize: string }) {
   return (
     <span
-      className={`inline-flex items-center justify-center rounded-full bg-[#1a7f4f]/[0.1] font-semibold text-[#1a7f4f] ${className}`}
+      className="relative inline-block leading-none"
+      style={{ fontSize, letterSpacing: "0.05em" }}
+      aria-label="4.7 out of 5 stars"
     >
-      {children}
+      <span className="text-black/15" aria-hidden="true">
+        ★★★★★
+      </span>
+      <span
+        className="absolute left-0 top-0 overflow-hidden whitespace-nowrap"
+        style={{ color: "#F59E0B", width: "94%" }}
+        aria-hidden="true"
+      >
+        ★★★★★
+      </span>
     </span>
   );
 }
 
-/** LandingHero's avatar + star micro-row, compacted to the IM8 scale */
+/** LandingHero's avatar + star micro-row, compacted to the IM8 scale.
+ *  Content only: the caller owns the surrounding spacing. */
 function TrustMicroRow({ label, sub }: { label: string; sub: string }) {
   return (
-    <div className="mb-5 flex items-center justify-start gap-2.5">
+    <div className="flex items-center justify-start gap-2.5">
       <div className="flex items-center">
         {Array.from({ length: 5 }, (_, i) => (
           <div
@@ -117,26 +189,131 @@ function TrustMicroRow({ label, sub }: { label: string; sub: string }) {
       </div>
       <div className="flex flex-col leading-tight">
         <div className="flex items-center gap-1.5">
-          <div
-            className="relative inline-block leading-none"
-            style={{ fontSize: "15px", letterSpacing: "0.05em" }}
-            aria-label="4.7 out of 5 stars"
-          >
-            <span className="text-black/15" aria-hidden="true">
-              ★★★★★
-            </span>
-            <span
-              className="absolute left-0 top-0 overflow-hidden whitespace-nowrap"
-              style={{ color: "#F59E0B", width: "94%" }}
-              aria-hidden="true"
-            >
-              ★★★★★
-            </span>
-          </div>
+          <StarRow fontSize="15px" />
           <span className="text-[13px] font-bold tabular-nums">{label}</span>
         </div>
         <span className="mt-0.5 text-[11px] text-black/60">{sub}</span>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Numbered reason heading: the counter sits above the title as a quiet eyebrow
+ * rather than inline with it, and the title is solid black.
+ *
+ * The counter used to be an inline "01." prefix and the title navy, which was
+ * the one deliberate im8 exception to the Simple DTC rule that headings are
+ * solid black. Dropping it puts the listicle back on the house grammar and
+ * lets the number read as a list marker instead of as part of the sentence.
+ *
+ * Shared by `reason`, `symptomExplainer` and `segmentToggle` so the numbered
+ * spine stays visually identical across all three numbered block kinds.
+ */
+/**
+ * Splits a stat value into the large stem and its smaller tail, the way
+ * BrainFuelBand does with its explicit `value` / `small` pair: the integer
+ * carries the weight and everything after it drops to 60%.
+ *
+ * "19.3%" -> "19" + ".3%" · "26%" -> "26" + "%" · "£10k" -> "£10" + "k" ·
+ * "+14.86%" -> "+14" + ".86%". A leading sign or currency mark stays with the
+ * stem, and a plain "75" gets no tail at all.
+ */
+function splitStatValue(value: string): [string, string] {
+  const match = /^([^\d]*\d+)(.*)$/.exec(value);
+  return match ? [match[1], match[2]] : [value, ""];
+}
+
+function ReasonHeading({
+  n,
+  className,
+  children,
+}: {
+  n?: number;
+  className: string;
+  children: string;
+}) {
+  return (
+    <div className={className}>
+      {n ? (
+        <p className="mb-2 text-[13px] font-semibold tabular-nums text-black/40">
+          {String(n).padStart(2, "0")}
+        </p>
+      ) : null}
+      <h3 className="text-balance text-[32px] font-semibold leading-[1.1] text-black md:text-[44px] md:leading-[1.05]">
+        {children}
+      </h3>
+    </div>
+  );
+}
+
+/**
+ * A reason clip that only decodes while it is on screen.
+ *
+ * These used to carry a bare `autoPlay loop`, which keeps a video decoding
+ * long after it has scrolled away: wasted battery and CPU on the phones 74%
+ * of this traffic arrives on, and there can be several clips on one page.
+ * Same treatment BottleVideo uses on the PDPs, so the two agree: no autoPlay,
+ * an IntersectionObserver plays at 40% visible and pauses on exit.
+ */
+function ReasonVideo({
+  asset,
+}: {
+  asset: Extract<ListicleAsset, { kind: "video" }>;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (el.paused) el.play().catch(() => {});
+        } else if (!el.paused) {
+          el.pause();
+        }
+      },
+      { threshold: 0.4 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // "contain": full-width black tile, clip centred (product renders).
+  // "cover" (default): inset 4/5 frame, clip fills it (texture loops).
+  const contain = asset.fit === "contain";
+  const video = videoTrio(asset.src);
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-md border border-black/10 w-full ${
+        contain ? "bg-black" : ""
+      }`}
+      style={{ aspectRatio: contain ? "4/3" : (asset.aspect ?? "4/3") }}
+    >
+      <video
+        // Browsers do not re-read <source> children after the initial load, so
+        // a changed src needs a remount rather than a re-render. Same guard
+        // BottleVideo carries.
+        key={asset.src}
+        ref={videoRef}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={video.poster}
+        aria-label={asset.alt}
+        aria-hidden={asset.alt ? undefined : true}
+        className={`absolute inset-0 h-full w-full ${
+          contain ? "object-contain" : "object-cover"
+        }`}
+      >
+        {video.webm && <source src={video.webm} type="video/webm" />}
+        <source src={video.mp4} type="video/mp4" />
+      </video>
     </div>
   );
 }
@@ -199,33 +376,7 @@ function AssetBlock({ asset }: { asset: ListicleAsset }) {
   }
 
   if (asset.kind === "video") {
-    // "contain": full-width black tile, clip centred (product renders).
-    // "cover" (default): inset 4/5 frame, clip fills it (texture loops).
-    const contain = asset.fit === "contain";
-    const video = videoTrio(asset.src);
-    return (
-      <div
-        className={`relative overflow-hidden rounded-md border border-black/10 w-full ${
-          contain ? "bg-black" : ""
-        }`}
-        style={{ aspectRatio: contain ? "4/3" : (asset.aspect ?? "4/3") }}
-      >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={video.poster}
-          className={`absolute inset-0 h-full w-full ${
-            contain ? "object-contain" : "object-cover"
-          }`}
-        >
-          {video.webm && <source src={video.webm} type="video/webm" />}
-          <source src={video.mp4} type="video/mp4" />
-        </video>
-      </div>
-    );
+    return <ReasonVideo asset={asset} />;
   }
 
   const note =
@@ -436,15 +587,12 @@ function BodyBlock({
   if (block.kind === "reason") {
     const mediaFirst = index % 2 === 1;
     return (
-      <div className="border-t border-black/10 py-14">
+      <div className={`${index === 0 ? "" : "border-t border-black/10"} py-14`}>
         <article className="grid items-center gap-8 md:grid-cols-2 md:gap-16">
           <div className={mediaFirst ? "md:order-2" : ""}>
-            <h3 className="mb-4 text-balance text-[32px] font-semibold leading-[1.1] text-[var(--brand-navy)] md:text-[44px] md:leading-[1.05]">
-              <span className="tabular-nums">
-                {String(block.n).padStart(2, "0")}.
-              </span>{" "}
+            <ReasonHeading n={block.n} className="mb-4">
               {block.headline}
-            </h3>
+            </ReasonHeading>
             <p className="mb-5 max-w-[36rem] text-[15px] font-semibold leading-relaxed text-black md:text-base">
               {block.body}
             </p>
@@ -504,30 +652,104 @@ function BodyBlock({
   }
 
   if (block.kind === "statsBand") {
+    // Styled from app/lander/sections/BrainFuelBand/BrainFuelBand.module.css,
+    // value for value: #f1f1f3 card at 8px radius, title at weight 800, and a
+    // 2-up metric grid whose 1px gaps over a darker container read as hairline
+    // dividers. Cells are centred, which also handles an odd stat count: the
+    // last cell spans the full width and its content centres in it.
+    //
+    // One deliberate deviation. The reference hard-sets the value at 41.6px
+    // with `white-space: nowrap`, which works for its own short figures ("75",
+    // "19.3%") but clips a listicle value like "+14.86%" in a half-width cell
+    // at 390px. The clamp keeps 41.6px wherever it fits and shrinks only on the
+    // narrowest screens, so nothing is ever cut off.
     return (
       <div
-        className="my-10 rounded-md px-8 py-12 text-center"
-        style={{ background: NAVY, color: "#fff" }}
+        className="my-10 flex flex-col gap-6 rounded-lg px-5 py-6 md:gap-7 md:px-7 md:py-8"
+        style={{ background: "#f1f1f3", color: "#000" }}
       >
-        <div className="mb-8 text-[13px] font-semibold opacity-60">
+        <h3
+          className="m-0 text-balance"
+          style={{
+            fontWeight: 800,
+            fontSize: "clamp(1.9rem, 1.2rem + 3vw, 2.75rem)",
+            lineHeight: 1.05,
+            letterSpacing: "-0.02em",
+            color: "#000",
+          }}
+        >
           {block.eyebrow}
-        </div>
+        </h3>
+
         <div
-          className={`mx-auto grid max-w-5xl grid-cols-1 gap-8 md:gap-6 ${
+          className={`grid grid-cols-2 gap-px ${
             block.stats.length === 3 ? "md:grid-cols-3" : "md:grid-cols-4"
           }`}
+          style={{ background: "rgba(0, 0, 0, 0.12)" }}
         >
-          {block.stats.map((s, i) => (
-            <div key={i}>
-              <div className="text-4xl font-semibold tabular-nums md:text-5xl">
-                {s.value}
+          {block.stats.map((st, i) => {
+            // An odd count would otherwise leave a hole in a 2-col grid, and
+            // the grid's own background shows through it as an empty block.
+            const fillsRow =
+              block.stats.length % 2 === 1 && i === block.stats.length - 1;
+            const [stem, tail] = splitStatValue(st.value);
+            return (
+              <div
+                key={i}
+                className={`flex flex-col items-center justify-center gap-2 px-2.5 py-4 text-center md:px-4 md:py-6 ${
+                  fillsRow ? "col-span-2 md:col-span-1" : ""
+                }`}
+                style={{ background: "#f1f1f3" }}
+              >
+                <div
+                  className="tabular-nums"
+                  style={{
+                    fontWeight: 850,
+                    fontSize: "clamp(2rem, 9vw, 41.6px)",
+                    lineHeight: "36px",
+                    letterSpacing: "-0.058em",
+                    color: "#000",
+                  }}
+                >
+                  {stem}
+                  {tail ? (
+                    // 0.6em resolves to the reference's 24.96px against its
+                    // 41.6px stem, and holds that ratio as the stem clamps
+                    // down on narrow screens.
+                    <small style={{ fontSize: "0.6em", fontWeight: 850 }}>
+                      {tail}
+                    </small>
+                  ) : null}
+                </div>
+                <p
+                  className="m-0"
+                  style={{
+                    fontWeight: 500,
+                    fontSize: "12.48px",
+                    lineHeight: "16px",
+                    letterSpacing: "-0.12px",
+                    color: "rgba(0, 0, 0, 0.6)",
+                  }}
+                >
+                  {st.label}
+                </p>
               </div>
-              <div className="mt-2 text-sm opacity-70">{s.label}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
+
         {block.footnote ? (
-          <div className="mt-8 text-xs opacity-50">{block.footnote}</div>
+          <p
+            className="m-0"
+            style={{
+              fontWeight: 500,
+              fontSize: "12.48px",
+              lineHeight: "18px",
+              color: "rgba(0, 0, 0, 0.6)",
+            }}
+          >
+            {block.footnote}
+          </p>
         ) : null}
       </div>
     );
@@ -545,15 +767,10 @@ function BodyBlock({
 
   if (block.kind === "symptomExplainer") {
     return (
-      <div className="border-t border-black/10 py-14">
-        <h3 className="mb-6 text-balance text-[32px] font-semibold leading-[1.1] text-[var(--brand-navy)] md:text-[44px] md:leading-[1.05]">
-          {block.n ? (
-            <span className="tabular-nums">
-              {String(block.n).padStart(2, "0")}.
-            </span>
-          ) : null}{" "}
+      <div className={`${index === 0 ? "" : "border-t border-black/10"} py-14`}>
+        <ReasonHeading n={block.n} className="mb-6">
           {block.headline}
-        </h3>
+        </ReasonHeading>
         <SymptomExplainer
           intro={block.intro}
           symptoms={block.symptoms}
@@ -567,15 +784,10 @@ function BodyBlock({
 
   if (block.kind === "segmentToggle") {
     return (
-      <div className="border-t border-black/10 py-14">
-        <h3 className="mb-6 text-balance text-[32px] font-semibold leading-[1.1] text-[var(--brand-navy)] md:text-[44px] md:leading-[1.05]">
-          {block.n ? (
-            <span className="tabular-nums">
-              {String(block.n).padStart(2, "0")}.
-            </span>
-          ) : null}{" "}
+      <div className={`${index === 0 ? "" : "border-t border-black/10"} py-14`}>
+        <ReasonHeading n={block.n} className="mb-6">
           {block.headline}
-        </h3>
+        </ReasonHeading>
         <SegmentToggle
           segments={block.segments}
           onSelect={(label) =>
@@ -618,17 +830,27 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
   const needsStickyClearance =
     Boolean(config.stickyBar) && !config.faqIds.length;
 
+  // The bar states the offer and nothing else. Proof already runs twice above
+  // it, in the hero micro-row and the logo band; stars and a review count down
+  // here were a third copy competing with the price on a two-line strip.
+  const offer = stickyOffer(config.product.productHeroId ?? "03");
+
   return (
     <main
       className={`min-h-screen overflow-x-clip${needsStickyClearance ? " pb-32" : ""}`}
       style={{ background: CANVAS, color: "#111" }}
     >
-      {/* Zone 1: hero — IM8 pattern: asset bleeds to the left/top/bottom edges
-          on desktop at ~half viewport width; content column centres beside. */}
-      <section aria-label="Hero" style={{ background: CANVAS, color: "#111" }}>
+      {/* Zone 1: hero — a soft educational preframe (SCRUM-1320). On desktop the
+          asset still bleeds to the left/top/bottom edges at ~half viewport
+          width; on mobile the copy comes FIRST (reversing SCRUM-1166) so the
+          outcome headline is the first thing a cold visitor reads. */}
+      <section
+        aria-label="Hero"
+        style={{ background: `${HERO_WASH}, ${CANVAS}`, color: "#111" }}
+      >
         <div className="grid items-center md:grid-cols-[52fr_48fr]">
           <div
-            className="relative order-1 w-full"
+            className="relative order-2 w-full md:order-1"
             style={{
               aspectRatio:
                 config.hero.asset.kind === "image"
@@ -654,28 +876,26 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
               </div>
             )}
           </div>
-          <div className="order-2 px-5 pt-6 pb-8 md:flex md:flex-col md:justify-center md:px-14 md:py-0">
-            <h1 className="mb-3 text-balance text-[1.75rem] font-semibold leading-[1.1] text-black md:mb-4 md:text-5xl md:leading-[1.05]">
+          <div className="order-1 px-5 pt-10 pb-8 md:order-2 md:flex md:flex-col md:justify-center md:px-14 md:py-0">
+            {/* Simple DTC display tier (DESIGN_SYSTEM.md §8.5): on a stripped-back
+                hero the oversized heading carries the hierarchy on its own. */}
+            <h1
+              className="mb-4 text-balance font-semibold text-black"
+              style={{
+                fontSize: "clamp(3rem, 9vw, 3.75rem)",
+                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+              }}
+            >
               {config.hero.headline}
             </h1>
-            <p className="mb-5 max-w-[34rem] text-[15px] leading-relaxed text-black md:text-base">
+            <p className="mb-6 max-w-[34rem] text-base leading-relaxed text-black md:text-[17px]">
               {config.hero.subcopy}
             </p>
-            {config.hero.socialProof ? (
-              <TrustMicroRow
-                label={config.hero.socialProof.label}
-                sub={config.hero.socialProof.sub}
-              />
-            ) : null}
-            {config.hero.offerBadge ? (
-              <OfferPill className="mb-4 mx-auto w-fit max-w-full px-4 py-1.5 text-center text-[13px] leading-snug md:mx-0 md:text-sm">
-                {config.hero.offerBadge.hero}
-              </OfferPill>
-            ) : null}
             <Link
               href={withSrc(buyHref, SECTION.hero)}
               onClick={() => fireCta(SECTION.hero)}
-              className="mb-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-center text-base font-semibold text-white transition-opacity hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-navy)] md:w-auto"
+              className="mb-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-center text-base font-semibold text-white transition-opacity hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-navy)] md:w-auto"
               style={{ background: NAVY }}
             >
               {config.hero.cta}
@@ -695,35 +915,34 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
                 <polyline points="12 5 19 12 12 19" />
               </svg>
             </Link>
+            {/* Proof lands AFTER the ask, not before it: it reassures the click
+                rather than being spent above the fold on its own. */}
+            {config.hero.socialProof ? (
+              <TrustMicroRow
+                label={config.hero.socialProof.label}
+                sub={config.hero.socialProof.sub}
+              />
+            ) : null}
           </div>
         </div>
       </section>
 
-      {/* Zone 1b: proof ticker — navy marquee, SportMarquee pattern */}
-      {config.ticker?.length ? (
-        <div
-          aria-label="Proof ticker"
-          className="relative overflow-hidden py-3"
-          style={{ background: NAVY }}
+      {/* Zone 1b: proof wall — the partner logo band, straight after the hero.
+          Tracked as its own fixed zone so it has a denominator; it is not a
+          `body` entry, so no reason-block id shifts. */}
+      {config.proof && (config.proof.logoBand || config.proof.pressBand) ? (
+        <section
+          aria-label="Trusted by"
+          className="px-5 py-12 md:px-[5vw] md:py-14"
+          style={{ background: CANVAS, color: "#111" }}
         >
-          <span className="sr-only">{config.ticker.join(", ")}</span>
-          <div
-            className="inline-flex whitespace-nowrap [will-change:transform] motion-safe:animate-[marquee_40s_linear_infinite]"
-            aria-hidden="true"
+          <TrackedSection
+            section={SECTION.proofWall}
+            className="mx-auto max-w-7xl"
           >
-            {[...config.ticker, ...config.ticker].map((item, i) => (
-              <span
-                key={i}
-                className="inline-flex items-center text-[12px] font-semibold uppercase tracking-[0.18em] text-white"
-              >
-                <span>{item}</span>
-                <span className="mx-5" aria-hidden="true">
-                  ★
-                </span>
-              </span>
-            ))}
-          </div>
-        </div>
+            <ListicleLogoBand proof={config.proof} />
+          </TrackedSection>
+        </section>
       ) : null}
 
       {/* Zone 2: reasons */}
@@ -731,9 +950,34 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
         aria-label="Reasons"
         id="reasons"
         className="px-5 py-16 md:px-[5vw]"
-        style={{ background: CANVAS, color: "#111" }}
+        style={{ background: `${REASONS_WASH}, ${CANVAS}`, color: "#111" }}
       >
         <div className="mx-auto max-w-7xl">
+          {config.reasonsHeader ? (
+            <TrackedSection
+              // The first body block already opens with `border-t ... py-14`,
+              // so this only needs to clear the hairline, not the whole gap.
+              section={SECTION.reasonsHeader}
+              className="mb-8 text-center md:mb-10"
+            >
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-black">
+                {config.reasonsHeader.eyebrow}
+              </p>
+              {/* Sized between the reason headings (32/44, navy) and the hero
+                  H1 (48/60), and solid black rather than navy, so it reads as
+                  the section title rather than as another reason. */}
+              <h2
+                className="mx-auto max-w-[24ch] text-balance font-semibold text-black"
+                style={{
+                  fontSize: "clamp(2.125rem, 6.5vw, 3rem)",
+                  lineHeight: 1.08,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {config.reasonsHeader.headline}
+              </h2>
+            </TrackedSection>
+          ) : null}
           {config.body.map((block, i) => (
             <Fragment key={i}>
               <TrackedSection section={sectionId(block.kind, i)}>
@@ -774,19 +1018,6 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
           ) : null}
         </div>
       </section>
-
-      {/* Zone 3a: logo band — institutional trust, ABOVE the buy box */}
-      {config.proof && (config.proof.logoBand || config.proof.pressBand) ? (
-        <section
-          aria-label="Trusted by"
-          className="px-5 pt-16 md:px-[5vw]"
-          style={{ background: CANVAS, color: "#111" }}
-        >
-          <div className="mx-auto max-w-7xl">
-            <ListicleLogoBand proof={config.proof} />
-          </div>
-        </section>
-      ) : null}
 
       {/* Zone 3b: product / buy box — hard flip to light */}
       <section
@@ -844,36 +1075,51 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
       {config.stickyBar ? (
         <aside
           aria-label="Offer bar"
-          className="fixed bottom-0 left-0 right-0 z-40 px-5 py-2 md:px-[5vw]"
-          style={{ background: TINT, color: NAVY }}
+          className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 px-5 py-4 md:px-[5vw]"
+          style={{ background: STICKY_TINT, color: "#111" }}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
+            {/* Money only: this is the highest-closing surface on the page and
+                it carried no price at all before SCRUM-1322. The reference bar
+                is bold headline over a quieter second line, so the price leads
+                and the gift value supports it rather than shouting alongside.
+
+                No green here. Savings green earns its place as a badge on a
+                white surface; as a bare 12px line on the navy tint it read as a
+                second accent competing with the CTA. Navy ties the line to the
+                button instead, and the "free" does the work the colour was
+                doing. */}
             <div className="flex min-w-0 flex-col gap-1">
-              <span className="truncate text-[13px] font-semibold leading-tight md:text-sm">
-                {config.stickyBar.label}
+              <span className="text-[15px] font-bold leading-tight md:text-base">
+                As low as £{offer.perShot} a shot
               </span>
-              {config.stickyBar.sub ? (
-                <span className="truncate text-[11px] leading-tight opacity-70">
-                  {config.stickyBar.sub}
+              {offer.giftValue ? (
+                <span className="text-[12px] font-medium leading-tight text-[var(--brand-navy)]">
+                  +£{offer.giftValue} of gifts free
+                  {/* The qualifier is the first thing to go when space is
+                      short: at 390px the full sentence was ellipsing, which
+                      turned the number into "+£110 of free gifts with a sub…"
+                      and lost the point of the line. */}
+                  <span className="hidden sm:inline">
+                    {" "}
+                    with a subscription
+                  </span>
                 </span>
               ) : null}
             </div>
             <Link
               href={withSrc(buyHref, SECTION.sticky)}
               onClick={() => fireCta(SECTION.sticky)}
-              className="flex shrink-0 flex-col items-center justify-center rounded-full px-7 py-2 text-center text-white"
-              style={{ background: NAVY }}
+              // ConkaCTAButton's inverted contract (CTA_BASE_INVERTED): white
+              // fill, navy border and text, flipping to the navy fill on hover.
+              // The treatment, not the component: ConkaCTAButton renders a mono
+              // uppercase label and an O-mark, which is clinical grammar and
+              // would read as a foreign object on a Simple DTC bar.
+              className="flex min-h-[48px] shrink-0 items-center justify-center rounded-full border-2 border-[var(--brand-navy)] bg-white px-7 text-center text-[var(--brand-navy)] transition-colors duration-200 hover:bg-[var(--brand-navy)] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-navy)]"
             >
-              <span className="text-sm font-bold leading-tight">
+              <span className="text-[15px] font-bold leading-tight">
                 {config.stickyBar.cta}
               </span>
-              {config.hero.offerBadge ? (
-                // Lighter mint than --brand-positive (#1a7f4f), which is too
-                // dark to read on the navy CTA; reads as the "free" value cue.
-                <span className="text-[11px] font-medium leading-tight text-[#8fe3b4]">
-                  {config.hero.offerBadge.sticky}
-                </span>
-              ) : null}
             </Link>
           </div>
         </aside>

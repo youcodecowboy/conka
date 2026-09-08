@@ -20,23 +20,30 @@ export interface MarqueeLogo {
   alt: string;
   /** Pixel height for image logos (natural proportions differ per logo) */
   h?: number;
+  /**
+   * Rendered pixel width at `h`, from the asset's own proportions. Stated so
+   * the <img> can carry width/height attributes: without them the flex row has
+   * no size until each logo decodes, and every arrival reflows the track under
+   * a running transform, which is what made the marquee visibly jump.
+   */
+  w?: number;
 }
 
 const PARTNER_LOGOS: MarqueeLogo[] = [
-  { src: "/lander/partners/bath-rugby.png", alt: "Bath Rugby", h: 52 },
-  { src: "/lander/partners/southampton.png", alt: "Southampton FC", h: 54 },
-  { src: "/lander/partners/england-rugby.png", alt: "England Rugby", h: 58 },
-  { src: "/lander/partners/bayern.png", alt: "FC Bayern Munich", h: 52 },
-  { src: "/lander/partners/team-gb.png", alt: "Team GB", h: 58 },
-  { src: "/lander/partners/wales-rugby.png", alt: "Wales Rugby", h: 56 },
-  { src: "/lander/partners/leeds.png", alt: "Leeds United", h: 54 },
-  { src: "/lander/partners/wolves.png", alt: "Wolves", h: 48 },
-  { src: "/lander/partners/f1.png", alt: "Formula 1", h: 26 },
-  { src: "/lander/partners/barrys.png", alt: "Barry's", h: 22 },
-  { src: "/lander/partners/army.png", alt: "British Army", h: 46 },
-  { src: "/lander/partners/british-airways.png", alt: "British Airways", h: 18 },
-  { src: "/lander/partners/goldman-sachs.png", alt: "Goldman Sachs", h: 36 },
-  { src: "/lander/partners/equinox.png", alt: "Equinox", h: 19 },
+  { src: "/lander/partners/bath-rugby.webp", alt: "Bath Rugby", h: 52, w: 52 },
+  { src: "/lander/partners/southampton.webp", alt: "Southampton FC", h: 54, w: 47 },
+  { src: "/lander/partners/england-rugby.webp", alt: "England Rugby", h: 58, w: 34 },
+  { src: "/lander/partners/bayern.webp", alt: "FC Bayern Munich", h: 52, w: 52 },
+  { src: "/lander/partners/team-gb.webp", alt: "Team GB", h: 58, w: 42 },
+  { src: "/lander/partners/wales-rugby.webp", alt: "Wales Rugby", h: 56, w: 42 },
+  { src: "/lander/partners/leeds.webp", alt: "Leeds United", h: 54, w: 43 },
+  { src: "/lander/partners/wolves.webp", alt: "Wolves", h: 48, w: 55 },
+  { src: "/lander/partners/f1.webp", alt: "Formula 1", h: 26, w: 104 },
+  { src: "/lander/partners/barrys.webp", alt: "Barry's", h: 22, w: 106 },
+  { src: "/lander/partners/army.webp", alt: "British Army", h: 46, w: 54 },
+  { src: "/lander/partners/british-airways.webp", alt: "British Airways", h: 18, w: 114 },
+  { src: "/lander/partners/goldman-sachs.webp", alt: "Goldman Sachs", h: 36, w: 86 },
+  { src: "/lander/partners/equinox.webp", alt: "Equinox", h: 19, w: 100 },
 ];
 
 /**
@@ -54,29 +61,21 @@ const PARTNER_LOGOS: MarqueeLogo[] = [
  * Cut them if "As Published On" should mean earned press only.
  */
 export const PRESS_LOGOS: MarqueeLogo[] = [
-  { src: "/lander/press/medscape.png", alt: "Medscape", h: 66 },
-  { src: "/lander/press/neurology-live.png", alt: "NeurologyLive", h: 26 },
-  { src: "/lander/press/mdedge.png", alt: "MDedge", h: 38 },
-  { src: "/lander/press/psychiatry.png", alt: "Psychiatry", h: 36 },
-  { src: "/lander/press/pharmaphorum.png", alt: "pharmaphorum", h: 30 },
-  { src: "/lander/press/biospace.png", alt: "BioSpace", h: 32 },
-  { src: "/lander/press/globe-and-mail.png", alt: "The Globe and Mail", h: 18 },
-  {
-    src: "/lander/press/nature-scientific-reports.png",
-    alt: "Nature Scientific Reports",
-    h: 44,
-  },
-  {
-    src: "/lander/press/frontiers-aging-neuroscience.png",
-    alt: "Frontiers in Aging Neuroscience",
-    h: 42,
-  },
-  { src: "/lander/press/plos.png", alt: "PLOS", h: 58 },
-  { src: "/lander/press/protolife.png", alt: "proto.life", h: 26 },
-  { src: "/lander/press/the-deep-dive.png", alt: "The Deep Dive", h: 24 },
-  { src: "/lander/press/nasdaq.png", alt: "Nasdaq", h: 30 },
-  { src: "/lander/press/yahoo-finance.png", alt: "Yahoo Finance", h: 32 },
-  { src: "/lander/press/newsfile.png", alt: "Newsfile", h: 36 },
+  { src: "/lander/press/medscape.webp", alt: "Medscape", h: 66, w: 66 },
+  { src: "/lander/press/neurology-live.webp", alt: "NeurologyLive", h: 26, w: 190 },
+  { src: "/lander/press/mdedge.webp", alt: "MDedge", h: 38, w: 112 },
+  { src: "/lander/press/psychiatry.webp", alt: "Psychiatry", h: 36, w: 86 },
+  { src: "/lander/press/pharmaphorum.webp", alt: "pharmaphorum", h: 30, w: 150 },
+  { src: "/lander/press/biospace.webp", alt: "BioSpace", h: 32, w: 122 },
+  { src: "/lander/press/globe-and-mail.webp", alt: "The Globe and Mail", h: 18, w: 157 },
+  { src: "/lander/press/nature-scientific-reports.webp", alt: "Nature Scientific Reports", h: 44, w: 64 },
+  { src: "/lander/press/frontiers-aging-neuroscience.webp", alt: "Frontiers in Aging Neuroscience", h: 42, w: 153 },
+  { src: "/lander/press/plos.webp", alt: "PLOS", h: 58, w: 79 },
+  { src: "/lander/press/protolife.webp", alt: "proto.life", h: 26, w: 106 },
+  { src: "/lander/press/the-deep-dive.webp", alt: "The Deep Dive", h: 24, w: 171 },
+  { src: "/lander/press/nasdaq.webp", alt: "Nasdaq", h: 30, w: 104 },
+  { src: "/lander/press/yahoo-finance.webp", alt: "Yahoo Finance", h: 32, w: 88 },
+  { src: "/lander/press/newsfile.webp", alt: "Newsfile", h: 36, w: 95 },
 ];
 
 function Group({
@@ -95,12 +94,21 @@ function Group({
         l.src ? (
           // Decorative brand logos with varied aspect ratios; plain img keeps
           // the per-logo height + auto width without distortion.
+          //
+          // Eager on the visible group: the band now sits directly under the
+          // listicle hero, and lazy-loading images inside a horizontally
+          // translating track means they pop in mid-scroll. At ~150KB of WebP
+          // for the whole set that trade is not worth making. The duplicate
+          // group stays lazy and hits the cache anyway, same URLs.
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={l.alt}
             src={l.src}
             alt={l.alt}
-            loading="lazy"
+            width={l.w}
+            height={l.h}
+            loading={hidden ? "lazy" : "eager"}
+            decoding="async"
             style={{ height: l.h }}
             className="w-auto flex-shrink-0"
           />
