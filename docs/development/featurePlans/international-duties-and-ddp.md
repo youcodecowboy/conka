@@ -246,9 +246,8 @@ See § Open questions.
 
 ### Phase 2 — Our own admin, runs in parallel
 
-3. Set the **default country of origin** to United Kingdom (Settings → Taxes and duties →
-   Customs information). Covers all variants at once; currently "No default set".
-4. Add **HS code `210690`** to the 15 live variants missing it (below).
+3. ~~Set the **default country of origin** to United Kingdom.~~ **DONE 8 Sept 2026.**
+4. ~~Add **HS code `210690`** to the live variants missing it.~~ **DONE 8 Sept 2026**, see below.
 5. Draft shipping policy copy and a cart-drawer line stating the international minimum and
    that duties are included.
 
@@ -274,36 +273,39 @@ See § Open questions.
 
 ---
 
-## HS codes: current state
+## HS codes — DONE 8 Sept 2026
 
-Verified live via the Shopify Admin API, 8 Sept 2026. Across the whole catalogue: country of
-origin on 22 of 128 variants, HS codes on 27 of 128. Most of that is dead stock. **The 15
-live variants that need `210690` + `GB`:**
+All live sellable variants now carry HS code `210690` and country of origin `GB`. Verified
+via the Shopify Admin API: **38 of 39 live sellable variants complete.** A store-level
+default country of origin (United Kingdom) is also set, and the value was written explicitly
+onto each variant rather than relying on the default, since it is not certain a store default
+reaches Synergy's variant-level data pull.
 
-| Product | Missing |
-|---|---|
-| CONKA Flow AM | `FLOW-FUNNEL-20`, `-20-OTP`, `-60`, `-80`, `-84` |
-| CONKA Clear PM | `CLEAR-FUNNEL-20`, `-20-OTP`, `-60`, `-80`, `-84` |
-| CONKA Flow + Clear | `BOTH-FUNNEL-40`, `-40-OTP`, `-56`, `-120`, `-140`, `-168` |
+Outstanding: `CONKA-TRAVEL-PACK-28` (neither field). Low priority.
 
-Already correct: `FLOW-FUNNEL-28` and `CLEAR-FUNNEL-28`, on both the main products and the
-Team Box products (`210690` / `GB`). Copy that pattern.
-
-Also missing but lower priority: `CONKA-TRAVEL-PACK-28` and the six Ketone IQ trial variants.
-Merch is all £0.00 and can be ignored.
+Whole catalogue reads HS on 38/128 and origin on 44/128. The remainder is dead merch and
+free-gift variants that do not ship internationally.
 
 **What HS codes do and do not fix.** They decide the tariff, and without them destination
 customs classifies the goods themselves and we cannot claim the TCA 0% rate. They also gate
 Shopify's *collect duties and import taxes at checkout* (available to us at a 0.5%
 promotional fee, normally 0.85% on Shopify Payments). They do **not** reduce VAT, and on
-sub-€150 parcels the duty is a flat €3 regardless of classification. So this is necessary
-hygiene and a prerequisite, not a fix for the doorstep bill.
+sub-€150 parcels the duty is a flat €3 regardless of classification. Necessary hygiene and a
+prerequisite, not a fix for the doorstep bill.
+
+**One code covers everything** because an HS code classifies what the product *is*, not the
+SKU. Flow and Clear are both liquid food supplements, pack size is irrelevant, and the
+bundles classify the same as their components. `210690` is the 6-digit international part;
+the EU extends it to 8 digits at their end and the broker does that. If a shipment is ever
+challenged it will be the chapter 21 vs chapter 22 (beverages) argument, at which point get
+a broker's opinion.
+
+**Do not enable *collect duties at checkout* yet.** If it is switched on while shipments are
+still going DAP, the customer pays duty at checkout *and* is billed again at the door.
 
 **No write access from the repo.** `SHOPIFY_ADMIN_API_TOKEN` carries only customer and draft
 order scopes; HS code and country of origin live on `InventoryItem` and need
-`write_inventory`. Do it in the admin bulk editor, or mint a scoped token.
-
----
+`write_inventory`. This was done manually in the admin bulk editor.
 
 ## UK VAT on EU orders — checked, no action
 
