@@ -28,9 +28,11 @@ Three events, all keyed `{ slug, section }` (the two-property budget — see `ap
 | `listicle:cta_clicked` | CTA click (all CTAs route to a PDP) | **Conversion proxy** — every click is a PDP hand-off |
 | `listicle:interaction` | Symptom picked / segment toggled | **Active-intent** — self-identification, added 2026-07-27 |
 
-`section` values: body blocks are `<kind>_<index>` (e.g. `reason_3`, `symptomExplainer_0`); fixed zones are `hero` / `proofWall` / `bridge` / `sticky` / `product`; interaction choices fold into `section` as `symptom_<label>` / `segment_<label>`.
+`section` values: body blocks are `<kind>_<index>` (e.g. `reason_3`, `symptomExplainer_0`); fixed zones are `hero` / `proofWall` / `reasonsHeader` / `bridge` / `sticky` / `product`; interaction choices fold into `section` as `symptom_<label>` / `segment_<label>`.
 
-`proofWall` is new in SCRUM-1321 (the partner logo band moved from above the buy box to directly under the hero). It is a fixed zone, not a `body` entry, so no existing block id was rebased and the scroll funnel reads continuously across the change.
+`proofWall` and `reasonsHeader` are new in SCRUM-1321: the partner logo band moved from above the buy box to directly under the hero, and the reasons block gained an eyebrow plus "N Reasons ..." title. Both are fixed zones, not `body` entries, so no existing block id was rebased and the scroll funnel reads continuously across the change.
+
+**Timeline note, 8 Sept 2026 (SCRUM-1320 / 1321), not yet deployed.** All three heroes were rebuilt as a soft educational preframe: outcome headline in place of the "N reasons" title, the green "+1 week free" pill dropped so the CTA is the only offer surface, the rating moved below the CTA, copy above the asset on mobile, and new person-with-product photography on ADHD and Productivity. The navy proof ticker was removed. Read `hero` CTA rate and first-section retention against this date, not across it. Annotate the chart here when it goes live.
 
 **Why CTA-click is the conversion signal (baseline):** every listicle CTA links to a PDP, so a click is the furthest-down-funnel action we could attribute to a persona. This holds for the 24–27 Jul baseline snapshot below.
 

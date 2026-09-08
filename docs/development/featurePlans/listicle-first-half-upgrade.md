@@ -13,7 +13,7 @@
 | Phase | Description | Status |
 |-------|-------------|--------|
 | 1 | Hero preframe rebuild | **Done** (SCRUM-1320, For review) |
-| 2 | Proof wall raised + reasons section header | Not Started (SCRUM-1321) |
+| 2 | Proof wall raised + reasons section header | **Done** (SCRUM-1321, For review) |
 | 3 | Sticky bar rework with price anchoring | Not Started (SCRUM-1322) |
 | 4 | Reasons consolidation, 7 to 5, cross-page dedup | Future |
 
@@ -219,6 +219,11 @@ its own timeline annotation.
 - No A/B, no new slugs. Editing in place, recorded as a timeline event.
 - Not touching `config.body` in Phases 1 to 3.
 - Not adding a `pressBand`. The press marquee stays on reason 4.
+- **Changed during Phase 2:** the navy proof ticker was removed outright, which
+  this plan did not anticipate. Called by Rudh against the rendered page. Its
+  claims duplicated `trustPills` and the sticky-bar sub-line, and it read as
+  chrome rather than proof, so `ticker` came out of the type and all three
+  configs rather than being left populated and unrendered.
 - No substitution or medication-alternative language in the copy. Keep it on the
   outcome. This is a Meta ad-delivery risk, not only a claims one.
 - No change to the `IntersectionObserver` options.
@@ -259,7 +264,7 @@ other; SCRUM-1321 is also linked to SCRUM-1176.
 | Ticket | Title | Phase | Status |
 |--------|-------|-------|--------|
 | [SCRUM-1320](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1320) | Listicle hero: rebuild as a soft educational preframe | 1 | For review |
-| [SCRUM-1321](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1321) | Listicle: raise the proof wall and add a reasons section header | 2 | To Do |
+| [SCRUM-1321](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1321) | Listicle: raise the proof wall and add a reasons section header | 2 | For review |
 | [SCRUM-1322](https://conka-team-jr1mzvwm.atlassian.net/browse/SCRUM-1322) | Listicle sticky bar: rework layout and add per-serving price anchoring | 3 | To Do |
 
 Phase 4 is deliberately unticketed. It is re-scoped when the first three have

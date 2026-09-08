@@ -144,6 +144,7 @@ The hero is text-only (no image, no CTA button); the sticky bar carries the pers
 {
   slug, persona, format: "listicle", template: "im8", title,
   hero: { laurel?, headline, subcopy, socialProof?, cta, offerBadge?, priceAnchor?, trustPills?, asset },
+  reasonsHeader?: { eyebrow, headline },
   body: [ /* the section-block library, in order */ ],
   bridge?, product: { headline, subline?, productHeroId?, whoItsFor? },
   // shared proof + faqIds + stickyBar
@@ -156,6 +157,19 @@ renders once, between the hero and the reasons, tracked as the fixed zone
 reach, so the institutional proof was invisible to most of the traffic. The navy
 proof ticker that occupied this slot is gone: its claims duplicated `trustPills`
 and it read as chrome rather than proof.
+
+**The reasons block announces itself (SCRUM-1321).** `reasonsHeader` renders an
+eyebrow plus the "N Reasons ..." title directly above the first body block,
+tracked as the fixed zone `reasonsHeader`. It exists because the hero H1 is now
+a soft outcome line, so without it the list starts with no framing at all. Keep
+its `headline` in sync with the config's `title`: they are the same promise, one
+in the tab and one on the page.
+
+**Both new zones are fixed renderer zones, never `body` entries.** That is load
+bearing, not stylistic: `section` ids are `${kind}_${index}` over `config.body`,
+so anything added to that array rebases every id below it and silently voids the
+scroll-funnel history. Add page furniture as a zone; add content as a block, and
+accept the rebase.
 
 **The hero is a preframe, not a summary (SCRUM-1320).** It renders in one fixed
 order: headline, subcopy, CTA, rating. The headline is a soft outcome line at the
