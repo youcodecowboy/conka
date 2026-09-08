@@ -228,7 +228,12 @@ export const adhdListicle: ListicleConfig = {
       // same footage BottleVideo runs in PDP section 4. Flow rather than Clear
       // or Both because every listicle is Flow-primary (productHeroId "01").
       // Still a 9:16 source centre-cropped to 3:4 by object-cover.
-      asset: { kind: "video", src: "/videos/flow/FlowFloat.mp4", aspect: "3/4" },
+      asset: {
+        kind: "video",
+        src: "/videos/flow/FlowFloat.mp4",
+        alt: "A CONKA Flow bottle floating over a neural network",
+        aspect: "3/4",
+      },
     },
     {
       kind: "reason",

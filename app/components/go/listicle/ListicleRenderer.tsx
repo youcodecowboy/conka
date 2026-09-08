@@ -240,12 +240,18 @@ function ReasonVideo({
       style={{ aspectRatio: contain ? "4/3" : (asset.aspect ?? "4/3") }}
     >
       <video
+        // Browsers do not re-read <source> children after the initial load, so
+        // a changed src needs a remount rather than a re-render. Same guard
+        // BottleVideo carries.
+        key={asset.src}
         ref={videoRef}
         muted
         loop
         playsInline
         preload="metadata"
         poster={video.poster}
+        aria-label={asset.alt}
+        aria-hidden={asset.alt ? undefined : true}
         className={`absolute inset-0 h-full w-full ${
           contain ? "object-contain" : "object-cover"
         }`}
@@ -631,6 +637,7 @@ function BodyBlock({
             // the grid's own background shows through it as an empty block.
             const fillsRow =
               block.stats.length % 2 === 1 && i === block.stats.length - 1;
+            const [stem, tail] = splitStatValue(st.value);
             return (
               <div
                 key={i}
@@ -649,22 +656,15 @@ function BodyBlock({
                     color: "#000",
                   }}
                 >
-                  {(() => {
-                    const [stem, tail] = splitStatValue(st.value);
-                    return (
-                      <>
-                        {stem}
-                        {tail ? (
-                          // 0.6em resolves to the reference's 24.96px against
-                          // its 41.6px stem, and keeps that ratio as the stem
-                          // clamps down on narrow screens.
-                          <small style={{ fontSize: "0.6em", fontWeight: 850 }}>
-                            {tail}
-                          </small>
-                        ) : null}
-                      </>
-                    );
-                  })()}
+                  {stem}
+                  {tail ? (
+                    // 0.6em resolves to the reference's 24.96px against its
+                    // 41.6px stem, and holds that ratio as the stem clamps
+                    // down on narrow screens.
+                    <small style={{ fontSize: "0.6em", fontWeight: 850 }}>
+                      {tail}
+                    </small>
+                  ) : null}
                 </div>
                 <p
                   className="m-0"

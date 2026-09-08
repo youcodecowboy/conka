@@ -73,7 +73,18 @@ export type ListicleAsset =
   /** Silent autoplay loop (no controls), the IM8 reason-video pattern.
    *  fit "contain" centres the clip in a full-width black tile (for product
    *  renders); default "cover" keeps the inset 4/5 frame (for texture loops). */
-  | { kind: "video"; src: string; aspect?: string; fit?: "cover" | "contain" }
+  | {
+      kind: "video";
+      src: string;
+      /**
+       * Accessible name for the clip. Omit when it adds nothing the reason's
+       * own copy does not already say: the renderer then marks it decorative
+       * rather than leaving an unlabelled media element for a screen reader.
+       */
+      alt?: string;
+      aspect?: string;
+      fit?: "cover" | "contain";
+    }
   /** "Skip the 2pm crash" curve + cost table (CrashChart). Figures default
    *  from landingPricing; override per page. */
   | {

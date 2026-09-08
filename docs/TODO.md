@@ -34,6 +34,21 @@ no longer has anything to bite on. See `docs/development/featurePlans/archive/lo
 
 ## Listicles (`/go`)
 
+### LogoMarquee is forked three ways, each with its own copy of the logo list
+
+**Status:** Open. Found during SCRUM-1321 when converting the logos to WebP.
+**Files:** `app/components/landing/LogoMarquee.tsx` (the shared one), `app/lander/sections/LogoMarquee/LogoMarquee.tsx`, `app/(trial-b)/lander-b/sections/LogoMarquee/LogoMarquee.tsx`
+
+**Symptom:** three components render the same partner and press marquees, each hardcoding its own copy of the same `src` list. `lander-b` additionally carries `nw`/`nh` intrinsic sizes that must be kept in sync with the actual files.
+
+**Why it bites:** the paths are plain `<img src>` strings, so nothing type-checks them and `npm run build` passes with broken images. Renaming or re-encoding an asset silently breaks two pages unless you remember all three files. That nearly shipped during the WebP conversion; it was caught by grepping for surviving `.png` references, not by any tooling.
+
+**What closes it:** collapse the two forks onto the shared `app/components/landing/LogoMarquee.tsx`, or at minimum move the logo arrays into one exported module the three import. Also consider `next/image`, which would make a missing file a build error.
+
+**Also:** `public/lander/partners/informed-sport.png` is the last PNG in an otherwise all-WebP folder. It is not in any marquee (the `/lander` and `/lander-b` BuyBoxes use it directly), so it was deliberately left alone.
+
+---
+
 ### `trustPills` is dead config on all three im8 listicles
 
 **Status:** Open, cosmetic. Discovered during SCRUM-1320.
