@@ -5,6 +5,7 @@
 ---
 
 <!-- changelog:newest - new entries are inserted directly below this line, newest first, one line each -->
+- **2026-09-08** | Listicle proof wall moved up: the partner logo band now sits directly under the hero on all three /go pages, and the navy proof ticker is removed (SCRUM-1321)
 - **2026-09-08** | Listicle heroes rebuilt as a soft educational preframe: outcome headline, one offer CTA with the rating beneath it, and a person-with-product photo on all three /go pages (SCRUM-1320)
 - **2026-09-03** | Wired all 71 hardcoded contact addresses across 19 files to their single sources: customer-facing ones to `SUPPORT_EMAIL` / `supportMailtoHref()`, and B2B ones to a new `B2B_CONTACT_EMAIL` / `b2bMailtoHref()` in `b2bData.ts`. Rendered output is unchanged; changing either address is now a one-line edit
 - **2026-09-03** | Deleted our order-history and account-details pages: Skio's portal renders its own Orders and Account views with full order detail, so both duplicated it, and the details page offered an address form that wrote to Shopify while deliveries follow the Skio contract. `/account/orders` and `/account/details` now redirect to `/account/manage`. Restored a "Log out of CONKA" link, which went with the deleted sub-nav (Skio's own Logout cannot clear our httpOnly session), and pointed every internal account link at the canonical URL instead of through a redirect

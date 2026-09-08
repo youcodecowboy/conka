@@ -4,8 +4,11 @@
  * The post-reasons proof is no longer one stacked block. It is distributed so
  * the tail escalates instead of repeating:
  *
- *   ListicleLogoBand  -> institutional trust, ABOVE the buy box
- *                        (partner logos + optional press/journal logos)
+ *   ListicleLogoBand  -> institutional trust, directly UNDER THE HERO
+ *                        (partner logos + optional press/journal logos).
+ *                        Moved up from above the buy box in SCRUM-1321:
+ *                        only 8-17% of visitors ever reach the buy box, so
+ *                        down there the proof wall was invisible to most.
  *   ListicleProofTier -> AFTER the buy box, running into the FAQ:
  *                        one named human (feature), then the UGC band last so
  *                        it sits directly before the FAQ.
@@ -24,7 +27,7 @@ import UGCMarquee from "@/app/components/testimonials/UGCMarquee";
 import AthleteReviewFeature from "@/app/components/AthleteReviewFeature";
 
 /**
- * Partner + press logo band, rendered above the buy box. Partner logos get the
+ * Partner + press logo band, rendered under the hero. Partner logos get the
  * large black section title; the press band (when set) sits under them at the
  * muted eyebrow size, slower, so the two never read as one track.
  */

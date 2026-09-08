@@ -5,7 +5,7 @@
  * shape so a config only ever carries the fields its template renders:
  *
  *   template: "im8" -> ListicleRenderer. The dense layout: a product-image
- *     hero, a proof ticker, and a plug-and-play library of section blocks
+ *     hero, a partner logo band, and a plug-and-play library of section blocks
  *     (data-viz reason panels, stat bands, review strips, bespoke explainers).
  *
  *   template: "mm"  -> SimpleListicleRenderer. The Magic Mind editorial layout:
@@ -331,8 +331,6 @@ export interface Im8ListicleConfig extends ListicleBase {
     trustPills?: { label: string; icon: TrustPillIcon }[];
     asset: ListicleAsset;
   };
-  /** Marquee proof ticker below the hero */
-  ticker?: string[];
   /** Reasons with bands / strips woven between */
   body: ListicleBodyBlock[];
   /** Dark CTA card bridging the last reason into the product zone */

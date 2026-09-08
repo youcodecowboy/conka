@@ -144,12 +144,18 @@ The hero is text-only (no image, no CTA button); the sticky bar carries the pers
 {
   slug, persona, format: "listicle", template: "im8", title,
   hero: { laurel?, headline, subcopy, socialProof?, cta, offerBadge?, priceAnchor?, trustPills?, asset },
-  ticker?: string[],
   body: [ /* the section-block library, in order */ ],
   bridge?, product: { headline, subline?, productHeroId?, whoItsFor? },
   // shared proof + faqIds + stickyBar
 }
 ```
+
+**The proof wall sits directly under the hero (SCRUM-1321).** `ListicleLogoBand`
+renders once, between the hero and the reasons, tracked as the fixed zone
+`proofWall`. It used to sit above the buy box, which only 8-17% of visitors ever
+reach, so the institutional proof was invisible to most of the traffic. The navy
+proof ticker that occupied this slot is gone: its claims duplicated `trustPills`
+and it read as chrome rather than proof.
 
 **The hero is a preframe, not a summary (SCRUM-1320).** It renders in one fixed
 order: headline, subcopy, CTA, rating. The headline is a soft outcome line at the
@@ -167,8 +173,11 @@ returns to the left half. Two hero fields are not what they look like:
   above the CTA and read as a second, competing offer. Only `offerBadge.sticky`
   still renders, as the mint free-shots chip on the sticky bar.
 - `trustPills` is **dead config**: it is set on all three personas and typed, but
-  nothing reads it, and its three values already lead the `ticker` directly below
-  the hero. Do not wire it up without first removing the duplication.
+  nothing reads it. It used to duplicate the navy `ticker` marquee under the
+  hero; that marquee and its `ticker` field were both removed in SCRUM-1321, so
+  these trust claims now live only in the reasons, the sticky bar sub-line and
+  the FAQ. Either wire `trustPills` up or delete it, but do not leave it typed
+  and populated and unread.
 
 The `body` array is a plug-and-play library. Blocks: `reason`, `statsBand`, `reviewStrip`, `symptomExplainer`, `segmentToggle`. An IM8 `reason` takes a rich `asset` (`kind`): `image`, `video`, `crashChart`, `researchBacked`, `measureTile`, `cognitionBars`, `scoreByGroup`, `dayEnergyCurve`, `focusBars`, `athleteQuote`, `ingredientGrid`, `statPanel`, or `placeholder`. Each maps to a component in `ListicleRenderer`; see `listicle-types.ts` for the exact fields per kind.
 

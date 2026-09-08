@@ -63,13 +63,6 @@ export const productivityListicle: ListicleConfig = {
       aspect: "1500/1000",
     },
   },
-  ticker: [
-    "ZERO CAFFEINE",
-    "INFORMED SPORT CERTIFIED",
-    "MADE IN THE UK",
-    "100-DAY GUARANTEE",
-    "2-MINUTE BRAIN TEST",
-  ],
   // Post-reasons proof tier. Four moments, each doing a different job.
   proof: {
     logoBand: true,

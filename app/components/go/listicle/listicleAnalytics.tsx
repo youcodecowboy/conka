@@ -53,6 +53,8 @@ export function sectionId(kind: string, index: number): string {
 /** Fixed zones, which live outside the `body` array. */
 export const SECTION = {
   hero: "hero",
+  /** Partner logo band directly under the hero (SCRUM-1321). */
+  proofWall: "proofWall",
   bridge: "bridge",
   sticky: "sticky",
   product: "product",

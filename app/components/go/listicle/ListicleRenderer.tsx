@@ -44,9 +44,14 @@ import {
 /**
  * Listicle landing renderer (/go/[slug], format: "listicle"), IM8 template.
  *
- * Zones: hero, proof ticker, reasons (the plug-and-play block library), a logo
- * band, the product buy box, the post-buy-box proof tier, FAQ, plus an optional
- * sticky bar. The logo band (ListicleLogoBand) and proof tier (ListicleProofTier)
+ * Zones: hero, the partner logo band, reasons (the plug-and-play block
+ * library), the product buy box, the post-buy-box proof tier, FAQ, plus an
+ * optional sticky bar. The band sits directly under the hero (SCRUM-1321):
+ * institutional proof has to land while people are still on the page, and
+ * reach-to-product runs 8-17%, so above the buy box it was invisible to most
+ * of them. The navy proof ticker that used to sit here is gone; its claims
+ * duplicated the trust pills and it read as chrome rather than proof.
+ * The logo band (ListicleLogoBand) and proof tier (ListicleProofTier)
  * both live in ListicleProofTier.tsx and are shared with SimpleListicleRenderer;
  * the reason-block library is still inline here.
  *
@@ -701,31 +706,22 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
         </div>
       </section>
 
-      {/* Zone 1b: proof ticker — navy marquee, SportMarquee pattern */}
-      {config.ticker?.length ? (
-        <div
-          aria-label="Proof ticker"
-          className="relative overflow-hidden py-3"
-          style={{ background: NAVY }}
+      {/* Zone 1b: proof wall — the partner logo band, straight after the hero.
+          Tracked as its own fixed zone so it has a denominator; it is not a
+          `body` entry, so no reason-block id shifts. */}
+      {config.proof && (config.proof.logoBand || config.proof.pressBand) ? (
+        <section
+          aria-label="Trusted by"
+          className="px-5 py-12 md:px-[5vw] md:py-14"
+          style={{ background: CANVAS, color: "#111" }}
         >
-          <span className="sr-only">{config.ticker.join(", ")}</span>
-          <div
-            className="inline-flex whitespace-nowrap [will-change:transform] motion-safe:animate-[marquee_40s_linear_infinite]"
-            aria-hidden="true"
+          <TrackedSection
+            section={SECTION.proofWall}
+            className="mx-auto max-w-7xl"
           >
-            {[...config.ticker, ...config.ticker].map((item, i) => (
-              <span
-                key={i}
-                className="inline-flex items-center text-[12px] font-semibold uppercase tracking-[0.18em] text-white"
-              >
-                <span>{item}</span>
-                <span className="mx-5" aria-hidden="true">
-                  ★
-                </span>
-              </span>
-            ))}
-          </div>
-        </div>
+            <ListicleLogoBand proof={config.proof} />
+          </TrackedSection>
+        </section>
       ) : null}
 
       {/* Zone 2: reasons */}
@@ -776,19 +772,6 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
           ) : null}
         </div>
       </section>
-
-      {/* Zone 3a: logo band — institutional trust, ABOVE the buy box */}
-      {config.proof && (config.proof.logoBand || config.proof.pressBand) ? (
-        <section
-          aria-label="Trusted by"
-          className="px-5 pt-16 md:px-[5vw]"
-          style={{ background: CANVAS, color: "#111" }}
-        >
-          <div className="mx-auto max-w-7xl">
-            <ListicleLogoBand proof={config.proof} />
-          </div>
-        </section>
-      ) : null}
 
       {/* Zone 3b: product / buy box — hard flip to light */}
       <section

@@ -28,7 +28,9 @@ Three events, all keyed `{ slug, section }` (the two-property budget — see `ap
 | `listicle:cta_clicked` | CTA click (all CTAs route to a PDP) | **Conversion proxy** — every click is a PDP hand-off |
 | `listicle:interaction` | Symptom picked / segment toggled | **Active-intent** — self-identification, added 2026-07-27 |
 
-`section` values: body blocks are `<kind>_<index>` (e.g. `reason_3`, `symptomExplainer_0`); fixed zones are `hero` / `bridge` / `sticky` / `product`; interaction choices fold into `section` as `symptom_<label>` / `segment_<label>`.
+`section` values: body blocks are `<kind>_<index>` (e.g. `reason_3`, `symptomExplainer_0`); fixed zones are `hero` / `proofWall` / `bridge` / `sticky` / `product`; interaction choices fold into `section` as `symptom_<label>` / `segment_<label>`.
+
+`proofWall` is new in SCRUM-1321 (the partner logo band moved from above the buy box to directly under the hero). It is a fixed zone, not a `body` entry, so no existing block id was rebased and the scroll funnel reads continuously across the change.
 
 **Why CTA-click is the conversion signal (baseline):** every listicle CTA links to a PDP, so a click is the furthest-down-funnel action we could attribute to a persona. This holds for the 24–27 Jul baseline snapshot below.
 
