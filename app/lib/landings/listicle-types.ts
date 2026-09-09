@@ -139,15 +139,6 @@ export type ListicleAsset =
 /** A plain photo asset (the only asset a "mm" reason uses). */
 export type ListicleImageAsset = Extract<ListicleAsset, { kind: "image" }>;
 
-/** Icon keys for the under-CTA trust chips; mapped to SVGs in the renderer */
-export type TrustPillIcon =
-  | "no-caffeine"
-  | "informed-sport"
-  | "guarantee"
-  | "shipping"
-  | "batch-tested"
-  | "cancel";
-
 export interface ListicleReview {
   /** Bold one-liner above the quote */
   headline?: string;

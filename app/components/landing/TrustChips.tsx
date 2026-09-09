@@ -1,4 +1,3 @@
-import type { TrustPillIcon } from "@/app/lib/landings/listicle-types";
 import {
   TrustIconNoCaffeine,
   TrustIconInformedSport,
@@ -7,6 +6,25 @@ import {
   TrustIconBatchTested,
   TrustIconCancel,
 } from "./icons";
+
+/**
+ * The icon keys a trust chip can carry. Defined here rather than in the
+ * listicle types: the listicle `trustPills` field that used to own this was
+ * deleted in SCRUM-1324, and nothing in a landing-page config module should
+ * be the home of a component's own prop type.
+ *
+ * NOTE: this component's only consumer is LandingHero, which nothing imports
+ * (the home page renders HomeHeroStatic). The whole chain is dead code. Left
+ * in place rather than deleted in SCRUM-1324, which was not a dead-component
+ * sweep; see docs/TODO.md.
+ */
+export type TrustPillIcon =
+  | "no-caffeine"
+  | "informed-sport"
+  | "guarantee"
+  | "shipping"
+  | "batch-tested"
+  | "cancel";
 
 /** Maps a trust-chip icon key to its SVG so each item reads distinctly */
 const TRUST_CHIP_ICONS: Record<

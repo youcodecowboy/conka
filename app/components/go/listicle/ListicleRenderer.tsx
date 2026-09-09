@@ -141,10 +141,15 @@ function stickyOffer(heroId: ProductHeroId) {
  * Quarterly, matching `stickyOffer`, so the two offer surfaces on the page
  * quote the same cadence rather than two different savings figures.
  *
+ * Applied to every CTA on the page that can carry an offer (hero, bridge and
+ * sticky bar) so the token behaves the same wherever it is written. No config
+ * uses it outside the hero today; the others resolve to themselves.
+ *
  * `getDisplayDiscount` returns 0 for an entry with no anchor price. There is
  * no such quarterly entry today, but if one ever appears the page must not
- * advertise "Save 0%", so the savings clause is dropped and the outcome half
- * of the line carries the button on its own.
+ * advertise "Save 0%". The clause is dropped for the `"Save {percent}% ..."`
+ * shape these CTAs use; copy phrased any other way falls back to substituting
+ * the number, so keep that opening if the degraded path matters.
  */
 function resolveOfferTokens(text: string, heroId: ProductHeroId): string {
   const percent = getDisplayDiscount(
@@ -1054,7 +1059,7 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
                 onClick={() => fireCta(SECTION.bridge)}
                 className="inline-block rounded-full bg-white px-8 py-4 text-[15px] font-bold text-[#111]"
               >
-                {config.bridge.cta}
+                {resolveOfferTokens(config.bridge.cta, heroId)}
               </Link>
             </TrackedSection>
           ) : null}
@@ -1160,7 +1165,7 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
               className="flex min-h-[48px] shrink-0 items-center justify-center rounded-full border-2 border-[var(--brand-navy)] bg-white px-7 text-center text-[var(--brand-navy)] transition-colors duration-200 hover:bg-[var(--brand-navy)] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-navy)]"
             >
               <span className="text-[15px] font-bold leading-tight">
-                {config.stickyBar.cta}
+                {resolveOfferTokens(config.stickyBar.cta, heroId)}
               </span>
             </Link>
           </div>
