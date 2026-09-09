@@ -42,28 +42,25 @@ export function StorySection({ chapter }: StorySectionProps) {
       ref={root}
       className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-16"
     >
+      {/* Full-bleed on mobile: the bleed cancels the 1.25rem mobile gutter
+          that .brand-section applies. Gutters return at 768px, so the reset
+          is md:, not lg:. */}
       <div
-        className={
+        className={`relative aspect-[4/3] overflow-hidden bg-black/5 -mx-5 w-[calc(100%+2.5rem)] md:mx-0 md:w-full rounded-none md:rounded-md ${
           imageFirstOnDesktop ? "lg:order-1" : "lg:order-2"
-        }
+        }`}
       >
-        <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-black/5">
-          <Image
-            src={chapter.image}
-            alt={chapter.imageAlt}
-            fill
-            loading="lazy"
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover"
-          />
-        </div>
+        <Image
+          src={chapter.image}
+          alt={chapter.imageAlt}
+          fill
+          loading="lazy"
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-cover"
+        />
       </div>
 
-      <div
-        className={
-          imageFirstOnDesktop ? "lg:order-2" : "lg:order-1"
-        }
-      >
+      <div className={imageFirstOnDesktop ? "lg:order-2" : "lg:order-1"}>
         <h2
           data-chapter-reveal
           className="brand-h2 text-black mb-5"
