@@ -40,11 +40,6 @@ export const adhdListicle: ListicleConfig = {
     // One offer surface, outcome first. The old green "+1 week free" pill sat
     // directly above this and read as a second, competing offer.
     cta: "Save {percent}% on a calmer mind",
-    trustPills: [
-      { label: "Zero caffeine", icon: "no-caffeine" },
-      { label: "Informed Sport Certified", icon: "informed-sport" },
-      { label: "100-day guarantee", icon: "guarantee" },
-    ],
     asset: {
       kind: "image",
       src: "/lifestyle/GirlsLaughing.jpg",

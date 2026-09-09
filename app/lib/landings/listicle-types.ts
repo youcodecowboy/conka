@@ -347,8 +347,6 @@ export interface Im8ListicleConfig extends ListicleBase {
      * literal (SCRUM-1323). A CTA without the token renders unchanged.
      */
     cta: string;
-    /** Trust chips under the CTA; each gets its own icon */
-    trustPills?: { label: string; icon: TrustPillIcon }[];
     asset: ListicleAsset;
   };
   /**

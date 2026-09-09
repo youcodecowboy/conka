@@ -54,8 +54,11 @@ import {
  * optional sticky bar. The band sits directly under the hero (SCRUM-1321):
  * institutional proof has to land while people are still on the page, and
  * reach-to-product runs 8-17%, so above the buy box it was invisible to most
- * of them. The navy proof ticker that used to sit here is gone; its claims
- * duplicated the trust pills and it read as chrome rather than proof.
+ * of them. The navy proof ticker that used to sit here is gone; it read as
+ * chrome rather than proof, and its claims duplicated the hero trust pills.
+ * Those pills are gone too (SCRUM-1324): they were never rendered on this
+ * template, and once the ticker went there was nothing left carrying the
+ * claims, so the config field was dead weight rather than a pending feature.
  * The logo band (ListicleLogoBand) and proof tier (ListicleProofTier)
  * both live in ListicleProofTier.tsx and are shared with SimpleListicleRenderer;
  * the reason-block library is still inline here.
