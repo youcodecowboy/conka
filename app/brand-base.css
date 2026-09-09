@@ -137,6 +137,17 @@
   --brand-gutter-mobile: 1.25rem;
   --brand-gutter-desktop: 5vw;
 
+  /* Distance from the viewport edge to where .brand-track content begins.
+     For a full-bleed section that opts out of .brand-section (a split band
+     where an image must reach the viewport edge), pad the copy side by this
+     so its text still lines up with every tracked section on the page.
+     Uses 100vw, so it is off by half a scrollbar width against .brand-track's
+     percentage-based centring. That is a few pixels and not perceivable. */
+  --brand-track-inset: max(
+    var(--brand-gutter-desktop),
+    calc((100vw - var(--brand-max-width)) / 2)
+  );
+
   /* Section vertical padding */
   --brand-section-padding: clamp(5rem, 10vh, 10rem);
   --brand-section-padding-mobile: 5rem;
