@@ -1,6 +1,14 @@
 # Listicle housekeeping
 
-**Status:** Phases 1 and 2 done (SCRUM-1323). Phases 3 to 6 not started (SCRUM-1324).
+> **ARCHIVED (2026-09-09).** Delivered as SCRUM-1323 and SCRUM-1324, except Phase 5
+> (`TrustMicroRow` de-fork), which hit its circuit breaker and now lives as an open entry in
+> `docs/TODO.md`.
+>
+> Canonical docs: `docs/features/LISTICLE_SYSTEM.md` (the offer-token contract and the `im8`
+> config shape) and `docs/TODO.md` (the closed entries carry the reasoning for each deletion).
+> Kept for the reasoning, not for current behaviour.
+
+**Status:** Complete. Phases 1 and 2 shipped in SCRUM-1323; Phases 3, 4 and 6 in SCRUM-1324. Phase 5 hit its circuit breaker and is deferred to `docs/TODO.md`.
 **Branch:** `feature/listicle-housekeeping`
 **Appetite:** One day, one PR
 **Scoped:** 2026-09-09
@@ -52,10 +60,10 @@ From `app/lib/offerData.ts`, all three listicles being `productHeroId: "01"` (Fl
 |-------|-------------|--------|
 | 1 | Hero discount derives from offerData | Done 2026-09-09 (SCRUM-1323) |
 | 2 | `landingPricing.ts` derives from offerData | Done 2026-09-09 (SCRUM-1323) |
-| 3 | Delete `trustPills` | Not started |
-| 4 | One shared partner-logo array | Not started |
-| 5 | De-fork `TrustMicroRow` | Not started (discretionary) |
-| 6 | Jira and doc reconciliation | Not started (non-code) |
+| 3 | Delete `trustPills` | Done 2026-09-09 (SCRUM-1324) |
+| 4 | One shared partner-logo array | Done 2026-09-09 (SCRUM-1324) |
+| 5 | De-fork `TrustMicroRow` | Circuit breaker fired 2026-09-09, deferred to TODO |
+| 6 | Doc reconciliation | Done 2026-09-09 (SCRUM-1324) |
 
 **Design language:** no change. Nothing here alters rendered layout except Phase 5, which is prop plumbing only. Phases 1 and 2 change how a number is sourced, not what renders (Phase 1 excepted: 46 becomes 48 by design).
 
@@ -134,7 +142,7 @@ Files:
 
 **[Component] Extract `PARTNER_LOGOS`. Complexity: Small.**
 
-Three `LogoMarquee` copies each carry their own hardcoded list of the same 15 partner logo srcs. A logo rename breaks two pages silently and the build still passes. Found during SCRUM-1321's WebP conversion.
+Three `LogoMarquee` copies each carry their own hardcoded list of the same 14 partner logo srcs. A logo rename breaks two pages silently and the build still passes. Found during SCRUM-1321's WebP conversion.
 
 Extract the src list to one module; all three components import it. Each keeps its own sizing props so no page's layout moves:
 
@@ -163,6 +171,13 @@ Replace the private copy with the shared component, adding `label`/`sub` overrid
 **Circuit breaker:** if the shared component's hardcoded "622+ reviews, 5,000+ daily users" cannot be overridden without reworking its API, stop, leave the fork in place, and file it in `docs/TODO.md`. Do not redesign a shared component to close a housekeeping ticket.
 
 This phase is the headroom in a one-day appetite. If Phases 1-4 consume the day, it defers.
+
+**Outcome 2026-09-09: the circuit breaker fired.** The two are not one component with
+different data. They differ visually (sub text at `text-black/80` vs `text-black/60`, label
+with `text-black` vs `tabular-nums`, inline star markup vs `<StarRow>`, hardcoded `<strong>`
+JSX vs a plain-text `sub` prop), so unifying them means choosing a winner on the home hero and
+the listicle. That is a visual call, not a refactor. The fork is documented in `docs/TODO.md`
+with the full divergence table and what closes it.
 
 ## Phase 6 - Doc reconciliation (non-code)
 

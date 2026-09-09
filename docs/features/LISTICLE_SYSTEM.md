@@ -175,7 +175,7 @@ The hero is text-only (no image, no CTA button); the sticky bar carries the pers
 ```ts
 {
   slug, persona, format: "listicle", template: "im8", title,
-  hero: { laurel?, headline, subcopy, socialProof?, cta, offerBadge?, priceAnchor?, trustPills?, asset },
+  hero: { laurel?, headline, subcopy, socialProof?, cta, offerBadge?, priceAnchor?, asset },
   //      `cta` supports a `{percent}` token: see "Offer tokens" below
   reasonsHeader?: { eyebrow, headline },
   body: [ /* the section-block library, in order */ ],
@@ -188,8 +188,11 @@ The hero is text-only (no image, no CTA button); the sticky bar carries the pers
 renders once, between the hero and the reasons, tracked as the fixed zone
 `proofWall`. It used to sit above the buy box, which only 8-17% of visitors ever
 reach, so the institutional proof was invisible to most of the traffic. The navy
-proof ticker that occupied this slot is gone: its claims duplicated `trustPills`
-and it read as chrome rather than proof.
+proof ticker that occupied this slot is gone: it read as chrome rather than
+proof, and its claims duplicated the hero trust pills. Those pills are gone too
+(SCRUM-1324): they were never rendered on this template, and with the ticker
+removed nothing was left carrying the claims, so the config field was dead
+weight rather than a pending feature.
 
 **The reasons block announces itself (SCRUM-1321).** `reasonsHeader` renders an
 eyebrow plus the "N Reasons ..." title directly above the first body block,

@@ -1,14 +1,17 @@
 # Listicle First-Half Upgrade
 
-> **Status:** Phases 1 to 3 **built** (all three tickets For review, unpushed on
-> the branch below). Phase 4 still deferred, so this plan stays live rather than
-> being archived.
+> **Status:** Phases 1 to 3 **merged** in PR #479 (SCRUM-1320/1321/1322). Phase 4
+> still deferred, so this plan stays live rather than being archived.
 >
-> **Not yet deployed.** Nothing here has reached production. On deploy: plant a
-> `/notion-flag` and append the timeline entry already drafted in
-> `docs/analytics/LISTICLE_PERFORMANCE.md`, so the CPA and retention trends carry
-> a marker at the right date.
-> **Branch:** `feature/listicle-preframe-upgrade`
+> **On deploy:** plant a `/notion-flag` and append the timeline entry already
+> drafted in `docs/analytics/LISTICLE_PERFORMANCE.md`, so the CPA and retention
+> trends carry a marker at the right date.
+>
+> **Follow-on:** the debt this rebuild left behind is picked up in
+> `archive/listicle-housekeeping.md` (SCRUM-1323/1324, delivered). Both pre-deploy checks this plan
+> raised are cleared: the free-week ad-set angle was dropped as a concern, and
+> the copy-above-asset flip was reviewed at 390px and confirmed fine.
+> **Branch:** `feature/listicle-preframe-upgrade` (merged)
 > **Scope owner:** Rudh. Origin: agency feedback (Ash), Sept 2026, with an annotated ARMRA comparison.
 > **Applies to:** the three `im8` listicles at `/go/adhd-listicle`, `/go/productivity-listicle`, `/go/brain-ageing-listicle`.
 >
