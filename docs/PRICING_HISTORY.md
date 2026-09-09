@@ -81,4 +81,4 @@ Notes:
 
 - Code source of truth: `app/lib/offerData.ts` (`OFFER_PRICING`)
 - Derivation helpers: `getOfferMinPerShot` (per-shot "From"), `getOfferPriceRange` (JSON-LD price range)
-- `/start` uses a separate monthly-sub source, `app/lib/landingPricing.ts`. It is not yet consolidated into `OFFER_PRICING`; if that changes, record its prices here too.
+- `app/lib/landingPricing.ts` (the /start and CRO landing constants) derives every price from `OFFER_PRICING` as of SCRUM-1323. It holds no prices of its own, so there is nothing separate to record here.

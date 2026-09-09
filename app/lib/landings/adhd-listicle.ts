@@ -39,20 +39,16 @@ export const adhdListicle: ListicleConfig = {
     },
     // One offer surface, outcome first. The old green "+1 week free" pill sat
     // directly above this and read as a second, competing offer.
-    cta: "Save 46% on a calmer mind",
-    trustPills: [
-      { label: "Zero caffeine", icon: "no-caffeine" },
-      { label: "Informed Sport Certified", icon: "informed-sport" },
-      { label: "100-day guarantee", icon: "guarantee" },
-    ],
+    cta: "Save {percent}% on a calmer mind",
     asset: {
       kind: "image",
-      src: "/lifestyle/GirlsLaughing.jpg",
-      alt: "Three women holding CONKA shots together",
-      // Native 1500x1500. The 3:2 frame keeps the hero the same height as the
-      // other two personas; anchoring to the top crops the empty lower third
-      // rather than the faces or the bottles.
-      aspect: "3/2",
+      src: "/lifestyle/BottleFloat.webp",
+      alt: "A man with his eyes closed and a CONKA Flow shot floating above his head",
+      // Portrait source (928x1152) in the 1:1 hero frame all three personas
+      // share. Anchored top so nothing is lost off the top of the shot and
+      // only the lower fifth is cropped: the square frame shows 81% of the
+      // image against the 54% a 3:2 frame would.
+      aspect: "1/1",
       objectPosition: "center top",
     },
   },

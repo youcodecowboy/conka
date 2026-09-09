@@ -7,12 +7,16 @@
  * Static, no JS.
  *
  * Two variants share the same shell:
- *  - Partners (default): "Fueling High Performers at:" image logos.
- *  - Press: "As Published On:" outlet wordmarks. Pass `logos={PRESS_LOGOS}`.
+ *  - Partners (default): "Fueling High Performers at:" image logos. The list
+ *    lives in ./partnerLogos.ts, shared with the /lander and /lander-b bands.
+ *  - Press: "As Published On:" outlet wordmarks. Pass `logos={PRESS_LOGOS}`,
+ *    defined below; this is its only consumer, so it stays in this file.
  *
  * Items with a `src` render as an <img> at their natural height; items with no
  * `src` render as a text wordmark.
  * ========================================================================== */
+
+import { PARTNER_LOGOS } from "./partnerLogos";
 
 export interface MarqueeLogo {
   /** Image path; omit to render `alt` as a text wordmark instead */
@@ -28,23 +32,6 @@ export interface MarqueeLogo {
    */
   w?: number;
 }
-
-const PARTNER_LOGOS: MarqueeLogo[] = [
-  { src: "/lander/partners/bath-rugby.webp", alt: "Bath Rugby", h: 52, w: 52 },
-  { src: "/lander/partners/southampton.webp", alt: "Southampton FC", h: 54, w: 47 },
-  { src: "/lander/partners/england-rugby.webp", alt: "England Rugby", h: 58, w: 34 },
-  { src: "/lander/partners/bayern.webp", alt: "FC Bayern Munich", h: 52, w: 52 },
-  { src: "/lander/partners/team-gb.webp", alt: "Team GB", h: 58, w: 42 },
-  { src: "/lander/partners/wales-rugby.webp", alt: "Wales Rugby", h: 56, w: 42 },
-  { src: "/lander/partners/leeds.webp", alt: "Leeds United", h: 54, w: 43 },
-  { src: "/lander/partners/wolves.webp", alt: "Wolves", h: 48, w: 55 },
-  { src: "/lander/partners/f1.webp", alt: "Formula 1", h: 26, w: 104 },
-  { src: "/lander/partners/barrys.webp", alt: "Barry's", h: 22, w: 106 },
-  { src: "/lander/partners/army.webp", alt: "British Army", h: 46, w: 54 },
-  { src: "/lander/partners/british-airways.webp", alt: "British Airways", h: 18, w: 114 },
-  { src: "/lander/partners/goldman-sachs.webp", alt: "Goldman Sachs", h: 36, w: 86 },
-  { src: "/lander/partners/equinox.webp", alt: "Equinox", h: 19, w: 100 },
-];
 
 /**
  * Press and journal outlets the CognICA test has appeared in.

@@ -34,44 +34,107 @@ no longer has anything to bite on. See `docs/development/featurePlans/archive/lo
 
 ## Listicles (`/go`)
 
-### LogoMarquee is forked three ways, each with its own copy of the logo list
+### ~~LogoMarquee is forked three ways, each with its own copy of the logo list~~ Closed 2026-09-09
 
-**Status:** Open. Found during SCRUM-1321 when converting the logos to WebP.
-**Files:** `app/components/landing/LogoMarquee.tsx` (the shared one), `app/lander/sections/LogoMarquee/LogoMarquee.tsx`, `app/(trial-b)/lander-b/sections/LogoMarquee/LogoMarquee.tsx`
+Closed by SCRUM-1324, by the "at minimum" option rather than the full collapse. The 14 partner
+entries now live once in `app/components/landing/partnerLogos.ts` and all three components
+import them, so a rename or re-encode can no longer break two pages silently.
 
-**Symptom:** three components render the same partner and press marquees, each hardcoding its own copy of the same `src` list. `lander-b` additionally carries `nw`/`nh` intrinsic sizes that must be kept in sync with the actual files.
+The three components stay separate deliberately. Only `/go` carries live traffic; collapsing
+them would rewrite two dormant pages to tidy one live one. They each render the shared array
+their own way, and the array carries every field all three need: `h` (display height, common
+to all), `w` (rendered width, used by `/go`), and `nw`/`nh` (natural dimensions, used by
+`/lander-b`'s `next/image`).
 
-**Why it bites:** the paths are plain `<img src>` strings, so nothing type-checks them and `npm run build` passes with broken images. Renaming or re-encoding an asset silently breaks two pages unless you remember all three files. That nearly shipped during the WebP conversion; it was caught by grepping for surviving `.png` references, not by any tooling.
+Diffed before extracting: the three lists were identical on `src`, `alt` and `h`, differing
+only in which sizing fields they carried. Rendered logo markup on `/lander`, `/lander-b` and
+`/go/adhd-listicle` was then compared byte-for-byte against a pre-change build and is
+unchanged.
 
-**What closes it:** collapse the two forks onto the shared `app/components/landing/LogoMarquee.tsx`, or at minimum move the logo arrays into one exported module the three import. Also consider `next/image`, which would make a missing file a build error.
+`w` is close to `nw / nh * h` but is kept explicit: the existing values round inconsistently
+(34.5 down, 85.5 up), so deriving it would have moved rendered widths on a live page.
 
-**Also:** `public/lander/partners/informed-sport.png` is the last PNG in an otherwise all-WebP folder. It is not in any marquee (the `/lander` and `/lander-b` BuyBoxes use it directly), so it was deliberately left alone.
+**Still open, and unrelated:** `public/lander/partners/informed-sport.png` is the last PNG in
+an otherwise all-WebP folder. It is in no marquee (the `/lander` and `/lander-b` BuyBoxes use
+it directly), so it was deliberately left alone. Also still worth considering: `next/image` on
+the `/go` and `/lander` bands, which would make a missing file a build error.
 
 ---
 
-### `trustPills` is dead config on all three im8 listicles
+### ~~`trustPills` is dead config on all three im8 listicles~~ Closed 2026-09-09
 
-**Status:** Open, cosmetic. Discovered during SCRUM-1320.
-**Files:** `app/lib/landings/listicle-types.ts` (`Im8ListicleConfig.hero.trustPills`), `app/lib/landings/{adhd,productivity,brain-ageing}-listicle.ts`
+Closed by SCRUM-1324, by deletion. The entry said not to wire the pills up because they
+duplicated the navy ticker below the hero; SCRUM-1321 then deleted that ticker, which removed
+the reason to keep the field waiting rather than the reason to delete it. The shipped hero had
+already been through visual review, so adding a pill row back into it would have been a design
+change smuggled in as cleanup.
 
-**Symptom:** `trustPills` is typed and populated on all three personas (Zero caffeine, Informed Sport Certified, 100-day guarantee) and **nothing in the codebase renders it**. A grep for `trustPills` returns only the type and the three configs.
-
-**Why it was not simply wired up:** those three values are already the first three items of the navy `ticker` immediately below the hero, so rendering them would duplicate content on the exact surface SCRUM-1320 set out to de-noise.
-
-**What closes it:** either delete the field from the type and the three configs, or decide the pills replace the ticker and wire one of them up. Do not add pills alongside the ticker.
+The field is gone from `Im8ListicleConfig.hero` and from all three configs. `TrustPillIcon`
+moved to `app/components/landing/TrustChips.tsx`, its only consumer, and was then deleted with
+that component the same day (see below): the ticket and an earlier note had both claimed
+`TrustChips` renders on the home hero, and it does not. Git holds the deleted values if they
+are ever wanted.
 
 ---
 
-### The 46% discount is hardcoded in three listicle CTA strings
+### ~~`LandingHero`, `TrustChips` and the trust-chip type are all dead code~~ Closed 2026-09-09
 
-**Status:** Open. Pre-existing, carried through SCRUM-1320.
-**Files:** `app/lib/landings/{adhd,productivity,brain-ageing}-listicle.ts` (`hero.cta`)
+Found while reviewing SCRUM-1324, decided and deleted the same day. `LandingHero.tsx` and
+`TrustChips.tsx` are gone, taking `TrustChip` and `TrustPillIcon` with them.
 
-**Symptom:** each hero CTA hardcodes the discount ("Save 46% on a calmer mind"), which contradicts the MASTER_CONTEXT rule that offer terms come from `app/lib/offerConstants.ts` and never from a literal. If the offer changes, three configs go stale silently.
+`LandingHero` stopped being the home hero on 2026-06-18 in `9c66de97`, which swapped it for
+`LandingHeroVideoDesktop` and left a comment saying so. Three further hero rebuilds followed
+(`HomeHeroV3`, back to the video pair, then `HomeHeroStatic`), each replacing the previous
+replacement, so nothing ever looked back at the original. It sat unimported for nearly three
+months.
 
-**What closes it:** SCRUM-1322 introduces per-serving price sourcing from `app/lib/landingPricing.ts` for the sticky bar. Extend the same pattern to the CTA discount, or template the CTA around an offer token the way the `mm` configs do with `offer.{percent}`.
+Checked against the revert path the parked-components list asks for: `HomeHeroVideo` and
+`HomeHeroVideoDesktop` stay parked and are untouched. `HomeHeroStatic` remains the live hero.
 
-**Why deferred:** SCRUM-1320 was a hero restructure, and swapping the offer plumbing at the same time would have mixed a copy change with a data-sourcing change on a live paid surface.
+`TrustIconNoCaffeine` lost its only consumer with `TrustChips` and was **kept deliberately**.
+It is a design-system glyph for a core brand claim, not a dead component; deleting it only
+means someone redraws it the next time a trust row needs one. The other five `TrustIcon*` are
+still used by `LandingTrustBadges`, `ResearchBackedGraphic` and `CROTestimonials`.
+
+---
+
+### `TrustMicroRow` exists twice, and the two copies do not match
+
+**Status:** Open. Circuit breaker fired during SCRUM-1324 rather than unifying blind.
+**Files:** `app/components/landing/TrustMicroRow.tsx` (shared, used by the home heroes), `app/components/go/listicle/ListicleRenderer.tsx` (a private near-duplicate, used by the im8 hero)
+
+**Symptom:** the avatars + rating + "622+ reviews, 5,000+ daily users" row is implemented
+twice. A copy or styling change has to be made in both places or the two surfaces drift.
+
+**Why it was not merged in SCRUM-1324:** they are not one component with different data. They
+differ visually, and reconciling them means choosing a winner on two live surfaces:
+
+| | shared | listicle private |
+|---|---|---|
+| sub text colour | `text-black/80` | `text-black/60` |
+| label | `text-black` | `tabular-nums`, no explicit colour |
+| stars | inline overlay markup | `<StarRow fontSize="15px" />` |
+| sub content | hardcoded JSX with `<strong>` | plain-text `sub` prop |
+| `className` prop | yes | no |
+
+**What closes it:** decide which opacity, which label treatment and which star implementation
+is correct, then give the shared component `label`/`sub` overrides (`sub` as `ReactNode`, so
+the home hero keeps its `<strong>` emphasis) and delete the private copy. That is a visual
+call on two live surfaces, so it wants an eye on it, not just a refactor.
+
+---
+
+### ~~The 46% discount is hardcoded in three listicle CTA strings~~ Closed 2026-09-09
+
+Closed by SCRUM-1323. The literal was also wrong, not just unsourced: 46% matched no cadence
+we sell (Flow monthly is 43%, Flow quarterly 48%). All three hero CTAs now read
+`"Save {percent}% on ..."`, resolved in `ListicleRenderer` from
+`getDisplayDiscount(getOfferPricing(product, "quarterly-sub"))`, on quarterly so the hero and
+the sticky bar quote the same cadence. `{percent}` is the token `ProductGridHeader` already
+used for this, so there is one convention rather than two.
+
+The same entry's suggested fix pointed at `landingPricing.ts`, which turned out to be a
+hand-synced mirror of `offerData` rather than a source. It now derives, in the same ticket.
 
 ---
 
@@ -303,11 +366,13 @@ it" does not mean "safe to delete" in this repo.**
 - `landing/HomeHeroVideo.tsx`, `landing/HomeHeroVideoDesktop.tsx`. `PAGE_NARRATIVES.md`
   states the looped video hero is "kept in the tree for revert" behind the static
   LCP hero. Unimported is the intended state.
-- `landing/LandingHero.tsx` is the same family and should be checked against that
-  revert path before it goes.
+  (`landing/LandingHero.tsx` was in this family and was checked against that revert path on
+  2026-09-09, then deleted. The video pair is unaffected and stays parked.)
 
 **Needs a decision, not a sweep:**
 
+- `public/lifestyle/ageing/WorkingWoman.jpg`. Unreferenced since the 2026-09-09 hero swap,
+  and **kept on purpose** by an explicit call. Do not sweep it.
 - `RevolutPayButton.tsx`. Payment-adjacent. Dead, but confirm no reinstatement is
   planned before removing a payment path from the tree.
 - The account and subscriptions portal cluster: `subscriptions/PastSubscriptionCard.tsx`,

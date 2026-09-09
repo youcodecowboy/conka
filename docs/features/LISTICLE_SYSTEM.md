@@ -175,7 +175,8 @@ The hero is text-only (no image, no CTA button); the sticky bar carries the pers
 ```ts
 {
   slug, persona, format: "listicle", template: "im8", title,
-  hero: { laurel?, headline, subcopy, socialProof?, cta, offerBadge?, priceAnchor?, trustPills?, asset },
+  hero: { laurel?, headline, subcopy, socialProof?, cta, offerBadge?, priceAnchor?, asset },
+  //      `cta` supports a `{percent}` token: see "Offer tokens" below
   reasonsHeader?: { eyebrow, headline },
   body: [ /* the section-block library, in order */ ],
   bridge?, product: { headline, subline?, productHeroId?, whoItsFor? },
@@ -187,8 +188,11 @@ The hero is text-only (no image, no CTA button); the sticky bar carries the pers
 renders once, between the hero and the reasons, tracked as the fixed zone
 `proofWall`. It used to sit above the buy box, which only 8-17% of visitors ever
 reach, so the institutional proof was invisible to most of the traffic. The navy
-proof ticker that occupied this slot is gone: its claims duplicated `trustPills`
-and it read as chrome rather than proof.
+proof ticker that occupied this slot is gone: it read as chrome rather than
+proof, and its claims duplicated the hero trust pills. Those pills are gone too
+(SCRUM-1324): they were never rendered on this template, and with the ticker
+removed nothing was left carrying the claims, so the config field was dead
+weight rather than a pending feature.
 
 **The reasons block announces itself (SCRUM-1321).** `reasonsHeader` renders an
 eyebrow plus the "N Reasons ..." title directly above the first body block,
@@ -224,19 +228,56 @@ discount with the outcome ("Save 46% on a calmer mind"). Proof sits *below* the
 CTA so it reassures the ask rather than being spent before it.
 
 On mobile the copy column comes **before** the asset; on `md:` and up the asset
-returns to the left half. Two hero fields are not what they look like:
+returns to the left half. One hero field is not what it looks like:
 
 - `offerBadge.hero` is **deprecated and not rendered.** It used to be a green pill
   above the CTA and read as a second, competing offer. Only `offerBadge.sticky`
   still renders, as the mint free-shots chip on the sticky bar.
-- `trustPills` is **dead config**: it is set on all three personas and typed, but
-  nothing reads it. It used to duplicate the navy `ticker` marquee under the
-  hero; that marquee and its `ticker` field were both removed in SCRUM-1321, so
-  these trust claims now live only in the reasons, the sticky bar sub-line and
-  the FAQ. Either wire `trustPills` up or delete it, but do not leave it typed
-  and populated and unread.
+
+`trustPills` used to sit here as dead config, typed and populated on all three
+personas but read by nothing. It duplicated the navy `ticker` marquee under the
+hero; SCRUM-1321 removed that marquee, and SCRUM-1324 then deleted the field
+rather than wiring it into a hero that had already been through visual review.
+Those trust claims live in the reasons, the sticky bar sub-line and the FAQ.
+
+**The hero asset is portrait in a square frame.** All three personas use
+`aspect: "1/1"` with `objectPosition: "center top"`. The sources are 928x1152,
+so the square shows 81% of the image and crops only the lower fifth, with
+nothing lost off the top. Keep the frame consistent across personas: it is what
+makes the three heroes the same height.
 
 The `body` array is a plug-and-play library. Blocks: `reason`, `statsBand`, `reviewStrip`, `symptomExplainer`, `segmentToggle`. An IM8 `reason` takes a rich `asset` (`kind`): `image`, `video`, `crashChart`, `researchBacked`, `measureTile`, `cognitionBars`, `scoreByGroup`, `dayEnergyCurve`, `focusBars`, `athleteQuote`, `ingredientGrid`, `statPanel`, or `placeholder`. Each maps to a component in `ListicleRenderer`; see `listicle-types.ts` for the exact fields per kind.
+
+## Offer tokens
+
+**Never write a price or a discount as a literal in a config.** Offer terms come
+from `app/lib/offerData.ts`, which is the only place prices we can sell at are
+allowed to live. A config that types the number goes stale silently the next time
+pricing moves, and can be wrong the day it ships: the three `im8` heroes claimed
+"Save 46%" for months, a figure that matched no cadence we sell (SCRUM-1323).
+
+`{percent}` is the token for a live discount. It resolves to the **bare number**;
+the copy owns the `%` sign:
+
+```ts
+cta: "Save {percent}% on a calmer mind",   // renders "Save 48% on a calmer mind"
+```
+
+| Surface | Resolved in | Product / cadence |
+|---|---|---|
+| `im8` `hero.cta`, `bridge.cta`, `stickyBar.cta` | `ListicleRenderer` | The page's `product.productHeroId`, quarterly |
+| `mm` `buyBox` headline / subline | `ProductGridHeader` | The block's own `offer: { product, cadence }` |
+
+All three `im8` CTAs resolve the token, so it behaves the same wherever you
+write it. Only the hero uses it today.
+
+The `im8` hero resolves on **quarterly** deliberately, matching what `stickyOffer`
+quotes on the sticky bar, so the two offer surfaces on one page never advertise
+two different savings figures. The value is derived per product, so a page that
+switches `productHeroId` gets the right number with no copy edit.
+
+If the offer ever carries no anchor price to compare against, the resolver drops
+the savings clause rather than rendering "Save 0%".
 
 ## `im8` zone anatomy
 

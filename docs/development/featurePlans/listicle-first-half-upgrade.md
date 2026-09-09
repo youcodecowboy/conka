@@ -1,14 +1,17 @@
 # Listicle First-Half Upgrade
 
-> **Status:** Phases 1 to 3 **built** (all three tickets For review, unpushed on
-> the branch below). Phase 4 still deferred, so this plan stays live rather than
-> being archived.
+> **Status:** Phases 1 to 3 **merged** in PR #479 (SCRUM-1320/1321/1322). Phase 4
+> still deferred, so this plan stays live rather than being archived.
 >
-> **Not yet deployed.** Nothing here has reached production. On deploy: plant a
-> `/notion-flag` and append the timeline entry already drafted in
-> `docs/analytics/LISTICLE_PERFORMANCE.md`, so the CPA and retention trends carry
-> a marker at the right date.
-> **Branch:** `feature/listicle-preframe-upgrade`
+> **On deploy:** plant a `/notion-flag` and append the timeline entry already
+> drafted in `docs/analytics/LISTICLE_PERFORMANCE.md`, so the CPA and retention
+> trends carry a marker at the right date.
+>
+> **Follow-on:** the debt this rebuild left behind is picked up in
+> `archive/listicle-housekeeping.md` (SCRUM-1323/1324, delivered). Both pre-deploy checks this plan
+> raised are cleared: the free-week ad-set angle was dropped as a concern, and
+> the copy-above-asset flip was reviewed at 390px and confirmed fine.
+> **Branch:** `feature/listicle-preframe-upgrade` (merged)
 > **Scope owner:** Rudh. Origin: agency feedback (Ash), Sept 2026, with an annotated ARMRA comparison.
 > **Applies to:** the three `im8` listicles at `/go/adhd-listicle`, `/go/productivity-listicle`, `/go/brain-ageing-listicle`.
 >
@@ -125,7 +128,7 @@ own and be annotated on the timeline.
 | New slugs or edit in place | **Edit in place** | No A/B infra, and last week's traffic was ~2,000 visitors across all three, too thin for a slug split. The pages have run long enough to simply be upgraded. Recorded as a timeline event instead. |
 | "+1 week free" hero pill | **Dropped from the hero, kept in the sticky bar** | It is the noise the feedback flags. `offerBadge.sticky` ("+8 free shots") stays, so the free-shots cue survives on the highest-closing surface. |
 | Reasons cut 7 to 5 | **Deferred to Phase 4** | Body blocks have closed 5 of 69 orders all trial. Shipping it alongside the hero would confound attribution on both, and it is the change that rebases the analytics ids. |
-| Hero assets | ADHD `/lifestyle/GirlsLaughing.jpg` (1500x1500, `aspect: "1/1"`), Productivity `/lifestyle/flow/FlowDrink.jpg` (1500x1000, `aspect: "1500/1000"`), Brain-ageing keeps `/lifestyle/ageing/WorkingWoman.jpg` (900x675, `aspect: "900/675"`) | Stand-ins. A proper "person drinking the shot" shoot is coming; swapping is a one-line config change per page. |
+| Hero assets | All three swapped to real product shots on 2026-09-09: ADHD `/lifestyle/BottleFloat.webp`, brain-ageing `/lifestyle/ageing/BottleBalance.webp`, productivity `/lifestyle/flow/TrackAthlete.webp`. All 928x1152 portrait. | No stand-ins left. All three use a 1:1 frame anchored `center top`, so nothing is lost off the top of the shot and only the lower fifth crops: the square shows 81% of the image where the previous 3:2 frame showed 54%. The superseded `WorkingWoman.jpg` and `GirlsLaughing.jpg` are kept; `GirlsLaughing.jpg` and `FlowDrink.jpg` are both still used elsewhere. |
 | Rating figure | **Keep what we have: "Excellent 4.7", "622+ reviews · 5,000+ daily users"** | The 4.9/5 placeholder in the landing-conversion decision log stays unresolved and unused. |
 | Price anchor source | `PRICE_PER_SHOT_FLOW` ("2.00") from `app/lib/landingPricing.ts` | All three pages are Flow-primary since 31 Jul, so the Both price ("1.87") used elsewhere would be wrong here. Never hardcode the price in a config. |
 | Mobile stacking | **Copy above asset**, reversing SCRUM-1166 | The soft educational headline has to be the first thing read for the preframe to work, and it matches the reference. Flagged as the change most likely to need a second look at 390px. |

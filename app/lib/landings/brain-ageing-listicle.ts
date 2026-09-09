@@ -38,19 +38,16 @@ export const brainAgeingListicle: ListicleConfig = {
     },
     // One offer surface, outcome first. The old green "+1 week free" pill sat
     // directly above this and read as a second, competing offer.
-    cta: "Save 46% on a sharper mind",
-    trustPills: [
-      { label: "Zero caffeine", icon: "no-caffeine" },
-      { label: "Informed Sport Certified", icon: "informed-sport" },
-      { label: "100-day guarantee", icon: "guarantee" },
-    ],
+    cta: "Save {percent}% on a sharper mind",
     asset: {
       kind: "image",
-      src: "/lifestyle/ageing/WorkingWoman.jpg",
-      alt: "A professional woman in her fifties taking a CONKA shot",
-      // Landscape source fills the hero frame; anchor to the top so the crop
-      // takes from the bottom and keeps her face in frame.
-      aspect: "1500/1000",
+      src: "/lifestyle/ageing/BottleBalance.webp",
+      alt: "A woman smiling with a CONKA Flow shot balanced on her head",
+      // Portrait source (928x1152) in the 1:1 hero frame all three personas
+      // share. Anchored top so nothing is lost off the top of the shot and
+      // only the lower fifth is cropped: the square frame shows 81% of the
+      // image against the 54% a 3:2 frame would.
+      aspect: "1/1",
       objectPosition: "center top",
     },
   },

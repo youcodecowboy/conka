@@ -16,7 +16,8 @@ import TrustMicroRow from "./TrustMicroRow";
  * composed right of centre, so the copy + CTA overlay the pale negative
  * space on the left (V3 staggered title, left-aligned, brand rule).
  *
- * Copy is reused verbatim from LandingHero with the staggered
+ * Copy is reused verbatim from the old LandingHero (deleted 2026-09-09),
+ * with the staggered
  * two-tier title. Video is a forward+reverse ping-pong (seamless native
  * loop), WebM first then MP4. IntersectionObserver play/pause,
  * reduced-motion respected.
