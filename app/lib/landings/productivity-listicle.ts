@@ -49,12 +49,12 @@ export const productivityListicle: ListicleConfig = {
       kind: "image",
       src: "/lifestyle/flow/TrackAthlete.webp",
       alt: "A runner on a track holding a CONKA Flow shot",
-      // Portrait source (928x1152) in the shared 3:2 hero frame. 25% down the
-      // travel is the compromise between the two things worth keeping: his
-      // face stays whole and the bottle still reads. Lower loses the bottle
-      // off the bottom edge, higher crops the crown of his head.
-      aspect: "3/2",
-      objectPosition: "center 25%",
+      // Portrait source (928x1152) in the 1:1 hero frame all three personas
+      // share. Anchored top so nothing is lost off the top of the shot and
+      // only the lower fifth is cropped: the square frame shows 81% of the
+      // image against the 54% a 3:2 frame would.
+      aspect: "1/1",
+      objectPosition: "center top",
     },
   },
   // Reintroduces the list promise at the point the list starts, now that

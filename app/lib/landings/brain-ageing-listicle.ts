@@ -43,13 +43,12 @@ export const brainAgeingListicle: ListicleConfig = {
       kind: "image",
       src: "/lifestyle/ageing/BottleBalance.webp",
       alt: "A woman smiling with a CONKA Flow shot balanced on her head",
-      // Portrait source (928x1152) in the 3:2 hero frame all three personas
-      // share, so object-cover takes a horizontal band and objectPosition
-      // picks which one. 60% down the travel is the band that clears the
-      // bottle cap at the top and still holds her whole face and hand:
-      // higher clips the cap, lower cuts the chin.
-      aspect: "3/2",
-      objectPosition: "center 60%",
+      // Portrait source (928x1152) in the 1:1 hero frame all three personas
+      // share. Anchored top so nothing is lost off the top of the shot and
+      // only the lower fifth is cropped: the square frame shows 81% of the
+      // image against the 54% a 3:2 frame would.
+      aspect: "1/1",
+      objectPosition: "center top",
     },
   },
   // Reintroduces the list promise at the point the list starts, now that

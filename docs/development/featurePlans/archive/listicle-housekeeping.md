@@ -7,6 +7,11 @@
 > Canonical docs: `docs/features/LISTICLE_SYSTEM.md` (the offer-token contract and the `im8`
 > config shape) and `docs/TODO.md` (the closed entries carry the reasoning for each deletion).
 > Kept for the reasoning, not for current behaviour.
+>
+> **Two claims in here were later disproved.** This doc says `TrustChips.tsx` is used on the
+> home hero and that `TrustPillIcon` must survive. Neither holds: `LandingHero` was the only
+> consumer of `TrustChips` and nothing imported `LandingHero`, so the whole chain was dead and
+> was deleted on 2026-09-09. See `docs/TODO.md`.
 
 **Status:** Complete. Phases 1 and 2 shipped in SCRUM-1323; Phases 3, 4 and 6 in SCRUM-1324. Phase 5 hit its circuit breaker and is deferred to `docs/TODO.md`.
 **Branch:** `feature/listicle-housekeeping`

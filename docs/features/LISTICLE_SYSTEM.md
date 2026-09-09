@@ -228,17 +228,23 @@ discount with the outcome ("Save 46% on a calmer mind"). Proof sits *below* the
 CTA so it reassures the ask rather than being spent before it.
 
 On mobile the copy column comes **before** the asset; on `md:` and up the asset
-returns to the left half. Two hero fields are not what they look like:
+returns to the left half. One hero field is not what it looks like:
 
 - `offerBadge.hero` is **deprecated and not rendered.** It used to be a green pill
   above the CTA and read as a second, competing offer. Only `offerBadge.sticky`
   still renders, as the mint free-shots chip on the sticky bar.
-- `trustPills` is **dead config**: it is set on all three personas and typed, but
-  nothing reads it. It used to duplicate the navy `ticker` marquee under the
-  hero; that marquee and its `ticker` field were both removed in SCRUM-1321, so
-  these trust claims now live only in the reasons, the sticky bar sub-line and
-  the FAQ. Either wire `trustPills` up or delete it, but do not leave it typed
-  and populated and unread.
+
+`trustPills` used to sit here as dead config, typed and populated on all three
+personas but read by nothing. It duplicated the navy `ticker` marquee under the
+hero; SCRUM-1321 removed that marquee, and SCRUM-1324 then deleted the field
+rather than wiring it into a hero that had already been through visual review.
+Those trust claims live in the reasons, the sticky bar sub-line and the FAQ.
+
+**The hero asset is portrait in a square frame.** All three personas use
+`aspect: "1/1"` with `objectPosition: "center top"`. The sources are 928x1152,
+so the square shows 81% of the image and crops only the lower fifth, with
+nothing lost off the top. Keep the frame consistent across personas: it is what
+makes the three heroes the same height.
 
 The `body` array is a plug-and-play library. Blocks: `reason`, `statsBand`, `reviewStrip`, `symptomExplainer`, `segmentToggle`. An IM8 `reason` takes a rich `asset` (`kind`): `image`, `video`, `crashChart`, `researchBacked`, `measureTile`, `cognitionBars`, `scoreByGroup`, `dayEnergyCurve`, `focusBars`, `athleteQuote`, `ingredientGrid`, `statPanel`, or `placeholder`. Each maps to a component in `ListicleRenderer`; see `listicle-types.ts` for the exact fields per kind.
 

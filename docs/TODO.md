@@ -371,6 +371,8 @@ it" does not mean "safe to delete" in this repo.**
 
 **Needs a decision, not a sweep:**
 
+- `public/lifestyle/ageing/WorkingWoman.jpg`. Unreferenced since the 2026-09-09 hero swap,
+  and **kept on purpose** by an explicit call. Do not sweep it.
 - `RevolutPayButton.tsx`. Payment-adjacent. Dead, but confirm no reinstatement is
   planned before removing a payment path from the tree.
 - The account and subscriptions portal cluster: `subscriptions/PastSubscriptionCard.tsx`,
