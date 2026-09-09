@@ -120,21 +120,18 @@ The page is GSAP-driven around one idea: everything is measured against a baseli
 ## /our-story
 
 **Audience:** top-of-funnel and brand-curious. Arrives from nav or about-the-brand searches. Not yet sold; deciding whether to trust the people behind the product.
-**Posture:** founder credibility through narrative. The page sells nothing until the final beat; the story itself is the proof (real injury, real money invested, real trials). Confident-clinical voice, chapters not sales sections.
-**Story arc:** a concussion ends a career -> sport has no answer for the brain -> so they built the research themselves -> 14 capsules collapse into one shot -> proven where performance can't be faked -> the turn: the brain isn't just something to protect, it's something to optimise -> beyond sport, everyone has a brain -> the next chapter is yours to test.
+**Posture:** founder credibility through narrative, told plainly. The page sells nothing until the final beat; the story itself is the proof (real research partners, real money invested, real trials). Editorial and calm, in the Cadence / Gray Matter register rather than the clinical spec-sheet voice.
+**Story arc:** two athletes who could not accept that brain performance was left to chance -> one question, made personal by concussion -> Durham neuroscientists find that the combination is the point -> tested where a fraction of a percent decides the result -> the lab test put in your pocket with Cambridge -> everyone has a brain, yours is next.
 
-The page is GSAP-driven (masked hero lines, clip-path image wipes with parallax, count-up stats, a scrubbed word-brighten manifesto, fixed chapter rail + scroll progress). All motion is entrance-triggered (no pinning); everything falls back to complete static layouts under prefers-reduced-motion.
+Rebuilt September 2026 to Henry's Figma V1 (SCRUM-1325 to 1327). **Simple DTC, not clinical** (`DESIGN_SYSTEM.md` §8.5): no eyebrows, no mono, no topic codes, `rounded-md` image containers, solid black type. Motion is deliberately minimal: one shared `revealUp` per section, nothing else. The previous version's masked-line hero, clip-path wipes, parallax, count-ups, tested-environments marquee, fixed chapter rail and dark scrubbed manifesto were all removed, not hidden.
 
 | # | Section (component) | Job in the story | Health | Notes |
 |---|---------------------|------------------|--------|-------|
-| 1 | Hero (`OurStoryHero`) | "A concussion changed everything." Masked-line H1, three count-up credibility stats, cinematic pitchside image wipe | OK | Image is product-on-pitch, not founders; founders photo deliberately held for Chapter 1 |
-| 2 | Ch. 1 The Injury (`StorySection`) | Two athletes, one career cut short; Humphrey pull quote | OK | Founders photo leads |
-| 3 | Ch. 2 The Search (`StorySection`) | Sport had an answer for every injury except this one; the "0 options" stat | OK | The tension beat |
-| 4 | Ch. 3 The Research (`StorySection`) | They built the research themselves; Durham, synergy discovery, £500K count-up | OK | |
-| 5 | Ch. 4 The Formula (`StorySection`) | 14 capsules to one shot; Dr. Katekhaye quote | OK | |
-| 6 | Ch. 5 The Proof (`StorySection`) | Cambridge testing, 25+ trials, +16% count-up, tested-environments marquee | OK | Marquee uses generic categories, not named clubs |
-| 7 | The Turn (`StoryManifesto`) | Dark interstitial: "The brain isn't just something to protect. It's something to optimise." Five pillars as chips | OK | The recovery-to-optimisation pivot from the brand foundation; the page's one dark break |
-| 8 | Ch. 6 Beyond Sport (`StorySection`) | Everyone has a brain; 150,000+ shots count-up | OK | Widens the audience right before the CTA |
-| 9 | CTA (`OurStoryCTA`) | "Chapter 07 · You" — proof strip, laurel research badge, Try CONKA button, explore links | OK | The only conversion moment on the page |
+| 1 | Hero (`OurStoryHero`) | "Two athletes. One obsession. Zero shortcuts" with three credibility stats and the founders on site | OK | Copy left, photo right; stats are real markup, not the flattened strip in the Figma |
+| 2 | Ch. 1 (`StorySection`) | "It started with one question" — how the pair met and why the brain became the question | OK | Image left on desktop |
+| 3 | Ch. 2 (`StorySection`) | "Uncharted territory. Directed by the best." — Durham, and the synergy finding | OK | Image right on desktop |
+| 4 | Ch. 3 (`StorySection`) | "Tested where fakes wouldn't survive." — elite sport as the proving ground | OK | Image left on desktop |
+| 5 | Ch. 4 (`StorySection`) | "A science-grade test. In your pocket." — the Cambridge-built app and the dataset | OK | Image right on desktop |
+| 6 | CTA (`OurStoryCTA`) | "Everyone has a brain." Try CONKA | OK | The only conversion moment, and the page's only centred block |
 
-**Weakest link right now:** unproven, the motion upgrade shipped June 2026. The hero image (product held pitchside) is the best available asset but a strong founders-in-context photo would open the page harder. Check the chapter rail and dark manifesto on real devices.
+**Weakest link right now:** the stat figures are Henry's Figma numbers taken verbatim ("25+ trials", "150,000+ shots", "4 clinical studies", "over a million tests") and have not been reconciled against `/science`, the PDPs, or the `BRAND_VOICE.md` proof-assets table. That inconsistency is known and accepted, and is tracked in the plan doc. Second: the page lost its explicit "not just for athletes" beat when Chapters 5 and 6 and the manifesto went; the CTA copy now carries it alone.
