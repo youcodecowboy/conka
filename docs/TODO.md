@@ -62,16 +62,17 @@ no longer has anything to bite on. See `docs/development/featurePlans/archive/lo
 
 ---
 
-### The 46% discount is hardcoded in three listicle CTA strings
+### ~~The 46% discount is hardcoded in three listicle CTA strings~~ Closed 2026-09-09
 
-**Status:** Open. Pre-existing, carried through SCRUM-1320.
-**Files:** `app/lib/landings/{adhd,productivity,brain-ageing}-listicle.ts` (`hero.cta`)
+Closed by SCRUM-1323. The literal was also wrong, not just unsourced: 46% matched no cadence
+we sell (Flow monthly is 43%, Flow quarterly 48%). All three hero CTAs now read
+`"Save {percent}% on ..."`, resolved in `ListicleRenderer` from
+`getDisplayDiscount(getOfferPricing(product, "quarterly-sub"))`, on quarterly so the hero and
+the sticky bar quote the same cadence. `{percent}` is the token `ProductGridHeader` already
+used for this, so there is one convention rather than two.
 
-**Symptom:** each hero CTA hardcodes the discount ("Save 46% on a calmer mind"), which contradicts the MASTER_CONTEXT rule that offer terms come from `app/lib/offerConstants.ts` and never from a literal. If the offer changes, three configs go stale silently.
-
-**What closes it:** SCRUM-1322 introduces per-serving price sourcing from `app/lib/landingPricing.ts` for the sticky bar. Extend the same pattern to the CTA discount, or template the CTA around an offer token the way the `mm` configs do with `offer.{percent}`.
-
-**Why deferred:** SCRUM-1320 was a hero restructure, and swapping the offer plumbing at the same time would have mixed a copy change with a data-sourcing change on a live paid surface.
+The same entry's suggested fix pointed at `landingPricing.ts`, which turned out to be a
+hand-synced mirror of `offerData` rather than a source. It now derives, in the same ticket.
 
 ---
 

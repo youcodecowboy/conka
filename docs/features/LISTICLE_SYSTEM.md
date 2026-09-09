@@ -176,6 +176,7 @@ The hero is text-only (no image, no CTA button); the sticky bar carries the pers
 {
   slug, persona, format: "listicle", template: "im8", title,
   hero: { laurel?, headline, subcopy, socialProof?, cta, offerBadge?, priceAnchor?, trustPills?, asset },
+  //      `cta` supports a `{percent}` token: see "Offer tokens" below
   reasonsHeader?: { eyebrow, headline },
   body: [ /* the section-block library, in order */ ],
   bridge?, product: { headline, subline?, productHeroId?, whoItsFor? },
@@ -237,6 +238,34 @@ returns to the left half. Two hero fields are not what they look like:
   and populated and unread.
 
 The `body` array is a plug-and-play library. Blocks: `reason`, `statsBand`, `reviewStrip`, `symptomExplainer`, `segmentToggle`. An IM8 `reason` takes a rich `asset` (`kind`): `image`, `video`, `crashChart`, `researchBacked`, `measureTile`, `cognitionBars`, `scoreByGroup`, `dayEnergyCurve`, `focusBars`, `athleteQuote`, `ingredientGrid`, `statPanel`, or `placeholder`. Each maps to a component in `ListicleRenderer`; see `listicle-types.ts` for the exact fields per kind.
+
+## Offer tokens
+
+**Never write a price or a discount as a literal in a config.** Offer terms come
+from `app/lib/offerData.ts`, which is the only place prices we can sell at are
+allowed to live. A config that types the number goes stale silently the next time
+pricing moves, and can be wrong the day it ships: the three `im8` heroes claimed
+"Save 46%" for months, a figure that matched no cadence we sell (SCRUM-1323).
+
+`{percent}` is the token for a live discount. It resolves to the **bare number**;
+the copy owns the `%` sign:
+
+```ts
+cta: "Save {percent}% on a calmer mind",   // renders "Save 48% on a calmer mind"
+```
+
+| Surface | Resolved in | Product / cadence |
+|---|---|---|
+| `im8` `hero.cta` | `ListicleRenderer` | The page's `product.productHeroId`, quarterly |
+| `mm` `buyBox` headline / subline | `ProductGridHeader` | The block's own `offer: { product, cadence }` |
+
+The `im8` hero resolves on **quarterly** deliberately, matching what `stickyOffer`
+quotes on the sticky bar, so the two offer surfaces on one page never advertise
+two different savings figures. The value is derived per product, so a page that
+switches `productHeroId` gets the right number with no copy edit.
+
+If the offer ever carries no anchor price to compare against, the resolver drops
+the savings clause rather than rendering "Save 0%".
 
 ## `im8` zone anatomy
 
