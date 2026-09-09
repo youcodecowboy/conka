@@ -47,10 +47,14 @@ export const productivityListicle: ListicleConfig = {
     cta: "Save {percent}% on a sharper day",
     asset: {
       kind: "image",
-      src: "/lifestyle/flow/FlowDrink.jpg",
-      alt: "A woman taking a CONKA Flow shot",
-      // Native 1500x1000 (3:2); frame matches so nothing crops
-      aspect: "1500/1000",
+      src: "/lifestyle/flow/TrackAthlete.webp",
+      alt: "A runner on a track holding a CONKA Flow shot",
+      // Portrait source (928x1152) in the shared 3:2 hero frame. 25% down the
+      // travel is the compromise between the two things worth keeping: his
+      // face stays whole and the bottle still reads. Lower loses the bottle
+      // off the bottom edge, higher crops the crown of his head.
+      aspect: "3/2",
+      objectPosition: "center 25%",
     },
   },
   // Reintroduces the list promise at the point the list starts, now that

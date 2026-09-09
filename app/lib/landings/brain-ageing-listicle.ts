@@ -41,12 +41,15 @@ export const brainAgeingListicle: ListicleConfig = {
     cta: "Save {percent}% on a sharper mind",
     asset: {
       kind: "image",
-      src: "/lifestyle/ageing/WorkingWoman.jpg",
-      alt: "A professional woman in her fifties taking a CONKA shot",
-      // Landscape source fills the hero frame; anchor to the top so the crop
-      // takes from the bottom and keeps her face in frame.
-      aspect: "1500/1000",
-      objectPosition: "center top",
+      src: "/lifestyle/ageing/BottleBalance.webp",
+      alt: "A woman smiling with a CONKA Flow shot balanced on her head",
+      // Portrait source (928x1152) in the 3:2 hero frame all three personas
+      // share, so object-cover takes a horizontal band and objectPosition
+      // picks which one. 60% down the travel is the band that clears the
+      // bottle cap at the top and still holds her whole face and hand:
+      // higher clips the cap, lower cuts the chin.
+      aspect: "3/2",
+      objectPosition: "center 60%",
     },
   },
   // Reintroduces the list promise at the point the list starts, now that
