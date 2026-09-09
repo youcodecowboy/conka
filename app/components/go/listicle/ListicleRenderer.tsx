@@ -27,7 +27,11 @@ import SymptomExplainer from "@/app/components/landing/SymptomExplainer";
 import SegmentToggle from "@/app/components/landing/SegmentToggle";
 import LogoMarquee, { PRESS_LOGOS } from "@/app/components/landing/LogoMarquee";
 import ListicleProofTier, { ListicleLogoBand } from "./ListicleProofTier";
-import { getOfferPricing, type OfferProduct } from "@/app/lib/offerData";
+import {
+  getDisplayDiscount,
+  getOfferPricing,
+  type OfferProduct,
+} from "@/app/lib/offerData";
 import LabFAQ from "@/app/components/landing/LabFAQ";
 import { pickFaqItems, stripClaimAnchors } from "@/app/lib/faqContent";
 import { useHashScroll } from "./useHashScroll";
@@ -118,6 +122,37 @@ function stickyOffer(heroId: ProductHeroId) {
     perShot: sub.perShot.toFixed(2),
     giftValue: kitValue ? Math.floor(kitValue / 10) * 10 : null,
   };
+}
+
+/**
+ * Resolves the `{percent}` token in hero copy to the live discount for this
+ * page's product, out of `offerData` for the same reason `stickyOffer` reads
+ * from it: a percentage typed into a config is a claim with no source, and the
+ * one that used to sit here (46%) matched no cadence we sell (SCRUM-1323).
+ *
+ * Same token name and same rule as `ProductGridHeader`, which resolves
+ * `{percent}` the same way and renders on these pages too: the token is the
+ * bare number and the config owns the "%" sign, so copy can read "{percent}%
+ * off" or "Save {percent}%" without the resolver knowing about either.
+ *
+ * Quarterly, matching `stickyOffer`, so the two offer surfaces on the page
+ * quote the same cadence rather than two different savings figures.
+ *
+ * `getDisplayDiscount` returns 0 for an entry with no anchor price. There is
+ * no such quarterly entry today, but if one ever appears the page must not
+ * advertise "Save 0%", so the savings clause is dropped and the outcome half
+ * of the line carries the button on its own.
+ */
+function resolveOfferTokens(text: string, heroId: ProductHeroId): string {
+  const percent = getDisplayDiscount(
+    getOfferPricing(OFFER_PRODUCT[heroId], "quarterly-sub"),
+  );
+  if (percent > 0) return text.replaceAll("{percent}", String(percent));
+  const withoutClause = text.replace(/^\s*save\s+\{percent\}%\s*/i, "").trim();
+  if (!withoutClause || withoutClause.includes("{percent}")) {
+    return text.replaceAll("{percent}", String(percent));
+  }
+  return withoutClause.charAt(0).toUpperCase() + withoutClause.slice(1);
 }
 
 const PDP_HREF: Record<ProductHeroId, string> = {
@@ -821,8 +856,12 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
   const fireCta = useListicleCta();
   const withSrc = useListicleHref();
 
+  // The product this page sells. Drives the PDP hand-off (see PDP_HREF) and
+  // every price and percentage the page quotes.
+  const heroId = config.product.productHeroId ?? "03";
+
   // Marketing CTAs follow the product this page sells (see PDP_HREF).
-  const buyHref = PDP_HREF[config.product.productHeroId ?? "03"];
+  const buyHref = PDP_HREF[heroId];
 
   // The FAQ section carries the sticky-bar clearance (pb-32). If a config
   // supplies no faqIds that section does not render, so the clearance moves to
@@ -833,7 +872,7 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
   // The bar states the offer and nothing else. Proof already runs twice above
   // it, in the hero micro-row and the logo band; stars and a review count down
   // here were a third copy competing with the price on a two-line strip.
-  const offer = stickyOffer(config.product.productHeroId ?? "03");
+  const offer = stickyOffer(heroId);
 
   return (
     <main
@@ -898,7 +937,7 @@ function ListicleBody({ config }: { config: Im8ListicleConfig }) {
               className="mb-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-center text-base font-semibold text-white transition-opacity hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-navy)] md:w-auto"
               style={{ background: NAVY }}
             >
-              {config.hero.cta}
+              {resolveOfferTokens(config.hero.cta, heroId)}
               <svg
                 width="18"
                 height="18"

@@ -44,7 +44,7 @@ export const productivityListicle: ListicleConfig = {
     },
     // One offer surface, outcome first. The old green "+1 week free" pill sat
     // directly above this and read as a second, competing offer.
-    cta: "Save 46% on a sharper day",
+    cta: "Save {percent}% on a sharper day",
     trustPills: [
       { label: "Zero caffeine", icon: "no-caffeine" },
       { label: "Informed Sport Certified", icon: "informed-sport" },

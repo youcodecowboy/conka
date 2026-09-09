@@ -335,7 +335,17 @@ export interface Im8ListicleConfig extends ListicleBase {
     subcopy: string;
     /** Avatar + star micro-row (LandingHero pattern) */
     socialProof?: { label: string; sub: string };
-    /** Primary CTA; anchors to #product */
+    /**
+     * Primary CTA; anchors to #product.
+     *
+     * `{percent}` resolves at render to the live quarterly discount for this
+     * page's `productHeroId`, straight out of `offerData`, so the hero and the
+     * sticky bar quote the same cadence and neither can drift from what we
+     * actually charge. Same token and same rule as `ProductGridHeader`: the
+     * token is the bare number and the copy owns the "%", so this reads
+     * `"Save {percent}% on a calmer mind"`. Never write the percentage as a
+     * literal (SCRUM-1323). A CTA without the token renders unchanged.
+     */
     cta: string;
     /** Trust chips under the CTA; each gets its own icon */
     trustPills?: { label: string; icon: TrustPillIcon }[];

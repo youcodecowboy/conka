@@ -5,6 +5,7 @@
 ---
 
 <!-- changelog:newest - new entries are inserted directly below this line, newest first, one line each -->
+- **2026-09-09** | Listicle hero CTAs now quote the real quarterly discount (48%, was a hardcoded 46% that matched no price), and the landing pricing constants derive from offerData instead of hand-synced copies
 - **2026-09-08** | Listicle sticky bar now leads with the quarterly per-shot price and the subscription gift value, both read from offerData (SCRUM-1322)
 - **2026-09-08** | Listicle sticky bar now leads with the per-shot price and the 4.7 rating instead of a generic label, on the surface that closes more orders than any other (SCRUM-1322)
 - **2026-09-08** | Listicle stats band restyled to the /lander proof-card look (light tint, hairline 2-up grid) and the reason video swapped to the Flow neuron clip
