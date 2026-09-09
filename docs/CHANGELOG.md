@@ -5,6 +5,7 @@
 ---
 
 <!-- changelog:newest - new entries are inserted directly below this line, newest first, one line each -->
+- **2026-09-09** | Deleted the abandoned LandingHero and its TrustChips row, unimported since June; the parked video heroes and the live static hero are untouched
 - **2026-09-09** | Brain-ageing and productivity listicles get real product hero shots, replacing the stand-in lifestyle images
 - **2026-09-09** | Listicle cleanup: dead trustPills config deleted, and the partner logo list now lives in one shared module instead of three copies that could drift
 - **2026-09-09** | Listicle hero CTAs now quote the real quarterly discount (48%, was a hardcoded 46% that matched no price), and the landing pricing constants derive from offerData instead of hand-synced copies

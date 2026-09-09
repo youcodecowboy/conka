@@ -70,34 +70,31 @@ already been through visual review, so adding a pill row back into it would have
 change smuggled in as cleanup.
 
 The field is gone from `Im8ListicleConfig.hero` and from all three configs. `TrustPillIcon`
-moved to `app/components/landing/TrustChips.tsx`, its only consumer, so a component no longer
-reaches into a landing-page config module for its own prop type. Git holds the deleted values
-if they are ever wanted.
-
-Correction made during review: the ticket and an earlier note claimed `TrustChips` renders on
-the home hero. It does not. See the entry below.
+moved to `app/components/landing/TrustChips.tsx`, its only consumer, and was then deleted with
+that component the same day (see below): the ticket and an earlier note had both claimed
+`TrustChips` renders on the home hero, and it does not. Git holds the deleted values if they
+are ever wanted.
 
 ---
 
-### `LandingHero`, `TrustChips` and the trust-chip type are all dead code
+### ~~`LandingHero`, `TrustChips` and the trust-chip type are all dead code~~ Closed 2026-09-09
 
-**Status:** Open. Found while reviewing SCRUM-1324, not fixed there.
-**Files:** `app/components/landing/LandingHero.tsx`, `app/components/landing/TrustChips.tsx`
+Found while reviewing SCRUM-1324, decided and deleted the same day. `LandingHero.tsx` and
+`TrustChips.tsx` are gone, taking `TrustChip` and `TrustPillIcon` with them.
 
-**Symptom:** `LandingHero.tsx` has zero importers. The home page renders `HomeHeroStatic`
-instead. `LandingHero` is the only consumer of `TrustChips`, which is the only consumer of
-`TrustPillIcon` and `TrustChip`, so the whole chain ships in the repo and renders nowhere.
+`LandingHero` stopped being the home hero on 2026-06-18 in `9c66de97`, which swapped it for
+`LandingHeroVideoDesktop` and left a comment saying so. Three further hero rebuilds followed
+(`HomeHeroV3`, back to the video pair, then `HomeHeroStatic`), each replacing the previous
+replacement, so nothing ever looked back at the original. It sat unimported for nearly three
+months.
 
-**Why it was missed:** `TrustChips` looks live because it is referenced by name in comments,
-and the `HOME_TRUST_CHIPS` labels ("Zero caffeine", "Informed Sport Certified") do appear on
-the PDPs, but from `ProductBuyPanel` and `IngredientBenefitLede`, not from this component.
+Checked against the revert path the parked-components list asks for: `HomeHeroVideo` and
+`HomeHeroVideoDesktop` stay parked and are untouched. `HomeHeroStatic` remains the live hero.
 
-**What closes it:** confirm `LandingHero` is genuinely retired rather than a hero variant
-someone means to switch back on, then delete both files. The six `TrustIcon*` glyphs must
-stay: `LandingTrustBadges`, `ResearchBackedGraphic` and `CROTestimonials` all use them.
-
-**Why not done in SCRUM-1324:** that ticket was a listicle config cleanup, not a dead-component
-sweep, and deleting a home-hero variant is a call worth making deliberately.
+`TrustIconNoCaffeine` lost its only consumer with `TrustChips` and was **kept deliberately**.
+It is a design-system glyph for a core brand claim, not a dead component; deleting it only
+means someone redraws it the next time a trust row needs one. The other five `TrustIcon*` are
+still used by `LandingTrustBadges`, `ResearchBackedGraphic` and `CROTestimonials`.
 
 ---
 
@@ -369,8 +366,8 @@ it" does not mean "safe to delete" in this repo.**
 - `landing/HomeHeroVideo.tsx`, `landing/HomeHeroVideoDesktop.tsx`. `PAGE_NARRATIVES.md`
   states the looped video hero is "kept in the tree for revert" behind the static
   LCP hero. Unimported is the intended state.
-- `landing/LandingHero.tsx` is the same family and should be checked against that
-  revert path before it goes.
+  (`landing/LandingHero.tsx` was in this family and was checked against that revert path on
+  2026-09-09, then deleted. The video pair is unaffected and stays parked.)
 
 **Needs a decision, not a sweep:**
 

@@ -324,7 +324,7 @@ export interface Im8ListicleConfig extends ListicleBase {
     laurel?: { eyebrow: string; body: string };
     headline: string;
     subcopy: string;
-    /** Avatar + star micro-row (LandingHero pattern) */
+    /** Avatar + star micro-row (the home hero's TrustMicroRow pattern) */
     socialProof?: { label: string; sub: string };
     /**
      * Primary CTA; anchors to #product.

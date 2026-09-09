@@ -208,7 +208,7 @@ function StarRow({ fontSize }: { fontSize: string }) {
   );
 }
 
-/** LandingHero's avatar + star micro-row, compacted to the IM8 scale.
+/** The home hero's avatar + star micro-row, compacted to the IM8 scale.
  *  Content only: the caller owns the surrounding spacing. */
 function TrustMicroRow({ label, sub }: { label: string; sub: string }) {
   return (

@@ -14,7 +14,8 @@ import TrustMicroRow from "./TrustMicroRow";
  * neuron network at its native 3:4, with the hero title overlaid at the top.
  * The CTA straddles the asset's bottom edge, and the trust row + supporting
  * copy sit below the asset on the section's white background. Copy is reused
- * verbatim from LandingHero; this is a structural change, not a messaging
+ * verbatim from the old LandingHero (deleted 2026-09-09); this is a
+ * structural change, not a messaging
  * change.
  *
  * Footage is bright and airy, so the overlaid title stays brand-black
