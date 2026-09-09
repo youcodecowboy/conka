@@ -5,6 +5,7 @@
 ---
 
 <!-- changelog:newest - new entries are inserted directly below this line, newest first, one line each -->
+- **2026-09-09** | /our-story mobile: chapter and hero images now sit flush with the top of their section, so no band of section background shows above them.
 - **2026-09-09** | Mobile pass on /our-story: hero photo now leads full bleed and flush under the nav, chapter images run edge to edge, stat row centred.
 - **2026-09-09** | Rebuilt /our-story as Henry's Figma V1: a split hero, four alternating image/copy chapters and one CTA, in Simple DTC with the chapter rail, dark manifesto and scroll effects removed.
 - **2026-09-09** | Deleted the abandoned LandingHero and its TrustChips row, unimported since June; the parked video heroes and the live static hero are untouched

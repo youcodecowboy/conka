@@ -8,7 +8,8 @@ import { useGSAP, withMotion, revealUp } from "@/app/lib/motion";
 /* ============================================================================
  * OurStoryHero — the opening split of /our-story.
  *
- * Copy left, photo right at lg; stacked copy-then-photo on mobile. The stat
+ * Copy left, photo right at lg. On mobile the photo leads instead, full bleed
+ * and flush under the nav, which is how Gray Matter and Cadence open. The stat
  * row is real markup, not the flattened strip in the Figma, so the numbers
  * stay selectable, translatable and legible at 390px.
  *
