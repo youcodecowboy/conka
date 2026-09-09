@@ -259,8 +259,11 @@ cta: "Save {percent}% on a calmer mind",   // renders "Save 48% on a calmer mind
 
 | Surface | Resolved in | Product / cadence |
 |---|---|---|
-| `im8` `hero.cta` | `ListicleRenderer` | The page's `product.productHeroId`, quarterly |
+| `im8` `hero.cta`, `bridge.cta`, `stickyBar.cta` | `ListicleRenderer` | The page's `product.productHeroId`, quarterly |
 | `mm` `buyBox` headline / subline | `ProductGridHeader` | The block's own `offer: { product, cadence }` |
+
+All three `im8` CTAs resolve the token, so it behaves the same wherever you
+write it. Only the hero uses it today.
 
 The `im8` hero resolves on **quarterly** deliberately, matching what `stickyOffer`
 quotes on the sticky bar, so the two offer surfaces on one page never advertise

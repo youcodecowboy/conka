@@ -70,8 +70,34 @@ already been through visual review, so adding a pill row back into it would have
 change smuggled in as cleanup.
 
 The field is gone from `Im8ListicleConfig.hero` and from all three configs. `TrustPillIcon`
-stays: `app/components/landing/TrustChips.tsx` imports it for the home hero, which does render
-pills. Git holds the deleted values if they are ever wanted.
+moved to `app/components/landing/TrustChips.tsx`, its only consumer, so a component no longer
+reaches into a landing-page config module for its own prop type. Git holds the deleted values
+if they are ever wanted.
+
+Correction made during review: the ticket and an earlier note claimed `TrustChips` renders on
+the home hero. It does not. See the entry below.
+
+---
+
+### `LandingHero`, `TrustChips` and the trust-chip type are all dead code
+
+**Status:** Open. Found while reviewing SCRUM-1324, not fixed there.
+**Files:** `app/components/landing/LandingHero.tsx`, `app/components/landing/TrustChips.tsx`
+
+**Symptom:** `LandingHero.tsx` has zero importers. The home page renders `HomeHeroStatic`
+instead. `LandingHero` is the only consumer of `TrustChips`, which is the only consumer of
+`TrustPillIcon` and `TrustChip`, so the whole chain ships in the repo and renders nowhere.
+
+**Why it was missed:** `TrustChips` looks live because it is referenced by name in comments,
+and the `HOME_TRUST_CHIPS` labels ("Zero caffeine", "Informed Sport Certified") do appear on
+the PDPs, but from `ProductBuyPanel` and `IngredientBenefitLede`, not from this component.
+
+**What closes it:** confirm `LandingHero` is genuinely retired rather than a hero variant
+someone means to switch back on, then delete both files. The six `TrustIcon*` glyphs must
+stay: `LandingTrustBadges`, `ResearchBackedGraphic` and `CROTestimonials` all use them.
+
+**Why not done in SCRUM-1324:** that ticket was a listicle config cleanup, not a dead-component
+sweep, and deleting a home-hero variant is a call worth making deliberately.
 
 ---
 
