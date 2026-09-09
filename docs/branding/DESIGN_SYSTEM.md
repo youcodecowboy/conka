@@ -457,6 +457,39 @@ Reference implementations to copy from: the cart drawer, home (`app/page.tsx`), 
 
 `ConkaCTAButton`'s `meta` prop renders a mono-uppercase second line — a clinical tell. On Simple DTC surfaces, **pass `meta={null}`** so the button is a clean rounded CTA with no mono sub-line. The component's mono meta styling is a to-be-simplified holdover; it is documented here as deprecated for DTC surfaces (no component change was made in the formalization ticket, SCRUM-1172).
 
+### Full-bleed split band (the documented §6 exception)
+
+Some editorial surfaces need an image that reaches the **viewport edge** and runs the **full height of its band**, with copy filling the other half. This is the Cadence / Gray Matter about-page grammar. `/our-story` uses it for its hero and its four chapters (SCRUM-1326).
+
+Such a band cannot live inside `.brand-section`'s gutters or `.brand-track`'s max-width, so it is the one sanctioned exception to the page-orchestrates rule in §6:
+
+- The page gives it a **bare `<section>` carrying only a background class and an `aria-label`**. No `brand-section`, no `brand-track`.
+- The **component owns its own layout**: a `grid-cols-1 lg:grid-cols-2`, the image side with no padding at all, the copy side padding itself.
+- The copy side pads its **outer** edge with `--brand-track-inset` so its text still lines up with every tracked section on the page, and its **inner** edge (against the image) with a plain gutter.
+- Mobile stacks image first, then copy. Because the section has no padding, the image is naturally full bleed and flush to the section top: no negative-margin cancellation needed.
+
+```tsx
+// page: background and label only
+<section className="brand-bg-tint" aria-label={chapter.heading}>
+  <StorySection chapter={chapter} />
+</section>
+
+// component: owns the split
+<div className="grid grid-cols-1 lg:grid-cols-2 lg:min-h-[34rem]">
+  <div className="relative aspect-[4/3] lg:aspect-auto bg-black/5 lg:order-1">
+    <Image fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+  </div>
+  <div className="flex flex-col justify-center px-5 py-14 lg:py-20
+                  lg:order-2 lg:pl-12 xl:pl-16 lg:pr-[var(--brand-track-inset)]">
+    ...
+  </div>
+</div>
+```
+
+**`--brand-track-inset`** (Layer 1, `brand-base.css`) is the distance from the viewport edge to where `.brand-track` content begins: `max(--brand-gutter-desktop, (100vw - --brand-max-width) / 2)`. It exists solely for this pattern. It uses `100vw`, so it sits half a scrollbar width off `.brand-track`'s percentage-based centring; that is a few pixels and not perceivable.
+
+**Do not reach for this by default.** An ordinary section inside `.brand-section` + `.brand-track` is still the rule (§6). Use the split band only when the image genuinely has to touch the viewport edge, and keep every other section on the page tracked as normal.
+
 ### Per-surface authority
 
 Simple DTC is added **alongside** Clinical (§8) and App-Dark (§10), not as a global replacement. Default split (adjust as surfaces convert):

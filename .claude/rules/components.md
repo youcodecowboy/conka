@@ -12,6 +12,7 @@ paths:
 - Use design tokens from `app/brand-base.css` — never hard-code colours, spacing, radii, or font sizes.
 - Radius depends on the surface's design language (DESIGN_SYSTEM.md §8.5). Simple DTC surfaces (cart, home, PDPs, landing/build-your-order) use Tailwind utilities: `rounded-md` cards/containers/controls, `rounded-lg` standalone tiles, `rounded-full` pills/buttons. Clinical + App-Dark surfaces use the `--brand-radius-*` tokens, which `.brand-clinical` forces to `0px`.
 - Components return content only — no `<section>`, no `max-w-*`, no `px-*` at root. Pages own section wrappers.
+  - **One sanctioned exception: the full-bleed split band** (DESIGN_SYSTEM.md §8.5). When an image must reach the viewport edge and run the full height of its band, the page gives a bare `<section>` with only a background and `aria-label`, and the component owns the split. The copy side pads its outer edge with `--brand-track-inset` so text still aligns with tracked sections. Live on `/our-story`. Do not reach for it unless the image genuinely has to touch the viewport edge.
 - Components do not set their own background. Exception: cards/surfaces that differ from section bg must set their own text colour explicitly.
 
 ## Mobile-first enforcement

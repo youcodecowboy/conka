@@ -8,15 +8,17 @@ import { useGSAP, withMotion, revealUp } from "@/app/lib/motion";
 /* ============================================================================
  * OurStoryHero — the opening split of /our-story.
  *
- * Copy left, photo right at lg. On mobile the photo leads instead, full bleed
- * and flush under the nav, which is how Gray Matter and Cadence open. The stat
- * row is real markup, not the flattened strip in the Figma, so the numbers
- * stay selectable, translatable and legible at 390px.
+ * The same full-bleed split band as StorySection, matching the Figma's
+ * 960/960 hero: copy owns the left half, the photo owns the right half edge
+ * to edge and top to bottom. On mobile the photo leads instead, flush under
+ * the nav, with the copy beneath it.
  *
- * Simple DTC (DESIGN_SYSTEM.md §8.5): no eyebrow, no mono, solid black type.
- * Motion is one revealUp; SSR carries the final state.
+ * ARCHITECTURE NOTE — this component owns its own layout, the documented
+ * exception to the page-orchestrates rule in DESIGN_SYSTEM.md §6. See the
+ * longer note in StorySection.tsx and DESIGN_SYSTEM.md §8.5.
  *
- * Content-only; the page owns the section wrapper, background and track.
+ * The stat row is real markup, not the flattened strip in the Figma, so the
+ * numbers stay selectable, translatable and legible at 390px.
  * ========================================================================== */
 
 export function OurStoryHero() {
@@ -34,11 +36,11 @@ export function OurStoryHero() {
   return (
     <div
       ref={root}
-      className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-16"
+      className="grid grid-cols-1 lg:grid-cols-2 lg:min-h-[38rem]"
     >
       {/* Copy leads in the DOM so the h1 comes before the image for screen
           readers and crawlers; `order` flips it visually on mobile only. */}
-      <div className="order-2 lg:order-1">
+      <div className="order-2 lg:order-1 flex flex-col justify-center px-5 py-14 lg:py-20 lg:pl-[var(--brand-track-inset)] lg:pr-12 xl:pr-16">
         <h1
           data-hero-reveal
           className="brand-h1 text-black mb-5"
@@ -72,12 +74,7 @@ export function OurStoryHero() {
         </div>
       </div>
 
-      {/* Mobile: full-bleed and flush under the nav, the Gray Matter / Cadence
-          opening. The bleed cancels the 1.25rem mobile gutter and the -mt-4
-          cancels brand-hero-first's 1rem top padding (both are unlayered CSS,
-          so a Tailwind pt-0 would not win). Gutters return at 768px, so the
-          reset is md:, not lg:. Square at lg matches the Figma's 960x945 slot. */}
-      <div className="order-1 lg:order-2 relative aspect-square overflow-hidden bg-black/5 -mt-4 -mx-5 w-[calc(100%+2.5rem)] md:mt-0 md:mx-0 md:w-full rounded-none md:rounded-md">
+      <div className="order-1 lg:order-2 relative aspect-square lg:aspect-auto bg-black/5">
         <Image
           src={storyHero.image}
           alt={storyHero.imageAlt}

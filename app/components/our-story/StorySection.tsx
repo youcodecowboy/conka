@@ -8,18 +8,23 @@ import { useGSAP, withMotion, revealUp } from "@/app/lib/motion";
 /* ============================================================================
  * StorySection — one chapter of /our-story.
  *
- * A plain alternating split: image on one side, copy on the other, flipping
- * side by side with `imageSide` at lg and above. Mobile always stacks image
- * first, then copy, regardless of the desktop side. The alternation is a
- * desktop affordance, not a reading order.
+ * A full-bleed split band, the Cadence / Gray Matter grammar: the image owns
+ * half the viewport edge to edge and top to bottom, and the copy owns the
+ * other half. The image side alternates with `imageSide` at lg and above;
+ * below that everything stacks image first, then copy, regardless of side.
+ * The alternation is a desktop affordance, not a reading order.
  *
- * Simple DTC (DESIGN_SYSTEM.md §8.5): solid black heading, no eyebrow, no
- * mono. The image runs full bleed and square-cornered on mobile, then insets
- * to rounded-md from 768px where the section gutters return. Motion is one
- * revealUp on entry; SSR carries the final state so reduced-motion and no-JS
- * users see everything.
+ * ARCHITECTURE NOTE — this component owns its own layout, which is the
+ * documented exception to the page-orchestrates rule in DESIGN_SYSTEM.md §6.
+ * A band whose image must touch the viewport edge cannot sit inside
+ * .brand-section's gutters or .brand-track's max-width, so the page gives it
+ * a bare <section> carrying only the background and aria-label. The copy side
+ * pads itself by --brand-track-inset so its text still lines up with every
+ * tracked section on the page. See DESIGN_SYSTEM.md §8.5.
  *
- * Content-only; the page owns the section wrapper, background and track.
+ * Simple DTC (§8.5): solid black heading, no eyebrow, no mono, no radius on
+ * the image (it is a bleed, not a card). Motion is one revealUp on entry;
+ * SSR carries the final state so reduced-motion and no-JS users see all of it.
  * ========================================================================== */
 
 interface StorySectionProps {
@@ -28,7 +33,7 @@ interface StorySectionProps {
 
 export function StorySection({ chapter }: StorySectionProps) {
   const root = useRef<HTMLDivElement>(null);
-  const imageFirstOnDesktop = chapter.imageSide === "left";
+  const imageOnLeft = chapter.imageSide === "left";
 
   useGSAP(
     () => {
@@ -39,22 +44,20 @@ export function StorySection({ chapter }: StorySectionProps) {
     { scope: root },
   );
 
+  /* Outer edge of the copy gets the track inset so it aligns with the rest of
+     the page; the inner edge, against the image, gets a plain gutter. */
+  const copyPadding = imageOnLeft
+    ? "lg:order-2 lg:pl-12 xl:pl-16 lg:pr-[var(--brand-track-inset)]"
+    : "lg:order-1 lg:pr-12 xl:pr-16 lg:pl-[var(--brand-track-inset)]";
+
   return (
     <div
       ref={root}
-      className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-16"
+      className="grid grid-cols-1 lg:grid-cols-2 lg:min-h-[34rem]"
     >
-      {/* Full-bleed and flush to the section top on mobile. -mx-5 cancels the
-          1.25rem mobile gutter and -mt-20 cancels the 5rem
-          --brand-section-padding-mobile, so the image meets the section edge
-          instead of sitting under a band of section background. The bottom
-          padding is left alone; only the top is doubling up. Both values are
-          hard-coded because .brand-section is unlayered CSS, so a Tailwind
-          pt-0/px-0 would lose to it. All of it resets at 768px, where the
-          gutters and full section padding return. */}
       <div
-        className={`relative aspect-[4/3] overflow-hidden bg-black/5 -mt-20 -mx-5 w-[calc(100%+2.5rem)] md:mt-0 md:mx-0 md:w-full rounded-none md:rounded-md ${
-          imageFirstOnDesktop ? "lg:order-1" : "lg:order-2"
+        className={`relative aspect-[4/3] lg:aspect-auto bg-black/5 ${
+          imageOnLeft ? "lg:order-1" : "lg:order-2"
         }`}
       >
         <Image
@@ -67,7 +70,9 @@ export function StorySection({ chapter }: StorySectionProps) {
         />
       </div>
 
-      <div className={imageFirstOnDesktop ? "lg:order-2" : "lg:order-1"}>
+      <div
+        className={`flex flex-col justify-center px-5 py-14 lg:py-20 ${copyPadding}`}
+      >
         <h2
           data-chapter-reveal
           className="brand-h2 text-black mb-5"
