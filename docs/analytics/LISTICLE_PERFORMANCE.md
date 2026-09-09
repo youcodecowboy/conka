@@ -575,3 +575,35 @@ ADHD now leads with the hero (210 vs 180 sticky); Productivity still closes on t
 ### Artifact
 
 Dashboard rebuilt around marginal CPA (verdict, KPI row, cost-per-purchase chart vs £100 target, CPA decomposition, confound panel, actions). Same URL <https://claude.ai/code/artifact/b69a0128-2f0f-4078-a91f-b58d5f8196c4>.
+
+---
+
+## Changes since the 2026-08-21 pull (no data pulled)
+
+**Not a snapshot.** No analytics were pulled for this entry. It records two deploys that
+land between the 21 Aug pull and whatever the next one is, so that pull can read its trend
+lines against the right baselines instead of reconstructing them from git.
+
+### Timeline additions
+
+`8 Sept` listicle first-half rebuild shipped (PR #479, SCRUM-1320/1321/1322): hero
+restructured so copy sits above the asset on mobile, the partner logo band moved from above
+the buy box to directly under the hero, and the sticky bar rebuilt to lead with the quarterly
+per-shot price and gift value — **resets the baseline** · `9 Sept` all three heroes swapped to
+real product shots in a taller top-anchored square frame, and the hero discount claim
+corrected from a hardcoded 46% to the live 48% quarterly figure (PR #480, SCRUM-1323/1324) —
+**an offer-claim change, so read it before the photography if conversion moves**.
+
+### Two things the next pull needs to know
+
+**Scroll-depth trends read continuously across both dates.** Neither deploy rebased a
+`section_viewed` id. The 7-reasons-to-5 cut, which would have rebased every id below it, was
+deliberately deferred for exactly that reason and is still unshipped. Nothing changed in the
+`IntersectionObserver` options either, so section-view counts stay comparable to the 21 Aug
+pull.
+
+**The free-week angle is off the hero.** The `2 Aug` and `3 Aug` entries above record a green
+"+1 week of free brain supplements" pill being added to all three heroes to message-match the
+free-week ad creative. The 8 Sept rebuild removed that pill; the equivalent claim survives only
+as the free-shots chip on the sticky bar. Any read of the free-week test should treat 8 Sept as
+its end date on the hero.

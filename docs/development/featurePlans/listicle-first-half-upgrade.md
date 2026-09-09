@@ -3,9 +3,10 @@
 > **Status:** Phases 1 to 3 **merged** in PR #479 (SCRUM-1320/1321/1322). Phase 4
 > still deferred, so this plan stays live rather than being archived.
 >
-> **On deploy:** plant a `/notion-flag` and append the timeline entry already
-> drafted in `docs/analytics/LISTICLE_PERFORMANCE.md`, so the CPA and retention
-> trends carry a marker at the right date.
+> **On-deploy steps are done.** Flag planted, and the timeline entry appended to
+> `docs/analytics/LISTICLE_PERFORMANCE.md` on 2026-09-09 under "Changes since the
+> 2026-08-21 pull", covering both this deploy and the 9 Sept follow-on, so the CPA
+> and retention trends carry markers at the right dates.
 >
 > **Follow-on:** the debt this rebuild left behind is picked up in
 > `archive/listicle-housekeeping.md` (SCRUM-1323/1324, delivered). Both pre-deploy checks this plan
