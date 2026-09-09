@@ -5,6 +5,7 @@
 ---
 
 <!-- changelog:newest - new entries are inserted directly below this line, newest first, one line each -->
+- **2026-09-09** | Rebuilt /our-story as Henry's Figma V1: a split hero, four alternating image/copy chapters and one CTA, in Simple DTC with the chapter rail, dark manifesto and scroll effects removed.
 - **2026-09-09** | Deleted the abandoned LandingHero and its TrustChips row, unimported since June; the parked video heroes and the live static hero are untouched
 - **2026-09-09** | All three listicle heroes get real product shots in a taller top-anchored frame, replacing the stand-in lifestyle images
 - **2026-09-09** | Listicle cleanup: dead trustPills config deleted, and the partner logo list now lives in one shared module instead of three copies that could drift
