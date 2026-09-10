@@ -9,7 +9,7 @@ import {
 import { getPdpGalleryImages } from "@/app/lib/mmPdpData";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import ProductBuyPanel, { TrustStrip } from "./ProductBuyPanel";
-import { HeroStrapline, HeroGiftValue, SocialProofBadge } from "./HeroBadges";
+import { HeroGiftValue, SocialProofBadge } from "./HeroBadges";
 import HeroRating from "./HeroRating";
 import IngredientBenefitLede from "./IngredientBenefitLede";
 import IngredientDisclosureRows from "./IngredientDisclosureRows";
@@ -27,9 +27,9 @@ interface ProductHeroMobileV3Props {
 /**
  * ProductHeroMobileV3 — the mobile counterpart of ProductHeroV3 (Flow, Clear, Both).
  *
- * Single stacked column: identity (viewing → title → benefit → rating → gift
- * value) → rectangular asset + thumbnails → description + check grid → pricing
- * widget + subscription box + Ingredients pill → proof strip.
+ * Single stacked column: identity (viewing → title → rating → gift-value pill)
+ * → rectangular asset + thumbnails → subline + description + check grid →
+ * pricing widget + subscription box + Ingredients pill → proof strip.
  *
  * The lede sits ABOVE the picker (SCRUM-1335), which is the reference order
  * and a deliberate partial reversal of SCRUM-1260. That ticket had put price
@@ -63,10 +63,11 @@ export default function ProductHeroMobileV3({
 
   return (
     <div className="flex flex-col gap-6 text-black">
-      {/* Identity — viewing → title → benefit → rating → offer. The benefit
-          line replaces the spec pill that sat in that row (SCRUM-1334), and
-          the gift line closes the block so the offer lands before the gallery
-          rather than below the price. */}
+      {/* Identity — viewing → title → rating → offer pill. The spec pill that
+          sat under the title is gone (SCRUM-1334) and the benefit line that
+          briefly replaced it now lives in the lede below the gallery, at full
+          size (SCRUM-1336). The offer pill closes the block so the strongest
+          thing we have lands before the gallery rather than below the price. */}
       <div className="flex flex-col gap-2">
         <SocialProofBadge productType={productType} className="self-start" />
         <h1
@@ -75,11 +76,11 @@ export default function ProductHeroMobileV3({
         >
           {content.name}
         </h1>
-        <HeroStrapline formulaId={formulaId} />
         <HeroRating />
         <HeroGiftValue
           formulaId={formulaId}
           selectedCadence={selectedCadence}
+          className="self-start"
         />
       </div>
 
@@ -93,10 +94,9 @@ export default function ProductHeroMobileV3({
         hideArrows
       />
 
-      {/* Description + check grid, between the gallery and the picker, the way
-          the reference runs it: the case is made before the plan is chosen.
-          The subline that used to open this block now opens the hero
-          (SCRUM-1334). */}
+      {/* Subline + description + check grid, between the gallery and the
+          picker, the way the reference runs it: the case is made before the
+          plan is chosen. */}
       <IngredientBenefitLede formulaId={formulaId} />
 
       {/* Pricing widget + Add to cart + buy-once + subscription box. The pill

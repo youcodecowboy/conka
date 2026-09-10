@@ -4,8 +4,6 @@ import {
   getCadencePricingByProductHeroId,
 } from "@/app/lib/cadenceData";
 import type { CadenceType } from "@/app/lib/cadenceData";
-import { getHeroContent } from "@/app/lib/productHeroHelpers";
-import { LEDE_SUBLINE } from "@/app/lib/mmPdpData";
 import type { ProductHeroId } from "@/app/lib/productTypes";
 
 /**
@@ -19,50 +17,17 @@ import type { ProductHeroId } from "@/app/lib/productTypes";
 type SpecProductType = "flow" | "clear" | "both";
 
 /**
- * The benefit line, directly under the h1 (SCRUM-1334).
- *
- * It replaces the spec pill that used to sit here ("0MG CAFFEINE | MORNING
- * RITUAL"), which spent the most valuable row on the page on facts a buyer
- * does not weigh. Nothing was lost in the swap: "0mg caffeine" is already the
- * first item in the hero's check grid, and the timing half is carried by the
- * strapline itself ("The Daily **Morning** Brain Shot", "The **Afternoon**
- * Brain Shot", "The Complete Daily Brain Shot **System**").
- *
- * Same source as the lede below the buy panel used for its h2, which is why
- * that h2 is now gone: with this at the top, it said the same sentence twice
- * within one screen.
- *
- * Deliberately not a heading element. It reads as a descriptor of the h1, and
- * making it an h2 here would leave the mobile hero with a heading level that
- * outranks everything it introduces.
- */
-export function HeroStrapline({
-  formulaId,
-  className = "",
-}: {
-  formulaId: ProductHeroId;
-  className?: string;
-}) {
-  const subline =
-    LEDE_SUBLINE[formulaId] ?? getHeroContent(formulaId).seoHeading ?? "";
-  if (!subline) return null;
-
-  return (
-    <p
-      className={`text-lg font-medium leading-snug text-black ${className}`}
-      style={{ letterSpacing: "-0.01em" }}
-    >
-      {subline}
-    </p>
-  );
-}
-
-/**
- * The starter-kit offer, summarised above the gallery (SCRUM-1334).
+ * The starter-kit offer, above the gallery (SCRUM-1334, restyled SCRUM-1336).
  *
  * The full stack of tiles still lives in the buy panel (GiftValueStack); this
  * is the one-line version of it, placed where a cold visitor sees it before
  * they reach the price rather than after.
+ *
+ * A filled pill rather than a sentence. As body text it read as fine print and
+ * was the easiest thing on the first screen to skip, which is the opposite of
+ * what the strongest offer we have should do. The reference PDPs both carry
+ * their offer as a solid badge sitting on the price, so this matches that
+ * weight.
  *
  * Renders nothing when the selected cadence gives nothing away, which is every
  * one-time cadence: offerData attaches the starter pack to subscriptions only.
@@ -83,13 +48,21 @@ export function HeroGiftValue({
   if (giftValue <= 0) return null;
 
   return (
-    <p className={`text-sm font-medium text-black ${className}`}>
-      Free starter kit worth{" "}
-      <span className="font-bold" style={{ color: "var(--brand-positive)" }}>
-        {formatPrice(giftValue)}
-      </span>{" "}
-      on your first box
-    </p>
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[13px] font-bold uppercase leading-none tracking-[0.02em] text-white ${className}`}
+      style={{ background: "var(--brand-positive)" }}
+    >
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" aria-hidden>
+        <path
+          d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      Free starter kit worth {formatPrice(giftValue)}
+    </span>
   );
 }
 

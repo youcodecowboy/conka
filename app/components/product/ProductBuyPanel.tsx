@@ -230,6 +230,19 @@ function FlatPlanCard({
         </span>
       )}
 
+      {/* Discount badge, on the top-right border rather than inline in the
+          price row (SCRUM-1336). Inline it competed with the strike and the
+          price for the same eye line and made the row read as three numbers;
+          out here it is the card's headline claim and can carry real size. */}
+      {savePct > 0 && (
+        <span
+          className="absolute right-3 top-0 z-20 -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[12px] font-bold uppercase leading-none tracking-wide text-white sm:right-4"
+          style={{ backgroundColor: saveColor }}
+        >
+          {savePct}% off
+        </span>
+      )}
+
       {/* Full-card select target sitting behind the (pointer-events-none) content. */}
       <button
         type="button"
@@ -239,8 +252,9 @@ function FlatPlanCard({
       />
 
       <div className="pointer-events-none relative z-10 px-3 py-3 sm:px-4">
-        {/* Top row: radio + shots/cadence ..... discount pill + strike + price.
-            Kept compact so nothing truncates in the narrow buy column. */}
+        {/* Top row: radio + shots/cadence ..... strike + price. The discount
+            pill used to sit in here and now rides the top-right border, which
+            leaves this row as one clean price comparison. */}
         <div className="flex items-center justify-between gap-2">
           <span className="flex items-center gap-2">
             <span
@@ -261,14 +275,6 @@ function FlatPlanCard({
           </span>
 
           <span className="flex shrink-0 items-center gap-1.5">
-            {savePct > 0 && (
-              <span
-                className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase text-white"
-                style={{ backgroundColor: saveColor }}
-              >
-                {savePct}% off
-              </span>
-            )}
             <span className="flex items-baseline gap-1 leading-none">
               {compareAtDisplay && (
                 <s className="text-[11px] font-bold text-black/40">
