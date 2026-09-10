@@ -1,5 +1,9 @@
 # PDP carousel slides
 
+**The general technique is documented in
+[`docs/development/IMAGE_ASSET_PIPELINE.md`](../../docs/development/IMAGE_ASSET_PIPELINE.md).**
+This file covers only what is specific to this set.
+
 Source for the Flow PDP carousel assets. **Not shipped** — nothing under `app/`
 imports this directory; it is design source that renders *into* `public/`.
 
