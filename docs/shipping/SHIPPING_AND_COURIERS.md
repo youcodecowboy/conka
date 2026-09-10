@@ -227,10 +227,15 @@ Synergy's portal has no view of the agreed method list; this table is the record
 Sale are a per-method menu choice (DAP or DDP) that Synergy can change on request.
 
 ⚠️ The `DAP` terms of sale are the direct cause of the Sept 2026 France surprise-charge
-problem. Plan of record is to flip **`Express International DHL` to `DDP`** and route EU (and
-later US) traffic to it, leaving the Evri row on DAP. Because DHL is already a separate
-method, this needs no new rate name. See
+problem. Plan of record: add a new `European Delivery` method (DHL Economy Select road, DDP)
+for the EU, flip **`Express International DHL` to `DDP`** for the rest of the world, and
+**retire the Evri `Express International` row entirely**. Terms of sale stay **hard-coded
+per method** on Synergy's side rather than read off the Shopify order. Synergy confirmed the
+road service and the new method name on 10 Sept 2026. See
 `docs/development/featurePlans/international-duties-and-ddp.md`.
+
+**Royal Mail International is not available** through Synergy: labels have been failing
+since the July 2026 data-format change and Royal Mail have not resolved it.
 
 **Test observation (2026-06-17):** all 3 Synergy test orders shipped back via **Evri
 (EVRICORP tracking)**, including the `24 Hour Delivery` order that is mapped to DPD —

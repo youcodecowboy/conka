@@ -1,8 +1,9 @@
 # International Duties, DDP and the Move to DHL
 
-**Status:** DECIDED, awaiting Synergy. The commercial direction is settled; execution is
-blocked on three answers from Synergy (§ Open questions), requested 8 Sept 2026.
-**Created:** 2026-09-07 · **Updated:** 2026-09-08
+**Status:** DECIDED and unblocked. Synergy replied 10 Sept 2026: road is available, Royal
+Mail is out, importer of record treated as settled. One decision left for us (hard-coded
+incoterms) before they build. See § Synergy's answers.
+**Created:** 2026-09-07 · **Updated:** 2026-09-10
 **Owner:** Rudh (Shopify config + Synergy liaison), Humphrey (commercial call, Synergy
 relationship)
 **Trigger:** French customers billed a surprise import charge at the door, Sept 2026.
@@ -36,6 +37,81 @@ international orders stop being possible, which is deliberate: they cannot carry
 Road and air are an internal routing detail. A customer only ever sees the option for their
 own destination, so there is nothing to differentiate at checkout. The two need distinct
 **rate names** only because Synergy routes on the name.
+
+---
+
+## Synergy's answers, 10 September 2026
+
+Georgina Anderson-Marshall replied to the 8 Sept email. **Nothing in it blocks the switch.**
+Road is available, Royal Mail is out, and the one item that genuinely needs a decision from
+us is how the incoterm reaches their system.
+
+Synergy already ship DDP for other clients on this DHL account. Most of what we asked is
+their domain and theirs to run. The notes below record what we assume for pricing, not a
+list of things to press them on.
+
+### Available and agreed
+
+- **DHL Economy Select (road) — yes.** Needs a unique dispatch method name, which
+  `European Delivery` provides. They will map that name to the Road service.
+- **Royal Mail International — not available.** Labels have failed since the July 2026
+  data-format change and Royal Mail have not resolved it. Closed, do not revisit.
+- **Evri DDP — offered unprompted as a cheaper alternative to DHL.** Worth a price, below.
+
+### Importer of record — proceed
+
+Synergy do not set it, DHL do. She checked a live DDP shipment for another client: the
+**receiver is the customer's address on both the label and the commercial invoice**, with no
+importer of record named anywhere. DHL's own product description says the same thing, that
+Duty Tax Paid arranges for the shipper to be *billed* "rather than the receiver of the
+shipment being billed". A billing arrangement, not a change of declarant.
+
+That is how express DDP normally works. If it were otherwise, every UK merchant shipping DDP
+into the EU would need a French VAT registration. **Treat it as settled and proceed.** This
+was written up as a go/no-go; it is really a watch item. Volume is four to five French
+customers, so if the first shipment says otherwise we revert to DAP having lost nothing. The
+§ Why not French VAT registration position stands: we will not register.
+
+### What we assume for pricing
+
+Exact figures are not needed to set a checkout price. A conservative all-in cost now, then
+two or three real Synergy invoices replace it.
+
+| | Assumption | Basis |
+|---|---|---|
+| **DTP fee** | **£16 per international parcel** | DHL UK Service & Rate Guide 2026: Duty Tax Paid is 2% of fiscal charges, minimum £16.00, and at our order values 2% never clears the floor. Georgina has not seen it on recent invoices, which may mean Synergy's contract absorbs it. Budget for it; if it never appears we are £16 a parcel better off |
+| **Fuel surcharge** | **~20%, on freight and on the DTP fee** | DHL set it monthly on two indices, jet fuel for Express Air and diesel for Economy Select road, applied to transportation charges *and* to services and surcharges. Whether our card's freight figures are already fuel-inclusive is unclear, so assume they are not |
+
+Neither changes the decision. On a ~£100 landed cost, being five points out on fuel is £2.
+
+### The one decision that is ours — incoterm mapping
+
+Synergy raised something we had not: how terms of sale reach their system. Two mutually
+exclusive routes, and they will not mix them.
+
+| | How it works | Cost |
+|---|---|---|
+| **A. Hard-code per dispatch method** | `European Delivery` → DDP, `Express International DHL` → DDP, fixed in their mapping. A Shopify-supplied incoterm would be overridden | Free, same mechanism as the existing name-based routing |
+| **B. Read the incoterm off each Shopify order** | We tell them which Shopify field holds it, they map it to a JDA field and run a test order | **Chargeable at the bespoke project rate** |
+
+**Take A**, and this one is genuinely ours to answer because only we know the Shopify side.
+Shopify carries no per-order incoterm unless duties are collected at checkout, which needs
+either Managed Markets (rejected, § Options considered G) or Shopify's collect-duties feature
+(deliberately off, § HS codes). Under route B there would be nothing in the payload to read.
+Our map is also 1:1 and static: four methods, one terms of sale each.
+
+### Still outstanding
+
+**The declared customs value.** Not addressed, for the second time. Georgina confirmed the
+figure comes from our system but has not said which field, and it is over-declaring live
+orders (£199.95 on an order sold at £140). Their integration reading our data, so they can
+answer it. Blocks Phase 0 step 1.
+
+**An Evri DDP price for Europe.** The money is real: Europe at 6 boxes is ~£46 on DHL Road
+against ~£15 to £26 on Evri. The likely catch is that Evri's EU DDP is their **IOSS**
+service, VAT only and under €150, which would leave the €3 duty and France's €2 at the door
+(option D, already rejected). Ask for the price and whether it covers duty. Do not wait for
+it, and note Evri failed to produce the label for the France order that started this.
 
 ---
 
@@ -135,7 +211,7 @@ EU volume is roughly 4-5 customers in France. That number drives the decision.
 |---|---|
 | **A. Status quo (DAP), fix data only** | **No.** Customer still gets a doorstep bill, just a smaller and correct one. The data fixes happen regardless |
 | **B. DHL DDP (road EU, air ROW)** | **CHOSEN.** One mechanism at any order value, no threshold, no ongoing admin, no provider to integrate. Expensive, which the minimum order size answers |
-| **C. Evri DDP** | **Not available.** Evri's DDP to the EU is an **IOSS** service, and their public guidance states DDP is USA-only with everything else DAP. Synergy's Evri card lists a `DDP Courier` line for EU countries, which contradicts that and was never resolved. Not built on |
+| **C. Evri DDP** | **Not available.** Evri's DDP to the EU is an **IOSS** service, and their public guidance states DDP is USA-only with everything else DAP. Synergy's Evri card lists a `DDP Courier` line for EU countries, which contradicts that and was never resolved. Synergy volunteered it again on 10 Sept 2026 as a cheaper alternative; one precise question outstanding (§ Synergy's answers 6). Not built on |
 | **D. Evri + pay-as-you-go IOSS** | **No.** Cheaper per parcel (~£2 vs a ~£14 DTP fee) but only covers orders **under €150**, so a second DDP arrangement is still needed for the larger half. Adds a provider integration, per-order admin, and destination VAT rates we would be liable for |
 | **E. Full IOSS registration** | **No.** ~£1,500-4,000/yr plus per-return fees, an EU intermediary jointly liable, monthly returns forever. Break-even is roughly 250 EU orders/yr |
 | **F. Offer DAP and DDP side by side at checkout** | **No.** Rejected on customer experience: price-sensitive customers pick the cheap option without understanding the consequence, and a label at checkout does not fix that. "We warned you in small text" is a bad outcome |
@@ -191,10 +267,30 @@ Two useful shapes: DHL **Road is flat to 10kg**, so Europe's 1, 2 and 3 box cost
 which rewards larger baskets. And Air improves relatively at 6 boxes, where Canada, NZ and
 South Africa already over-recover.
 
-**Not yet known, and needed before repricing:** the DHL fuel surcharge (a percentage on
-freight, changes monthly, ballpark 15-25%) and the **DTP fee** (DHL's admin charge for
-fronting the duty and VAT; published benchmark ~2% with a ~€16.50 minimum, so effectively a
-flat ~£14 at our order values). Neither is in the rate card.
+**On top of every figure above.** The **DTP fee** is now known from DHL's UK Service &
+Rate Guide 2026: **2% of fiscal charges, minimum £16.00**. At our order values 2% never
+clears the floor, so treat it as a flat **£16 per international parcel**. The **fuel
+surcharge** is still unknown: set monthly on two separate indices (jet fuel for Express
+Air, diesel for Economy Select road) and applied to the freight *and* to the DTP fee.
+Whether our card's figures are already fuel-inclusive is the open question
+(§ Synergy's answers 3).
+
+**Worked example, Europe 3 boxes, with fuel as the only unknown:**
+
+| | £ |
+|---|---|
+| DHL Road freight | 42.24 |
+| Fuel on freight, illustrative 20% | 8.45 |
+| DTP fee (the £16 floor) | 16.00 |
+| Fuel on DTP, same rate | 3.20 |
+| EU flat duty €3 + France parcel tax €2 (sub-€150, H7) | 4.30 |
+| French VAT 20% on goods £119.97 + shipping £26 | 29.20 |
+| **Landed cost to us** | **~103** |
+
+Against **£26 charged today**. Even with fuel at zero it is ~£91. Note the feedback loop:
+VAT is charged on the shipping the customer paid, so raising the shipping price raises the
+VAT base with it and recovery is not linear. **This arithmetic is what forces the minimum
+order size**, and it is worse than the plan assumed when it was written.
 
 **Volumetric weight** is the higher of actual and (L×W×H cm ÷ 5000). Box dimensions have not
 been checked, so every band above is optimistic if the cartons are bulky.
@@ -221,6 +317,12 @@ Express International DHL | DHL     | Express (Air)  | ROW    | DDP
 Three changes: **add** `European Delivery`; **change** `Express International DHL` from DAP
 to DDP (name kept, so no rename risk); **retire** `Express International` (Evri).
 
+**Terms of sale are hard-coded per method, not read off the order.** Synergy will either
+hard-code an incoterm against each dispatch method or pull one from Shopify on every order,
+never a mix. We take the hard-code: Shopify carries no incoterm field unless duties are
+collected at checkout, which we are not doing, and our map is 1:1 and static. Reasoning in
+§ Synergy's answers 4.
+
 `Express International DHL` has existed since 5 Aug 2026 (DHL Air, DAP, ROW), set up after
 Evri failed to produce a label for a France order (`13234918031734`), which went back to
 stock through returns. Synergy's portal has no view of the agreed method list; this table and
@@ -241,9 +343,12 @@ Channel Islands (£4.99, Evri) is UK-adjacent and out of scope.
    Shopify app has no `read_orders` scope, so this has to come from the admin UI or a new
    token.**
 
-### Phase 1 — Ask Synergy (email sent 8 Sept 2026)
+### Phase 1 — Synergy (asked 8 Sept, replied 10 Sept 2026)
 
-See § Open questions.
+Road confirmed, Royal Mail closed, importer of record treated as settled. The only thing
+Synergy need from us before they build the three method changes is confirmation of the
+hard-coded incoterms. The declared-value field and an Evri price follow in parallel.
+**Phase 4 is no longer gated on Synergy.** See § Synergy's answers.
 
 ### Phase 2 — Our own admin, runs in parallel
 
@@ -367,23 +472,20 @@ perverse.
 
 ## Open questions
 
-**Synergy (Georgina Anderson-Marshall / Bethany Waugh) — emailed 8 Sept 2026:**
+**Synergy — asked 8 Sept, replied 10 Sept 2026.** Road confirmed, Royal Mail closed,
+importer of record treated as settled (§ Synergy's answers). Left to run:
 
-1. **Under DDP, does the customer remain importer of record**, with DHL paying on their
-   behalf and billing us? We will not register for French VAT. **This decides whether we
-   proceed.**
-2. Can **DHL Economy Select (road)** be added to the account for European destinations? We
-   are only on Air.
-3. What are the **DHL fuel surcharge** and the **DTP fee**? Neither is in the rate card and
-   both are needed to reprice.
-4. **Which field** are Synergy reading for the declared customs value? Georgina confirmed it
-   is pulled from our system, so the fix may be ours.
+1. **Which field** drives the declared customs value. Third time of asking, and it is
+   over-declaring live orders.
+2. An **Evri DDP price for Europe**, and whether it covers duty as well as VAT.
+3. For us to confirm to them so they can build: **hard-coded incoterms**, both DHL methods
+   to DDP, no Shopify field, no bespoke project fee.
 
-**Not yet asked, worth adding:**
+Worth adding while the thread is open, neither urgent:
 
-5. Why did the Evri label for order `13234918031734` fail, and how often does that happen?
-6. Are Synergy filing **FDA Prior Notice** on US shipments, and do they hold our
-   manufacturer's FDA registration number? (Phase 5, but cheap to ask now.)
+4. Why did the Evri label for order `13234918031734` fail, and how often does that happen?
+5. Are Synergy filing **FDA Prior Notice** on US shipments, and do they hold our
+   manufacturer's FDA registration number? (Phase 5.)
 
 **CONKA:**
 
@@ -415,8 +517,23 @@ Every regulatory claim above was checked against primary and trade sources. All 
   exempt, facility registration number required. Confirmed.
 - Transaction value is the legal customs value. Confirmed.
 
-**Not verified:** the importer-of-record position under DHL DDP, the DTP and fuel surcharge
-figures, the current UK-US tariff rate, and our box dimensions for volumetric weight.
+Added 10 Sept 2026, from DHL's **UK Service & Rate Guide 2026** and Synergy's own rate card:
+
+- **Duty Tax Paid: 2% of fiscal charges, minimum £16.00.** Published under Duty Billing
+  Services. Distinct from Duty Tax Processing (2.5%, min £12.00 / £11.00), which is the
+  receiver-pays product and not what DDP uses.
+- DHL describes Duty Tax Paid as arranging for the shipper to be **billed** rather than the
+  receiver, with no mention of moving the declarant. Supporting evidence on importer of
+  record, not proof.
+- Fuel is set **monthly**, on the prior month's USGC spot average, on **two indices**: jet
+  fuel for International Time Definite (Express Air), ULSD diesel for Regional Day Definite
+  (Economy Select). It applies to transportation charges **and to services and surcharges**.
+- **Volumetric divisor 5000**, confirmed on the `DHL Surcharges` tab of Synergy's card. That
+  tab carries no fuel percentage, only the divisor and a link to DHL's public page.
+
+**Not verified:** the importer-of-record position under DHL DDP, the current fuel surcharge
+percentages, whether our card's freight figures are fuel-inclusive, the current UK-US tariff
+rate, and our box dimensions for volumetric weight.
 
 ---
 
@@ -436,6 +553,8 @@ Primary:
 - [Evri — EU customs update 2026](https://www.evri.com/news/eu-customs-update-2026)
 - [Evri — international shipping FAQs](https://www.evri.com/evri-international-faqs) (DDP is USA-only)
 - [DHL Express — Duty Tax Paid billing services](https://www.dhl.de/en/geschaeftskunden/express/produkte-und-services/duty-billing-services.html)
+- [DHL Express Service & Rate Guide 2026: United Kingdom](https://mydhl.express.dhl/content/dam/downloads/gb/en/rate-guide/service_and_rate_guide_gb_en.pdf.coredownload.pdf) (the DTP figure, the fuel-index mechanism)
+- `docs/shipping/Conka Elite Limited - DHL Air and Road Rates 2026 (1).xlsx`, `DHL Surcharges` tab
 
 Secondary, flagged as such:
 
