@@ -28,7 +28,11 @@ Three events, all keyed `{ slug, section }` (the two-property budget — see `ap
 | `listicle:cta_clicked` | CTA click (all CTAs route to a PDP) | **Conversion proxy** — every click is a PDP hand-off |
 | `listicle:interaction` | Symptom picked / segment toggled | **Active-intent** — self-identification, added 2026-07-27 |
 
-`section` values: body blocks are `<kind>_<index>` (e.g. `reason_3`, `symptomExplainer_0`); fixed zones are `hero` / `bridge` / `sticky` / `product`; interaction choices fold into `section` as `symptom_<label>` / `segment_<label>`.
+`section` values: body blocks are `<kind>_<index>` (e.g. `reason_3`, `symptomExplainer_0`); fixed zones are `hero` / `proofWall` / `reasonsHeader` / `bridge` / `sticky` / `product`; interaction choices fold into `section` as `symptom_<label>` / `segment_<label>`.
+
+`proofWall` and `reasonsHeader` are new in SCRUM-1321: the partner logo band moved from above the buy box to directly under the hero, and the reasons block gained an eyebrow plus "N Reasons ..." title. Both are fixed zones, not `body` entries, so no existing block id was rebased and the scroll funnel reads continuously across the change.
+
+**Timeline note, 8 Sept 2026 (SCRUM-1320 / 1321), not yet deployed.** All three heroes were rebuilt as a soft educational preframe: outcome headline in place of the "N reasons" title, the green "+1 week free" pill dropped so the CTA is the only offer surface, the rating moved below the CTA, copy above the asset on mobile, and new person-with-product photography on ADHD and Productivity. The navy proof ticker was removed. Read `hero` CTA rate and first-section retention against this date, not across it. Annotate the chart here when it goes live.
 
 **Why CTA-click is the conversion signal (baseline):** every listicle CTA links to a PDP, so a click is the furthest-down-funnel action we could attribute to a persona. This holds for the 24–27 Jul baseline snapshot below.
 
@@ -571,3 +575,35 @@ ADHD now leads with the hero (210 vs 180 sticky); Productivity still closes on t
 ### Artifact
 
 Dashboard rebuilt around marginal CPA (verdict, KPI row, cost-per-purchase chart vs £100 target, CPA decomposition, confound panel, actions). Same URL <https://claude.ai/code/artifact/b69a0128-2f0f-4078-a91f-b58d5f8196c4>.
+
+---
+
+## Changes since the 2026-08-21 pull (no data pulled)
+
+**Not a snapshot.** No analytics were pulled for this entry. It records two deploys that
+land between the 21 Aug pull and whatever the next one is, so that pull can read its trend
+lines against the right baselines instead of reconstructing them from git.
+
+### Timeline additions
+
+`8 Sept` listicle first-half rebuild shipped (PR #479, SCRUM-1320/1321/1322): hero
+restructured so copy sits above the asset on mobile, the partner logo band moved from above
+the buy box to directly under the hero, and the sticky bar rebuilt to lead with the quarterly
+per-shot price and gift value — **resets the baseline** · `9 Sept` all three heroes swapped to
+real product shots in a taller top-anchored square frame, and the hero discount claim
+corrected from a hardcoded 46% to the live 48% quarterly figure (PR #480, SCRUM-1323/1324) —
+**an offer-claim change, so read it before the photography if conversion moves**.
+
+### Two things the next pull needs to know
+
+**Scroll-depth trends read continuously across both dates.** Neither deploy rebased a
+`section_viewed` id. The 7-reasons-to-5 cut, which would have rebased every id below it, was
+deliberately deferred for exactly that reason and is still unshipped. Nothing changed in the
+`IntersectionObserver` options either, so section-view counts stay comparable to the 21 Aug
+pull.
+
+**The free-week angle is off the hero.** The `2 Aug` and `3 Aug` entries above record a green
+"+1 week of free brain supplements" pill being added to all three heroes to message-match the
+free-week ad creative. The 8 Sept rebuild removed that pill; the equivalent claim survives only
+as the free-shots chip on the sticky bar. Any read of the free-week test should treat 8 Sept as
+its end date on the hero.

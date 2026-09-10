@@ -25,43 +25,38 @@ export const brainAgeingListicle: ListicleConfig = {
       eyebrow: "World's Largest",
       body: "Consumer brain-research project. 1,000+ brains tested through our app.",
     },
-    headline: "7 Reasons Word-Slips Don't Have to Get Worse",
+    // Soft educational preframe (SCRUM-1320). The "7 Reasons..." list promise
+    // moves off the H1; it comes back as the reasons section header in
+    // SCRUM-1321. `title` deliberately keeps it so the tab and the Meta
+    // content_name stay comparable with earlier data.
+    headline: "Discover the natural way to keep your words coming easily.",
     subcopy:
-      "Losing a word mid-sentence is rarely what you fear, more often just fatigue and mental overload in a technology-driven world. You can support the recall pathways behind it before it gets worse. Flow in the morning, Clear in the afternoon.",
+      "Losing a word mid-sentence is rarely what you fear, more often just fatigue and mental overload. CONKA works from within, supporting the recall pathways behind it, before it gets worse.",
     socialProof: {
       label: "Excellent 4.7",
       sub: "622+ reviews · 5,000+ daily users",
     },
-    cta: "Try it risk free, now 46% off",
-    // Message-match for the "first week free" ad angle (Flow's monthly-sub
-    // first-order bonus is 8 shots, ~a week). Green badge above the hero CTA
-    // and compact on the sticky bar.
-    offerBadge: {
-      hero: "+1 week of free brain supplements on your first order",
-      sticky: "+8 free shots",
-    },
-    trustPills: [
-      { label: "Zero caffeine", icon: "no-caffeine" },
-      { label: "Informed Sport Certified", icon: "informed-sport" },
-      { label: "100-day guarantee", icon: "guarantee" },
-    ],
+    // One offer surface, outcome first. The old green "+1 week free" pill sat
+    // directly above this and read as a second, competing offer.
+    cta: "Save {percent}% on a sharper mind",
     asset: {
       kind: "image",
-      src: "/lifestyle/ageing/WorkingWoman.jpg",
-      alt: "A professional woman in her fifties taking a CONKA shot",
-      // Landscape source fills the hero frame; anchor to the top so the crop
-      // takes from the bottom and keeps her face in frame.
-      aspect: "1500/1000",
+      src: "/lifestyle/ageing/BottleBalance.webp",
+      alt: "A woman smiling with a CONKA Flow shot balanced on her head",
+      // Portrait source (928x1152) in the 1:1 hero frame all three personas
+      // share. Anchored top so nothing is lost off the top of the shot and
+      // only the lower fifth is cropped: the square frame shows 81% of the
+      // image against the 54% a 3:2 frame would.
+      aspect: "1/1",
       objectPosition: "center top",
     },
   },
-  ticker: [
-    "ZERO CAFFEINE",
-    "INFORMED SPORT CERTIFIED",
-    "MADE IN THE UK",
-    "100-DAY GUARANTEE",
-    "2-MINUTE BRAIN TEST",
-  ],
+  // Reintroduces the list promise at the point the list starts, now that
+  // the hero H1 is a soft outcome line (SCRUM-1320/1321). Matches `title`.
+  reasonsHeader: {
+    eyebrow: "Brain health at the cellular level",
+    headline: "7 Reasons Word-Slips Don't Have to Get Worse",
+  },
   // Post-reasons proof tier. Four moments, each doing a different job.
   proof: {
     logoBand: true,
@@ -194,7 +189,7 @@ export const brainAgeingListicle: ListicleConfig = {
     },
     {
       kind: "statsBand",
-      eyebrow: "CLINICALLY PROVEN",
+      eyebrow: "Clinically proven, not just claimed",
       stats: [
         { value: "+14.86%", label: "Sharper thinking vs placebo" },
         { value: "+19.3%", label: "Sharper focus in pro athletes" },
@@ -301,9 +296,5 @@ export const brainAgeingListicle: ListicleConfig = {
     "app-optional",
     "guarantee",
   ],
-  stickyBar: {
-    label: "Protect your sharpest asset.",
-    cta: "Get started",
-    sub: "100-day guarantee",
-  },
+  stickyBar: { cta: "Get started" },
 };

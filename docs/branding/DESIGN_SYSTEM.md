@@ -180,7 +180,7 @@ social on a phone. Mobile-first is therefore non-negotiable.
 
 > The evidence-dense grammar. No longer the global default — the forward direction is **Simple DTC** (§8.5). Clinical is retained for science/evidence-dense modules and the `/app` dark pages (§10). Opt-in via `.brand-clinical` on the page root. See the §8.5 per-surface authority table for which language governs which surface.
 >
-> Pages currently carrying `.brand-clinical` (grep-verified 2026-07): `/` · `/science` · `/ingredients` · `/our-story` · `/why-conka` · `/case-studies` · `/conka-flow` · `/conka-clarity` · `/conka-both` · `/faq` · `/professionals` (+ `/order`) · `/blog` (+ `[slug]`, `/page`, `/topic`) · `/app` · `/app-insights`. Note `/start` and `/build-your-order` are NOT clinical — they are Simple DTC (see the §8.5 authority table). The `/account` portal (`/account` + `/login` `/register` `/details` `/orders` `/subscriptions`) dropped the scope in SCRUM-1188 and is now Simple DTC. Home and the PDPs keep the scope only for token inheritance (navy accent + `#f5f5f5` tint) while their visible grammar is Simple DTC; radius on those surfaces is set with Tailwind utilities, not the zeroed `--brand-radius-*` tokens.
+> Pages currently carrying `.brand-clinical` (grep-verified 2026-07): `/` · `/science` · `/ingredients` · `/why-conka` · `/case-studies` · `/conka-flow` · `/conka-clarity` · `/conka-both` · `/faq` · `/professionals` (+ `/order`) · `/blog` (+ `[slug]`, `/page`, `/topic`) · `/app` · `/app-insights`. Note `/start` and `/build-your-order` are NOT clinical — they are Simple DTC (see the §8.5 authority table). The `/account` portal (`/account` + `/login` `/register` `/details` `/orders` `/subscriptions`) dropped the scope in SCRUM-1188 and is now Simple DTC. `/our-story` dropped the scope in SCRUM-1326 and is now Simple DTC. Home and the PDPs keep the scope only for token inheritance (navy accent + `#f5f5f5` tint) while their visible grammar is Simple DTC; radius on those surfaces is set with Tailwind utilities, not the zeroed `--brand-radius-*` tokens.
 >
 > **The clinical grammar (zero radii, hairline borders, mono labels, eyebrow + heading + sub-line, no shadows, no gradients, navy as interactive-only) applies in both light and dark themes.** This section documents the canonical light-theme palette (black-on-white). Section 10 documents the dark-theme palette (white-opacity on `#0a0a0a`) used by `/app` and `/app-insights`. Both inherit the same structural grammar; only the colour layer flips.
 >
@@ -428,6 +428,7 @@ The consumer PDP hero (`ProductHeroV3` on `/conka-flow`) runs a larger, bolder h
 | Element | Treatment |
 |---------|-----------|
 | Product name (hero H1) | `brand-h1` bumped to `lg:text-[3.25rem]`, `leading-none` |
+| Landing hero H1 (`/go` im8 listicles) | inline `fontSize: clamp(2.5rem, 8vw, 3.5rem)`, `lineHeight: 1.05` - a fluid variant of the tier, since a paid-social hero has to hold the whole hierarchy at 390px with no eyebrow above it |
 | Keyword subline | `text-[2.25rem]` `leading-tight`, lead clause `font-bold` + tail `font-medium text-black/75` |
 | Outcome-group titles | `text-3xl font-bold`, no italics (larger and bolder than `brand-h3`) |
 | Sub-section headings (Ingredients / Who is it for / Try risk free) | `text-2xl font-bold` |
@@ -456,18 +457,53 @@ Reference implementations to copy from: the cart drawer, home (`app/page.tsx`), 
 
 `ConkaCTAButton`'s `meta` prop renders a mono-uppercase second line — a clinical tell. On Simple DTC surfaces, **pass `meta={null}`** so the button is a clean rounded CTA with no mono sub-line. The component's mono meta styling is a to-be-simplified holdover; it is documented here as deprecated for DTC surfaces (no component change was made in the formalization ticket, SCRUM-1172).
 
+### Full-bleed split band (the documented §6 exception)
+
+Some editorial surfaces need an image that reaches the **viewport edge** and runs the **full height of its band**, with copy filling the other half. This is the Cadence / Gray Matter about-page grammar. `/our-story` uses it for its hero and its four chapters (SCRUM-1326).
+
+Such a band cannot live inside `.brand-section`'s gutters or `.brand-track`'s max-width, so it is the one sanctioned exception to the page-orchestrates rule in §6:
+
+- The page gives it a **bare `<section>` carrying only a background class and an `aria-label`**. No `brand-section`, no `brand-track`.
+- The **component owns its own layout**: a `grid-cols-1 lg:grid-cols-2`, the image side with no padding at all, the copy side padding itself.
+- The copy side pads its **outer** edge with `--brand-track-inset` so its text still lines up with every tracked section on the page, and its **inner** edge (against the image) with a plain gutter.
+- Mobile stacks image first, then copy. Because the section has no padding, the image is naturally full bleed and flush to the section top: no negative-margin cancellation needed.
+
+```tsx
+// page: background and label only
+<section className="brand-bg-tint" aria-label={chapter.heading}>
+  <StorySection chapter={chapter} />
+</section>
+
+// component: owns the split
+<div className="grid grid-cols-1 lg:grid-cols-2 lg:min-h-[34rem]">
+  <div className="relative aspect-[4/3] lg:aspect-auto bg-black/5 lg:order-1">
+    <Image fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+  </div>
+  <div className="flex flex-col justify-center px-5 py-14 lg:py-20
+                  lg:order-2 lg:pl-12 xl:pl-16 lg:pr-[var(--brand-track-inset)]">
+    ...
+  </div>
+</div>
+```
+
+**`--brand-track-inset`** (Layer 1, `brand-base.css`) is the distance from the viewport edge to where `.brand-track` content begins: `max(--brand-gutter-desktop, (100vw - --brand-max-width) / 2)`. It exists solely for this pattern. It uses `100vw`, so it sits half a scrollbar width off `.brand-track`'s percentage-based centring; that is a few pixels and not perceivable.
+
+**Do not reach for this by default.** An ordinary section inside `.brand-section` + `.brand-track` is still the rule (§6). Use the split band only when the image genuinely has to touch the viewport edge, and keep every other section on the page tracked as normal.
+
 ### Per-surface authority
 
 Simple DTC is added **alongside** Clinical (§8) and App-Dark (§10), not as a global replacement. Default split (adjust as surfaces convert):
 
 | Surface group | Language |
 |---------------|----------|
-| Cart / nav; home; PDP acquisition (`/conka-flow`, `/conka-clarity`, `/conka-both`); landing / funnel / `/go`; top-of-funnel `/professionals`; the logged-in customer portal (`/account/*`, `/login`, `/register`) | **Simple DTC** |
+| Cart / nav; home; PDP acquisition (`/conka-flow`, `/conka-clarity`, `/conka-both`); landing / funnel / `/go`; top-of-funnel `/professionals`; the logged-in customer portal (`/account/*`, `/login`, `/register`); `/our-story` | **Simple DTC** |
 | Science / evidence-dense modules (`/science`) | **Clinical** (§8) — mono + density earn their place on dense data |
 | `/app`, `/app-insights` dark pages | **App-Dark** (§10) — clinical grammar on a dark canvas |
 | B2B order/management UIs | Clinical for now (mono data labels aid scanning); convert opportunistically |
 
-Both `/go` listicle renderers are now Simple DTC: `SimpleListicleRenderer` (`mm`) and, as of SCRUM-1189, `ListicleRenderer` (`im8`). The im8 conversion moved its chrome and its ~15 shared `components/landing/*` graphics to the DTC grammar (white canvas, black/navy headings, tokenised navy/tint, DTC radius); graphics shared with other live landers (`CrashChart`, `LaurelBadge`) took an opt-in `variant="dtc"` so their default path (`/lander`, `/start`, home, PDPs) is unchanged. One deliberate im8 exception: the numbered reason titles are navy (`--brand-navy`), not black.
+Both `/go` listicle renderers are now Simple DTC: `SimpleListicleRenderer` (`mm`) and, as of SCRUM-1189, `ListicleRenderer` (`im8`). The im8 conversion moved its chrome and its ~15 shared `components/landing/*` graphics to the DTC grammar (white canvas, black/navy headings, tokenised navy/tint, DTC radius); graphics shared with other live landers (`CrashChart`, `LaurelBadge`) took an opt-in `variant="dtc"` so their default path (`/lander`, `/start`, home, PDPs) is unchanged.
+
+> The im8 template used to carry one deliberate exception here: its numbered reason titles were navy (`--brand-navy`) rather than solid black. **That exception was retired on 2026-09-08.** Reason titles are now solid black like every other heading, and the counter moved out of the title to sit above it as a quiet `text-black/40` eyebrow, so the number reads as a list marker rather than as the first word of the sentence. There is no longer an im8 heading exception; navy on these pages is interactive and decorative only.
 
 ### Programme + learnings
 

@@ -5,7 +5,7 @@
  * shape so a config only ever carries the fields its template renders:
  *
  *   template: "im8" -> ListicleRenderer. The dense layout: a product-image
- *     hero, a proof ticker, and a plug-and-play library of section blocks
+ *     hero, a partner logo band, and a plug-and-play library of section blocks
  *     (data-viz reason panels, stat bands, review strips, bespoke explainers).
  *
  *   template: "mm"  -> SimpleListicleRenderer. The Magic Mind editorial layout:
@@ -73,7 +73,18 @@ export type ListicleAsset =
   /** Silent autoplay loop (no controls), the IM8 reason-video pattern.
    *  fit "contain" centres the clip in a full-width black tile (for product
    *  renders); default "cover" keeps the inset 4/5 frame (for texture loops). */
-  | { kind: "video"; src: string; aspect?: string; fit?: "cover" | "contain" }
+  | {
+      kind: "video";
+      src: string;
+      /**
+       * Accessible name for the clip. Omit when it adds nothing the reason's
+       * own copy does not already say: the renderer then marks it decorative
+       * rather than leaving an unlabelled media element for a screen reader.
+       */
+      alt?: string;
+      aspect?: string;
+      fit?: "cover" | "contain";
+    }
   /** "Skip the 2pm crash" curve + cost table (CrashChart). Figures default
    *  from landingPricing; override per page. */
   | {
@@ -128,15 +139,6 @@ export type ListicleAsset =
 /** A plain photo asset (the only asset a "mm" reason uses). */
 export type ListicleImageAsset = Extract<ListicleAsset, { kind: "image" }>;
 
-/** Icon keys for the under-CTA trust chips; mapped to SVGs in the renderer */
-export type TrustPillIcon =
-  | "no-caffeine"
-  | "informed-sport"
-  | "guarantee"
-  | "shipping"
-  | "batch-tested"
-  | "cancel";
-
 export interface ListicleReview {
   /** Bold one-liner above the quote */
   headline?: string;
@@ -172,7 +174,17 @@ export type ListicleBodyBlock =
     }
   | {
       kind: "statsBand";
+      /**
+       * Card title. Still called `eyebrow` for the configs that already set
+       * it, but since the band was restyled to the /lander proof card it
+       * renders as a large bold h3, not a small uppercase marker. Write it in
+       * sentence case; ALL CAPS at this size shouts.
+       */
       eyebrow: string;
+      /**
+       * Two per row on mobile. An odd count is fine: the last stat spans the
+       * full width rather than leaving a hole in the grid.
+       */
       stats: { value: string; label: string }[];
       footnote?: string;
     }
@@ -294,8 +306,14 @@ interface ListicleBase {
    * fails the build. The `/go` surface is noindex and strips claim anchors.
    */
   faqIds: string[];
-  /** Fixed bottom bar anchoring to #product */
-  stickyBar?: { label: string; cta: string; sub?: string };
+  /**
+   * Fixed bottom bar. Only the CTA label is configurable: since SCRUM-1322 the
+   * bar states the per-shot price (from `landingPricing.ts`, keyed off
+   * `product.productHeroId`) and the hero's rating, so a page cannot hold a
+   * second, drifting copy of either. The old `label` and `sub` are gone rather
+   * than left populated and unread.
+   */
+  stickyBar?: { cta: string };
 }
 
 /** IM8 template: dense layout, product-image hero, section-block library. */
@@ -306,22 +324,32 @@ export interface Im8ListicleConfig extends ListicleBase {
     laurel?: { eyebrow: string; body: string };
     headline: string;
     subcopy: string;
-    /** Avatar + star micro-row (LandingHero pattern) */
+    /** Avatar + star micro-row (the home hero's TrustMicroRow pattern) */
     socialProof?: { label: string; sub: string };
-    /** Primary CTA; anchors to #product */
-    cta: string;
     /**
-     * Free-offer copy (message-match for "first week free" ad angles).
-     * `hero` is the full green badge above the hero CTA (centred on mobile);
-     * `sticky` is the short sub-line under the sticky-bar CTA. Omit for no badge.
+     * Primary CTA; anchors to #product.
+     *
+     * `{percent}` resolves at render to the live quarterly discount for this
+     * page's `productHeroId`, straight out of `offerData`, so the hero and the
+     * sticky bar quote the same cadence and neither can drift from what we
+     * actually charge. Same token and same rule as `ProductGridHeader`: the
+     * token is the bare number and the copy owns the "%", so this reads
+     * `"Save {percent}% on a calmer mind"`. Never write the percentage as a
+     * literal (SCRUM-1323). A CTA without the token renders unchanged.
      */
-    offerBadge?: { hero: string; sticky: string };
-    /** Trust chips under the CTA; each gets its own icon */
-    trustPills?: { label: string; icon: TrustPillIcon }[];
+    cta: string;
     asset: ListicleAsset;
   };
-  /** Marquee proof ticker below the hero */
-  ticker?: string[];
+  /**
+   * Eyebrow + title introducing the reasons block (SCRUM-1321). Carries the
+   * "N Reasons ..." list promise that SCRUM-1320 took off the hero H1, so the
+   * list still announces itself, just at the point the list actually starts.
+   *
+   * A fixed renderer zone, deliberately NOT a `body` entry: `section` ids are
+   * indexed over `body`, so adding a block here would rebase every id below it
+   * and void the scroll-funnel history. Tracked as `reasonsHeader`.
+   */
+  reasonsHeader?: { eyebrow: string; headline: string };
   /** Reasons with bands / strips woven between */
   body: ListicleBodyBlock[];
   /** Dark CTA card bridging the last reason into the product zone */

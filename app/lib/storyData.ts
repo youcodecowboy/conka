@@ -1,147 +1,99 @@
-// Our Story — six chapter beats.
+// Our Story — the V1 narrative.
 //
-// Source of truth for the narrative: docs/branding/BRAND_STORY_FOUNDATION.pdf
-// (founder facts, arc) merged with the strongest specifics from the previous
-// 10-section version (Durham professors, extraction method, trial results,
-// team list). Each chapter carries at most 2 sentences of prose; a pull
-// quote or a stat block does the rest of the work.
-
-import { bottleRenders } from "@/app/lib/productImages";
-
-export interface StoryQuote {
-  text: string;
-  author: string;
-  role: string;
-}
+// Copy is transcribed verbatim from Henry's Figma (file kG2CX5AvjTgP3pAjZdedFs,
+// the V1 column), including its em dashes, ellipsis and straight apostrophes.
+// Do not "tidy" the punctuation: it is approved brand copy, not copy authored
+// here. Plan: docs/development/featurePlans/our-story-simplification.md
+//
+// Structure: a split hero, four alternating image/copy chapters, one CTA.
+// The page owns section wrappers and backgrounds; this module is content only.
 
 export interface StoryStat {
   value: string;
-  caption: string;
+  label: string;
 }
 
 export interface StoryChapter {
   id: number;
-  /** Short chapter name for the mono label, e.g. "The Injury". */
-  label: string;
-  headline: string;
-  /** 1-2 sentences max. The quote/stat carries the rest of the beat. */
-  prose: string;
+  heading: string;
+  /** Rendered as separate <p> elements, one per Figma line group. */
+  paragraphs: string[];
   image: string;
   imageAlt: string;
-  /**
-   * CSS object-position for the image crop. Defaults to "center center".
-   */
-  imagePosition?: string;
-  /**
-   * "contain" shows the whole asset instead of cropping to fill. Used for
-   * the Chapter 5 phone mockup, which has no background so it can float
-   * inside the frame without filling it.
-   */
-  imageFit?: "cover" | "contain";
-  /** Each chapter carries either a quote or a stat (or both, sparingly). */
-  quote?: StoryQuote;
-  stat?: StoryStat;
-  /** Chapter 5: render the scrolling team-name marquee under the content. */
-  teamMarquee?: boolean;
+  /** Which side the image sits on at lg and above. Mobile always stacks image first. */
+  imageSide: "left" | "right";
 }
+
+export const storyHero = {
+  heading: "Two athletes. One obsession. Zero shortcuts",
+  body: "Harry and Humphrey didn't set out to build a supplement. They just couldn't accept that brain performance was left to chance. So they spent £500K and five years changing that.",
+  image: "/story/v1/hero-founders.webp",
+  imageAlt:
+    "CONKA founders Harry Glover and Humphrey Bodington on site in high-visibility vests",
+  stats: [
+    { value: "£500K+", label: "invested into brain research" },
+    { value: "25+", label: "trials with professional teams" },
+    { value: "150,000+", label: "shots taken to date" },
+  ] satisfies StoryStat[],
+};
 
 export const storyChapters: StoryChapter[] = [
   {
     id: 1,
-    label: "The Injury",
-    headline: "Two athletes. One career cut short.",
-    prose:
-      "Harry Glover and Humphrey Bodington met as university teammates. Harry went on to play England Sevens; Humphrey's career was ended by repeated concussions.",
-    image: "/TwoFounders.jpg",
-    imageAlt: "CONKA founders Harry Glover and Humphrey Bodington",
-    quote: {
-      text: "Lingering concussion symptoms pushed us to explore what the brain is truly capable of.",
-      author: "Humphrey Bodington",
-      role: "Co-Founder",
-    },
+    heading: "It started with one question",
+    paragraphs: [
+      "Harry and Humphrey met as teammates. Both wired the same way: Improve, Improve, Improve.",
+      "One question stuck with them: How can we improve our brain’s performance?",
+      "For Humphrey it got personal... a run of concussions had shown him just how much sharper a mind could be, and how much there was to gain.",
+      "The more they looked, the more it added up. That edge everyone wants — a faster start, a clearer afternoon, a mind that keeps up — no one had built a real way to reach it.",
+      "So they did.",
+    ],
+    image: "/story/v1/founders-portrait.webp",
+    imageAlt:
+      "CONKA founders Harry Glover and Humphrey Bodington together on a rugby pitch",
+    imageSide: "left",
   },
   {
     id: 2,
-    label: "The Search",
-    headline: "Sport had an answer for every injury except this one.",
-    prose:
-      "Months of headaches, light sensitivity, and cognitive fog with no clear solution. Elite sport had invested everything in the body and almost nothing in the brain.",
-    image: "/story/GettyImages-1330621508.webp",
-    imageAlt: "Rugby players in a contact tackle",
-    stat: {
-      value: "0",
-      caption: "proven options offered to a professional athlete with post-concussion syndrome",
-    },
+    heading: "Uncharted territory. Directed by the best.",
+    paragraphs: [
+      "They took the question to neuroscientists at Durham University. Not for a quick answer. For a real one.",
+      "The thing they found: the right natural ingredients work far better together than any one does alone. Take one out and the whole effect drops. The combination is the point.",
+      "Getting there took £500K of their own money and years of testing. No shortcuts. That was always the deal.",
+      "£500K+ of their own money, invested in the research",
+    ],
+    image: "/story/v1/durham-lab.webp",
+    imageAlt: "A neuroscientist in a white coat in a Durham University laboratory",
+    imageSide: "right",
   },
   {
     id: 3,
-    label: "The Research",
-    headline: "So they built the research themselves.",
-    prose:
-      "At Durham University, Harry and Humphrey worked with neuroscientists on nootropics, botanical compounds that cross the blood-brain barrier. Their key discovery was synergy: the compounds worked better together than alone.",
-    image: "/story/Screenshot_2025-11-10_143714.webp",
-    imageAlt: "Neuroscience research at Durham University",
-    stat: {
-      value: "£500K+",
-      caption: "of their own capital invested into clinical development and research",
-    },
+    heading: "Tested where fakes wouldn't survive.",
+    paragraphs: [
+      "To know it actually worked, they needed to test CONKA rigorously. So they took it to where the stakes are highest, where a fraction of a percent is the difference between winning and losing, and no one has patience for something that doesn't.",
+      "If it worked there, it worked.",
+      "4 clinical studies on one product.",
+    ],
+    image: "/story/v1/athlete-shot.webp",
+    imageAlt: "A professional athlete taking a CONKA shot in a gym",
+    imageSide: "left",
   },
   {
     id: 4,
-    label: "The Formula",
-    headline: "From 14 capsules a day to one shot.",
-    prose:
-      "Early versions required up to 14 capsules a day. A new alcohol-free extraction method, invented by Dr. Shankar Katekhaye, collapsed the system into a single daily liquid shot.",
-    image: bottleRenders.flow.src,
-    imageAlt: "The CONKA Flow daily shot bottle",
-    quote: {
-      text: "When any single component was removed, the benefits significantly decreased. The formula is the system.",
-      author: "Dr. Shankar Katekhaye",
-      role: "Head of Formulation",
-    },
-  },
-  {
-    id: 5,
-    label: "The Proof",
-    headline: "Tested where performance can't be faked.",
-    prose:
-      "Cognitive testing technology built with Cambridge University made the results measurable. Over 25 trials with professional teams followed.",
-    image: "/app/AppConkaRing.png",
-    imageAlt: "The CONKA app cognition test showing a score of 92",
-    imageFit: "contain",
-    stat: {
-      value: "+16%",
-      caption: "brain performance vs placebo in the first professional sport trial",
-    },
-    teamMarquee: true,
-  },
-  {
-    id: 6,
-    label: "Beyond Sport",
-    headline: "Everyone has a brain. Everyone can choose to perform.",
-    prose:
-      "What started as one athlete's recovery is now a daily system used in professional sport, military settings, and offices. Not limited to athletes. Not limited to recovery.",
-    image: "/lifestyle/GirlsLaughing.jpg",
-    imageAlt: "Friends sharing CONKA shots and laughing",
-    stat: {
-      value: "150,000+",
-      caption: "shots taken by 5,000+ daily users",
-    },
+    heading: "A science-grade test. In your pocket.",
+    paragraphs: [
+      "The tools that measure the brain properly used to live in university labs. CONKA put one in an app.",
+      "Developed with neuroscientists at Cambridge University, it reads your focus, memory and reaction speed and turns them into a single score. The same kind of test used in the trials. Now yours, every morning.",
+      "Every score feeds one of the largest brain datasets ever built outside a research institution. Over a million tests, and counting.",
+    ],
+    image: "/story/v1/app-score.webp",
+    imageAlt: "The CONKA app showing a daily cognitive performance score",
+    imageSide: "right",
   },
 ];
 
-// Environments where CONKA has been tested — rendered as a scrolling marquee
-// in Chapter 5. Deliberately generic categories, not named clubs: we do not
-// have standing permission to name partner organisations publicly.
-export const testedEnvironments = [
-  "Premiership Rugby Clubs",
-  "Championship Football Clubs",
-  "Professional Boxing Camps",
-  "Olympic Training Programmes",
-  "International Rugby Squads",
-  "Military Units",
-  "Corporate Performance Teams",
-  "University Research Labs",
-  "Professional Motorsport",
-];
-
+export const storyCta = {
+  heading: "Everyone has a brain.",
+  body: "What started with two people is now a daily habit for thousands. Not athletes. Just people curious about what a clearer mind could do for them. Yours is the next one worth measuring.",
+  ctaLabel: "Try CONKA",
+};

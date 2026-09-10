@@ -26,41 +26,38 @@ export const adhdListicle: ListicleConfig = {
       eyebrow: "World's Largest",
       body: "Consumer brain-research project. Trusted by 1,000+ ADHD brains, tested through our app.",
     },
-    headline: "7 Reasons an ADHD Brain Runs Better on CONKA",
+    // Soft educational preframe (SCRUM-1320). The "7 Reasons..." list promise
+    // moves off the H1; it comes back as the reasons section header in
+    // SCRUM-1321. `title` deliberately keeps it so the tab and the Meta
+    // content_name stay comparable with earlier data.
+    headline: "Discover the natural way to finally calm racing thoughts.",
     subcopy:
-      "It isn't that you're not trying. An ADHD brain runs low on the exact chemicals that start tasks and hold focus. CONKA is built around that, not another 'just try harder': two caffeine-free shots, Flow to get going and Clear for the afternoon, with an app to prove it's working.",
+      "Coffee and willpower push at the problem from the outside. CONKA works from within, supporting the pathways an ADHD brain runs low on, so starting a task stops feeling like a fight.",
     socialProof: {
       label: "Excellent 4.7",
       sub: "622+ reviews · 5,000+ daily users",
     },
-    cta: "Try it risk free, now 46% off",
-    // Message-match for the "first week free" ad angle (Flow's monthly-sub
-    // first-order bonus is 8 shots, ~a week). Green badge above the hero CTA
-    // and compact on the sticky bar.
-    offerBadge: {
-      hero: "+1 week of free brain supplements on your first order",
-      sticky: "+8 free shots",
-    },
-    trustPills: [
-      { label: "Zero caffeine", icon: "no-caffeine" },
-      { label: "Informed Sport Certified", icon: "informed-sport" },
-      { label: "100-day guarantee", icon: "guarantee" },
-    ],
+    // One offer surface, outcome first. The old green "+1 week free" pill sat
+    // directly above this and read as a second, competing offer.
+    cta: "Save {percent}% on a calmer mind",
     asset: {
       kind: "image",
-      src: "/lifestyle/BlurGrab.jpg",
-      alt: "A hand reaching for a CONKA shot on a bedside table beside a mug",
-      // Native 1500x1000; frame matches so nothing crops
-      aspect: "1500/1000",
+      src: "/lifestyle/BottleFloat.webp",
+      alt: "A man with his eyes closed and a CONKA Flow shot floating above his head",
+      // Portrait source (928x1152) in the 1:1 hero frame all three personas
+      // share. Anchored top so nothing is lost off the top of the shot and
+      // only the lower fifth is cropped: the square frame shows 81% of the
+      // image against the 54% a 3:2 frame would.
+      aspect: "1/1",
+      objectPosition: "center top",
     },
   },
-  ticker: [
-    "ZERO CAFFEINE",
-    "INFORMED SPORT CERTIFIED",
-    "MADE IN THE UK",
-    "100-DAY GUARANTEE",
-    "2-MINUTE BRAIN TEST",
-  ],
+  // Reintroduces the list promise at the point the list starts, now that
+  // the hero H1 is a soft outcome line (SCRUM-1320/1321). Matches `title`.
+  reasonsHeader: {
+    eyebrow: "Brain health at the cellular level",
+    headline: "7 Reasons an ADHD Brain Runs Better on CONKA",
+  },
   // Post-reasons proof tier. Four moments, each doing a different job.
   proof: {
     logoBand: true,
@@ -205,7 +202,7 @@ export const adhdListicle: ListicleConfig = {
     },
     {
       kind: "statsBand",
-      eyebrow: "ADHD BY THE NUMBERS",
+      eyebrow: "ADHD by the numbers",
       stats: [
         { value: "26%", label: "of people report ADHD traits" },
         { value: "£10k", label: "lower yearly earnings with untreated ADHD" },
@@ -218,8 +215,16 @@ export const adhdListicle: ListicleConfig = {
       n: 2,
       headline: "It Helps You Start, Not Just Focus",
       body: "Most focus products help you concentrate once you've started. With ADHD the hard part is starting at all. CONKA Flow gives you the calm, steady drive to get from 'I should' to 'I'm doing it', no caffeine and none of the jittery push.",
-      // 9:16 source centre-cropped to 3:4, the animated Flow shot
-      asset: { kind: "video", src: "/videos/flow/FlowLiquid.mp4", aspect: "3/4" },
+      // The Flow "neuron" clip: the bottle floating over a neural network, the
+      // same footage BottleVideo runs in PDP section 4. Flow rather than Clear
+      // or Both because every listicle is Flow-primary (productHeroId "01").
+      // Still a 9:16 source centre-cropped to 3:4 by object-cover.
+      asset: {
+        kind: "video",
+        src: "/videos/flow/FlowFloat.mp4",
+        alt: "A CONKA Flow bottle floating over a neural network",
+        aspect: "3/4",
+      },
     },
     {
       kind: "reason",
@@ -347,9 +352,5 @@ export const adhdListicle: ListicleConfig = {
     "how-to-take",
     "guarantee",
   ],
-  stickyBar: {
-    label: "Stop fighting your brain.",
-    cta: "Get started",
-    sub: "100-day guarantee",
-  },
+  stickyBar: { cta: "Get started" },
 };

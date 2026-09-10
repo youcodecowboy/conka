@@ -30,41 +30,39 @@ export const productivityListicle: ListicleConfig = {
       eyebrow: "World's Largest",
       body: "Consumer brain-research project. 1,000+ brains tested through our app.",
     },
-    headline: "7 Reasons High Performers Run on CONKA",
+    // Soft educational preframe (SCRUM-1320). The "7 Reasons..." list promise
+    // moves off the H1; it comes back as the reasons section header in
+    // SCRUM-1321. `title` deliberately keeps it so the tab and the Meta
+    // content_name stay comparable with earlier data. The founder origin from
+    // SCRUM-1187 is not lost: it still carries reason 3 (the cheat-code reason).
+    headline: "Discover the natural way to stay sharp all day.",
     subcopy:
-      "You want it all, the career and the life, without one costing you the other. So did the two founders who built CONKA: one an Olympian with Team GB at Tokyo, the other juggling a full-time team whilst training for ultramarathons. Two caffeine-free shots, Flow and Clear.",
+      "Coffee buys you an hour and takes back two. CONKA works from within, supporting the pathways behind focus and recovery, so you can have the career and still have something left for the evening.",
     socialProof: {
       label: "Excellent 4.7",
       sub: "622+ reviews · 5,000+ daily users",
     },
-    cta: "Have it all, risk-free for 100 days",
-    // Message-match for the "first week free" productivity ad angle (Flow's
-    // monthly-sub first-order bonus is 8 shots, ~a week). Green badge above the
-    // hero CTA and compact on the sticky bar.
-    offerBadge: {
-      hero: "+1 week of free brain supplements on your first order",
-      sticky: "+8 free shots",
-    },
-    trustPills: [
-      { label: "Zero caffeine", icon: "no-caffeine" },
-      { label: "Informed Sport Certified", icon: "informed-sport" },
-      { label: "100-day guarantee", icon: "guarantee" },
-    ],
+    // One offer surface, outcome first. The old green "+1 week free" pill sat
+    // directly above this and read as a second, competing offer.
+    cta: "Save {percent}% on a sharper day",
     asset: {
       kind: "image",
-      src: "/TwoFounders.jpg",
-      alt: "CONKA founders Harry Glover and Humphrey Bodington",
-      // Native 1840x1226 (3:2); frame matches so nothing crops
-      aspect: "1840/1226",
+      src: "/lifestyle/flow/TrackAthlete.webp",
+      alt: "A runner on a track holding a CONKA Flow shot",
+      // Portrait source (928x1152) in the 1:1 hero frame all three personas
+      // share. Anchored top so nothing is lost off the top of the shot and
+      // only the lower fifth is cropped: the square frame shows 81% of the
+      // image against the 54% a 3:2 frame would.
+      aspect: "1/1",
+      objectPosition: "center top",
     },
   },
-  ticker: [
-    "ZERO CAFFEINE",
-    "INFORMED SPORT CERTIFIED",
-    "MADE IN THE UK",
-    "100-DAY GUARANTEE",
-    "2-MINUTE BRAIN TEST",
-  ],
+  // Reintroduces the list promise at the point the list starts, now that
+  // the hero H1 is a soft outcome line (SCRUM-1320/1321). Matches `title`.
+  reasonsHeader: {
+    eyebrow: "Brain health at the cellular level",
+    headline: "7 Reasons High Performers Run on CONKA",
+  },
   // Post-reasons proof tier. Four moments, each doing a different job.
   proof: {
     logoBand: true,
@@ -146,7 +144,7 @@ export const productivityListicle: ListicleConfig = {
     },
     {
       kind: "statsBand",
-      eyebrow: "CLINICALLY PROVEN",
+      eyebrow: "Clinically proven, not just claimed",
       stats: [
         { value: "18.1%", label: "Faster processing than caffeine" },
         { value: "80%", label: "Improved cognitive scores in week one" },
@@ -263,9 +261,5 @@ export const productivityListicle: ListicleConfig = {
     "with-coffee",
     "guarantee",
   ],
-  stickyBar: {
-    label: "Have it all, without the burnout.",
-    cta: "Get started",
-    sub: "100-day guarantee",
-  },
+  stickyBar: { cta: "Get started" },
 };

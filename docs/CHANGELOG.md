@@ -5,6 +5,21 @@
 ---
 
 <!-- changelog:newest - new entries are inserted directly below this line, newest first, one line each -->
+- **2026-09-09** | /our-story hero and chapters rebuilt as full-bleed split bands: the image now owns half the viewport edge to edge and full height on desktop, Cadence style.
+- **2026-09-09** | /our-story mobile: chapter and hero images now sit flush with the top of their section, so no band of section background shows above them.
+- **2026-09-09** | Mobile pass on /our-story: hero photo now leads full bleed and flush under the nav, chapter images run edge to edge, stat row centred.
+- **2026-09-09** | Rebuilt /our-story as Henry's Figma V1: a split hero, four alternating image/copy chapters and one CTA, in Simple DTC with the chapter rail, dark manifesto and scroll effects removed.
+- **2026-09-09** | Deleted the abandoned LandingHero and its TrustChips row, unimported since June; the parked video heroes and the live static hero are untouched
+- **2026-09-09** | All three listicle heroes get real product shots in a taller top-anchored frame, replacing the stand-in lifestyle images
+- **2026-09-09** | Listicle cleanup: dead trustPills config deleted, and the partner logo list now lives in one shared module instead of three copies that could drift
+- **2026-09-09** | Listicle hero CTAs now quote the real quarterly discount (48%, was a hardcoded 46% that matched no price), and the landing pricing constants derive from offerData instead of hand-synced copies
+- **2026-09-08** | Listicle sticky bar now leads with the quarterly per-shot price and the subscription gift value, both read from offerData (SCRUM-1322)
+- **2026-09-08** | Listicle sticky bar now leads with the per-shot price and the 4.7 rating instead of a generic label, on the surface that closes more orders than any other (SCRUM-1322)
+- **2026-09-08** | Listicle stats band restyled to the /lander proof-card look (light tint, hairline 2-up grid) and the reason video swapped to the Flow neuron clip
+- **2026-09-08** | Listicle reasons section restyled: centred section title with a left-side blue wash, reason headings in black with the number as an eyebrow above, and the hairline under the title removed
+- **2026-09-08** | Listicle reasons block now opens with its own eyebrow and "N Reasons ..." section header, restoring the list promise the new soft hero gave up (SCRUM-1321)
+- **2026-09-08** | Listicle proof wall moved up: the partner logo band now sits directly under the hero on all three /go pages, and the navy proof ticker is removed (SCRUM-1321)
+- **2026-09-08** | Listicle heroes rebuilt as a soft educational preframe: outcome headline, one offer CTA with the rating beneath it, and a person-with-product photo on all three /go pages (SCRUM-1320)
 - **2026-09-03** | Wired all 71 hardcoded contact addresses across 19 files to their single sources: customer-facing ones to `SUPPORT_EMAIL` / `supportMailtoHref()`, and B2B ones to a new `B2B_CONTACT_EMAIL` / `b2bMailtoHref()` in `b2bData.ts`. Rendered output is unchanged; changing either address is now a one-line edit
 - **2026-09-03** | Deleted our order-history and account-details pages: Skio's portal renders its own Orders and Account views with full order detail, so both duplicated it, and the details page offered an address form that wrote to Shopify while deliveries follow the Skio contract. `/account/orders` and `/account/details` now redirect to `/account/manage`. Restored a "Log out of CONKA" link, which went with the deleted sub-nav (Skio's own Logout cannot clear our httpOnly session), and pointed every internal account link at the canonical URL instead of through a redirect
 - **2026-09-02** | Removed the Loop subscription integration: the account portal, API routes and client are deleted, and /account plus /account/subscriptions now redirect to the Skio portal.

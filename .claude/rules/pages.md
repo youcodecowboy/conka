@@ -8,6 +8,7 @@ paths:
 
 ## Section structure
 - Use `brand-section` + `brand-bg-{white|tint|black}` classes from `app/brand-base.css` (the single stylesheet). Track: `brand-track`.
+  - **Exception: full-bleed split bands** (DESIGN_SYSTEM.md §8.5). A band whose image must reach the viewport edge gets a bare `<section>` carrying only the background and `aria-label`, and the component owns the split. Live on `/our-story`. Every other section on such a page stays tracked as normal.
 - Alternate section backgrounds to create visual rhythm.
 - Each section gets `aria-label` for accessibility.
 
