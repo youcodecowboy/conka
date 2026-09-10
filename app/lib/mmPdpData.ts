@@ -20,8 +20,9 @@ import { pickFaqItems } from "./faqContent";
  *  The older `/formulas/mmPdpAssets` set is no longer referenced from here. */
 const ASSET_BASE = "/formulas/mmPdpAssetsV2";
 
-/** Rectangular (7:5) gallery assets in presentation order. The research /
- *  third-party / comparison / athlete / risk-free slides are shared.
+/** Rectangular (7:5) gallery assets in presentation order. `SharedProof` and
+ *  `SharedTested` carry nothing product-specific, so all three galleries point
+ *  at the same two files rather than holding a copy each.
  *
  *  The starter-pack shot is deliberately NOT in here: it only exists on the
  *  cadences that ship a pack, so `getPdpGalleryImages` prepends it from

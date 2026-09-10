@@ -39,6 +39,7 @@ if [ $# -gt 0 ]; then SLIDES="$*"; else SLIDES="s0 s0q s1 s2 s3 s4 s7 s8 c0 c0q 
 for s in $SLIDES; do
   out="$(slide_name "$s")"
   tmp="$(mktemp -t "$s").png"
+  trap 'rm -f "$tmp"' EXIT
   # virtual-time-budget waits for the local @font-face files; without it Chrome
   # can screenshot before they load and text renders blank.
   "$CHROME" --headless --disable-gpu --force-device-scale-factor=1 --hide-scrollbars \
