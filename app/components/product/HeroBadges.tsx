@@ -1,5 +1,6 @@
 import { formatPrice } from "@/app/lib/productData";
 import {
+  getCadenceGiftTiles,
   getCadenceGiftValue,
   getCadencePricingByProductHeroId,
 } from "@/app/lib/cadenceData";
@@ -27,17 +28,24 @@ type SpecProductType = "flow" | "clear" | "both";
  * the easiest thing on the first screen to skip, which is the opposite of what
  * the strongest offer we have should do.
  *
- * Two earlier passes are worth knowing about, because the third is a response
- * to both. A solid green fill read as a system alert rather than as part of the
- * brand. Reskinning it as the old spec pill fixed that but flattened the figure
- * back into the sentence, so the badge was noticeable and the number inside it
- * still was not.
+ * Leads with the gift COUNT, not the money, and not a discount percentage.
  *
- * This version borrows the cart upsell's treatment instead: flat #eef0f5 fill
- * with the offer gradient as a 2px ring. The label steps back to small mono
- * uppercase and the figure steps forward at 1.125rem in the positive green, so
- * the thing the eye lands on is the amount rather than the words around it.
- * "worth" stays in the label so the figure cannot be misread as a price.
+ * Why gifts rather than the discount, given the reference PDPs put a discount
+ * pill here: this slot is pre-price. Since the lede moved above the plan picker
+ * (SCRUM-1335) the first price on the page sits roughly 200px below this badge,
+ * so a percentage has nothing to anchor to at the moment it is read, while a
+ * count of free things does not need one. The discount is also already stated
+ * on the plan-card corner and the sticky footer, and a third instance is the
+ * cannibalisation this work set out to avoid. Graymatter can put a percentage
+ * here because their price sits beside it; ours does not.
+ *
+ * Why the count leads: at 1.125rem in green the bare figure read as the price
+ * of the product rather than the value of a gift, which is a genuinely
+ * expensive misread on a first screen. A count cannot be mistaken for a price,
+ * so it takes the prominent slot and the money supports it.
+ *
+ * Treatment borrowed from the cart upsell: flat #eef0f5 fill with the offer
+ * gradient as a 2px ring.
  *
  * Renders nothing when the selected cadence gives nothing away, which is every
  * one-time cadence: offerData attaches the starter pack to subscriptions only.
@@ -55,7 +63,8 @@ export function HeroGiftValue({
 }) {
   const pricing = getCadencePricingByProductHeroId(formulaId, selectedCadence);
   const giftValue = getCadenceGiftValue(pricing);
-  if (giftValue <= 0) return null;
+  const giftCount = getCadenceGiftTiles(pricing).length;
+  if (giftValue <= 0 || giftCount === 0) return null;
 
   return (
     <span
@@ -86,14 +95,14 @@ export function HeroGiftValue({
           strokeLinejoin="round"
         />
       </svg>
-      <span className="font-mono text-[11px] font-bold uppercase leading-none tracking-wide text-black/65">
-        Free starter kit worth
-      </span>
       <span
-        className="text-lg font-bold leading-none tabular-nums"
+        className="text-base font-bold leading-none"
         style={{ color: "var(--brand-positive)" }}
       >
-        {formatPrice(giftValue)}
+        +{giftCount} free gifts
+      </span>
+      <span className="font-mono text-[11px] font-bold uppercase leading-none tracking-wide text-black/60">
+        worth {formatPrice(giftValue)}
       </span>
     </span>
   );
