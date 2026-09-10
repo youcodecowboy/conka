@@ -24,10 +24,22 @@ on Flow `monthly-sub` in `app/lib/offerData.ts` (slide `s0`).
 | `s2` | `FlowWhatToExpect.jpg` | 15min → week 2+ onset arc |
 | `s3` | `FlowIngredients.jpg` | Six ingredients, benefit-tagged |
 | `s4` | `FlowVsCoffee.jpg` | Beats coffee and Rx, 6 rows |
-| `s5` | `FlowProof.jpg` | +28.96% measured in the app |
-| `s6` | `FlowTested.jpg` | Informed Sport + 4 certifications |
-| `s7` | `FlowReview.jpg` | 4.7 / 622, one customer quote |
-| `s8` | `FlowGuarantee.jpg` | 100 days, under 1.2% claim it |
+| `s7` | `FlowReview.jpg` | 4.7 / 622, Phil B. on the caffeine cycle |
+| `c0` | `ClearStarterKit.jpg` | Clear pack, monthly figures |
+| `c0q` | `ClearStarterKitQuarterly.jpg` | Clear pack, quarterly figures |
+| `c1` | `ClearBenefitStack.jpg` | Cut through the fog |
+| `c2` | `ClearWhatToExpect.jpg` | Clear's onset arc |
+| `c3` | `ClearIngredients.jpg` | Nine ingredients, 3x3 |
+| `c4` | `ClearVsCoffee.jpg` | Same table, Clear bottle |
+| `c7` | `ClearReview.jpg` | Aaron H. on the afternoon coffee |
+| `shared-proof` | `SharedProof.jpg` | +28.96% measured in the app |
+| `shared-tested` | `SharedTested.jpg` | Informed Sport + 4 certifications |
+| `shared-guarantee` | `SharedGuarantee.jpg` | 100 days, under 1.2% claim it |
+
+Three slides are product-agnostic and are shared by both galleries, hence the
+`Shared` prefix: proof, testing and guarantee. Nothing on them names a formula.
+Clear's pricing is numerically identical to Flow's at every cadence, so `c0`
+and `c0q` carry the same figures as `s0` / `s0q` and differ only in photograph.
 
 `s0` and `s0q` share one plain photo and differ only in their figures — the
 same arrangement the Figma frames use, where monthly and quarterly point at a
@@ -68,8 +80,22 @@ contradicts the rule in
 though the artwork it replaced broke it too. If any figure changes, edit the
 relevant slide and re-run `render.sh`.
 
-## Clear and Both
+## Known fault in the Clear pack photo
 
-Still on the old `mmPdpAssets/` set. The templates are product-agnostic apart
-from copy and the bottle cutout, so porting them is a data change plus two new
-cutouts rather than a redesign.
+`assets/ClearStartPackClean.jpg` shows bottles with **white Clear caps but
+"Flow" labels**. Verified at 3x zoom. The artwork it replaces
+(`public/formulas/starterPack/ClearStarterPack.jpg`) has the identical fault, so
+this is inherited rather than introduced — but it is wrong and the source render
+should be regenerated with Clear labels.
+
+## Clear bottle resolution
+
+`ClearCutout.png` is 309x622 of actual bottle against Flow's 435x874, so Clear
+runs about 29% softer at matched scale. Aspect matches to 0.001 (0.497 vs
+0.498), so layouts transfer between the two without adjustment. A higher-res
+transparent Clear would be the single best asset to replace.
+
+## Both
+
+Still on the old `mmPdpAssets/` set. Four of its nine slots are already covered
+by the `Shared` slides, so Both needs five new renders plus a Both cutout.
