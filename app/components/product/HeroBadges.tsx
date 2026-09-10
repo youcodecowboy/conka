@@ -19,15 +19,9 @@ type SpecProductType = "flow" | "clear" | "both";
 /**
  * "over £80" from 82.96, for the hero offer badge.
  *
- * Rounds DOWN to the nearest ten so the claim is always true of the real total,
- * and drops the pence, since formatPrice always renders two decimals and
- * "over £80.00" reads like a checkout line rather than a headline.
- *
- * A total that lands exactly on a ten steps down a bucket, because "over £80"
- * is false when the total is £80. No current cadence does that (they all end
- * .96 or .99), but the next price change should not be able to make this lie.
- * Below £10 there is no sensible round number, so the caller shows the exact
- * figure instead.
+ * Rounds DOWN so the claim stays true of the real total, and steps down a
+ * bucket on an exact multiple, since "over £80" is false at £80. Null below
+ * £10, where there is no sensible round number.
  */
 function roundedDownValue(value: number): string | null {
   const floored = Math.floor(value / 10) * 10;
@@ -36,46 +30,11 @@ function roundedDownValue(value: number): string | null {
 }
 
 /**
- * The starter-kit offer, above the gallery (SCRUM-1334, restyled SCRUM-1336).
+ * The starter-kit offer, above the gallery. The full tile stack lives in the
+ * buy panel (GiftValueStack); this is its one-line version.
  *
- * The full stack of tiles still lives in the buy panel (GiftValueStack); this
- * is the one-line version of it, placed where a cold visitor sees it before
- * they reach the price rather than after.
- *
- * A badge rather than a sentence. As body text it read as fine print and was
- * the easiest thing on the first screen to skip, which is the opposite of what
- * the strongest offer we have should do.
- *
- * Leads with the gift COUNT, not the money, and not a discount percentage.
- *
- * Why gifts rather than the discount, given the reference PDPs put a discount
- * pill here: this slot is pre-price. Since the lede moved above the plan picker
- * (SCRUM-1335) the first price on the page sits roughly 200px below this badge,
- * so a percentage has nothing to anchor to at the moment it is read, while a
- * count of free things does not need one. The discount is also already stated
- * on the plan-card corner and the sticky footer, and a third instance is the
- * cannibalisation this work set out to avoid. Graymatter can put a percentage
- * here because their price sits beside it; ours does not.
- *
- * Why the count leads: a bare figure set large in green read as the price of
- * the product rather than the value of a gift, which is an expensive misread on
- * a first screen. A count cannot be mistaken for a price, so it goes first and
- * the money follows as support.
- *
- * Treatment is the old spec pill's, which this badge replaced: the light
- * blue-lilac gradient fill, mono face and uppercase tracking that "0MG CAFFEINE
- * | MORNING RITUAL" carried in this exact slot. A flat pill was tried and
- * abandoned once already, but the fault then was the copy, not the fill: a
- * lone "£82.96" in a uniform line had nothing marking it as a value rather than
- * a price. Count-led copy removes that, so the flat treatment holds and the
- * slot keeps the shape the page was built around. The gift icon is the one
- * addition, in the positive green, so the pill reads as an offer at a glance
- * rather than as a spec.
- *
- * Renders nothing when the selected cadence gives nothing away, which is every
- * one-time cadence: offerData attaches the starter pack to subscriptions only.
- * The figure is per-cadence rather than a fixed headline number, and comes from
- * the same helper the stack uses, so the two cannot disagree.
+ * Leads with the count, not the money: a bare figure here read as the price of
+ * the product. Renders nothing on one-time cadences, which carry no gifts.
  */
 export function HeroGiftValue({
   formulaId,

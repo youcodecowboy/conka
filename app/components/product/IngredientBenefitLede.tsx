@@ -12,23 +12,13 @@ import { LEDE_DESCRIPTION, LEDE_SUBLINE } from "@/app/lib/mmPdpData";
  * (ProductHeroMobileV3, SCRUM-1335), still below it on desktop
  * (ProductHeroV3), where the right column has room either way.
  *
- * The subline h2 briefly moved up under the h1 as a small one-line strapline
- * (SCRUM-1334) and came straight back here (SCRUM-1336). Shrinking it to fit
- * beside the rating cost it all its weight, and once Phase 2 put this whole
- * block above the plan picker it no longer needed to sit under the h1 to be
- * seen early. It is the loudest thing on the page again, and it still lands
- * before the buy decision.
- *
  * Flow ("01"), Clear ("02"), and Both ("03").
  * ========================================================================== */
 
 const GREEN = "#1a7f4f";
 
-/**
- * Average glyph advance of the bold heading face, in em, across mixed-case
- * English. Tuned slightly wide so the estimate errs towards wrapping rather
- * than towards a line that overflows its container.
- */
+/** Average glyph advance of the bold face, in em. Tuned wide so the estimate
+ *  errs towards wrapping rather than towards overflowing. */
 const FIT_RATIO = 0.55;
 
 /** The largest size that fits `text` on one line of this block's own width. */
@@ -93,30 +83,10 @@ export default function IngredientBenefitLede({
           className="leading-tight text-black"
           style={{ letterSpacing: "-0.01em" }}
         >
-          {/* One step down the type scale from the product name, and shrunk
-              further if that is what it takes to hold one line.
-
-              Two lines of headline cost about 35px of the scroll depth between
-              the gallery and the plan picker, which is the thing this whole
-              piece of work is trying to protect. `cqi` is 1% of this block's
-              own width, so the same rule reads 350px on a phone and the 400px
-              buy column on desktop without a media query, and it settles before
-              paint rather than measuring and reflowing the way a JS fitter
-              would. FIT_RATIO is the average glyph advance of the bold face in
-              em; the character count times that ratio is roughly how many em
-              the line needs, so dividing the container by it gives the largest
-              size that still fits.
-
-              The floor matters more than the ceiling: without it a long string
-              scales down until it is smaller than the body copy under it, which
-              looks broken rather than tidy. A string long enough to hit the
-              floor wraps, and the fix for that is shorter copy, not smaller
-              type. See LEDE_SUBLINE.
-
-              The clamp itself lives in brand-base.css behind an @supports
-              guard, because an unknown unit invalidates a whole declaration at
-              parse time: inline, a browser without container queries would drop
-              the font-size entirely and render this at body size. */}
+          {/* Sized to hold one line where the copy allows; the clamp lives in
+              brand-base.css behind an @supports guard (see .pdp-lede-headline).
+              Too long a string hits the floor and wraps, and the fix for that
+              is shorter copy in LEDE_SUBLINE, not smaller type. */}
           <span
             className="pdp-lede-headline block font-bold"
             style={

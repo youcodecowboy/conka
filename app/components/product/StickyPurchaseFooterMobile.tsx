@@ -18,13 +18,10 @@ import { HERO_CTA_ANCHOR_ID } from "./pdpAnchors";
  * ========================================================================== */
 
 /**
- * How far up the screen the hero CTA has to travel before the bar appears,
- * as a fraction of viewport height. 0.5 is the top half.
- *
- * Lower reveals later (1 would be "the moment it leaves the bottom", 0 "once it
- * has left the top entirely"). Anything at or below 0.5 keeps the CTA clear of
- * the bar's own strip at the bottom of the screen, which is the only thing this
- * delay exists to protect.
+ * How far up the screen the hero CTA must travel before the bar appears, as a
+ * fraction of viewport height. Raise to reveal earlier. Anything at or below
+ * 0.5 keeps the CTA clear of the bar's strip at the bottom of the screen, which
+ * is the only thing this delay exists to protect.
  */
 const REVEAL_ABOVE = 0.5;
 
@@ -41,26 +38,9 @@ export default function StickyPurchaseFooterMobile({
 }: StickyPurchaseFooterMobileProps) {
   const [isPastHeroCta, setIsPastHeroCta] = useState(false);
 
-  // Revealed once the hero's own Add to cart has risen past REVEAL_ABOVE of the
-  // screen, so the bar arrives while the CTA is on its way out rather than long
-  // after it has gone, and can still never sit on top of it.
-  //
-  // This used to be `window.scrollY > 500`, a number tuned against the hero as
-  // it stood at the time. SCRUM-1335 then moved the product lede above the plan
-  // picker and pushed the CTA about 200px further down, which silently turned
-  // that constant into the opposite of its intent: at 500px the bar would have
-  // appeared over the button. Watching the button removes that whole class of
-  // bug, since the hero can now change height freely.
-  //
-  // Waiting for the CTA to leave the viewport entirely, the first version of
-  // this, was the latest safe moment rather than the right one: on a tall phone
-  // it meant scrolling most of the buy panel before a buy affordance came back.
-  // The bar lives at the BOTTOM of the screen, so it only ever risks covering
-  // the CTA while the CTA is near the bottom too. Once the button is in the top
-  // half there is no conflict left to avoid, which is what REVEAL_ABOVE encodes.
-  //
-  // A fraction rather than a pixel offset so it scales with the device instead
-  // of becoming the next constant that quietly goes stale.
+  // Watches the hero CTA rather than a scroll offset. The offset this replaced
+  // was tuned to a hero height that later changed, leaving the bar covering the
+  // very button it stands in for.
   useEffect(() => {
     const cta = document.getElementById(HERO_CTA_ANCHOR_ID);
     // No CTA on the page means nothing to protect, and hiding a buy bar is
@@ -75,16 +55,15 @@ export default function StickyPurchaseFooterMobile({
       setIsPastHeroCta(bottom < window.innerHeight * REVEAL_ABOVE);
     };
 
-    // Shrinking the root's top by the same fraction makes the observer fire on
-    // exactly the crossing the predicate tests, so the two cannot disagree.
+    // Root top shrunk by the same fraction the predicate tests, so the observer
+    // fires on exactly that crossing.
     const observer = new IntersectionObserver(reveal, {
       rootMargin: `-${(1 - REVEAL_ABOVE) * 100}% 0px 0px 0px`,
     });
     observer.observe(cta);
 
-    // The observer covers scrolling. A resize or rotate changes innerHeight
-    // without moving anything, and would otherwise leave the last decision
-    // standing against a viewport that no longer matches it.
+    // Rotating changes innerHeight without moving anything, so the observer
+    // alone would leave a stale decision standing.
     window.addEventListener("resize", reveal, { passive: true });
     return () => {
       observer.disconnect();

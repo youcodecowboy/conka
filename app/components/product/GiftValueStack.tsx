@@ -12,22 +12,17 @@ import type { CadencePricing } from "@/app/lib/cadenceData";
  *
  * Content only, and deliberately without its own box. It renders inside the
  * SubscriptionSummary card so the panel carries one bordered block rather than
- * two stacked ones, which doubled the panel height on mobile. The caller owns
- * the divider above it.
+ * two stacked ones. The caller owns the tinted band around it.
  *
  * Two columns at 390px, four from `sm:` up. Four across on a phone leaves about
  * 78px per tile, too tight for the struck price to stay legible, and the price
  * is the point of this pattern.
  *
  * Thumbnails are a fixed 112px rather than filling the cell. Full-bleed squares
- * rendered at roughly 270px each and cost about 800px of panel for four tiles,
- * which buried the CTA on mobile. 112px is the middle ground reached in
- * SCRUM-1336: 80px left the gifts reading as icons rather than as things worth
- * having, and the four tiles still cost only about 70px more than they did.
+ * rendered at roughly 270px each and buried the CTA on mobile.
  *
- * The tiles and their total come from `getCadenceGiftSummary` in cadenceData
- * rather than being summed here, because the hero's offer badge shows the same
- * figures (SCRUM-1334) and the two must not be able to drift.
+ * Tiles and total come from `getCadenceGiftSummary`, not summed here: the
+ * hero's offer badge shows the same figures and the two must not drift.
  */
 
 export default function GiftValueStack({
@@ -45,11 +40,6 @@ export default function GiftValueStack({
           order two onwards, but it is exactly true of this stack. */}
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
         <p className="text-lg font-medium text-black">Your starter kit</p>
-        {/* The offer gradient pill the cart upsell uses for the same claim,
-            rather than the green text this carried before. Plain text at 14px
-            it was the quietest thing in a block whose whole argument is the
-            total, and it sat one weight away from the struck prices under every
-            tile. The pill is the one element here that is not a price. */}
         <p
           className="whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#14532d]"
           style={{ background: "linear-gradient(90deg, #cdeecf, #e9f5c9)" }}

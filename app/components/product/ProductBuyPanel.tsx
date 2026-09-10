@@ -231,15 +231,9 @@ function FlatPlanCard({
         </span>
       )}
 
-      {/* Discount badge, on the top-right border rather than inline in the
-          price row (SCRUM-1336). Inline it competed with the strike and the
-          price for the same eye line and made the row read as three numbers;
-          out here it is the card's headline claim and can carry real size.
-
-          The `max-[360px]` step down is a collision guard, not a design choice:
-          "MOST POPULAR" is centred, so on a 320px screen the two badges are
-          about 4px apart and touch. Only the very narrowest phones pay for it;
-          390px keeps the full size. */}
+      {/* On the top-right border rather than inline in the price row, which
+          left that row reading as three numbers. The max-[360px] step down is a
+          collision guard: MOST POPULAR is centred and the two touch at 320px. */}
       {savePct > 0 && (
         <span
           className="absolute right-3 top-0 z-20 -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[12px] font-bold uppercase leading-none tracking-wide text-white max-[360px]:px-2 max-[360px]:text-[10px] sm:right-4"
@@ -258,9 +252,7 @@ function FlatPlanCard({
       />
 
       <div className="pointer-events-none relative z-10 px-3 py-3 sm:px-4">
-        {/* Top row: radio + shots/cadence ..... strike + price. The discount
-            pill used to sit in here and now rides the top-right border, which
-            leaves this row as one clean price comparison. */}
+        {/* Top row: radio + shots/cadence ..... strike + price. */}
         <div className="flex items-center justify-between gap-2">
           <span className="flex items-center gap-2">
             <span
@@ -518,28 +510,11 @@ function SubscriptionSummary({
 
   return (
     <div className="mt-4 overflow-hidden rounded-md border border-black/15 bg-white p-5">
-      {/* Discount bar across the top of the card (SCRUM-1336), the Cadence
-          pattern. It replaces the "Save X% vs buying once" bullet that used to
-          sit in the list below: stated in both places the number reads as two
-          different claims, and buried in a bullet it was the least prominent
-          thing in a card whose whole job is the saving.
-
-          Negative margins pull it out of the card's p-5 to meet the border on
-          three sides; overflow-hidden on the card is what keeps it inside the
-          rounded corners. Navy rather than Cadence's black, since it is the
-          Simple DTC primary and already the CTA colour, so the card reads as
-          one unit.
-
-          Copy says "for life", NOT "off your first order" as the reference
-          words it. getDisplayDiscount compares the recurring subscription price
-          against the one-time reference, so the saving applies to every order
-          for as long as someone stays subscribed. Cadence can say first order
-          because theirs really is a first-order discount; ours would be
-          understating an ongoing benefit and would read as bait-and-switch on
-          renewal. Note this is a standing commercial promise: it holds only
-          while the subscription price stays where it is. What IS
-          first-order-only here is the starter kit and the bonus shots, and the
-          stack below says so in its own words. */}
+      {/* Not "off your first order": getDisplayDiscount compares the recurring
+          price against the one-time reference, so the saving holds for as long
+          as the subscription does. The starter kit below is the first-order-only
+          part. Negative margins reach the card edges; the card's overflow-hidden
+          keeps this inside the rounded corners. */}
       {savePct > 0 && (
         <p
           className="-mx-5 -mt-5 mb-4 px-5 py-2 text-center text-[12px] font-bold uppercase tracking-wide text-white"
@@ -565,13 +540,9 @@ function SubscriptionSummary({
         ))}
       </ul>
 
-      {/* One card, not two: the gifts sit inside the summary so the panel does
-          not carry two stacked bordered blocks on mobile. The soft grey tint is
-          what separates them now, borrowed from the cart upsell tile: a hairline
-          divider left both halves reading as one long list, and the card asks
-          the eye to parse two different things, what you get every month and
-          what you get once. Negative margins take the tint to the card's edges,
-          and the card's overflow-hidden keeps it inside the rounded corners. */}
+      {/* One card, not two. The tint is what separates the two halves, what you
+          get every month and what you get once; a hairline divider left them
+          reading as one long list. */}
       {showGifts && (
         <div className="-mx-5 -mb-5 mt-5 bg-[#eef0f5] px-5 py-5">
           <GiftValueStack pricing={pricing} />
@@ -807,12 +778,9 @@ export default function ProductBuyPanel({
       </div>
 
       <div className="mt-3">
-        {/* The anchor StickyPurchaseFooterMobile observes to decide when to
-            appear. It wraps the button and nothing else, deliberately: put on
-            the block below instead, it would also enclose the buy-once link and
-            the whole gift stack, and the bar would hold off until all of that
-            had scrolled by rather than until the CTA had. Kept as a wrapper
-            rather than a prop on the shared ConkaCTAButton. */}
+        {/* StickyPurchaseFooterMobile observes this. It must wrap the button
+            and nothing else: any wider and the bar holds off until the gift
+            stack has scrolled by too. */}
         <div id={HERO_CTA_ANCHOR_ID}>
           <ConkaCTAButton
             onClick={onAddToCart}

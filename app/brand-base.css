@@ -303,27 +303,20 @@
   line-height: normal;
 }
 
-/* PDP lede headline (IngredientBenefitLede): shrinks to hold one line where the
-   copy allows, so a two-line headline does not add scroll depth between the
-   gallery and the plan picker.
-
-   The base rule is the plain h2 token and is the whole story on browsers
-   without container queries. `cqi` is invalid there, and an invalid unit kills
-   the entire font-size declaration at parse time, so a bare clamp() would leave
-   the headline inheriting body size. The @supports block is what keeps that
-   failure impossible rather than merely unlikely.
-
-   `--pdp-lede-fit` is set per string by the component, since only it knows the
-   character count. */
+/* PDP lede headline: shrinks to hold one line where the copy allows.
+   `--pdp-lede-fit` is set per string by IngredientBenefitLede, which is the only
+   place that knows the character count. The @supports guard is load-bearing:
+   `cqi` is invalid without container queries, and an invalid unit kills the
+   whole declaration, so an unguarded clamp() would drop the font-size and leave
+   the headline at body size. */
 .pdp-lede-headline {
   font-size: var(--brand-h2-size);
 }
 
 @supports (container-type: inline-size) {
   .pdp-lede-headline {
-    /* 1.375rem floor: below it the headline goes under the body copy beneath
-       it and reads as broken rather than tidy. A string long enough to hit the
-       floor wraps, and the fix for that is shorter copy, not smaller type. */
+    /* 1.375rem floor: below it the headline drops under the body copy beneath
+       it. A string long enough to hit the floor wraps instead. */
     font-size: clamp(
       1.375rem,
       var(--pdp-lede-fit, var(--brand-h2-size)),
