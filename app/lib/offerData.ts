@@ -367,7 +367,9 @@ const OFFER_PRICING: Record<OfferProduct, Record<OfferCadence, OfferPricing>> = 
       subsequentShots: 80,
       freeShotsValue: 59.99,
       gifts: STARTER_PACK_GIFTS,
-      starterPackImage: "/formulas/starterPack/FlowQuarterlyStarterPack.jpg",
+      // Same plain shot as monthly, relabelled with the quarterly figures
+      // (design/pdp-slides/slides/s0q.html): £328.90 of value for £109.99.
+      starterPackImage: "/formulas/mmPdpAssetsV2/FlowStarterKitQuarterly.jpg",
     },
     "quarterly-otp": {
       // + postage = the £189.99 FLOW-60 charges. Same £3.00/shot as monthly one-time.

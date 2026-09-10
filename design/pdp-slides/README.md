@@ -18,18 +18,20 @@ on Flow `monthly-sub` in `app/lib/offerData.ts` (slide `s0`).
 
 | File | Output | Argument it makes |
 |------|--------|-------------------|
-| `s0` | `FlowStarterKit.jpg` | £152.94 of value for £39.99 |
+| `s0` | `FlowStarterKit.jpg` | £152.94 of value for £39.99 (monthly) |
+| `s0q` | `FlowStarterKitQuarterly.jpg` | £328.90 of value for £109.99 (quarterly) |
 | `s1` | `FlowBenefitStack.jpg` | Four outcomes, not a spec |
 | `s2` | `FlowWhatToExpect.jpg` | 15min → week 2+ onset arc |
 | `s3` | `FlowIngredients.jpg` | Six ingredients, benefit-tagged |
 | `s4` | `FlowVsCoffee.jpg` | Beats coffee and Rx, 6 rows |
 | `s5` | `FlowProof.jpg` | +28.96% measured in the app |
+| `s6` | `FlowTested.jpg` | Informed Sport + 4 certifications |
 | `s7` | `FlowReview.jpg` | 4.7 / 622, one customer quote |
 | `s8` | `FlowGuarantee.jpg` | 100 days, under 1.2% claim it |
 
-`s6` is deliberately absent: the certification slide
-(`mmPdpAssets/Clear3rdPartyTesting.jpg`) was already legible at thumbnail size
-and is reused unchanged.
+`s0` and `s0q` share one plain photo and differ only in their figures — the
+same arrangement the Figma frames use, where monthly and quarterly point at a
+single image hash with different labels composited on top.
 
 ## Constraints that shaped these
 
@@ -58,12 +60,13 @@ and is reused unchanged.
   filling each row between its first and last hit. A flood fill from the border
   does **not** work — it leaks through the translucent amber glass.
 
-## Prices are burned into `s0`
+## Prices are burned into `s0` / `s0q`
 
-The bottom bar carries £152.94 and £39.99. This contradicts the rule in
+The bottom bars carry £152.94 / £39.99 and £328.90 / £109.99. This
+contradicts the rule in
 `docs/development/featurePlans/flow-starter-pack.md` that prices live in HTML,
-though the artwork it replaced broke it too. If either figure changes, edit
-`slides/s0.html` and re-run `render.sh`.
+though the artwork it replaced broke it too. If any figure changes, edit the
+relevant slide and re-run `render.sh`.
 
 ## Clear and Both
 

@@ -19,13 +19,14 @@ slide_name() {
     s0) echo FlowStarterKit ;;   s1) echo FlowBenefitStack ;;
     s2) echo FlowWhatToExpect ;; s3) echo FlowIngredients ;;
     s4) echo FlowVsCoffee ;;     s5) echo FlowProof ;;
+    s6) echo FlowTested ;;       s0q) echo FlowStarterKitQuarterly ;;
     s7) echo FlowReview ;;       s8) echo FlowGuarantee ;;
     *)  echo "$1" ;;
   esac
 }
 
 mkdir -p "$OUT"
-if [ $# -gt 0 ]; then SLIDES="$*"; else SLIDES="s0 s1 s2 s3 s4 s5 s7 s8"; fi
+if [ $# -gt 0 ]; then SLIDES="$*"; else SLIDES="s0 s0q s1 s2 s3 s4 s5 s6 s7 s8"; fi
 
 for s in $SLIDES; do
   out="$(slide_name "$s")"

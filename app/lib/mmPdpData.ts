@@ -33,8 +33,7 @@ export const MM_GALLERY_ASSETS: Record<ProductHeroId, string[]> = {
     `${ASSET_BASE_V2}/FlowIngredients.jpg`,
     `${ASSET_BASE_V2}/FlowVsCoffee.jpg`,
     `${ASSET_BASE_V2}/FlowProof.jpg`,
-    // Certification slide is unchanged and already legible at thumbnail size.
-    `${ASSET_BASE}/Clear3rdPartyTesting.jpg`,
+    `${ASSET_BASE_V2}/FlowTested.jpg`,
     `${ASSET_BASE_V2}/FlowReview.jpg`,
     `${ASSET_BASE_V2}/FlowGuarantee.jpg`,
   ],
