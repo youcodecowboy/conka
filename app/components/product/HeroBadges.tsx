@@ -27,11 +27,17 @@ type SpecProductType = "flow" | "clear" | "both";
  * the easiest thing on the first screen to skip, which is the opposite of what
  * the strongest offer we have should do.
  *
- * It wears the old spec pill's clothes: the same light blue-lilac gradient,
- * mono face and uppercase tracking that "0MG CAFFEINE | MORNING RITUAL" used
- * to carry in this exact slot. A solid green fill was tried first and read as
- * a system alert rather than as part of the brand. This keeps the badge shape
- * that worked and spends it on something a buyer actually weighs.
+ * Two earlier passes are worth knowing about, because the third is a response
+ * to both. A solid green fill read as a system alert rather than as part of the
+ * brand. Reskinning it as the old spec pill fixed that but flattened the figure
+ * back into the sentence, so the badge was noticeable and the number inside it
+ * still was not.
+ *
+ * This version borrows the cart upsell's treatment instead: flat #eef0f5 fill
+ * with the offer gradient as a 2px ring. The label steps back to small mono
+ * uppercase and the figure steps forward at 1.125rem in the positive green, so
+ * the thing the eye lands on is the amount rather than the words around it.
+ * "worth" stays in the label so the figure cannot be misread as a price.
  *
  * Renders nothing when the selected cadence gives nothing away, which is every
  * one-time cadence: offerData attaches the starter pack to subscriptions only.
@@ -53,15 +59,24 @@ export function HeroGiftValue({
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#dbe0f0] to-[#eef1f8] px-4 py-2 font-mono text-sm font-bold uppercase tracking-wide text-black ${className}`}
+      className={`inline-flex items-center gap-2.5 rounded-lg px-3.5 py-2 ${className}`}
+      // Same ring as the cart upsell and the selected plan card: the offer
+      // gradient painted on the border box over a flat fill on the padding box,
+      // which a plain border-color cannot do.
+      style={{
+        border: "2px solid transparent",
+        background:
+          "linear-gradient(#eef0f5,#eef0f5) padding-box, linear-gradient(90deg,#cdeecf,#e9f5c9) border-box",
+      }}
     >
       <svg
         viewBox="0 0 24 24"
-        width="15"
-        height="15"
+        width="16"
+        height="16"
         fill="none"
         aria-hidden
         className="shrink-0"
+        style={{ color: "var(--brand-positive)" }}
       >
         <path
           d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"
@@ -71,7 +86,15 @@ export function HeroGiftValue({
           strokeLinejoin="round"
         />
       </svg>
-      Free starter kit worth {formatPrice(giftValue)}
+      <span className="font-mono text-[11px] font-bold uppercase leading-none tracking-wide text-black/65">
+        Free starter kit worth
+      </span>
+      <span
+        className="text-lg font-bold leading-none tabular-nums"
+        style={{ color: "var(--brand-positive)" }}
+      >
+        {formatPrice(giftValue)}
+      </span>
     </span>
   );
 }
