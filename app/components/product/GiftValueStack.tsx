@@ -43,13 +43,18 @@ export default function GiftValueStack({
       {/* The offer framing sits here rather than in the <h1>: the kit is a
           first-order mechanic, so it is not true of a one-time buyer or of
           order two onwards, but it is exactly true of this stack. */}
-      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
         <p className="text-lg font-medium text-black">Your starter kit</p>
+        {/* The offer gradient pill the cart upsell uses for the same claim,
+            rather than the green text this carried before. Plain text at 14px
+            it was the quietest thing in a block whose whole argument is the
+            total, and it sat one weight away from the struck prices under every
+            tile. The pill is the one element here that is not a price. */}
         <p
-          className="text-sm font-bold"
-          style={{ color: "var(--brand-positive)" }}
+          className="whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#14532d]"
+          style={{ background: "linear-gradient(90deg, #cdeecf, #e9f5c9)" }}
         >
-          {formatPrice(totalFreeValue)} value
+          {formatPrice(totalFreeValue)} of gifts free
         </p>
       </div>
       <p className="mt-1 text-sm text-black/60">

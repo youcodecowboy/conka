@@ -530,20 +530,22 @@ function SubscriptionSummary({
           Simple DTC primary and already the CTA colour, so the card reads as
           one unit.
 
-          Copy is "vs buying once", NOT "off your first order", even though the
-          reference uses the latter. getDisplayDiscount compares the recurring
-          subscription price against the one-time reference, so this saving
-          applies to every order, not just the first. Cadence can say first
-          order because theirs really is a first-order discount. Ours would be
+          Copy says "for life", NOT "off your first order" as the reference
+          words it. getDisplayDiscount compares the recurring subscription price
+          against the one-time reference, so the saving applies to every order
+          for as long as someone stays subscribed. Cadence can say first order
+          because theirs really is a first-order discount; ours would be
           understating an ongoing benefit and would read as bait-and-switch on
-          renewal. What IS first-order-only here is the starter kit and the
-          bonus shots, and the stack below says so in its own words. */}
+          renewal. Note this is a standing commercial promise: it holds only
+          while the subscription price stays where it is. What IS
+          first-order-only here is the starter kit and the bonus shots, and the
+          stack below says so in its own words. */}
       {savePct > 0 && (
         <p
           className="-mx-5 -mt-5 mb-4 px-5 py-2 text-center text-[12px] font-bold uppercase tracking-wide text-white"
           style={{ background: "var(--brand-navy, #1B2757)" }}
         >
-          Save {savePct}% vs buying once
+          Save {savePct}% for life
         </p>
       )}
       <p className="text-lg font-medium text-black">Your subscription</p>
@@ -563,10 +565,15 @@ function SubscriptionSummary({
         ))}
       </ul>
 
-      {/* One card, not two: the gifts sit under a divider inside the summary so
-          the panel does not carry two stacked bordered blocks on mobile. */}
+      {/* One card, not two: the gifts sit inside the summary so the panel does
+          not carry two stacked bordered blocks on mobile. The soft grey tint is
+          what separates them now, borrowed from the cart upsell tile: a hairline
+          divider left both halves reading as one long list, and the card asks
+          the eye to parse two different things, what you get every month and
+          what you get once. Negative margins take the tint to the card's edges,
+          and the card's overflow-hidden keeps it inside the rounded corners. */}
       {showGifts && (
-        <div className="mt-5 border-t border-black/10 pt-5">
+        <div className="-mx-5 -mb-5 mt-5 bg-[#eef0f5] px-5 py-5">
           <GiftValueStack pricing={pricing} />
         </div>
       )}
