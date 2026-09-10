@@ -58,13 +58,20 @@ function roundedDownValue(value: number): string | null {
  * cannibalisation this work set out to avoid. Graymatter can put a percentage
  * here because their price sits beside it; ours does not.
  *
- * Why the count leads: at 1.125rem in green the bare figure read as the price
- * of the product rather than the value of a gift, which is a genuinely
- * expensive misread on a first screen. A count cannot be mistaken for a price,
- * so it takes the prominent slot and the money supports it.
+ * Why the count leads: a bare figure set large in green read as the price of
+ * the product rather than the value of a gift, which is an expensive misread on
+ * a first screen. A count cannot be mistaken for a price, so it goes first and
+ * the money follows as support.
  *
- * Treatment borrowed from the cart upsell: flat #eef0f5 fill with the offer
- * gradient as a 2px ring.
+ * Treatment is the old spec pill's, which this badge replaced: the light
+ * blue-lilac gradient fill, mono face and uppercase tracking that "0MG CAFFEINE
+ * | MORNING RITUAL" carried in this exact slot. A flat pill was tried and
+ * abandoned once already, but the fault then was the copy, not the fill: a
+ * lone "£82.96" in a uniform line had nothing marking it as a value rather than
+ * a price. Count-led copy removes that, so the flat treatment holds and the
+ * slot keeps the shape the page was built around. The gift icon is the one
+ * addition, in the positive green, so the pill reads as an offer at a glance
+ * rather than as a spec.
  *
  * Renders nothing when the selected cadence gives nothing away, which is every
  * one-time cadence: offerData attaches the starter pack to subscriptions only.
@@ -88,15 +95,7 @@ export function HeroGiftValue({
 
   return (
     <span
-      className={`inline-flex items-center gap-2.5 rounded-lg px-3.5 py-2 ${className}`}
-      // Same ring as the cart upsell and the selected plan card: the offer
-      // gradient painted on the border box over a flat fill on the padding box,
-      // which a plain border-color cannot do.
-      style={{
-        border: "2px solid transparent",
-        background:
-          "linear-gradient(#eef0f5,#eef0f5) padding-box, linear-gradient(90deg,#cdeecf,#e9f5c9) border-box",
-      }}
+      className={`inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#dbe0f0] to-[#eef1f8] px-4 py-2 font-mono text-sm font-bold uppercase tracking-wide text-black ${className}`}
     >
       <svg
         viewBox="0 0 24 24"
@@ -115,15 +114,8 @@ export function HeroGiftValue({
           strokeLinejoin="round"
         />
       </svg>
-      <span
-        className="text-base font-bold leading-none"
-        style={{ color: "var(--brand-positive)" }}
-      >
-        +{giftCount} free gifts
-      </span>
-      <span className="font-mono text-[11px] font-bold uppercase leading-none tracking-wide text-black/60">
-        {rounded ? `worth over ${rounded}` : `worth ${formatPrice(giftValue)}`}
-      </span>
+      +{giftCount} free gifts{" "}
+      {rounded ? `worth over ${rounded}` : `worth ${formatPrice(giftValue)}`}
     </span>
   );
 }
