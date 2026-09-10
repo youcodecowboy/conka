@@ -10,7 +10,9 @@ Scoped 2026-09-10. Branch `feature/pdp-add-to-cart-tweaks`.
 |-------|-------------|--------|
 | 1 | Strapline replaces the spec pill, gift-value line in the identity block | Built 2026-09-10, pending visual review |
 | 2 | Benefit lede above the plan picker on mobile | Built 2026-09-10, pending visual review |
-| 3 | Desktop convergence + PAGE_NARRATIVES entry | Future |
+| 3 | Filled offer badge, discount pill to the card corner, benefit headline back at full size | Built 2026-09-10, pending visual review |
+| 4 | Sticky purchase footer | Not started, deferred by Rudh |
+| 5 | Desktop convergence + PAGE_NARRATIVES entry | Future |
 
 ## Problem
 
@@ -144,7 +146,36 @@ Target mobile order after Phase 1:
 
 **Superseded sketch, kept for the reasoning:** split `HeroBenefitChecks` (holding `CHECK_ITEMS` and the `CheckMark` svg) out of `IngredientBenefitLede`, leaving the description behind, so only the grid went above the panel at roughly 90px. Worth remembering if the 200px turns out to hurt: it is the cheaper half of this trade, still available as a retreat.
 
-## Phase 3: Desktop convergence and narrative entry (Future)
+## Phase 3: Offer weight pass
+
+**Built 2026-09-10, SCRUM-1336, commit `355760d2`.**
+
+Reviewing Phases 1 and 2 next to the Graymatter PDP produced one diagnosis: the elements meant to catch a cold visitor were the quietest things on the screen. Graymatter's offer is a filled pill sitting on the price; ours was a sentence in body text.
+
+1. **The starter-kit offer became a filled green badge** with a gift icon, replacing the sentence with a coloured figure. Same derived per-cadence value, same hide-on-one-time behaviour, unchanged data path.
+2. **The plan-card discount pill moved to the card's top-right border and grew** from 10px to 12px. Inline it competed with the strike-through and the price for one eye line and made the row read as three numbers. `MOST POPULAR` keeps its centred position, so the two occupy different horizontal space and do not collide at 390px.
+3. **The benefit headline went back to the lede at full size**, reverting the strapline half of Phase 1.
+
+### Phase 1's strapline lasted one afternoon, and that is worth recording
+
+Phase 1 moved the subline out of the lede and shrank it to a one-line strapline under the `h1`. Phase 3 put it back as the two-line `h2` it was, and deleted `HeroStrapline`.
+
+This is not churn. Phase 1's reasoning was that the benefit had to sit under the `h1` because that was the only place a buyer would see it before the price. Phase 2 removed that constraint by moving the whole lede above the plan picker. Once the benefit lands before the buy decision anyway, there is no reason to pay the cost Phase 1 paid for the position, which was shrinking the loudest line on the page to fit beside a star rating.
+
+What survives from Phase 1 is the part that mattered: the spec pill is still deleted, and the offer still sits above the gallery.
+
+Side effect: restoring the `h2` closes the heading-structure risk flagged during Phase 1, when the mobile hero briefly had no `h2` at all.
+
+## Phase 4: Sticky purchase footer (Deferred)
+
+Raised by Rudh alongside Phase 3 and explicitly parked until the visual changes settle. Two options on the table:
+
+- The Graymatter pattern: a sticky bar that scrolls the visitor back up to the purchase options rather than adding to cart directly.
+- Reintroducing our own sticky add-to-cart footer, which `StickyPurchaseFooter` / `StickyPurchaseFooterMobile` already implement.
+
+Worth noting this interacts with the roughly 200px of extra scroll depth Phases 1 to 3 put between the top of the page and the plan picker. A sticky route back to the picker is a plausible answer to exactly that cost, so it should be judged against the same add-to-cart number.
+
+## Phase 5: Desktop convergence and narrative entry (Future)
 
 - Reconcile `ProductHeroV3` with whatever mobile settles on, rather than letting the two drift.
 - `PAGE_NARRATIVES.md` has no entry for the PDPs at all, so there is no health rating or section arc for the pages carrying most paid traffic. Add one.
@@ -196,3 +227,4 @@ Built as planned, with two things the plan did not anticipate.
 |--------|-------------|-------|--------|
 | SCRUM-1334 | [Website & CRO] PDP above-fold Phase 1: benefit strapline replaces the spec pill, gift-value line in the hero | 1 | For review |
 | SCRUM-1335 | [Website & CRO] PDP above-fold Phase 2: move the benefit lede above the plan picker on mobile | 2 | For review |
+| SCRUM-1336 | [Website & CRO] PDP above-fold Phase 3: filled offer badge, discount pill to the card corner, benefit headline back at full size | 3 | For review |
