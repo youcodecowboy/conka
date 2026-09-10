@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { formatPrice } from "@/app/lib/productData";
-import { STARTER_SHOTS_IMAGE } from "@/app/lib/cadenceData";
-import type { CadenceGift, CadencePricing } from "@/app/lib/cadenceData";
+import {
+  getCadenceGiftTiles,
+  getCadenceGiftValue,
+} from "@/app/lib/cadenceData";
+import type { CadencePricing } from "@/app/lib/cadenceData";
 
 /**
  * GiftValueStack — the starter-pack gift grid (SCRUM-1283).
@@ -23,41 +26,21 @@ import type { CadenceGift, CadencePricing } from "@/app/lib/cadenceData";
  * rendered at roughly 270px each and cost about 800px of panel for four tiles,
  * which buried the CTA on mobile.
  *
- * The bonus-shots tile derives from `freeShots` / `freeShotsValue` rather than
- * being listed in `gifts`, so the shot count stays sourced from the same place
- * the cadence cards read it from.
+ * The tiles and their total come from `getCadenceGiftTiles` /
+ * `getCadenceGiftValue` in cadenceData rather than being summed here, because
+ * the hero's gift-value line shows the same figure (SCRUM-1334) and the two
+ * must not be able to drift.
  */
-
-
-/** Tiles a cadence gives away free, bonus shots first. */
-function getGiftTiles(pricing: CadencePricing): CadenceGift[] {
-  const freeShots = pricing.freeShots ?? 0;
-  const freeShotsValue = pricing.freeShotsValue ?? 0;
-
-  return [
-    ...(freeShots > 0 && freeShotsValue > 0
-      ? [
-          {
-            id: "free-shots",
-            label: `+${freeShots} free shots`,
-            rrp: freeShotsValue,
-            image: STARTER_SHOTS_IMAGE,
-          },
-        ]
-      : []),
-    ...(pricing.gifts ?? []),
-  ];
-}
 
 export default function GiftValueStack({
   pricing,
 }: {
   pricing: CadencePricing;
 }) {
-  const tiles = getGiftTiles(pricing);
+  const tiles = getCadenceGiftTiles(pricing);
   if (tiles.length === 0) return null;
 
-  const totalFreeValue = tiles.reduce((sum, tile) => sum + tile.rrp, 0);
+  const totalFreeValue = getCadenceGiftValue(pricing);
 
   return (
     <div>

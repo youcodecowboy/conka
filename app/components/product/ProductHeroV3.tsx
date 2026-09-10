@@ -9,7 +9,7 @@ import {
 import { getPdpGalleryImages } from "@/app/lib/mmPdpData";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import ProductBuyPanel, { TrustStrip } from "./ProductBuyPanel";
-import { SpecBadge, SocialProofBadge } from "./HeroBadges";
+import { HeroStrapline, HeroGiftValue, SocialProofBadge } from "./HeroBadges";
 import HeroRating from "./HeroRating";
 import IngredientBenefitLede from "./IngredientBenefitLede";
 import IngredientDisclosureRows from "./IngredientDisclosureRows";
@@ -79,7 +79,8 @@ export default function ProductHeroV3({
         </div>
 
         {/* RIGHT (35%): identity + buy box + the product lede.
-            Order mirrors Magic Mind: viewing, title, spec, rating. */}
+            Order: viewing, title, benefit, rating, gift value. The benefit
+            line replaced the spec pill in that row (SCRUM-1334). */}
         <div className="order-1 flex min-w-0 flex-col gap-6 text-black lg:order-2">
           <div className="flex flex-col gap-3">
             <SocialProofBadge productType={productType} className="self-start" />
@@ -91,9 +92,14 @@ export default function ProductHeroV3({
               {content.name}
             </h1>
 
-            <SpecBadge productType={productType} className="self-start" />
+            <HeroStrapline formulaId={formulaId} />
 
             <HeroRating />
+
+            <HeroGiftValue
+              formulaId={formulaId}
+              selectedCadence={selectedCadence}
+            />
 
             <ProductBuyPanel
               formulaId={formulaId}
@@ -109,7 +115,8 @@ export default function ProductHeroV3({
             />
           </div>
 
-          {/* Subline + description + check grid. The outcome accordions that
+          {/* Description + check grid (the subline now opens the column as
+              HeroStrapline, SCRUM-1334). The outcome accordions that
               used to follow are gone (SCRUM-1262): the body's ingredient grid
               covers the same ground, and keeping both meant desktop argued
               ingredients three times. The lede stays because it is the product

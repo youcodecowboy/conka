@@ -1,14 +1,18 @@
-import { getHeroContent } from "@/app/lib/productHeroHelpers";
 import type { ProductHeroId } from "@/app/lib/productTypes";
-import { LEDE_DESCRIPTION, LEDE_SUBLINE } from "@/app/lib/mmPdpData";
+import { LEDE_DESCRIPTION } from "@/app/lib/mmPdpData";
 
 /* ============================================================================
  * IngredientBenefitLede (SCRUM-1209)
  *
- * The product subline + condensed description + green-check benefit grid.
+ * The condensed product description + green-check benefit grid.
  *
  * Rendered directly by both heroes, under the buy panel: ProductHeroV3 on
  * desktop, ProductHeroMobileV3 on mobile.
+ *
+ * The two-line subline h2 that used to open this block is gone (SCRUM-1334).
+ * The same sentence now opens the hero as HeroStrapline, directly under the
+ * h1, where it answers "what does this do for me?" before the buyer reaches
+ * the price. Keeping both meant saying it twice inside one screen.
  *
  * Flow ("01"), Clear ("02"), and Both ("03").
  * ========================================================================== */
@@ -43,46 +47,11 @@ export default function IngredientBenefitLede({
 }: {
   formulaId: ProductHeroId;
 }) {
-  const content = getHeroContent(formulaId);
-  // Subline: bold the lead clause (product name), lighten + shrink the
-  // descriptor tail, breaking onto two lines. Prefer a word connector
-  // ("... for ..." Flow, "... that ..." Clear); fall back to a comma (Both),
-  // dropping the comma from the tail.
-  const subline = LEDE_SUBLINE[formulaId] ?? content.seoHeading ?? "";
-  const wordSplit = [" for ", " That ", " that "]
-    .map((c) => subline.indexOf(c))
-    .filter((i) => i > 0)
-    .sort((a, b) => a - b)[0] ?? -1;
-  let boldEnd = wordSplit;
-  let restStart = wordSplit;
-  if (boldEnd < 0) {
-    const ci = subline.indexOf(", ");
-    if (ci > 0) {
-      boldEnd = ci;
-      restStart = ci + 2;
-    }
-  }
-  const sublineBold = boldEnd > 0 ? subline.slice(0, boldEnd) : subline;
-  const sublineRest = boldEnd > 0 ? subline.slice(restStart) : "";
-
   return (
     <div>
-      {subline && (
-        <h2
-          className="leading-tight text-black"
-          style={{ letterSpacing: "-0.01em" }}
-        >
-          <span className="block text-[2.25rem] font-bold">{sublineBold}</span>
-          {sublineRest && (
-            <span className="block text-[1.5rem] font-medium text-black">
-              {sublineRest.trim()}
-            </span>
-          )}
-        </h2>
-      )}
       {/* Condensed description (the images carry the fuller story). Canonical
           formulaContent.headline is left intact for other surfaces. */}
-      <p className="brand-body mt-4 max-w-2xl text-black">
+      <p className="brand-body max-w-2xl text-black">
         {LEDE_DESCRIPTION[formulaId]}
       </p>
       <ul className="mt-6 grid max-w-2xl grid-cols-2 gap-x-6 gap-y-3">

@@ -5,6 +5,7 @@
 ---
 
 <!-- changelog:newest - new entries are inserted directly below this line, newest first, one line each -->
+- **2026-09-10** | PDP heroes lead with the product benefit line and the free starter-kit value instead of the caffeine spec pill, so cold traffic sees both before the price
 - **2026-09-09** | /our-story hero and chapters rebuilt as full-bleed split bands: the image now owns half the viewport edge to edge and full height on desktop, Cadence style.
 - **2026-09-09** | /our-story mobile: chapter and hero images now sit flush with the top of their section, so no band of section background shows above them.
 - **2026-09-09** | Mobile pass on /our-story: hero photo now leads full bleed and flush under the nav, chapter images run edge to edge, stat row centred.

@@ -9,7 +9,7 @@ import {
 import { getPdpGalleryImages } from "@/app/lib/mmPdpData";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import ProductBuyPanel, { TrustStrip } from "./ProductBuyPanel";
-import { SpecBadge, SocialProofBadge } from "./HeroBadges";
+import { HeroStrapline, HeroGiftValue, SocialProofBadge } from "./HeroBadges";
 import HeroRating from "./HeroRating";
 import IngredientBenefitLede from "./IngredientBenefitLede";
 import IngredientDisclosureRows from "./IngredientDisclosureRows";
@@ -28,9 +28,9 @@ interface ProductHeroMobileV3Props {
  * ProductHeroMobileV3 — the mobile counterpart of ProductHeroV3 (Flow, Clear, Both).
  *
  * Single stacked column, ordered so the buy decision comes first: identity
- * (viewing → title → spec → rating) → rectangular asset + thumbnails → pricing
- * widget + subscription box + Ingredients pill → subline + description + check
- * grid → proof strip.
+ * (viewing → title → benefit → rating → gift value) → rectangular asset +
+ * thumbnails → pricing widget + subscription box + Ingredients pill →
+ * description + check grid → proof strip.
  *
  * The hero deliberately stops at the buy decision (SCRUM-1260). It used to
  * carry a whole ingredients section below the widget (written-out list, outcome
@@ -57,7 +57,10 @@ export default function ProductHeroMobileV3({
 
   return (
     <div className="flex flex-col gap-6 text-black">
-      {/* Identity — MM order: viewing → title → spec → rating */}
+      {/* Identity — viewing → title → benefit → rating → offer. The benefit
+          line replaces the spec pill that sat in that row (SCRUM-1334), and
+          the gift line closes the block so the offer lands before the gallery
+          rather than below the price. */}
       <div className="flex flex-col gap-2">
         <SocialProofBadge productType={productType} className="self-start" />
         <h1
@@ -66,8 +69,12 @@ export default function ProductHeroMobileV3({
         >
           {content.name}
         </h1>
-        <SpecBadge productType={productType} className="self-start" />
+        <HeroStrapline formulaId={formulaId} />
         <HeroRating />
+        <HeroGiftValue
+          formulaId={formulaId}
+          selectedCadence={selectedCadence}
+        />
       </div>
 
       {/* Rectangular asset + thumbnail rail (arrows on the rail, not the image) */}
@@ -96,7 +103,8 @@ export default function ProductHeroMobileV3({
         showIngredientsPill
       />
 
-      {/* Subline + description + check grid, below the widget */}
+      {/* Description + check grid, below the widget. The subline that used to
+          open this block now opens the hero (SCRUM-1334). */}
       <IngredientBenefitLede formulaId={formulaId} />
 
       {/* The supporting answers, directly under the check grid, the way the

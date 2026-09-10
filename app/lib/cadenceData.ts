@@ -98,6 +98,52 @@ export function getCadenceVariantByProductHeroId(
 }
 
 // ============================================
+// STARTER-PACK GIFTS
+// ============================================
+
+/**
+ * The tiles a cadence gives away free, bonus shots first.
+ *
+ * Lives here rather than in GiftValueStack because two surfaces now show the
+ * same offer: the hero's gift-value line and the buy panel's stack (SCRUM-1334).
+ * Both read from this, so the figure in the hero cannot drift from the figure
+ * in the stack it is summarising.
+ *
+ * The bonus-shots tile derives from `freeShots` / `freeShotsValue` rather than
+ * being listed in `gifts`, so the shot count stays sourced from the same place
+ * the cadence cards read it from.
+ */
+export function getCadenceGiftTiles(pricing: OfferPricing): OfferGift[] {
+  const freeShots = pricing.freeShots ?? 0;
+  const freeShotsValue = pricing.freeShotsValue ?? 0;
+
+  return [
+    ...(freeShots > 0 && freeShotsValue > 0
+      ? [
+          {
+            id: "free-shots",
+            label: `+${freeShots} free shots`,
+            rrp: freeShotsValue,
+            image: STARTER_SHOTS_IMAGE,
+          },
+        ]
+      : []),
+    ...(pricing.gifts ?? []),
+  ];
+}
+
+/**
+ * Total RRP of everything a cadence gives away free, 0 when it gives nothing.
+ *
+ * One-time cadences carry no `gifts` and no `freeShotsValue` in offerData, so
+ * they total 0 and callers render no offer. Display only and pre-add: the cart
+ * and checkout still price from Shopify alone (CART_PRICING_SOURCE_OF_TRUTH.md).
+ */
+export function getCadenceGiftValue(pricing: OfferPricing): number {
+  return getCadenceGiftTiles(pricing).reduce((sum, tile) => sum + tile.rrp, 0);
+}
+
+// ============================================
 // BOTH HERO CONTENT ("03")
 // Mirrors offerData OFFER_PRODUCTS.both, structured here so product
 // pages have a single import path (cadenceData) rather than reaching
