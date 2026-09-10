@@ -135,11 +135,20 @@ timeline, which is Both's actual proposition.
 `b0` / `b0q` inherit a fault: `BothStartPackClean` shows only Flow-labelled
 bottles. A Both pack should show a Flow/Clear mix.
 
-## Previews (not wired in)
+## The running photograph on `shared-tested`
 
-`slides/shared-tested-athlete.html` renders the testing slide over a
-black-and-white running photograph, on the logic that Informed Sport is an
-athlete certification. Not in any gallery. Its source is only 399x501, so the
-photo is a right-hand panel rather than full bleed to keep the upscale near
-2.5x rather than 6x; a high-resolution replacement would be needed to ship it.
-Render it by hand, not via `render.sh`, so it does not land in `public/`.
+The testing slide runs over a black-and-white running photograph, on the logic
+that Informed Sport is an athlete certification. **Its source is only
+399x501**, so at the current panel width it is upscaled roughly 3.9x. It holds
+together because the dark treatment hides the softness, but it is the one
+asset in the set running below its source resolution and a high-resolution
+replacement is the single best thing to swap in.
+
+## Alternatives kept but not chosen
+
+`previews/p4a-ingredients-wheel.html` (a 15-spoke ring) and
+`previews/p4b-ingredients-split.html` (AM/PM columns) were both built for
+Both's ingredient slide. The two-row layout in `slides/b3.html` won because it
+shows the bottles at real size *and* labels every ingredient with its
+mechanism. Render the alternatives by hand, not via `render.sh`, so they do
+not land in `public/`.
