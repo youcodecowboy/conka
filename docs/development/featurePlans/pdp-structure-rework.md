@@ -411,6 +411,7 @@ The FAQ's sticky lifestyle image was flagged as unnecessary. `LabFAQ` already ac
 - `docs/branding/DESIGN_SYSTEM.md` section 8.5 (Simple DTC)
 - `docs/PAGE_NARRATIVES.md` (page story map)
 - Gray Matter PDP, structural reference: `trygraymatter.com/products/brightmind-1`
+- `docs/development/featurePlans/pdp-above-fold-conversion.md` (later, narrower push at the same hero. Its Phase 1 works around this plan's Phase 1 rather than reversing it: see that doc's "The SCRUM-1260 conflict" section)
 
 ## Jira tickets
 
