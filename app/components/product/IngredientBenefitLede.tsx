@@ -80,9 +80,22 @@ export default function IngredientBenefitLede({
           className="leading-tight text-black"
           style={{ letterSpacing: "-0.01em" }}
         >
-          <span className="block text-[2.25rem] font-bold">{sublineBold}</span>
+          {/* One step down the type scale from the product name. Both lines
+              were hard-coded at 2.25rem / 1.5rem, and --brand-h1-size clamps to
+              exactly 2.25rem on mobile, so the lead clause was rendering the
+              same size as the h1 above it and the two competed. The tokens keep
+              the gap at every width rather than only at the one we checked. */}
+          <span
+            className="block font-bold"
+            style={{ fontSize: "var(--brand-h2-size)" }}
+          >
+            {sublineBold}
+          </span>
           {sublineRest && (
-            <span className="block text-[1.5rem] font-medium text-black">
+            <span
+              className="block font-medium text-black"
+              style={{ fontSize: "var(--brand-h3-size)" }}
+            >
               {sublineRest.trim()}
             </span>
           )}

@@ -23,11 +23,15 @@ type SpecProductType = "flow" | "clear" | "both";
  * is the one-line version of it, placed where a cold visitor sees it before
  * they reach the price rather than after.
  *
- * A filled pill rather than a sentence. As body text it read as fine print and
- * was the easiest thing on the first screen to skip, which is the opposite of
- * what the strongest offer we have should do. The reference PDPs both carry
- * their offer as a solid badge sitting on the price, so this matches that
- * weight.
+ * A badge rather than a sentence. As body text it read as fine print and was
+ * the easiest thing on the first screen to skip, which is the opposite of what
+ * the strongest offer we have should do.
+ *
+ * It wears the old spec pill's clothes: the same light blue-lilac gradient,
+ * mono face and uppercase tracking that "0MG CAFFEINE | MORNING RITUAL" used
+ * to carry in this exact slot. A solid green fill was tried first and read as
+ * a system alert rather than as part of the brand. This keeps the badge shape
+ * that worked and spends it on something a buyer actually weighs.
  *
  * Renders nothing when the selected cadence gives nothing away, which is every
  * one-time cadence: offerData attaches the starter pack to subscriptions only.
@@ -49,10 +53,16 @@ export function HeroGiftValue({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[13px] font-bold uppercase leading-none tracking-[0.02em] text-white ${className}`}
-      style={{ background: "var(--brand-positive)" }}
+      className={`inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#dbe0f0] to-[#eef1f8] px-4 py-2 font-mono text-sm font-bold uppercase tracking-wide text-black ${className}`}
     >
-      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" aria-hidden>
+      <svg
+        viewBox="0 0 24 24"
+        width="15"
+        height="15"
+        fill="none"
+        aria-hidden
+        className="shrink-0"
+      >
         <path
           d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"
           stroke="currentColor"
