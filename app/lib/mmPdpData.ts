@@ -14,6 +14,12 @@ import { pickFaqItems } from "./faqContent";
 
 const ASSET_BASE = "/formulas/mmPdpAssets";
 
+/** Redrawn Flow slides (SCRUM-TBD). Authored as HTML in `design/pdp-slides/`
+ *  and rendered with its `render.sh`, so the copy and the numbers on them stay
+ *  diffable rather than baked into a binary. Clear and Both still run off
+ *  ASSET_BASE until their versions exist. */
+const ASSET_BASE_V2 = "/formulas/mmPdpAssetsV2";
+
 /** Rectangular (7:5) gallery assets in presentation order. The research /
  *  third-party / comparison / athlete / risk-free slides are shared.
  *
@@ -22,14 +28,15 @@ const ASSET_BASE = "/formulas/mmPdpAssets";
  *  `starterPackImage` and the path is spelled once, in offerData. */
 export const MM_GALLERY_ASSETS: Record<ProductHeroId, string[]> = {
   "01": [
-    `${ASSET_BASE}/FlowMmHero.jpg`,
-    `${ASSET_BASE}/FlowSharperMind.jpg`,
-    `${ASSET_BASE}/FlowMmIngredients.jpg`,
-    `${ASSET_BASE}/SevenYearsResearch.jpg`,
+    `${ASSET_BASE_V2}/FlowBenefitStack.jpg`,
+    `${ASSET_BASE_V2}/FlowWhatToExpect.jpg`,
+    `${ASSET_BASE_V2}/FlowIngredients.jpg`,
+    `${ASSET_BASE_V2}/FlowVsCoffee.jpg`,
+    `${ASSET_BASE_V2}/FlowProof.jpg`,
+    // Certification slide is unchanged and already legible at thumbnail size.
     `${ASSET_BASE}/Clear3rdPartyTesting.jpg`,
-    `${ASSET_BASE}/ConkaVsOther.jpg`,
-    `${ASSET_BASE}/JackWillisReview.jpg`,
-    `${ASSET_BASE}/RiskFreeTrial.jpg`,
+    `${ASSET_BASE_V2}/FlowReview.jpg`,
+    `${ASSET_BASE_V2}/FlowGuarantee.jpg`,
   ],
   "02": [
     `${ASSET_BASE}/ClearMmHero.jpg`,

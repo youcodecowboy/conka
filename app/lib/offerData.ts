@@ -344,7 +344,9 @@ const OFFER_PRICING: Record<OfferProduct, Record<OfferCadence, OfferPricing>> = 
       subsequentShots: 20,
       freeShotsValue: 23.99,
       gifts: STARTER_PACK_GIFTS,
-      starterPackImage: "/formulas/starterPack/FlowStarterPack.jpg",
+      // Redrawn slide (design/pdp-slides/slides/s0.html). Quarterly still points at
+      // the old artwork: this one carries the monthly figures (£152.94 / £39.99).
+      starterPackImage: "/formulas/mmPdpAssetsV2/FlowStarterKit.jpg",
     },
     "monthly-otp": {
       price: OTP_PRICE.flow,
