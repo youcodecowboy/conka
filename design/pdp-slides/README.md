@@ -36,6 +36,14 @@ on Flow `monthly-sub` in `app/lib/offerData.ts` (slide `s0`).
 | `shared-tested` | `SharedTested.jpg` | Informed Sport + 4 certifications |
 | `s8` | `FlowGuarantee.jpg` | 100 days, Flow box |
 | `c8` | `ClearGuarantee.jpg` | 100 days, Clear box |
+| `b0` | `BothStarterKit.jpg` | £236.93 of value for £74.99 |
+| `b0q` | `BothStarterKitQuarterly.jpg` | £508.87 of value for £149.99 |
+| `b1` | `BothBenefitStack.jpg` | Morning to evening, on the tray shot |
+| `b2` | `BothWhatToExpect.jpg` | The two-shot day |
+| `b3` | `BothIngredients.jpg` | The nine curated across both |
+| `b4` | `BothVsCoffee.jpg` | Same table, Both pair |
+| `b7` | `BothReview.jpg` | Jack G. on running both |
+| `b8` | `BothGuarantee.jpg` | 100 days, Both boxes |
 
 Two slides are product-agnostic and are shared by both galleries, hence the
 `Shared` prefix: proof and testing. The guarantee is not shared — each formula
@@ -114,5 +122,24 @@ olive-green cast; the current file is the correct warm amber.
 
 ## Both
 
-Still on the old `mmPdpAssets/` set. Four of its nine slots are already covered
-by the `Shared` slides, so Both needs five new renders plus a Both cutout.
+`BothCutout.png` is composited from `FlowCutout` and `ClearCutout` rather than
+taken from `FMC-style/BothTransparent.png`, whose Clear bottle carries the same
+olive cast rejected for the Clear slides. Compositing also gives 799x874
+against that file's 548x564.
+
+`b2` is the one slide with authored copy: `whatToExpectV2.ts` has no `"03"`
+block, so its milestones do not exist in the repo. It is structured around the
+two-shot day (morning / afternoon / week 1 / week 2+) rather than an onset
+timeline, which is Both's actual proposition.
+
+`b0` / `b0q` inherit a fault: `BothStartPackClean` shows only Flow-labelled
+bottles. A Both pack should show a Flow/Clear mix.
+
+## Previews (not wired in)
+
+`slides/shared-tested-athlete.html` renders the testing slide over a
+black-and-white running photograph, on the logic that Informed Sport is an
+athlete certification. Not in any gallery. Its source is only 399x501, so the
+photo is a right-hand panel rather than full bleed to keep the upscale near
+2.5x rather than 6x; a high-resolution replacement would be needed to ship it.
+Render it by hand, not via `render.sh`, so it does not land in `public/`.

@@ -295,7 +295,9 @@ const OFFER_PRICING: Record<OfferProduct, Record<OfferCadence, OfferPricing>> = 
       subsequentShots: 40,
       freeShotsValue: 47.99,
       gifts: STARTER_PACK_GIFTS,
-      starterPackImage: "/formulas/starterPack/BothStarterPack.jpg",
+      // NOTE: the source photograph shows Flow-labelled bottles only; a Both
+      // pack should show a Flow/Clear mix. Inherited from the old artwork.
+      starterPackImage: "/formulas/mmPdpAssetsV2/BothStarterKit.jpg",
     },
     "monthly-otp": {
       price: OTP_PRICE.both,
@@ -318,7 +320,7 @@ const OFFER_PRICING: Record<OfferProduct, Record<OfferCadence, OfferPricing>> = 
       subsequentShots: 140,
       freeShotsValue: 59.99,
       gifts: STARTER_PACK_GIFTS,
-      starterPackImage: "/formulas/starterPack/BothQuarterlyStarterPack.jpg",
+      starterPackImage: "/formulas/mmPdpAssetsV2/BothStarterKitQuarterly.jpg",
     },
     "quarterly-otp": {
       // + postage = the £279.99 BOTH-120 charges. Same £2.25/shot as monthly one-time.

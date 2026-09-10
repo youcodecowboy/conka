@@ -25,13 +25,16 @@ slide_name() {
     c0) echo ClearStarterKit ;;  c0q) echo ClearStarterKitQuarterly ;;
     c1) echo ClearBenefitStack ;; c2) echo ClearWhatToExpect ;;
     c3) echo ClearIngredients ;;  c4) echo ClearVsCoffee ;;
-    c7) echo ClearReview ;;
+    c7) echo ClearReview ;;        b0) echo BothStarterKit ;;    b0q) echo BothStarterKitQuarterly ;;
+    b1) echo BothBenefitStack ;;  b2) echo BothWhatToExpect ;;
+    b3) echo BothIngredients ;;   b4) echo BothVsCoffee ;;
+    b7) echo BothReview ;;        b8) echo BothGuarantee ;;
     *)  echo "$1" ;;
   esac
 }
 
 mkdir -p "$OUT"
-if [ $# -gt 0 ]; then SLIDES="$*"; else SLIDES="s0 s0q s1 s2 s3 s4 s7 s8 c0 c0q c1 c2 c3 c4 c7 c8 shared-proof shared-tested"; fi
+if [ $# -gt 0 ]; then SLIDES="$*"; else SLIDES="s0 s0q s1 s2 s3 s4 s7 s8 c0 c0q c1 c2 c3 c4 c7 c8 b0 b0q b1 b2 b3 b4 b7 b8 shared-proof shared-tested"; fi
 
 for s in $SLIDES; do
   out="$(slide_name "$s")"

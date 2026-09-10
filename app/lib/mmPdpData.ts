@@ -12,14 +12,13 @@ import {
 import { getSupplementFacts } from "./supplementFacts";
 import { pickFaqItems } from "./faqContent";
 
-const ASSET_BASE = "/formulas/mmPdpAssets";
-
-/** Redrawn Flow and Clear slides. Authored as HTML in `design/pdp-slides/` and
- *  rendered with its `render.sh`, so the copy and the numbers on them stay
- *  diffable rather than baked into a binary. `Shared*` slides carry nothing
- *  product-specific and are referenced by both galleries. Both ("03") still
- *  runs off ASSET_BASE. */
-const ASSET_BASE_V2 = "/formulas/mmPdpAssetsV2";
+/** Every gallery slide. Authored as HTML in `design/pdp-slides/` and rendered
+ *  with its `render.sh`, so the copy and the numbers on them stay diffable
+ *  rather than baked into a binary. `Shared*` slides carry nothing
+ *  product-specific and are referenced by all three galleries.
+ *
+ *  The older `/formulas/mmPdpAssets` set is no longer referenced from here. */
+const ASSET_BASE = "/formulas/mmPdpAssetsV2";
 
 /** Rectangular (7:5) gallery assets in presentation order. The research /
  *  third-party / comparison / athlete / risk-free slides are shared.
@@ -29,35 +28,34 @@ const ASSET_BASE_V2 = "/formulas/mmPdpAssetsV2";
  *  `starterPackImage` and the path is spelled once, in offerData. */
 export const MM_GALLERY_ASSETS: Record<ProductHeroId, string[]> = {
   "01": [
-    `${ASSET_BASE_V2}/FlowBenefitStack.jpg`,
-    `${ASSET_BASE_V2}/FlowWhatToExpect.jpg`,
-    `${ASSET_BASE_V2}/FlowIngredients.jpg`,
-    `${ASSET_BASE_V2}/FlowVsCoffee.jpg`,
-    `${ASSET_BASE_V2}/SharedProof.jpg`,
-    `${ASSET_BASE_V2}/SharedTested.jpg`,
-    `${ASSET_BASE_V2}/FlowReview.jpg`,
-    `${ASSET_BASE_V2}/FlowGuarantee.jpg`,
+    `${ASSET_BASE}/FlowBenefitStack.jpg`,
+    `${ASSET_BASE}/FlowWhatToExpect.jpg`,
+    `${ASSET_BASE}/FlowIngredients.jpg`,
+    `${ASSET_BASE}/FlowVsCoffee.jpg`,
+    `${ASSET_BASE}/SharedProof.jpg`,
+    `${ASSET_BASE}/SharedTested.jpg`,
+    `${ASSET_BASE}/FlowReview.jpg`,
+    `${ASSET_BASE}/FlowGuarantee.jpg`,
   ],
   "02": [
-    `${ASSET_BASE_V2}/ClearBenefitStack.jpg`,
-    `${ASSET_BASE_V2}/ClearWhatToExpect.jpg`,
-    `${ASSET_BASE_V2}/ClearIngredients.jpg`,
-    `${ASSET_BASE_V2}/ClearVsCoffee.jpg`,
-    `${ASSET_BASE_V2}/SharedProof.jpg`,
-    `${ASSET_BASE_V2}/SharedTested.jpg`,
-    `${ASSET_BASE_V2}/ClearReview.jpg`,
-    `${ASSET_BASE_V2}/ClearGuarantee.jpg`,
+    `${ASSET_BASE}/ClearBenefitStack.jpg`,
+    `${ASSET_BASE}/ClearWhatToExpect.jpg`,
+    `${ASSET_BASE}/ClearIngredients.jpg`,
+    `${ASSET_BASE}/ClearVsCoffee.jpg`,
+    `${ASSET_BASE}/SharedProof.jpg`,
+    `${ASSET_BASE}/SharedTested.jpg`,
+    `${ASSET_BASE}/ClearReview.jpg`,
+    `${ASSET_BASE}/ClearGuarantee.jpg`,
   ],
   "03": [
-    `${ASSET_BASE}/BothMmHero.jpg`,
-    `${ASSET_BASE}/BothSharperMind.jpg`,
-    `${ASSET_BASE}/FlowMmIngredients.jpg`,
-    `${ASSET_BASE}/ClearMmIngredients.jpg`,
-    `${ASSET_BASE}/SevenYearsResearch.jpg`,
-    `${ASSET_BASE}/Clear3rdPartyTesting.jpg`,
-    `${ASSET_BASE}/ConkaVsOther.jpg`,
-    `${ASSET_BASE}/JackWillisReview.jpg`,
-    `${ASSET_BASE}/BothRiskFree.jpg`,
+    `${ASSET_BASE}/BothBenefitStack.jpg`,
+    `${ASSET_BASE}/BothWhatToExpect.jpg`,
+    `${ASSET_BASE}/BothIngredients.jpg`,
+    `${ASSET_BASE}/BothVsCoffee.jpg`,
+    `${ASSET_BASE}/SharedProof.jpg`,
+    `${ASSET_BASE}/SharedTested.jpg`,
+    `${ASSET_BASE}/BothReview.jpg`,
+    `${ASSET_BASE}/BothGuarantee.jpg`,
   ],
 };
 

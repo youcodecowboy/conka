@@ -9,7 +9,7 @@ import {
 import { getPdpGalleryImages } from "@/app/lib/mmPdpData";
 import ProductImageSlideshow from "./ProductImageSlideshow";
 import ProductBuyPanel, { TrustStrip } from "./ProductBuyPanel";
-import { HeroGiftValue, SocialProofBadge } from "./HeroBadges";
+import { SocialProofBadge } from "./HeroBadges";
 import HeroRating from "./HeroRating";
 import IngredientBenefitLede from "./IngredientBenefitLede";
 import IngredientDisclosureRows from "./IngredientDisclosureRows";
@@ -77,11 +77,6 @@ export default function ProductHeroMobileV3({
           {content.name}
         </h1>
         <HeroRating />
-        <HeroGiftValue
-          formulaId={formulaId}
-          selectedCadence={selectedCadence}
-          className="self-start"
-        />
       </div>
 
       {/* Rectangular asset + thumbnail rail (arrows on the rail, not the image) */}
