@@ -5,6 +5,7 @@
 ---
 
 <!-- changelog:newest - new entries are inserted directly below this line, newest first, one line each -->
+- **2026-09-10** | Subscription card on the PDPs leads with a navy savings bar and shows the starter-kit gifts larger
 - **2026-09-10** | PDP starter-kit offer is now a filled badge above the gallery, the plan-card discount moves to the card corner at a readable size, and the benefit headline returns to full size above the picker
 - **2026-09-10** | PDP mobile heroes now make the product case, description and proof ticks, before the plan picker instead of after it
 - **2026-09-10** | PDP heroes lead with the product benefit line and the free starter-kit value instead of the caffeine spec pill, so cold traffic sees both before the price

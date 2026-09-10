@@ -19,9 +19,11 @@ import type { CadencePricing } from "@/app/lib/cadenceData";
  * 78px per tile, too tight for the struck price to stay legible, and the price
  * is the point of this pattern.
  *
- * Thumbnails are a fixed 80px rather than filling the cell. Full-bleed squares
+ * Thumbnails are a fixed 112px rather than filling the cell. Full-bleed squares
  * rendered at roughly 270px each and cost about 800px of panel for four tiles,
- * which buried the CTA on mobile.
+ * which buried the CTA on mobile. 112px is the middle ground reached in
+ * SCRUM-1336: 80px left the gifts reading as icons rather than as things worth
+ * having, and the four tiles still cost only about 70px more than they did.
  *
  * The tiles and their total come from `getCadenceGiftSummary` in cadenceData
  * rather than being summed here, because the hero's offer badge shows the same
@@ -69,7 +71,7 @@ export default function GiftValueStack({
                 alt=""
                 width={160}
                 height={160}
-                className={`h-20 w-20 rounded-md ${
+                className={`h-28 w-28 rounded-md ${
                   tile.imageFit === "contain"
                     ? "object-contain p-1.5"
                     : "object-cover"
@@ -85,11 +87,11 @@ export default function GiftValueStack({
                       }
                     : undefined
                 }
-                sizes="80px"
+                sizes="112px"
               />
             ) : (
               <span
-                className="flex h-20 w-20 items-center justify-center rounded-md"
+                className="flex h-28 w-28 items-center justify-center rounded-md"
                 style={{
                   background:
                     "color-mix(in srgb, var(--brand-positive) 10%, transparent)",

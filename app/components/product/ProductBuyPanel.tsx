@@ -496,9 +496,6 @@ function SubscriptionSummary({
           },
         ]
       : []),
-    ...(savePct > 0
-      ? [{ id: "savings", text: <>Save {savePct}% vs buying once</> }]
-      : []),
     { id: "shipping", text: <>Free UK shipping</> },
     {
       id: "guarantee",
@@ -520,7 +517,35 @@ function SubscriptionSummary({
   ];
 
   return (
-    <div className="mt-4 rounded-md border border-black/15 bg-white p-5">
+    <div className="mt-4 overflow-hidden rounded-md border border-black/15 bg-white p-5">
+      {/* Discount bar across the top of the card (SCRUM-1336), the Cadence
+          pattern. It replaces the "Save X% vs buying once" bullet that used to
+          sit in the list below: stated in both places the number reads as two
+          different claims, and buried in a bullet it was the least prominent
+          thing in a card whose whole job is the saving.
+
+          Negative margins pull it out of the card's p-5 to meet the border on
+          three sides; overflow-hidden on the card is what keeps it inside the
+          rounded corners. Navy rather than Cadence's black, since it is the
+          Simple DTC primary and already the CTA colour, so the card reads as
+          one unit.
+
+          Copy is "vs buying once", NOT "off your first order", even though the
+          reference uses the latter. getDisplayDiscount compares the recurring
+          subscription price against the one-time reference, so this saving
+          applies to every order, not just the first. Cadence can say first
+          order because theirs really is a first-order discount. Ours would be
+          understating an ongoing benefit and would read as bait-and-switch on
+          renewal. What IS first-order-only here is the starter kit and the
+          bonus shots, and the stack below says so in its own words. */}
+      {savePct > 0 && (
+        <p
+          className="-mx-5 -mt-5 mb-4 px-5 py-2 text-center text-[12px] font-bold uppercase tracking-wide text-white"
+          style={{ background: "var(--brand-navy, #1B2757)" }}
+        >
+          Save {savePct}% vs buying once
+        </p>
+      )}
       <p className="text-lg font-medium text-black">Your subscription</p>
       <ul className="mt-3 flex flex-col gap-3">
         {lines.map((line) => (
