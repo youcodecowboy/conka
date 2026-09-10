@@ -323,6 +323,21 @@ Phase 1 and 2 removed `AbsorptionBioavailability` and `LandingValueComparison`; 
 
 ---
 
+### `ProductHeroV2` and `ProductHeroMobileV2` are dead files that still cost edits
+
+**Status:** Open, low urgency.
+**Files:** `app/components/product/ProductHeroV2.tsx`, `app/components/product/ProductHeroMobileV2.tsx`
+
+**Symptom:** nothing routes to either file. Every remaining mention of them across `app/` is a comment (`ProductHeroV3.tsx` calls V2 "retained as the fallback but no longer routed to", and `listicle-types.ts` describes a buy zone that no longer renders it). But `tsc` still typechecks them during `npm run build`, so they behave like live code whenever a shared component changes underneath them.
+
+**Why it surfaced:** SCRUM-1334 deleted `SpecBadge` from `HeroBadges.tsx`. The build failed until the import and its single usage were stripped from both V2 files, which is an edit to code nobody renders. Any future change to `HeroBadges`, `HeroRating` or `ProductImageSlideshow` will do the same thing again.
+
+**What closes it:** confirm nothing imports either file (`grep -rn "ProductHeroV2\|ProductHeroMobileV2" app/` should return comments only), then delete both and clean up the comments that reference them.
+
+**Why deferred:** deleting a "fallback" hero is its own judgement call and did not belong inside a hero copy change.
+
+---
+
 ## Home Page Round 2 Cleanup
 
 ### ~~Delete `ProductBenefitTiles.tsx`~~ and the wider orphan sweep
