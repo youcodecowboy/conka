@@ -17,12 +17,8 @@ import { HERO_CTA_ANCHOR_ID } from "./pdpAnchors";
  * surface where vertical space is scarcest. The guarantee has its own section.
  * ========================================================================== */
 
-/**
- * How far up the screen the hero CTA must travel before the bar appears, as a
- * fraction of viewport height. Raise to reveal earlier. Anything at or below
- * 0.5 keeps the CTA clear of the bar's strip at the bottom of the screen, which
- * is the only thing this delay exists to protect.
- */
+/** Fraction of the viewport the hero CTA must rise past before the bar shows.
+ *  Raise to reveal earlier; at or below 0.5 the bar can never cover it. */
 const REVEAL_ABOVE = 0.5;
 
 interface StickyPurchaseFooterMobileProps {
@@ -38,13 +34,10 @@ export default function StickyPurchaseFooterMobile({
 }: StickyPurchaseFooterMobileProps) {
   const [isPastHeroCta, setIsPastHeroCta] = useState(false);
 
-  // Watches the hero CTA rather than a scroll offset. The offset this replaced
-  // was tuned to a hero height that later changed, leaving the bar covering the
-  // very button it stands in for.
+  // Watches the CTA, not a scroll offset: the offset this replaced went stale
+  // the moment the hero changed height.
   useEffect(() => {
     const cta = document.getElementById(HERO_CTA_ANCHOR_ID);
-    // No CTA on the page means nothing to protect, and hiding a buy bar is
-    // worse than showing one, so fail towards visible.
     if (!cta) {
       setIsPastHeroCta(true);
       return;
@@ -55,15 +48,12 @@ export default function StickyPurchaseFooterMobile({
       setIsPastHeroCta(bottom < window.innerHeight * REVEAL_ABOVE);
     };
 
-    // Root top shrunk by the same fraction the predicate tests, so the observer
-    // fires on exactly that crossing.
     const observer = new IntersectionObserver(reveal, {
       rootMargin: `-${(1 - REVEAL_ABOVE) * 100}% 0px 0px 0px`,
     });
     observer.observe(cta);
 
-    // Rotating changes innerHeight without moving anything, so the observer
-    // alone would leave a stale decision standing.
+    // Rotating changes innerHeight without moving anything.
     window.addEventListener("resize", reveal, { passive: true });
     return () => {
       observer.disconnect();

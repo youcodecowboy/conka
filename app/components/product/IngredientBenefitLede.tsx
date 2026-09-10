@@ -17,11 +17,10 @@ import { LEDE_DESCRIPTION, LEDE_SUBLINE } from "@/app/lib/mmPdpData";
 
 const GREEN = "#1a7f4f";
 
-/** Average glyph advance of the bold face, in em. Tuned wide so the estimate
- *  errs towards wrapping rather than towards overflowing. */
+/** Average glyph advance of the bold face, in em. Wide, so it errs to wrapping. */
 const FIT_RATIO = 0.55;
 
-/** The largest size that fits `text` on one line of this block's own width. */
+/** Largest size that fits `text` on one line. Clamped in .pdp-lede-headline. */
 function fitCqi(text: string): string {
   return `${(100 / (text.length * FIT_RATIO)).toFixed(2)}cqi`;
 }
@@ -83,10 +82,6 @@ export default function IngredientBenefitLede({
           className="leading-tight text-black"
           style={{ letterSpacing: "-0.01em" }}
         >
-          {/* Sized to hold one line where the copy allows; the clamp lives in
-              brand-base.css behind an @supports guard (see .pdp-lede-headline).
-              Too long a string hits the floor and wraps, and the fix for that
-              is shorter copy in LEDE_SUBLINE, not smaller type. */}
           <span
             className="pdp-lede-headline block font-bold"
             style={

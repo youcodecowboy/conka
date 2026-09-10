@@ -231,9 +231,8 @@ function FlatPlanCard({
         </span>
       )}
 
-      {/* On the top-right border rather than inline in the price row, which
-          left that row reading as three numbers. The max-[360px] step down is a
-          collision guard: MOST POPULAR is centred and the two touch at 320px. */}
+      {/* max-[360px] is a collision guard: MOST POPULAR is centred and the two
+          badges touch at 320px. */}
       {savePct > 0 && (
         <span
           className="absolute right-3 top-0 z-20 -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[12px] font-bold uppercase leading-none tracking-wide text-white max-[360px]:px-2 max-[360px]:text-[10px] sm:right-4"
@@ -252,7 +251,6 @@ function FlatPlanCard({
       />
 
       <div className="pointer-events-none relative z-10 px-3 py-3 sm:px-4">
-        {/* Top row: radio + shots/cadence ..... strike + price. */}
         <div className="flex items-center justify-between gap-2">
           <span className="flex items-center gap-2">
             <span
@@ -510,11 +508,7 @@ function SubscriptionSummary({
 
   return (
     <div className="mt-4 overflow-hidden rounded-md border border-black/15 bg-white p-5">
-      {/* Not "off your first order": getDisplayDiscount compares the recurring
-          price against the one-time reference, so the saving holds for as long
-          as the subscription does. The starter kit below is the first-order-only
-          part. Negative margins reach the card edges; the card's overflow-hidden
-          keeps this inside the rounded corners. */}
+      {/* Not "first order": the discount is on the recurring price. */}
       {savePct > 0 && (
         <p
           className="-mx-5 -mt-5 mb-4 px-5 py-2 text-center text-[12px] font-bold uppercase tracking-wide text-white"
@@ -540,9 +534,7 @@ function SubscriptionSummary({
         ))}
       </ul>
 
-      {/* One card, not two. The tint is what separates the two halves, what you
-          get every month and what you get once; a hairline divider left them
-          reading as one long list. */}
+      {/* Tinted, not divided: the two halves are different offers. */}
       {showGifts && (
         <div className="-mx-5 -mb-5 mt-5 bg-[#eef0f5] px-5 py-5">
           <GiftValueStack pricing={pricing} />
@@ -778,9 +770,8 @@ export default function ProductBuyPanel({
       </div>
 
       <div className="mt-3">
-        {/* StickyPurchaseFooterMobile observes this. It must wrap the button
-            and nothing else: any wider and the bar holds off until the gift
-            stack has scrolled by too. */}
+        {/* Watched by StickyPurchaseFooterMobile. Must wrap the button and
+            nothing else, or the bar reveals late. */}
         <div id={HERO_CTA_ANCHOR_ID}>
           <ConkaCTAButton
             onClick={onAddToCart}

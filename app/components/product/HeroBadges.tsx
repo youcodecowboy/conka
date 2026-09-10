@@ -16,26 +16,16 @@ import type { ProductHeroId } from "@/app/lib/productTypes";
 
 type SpecProductType = "flow" | "clear" | "both";
 
-/**
- * "over £80" from 82.96, for the hero offer badge.
- *
- * Rounds DOWN so the claim stays true of the real total, and steps down a
- * bucket on an exact multiple, since "over £80" is false at £80. Null below
- * £10, where there is no sensible round number.
- */
+/** "over £80" from 82.96. Rounds down so the claim stays true, and steps down a
+ *  bucket on an exact multiple, since "over £80" is false at £80. */
 function roundedDownValue(value: number): string | null {
   const floored = Math.floor(value / 10) * 10;
   const safe = floored === value ? floored - 10 : floored;
   return safe >= 10 ? `£${safe}` : null;
 }
 
-/**
- * The starter-kit offer, above the gallery. The full tile stack lives in the
- * buy panel (GiftValueStack); this is its one-line version.
- *
- * Leads with the count, not the money: a bare figure here read as the price of
- * the product. Renders nothing on one-time cadences, which carry no gifts.
- */
+/** The starter-kit offer above the gallery; GiftValueStack is the full version.
+ *  Count-led because a bare figure here reads as the product's price. */
 export function HeroGiftValue({
   formulaId,
   selectedCadence,
