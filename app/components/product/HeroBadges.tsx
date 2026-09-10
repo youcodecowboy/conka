@@ -18,6 +18,25 @@ import type { ProductHeroId } from "@/app/lib/productTypes";
 type SpecProductType = "flow" | "clear" | "both";
 
 /**
+ * "over £80" from 82.96, for the hero offer badge.
+ *
+ * Rounds DOWN to the nearest ten so the claim is always true of the real total,
+ * and drops the pence, since formatPrice always renders two decimals and
+ * "over £80.00" reads like a checkout line rather than a headline.
+ *
+ * A total that lands exactly on a ten steps down a bucket, because "over £80"
+ * is false when the total is £80. No current cadence does that (they all end
+ * .96 or .99), but the next price change should not be able to make this lie.
+ * Below £10 there is no sensible round number, so the caller shows the exact
+ * figure instead.
+ */
+function roundedDownValue(value: number): string | null {
+  const floored = Math.floor(value / 10) * 10;
+  const safe = floored === value ? floored - 10 : floored;
+  return safe >= 10 ? `£${safe}` : null;
+}
+
+/**
  * The starter-kit offer, above the gallery (SCRUM-1334, restyled SCRUM-1336).
  *
  * The full stack of tiles still lives in the buy panel (GiftValueStack); this
@@ -65,6 +84,7 @@ export function HeroGiftValue({
   const giftValue = getCadenceGiftValue(pricing);
   const giftCount = getCadenceGiftTiles(pricing).length;
   if (giftValue <= 0 || giftCount === 0) return null;
+  const rounded = roundedDownValue(giftValue);
 
   return (
     <span
@@ -102,7 +122,7 @@ export function HeroGiftValue({
         +{giftCount} free gifts
       </span>
       <span className="font-mono text-[11px] font-bold uppercase leading-none tracking-wide text-black/60">
-        worth {formatPrice(giftValue)}
+        {rounded ? `worth over ${rounded}` : `worth ${formatPrice(giftValue)}`}
       </span>
     </span>
   );
