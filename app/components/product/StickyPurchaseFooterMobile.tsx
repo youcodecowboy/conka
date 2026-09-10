@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { formatPrice } from "@/app/lib/productData";
 import { CadenceType } from "@/app/lib/cadenceData";
-import { HERO_CTA_ANCHOR_ID } from "./ProductBuyPanel";
+import { HERO_CTA_ANCHOR_ID } from "./pdpAnchors";
 
 /* ============================================================================
  * StickyPurchaseFooterMobile

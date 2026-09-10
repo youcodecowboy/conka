@@ -20,6 +20,7 @@ import GiftValueStack from "./GiftValueStack";
 import HeroAccordions from "./HeroAccordions";
 import IngredientBottomSheet from "./IngredientBottomSheet";
 import ConkaCTAButton from "@/app/components/landing/ConkaCTAButton";
+import { HERO_CTA_ANCHOR_ID } from "./pdpAnchors";
 
 /* ============================================================================
  * ProductBuyPanel (+ TrustStrip)
@@ -165,15 +166,6 @@ const GREEN = "#1a7f4f";
  * light 2x2 detail grid. The fuller "what you get" list now lives in the
  * SubscriptionSummary box under the CTA, so the cards stay lean.
  */
-/**
- * DOM id on the hero's Add to cart wrapper.
- *
- * Exported so StickyPurchaseFooterMobile observes the same string this renders
- * rather than a copy of it: the two are a contract, and a silent rename would
- * make the sticky bar appear over the CTA it exists to replace.
- */
-export const HERO_CTA_ANCHOR_ID = "pdp-hero-cta";
-
 function FlatPlanCard({
   formulaId,
   cadence,
@@ -782,18 +774,22 @@ export default function ProductBuyPanel({
         />
       </div>
 
-      {/* id is the anchor StickyPurchaseFooterMobile observes to decide when to
-          appear: it holds off until this button has scrolled away, so the bar
-          can never cover the hero's own CTA. Kept on the wrapper rather than
-          added as a prop to the shared ConkaCTAButton. */}
-      <div className="mt-3" id={HERO_CTA_ANCHOR_ID}>
-        <ConkaCTAButton
-          onClick={onAddToCart}
-          meta={null}
-          className="w-full !max-w-none"
-        >
-          {ctaLabel}
-        </ConkaCTAButton>
+      <div className="mt-3">
+        {/* The anchor StickyPurchaseFooterMobile observes to decide when to
+            appear. It wraps the button and nothing else, deliberately: put on
+            the block below instead, it would also enclose the buy-once link and
+            the whole gift stack, and the bar would hold off until all of that
+            had scrolled by rather than until the CTA had. Kept as a wrapper
+            rather than a prop on the shared ConkaCTAButton. */}
+        <div id={HERO_CTA_ANCHOR_ID}>
+          <ConkaCTAButton
+            onClick={onAddToCart}
+            meta={null}
+            className="w-full !max-w-none"
+          >
+            {ctaLabel}
+          </ConkaCTAButton>
+        </div>
 
         {/* The one-time purchase sits under the main CTA (MM pattern). All-in
             price (postage baked, per SCRUM-1286's pending Shopify shipping
