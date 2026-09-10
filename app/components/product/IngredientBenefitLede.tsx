@@ -23,6 +23,21 @@ import { LEDE_DESCRIPTION, LEDE_SUBLINE } from "@/app/lib/mmPdpData";
 
 const GREEN = "#1a7f4f";
 
+/**
+ * Average glyph advance of the bold heading face, in em, across mixed-case
+ * English. Tuned slightly wide so the estimate errs towards wrapping rather
+ * than towards a line that overflows its container.
+ */
+const FIT_RATIO = 0.55;
+
+/** Never smaller than this, whatever the string length. See the note in the h2. */
+const SUBLINE_MIN = "1.375rem";
+
+/** The largest size that fits `text` on one line of this block's own width. */
+function fitCqi(text: string): string {
+  return `${(100 / (text.length * FIT_RATIO)).toFixed(2)}cqi`;
+}
+
 const CHECK_ITEMS = [
   "Zero caffeine, zero crash",
   "Clinically-backed ingredients",
@@ -74,27 +89,45 @@ export default function IngredientBenefitLede({
   const sublineRest = boldEnd > 0 ? subline.slice(restStart) : "";
 
   return (
-    <div>
+    <div style={{ containerType: "inline-size" }}>
       {subline && (
         <h2
           className="leading-tight text-black"
           style={{ letterSpacing: "-0.01em" }}
         >
-          {/* One step down the type scale from the product name. Both lines
-              were hard-coded at 2.25rem / 1.5rem, and --brand-h1-size clamps to
-              exactly 2.25rem on mobile, so the lead clause was rendering the
-              same size as the h1 above it and the two competed. The tokens keep
-              the gap at every width rather than only at the one we checked. */}
+          {/* One step down the type scale from the product name, and shrunk
+              further if that is what it takes to hold one line.
+
+              Two lines of headline cost about 35px of the scroll depth between
+              the gallery and the plan picker, which is the thing this whole
+              piece of work is trying to protect. `cqi` is 1% of this block's
+              own width, so the same rule reads 350px on a phone and the 400px
+              buy column on desktop without a media query, and it settles before
+              paint rather than measuring and reflowing the way a JS fitter
+              would. FIT_RATIO is the average glyph advance of the bold face in
+              em; the character count times that ratio is roughly how many em
+              the line needs, so dividing the container by it gives the largest
+              size that still fits.
+
+              The floor matters more than the ceiling: without it a long string
+              scales down until it is smaller than the body copy under it, which
+              looks broken rather than tidy. A string long enough to hit the
+              floor wraps, and the fix for that is shorter copy, not smaller
+              type. See LEDE_SUBLINE. */}
           <span
             className="block font-bold"
-            style={{ fontSize: "var(--brand-h2-size)" }}
+            style={{
+              fontSize: `clamp(${SUBLINE_MIN}, ${fitCqi(
+                sublineBold,
+              )}, var(--brand-h2-size, 1.75rem))`,
+            }}
           >
             {sublineBold}
           </span>
           {sublineRest && (
             <span
               className="block font-medium text-black"
-              style={{ fontSize: "var(--brand-h3-size)" }}
+              style={{ fontSize: "var(--brand-h3-size, 1.25rem)" }}
             >
               {sublineRest.trim()}
             </span>
