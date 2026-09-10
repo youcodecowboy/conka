@@ -34,10 +34,15 @@ on Flow `monthly-sub` in `app/lib/offerData.ts` (slide `s0`).
 | `c7` | `ClearReview.jpg` | Aaron H. on the afternoon coffee |
 | `shared-proof` | `SharedProof.jpg` | +28.96% measured in the app |
 | `shared-tested` | `SharedTested.jpg` | Informed Sport + 4 certifications |
-| `shared-guarantee` | `SharedGuarantee.jpg` | 100 days, under 1.2% claim it |
+| `s8` | `FlowGuarantee.jpg` | 100 days, Flow box |
+| `c8` | `ClearGuarantee.jpg` | 100 days, Clear box |
 
-Three slides are product-agnostic and are shared by both galleries, hence the
-`Shared` prefix: proof, testing and guarantee. Nothing on them names a formula.
+Two slides are product-agnostic and are shared by both galleries, hence the
+`Shared` prefix: proof and testing. The guarantee is not shared — each formula
+shows its own box, since the caps differ.
+
+`s1` / `c1` use the hand-hold photographs, which are the only human presence in
+the set and the only thing that conveys how small a 30ml shot actually is.
 Clear's pricing is numerically identical to Flow's at every cadence, so `c0`
 and `c0q` carry the same figures as `s0` / `s0q` and differ only in photograph.
 
@@ -90,10 +95,11 @@ should be regenerated with Clear labels.
 
 ## Clear bottle resolution
 
-`ClearCutout.png` is 309x622 of actual bottle against Flow's 435x874, so Clear
-runs about 29% softer at matched scale. Aspect matches to 0.001 (0.497 vs
-0.498), so layouts transfer between the two without adjustment. A higher-res
-transparent Clear would be the single best asset to replace.
+`ClearCutout.png` is 310x624 of actual bottle against Flow's 435x874, so Clear
+runs about 29% softer at matched scale. Aspect matches to 0.001, so layouts
+transfer between the two without adjustment. An earlier candidate from
+`FMC-style/ClearTransparent.png` was the same resolution but carried a visible
+olive-green cast; the current file is the correct warm amber.
 
 ## Both
 

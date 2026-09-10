@@ -14,10 +14,11 @@ import { pickFaqItems } from "./faqContent";
 
 const ASSET_BASE = "/formulas/mmPdpAssets";
 
-/** Redrawn Flow slides (SCRUM-TBD). Authored as HTML in `design/pdp-slides/`
- *  and rendered with its `render.sh`, so the copy and the numbers on them stay
- *  diffable rather than baked into a binary. Clear and Both still run off
- *  ASSET_BASE until their versions exist. */
+/** Redrawn Flow and Clear slides. Authored as HTML in `design/pdp-slides/` and
+ *  rendered with its `render.sh`, so the copy and the numbers on them stay
+ *  diffable rather than baked into a binary. `Shared*` slides carry nothing
+ *  product-specific and are referenced by both galleries. Both ("03") still
+ *  runs off ASSET_BASE. */
 const ASSET_BASE_V2 = "/formulas/mmPdpAssetsV2";
 
 /** Rectangular (7:5) gallery assets in presentation order. The research /
@@ -35,7 +36,7 @@ export const MM_GALLERY_ASSETS: Record<ProductHeroId, string[]> = {
     `${ASSET_BASE_V2}/SharedProof.jpg`,
     `${ASSET_BASE_V2}/SharedTested.jpg`,
     `${ASSET_BASE_V2}/FlowReview.jpg`,
-    `${ASSET_BASE_V2}/SharedGuarantee.jpg`,
+    `${ASSET_BASE_V2}/FlowGuarantee.jpg`,
   ],
   "02": [
     `${ASSET_BASE_V2}/ClearBenefitStack.jpg`,
@@ -45,7 +46,7 @@ export const MM_GALLERY_ASSETS: Record<ProductHeroId, string[]> = {
     `${ASSET_BASE_V2}/SharedProof.jpg`,
     `${ASSET_BASE_V2}/SharedTested.jpg`,
     `${ASSET_BASE_V2}/ClearReview.jpg`,
-    `${ASSET_BASE_V2}/SharedGuarantee.jpg`,
+    `${ASSET_BASE_V2}/ClearGuarantee.jpg`,
   ],
   "03": [
     `${ASSET_BASE}/BothMmHero.jpg`,

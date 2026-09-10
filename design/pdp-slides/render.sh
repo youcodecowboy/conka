@@ -20,8 +20,8 @@ slide_name() {
     s2) echo FlowWhatToExpect ;; s3) echo FlowIngredients ;;
     s4) echo FlowVsCoffee ;;     s0q) echo FlowStarterKitQuarterly ;;
     shared-proof) echo SharedProof ;;   shared-tested) echo SharedTested ;;
-    shared-guarantee) echo SharedGuarantee ;;
-    s7) echo FlowReview ;;
+    s7) echo FlowReview ;;          s8) echo FlowGuarantee ;;
+    c8) echo ClearGuarantee ;;
     c0) echo ClearStarterKit ;;  c0q) echo ClearStarterKitQuarterly ;;
     c1) echo ClearBenefitStack ;; c2) echo ClearWhatToExpect ;;
     c3) echo ClearIngredients ;;  c4) echo ClearVsCoffee ;;
@@ -31,7 +31,7 @@ slide_name() {
 }
 
 mkdir -p "$OUT"
-if [ $# -gt 0 ]; then SLIDES="$*"; else SLIDES="s0 s0q s1 s2 s3 s4 s7 c0 c0q c1 c2 c3 c4 c7 shared-proof shared-tested shared-guarantee"; fi
+if [ $# -gt 0 ]; then SLIDES="$*"; else SLIDES="s0 s0q s1 s2 s3 s4 s7 s8 c0 c0q c1 c2 c3 c4 c7 c8 shared-proof shared-tested"; fi
 
 for s in $SLIDES; do
   out="$(slide_name "$s")"
