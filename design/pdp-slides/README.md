@@ -3,6 +3,29 @@
 Source for the Flow PDP carousel assets. **Not shipped** — nothing under `app/`
 imports this directory; it is design source that renders *into* `public/`.
 
+## Source photography is not in the repo
+
+`assets/` is a **gitignored symlink**. The 13 source images are 5.3MB that never
+serve, and they are derived from the Ai Assets library, so they live at:
+
+```
+~/.claude/projects/-Users-rudh-Conka-Repos-conkaWebsite/pdp-slide-assets/
+```
+
+The slide HTML *is* in the repo, deliberately. Those files carry fourteen live
+prices and several claims, so `git grep 39.99` finds every carousel image a price
+change invalidates. Nothing else in the repo makes that link.
+
+On a fresh clone, recreate the symlink before rendering:
+
+```bash
+ln -s ~/.claude/projects/-Users-rudh-Conka-Repos-conkaWebsite/pdp-slide-assets \
+      design/pdp-slides/assets
+```
+
+`render.sh` fails with that instruction if the link is missing, rather than
+rendering slides with silently broken images.
+
 ## Render
 
 ```bash
