@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { getHeroContent } from "@/app/lib/productHeroHelpers";
 import type { ProductHeroId } from "@/app/lib/productTypes";
 import { LEDE_DESCRIPTION, LEDE_SUBLINE } from "@/app/lib/mmPdpData";
@@ -29,9 +30,6 @@ const GREEN = "#1a7f4f";
  * than towards a line that overflows its container.
  */
 const FIT_RATIO = 0.55;
-
-/** Never smaller than this, whatever the string length. See the note in the h2. */
-const SUBLINE_MIN = "1.375rem";
 
 /** The largest size that fits `text` on one line of this block's own width. */
 function fitCqi(text: string): string {
@@ -113,14 +111,17 @@ export default function IngredientBenefitLede({
               scales down until it is smaller than the body copy under it, which
               looks broken rather than tidy. A string long enough to hit the
               floor wraps, and the fix for that is shorter copy, not smaller
-              type. See LEDE_SUBLINE. */}
+              type. See LEDE_SUBLINE.
+
+              The clamp itself lives in brand-base.css behind an @supports
+              guard, because an unknown unit invalidates a whole declaration at
+              parse time: inline, a browser without container queries would drop
+              the font-size entirely and render this at body size. */}
           <span
-            className="block font-bold"
-            style={{
-              fontSize: `clamp(${SUBLINE_MIN}, ${fitCqi(
-                sublineBold,
-              )}, var(--brand-h2-size, 1.75rem))`,
-            }}
+            className="pdp-lede-headline block font-bold"
+            style={
+              { "--pdp-lede-fit": fitCqi(sublineBold) } as CSSProperties
+            }
           >
             {sublineBold}
           </span>

@@ -113,7 +113,7 @@ export function getCadenceVariantByProductHeroId(
  * being listed in `gifts`, so the shot count stays sourced from the same place
  * the cadence cards read it from.
  */
-export function getCadenceGiftTiles(pricing: OfferPricing): OfferGift[] {
+function getCadenceGiftTiles(pricing: OfferPricing): OfferGift[] {
   const freeShots = pricing.freeShots ?? 0;
   const freeShotsValue = pricing.freeShotsValue ?? 0;
 
@@ -133,14 +133,28 @@ export function getCadenceGiftTiles(pricing: OfferPricing): OfferGift[] {
 }
 
 /**
- * Total RRP of everything a cadence gives away free, 0 when it gives nothing.
+ * What a cadence gives away free: the tiles, how many, and their total RRP.
+ *
+ * One call rather than a tiles getter plus a total getter, because every caller
+ * wants at least two of the three and the tile list would otherwise be rebuilt
+ * once per question asked.
  *
  * One-time cadences carry no `gifts` and no `freeShotsValue` in offerData, so
- * they total 0 and callers render no offer. Display only and pre-add: the cart
- * and checkout still price from Shopify alone (CART_PRICING_SOURCE_OF_TRUTH.md).
+ * they come back empty at 0 and callers render no offer. Display only and
+ * pre-add: the cart and checkout still price from Shopify alone
+ * (CART_PRICING_SOURCE_OF_TRUTH.md).
  */
-export function getCadenceGiftValue(pricing: OfferPricing): number {
-  return getCadenceGiftTiles(pricing).reduce((sum, tile) => sum + tile.rrp, 0);
+export function getCadenceGiftSummary(pricing: OfferPricing): {
+  tiles: OfferGift[];
+  count: number;
+  total: number;
+} {
+  const tiles = getCadenceGiftTiles(pricing);
+  return {
+    tiles,
+    count: tiles.length,
+    total: tiles.reduce((sum, tile) => sum + tile.rrp, 0),
+  };
 }
 
 // ============================================

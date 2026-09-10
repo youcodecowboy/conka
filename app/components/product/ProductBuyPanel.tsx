@@ -233,10 +233,15 @@ function FlatPlanCard({
       {/* Discount badge, on the top-right border rather than inline in the
           price row (SCRUM-1336). Inline it competed with the strike and the
           price for the same eye line and made the row read as three numbers;
-          out here it is the card's headline claim and can carry real size. */}
+          out here it is the card's headline claim and can carry real size.
+
+          The `max-[360px]` step down is a collision guard, not a design choice:
+          "MOST POPULAR" is centred, so on a 320px screen the two badges are
+          about 4px apart and touch. Only the very narrowest phones pay for it;
+          390px keeps the full size. */}
       {savePct > 0 && (
         <span
-          className="absolute right-3 top-0 z-20 -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[12px] font-bold uppercase leading-none tracking-wide text-white sm:right-4"
+          className="absolute right-3 top-0 z-20 -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[12px] font-bold uppercase leading-none tracking-wide text-white max-[360px]:px-2 max-[360px]:text-[10px] sm:right-4"
           style={{ backgroundColor: saveColor }}
         >
           {savePct}% off

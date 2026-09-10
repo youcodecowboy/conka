@@ -1,7 +1,6 @@
 import { formatPrice } from "@/app/lib/productData";
 import {
-  getCadenceGiftTiles,
-  getCadenceGiftValue,
+  getCadenceGiftSummary,
   getCadencePricingByProductHeroId,
 } from "@/app/lib/cadenceData";
 import type { CadenceType } from "@/app/lib/cadenceData";
@@ -88,10 +87,9 @@ export function HeroGiftValue({
   className?: string;
 }) {
   const pricing = getCadencePricingByProductHeroId(formulaId, selectedCadence);
-  const giftValue = getCadenceGiftValue(pricing);
-  const giftCount = getCadenceGiftTiles(pricing).length;
-  if (giftValue <= 0 || giftCount === 0) return null;
-  const rounded = roundedDownValue(giftValue);
+  const { count, total } = getCadenceGiftSummary(pricing);
+  if (count === 0 || total <= 0) return null;
+  const rounded = roundedDownValue(total);
 
   return (
     <span
@@ -114,8 +112,8 @@ export function HeroGiftValue({
           strokeLinejoin="round"
         />
       </svg>
-      +{giftCount} free gifts{" "}
-      {rounded ? `worth over ${rounded}` : `worth ${formatPrice(giftValue)}`}
+      +{count} free gifts{" "}
+      {rounded ? `worth over ${rounded}` : `worth ${formatPrice(total)}`}
     </span>
   );
 }

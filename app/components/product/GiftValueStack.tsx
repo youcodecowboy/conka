@@ -1,9 +1,6 @@
 import Image from "next/image";
 import { formatPrice } from "@/app/lib/productData";
-import {
-  getCadenceGiftTiles,
-  getCadenceGiftValue,
-} from "@/app/lib/cadenceData";
+import { getCadenceGiftSummary } from "@/app/lib/cadenceData";
 import type { CadencePricing } from "@/app/lib/cadenceData";
 
 /**
@@ -26,10 +23,9 @@ import type { CadencePricing } from "@/app/lib/cadenceData";
  * rendered at roughly 270px each and cost about 800px of panel for four tiles,
  * which buried the CTA on mobile.
  *
- * The tiles and their total come from `getCadenceGiftTiles` /
- * `getCadenceGiftValue` in cadenceData rather than being summed here, because
- * the hero's gift-value line shows the same figure (SCRUM-1334) and the two
- * must not be able to drift.
+ * The tiles and their total come from `getCadenceGiftSummary` in cadenceData
+ * rather than being summed here, because the hero's offer badge shows the same
+ * figures (SCRUM-1334) and the two must not be able to drift.
  */
 
 export default function GiftValueStack({
@@ -37,10 +33,8 @@ export default function GiftValueStack({
 }: {
   pricing: CadencePricing;
 }) {
-  const tiles = getCadenceGiftTiles(pricing);
+  const { tiles, total: totalFreeValue } = getCadenceGiftSummary(pricing);
   if (tiles.length === 0) return null;
-
-  const totalFreeValue = getCadenceGiftValue(pricing);
 
   return (
     <div>
