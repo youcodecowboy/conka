@@ -50,6 +50,11 @@ and `c0q` carry the same figures as `s0` / `s0q` and differ only in photograph.
 same arrangement the Figma frames use, where monthly and quarterly point at a
 single image hash with different labels composited on top.
 
+Flow's pack shot is `FlowStartPackV2.jpg`, cropped from a 2000x2000 square to
+the 2400x1380 band around the products (rows 470-1620 of the source). Cropping
+rather than letterboxing means it fills the frame width, so there are no side
+gaps to colour-match, and the cast shadow stays intact instead of being cut.
+
 ## Constraints that shaped these
 
 - **Authored at 2400×1715 (7:5)**, the aspect `ProductImageSlideshow` renders.
@@ -84,6 +89,12 @@ contradicts the rule in
 `docs/development/featurePlans/flow-starter-pack.md` that prices live in HTML,
 though the artwork it replaced broke it too. If any figure changes, edit the
 relevant slide and re-run `render.sh`.
+
+## Clear's pack photo is a generation behind
+
+Flow uses `FlowStartPackV2.jpg`; Clear is still on `ClearStartPackClean.jpg`,
+which is the older treatment. A Clear shot matching the Flow V2 setup would fix
+both the label fault below and the treatment mismatch in one go.
 
 ## Known fault in the Clear pack photo
 
