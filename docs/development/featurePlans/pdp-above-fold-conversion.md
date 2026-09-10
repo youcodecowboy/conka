@@ -8,9 +8,9 @@ Scoped 2026-09-10. Branch `feature/pdp-add-to-cart-tweaks`.
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| 1 | Strapline replaces the spec pill, gift-value line in the identity block | Built 2026-09-10, pending visual review |
-| 2 | Benefit lede above the plan picker on mobile | Built 2026-09-10, pending visual review |
-| 3 | Filled offer badge, discount pill to the card corner, benefit headline back at full size | Built 2026-09-10, pending visual review |
+| 1 | Spec pill deleted, offer moved above the gallery (its strapline half was superseded by Phase 3) | Built + reviewed 2026-09-10, pending visual review |
+| 2 | Benefit lede above the plan picker on mobile | Built + reviewed 2026-09-10, pending visual review |
+| 3 | Offer badge, discount pill to the card corner, benefit headline back at full size and fitted to one line | Built + reviewed 2026-09-10, pending visual review |
 | 4 | Sticky purchase footer | Not started, deferred by Rudh |
 | 5 | Desktop convergence + PAGE_NARRATIVES entry | Future |
 
@@ -123,7 +123,7 @@ Target mobile order after Phase 1:
 
 - Extract the gift total from `GiftValueStack` into a shared helper (`getGiftTiles` plus its `totalFreeValue` reduce), exported from `cadenceData.ts` or a small sibling.
 - New `HeroGiftValue` takes the selected cadence's pricing, returns `null` when there are no gift tiles.
-- Copy: `Free starter kit worth £82.96 on your first box`. Figure in `--brand-positive` green, rest in body colour. No box, no pill.
+- Copy as planned: `Free starter kit worth £82.96 on your first box`, figure in green, no box. **Superseded by Phase 3**, which rebuilt this as a count-led pill; see that section for what actually ships.
 - `GiftValueStack` refactored to consume the same helper.
 - Files: `app/components/product/GiftValueStack.tsx`, `app/lib/cadenceData.ts`, `app/components/product/HeroBadges.tsx`, both heroes
 
@@ -165,6 +165,45 @@ This is not churn. Phase 1's reasoning was that the benefit had to sit under the
 What survives from Phase 1 is the part that mattered: the spec pill is still deleted, and the offer still sits above the gallery.
 
 Side effect: restoring the `h2` closes the heading-structure risk flagged during Phase 1, when the mobile hero briefly had no `h2` at all.
+
+### Phase 3 took four passes at the badge, and the loop is the useful part
+
+The badge went solid green, then spec-pill gradient, then grey-with-gradient-ring, then back to the spec-pill gradient. That looks like churn and mostly was not, because each pass fixed a different fault:
+
+1. **Solid green fill.** Read as a system alert rather than as part of the brand.
+2. **Spec-pill gradient, uniform mono line.** Fixed the alert problem. But the figure sat flat inside a uniform sentence, so the badge got noticed and the amount inside it did not.
+3. **Grey fill, gradient ring, figure at 1.125rem in green.** The figure now led, and immediately read as *the price of the product*. That is the expensive misread: a large green number beside a product name on a first screen.
+4. **Count-led copy, back on the spec-pill gradient.** `+4 free gifts worth over £80`.
+
+The lesson worth keeping: passes 1 to 3 all treated a **copy** problem as a **styling** problem. A lone `£82.96` in that slot cannot be styled into reading as a gift value, because nothing in it says it is one. Leading with a count fixes it at the source, and once fixed, the flat pill that failed at pass 2 works fine, so the slot keeps the shape the rest of the layout was built around.
+
+### Why gifts and not a discount in that slot
+
+Asked directly during Phase 3, and the answer is load-bearing enough to record:
+
+- **The slot is pre-price.** Since Phase 2 moved the lede above the picker, the first price on the page sits roughly 200px below this badge. A percentage has nothing to anchor to at the moment it is read; a count of free things needs no anchor.
+- **The discount is already stated twice** above the fold, on the plan-card corner and the sticky footer. A third instance is the cannibalisation the No-gos section rules out.
+- **Graymatter can put a percentage there because their price sits beside it.** Ours does not. Copying the pill without the price copies the look and drops the logic.
+
+This should be revisited if Phase 4 ships: a sticky bar carrying price and discount from page load would give a percentage the anchor it currently lacks.
+
+### Value claim safety
+
+The rounded figure is derived, never written down. `roundedDownValue` floors to the nearest ten so "over £80" is always true of the real total, and a total landing exactly on a ten steps down a bucket, because "over £80" is false at exactly £80. No current cadence does that, but a future price change must not be able to make the badge lie.
+
+Current output: Flow and Clear monthly "over £80" (£82.96), Both monthly "over £100" (£106.96), all quarterly "over £110" (£118.96).
+
+## Post-build review (2026-09-10, commit `f8e44e77`)
+
+Five findings, all fixed on the branch.
+
+- **Major: the one-line headline broke entirely without container queries.** An unknown unit invalidates a whole declaration at parse time, so an inline `clamp(..., 7.58cqi, ...)` was not partially ignored but dropped, and Tailwind preflight sets `h2` to `font-size: inherit`. The headline would have rendered at body size on Safari 15 and earlier. The clamp now lives in `brand-base.css` as `.pdp-lede-headline` behind `@supports (container-type: inline-size)`, with the plain h2 token as the base rule.
+- **Minor: the two plan-card badges collided at 320px.** `MOST POPULAR` is centred and the discount pill is pinned right; they clear by about 30px at 390px but overlap by roughly 4px at 320px. The discount pill steps down below 360px only.
+- **Minor: the gift tile list was rebuilt four times per render.** Collapsed into one `getCadenceGiftSummary` returning tiles, count and total.
+- **Minor: `getCadenceGiftTiles` was exported with no external caller.** Now module-private.
+- **Nit: an override variable nothing set.** Removed.
+
+Pricing was verified against `offerData.ts` rather than against the screenshots: the gift count is 4 for every subscription cadence and product, £82.96 is 23.99 + 19.99 + 28.99 + 9.99, and no new pre-add price is computed anywhere, so `CART_PRICING_SOURCE_OF_TRUTH.md` holds.
 
 ## Phase 4: Sticky purchase footer (Deferred)
 
@@ -210,7 +249,9 @@ Built as planned, with two things the plan did not anticipate.
 - The gift line disappearing on a switch to one-time is a layout shift above the gallery. Reserve its height or accept the shift; decide during build with the real measurement.
 - Deleting the `h2` removes the only `h2` in the mobile hero. The strapline must not become an `h2` in its place: it sits under the `h1` as a descriptor. Keep the heading structure defensible for SEO.
 - Long straplines on Flow and Clear could cost more vertical space than the pill they replace. Check all three at 390px before merging.
-- The gift figure now appears twice on one page (hero and `GiftValueStack`). The shared helper is what stops them drifting; do not let either recompute independently.
+- The gift figure now appears twice on one page (hero and `GiftValueStack`). `getCadenceGiftSummary` is what stops them drifting; do not let either recompute independently.
+- The hero badge makes a public value claim ("worth over £80") derived from `offerData`. Any price change to `STARTER_PACK_GIFTS` or `freeShotsValue` moves it automatically, which is the point, but it means the claim is only as accurate as that data. `roundedDownValue` is what keeps it from overstating.
+- The one-line headline depends on container queries. The `@supports` guard in `brand-base.css` means an unsupported browser gets the plain h2 token rather than a broken declaration; do not inline that clamp again.
 
 ## References
 
