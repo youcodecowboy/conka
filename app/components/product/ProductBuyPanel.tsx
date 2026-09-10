@@ -165,6 +165,15 @@ const GREEN = "#1a7f4f";
  * light 2x2 detail grid. The fuller "what you get" list now lives in the
  * SubscriptionSummary box under the CTA, so the cards stay lean.
  */
+/**
+ * DOM id on the hero's Add to cart wrapper.
+ *
+ * Exported so StickyPurchaseFooterMobile observes the same string this renders
+ * rather than a copy of it: the two are a contract, and a silent rename would
+ * make the sticky bar appear over the CTA it exists to replace.
+ */
+export const HERO_CTA_ANCHOR_ID = "pdp-hero-cta";
+
 function FlatPlanCard({
   formulaId,
   cadence,
@@ -773,7 +782,11 @@ export default function ProductBuyPanel({
         />
       </div>
 
-      <div className="mt-3">
+      {/* id is the anchor StickyPurchaseFooterMobile observes to decide when to
+          appear: it holds off until this button has scrolled away, so the bar
+          can never cover the hero's own CTA. Kept on the wrapper rather than
+          added as a prop to the shared ConkaCTAButton. */}
+      <div className="mt-3" id={HERO_CTA_ANCHOR_ID}>
         <ConkaCTAButton
           onClick={onAddToCart}
           meta={null}

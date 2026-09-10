@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { formatPrice } from "@/app/lib/productData";
 import { CadenceType } from "@/app/lib/cadenceData";
+import { HERO_CTA_ANCHOR_ID } from "./ProductBuyPanel";
 
 /* ============================================================================
  * StickyPurchaseFooterMobile
@@ -27,19 +28,41 @@ export default function StickyPurchaseFooterMobile({
   cadencePrice,
   onAddToCart,
 }: StickyPurchaseFooterMobileProps) {
-  const [isPastHero, setIsPastHero] = useState(false);
+  const [isPastHeroCta, setIsPastHeroCta] = useState(false);
 
-  // Held back until the hero has scrolled away, so the bar never covers the
-  // hero's own price and CTA on the first screen.
+  // Held back until the hero's own Add to cart has scrolled up out of view, so
+  // the bar never covers the CTA it exists to stand in for.
+  //
+  // This used to be `window.scrollY > 500`, a number tuned against the hero as
+  // it stood at the time. SCRUM-1335 then moved the product lede above the plan
+  // picker and pushed the CTA about 200px further down, which silently turned
+  // that constant into the opposite of its intent: at 500px the bar would have
+  // appeared over the button. Observing the button removes the whole class of
+  // bug, since the hero can now change height freely.
+  //
+  // `isIntersecting` alone is not enough: the CTA is also outside the viewport
+  // at the top of the page, far BELOW the fold, and treating that as "past"
+  // would show the bar immediately on load. `top < 0` distinguishes scrolled
+  // past from not yet reached.
   useEffect(() => {
-    const handleScroll = () => setIsPastHero(window.scrollY > 500);
+    const cta = document.getElementById(HERO_CTA_ANCHOR_ID);
+    // No CTA on the page means nothing to protect, and hiding a buy bar is
+    // worse than showing one, so fail towards visible.
+    if (!cta) {
+      setIsPastHeroCta(true);
+      return;
+    }
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver(([entry]) =>
+      setIsPastHeroCta(
+        !entry.isIntersecting && entry.boundingClientRect.top < 0,
+      ),
+    );
+    observer.observe(cta);
+    return () => observer.disconnect();
   }, []);
 
-  if (!isPastHero) return null;
+  if (!isPastHeroCta) return null;
 
   const frequency =
     selectedCadence === "monthly-sub"
