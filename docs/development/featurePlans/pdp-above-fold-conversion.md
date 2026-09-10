@@ -9,7 +9,7 @@ Scoped 2026-09-10. Branch `feature/pdp-add-to-cart-tweaks`.
 | Phase | Description | Status |
 |-------|-------------|--------|
 | 1 | Strapline replaces the spec pill, gift-value line in the identity block | Built 2026-09-10, pending visual review |
-| 2 | Check grid above the buy panel on mobile | Future (gated on Phase 1 data) |
+| 2 | Benefit lede above the plan picker on mobile | Built 2026-09-10, pending visual review |
 | 3 | Desktop convergence + PAGE_NARRATIVES entry | Future |
 
 ## Problem
@@ -57,6 +57,8 @@ The resolution is that the lede is three separable things, and only two of them 
 - The description stays where it is.
 
 Magic Mind accepts price below the fold as the cost of its ordering. We do not have to.
+
+**Superseded on the day, 2026-09-10.** Phase 2 as built moved the description too, so the split above never happened and the mobile hero did take most of the 330px. The reasoning is kept because it is still the cheaper retreat if the height turns out to hurt. See the Phase 2 section.
 
 ## Why the spec pill is a clean delete
 
@@ -129,17 +131,18 @@ Target mobile order after Phase 1:
 - Flow and Clear straplines are long. "The Afternoon Brain Shot That Cuts Through Brain Fog" wraps to three lines at 390px. Confirm the plan selector has not moved further down the page than it is today.
 - `npm run lint:changed`, `npm run build`.
 
-## Phase 2: Check grid above the buy panel (Future)
+## Phase 2: Benefit lede above the plan picker on mobile
 
-Gated on a week of Phase 1 add-to-cart data. Phase 1 may do most of the work on its own by putting the benefit at the very top; Phase 2 should not be built speculatively.
+**Built 2026-09-10, SCRUM-1335.** Two things about this phase changed at the point of building, both on Rudh's call after seeing Phase 1 rendered:
 
-**4. Split the check grid out of the lede** - Medium
+- **The whole lede moves, not just the check grid.** The sketch below proposed splitting `HeroBenefitChecks` out so only about 90px went above the picker. Rudh pointed at the rendered description-plus-grid block and asked for that whole thing above the picker, so no split happened and `IngredientBenefitLede` moved intact. The split is superseded, not deferred.
+- **The data gate was dropped.** The phase was held until Phase 1 had a week of add-to-cart data. It shipped on the same branch instead.
 
-- New `HeroBenefitChecks` holding `CHECK_ITEMS` and the `CheckMark` svg. `IngredientBenefitLede` keeps only the description.
-- `ProductHeroMobileV3` renders `HeroBenefitChecks` between the gallery and `ProductBuyPanel`.
-- Desktop (`ProductHeroV3`) keeps its current position until Phase 3.
-- Roughly 90px added above the buy panel at 390px. Measure before and after.
-- Files: `app/components/product/IngredientBenefitLede.tsx`, new `app/components/product/HeroBenefitChecks.tsx`, `app/components/product/ProductHeroMobileV3.tsx`
+**As built:** `ProductHeroMobileV3` renders `IngredientBenefitLede` between the gallery and `ProductBuyPanel`. Mobile only; desktop keeps the lede below the buy panel, where the right column has room and the buy box is above the fold either way. Nothing else moved.
+
+**The cost, stated plainly.** Price now sits roughly 200px lower on mobile than before this work started: about 180px of lede plus a 24px flex gap, on top of the roughly 40px Phase 1 added. This is a deliberate partial reversal of SCRUM-1260, which had pushed the lede below the widget precisely to keep price on the first screen. The counter-argument that won: a cold visitor off paid social has no reason to weigh a plan before anything has told them what the product does, which is the order both reference sites use. The docblock at the top of `ProductHeroMobileV3` records the reversal so it does not read as an accident later.
+
+**Superseded sketch, kept for the reasoning:** split `HeroBenefitChecks` (holding `CHECK_ITEMS` and the `CheckMark` svg) out of `IngredientBenefitLede`, leaving the description behind, so only the grid went above the panel at roughly 90px. Worth remembering if the 200px turns out to hurt: it is the cheaper half of this trade, still available as a retreat.
 
 ## Phase 3: Desktop convergence and narrative entry (Future)
 
@@ -166,7 +169,7 @@ Built as planned, with two things the plan did not anticipate.
 
 ## No-gos
 
-- **No wholesale hoist of the lede above the buy panel.** Re-breaks SCRUM-1260 and pushes price and CTA off the first screen.
+- ~~**No wholesale hoist of the lede above the buy panel.** Re-breaks SCRUM-1260 and pushes price and CTA off the first screen.~~ **Overturned 2026-09-10 (SCRUM-1335), deliberately and by the person who owns the call.** The whole lede now sits above the picker on mobile and price sits roughly 200px lower. Kept visible rather than deleted, because the reasoning behind it is the thing to re-read if add-to-cart rate drops.
 - **No discount percentage or price above the gallery.** Decided 2026-09-10: gift-value framing only. Three price anchors on one screen (hero, buy panel, sticky footer) cannibalise each other, and the percentage changes per cadence while sitting above the selector that sets it.
 - **No A/B infrastructure.** None exists. `ab-testing-mvp.md` is a settled plan, not a build, and it explicitly rules out reusing `conka_uid` for bucketing. Ship to 100% and read add-to-cart rate against the existing `pdp:section_viewed` instrumentation from PDP rework Phase 1.
 - **No new analytics events.** Add-to-cart rate is already measurable on these pages.
@@ -191,6 +194,5 @@ Built as planned, with two things the plan did not anticipate.
 
 | Ticket | Description | Phase | Status |
 |--------|-------------|-------|--------|
-| SCRUM-1334 | [Website & CRO] PDP above-fold Phase 1: benefit strapline replaces the spec pill, gift-value line in the hero | 1 | To Do |
-
-Phase 2 is deliberately unticketed until Phase 1 has a week of add-to-cart data behind it.
+| SCRUM-1334 | [Website & CRO] PDP above-fold Phase 1: benefit strapline replaces the spec pill, gift-value line in the hero | 1 | For review |
+| SCRUM-1335 | [Website & CRO] PDP above-fold Phase 2: move the benefit lede above the plan picker on mobile | 2 | For review |

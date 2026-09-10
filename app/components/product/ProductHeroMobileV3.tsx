@@ -27,18 +27,24 @@ interface ProductHeroMobileV3Props {
 /**
  * ProductHeroMobileV3 — the mobile counterpart of ProductHeroV3 (Flow, Clear, Both).
  *
- * Single stacked column, ordered so the buy decision comes first: identity
- * (viewing → title → benefit → rating → gift value) → rectangular asset +
- * thumbnails → pricing widget + subscription box + Ingredients pill →
- * description + check grid → proof strip.
+ * Single stacked column: identity (viewing → title → benefit → rating → gift
+ * value) → rectangular asset + thumbnails → description + check grid → pricing
+ * widget + subscription box + Ingredients pill → proof strip.
  *
- * The hero deliberately stops at the buy decision (SCRUM-1260). It used to
- * carry a whole ingredients section below the widget (written-out list, outcome
- * accordions, who-it's-for, risk-free), which is the desktop pattern: it works
- * beside a sticky image column and does not translate to one mobile column,
- * where it just pushed price and CTA off the first screen. Ingredients live in
- * the page body, one tap away via the buy panel's pill; risk-free lives in its
- * own section further down.
+ * The lede sits ABOVE the picker (SCRUM-1335), which is the reference order
+ * and a deliberate partial reversal of SCRUM-1260. That ticket had put price
+ * and CTA on the first screen by pushing the lede below the widget, on the
+ * reasoning that a mobile column cannot afford anything between the gallery
+ * and the buy box. The counter-argument won: a cold visitor off paid social
+ * has no reason to weigh a plan before anything has told them what the product
+ * does. Price now lands roughly 200px lower, and the case for the product
+ * lands before it. Desktop keeps the lede below the buy panel, where the right
+ * column has room and the buy box is above the fold either way.
+ *
+ * What SCRUM-1260 cut stays cut: the hero no longer carries a whole ingredients
+ * section (written-out list, outcome accordions, who-it's-for, risk-free).
+ * Ingredients live in the page body, one tap away via the buy panel's pill;
+ * risk-free lives in its own section further down.
  */
 export default function ProductHeroMobileV3({
   formulaId,
@@ -87,8 +93,13 @@ export default function ProductHeroMobileV3({
         hideArrows
       />
 
-      {/* Pricing widget + Add to cart + buy-once + subscription box, directly
-          under the gallery so price and CTA land on the first screen. The pill
+      {/* Description + check grid, between the gallery and the picker, the way
+          the reference runs it: the case is made before the plan is chosen.
+          The subline that used to open this block now opens the hero
+          (SCRUM-1334). */}
+      <IngredientBenefitLede formulaId={formulaId} />
+
+      {/* Pricing widget + Add to cart + buy-once + subscription box. The pill
           opens the full ingredient list in a bottom sheet. */}
       <ProductBuyPanel
         formulaId={formulaId}
@@ -103,11 +114,7 @@ export default function ProductHeroMobileV3({
         showIngredientsPill
       />
 
-      {/* Description + check grid, below the widget. The subline that used to
-          open this block now opens the hero (SCRUM-1334). */}
-      <IngredientBenefitLede formulaId={formulaId} />
-
-      {/* The supporting answers, directly under the check grid, the way the
+      {/* The supporting answers, directly under the buy panel, the way the
           reference runs them: still in the buy decision, not a section away. */}
       <IngredientDisclosureRows formulaId={formulaId} />
 
