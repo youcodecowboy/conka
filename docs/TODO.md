@@ -509,6 +509,34 @@ These were referenced only by components deleted in the sweep, and a repo grep n
 **What closes it:** confirm with whoever owns the Klaviyo templates and the Notion blog that none of the five are linked, then delete. The four `*Transparent.png` renders are the lower risk of the two groups, since the live surfaces all use the `.jpg` variants of the same ingredients (`BuildStep.tsx`, both `IngredientsGrid.tsx`, both `ingredients.data.ts`) and the transparent cut-outs were only ever used by the deleted benefit components. `CONKA_04.jpg` sits at the `public/` root with a generic name, which is exactly the shape of a file something external links to.
 
 
+### Confirm the v1 PDP carousel assets can stay deleted
+
+**Status:** Open. Removed from the repo 2026-09-11, copy archived off-repo.
+**Archive:** `~/.claude/projects/-Users-rudh-Conka-Repos-conkaWebsite/archived-assets/2026-09-11-pdp-carousel-v1/` (21 files, 2.5MB, with restore instructions in its README)
+**Replaced by:** `public/formulas/mmPdpAssetsV2/`, sources in `design/pdp-slides/`
+
+`feature/pdp-carousel-assets-v2` redrew all three PDP galleries, which orphaned the
+whole of `public/formulas/mmPdpAssets/` (15 files) and six pack shots in
+`public/formulas/starterPack/`. They were copied out of the repo and deleted rather
+than left in place, so the repo does not carry 2.5MB nothing renders.
+
+`ConkaHat.jpg`, `TravelPack.jpg` and `EightFlow.jpg` stayed: `STARTER_PACK_GIFTS`
+still uses them for the on-page value stack.
+
+**Why this is still open rather than done.** A `public/` file is reachable by URL, so
+a repo grep is not proof it is unused, and the same caution as the entry below
+applies: a Klaviyo template, a Notion blog body, an OG card or an ad creative can
+link one of these and none of them live in this repo. The `mmPdpAssets/` set is the
+lower risk of the two groups, since those paths were only ever read by
+`MM_GALLERY_ASSETS`; the six pack shots are the ones worth checking, because pack
+artwork is exactly the kind of image an email or ad reuses.
+
+**What closes it:** once the new galleries have been live for a couple of weeks with
+no 404s on the old paths in Vercel logs, and nobody owning Klaviyo or the ad accounts
+is linking them, delete the archive too. Until then the archive is the rollback.
+
+---
+
 ### Delete superseded `*New.jpg` product statics once the labelV2 rollout is confirmed
 
 **Status:** Deferred (waiting for the labelV2 filenames to be live in prod)

@@ -25,7 +25,13 @@ function roundedDownValue(value: number): string | null {
 }
 
 /** The starter-kit offer above the gallery; GiftValueStack is the full version.
- *  Count-led because a bare figure here reads as the product's price. */
+ *  Count-led because a bare figure here reads as the product's price.
+ *
+ *  NOT CURRENTLY RENDERED. Removed from both PDP heroes once the redrawn
+ *  starter-kit slide (design/pdp-slides/slides/s0.html) took the lead position
+ *  in the gallery: the slide states the same offer, itemised, immediately
+ *  below where this pill sat. Kept because the component is sound and the
+ *  decision may not survive a conversion test. */
 export function HeroGiftValue({
   formulaId,
   selectedCadence,
